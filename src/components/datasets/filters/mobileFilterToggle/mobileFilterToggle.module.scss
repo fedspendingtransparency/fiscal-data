@@ -1,0 +1,19 @@
+@import '../../../../variables.module.scss';
+@import "../../../../styles";
+
+.resetButton {
+  @include primaryButton;
+  border-radius: 3px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+
+  .filterCount {
+    margin-right: 3px;
+    font-size: 1.25rem;
+  }
+}
+
+.resetIcon {
+    font-size: '1.25rem';
+}

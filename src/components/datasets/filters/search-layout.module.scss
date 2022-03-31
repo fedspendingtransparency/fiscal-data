@@ -1,0 +1,37 @@
+@import '../../../variables.module.scss';
+
+.searchLayoutSection {
+    background-color: $content-section-background;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    padding: 1.5rem 0;
+    max-width: 100%;
+}
+
+
+
+.searchLayout {
+    margin-top: 0.25rem;
+
+}
+
+    .search-layout-main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+@media screen and (min-width: $breakpoint-lg) {
+    .searchLayout {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        .search-layout-filters {
+            width: 22%;
+        }
+
+        .search-layout-main {
+            width: 72%;
+        }
+    }
+}

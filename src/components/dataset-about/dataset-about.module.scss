@@ -1,0 +1,11 @@
+@import '../../variables.module.scss';
+
+.heading {
+  @include headingStyle6;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: $font-size-16;
+  margin: 0 0 1rem 0;
+}

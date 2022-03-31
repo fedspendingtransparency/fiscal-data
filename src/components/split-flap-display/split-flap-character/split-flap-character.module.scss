@@ -1,0 +1,134 @@
+@import '../../../variables.module.scss';
+
+$flap-border-radius: 3px;
+$flap-padding: .5rem;
+
+@mixin mid-card-line($zIndex) {
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    z-index: $zIndex;
+    opacity: 1;
+    background: transparent;
+    border-bottom: 1px $dark-grey-border solid;
+  }
+}
+
+.split-flap-character {
+  display: block;
+  position: relative;
+  margin: 0 .1875rem;
+
+  font-size: $font-size-40;
+  line-height: 1.25em;
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  color: $hero-primary-text;
+
+  .static-character {
+    padding: 0;
+    font-weight: 300;
+    text-shadow: none;
+    position: relative;
+  }
+
+  .split-flap {
+    display: block;
+    background: $debt-explainer-light-secondary-split-flap-background;
+
+    perspective: 400px; // does not need to be relative to font-size
+    min-width: $font-size-40;
+    height: 1.25em;
+
+    border-radius: $flap-border-radius;
+    @include mid-card-line(2);
+
+    .half-panel {
+      position: relative;
+      background-clip: border-box;
+      background-color: $debt-explainer-light-secondary-split-flap-background;
+
+      &.top {
+        border-radius: $flap-border-radius $flap-border-radius 0 0;
+        height: .626em;
+        overflow: hidden;
+        z-index: -3;
+        transform-origin: bottom;
+
+      }
+
+      &.bottom {
+        border-radius: 0 0 $flap-border-radius $flap-border-radius;
+        top: .626em;
+        height: .625em;
+        margin-top: -.625em;
+        z-index: -1;
+        transform-origin: top;
+        overflow: hidden;
+
+        > span {
+          position: relative;
+          top: -100%;
+        }
+      }
+
+      &.flip {
+        opacity: 1;
+
+        &.flip-in {
+          animation-fill-mode: forwards;
+          z-index: 2;
+        }
+
+        &.flip-out {
+          margin-top: -.625em;
+          z-index: 0;
+          background: linear-gradient(
+              $debt-explainer-light-secondary-split-flap-background 50%,
+              darken($debt-explainer-light-secondary-split-flap-background, 10%)
+          );
+          background-size: 200% 200%;
+        }
+      }
+    }
+  }
+}
+
+@keyframes FlipIn {
+  0% {
+    transform: rotateX(90deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+    box-shadow: 0 5px 15px darken($debt-explainer-light-secondary-split-flap-background, 5%);
+  }
+  95% {
+    box-shadow: 0 0 0 darken($debt-explainer-light-secondary-split-flap-background, 10%);
+  }
+  100% {
+    transform: rotateX(0deg);
+    box-shadow: 0 0 0 $debt-explainer-light-secondary-split-flap-background;
+  }
+}
+
+@keyframes FlipOut {
+  0% {
+    transform: rotateX(0deg);
+    background-position: 100% 5%;
+  }
+  50% {
+    transform: rotateX(-90deg);
+    background-position: 100% 125%;
+  }
+  100% {
+    transform: rotateX(-90deg);
+    background-position: 100% 100%;
+  }
+}
+
+

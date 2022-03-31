@@ -1,0 +1,453 @@
+{
+  "015-BFS-2020Q4-xx": {
+    "seoConfig": {
+      "pageTitle": "120 Day Delinquent Debt Referral Compliance",
+      "description": "Details compliance rates with the DATA Act requirement that debt owed to U.S. government agencies be referred to the Treasury Offset Program when 120 days overdue.",
+      "keywords": "Debt"
+    },
+    "topics": ["debt"],
+    "relatedDatasets": [],
+    "slug": "/delinquent-debt-referral-compliance/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-065": {
+    "slug": "/debt-to-the-penny/",
+    "seoConfig": {
+      "pageTitle": "Debt to the Penny",
+      "description": "Debt to the Penny is the total debt of the U.S. government and is reported daily. It is made up of intragovernmental holdings and debt held by the public.",
+      "keywords": "Debt, Federal, Government, Treasury, Securities, API, Open Data, Government Debt"
+    },
+    "topics": ["debt"],
+    "relatedDatasets": []
+  },
+  "015-BFS-2014Q3-056": {
+    "slug": "/average-interest-rates-treasury-securities/",
+    "seoConfig": {
+      "pageTitle": "Average Interest Rates on U.S. Treasury Securities",
+      "description": "Average monthly interest rates on marketable and non-marketable Treasury securities.",
+      "keywords": "interest rate, treasury securities, treasury bills, treasury bonds, treasury notes, marketable securities, non-marketable securities, slgs, frns, tips"
+    },
+    "topics": ["debt", "interest-exchange-rates", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-076",
+      "015-BFS-2014Q3-xx"
+    ],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q1-03": {
+    "slug": "/daily-treasury-statement/",
+    "seoConfig": {
+      "pageTitle": "Daily Treasury Statement (DTS)",
+      "description": "Daily cash and debt operations of the U.S. Treasury, including cash balance, deposits, and withdrawals; tax deposits and refunds; and debt transactions.",
+      "keywords": "US debt, DTS, daily treasury statement, cash balance, federal tax refund, us securities, treasury securities, debt limit, treasury cash balance"
+    },
+    "topics": ["debt", "revenue", "spending", "financial-summaries", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-065"
+    ],
+    "currentDateButton": "byDay"
+  },
+  "015-BFS-2014Q3-096": {
+    "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
+    "seoConfig": {
+      "pageTitle": "U.S. Treasury Savings Bonds: Issues, Redemptions, and Maturities by Series",
+      "description": "Number of Treasury savings bonds that are issued, redeemed, or outstanding in a given month, broken down by savings bond series type and maturity.",
+      "keywords": "savings bonds, Treasury bonds, series EE, matured bonds, issued savings bonds, redeemed savings bonds, series E, series I, series HH"
+    },
+    "topics": ["debt", "savings-bonds"],
+    "relatedDatasets": [],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-074": {
+    "slug": "/redemption-tables/",
+    "seoConfig": {
+      "keywords": "Series EE bonds, Series E bonds, Series I bonds, savings bonds, savings bond redemption"
+    },
+    "topics": ["interest-exchange-rates", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q3-103",
+      "015-BFS-2014Q3-096",
+      "015-BFS-2014Q3-yy"
+    ]
+  },
+  "015-BFS-2014Q1-xx": {
+    "slug": "/treasury-offset-program/",
+    "seoConfig": {
+      "pageTitle": "Treasury Offset Program",
+      "description": "This dataset shows how Treasury offsets federal payments, such as tax refunds, to pay off delinquent debts such as unpaid child support.",
+      "keywords": "debt, income tax, child support, SNAP, government collections, offset, Treasury, delinquent debt, federal withholdings"
+    },
+    "topics": ["debt", "revenue"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2020Q4-xx"
+    ],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q1-11": {
+    "slug": "/monthly-statement-public-debt/",
+    "seoConfig": {
+      "pageTitle": "Monthly Statement of the Public Debt (MSPD)",
+      "description": "This dataset provides high-level information on the federal government’s outstanding debts, holdings, and the statutory debt limit on a monthly basis.",
+      "keywords": "debt, public debt, government debt, Treasury, open data, monthly statement public debt, mspd, us debt, debt limit"
+    },
+    "topics": ["debt", "financial-summaries", "interest-exchange-rates", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q3-065"
+    ],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q1-13": {
+    "slug": "/monthly-treasury-statement/",
+    "seoConfig": {
+      "pageTitle": "Monthly Treasury Statement (MTS)",
+      "description": "This dataset contains a monthly summary of the federal government’s receipts and outlays, as well as the resulting surpluses and deficits.",
+      "keywords": "federal government, surplus, deficit, Treasury, US Treasury, outlays, receipts, monthly treasury statement, mts"
+    },
+    "topics": ["debt", "revenue", "spending", "financial-summaries"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q3-065",
+      "015-BFS-2014Q1-11"
+    ],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q1-09": {
+    "slug": "/status-report-government-gold-reserve/",
+    "seoConfig": {
+      "pageTitle": "U.S. Treasury-Owned Gold",
+      "description": "U.S. Treasury-Owned Gold provides data on the weight and book value of gold reserves maintained by the U.S. Treasury.",
+      "keywords": "fort knox, US mint gold, gold reserve, treasury gold, troy ounce, value of gold reserves, gold bullion, gold book value, NY Vault"
+    },
+    "topics": ["financial-summaries"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-13"
+    ],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-076": {
+    "slug": "/schedules-federal-debt/",
+    "seoConfig": {
+      "pageTitle": "Schedules of Federal Debt",
+      "description": "Monthly and fiscal year-to-date changes in federal debt, broken out by debt holder type, principal, interest, and premiums/discounts.",
+      "keywords": "debt, US debt, federal debt, accrued interest on the debt, interest on the debt, intragovernmental holdings"
+    },
+    "topics": ["debt", "financial-summaries"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q3-065",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13"
+    ],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q1-04": {
+    "slug": "/treasury-reporting-rates-exchange/",
+    "seoConfig": {
+      "pageTitle": "Treasury Reporting Rates of Exchange",
+      "keywords": "Exchange Rate, Currency, Treasury, API, US Dollar, Foreign Currency, foreign exchange"
+    },
+    "topics": ["interest-exchange-rates"],
+    "relatedDatasets": [],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-071": {
+    "slug": "/historical-debt-outstanding/",
+    "seoConfig": {
+      "pageTitle": "Historical Debt Outstanding",
+      "description": "Historical summary of the U.S. government’s total outstanding debt at the beginning of each fiscal year.",
+      "keywords": "government debt, U.S. government, US government, debt, debt outstanding, total debt, public debt"
+    },
+    "topics": ["debt"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q3-065",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q3-076"
+    ]
+  },
+  "015-BFS-2014Q3-xx": {
+    "slug": "/savings-bonds-securities/",
+    "seoConfig": {
+      "keywords": "savings bonds, bond value, non-marketable savings bonds, treasuries, interest rates, average maturity"
+    },
+    "topics": ["debt", "interest-exchange-rates", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-074",
+      "015-BFS-2014Q3-096"
+    ],
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q1-14": {
+    "slug": "/record-setting-auction-data/",
+    "seoConfig": {
+      "keywords": "treasury securities, treasury auctions, treasury bills, treasury notes, treasury bonds, TIPS, FRNs, CMBs, treasury rates, treasury offerings"
+    },
+    "topics": ["interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13"
+    ]
+  },
+  "015-BFS-2014Q3-094": {
+    "slug": "/savings-bond-value-files/",
+    "seoConfig": {
+      "pageTitle": "Savings Bonds Value Files",
+      "keywords": "savings bonds, redemption tables, interest, yield, plaintext, savings bond"
+    },
+    "topics": ["interest-exchange-rates", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-074",
+      "015-BFS-2014Q3-xx",
+      "015-BFS-2014Q3-096"
+    ]
+  },
+  "015-BFS-2014Q3-070": {
+    "seoConfig": {
+      "pageTitle": "Gift Contributions to Reduce Debt Held by the Public",
+      "description": "Monthly totals for gifts donated to the federal government to reduce debt held by the public.",
+      "keywords": "us debt, federal government debt, reduce US debt, gift contribution to reduce US debt, donation to reduce US debt"
+    },
+    "topics": ["debt", "revenue"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q3-065",
+      "015-BFS-2014Q3-071",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13"
+    ],
+    "slug": "/gift-contributions-reduce-debt-held-by-public/"
+  },
+  "015-BFS-2014Q3-103": {
+    "seoConfig": {
+      "pageTitle": "Interest Expense on the Debt Outstanding",
+      "description": "The Interest Expense on the Debt Outstanding dataset shows monthly and fiscal year-to-date values for the amount spent on interest on U.S. debt.",
+      "keywords": "debt, US debt, interest on debt, federal debt, government debt, treasury bills, treasury notes, treasury bonds, government account series, public debt"
+    },
+    "topics": ["debt", "spending", "interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q3-076"
+    ],
+    "currentDateButton": "byMonth",
+    "slug": "/interest-expense-debt-outstanding/"
+  },
+  "015-BFS-2014Q3-yy": {
+    "seoConfig": {
+      "pageTitle": "State and Local Government Series Securities (Non-Marketable)",
+      "description": "Statistics on non-marketable State and Local Government Securities that have been sold, their value, and their timeline to maturity.",
+      "keywords": "securities, non-marketable securities, non-marketable securities, government securities, time deposit, demand deposit, subscriptions, state and local securities"
+    },
+    "topics": ["debt", "interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13"
+    ],
+    "slug": "/slgs-securities/"
+  },
+  "015-BFS-2014Q1-18": {
+    "slug": "/ssa-title-xii-advance-activities/",
+    "seoConfig": {
+      "pageTitle": "Advances to State Unemployment Funds",
+      "description": "Data on how much the states are borrowing from the Federal Unemployment Trust Fund in order to pay unemployment benefits.",
+      "keywords": "Debt, Interest and Exchange Rates"
+    },
+    "topics": ["debt", "interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q3-093",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13"
+    ],
+    "currentDateButton": "byDay"
+  },
+  "015-BFS-2014Q3-093": {
+    "seoConfig": {
+      "pageTitle": "Unemployment Trust Fund: Quarterly Yields",
+      "description": "Current and historical yields earned from Unemployment Trust Funds from 1999 to the present.",
+      "keywords": ""
+    },
+    "topics": ["debt", "interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q3-076"
+    ],
+    "slug": "/unemployment-trust-fund-yields/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-080": {
+    "seoConfig": {
+      "pageTitle": "Securities Issued in TreasuryDirect",
+      "description": "Data on monthly sales, incoming transfers, redemptions, amount outstanding, and number of accounts in TreasuryDirect.",
+      "keywords": "Debt, Savings Bonds"
+    },
+    "topics": ["debt", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q1-14",
+      "015-BFS-2014Q3-xx",
+      "015-BFS-2014Q3-096"
+    ],
+    "slug": "/securities-issued-in-treasurydirect/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-058": {
+    "seoConfig": {
+      "pageTitle": "SLGS Securities Program Statistics ",
+      "keywords": "debt"
+    },
+    "topics": ["debt", "interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-yy",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13"
+    ],
+    "slug": "/slgs-securities-program-stats/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-082": {
+    "seoConfig": {
+      "pageTitle": "Historical Qualified Tax Credit Bond Interest Rates",
+      "description": "Archive of historical interest rates for Qualified Tax Credit Bonds (QTCB) through January 29, 2018. QTCBs are no longer being issued.",
+      "keywords": "Interest and Exchange Rates, Savings Bonds"
+    },
+    "topics": ["interest-exchange-rates", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13"
+    ],
+    "slug": "/qtcb-historical-interest-rates/",
+    "currentDateButton": "byDay"
+  },
+  "015-BFS-2014Q1-07": {
+    "seoConfig": {
+      "pageTitle": "U.S. Government Financial Report",
+      "keywords": "Financial Summaries, Revenue, Spending"
+    },
+    "topics": ["financial-summaries", "revenue", "spending"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2020Q4-yy"
+    ],
+    "slug": "/u-s-government-financial-report/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2020Q4-yy": {
+    "seoConfig": {
+      "pageTitle": "U.S. Government Revenue Collections",
+      "description": "Data on the amounts of federal revenue collected monthly by the Fiscal Service, as well as the revenue collection channels used.",
+      "keywords": ""
+    },
+    "topics": ["revenue"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13"
+    ],
+    "slug": "/revenue-collections-management/",
+    "currentDateButton": "byDay"
+  },
+  "015-BFS-2014Q3-037": {
+    "seoConfig": {
+      "pageTitle": "Federal Borrowings Program: Interest on Uninvested Funds",
+      "description": "A quarterly report containing interest balances associated with Treasury’s Credit Reform: Interest Paid on Uninvested Funds account.",
+      "keywords": ""
+    },
+    "topics": ["debt", "interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q3-076",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q3-103"
+    ],
+    "slug": "/fbp-interest-on-uninvested-funds/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-098": {
+    "seoConfig": {
+      "pageTitle": "Federal Investments Program: Interest Cost by Fund",
+      "description": "Premiums, discounts, accrued interest, interest payments, and inflation compensation for all federal investment accounts.",
+      "keywords": "Debt"
+    },
+    "topics": ["debt", "interest-exchange-rates"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q3-076",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q3-103"
+    ],
+    "slug": "/fip-interest-cost-by-fund/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2017Q2-003": {
+    "seoConfig": {
+      "pageTitle": "Treasury Report on Receivables (TROR)",
+      "description": "The TROR reports the collections status of non-tax receivables (delinquent and non-delinquent debt) owed to the United States.",
+      "keywords": "Debt"
+    },
+    "topics": ["debt"],
+    "relatedDatasets": [
+      "015-BFS-2020Q4-xx",
+      "015-BFS-2014Q1-xx"
+    ],
+    "slug": "/treasury-report-on-receivables/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-105": {
+    "seoConfig": {
+      "pageTitle": "Judgment Fund: Annual Report to Congress",
+      "description": "U.S. Department of Treasury report to Congress on administrative and litigative payments made from the Judgment Fund.",
+      "keywords": "debt, spending"
+    },
+    "topics": ["debt", "spending"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q1-03"
+    ],
+    "slug": "/judgment-fund-report-to-congress/"
+  },
+  "015-BFS-2014Q3-077": {
+    "seoConfig": {
+      "pageTitle": "Schedules of Federal Debt | Daily",
+      "description": "Daily activity of federal debt. The data is broken out by Held by the Public and Intragovernmental Debt Holdings amounts.",
+      "keywords": "debt, financial summaries"
+    },
+    "topics": ["debt", "financial-summaries"],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-076",
+      "015-BFS-2014Q3-065",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q3-071",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q3-056",
+      "015-BFS-2014Q3-037",
+      "015-BFS-2014Q3-098",
+      "015-BFS-2014Q3-103",
+      "015-BFS-2014Q3-093"
+    ],
+    "slug": "/schedules-federal-debt-daily/",
+    "currentDateButton": "byDay"
+  }
+}

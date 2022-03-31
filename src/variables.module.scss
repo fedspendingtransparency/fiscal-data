@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap');
+
+$breakpoint-sm: 600px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1205px;
+$site-content-width: 1140px;
+$explainer-page-width: 1400px;
+
+$font-title: #555555;
+$font-body-copy: #666666;
+// The most common font sizes and their appropriate rem conversions are seen below
+$font-size-10: 0.625rem;
+$font-size-12: 0.75rem;
+$font-size-13: 0.8125rem;
+$font-size-14: 0.875rem;
+$font-size-15: 0.9375rem;
+$font-size-16: 1rem;
+$font-size-18: 1.125rem;
+$font-size-20: 1.25rem;
+$font-size-22: 1.375rem; // Not that common; but, it is sandwiched between other common font sizes.
+$font-size-24: 1.5rem;
+$font-size-28: 1.75rem;
+$font-size-32: 2rem;
+$font-size-36: 2.25rem;
+$font-size-40: 2.5rem;
+$font-size-48: 3rem;
+$font-size-56: 3.5rem;
+$loading-icon-size: 4rem;
+
+$api-header: #f6f6f6;
+$placeholder: #a8a8a8;
+$dark-slate-blue: #112e51;
+$slate-blue: #112e51;
+$deep-blue: #2a328c;
+$near-black: #212121;
+$link-color: #2272ce;
+$primary: #0071bc;
+$primary-darker: #205493;
+$primary-inactive: rgba(8, 114, 185, 0.4);
+$primary-glass: rgba(0,113,188,0.3);
+$primary-light-background: #a9ddf3;
+$dark-pink: #d72d79;
+$dropdown-active-background: #dff2f7;
+$body-background: #f1f1f1;
+$content-section-background: #ffffff;
+$border-color: #dddddd;
+$error-background: #ffeeee;
+$error-text-color: #a02323;
+$error-link-color: #801313;
+$light-weight: 300;
+$semi-bold-weight: 600;
+$bold-weight: 800;
+$primary-pale: #f1f7f8;
+$disabled-button-bg: #94beda;
+$help-text-color: #d93b36;
+$animation-duration: 1000ms;
+$dark-green: #2e8540;
+$dark-grey-border: #979797;
+$info-box-background: #f3fafc;
+$info-box-border: #bce8f1;
+$basic-warning-background: #fdfdec;
+$basic-warning-border: #edf079;
+$loading-icon-color: #3d70b2;
+$hero-primary-text: #ffffff;
+$hero-primary-link: #99e7e7;
+$info-header-focal: $deep-blue;
+$info-header: $near-black;
+
+// Explainer pages
+$debt-explainer-primary: #283291;
+$debt-explainer-secondary: #9455dc;
+$debt-explainer-light-secondary: #d5bfff;
+$debt-explainer-light-secondary-split-flap-background: #5355ad;// rgba($debt-explainer-light-secondary, .25);
+
+$focus: #2B71B8;
+$card-body: #555555;
+$main-width: 1140px;
+$dd-border-color: #d6d7d9;
+$alt-button-active-bg: #eff4fb;
+$info-icon: #00a5d4;
+$pale-bg: #f8f8f8;
+
+@mixin focus-outline {
+  outline: 1px transparent;
+  transition: outline 0.2s ease;
+
+  &:focus {
+    outline: 1px solid $focus;
+  }
+}
+
+@mixin std-opacity-transition {
+  transition: opacity $animation-duration ease;
+  -moz-transition: opacity $animation-duration ease;
+  -webkit-transition: opacity $animation-duration ease;
+}
+
+@mixin datasetDetailContainerBorder {
+  border: 1px solid $dd-border-color;
+  border-radius: 5px;
+}
+
+@mixin headingStyle2-1 {
+  font-size: $font-size-32;
+  font-weight: $semi-bold-weight;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $font-title;
+}
+
+@mixin headingStyle3 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: $font-size-40; //40px
+  font-weight: $semi-bold-weight;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $font-title;
+}
+
+@mixin headingStyle5 {
+  color: $font-title;
+  font-size: $font-size-24;
+  font-weight: $semi-bold-weight;
+}
+
+@mixin headingStyle6 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: $font-size-18; //18px
+  font-weight: $semi-bold-weight;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $font-title;
+}
+
+@mixin columnLabelCopy7 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: $font-size-16;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+@mixin bodySmallStyle {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: $font-size-12;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $font-body-copy;
+}
+
+@mixin bodyStyleRegular {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: $font-size-16;
+  color: $font-body-copy;
+}
+
+@mixin pageTitle {
+  font-size: $font-size-40;
+  font-weight: $light-weight;
+  color: $font-title;
+  margin: 0;
+  padding-top: 1.5rem;
+}
+
+@mixin primaryButton {
+  border: 1px solid $primary;
+  border-radius: 2px;
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  text-align: center;
+  background-color: $primary;
+  transition: background-color .25s ease-out;
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $primary-darker;
+    border-color: $primary-darker;
+  }
+
+  &:disabled, &disabled:hover {
+    background-color: $disabled-button-bg;
+    border-color: $disabled-button-bg;
+    cursor: default;
+  }
+}
+
+@mixin inactiveButton {
+  background-color: $primary-inactive;
+  cursor: default;
+  border: 0;
+}
+
+@mixin errorMessage {
+  background-color: #fbeded;
+  border: 1px solid rgba(230, 28, 57, 0.4);
+  border-radius: 3px;
+}
+
+@mixin successMessage {
+  background-color: rgba(229, 243, 227, 0.4);
+  border: solid 1px rgba(37, 133, 61, 0.16);
+  border-radius: 3px;
+}
+
+@mixin radioToggles {
+  .toggleButton {
+    font-weight: $semi-bold-weight;
+    font-size: $font-size-16;
+    color: $font-title;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #cacaca;
+    padding: .75rem 1rem;
+    outline: 1px transparent;
+    transition: outline 0.2s ease;
+    background-color: #ffffff;
+    border-radius: 3px;
+    margin: 0 0.25rem 0.25rem 0;
+    *, & {
+      cursor: pointer;
+    }
+    &.selected {
+      color: $primary;
+      border: 1px solid $primary;
+    }
+    &.selected, &:hover {
+      background-color: #edf5fa;
+    }
+    &:focus, &:focus-within {
+      outline: 1px solid $focus;
+      z-index: 2;
+    }
+  }
+
+  .buttonDescription {
+    display: inline-block;
+    margin-left: 0.625rem;
+  }
+
+  .innerButton{
+    padding: 0.75rem 1rem;
+  }
+
+  .radio {
+    opacity: 0;
+    position: absolute;
+    &:focus + .toggleButton {
+      outline: 1px solid $focus;
+      z-index: 2;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-md){
+    .toggleButton {
+      margin: 0;
+      border-radius: 0;
+      &:first-of-type {
+        border-radius: 3px 0 0 3px;
+      }
+      &:not(:last-of-type):not(.selected) {
+        border-right: 0;
+      }
+      &:last-of-type {
+        border-radius: 0 3px 3px 0;
+      }
+      &.selected + input.radio + label.toggleButton, &.selected + label.toggleButton {
+        border-left: 0;
+      }
+    }
+    .radio{
+      &:checked + label + .toggleButton {
+        border-left: 0;
+      }
+    }
+  }
+}
+
+:export {
+  breakpointSm: $breakpoint-sm;
+  breakpointMd: $breakpoint-md;
+  breakpointLg: $breakpoint-lg;
+  breakpointXl: $breakpoint-xl;
+  siteContentWidth: $site-content-width;
+  fontTitle: $font-title;
+  fontBodyCopy: $font-body-copy;
+  fontSize_10: $font-size-10;
+  fontSize_12: $font-size-12;
+  fontSize_13: $font-size-13;
+  fontSize_14: $font-size-14;
+  fontSize_15: $font-size-15;
+  fontSize_16: $font-size-16;
+  fontSize_18: $font-size-18;
+  fontSize_20: $font-size-20;
+  fontSize_22: $font-size-22;
+  fontSize_24: $font-size-24;
+  fontSize_28: $font-size-28;
+  fontSize_32: $font-size-32;
+  fontSize_36: $font-size-36;
+  fontSize_40: $font-size-40;
+  fontSize_48: $font-size-48;
+  fontSize_56: $font-size-56;
+  apiHeader: $api-header;
+  placeholder: $placeholder;
+  darkSlateBlue: $dark-slate-blue;
+  slateBlue: $slate-blue;
+  linkColor: $link-color;
+  primary: $primary;
+  primaryDarker: $primary-darker;
+  primaryInactive: $primary-inactive;
+  primaryGlass: $primary-glass;
+  primaryLightBackground: $primary-light-background;
+  darkPink: $dark-pink;
+  dropdownActiveBackground: $dropdown-active-background;
+  bodyBackground: $body-background;
+  contentSectionBackground: $content-section-background;
+  borderColor: $border-color;
+  errorBackground: $error-background;
+  errorTextColor: $error-text-color;
+  errorLinkColor: $error-link-color;
+  lightWeight: $light-weight;
+  semiBoldWeight: $semi-bold-weight;
+  boldWeight: $bold-weight;
+  primaryPale: $primary-pale;
+  disabledButtonBg: $disabled-button-bg;
+  helpTextColor: $help-text-color;
+  animationDuration: $animation-duration;
+  darkGreen: $dark-green;
+  darkGreyBorder: $dark-grey-border;
+  infoBoxBackground: $info-box-background;
+  infoBoxBorder: $info-box-border;
+  basicWarningBackground: $basic-warning-background;
+  basicWarningBorder: $basic-warning-border;
+  focus: $focus;
+  cardBody: $card-body;
+  mainWidth: $main-width;
+  ddBorderColor: $dd-border-color;
+  altButtonActiveBg: $alt-button-active-bg;
+  infoIcon: $info-icon;
+  paleBg: $pale-bg;
+  debtExplainerPrimary: $debt-explainer-primary;
+  debtExplainerSecondary: $debt-explainer-secondary;
+}

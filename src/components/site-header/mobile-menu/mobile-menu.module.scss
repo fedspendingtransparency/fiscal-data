@@ -1,0 +1,80 @@
+@import '../../../variables.module.scss';
+
+$menuWidth: 257px;
+
+@keyframes fadeIn {
+  0%   {opacity: 0;}
+  100% {opacity: 0.75;}
+}
+
+.menuContainer {
+  position: absolute;
+  top: 24px;
+  width: 0;
+  right: 0;
+
+  transition: width 0.5s ease-in-out;
+  z-index: 100;
+
+  &.open {
+    width: $menuWidth;
+
+    .overlay {
+      display: block;
+      animation: fadeIn 1s;
+      opacity: 0.75;
+    }
+  }
+}
+
+.tray {
+  z-index: 100;
+  background-color: white;
+  height: 100vh;
+  box-sizing: border-box;
+  &.open {
+    padding: 0.5rem 1rem;
+    position: fixed;
+    width: 100%;
+  }
+}
+
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #DDDDDD;
+  opacity: 0;
+  transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
+  z-index: -1;
+  display: none;
+}
+
+.logo {
+  height: 35px;
+  padding-bottom: 1.5rem;
+}
+
+.pageLinks {
+  a {
+    display: block;
+    text-decoration: none;
+    color: $card-body;
+    white-space: nowrap;
+    padding-bottom: 1rem;
+    font-size: 18px;
+  }
+}
+
+:global(body) {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .menuContainer {
+    display: none;
+  }
+}

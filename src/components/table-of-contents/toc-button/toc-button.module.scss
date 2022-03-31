@@ -1,0 +1,43 @@
+@import '../../../variables.module.scss';
+
+.floatingToggle {
+  display: block;
+  padding-top: 1rem;
+  bottom: 25px;
+  width: 100%;
+  z-index: 100;
+
+  .container {
+    box-sizing: border-box;
+    max-width: calc(100% - 2rem);
+    width: 450px;
+    margin: 0 auto;
+    display: flex;
+  }
+
+  .toggleButton {
+    @include primaryButton;
+    border-radius: 3px;
+    width: 100%;
+    line-height: 0.69;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    &.cancelButton, &.cancelButton:enabled:hover {
+      background-color: white;
+      color: $primary;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .floatingToggle {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .floatingToggle {
+    position: sticky;
+  }
+}

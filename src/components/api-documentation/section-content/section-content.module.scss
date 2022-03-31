@@ -1,0 +1,39 @@
+@import '../../../variables.module.scss';
+
+.sectionContainer {
+  padding-bottom: 2rem;
+
+  h2 {
+    @include headingStyle2-1;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    @include headingStyle5;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    @include headingStyle6;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  li p:first-of-type {
+    margin-bottom: 0;
+  }
+
+  .listHeading {
+    margin: 0;
+  }
+
+  :last-child:not(h2):not(h3) {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,15 @@
+@import '../../../../variables.module.scss';
+
+.headerToggle {
+  color: $primary;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: $font-size-14;
+}
+
+// todo - Make sure this looks appropriate
+.toggleIcon {
+  margin-right: 0.5rem;
+  font-size: calc(#{$font-size-16} + 0.0625rem);
+}

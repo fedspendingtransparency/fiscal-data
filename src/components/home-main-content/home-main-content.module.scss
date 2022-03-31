@@ -1,0 +1,63 @@
+@import '../../variables.module.scss';
+
+.mainContent {
+  max-width: 820px;
+
+  h2 {
+    color: $font-title;
+    font-size: $font-size-48;
+    font-weight: $semi-bold-weight;
+    border: 0;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: $font-size-16;
+    margin-top: 0;
+  }
+
+  .highlightCardsHeader {
+    display: flex;
+    align-items: center;
+    color: $primary;
+    font-size: $font-size-40;
+
+    svg {
+      height: 34px;
+      width: 34px;
+      margin-right: 0.75rem;
+    }
+  }
+}
+
+.mainContentButton {
+  display: block;
+  @include primaryButton;
+  box-sizing: border-box;
+  margin-bottom: 5rem;
+}
+
+@media screen and (min-width: $breakpoint-md){
+  .mainContentButton {
+    width: 49%;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg){
+  .mainContentButton {
+    width: 32%;
+    margin-bottom: 9rem;
+  }
+
+  .mainContent {
+    h2 {
+      margin-top: 0;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-md){
+  .mainContentButton {
+    max-width: 328px;
+  }
+}

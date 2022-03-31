@@ -1,0 +1,123 @@
+.star {
+  display: none;
+}
+:hover > .star {
+  display: block;
+  position: absolute;
+  opacity: 0;
+  overflow: hidden;
+  z-index: 2;
+  animation: bedazzle 4s linear 0s infinite normal;
+  -webkit-animation: bedazzle 4s linear 0s infinite normal;
+  -moz-animation: bedazzle 4s linear 0s infinite normal;
+}
+:hover > .star.alternate {
+  top: 2.3rem;
+  left: 5.6rem;
+  animation: bedazzleAlt 4s linear 0s infinite normal;
+  -webkit-animation: bedazzleAlt 4s linear 0s infinite normal;
+  -moz-animation: bedazzleAlt 4s linear 0s infinite normal;
+}
+.sparkleBox {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/*keyframe animation to enable sparkle fade in and out (or out and in) effects*/
+
+@-webkit-keyframes bedazzle {
+  0% {
+    -webkit-transform: scale(0.5);
+    opacity: 0;
+  }
+  25% {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    -webkit-transform: scale(0.5);
+    opacity: 0;
+  }
+  75% {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(0.5);
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes bedazzle {
+  0% {
+    -moz-transform: scale(0.5);
+    opacity: 0;
+  }
+  25% {
+    -moz-transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    -moz-transform: scale(0.5);
+    opacity: 0;
+  }
+  75% {
+    -moz-transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: scale(0.5);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes bedazzleAlt {
+  0% {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+  25% {
+    -webkit-transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+  75% {
+    -webkit-transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes bedazzleAlt {
+  0% {
+    -moz-transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    -moz-transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    -moz-transform: scale(1);
+    opacity: 1;
+  }
+  75% {
+    -moz-transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    -moz-transform: scale(1);
+    opacity: 1;
+  }
+}

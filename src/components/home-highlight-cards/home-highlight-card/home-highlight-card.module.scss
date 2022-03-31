@@ -1,0 +1,175 @@
+@import '../../../variables.module.scss';
+
+.card {
+  color: $card-body;
+  box-shadow: 0 2px 2px 0 rgba(74, 74, 74, 0.15);
+}
+
+a {
+  text-decoration: none;
+}
+
+.header {
+  min-height: 5rem;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+.cardHeaderLink {
+  text-decoration: none;
+  @include headingStyle6;
+}
+
+.highlightLink {
+  &:focus {
+    .datasetLineLink {
+      border-bottom: 5px solid $primary;
+      margin-bottom: 0;
+    }
+
+    .datasetArrow {
+      opacity: 1;
+    }
+  }
+
+  &:not(:focus) {
+    margin-bottom: 5px;
+  }
+}
+
+.datasetLineLink {
+  cursor: pointer;
+  border-top: solid 1px #d6d7d9;
+  padding: 10px 1rem;
+
+  &:not(:hover) {
+    margin-bottom: 5px;
+  }
+
+  &:hover {
+    border-bottom: 5px solid $primary;
+    margin-bottom: 0;
+
+    .datasetArrow {
+      opacity: 1;
+    }
+  }
+}
+
+.viewDataset {
+  text-decoration: none;
+  color: $primary;
+  font-weight: $semi-bold-weight;
+  font-size: $font-size-18;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.datasetArrow {
+  opacity: 0;
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.statLower, .statUpper {
+  display: flex;
+  flex-direction: column;
+}
+
+.statLower {
+  text-align: start;
+}
+
+.statUpper {
+  text-align: end;
+}
+
+.statValue {
+  font-size: $font-size-32;
+  font-weight: $semi-bold-weight;
+  color: $primary;
+}
+
+.statDate {
+  font-size: $font-size-14;
+  color: $font-body-copy;
+}
+
+.sparkLine {
+  margin: .5rem 0 3rem;
+  height: 100px;
+  font-size: 24px;
+  font-weight: $semi-bold-weight;
+}
+
+.cardContent {
+  min-height: 6.25rem;
+  @include bodyStyleRegular;
+  max-width: 100%;
+  align-self: flex-start;
+}
+
+.cardActionArea {
+  padding: 1rem 1rem 0.5rem;
+}
+
+.datasetName {
+  margin-bottom: .25rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: $font-size-14;
+}
+
+.datasetIcon {
+  margin: 0 .25rem 0.05rem 0;
+}
+
+.tooltip {
+  font-size: $font-size-16;
+  background-color: $content-section-background;
+  border: 1px $font-body-copy solid;
+  border-radius: 3px;
+  color: $primary;
+  padding: 0.5rem;
+  position: absolute;
+  bottom: 0.5rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+.tooltipLabel {
+  font-size: $font-size-18;
+  font-weight: bold;
+  color: $font-body-copy;
+  text-decoration: underline;
+  margin-bottom: 0.5rem;
+}
+
+// The following styles the x-axis for non-d3 charts to match that of our d3 line charts
+.xAxis, .x-label-text {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #666;
+  font-weight: normal;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  margin: 1rem 0 2.5rem;
+}

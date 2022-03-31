@@ -1,0 +1,27 @@
+@import '../../variables.module.scss';
+
+.infoIcon {
+  .svgStyle {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.header {
+  border-bottom: 1px solid #DDDDDD;
+  color: $font-title;
+  font-size: $font-size-18;
+  font-weight: $semi-bold-weight;
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.5rem;
+}
+
+.popupContainer {
+  color: #666666;
+}
+
+.popoverContents {
+  p:last-child, ul:last-child {
+    margin-bottom: 0;
+  }
+}

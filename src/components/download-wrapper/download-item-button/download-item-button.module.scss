@@ -1,0 +1,37 @@
+@import '../../../variables.module.scss';
+
+.downloadItemBtn {
+  @include primaryButton;
+  display: inline-block;
+  position: relative;
+  margin: 0 0 0.75rem 0;
+  padding: 0.5625rem 1rem;
+  border-radius: 3px;
+
+  &.linkDisabled {
+    background-color: $disabled-button-bg;
+    border-color: $disabled-button-bg;
+    cursor: default;
+  }
+}
+
+.dictionary {
+  width: 100%;
+  border: none;
+  background-color: #ffffff;
+  color: $primary;
+  font-size: $font-size-14;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.optionIcon {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.progressIcon {
+  position: absolute;
+  right: 1rem;
+  top: 0.75rem;
+}

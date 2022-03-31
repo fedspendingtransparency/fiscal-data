@@ -1,0 +1,19 @@
+@import '../../variables.module.scss';
+
+$cancelColor: #e51c3e;
+
+.cancelButton {
+  background-color: transparent;
+  color: $cancelColor;
+  border: 1px solid $cancelColor;
+  border-radius: 3px;
+  padding: 0.6875rem 0.375rem;
+  font-weight: $semi-bold-weight;
+  cursor: pointer;
+  font-size: $font-size-16;
+}
+
+.copyButton {
+  @include primaryButton;
+  border-radius: 3px;
+}

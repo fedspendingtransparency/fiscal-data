@@ -1,0 +1,23 @@
+@import '../../../variables.module.scss';
+
+.toggleButton {
+    color: $primary;
+    font-weight: $semi-bold-weight;
+    border: none;
+    cursor: pointer;
+    background-color: inherit;
+    width: 100%;
+    margin-right: 1rem;
+    font-size: $font-size-16;
+}
+.buttonLabel {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.icon {
+    margin-right: 0.5rem;
+    font-size: $font-size-14;
+    transform: translateY(2px);
+}

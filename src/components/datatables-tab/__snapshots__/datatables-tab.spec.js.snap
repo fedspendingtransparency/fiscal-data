@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataTablesTab should pass along its data array to the dtgTable component 1`] = `
+Array [
+  Object {
+    "description": "table 1 description",
+    "fileSizes": "",
+    "name": "table 1",
+    "rowCount": "9999",
+    "rowDescription": "this row does this",
+  },
+  Object {
+    "description": "table 2 description",
+    "fileSizes": "",
+    "name": "table 2",
+    "rowCount": "111",
+    "rowDescription": "that row does that",
+  },
+]
+`;

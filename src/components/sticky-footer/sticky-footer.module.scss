@@ -1,0 +1,42 @@
+@import '../../variables.module.scss';
+
+.stickyFooterContainer {
+  position: -webkit-sticky;
+  position: sticky;
+  box-sizing: border-box;
+  z-index: 20;
+  bottom: -1px;
+  width: 100%;
+  max-height: 26rem;
+  transition: max-height 0.2s linear, visibility 0s linear;
+  visibility: visible;
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+  &.closing {
+    max-height: 0;
+    visibility: hidden;
+    &:hover {
+      transition: max-height 0.2s linear, visibility 0s linear;
+      max-height: 26rem;
+      visibility: visible;
+    }
+  }
+}
+
+.stickyFooterContent {
+  box-sizing: border-box;
+  background-color: $body-background;
+  border-top: 0.25rem solid $primary;
+}
+
+.floatingNavSpacer {
+  min-height: 5rem;
+  width: 100%;
+  background-color: $content-section-background;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .floatingNavSpacer {
+    display: none;
+  }
+}
+

@@ -1,0 +1,40 @@
+@import '../../variables.module.scss';
+
+.pillWrapper {
+  margin: 0 0 0.75rem; //1rem - 0.25rem from the additional pill margin.
+}
+
+.pill {
+  display: inline-block;
+  border-radius: 1rem;
+  background-color: $primary-pale;
+  color: $primary;
+  border: none;
+  padding: 0 0.75rem;
+  margin: 0 0.625rem 0.25rem 0;
+  font-size: $font-size-14;
+  line-height: 2em;
+  white-space: nowrap;
+}
+
+.icon {
+  font-size: $font-size-14;
+  width: $font-size-14;
+  transform: translateY(-2px);
+  padding-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.futureDateIcon {
+  width: $font-size-14;
+  height: $font-size-15;
+  object-fit: contain;
+  padding-right: 0.5rem;
+  transform: translateY(2px);
+}
+
+@media screen and (min-width: $breakpoint-md){
+  .pillWrapper {
+    margin-bottom: 1rem;
+  }
+}

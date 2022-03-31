@@ -1,0 +1,359 @@
+@import '../../../../variables.module.scss';
+
+.firstSectionContent {
+  display: flex;
+  align-items: center;
+
+  &:not(.noMarginBottom) {
+    margin-bottom: 25px;
+  }
+
+  .iconBackground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #99e7e7;
+    position: relative;
+
+    .icon {
+      color: #fff;
+    }
+
+    .offsetIcon {
+      color: $deep-blue;
+      position: absolute;
+    }
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.secondSectionTable {
+  .row {
+    display: flex;
+
+    .firstColumn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 72px;
+      min-width: 50px;
+    }
+
+    .secondColumn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .icon {
+    font-size: $font-size-36;
+    color: #a9add1;
+  }
+}
+
+.thirdSectionTable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  table {
+    border-collapse: collapse;
+
+    .tableIcon {
+      color: #a9add1;
+    }
+
+    td {
+      text-align: center;
+
+      &.borderBottom {
+        border-bottom: solid 1px $deep-blue;
+      }
+    }
+  }
+}
+
+.thirdSectionAccordion {
+  .accordionHeader {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      margin: 8px 0;
+      font-size: $font-size-16;
+      color: $font-body-copy;
+    }
+  }
+
+  .rectangle {
+    background-color: $font-title;
+    position: relative;
+    height: 0;
+  }
+
+  .accordionTable {
+    width: 100%;
+    border-spacing: 1px;
+  }
+
+  .accordionFooter {
+    font-size: $font-size-16;
+    text-align: center;
+  }
+}
+
+.fourthSectionGraphContainer, .fifthSectionGraphContainer {
+  background-color: $body-background;
+
+  .title {
+    margin-top: 0;
+    font-weight: 600;
+    color: $font-title;
+  }
+
+  .headerContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 2.5rem;
+
+    div {
+      text-align: center;
+
+      .header {
+        font-weight: bold;
+      }
+
+      .subHeader {
+        font-weight: $semi-bold-weight;
+      }
+    }
+  }
+
+  .fourthSectionGraph {
+    margin: 0;
+  }
+
+  .footerContainer {
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.fifthSectionGraphContainer {
+
+  .barChartContainer {
+    width: 100%;
+    max-width: 524px;
+    margin: 0 auto;
+  }
+}
+.postGraphContent {
+  margin-top: 3rem;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .firstSectionContent {
+    .iconBackground {
+      height: 4rem;
+      width: 4rem;
+      min-width: 4rem;
+      border-radius: 2rem;
+
+      .icon, .offsetIcon {
+        font-size: 1.75rem;
+        transform: translate(5px, -5px);
+      }
+
+      .offsetIcon {
+        transform: translate(8px, -8px);
+      }
+    }
+
+    p {
+      margin-left: 34px;
+    }
+  }
+
+  .secondSectionTable {
+
+    .firstColumn {
+      padding-right: 31px;
+    }
+
+    .row:not(:last-child) {
+      padding-bottom: 10px;
+    }
+  }
+
+  .thirdSectionTable {
+    padding: 20px;
+
+    th {
+      font-size: $font-size-48;
+      padding-bottom: 8px;
+    }
+
+    td {
+      width: 80px;
+      padding: 12px 20px;
+    }
+  }
+
+  .fourthSection {
+    :global(.vis-callout) {
+      margin-top: calc(20% + 4rem);
+    }
+  }
+
+  .fourthSectionGraphContainer, .fifthSectionGraphContainer {
+    padding: 22px;
+
+    .title {
+      font-size: $font-size-18;
+    }
+
+    .header {
+      font-size: $font-size-36;
+      min-width: 140px;
+    }
+
+    .subHeader {
+      font-size: $font-size-14;
+    }
+
+    .footerContainer {
+      padding-top: 26px;
+
+      p {
+        font-size: $font-size-14;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .firstSectionContent {
+    .iconBackground {
+      height: 52px;
+      width: 52px;
+      min-width: 52px;
+      border-radius: 26px;
+
+      .icon, .offsetIcon {
+        font-size: 1.5rem;
+        transform: translate(3px, -3px);
+      }
+
+      .offsetIcon {
+        transform: translate(6px, -6px);
+      }
+    }
+
+    p {
+      margin-left: 15px;
+    }
+  }
+
+  .secondSectionTable {
+    .firstColumn {
+      padding-right: 21px;
+    }
+
+    .row:not(:last-child) {
+      padding-bottom: 30px;
+    }
+  }
+
+  .thirdSectionTable {
+    padding: 15px;
+    font-size: $font-size-14;
+
+    th {
+      font-size: $font-size-36;
+    }
+
+    td {
+      padding: 8px 15px;
+
+      &:first-of-type {
+        min-width: 40px;
+        padding-right: 10px;
+      }
+    }
+
+    .paddingTop {
+      td {
+        padding-top: 14px;
+      }
+    }
+
+    tfoot {
+      td {
+        padding-top: 0;
+      }
+
+      img {
+        width: 64px;
+        padding-left: 10px;
+      }
+    }
+  }
+
+  .fourthSectionGraphContainer, .fifthSectionGraphContainer {
+    font-size: $font-size-10;
+    padding: 14px;
+
+    .headerContainer {
+      margin-bottom: 1.25rem;
+    }
+
+    .title {
+      font-size: $font-size-12;
+    }
+
+    .header {
+      font-size: $font-size-22;
+      min-width: 110px;
+    }
+
+    .subHeader {
+      font-size: $font-size-10;
+    }
+
+    .footerContainer {
+      padding-top: 15px;
+
+      p {
+        font-size: $font-size-10;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+  .thirdSectionAccordion {
+    .rectangle {
+      width: calc(2% - 1px);
+      padding-bottom: calc(2% - 1px);
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .thirdSectionAccordion {
+    .rectangle {
+      width: calc(5% - 1px);
+      padding-bottom: calc(5% - 1px);
+    }
+  }
+}

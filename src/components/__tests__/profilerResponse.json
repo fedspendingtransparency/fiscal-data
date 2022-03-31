@@ -1,0 +1,267 @@
+{
+  "oneRow": {
+    "data": [
+      {
+        "current_month_net_outlays": "1651432000000.00",
+        "current_month_gross_outlays": "1717251000000.00",
+        "current_month_receipts": "168338000000.00",
+        "data_date": "2017-01-31"
+      }
+    ],
+    "meta": {
+      "count": 1,
+      "labels": {
+        "current_month_net_outlays": "Current Month Net Outlay Amount",
+        "current_month_gross_outlays": "Current Month Gross Outlay Amount",
+        "current_month_receipts": "Current Month Receipt Amount",
+        "data_date": "Data Date"
+      },
+      "dataTypes": {
+        "current_month_net_outlays": "CURRENCY",
+        "current_month_gross_outlays": "CURRENCY",
+        "current_month_receipts": "CURRENCY",
+        "data_date": "DATE"
+      },
+      "dataFormats": {
+        "current_month_net_outlays": "$10.20",
+        "current_month_gross_outlays": "$10.20",
+        "current_month_receipts": "$10.20",
+        "data_date": "YYYY-MM-DD"
+      },
+      "total-count": 13,
+      "total-pages": 13
+    },
+    "links": {
+      "self": "&page%5Bnumber%5D=1&page%5Bsize%5D=1",
+      "first": "&page%5Bnumber%5D=1&page%5Bsize%5D=1",
+      "prev": null,
+      "next": "&page%5Bnumber%5D=2&page%5Bsize%5D=1",
+      "last": "&page%5Bnumber%5D=13&page%5Bsize%5D=1"
+    }
+  },
+  "noData": {
+    "response": {
+      "data": [
+      ],
+      "meta": {
+        "count": 20,
+        "labels": {
+          "reporting_calendar_year": "Calendar Year",
+          "tot_pub_debt_out_amt": "Total Public Debt Outstanding",
+          "reporting_calendar_day": "Calendar Day Number",
+          "reporting_calendar_month": "Calendar Month Number",
+          "debt_held_public_amt": "Debt Held by the Public",
+          "data_date": "Data Date",
+          "intragov_hold_amt": "Intragovernmental Holdings"
+        },
+        "dataTypes": {
+          "reporting_calendar_year": "YEAR",
+          "tot_pub_debt_out_amt": "CURRENCY",
+          "reporting_calendar_day": "DAY",
+          "reporting_calendar_month": "MONTH",
+          "debt_held_public_amt": "CURRENCY",
+          "data_date": "DATE",
+          "intragov_hold_amt": "CURRENCY"
+        },
+        "dataFormats": {
+          "reporting_calendar_year": "YYYY",
+          "tot_pub_debt_out_amt": "$10.20",
+          "reporting_calendar_day": "DD",
+          "reporting_calendar_month": "MM",
+          "debt_held_public_amt": "$10.20",
+          "data_date": "YYYY-MM-DD",
+          "intragov_hold_amt": "$10.20"
+        },
+        "total-count": 20,
+        "total-pages": 1
+      },
+      "links": {
+        "self": "&page%5Bnumber%5D=1&page%5Bsize%5D=-1",
+        "first": "&page%5Bnumber%5D=1&page%5Bsize%5D=-1",
+        "prev": null,
+        "next": null,
+        "last": "&page%5Bnumber%5D=1&page%5Bsize%5D=-1"
+      }
+    },
+    "url": "https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/debt_to_penny?filter=data_date%3Agte%3A2019-12-11&limit=-1&sort=data_date",
+    "filters": {
+      "data_date": {
+        "value": "2019-12-11",
+        "operator": "gte"
+      }
+    },
+    "config": {
+      "apis": [{
+        "dateField": "data_date",
+        "endpoint": "accounting/od/debt_to_penny",
+        "fields": null,
+        "dimension": null,
+        "filter": null
+      }],
+      "name": "Debt to the Penny",
+      "popular": true,
+      "dataStartYear": 2005,
+      "slug": "/debt-to-the-penny/",
+      "summaryText": "Debt to the Penny is the total public debt outstanding reported each business day at3:00 P.M. Eastern Time with the previous business day’s data. The Debt to the Pennyis made up of intragovernmental holdings and debt held by the public, including securities issued by the U.S. Department of the Treasury (Treasury). Treasury securities primarily consist of marketable Treasury securities (bills, notes and bonds), savings bonds, and special securities issued to state and local governments.",
+      "tags": [
+        "Debt",
+        "MVP"
+      ],
+
+      "techSpecs": {
+        "lastUpdated": "12/19/2019",
+        "fileFormat": null
+      }
+    }
+  },
+  "noDataDimensional": {
+    "response": {
+      "data": [],
+      "meta": {
+        "count": 0,
+        "labels": {
+          "type_cd": "Type Code",
+          "total_pcs_cnt": "Total Pieces Count",
+          "reporting_date": "Calendar Date"
+        },
+        "dataTypes": {
+          "type_cd": "STRING",
+          "total_pcs_cnt": "NUMBER",
+          "reporting_date": "DATE"
+        },
+        "dataFormats": {
+          "type_cd": "String",
+          "total_pcs_cnt": "10.2",
+          "reporting_date": "YYYY-MM-DD"
+        },
+        "total-count": 0,
+        "total-pages": 1
+      },
+      "links": {
+        "self": "&page%5Bnumber%5D=1&page%5Bsize%5D=-1",
+        "first": "&page%5Bnumber%5D=1&page%5Bsize%5D=-1",
+        "prev": null,
+        "next": null,
+        "last": "&page%5Bnumber%5D=1&page%5Bsize%5D=-1"
+      }
+    },
+    "url": "https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/savings_bonds_pcs?fields=type_cd%2Ctotal_pcs_cnt%2Creporting_date&filter=series_cd%3Aeq%3AYELLOW%2Creporting_date%3Agte%3A2010&limit=-1&sort=reporting_date",
+    "filters": {
+      "series_cd": {
+        "operator": "eq",
+        "value": "YELLOW"
+      },
+      "reporting_date": {
+        "value": 2010,
+        "operator": "gte"
+      }
+    },
+    "config": {
+      "apis": [
+        {
+          "dateField": "reporting_date",
+          "endpoint": "accounting/od/savings_bonds_pcs",
+          "fields": null,
+          "dimension": {
+            "key": "type_cd",
+            "value": "total_pcs_cnt"
+          },
+          "filter": {
+            "key": "series_cd",
+            "value": "G"
+          }
+        }
+      ],
+      "name": "Series G Savings Bonds Pieces DIMENSIONED",
+      "popular": null,
+      "dataStartYear": 1990,
+      "slug": "/savings-bonds-pieces-g/",
+      "summaryText": "Test summary data",
+      "tags": [
+        "sample"
+      ],
+      "techSpecs": {
+        "lastUpdated": "12/19/2019",
+        "fileFormat": null
+      }
+    }
+  },
+  "noDataPrelimResponse": {
+    "data": [],
+    "meta": {
+      "count": 20,
+      "labels": {
+        "reporting_date": "Calendar Date"
+      },
+      "dataTypes": {
+        "reporting_date": "DATE"
+      },
+      "dataFormats": {
+        "reporting_date": "YYYY-MM-DD"
+      },
+      "total-count": 119,
+      "total-pages": 6
+    },
+    "links": {
+      "self": "&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+      "first": "&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+      "prev": null,
+      "next": "&page%5Bnumber%5D=2&page%5Bsize%5D=20",
+      "last": "&page%5Bnumber%5D=6&page%5Bsize%5D=20"
+    }
+  },
+  "oneRowPrelimResponse": {
+    "data": [{"reporting_date": "2019-11-30"}],
+    "meta": {
+      "count": 20,
+      "labels": {
+        "reporting_date": "Calendar Date"
+      },
+      "dataTypes": {
+        "reporting_date": "DATE"
+      },
+      "dataFormats": {
+        "reporting_date": "YYYY-MM-DD"
+      },
+      "total-count": 119,
+      "total-pages": 6
+    },
+    "links": {
+      "self": "&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+      "first": "&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+      "prev": null,
+      "next": "&page%5Bnumber%5D=2&page%5Bsize%5D=20",
+      "last": "&page%5Bnumber%5D=6&page%5Bsize%5D=20"
+    }
+  },
+  "oneRowInformedResponse": {
+    "data": [
+      {
+        "type_cd": "PiecesIssued",
+        "total_pcs_cnt": "17260002",
+        "reporting_date": "2019-11-30"
+      }
+    ],
+    "meta": {
+      "count": 20,
+      "labels": {
+        "reporting_date": "Calendar Date"
+      },
+      "dataTypes": {
+        "reporting_date": "DATE"
+      },
+      "dataFormats": {
+        "reporting_date": "YYYY-MM-DD"
+      },
+      "total-count": 119,
+      "total-pages": 6
+    },
+    "links": {
+      "self": "&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+      "first": "&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+      "prev": null,
+      "next": "&page%5Bnumber%5D=2&page%5Bsize%5D=20",
+      "last": "&page%5Bnumber%5D=6&page%5Bsize%5D=20"
+    }
+  }
+}

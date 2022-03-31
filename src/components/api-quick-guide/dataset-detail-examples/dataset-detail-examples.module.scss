@@ -1,0 +1,25 @@
+@import '../../../variables.module.scss';
+
+.responseBlock {
+  width: 100%;
+  overflow-x: auto;
+
+  pre {
+    margin: 0;
+  }
+}
+
+.loadingIcon {
+  z-index: 9;
+  color: $font-title;
+  font-size: $font-size-18;
+  width: 100%;
+  top: 4rem;
+  text-align: center;
+  > * {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    font-size: $loading-icon-size;
+    color: $loading-icon-color;
+  }
+}

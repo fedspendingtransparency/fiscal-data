@@ -1,0 +1,20 @@
+@import '../../../variables.module.scss';
+
+.tabBorder {
+    border-left: 1px solid $dd-border-color;
+    border-right: 1px solid $dd-border-color;
+}
+
+.chartBorder {
+    border-left: 1px solid $dd-border-color;
+    border-right: 1px solid $dd-border-color;
+    border-bottom: 1px solid $dd-border-color;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.tabIcon {
+    margin-right: 0.5rem;
+    font-size: $font-size-14;
+    transform: translateY(2px);
+}

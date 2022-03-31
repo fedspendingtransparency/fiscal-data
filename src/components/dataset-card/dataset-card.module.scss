@@ -1,0 +1,61 @@
+@import '../../variables.module.scss';
+
+.card {
+  border: solid 1px #d6d7d9;
+  cursor: pointer;
+  width: 100%;
+  color: $card-body;
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.0);
+  transform: translateY(0);
+  transition: box-shadow 0.5s ease, translateY 0.5s ease;
+  box-sizing: border-box;
+  
+  &:hover {
+    box-shadow: 0 2px 4px 0px rgba(0,0,0,0.2);
+    transform: translateY(-1px);
+  }
+
+  button {
+    padding: 1rem;
+  }
+}
+
+.card_headerLink {
+  display: block;
+  font-size: $font-size-18;
+  height: 2.75rem; // font-size*2.25 (2 lines + whitespace between lines)
+  font-weight: $semi-bold-weight;
+  color: $font-title;
+  text-decoration: none;
+}
+
+.card_areaLink {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  text-decoration: inherit;
+  color: $font-body-copy;
+}
+
+.card_link {
+  display: block;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $primary;
+  font-weight: $semi-bold-weight;
+  font-size: $font-size-18;
+  padding-top: 1.5rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.card_tagLine {
+  font-size: $font-size-14;
+  height: 2rem;
+  margin: 0.875rem 0;
+  color: $card-body;
+}

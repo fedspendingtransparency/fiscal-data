@@ -1,0 +1,39 @@
+@import '../../variables.module.scss';
+
+.sectionContainer {
+  box-sizing: border-box;
+  padding: 0;
+  border: 1px solid $dd-border-color;
+  background-color: #ffffff;
+  border-radius: 6px;
+  width: 100%;
+  max-width: $main-width;
+  margin: 0 auto 1rem auto;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionHeader {
+  @include headingStyle5;
+  border-bottom: 1px solid $dd-border-color;
+  width: 100%;
+  padding: 1rem 0.5rem;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+.sectionBody {
+  padding: 1rem 0.5rem;
+  color: $font-body-copy;
+}
+
+@media screen and (min-width: $breakpoint-md){
+  .sectionHeader {
+    padding: 1rem;
+  }
+  .sectionBody {
+    padding: 1rem;
+  }
+}

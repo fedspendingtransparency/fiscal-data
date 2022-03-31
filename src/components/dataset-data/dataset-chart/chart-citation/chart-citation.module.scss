@@ -1,0 +1,36 @@
+@import '../../../../variables.module.scss';
+
+.outerContainer {
+  padding: 0.5rem 2rem 2rem 2rem;
+}
+
+.title {
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+  color: $card-body;
+  padding-left: 0.5rem;
+}
+
+.text {
+  font-size: $font-size-14;
+  color: $font-body-copy;
+}
+
+.link {
+  color: $primary;
+  text-decoration: none;
+}
+
+.container {
+  display: inline-block;
+  max-width: 574px;
+  border-radius: 5px;
+  background-color: $body-background;
+  padding: 0.5rem;
+
+  // to make the long url break nicely at phone size
+  // apparently, all three of these are necessary bc of browser differences
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}

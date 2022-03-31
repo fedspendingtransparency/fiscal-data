@@ -1,0 +1,87 @@
+@import '../../variables.module.scss';
+.checkbox_container {
+  position: relative;
+}
+
+.label_text {
+  flex-grow: 1;
+  font-size: $font-size-14;
+  margin-top: 1px;
+}
+
+.checkbox_wrapper {
+  position: relative;
+}
+
+.checkbox_label {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 0.5rem 0;
+  width: 100%;
+  color: $font-body-copy;
+  transition: color ease 0.2s;
+  font-size: 1rem;
+  line-height: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    color: darken($font-body-copy, 40%);
+  }
+}
+
+.checkbox_label, input.optionCheckbox {
+  cursor: pointer;
+}
+
+.label {
+  max-width: 95%;
+  font-size: 13.5px;
+  
+  &:focus-within .optionCheckbox + span {
+    border: 1px solid $primary;
+  }
+}
+
+.optionCheckbox[type="checkbox"] {
+  position: absolute;
+  display: inline-block;
+  max-width: 1px;
+  max-height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.optionCheckbox[type="checkbox"]:checked + span {
+  background: $primary -19px top no-repeat;
+  border: 1px solid $primary;
+}
+
+.optionCheckbox[type="checkbox"] + span {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: middle;
+  background: white left top no-repeat;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+}
+
+.label_checkmark_container {
+  position: relative;
+  color: white;
+}
+
+.label_checkmark_text {
+  position: absolute;
+  bottom: -2px;
+  left: 2px;
+  font-size: 0.9rem;
+}

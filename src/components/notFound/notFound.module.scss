@@ -1,0 +1,100 @@
+@import '../../variables.module.scss';
+
+$site-content-width: 1140px;
+$lead-text-max: 550px;
+
+.textBox {
+    max-width: $lead-text-max;
+    position: relative;
+}
+
+.notFoundHeader {
+  font-weight: $semi-bold-weight;
+  color: $primary;
+  margin: 2rem 0 1rem;
+  font-size: 48px;
+}
+
+.headerSubText {
+    color: $primary;
+  margin: 2rem 0 1rem;
+ font-size: 32px;
+}
+
+.linkList {
+    list-style-type: none;
+    padding: 0;
+    li:not(:last-child) {
+      margin-bottom: 5px;
+
+    }
+}
+
+.pText {
+    margin: 0 0 1rem;
+}
+
+
+.imagePlacement {
+    width: calc(100% + 1.5rem);
+    margin-left: -0.75rem;
+  }
+
+  .notFoundGraphic {
+    width: 100%;
+  }
+
+  .graphicPlacement {
+    width: 100vw;
+  }
+
+  @media screen and (max-width: $breakpoint-sm - 1px) {
+    .graphicPlacement {
+      transform: translateX(-1rem);
+    }
+  }
+  @media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg - 1px) {
+    .graphicPlacement {
+      transform: translateX(-2rem);
+    }
+  }
+  @media screen and (min-width: $breakpoint-lg) {
+
+    .notFoundHeader {
+      margin-top: 7rem;
+      font-size: 56px;
+    }
+
+    .graphicPlacement {
+      position: absolute;
+      left: $lead-text-max;
+      top: 0;
+      width: calc(100vw - #{$lead-text-max});
+      transform: translateY(-1rem);
+    }
+
+    .notFoundGraphic {
+      max-width: 830px;
+    }
+  }
+
+// @media screen and (min-width: $breakpoint-lg) {
+//     .notFoundGraphic {
+//       position: absolute;
+//       top: 80px;
+//       right: 0;
+//       width: calc((100vw - 1140px) / 2 + 550px);
+//       max-width: none;
+//       max-height: $lead-text-max;
+//       object-fit: contain;
+//       object-position: left;
+//       margin-left: inherit;
+//       margin-top: 3rem;
+//     }
+//   }
+
+  // @media screen and (min-width: $breakpoint-lg) and (max-width: 1110px) {
+  //   .notFoundGraphic {
+  //     max-width: calc(100vw - 570px)
+  //   }
+  // }

@@ -1,0 +1,81 @@
+@import '../../variables.module.scss';
+
+.sectionContainer {
+  border-bottom: 1px solid $dd-border-color;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: $main-width;
+  margin: 1rem auto 1rem auto;
+  color: $font-body-copy;
+}
+
+.sectionBodyContainer {
+  margin: 1rem 1rem 2rem 1rem;
+}
+
+.sectionBody {
+  margin-bottom: 2rem;
+}
+
+.sectionHeader {
+  @include headingStyle5;
+  width: 100%;
+  box-sizing: inherit;
+  margin-bottom: .75rem;
+  margin-top: 2rem;
+}
+
+.sectionLink {
+  color: $link-color;
+  text-decoration: none;
+}
+
+.dataTypesHeader {
+  @include headingStyle6;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.marginBottomOneRem {
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.toggleButtonContainer {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.toggleButton {
+  display: inline-block;
+  background-color: $content-section-background;
+  color: $primary;
+  border: 1px solid $primary;
+  border-radius: 2px;
+  font-size: 1rem;
+  font-weight: $semi-bold-weight;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color .25s ease-in;
+
+  &:hover {
+    background-color: $primary;
+    color: white;
+    transition: background-color .25s ease-out;
+  }
+}
+
+.buttonText {
+  margin-right: 1.15rem;
+}
+
+.sectionWrapper {
+  overflow-y: hidden;
+  height: '';
+
+  &.collapsed {
+    height: 815px;
+    mask-image: linear-gradient(180deg, white 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, white 80%, transparent 100%);
+  }
+}

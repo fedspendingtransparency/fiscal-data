@@ -1,0 +1,46 @@
+@import '../../../variables.module.scss';
+
+.searchInput {
+  width: 26rem;
+  max-width: 85%;
+  margin-bottom: 1rem;
+  position: relative;
+  
+  .searchInput_textField {
+    background-color: white;
+    border-radius: 3px;
+    padding: 0.8rem 3rem 0.8rem 0.8rem;
+    width: calc(100% - 33px);
+    margin-right: 4px;
+    border: 1px solid #dddddd;
+    font-size: 1rem;
+    color: $font-body-copy;
+    box-sizing: border-box;
+    @include focus-outline;
+
+    &::placeholder {
+      color: $placeholder;
+    }
+  }
+
+  .searchInput_iconButton {
+    font-size: 15px;
+    border: none;
+    background: none;
+    color: $font-body-copy;
+    padding: 0.5rem 0.2rem;
+    margin: 0.3rem 0;
+    position: absolute;
+    right: 2.8rem;
+    top: 3px;
+    @include focus-outline;
+    
+    &:enabled {
+      cursor: pointer;
+    }
+  }
+
+  .noButton::-ms-clear {
+    display: none;
+  }
+}

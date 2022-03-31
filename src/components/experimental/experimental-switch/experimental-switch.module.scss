@@ -1,0 +1,10 @@
+@import '../../../variables.module.scss';
+
+.label > span {
+  font-size: $font-size-12;
+  color: $card-body;
+}
+
+.switchContainer {
+  margin-top: -9px; // to ensure all other page elements line up vertically with "switchless" version of page
+}

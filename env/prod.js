@@ -1,0 +1,7 @@
+module.exports = {
+  ENV_ID: 'production',
+  API_BASE_URL: 'https://api.fiscaldata.treasury.gov',
+  DATA_DOWNLOAD_BASE_URL: 'https://fiscaldata.treasury.gov',
+  WEB_SOCKET_BASE_URL: 'wss://downloads.fiscaldata.treasury.gov/main',
+  EXCLUDED_PAGE_PATHS: []
+};

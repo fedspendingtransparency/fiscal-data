@@ -1,0 +1,38 @@
+@import '../../variables.module.scss';
+
+.tocHeader {
+  @include headingStyle6;
+  margin: 0;
+  box-shadow: 0 1px 0 0 #dddddd;
+  padding-bottom: 0.6875rem;
+  line-height: 1rem;
+}
+
+.tocWrapper {
+  width: auto;
+}
+
+.tocSticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0.5rem;
+}
+.tocCont {
+  width: auto;
+}
+
+@media screen and (min-width: $breakpoint-lg){
+
+  .tocWrapper {
+    width: 260px;
+    margin-right: 2rem;
+  }
+
+  .tocCont {
+    width: 260px;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    height: calc(100vh - 246px);
+    overflow-y: auto;
+  }
+}

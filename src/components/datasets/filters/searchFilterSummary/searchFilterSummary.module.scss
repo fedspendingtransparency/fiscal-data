@@ -1,0 +1,72 @@
+@import '../../../../variables.module.scss';
+
+.filter_summary_container {
+  margin-bottom: 0;
+  transition: 0.5s ease margin-bottom;
+}
+
+.filter_summary_container:not(:empty) {
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: $breakpoint-lg) {
+  .filter_summary_container {
+    display: flex;
+  }
+}
+
+.filter_summary_title {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: $bold-weight;
+  font-size: 14px;
+}
+
+.filter_summary_item {
+  margin-right: 1rem;
+}
+
+.filter_summary_button {
+  border-radius: 16px;
+  background-color: $primary;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin: 0 0.5rem 0.6rem 0;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.times_icon {
+  padding-left: 1rem;
+}
+
+.clear_all_button_hidden {
+  visibility: hidden;
+}
+
+.clear_all_title_hidden {
+  visibility: hidden;
+}
+
+.undo_icon {
+  padding-left: 1rem;
+}
+
+.showingDatasetsText {
+  font-size: $font-size-24;
+  margin-bottom: 0.75rem;
+}
+
+.searchTermText {
+  font-weight: $bold-weight;
+  color: $font-title;
+  word-wrap: break-word;
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .showingDatasetsText {
+    margin-bottom: 1.25rem;
+  }
+}

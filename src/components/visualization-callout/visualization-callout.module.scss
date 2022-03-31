@@ -1,0 +1,32 @@
+@import '../../variables.module.scss';
+
+.description {
+  font-size: $font-size-16;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.container {
+  border-left: 2px solid;
+  display: flex;
+  justify-self: flex-end;
+  flex-grow: 1;
+  padding-left: 10px;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    margin-left: 2rem;
+    width: calc(50% - 3rem);
+    align-self: flex-start;
+    margin-top: 20%;
+    padding-left: 0.625rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    margin-top: 20px;
+  }
+}

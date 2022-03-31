@@ -1,0 +1,17 @@
+@import '../../../variables.module.scss';
+
+.reportDownloadDesc {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.propLabel {
+  font-weight: $semi-bold-weight;
+}
+
+.helpText {
+  min-height: 1.25rem;
+  color: $help-text-color;
+  font-size: $font-size-14;
+  margin-bottom: 0.5rem;
+}

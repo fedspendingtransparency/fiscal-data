@@ -1,0 +1,41 @@
+@import '../../variables.module.scss';
+
+.wrapper {
+  background-color: #FFFFFF;
+  height: calc(100% - 2rem);
+  box-shadow: 0 -10px 13px -8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#iconDiv {
+  margin-bottom: 0.5rem;
+}
+
+.icon {
+  border: 5px solid #000;
+  padding: 0.5rem 0.75rem;
+  border-radius: 100px;
+}
+
+.dateString {
+  white-space: nowrap;
+}
+
+.tableName {
+  margin-bottom: 0.5rem;
+}
+
+.dateRange {
+  margin-bottom: 1rem;
+}
+@media (min-width: $breakpoint-sm){
+  .wrapper {
+    box-shadow: -10px 0 13px -8px rgba(0, 0, 0, 0.2);
+    border-radius: 0 5px 5px 0;
+  }
+}

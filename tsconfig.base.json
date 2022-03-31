@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    "declaration": true,
+    "disableReferencedProjectLoad": false, // Set to true if project becomes "large" and Typescript slows down development
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "lib": ["dom", "esnext"],
+    "outDir": "dist",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "strict": false,
+    "traceResolution": true,
+    "watch": true,
+    "target": "ES2015",
+    "moduleResolution": "Node"
+  },
+  "options": {
+    "isTsx": true
+  },
+  "exclude": ["node_modules", ".cache", "public", "./src/**/*.spec.ts"],
+  "include": ["./src/**/*"]
+}

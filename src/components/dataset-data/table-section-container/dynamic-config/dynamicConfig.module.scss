@@ -1,0 +1,108 @@
+@import '../../../../variables.module.scss';
+
+#modal {
+  overflow-y: auto;
+  overflow-x: hidden;
+  article {
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-size: $font-size-32;
+    text-align: center;
+  }
+  h2 {
+    font-size: $font-size-24;
+    text-align: center;
+  }
+  .pivotDnd {
+    display:flex;
+    section {
+      flex: 1;
+    }
+  }
+  .dropzone {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    min-height: 8rem;
+    background-color: #ddd;
+  }
+  footer {
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pivotViewOnly {
+    display: none;
+  }
+
+  .snapshotToggler {
+    display: none;
+    font-size: 80%;
+    padding: 3px;
+  }
+  .dropzone:global(.view) {
+    .snapshotToggler {
+      display: block;
+    }
+    .pivotViewOnly {
+      display: inline;
+    }
+
+    .edit {
+      position: absolute;
+      z-index: 3;
+      top: 0.5rem;
+      left: 0.5rem;
+      width: calc(100% - 2rem);
+      height: calc(100% - 2rem);
+    }
+
+    .editButton {
+      border: none;
+      margin-left: 0.5rem;
+      background-color: transparent;
+      color: white;
+      cursor: pointer;
+    }
+
+    .filtersContainer {
+      margin: 1rem 0;
+      border: 1px solid $primary-pale;
+      padding: 0.5rem;
+      min-height: 9rem;
+      border-radius: 5px;
+    }
+  }
+}
+
+.fieldOption, .configButton {
+  border: 1px solid $primary;
+  background-color: $primary;
+  color: #fff;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 0 0.5rem 0.5rem 0;
+  padding: 0.5rem;
+}
+
+.fieldOption {
+  cursor: move;
+}
+.configButton  {
+  cursor: pointer;
+}
+
+.successfulMessage, .unsuccessfulMessage {
+  border-radius: 3px;
+  padding: 0.5rem;
+  color: #fff;
+}
+
+.successfulMessage {
+  background-color: rgb(0, 200, 0);
+}
+
+.unsuccessfulMessage {
+  background-color: rgb(200, 0, 0);
+}

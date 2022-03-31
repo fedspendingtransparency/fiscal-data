@@ -1,0 +1,11 @@
+@import '../../../variables.module.scss';
+
+.entriesGroup {
+  margin-bottom: 1rem;
+
+  .separator {
+    margin-bottom: 0.5rem;
+    font-size: $font-size-24;
+    font-weight: 600;
+  }
+}

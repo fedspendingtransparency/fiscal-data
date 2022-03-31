@@ -1,0 +1,29 @@
+@import '../../../variables.module.scss';
+
+.title {
+    @include headingStyle5;
+    margin: 0 1rem 1rem;
+}
+
+.filterSectionDivider {
+    border-top: none;
+    border-bottom: 2px solid #ddd;
+    margin: 0;
+}
+
+.filterWrapper {
+    padding: 0 1rem 1rem;
+  &:last-of-type {
+    padding-bottom: 0;
+  }
+}
+
+.filterSectionHeader {
+  margin: 1rem 0;
+}
+
+.filterSectionTitle {
+    @include headingStyle6;
+    display: inline-block;
+    margin: 0;
+}

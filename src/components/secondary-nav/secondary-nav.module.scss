@@ -1,0 +1,64 @@
+@import '../../variables.module.scss';
+
+.mainContainer {
+  display: flex;
+
+  .navContainer {
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    padding: 0 1rem 0 0;
+
+    .sectionLink {
+      padding: 10px 15px;
+      border-bottom: solid 1px $dd-border-color;
+      border-left: solid 5px transparent;
+      cursor: pointer;
+
+      &.defaultLink {
+        display: flex;
+      }
+
+      &.headingLevel2 {
+        padding-left: calc(1rem - 6px);
+      }
+
+      &.headingLevel3 {
+        padding-left: calc(2rem - 6px);
+      }
+    }
+  }
+
+  .navigableContent {
+    padding: 0 0 0 1rem;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .navContainer {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    flex: 1;
+    max-height: calc(100vh - 16px);
+    overflow-y: auto;
+    max-width: calc((#{$site-content-width} * 0.25) - 1rem);
+  }
+
+  .navigableContent {
+    display: flex;
+    flex: 3;
+    max-width: calc((#{$site-content-width} * 0.75) - 1rem);
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .mainContainer {
+    flex-direction: column;
+
+    .navContainer, .navigableContent {
+      padding: 0;
+      align-self: auto;
+    }
+  }
+}

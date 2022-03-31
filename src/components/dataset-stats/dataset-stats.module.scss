@@ -1,0 +1,38 @@
+@import '../../variables.module.scss';
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.875rem;
+
+  li {
+    color: $card-body;
+    font-size: $font-size-14;
+    svg.icon {
+      font-size: $font-size-14;
+      width: 14px;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.icon {
+  padding-right: 0.4em;
+  vertical-align: middle;
+}
+
+.futureDateIcon {
+  width: 14px;
+  height: 15px;
+  padding-right: 0.4em;
+  vertical-align: top;
+  transform: translateY(1px);
+}
+
+.dictionary_yes {
+  color: $dark-green;
+}
+
+.dictionary_no {
+  color: #e21c3d;
+}

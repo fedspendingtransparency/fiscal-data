@@ -1,0 +1,26 @@
+@import '../../../variables.module.scss';
+
+$negative-amount-color: #f2655b; // todo - move to variables.module.scss if used elsewhere?
+
+.labelContainer {
+  padding: 5px 11px 2px 0;
+  
+  .labelPrefix {
+    font-size: $font-size-32;
+    font-weight: $semi-bold-weight;
+    color: $primary;
+  }
+
+  .value {
+    font-size: $font-size-32;
+    font-weight: $semi-bold-weight;
+  }
+
+  .positive {
+    color: $primary;
+  }
+
+  .negative {
+    color: $negative-amount-color;
+  }
+}

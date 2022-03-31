@@ -1,0 +1,54 @@
+@import '../../variables.module.scss';
+
+$card-width: 16.25rem; // Todo - Use a better system to set the card width and the logic in the jsx. If you update this value here, then you must update the values in the jsx file.
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 6rem;
+}
+
+
+.cardsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cardWrapper {
+  width: $card-width;
+  max-width: $card-width !important;
+  margin: 0 auto !important;
+  margin-bottom: 2rem !important;
+}
+
+.loading {
+  text-align: center;
+  vertical-align: middle;
+  font-size: $font-size-48;
+  font-weight: bold;
+  height: 10rem;
+  padding-top: 3.5rem;
+}
+
+.toggleButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $content-section-background;
+  color: $primary;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  font-size: 1rem;
+  font-weight: $semi-bold-weight;
+  padding: 8px 36px 8px 37px;
+  cursor: pointer;
+  transition: background-color .25s ease-in;
+
+  &:hover {
+    background-color: $primary;
+    color: white;
+    transition: background-color .25s ease-out;
+  }
+}

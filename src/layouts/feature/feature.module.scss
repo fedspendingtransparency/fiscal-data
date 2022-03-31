@@ -1,0 +1,174 @@
+@import '../../variables.module.scss';
+
+.templateContainer {
+  position: relative;
+  margin: 0 auto;
+}
+
+.templateContent {
+
+  position: relative;
+  margin: 2.5rem auto;
+
+  h1, h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: $info-header-focal;
+    line-height: 1.25;
+    margin: 2.5rem 0 1rem;
+  }
+
+  h3 {
+    font-size: 2.25rem;
+    font-weight: $semi-bold-weight;
+    color: $info-header;
+    margin: 3.75rem 0 1rem;
+  }
+
+  h4 {
+    font-size: 1.75rem;
+    font-weight: $semi-bold-weight;
+    color: $info-header;
+    margin: 1rem 0 1.5rem;
+  }
+
+  h5 {
+    margin: 2rem 0 1.25rem;
+    font-size: 1.5rem;
+    font-weight: $semi-bold-weight;
+    line-height: 1.5;
+    color: $info-header;
+  }
+
+  h6 {
+    margin: 2.5rem 0 0.75rem;
+    font-size: 1.25rem;
+    font-weight: $semi-bold-weight;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: $info-header;
+  }
+
+  p {
+    color: $font-title;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 1.5rem auto 1.5rem;
+  }
+
+  blockquote {
+    margin: 1rem 0 1.5rem;
+    p {
+      font-size: 1.75rem;
+      font-weight: $semi-bold-weight;
+      line-height: 1.5;
+      font-style: oblique;
+      letter-spacing: normal;
+      color: $info-header-focal;
+      margin: 0 auto;
+    }
+  }
+
+  a {
+    color: $primary;
+  }
+
+  .byLine {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 1.5rem 0 3rem;
+    font-weight: $semi-bold-weight;
+
+    .by {
+      display: inline-block;
+      color: $info-header-focal;
+      padding-right: 1.25rem;
+    }
+    .dateStamp {
+      display: inline-block;
+      color: $font-title;
+
+      .dateValue {
+        font-weight: normal;
+      }
+    }
+    .share {
+      float:right;
+      cursor:pointer;
+    }
+  }
+
+  .mainVis {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    margin: 3rem -2rem 2.5rem -2rem;
+    height: 27rem;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  hr {
+    border-top: 1px solid #eaeaea;
+    margin: 3.75rem 0;
+  }
+
+  font {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (min-width: $breakpoint-md) {
+
+  .templateContainer .templateContent {
+    width: 83%;
+
+    h1, h2, h3, h4, h5, h6, p, .vis, blockquote, .byLine {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    blockquote p {
+      width: 100%;
+    }
+
+    .mainVis {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1px) {
+
+  .templateContainer .templateContent {
+    width: 100%;
+    .mainVis {
+      height: 21.25rem;
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+    }
+    .byLine {
+      .by {
+        display: block;
+        padding-right: 0;
+      }
+      .dateStamp {
+        display: inline-block;
+      }
+    }
+
+    p {
+      margin: 0.75rem auto 1.25rem;
+    }
+
+    hr {
+      margin: 2.5rem 0;
+    }
+  }
+}

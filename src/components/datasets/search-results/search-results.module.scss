@@ -1,0 +1,35 @@
+@import '../../../variables.module.scss';
+
+.datasetsSubtitle {
+  @include headingStyle5;
+}
+
+.sortSelectionContainer {
+  margin-bottom: 1rem;
+
+  button {
+    font-weight: $semi-bold-weight;
+  }
+}
+
+.noMargin {
+  margin: 0;
+}
+
+@media screen and (min-width: $breakpoint-md) {
+  .datasetHeader {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sortSelectionContainer {
+    width: 49%;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .sortSelectionContainer {
+    margin-bottom: 1rem;
+    width: 32%;
+  }
+}

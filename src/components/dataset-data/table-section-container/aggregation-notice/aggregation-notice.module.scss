@@ -1,0 +1,33 @@
+@import '../../../../variables.module.scss';
+
+.outer {
+  background-color: $body-background;
+  border-top: 0.1px solid $body-background;
+}
+
+.container {
+  border: 1px solid $info-box-border;
+  background-color: $info-box-background;
+  border-radius: 3px;
+  padding: 0.3rem;
+  color: $font-title;
+  .iconContainer {
+    min-width: 26px;
+    max-width: 26px;
+    .infoIcon {
+      height: 20px;
+      width: 20px;
+      line-height: 1rem;
+      vertical-align: top;
+    }
+  }
+}
+
+.infoText {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.infoBox {
+  display: flex;
+}
