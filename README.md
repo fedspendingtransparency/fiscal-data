@@ -8,7 +8,7 @@ FDG has a [coding style guide](style-guide.md) that is a work in progress.
 ## Getting Started
 You will need to have Node installed to run this project.
 Clone this project using this command:
-`git clone https://github.com/fedspendingtransparency/dtg.git`
+`git clone https://github.com/fedspendingtransparency/fiscal-data.git`
 
 Install dependencies:
 `npm install`
