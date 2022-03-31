@@ -1,0 +1,14 @@
+@import '../../../variables.module.scss';
+
+.Filter select {
+  padding: 0.5rem;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  min-width: 6rem;
+  margin: 0.2rem 0.5rem;
+  font-size: 1rem;
+  color: $font-body-copy;
+  &:first-of-type {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,87 @@
+@import '../../../variables.module.scss';
+
+$remaining-container-width: calc(100% - 1rem - 20px);
+
+/*
+ * Styles used across the page
+ */
+.container {
+  border: 1px solid $info-box-border;
+  background-color: $info-box-background;
+  border-radius: 5px;
+  padding: 1rem;
+  color: $font-title;
+  svg.infoIcon {
+    margin-right: 1rem;
+    height: 20px;
+    width: 20px;
+    vertical-align: top;
+    float: left;
+  }
+}
+
+.button {
+  color: $content-section-background;
+  font-weight: $semi-bold-weight;
+  background-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  display: block;
+}
+
+/*
+ * Styles specific to header
+ */
+
+.headerLeft {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.headerText {
+  display: inline-block;
+  width: $remaining-container-width;
+  vertical-align: top;
+}
+
+/*
+ * Styles specific to the footer
+ */
+
+
+.footer svg.infoIcon {
+  transform: translateY(6px);
+}
+
+.footerTitle {
+  @include headingStyle5;
+  margin-left: 37px;
+  margin-bottom: 1rem;
+}
+
+.footerList ul {
+    margin: 0 0 1rem 0;
+}
+
+@media screen and (min-width: $breakpoint-md){
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .headerLeft {
+    margin-bottom: 0;
+  }
+
+  .button {
+    max-width: 186px;
+  }
+
+  .footerList {
+    margin-left: 37px;
+  }
+}

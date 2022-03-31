@@ -1,0 +1,8 @@
+// We MUST specify the width and height, otherwise Nivo will not visibly draw the chart
+.barDiv {
+  width: 100%;
+  height: 100%;
+  canvas {
+    cursor: pointer !important; // @nivo/bar@0.73.1 inline styles their cursor to either be "auto" or "normal" with no other way for users to update this.
+  }
+}

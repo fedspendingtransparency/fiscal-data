@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dataset Helper function collection correctly applies the csv formatting to the data dictionary 1`] = `
+"dataset,data_table_name,field_name,display_name,description,data_type,is_required
+Debt to the Nickel,table1,reporting_date,Calendar Date,Reporting date for the data,DATE,yes
+Debt to the Nickel,table1,reporting_date,Calendar Date,Reporting date for the data,DATE,yes
+Debt to the Nickel,table2,reporting_date,Calendar Date,Reporting date for the data,DATE,yes
+Debt to the Nickel,table2,reporting_date,Calendar Date,Reporting date for the data,DATE,yes
+"
+`;

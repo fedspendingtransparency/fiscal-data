@@ -1,0 +1,29 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "alwaysStrict": false,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    "declaration": true,
+    "disableReferencedProjectLoad": false, // Set to true if project becomes "large" and Typescript slows down development
+    "esModuleInterop": true,
+    "jsx": "react",
+    "lib": ["dom", "esnext"],
+//    "outDir": "dist",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "strict": false,
+    "traceResolution": true,
+    "watch": true
+  },
+  "options": {
+    "isTsx": true
+  },
+  "exclude": [
+    "node_modules",
+    ".cache",
+    "public",
+    "./src/**/*.spec.ts",
+    "./src/**/*.spec.tsx"
+  ],
+  "include": ["./src/**/*"]
+}

@@ -1,0 +1,27 @@
+@import '../../../../../variables.module.scss';
+$bar-height: 0.85rem;
+
+.barContainer {
+  display: block;
+  position: relative;
+  width: 40px;
+}
+
+.bar {
+  position: absolute;
+  background-color: $primary-light-background;
+  right: 0;
+  height: $bar-height;
+  border-bottom-left-radius: 0.4rem;
+  border-top-left-radius: 0.4rem;
+  transition: width ease 1s;
+}
+
+.count {
+  position: relative;
+  text-align: right;
+  font-size: 12px;
+  margin-right: 2px;
+  line-height: $bar-height;
+  color: $font-title;
+}

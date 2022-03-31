@@ -1,0 +1,40 @@
+@import '../../../variables.module.scss';
+
+.time_range_filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .time_range_filter_datePicker {
+    margin-top: 1rem;
+
+    label > div {
+      display: block;
+      width: 100%;
+
+      &:first-of-type {
+        margin-right: 1rem;
+      }
+
+      > div {
+        background-color: #fff;
+        font-family: "Source Sans Pro", sans-serif;
+        margin-top: 0.5rem;
+      }
+    }
+
+    input {
+      padding: 0.5rem;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .time_range_filter {
+    flex-direction: row;
+
+    label > div {
+      width: 12rem;
+    }
+  }
+}

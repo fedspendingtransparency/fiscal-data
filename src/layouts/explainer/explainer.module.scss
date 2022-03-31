@@ -1,0 +1,138 @@
+@import '../../variables.module.scss';
+
+.breadCrumbsContainer {
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  min-height: 1000px;
+
+  .relatedDatasets {
+    background-color: $body-background;
+    min-height: 300px;
+    width: 100%;
+  }
+
+  .contentContainer {
+    display: flex;
+    max-width: calc(#{$site-content-width} + 4rem);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 2rem;
+
+    .mainContent {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      > div {
+        display: flex;
+      }
+    }
+  }
+}
+
+// Trying to maximize the flexibility of the components here in CSS over class usage.
+
+.visWithCallout {
+  display: flex;
+  flex-direction: column;
+  @media screen and (min-width: $breakpoint-lg) {
+    > *:first-child {
+      width: 100%;
+    }
+  }
+}
+
+.sectionHeading {
+  margin-top: 0;
+}
+
+.sectionBorder {
+  height: 5px;
+  width: 100px;
+  margin-bottom: 25px;
+}
+
+.section {
+  position: relative;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .breadCrumbsContainer {
+    max-width: calc(#{$site-content-width} + 2rem);
+    padding-left: 2rem;
+  }
+
+  .contentContainer {
+    flex-direction: row;
+
+    // Trying to maximize the flexibility of the components here in CSS over class usage.
+
+    .mainContent {
+      > section {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .section {
+    width: 67%;
+  }
+
+  .sectionBorder {
+    margin-top: 100px;
+  }
+
+  .visWithCallout {
+    flex-direction: row;
+    > * {
+      flex: 0 0 auto;
+    }
+  }
+
+  .relatedDatasets {
+    margin-top: 150px;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .contentContainer {
+    flex-direction: column;
+    width: 100%;
+
+    .sectionBorder {
+      margin-top: 50px;
+    }
+  }
+
+  .relatedDatasets {
+    margin-top: 100px;
+  }
+}
+
+@media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg - 1) {
+  .breadCrumbsContainer {
+    width: calc(100% - 2rem);
+    padding-left: 2rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .breadCrumbsContainer {
+    width: calc(100% - 15px);
+    padding-left: 15px;
+  }
+
+  .mainContainer {
+    .contentContainer {
+      padding: 0 0.75rem;
+    }
+  }
+;
+}

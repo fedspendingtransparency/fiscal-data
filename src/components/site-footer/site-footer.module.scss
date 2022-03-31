@@ -1,0 +1,138 @@
+@import '../../variables.module.scss';
+
+.footerMain {
+  position: relative;
+  background-color: #333333;
+  border-bottom: solid 1px $dark-grey-border;
+  padding: 0 0.75rem;
+  z-index: 22; // positioned to overlap sticky footer during its exit transition
+}
+
+.content {
+  max-width: $main-width;
+  margin: 0 auto;
+  padding: 3.25rem 0 6.25rem;
+}
+
+.bottomContent {
+  max-width: $main-width;
+  margin: 0 auto;
+
+  a {
+    white-space: nowrap;
+    display: inline-block;
+    padding: 0 1rem;
+    border-right: 1px solid #666666;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+.logo {
+  display: inline-block;
+  padding-bottom: 2.25rem;
+}
+
+.pageLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  padding-right: 3rem;
+  &:not(:last-of-type) {
+    padding-bottom: 3.625rem;
+  }
+}
+
+.columnTitle {
+  color: white;
+  font-size: $font-size-18;
+  font-weight: $semi-bold-weight;
+  padding-bottom: 1rem;
+}
+
+.pageLinks a {
+  text-decoration: none;
+  color: #acb0b8;
+  font-size: $font-size-18;
+  &:not(:last-of-type){
+    padding-bottom: 1rem;
+  }
+}
+
+.pageLinks a:hover {
+  text-decoration: underline;
+}
+
+.footerBottom {
+  background-color: #262626;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 11.5px;
+  line-height: 1;
+}
+
+.footerBottomLinks {
+  text-align: center;
+}
+
+.footerBottomLinks a:hover {
+  text-decoration: underline;
+}
+
+.copyright {
+  margin-bottom: 0.5rem;
+}
+
+.spacers {
+  padding: 0 0.5rem;
+}
+
+.copyright, .footerBottomLinks a {
+  text-decoration: none;
+  color: #c2c2c2;
+  font-size: $font-size-12;
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+
+  .footerMain {
+    padding: 0 2rem;
+  }
+
+  .pageLinks {
+    flex-direction: row;
+
+    .column {
+      padding-bottom: 0;
+    }
+  }
+
+  .content {
+    padding: 3.25rem 0 6.25rem;
+  }
+
+  .copyright {
+    margin-bottom: 0;
+    margin-right: 30px;
+  }
+
+  .footerBottom {
+    padding: 0.75rem 2rem;
+  }
+
+  .bottomContent {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg){
+  .content {
+    padding-bottom: 6.75rem;
+  }
+}

@@ -1,0 +1,51 @@
+@import '../../variables.module.scss';
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: $site-content-width;
+  margin: 2rem auto;
+  padding: 0 2rem;
+
+  .dropdownContainer {
+    display: flex;
+
+    .dropdown {
+      width: 260px;
+    }
+  }
+
+  .entriesContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+.loadingIcon {
+  max-width: $site-content-width;
+  margin: 2rem auto;
+  text-align: center;
+  font-size: $font-size-48;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .dropdownContainer {
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .mainContainer {
+    padding: 0 2rem;
+
+    .dropdownContainer {
+      margin-bottom: 2rem;
+    }
+  }
+}

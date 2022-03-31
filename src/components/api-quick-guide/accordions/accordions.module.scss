@@ -1,0 +1,27 @@
+@import '../../../variables.module.scss';
+
+code.codeBlock {
+  word-break: break-all;
+}
+
+.exampleParameters {
+  margin-bottom: 1rem;
+}
+
+.exampleTitle {
+  margin: 1rem 0 0.5rem 1.125rem;
+}
+
+.link {
+  text-decoration: none;
+  color: $primary;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.list {
+  margin-top: 0;
+  line-height: 1.3;
+}

@@ -1,0 +1,12 @@
+// Please note that all styles in this file should be cleaned out regularly.
+.barDiv {
+  height: 400px;
+  width: calc(100vw - 4rem);
+  padding: 2rem;
+}
+
+.linkDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}

@@ -1,0 +1,95 @@
+@import '../../../variables.module.scss';
+
+$legendWidth: 261px;
+$paddingOffset: 87px;
+
+.chartArea {
+  width: 100%;
+  position: relative;
+}
+
+.chartPane {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.datasetStats {
+    @include headingStyle6;
+    margin: 0.5rem 0 2.5rem;
+}
+
+.chartLegendWrapper {
+    display: flex;
+    align-items: stretch;
+    min-width: calc(#{$breakpoint-lg} - #{$paddingOffset});
+}
+
+.viz {
+    width: 100%;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+}
+
+.legendActive {
+  .legend {display: block}
+  .viz {
+    width: calc(100% - #{$legendWidth});
+  }
+}
+
+.legend {
+    display: none;
+    width: $legendWidth;
+    box-sizing: border-box;
+    border-left: 1px solid $border-color;
+    transition: width 250ms ease-in;
+}
+
+.info {
+  display: inline-flex;
+  padding: 1rem;
+  background-color: $info-box-background;
+  border: solid 1px $info-box-border;
+  border-radius: 3px;
+  text-align: left;
+}
+
+.icon {
+  color: $info-icon;
+  font-size: $font-size-20;
+  margin-right: 1rem;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .legendActive {
+    .legend {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 250ms ease-in, visibility 0ms 0ms;
+    }
+    .viz {
+      width: 100%;
+    }
+    .chartLegendWrapper {
+      width: calc(100% + #{$legendWidth});
+      min-width: calc(#{$breakpoint-sm} + #{$legendWidth});
+      padding-right: $legendWidth;
+    }
+  }
+  .legend {
+    display: block;
+    background-color: #ffffff;
+    border-bottom: 1px solid $border-color;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 250ms ease-in, visibility 0ms 400ms;
+  }
+  .chartLegendWrapper {
+    display: block;
+    min-width: $breakpoint-sm;
+    box-sizing: border-box;
+  }
+}

@@ -1,0 +1,102 @@
+@import '../../../variables.module.scss';
+
+.calendarEntry {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1140px;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 25px 94px 25px 24px;
+  border: solid 1px $dark-grey-border;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+
+  .titleAndIcon {
+    display: flex;
+
+    .title {
+      text-align: left;
+      font-size: 1.3125rem;
+
+      &:not(:hover) {
+        text-decoration: none;
+      }
+
+      &:not(:visited) {
+        color: $primary;
+      }
+    }
+  }
+
+  .date {
+    color: $font-body-copy;
+    font-size: 1.3125rem;
+
+    .dateIcon {
+      margin-right: 18px;
+    }
+  }
+
+  .time {
+    color: $font-body-copy;
+    font-size: 1.3125rem;
+
+    .timeIcon {
+      margin-right: 18px;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .calendarEntry {
+    align-items: center;
+
+    .titleAndIcon {
+      align-items: center;
+
+      .title {
+        width: 478px;
+      }
+    }
+
+    .time {
+      flex: 0 0 8rem;
+      text-align: left;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .calendarEntry {
+    flex-direction: column;
+    padding: 18px 30px 18px 24px;
+
+    .titleAndIcon {
+      flex-direction: column-reverse;
+      margin-bottom: 8px;
+
+      .title {
+        font-size: $font-size-16;
+        margin-bottom: 8px;
+      }
+    }
+
+    .date {
+      font-size: $font-size-16;
+      margin-bottom: 8px;
+
+      .dateIcon {
+        margin-right: 8px;
+      }
+    }
+
+    .time {
+      font-size: $font-size-16;
+
+      .timeIcon {
+        margin-right: 8px;
+      }
+    }
+  }
+}

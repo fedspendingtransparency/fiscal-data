@@ -1,0 +1,101 @@
+@import '../../variables.module.scss';
+
+.selector_button {
+  position: relative;
+  display: inline-block;
+  font-size: $font-size-15;
+  width: 100%;
+  background-color: $content-section-background;
+  border: 1px solid $border-color;
+  border-radius: 0.2rem;
+  padding: 0.1875rem 2rem 0.1875rem 0.5rem;
+  text-align: left;
+  line-height: 2;
+  color: $font-body-copy;
+  cursor: pointer;
+
+  .icon {
+    display: block;
+    position: absolute;
+    right: 0.6rem;
+    top: 0.7875rem;
+  }
+}
+.selector_label {
+  display: inline-block;
+  padding: 0.3rem 0;
+}
+.selector_container {
+  position: relative;
+}
+
+.selector_list {
+  list-style: none;
+  margin-top: 0.1rem;
+  padding: 0 0.6rem;
+  border: 1px solid $border-color;
+  border-radius: 0.1rem;
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: $content-section-background;
+  white-space: normal;
+  z-index: 10000;
+
+  .selector_option {
+    font-weight: normal;
+    display: block;
+
+    + .selector_option {
+      border-top: 1px solid $border-color;
+    }
+
+    .selector_optionButton {
+      font-size: $font-size-15;
+      width: 100%;
+      background-color: $content-section-background;
+      border: none;
+      text-align: left;
+      line-height: 2;
+      color: $font-body-copy;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $body-background;
+        transition: background-color 0.2s ease
+      }
+
+      &:disabled {
+        cursor: default;
+        &:hover {
+          background-color: $content-section-background;
+        }
+      }
+
+      &.selector_optionSelected {
+        background-color: $dropdown-active-background;
+      }
+    }
+  }
+}
+.label {
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.comboSelectField {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: $font-size-15;
+  width: 100%;
+  background-color: $content-section-background;
+  border: 1px solid $border-color;
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+  text-align: left;
+  line-height: 2.125rem;
+  color: $font-body-copy;
+  margin-right: 1rem;
+}

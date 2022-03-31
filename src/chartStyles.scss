@@ -1,0 +1,24 @@
+@import "./variables.module.scss";
+
+.tick text {
+  fill: $font-body-copy;
+  font-size: $font-size-14;
+  opacity: 1;
+  @include std-opacity-transition();
+
+  &.nothing-selected {
+    opacity: 0;
+  }
+}
+
+.tick line {
+    stroke: rgba(102,102,102,0.11);
+}
+
+.axis--y text {
+    transform: translateX(-16px);
+}
+
+.domain {
+    stroke: $font-body-copy
+}

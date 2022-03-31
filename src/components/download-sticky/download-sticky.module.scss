@@ -1,0 +1,347 @@
+@import '../../variables.module.scss';
+
+.downloadContent {
+  padding: 0.25rem;
+  position: relative;
+
+  &.minimized {
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow-y: hidden;
+
+    .complete {
+      width: 2rem;
+    }
+
+    .downloadStatus {
+      display: inline-flex;
+      align-self: center;
+    }
+  }
+}
+
+.downloadStatusContainer {
+  display: inline-flex;
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  margin: 0.5rem;
+}
+
+.downloadStatus {
+  display: flex;
+  flex-direction: column;
+}
+
+.statusHeading {
+  position: relative;
+  display: block;
+  font-size: $font-size-14;
+  font-weight: $semi-bold-weight;
+  margin: 0 0 0.5rem;
+  width: 100%;
+
+  &.minimized {
+    margin: 0 0 0 0;
+  }
+}
+
+.mainRow {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.progressIndicatorContainer {
+  display: inline-block;
+  width: 3rem;
+  min-width: 3rem;
+  margin-right: 0.25rem;
+
+  .percentage {
+    font-size: 1.5rem;
+  }
+
+  .complete {
+    font-size: 2.5rem;
+    margin-right: .5rem;
+    color: $dark-green;
+
+    &.minimized {
+      margin-top: .1rem;
+      font-size: 2rem;
+    }
+  }
+}
+.resumedSpinner {
+  font-size: 3rem;
+  color: $dark-green;
+
+  .minimized {
+    font-size: 1.5rem;
+  }
+}
+
+.filename {
+  display: inline-block;
+  background-color: $content-section-background;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  font-size: $font-size-12;
+  font-weight: $semi-bold-weight;
+}
+
+.collapseToggle {
+  display: inline-block;
+  background-color: $content-section-background;
+  height: 2.5rem;
+  color: $primary;
+  padding: 0.75rem 1rem;
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+  border: 1px solid $primary;
+  border-radius: 2px;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.toggleTab {
+  position: absolute;
+  right: 1.25rem;
+  top: -1.75rem;
+  height: 1.875rem;
+  width: 3.125rem;
+  background-color: $primary;
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  font-size: $font-size-20;
+}
+
+.toggleIcon {
+  padding-left: 0.5rem;
+}
+
+.downloadNoticeContainer {
+  display: inline-flex;
+  width: 100%;
+  margin: 0.5rem;
+  position: relative;
+
+  .noticeButtonContainer {
+    margin-left: 2rem;
+  }
+}
+
+.downloadNotice {
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.noticeText {
+  display: inline-flex;
+  font-size: 12px;
+  flex-grow: 1;
+}
+
+.noticeButtonContainer {
+  display: inline-block;
+}
+
+.noticeButton {
+  box-sizing: border-box;
+  height: 2.25rem;
+  line-height: 1.5rem;
+  -webkit-appearance: button;
+}
+
+.noticeButton, .noticeButtonContainer button {
+  color: #fff;
+  font-size: $font-size-16;
+  line-height: 11px;
+  font-weight: $semi-bold-weight;
+  background-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  white-space: nowrap;
+  height: 40px;
+}
+
+.downloadLink {
+  color: $primary;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.completed {
+  display: inline-flex;
+  flex-direction: column;
+
+  span {
+    white-space: pre;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: .5rem 0;
+  }
+}
+
+.expandedSection {
+  margin: 0.5rem 0.5rem 1rem;
+  border-top: 2px solid $dark-grey-border;
+  border-collapse: separate;
+  max-height: 16rem;
+  overflow-y: auto;
+
+  &.collapsed {
+    display: none;
+  }
+}
+
+.queueRow {
+  display: flex;
+  margin: 0;
+  white-space: nowrap;
+  max-width: 100%;
+
+  .status, .progress {
+    min-width: 3.5rem;
+    font-weight: bold;
+    vertical-align: top;
+    line-height: 3.25rem;
+    display: inline-table;
+  }
+
+  .progress {
+    font-size: $font-size-20;
+    color: $dark-green
+  }
+
+  .rightSegment {
+    display: flex;
+    flex-wrap: wrap;
+    white-space: normal;
+    vertical-align: top;
+    padding: 0.5rem 1rem 0;
+    box-sizing: border-box;
+  }
+
+  .filename {
+    display: inline-block;
+    margin: 0 1.25rem 0.5rem 0;
+    height: 1.25rem;
+    line-height: 1.25rem;
+    vertical-align: top;
+    padding: 0.5rem;
+  }
+
+  .noticeButton, .noticeButtonContainer button {
+    margin-bottom: 0.5rem;
+    height: 2.25rem;
+    line-height: 1.5rem;
+    padding: 0.25rem 1.35rem;
+    vertical-align: auto;
+    cursor: pointer;
+  }
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+
+  .statusHeading {
+    font-size: $font-size-16;
+  }
+
+  .downloadNoticeContainer {
+    max-width: calc(26% + 5rem);
+  }
+  .downloadStatusContainer {
+    width: unset;
+  }
+  .expandedSection {
+    margin-left: 5.45rem
+  }
+  .queueRow .filename {
+    padding: 0.5rem 1.25rem;
+  }
+
+  .progressIndicatorContainer {
+    margin-left: .5rem;
+    margin-right: 1rem;
+
+    .complete {
+      width: 3rem;
+      margin-top: .25rem;
+
+      &.minimized {
+        width: 2rem;
+        margin-top: .1rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+
+  .toggleTab {
+    height: 2.5rem;
+    top: -2.375rem;
+    right: 3.875rem;
+  }
+
+  .downloadContent {
+    padding: 1rem 3.25rem;
+  }
+
+  .progressIndicatorContainer {
+    margin-left: .75rem;
+    margin-right: 1.25rem;
+    width: 6em;
+
+    &.completed {
+      width: unset;
+    }
+
+    .percentage {
+      width: 6.25rem;
+    }
+    .complete {
+      width: 3.9rem;
+      font-size: 4rem;
+    }
+  }
+
+  .noticeText {
+    font-size: $font-size-16;
+  }
+  .statusHeading {
+    @include headingStyle5;
+    font-size: $font-size-24;
+  }
+
+  .filename {
+    padding: 0.5rem 1.75rem;
+    font-size: $font-size-14;
+  }
+
+  .expandedSection {
+    margin-left: 8.5rem
+  }
+
+  .downloadNoticeContainer {
+    max-width: calc(26% + 6rem);
+  }
+}
+
+

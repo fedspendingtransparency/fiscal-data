@@ -1,0 +1,48 @@
+@import '../../../variables.module.scss';
+
+.titleContainer {
+  border: 1px solid $dd-border-color;
+  position: relative;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  z-index: 9;
+}
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 1rem 1rem 0.5rem;
+  & > * {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.header {
+  @include headingStyle6;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.previewContent {
+  position: relative;
+  border: 1px solid $dd-border-color;
+  border-top: 0;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 0 0 5px 5px;
+
+  embed {
+    width: 100%;
+    height: 600px;
+  }
+}
+
+@media (min-width: $breakpoint-md){
+  .headerWrapper {
+    padding: 0.5rem 1rem 0;
+  }
+}

@@ -1,0 +1,86 @@
+@import '../../variables.module.scss';
+
+.pagingButtons {
+  display: flex;
+  align-items: center;
+}
+
+.pagingButtons button {
+  background-color: transparent;
+  color: $font-body-copy;
+  min-width: 26px;
+  height: 26px;
+  font-size: $font-size-16;
+  cursor: pointer;
+}
+
+.pagingButtons button:not(.arrow) {
+  border: none;
+}
+
+.pagingButtons button:hover:not(.active):not(.ellipsis) {
+  background-color: lightgrey;
+}
+
+.pagingButtons button:disabled {
+  color: lightgrey;
+  cursor: auto;
+
+  &:hover {
+    background-color: transparent !important;
+  }
+}
+
+.pagingButtons .arrow {
+  padding: 0;
+  @include datasetDetailContainerBorder;
+  border-radius: 0!important;
+}
+
+.pagingButtons .active {
+  background-color: $primary-darker;
+  color: white;
+}
+
+.optionsMenuContainer {
+  max-height: 2.5rem;
+}
+
+.optionsMenuLabel {
+  vertical-align: middle;
+  margin-top: 0!important;
+  margin-bottom: 0!important;
+}
+
+.perPageLabel {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.pageOptions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  justify-content: flex-end;
+}
+
+.pageOptions button {
+  color: $font-body-copy;
+}
+
+.pageButtons {
+  margin: 0 .5rem;
+}
+
+.ellipsis svg {
+  transform: translate(-1px, 1px);
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+  .paginationControls {
+    display: flex;
+  }
+  .pagingButtons {
+    margin: 0 0 .5rem 2rem;
+  }
+}

@@ -1,0 +1,43 @@
+@import '../../variables.module.scss';
+
+@keyframes slideIn {
+  0% {margin-top: 100px;}
+  100% {margin-top: 0;}
+}
+
+@keyframes slideOut {
+  0% {margin-top: 0;}
+  100% {margin-top: 100px;}
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    background-color: white;
+    padding: 20px;
+    max-height: 90vh;
+
+    &.slideIn {
+      animation: slideIn 0.5s;
+    }
+
+    &.slideOut {
+      animation: slideOut 0.5s;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .content {
+    max-width: 90vw;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .content {
+    max-width: 80vw;
+  }
+}

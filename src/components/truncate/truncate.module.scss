@@ -1,0 +1,19 @@
+@import '../../variables.module.scss';
+
+.moreLessButton {
+  border: none;
+  background-color: transparent;
+  color: $primary;
+  font-size: $font-size-16;
+  cursor: pointer;
+  padding: 0;
+}
+
+.truncateWrapper {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;;
+  &.expanded {
+    display: block;
+  }
+}

@@ -1,0 +1,54 @@
+@import '../../../variables.module.scss';
+
+.container {
+  padding: 0.5rem 0.75rem 0 0;
+}
+
+.officialBanner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: $font-size-12;
+  color: $card-body;
+
+  > div {
+    margin: .1rem;
+
+    &:first-child {
+      display: none;
+    }
+  }
+}
+
+.text {
+  display: flex;
+  justify-self: flex-end;
+  justify-content: flex-end;
+  align-items: center;
+
+  .flag {
+    height: 11px;
+    margin-left: .5rem;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    padding: 0.5rem 2rem 0;
+  }
+  .officialBanner {
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 0.5rem auto 0;
+    max-width: $main-width;
+
+    > div {
+      margin: 0;
+      min-width: 33%;
+
+      &:first-child {
+        display: flex;
+      }
+    }
+  }
+}

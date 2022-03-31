@@ -1,0 +1,63 @@
+@import '../../variables.module.scss';
+
+.container {
+  border-bottom: 2px solid $slate-blue;
+  background-color: white;
+  padding: 0.5rem 0.75rem;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  max-width: $main-width;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.pageLinks {
+  display: none;
+}
+
+.logo {
+  width: 8.25rem;
+  height: 35px;
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+  .container {
+    padding: 0.5rem 2rem;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    padding: 0 2rem 0.5rem;
+  }
+
+  .logo {
+    width: 12rem;
+    height: 55px;
+  }
+
+  .pageLinks {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      display: block;
+      margin-right: 3rem;
+      text-decoration: none;
+      color: $card-body;
+      white-space: nowrap;
+
+      &:last-child {
+        margin-right: 0;
+      }
+      &.activeLink {
+        color: $primary;
+        font-weight: $semi-bold-weight;
+      }
+    }
+  }
+}

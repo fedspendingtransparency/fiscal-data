@@ -1,0 +1,20 @@
+@import '../../../variables.module.scss';
+
+.topicTitle {
+  font-size: 1.5rem;
+  font-weight: $semi-bold-weight;
+  margin: 0 0 0.5rem 0;
+  color: $font-title;
+}
+
+.topicFilterCount {
+  margin-top: 0;
+}
+
+.topicsLayout {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}

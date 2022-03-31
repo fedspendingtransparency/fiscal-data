@@ -1,0 +1,50 @@
+@import "../../../../variables.module.scss";
+
+
+.outer_container_label {
+  align-items: baseline;
+}
+
+.publisher_count {
+  font-style: italic;
+  font-size: 12px;
+  color: #888888;
+}
+
+.publisher_chevron {
+  transform: translate(-4px);
+  color: #0071bc;
+}
+
+.publisher_outer_container {
+  border-left: #d8d8d8 3px solid;
+  margin-top: 3px;
+}
+
+.treasury_title {
+  margin: 0 0 0.75rem 1rem;
+  font-weight: $semi-bold-weight;
+  font-size: 14px;
+  transform: translate(-6px, -3px);
+}
+
+.publisher_inner_container {
+  margin-left: 1rem;
+  border-left: #d8d8d8 2px solid;
+  margin-top: 6px;
+}
+
+.publisher_checkbox_container {
+  margin-left: 1rem;
+}
+
+.inner_container_label {
+  margin-left: 1rem;
+}
+
+.fiscal_title {
+  font-size: 14px;
+  margin-left: 1rem;
+  margin-bottom: 0.3rem;
+  transform: translate(-5px, -3px);
+}

@@ -1,0 +1,16 @@
+@import '../../../../variables.module.scss';
+
+.filterReset {
+    float: right;
+    font-size: 12px;
+    padding: 4px 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: $primary;
+}
+
+.icon {
+    font-size: 11px;
+    margin-left: 3px;
+}

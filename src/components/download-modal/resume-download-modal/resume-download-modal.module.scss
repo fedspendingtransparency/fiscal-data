@@ -1,0 +1,84 @@
+@import '../../../variables.module.scss';
+
+.downloadButton {
+  display: inline-block;
+  color: #fff;
+  font-size: $font-size-16;
+  line-height: 1.5rem;
+  font-weight: $semi-bold-weight;
+  background-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  white-space: nowrap;
+  min-width: 144px;
+}
+
+.cancelButton button {
+  padding: 0.54rem 2.25rem;
+}
+
+.resumeHeaderMain {
+  font-size: 3rem;
+  max-width: 720px;
+  text-align: center;
+  font-weight: $semi-bold-weight;
+}
+
+.resumeSubtitle {
+  font-size: 2.5rem;
+  margin: 0.5rem;
+  &.withItems{
+    font-size: 1.25rem;
+    line-height: 30px;
+    width: 100%;
+  }
+}
+
+.buttonSet {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.buttonRow {
+  display: inline-block;
+  margin: 2rem 1rem;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .preparedSingleContainer {
+    margin: 3rem 6rem;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .resumeHeaderMain {
+    font-size: 1.5rem;
+    margin: 0.5rem;
+  }
+  .resumeSubtitle {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+    line-height: 30px;
+  }
+  .cancelButton button, .downloadButton {
+    width: 100%;
+  }
+  .downloadButton {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1.5rem;
+  }
+  .buttonSet {
+    width: 100%;
+    margin: 0.5rem 0.5rem 0;
+  }
+  .buttonRow {
+    width: 100%;
+    margin: 1rem 0 0;
+  }
+}

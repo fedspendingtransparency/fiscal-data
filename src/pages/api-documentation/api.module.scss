@@ -1,0 +1,110 @@
+@import '../../variables.module.scss';
+
+div.apiPageWrapper {
+  margin-top: 2rem;
+  padding-top: 0;
+}
+
+code.code {
+  padding: 10px;
+  display: inline-block;
+  width: 100%;
+  word-break: break-all;
+  &.marginBottom {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.beautified {
+  width: 100%;
+  pre {
+    white-space: pre-wrap;
+  }
+}
+
+#toc {
+  top: 1rem;
+
+  &.tocClosed {
+    display: none;
+  }
+  &.tocOpen {
+    display: block;
+  }
+}
+
+#content {
+  &.tocClosed {
+    display: block;
+  }
+  &.tocOpen {
+    display: none;
+  }
+}
+
+.link {
+  display: block;
+  box-shadow: 0 1px 0 0 $border-color;
+  padding: 0.6875rem 1rem;
+  line-height: 1rem;
+  cursor: pointer;
+
+  &.headingLevel3 {
+    padding-left: 2rem;
+  }
+
+  &.headingLevel4 {
+    padding-left: 3rem;
+  }
+
+  &.activeLink {
+    color: $primary;
+    font-weight: $semi-bold-weight;
+    border-left: 6px solid $primary;
+    padding-left: calc(1rem - 6px);
+
+    &.headingLevel2 {
+      padding-left: calc(1rem - 6px);
+    }
+
+    &.headingLevel3 {
+      padding-left: calc(2rem - 6px);
+    }
+
+    &.headingLevel4 {
+      padding-left: calc(3rem - 6px);
+    }
+  }
+
+  &:hover {
+    color: $primary;
+    font-weight: $semi-bold-weight;
+  }
+}
+
+.sectionBreak section:last-of-type {
+  padding-bottom: 100px;
+}
+
+@media screen and (min-width: $breakpoint-lg){
+  .apiPageWrapper {
+    display: flex;
+  }
+
+  #content {
+    max-width: 847px;
+    width: calc(100% - 260px - 2rem);
+
+    &.tocOpen {
+      display: block;
+    }
+  }
+
+
+  #toc {
+    &.tocClosed {
+      display: block;
+    }
+  }
+}
+

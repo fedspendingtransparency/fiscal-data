@@ -1,0 +1,57 @@
+@import '../../../variables.module.scss';
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 50px 15px;
+  color: $hero-primary-text;
+  font-weight: 300;
+
+  .heroImageHeading {
+    margin: 0;
+    color: $hero-primary-text;
+    font-size: $font-size-40;
+    font-weight: 300;
+  }
+
+  .heroImageSubHeading {
+    margin: 0;
+    max-width: 554px;
+  }
+
+  .counterContainer {
+    text-align: center;
+    padding: 1.5rem 0 2rem 0;
+  }
+  .counterSourceInfo {
+    padding-top: 1.5rem;
+    font-size: $font-size-14;
+    > a {
+      color: $hero-primary-link;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .mainContainer {
+    margin-bottom: 100px;
+
+    .heroImageHeading {
+      margin-top: 50px;
+    }
+
+    .heroImageSubHeading {
+      text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .mainContainer {
+    margin-bottom: 50px;
+    width: calc(100% - 30px);
+  }
+}

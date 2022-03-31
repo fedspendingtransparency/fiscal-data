@@ -1,0 +1,33 @@
+@import '../../variables.module.scss';
+
+#button {
+  background-color: $primary;
+  color: #fff;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  font-size: 1rem;
+  font-weight: $semi-bold-weight;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  margin-bottom: 0.25rem;
+
+  &:hover, &.open {
+    background-color: $primary-darker;
+  }
+}
+
+.icon {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  &.flipped {
+    transform: rotate(180deg);
+  }
+}
+
+.button-text {
+  margin-right: 2.5rem;
+}
+
+.buttonContainer {
+  margin-bottom: -0.25rem;
+}

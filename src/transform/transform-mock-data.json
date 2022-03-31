@@ -1,0 +1,123 @@
+{
+  "staticDatasetIdMap": {
+    "015-BFS-2014Q3-065": {
+      "slug": "/debt-to-the-nickel/",
+      "seoConfig": {
+        "pageTitle": "Debt to the Nickel",
+        "description": "Debt to the Penny is the total debt of the U.S. government and is reported daily. It is made up of intragovernmental holdings and debt held by the public.",
+        "keywords": "Debt, Federal, Government, Treasury, Securities, API, Open Data, Government Debt"
+      },
+      "relatedDatasets": [
+        "015-BFS-2014Q1-03",
+        "015-BFS-2014Q3-071",
+        "015-BFS-2014Q1-11",
+        "015-BFS-2014Q1-13",
+        "015-BFS-2014Q3-076"
+      ]
+    }
+  },
+  "staticFilters": [
+
+  ],
+  "staticTopicsAssociations": [
+    {
+      "label": "Debt",
+      "title": "Topics",
+      "slug": "debt",
+      "datasetIds": [
+        "015-BFS-2014Q3-056",
+        "015-BFS-2014Q1-03",
+        "015-BFS-2014Q3-065",
+        "015-BFS-2014Q3-070",
+        "015-BFS-2014Q3-071",
+        "015-BFS-2014Q3-103",
+        "015-BFS-2014Q1-11",
+        "015-BFS-2014Q1-13",
+        "015-BFS-2014Q3-xx",
+        "015-BFS-2014Q3-076",
+        "015-BFS-2014Q3-yy",
+        "015-BFS-2014Q1-xx",
+        "015-BFS-2014Q3-096"
+      ]
+    }
+  ],
+  "datasetInTransformation": {
+    "datasetId": "015-BFS-2014Q3-065",
+    "name": "Debt to the Nickel",
+    "tagLine": "Total debt of the U.S. government reported daily. Contains information on intragovernmental",
+    "publisher": "Fiscal Accounting",
+    "summaryText": "The Debt to the Nickel dataset provides information about the total.",
+    "dictionary": 1,
+    "notesAndKnownLimitations": "Does not take into consideration so-called wooden nickels nor any other such pseudocurrencies.",
+    "slug": "/debt-to-the-nickel/",
+    "techSpecs": {
+      "updateFrequency": "Updated Daily",
+      "fileFormat": "JSON, CSV, XML"
+    },
+    "apis": [
+      {
+        "apiId": 143,
+        "tableName": "Debt to the Nickel",
+        "tableDescription": "Outstanding U.S. debt on a daily basis.",
+        "updateFrequency": "Daily",
+        "rowDefinition": "Each row represents a specific day's Total Debt Outstanding as well as",
+        "lastUpdated": "2020-01-02",
+        "earliestDate": "2005-10-03",
+        "latestDate": "2020-01-01",
+        "rowCount": 3716,
+        "fields": [
+          {
+            "columnName": "record_date",
+            "definition": "The date that data was published.",
+            "tableName": "Debt to the Nickel",
+            "prettyName": "Record Date",
+            "dataType": "DATE",
+            "isRequired": 1
+          },
+          {
+            "columnName": "record_calendar_day",
+            "definition": "The calendar day associated with record_date.",
+            "tableName": "Debt to the Nickel",
+            "prettyName": "Calendar Day Number",
+            "dataType": "DAY",
+            "isRequired": 1
+          },
+          {
+            "columnName": "tot_pub_debt_out_amt",
+            "definition": "Total of intragovernmental holdings and debt held by the public.",
+            "tableName": "Debt to the Nickel",
+            "prettyName": "Total Public Debt Outstanding",
+            "dataType": "CURRENCY",
+            "isRequired": 1
+          }
+        ]
+      },
+      {
+        "apiId": 146,
+        "tableName": "Large Dataset",
+        "tableDescription": "it's big",
+        "updateFrequency": "Daily",
+        "rowDefinition": "Each row represents a specific day's Total Debt Outstanding as well as",
+        "lastUpdated": "2020-01-02",
+        "earliestDate": "2005-10-03",
+        "latestDate": "2020-01-01",
+        "rowCount": 99999,
+        "fields": [
+          {
+            "columnName": "one",
+            "definition": "first",
+            "tableName": "Large Dataset",
+            "prettyName": "Large Dataset, but prettier",
+            "dataType": "DATE",
+            "isRequired": 1
+          }
+        ],
+        "dataDisplays": [
+          {
+            "dummyDisplay": "something here"
+          }
+        ]
+      }
+    ]
+  }
+}

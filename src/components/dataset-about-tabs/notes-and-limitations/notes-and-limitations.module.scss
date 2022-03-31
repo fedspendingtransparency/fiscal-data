@@ -1,0 +1,32 @@
+@import '../../../variables.module.scss';
+
+$borderRadius: 5px;
+
+.accordionContainer {
+  margin-top: 1rem;
+}
+
+.accordion {
+  margin-bottom: 1rem;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid $dd-border-color;
+  border-radius: $borderRadius;
+}
+
+.heading {
+  @include columnLabelCopy7;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid $dd-border-color;
+  margin: 0;
+}
+
+.bodyContent {
+  padding: 0 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+  max-height: 17rem;
+}

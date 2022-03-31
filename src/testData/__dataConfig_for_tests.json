@@ -1,0 +1,3982 @@
+{
+  "topics": [
+    {
+      "label": "Debt",
+      "title": "Topics",
+      "slug": "debt",
+      "datasetIds": [
+        "/debt-to-the-penny/",
+        "/schedules-of-federal-debt/",
+        "/historical-debt-outstanding/",
+        "/monthly-statement-public-debt/"
+      ]
+    },
+    {
+      "label": "Revenue",
+      "title": "Topics",
+      "slug": "revenue",
+      "datasetIds": [
+        "/monthly-treasury-statement/",
+        "/treasury-reporting-rates-exchange/"
+      ]
+    },
+    {
+      "label": "Spending",
+      "title": "Topics",
+      "slug": "spending",
+      "datasetIds": [
+        "/daily-treasury-statement/",
+        "/monthly-treasury-statement/",
+        "/interest-expense-debt-outstanding/"
+      ]
+    },
+    {
+      "label": "Financial Summaries",
+      "title": "Topics",
+      "slug": "financial-summaries",
+      "datasetIds": [
+        "/daily-treasury-statement/",
+        "/monthly-treasury-statement/",
+        "/gift-contributions/",
+        "/gold-reserve"
+      ]
+    },
+    {
+      "label": "Interest & Exchange Rates",
+      "title": "Topics",
+      "slug": "interest-exchange-rates",
+      "datasetIds": [
+        "/average-interest-rates/",
+        "/securities-issued-in-treasury-direct/",
+        "/treasury-reporting-rates-exchange/"
+      ]
+    },
+    {
+      "label": "Savings Bonds",
+      "title": "Topics",
+      "slug": "savings-bonds",
+      "datasetIds": [
+        "/slgs-savings-bonds/",
+        "/debt-to-the-penny/",
+        "/savings-bonds-value-files/",
+        "/savings-bonds/",
+        "/treasury-offset-program/",
+        "/redemption-tables/"
+      ]
+    }
+  ],
+  "releases": [
+    {
+      "datasetId": "015-BFS-2020Q4-xx",
+      "date": "2021-05-10",
+      "dataset": {
+        "name": "120 Day Delinquent Debt Referral Compliance Report",
+        "slug": "/delinquent-debt-referral-compliance/"
+      },
+      "released": "true",
+      "time": "1600"
+    },
+    {
+      "datasetId": "015-BFS-2014Q3-071",
+      "date": "2021-05-10",
+      "dataset": {
+        "name": "Historical Debt Outstanding",
+        "slug": "/historical-debt-outstanding/"
+      },
+      "released": "true",
+      "time": "2300"
+    },
+    {
+      "datasetId": "015-BFS-2014Q3-074",
+      "date": "2021-05-11",
+      "dataset": {
+        "name": "Accrual Savings Bonds Redemption Tables ",
+        "slug": "/redemption-tables/"
+      },
+      "released": "false",
+      "time": "1600"
+    },
+    {
+      "datasetId": "015-BFS-2014Q1-xx",
+      "date": "2021-05-11",
+      "dataset": {
+        "name": "Treasury Offset Program",
+        "slug": "/treasury-offset-program/"
+      },
+      "released": "false",
+      "time": "0900"
+    },
+    {
+      "datasetId": "015-BFS-2014Q3-056",
+      "date": "2021-05-12",
+      "dataset": {
+        "name": "Average Interest Rates on U.S. Treasury Securities",
+        "slug": "/average-interest-rates-treasury-securities/"
+      },
+      "released": "false",
+      "time": "1600"
+    },
+    {
+      "datasetId": "015-BFS-2014Q1-13",
+      "date": "2021-05-12",
+      "dataset": {
+        "name": "Monthly Treasury Statement (MTS)",
+        "slug": "/monthly-treasury-statement/"
+      },
+      "released": "false",
+      "time": "1659"
+    },
+    {
+      "datasetId": "015-BFS-2014Q3-096",
+      "date": "2021-05-13",
+      "dataset": {
+        "name": "U.S. Treasury Savings Bonds: Issues, Redemptions, and Maturities by Series",
+        "slug": "/savings-bonds-issues-redemptions-maturities-by-series/"
+      },
+      "released": "false",
+      "time": "1400"
+    },
+    {
+      "datasetId": "015-BFS-2014Q1-11",
+      "date": "2021-05-13",
+      "dataset": {
+        "name": "Monthly Statement of the Public Debt (MSPD)",
+        "slug": "/monthly-statement-public-debt/"
+      },
+      "released": "false",
+      "time": "1159"
+    },
+    {
+      "datasetId": "015-BFS-2014Q3-065",
+      "date": "2021-05-14",
+      "dataset": {
+        "name": "Debt to the Penny",
+        "slug": "/debt-to-the-penny/"
+      },
+      "released": "false",
+      "time": "1400"
+    },
+    {
+      "datasetId": "015-BFS-2014Q1-03",
+      "date": "2021-05-14",
+      "dataset": {
+        "name": "Daily Treasury Statement (DTS)",
+        "slug": "/daily-treasury-statement/"
+      },
+      "released": "false",
+      "time": "0459"
+    },
+    {
+      "datasetId": "015-BFS-2014Q1-09",
+      "date": "2021-05-14",
+      "dataset": {
+        "name": "U.S. Treasury-Owned Gold",
+        "slug": "/status-report-government-gold-reserve/"
+      },
+      "released": "false",
+      "time": "2300"
+    },
+    {
+      "datasetId": "015-BFS-2020Q4-xx",
+      "date": "2021-05-17",
+      "dataset": {
+        "name": "120 Day Delinquent Debt Referral Compliance Report",
+        "slug": "/delinquent-debt-referral-compliance/"
+      },
+      "released": "false",
+      "time": "1600"
+    }
+  ],
+  "datasets": [
+    {
+      "name": "Debt to the Penny",
+      "apis": [
+        {
+          "endpoint": "accounting/od/debt_to_penny",
+          "dateField": "data_date",
+          "tableName": "Debt to the Penny",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Debt to the Penny",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_held_public_amt",
+              "definition": "All federal debt held by individuals, corporations, state or local governments, Federal Reserve Banks, foreign governments, and other entities outside the United States Government less Federal Financing Bank securities. ",
+              "tableName": "Debt to the Penny",
+              "prettyName": "Debt Held by the Public",
+              "dataType": "CURRENCY",
+              "isRequired": null
+            },
+            {
+              "columnName": "intragov_holding_amt",
+              "definition": "Government Account Series securities held by Government trust funds, revolving funds, and special funds; and Federal Financing Bank securities.  A small amount of marketable securities are held by government accounts.",
+              "tableName": "Debt to the Penny",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "total_debt_out_amt",
+              "definition": "Total of Intragovernmental Holdings and Public Debt",
+              "tableName": "Debt to the Penny",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2005",
+      "slug": "/debt-to-the-penny/",
+      "summaryText": "This report provides information about the total public debt outstanding and is reported each day.\n\nDebt to the Penny is made up of intragovernmental holdings and debt held by the public, including securities issued by the U.S. Treasury. \n\nU.S. Treasury securities primarily consist of marketable Treasury bills, notes, and bonds as well as savings bonds and special securities issued to state and local governments.\n\nThe Debt to the Penny is updated at 3 PM each business day with data from the previous business day.",
+      "tagLine": "Debt to the Penny is the total debt of the U.S. government and is reported daily. It is made up of intragovernmental holdings and debt held by the public.",
+      "publisher": null,
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "04/09/2020",
+        "earliestDate": "10/03/2005",
+        "lastUpdated": "04/11/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Daily"
+      }
+    },
+    {
+      "name": "Average Interest Rates on US Treasury Securities",
+      "apis": [
+        {
+          "endpoint": "accounting/od/avg_interest_rates",
+          "dateField": "reporting_date",
+          "tableName": "Average Interest Rates on U.S. Treasury Securities",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Marketable",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "security_type_desc",
+              "valueFields": null,
+              "filters": [
+                {
+                  "key": "security_desc",
+                  "value": "Marketable"
+                }
+              ]
+            },
+            {
+              "title": "By Non-Marketable",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "security_type_desc",
+              "valueFields": [
+                "avg_interest_rate_amt"
+              ],
+              "filters": [
+                {
+                  "key": "security_desc",
+                  "value": "Non-Marketable"
+                }
+              ]
+            },
+            {
+              "title": "By Security Type Description",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "security_type_desc",
+              "valueFields": [
+                "avg_interest_rate_amt"
+              ],
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Average Interest Rates on U.S. Treasury Securities",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "security_market",
+              "definition": "Indicates whether a security type is marketable or nonmarketable. Marketable Debt includes Treasury Bills, Notes, Bonds, Floating Rate Notes, and Inflation-Protected Securities where ownership can be transferred from one person or entity to another. They can also be traded on the secondary market. Nonmarketable securities include Savings Bonds, Government Account Series, State and Local Government Series, Domestic Series and Foreign Series securities where legal ownership cannot be transferred.",
+              "tableName": "Average Interest Rates on U.S. Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_type",
+              "definition": "Indicates the type of debt instrument issued to raise money needed to operate the federal government and pay off maturing obligations. ",
+              "tableName": "Average Interest Rates on U.S. Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "avg_interest_rate_amt",
+              "definition": "Average Interest Rates are a calculated percentage based on the aggregate interest payments divided by the total debt.  In this table the Total Marketable, Total Nonmarketable, and Total Interest-bearing Debt rates do not include the Treasury Inflation-Indexed Securities and the Treasury Floating Rate Notes.",
+              "tableName": "Average Interest Rates on U.S. Treasury Securities",
+              "prettyName": "Average Interest Rate Amount",
+              "dataType": "NUMBER",
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2001",
+      "slug": "/average-interest-rates/",
+      "summaryText": "The Average Interest Rates on U.S. Treasury Securities dataset is released monthly and shows the average interest rate on a variety of marketable and non-marketable Treasury securities as well as the previous year’s average interest rate for comparison.\n\nThis is a useful dataset for investors and bond holders to compare how interest rates on Treasury Securities have changed throughout the years.\n\nThis dataset is published monthly and is available from calendar year 2001 to the present.",
+      "tagLine": "Average Interest Rates for marketable and non-marketable securities over a two-year period.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "03/31/2020",
+        "earliestDate": "01/31/2001",
+        "lastUpdated": "04/07/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Daily"
+      }
+    },
+    {
+      "name": "Daily Treasury Statement",
+      "apis": [
+        {
+          "endpoint": "accounting/dts/dts_table_1",
+          "dateField": "reporting_date",
+          "tableName": "Operating Cash Balance",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Operating Cash Balance",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "close_today_bal",
+              "definition": "The closing balance at the end of business on the day of the report",
+              "tableName": "Operating Cash Balance",
+              "prettyName": "Closing Balance Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "open_today_bal",
+              "definition": "The opening balance at the start of business on the day of the report",
+              "tableName": "Operating Cash Balance",
+              "prettyName": "Opening Balance Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance at the start of business on the first day of the month of the report",
+              "tableName": "Operating Cash Balance",
+              "prettyName": "Opening Balance This Month",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance at the start of business on the first day of the fiscal year of the report. The federal government's fiscal year starts October 1 and ends September 30.",
+              "tableName": "Operating Cash Balance",
+              "prettyName": "Opening Balance This Fiscal Year",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Operating Cash Balance",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "account_type",
+              "definition": "The type of account with an operating cash balance",
+              "tableName": "Operating Cash Balance",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/dts/dts_table_2",
+          "dateField": "reporting_date",
+          "tableName": "Deposits and Withdrawals of Operating Cash",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_type",
+              "definition": "Indicates whether the transaction amount represents deposits or withdrawals",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Transaction Type",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "account_type",
+              "definition": "The type of account with operating cash transactions",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Type of Account",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_catg",
+              "definition": "Tier one of a two-tier hierarchy for capturing operating cash transactions for various types of account",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Transaction Category",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_catg_desc",
+              "definition": "Tier two of a two-tier hierarchy for capturing operating cash transactions for various types of account",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Transaction Category Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_today_amt",
+              "definition": "The total value of operating cash deposits or withdrawals on the day of the report",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Transactions Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_mtd_amt",
+              "definition": "The month to date value of operating cash deposits or withdrawals for the month of the report",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Transactions Month to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_fytd_amt",
+              "definition": "The fiscal year to date value of operating cash deposits or withdrawals for the fiscal year of the report",
+              "tableName": "Deposits and Withdrawals of Operating Cash",
+              "prettyName": "Transactions Fiscal Year to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/dts/dts_table_3a",
+          "dateField": "reporting_date",
+          "tableName": "Public Debt Transactions",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_type",
+              "definition": "Indicates whether the transaction amount represents public debt issues or redemptions",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Transaction Type",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "security_market",
+              "definition": "Indicates whether a security type is marketable or nonmarketable. Marketable Debt includes Treasury Bills, Notes, Bonds, Floating Rate Notes, and Inflation-Protected Securities where ownership can be transferred from one person or entity to another. They can also be traded on the secondary market. Nonmarketable securities include Savings Bonds, Government Account Series, State and Local Government Series, Domestic Series and Foreign Series securities where legal ownership cannot be transferred.",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Security Marketability",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "security_type",
+              "definition": "Indicates the type of debt instrument issued to raise money needed to operate the federal government and pay off maturing obligations. Tier one of a two-tier hierarchy for capturing public debt transactions for various security types",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Security Type",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "security_type_desc",
+              "definition": "Tier two of a two-tier hierarchy for capturing public debt transactions for various security types",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Security Type Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_today_amt",
+              "definition": "The total value of public debt issues or redemptions on the day of the report",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Transactions Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_mtd_amt",
+              "definition": "The month to date value of public debt issues or redemptions for the month of the report",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Transactions Month to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_fytd_amt",
+              "definition": "The fiscal year to date value of public debt issues or redemptions for the fiscal year of the report",
+              "tableName": "Public Debt Transactions",
+              "prettyName": "Transactions Fiscal Year to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/dts/dts_table_3b",
+          "dateField": "reporting_date",
+          "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_type",
+              "definition": "Indicates whether the transaction amount represents cash basis adjustments to public debt issues or redemptions",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Transaction Type",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "adj_type",
+              "definition": "Tier one of a two-tier hierarchy for capturing cash basis adjustments of public debt transactions for various security types",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Adjustment Type",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "adj_type_desc",
+              "definition": "Tier two of a two-tier hierarchy for capturing cash basis adjustments of public debt transactions for various security types",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Adjustment Type Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "adj_today_amt",
+              "definition": "The total value of cash basis adjustments to public debt issues or redemptions on the day of the report",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Adjustments Today",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "adj_mtd_amt",
+              "definition": "The month to date value of cash basis adjustments to public debt issues or redemptions for the month of the report",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Adjustments Month to Date",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "adj_fytd_amt",
+              "definition": "The fiscal year to date value of cash basis adjustments to public debt issues or redemptions for the fiscal year of the report",
+              "tableName": "Adjustment of Public Debt Transactions to Cash Basis",
+              "prettyName": "Adjustments Fiscal Year to Date",
+              "dataType": "STRING",
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/dts/dts_table_3c",
+          "dateField": "reporting_date",
+          "tableName": "Debt Subject to Limit",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_catg_desc",
+              "definition": "Tier two of a two-tier hierarchy for capturing cash basis adjustments of various debt types",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Debt Category Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "close_today_bal",
+              "definition": "The closing balance at the end of business on the day of the report",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Closing Balance Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "open_today_bal",
+              "definition": "The opening balance at the start of business on the day of the report",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Opening Balance Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance at the start of business on the first day of the month of the report",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Opening Balance This Month",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance at the start of business on the first day of the fiscal year of the report. The federal government's fiscal year starts October 1 and ends September 30.",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Opening Balance This Fiscal Year",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_catg",
+              "definition": "Tier one of a two-tier hierarchy for capturing cash basis adjustments of various debt types",
+              "tableName": "Debt Subject to Limit",
+              "prettyName": "Debt_Category",
+              "dataType": "STRING",
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/dts/dts_table_4",
+          "dateField": "reporting_date",
+          "tableName": "Federal Tax Deposits",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Federal Tax Deposits",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Federal Tax Deposits",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_deposit_type_desc",
+              "definition": "Tier two of a two-tier hierarchy for capturing federal tax deposits from various sources",
+              "tableName": "Federal Tax Deposits",
+              "prettyName": "Federal Tax Deposit Type Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_deposit_today_amt",
+              "definition": "The total value of federal tax deposits on the day of the report",
+              "tableName": "Federal Tax Deposits",
+              "prettyName": "Federal Tax Deposits Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_deposit_mtd_amt",
+              "definition": "The month to date value of federal tax deposits for the month of the report",
+              "tableName": "Federal Tax Deposits",
+              "prettyName": "Federal Tax Deposits Month to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_deposit_fytd_amt",
+              "definition": "The fiscal year to date value of federal tax deposits for the fiscal year of the report",
+              "tableName": "Federal Tax Deposits",
+              "prettyName": "Federal Tax Deposits Fiscal Year to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_deposit_type",
+              "definition": "Tier one of a two-tier hierarchy for capturing federal tax deposits from various sources",
+              "tableName": "Federal Tax Deposits",
+              "prettyName": "Federal Tax Deposit Type",
+              "dataType": "STRING",
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/dts/dts_table_5",
+          "dateField": "reporting_date",
+          "tableName": "Short-Term Cash Investments",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_type",
+              "definition": "Tier one of a two-tier hierarchy for categorizing short-term cash investments. Indicates whether the transaction amount represents deposits or withdrawals.",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": "Transaction Type",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "transaction_type_desc",
+              "definition": "Tier two of a two-tier hierarchy for categorizing short-term cash investments.",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": "Transaction Type Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "depositary_type_c_amt",
+              "definition": "The amount of deposits or withdrawals for depository type C",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "depositary_type_a_amt",
+              "definition": "The amount of deposits or withdrawals for depository type A",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "depositary_type_b_amt",
+              "definition": "The amount of deposits or withdrawals for depository type B",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "total_amt",
+              "definition": "Total amount of transactions across all depositary types for the day",
+              "tableName": "Short-Term Cash Investments",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/dts/dts_table_6",
+          "dateField": "reporting_date",
+          "tableName": "Income Tax Refunds Issued",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Income Tax Refunds Issued",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Daily Treasury Statement report",
+              "tableName": "Income Tax Refunds Issued",
+              "prettyName": "Report Table Number",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_refund_type",
+              "definition": "Tier one of a two-tier hierarchy for categorizing federal tax refunds. Indicates whether the refunds were to individuals or businesses.",
+              "tableName": "Income Tax Refunds Issued",
+              "prettyName": "Federal Tax Refund Type",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_refund_type_desc",
+              "definition": "Tier two of a two-tier hierarchy for categorizing federal tax refunds. Indicates whether the refunds were transmitted by check or electronic funds transfer (EFT).",
+              "tableName": "Income Tax Refunds Issued",
+              "prettyName": "Federal Tax Refund Type Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_refund_today_amt",
+              "definition": "The total value of federal tax refunds on the day of the report",
+              "tableName": "Income Tax Refunds Issued",
+              "prettyName": "Federal Tax Refunds Today",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_refund_mtd_amt",
+              "definition": "The month to date value of federal tax refunds for the month of the report",
+              "tableName": "Income Tax Refunds Issued",
+              "prettyName": "Federal Tax Refunds Month to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "tax_refund_fytd_amt",
+              "definition": "The fiscal year to date value of federal tax refunds for the fiscal year of the report",
+              "tableName": "Income Tax Refunds Issued",
+              "prettyName": "Federal Tax Refunds Fiscal Year to Date",
+              "dataType": "NUMBER",
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2005",
+      "slug": "/daily-treasury-statement/",
+      "summaryText": "The Daily Treasury Statement (DTS) is a series of tables detailing the daily cash and debt operations of the Treasury. \n\nInformation in this report includes the operating cash balance, deposits and withdrawals of cash, public debt transactions, federal tax deposits, short-term cash investments, issues and redemptions of marketable and non-marketable securities, and more. \n\nAll values are millions of dollars. \n\nThis daily information is available beginning in Fiscal Year 1998.",
+      "tagLine": "Complete cash and debt operations of the Treasury for each day.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "04/10/2020",
+        "earliestDate": "10/03/2005",
+        "lastUpdated": "04/13/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Daily"
+      }
+    },
+    {
+      "name": "Statistics on Non-Marketable Treasuries Savings Bonds SLGS",
+      "apis": [
+        {
+          "endpoint": "accounting/od/slgs_savings_bonds",
+          "dateField": "reporting_date",
+          "tableName": "Statistics on Non-Marketable Treasuries Savings Bonds SLGS",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Series Code",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "series_cd",
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": null
+        }
+      ],
+      "dataStartYear": "2009",
+      "slug": "/slgs-savings-bonds/",
+      "summaryText": "The SLGS Statistics on Non-Marketable Treasuries is a dataset with daily data on how many non-marketable SLGS securities  have been requested for purchase and the amount, including any requests that have been cancelled. \n\nIt also captures the number of issues, redemptions, and securities outstanding along with the dollar amount.\n\nThe data is recorded daily for each government fiscal year.\n\nThe data for  State and Local Government Securities contains information on many securities have yet to mature and the timeline to maturity, organized in various buckets (0-3 months to maturity, 3-6 months, etc.)",
+      "tagLine": "Recap of SLGS transaction and balance activity updated daily including subscriptions, cancellations, issues, outstanding, and redemptions of non-marketable SLGS securities.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "12/31/2019",
+        "earliestDate": "12/31/2009",
+        "lastUpdated": "12/31/2019",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Daily"
+      }
+    },
+    {
+      "name": "Record Setting Auction Data",
+      "apis": [
+        {
+          "endpoint": "accounting/od/record_setting_auction",
+          "dateField": "reporting_date",
+          "tableName": "Record Setting Auction Data",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": null
+        }
+      ],
+      "dataStartYear": "2009",
+      "slug": "/record-setting-auction-data/",
+      "summaryText": "This dataset includes the rates, yields, offering, and auction dates of record high and low Treasury bills, notes, bonds, TIPS, FRNs and CMBs.\n\nThe only date information in this dataset is the date of auction of record setting Treasury securities.",
+      "tagLine": "Rates, yields, offering, and auction dates of record high and low Treasury bills, notes, bonds, TIPS, FRNs and CMBs.",
+      "publisher": "Bureau of Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "12/31/2019",
+        "earliestDate": "12/31/2009",
+        "lastUpdated": "12/31/2019",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Savings Bonds Issues, Redemptions, and Maturities by Series",
+      "apis": [
+        {
+          "endpoint": "accounting/od/savings_bonds_pcs",
+          "dateField": "reporting_date",
+          "tableName": "Piece Information by Series",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Series",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "series_cd",
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Piece Information by Series",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "series_cd",
+              "definition": "Various savings bonds released at different times in history",
+              "tableName": "Piece Information by Series",
+              "prettyName": "Series Code",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "type_cd",
+              "definition": "Indicates whether the bonds are issued, redeemed or outstanding",
+              "tableName": "Piece Information by Series",
+              "prettyName": "Type Code",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "total_pcs_cnt",
+              "definition": "The total count of savings bonds of a particular series and type",
+              "tableName": "Piece Information by Series",
+              "prettyName": "Total Pieces Count",
+              "dataType": "NUMBER",
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/od/savings_bonds_mud",
+          "dateField": "reporting_date",
+          "tableName": "Matured Unredeemed Data",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Series",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "series_cd",
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Matured Unredeemed Data",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "series_cd",
+              "definition": "Various savings bonds released at different times in history",
+              "tableName": "Matured Unredeemed Data",
+              "prettyName": "Series Code",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "bond_issue_cnt",
+              "definition": "Bonds that have been officially offered for sale.",
+              "tableName": "Matured Unredeemed Data",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "bond_out_cnt",
+              "definition": "Bonds still in circulation that have not been redeemed.",
+              "tableName": "Matured Unredeemed Data",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "1998",
+      "slug": "/savings-bonds/",
+      "summaryText": "For each Series of Treasury bonds, this dataset details how many are issued and redeemed, the difference of these two values is how many are outstanding, which is also reported in the dataset. \n\nIt does not contain any information on the values or yields of the Treasury bonds. \n\nData in this report dates to the beginning of fiscal year 1999 and is updated monthly.",
+      "tagLine": "Number of Treasury bonds in each series that are issued, redeemed, or Number of Treasury bonds in each series that are issued, redeemed, or \noutstanding from 1998 to today.",
+      "publisher": "Retail Security Services",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "03/31/2020",
+        "earliestDate": "09/30/1998",
+        "lastUpdated": "03/18/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Savings Bonds Value Files",
+      "apis": [
+        {
+          "endpoint": "accounting/od/sb_value",
+          "dateField": "reporting_date",
+          "tableName": "Savings Bonds Value Files",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Series Code",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "series_cd",
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": null
+        }
+      ],
+      "dataStartYear": "2009",
+      "slug": "/savings-bond-value-files/",
+      "summaryText": "Savings Bond Value Files contains reports detailing the value, earned interest, and yield of savings bonds purchased.\n\nThis is the same information found in the Redemption Tables dataset, but in a unique, plaintext format.\n\nThese encoded strings were designed for developers and programmers to determine bond values, interest, and yield of savings bonds without having to first convert PDFs. ",
+      "tagLine": "Encoded, plaintext strings designed for developers and programmers to determine bond values, interest, and yield of savings bonds purchased.",
+      "publisher": "Retail Security Services",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "12/31/2019",
+        "earliestDate": "12/31/2009",
+        "lastUpdated": "12/31/2019",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Redemption Tables",
+      "apis": [
+        {
+          "endpoint": "od/redemption_tables",
+          "dateField": "reporting_date",
+          "tableName": "Redemption Tables",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Redemption Tables",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "issue_year",
+              "definition": "Year an accrual savings bond was issued",
+              "tableName": "Redemption Tables",
+              "prettyName": "Issue Year",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "issue_month",
+              "definition": "Month an accrual savings bond was issued",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_200",
+              "definition": "Total amount a $200 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_200",
+              "definition": "Interest earned on a $200 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_1000",
+              "definition": "Interest earned on a $1000 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_75",
+              "definition": "Interest earned on a $75 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_500",
+              "definition": "Interest earned on a $500 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_10000",
+              "definition": "Total amount a $10000 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_1000",
+              "definition": "Total amount a $1000 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_75",
+              "definition": "Total amount a $75 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "issue_yield_pct",
+              "definition": "Interest earnings expressed as a percentage on accrual savings bond from issue month/year to redemption date.  ",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_100",
+              "definition": "Total amount a $100 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_10000",
+              "definition": "Interest earned on a $10000 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_5000",
+              "definition": "Interest earned on a $5000 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_5000",
+              "definition": "Total amount a $5000 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_date",
+              "definition": "The month for which redemption and interest earned values are applicable",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "series_cd",
+              "definition": "Type of accrual savings bond (E, EE, and I)",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_500",
+              "definition": "Total amount a $500 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_100",
+              "definition": "Interest earned on a $100 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_value_50",
+              "definition": "Total amount a $50 accrual savings bond is worth in that redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_earned_amt_50",
+              "definition": "Interest earned on a $50 accrual savings bond from issue month/year to redemption month/year",
+              "tableName": "Redemption Tables",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "1999",
+      "slug": "/redemption-tables/",
+      "summaryText": "Redemption Tables is a series of reports with over 100 tables detailing the value, earned interest, and yield of savings bonds purchased.\n\nEach report lists the value of all bonds at the time of publication.\n\nInvestors and bond owners can use this table as an easy-to-use reference to determine the value of the bonds which they hold.",
+      "tagLine": "Current and historical values, yield, and interest earned for issued Series EE, Series E, and Series I savings bonds as well as Savings Notes.",
+      "publisher": "Retail Security Services",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "05/31/2020",
+        "earliestDate": "03/31/1999",
+        "lastUpdated": "04/07/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Treasury Offset Program",
+      "apis": [
+        {
+          "endpoint": "debt/top/state_programs",
+          "dateField": "reporting_date",
+          "tableName": "State Programs",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "State Programs",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "is_complete_year",
+              "definition": "Whether the current collection year has been completed",
+              "tableName": "State Programs",
+              "prettyName": "Year Completed Indicator",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "is_child_support_complete_year",
+              "definition": "Whether the current collection year has been completed",
+              "tableName": "State Programs",
+              "prettyName": "Child Support Complete Year Indicator",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "is_snap_complete_year",
+              "definition": "Whether the current collection year has been completed",
+              "tableName": "State Programs",
+              "prettyName": "SNAP Complete Year Indicator",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "state_nm",
+              "definition": "Name of the state/territory or District of Columbia participating in the Treasury Offset Program",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_state_income_tax_part",
+              "definition": "Boolean indicator of whether the states participate in the offset of Federal tax refund payments.  This is only used for the State Reciprocal Program.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "state_program_id",
+              "definition": "ID of the offset matching program, based on debt type authorized and eligible for delinquent debt collection.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "state_cd",
+              "definition": "Code of the state/territory or District of Columbia participating in the Treasury Offset Program",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "state_reciprocal_part_cnt",
+              "definition": "Numeric indicator of whether the state/territory or District of Columbia participates in the Treasury Offset Program and offsets state payments for Federal non-tax debts.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_state_reciprocal_part",
+              "definition": "Boolean indicator of whether the state/territory or District of Columbia participates in the Treasury Offset Program and offsets state payments for Federal non-tax debts.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "unemploy_insurance_part_cnt",
+              "definition": "Numeric indicator of whether the state/territory or District of Columbia participates in the Treasury Offset Program and refers state unemployment insurance (UI) compensation debts and UI tax debts.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_unemploy_insurance_part",
+              "definition": "Boolean indicator of whether the state/territory or District of Columbia participates in the Treasury Offset Program and refers state unemployment insurance (UI) compensation debts and UI tax debts.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_unemploy_insurance_complete_year",
+              "definition": "Whether the current collection year has been completed",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_child_support_part",
+              "definition": "Boolean indicator of whether the states participate in the administrative offset of Federal payments other than Federal tax refund payments for referral of delinquent child support debt.  Participation is voluntary.  Note: All states participate in the Treasury Offset Program for offset against Federal tax refund payments.  Participation for offsets against tax refund payments is mandatory for child support debts.",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "child_support_part_cnt",
+              "definition": "Numeric indicator of whether the states participate in the administrative offset of Federal payments other than Federal tax refund payments for referral of delinquent child support debt.  Participation is voluntary.  Note: All states participate in the Treasury Offset Program for offset against Federal tax refund payments.  Participation for offsets against tax refund payments is mandatory for child support debts.",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "state_income_tax_part_cnt",
+              "definition": "Numeric indicator of whether the states participate in the offset of Federal tax refund payments.  This is only used for the State Reciprocal Program.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_state_program_part",
+              "definition": "Indicator of whether the Federal agency or state participates in the Treasury Offset Program.",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "snap_part_cnt",
+              "definition": "Numeric indicator of whether the state/territory or District of Columbia participates in the Treasury Offset Program through the Department Agriculture-Food and Nutrition Service.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_state_reciprocal_complete_year",
+              "definition": "Whether the current collection year has been completed",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_state_income_tax_complete_year",
+              "definition": "Whether the current collection year has been completed",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "total_amt",
+              "definition": "The dollar value of offsets",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_snap_part",
+              "definition": "Boolean indicator of whether the state/territory or District of Columbia participates in the Treasury Offset Program through the Department Agriculture-Food and Nutrition Service.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "state_program_desc",
+              "definition": "Narrative representation of the offset matching program, based on debt type authorized and eligible for delinquent debt collection.  ",
+              "tableName": "State Programs",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "debt/top/federal_collections",
+          "dateField": "reporting_date",
+          "tableName": "Federal Collections",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": [
+                "gross_count",
+                "gross_amount",
+                "net_count",
+                "net_amount",
+                "creditor_agency_nm",
+                "payment_source_description",
+                "payment_category",
+                "taxable",
+                "debt_type_description",
+                "agency_type_code",
+                "payment_agency_nm",
+                "source_agency",
+                "agency_type",
+                "agency_site_name",
+                "debt_type_code"
+              ],
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Federal Collections",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_id",
+              "definition": "The ID of the federal or state agency that refers delinquent debts to the Treasury Offset Program.   An agency that requests the Fiscal Service’s services in collecting its delinquent debt by inclusion in TOP for administrative offset.",
+              "tableName": "Federal Collections",
+              "prettyName": "Agency ID",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_type_id",
+              "definition": "Payment Type: (OCSE use only) This will be a unique TOP code identifying the type of payment being offset or levied, if applicable.",
+              "tableName": "Federal Collections",
+              "prettyName": "Payment Type ID",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_nm",
+              "definition": "The name of the federal or state agency that refers delinquent debts to the Treasury Offset Program.   An agency that requests the Fiscal Service’s services in collecting its delinquent debt by inclusion in TOP for administrative offset.",
+              "tableName": "Federal Collections",
+              "prettyName": "Creditor Agency Name",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_agency_nm",
+              "definition": "The name of the federal agency that certifies payment information in either a check or ACH format and requests payment disbursement by the Fiscal Service.  In TOP processing, a payment agency is a Federal or state agency which provides payment files that are used in the Fiscal Services TOP matching process.",
+              "tableName": "Federal Collections",
+              "prettyName": "Agency Name",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_category",
+              "definition": "Type of Federal or state payment matched against TOP system.  ",
+              "tableName": "Federal Collections",
+              "prettyName": "Payment Category Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_source_cd",
+              "definition": "Code for the federal or state agency that provides the payment file to the match against the TOP System for delinquent debt collection.  ",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_amt",
+              "definition": "The dollar value of offsets once reversals have been removed",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_type_desc",
+              "definition": "The nature of the debt owed to the Federal or state agency, as defined by DMS, based on how the debt was originated and what type of agency it is owed.  Must be a valid Debt Type as identified by DMS.  Currently TOP has 6 debt types:   1. Federal tax debt   2. Child support debt (TANF and Non-TANF)   3. Federal non-tax debt   4. State income tax debt   5. State unemployment compensation insurance debts (overpayments and tax debt)   6. Other state debts",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_cnt",
+              "definition": "The count of offsets once reversals have been removed",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_source_desc",
+              "definition": "Federal or state agency that provides the payment file to the match against the TOP System for delinquent debt collection.  ",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_site_nm",
+              "definition": "Identifying alpha/numeric field for the Federal or state agency participating in the Treasury Offset Program.   Assigned by Treasury.  ",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_cnt",
+              "definition": "The amount of offsets before any reversals",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_agency_type",
+              "definition": "Type of payment agency, based on whether the agency is a Federal or state entity and based on the type of debt referred to the Treasury Offset Program.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_type",
+              "definition": "Type of creditor agency, based on whether the agency is a Federal or state entity and based on the type of debt they refer to the Treasury Offset Program.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_agency_id",
+              "definition": "The ID of the federal agency that certifies payment information in either a check or ACH format and requests payment disbursement by the Fiscal Service.  In TOP processing, a payment agency is a Federal or state agency which provides payment files that are used in the Fiscal Services TOP matching process.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "is_taxable",
+              "definition": "IRS Federal tax debt, or state income tax debt or unemployment insurance compensation debt referred to TOP.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_site_id",
+              "definition": "Identifying alpha/numeric field for the Federal or state agency participating in the Treasury Offset Program.   Assigned by Treasury.  ",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_type_desc",
+              "definition": "Payment Type: (OCSE use only) This will be a unique TOP code identifying the type of payment being offset or levied, if applicable.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_type_cd",
+              "definition": "The code describing the nature of the debt owed to the Federal or state agency, as defined by DMS, based on how the debt was originated and what type of agency it is owed.  Must be a valid Debt Type as identified by DMS.  ",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_site_nm_desc",
+              "definition": "Identifier of the Creditor Agency who received the offset collections.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_site_nm_detail",
+              "definition": "Identifier of the Creditor Agency who received the offset collections.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "creditor_agency_site_nm_num",
+              "definition": "Identifier of the Creditor Agency who received the offset collections.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "payment_type_cd",
+              "definition": "Payment Type: (OCSE use only) This will be a unique TOP code identifying the type of payment being offset or levied, if applicable.",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_amt",
+              "definition": "The dollar value of offsets before any reversals",
+              "tableName": "Federal Collections",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "1999",
+      "slug": "/treasury-offset-program/",
+      "summaryText": "This dataset is a summary of five different programs in which states, the District of Columbia (D.C.), and U.S. Territories can collect delinquent debt and turn it over to the Federal government by offset. An offset is the reduction or withholding of a payment.\n\nThese programs are income tax, statereciprocal tax agreements, unemployment insurance, child support, and Supplemental Nutrition Assistance Program (SNAP).\n\nChild support is further broken down into administrative offset and tax refund offset. Data is available as far back as Fiscal Year 2000 and is published on a yearly basis.\n\nStates vary in their participation of each of the five programs and thus, somefields have null values which are noted.",
+      "tagLine": "State and federal collections of delinquent debtfrom five areas: income tax, state reciprocal, unemployment insurance, child support, and SNAP.",
+      "publisher": "Debt Management Services",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "02/01/2020",
+        "earliestDate": "10/01/1999",
+        "lastUpdated": "01/01/3000",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Monthly Statement of the Public Debt",
+      "apis": [
+        {
+          "endpoint": "debt/mspd/mspd_table_1",
+          "dateField": "reporting_date",
+          "tableName": "Summary of Treasury Securities Outstanding",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Summary of Treasury Securities Outstanding",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_out_amt",
+              "definition": "Amount outstanding represents the total par (principal amount) of marketable and non-marketable securities outstanding. The marketable securities include the discount and premium for treasury bills, notes, bonds, FRNs, and TIPS, all of which can be bought and sold in the secondary market at prevailing market prices.",
+              "tableName": "Summary of Treasury Securities Outstanding",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_holder",
+              "definition": "Tier two of a three-tier hierarchy for categorizing Treasury securities. Indicates whether the security is held by the public or part of intragovernmental holdings. ",
+              "tableName": "Summary of Treasury Securities Outstanding",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_type",
+              "definition": "Tier three of a three-tier hierarchy for categorizing Treasury securities.",
+              "tableName": "Summary of Treasury Securities Outstanding",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_market",
+              "definition": "Tier one of a three-tier hierarchy for categorizing Treasury securities. Indicates whether a security type is marketable or nonmarketable. ",
+              "tableName": "Summary of Treasury Securities Outstanding",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Statement of the Public Debt report",
+              "tableName": "Summary of Treasury Securities Outstanding",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "debt/mspd/mspd_table_2",
+          "dateField": "reporting_date",
+          "tableName": "Statutory Debt Limit",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Statutory Debt Limit",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Statement of the Public Debt report",
+              "tableName": "Statutory Debt Limit",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_holder",
+              "definition": "Indicates whether the federal debt is held by the public or intragovernmental holdings",
+              "tableName": "Statutory Debt Limit",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_category_desc",
+              "definition": "Tier two of a two-tier hierarchy for categorizing federal debt subject to the limit.",
+              "tableName": "Statutory Debt Limit",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_catg",
+              "definition": "Tier one of a two-tier hierarchy for categorizing federal debt subject to the limit.",
+              "tableName": "Statutory Debt Limit",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_out_amt",
+              "definition": "Amount outstanding represents the total par (principal amount) of marketable and non-marketable securities outstanding. The marketable securities include the discount and premium for treasury bills, notes, bonds, FRNs, and TIPS, all of which can be bought and sold in the secondary market at prevailing market prices.",
+              "tableName": "Statutory Debt Limit",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "debt/mspd/mspd_table_3",
+          "dateField": "reporting_date",
+          "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "issue_date",
+              "definition": "The date on which a security is transferred between two parties.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": "Issue Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "maturity_date",
+              "definition": "The date on which the principal of a security becomes due, and the security ceases earning interest.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": "Maturity Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "inflation_adj_amt",
+              "definition": "Securities issued by Treasury where Treasury adjusts the par value of the security using the index ratio to reflect inflation compensation on a daily basis.  Treasury issues these securities at a discount or premium, and they carry a stated rate of interest, payable semiannually.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": "Inflation Adjustment Amount",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_payable_date",
+              "definition": "The date on which Treasury pays out the interest earned on a security.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "cusip",
+              "definition": "A CUSIP is a string of numbers and letters that identifies a security.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Statement of the Public Debt report",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "out_amt",
+              "definition": "Amount outstanding represents the total par (principal amount) of marketable securities outstanding. The marketable securities include the discount and premium for treasury bills, notes, bonds, FRNs, and TIPS, all of which can be bought and sold in the secondary market at prevailing market prices.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "redeem_amt",
+              "definition": "The payment of principal and any interest at maturity or pursuant to a call for redemption in accordance with the terms of the security.  Or at the option of the owner, prior to maturity.  This is also referred to as ‘redemption.’",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_type",
+              "definition": "Treasury Bills, Notes, Bonds, and TIPS securities where ownership can be transferred from one person or entity to another. They can also be traded on the secondary market.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "issue_amt",
+              "definition": "The principal amount of a security at issue date.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "yield_amt",
+              "definition": "\"\"\"For this dataset we are referring to the yield at auction. Yield means the annualized rate of return to maturity on a fixed principal security. Yield is expressed as a percentage. For an inflation-protected security, yield means the real yield. Yield is also referred to as \"\"\"\"yield to maturity.\"\"\"\"\"\"\"",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_rate_amt",
+              "definition": "The annual percentage rate of interest paid on the par amount (or the inflation-adjusted principal) of a specific issue of notes and bonds.",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_market",
+              "definition": "Indicates whether a security type is marketable or nonmarketable. ",
+              "tableName": "Detail of Treasury Securities Outstanding (Marketable Securities)",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "debt/mspd/mspd_table_5",
+          "dateField": "reporting_date",
+          "tableName": "Holdings of Treasury Securities in Stripped Form",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "cusip",
+              "definition": "A CUSIP is a string of numbers and letters that identifies a security.",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": "CUSIP",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "maturity_date",
+              "definition": "The date on which the principal of a security becomes due, and the security ceases earning interest.",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": "Maturity Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "security_type",
+              "definition": "Treasury Notes, Bonds, and TIPS securities where ownership can be transferred from one person or entity to another. They can also be traded on the secondary market.",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "corpus_strip_cusip",
+              "definition": "The CUSIP that is assigned at auction and is used when coupons are separated from the principal (corpus) and become separate securities.",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "out_amt",
+              "definition": "Amount outstanding represents the total par (principal amount) of marketable securities outstanding. The marketable securities include the discount and premium for treasury bills, notes, bonds, FRNs, and TIPS, all of which can be bought and sold in the secondary market at prevailing market prices.",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "security_market",
+              "definition": "Indicates whether a security type is marketable or nonmarketable. ",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "interest_rate_amt",
+              "definition": "The annual percentage rate of interest paid on the par amount (or the inflation-adjusted principal) of a specific issue of notes and bonds.",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "strip_out_amt",
+              "definition": "A strippable registered or book-entry security in which interest payments are separated from the principal (corpus). ",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Statement of the Public Debt report",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "unstrip_out_amt",
+              "definition": "A strippable registered or book-entry security in which interest payments are not separated from the principal (corpus).",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "reconst_this_month_amt",
+              "definition": "Effective May 1, 1987, securities held in stripped form are eligible for reconstitution to their unstripped form. This is the value of the interest payments, or coupons that have been reattached to the Treasury bond or note in the current month.",
+              "tableName": "Holdings of Treasury Securities in Stripped Form",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2002",
+      "slug": "/monthly-statement-public-debt/",
+      "summaryText": "The Monthly Statement of the Public Debt details the Treasury’s outstanding debts and the debt limit with data going back to 1869. \n\nDebt is categorized byits ability to be sold in secondary markets (marketability), type of debt, and if the debt is held by the public or intragovernmental organizations.\n\nAdditionally, there are accounts of debt that is no longer outstanding.\n\nAll amounts are reported in the millions of U.S. dollars.\n\nReports are published onthe fourth business day of each month, detailing the debt as of the end of the previous month.",
+      "tagLine": "High level overview of the Treasury’s outstanding debts and holdings presented each month in stripped form.",
+      "publisher": null,
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "03/31/2020",
+        "earliestDate": "01/31/2002",
+        "lastUpdated": "04/07/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Monthly Treasury Statement",
+      "apis": [
+        {
+          "endpoint": "accounting/mts/mts_table_4",
+          "dateField": "data_date",
+          "tableName": "Receipts of the U.S. Government",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": [
+                "current_month_net_receipts",
+                "current_month_refund",
+                "current_month_gross_receipts"
+              ],
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "receipt_month_amt",
+              "definition": "The total amount received by the United States Government after refunds or other offsets, for the month.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "source",
+              "definition": "Tier one of a four-tier hierarchy for classifying receipts.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "refund_deduct_fytd_amt",
+              "definition": "The fiscal year to date return of excess payments to or by the Government.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "source_detail",
+              "definition": "Tier three of a four-tier hierarchy for classifying receipts.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "receipt_prior_fytd",
+              "definition": "The prior fiscal year to date total amount received by the United States Government after refunds or other offsets.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "refund_deduct_month_amt",
+              "definition": "The return of excess payments to or by the Government for the month.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_receipt_month_amt",
+              "definition": "The total amount received by the United States Government without regard to refunds or other offsets, for the month.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "source_desc",
+              "definition": "Tier two of a four-tier hierarchy for classifying receipts.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "refund_deduct_prior_fytd_amt",
+              "definition": "The prior fiscal year to date return of excess payments to or by the Government.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "receipt_fytd_amt",
+              "definition": "The fiscal year to date total amount received by the United States Government after refunds or other offsets.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_receipt_prior_fytd_amt",
+              "definition": "The prior fiscal year to date total amount received by the United States Government without regard to refunds or other offsets.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "source_detail_desc",
+              "definition": "Tier four of a four-tier hierarchy for classifying receipts.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_receipt_fytd_amt",
+              "definition": "The fiscal year to date total amount received by the United States Government without regard to refunds or other offsets.",
+              "tableName": "Receipts of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_5",
+          "dateField": "data_date",
+          "tableName": "Outlays of the U.S. Government",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": [
+                "current_month_net_outlays",
+                "current_month_gross_outlays",
+                "current_month_receipts"
+              ],
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "agency_desc",
+              "definition": "Tier two of a four-tier hierarchy for classifying outlays.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_outlay_prior_fytd_amt",
+              "definition": "The prior fiscal year to date amount of expenditures by the United States Government without regard to offsetting amounts.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "outlay_month_amt",
+              "definition": "The total amount of expenditures by the United States Government after offsetting amounts, for the month.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "agency_detail",
+              "definition": "Tier three of a four-tier hierarchy for classifying outlays.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "agency_detail_desc",
+              "definition": "Tier four of a four-tier hierarchy for classifying outlays.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "outlay_prior_fytd",
+              "definition": "The prior fiscal year to date amount of expenditures by the United States Government after offsetting amounts.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_outlay_month_amt",
+              "definition": "The total amount of expenditures by the United States Government without regard to offsetting amounts, for the month.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "outlay_fytd_amt",
+              "definition": "The fiscal year to date amount of expenditures by the United States Government after offsetting amounts.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "app_receipt_month_amt",
+              "definition": "Transactions that offset outlays for a given federal agency or program, for the month.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "gross_outlay_fytd_amt",
+              "definition": "The fiscal year to date amount of expenditures by the United States Government without regard to offsetting amounts.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "app_receipt _fytd_amt",
+              "definition": "The fiscal year to date transactions that offset outlays for a given federal agency or program.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "agency",
+              "definition": "An agency of the United States Government. Tier one of a four-tier hierarchy for classifying outlays.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "app_receipt _prior_fytd_amt",
+              "definition": "The prior fiscal year to date transactions that offset outlays for a given federal agency or program.",
+              "tableName": "Outlays of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_8",
+          "dateField": "reporting_date",
+          "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "outlay_fytd_amt",
+              "definition": "Fiscal year to date amount of outlays from a fund that is designated as a trust fund.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "trust_fund",
+              "definition": "A type of account, designated by law, for receipts or offsetting receipts dedicated to specific purposes and the expenditure of these receipts.  An example would be the Unemployment Insurance Trust Fund.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "budget_result",
+              "definition": "Classification for trust fund budget results",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance for a trust fund for the fiscal year.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "excess_month_amt",
+              "definition": "Difference between the receipts and outlays for a trust fund for the month.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance for a trust fund for the current month.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "outlay_month_amt",
+              "definition": "Amount of outlays for the month from a fund that is designated as a trust fund.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "excess_fytd_amt",
+              "definition": "Fiscal year to date difference between the receipts and outlays for a trust fund.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "receipt_fytd_amt",
+              "definition": "Fiscal year to date amount of receipts to a fund that is designated as a trust fund.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "receipt _month_amt",
+              "definition": "Amount of receipts for the month to a fund that is designated as a trust fund.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "close_month_bal",
+              "definition": "The closing balance for a trust fund for the current month.",
+              "tableName": "Trust Fund Impact on Budget Results and Investment Holdings",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_6",
+          "dateField": "reporting_date",
+          "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "class",
+              "definition": "Tier one of a four-tier hierarchy for classification",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class_detail",
+              "definition": "Tier three of a four-tier hierarchy for classification",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance for an account for the fiscal year.",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class_desc",
+              "definition": "Tier two of a four-tier hierarchy for classification",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_trans_prior_fytd_amt",
+              "definition": "The total amount of transactional activity for the prior fiscal year for an account.",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "account_type",
+              "definition": "Indicates whether the account is an asset or a liability. An asset account would represent an asset to the United States Government, for example United States Treasury Operating Cash. A liability account would represent a liability to the United States Government, for example Borrowing from the Public.",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_trans_month_amt",
+              "definition": "The total amount of transactional activity for the month for an account.",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance for an account for the current month.",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "close_month_bal",
+              "definition": "The closing balance for an account for the current month.",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_trans_fytd_amt",
+              "definition": "The total amount of transactional activity for the fiscal year for an account.",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class_detail_desc",
+              "definition": "Tier four of a four-tier hierarchy for classification",
+              "tableName": "Means of Financing the Deficit or Disposition of Surplus by the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_6a",
+          "dateField": "reporting_date",
+          "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "fytd_amt",
+              "definition": "Change in excess of liabilities fiscal year to date",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "month_amt",
+              "definition": "Change in excess of liabilities this month",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class_desc",
+              "definition": "Tier two of a three-tier hierarchy for classifying changes in excess of liabilities",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "prior_fytd_amt",
+              "definition": "Change in excess of liabilities prior fiscal year to date",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class_desc_detail",
+              "definition": "Tier three of a three-tier hierarchy for classifying changes in excess of liabilities",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class",
+              "definition": "Tier one of a three-tier hierarchy for classifying changes in excess of liabilities",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "budget_est_fy_amt",
+              "definition": "Estimated yearly amounts provided by the Office of Management and Budget for the current fiscal year",
+              "tableName": "Analysis of Change in Excess of Liabilities of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_6b",
+          "dateField": "reporting_date",
+          "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "agency",
+              "definition": "An agency of the United States Government. Tier one of a three-tier hierarchy for classifying agencies.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance for an account for the fiscal year.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "guarantee",
+              "definition": "Indicates whether or not the obligation is guaranteed. A guaranteed obligation is an obligation that is made against a guaranteed loan.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "sub_agency_desc",
+              "definition": "Tier three of a three-tier hierarchy for classifying agencies. Tier two of the hierarchy does not exist in this table, but can be found in Monthly Treasury Statement Table 6-C Federal Agency Borrowing Financing Through the Issue of Treasury Securities.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_month_amt",
+              "definition": "The total amount of transactional activity for the month for an account.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class",
+              "definition": "Indicates that the securities were issued by federal agencies under special financing authorities. Special financing authorities include financing that is established via legislation under special or unique circumstances and for a specific purpose.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "close_month_bal",
+              "definition": "The closing balance for an account for the current month.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_prior_fytd_amt",
+              "definition": "The total amount of transactional activity for the prior fiscal year for an account.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_fytd_amt",
+              "definition": "The total amount of transactional activity for the fiscal year for an account.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance for an account for the current month.",
+              "tableName": "Securities Issued by Federal Agencies Under Special Financing Authorities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_6d",
+          "dateField": "reporting_date",
+          "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance for an agency for the current month.",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "close_month_bal",
+              "definition": "The closing balance for an agency for the current month.",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_prior_fytd_amt",
+              "definition": "The total amount of transactional activity for the prior fiscal year for an agency.",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_fytd_amt",
+              "definition": "The total amount of transactional activity for the fiscal year for an agency.",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class",
+              "definition": "Indicates where agency borrowings originate. Borrowing from the Federal Financing Bank includes all borrowing by federal agencies directly through the Federal Financing Bank. Borrowing from the U.S. Treasury includes all borrowing by federal program agencies from the United States Treasury",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "sub_agency_desc",
+              "definition": "Tier three of a three-tier hierarchy for classifying agencies",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_month_amt",
+              "definition": "The total amount of transactional activity for the month for an agency.",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "sub_agency",
+              "definition": "Tier two of a three-tier hierarchy for classifying agencies",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "agency",
+              "definition": "An agency of the United States Government. Tier one of a three-tier hierarchy for classifying agencies.",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance for an agency for the fiscal year.",
+              "tableName": "Federal Agency Borrowing Financed Through the Issue of Treasury Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_6d",
+          "dateField": "reporting_date",
+          "tableName": "Investments of Federal Government Accounts in Federal Securities",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_prior_fytd_amt",
+              "definition": "The total amount of transactional activity for the prior fiscal year for an agency.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_fytd_amt",
+              "definition": "The total amount of transactional activity for the fiscal year for an agency.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "close_month_bal",
+              "definition": "The closing balance for an agency for the current month.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance for an agency for the current month.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "fund_type",
+              "definition": "Indicates whether the fund is a federal fund or a trust fund. Federal funds include general funds, special funds, and revolving funds (public enterprise revolving funds, intragovernmental revolving funds, and credit financing accounts). A trust fund is a type of account, designated by law, for receipts or offsetting receipts dedicated to specific purposes and the expenditure of these receipts.  An example would be the Unemployment Insurance Trust Fund.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "sub_agency",
+              "definition": "Tier two of a three-tier hierarchy for classifying agencies",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "agency",
+              "definition": "An agency of the United States Government. Tier one of a three-tier hierarchy for classifying agencies.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance for an agency for the fiscal year.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "sub_agency_desc",
+              "definition": "Tier three of a three-tier hierarchy for classifying agencies",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_month_amt",
+              "definition": "The total amount of transactional activity for the month for an agency.",
+              "tableName": "Investments of Federal Government Accounts in Federal Securities",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_6e",
+          "dateField": "reporting_date",
+          "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_month_amt",
+              "definition": "The total amount of transactional activity for the month for an agency.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "sub_agency_desc",
+              "definition": "Tier three of a three-tier hierarchy for classifying agencies",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "sub_agency",
+              "definition": "Tier two of a three-tier hierarchy for classifying agencies",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_fy_bal",
+              "definition": "The opening balance for an agency for the fiscal year.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "agency",
+              "definition": "An agency of the United States Government. Tier one of a three-tier hierarchy for classifying agencies.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "loan_type",
+              "definition": "Indicates whether the loan is a guaranteed loan or a direct loan. Guaranteed loan financing is loan financing accompanied by a guarantee, insurance, or other pledge with respect to the payment of all or a part of the principal or interest on any debt obligation of a non-Federal borrower to a non-Federal lender, except for the insurance of deposits, shares, or other withdrawable accounts in financial institutions. Direct loan financing is a disbursement of funds by the Government to a non-Federal borrower under a contract that requires repayment of such funds with or without interest.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "open_month_bal",
+              "definition": "The opening balance for an agency for the current month.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_fytd_amt",
+              "definition": "The total amount of transactional activity for the fiscal year for an agency.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "net_transaction_prior_fytd_amt",
+              "definition": "The total amount of transactional activity for the prior fiscal year for an agency.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "close_month_bal",
+              "definition": "The closing balance for an agency for the current month.",
+              "tableName": "Net Activity, Guaranteed and Direct Loan Financing",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_2",
+          "dateField": "reporting_date",
+          "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "fytd_amt",
+              "definition": "Fiscal year to date amount.  The federal government's fiscal year runs from October 1 to September 30 each year.",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "month_amt",
+              "definition": "Amount for the current month",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "budget_est_next_fy_amt",
+              "definition": "Estimated yearly amounts provided by the Office of Management and Budget for the next fiscal year",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class_catg_desc",
+              "definition": "Tier three of a three-tier hierarchy for classifying budget and off-budget results and financing.",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class_catg",
+              "definition": "Tier two of a three-tier hierarchy for classifying budget and off-budget results and financing.",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "prior_fytd_amt",
+              "definition": "Prior fiscal year to date amount.  The federal government's fiscal year runs from October 1 to September 30 each year.",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "budget_est_fy_amt",
+              "definition": "Estimated yearly amounts provided by the Office of Management and Budget for the current fiscal year",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "class",
+              "definition": "Tier one of a three-tier hierarchy for classifying budget and off-budget results and financing.",
+              "tableName": "Summary of Budget and Off-Budget Results and Financing of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        },
+        {
+          "endpoint": "accounting/mts/mts_table_1",
+          "dateField": "reporting_date",
+          "tableName": "Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "outlay_amt",
+              "definition": "A payment to liquidate an obligation (other than the repayment to the Treasury of debt principal).",
+              "tableName": "Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "period",
+              "definition": "Month for which receipt, outlay, and deficit/surplus values are recorded",
+              "tableName": "Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "deficit_surplus_amt",
+              "definition": "A deficit represents the amount by which net outlays exceeds net receipts.  A surplus represents the amount by which net receipts exceeds net outlays.  A surplus is represented as a negative value in this table.",
+              "tableName": "Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "receipt_amt",
+              "definition": "Monies collected by the United States Government.",
+              "tableName": "Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "report_table_nbr",
+              "definition": "Indicates the corresponding table number in the Monthly Treasury Statement report",
+              "tableName": "Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2015",
+      "slug": "/monthly-treasury-statement/",
+      "summaryText": "The Monthly Treasury Statement is a multi-table report detailing the financial activities of the U.S. Department of the Treasury for the previous12 months. Money flowing into the Treasury is known as receipts and money flowing out is known as outlays.\n\nA surplus occurs if the total value of receiptsexceeds the value of outlays and a deficit occurs when the value of outlays exceeds the value of receipts.\n\nWhen a deficit occurs, this report details how the deficit is being funded, such as borrowing from the public or reduction of operating cash.\n\nFurther tables categorize spending by department and agency and receipts by specific taxes or other government sources of income.\n\nAll values are reported in millions of U.S. dollars.",
+      "tagLine": "Summary of the federal government’s financial activities, including: receipts and outlays, surpluses/deficits, and means of financing in the case of a deficit.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "03/31/2020",
+        "earliestDate": "03/31/2015",
+        "lastUpdated": "04/11/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Status Report of US Government Gold Reserve",
+      "apis": [
+        {
+          "endpoint": "accounting/od/gold_reserve",
+          "dateField": "data_date",
+          "tableName": "Status Report of US Government Gold Reserve",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Facility",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "facility_desc",
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Form",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "form_desc",
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Location",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "location_desc",
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "facility_desc",
+              "definition": "Type of facility housing gold reserve",
+              "tableName": "Status Report of US Government Gold Reserve",
+              "prettyName": "Facility Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "form_desc",
+              "definition": "Form in which the gold reserve is held",
+              "tableName": "Status Report of US Government Gold Reserve",
+              "prettyName": "Form Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "location_desc",
+              "definition": "Location of the gold reserve",
+              "tableName": "Status Report of US Government Gold Reserve",
+              "prettyName": "Location Description",
+              "dataType": "STRING",
+              "isRequired": null
+            },
+            {
+              "columnName": "fine_troy_ounce_qty",
+              "definition": "Precious Metals measurement",
+              "tableName": "Status Report of US Government Gold Reserve",
+              "prettyName": "Fine Troy Ounces",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "book_value_amt",
+              "definition": "Value assigned to a Fine Troy Ounce by Treasury",
+              "tableName": "Status Report of US Government Gold Reserve",
+              "prettyName": "Book Value",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Status Report of US Government Gold Reserve",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2012",
+      "slug": "/gold-reserve/",
+      "summaryText": "The U.S. Treasury maintains a large reserve of gold in various locations across the U.S.\n\nThe Status Report of US Government Gold Reserve dataset records how much gold is in each location and whether the gold is held in deep storage or if it is gold the mint uses as raw material for the creation of congressional authorized coins. \n\nThe report includes both the weight of the gold in Troy Ounces and the book value in dollars.",
+      "tagLine": "The amount of gold the treasury holds in both weight and value.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "03/31/2020",
+        "earliestDate": "01/31/2012",
+        "lastUpdated": "04/07/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Gift Contributions to Reduce Debt Held by the Public",
+      "apis": [
+        {
+          "endpoint": "accounting/od/gift_contributions",
+          "dateField": "data_date",
+          "tableName": "Gift Contributions to Reduce Debt Held by the Public",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": [
+                "contribution_amt"
+              ],
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": null
+        }
+      ],
+      "dataStartYear": "2009",
+      "slug": "/gift-contributions/",
+      "summaryText": "This dataset records the monthly total of donations to the Treasury to reduce the public debt. Donations can consist of money, outstanding government obligations, or property that is sold for cash.\n\nInformation is available as far back as 1996 on a yearly basis and in Fiscal Year 1998 the report includes monthly values.",
+      "tagLine": "Summary of gifts donated to the United States Government to reduce debt held by the public.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "12/31/2019",
+        "earliestDate": "12/31/2009",
+        "lastUpdated": "12/31/2019",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Interest Expense on the Debt Outstanding",
+      "apis": [
+        {
+          "endpoint": "accounting/od/interest_expense",
+          "dateField": "reporting_date",
+          "tableName": "Interest Expense on the Debt Outstanding",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Expense Category",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "expense_catg_desc",
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Expense Group",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "expense_group_desc",
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Expense Type",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "expense_type_desc",
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": null
+        }
+      ],
+      "dataStartYear": "2009",
+      "slug": "/interest-expense-debt-outstanding/",
+      "summaryText": "The Interest Expense on the Debt Outstanding report is a monthly summary of the cost of interest on U.S. debt, including U.S. Treasury notes and bonds, foreign and domestic series certificates of indebtedness, notes and bonds, savings bonds, Government Account Series (GAS), State and Local Government series (SLGs) and other special purpose securities. \n\nBeginning in 1988, there is yearly information available and a separate table with monthly totals for the current year.",
+      "tagLine": "Monthly summary of the cost of interest on U.S. debt ",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "12/31/2019",
+        "earliestDate": "12/31/2009",
+        "lastUpdated": "12/31/2019",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Schedules of Federal Debt",
+      "apis": [
+        {
+          "endpoint": "od/schedules_fed_debt",
+          "dateField": "reporting_date",
+          "tableName": "Schedules of Federal Debt",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Schedules of Federal Debt",
+              "prettyName": "Calendar Date",
+              "dataType": "DATE",
+              "isRequired": null
+            },
+            {
+              "columnName": "security_holder",
+              "definition": "Tier one of a two-tier hierarchy for categorizing federal debt. Indicates whether the debt is held by the public or part of intragovernmental holdings. ",
+              "tableName": "Schedules of Federal Debt",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "change_debt_bal",
+              "definition": "Tier one of a two-tier hierarchy for categorizing the change in federal debt.",
+              "tableName": "Schedules of Federal Debt",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "fytd_change_debt_amt",
+              "definition": "The fiscal year to date change in federal debt for the month of the report",
+              "tableName": "Schedules of Federal Debt",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "month_change_debt_amt",
+              "definition": "The change in federal debt for the month of the report.",
+              "tableName": "Schedules of Federal Debt",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "debt_catg",
+              "definition": "Tier two of a two-tier hierarchy for categorizing federal debt.",
+              "tableName": "Schedules of Federal Debt",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "change_debt_bal_desc",
+              "definition": "Tier two of a two-tier hierarchy for categorizing the change in federal debt.",
+              "tableName": "Schedules of Federal Debt",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2009",
+      "slug": "/schedules-of-federal-debt/",
+      "summaryText": "The Schedules of Federal Debt dataset contains monthly changes and Federal Debt managed by the Bureau of the Fiscal Service, including debt held by the public and intragovernmental debt holdings.\n\nThese two categories are further broken down into principal debt, accrued interest payable, and net unamortized premiums/discounts. \n\nSub-tables detail the holders of intragovernmental debt, the securities that make up debt held by the public, and interest expense specifics. \n\nAll values are reported in millions of dollars and are available on a monthly basis from the beginning of Fiscal Year 2006 to the present.",
+      "tagLine": "Federal debt managed by the Bureau of the Fiscal Service and monthly changes, broken out by principal debt, accrued interest payable, and net unamortized premiums/discounts.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "12/31/2019",
+        "earliestDate": "12/31/2009",
+        "lastUpdated": "12/31/2019",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Monthly"
+      }
+    },
+    {
+      "name": "Treasury Reporting Rates of Exchange",
+      "apis": [
+        {
+          "endpoint": "accounting/od/exchange_rates",
+          "dateField": "data_date",
+          "tableName": "Treasury Reporting Rates of Exchange",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": "none",
+              "fields": null,
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            },
+            {
+              "title": "By Country/Currency",
+              "chartType": null,
+              "fields": null,
+              "dimensionField": "country_currency_desc",
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "exchange_rate",
+              "definition": "Exchange rate at which any foreign currency unit will be valued, and reported at, against the U.S. Dollar.",
+              "tableName": "Treasury Reporting Rates of Exchange",
+              "prettyName": "Exchange Rate",
+              "dataType": "NUMBER",
+              "isRequired": null
+            },
+            {
+              "columnName": "country_currency",
+              "definition": "Country and currency for that exchange rate.",
+              "tableName": "Treasury Reporting Rates of Exchange",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            },
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Treasury Reporting Rates of Exchange",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": null
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "2001",
+      "slug": "/treasury-reporting-rates-exchange/",
+      "summaryText": "This report provides authoritative exchange rate information to ensure consistency with respect to foreign currency units and U.S. dollar equivalents across all reporting done by agencies of the government\n\nThis report covers any foreign currencies in which the U.S. government has an interest, including: receipts and disbursements, accrued revenues and expenditures, authorizations, obligations, receivables and payables, refunds, and similar reverse transaction items. \n\nThe Secretary of the Treasury has sole authority to establish the exchange rates for all foreign currencies or credits reported by government agencies under Public Law.",
+      "tagLine": "Treasury Reporting Rates of Exchange provides exchange rate information for foreign currencies and their U.S. dollar equivalent to ensure consistency across reports.",
+      "publisher": null,
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "12/31/2019",
+        "earliestDate": "03/31/2001",
+        "lastUpdated": "03/17/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Quarterly"
+      }
+    },
+    {
+      "name": "Historical Debt Outstanding",
+      "apis": [
+        {
+          "endpoint": "accounting/od/debt_outstanding",
+          "dateField": "data_date",
+          "tableName": "Historical Debt Outstanding",
+          "dataDisplays": [
+            {
+              "title": "Complete Table",
+              "chartType": null,
+              "fields": [
+                "debt_outstanding_amt"
+              ],
+              "dimensionField": null,
+              "valueFields": null,
+              "filters": null
+            }
+          ],
+          "fields": [
+            {
+              "columnName": "reporting_date",
+              "definition": "Reporting date for the data",
+              "tableName": "Historical Debt Outstanding",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": 1
+            },
+            {
+              "columnName": "total_debt_out_amt",
+              "definition": "The Total Debt Outstanding represents the face amount or principal amount of marketable and non-marketable securities currently outstanding. Total debt outstanding is expressed as of fiscal year end.",
+              "tableName": "Historical Debt Outstanding",
+              "prettyName": null,
+              "dataType": null,
+              "isRequired": 1
+            }
+          ]
+        }
+      ],
+      "dataStartYear": "1790",
+      "slug": "/historical-debt-outstanding/",
+      "summaryText": "Historical Debt Outstanding is a dataset that provides a historical summary of the U.S. government’s total outstanding debt at the beginning ofeach fiscal year.\n\nThis is a high-level summary of historical debt and does not break down its components.",
+      "tagLine": "U.S. debt outstanding at the end of each fiscal year.",
+      "publisher": "Bureau of the Fiscal Service",
+      "dictionary": 0,
+      "techSpecs": {
+        "latestDate": "09/30/2019",
+        "earliestDate": "01/01/1790",
+        "lastUpdated": "01/24/2020",
+        "fileFormat": "JSON, CSV, XML",
+        "updateFrequency": "Updated Yearly"
+      }
+    }
+  ]
+}

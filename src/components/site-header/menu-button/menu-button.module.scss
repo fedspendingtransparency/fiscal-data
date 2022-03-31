@@ -1,0 +1,23 @@
+@import '../../../variables.module.scss';
+
+$buttonWidth: 57px;
+
+.button {
+  position: absolute;
+  left: -$buttonWidth;
+  top: 0;
+  width: $buttonWidth;
+  background-color: white;
+  border: none;
+  z-index: 99;
+  padding: 0.3rem 0.5rem 0;
+  cursor: pointer;
+}
+
+.menuText {
+  @include bodySmallStyle;
+  color: black;
+}
+
+
+

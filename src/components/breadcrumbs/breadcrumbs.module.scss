@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  white-space: nowrap;
+}
+
+.linkDiv, .linkSeparator {
+  display: inline-block;
+}
+
+.linkSeparator {
+  margin: 0 .625rem;
+}
+
+.currentPage {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
