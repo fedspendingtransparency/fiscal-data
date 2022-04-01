@@ -1,0 +1,5 @@
+node_modules
+public
+**/__tests__/*
+**/__mocks__/*
+**/__snapshots__/*
