@@ -19,7 +19,7 @@ const NationalDebtHero = (): JSX.Element => {
     basicFetch(`${url}`)
       .then((res) => {
         if (res.data) {
-          const totalPublicDebtOutstanding: string = res.data[0]['tot_pub_debt_out_amt'];
+          const totalPublicDebtOutstanding: string = Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toString();
           setNationalDebtValue(totalPublicDebtOutstanding);
         }
     });
@@ -35,7 +35,7 @@ const NationalDebtHero = (): JSX.Element => {
       (
         <div className={counterContainer}>
           <SplitFlapDisplay value={nationalDebtValue}
-                            minLength={21} // number of characters to initially display
+                            minLength={18} // number of characters to initially display
                             valueType="currency"
           />
           <div className={counterSourceInfo}>
