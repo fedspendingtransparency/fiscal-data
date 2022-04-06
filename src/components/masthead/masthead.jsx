@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
-import configStore from "../../layouts/dataset-detail/redux/config/config";
+import React from 'react';
 import * as styles from './masthead.module.scss';
 import DetailPills from '../detail-pills/detail-pills';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 
-const Masthead = ({title, tagLine, dictionary}) => {
-  const [techSpecs, setTechSpecs] = useState({});
+const Masthead = ({title, tagLine, techSpecs, dictionary}) => {
   const breadCrumbLinks = [
     {
       name: title
@@ -20,8 +18,6 @@ const Masthead = ({title, tagLine, dictionary}) => {
     }
   ];
 
-  configStore.subscribe(() => setTechSpecs(configStore.getState().techSpecs));
-
   return (
     <section className={styles.pageHeader}>
       <div className={styles.mainWidth}>
@@ -35,4 +31,3 @@ const Masthead = ({title, tagLine, dictionary}) => {
 };
 
 export default Masthead;
-

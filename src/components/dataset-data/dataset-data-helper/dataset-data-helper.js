@@ -25,20 +25,20 @@ export const getNormalizedDate = (dateStr) => {
 };
 
 export const getPresetDateRange = (years, latest, earliest) => {
-    // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
-    const rangeTo = convertDate(latest);
+  // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
+  const rangeTo = convertDate(latest);
 
-    const stringDate = earliest !== null && earliest !== undefined
-      ? earliest.replace(/-/g, '/')
-      : '1790/01/01';
-    const earliestAsDate = new Date(stringDate);
-    earliestAsDate.setHours(0, 0, 0, 0);
-    const yearsPrior = subYears(rangeTo, years);
-    yearsPrior.setHours(0, 0, 0, 0);
+  const stringDate = earliest !== null && earliest !== undefined
+    ? earliest.replace(/-/g, '/')
+    : '1790/01/01';
+  const earliestAsDate = new Date(stringDate);
+  earliestAsDate.setHours(0, 0, 0, 0);
+  const yearsPrior = subYears(rangeTo, years);
+  yearsPrior.setHours(0, 0, 0, 0);
 
-    const rangeFrom = isBefore(earliestAsDate, yearsPrior) ? yearsPrior : earliestAsDate;
+  const rangeFrom = isBefore(earliestAsDate, yearsPrior) ? yearsPrior : earliestAsDate;
 
-    return { from: rangeFrom, to: rangeTo, min: earliest };
+  return { from: rangeFrom, to: rangeTo, min: earliest };
 };
 
 export const matchTableFromApiTables = (curSelectedTable, apiTables) => {
@@ -52,12 +52,12 @@ export const matchTableFromApiTables = (curSelectedTable, apiTables) => {
 };
 
 export const parseTableSelectionFromUrl = (location, tables) => {
-  if (Array.isArray(tables) && tables[0] !== null) {
+  if (Array.isArray(tables)) {
     if (location && location.pathname) {
       const segments = location.pathname.split(/[/?]+/);
       const tableSegment = segments.length > 2 ? segments[3] : false;
       const tableInUrl = tableSegment ? tables
-        .find(table => table.pathName === tableSegment) : false;
+      .find(table => table.pathName === tableSegment) : false;
       return tableInUrl ? tableInUrl : tables[0];
     } else {
       return tables[0];

@@ -1,11 +1,6 @@
 import Analytics from '../../utils/analytics/analytics';
-import { analyticsCategory,
-  dummyConfig,
-  getAnalyticsFields,
-  generateAnalyticsEvent,
-  updateConfig } from "./helper";
+import { analyticsCategory, getAnalyticsFields, generateAnalyticsEvent } from "./helper";
 import {IAnalyticsEvents} from "../../models/IAnalyticsEvents";
-import configStore from './redux/config/config';
 
 describe('Dataset Detail Helper - getAnalyticsFields', () => {
   const analyticsEventsObj: IAnalyticsEvents = {
@@ -16,9 +11,9 @@ describe('Dataset Detail Helper - getAnalyticsFields', () => {
 
   it('returns the analytics events object with empty string values if params are invalid',
     () => {
-    const returnObj = getAnalyticsFields('');
-    expect(Object.values(returnObj).every((value) => value === '')).toBeTruthy();
-  });
+      const returnObj = getAnalyticsFields('');
+      expect(Object.values(returnObj).every((value) => value === '')).toBeTruthy();
+    });
 
   it(`returns the analytics events object with desired values`, () => {
     const label = `Testing label`;
@@ -75,22 +70,6 @@ describe('Dataset Detail Helper - generateAnalyticsEvent', () => {
     generateAnalyticsEvent(label, action);
     analyticsEventsObj.action = action;
     expect(eventsSpy).toHaveBeenCalledWith(analyticsEventsObj);
-  });
-
-  it('has a function, updateConfig, that updates our redux configStore', () =>{
-    const updatedId = 'updatedId1';
-    configStore.dispatch({
-      type: 'config',
-      value: dummyConfig
-    });
-    expect(configStore.getState().datasetId).toEqual(dummyConfig.datasetId);
-
-    updateConfig({
-      ...dummyConfig,
-      datasetId: updatedId
-    });
-    expect(configStore.getState().datasetId).toEqual(updatedId);
-    expect(updatedId).not.toEqual(dummyConfig.datasetId);
   });
 
 });

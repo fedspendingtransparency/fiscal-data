@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import configStore from './redux/config/config';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import DDNav from '../../components/dataset-detail-nav/dataset-detail-nav';
 import Masthead from '../../components/masthead/masthead';
@@ -11,7 +10,6 @@ import { graphql } from "gatsby";
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import LocationAware from '../../components/location-aware/location-aware';
 import { useMetadataUpdater } from "../../helpers/metadata/use-metadata-updater-hook";
-import { updateConfig } from "./helper";
 
 export const query =
   graphql`
@@ -37,29 +35,18 @@ export const query =
     `;
 
 const DatasetDetail = ({ data, pageContext, location, test }) => {
+  const [pageConfig, setPageConfig] = useState(pageContext.config);
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
   const [selectedTable, setSelectedTable] = useState({});
   const updatedPageConfig = useMetadataUpdater(pageContext);
   const updatedDatasetData = useMetadataUpdater(data.allDatasets.datasets);
+
   const canonical= `/datasets${pageContext.config.slug}`;
 
   useEffect(() => {
-    if (finalDatesNotFound) {
-      // Update the value for configStore when new data is available
-      if (updatedPageConfig && updatedPageConfig.config) {
-        updateConfig(updatedPageConfig.config);
-      }
-      // Set flag so its known that the data set's dates have been updated and/or confirmed
-      setFinalDatesNotFound(false);
-    }
+    setPageConfig(updatedPageConfig.config);
+    setFinalDatesNotFound(false);
   }, [updatedPageConfig]);
-
-  useEffect(() => {
-    // Set the value for configStore to pageContext.config at page load
-    if (pageContext && pageContext.config) {
-      updateConfig(pageContext.config);
-    }
-  }, []);
 
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
@@ -72,6 +59,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
       <Masthead
         title={pageContext.config.name}
         tagLine={pageContext.config.tagLine}
+        techSpecs={pageConfig.techSpecs}
         dictionary={pageContext.config.dictionary}
       />
       <DDNav title={pageContext.config.name} />
@@ -79,7 +67,9 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         <DatasetAbout config={pageContext.config} test={test} />
         <DatasetData setSelectedTableProp={setSelectedTable}
                      finalDatesNotFound={finalDatesNotFound}
+                     config={pageConfig}
                      location={location}
+                     publishedReportsProp={pageConfig.publishedReports}
         />
         <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
         <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />

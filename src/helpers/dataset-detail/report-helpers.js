@@ -8,17 +8,9 @@ export const getPublishedDates = (reports) => {
 
   reports.forEach(report => {
     const reportDate = report.report_date;
-    if (isDate(reportDate)) {
-      return;
-    } else if (typeof reportDate === 'string') {
-      // YYYY-MM-DD is 10 characters
-      if (reportDate.length === 10) {
-        const [year,month,day] = reportDate.split('-');
-        report.report_date = new Date(year,month - 1, day,0,0,0)
-      } else {
-        report.report_date = new Date(reportDate);
-      }
-    }
+    if (isDate(reportDate)) return;
+    const [year,month,day] = reportDate.split('-');
+    report.report_date = new Date(year,month - 1, day,0,0,0)
   });
 
   return reports;

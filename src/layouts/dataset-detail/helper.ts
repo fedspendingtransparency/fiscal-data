@@ -1,6 +1,5 @@
 import {IAnalyticsEvents} from "../../models/IAnalyticsEvents";
 import Analytics from '../../utils/analytics/analytics';
-import configStore from "./redux/config/config";
 
 /**
  *
@@ -178,16 +177,16 @@ export const mockSummaryDatasetNoUpdates = {
     last_updated: '2022-01-01',
     latest_date: '2022-01-01'
   },
-  {
-    api_id: '2',
-    last_updated: '2022-01-01',
-    latest_date: '2022-01-01'
-  },
-  {
-    api_id: '3',
-    last_updated: '2022-01-01',
-    latest_date: '2022-01-01'
-  }]
+    {
+      api_id: '2',
+      last_updated: '2022-01-01',
+      latest_date: '2022-01-01'
+    },
+    {
+      api_id: '3',
+      last_updated: '2022-01-01',
+      latest_date: '2022-01-01'
+    }]
 };
 
 export const mockAPIs = [
@@ -212,21 +211,3 @@ export const mockTechSpecs = {
   lastUpdated: '01/01/2022',
   latestDate: '01/01/2022'
 };
-
-export const dummyConfig = {
-  slug: '/dummy',
-  datasetId: '1',
-  apis: [],
-  publishedReports: [],
-  techSpecs: {
-    earliest_date: '2000-01-01',
-    latest_date: '2022-01-01'
-  }
-}
-
-export const updateConfig = (newConfig) => {
-  configStore.dispatch({
-    type: 'config',
-    value: newConfig
-  });
-}

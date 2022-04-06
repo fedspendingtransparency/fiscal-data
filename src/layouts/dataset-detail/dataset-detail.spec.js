@@ -19,7 +19,7 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import {useStaticQuery} from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
-import configStore from "../../layouts/dataset-detail/redux/config/config";
+import { useMetadataUpdater } from "../../helpers/metadata/use-metadata-updater-hook"
 
 export const datasetPageSampleConfig = {
   "datasetId": "015-BFS-2014Q1-11",
@@ -196,7 +196,6 @@ jest.mock('../../components/filter-download-container/filter-download-container.
 jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
   useMetadataUpdater: (i) => { return i;}
 }));
-
 describe('Dataset-Detail layout component', () => {
 
   // Jest gives an error about the following not being implemented even though the tests pass.
@@ -228,7 +227,7 @@ describe('Dataset-Detail layout component', () => {
                                                          seoConfig: seoConfig
                                                        }}
                                                        data={mockQueryReturn}
-                                        />);
+      />);
       instance = component.root;
     });
   });
@@ -270,15 +269,17 @@ describe('Dataset-Detail layout component', () => {
     instance.find(obj => obj.type === RelatedDatasets);
   });
 
-  it('ensures that the proper ordering of the dataset tables is preserved ' +
-    'in the configStore', () => {
-    expect(configStore.getState().apis.map(api => api.apiId))
-      .toEqual(datasetPageSampleConfig.apis.map(api => api.apiId));
+  it('ensures that the proper ordering of the dataset tables is preserved when passed ' +
+    'down to dataset-data', () => {
+    const datasetData = instance.findByType(DatasetData);
+    expect(datasetData.props.config.apis.map(api => api.apiId))
+    .toEqual(datasetPageSampleConfig.apis.map(api => api.apiId));
   });
 
-  it('ensures that the proper ordering of the dataset tables\' fields are preserved ' +
-    'in the configStore', () => {
-    expect(configStore.getState().apis[0].fields).toEqual(datasetPageSampleConfig.apis[0].fields);
+  it('ensures that the proper ordering of the dataset tables\' fields are preserved when ' +
+    'passed down to dataset-data', () => {
+    const datasetData = instance.findByType(DatasetData);
+    expect(datasetData.props.config.apis[0].fields).toEqual(datasetPageSampleConfig.apis[0].fields);
   });
 
   it('passes expected fields to helmet for structured data', () => {

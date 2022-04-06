@@ -36,18 +36,18 @@ export const mockSelectedPivot = {
 };
 
 export const mockApiData = {
-    data: TestData,
-    meta: {
-      labels: {
-        first: 'First',
-        middle: 'Middle',
-        last: 'Last'
-      },
-      dataTypes: {
-        first: 'string'
-      }
+  data: TestData,
+  meta: {
+    labels: {
+      first: 'First',
+      middle: 'Middle',
+      last: 'Last'
+    },
+    dataTypes: {
+      first: 'string'
     }
-  };
+  }
+};
 
 export const mockApiDataEmpty = {
   data: [],
@@ -55,289 +55,8 @@ export const mockApiDataEmpty = {
 };
 
 export const config = {
-    slug: '/mock-dataset/',
-    datasetId: 'MOCK-DATASET-ID-0',
-    apis : [
-      {
-        tableName: 'Table 1',
-        pathName: 'table-1',
-        earliestDate: '2002-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint',
-        rowCount: 4000,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-          { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date",
-          }
-        ]
-      },
-      {
-        tableName: 'Table 2',
-        pathName: 'table-2',
-        earliestDate: '2002-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint2',
-        rowCount: 4000,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-          { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
-        ],
-        valueFieldOptions: ['hot_dog'],
-        fields: [
-          {
-            columnName: 'facility_desc',
-            dataType: 'STRING',
-            prettyName: 'Facility'
-          },
-          {
-            columnName: 'published_count',
-            dataType: 'NUMBER',
-            prettyName: 'Or Perish'
-          },
-          {
-            columnName: 'record_date',
-            dataType: 'DATE',
-            prettyName: 'Record Date'
-          },
-        ]
-      },
-      {
-        tableName: 'Table 3',
-        pathName: 'table-3',
-        earliestDate: '2017-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint3',
-        rowCount: 4000,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-          { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date",
-          },
-          {
-            columnName: "book_value_amt",
-            dataType: "NUMBER",
-            prettyName: "Book Value Amount",
-          },
-          {
-            columnName: "facility_desc",
-            dataType: "DESK",
-            prettyName: "Facilities' Desk",
-          }
-        ],
-        valueFieldOptions: ['book_value_amt']
-      },
-      {
-        tableName: 'Table 4',
-        pathName: 'table-4',
-        earliestDate: '2017-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint4',
-        rowCount: 7001,
-        isLargeDataset: true,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-          { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date",
-          }
-        ]
-      },
-      {
-        tableName: 'Table 5',
-        pathName: 'table-5',
-        earliestDate: '2017-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint5',
-        rowCount: 150001,
-        dateField: 'record_date',
-        dataDisplays: [
-          {
-            chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility',
-            aggregateOn: [
-              {
-                field: 'record_calendar_year',
-                type: 'YEAR'
-              },
-              {
-                field: 'record_calendar_month',
-                type: 'MONTH'
-              }
-            ]
-          }
-        ],
-        valueFieldOptions: ['hot_dog'],
-        fields: [
-          {
-            columnName: 'facility_desc',
-            dataType: 'STRING',
-            prettyName: 'Facility'
-          },
-          {
-            columnName: 'hot_dog',
-            dataType: 'STRING',
-            prettyName: 'Hot Diggity Dog'
-          },
-          {
-            columnName: 'record_date',
-            dataType: 'DATE',
-            prettyName: 'Record Date'
-          },
-        ]
-      },
-      {
-        tableName: 'Table 6',
-        pathName: 'table-6',
-        earliestDate: '2016-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint6',
-        rowCount: 8001,
-        isLargeDataset: true,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date"
-          }
-        ]
-      },
-      {
-        tableName: 'Table 7',
-        pathName: 'table-7',
-        earliestDate: '2015-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint7',
-        rowCount: 9001,
-        isLargeDataset: true,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date"
-          }
-        ]
-      },
-      {
-        tableName: 'Table 8',
-        pathName: 'table-8',
-        earliestDate: '2017-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint8',
-        apiId: '222',
-        rowCount: 4000,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-          { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date",
-          },
-          {
-            columnName: "book_value_amt",
-            dataType: "NUMBER",
-            prettyName: "Book Value Amount",
-          },
-          {
-            columnName: "facility_desc",
-            dataType: "DESK",
-            prettyName: "Facilities' Desk",
-          }
-        ],
-        valueFieldOptions: ['book_value_amt']
-      },
-      {
-        tableName: 'Table 9',
-        pathName: 'table-9',
-        earliestDate: '2017-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint9',
-        rowCount: 8601,
-        isLargeDataset: true,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: null, dimensionField: null, title: 'Complete Table' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date",
-          }
-        ]
-      },
-      {
-        tableName: 'Table 10',
-        pathName: 'table-10',
-        earliestDate: '2017-01-01',
-        latestDate,
-        endpoint: 'mockEndpoint10',
-        apiId: '222',
-        rowCount: 4000,
-        dateField: 'record_date',
-        dataDisplays: [
-          { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-          { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
-        ],
-        fields: [
-          {
-            columnName: "record_date",
-            dataType: "DATE",
-            prettyName: "Record Date",
-          },
-          {
-            columnName: "book_value_amt",
-            dataType: "NUMBER",
-            prettyName: "Book Value Amount",
-          },
-          {
-            columnName: "facility_desc",
-            dataType: "DESK",
-            prettyName: "Facilities' Desk",
-          }
-        ],
-        valueFieldOptions: ['book_value_amt']
-      }
-    ],
-    publishedReports: [],
-    techSpecs: {
-      earliestDate: '2002-01-01',
-      latestDate,
-    }
-  };
-
-export const minimalConfig = {
-  slug: '/minimal-dataset/',
-  datasetId: 'MOCK-DATASET-ID-1',
+  slug: '/mock-dataset/',
+  datasetId: 'MOCK-DATASET-ID-0',
   apis : [
     {
       tableName: 'Table 1',
@@ -358,12 +77,260 @@ export const minimalConfig = {
           prettyName: "Record Date",
         }
       ]
+    },
+    {
+      tableName: 'Table 2',
+      pathName: 'table-2',
+      earliestDate: '2002-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint2',
+      rowCount: 4000,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
+        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+      ],
+      valueFieldOptions: ['hot_dog'],
+      fields: [
+        {
+          columnName: 'facility_desc',
+          dataType: 'STRING',
+          prettyName: 'Facility'
+        },
+        {
+          columnName: 'published_count',
+          dataType: 'NUMBER',
+          prettyName: 'Or Perish'
+        },
+        {
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date'
+        },
+      ]
+    },
+    {
+      tableName: 'Table 3',
+      pathName: 'table-3',
+      earliestDate: '2017-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint3',
+      rowCount: 4000,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
+        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+      ],
+      fields: [
+        {
+          columnName: "record_date",
+          dataType: "DATE",
+          prettyName: "Record Date",
+        },
+        {
+          columnName: "book_value_amt",
+          dataType: "NUMBER",
+          prettyName: "Book Value Amount",
+        },
+        {
+          columnName: "facility_desc",
+          dataType: "DESK",
+          prettyName: "Facilities' Desk",
+        }
+      ],
+      valueFieldOptions: ['book_value_amt']
+    },
+    {
+      tableName: 'Table 4',
+      pathName: 'table-4',
+      earliestDate: '2017-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint4',
+      rowCount: 7001,
+      isLargeDataset: true,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
+        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+      ],
+      fields: [
+        {
+          columnName: "record_date",
+          dataType: "DATE",
+          prettyName: "Record Date",
+        }
+      ]
+    },
+    {
+      tableName: 'Table 5',
+      pathName: 'table-5',
+      earliestDate: '2017-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint5',
+      rowCount: 150001,
+      dateField: 'record_date',
+      dataDisplays: [
+        {
+          chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility',
+          aggregateOn: [
+            {
+              field: 'record_calendar_year',
+              type: 'YEAR'
+            },
+            {
+              field: 'record_calendar_month',
+              type: 'MONTH'
+            }
+          ]
+        }
+      ],
+      valueFieldOptions: ['hot_dog'],
+      fields: [
+        {
+          columnName: 'facility_desc',
+          dataType: 'STRING',
+          prettyName: 'Facility'
+        },
+        {
+          columnName: 'hot_dog',
+          dataType: 'STRING',
+          prettyName: 'Hot Diggity Dog'
+        },
+        {
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date'
+        },
+      ]
+    },
+    {
+      tableName: 'Table 6',
+      pathName: 'table-6',
+      earliestDate: '2016-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint6',
+      rowCount: 8001,
+      isLargeDataset: true,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' }
+      ],
+      fields: [
+        {
+          columnName: "record_date",
+          dataType: "DATE",
+          prettyName: "Record Date"
+        }
+      ]
+    },
+    {
+      tableName: 'Table 7',
+      pathName: 'table-7',
+      earliestDate: '2015-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint7',
+      rowCount: 9001,
+      isLargeDataset: true,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' }
+      ],
+      fields: [
+        {
+          columnName: "record_date",
+          dataType: "DATE",
+          prettyName: "Record Date"
+        }
+      ]
+    },
+    {
+      tableName: 'Table 8',
+      pathName: 'table-8',
+      earliestDate: '2017-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint8',
+      apiId: '222',
+      rowCount: 4000,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
+        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+      ],
+      fields: [
+        {
+          columnName: "record_date",
+          dataType: "DATE",
+          prettyName: "Record Date",
+        },
+        {
+          columnName: "book_value_amt",
+          dataType: "NUMBER",
+          prettyName: "Book Value Amount",
+        },
+        {
+          columnName: "facility_desc",
+          dataType: "DESK",
+          prettyName: "Facilities' Desk",
+        }
+      ],
+      valueFieldOptions: ['book_value_amt']
+    },
+    {
+      tableName: 'Table 9',
+      pathName: 'table-9',
+      earliestDate: '2017-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint9',
+      rowCount: 8601,
+      isLargeDataset: true,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: null, dimensionField: null, title: 'Complete Table' }
+      ],
+      fields: [
+        {
+          columnName: "record_date",
+          dataType: "DATE",
+          prettyName: "Record Date",
+        }
+      ]
+    },
+    {
+      tableName: 'Table 10',
+      pathName: 'table-10',
+      earliestDate: '2017-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint10',
+      apiId: '222',
+      rowCount: 4000,
+      dateField: 'record_date',
+      dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
+        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+      ],
+      fields: [
+        {
+          columnName: "record_date",
+          dataType: "DATE",
+          prettyName: "Record Date",
+        },
+        {
+          columnName: "book_value_amt",
+          dataType: "NUMBER",
+          prettyName: "Book Value Amount",
+        },
+        {
+          columnName: "facility_desc",
+          dataType: "DESK",
+          prettyName: "Facilities' Desk",
+        }
+      ],
+      valueFieldOptions: ['book_value_amt']
     }
   ],
-  publishedReports: [],
   techSpecs: {
-    earliestDate: '2020-01-01',
-    latestDate
+    earliestDate: '2002-01-01',
+    latestDate,
   }
 };
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import configStore from "../../layouts/dataset-detail/redux/config/config";
 import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
@@ -25,14 +24,17 @@ export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
 
 export const DatasetDataComponent = ({
+  config,
   finalDatesNotFound,
   location,
+  publishedReportsProp,
   setSelectedTableProp,
   width
 }) => {
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
-  const [config, setConfig] = useState({});
-  const [apis, setApis] = useState([null]);
+  // config.apis should always be available; but, fallback in case
+  const apis = config ? config.apis : [null];
+
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -53,19 +55,6 @@ export const DatasetDataComponent = ({
   const [tableCaches] = useState({});
 
   let loadByPage;
-
-  const updateConfig = () => {
-    const config = configStore.getState();
-    if(config && config.datasetId) {
-      setConfig(config);
-      setApis(config.apis || [null]);
-      // todo - Use a better manner of reassigning the report_date prop to jsdates.
-      const curPublishedReports = getPublishedDates(config.publishedReports);
-      setPublishedReports(curPublishedReports);
-    }
-  }
-
-  configStore.subscribe(updateConfig);
 
   const shouldUseLoadByPage = (pivot) => {
     return selectedTable && selectedTable.isLargeDataset && pivot &&
@@ -118,6 +107,11 @@ export const DatasetDataComponent = ({
   };
 
   useEffect(() => {
+    // todo - Use a better manner of reassigning the report_date prop to jsdates.
+    setPublishedReports(getPublishedDates(publishedReportsProp));
+  }, [publishedReportsProp]);
+
+  useEffect(() => {
     if (configUpdated) {
       tableCaches[selectedTable.apiId] = new TableCache();
       const tableFromUrl = parseTableSelectionFromUrl(location, apis);
@@ -130,12 +124,12 @@ export const DatasetDataComponent = ({
   // called. If new dates are available, then we should be updating the page to reflect the
   // newest dates.
   useEffect(() => {
-      const idealSelectedTable =
-        matchTableFromApiTables(selectedTable, apis)
-        || parseTableSelectionFromUrl(location, apis);
-      if(idealSelectedTable && idealSelectedTable.tableName){
-        setSelectedTable(idealSelectedTable);
-      }
+    const idealSelectedTable =
+      matchTableFromApiTables(selectedTable, apis)
+      || parseTableSelectionFromUrl(location, apis);
+    if(idealSelectedTable && idealSelectedTable.tableName){
+      setSelectedTable(idealSelectedTable);
+    }
   }, [apis]);
 
   // while published Reports metadata is loaded at page load, don't initialize
@@ -177,8 +171,8 @@ export const DatasetDataComponent = ({
         if (!loadByPage || ignorePivots) {
           getApiData(dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError,
             canceledObj, tableCaches[selectedTable.apiId]).then(() => {
-              // nothing to cancel if the request completes normally.
-              canceledObj = null;
+            // nothing to cancel if the request completes normally.
+            canceledObj = null;
           });
         }
         return () => {
@@ -190,80 +184,70 @@ export const DatasetDataComponent = ({
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
-  useEffect(() => {
-    updateConfig();
-  }, [])
-
   return (
-    <>
-      {
-        config && config.techSpecs &&
-        <DatasetSectionContainer id="preview-and-download" title={title}>
-          <ReportDataToggle onChange={setActiveTab} reports={publishedReports}/>
-          <div className={activeTab === 1 ? '' : 'hidden'}>
-            <FilterAndDownload
-              data-testid="filterAndDownload"
-              dateRange={dateRange}
-              isFiltered={isFiltered}
-              selectedTable={selectedTable}
-              dataset={config}
-              allTablesSelected={allTablesSelected}
-              isCustomDateRange={isCustomDateRange}
-            >
-              <DataTableSelect
-                apis={apis}
-                selectedTable={selectedTable}
-                setSelectedTable={handleSelectedTableChange}
-                allTablesSelected={allTablesSelected}
-                earliestDate={config.techSpecs.earliestDate}
-                latestDate={config.techSpecs.latestDate}
-              />
-              {selectedTable &&
-              <RangePresets
-                setDateRange={handleDateRangeChange}
-                selectedTable={selectedTable}
-                setIsFiltered={setIsFiltered}
-                currentDateButton={config.currentDateButton}
-                setIsCustomDateRange={setIsCustomDateRange}
-                allTablesSelected={allTablesSelected}
-                datasetDateRange={{
-                  earliestDate: config.techSpecs.earliestDate,
-                  latestDate: config.techSpecs.latestDate
-                }
-                }
-                finalDatesNotFound={finalDatesNotFound}
-              />
-              }
-            </FilterAndDownload>
-            {dateRange &&
-            <TableSectionContainer
-              config={config}
-              dateRange={dateRange}
-              selectedTable={selectedTable}
-              apiData={apiData}
-              isLoading={isLoading}
-              apiError={apiError}
-              selectedPivot={selectedPivot}
-              setSelectedPivot={setSelectedPivot}
-              serverSidePagination={serverSidePagination}
-              selectedTab={selectedTab}
-              tabChangeHandler={setSelectedTab}
-              perPage={perPage}
-              setPerPage={setPerPage}
-              handleIgnorePivots={setIgnorePivots}
-              allTablesSelected={allTablesSelected}
-              handleConfigUpdate={() => setConfigUpdated(true)}
-            />
+    <DatasetSectionContainer id="preview-and-download" title={title}>
+      <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
+      <div className={activeTab === 1 ? '' : 'hidden'}>
+        <FilterAndDownload
+          data-testid="filterAndDownload"
+          dateRange={dateRange}
+          isFiltered={isFiltered}
+          selectedTable={selectedTable}
+          dataset={config}
+          allTablesSelected={allTablesSelected}
+          isCustomDateRange={isCustomDateRange}
+        >
+          <DataTableSelect
+            apis={apis}
+            selectedTable={selectedTable}
+            setSelectedTable={handleSelectedTableChange}
+            allTablesSelected={allTablesSelected}
+            earliestDate={config.techSpecs.earliestDate}
+            latestDate={config.techSpecs.latestDate}
+          />
+          {selectedTable &&
+          <RangePresets
+            setDateRange={handleDateRangeChange}
+            selectedTable={selectedTable}
+            setIsFiltered={setIsFiltered}
+            currentDateButton={config.currentDateButton}
+            setIsCustomDateRange={setIsCustomDateRange}
+            allTablesSelected={allTablesSelected}
+            datasetDateRange={{
+              earliestDate: config.techSpecs.earliestDate,
+              latestDate: config.techSpecs.latestDate}
             }
-          </div>
-          <div className={activeTab === 2 ? '' : 'hidden'}>
-            {selectedTable && initReports &&
-            <PublishedReports reports={publishedReports} dataset={config}/>
-            }
-          </div>
-        </DatasetSectionContainer>
-      }
-    </>
+            finalDatesNotFound={finalDatesNotFound}
+          />
+          }
+        </FilterAndDownload>
+        {dateRange &&
+        <TableSectionContainer
+          config={config}
+          dateRange={dateRange}
+          selectedTable={selectedTable}
+          apiData={apiData}
+          isLoading={isLoading}
+          apiError={apiError}
+          selectedPivot={selectedPivot}
+          setSelectedPivot={setSelectedPivot}
+          serverSidePagination={serverSidePagination}
+          selectedTab={selectedTab}
+          tabChangeHandler={setSelectedTab}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          handleIgnorePivots={setIgnorePivots}
+          allTablesSelected={allTablesSelected}
+          handleConfigUpdate={() => setConfigUpdated(true)}
+        />
+        }
+      </div>
+      <div className={activeTab === 2 ? '' : 'hidden'}>
+        {selectedTable && initReports &&
+        <PublishedReports reports={publishedReports} dataset={config} />
+        }
+      </div>
+    </DatasetSectionContainer>
   )
 }
 
