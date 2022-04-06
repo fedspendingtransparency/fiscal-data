@@ -242,8 +242,6 @@ const SplitFlapDisplay = (
     workingPrevValue.current = null;
     const shortenedVal = shortenedNumberWithMagnitude(originalValue.current, 2);
 
-    console.log(shortenedVal);
-
     setShortenedValue(shortenedVal.value);
     setDisplayMagnitude(shortenedVal.magnitude);
 
