@@ -3,14 +3,15 @@ import { render } from '@testing-library/react';
 import nationalDebtSections, {
   nationalDebtSectionIds,
   nationalDebtSectionConfigs,
-  NationalDebtThirdSection,
-  BaseNationalDebtThirdSection,
-  thirdSectionTableContent,
-  thirdSectionAccordionTableContent,
-  NationalDebtFourthSection,
-  NationalDebtFifthSection,
-  NationalDebtSixthSection,
-  sixthSectionAccordionTitle
+  NationalDebtExplainedSection,
+  nationalDebtExplainedTableContent,
+  visualizingTheDebtTableContent,
+  GrowingNationalDebtSection,
+  DebtBreakdownSection,
+  DebtCeilingSection,
+  debtCeilingSectionAccordionTitle,
+  DiveDeeperSection,
+  diveDeeperAccordionTitle, VisualizingTheDebtAccordion
 } from './national-debt';
 import {
   mockFifthSectionValueMarkers,
@@ -25,8 +26,8 @@ import simplifyNumber from '../../../../helpers/simplify-number/simplifyNumber';
 import { breakpointSm } from '../../../../variables.module.scss';
 
 import {
-  thirdSectionTable,
-  accordionTable
+  nationalDebtExplainedTable,
+  growingNationalDebtSectionAccordion
 } from './national-debt.module.scss';
 
 jest.mock('./variables.module.scss', (content) => ({
@@ -44,19 +45,19 @@ describe('National Debt explainer page sections', () => {
     global.fetch.mockReset();
   });
 
-  it('returns 7 sections with headings and body components', () => {
-    expect(nationalDebtSections.length).toBe(7);
+  it('returns 8 sections with headings and body components', () => {
+    expect(nationalDebtSections.length).toBe(8);
     expect(nationalDebtSections[0].title).toBeDefined();
   });
 });
 
-describe('Third section', () => {
-  it('renders a table showing a breakdown of how the national debt works', () => {
-    const { container, getByText } = render(<NationalDebtThirdSection />);
+describe('National Debt Explained', () => {
+  it('renders the table showing a breakdown of how the national debt works', () => {
+    const { container, getByText } = render(<NationalDebtExplainedSection />);
 
-    expect(container.querySelector(`.${thirdSectionTable}`)).toBeInTheDocument();
+    expect(container.querySelector(`.${nationalDebtExplainedTable}`)).toBeInTheDocument();
 
-    thirdSectionTableContent.body.forEach((row) => {
+    nationalDebtExplainedTableContent.body.forEach((row) => {
       row.forEach((col) => {
         if (col !== null) {
           expect(getByText(col)).toBeInTheDocument();
@@ -65,33 +66,11 @@ describe('Third section', () => {
     });
   });
 
-  it('renders a table inside the accordion that shows how big a trillion is', () => {
-    const { container } = render(<NationalDebtThirdSection />);
-
-    expect(container.querySelector(`.${accordionTable}`)).toBeInTheDocument();
-  });
-
-  it('shows the correct amount of rows and columns for different screen sizes', async () => {
-    const { findAllByTestId, rerender } = render(
-      <BaseNationalDebtThirdSection width={breakpointSm} />
-    );
-
-    const rowsDesktop = await findAllByTestId('accordion-table-row');
-    expect(rowsDesktop).toHaveLength(thirdSectionAccordionTableContent.desktop.rows);
-
-    rerender(
-      <BaseNationalDebtThirdSection width={breakpointSm - 1} />
-    );
-
-    const rowsMobile = await findAllByTestId('accordion-table-row');
-    expect(rowsMobile).toHaveLength(thirdSectionAccordionTableContent.mobile.rows);
-  });
 });
 
-describe('Fourth section', () => {
+describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
   const config = nationalDebtSectionConfigs[sectionId]
-
   beforeEach(() => {
     setGlobalFetchResponse(jest, mockExplainerPageResponse);
   });
@@ -101,9 +80,34 @@ describe('Fourth section', () => {
     global.fetch.mockReset();
   });
 
+  it('renders the Visualizing the Debt table inside an accordion', async () => {
+    const { container } = render(
+      <GrowingNationalDebtSection sectionId={sectionId} />
+    );
+
+    expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`)).toBeInTheDocument();
+  })
+
+  it('shows the correct amount of rows and columns for different screen sizes', async () => {
+    const { findAllByTestId, rerender } = render(
+      <GrowingNationalDebtSection sectionId={sectionId} width={breakpointSm} />
+    );
+
+    const rowsDesktop = await findAllByTestId('accordion-table-row');
+    expect(rowsDesktop).toHaveLength(visualizingTheDebtTableContent.desktop.rows);
+
+    rerender(
+      <GrowingNationalDebtSection sectionId={sectionId} width={breakpointSm - 1} />
+    );
+
+    const rowsMobile = await findAllByTestId('accordion-table-row');
+    expect(rowsMobile).toHaveLength(visualizingTheDebtTableContent.mobile.rows);
+  });
+
+
   it('contains the chart', async () => {
     const { findByTestId } = render(
-      <NationalDebtFourthSection sectionId={sectionId} />
+      <GrowingNationalDebtSection sectionId={sectionId} />
     );
 
     expect(await findByTestId('chart')).toBeInTheDocument();
@@ -114,7 +118,7 @@ describe('Fourth section', () => {
     const latestValue = simplifyNumber(mockExplainerPageResponse.data[0][config.valueField], true);
 
     const { findAllByText, findByText } = render(
-      <NationalDebtFourthSection sectionId={sectionId} />
+      <GrowingNationalDebtSection sectionId={sectionId} />
     );
 
     // Latest year is also the text content for the last value on the graph's x-axis
@@ -126,7 +130,7 @@ describe('Fourth section', () => {
   });
 });
 
-describe('Fifth section', () => {
+describe('Breaking Down the Debt', () => {
   const sectionId = nationalDebtSectionIds[4];
 
   beforeEach(() => {
@@ -140,7 +144,7 @@ describe('Fifth section', () => {
 
   it('contains the chart', async () => {
     const { findByTestId } = render(
-      <NationalDebtFifthSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} />
     );
 
     expect(await findByTestId('breakdownChart')).toBeInTheDocument();
@@ -153,7 +157,7 @@ describe('Fifth section', () => {
       return new Date(new Date(2021, 11, 1, 12).valueOf());
     });
     render(
-      <NationalDebtFifthSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} />
     );
 
     const queryString = '?fields=debt_held_public_mil_amt,intragov_hold_mil_amt,' +
@@ -169,7 +173,7 @@ describe('Fifth section', () => {
     const firstYear = latestYear - 10;
 
     const { findByText, findAllByText, findByTestId } = render(
-      <NationalDebtFifthSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} />
     );
 
     // Latest year is in the component
@@ -191,12 +195,22 @@ describe('Fifth section', () => {
   });
 });
 
-describe('Sixth section', () => {
-  it('contains an accordion that explains why the government can\'t just print more money', () => {
+describe('The Debt Ceiling', () => {
+  it('contains an accordion', () => {
     const { getByText } = render(
-      <NationalDebtSixthSection />
+      <DebtCeilingSection />
     );
 
-    expect(getByText(sixthSectionAccordionTitle)).toBeInTheDocument();
+    expect(getByText(debtCeilingSectionAccordionTitle)).toBeInTheDocument();
+  });
+});
+
+describe('Dive Deeper', () => {
+  it('contains an accordion for data sources and methodologies', () => {
+    const { getByText } = render(
+      <DiveDeeperSection />
+    );
+
+    expect(getByText(diveDeeperAccordionTitle)).toBeInTheDocument();
   });
 });
