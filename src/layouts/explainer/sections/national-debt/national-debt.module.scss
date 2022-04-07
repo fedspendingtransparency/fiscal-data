@@ -171,15 +171,22 @@
 }
 .postGraphContent {
   margin-top: 3rem;
-  //:global(.vis-callout) {
-  //  margin-top: calc(20% + 4rem);
-  //}
 }
 
-.diveDeeperQuoteLeft, .diveDeeperQuoteRight {
+.diveDeeperQuoteLeft {
   display: flex;
   align-items: center;
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
+  img {
+    height: 4rem;
+  }
+}
+
+.diveDeeperQuoteRight {
+  display: flex;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   img {
     height: 4rem;
   }
@@ -187,6 +194,12 @@
 
 .diveDeeperAccordion {
   background-color: $body-background;
+}
+
+.diveDeeperLink {
+  p {
+    margin-top:0;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {

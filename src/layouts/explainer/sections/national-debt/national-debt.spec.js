@@ -90,14 +90,13 @@ describe('The Growing National Debt', () => {
 
   it('shows the correct amount of rows and columns for different screen sizes', async () => {
     const { findAllByTestId, rerender } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} width={breakpointSm} />
+      <VisualizingTheDebtAccordion width={breakpointSm} />
     );
 
     const rowsDesktop = await findAllByTestId('accordion-table-row');
     expect(rowsDesktop).toHaveLength(visualizingTheDebtTableContent.desktop.rows);
-
     rerender(
-      <GrowingNationalDebtSection sectionId={sectionId} width={breakpointSm - 1} />
+      <VisualizingTheDebtAccordion width={breakpointSm-1} />
     );
 
     const rowsMobile = await findAllByTestId('accordion-table-row');

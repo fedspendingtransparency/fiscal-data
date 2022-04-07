@@ -80,6 +80,7 @@ import {
   diveDeeperAccordion,
   diveDeeperQuoteRight,
   diveDeeperQuoteLeft,
+  diveDeeperLink,
   fundingProgramsBox
 
 
@@ -208,7 +209,7 @@ export const NationalDebtExplainedSection = () => {
   return (
   <>
     <div className={visWithCallout}>
-      <p>{sampleCopy}</p>
+      <p>{sampleCopy}{sampleCopy}</p>
       <VisualizationCallout>
         <p>{smallSampleCopy}</p>
       </VisualizationCallout>
@@ -296,18 +297,6 @@ const FundingProgramsSection = () => (
           </div>
           <div className={row}>
             <div className={firstColumn}>
-              <FontAwesomeIcon icon={faHeartbeat} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>Health</strong>
-              <p>
-                Health Care Services, Heath Research and Training, Consumer and Occupational Health
-                and Safety
-              </p>
-            </div>
-          </div>
-          <div className={row}>
-            <div className={firstColumn}>
               <FontAwesomeIcon icon={faShieldAlt} className={icon} />
             </div>
             <div className={secondColumn}>
@@ -315,6 +304,18 @@ const FundingProgramsSection = () => (
               <p>
                 Department of Defense - Military Programs, Atomic Energy Defense Activities,
                 Defense-Related Activities
+              </p>
+            </div>
+          </div>
+          <div className={row}>
+            <div className={firstColumn}>
+              <FontAwesomeIcon icon={faHeartbeat} className={icon} />
+            </div>
+            <div className={secondColumn}>
+              <strong>Health</strong>
+              <p>
+                Health Care Services, Heath Research and Training, Consumer and Occupational Health
+                and Safety
               </p>
             </div>
           </div>
@@ -588,7 +589,6 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <p>{smallSampleCopy}</p>
         </VisualizationCallout>
       </div>
-
       <VisualizingTheDebtAccordion>
       </VisualizingTheDebtAccordion>
     </div>
@@ -874,7 +874,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
             }}
           >
             Graph
-         </div>
+          </div>
           <VisualizationCallout>
             <p>{smallSampleCopy}</p>
           </VisualizationCallout>
@@ -887,7 +887,8 @@ export const DebtBreakdownSection = (({ sectionId }) => {
   );
 });
 
-export const debtCeilingSectionAccordionTitle = 'How is the debt ceiling different from a government shutdown?';
+export const debtCeilingSectionAccordionTitle =
+  'How is the debt ceiling different from a government shutdown?';
 
 export const DebtCeilingSection = () => (
   <>
@@ -909,16 +910,42 @@ export const diveDeeperAccordionTitle = 'Data Sources & Methodologies';
 export const DiveDeeperSection = () => (
   <>
     <p>{smallSampleCopy}</p>
-
-    <h4>The most recent U.S. Government Financial Report</h4>
-    <h4>America's Fiscal Future: Federal Debt</h4>
-    <h4>The Debt Veiling: An Explainer</h4>
-    <h4>Federal Borrowing and Debt</h4>
-    <h4>Federal Net Interest Costs: A Primer</h4>
-    <h4>Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?</h4>
-    <h4>Options for Reducing Deficit</h4>
-    <h4>Treasury Bulletin</h4>
-    <h4>USAspending</h4>
+    <div className={diveDeeperLink}>
+      <strong>The most recent U.S. Government Financial Report</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>America's Fiscal Future: Federal Debt</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>The Debt Veiling: An Explainer</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Federal Borrowing and Debt</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Federal Net Interest Costs: A Primer</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Options for Reducing Deficit</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Treasury Bulletin</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>USAspending</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
 
     <div className={diveDeeperQuoteRight} >
       <img src={sampleImg} alt="placeholder alt text" />
