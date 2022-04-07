@@ -65,7 +65,7 @@ const SplitFlapDisplay = (
     minLength,
     value,
     valueType = 'currency',
-    precision = 2,
+    precision = 1,
     showCommas = true,
     charSet = numericCharSet,
     stepCycleDelay = globalConstants.config.splitFlap.speed,
@@ -249,6 +249,7 @@ const SplitFlapDisplay = (
       formatNumberForDisplay(shortenDisplay ? shortenedValue : originalValue.current)
     );
 
+
   }, [value]);
 
   useEffect(() => {
@@ -273,9 +274,10 @@ const SplitFlapDisplay = (
     workingPrevValue.current = null;
 
     if (shortenDisplay) {
-      setMinimumDisplayLength(5);
+      setMinimumDisplayLength(3);
       setDisplayValue(formatNumberForDisplay(shortenedValue));
     } else {
+      precision = 0;
       setMinimumDisplayLength(minLength);
       setDisplayValue(formatNumberForDisplay(originalValue.current));
     }
