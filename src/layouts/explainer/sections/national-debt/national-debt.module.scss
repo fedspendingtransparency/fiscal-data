@@ -1,6 +1,6 @@
 @import '../../../../variables.module.scss';
 
-.firstSectionContent {
+.keyTakeawaysContent {
   display: flex;
   align-items: center;
 
@@ -31,7 +31,19 @@
   }
 }
 
-.secondSectionTable {
+.fundingProgramsBox {
+  border: solid 1px #d6d7d9;
+  border-radius: 3px;
+  width: 100%;
+  font-size: $font-size-18;
+  box-shadow: 0 2px 4px 0px #a9add1;
+  p {
+    padding: 1rem 1rem .75rem;
+
+  }
+}
+
+.spendingCategoriesTable {
   .row {
     display: flex;
 
@@ -60,7 +72,7 @@
   }
 }
 
-.thirdSectionTable {
+.nationalDebtExplainedTable {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,7 +94,7 @@
   }
 }
 
-.thirdSectionAccordion {
+.growingNationalDebtSectionAccordion {
   .accordionHeader {
     display: flex;
     flex-direction: column;
@@ -111,7 +123,7 @@
   }
 }
 
-.fourthSectionGraphContainer, .fifthSectionGraphContainer {
+.growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
   background-color: $body-background;
 
   .title {
@@ -138,7 +150,7 @@
     }
   }
 
-  .fourthSectionGraph {
+  .growingNationalDebtSectionGraph {
     margin: 0;
   }
 
@@ -149,7 +161,7 @@
   }
 }
 
-.fifthSectionGraphContainer {
+.debtBreakdownSectionGraphContainer {
 
   .barChartContainer {
     width: 100%;
@@ -161,8 +173,37 @@
   margin-top: 3rem;
 }
 
+.diveDeeperQuoteLeft {
+  display: flex;
+  align-items: center;
+  padding-bottom: 2rem;
+  img {
+    height: 4rem;
+  }
+}
+
+.diveDeeperQuoteRight {
+  display: flex;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  img {
+    height: 4rem;
+  }
+}
+
+.diveDeeperAccordion {
+  background-color: $body-background;
+}
+
+.diveDeeperLink {
+  p {
+    margin-top:0;
+  }
+}
+
 @media screen and (min-width: $breakpoint-lg) {
-  .firstSectionContent {
+  .keyTakeawaysContent {
     .iconBackground {
       height: 4rem;
       width: 4rem;
@@ -184,7 +225,7 @@
     }
   }
 
-  .secondSectionTable {
+  .spendingCategoriesTable {
 
     .firstColumn {
       padding-right: 31px;
@@ -195,7 +236,7 @@
     }
   }
 
-  .thirdSectionTable {
+  .nationalDebtExplainedTable {
     padding: 20px;
 
     th {
@@ -209,13 +250,14 @@
     }
   }
 
-  .fourthSection {
+  .growingNationalDebt {
     :global(.vis-callout) {
       margin-top: calc(20% + 4rem);
+      margin-bottom: calc(20% + 4rem);
     }
   }
 
-  .fourthSectionGraphContainer, .fifthSectionGraphContainer {
+  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
     padding: 22px;
 
     .title {
@@ -239,10 +281,22 @@
       }
     }
   }
+
+  .diveDeeperQuoteLeft {
+    p {
+      margin-right: 2.125rem;
+    }
+  }
+
+  .diveDeeperQuoteRight {
+    p {
+      margin-left: 2.125rem;
+    }
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .firstSectionContent {
+  .keyTakeawaysContent {
     .iconBackground {
       height: 52px;
       width: 52px;
@@ -264,7 +318,7 @@
     }
   }
 
-  .secondSectionTable {
+  .spendingCategoriesTable {
     .firstColumn {
       padding-right: 21px;
     }
@@ -274,7 +328,7 @@
     }
   }
 
-  .thirdSectionTable {
+  .nationalDebtExplainedTable {
     padding: 15px;
     font-size: $font-size-14;
 
@@ -307,9 +361,14 @@
         padding-left: 10px;
       }
     }
+    .diveDeeperContent {
+      p {
+        margin-left: 15px;
+      }
+    }
   }
 
-  .fourthSectionGraphContainer, .fifthSectionGraphContainer {
+  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
     font-size: $font-size-10;
     padding: 14px;
 
@@ -338,10 +397,22 @@
       }
     }
   }
+
+  .diveDeeperQuoteLeft {
+    p {
+      margin-right: 1rem;
+    }
+  }
+
+  .diveDeeperQuoteRight {
+    p {
+      margin-left: 1rem;
+    }
+  }
 }
 
 @media screen and (min-width: $breakpoint-sm) {
-  .thirdSectionAccordion {
+  .growingNationalDebtSectionAccordion {
     .rectangle {
       width: calc(2% - 1px);
       padding-bottom: calc(2% - 1px);
@@ -350,7 +421,7 @@
 }
 
 @media screen and (max-width: $breakpoint-sm - 1) {
-  .thirdSectionAccordion {
+  .growingNationalDebtSectionAccordion {
     .rectangle {
       width: calc(5% - 1px);
       padding-bottom: calc(5% - 1px);
