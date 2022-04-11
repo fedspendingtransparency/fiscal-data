@@ -171,6 +171,56 @@ export const visualizingTheDebtTableContent = {
 
 export const chartPatternBackground = '#99e7e7';
 
+const accordionHeaderClosedStyle = {
+  borderColor: '#a9add1',
+  borderBottomColor: '#a9add1',
+  borderWidth: '1.75px',
+  color: '#2a328c',
+  padding: '14px',
+};
+
+const accordionHeaderOpenStyle = {
+  borderBottomColor: 'transparent',
+  borderColor: '#a9add1',
+  borderWidth: '1.75px',
+  color: '#2a328c',
+  padding: '14px',
+  borderBottomLeftRadius: '0',
+  borderBottomRightRadius: '0',
+
+};
+
+const accordionBodyStyle = {
+  borderTopColor: 'transparent',
+  borderColor: '#a9add1',
+  borderWidth: '1.75px',
+  color: '#2a328c',
+  borderTopLeftRadius: '0',
+  borderTopRightRadius: '0',
+};
+
+const spendingCategoriesBodyStyle = {
+  borderTopColor: 'transparent',
+  borderColor: '#a9add1',
+  borderWidth: '1.75px',
+  borderTopLeftRadius: '0',
+  borderTopRightRadius: '0',
+};
+
+const style = {
+  color: '#2a328c'
+};
+
+const diveDeeperAccordionHeaderStyle = {
+  backgroundColor: '#f1f1f1',
+  borderColor: '#f1f1f1',
+};
+
+const diveDeeperAccordionBodyStyle = {
+  backgroundColor: '#f1f1f1',
+  borderColor: '#f1f1f1',
+};
+
 const KeyTakeawaysSection = () => (
   <>
     <div className={keyTakeawaysContent}>
@@ -262,7 +312,12 @@ export const NationalDebtExplainedSection = () => {
 const FundingProgramsSection = () => (
     <>
       <p>{sampleCopy}</p>
-      <Accordion title="What are some of the major spending categories?">
+      <Accordion title="What are some of the major spending categories?"
+                  altStyleAccordion={accordionHeaderClosedStyle}
+                  altStyleChildren={spendingCategoriesBodyStyle}
+                  altStyleHeaderOpen={accordionHeaderOpenStyle}
+                 altStyleIcon={style}
+      >
         <p>{sampleCopy}</p>
         <div className={spendingCategoriesTable}>
           <div className={row}>
@@ -955,8 +1010,11 @@ export const DiveDeeperSection = () => (
       <p>"{smallSampleCopy}"</p>
       <img src={sampleImg} alt="placeholder alt text" />
     </div>
-    <div className={diveDeeperAccordion}>
-      <Accordion title={diveDeeperAccordionTitle}>
+    <div>
+      <Accordion title={diveDeeperAccordionTitle}
+                 altStyleAccordion={diveDeeperAccordionHeaderStyle}
+                 altStyleChildren={diveDeeperAccordionBodyStyle}
+      >
         <p>{sampleCopy}</p>
       </Accordion>
     </div>

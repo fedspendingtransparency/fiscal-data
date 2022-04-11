@@ -17,6 +17,8 @@ const Accordion = ({
   title,
   altStyleIcon,
   altStyleAccordion,
+  altStyleHeaderOpen,
+  altStyleChildren,
   children
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
@@ -41,7 +43,7 @@ const Accordion = ({
           role="button"
           tabIndex={0}
           className={heading}
-          style={altStyleAccordion}
+          style={!open ? altStyleAccordion : altStyleHeaderOpen}
         >
           {title}
           <div
@@ -64,6 +66,7 @@ const Accordion = ({
         </div>
         <div data-testid="content"
               className={content}
+              style={altStyleChildren}
         >
           {children}
         </div>
