@@ -26,7 +26,7 @@ const ExplainerRelatedDatasets:
 
   return (
       <div className={paddingAdjust}>
-        <h1> See the datasets behind federal debt </h1>
+        <h1 style={{fontSize: '32px'}}> See the datasets behind federal debt </h1>
         {sortedDatasets.map((dataset, i) => (
           <div
             data-testid="cardWrapper"
