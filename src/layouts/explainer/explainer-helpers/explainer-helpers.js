@@ -37,7 +37,7 @@ export const explainerHeroMap = {
 
 export const datasetSectionConfig = {
   'national-debt': {
-    'how-has-the-debt-changed': {
+    'growing-national-debt': {
       name: 'Historical Debt Outstanding',
       slug: '/datasets/historical-debt-outstanding/',
       endpoint: 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101',
