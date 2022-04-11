@@ -382,6 +382,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             heading
             subHeading
           }
+          relatedDatasets
         }
       }
     }
@@ -429,6 +430,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
 
     result.data.allExplainers.explainers.forEach((explainer) => {
+      const explainerRelatedDatasets = [];
+      explainer.relatedDatasets.forEach((dataset) => {
+        explainerRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+      });
       createPage({
         path: explainer.slug,
         matchPath: `${explainer.slug}*`,
@@ -437,7 +442,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           pageName: explainer.pageName,
           breadCrumbLinkName: explainer.breadCrumbLinkName,
           seoConfig: explainer.seoConfig,
-          heroImage: explainer.heroImage
+          heroImage: explainer.heroImage,
+          relatedDatasets: explainerRelatedDatasets
         }
       });
     });

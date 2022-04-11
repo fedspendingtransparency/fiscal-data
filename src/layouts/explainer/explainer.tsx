@@ -14,17 +14,18 @@ import {
 import {
   breadCrumbsContainer,
   contentContainer,
-  relatedDatasets,
+  relatedDatasetsStyle,
   mainContainer,
   mainContent,
   section,
   sectionBorder,
-  sectionHeading
+  sectionHeading,
 } from './explainer.module.scss';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
+import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
-  const { pageName, breadCrumbLinkName, heroImage, seoConfig } = pageContext;
+  const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets } = pageContext;
 
   const breadCrumbLinks: Record<string, unknown>[] = [
     {
@@ -91,9 +92,8 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
             </div>
           </SecondaryNav>
         </div>
-        <div className={relatedDatasets}>
-          <h1>See the datasets behind federal debt</h1>
-          <div>Placeholder for related datasets</div>
+        <div className={relatedDatasetsStyle}>
+          <ExplainerRelatedDatasets datasets={relatedDatasets} referrer={"example"}/>
         </div>
       </div>
     </SiteLayout>
