@@ -1,0 +1,45 @@
+@import '../../../variables.module.scss';
+
+.socialShareContent {
+  h3 {
+    color: #666666;
+    font-weight: $semi-bold-weight;
+    font-size: $font-size-16;
+  }
+}
+
+
+.platform {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom:0;
+
+  p {
+    color: #666666;
+    font-size: $font-size-16;
+    margin-left: .5rem;
+    margin-top:0;
+    margin-bottom:0;
+  }
+
+  .facebookIcon {
+    color: #3b5998
+  }
+
+  .twitterIcon {
+    color: #00acee
+  }
+
+  .linkedInIcon {
+    color: #0e76a8
+  }
+
+  .redditIcon {
+    color: #ff4500
+  }
+
+  .emailIcon {
+
+  }
+}

@@ -22,6 +22,7 @@ import {
   sectionHeading
 } from './explainer.module.scss';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
+import SocialShare from "./social-share/social-share";
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const { pageName, breadCrumbLinkName, heroImage, seoConfig } = pageContext;
@@ -90,6 +91,9 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
               ))}
             </div>
           </SecondaryNav>
+          <div>
+            <SocialShare/>
+          </div>
         </div>
         <div className={relatedDatasets}>
           <h1>See the datasets behind federal debt</h1>
