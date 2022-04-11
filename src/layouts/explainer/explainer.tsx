@@ -73,7 +73,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                   >
                     <h2
                       className={sectionHeading}
-                      style={{ color: explainerColorMap[pageName].primary}}
+                      style={{ color: explainerColorMap[pageName].sectionHeader}}
                       data-testid="section-heading"
                     >
                       {s.title}
