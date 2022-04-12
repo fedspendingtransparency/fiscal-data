@@ -62,5 +62,7 @@ export const infoIcon: string;
 export const paleBg: string;
 export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
+export const debtExplainerSectionHeading: string;
 export const paddingAdjust: string;
 export const cardWrapper: string;
+export const titleStyle: string;

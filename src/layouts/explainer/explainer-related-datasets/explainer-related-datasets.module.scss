@@ -3,11 +3,30 @@
 .paddingAdjust {
   margin-bottom: -1em;
   padding-bottom: 2.375em;
-  max-width: 75%;
+  max-width: calc(1140px + 4rem);
+  width: 60%;
 }
 
 .cardWrapper {
   margin-bottom: 1em;
+}
+
+.titleStyle {
+  font-size: 32px;
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .paddingAdjust {
+    width: 100%;
+  }
+  .cardWrapper {
+    display: inline-flex;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .titleStyle {
+    padding-left: 0.75rem;
+  }
 }
 
 @media screen and (min-width: $breakpoint-md) and (max-width: $breakpoint-lg - 1) {

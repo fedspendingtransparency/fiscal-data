@@ -3,7 +3,8 @@ import DatasetCard from "../../../components/dataset-card/dataset-card";
 import {IExplainerRelatedDatasets} from "../../../models/IExplainerRelatedDatasets";
 import {
   paddingAdjust,
-  cardWrapper
+  cardWrapper,
+  titleStyle
 } from './explainer-related-datasets.module.scss';
 
 export const title = 'Related Datasets';
@@ -26,7 +27,7 @@ const ExplainerRelatedDatasets:
 
   return (
       <div className={paddingAdjust}>
-        <h1 style={{fontSize: '32px'}}> See the datasets behind federal debt </h1>
+        <h1 className={titleStyle}> See the datasets behind federal debt </h1>
         {sortedDatasets.map((dataset, i) => (
           <div
             data-testid="cardWrapper"
