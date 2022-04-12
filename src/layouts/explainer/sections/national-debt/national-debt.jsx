@@ -44,38 +44,46 @@ import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import curvedArrow from '../../../../images/curved-arrow.svg';
 
 import {
-  // First section
-  firstSectionContent,
+  // Key Takeaways section
+  keyTakeawaysContent,
   icon,
   offsetIcon,
   iconBackground,
   noMarginBottom,
   // Second section
-  secondSectionTable,
+  spendingCategoriesTable,
   row,
   firstColumn,
   secondColumn,
-  // Third section
-  thirdSectionTable,
+  // NationalDebtExplained
+  nationalDebtExplainedTable,
   tableIcon,
   borderBottom,
-  thirdSectionAccordion,
   rectangle,
   accordionHeader,
   accordionTable,
   accordionFooter,
-  // Fourth section
-  fourthSectionGraphContainer,
+  // Growing National Debt Section
+  growingNationalDebt,
+  growingNationalDebtSectionGraphContainer,
+  growingNationalDebtSectionGraph,
+  growingNationalDebtSectionAccordion,
   title,
-  fourthSectionGraph,
   headerContainer,
   header,
   subHeader,
   footerContainer,
-  fifthSectionGraphContainer,
+  debtBreakdownSectionGraphContainer,
   barChartContainer,
   postGraphContent,
-  fourthSection
+  // Dive Deeper Section
+  diveDeeperAccordion,
+  diveDeeperQuoteRight,
+  diveDeeperQuoteLeft,
+  diveDeeperLink,
+  fundingProgramsBox
+
+
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
 
@@ -87,19 +95,24 @@ const sampleCopy = `
   in culpa qui officia deserunt mollit anim id est laborum.
 `
 
+const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+  labore et dolore magna aliqua.
+`
+
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
 export const nationalDebtSectionIds = [
   'key-takeaways',
-  'should-i-care',
-  'brief-overview',
-  'how-has-the-debt-changed',
+  'national-debt-explained',
+  'funding-programs',
+  'growing-national-debt',
   'breakdown',
-  'how-is-it-financed',
-  'whats-next',
+  'debt-ceiling',
+  'debt-tracking',
+  'dive-deeper',
 ];
 
-export const thirdSectionTableContent = {
+export const nationalDebtExplainedTableContent = {
   header: [
     null,
     <FontAwesomeIcon icon={faCoins} className={tableIcon} />,
@@ -145,7 +158,7 @@ export const thirdSectionTableContent = {
   ]
 }
 
-export const thirdSectionAccordionTableContent = {
+export const visualizingTheDebtTableContent = {
   desktop: {
     rows: 20,
     columns: 50
@@ -158,16 +171,16 @@ export const thirdSectionAccordionTableContent = {
 
 export const chartPatternBackground = '#99e7e7';
 
-const NationalDebtFirstSection = () => (
+const KeyTakeawaysSection = () => (
   <>
-    <div className={firstSectionContent}>
+    <div className={keyTakeawaysContent}>
       <div className={iconBackground}>
         <FontAwesomeIcon icon={faChartLine} className={icon} />
         <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
       </div>
       <p>The national debt has steadily increased since 2000.</p>
     </div>
-    <div className={firstSectionContent}>
+    <div className={keyTakeawaysContent}>
       <div className={iconBackground}>
         <FontAwesomeIcon icon={faPollH} className={icon} />
         <FontAwesomeIcon icon={faPollH} className={offsetIcon} />
@@ -177,7 +190,7 @@ const NationalDebtFirstSection = () => (
         gross domestic product (GDP), interest rates, and various economic trends.
       </p>
     </div>
-    <div className={`${firstSectionContent} ${noMarginBottom}`}>
+    <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
       <div className={iconBackground}>
         <FontAwesomeIcon icon={faPercent} className={icon} />
         <FontAwesomeIcon icon={faPercent} className={offsetIcon} />
@@ -190,84 +203,144 @@ const NationalDebtFirstSection = () => (
   </>
 );
 
-const NationalDebtSecondSection = () => (
+
+export const NationalDebtExplainedSection = () => {
+
+  return (
   <>
-    <p>{sampleCopy}</p>
-    <Accordion title="What are the major spending categories of national debt?">
-      <div className={secondSectionTable}>
-        <div className={row}>
-          <div className={firstColumn}>
-            <FontAwesomeIcon icon={faDollarSign} className={icon} />
-          </div>
-          <div className={secondColumn}>
-            <strong>Income Security</strong>
-            <p>
-              Unemployment Compensation, Other Income Security, Federal Employee Retirement and
-              Disability, Food and Nutrition Assistance
-            </p>
-          </div>
-        </div>
-        <div className={row}>
-          <div className={firstColumn}>
-            <FontAwesomeIcon icon={faUserFriends} className={icon} />
-          </div>
-          <div className={secondColumn}>
-            <strong>Social Security</strong>
-          </div>
-        </div>
-        <div className={row}>
-          <div className={firstColumn}>
-            <FontAwesomeIcon icon={faHandHoldingMedical} className={icon} />
-          </div>
-          <div className={secondColumn}>
-            <strong>Medicare</strong>
-          </div>
-        </div>
-        <div className={row}>
-          <div className={firstColumn}>
-            <FontAwesomeIcon icon={faHeartbeat} className={icon} />
-          </div>
-          <div className={secondColumn}>
-            <strong>Health</strong>
-            <p>
-              Health Care Services, Heath Research and Training, Consumer and Occupational Health
-              and Safety
-            </p>
-          </div>
-        </div>
-        <div className={row}>
-          <div className={firstColumn}>
-            <FontAwesomeIcon icon={faShieldAlt} className={icon} />
-          </div>
-          <div className={secondColumn}>
-            <strong>National Defense</strong>
-            <p>
-              Department of Defense - Military Programs, Atomic Energy Defense Activities,
-              Defense-Related Activities
-            </p>
-          </div>
-        </div>
-      </div>
-    </Accordion>
-    <img src={sampleImg} alt="placeholder alt text" />
-    <div>placeholder copy</div>
+    <div className={visWithCallout}>
+      <p>{sampleCopy}{sampleCopy}</p>
+      <VisualizationCallout>
+        <p>{smallSampleCopy}</p>
+      </VisualizationCallout>
+    </div>
+    <div className={nationalDebtExplainedTable}>
+      <table>
+        <thead>
+          <tr>
+            {nationalDebtExplainedTableContent.header.map((th, i) => (
+              <th key={i}>{th}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {nationalDebtExplainedTableContent.body.map((tb, i) => (
+            <tr key={i}>
+              {tb.map((t, j) => {
+                // second-to-last element in second-to-last row before footer
+                const borderBottomEl = i === nationalDebtExplainedTableContent.body.length - 2
+                  && j === tb.length - 2;
+
+                // last element in last row before footer
+                const boldEl = i === 0 || (
+                  i === nationalDebtExplainedTableContent.body.length - 1 && j === tb.length - 1
+                );
+
+                return (
+                  <td className={borderBottomEl ? borderBottom : ''} key={j}>
+                    {boldEl ? (<strong>{t}</strong>) : t}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            {nationalDebtExplainedTableContent.footer.map((tf, i) => (
+              <td colSpan={tf !== null ? 2 : 1} key={i}>{tf}</td>
+            ))}
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </>
+  )
+};
+
+
+const FundingProgramsSection = () => (
+    <>
+      <p>{sampleCopy}</p>
+      <Accordion title="What are some of the major spending categories?">
+        <p>{sampleCopy}</p>
+        <div className={spendingCategoriesTable}>
+          <div className={row}>
+            <div className={firstColumn}>
+              <FontAwesomeIcon icon={faDollarSign} className={icon} />
+            </div>
+            <div className={secondColumn}>
+              <strong>Income Security</strong>
+              <p>
+                Unemployment Compensation, Other Income Security, Federal Employee Retirement and
+                Disability, Food and Nutrition Assistance
+              </p>
+            </div>
+          </div>
+          <div className={row}>
+            <div className={firstColumn}>
+              <FontAwesomeIcon icon={faUserFriends} className={icon} />
+            </div>
+            <div className={secondColumn}>
+              <strong>Social Security</strong>
+              <p>{smallSampleCopy}</p>
+            </div>
+          </div>
+          <div className={row}>
+            <div className={firstColumn}>
+              <FontAwesomeIcon icon={faHandHoldingMedical} className={icon} />
+            </div>
+            <div className={secondColumn}>
+              <strong>Medicare</strong>
+              <p>{smallSampleCopy}</p>
+            </div>
+          </div>
+          <div className={row}>
+            <div className={firstColumn}>
+              <FontAwesomeIcon icon={faShieldAlt} className={icon} />
+            </div>
+            <div className={secondColumn}>
+              <strong>National Defense</strong>
+              <p>
+                Department of Defense - Military Programs, Atomic Energy Defense Activities,
+                Defense-Related Activities
+              </p>
+            </div>
+          </div>
+          <div className={row}>
+            <div className={firstColumn}>
+              <FontAwesomeIcon icon={faHeartbeat} className={icon} />
+            </div>
+            <div className={secondColumn}>
+              <strong>Health</strong>
+              <p>
+                Health Care Services, Heath Research and Training, Consumer and Occupational Health
+                and Safety
+              </p>
+            </div>
+          </div>
+        </div>
+      </Accordion>
+      <div className={fundingProgramsBox}>
+        <p>{sampleCopy}</p>
+      </div>
+    </>
 );
 
-export const BaseNationalDebtThirdSection = ({ width }) => {
+export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [rows, setRows] = useState(thirdSectionAccordionTableContent.desktop.rows);
-  const [columns, setColumns] = useState(thirdSectionAccordionTableContent.desktop.columns);
+  const [rows, setRows] = useState(visualizingTheDebtTableContent.desktop.rows);
+  const [columns, setColumns] = useState(visualizingTheDebtTableContent.desktop.columns);
 
   useEffect(() => {
     setIsLoading(false);
 
     if (width < pxToNumber(breakpointSm)) {
-      setRows(thirdSectionAccordionTableContent.mobile.rows);
-      setColumns(thirdSectionAccordionTableContent.mobile.columns);
+      setRows(visualizingTheDebtTableContent.mobile.rows);
+      setColumns(visualizingTheDebtTableContent.mobile.columns);
     } else {
-      setRows(thirdSectionAccordionTableContent.desktop.rows);
-      setColumns(thirdSectionAccordionTableContent.desktop.columns);
+      setRows(visualizingTheDebtTableContent.desktop.rows);
+      setColumns(visualizingTheDebtTableContent.desktop.columns);
     }
   }, [width]);
 
@@ -296,77 +369,31 @@ export const BaseNationalDebtThirdSection = ({ width }) => {
   }
 
   return (
-  <>
-    <p>{sampleCopy}</p>
-    <Accordion title="Another sample title">
-      more placeholder accordion content
-    </Accordion>
-    <div className={thirdSectionTable}>
-      <table>
-        <thead>
-          <tr>
-            {thirdSectionTableContent.header.map((th, i) => (
-              <th key={i}>{th}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {thirdSectionTableContent.body.map((tb, i) => (
-            <tr key={i}>
-              {tb.map((t, j) => {
-                // second-to-last element in second-to-last row before footer
-                const borderBottomEl = i === thirdSectionTableContent.body.length - 2
-                  && j === tb.length - 2;
-
-                // last element in last row before footer
-                const boldEl = i === 0 || (
-                  i === thirdSectionTableContent.body.length - 1 && j === tb.length - 1
-                );
-
-                return (
-                  <td className={borderBottomEl ? borderBottom : ''} key={j}>
-                    {boldEl ? (<strong>{t}</strong>) : t}
-                  </td>
-                )
-              })}
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            {thirdSectionTableContent.footer.map((tf, i) => (
-              <td colSpan={tf !== null ? 2 : 1} key={i}>{tf}</td>
-            ))}
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    <Accordion
-      title="How much is a trillion? Hint: it's a really, really big number."
-      containerClass={thirdSectionAccordion}
-    >
-      <div className={accordionHeader}>
-        <p>If this is 1 billion:</p>
-        <div className={rectangle} />
-        <p>Then this is 1 trillion:</p>
-      </div>
-      {!isLoading && (
-        <table className={accordionTable}>
-          {drawTable()}
-        </table>
-      )}
-      <div className={accordionFooter}>
-        <p>(1000 squares drawn to scale.)</p>
-        <p>Today's debt is $28.4T, that's YY,YYY squares.</p>
-      </div>
-    </Accordion>
-  </>
-  )
+    <>
+      <Accordion
+        title="Visualizing the debt - How much is $28 trillion dollars?"
+        containerClass={growingNationalDebtSectionAccordion}
+      >
+        <div className={accordionHeader}>
+          <p>If this is 1 billion:</p>
+          <div className={rectangle} />
+          <p>Then this is 1 trillion:</p>
+        </div>
+        {!isLoading && (
+          <table className={accordionTable}>
+            {drawTable()}
+          </table>
+        )}
+        <div className={accordionFooter}>
+          <p>(1000 squares drawn to scale.)</p>
+          <p>Today's debt is $28.4T, that's YY,YYY squares.</p>
+        </div>
+      </Accordion>
+    </>
+  );
 };
 
-export const NationalDebtThirdSection = withWindowSize(BaseNationalDebtThirdSection);
-
-export const NationalDebtFourthSection = withWindowSize(({ sectionId, width }) => {
+export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) => {
   const chartId = `${sectionId}-chart`;
   const chartOptions = {
     forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
@@ -487,13 +514,13 @@ export const NationalDebtFourthSection = withWindowSize(({ sectionId, width }) =
   const displayValue = tempDate ? simplifyNumber(tempValue, true) : simplifyNumber(value, true);
 
   return (
-    <div className={fourthSection}>
+    <div className={growingNationalDebt}>
       <p>{sampleCopy}</p>
       {!isLoading ? (
         <div className={visWithCallout}>
           <div>
             <div
-              className={fourthSectionGraphContainer}
+              className={growingNationalDebtSectionGraphContainer}
             >
               <p className={title}>
                 U.S. Federal Debt Total of the Last 100 Years,
@@ -511,7 +538,7 @@ export const NationalDebtFourthSection = withWindowSize(({ sectionId, width }) =
               </div>
               <div
                 id={`${sectionId}-chart`}
-                className={fourthSectionGraph}
+                className={growingNationalDebtSectionGraph}
                 ref={chartRef}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -542,11 +569,33 @@ export const NationalDebtFourthSection = withWindowSize(({ sectionId, width }) =
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       )}
+      <p>{sampleCopy}</p>
+
+      <div className={visWithCallout}>
+        <div
+          style={{
+            height: 500,
+            margin: '32px 0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#fff',
+            backgroundColor: '#555'
+          }}
+        >
+          Graph
+        </div>
+        <VisualizationCallout>
+          <p>{smallSampleCopy}</p>
+        </VisualizationCallout>
+      </div>
+      <VisualizingTheDebtAccordion>
+      </VisualizingTheDebtAccordion>
     </div>
   );
 });
 
-export const NationalDebtFifthSection = (({ sectionId }) => {
+export const DebtBreakdownSection = (({ sectionId }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date ());
   const [isChartRendered, setIsChartRendered] = useState(false);
@@ -654,15 +703,8 @@ export const NationalDebtFifthSection = (({ sectionId }) => {
 
   return (
     <>
-      <p>
-        Similar to a person with a credit card, mortgage, or car loan, the federal debt
-        consists of different parts. The Treasury Bulletin categorizes ownership of U.S.
-        Government securities by the types of investors.
-      </p>
-      <p>
-        In this visual we show the difference between the two major types: debt
-        held by the public and intragovernmental holdings.
-      </p>
+      <p>{sampleCopy}</p>
+      <p>{sampleCopy} </p>
       <div className={visWithCallout}>
         {!data && (
           <div>
@@ -672,7 +714,7 @@ export const NationalDebtFifthSection = (({ sectionId }) => {
         {data && (
           <>
             <div>
-              <div className={fifthSectionGraphContainer}>
+              <div className={debtBreakdownSectionGraphContainer}>
                 <p className={title}>Intragovernmental Holdings and Debt Held by the Public,
                   {' '}{data[0].record_calendar_year} and {data[1].record_calendar_year}
                 </p>
@@ -817,65 +859,107 @@ export const NationalDebtFifthSection = (({ sectionId }) => {
         )}
       </div>
       <div className={postGraphContent}>
-        <Accordion title="another accordion">
-          more content
-        </Accordion>
+        <h3>Maintaining the National Debt</h3>
         <p>{sampleCopy}</p>
-        <Accordion title="another accordion">
-          more content
+        <div className={visWithCallout}>
+          <div
+            style={{
+              height: 500,
+              margin: '32px 0',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: '#fff',
+              backgroundColor: '#555'
+            }}
+          >
+            Graph
+          </div>
+          <VisualizationCallout>
+            <p>{smallSampleCopy}</p>
+          </VisualizationCallout>
+        </div>
+        <Accordion title="Why can't the government just print more money?">
+          {sampleCopy}
         </Accordion>
-        <p>{sampleCopy}</p>
       </div>
     </>
   );
 });
 
-export const sixthSectionAccordionTitle = 'Why can\'t the government just print more money?';
+export const debtCeilingSectionAccordionTitle =
+  'How is the debt ceiling different from a government shutdown?';
 
-export const NationalDebtSixthSection = () => (
+export const DebtCeilingSection = () => (
   <>
     <p>{sampleCopy}</p>
-    <h4>How much does it cost to maintain the federal debt?</h4>
-    <p>{sampleCopy}</p>
-    <Accordion title={sixthSectionAccordionTitle}>
-      <p>
-        While the Department of the Treasury prints actual dollars, “printing money” is also a term
-        that is sometimes used to describe a means of monetary policy, which is conducted by the
-        Federal Reserve.
-      </p>
-      <p>
-        Monetary policy involves controlling the supply of money and the cost of
-        borrowing. The Federal Reserve uses monetary policy to promote maximum employment, stable
-        prices, and moderate long-term interest rates on the behalf of the Congress. The federal
-        government uses fiscal policy, or the control of taxation and government spending, to
-        promote economic activity.
-      </p>
+    <Accordion title={debtCeilingSectionAccordionTitle}>
+      <p>{sampleCopy}</p>
     </Accordion>
-    <h4>How have the interest rates on the federal debt changed?</h4>
-    <p>{sampleCopy}</p>
-    <div
-      style={{
-        height: 500,
-        margin: '32px 0',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#fff',
-        backgroundColor: '#555'
-      }}
-    >
-      Last graph
-    </div>
   </>
 );
 
-const NationalDebtSeventhSection = () => (
+const DebtTrackingSection = () => (
   <>
     <p>{sampleCopy}</p>
-    <img src={sampleImg} alt="placeholder alt text" />
-    <div>more</div>
-    <img src={sampleImg} alt="placeholder alt text" />
-    <div>images</div>
+  </>
+);
+
+export const diveDeeperAccordionTitle = 'Data Sources & Methodologies';
+
+export const DiveDeeperSection = () => (
+  <>
+    <p>{smallSampleCopy}</p>
+    <div className={diveDeeperLink}>
+      <strong>The most recent U.S. Government Financial Report</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>America's Fiscal Future: Federal Debt</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>The Debt Veiling: An Explainer</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Federal Borrowing and Debt</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Federal Net Interest Costs: A Primer</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Options for Reducing Deficit</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>Treasury Bulletin</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+    <div className={diveDeeperLink}>
+      <strong>USAspending</strong>
+      <p>{smallSampleCopy}</p>
+    </div>
+
+    <div className={diveDeeperQuoteRight} >
+      <img src={sampleImg} alt="placeholder alt text" />
+      <p>"{smallSampleCopy}"</p>
+    </div>
+    <div className={diveDeeperQuoteLeft}>
+      <p>"{smallSampleCopy}"</p>
+      <img src={sampleImg} alt="placeholder alt text" />
+    </div>
+    <div className={diveDeeperAccordion}>
+      <Accordion title={diveDeeperAccordionTitle}>
+        <p>{sampleCopy}</p>
+      </Accordion>
+    </div>
   </>
 );
 
@@ -883,44 +967,50 @@ const nationalDebtSections = [
   {
     index: 0,
     id: nationalDebtSectionIds[0],
-    title: 'What are key takeaways of the national debt?',
-    component: <NationalDebtFirstSection />
+    title: 'Key Takeaways',
+    component: <KeyTakeawaysSection />
   },
   {
     index: 1,
     id: nationalDebtSectionIds[1],
-    title: 'Should I care about the national debt?',
-    component: <NationalDebtSecondSection />
+    title: 'The National Debt Explained',
+    component: <NationalDebtExplainedSection />
   },
   {
     index: 2,
     id: nationalDebtSectionIds[2],
-    title: 'What is a brief overview of the national debt?',
-    component: <NationalDebtThirdSection />
+    title: 'Funding Programs & Services',
+    component: <FundingProgramsSection />
   },
   {
     index: 3,
     id: nationalDebtSectionIds[3],
-    title: 'How has the national debt changed over time?',
-    component: <NationalDebtFourthSection sectionId={nationalDebtSectionIds[3]} />
+    title: 'The Growing National Debt',
+    component: <GrowingNationalDebtSection sectionId={nationalDebtSectionIds[3]} />
   },
   {
     index: 4,
     id: nationalDebtSectionIds[4],
-    title: 'What\'s the breakdown of the federal debt?',
-    component: <NationalDebtFifthSection sectionId={nationalDebtSectionIds[4]} />
+    title: 'Breaking Down the Debt',
+    component: <DebtBreakdownSection sectionId={nationalDebtSectionIds[4]} />
   },
   {
     index: 5,
     id: nationalDebtSectionIds[5],
-    title: 'How\'s the federal debt financed?',
-    component: <NationalDebtSixthSection />
+    title: 'The Debt Ceiling',
+    component: <DebtCeilingSection />
   },
   {
     index: 6,
     id: nationalDebtSectionIds[6],
-    title: 'What\'s next?',
-    component: <NationalDebtSeventhSection />
+    title: 'Tracking the Debt',
+    component: <DebtTrackingSection />
+  },
+  {
+    index: 7,
+    id: nationalDebtSectionIds[7],
+    title: 'Dive Deeper into the Debt',
+    component: <DiveDeeperSection />
   },
 ]
 
