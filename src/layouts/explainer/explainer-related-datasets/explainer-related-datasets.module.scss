@@ -11,9 +11,21 @@
   margin-bottom: 1em;
 }
 
+.titleStyle {
+  font-size: 32px;
+}
+
 @media screen and (max-width: $breakpoint-sm) {
   .paddingAdjust {
     width: 100%;
+  }
+  .cardWrapper {
+    display: inline-flex;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .titleStyle {
+    padding-left: 0.75rem;
   }
 }
 

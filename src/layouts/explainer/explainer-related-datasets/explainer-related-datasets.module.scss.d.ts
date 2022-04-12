@@ -65,3 +65,4 @@ export const debtExplainerSecondary: string;
 export const debtExplainerSectionHeading: string;
 export const paddingAdjust: string;
 export const cardWrapper: string;
+export const titleStyle: string;
