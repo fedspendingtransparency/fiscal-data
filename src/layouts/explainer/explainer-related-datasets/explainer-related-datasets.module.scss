@@ -3,16 +3,17 @@
 .paddingAdjust {
   margin-bottom: -1em;
   padding-bottom: 2.375em;
-  max-width: 75%;
+  max-width: calc(1140px + 4rem);
+  width: 60%;
 }
 
 .cardWrapper {
   margin-bottom: 1em;
 }
 
-@media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-md - 1) {
+@media screen and (max-width: $breakpoint-sm) {
   .paddingAdjust {
-    max-width: 100%;
+    width: 100%;
   }
 }
 
