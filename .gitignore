@@ -71,4 +71,3 @@ yarn-error.log
 
 # For VS Code users
 .vscode
-/package-lock.json
