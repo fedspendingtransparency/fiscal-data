@@ -26,16 +26,8 @@ import {
 } from "react-share";
 import {Helmet} from "react-helmet";
 
-import sampleImg from '../../../../static/topic-icons/debt.png'
+import sampleImg from '../../../../static/topic-icons/debt.png';
 
-
-const sampleCopy = `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum.
-`
 
 const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
   labore et dolore magna aliqua.
@@ -114,8 +106,7 @@ const HelmetMetaData = ({image}) => {
   )
 };
 
-const SocialShare = withWindowSize(() => {
-  const url = "localhost:8000/national-debt";
+const SocialShare = withWindowSize(({quote, title, summary, url}) => {
   return (
     <div className={socialShareContent}>
       <h3 hidden={window.innerWidth < pxToNumber(breakpointLg)}>Share this page:</h3>
@@ -127,25 +118,25 @@ const SocialShare = withWindowSize(() => {
       </FacebookShareButton>
       <TwitterShareButton className={shareButton}
                           url={url}
-                          title={"Sample Title"}>
+                          title={title}>
         <ShareButtonContent id={1}/>
       </TwitterShareButton>
       <LinkedinShareButton className={shareButton}
                            url={url}
-                           title={"Sample title"}
-                           summary={"Sample Summary"}
+                           title={title}
+                           summary={summary}
                            source={""}>
         <ShareButtonContent id={2}/>
       </LinkedinShareButton>
       <RedditShareButton className={shareButton}
                          url={url}
-                         title={"Sample Title"}>
+                         title={title}>
         <ShareButtonContent id={3}/>
       </RedditShareButton>
       <EmailShareButton className={shareButton}
                         url={url}
-                        subject={"Sample Subject"}
-                        body={sampleCopy}
+                        subject={title}
+                        body={summary}
                         separator={"\n"}>
         <ShareButtonContent id={4}/>
       </EmailShareButton>
