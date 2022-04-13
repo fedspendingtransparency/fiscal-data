@@ -34,6 +34,12 @@
         display: flex;
       }
     }
+
+    .socialShare {
+      text-align: center;
+      //display: inline-flex;
+
+    }
   }
 }
 
@@ -61,6 +67,16 @@
 
 .section {
   position: relative;
+}
+
+
+
+@media screen and (min-width: $breakpoint-lg) {
+
+  .social {
+    display: flex;
+    flex-direction: row-reverse;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {

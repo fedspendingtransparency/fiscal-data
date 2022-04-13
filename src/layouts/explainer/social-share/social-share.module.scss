@@ -1,6 +1,7 @@
 @import '../../../variables.module.scss';
 
 .socialShareContent {
+  //width: 100%;
   h3 {
     color: #666666;
     font-weight: $semi-bold-weight;
@@ -8,13 +9,16 @@
   }
 }
 
-
-.platform {
+.shareButton {
   display: flex;
   align-items: center;
   margin-top: 1rem;
   margin-bottom:0;
+}
 
+.shareButtonContent {
+  display: flex;
+  align-items: center;
   p {
     color: #666666;
     font-size: $font-size-16;
@@ -41,5 +45,21 @@
 
   .emailIcon {
 
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .shareButton {
+    display: inline-flex;
+    width: 20%;
+    text-align: justify;
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  .socialShareContent {
+    //display: inline-flex;
+    //width: 20%;
+    //text-align: center;
   }
 }

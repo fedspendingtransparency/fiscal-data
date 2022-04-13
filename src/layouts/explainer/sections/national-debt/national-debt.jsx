@@ -20,7 +20,8 @@ import sampleImg from '../../../../../static/topic-icons/debt.png'
 import Accordion from '../../../../components/accordion/accordion';
 import VisualizationCallout
   from "../../../../components/visualization-callout/visualization-callout";
-import { visWithCallout } from "../../explainer.module.scss";
+import { visWithCallout,
+  socialShare } from "../../explainer.module.scss";
 import drawChart, {
   addHoverEffects,
   removeHoverEffects
@@ -86,6 +87,7 @@ import {
 
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
+import SocialShare from "../../social-share/social-share";
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -174,31 +176,31 @@ export const chartPatternBackground = '#99e7e7';
 const KeyTakeawaysSection = () => (
   <>
     <div className={keyTakeawaysContent}>
-      <div className={iconBackground}>
-        <FontAwesomeIcon icon={faChartLine} className={icon} />
-        <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
+        <div className={iconBackground}>
+          <FontAwesomeIcon icon={faChartLine} className={icon} />
+          <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
+        </div>
+        <p>The national debt has steadily increased since 2000.</p>
       </div>
-      <p>The national debt has steadily increased since 2000.</p>
-    </div>
-    <div className={keyTakeawaysContent}>
-      <div className={iconBackground}>
-        <FontAwesomeIcon icon={faPollH} className={icon} />
-        <FontAwesomeIcon icon={faPollH} className={offsetIcon} />
+      <div className={keyTakeawaysContent}>
+        <div className={iconBackground}>
+          <FontAwesomeIcon icon={faPollH} className={icon} />
+          <FontAwesomeIcon icon={faPollH} className={offsetIcon} />
+        </div>
+        <p>
+          Different parts of the debt impact the health and stability of our national debt, including
+          gross domestic product (GDP), interest rates, and various economic trends.
+        </p>
       </div>
-      <p>
-        Different parts of the debt impact the health and stability of our national debt, including
-        gross domestic product (GDP), interest rates, and various economic trends.
-      </p>
-    </div>
-    <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
-      <div className={iconBackground}>
-        <FontAwesomeIcon icon={faPercent} className={icon} />
-        <FontAwesomeIcon icon={faPercent} className={offsetIcon} />
-      </div>
-      <p>
-        The national debt is often accessed by looking at debt over time or the ratio of the federal
-        debt related to GDP.
-      </p>
+      <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
+        <div className={iconBackground}>
+          <FontAwesomeIcon icon={faPercent} className={icon} />
+          <FontAwesomeIcon icon={faPercent} className={offsetIcon} />
+        </div>
+        <p>
+          The national debt is often accessed by looking at debt over time or the ratio of the federal
+          debt related to GDP.
+        </p>
     </div>
   </>
 );
