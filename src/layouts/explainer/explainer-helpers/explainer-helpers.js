@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   debtExplainerPrimary,
-  debtExplainerSecondary
+  debtExplainerSecondary,
+  debtExplainerSectionHeading
 } from '../../../variables.module.scss';
 import {
   nationalDebtActive,
@@ -18,7 +19,8 @@ export const getDateWithoutOffset = (date) => {
 export const explainerColorMap = {
   'national-debt': {
     primary: debtExplainerPrimary,
-    secondary: debtExplainerSecondary
+    secondary: debtExplainerSecondary,
+    sectionHeader: debtExplainerSectionHeading
   }
 }
 

@@ -13,10 +13,13 @@
   margin: 0 auto;
   min-height: 1000px;
 
-  .relatedDatasets {
+  .relatedDatasetsStyle {
     background-color: $body-background;
     min-height: 300px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .contentContainer {
@@ -57,6 +60,7 @@
 
 .sectionHeading {
   margin-top: 0;
+  font-size: $font-size-32;
 }
 
 .sectionBorder {
@@ -79,7 +83,7 @@
   }
   .socialShare {
     padding-top: 1.25rem;
-    padding-right: 5rem;
+    padding-right: 7rem;
   }
 }
 
@@ -97,7 +101,7 @@
     .mainContent {
       > section {
         flex-direction: column;
-        width: 96%;
+        width: 92%;
       }
     }
   }
