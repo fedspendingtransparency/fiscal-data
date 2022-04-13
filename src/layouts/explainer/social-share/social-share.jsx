@@ -26,7 +26,7 @@ import {
 } from "react-share";
 import {Helmet} from "react-helmet";
 
-// import sampleImg from '../../../../../static/topic-icons/debt.png'
+import sampleImg from '../../../../static/topic-icons/debt.png'
 
 
 const sampleCopy = `
@@ -74,7 +74,9 @@ export const ShareButtonContent = withWindowSize(({id}) => {
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    setHovered(true);
+    if(window.innerWidth >= pxToNumber(breakpointLg)) {
+      setHovered(true);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -101,26 +103,26 @@ export const ShareButtonContent = withWindowSize(({id}) => {
   )
 });
 
-// const HelmetMetaData = () => {
-//   return (
-//     <>
-//       <Helmet>
-//         <title>Sample Title</title>
-//         <meta property="image" content={sampleImg}/>
-//       </Helmet>
-//     </>
-//   )
-// };
+const HelmetMetaData = ({image}) => {
+  return (
+    <>
+      <Helmet>
+        <meta property="image" content={image}/>
+        <meta property="og:image" content={image}/>
+      </Helmet>
+    </>
+  )
+};
 
 const SocialShare = withWindowSize(() => {
   const url = "localhost:8000/national-debt";
   return (
     <div className={socialShareContent}>
       <h3 hidden={window.innerWidth < pxToNumber(breakpointLg)}>Share this page:</h3>
-      {/*<HelmetMetaData />*/}
+      <HelmetMetaData image={sampleImg} />
       <FacebookShareButton className={shareButton}
                            url={url}
-                           quote={"Sample quote"}>
+                           quote={smallSampleCopy}>
         <ShareButtonContent id={0}/>
       </FacebookShareButton>
       <TwitterShareButton className={shareButton}
@@ -130,7 +132,7 @@ const SocialShare = withWindowSize(() => {
       </TwitterShareButton>
       <LinkedinShareButton className={shareButton}
                            url={url}
-                           title={"Sample Title"}
+                           title={"Sample title"}
                            summary={"Sample Summary"}
                            source={""}>
         <ShareButtonContent id={2}/>
@@ -143,7 +145,8 @@ const SocialShare = withWindowSize(() => {
       <EmailShareButton className={shareButton}
                         url={url}
                         subject={"Sample Subject"}
-                        body={"Sample Body"} >
+                        body={sampleCopy}
+                        separator={"\n"}>
         <ShareButtonContent id={4}/>
       </EmailShareButton>
     </div>

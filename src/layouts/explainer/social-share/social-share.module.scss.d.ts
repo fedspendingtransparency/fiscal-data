@@ -70,3 +70,4 @@ export const facebookIcon: string;
 export const twitterIcon: string;
 export const linkedInIcon: string;
 export const redditIcon: string;
+export const emailIcon: string;

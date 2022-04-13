@@ -1,7 +1,6 @@
 @import '../../../variables.module.scss';
 
 .socialShareContent {
-  //width: 100%;
   h3 {
     color: #666666;
     font-weight: $semi-bold-weight;
@@ -29,23 +28,25 @@
   }
 
   .facebookIcon {
-    color: #3b5998
+    color: #3a5997;
+    padding-right: 6px;
   }
 
   .twitterIcon {
-    color: #00acee
+    color: #54acee;
   }
 
   .linkedInIcon {
-    color: #0e76a8
+    color: #057ab5;
+    padding-right: 2px;
   }
 
   .redditIcon {
-    color: #ff4500
+    color: #ff4500;
   }
 
   .emailIcon {
-
+    color: #666;
   }
 }
 
@@ -56,11 +57,6 @@
     text-align: justify;
     margin-top: 0;
     margin-bottom: 2rem;
-  }
-
-  .socialShareContent {
-    //display: inline-flex;
-    //width: 20%;
-    //text-align: center;
+    justify-content: center;
   }
 }
