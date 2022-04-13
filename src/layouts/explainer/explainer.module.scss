@@ -78,8 +78,8 @@
     flex-direction: row-reverse;
   }
   .socialShare {
-    transform: translate(-12rem, 0%);
-    width: 15rem;
+    padding-top: 1.25rem;
+    padding-right: 5rem;
   }
 }
 
@@ -97,6 +97,7 @@
     .mainContent {
       > section {
         flex-direction: column;
+        width: 96%;
       }
     }
   }
