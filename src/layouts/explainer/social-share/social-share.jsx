@@ -33,6 +33,9 @@ const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit
   labore et dolore magna aliqua.
 `
 
+const browserCheck = typeof window !== "undefined";
+
+
 const shareButtonContentList = [
   {
     className: facebookIcon,
@@ -66,7 +69,7 @@ export const ShareButtonContent = withWindowSize(({id}) => {
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    if(window.innerWidth >= pxToNumber(breakpointLg)) {
+    if(browserCheck && window.innerWidth >= pxToNumber(breakpointLg)) {
       setHovered(true);
     }
   };
@@ -76,7 +79,7 @@ export const ShareButtonContent = withWindowSize(({id}) => {
   };
 
   const style = hovered ? {color: "#555555"} : {};
-  const text = window.innerWidth < pxToNumber(breakpointLg) ? "" : shareButtonContentList[id].text;
+  const text = browserCheck && window.innerWidth >= pxToNumber(breakpointLg) ? shareButtonContentList[id].text : "";
   return (
     <>
       <div className={shareButtonContent}
@@ -107,9 +110,10 @@ const HelmetMetaData = ({image}) => {
 };
 
 const SocialShare = withWindowSize(({quote, title, summary, url}) => {
+  const header = browserCheck && window.innerWidth >= pxToNumber(breakpointLg) ? "Share this page:" : "";
   return (
     <div className={socialShareContent}>
-      <h3 hidden={window.innerWidth < pxToNumber(breakpointLg)}>Share this page:</h3>
+      <h3>{header}</h3>
       <HelmetMetaData image={sampleImg} />
       <FacebookShareButton className={shareButton}
                            url={url}
