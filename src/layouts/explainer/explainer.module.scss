@@ -77,6 +77,10 @@
     display: flex;
     flex-direction: row-reverse;
   }
+  .socialShare {
+    transform: translate(-12rem, 0%);
+    width: 15rem;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
