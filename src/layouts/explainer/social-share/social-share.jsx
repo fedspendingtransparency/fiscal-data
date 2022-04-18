@@ -33,9 +33,6 @@ const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit
   labore et dolore magna aliqua.
 `
 
-const browserCheck = typeof window !== "undefined";
-
-
 const shareButtonContentList = [
   {
     className: facebookIcon,
@@ -65,11 +62,11 @@ const shareButtonContentList = [
 
 ]
 
-export const ShareButtonContent = withWindowSize(({id}) => {
+export const ShareButtonContent = ({id, width}) => {
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    if(browserCheck && window.innerWidth >= pxToNumber(breakpointLg)) {
+    if(width >= pxToNumber(breakpointLg)) {
       setHovered(true);
     }
   };
@@ -79,13 +76,12 @@ export const ShareButtonContent = withWindowSize(({id}) => {
   };
 
   const style = hovered ? {color: "#555555"} : {};
-  const text = browserCheck && window.innerWidth >= pxToNumber(breakpointLg) ? shareButtonContentList[id].text : "";
+  const text = width >= pxToNumber(breakpointLg) ? shareButtonContentList[id].text : "";
   return (
     <>
       <div className={shareButtonContent}
            onMouseEnter={handleMouseEnter}
            onMouseLeave={handleMouseLeave}
-           data-testid={shareButtonContentList[id].className}
       >
         <FontAwesomeIcon className={shareButtonContentList[id].className}
                          icon={shareButtonContentList[id].icon}
@@ -96,7 +92,7 @@ export const ShareButtonContent = withWindowSize(({id}) => {
       </div>
     </>
   )
-});
+};
 
 const HelmetMetaData = ({image}) => {
   return (
@@ -109,40 +105,40 @@ const HelmetMetaData = ({image}) => {
   )
 };
 
-const SocialShare = withWindowSize(({quote, title, summary, url}) => {
-  const header = browserCheck && window.innerWidth >= pxToNumber(breakpointLg) ? "Share this page:" : "";
+const SocialShare = withWindowSize(({quote, title, summary, url, width}) => {
+  const displayHeader = width >= pxToNumber(breakpointLg) ? "Share this page:" : "";
   return (
     <div className={socialShareContent}>
-      <h3>{header}</h3>
+      <h3>{displayHeader}</h3>
       <HelmetMetaData image={sampleImg} />
       <FacebookShareButton className={shareButton}
                            url={url}
                            quote={smallSampleCopy}>
-        <ShareButtonContent id={0}/>
+        <ShareButtonContent id={0} width={width}/>
       </FacebookShareButton>
       <TwitterShareButton className={shareButton}
                           url={url}
                           title={title}>
-        <ShareButtonContent id={1}/>
+        <ShareButtonContent id={1} width={width}/>
       </TwitterShareButton>
       <LinkedinShareButton className={shareButton}
                            url={url}
                            title={title}
                            summary={summary}
                            source={""}>
-        <ShareButtonContent id={2}/>
+        <ShareButtonContent id={2} width={width}/>
       </LinkedinShareButton>
       <RedditShareButton className={shareButton}
                          url={url}
                          title={title}>
-        <ShareButtonContent id={3}/>
+        <ShareButtonContent id={3} width={width}/>
       </RedditShareButton>
       <EmailShareButton className={shareButton}
                         url={url}
                         subject={title}
                         body={summary}
                         separator={"\n"}>
-        <ShareButtonContent id={4}/>
+        <ShareButtonContent id={4} width={width}/>
       </EmailShareButton>
     </div>
   )
