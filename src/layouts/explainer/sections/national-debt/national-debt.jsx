@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { withWindowSize } from 'react-fns';
 import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -86,6 +86,7 @@ import {
 
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
+import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -109,7 +110,7 @@ export const nationalDebtSectionIds = [
   'breakdown',
   'debt-ceiling',
   'debt-tracking',
-  'dive-deeper',
+  'dive-deeper'
 ];
 
 export const nationalDebtExplainedTableContent = {
@@ -955,11 +956,6 @@ export const DiveDeeperSection = () => (
       <p>"{smallSampleCopy}"</p>
       <img src={sampleImg} alt="placeholder alt text" />
     </div>
-    <div className={diveDeeperAccordion}>
-      <Accordion title={diveDeeperAccordionTitle}>
-        <p>{sampleCopy}</p>
-      </Accordion>
-    </div>
   </>
 );
 
@@ -1011,7 +1007,32 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[7],
     title: 'Dive Deeper into the Debt',
     component: <DiveDeeperSection />
-  },
+  }
 ]
 
 export default nationalDebtSections;
+export const nationalDebtDataSources = (
+  <>
+    Three different Fiscal Data datasets are used for federal debt values on this
+    page. {' '}<CustomLink url={'/datasets/debt-to-the-penny/'}>Debt to the Penny</CustomLink>{' '}
+    provides daily values;
+    {' '}<CustomLink url={'/datasets/monthly-statement-public-debt/'}>
+      Monthly Statement of the Public Debt (MSPD)</CustomLink>{' '} December values are used
+    for visualizations showing calendar years;
+    and {' '}<CustomLink url={'/datasets/historical-debt-outstanding/'}>
+      Historical Debt Outstanding
+    </CustomLink>{' '} provides an annual value for fiscal years. Interest rates are pulled from the
+    {' '}<CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}>
+      Average Interest Rates on U.S. Treasury Securities
+    </CustomLink>{' '}
+    dataset. Adjustments for inflation are calculated using Consumer Price Index values
+    from the
+    {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Labor Statistics</CustomLink>.
+    Fiscal year Gross Domestic Product values are calculated by averaging four quarterly
+    GDP values from the
+    {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Economic Analysis</CustomLink>.
+    For detailed documentation, users can reference our
+    {' '}<CustomLink url={'https://github.com/fedspendingtransparency/'}>
+    Github repository</CustomLink>.
+  </>
+)

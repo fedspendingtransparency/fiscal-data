@@ -1,0 +1,34 @@
+@import '../../../variables.module.scss';
+
+.section {
+  position: relative;
+}
+
+:global(.dataSourceAccordion) {
+  margin-top: 2rem;
+  > * {
+    background-color: $body-background;
+    border: none;
+    padding: 0.5rem 0.25rem;
+  }
+  :global(.accordionOpen) {
+    :global(.accordionHeading) {
+      border-bottom: none;
+    }
+  }
+  :global(.accordionHeading) {
+    @include headingStyle5;
+    border: none;
+  }
+  :global(.accordionContent) {
+    border: none;
+    font-size: $font-size-14;
+    padding-bottom: 1.875rem;
+  }
+
+  @media screen and (max-width: $breakpoint-sm) {
+    :global(.accordionHeading) {
+      font-size: 1.5rem;
+    }
+  }
+}

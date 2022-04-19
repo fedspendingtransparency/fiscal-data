@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import explainerSections from './sections/sections';
+import explainerSections, { explainerDataSources } from './sections/sections';
 import HeroImage from './hero-image/hero-image';
 import { IExplainerPage } from '../../models/IExplainerPage';
 import {
@@ -19,10 +19,11 @@ import {
   mainContent,
   section,
   sectionBorder,
-  sectionHeading,
+  sectionHeading
 } from './explainer.module.scss';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
+import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies"
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets } = pageContext;
@@ -72,12 +73,12 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                     id={s.id}
                     className={section}
                   >
-                    <h2
-                      className={sectionHeading}
-                      style={{ color: explainerColorMap[pageName].sectionHeader}}
-                      data-testid="section-heading"
-                    >
-                      {s.title}
+                      <h2
+                        className={sectionHeading}
+                        style={{ color: explainerColorMap[pageName].sectionHeader}}
+                        data-testid="section-heading"
+                      >
+                        {s.title}
                     </h2>
                     {s.component}
                     {s.index !== explainerSections[pageName].length - 1 && (
@@ -89,11 +90,16 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                   </section>
                 </React.Fragment>
               ))}
+              <section className={section}>
+                <DataSourcesMethodologies>
+                  {explainerDataSources[pageName]}
+                </DataSourcesMethodologies>
+              </section>
             </div>
           </SecondaryNav>
         </div>
         <div className={relatedDatasetsStyle}>
-          <ExplainerRelatedDatasets datasets={relatedDatasets} referrer={"example"}/>
+          <ExplainerRelatedDatasets datasets={relatedDatasets} referrer={"example"} />
         </div>
       </div>
     </SiteLayout>

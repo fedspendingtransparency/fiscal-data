@@ -41,7 +41,7 @@ describe('Explainer Page Layout', () => {
   });
 
   it('renders the explainer page', async () => {
-    const { findAllByTestId } = render(
+    const { findAllByTestId, findByText } = render(
       <ExplainerPageLayout
         pageContext={mockPageContext}
       />
@@ -49,5 +49,8 @@ describe('Explainer Page Layout', () => {
 
     const sectionHeadings = await findAllByTestId('section-heading')
     expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
+
+    const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
+    expect(dataSourcesMethodologies).toBeInTheDocument();
   })
 });

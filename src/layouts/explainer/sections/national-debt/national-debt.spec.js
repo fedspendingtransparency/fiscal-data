@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import nationalDebtSections, {
   nationalDebtSectionIds,
   nationalDebtSectionConfigs,
@@ -11,8 +11,8 @@ import nationalDebtSections, {
   DebtCeilingSection,
   debtCeilingSectionAccordionTitle,
   DiveDeeperSection,
-  diveDeeperAccordionTitle, VisualizingTheDebtAccordion
-} from './national-debt';
+  diveDeeperAccordionTitle, VisualizingTheDebtAccordion, nationalDebtDataSources,
+} from "./national-debt"
 import {
   mockFifthSectionValueMarkers,
   mockExplainerPageResponse,
@@ -29,6 +29,7 @@ import {
   nationalDebtExplainedTable,
   growingNationalDebtSectionAccordion
 } from './national-debt.module.scss';
+import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
 
 jest.mock('./variables.module.scss', (content) => ({
   ...content,
@@ -204,12 +205,20 @@ describe('The Debt Ceiling', () => {
   });
 });
 
-describe('Dive Deeper', () => {
-  it('contains an accordion for data sources and methodologies', () => {
-    const { getByText } = render(
-      <DiveDeeperSection />
+describe('Data Sources & Methodologies', () => {
+  it('contains content for a Data sources and methodologies section', async () => {
+    const { findByText, getByRole} = render(
+      <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>
     );
+    const toggle = getByRole('button');
+    act(() => {
+      toggle.click();
+    });
 
-    expect(getByText(diveDeeperAccordionTitle)).toBeInTheDocument();
+
+    const accordionContentsSegment =
+      await findByText('Bureau of Economic Analysis');
+    expect(accordionContentsSegment)
+      .toBeInTheDocument();
   });
 });
