@@ -8,7 +8,8 @@ import { IExplainerPage } from '../../models/IExplainerPage';
 import {
   explainerClassMap,
   explainerColorMap,
-  explainerHeroMap
+  explainerHeroMap,
+  explainerSocialShareMap
 } from './explainer-helpers/explainer-helpers';
 
 import {
@@ -27,13 +28,6 @@ import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import SocialShare from "./social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 
-
-import globalConstants from "../../helpers/constants";
-
-const baseUrl = globalConstants.BASE_SITE_URL;
-
-const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua.`;
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets } = pageContext;
@@ -79,10 +73,11 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
 
             <div className={social}>
               <div className={socialShare}>
-                <SocialShare quote={smallSampleCopy}
-                             title={"Sample Title"}
-                             summary={smallSampleCopy}
-                             url={baseUrl + "/national-debt/"}
+                <SocialShare quote={explainerSocialShareMap[pageName].quote}
+                             title={explainerSocialShareMap[pageName].title}
+                             summary={explainerSocialShareMap[pageName].summary}
+                             url={explainerSocialShareMap[pageName].url}
+                             image={explainerSocialShareMap[pageName].image}
                 />
               </div>
               <div className={mainContent}>

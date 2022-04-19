@@ -66,6 +66,7 @@ export const debtExplainerSectionHeading: string;
 export const socialShareContent: string;
 export const shareButton: string;
 export const shareButtonContent: string;
+export const shareButtonText: string;
 export const facebookIcon: string;
 export const twitterIcon: string;
 export const linkedInIcon: string;

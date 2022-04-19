@@ -1,13 +1,7 @@
 import React from 'react';
-import {cleanup, render} from "@testing-library/react";
-import SocialShare from "./social-share";
-import globalConstants from "../../../helpers/constants";
+import { render } from "@testing-library/react";
+import { SocialShareComponent } from "./social-share";
 import { breakpointLg, breakpointSm } from '../../../../variables.module.scss';
-
-
-const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua.`;
-const baseUrl = globalConstants.BASE_SITE_URL;
 
 jest.mock('./variables.module.scss', (content) => ({
   ...content,
@@ -16,17 +10,19 @@ jest.mock('./variables.module.scss', (content) => ({
 }));
 
 describe('Social Share component', () => {
-
-  afterEach(() => {
-    cleanup();
-  });
+  const quote = 'Quote';
+  const title = 'Title';
+  const summary = 'Summary';
+  const url = 'testUrl';
+  const image = 'testImage';
 
   it('renders all five social share buttons ', () => {
     const { getByRole } = render(
-      <SocialShare quote={smallSampleCopy}
-                   title={"Sample Title"}
-                   summary={smallSampleCopy}
-                   url={baseUrl + "/national-debt/"}/>
+      <SocialShareComponent
+                   quote={quote}
+                   title={title}
+                   summary={summary}
+                   url={url}/>
     );
 
     const facebook = getByRole('button', {name: 'facebook'});
@@ -42,41 +38,45 @@ describe('Social Share component', () => {
     expect(email).toBeInTheDocument();
   });
 
-  it('renders the heading, icons, and text in desktop view', () => {
-    const { getByRole } = render(
-      <SocialShare quote={smallSampleCopy}
-                   title={"Sample Title"}
-                   summary={smallSampleCopy}
-                   url={baseUrl + "/national-debt/"}
-                   width={breakpointLg}/>
+  it('renders the heading and button text in desktop view',() => {
+    const { getByRole, getByText } = render(
+      <SocialShareComponent
+                   quote={ quote }
+                   title={ title }
+                   summary={ summary }
+                   url={ url }
+                   image={ image }
+                   width={ breakpointLg }
+      />
     );
 
-    const header = getByRole('heading', {name: 'Share this page:'});
-    const facebookButton = getByRole('button', {name: 'facebook'});
-    const facebookIcon = facebookButton.querySelector('svg');
-    const facebookText = facebookButton.querySelector('p');
+    const header = getByRole('heading', {name: "Share this page:"});
+    const facebookText = getByText('Facebook');
+    const twitterText = getByText('Twitter');
 
     expect(header).toBeInTheDocument();
-    expect(facebookIcon).toBeInTheDocument();
     expect(facebookText).toBeInTheDocument();
+    expect(twitterText).toBeInTheDocument();
   });
 
-  it('renders only the icons in mobile view', () => {
-    const { getByRole } = render(
-      <SocialShare quote={smallSampleCopy}
-                   title={"Sample Title"}
-                   summary={smallSampleCopy}
-                   url={baseUrl + "/national-debt/"}
-                   width={breakpointSm}/>
+  it('renders only the icons in mobile view, and not the header or button text', () => {
+    const { getByRole, queryByText } = render(
+      <SocialShareComponent
+                   quote={ quote }
+                   title={ title }
+                   summary={ summary }
+                   url={ url }
+                   image={ image }
+                   width={ breakpointSm }
+      />
     );
 
     const header = getByRole('heading');
-    const facebookButton = getByRole('button', {name: 'facebook'});
-    const facebookIcon = facebookButton.querySelector('svg');
-    const facebookText = facebookButton.querySelector('p');
+    const facebookIcon = getByRole('img', {name: 'facebook'});
+    const facebookText = queryByText('Facebook');
 
     expect(header).toBeEmptyDOMElement();
     expect(facebookIcon).toBeInTheDocument();
-    expect(facebookText).toBeEmptyDOMElement();
+    expect(facebookText).toBeNull();
   });
 });

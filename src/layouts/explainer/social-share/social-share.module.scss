@@ -19,12 +19,13 @@
 .shareButtonContent {
   display: flex;
   align-items: center;
-  p {
+
+  .shareButtonText {
     color: #666666;
     font-size: $font-size-16;
     margin-left: .5rem;
-    margin-top:0;
-    margin-bottom:0;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .facebookIcon {

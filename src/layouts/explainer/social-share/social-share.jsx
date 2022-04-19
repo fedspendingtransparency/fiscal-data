@@ -1,8 +1,13 @@
 
-import React, {useState} from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
-import {faFacebookF, faTwitter, faLinkedinIn, faRedditAlien} from "@fortawesome/free-brands-svg-icons";
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFacebookF,
+  faTwitter,
+  faLinkedinIn,
+  faRedditAlien
+} from "@fortawesome/free-brands-svg-icons";
 
 import {
   socialShareContent,
@@ -12,11 +17,12 @@ import {
   linkedInIcon,
   redditIcon,
   emailIcon,
-  shareButton
+  shareButton,
+  shareButtonText
 } from "./social-share.module.scss";
-import {withWindowSize} from "react-fns";
-import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
-import {breakpointLg} from "../../../variables.module.scss";
+import { withWindowSize } from "react-fns";
+import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
+import { breakpointLg } from "../../../variables.module.scss";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -26,43 +32,36 @@ import {
 } from "react-share";
 import {Helmet} from "react-helmet";
 
-import sampleImg from '../../../../static/topic-icons/debt.png';
 
-
-const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua.
-`
-
-const shareButtonContentList = [
-  {
+const shareButtonContentMap = {
+  'facebook': {
     className: facebookIcon,
     text: "Facebook",
     icon: faFacebookF
   },
-  {
+  'twitter': {
     className: twitterIcon,
     text: "Twitter",
     icon: faTwitter
   },
-  {
+  'linkedin': {
     className: linkedInIcon,
     text: "LinkedIn",
     icon: faLinkedinIn
   },
-  {
+  'reddit': {
     className: redditIcon,
     text: "Reddit",
     icon: faRedditAlien
   },
-  {
+  'email': {
     className: emailIcon,
     text: "Email",
     icon: faEnvelope
-  },
+  }
+}
 
-]
-
-export const ShareButtonContent = ({id, width}) => {
+export const ShareButtonContent = ({ name, width }) => {
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -76,72 +75,80 @@ export const ShareButtonContent = ({id, width}) => {
   };
 
   const style = hovered ? {color: "#555555"} : {};
-  const text = width >= pxToNumber(breakpointLg) ? shareButtonContentList[id].text : "";
+  const text = width >= pxToNumber(breakpointLg) ? shareButtonContentMap[name].text : "";
   return (
     <>
-      <div className={shareButtonContent}
-           onMouseEnter={handleMouseEnter}
-           onMouseLeave={handleMouseLeave}
+      <div className={ shareButtonContent }
+           onMouseEnter={ handleMouseEnter }
+           onMouseLeave={ handleMouseLeave }
       >
-        <FontAwesomeIcon className={shareButtonContentList[id].className}
-                         icon={shareButtonContentList[id].icon}
-                         style={style}/>
-        <p style={style} >
-          {text}
-        </p>
+        <FontAwesomeIcon className={ shareButtonContentMap[name].className }
+                         icon={ shareButtonContentMap[name].icon }
+                         title={ name }
+                         style={ style }
+        />
+        <div className={ shareButtonText }
+             style={ style }
+        >
+          { text }
+        </div>
       </div>
     </>
   )
 };
 
-const HelmetMetaData = ({image}) => {
+const HelmetMetaData = ({ image }) => {
   return (
     <>
       <Helmet>
-        <meta property="image" content={image}/>
-        <meta property="og:image" content={image}/>
+        <meta property="image" content={ image } />
+        <meta property="og:image" content={ image } />
       </Helmet>
     </>
   )
 };
 
-const SocialShare = withWindowSize(({quote, title, summary, url, width}) => {
-  const displayHeader = width >= pxToNumber(breakpointLg) ? "Share this page:" : "";
-  return (
-    <div className={socialShareContent}>
-      <h3>{displayHeader}</h3>
-      <HelmetMetaData image={sampleImg} />
-      <FacebookShareButton className={shareButton}
-                           url={url}
-                           quote={smallSampleCopy}>
-        <ShareButtonContent id={0} width={width}/>
+export const SocialShareComponent = ({ quote, title, summary, url, image, width }) => {
+   return (
+    <div className={ socialShareContent }>
+      <h3>{ width >= pxToNumber(breakpointLg) ? "Share this page:" : "" }</h3>
+      <HelmetMetaData image={ image } />
+      <FacebookShareButton className={ shareButton }
+                           url={ url }
+                           quote={ quote }
+      >
+        <ShareButtonContent name={ 'facebook' } width={ width } />
       </FacebookShareButton>
       <TwitterShareButton className={shareButton}
                           url={url}
-                          title={title}>
-        <ShareButtonContent id={1} width={width}/>
+                          title={title}
+      >
+        <ShareButtonContent name={ 'twitter' } width={ width } />
       </TwitterShareButton>
-      <LinkedinShareButton className={shareButton}
-                           url={url}
-                           title={title}
-                           summary={summary}
-                           source={""}>
-        <ShareButtonContent id={2} width={width}/>
+      <LinkedinShareButton className={ shareButton }
+                           url={ url }
+                           title={ title }
+                           summary={ summary }
+                           source={ "" }
+      >
+        <ShareButtonContent name={ 'linkedin' } width={ width } />
       </LinkedinShareButton>
-      <RedditShareButton className={shareButton}
-                         url={url}
-                         title={title}>
-        <ShareButtonContent id={3} width={width}/>
+      <RedditShareButton className={ shareButton }
+                         url={ url }
+                         title={ title }
+      >
+        <ShareButtonContent name={ 'reddit' } width={ width } />
       </RedditShareButton>
-      <EmailShareButton className={shareButton}
-                        url={url}
-                        subject={title}
-                        body={summary}
-                        separator={"\n"}>
-        <ShareButtonContent id={4} width={width}/>
+      <EmailShareButton className={ shareButton }
+                        url={ url }
+                        subject={ title }
+                        body={ summary }
+                        separator={ "\n" }
+      >
+        <ShareButtonContent name={ 'email' } width={ width } />
       </EmailShareButton>
     </div>
   )
-});
+ };
 
-export default SocialShare;
+export default withWindowSize(SocialShareComponent);
