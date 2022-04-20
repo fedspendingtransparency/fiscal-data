@@ -72,3 +72,4 @@ export const twitterIcon: string;
 export const linkedInIcon: string;
 export const redditIcon: string;
 export const emailIcon: string;
+export const shareButtonContainer: string;

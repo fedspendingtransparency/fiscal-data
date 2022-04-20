@@ -18,7 +18,8 @@ import {
   redditIcon,
   emailIcon,
   shareButton,
-  shareButtonText
+  shareButtonText,
+  shareButtonContainer
 } from "./social-share.module.scss";
 import { withWindowSize } from "react-fns";
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
@@ -84,14 +85,13 @@ export const ShareButtonContent = ({ name, width }) => {
       >
         <FontAwesomeIcon className={ shareButtonContentMap[name].className }
                          icon={ shareButtonContentMap[name].icon }
-                         title={ name }
                          style={ style }
         />
-        <div className={ shareButtonText }
+        <span className={ shareButtonText }
              style={ style }
         >
           { text }
-        </div>
+        </span>
       </div>
     </>
   )
@@ -111,42 +111,54 @@ const HelmetMetaData = ({ image }) => {
 export const SocialShareComponent = ({ quote, title, summary, url, image, width }) => {
    return (
     <div className={ socialShareContent }>
-      <h3>{ width >= pxToNumber(breakpointLg) ? "Share this page:" : "" }</h3>
+      <h3>
+        { width >= pxToNumber(breakpointLg) ? "Share this page:" : "" }
+      </h3>
       <HelmetMetaData image={ image } />
-      <FacebookShareButton className={ shareButton }
-                           url={ url }
-                           quote={ quote }
-      >
-        <ShareButtonContent name={ 'facebook' } width={ width } />
-      </FacebookShareButton>
-      <TwitterShareButton className={shareButton}
-                          url={url}
-                          title={title}
-      >
-        <ShareButtonContent name={ 'twitter' } width={ width } />
-      </TwitterShareButton>
-      <LinkedinShareButton className={ shareButton }
+      <div className={ shareButtonContainer }>
+        <FacebookShareButton className={ shareButton }
+                             url={ url }
+                             quote={ quote }
+        >
+          <ShareButtonContent name={ 'facebook' } width={ width } />
+        </FacebookShareButton>
+      </div>
+      <div className={ shareButtonContainer }>
+        <TwitterShareButton className={shareButton}
+                            url={url}
+                            title={title}
+        >
+          <ShareButtonContent name={ 'twitter' } width={ width } />
+        </TwitterShareButton>
+      </div>
+      <div className={ shareButtonContainer }>
+        <LinkedinShareButton className={ shareButton }
                            url={ url }
                            title={ title }
                            summary={ summary }
                            source={ "" }
-      >
-        <ShareButtonContent name={ 'linkedin' } width={ width } />
-      </LinkedinShareButton>
-      <RedditShareButton className={ shareButton }
+        >
+          <ShareButtonContent name={ 'linkedin' } width={ width } />
+        </LinkedinShareButton>
+      </div>
+      <div className={ shareButtonContainer }>
+        <RedditShareButton className={ shareButton }
                          url={ url }
                          title={ title }
-      >
-        <ShareButtonContent name={ 'reddit' } width={ width } />
-      </RedditShareButton>
-      <EmailShareButton className={ shareButton }
-                        url={ url }
-                        subject={ title }
-                        body={ summary }
-                        separator={ "\n" }
-      >
-        <ShareButtonContent name={ 'email' } width={ width } />
-      </EmailShareButton>
+        >
+         <ShareButtonContent name={ 'reddit' } width={ width } />
+        </RedditShareButton>
+      </div>
+      <div className={ shareButtonContainer }>
+        <EmailShareButton className={ shareButton }
+                          url={ url }
+                          subject={ title }
+                          body={ summary }
+                          separator={ "\n" }
+        >
+          <ShareButtonContent name={ 'email' } width={ width } />
+        </EmailShareButton>
+      </div>
     </div>
   )
  };

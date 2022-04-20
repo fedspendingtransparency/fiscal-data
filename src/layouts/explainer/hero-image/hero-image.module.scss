@@ -51,7 +51,7 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .mainContainer {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     width: calc(100% - 30px);
   }
 }
