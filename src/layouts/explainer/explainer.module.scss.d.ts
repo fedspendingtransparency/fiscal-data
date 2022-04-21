@@ -73,5 +73,5 @@ export const visWithCallout: string;
 export const sectionHeading: string;
 export const sectionBorder: string;
 export const section: string;
-export const social: string;
+export const socialShareContainer: string;
 export const relatedDatasets: string;

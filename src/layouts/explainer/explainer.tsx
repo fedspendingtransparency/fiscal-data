@@ -21,7 +21,7 @@ import {
   section,
   sectionBorder,
   sectionHeading,
-  social,
+  socialShareContainer,
   socialShare
 } from './explainer.module.scss';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
@@ -71,7 +71,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
             hoverClass={explainerClassMap[pageName].hover}
           >
 
-            <div className={social}>
+            <div className={socialShareContainer}>
               <div className={socialShare}>
                 <SocialShare title={explainerSocialShareMap[pageName].title}
                              summary={explainerSocialShareMap[pageName].summary}

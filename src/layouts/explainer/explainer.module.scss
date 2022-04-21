@@ -40,8 +40,6 @@
 
     .socialShare {
       text-align: center;
-      //display: inline-flex;
-
     }
   }
 }
@@ -77,7 +75,7 @@
 
 @media screen and (min-width: $breakpoint-lg) {
 
-  .social {
+  .socialShareContainer {
     display: flex;
     flex-direction: row-reverse;
   }

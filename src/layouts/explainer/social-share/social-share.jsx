@@ -24,6 +24,7 @@ import {
 import { withWindowSize } from "react-fns";
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
 import { breakpointLg } from "../../../variables.module.scss";
+import { Helmet } from "react-helmet";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -31,7 +32,7 @@ import {
   RedditShareButton,
   EmailShareButton
 } from "react-share";
-import {Helmet} from "react-helmet";
+
 
 
 const shareButtonContentMap = {

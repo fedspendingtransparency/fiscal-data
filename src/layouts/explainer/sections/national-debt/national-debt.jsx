@@ -20,7 +20,7 @@ import sampleImg from '../../../../../static/topic-icons/debt.png'
 import Accordion from '../../../../components/accordion/accordion';
 import VisualizationCallout
   from "../../../../components/visualization-callout/visualization-callout";
-import { visWithCallout} from "../../explainer.module.scss";
+import { visWithCallout } from "../../explainer.module.scss";
 import drawChart, {
   addHoverEffects,
   removeHoverEffects

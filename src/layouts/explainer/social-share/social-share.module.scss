@@ -6,7 +6,7 @@
     font-weight: $semi-bold-weight;
     font-size: $font-size-16;
     width: 6.875rem;
-    margin: 0 0 16px;
+    margin: 0 0 1rem;
   }
 }
 
@@ -21,56 +21,56 @@
   display: flex;
   align-items: center;
   font-size: $font-size-16;
-  height: $font-size-20;
+  height: 1.25rem;
 
   .shareButtonText {
     color: #666;
-    margin: 0 0 0 8px;
-    height: 20px;
+    margin: 0 0 0 .5rem;
+    height: 1.25rem;
   }
 
   .facebookIcon {
     color: #3a5997;
-    width: $font-size-18;
-    height: $font-size-16;
-    margin: 2px 8px 2px 0;
+    width: 1.125rem;
+    height: 1rem;
+    margin: .125rem .5rem .125rem 0;
   }
 
   .twitterIcon {
     color: #54acee;
-    width: $font-size-18;
-    height: $font-size-16;
-    margin: 2px 8px 2px 0;
+    width: 1.125rem;
+    height: 1rem;
+    margin: .125rem .5rem .125rem 0;
   }
 
   .linkedInIcon {
     color: #057ab5;
-    width: $font-size-18;
-    height: $font-size-16;
-    margin: 2px 8px 2px 0;
+    width: 1.125rem;
+    height: 1rem;
+    margin: .125rem .5rem .125rem 0;
   }
 
   .redditIcon {
     color: #ff4500;
-    width: $font-size-18;
-    height: $font-size-16;
-    margin: 2px 8px 2px 0;
+    width: 1.125rem;
+    height: 1rem;
+    margin: .125rem .5rem .125rem 0;
   }
 
   .emailIcon {
     color: #666;
-    width: $font-size-18;
-    height: $font-size-16;
-    margin: 2px 8px 2px 0;
+    width: 1.125rem;
+    height: 1rem;
+    margin: .125rem .5rem .125rem 0;
   }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .socialShareContent {
-    padding-bottom: 30px;
-    height: 18px;
-    margin-top: 16px;
-    margin-bottom: 16px;
+    padding-bottom: 1.875rem;
+    height: 1.125rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   .shareButton {
@@ -84,9 +84,8 @@
   .shareButtonContainer {
     display: inline-flex;
     text-align: justify;
-    width: 20%;
-    //height: 48px;
     justify-content: center;
+    width: 20%;
   }
   .shareButtonContent {
     .shareButtonText, .facebookIcon, .twitterIcon,
