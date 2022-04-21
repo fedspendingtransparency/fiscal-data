@@ -79,36 +79,36 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                              quote={explainerSocialShareMap[pageName].quote}
                 />
               </div>
-            <div className={mainContent}>
-              {explainerSections[pageName].map((s) => (
-                <React.Fragment key={s.index}>
-                  <section
-                    id={s.id}
-                    className={section}
-                  >
+              <div className={mainContent}>
+                {explainerSections[pageName].map((s) => (
+                  <React.Fragment key={s.index}>
+                    <section
+                      id={s.id}
+                      className={section}
+                    >
                       <h2
                         className={sectionHeading}
                         style={{ color: explainerColorMap[pageName].sectionHeader}}
                         data-testid="section-heading"
                       >
                         {s.title}
-                    </h2>
-                    {s.component}
-                    {s.index !== explainerSections[pageName].length - 1 && (
-                      <div
-                        className={sectionBorder}
-                        style={{ backgroundColor: explainerColorMap[pageName].secondary }}
-                      />
-                    )}
-                  </section>
-                </React.Fragment>
-              ))}
-            </div>
-              <section className={section}>
-                <DataSourcesMethodologies>
-                  {explainerDataSources[pageName]}
-                </DataSourcesMethodologies>
-              </section>
+                      </h2>
+                      {s.component}
+                      {s.index !== explainerSections[pageName].length - 1 && (
+                        <div
+                          className={sectionBorder}
+                          style={{ backgroundColor: explainerColorMap[pageName].secondary }}
+                        />
+                      )}
+                    </section>
+                  </React.Fragment>
+                ))}
+                <section className={section}>
+                  <DataSourcesMethodologies>
+                    {explainerDataSources[pageName]}
+                  </DataSourcesMethodologies>
+                </section>
+              </div>
             </div>
           </SecondaryNav>
         </div>
