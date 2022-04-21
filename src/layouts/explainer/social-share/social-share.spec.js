@@ -72,11 +72,11 @@ describe('Social Share component', () => {
     );
 
     const header = getByRole('heading');
-    const facebookIcon = getByRole('img', {name: 'facebook'});
+    const facebook = getByRole('button', {name: 'facebook'});
     const facebookText = queryByText('Facebook');
 
     expect(header).toBeEmptyDOMElement();
-    expect(facebookIcon).toBeInTheDocument();
+    expect(facebook).toBeInTheDocument();
     expect(facebookText).toBeNull();
   });
 });
