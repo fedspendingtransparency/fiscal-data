@@ -97,69 +97,80 @@ export const ShareButtonContent = ({ name, width }) => {
   )
 };
 
-const HelmetMetaData = ({ image }) => {
+const SocialMetaData = ({ image, title, summary }) => {
+  // facebook, linkedIn, and reddit should be all looking for og:image and other og: properties
+  // twitter will be looking for twitter: properties
   return (
     <>
       <Helmet>
-        <meta property="image" content={ image } />
         <meta property="og:image" content={ image } />
+        <meta property="twitter:image" content={ image } />
+        <meta property="twitter:summary_large_image" content={ image } />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:description" content={ summary } />
+        <meta property="twitter:title" content={ title } />
       </Helmet>
     </>
   )
 };
 
-export const SocialShareComponent = ({ quote, title, summary, url, image, width }) => {
+export const SocialShareComponent = ({ title, summary, url, image, quote, width }) => {
    return (
-    <div className={ socialShareContent }>
-      <h3>
-        { width >= pxToNumber(breakpointLg) ? "Share this page:" : "" }
-      </h3>
-      <HelmetMetaData image={ image } />
-      <div className={ shareButtonContainer }>
-        <FacebookShareButton className={ shareButton }
+     <>
+       <SocialMetaData image={ image }
+                       title={ title }
+                       summary={ summary }
+       />
+       <div className={ socialShareContent }>
+         <h3>
+           { width >= pxToNumber(breakpointLg) ? "Share this page:" : "" }
+         </h3>
+         <div className={ shareButtonContainer }>
+           <FacebookShareButton className={ shareButton }
+                                url={ url }
+                                quote={ quote }
+           >
+             <ShareButtonContent name={ 'facebook' } width={ width } />
+           </FacebookShareButton>
+         </div>
+         <div className={ shareButtonContainer }>
+           <TwitterShareButton className={shareButton}
+                               url={url}
+                               title={title}
+           >
+             <ShareButtonContent name={ 'twitter' } width={ width } />
+           </TwitterShareButton>
+         </div>
+         <div className={ shareButtonContainer }>
+           <LinkedinShareButton className={ shareButton }
+                                url={ url }
+                                title={ title }
+                                summary={ summary }
+                                source={ "" }
+           >
+             <ShareButtonContent name={ 'linkedin' } width={ width } />
+           </LinkedinShareButton>
+         </div>
+         <div className={ shareButtonContainer }>
+           <RedditShareButton className={ shareButton }
+                              url={ url }
+                              title={ title }
+           >
+             <ShareButtonContent name={ 'reddit' } width={ width } />
+           </RedditShareButton>
+         </div>
+         <div className={ shareButtonContainer }>
+           <EmailShareButton className={ shareButton }
                              url={ url }
-                             quote={ quote }
-        >
-          <ShareButtonContent name={ 'facebook' } width={ width } />
-        </FacebookShareButton>
-      </div>
-      <div className={ shareButtonContainer }>
-        <TwitterShareButton className={shareButton}
-                            url={url}
-                            title={title}
-        >
-          <ShareButtonContent name={ 'twitter' } width={ width } />
-        </TwitterShareButton>
-      </div>
-      <div className={ shareButtonContainer }>
-        <LinkedinShareButton className={ shareButton }
-                           url={ url }
-                           title={ title }
-                           summary={ summary }
-                           source={ "" }
-        >
-          <ShareButtonContent name={ 'linkedin' } width={ width } />
-        </LinkedinShareButton>
-      </div>
-      <div className={ shareButtonContainer }>
-        <RedditShareButton className={ shareButton }
-                         url={ url }
-                         title={ title }
-        >
-         <ShareButtonContent name={ 'reddit' } width={ width } />
-        </RedditShareButton>
-      </div>
-      <div className={ shareButtonContainer }>
-        <EmailShareButton className={ shareButton }
-                          url={ url }
-                          subject={ title }
-                          body={ summary }
-                          separator={ "\n" }
-        >
-          <ShareButtonContent name={ 'email' } width={ width } />
-        </EmailShareButton>
-      </div>
-    </div>
+                             subject={ title }
+                             body={ summary }
+                             separator={ "\n" }
+           >
+             <ShareButtonContent name={ 'email' } width={ width } />
+           </EmailShareButton>
+         </div>
+       </div>
+     </>
   )
  };
 

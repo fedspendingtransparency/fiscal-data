@@ -20,8 +20,7 @@ import sampleImg from '../../../../../static/topic-icons/debt.png'
 import Accordion from '../../../../components/accordion/accordion';
 import VisualizationCallout
   from "../../../../components/visualization-callout/visualization-callout";
-import { visWithCallout,
-  socialShare } from "../../explainer.module.scss";
+import { visWithCallout} from "../../explainer.module.scss";
 import drawChart, {
   addHoverEffects,
   removeHoverEffects
@@ -87,7 +86,6 @@ import {
 
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
-import SocialShare from "../../social-share/social-share";
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut

@@ -10,7 +10,7 @@ import {
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
-import sampleImg from '../../../../static/topic-icons/debt.png';
+import nationalDebtImage from '/images/nationalDebt-Wide.png';
 
 
 const baseUrl = globalConstants.BASE_SITE_URL;
@@ -45,7 +45,7 @@ export const explainerSocialShareMap = {
     title: 'Sample Title',
     summary: sampleCopy,
     url: baseUrl + "/national-debt/",
-    image: sampleImg
+    image: nationalDebtImage
   }
 }
 
