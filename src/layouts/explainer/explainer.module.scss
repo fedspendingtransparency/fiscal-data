@@ -37,6 +37,10 @@
         display: flex;
       }
     }
+
+    .socialShare {
+      text-align: center;
+    }
   }
 }
 
@@ -67,6 +71,20 @@
   position: relative;
 }
 
+
+
+@media screen and (min-width: $breakpoint-lg) {
+
+  .socialShareContainer {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .socialShare {
+    padding-top: 1.25rem;
+    padding-right: 7rem;
+  }
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .breadCrumbsContainer {
     max-width: calc(#{$site-content-width} + 2rem);
@@ -81,6 +99,7 @@
     .mainContent {
       > section {
         flex-direction: column;
+        width: 92%;
       }
     }
   }

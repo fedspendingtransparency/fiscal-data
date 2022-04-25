@@ -8,7 +8,8 @@ import { IExplainerPage } from '../../models/IExplainerPage';
 import {
   explainerClassMap,
   explainerColorMap,
-  explainerHeroMap
+  explainerHeroMap,
+  explainerSocialShareMap
 } from './explainer-helpers/explainer-helpers';
 
 import {
@@ -19,9 +20,12 @@ import {
   mainContent,
   section,
   sectionBorder,
-  sectionHeading
+  sectionHeading,
+  socialShareContainer,
+  socialShare
 } from './explainer.module.scss';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
+import SocialShare from "./social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies"
 
@@ -66,35 +70,45 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
             activeClass={explainerClassMap[pageName].active}
             hoverClass={explainerClassMap[pageName].hover}
           >
-            <div className={mainContent}>
-              {explainerSections[pageName].map((s) => (
-                <React.Fragment key={s.index}>
-                  <section
-                    id={s.id}
-                    className={section}
-                  >
+            <div className={socialShareContainer}>
+              <div className={socialShare}>
+                <SocialShare title={explainerSocialShareMap[pageName].title}
+                             summary={explainerSocialShareMap[pageName].summary}
+                             url={explainerSocialShareMap[pageName].url}
+                             image={explainerSocialShareMap[pageName].image}
+                             quote={explainerSocialShareMap[pageName].quote}
+                />
+              </div>
+              <div className={mainContent}>
+                {explainerSections[pageName].map((s) => (
+                  <React.Fragment key={s.index}>
+                    <section
+                      id={s.id}
+                      className={section}
+                    >
                       <h2
                         className={sectionHeading}
                         style={{ color: explainerColorMap[pageName].sectionHeader}}
                         data-testid="section-heading"
                       >
                         {s.title}
-                    </h2>
-                    {s.component}
-                    {s.index !== explainerSections[pageName].length - 1 && (
-                      <div
-                        className={sectionBorder}
-                        style={{ backgroundColor: explainerColorMap[pageName].secondary }}
-                      />
-                    )}
-                  </section>
-                </React.Fragment>
-              ))}
-              <section className={section}>
-                <DataSourcesMethodologies>
-                  {explainerDataSources[pageName]}
-                </DataSourcesMethodologies>
-              </section>
+                      </h2>
+                      {s.component}
+                      {s.index !== explainerSections[pageName].length - 1 && (
+                        <div
+                          className={sectionBorder}
+                          style={{ backgroundColor: explainerColorMap[pageName].secondary }}
+                        />
+                      )}
+                    </section>
+                  </React.Fragment>
+                ))}
+                <section className={section}>
+                  <DataSourcesMethodologies>
+                    {explainerDataSources[pageName]}
+                  </DataSourcesMethodologies>
+                </section>
+              </div>
             </div>
           </SecondaryNav>
         </div>
