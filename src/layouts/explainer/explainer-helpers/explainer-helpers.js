@@ -1,13 +1,20 @@
 import React from 'react';
 import {
   debtExplainerPrimary,
-  debtExplainerSecondary
+  debtExplainerSecondary,
+  debtExplainerSectionHeading
 } from '../../../variables.module.scss';
 import {
   nationalDebtActive,
   nationalDebtHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
+import globalConstants from "../../../helpers/constants";
+import nationalDebtImage from '../../../images/nationalDebt-Wide.png';
+const baseUrl = globalConstants.BASE_SITE_URL;
+
+const sampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+  labore et dolore magna aliqua.`;
 
 export const getDateWithoutOffset = (date) => {
   const today = new Date(date);
@@ -18,7 +25,8 @@ export const getDateWithoutOffset = (date) => {
 export const explainerColorMap = {
   'national-debt': {
     primary: debtExplainerPrimary,
-    secondary: debtExplainerSecondary
+    secondary: debtExplainerSecondary,
+    sectionHeader: debtExplainerSectionHeading
   }
 }
 
@@ -26,6 +34,16 @@ export const explainerClassMap = {
   'national-debt': {
     active: nationalDebtActive,
     hover: nationalDebtHover
+  }
+}
+
+export const explainerSocialShareMap = {
+  'national-debt': {
+    quote: 'Sample Quote',
+    title: 'Sample Title',
+    summary: sampleCopy,
+    url: baseUrl + "/national-debt/",
+    image: nationalDebtImage
   }
 }
 

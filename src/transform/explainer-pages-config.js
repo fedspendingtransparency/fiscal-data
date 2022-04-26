@@ -12,7 +12,8 @@ const explainerPagesSource = {
       subHeading: `The national debt is a measurement of how much money is borrowed to cover the
         outstanding balance of our expenses. The federal government  has over $26 trillion in
         federal debt.`
-    }
+    },
+    relatedDatasets: ["015-BFS-2014Q3-056", "015-BFS-2014Q3-065", "015-BFS-2014Q3-071", "015-BFS-2014Q1-11"]
   }
 }
 

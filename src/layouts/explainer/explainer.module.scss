@@ -13,10 +13,13 @@
   margin: 0 auto;
   min-height: 1000px;
 
-  .relatedDatasets {
+  .relatedDatasetsStyle {
     background-color: $body-background;
     min-height: 300px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .contentContainer {
@@ -33,6 +36,10 @@
       > div {
         display: flex;
       }
+    }
+
+    .socialShare {
+      text-align: center;
     }
   }
 }
@@ -51,6 +58,7 @@
 
 .sectionHeading {
   margin-top: 0;
+  font-size: $font-size-32;
 }
 
 .sectionBorder {
@@ -61,6 +69,20 @@
 
 .section {
   position: relative;
+}
+
+
+
+@media screen and (min-width: $breakpoint-lg) {
+
+  .socialShareContainer {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .socialShare {
+    padding-top: 1.25rem;
+    padding-right: 7rem;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
@@ -77,6 +99,7 @@
     .mainContent {
       > section {
         flex-direction: column;
+        width: 92%;
       }
     }
   }

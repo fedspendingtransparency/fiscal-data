@@ -34,7 +34,7 @@ const Accordion = ({
     <div className={containerClass ? containerClass : container}>
       <section
         data-testid="section"
-        className={`${accordion} ${open ? openStyle : closed}`}
+        className={`${accordion} ${open ? `${openStyle} accordionOpen` : closed}`}
       >
         <div
           data-testid="heading"
@@ -42,7 +42,7 @@ const Accordion = ({
           onKeyPress={onToggle}
           role="button"
           tabIndex={0}
-          className={heading}
+          className={`${heading} accordionHeading`}
           style={!open ? altStyleAccordion : altStyleHeaderOpen}
         >
           {title}
@@ -65,8 +65,8 @@ const Accordion = ({
           </div>
         </div>
         <div data-testid="content"
-              className={content}
-              style={altStyleChildren}
+             className={`${content} accordionContent`}
+             style={altStyleChildren}
         >
           {children}
         </div>
