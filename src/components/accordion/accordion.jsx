@@ -17,8 +17,6 @@ const Accordion = ({
   title,
   altStyleIcon,
   altStyleAccordion,
-  altStyleHeaderOpen,
-  altStyleChildren,
   children
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
@@ -34,7 +32,7 @@ const Accordion = ({
     <div className={containerClass ? containerClass : container}>
       <section
         data-testid="section"
-        className={`${accordion} ${open ? `${openStyle} accordionOpen` : closed}`}
+        className={`${accordion} ${open ? `${openStyle} accordionOpen` : `${closed} accordionClosed`}`}
       >
         <div
           data-testid="heading"
@@ -43,12 +41,12 @@ const Accordion = ({
           role="button"
           tabIndex={0}
           className={`${heading} accordionHeading`}
-          style={!open ? altStyleAccordion : altStyleHeaderOpen}
+          style={altStyleAccordion}
         >
           {title}
           <div
             data-testid="button"
-            className={toggle}
+            className={`${toggle} accordionToggle`}
           >
             {open ? (
               <FontAwesomeIcon
@@ -66,7 +64,6 @@ const Accordion = ({
         </div>
         <div data-testid="content"
              className={`${content} accordionContent`}
-             style={altStyleChildren}
         >
           {children}
         </div>
