@@ -62,7 +62,6 @@ export const infoIcon: string;
 export const paleBg: string;
 export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
-export const debtExplainerSectionHeading: string;
 export const filter_summary_container: string;
 export const filter_summary_title: string;
 export const filter_summary_item: string;

@@ -58,13 +58,14 @@
 
 .sectionHeading {
   margin-top: 0;
+  margin-bottom: 1.5rem;
   font-size: $font-size-32;
 }
 
 .sectionBorder {
   height: 5px;
   width: 100px;
-  margin-bottom: 25px;
+  margin-bottom: 32px;
 }
 
 .section {
@@ -109,7 +110,7 @@
   }
 
   .sectionBorder {
-    margin-top: 100px;
+    margin-top: 64px;
   }
 
   .visWithCallout {
@@ -131,6 +132,10 @@
 
     .sectionBorder {
       margin-top: 50px;
+    }
+
+    .sectionHeading {
+      margin-bottom: 2rem;
     }
   }
 
