@@ -118,7 +118,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
   return (
     <div className={mainContainer}>
-      <div className={navContainer}>
+      <div className={`${navContainer} secondaryNavContainer`}>
         {shouldTocShow && headerComponent}
         {shouldTocShow && sections.map((s) => {
           let headingClass = '';
@@ -136,7 +136,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
             >
               <Link
                 className={
-                  `${sectionLink} ${headingClass} ${linkClass || defaultLink} ${hoveredSection === s.index ? hoverClass : ''}`
+                  `${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink} ${hoveredSection === s.index ? hoverClass : ''}`
                 }
                 title={s.title}
                 activeClass={activeClass}

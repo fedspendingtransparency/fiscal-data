@@ -38,6 +38,14 @@
       }
     }
 
+    :global(.secondaryNavContainer) {
+      :global(.navSectionLink) {
+        padding-top: 21px;
+        padding-bottom: 21px;
+        padding-left: 20px;
+      }
+    }
+
     .socialShare {
       text-align: center;
     }
