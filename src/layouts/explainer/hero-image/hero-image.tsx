@@ -16,7 +16,7 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
   return (
     <div
       className={mainContainer}
-      style={{ borderBottomColor:primaryColor }}
+      style={{ borderBottomColor: primaryColor }}
       data-testid="main-container"
     >
       <h1
