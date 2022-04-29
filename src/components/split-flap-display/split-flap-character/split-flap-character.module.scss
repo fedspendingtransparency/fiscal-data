@@ -37,7 +37,7 @@ $flap-padding: .5rem;
 
   .split-flap {
     display: block;
-    background: $debt-explainer-light-secondary-split-flap-background;
+    background: $hero-split-flap-background;
 
     perspective: 400px; // does not need to be relative to font-size
     min-width: $font-size-40;
@@ -49,7 +49,7 @@ $flap-padding: .5rem;
     .half-panel {
       position: relative;
       background-clip: border-box;
-      background-color: $debt-explainer-light-secondary-split-flap-background;
+      background-color: $hero-split-flap-background;
 
       &.top {
         border-radius: $flap-border-radius $flap-border-radius 0 0;
@@ -87,8 +87,8 @@ $flap-padding: .5rem;
           margin-top: -.625em;
           z-index: 0;
           background: linear-gradient(
-              $debt-explainer-light-secondary-split-flap-background 50%,
-              darken($debt-explainer-light-secondary-split-flap-background, 10%)
+              $hero-split-flap-background 50%,
+              darken($hero-split-flap-background, 10%)
           );
           background-size: 200% 200%;
         }
@@ -103,14 +103,14 @@ $flap-padding: .5rem;
   }
   50% {
     transform: rotateX(90deg);
-    box-shadow: 0 5px 15px darken($debt-explainer-light-secondary-split-flap-background, 5%);
+    box-shadow: 0 5px 15px darken($hero-split-flap-background, 5%);
   }
   95% {
-    box-shadow: 0 0 0 darken($debt-explainer-light-secondary-split-flap-background, 10%);
+    box-shadow: 0 0 0 darken($hero-split-flap-background, 10%);
   }
   100% {
     transform: rotateX(0deg);
-    box-shadow: 0 0 0 $debt-explainer-light-secondary-split-flap-background;
+    box-shadow: 0 0 0 $hero-split-flap-background;
   }
 }
 
