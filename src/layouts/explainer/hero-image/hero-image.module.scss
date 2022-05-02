@@ -7,27 +7,28 @@
   align-items: center;
   width: 100%;
   padding: 50px 15px;
-  color: $hero-primary-text;
-  font-weight: 300;
+  color:#666666;
+  border-bottom: solid .55rem;
+  text-align: center;
 
   .heroImageHeading {
     margin: 0;
-    color: $hero-primary-text;
-    font-size: $font-size-40;
-    font-weight: 300;
+    font-size: $font-size-48;
+    font-weight: 600;
   }
 
   .heroImageSubHeading {
     margin: 0;
     max-width: 554px;
+    font-size: $font-size-16;
   }
 
   .counterContainer {
     text-align: center;
-    padding: 1.5rem 0 2rem 0;
+    padding: 1rem 0 2rem 0;
   }
   .counterSourceInfo {
-    padding-top: 1.5rem;
+    padding-top: 1rem;
     font-size: $font-size-14;
     > a {
       color: $hero-primary-link;
@@ -37,11 +38,7 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .mainContainer {
-    margin-bottom: 100px;
-
-    .heroImageHeading {
-      margin-top: 50px;
-    }
+    margin-bottom: 2rem;
 
     .heroImageSubHeading {
       text-align: center;
