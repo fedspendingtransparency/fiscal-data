@@ -219,6 +219,12 @@
     }
   }
 
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-right: 1.5rem;
+    }
+  }
+
   :global(.accordionContent) {
     padding-right:1.25rem;
     padding-left:1.25rem;
