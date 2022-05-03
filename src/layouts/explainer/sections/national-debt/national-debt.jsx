@@ -45,17 +45,12 @@ import alexanderHamilton from '../../../../images/alexander-hamilton.png';
 import benFranklin from '../../../../images/ben-franklin.png';
 
 import {
-  // Key Takeaways section
+  // Key Takeaways
   keyTakeawaysContent,
   icon,
   offsetIcon,
   iconBackground,
   noMarginBottom,
-  // Second section
-  spendingCategoriesTable,
-  row,
-  firstColumn,
-  secondColumn,
   // NationalDebtExplained
   nationalDebtExplainedTextContent,
   nationalDebtExplainedTable,
@@ -65,7 +60,12 @@ import {
   accordionHeader,
   accordionTable,
   accordionFooter,
-  // Growing National Debt Section
+  // Funding Programs & Services
+  spendingCategoriesTable,
+  row,
+  firstColumn,
+  secondColumn,
+  // Growing National Debt
   growingNationalDebt,
   growingNationalDebtSectionGraphContainer,
   growingNationalDebtSectionGraph,
@@ -82,7 +82,10 @@ import {
   diveDeeperQuoteRight,
   diveDeeperQuoteLeft,
   diveDeeperLink,
-  fundingProgramsBox
+  fundingProgramsBox,
+  //Accordion styling
+  debtAccordion
+
 
 
 } from './national-debt.module.scss';
@@ -264,65 +267,69 @@ export const NationalDebtExplainedSection = () => {
 const FundingProgramsSection = () => (
     <>
       <p>{sampleCopy}</p>
-      <Accordion title="What are some of the major spending categories?">
-        <p>{sampleCopy}</p>
-        <div className={spendingCategoriesTable}>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faDollarSign} className={icon} />
+      <div className={debtAccordion}>
+        <Accordion title="What are some of the major spending categories?"
+        altStyleAccordion={{padding:'9px 16px'}}
+        >
+          {sampleCopy}
+          <div className={spendingCategoriesTable}>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faDollarSign} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Income Security</strong>
+                <p>
+                  Unemployment Compensation, Other Income Security, Federal Employee Retirement and
+                  Disability, Food and Nutrition Assistance
+                </p>
+              </div>
             </div>
-            <div className={secondColumn}>
-              <strong>Income Security</strong>
-              <p>
-                Unemployment Compensation, Other Income Security, Federal Employee Retirement and
-                Disability, Food and Nutrition Assistance
-              </p>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faUserFriends} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Social Security</strong>
+                <p>{smallSampleCopy}</p>
+              </div>
+            </div>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faHandHoldingMedical} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Medicare</strong>
+                <p>{smallSampleCopy}</p>
+              </div>
+            </div>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faShieldAlt} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>National Defense</strong>
+                <p>
+                  Department of Defense - Military Programs, Atomic Energy Defense Activities,
+                  Defense-Related Activities
+                </p>
+              </div>
+            </div>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faHeartbeat} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Health</strong>
+                <p>
+                  Health Care Services, Heath Research and Training, Consumer and Occupational Health
+                  and Safety
+                </p>
+              </div>
             </div>
           </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faUserFriends} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>Social Security</strong>
-              <p>{smallSampleCopy}</p>
-            </div>
-          </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faHandHoldingMedical} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>Medicare</strong>
-              <p>{smallSampleCopy}</p>
-            </div>
-          </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faShieldAlt} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>National Defense</strong>
-              <p>
-                Department of Defense - Military Programs, Atomic Energy Defense Activities,
-                Defense-Related Activities
-              </p>
-            </div>
-          </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faHeartbeat} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>Health</strong>
-              <p>
-                Health Care Services, Heath Research and Training, Consumer and Occupational Health
-                and Safety
-              </p>
-            </div>
-          </div>
-        </div>
-      </Accordion>
+        </Accordion>
+      </div>
       <div className={fundingProgramsBox}>
         <p>{sampleCopy}</p>
       </div>
@@ -371,7 +378,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   }
 
   return (
-    <>
+    <div className={debtAccordion}>
       <Accordion
         title="Visualizing the debt - How much is $28 trillion dollars?"
         containerClass={growingNationalDebtSectionAccordion}
@@ -391,7 +398,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
           <p>Today's debt is $28.4T, that's YY,YYY squares.</p>
         </div>
       </Accordion>
-    </>
+    </div>
   );
 };
 
@@ -591,7 +598,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <p>{smallSampleCopy}</p>
         </VisualizationCallout>
       </div>
-      <VisualizingTheDebtAccordion>
+      <VisualizingTheDebtAccordion width={width}>
       </VisualizingTheDebtAccordion>
     </div>
   );
@@ -881,9 +888,11 @@ export const DebtBreakdownSection = (({ sectionId }) => {
             <p>{smallSampleCopy}</p>
           </VisualizationCallout>
         </div>
-        <Accordion title="Why can't the government just print more money?">
-          {sampleCopy}
-        </Accordion>
+        <div className={debtAccordion}>
+          <Accordion title="Why can't the government just print more money?">
+            {sampleCopy}
+          </Accordion>
+        </div>
       </div>
     </>
   );
@@ -894,10 +903,12 @@ export const debtCeilingSectionAccordionTitle =
 
 export const DebtCeilingSection = () => (
   <>
-    <p>{sampleCopy}</p>
-    <Accordion title={debtCeilingSectionAccordionTitle}>
-      <p>{sampleCopy}</p>
-    </Accordion>
+    <p>{ sampleCopy }</p>
+    <div className={debtAccordion}>
+      <Accordion title={ debtCeilingSectionAccordionTitle }>
+        {sampleCopy}
+      </Accordion>
+    </div>
   </>
 );
 
@@ -906,8 +917,6 @@ const DebtTrackingSection = () => (
     <p>{sampleCopy}</p>
   </>
 );
-
-export const diveDeeperAccordionTitle = 'Data Sources & Methodologies';
 
 export const DiveDeeperSection = () => (
   <>

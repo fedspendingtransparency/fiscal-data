@@ -40,7 +40,6 @@
 
   p {
     padding: 1rem 1rem .75rem;
-
   }
 }
 
@@ -61,6 +60,11 @@
       flex-direction: column;
       justify-content: center;
     }
+
+
+  }
+  .row:first-child {
+    padding-top: 3.25rem;
   }
 
   p {
@@ -204,6 +208,38 @@
 .diveDeeperLink {
   p {
     margin-top:0;
+  }
+}
+.debtAccordion {
+  :global(.accordionHeading) {
+    font-size: $font-size-18;
+    color: $debt-explainer-primary;
+    border: none;
+    padding: .75rem 1rem;
+  }
+
+  :global(.accordionToggle) {
+    svg path {
+      color: $debt-explainer-primary;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  :global(.accordionContent) {
+    padding-right:1.25rem;
+    padding-left:1.25rem;
+    padding-bottom:1.5rem;
+    border: none;
+  }
+
+  :global(.accordionOpen), :global(.accordionClosed) {
+    border: solid 0.06rem $debt-explainer-primary;
+    border-radius: 0.13rem;
   }
 }
 

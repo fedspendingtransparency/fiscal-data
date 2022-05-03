@@ -32,7 +32,7 @@ const Accordion = ({
     <div className={containerClass ? containerClass : container}>
       <section
         data-testid="section"
-        className={`${accordion} ${open ? `${openStyle} accordionOpen` : closed}`}
+        className={`${accordion} ${open ? `${openStyle} accordionOpen` : `${closed} accordionClosed`}`}
       >
         <div
           data-testid="heading"
@@ -46,7 +46,7 @@ const Accordion = ({
           {title}
           <div
             data-testid="button"
-            className={toggle}
+            className={`${toggle} accordionToggle`}
           >
             {open ? (
               <FontAwesomeIcon
@@ -63,7 +63,7 @@ const Accordion = ({
           </div>
         </div>
         <div data-testid="content"
-              className={`${content} accordionContent`}
+             className={`${content} accordionContent`}
         >
           {children}
         </div>

@@ -94,6 +94,7 @@ export const postGraphContent: string;
 export const diveDeeperQuoteLeft: string;
 export const diveDeeperQuoteRight: string;
 export const diveDeeperLink: string;
+export const debtAccordion: string;
 export const growingNationalDebt: string;
 export const paddingTop: string;
 export const diveDeeperContent: string;

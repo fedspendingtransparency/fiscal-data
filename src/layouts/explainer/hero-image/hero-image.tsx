@@ -16,10 +16,15 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
   return (
     <div
       className={mainContainer}
-      style={{ backgroundColor: primaryColor }}
+      style={{ borderBottomColor: primaryColor }}
       data-testid="main-container"
     >
-      <h1 className={heroImageHeading}>{heading}</h1>
+      <h1
+        className={heroImageHeading}
+        style={{ color: primaryColor }}
+      >
+        {heading}
+      </h1>
       {children}
       <p className={heroImageSubHeading}>{subHeading}</p>
     </div>
