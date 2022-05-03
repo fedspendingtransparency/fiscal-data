@@ -668,7 +668,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
     // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="breakdownChart"] svg');
     if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 524 468');
+      svgChart.setAttribute('viewBox', '0 0 524 500');
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
@@ -806,7 +806,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
                         direction: 'row',
                         justify: false,
                         translateX: -104,
-                        translateY: 60,
+                        translateY: 90,
                         itemsSpacing: 2,
                         itemWidth: 250,
                         itemHeight: 40,
