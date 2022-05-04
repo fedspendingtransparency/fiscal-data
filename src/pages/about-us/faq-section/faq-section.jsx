@@ -99,6 +99,11 @@ const FAQ = ({triggerHighlight = 0}) => {
         title="How can I learn about updates to this site?"
       >
           <p>
+            Please check back regularly for updates to the
+            site including new features and additional datasets. You can also {' '}
+            <CustomLink url="mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov">
+              sign up to receive updates via email.
+            </CustomLink>
           </p>
       </SectionContent>
       <SectionContent id="when-is-new-data-uploaded-to-site"
