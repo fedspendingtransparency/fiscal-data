@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { withWindowSize } from 'react-fns';
 import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,6 @@ import {
   faCoins,
   faFileInvoiceDollar
 } from '@fortawesome/free-solid-svg-icons';
-import sampleImg from '../../../../../static/topic-icons/debt.png'
 import Accordion from '../../../../components/accordion/accordion';
 import VisualizationCallout
   from "../../../../components/visualization-callout/visualization-callout";
@@ -38,24 +37,22 @@ import {
   fontBodyCopy,
   fontSize_10,
   fontSize_14,
-  fontSize_16, fontSize_36, fontTitle
+  fontSize_16, fontSize_36, fontTitle, debtExplainerPrimary
 } from '../../../../variables.module.scss';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import curvedArrow from '../../../../images/curved-arrow.svg';
+import alexanderHamilton from '../../../../images/alexander-hamilton.png';
+import benFranklin from '../../../../images/ben-franklin.png';
 
 import {
-  // Key Takeaways section
+  // Key Takeaways
   keyTakeawaysContent,
   icon,
   offsetIcon,
   iconBackground,
   noMarginBottom,
-  // Second section
-  spendingCategoriesTable,
-  row,
-  firstColumn,
-  secondColumn,
   // NationalDebtExplained
+  nationalDebtExplainedTextContent,
   nationalDebtExplainedTable,
   tableIcon,
   borderBottom,
@@ -63,7 +60,12 @@ import {
   accordionHeader,
   accordionTable,
   accordionFooter,
-  // Growing National Debt Section
+  // Funding Programs & Services
+  spendingCategoriesTable,
+  row,
+  firstColumn,
+  secondColumn,
+  // Growing National Debt
   growingNationalDebt,
   growingNationalDebtSectionGraphContainer,
   growingNationalDebtSectionGraph,
@@ -77,16 +79,17 @@ import {
   barChartContainer,
   postGraphContent,
   // Dive Deeper Section
-  diveDeeperAccordion,
   diveDeeperQuoteRight,
   diveDeeperQuoteLeft,
   diveDeeperLink,
-  fundingProgramsBox
+  fundingProgramsBox,
+  //Accordion styling
+  debtAccordion
+
 
 
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
-import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -97,8 +100,7 @@ const sampleCopy = `
 `
 
 const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua.
-`
+  labore et dolore magna aliqua.`
 
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
@@ -210,8 +212,10 @@ export const NationalDebtExplainedSection = () => {
   return (
   <>
     <div className={visWithCallout}>
-      <p>{sampleCopy}{sampleCopy}</p>
-      <VisualizationCallout>
+      <div className={nationalDebtExplainedTextContent}>
+        <p>{sampleCopy}{sampleCopy}</p>
+      </div>
+      <VisualizationCallout color={debtExplainerPrimary}>
         <p>{smallSampleCopy}</p>
       </VisualizationCallout>
     </div>
@@ -263,65 +267,69 @@ export const NationalDebtExplainedSection = () => {
 const FundingProgramsSection = () => (
     <>
       <p>{sampleCopy}</p>
-      <Accordion title="What are some of the major spending categories?">
-        <p>{sampleCopy}</p>
-        <div className={spendingCategoriesTable}>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faDollarSign} className={icon} />
+      <div className={debtAccordion}>
+        <Accordion title="What are some of the major spending categories?"
+        altStyleAccordion={{padding:'9px 16px'}}
+        >
+          {sampleCopy}
+          <div className={spendingCategoriesTable}>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faDollarSign} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Income Security</strong>
+                <p>
+                  Unemployment Compensation, Other Income Security, Federal Employee Retirement and
+                  Disability, Food and Nutrition Assistance
+                </p>
+              </div>
             </div>
-            <div className={secondColumn}>
-              <strong>Income Security</strong>
-              <p>
-                Unemployment Compensation, Other Income Security, Federal Employee Retirement and
-                Disability, Food and Nutrition Assistance
-              </p>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faUserFriends} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Social Security</strong>
+                <p>{smallSampleCopy}</p>
+              </div>
+            </div>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faHandHoldingMedical} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Medicare</strong>
+                <p>{smallSampleCopy}</p>
+              </div>
+            </div>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faShieldAlt} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>National Defense</strong>
+                <p>
+                  Department of Defense - Military Programs, Atomic Energy Defense Activities,
+                  Defense-Related Activities
+                </p>
+              </div>
+            </div>
+            <div className={row}>
+              <div className={firstColumn}>
+                <FontAwesomeIcon icon={faHeartbeat} className={icon} />
+              </div>
+              <div className={secondColumn}>
+                <strong>Health</strong>
+                <p>
+                  Health Care Services, Heath Research and Training, Consumer and Occupational Health
+                  and Safety
+                </p>
+              </div>
             </div>
           </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faUserFriends} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>Social Security</strong>
-              <p>{smallSampleCopy}</p>
-            </div>
-          </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faHandHoldingMedical} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>Medicare</strong>
-              <p>{smallSampleCopy}</p>
-            </div>
-          </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faShieldAlt} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>National Defense</strong>
-              <p>
-                Department of Defense - Military Programs, Atomic Energy Defense Activities,
-                Defense-Related Activities
-              </p>
-            </div>
-          </div>
-          <div className={row}>
-            <div className={firstColumn}>
-              <FontAwesomeIcon icon={faHeartbeat} className={icon} />
-            </div>
-            <div className={secondColumn}>
-              <strong>Health</strong>
-              <p>
-                Health Care Services, Heath Research and Training, Consumer and Occupational Health
-                and Safety
-              </p>
-            </div>
-          </div>
-        </div>
-      </Accordion>
+        </Accordion>
+      </div>
       <div className={fundingProgramsBox}>
         <p>{sampleCopy}</p>
       </div>
@@ -370,7 +378,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   }
 
   return (
-    <>
+    <div className={debtAccordion}>
       <Accordion
         title="Visualizing the debt - How much is $28 trillion dollars?"
         containerClass={growingNationalDebtSectionAccordion}
@@ -390,7 +398,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
           <p>Today's debt is $28.4T, that's YY,YYY squares.</p>
         </div>
       </Accordion>
-    </>
+    </div>
   );
 };
 
@@ -561,7 +569,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
               </div>
             </div>
           </div>
-          <VisualizationCallout>
+          <VisualizationCallout color={debtExplainerPrimary}>
             <p>The U.S. has steadily increased the federal debt since 2000.</p>
           </VisualizationCallout>
         </div>
@@ -576,7 +584,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         <div
           style={{
             height: 500,
-            margin: '32px 0',
+            margin: '16px 0 32px 0',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -586,11 +594,11 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         >
           Graph
         </div>
-        <VisualizationCallout>
+        <VisualizationCallout color={debtExplainerPrimary}>
           <p>{smallSampleCopy}</p>
         </VisualizationCallout>
       </div>
-      <VisualizingTheDebtAccordion>
+      <VisualizingTheDebtAccordion width={width}>
       </VisualizingTheDebtAccordion>
     </div>
   );
@@ -834,7 +842,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
               </div>
 
             </div>
-            <VisualizationCallout>
+            <VisualizationCallout color={debtExplainerPrimary}>
               <p>
                 There are two major categories for federal debt: debt held by the public
                 and intragovernmental holdings.
@@ -866,7 +874,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
           <div
             style={{
               height: 500,
-              margin: '32px 0',
+              margin: '16px 0 32px 0',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -876,13 +884,15 @@ export const DebtBreakdownSection = (({ sectionId }) => {
           >
             Graph
           </div>
-          <VisualizationCallout>
+          <VisualizationCallout color={debtExplainerPrimary}>
             <p>{smallSampleCopy}</p>
           </VisualizationCallout>
         </div>
-        <Accordion title="Why can't the government just print more money?">
-          {sampleCopy}
-        </Accordion>
+        <div className={debtAccordion}>
+          <Accordion title="Why can't the government just print more money?">
+            {sampleCopy}
+          </Accordion>
+        </div>
       </div>
     </>
   );
@@ -893,10 +903,12 @@ export const debtCeilingSectionAccordionTitle =
 
 export const DebtCeilingSection = () => (
   <>
-    <p>{sampleCopy}</p>
-    <Accordion title={debtCeilingSectionAccordionTitle}>
-      <p>{sampleCopy}</p>
-    </Accordion>
+    <p>{ sampleCopy }</p>
+    <div className={debtAccordion}>
+      <Accordion title={ debtCeilingSectionAccordionTitle }>
+        {sampleCopy}
+      </Accordion>
+    </div>
   </>
 );
 
@@ -905,8 +917,6 @@ const DebtTrackingSection = () => (
     <p>{sampleCopy}</p>
   </>
 );
-
-export const diveDeeperAccordionTitle = 'Data Sources & Methodologies';
 
 export const DiveDeeperSection = () => (
   <>
@@ -949,12 +959,12 @@ export const DiveDeeperSection = () => (
     </div>
 
     <div className={diveDeeperQuoteRight} >
-      <img src={sampleImg} alt="placeholder alt text" />
+      <img src={benFranklin} alt="" />
       <p>"{smallSampleCopy}"</p>
     </div>
     <div className={diveDeeperQuoteLeft}>
       <p>"{smallSampleCopy}"</p>
-      <img src={sampleImg} alt="placeholder alt text" />
+      <img src={alexanderHamilton} alt="" />
     </div>
   </>
 );

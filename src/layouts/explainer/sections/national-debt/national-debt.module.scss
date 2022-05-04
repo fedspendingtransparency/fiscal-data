@@ -5,14 +5,14 @@
   align-items: center;
 
   &:not(.noMarginBottom) {
-    margin-bottom: 25px;
+    margin-bottom: 2rem;
   }
 
   .iconBackground {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #99e7e7;
+    background-color: $debt-explainer-light-secondary;
     position: relative;
 
     .icon {
@@ -20,7 +20,7 @@
     }
 
     .offsetIcon {
-      color: $deep-blue;
+      color: $debt-explainer-primary;
       position: absolute;
     }
   }
@@ -32,14 +32,14 @@
 }
 
 .fundingProgramsBox {
-  border: solid 1px #d6d7d9;
+  border: solid 2px $debt-explainer-light-secondary;
   border-radius: 3px;
   width: 100%;
   font-size: $font-size-18;
-  box-shadow: 0 2px 4px 0px #a9add1;
+  box-shadow: 0 2px 4px 0 $debt-explainer-light-secondary;
+
   p {
     padding: 1rem 1rem .75rem;
-
   }
 }
 
@@ -60,6 +60,11 @@
       flex-direction: column;
       justify-content: center;
     }
+
+
+  }
+  .row:first-child {
+    padding-top: 3.25rem;
   }
 
   p {
@@ -68,7 +73,13 @@
 
   .icon {
     font-size: $font-size-36;
-    color: #a9add1;
+    color: $debt-explainer-light-secondary;
+  }
+}
+
+.nationalDebtExplainedTextContent {
+  p {
+    margin: 0;
   }
 }
 
@@ -81,14 +92,14 @@
     border-collapse: collapse;
 
     .tableIcon {
-      color: #a9add1;
+      color: $debt-explainer-light-secondary;
     }
 
     td {
       text-align: center;
 
       &.borderBottom {
-        border-bottom: solid 1px $deep-blue;
+        border-bottom: solid 1px #666666;
       }
     }
   }
@@ -125,6 +136,8 @@
 
 .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
   background-color: $body-background;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
   .title {
     margin-top: 0;
@@ -178,27 +191,55 @@
   align-items: center;
   padding-bottom: 2rem;
   img {
-    height: 4rem;
+    height: 142px;
   }
 }
 
 .diveDeeperQuoteRight {
   display: flex;
   align-items: center;
-  padding-top: 2rem;
+  padding-top: 1rem;
   padding-bottom: 2rem;
   img {
-    height: 4rem;
+    height: 142px;
   }
-}
-
-.diveDeeperAccordion {
-  background-color: $body-background;
 }
 
 .diveDeeperLink {
   p {
     margin-top:0;
+  }
+}
+.debtAccordion {
+  :global(.accordionHeading) {
+    font-size: $font-size-18;
+    color: $debt-explainer-primary;
+    border: none;
+    padding: .75rem 1rem;
+  }
+
+  :global(.accordionToggle) {
+    svg path {
+      color: $debt-explainer-primary;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  :global(.accordionContent) {
+    padding-right:1.25rem;
+    padding-left:1.25rem;
+    padding-bottom:1.5rem;
+    border: none;
+  }
+
+  :global(.accordionOpen), :global(.accordionClosed) {
+    border: solid 0.06rem $debt-explainer-primary;
+    border-radius: 0.13rem;
   }
 }
 
@@ -221,7 +262,7 @@
     }
 
     p {
-      margin-left: 34px;
+      margin-left: 2rem;
     }
   }
 
@@ -237,7 +278,7 @@
   }
 
   .nationalDebtExplainedTable {
-    padding: 20px;
+    padding: 1.25rem 2rem 0;
 
     th {
       font-size: $font-size-48;
@@ -284,13 +325,13 @@
 
   .diveDeeperQuoteLeft {
     p {
-      margin-right: 2.125rem;
+      margin-right: 2rem;
     }
   }
 
   .diveDeeperQuoteRight {
     p {
-      margin-left: 2.125rem;
+      margin-left: 2rem;
     }
   }
 }
@@ -314,7 +355,7 @@
     }
 
     p {
-      margin-left: 15px;
+      margin-left: 1rem;
     }
   }
 
