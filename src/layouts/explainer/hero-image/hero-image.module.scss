@@ -1,4 +1,15 @@
 @import '../../../variables.module.scss';
+.bottomBorder {
+  background-image: linear-gradient(
+      90deg,
+      $debt-explainer-primary 40%,
+      $debt-explainer-light-secondary 50%,
+      $debt-explainer-primary 60%);
+  background-color: $debt-explainer-primary;
+  height: .6rem;
+  width: 100%;
+}
+
 
 .mainContainer {
   display: flex;
@@ -8,7 +19,6 @@
   width: 100%;
   padding: 50px 15px;
   color:#666666;
-  border-bottom: solid .55rem;
   text-align: center;
 
   .heroImageHeading {
