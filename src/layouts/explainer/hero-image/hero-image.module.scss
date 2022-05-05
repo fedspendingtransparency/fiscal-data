@@ -1,7 +1,5 @@
 @import '../../../variables.module.scss';
 
-
-
 .mainContainer {
   display: flex;
   flex-direction: column;
@@ -39,8 +37,6 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .mainContainer {
-    //margin-bottom: 2rem;
-
     .heroImageSubHeading {
       text-align: center;
     }
