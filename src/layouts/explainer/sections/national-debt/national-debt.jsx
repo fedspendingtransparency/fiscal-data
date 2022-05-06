@@ -77,6 +77,10 @@ import {
   footerContainer,
   debtBreakdownSectionGraphContainer,
   barChartContainer,
+  multichartContainer,
+  multichartLegend,
+  aveInterestLegend,
+  debtLegend,
   postGraphContent,
   // Dive Deeper Section
   diveDeeperQuoteRight,
@@ -90,6 +94,9 @@ import {
 
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
+import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
+import Multichart from "../../multichart/multichart"
+import { MultichartRenderer } from "../../../../components/charts/chart-primary/multichart-renderer"
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -604,17 +611,23 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   );
 });
 
-export const DebtBreakdownSection = (({ sectionId }) => {
+export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date ());
   const [isChartRendered, setIsChartRendered] = useState(false);
+  const [multichartConfigs, setMultichartConfigs] = useState([]);
+  const [multichartDataLoaded, setMultichartDataLoaded] = useState(false);
+  const [dataInterrupted, setDataInterrupted] = useState(false);
 
   const {
     name,
     slug,
     endpoint,
     getQueryString,
-    transformer } = nationalDebtSectionConfigs[sectionId];
+    transformer,
+    multichart
+  } = nationalDebtSectionConfigs[sectionId];
+
 
   const fiveTheme = {
     fontSize: fontSize_16,
@@ -692,6 +705,47 @@ export const DebtBreakdownSection = (({ sectionId }) => {
       )
     };
 
+
+  const chartOptions = {
+    forceHeight: 400,
+    forceYAxisWidth: width < pxToNumber(breakpointLg) ? 36 : undefined,
+    forceLabelFontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    format: true,
+    yAxisTickNumber: 5,
+    showOuterXAxisTicks: true,
+    placeInitialMarker: true,
+    noTooltip: true,
+    noShaders: true,
+    noInnerXAxisTicks: true,
+    excludeYAxis: true
+  }
+
+  const interestChartOptions = Object.assign({ inverted: false }, chartOptions);
+  const amountChartOptions = Object.assign({
+    inverted: true,
+    shading: {
+      side: 'under',
+      color: chartPatternBackground,
+      hatchDirection: 'down'
+    }
+  }, chartOptions);
+
+  const localMultichartConfigs = [
+    {
+      name: 'interest',
+      dataSourceUrl: `${apiPrefix}${multichart.endpoints[0].path}`,
+      dateField: multichart.endpoints[0].dateField,
+      fields: [multichart.endpoints[0].valueField],
+      options: interestChartOptions
+    }, {
+      name: 'debt',
+      dataSourceUrl: `${apiPrefix}${multichart.endpoints[1].path}`,
+      dateField: multichart.endpoints[1].dateField,
+      fields: [multichart.endpoints[1].valueField],
+      options: amountChartOptions
+    }
+  ];
+
   useEffect(() => {
     if (isChartRendered) {
       applyChartScaling();
@@ -707,6 +761,42 @@ export const DebtBreakdownSection = (({ sectionId }) => {
           setDate(getDateWithoutOffset(transformed[1].record_date))
         }
       });
+
+    const dataFetched = [];
+    const fetchers = [];
+    localMultichartConfigs.forEach((chartConfig, index) => {
+
+      fetchers.push(basicFetch(chartConfig.dataSourceUrl).then(response => {
+        if (!dataInterrupted) {
+          console.log('response.data', response.data);
+          dataFetched[index] = response.data;
+          const xAxisTickValues = [];
+          const step = Math.floor(response.data.length / 5);
+          for (let i = 0, il = response.data.length; i < il; i += 1) {
+            const tickValue = new Date(response.data[i][chartConfig.dateField]);
+            xAxisTickValues.push(tickValue);
+          }
+          chartConfig.options.xAxisTickValues = xAxisTickValues;
+          response.data.forEach((r, idx) => {
+            r.interestRate = '' + (5.5 + (Number(idx) / 10));
+          });
+          response.meta.labels.interestRate = 'Interest Rate';
+          // console.log('response', JSON.stringify(response,  null, 2));
+          chartConfig.data = response.data;
+
+        }}).catch((err) => {
+        console.error(err);
+      }));
+      Promise.all(fetchers).then(() => {
+        console.log('localMultichartConfigs', localMultichartConfigs);
+        setMultichartConfigs(localMultichartConfigs)
+        setMultichartDataLoaded(true);
+      });
+    });
+
+    return () => {
+      setDataInterrupted(true);
+    }
   }, []);
 
   return (
@@ -851,22 +941,55 @@ export const DebtBreakdownSection = (({ sectionId }) => {
         <h3>Maintaining the National Debt</h3>
         <p>{sampleCopy}</p>
         <div className={visWithCallout}>
-          <div
-            style={{
-              height: 500,
-              margin: '16px 0 32px 0',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: '#fff',
-              backgroundColor: '#555'
-            }}
-          >
-            Graph
+          {multichartDataLoaded && (
+
+          <div>
+            <div className={debtBreakdownSectionGraphContainer}>
+              <p className={title}>Interest Rate and Total Debt, 2011 – 2021</p>
+              <div className={headerContainer}>
+                <div>
+                  <div className={header}>2021</div>
+                  <span className={subHeader}>Fiscal Year</span>
+                </div>
+                <div>
+                  <div className={header}>1.7%</div>
+                  <span className={subHeader}>Average Interest Rate</span>
+                </div>
+                <div>
+                  <div className={header}>27.9 T</div>
+                  <span className={subHeader}>Total Debt</span>
+                </div>
+              </div>
+              <div className={barChartContainer}>
+                <Multichart chartId="interestToDebt" chartConfigs={multichartConfigs} />
+              </div>
+              <div className={multichartLegend}>
+                <div><div className={aveInterestLegend} />
+                  <div>Average Interest Rate</div></div>
+                <div><div className={debtLegend} />
+                  <div>Total Debt</div></div>
+              </div>
+              <p>
+                Visit the {' '}
+                <CustomLink url={'/datasets/debt-to-the-penny/'}>Average Interest Rates on U.S. Treasury Securities</CustomLink>
+                {' '} and {' '}
+                <CustomLink url={'/'}>U.S. Treasury Monthly Statement of the Public Debt (MSPD)</CustomLink>
+                {' '} datasets to explore and download this data.
+              </p>
+              <p>
+                Last updated: October 5, 2021
+              </p>
+            </div>
           </div>
+          )}
           <VisualizationCallout color={debtExplainerPrimary}>
-            <p>{smallSampleCopy}</p>
+            <p>Interest rates have fallen over the past decade. Due to lower interest rates,
+              interest expenses on the debt paid by the federal government have remained stable
+              even as the federal debt has increased.</p>
           </VisualizationCallout>
+        </div>
+        <div className={postGraphContent}>
+          &nbsp;
         </div>
         <div className={debtAccordion}>
           <Accordion title="Why can't the government just print more money?">

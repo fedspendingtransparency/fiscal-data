@@ -102,6 +102,24 @@ export const datasetSectionConfig = {
           });
           return output;
         }
+      },
+      'multichart': {
+        name: 'Historical Debt Outstanding',
+        slug: '/datasets/historical-debt-outstanding/',
+        endpoints:  [
+          {
+            name: 'Interest Expense',
+            path: 'v2/accounting/od/avg_interest_rates?filter=security_type_desc:eq:Interest-bearing%20Debt,record_calendar_day:eq:31,record_calendar_month:eq:12&sort=-record_date&page[size]=11',
+            dateField: 'record_date',
+            valueField: 'avg_interest_rate_amt'
+          },
+          {
+            name: 'Total Debt',
+            path: 'v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_day:eq:31,record_calendar_month:eq:12&sort=-record_date&page[size]=11',
+            dateField: 'record_date',
+            valueField: 'total_mil_amt'
+          }
+        ]
       }
     }
   }

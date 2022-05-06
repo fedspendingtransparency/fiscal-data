@@ -181,6 +181,43 @@
     max-width: 524px;
     margin: 0 auto;
   }
+  .multichartContainer {
+    width: 100%;
+    max-width: 524px;
+    margin: 0 auto;
+    border-right: 1px dashed #555555;
+  }
+  .aveInterestLegend {
+    width: 40px;
+    height: 2px;
+    margin: 11px 16px 11px 0;
+    background-color: #555;
+  }
+
+  .multichartLegend {
+    margin: 2rem auto;
+    display: flex;
+
+    padding: 0 3rem;
+
+    align-content: space-around;
+    > div {
+      flex-grow: 1;
+      margin: 0 20px;
+      vertical-align: top;
+      div {
+        vertical-align: top;
+        display: inline-block;
+      }
+    }
+  }
+
+  .debtLegend {
+    width: 40px;
+    height: 24px;
+    margin: 0 16px 0 0;
+    background-color: #4a0072;
+  }
 }
 .postGraphContent {
   margin-top: 3rem;

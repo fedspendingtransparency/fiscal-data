@@ -56,11 +56,17 @@ const setXAxis = () => {
     .tickSizeOuter(options.showOuterXAxisTicks ? 5 : 0);
 
   thinXLabels(xAxis);
-  
-  container.append('g')
-    .attr('class', 'axis axis--x')
-    .attr('transform', 'translate(0,' + chartDimensions.height + ')')
-    .call(xAxis);
+  if (!options.excludeYAxis) {
+    container.append('g')
+      .attr('class', 'axis axis--x')
+      .attr('transform', 'translate(0,' + chartDimensions.height + ')')
+      .call(xAxis);
+  } else {
+    container.append('g')
+      .attr('class', 'axis axis--x')
+      .attr('transform', 'translate(0,560)')
+      .call(xAxis);
+  }
 }
 
 const setYAxis = () => {
@@ -103,7 +109,7 @@ const createShaders = (noShaders) => {
     .lower()
     .selectAll('rect')
     .data(new Array(rectCount))
-  
+
   if (!noShaders) {
     const rectHeight = scales.y(tickValues[0]) - scales.y(tickValues[1]);
 
@@ -123,8 +129,12 @@ const setAxes = (_container, _scales, _chartDimensions, _dataType, _options = {}
   dataType = _dataType;
   options = _options;
 
-  setXAxis();
-  setYAxis();
+  if (!options.excludeXAxis) {
+    setXAxis();
+  }
+  if (!options.excludeYAxis) {
+    setYAxis();
+  }
 
   createShaders(options.noShaders);
 
