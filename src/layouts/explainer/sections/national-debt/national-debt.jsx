@@ -172,7 +172,8 @@ export const visualizingTheDebtTableContent = {
   }
 }
 
-export const chartPatternBackground = '#99e7e7';
+export const chartPatternBackground = '#4A0072';
+const alternateBarColor = '#b699c6';
 
 const KeyTakeawaysSection = () => (
   <>
@@ -417,8 +418,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
     noInnerXAxisTicks: true,
     shading: {
       side: 'under',
-      color: chartPatternBackground,
-      hatchDirection: 'down'
+      color: chartPatternBackground
     }
   }
 
@@ -677,13 +677,12 @@ export const DebtBreakdownSection = (({ sectionId }) => {
   // generate rectangular color swatches in footer legend
   const CustomSymbolShape =
     ({ x, y, size, fill, borderWidth, borderColor }) => {
-      const revisedFill = fill === chartPatternBackground ? 'url(#breakdownLines)' : fill;
 
       return (
         <rect
           x={x}
           y={y}
-          fill={revisedFill}
+          fill={fill}
           strokeWidth={borderWidth}
           stroke={borderColor}
           width={size * 2}
@@ -741,27 +740,8 @@ export const DebtBreakdownSection = (({ sectionId }) => {
                     padding={0.24}
                     valueScale={{ type: 'linear' }}
                     indexScale={{ type: 'band', round: true }}
-                    colors={[fontTitle, chartPatternBackground]}
+                    colors={[alternateBarColor, chartPatternBackground]}
                     isInteractive={false}
-                    defs={[
-                      {
-                        id: 'breakdownLines',
-                        type: 'patternLines',
-                        spacing: 5,
-                        rotation: 45,
-                        lineWidth: 1,
-                        background: chartPatternBackground,
-                        color: fontBodyCopy
-                      }
-                    ]}
-                    fill={[
-                      {
-                        match: {
-                          id: 'Debt Held by the Public'
-                        },
-                        id: 'breakdownLines'
-                      }
-                    ]}
                     borderColor={fontBodyCopy}
                     axisTop={null}
                     axisRight={null}
