@@ -787,7 +787,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
                         justify: false,
                         translateX: -104,
                         translateY: 90,
-                        itemsSpacing: 2,
+                        itemsSpacing: 15,
                         itemWidth: 250,
                         itemHeight: 40,
                         itemDirection: 'left-to-right',
