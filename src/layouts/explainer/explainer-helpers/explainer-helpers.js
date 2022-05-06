@@ -42,7 +42,7 @@ export const explainerSocialShareMap = {
     quote: 'Sample Quote',
     title: 'Sample Title',
     summary: sampleCopy,
-    url: "stg.fiscaldata.treasury.gov/national-debt/",
+    url: 'https://stg.fiscaldata.treasury.gov/national-debt/',
     image: nationalDebtImage
   }
 }
