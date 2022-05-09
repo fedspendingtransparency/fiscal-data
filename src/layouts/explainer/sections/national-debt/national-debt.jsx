@@ -785,7 +785,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
                         anchor: 'bottom-left',
                         direction: 'row',
                         justify: false,
-                        translateX: -104,
+                        translateX: -125,
                         translateY: 90,
                         itemsSpacing: 15,
                         itemWidth: 250,
