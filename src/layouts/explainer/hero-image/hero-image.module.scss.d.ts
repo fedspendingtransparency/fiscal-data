@@ -67,4 +67,4 @@ export const heroImageHeading: string;
 export const heroImageSubHeading: string;
 export const counterContainer: string;
 export const counterSourceInfo: string;
-export const bottomBorder: string;
+export const heroBorder: string;

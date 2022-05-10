@@ -5,7 +5,7 @@ import {
   mainContainer,
   heroImageHeading,
   heroImageSubHeading,
-  bottomBorder
+  heroBorder
 } from './hero-image.module.scss';
 import { withWindowSize } from "react-fns";
 
@@ -45,7 +45,9 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
         {children}
         <p className={heroImageSubHeading}>{subHeading}</p>
       </div>
-      <div className={bottomBorder} >
+      <div className={heroBorder}
+            data-testid="hero-border"
+      >
         <svg height="28"
              width="100%"
              preserveAspectRatio="xMidYMid slice"
@@ -57,7 +59,7 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
               <stop offset="62%" stopColor={primaryColor}/>
             </linearGradient>
           </defs>
-          <path d={"M0 0 " + p1 +p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + " Z"}
+          <path d={"M0 0 " + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + " Z"}
                 fill="url(#Gradient)"
           />
         </svg>
