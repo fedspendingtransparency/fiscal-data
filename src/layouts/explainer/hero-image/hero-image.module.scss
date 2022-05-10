@@ -35,6 +35,10 @@
   }
 }
 
+.bottomBorder {
+  width: 100%;
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .mainContainer {
     .heroImageSubHeading {
