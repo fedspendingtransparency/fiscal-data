@@ -3,5 +3,5 @@ export interface IHeroImage {
   subHeading: string,
   primaryColor: string,
   secondaryColor: string,
-  width
+  width: number
 }
