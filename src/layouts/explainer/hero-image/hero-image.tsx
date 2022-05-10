@@ -20,13 +20,15 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
   const lineHeight = 8;
   const chevronHeight = 18;
   const chevronSpacing = 34;
+  const chevronPointHeight = chevronHeight + 9.24;
+
   const p1 = `L${width/2 - chevronSpacing} 0 `;
   const p2 = `L${width/2} ${chevronHeight} `;
   const p3 = `L${width/2 + chevronSpacing} 0 `;
   const p4 = `L${width} 0 `;
   const p5 = `L${width} ${lineHeight} `;
   const p6 = `L${width/2 + chevronSpacing + 4} ${lineHeight} `;
-  const p7 = `L${width/2} ${chevronHeight + 9.24} `;
+  const p7 = `L${width/2} ${chevronPointHeight} `;
   const p8 = `L${width/2 - chevronSpacing - 4} ${lineHeight} `;
   const p9 = `L0 ${lineHeight}`;
 
