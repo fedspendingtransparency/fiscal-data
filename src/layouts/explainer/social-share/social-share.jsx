@@ -106,11 +106,11 @@ const SocialMetaData = ({ image, title, summary }) => {
       <Helmet>
         <meta property="og:image" content={ image } />
         <meta property="og:type" content="website" />
-        <meta property="twitter:image" content={ image } />
-        <meta property="twitter:summary_large_image" content={ image } />
+        <meta property="twitter:domain" content="fiscaldata.treasury.gov" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:description" content={ summary } />
         <meta property="twitter:title" content={ title } />
+        <meta property="twitter:description" content={ summary } />
+        <meta property="twitter:image" content={ image } />
       </Helmet>
     </>
   )
