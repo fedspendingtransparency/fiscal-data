@@ -2,7 +2,7 @@ import React from 'react';
 import {
   debtExplainerPrimary,
   debtExplainerSecondary,
-  debtExplainerSectionHeading
+  debtExplainerLightSecondary
 } from '../../../variables.module.scss';
 import {
   nationalDebtActive,
@@ -27,7 +27,7 @@ export const explainerColorMap = {
   'national-debt': {
     primary: debtExplainerPrimary,
     secondary: debtExplainerSecondary,
-    sectionHeader: debtExplainerSectionHeading
+    secondaryLight: debtExplainerLightSecondary
   }
 }
 

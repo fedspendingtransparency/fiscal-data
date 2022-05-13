@@ -70,7 +70,6 @@ $info-header: $near-black;
 
 // Explainer pages
 $debt-explainer-primary: #4A0072;
-
 $debt-explainer-secondary: #3B005B;
 $debt-explainer-light-secondary: #B699C6;
 $debt-explainer-light-secondary-split-flap-background: #5355ad;// rgba($debt-explainer-light-secondary, .25);
@@ -352,4 +351,5 @@ $pale-bg: #f8f8f8;
   paleBg: $pale-bg;
   debtExplainerPrimary: $debt-explainer-primary;
   debtExplainerSecondary: $debt-explainer-secondary;
+  debtExplainerLightSecondary: $debt-explainer-light-secondary;
 }

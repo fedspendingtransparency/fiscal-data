@@ -62,6 +62,7 @@ export const infoIcon: string;
 export const paleBg: string;
 export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
+export const debtExplainerLightSecondary: string;
 export const downloadItemBtn: string;
 export const downloadItemBtndisabled: string;
 export const linkDisabled: string;
