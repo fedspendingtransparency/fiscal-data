@@ -10,7 +10,7 @@ import {
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
-import nationalDebtImage from '../../../images/nationalDebt-Wide.png';
+import nationalDebtImage from '../../../images/nationalDebt-Wide2.png';
 const baseUrl = globalConstants.BASE_SITE_URL;
 const testUrl = 'https://stg.fiscaldata.treasury.gov';
 

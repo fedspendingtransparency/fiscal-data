@@ -99,18 +99,15 @@ export const ShareButtonContent = ({ name, width }) => {
 };
 
 const SocialMetaData = ({ image, title, summary }) => {
-  // facebook, linkedIn, and reddit should be all looking for og:image and other og: properties
-  // twitter will be looking for twitter: properties
   return (
     <>
       <Helmet>
         <meta property="og:image" content={ image } />
         <meta property="og:type" content="website" />
-        <meta property="twitter:domain" content="fiscaldata.treasury.gov" />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content={ title } />
-        <meta property="twitter:description" content={ summary } />
-        <meta property="twitter:image" content={ image } />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={ title } />
+        <meta name="twitter:description" content={ summary } />
+        <meta name="twitter:image" content={ image } />
       </Helmet>
     </>
   )
