@@ -33,6 +33,8 @@ import {
   EmailShareButton
 } from "react-share";
 
+const baseUrl = globalConstants.BASE_SITE_URL;
+
 
 
 const shareButtonContentMap = {
@@ -133,9 +135,9 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
            </FacebookShareButton>
          </div>
          <div className={ shareButtonContainer }>
-           <TwitterShareButton className={shareButton}
-                               url={url}
-                               title={title}
+           <TwitterShareButton className={ shareButton }
+                               url={ url }
+                               title={ title }
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
@@ -145,7 +147,7 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
                                 url={ url }
                                 title={ title }
                                 summary={ summary }
-                                source={ "" }
+                                source={ baseUrl }
            >
              <ShareButtonContent name={ 'linkedin' } width={ width } />
            </LinkedinShareButton>
