@@ -10,9 +10,9 @@ import {
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
-import nationalDebtImage from '../../../images/nationalDebt-Wide2.png';
-const baseUrl = globalConstants.BASE_SITE_URL;
-const testUrl = 'https://stg.fiscaldata.treasury.gov';
+import nationalDebtImage from '../../../../public/images/nationalDebt-Wide2.png';
+// const baseUrl = globalConstants.BASE_SITE_URL;
+const baseUrl = 'https://stg.fiscaldata.treasury.gov';
 
 const sampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
   labore et dolore magna aliqua.`;
@@ -43,8 +43,8 @@ export const explainerSocialShareMap = {
     quote: 'Sample Quote',
     title: 'Sample Title',
     summary: sampleCopy,
-    url: testUrl+'/national-debt/',
-    image: nationalDebtImage
+    url: baseUrl+'/national-debt/',
+    image: baseUrl+'/images/nationalDebt-Wide2.png'
   }
 }
 
