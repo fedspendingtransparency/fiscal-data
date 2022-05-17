@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import {render, act, waitForElementToBeRemoved} from '@testing-library/react';
 import nationalDebtSections, {
   nationalDebtSectionIds,
   nationalDebtSectionConfigs,
@@ -30,6 +30,9 @@ import {
   growingNationalDebtSectionAccordion
 } from './national-debt.module.scss';
 import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
+import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
+import fetchMock from "fetch-mock";
+
 
 jest.mock('./variables.module.scss', (content) => ({
   ...content,
@@ -221,4 +224,28 @@ describe('Data Sources & Methodologies', () => {
     expect(accordionContentsSegment)
       .toBeInTheDocument();
   });
+});
+
+describe('Visualing the debt accordion values', () => {
+
+  beforeEach(() => {
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
+      {
+        "data": [{
+          "tot_pub_debt_out_amt": "28908004857445.12",
+          "record_date": "2021-12-13"
+        }]
+      })
+  });
+
+  it("makes api call for debt data", async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+
+    const {getByText} = render(<VisualizingTheDebtAccordion />);
+    expect(fetchSpy).toBeCalled();
+    await waitForElementToBeRemoved(() => getByText(/99999999999999.99/i));
+    expect(await getByText("Visualizing the debt - How much is $29 trillion dollars?", {exact: false})).toBeInTheDocument();
+    global.fetch.mockRestore();
+  });
+
 });
