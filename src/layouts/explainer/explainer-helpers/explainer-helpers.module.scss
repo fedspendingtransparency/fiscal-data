@@ -3,11 +3,13 @@
 .nationalDebtActive {
   border-left-color: $debt-explainer-secondary !important;
   color: $debt-explainer-primary !important;
-  font-weight: bold;
+  text-shadow: 0 0 .01px $debt-explainer-primary, 0 0 .01px $debt-explainer-primary, 0 0 .01px $debt-explainer-primary;
 }
 
 .nationalDebtHover {
   color: $debt-explainer-secondary !important;
-  font-weight: bold;
   text-decoration: none;
+  text-shadow: 0 0 .01px $debt-explainer-primary, 0 0 .01px $debt-explainer-primary, 0 0 .01px $debt-explainer-primary;
 }
+
+
