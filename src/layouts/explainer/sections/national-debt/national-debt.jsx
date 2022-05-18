@@ -1,4 +1,15 @@
 import React, { useEffect, useRef, useState } from "react"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 import { withWindowSize } from 'react-fns';
 import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -90,6 +101,17 @@ import {
 
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
+import {ResponsiveContainer} from "recharts";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -546,6 +568,60 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const displayDate = tempDate ? getYear(new Date(tempDate)) : getYear(dateWithoutOffset);
   const displayValue = tempDate ? simplifyNumber(tempValue, true) : simplifyNumber(value, true);
 
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
+
+  useEffect(() => {
+    const exData = [];
+    const exData2 = [];
+    let prev = 100;
+    let prev2 = 80;
+    for (let i = 0; i < 100; i++) {
+      prev += 5 - Math.random() * 10;
+      exData.push({x: i, y: prev});
+      prev2 += 5 - Math.random() * 10;
+      exData2.push({x: i, y: prev2});
+    }
+    setData1(exData);
+    setData2(exData2);
+  }, [])
+
+  const exampleOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      intersect: false
+    },
+    plugins: {
+      legend: false
+    },
+    scales: {
+      x: {
+        type: 'linear'
+      }
+    },
+    animation: {
+      duration: 0
+    }
+  };
+
+  const lineData = {
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: data1,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Dataset 2',
+        data: data2,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  }
+
   return (
     <div className={growingNationalDebt}>
       <p>{sampleCopy}</p>
@@ -605,18 +681,21 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
       <p>{sampleCopy}</p>
 
       <div className={visWithCallout}>
-        <div
-          style={{
-            height: 500,
-            margin: '16px 0 32px 0',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#fff',
-            backgroundColor: '#555'
-          }}
-        >
-          Graph
+        {/*<div*/}
+        {/*  style={{*/}
+        {/*    height: 500,*/}
+        {/*    margin: '16px 0 32px 0',*/}
+        {/*    display: 'flex',*/}
+        {/*    justifyContent: 'center',*/}
+        {/*    alignItems: 'center',*/}
+        {/*    color: '#fff',*/}
+        {/*    backgroundColor: '#555'*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  Graph*/}
+        {/*</div>*/}
+        <div style={{maxWidth: '75%'}}>
+          <Line options={exampleOptions} data={lineData}/>
         </div>
         <VisualizationCallout color={debtExplainerPrimary}>
           <p>{smallSampleCopy}</p>
