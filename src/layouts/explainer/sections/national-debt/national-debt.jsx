@@ -183,7 +183,7 @@ const KeyTakeawaysSection = () => (
           <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
         </div>
         <p>The national debt has steadily increased since 2000.</p>
-      </div>
+    </div>
       <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
           <FontAwesomeIcon icon={faPollH} className={icon} />
@@ -203,7 +203,7 @@ const KeyTakeawaysSection = () => (
           The national debt is often accessed by looking at debt over time or the ratio of the federal
           debt related to GDP.
         </p>
-    </div>
+      </div>
   </>
 );
 
@@ -385,22 +385,20 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const sort = 'sort=-record_date';
   const pagination = 'page[size]=1&page[number]=1';
   const endpointUrl = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
-  const debtUrl = `${apiPrefix}${endpointUrl}`;
 
-  const getCurrentNationalDebt = (url) => {
-    basicFetch(`${url}`)
-    .then((res) => {
-      if (res.data) {
-        const totalPublicDebtOutstanding = Math.trunc(res.data[0]['tot_pub_debt_out_amt']);
-        const dividedDebt = (totalPublicDebtOutstanding / 1000000000000);
-        setNationalDebtValue(dividedDebt.toFixed());
-        setNationalDebtValueInTenths(dividedDebt.toFixed(1));
-        setNumberOfSquares((dividedDebt * 1000).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      }
-    });
-  };
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        if (res.data) {
+          const totalPublicDebtOutstanding = Math.trunc(res.data[0]['tot_pub_debt_out_amt']);
+          const dividedDebt = (totalPublicDebtOutstanding / 1000000000000);
+          setNationalDebtValue(dividedDebt.toFixed());
+          setNationalDebtValueInTenths(dividedDebt.toFixed(1));
+          setNumberOfSquares((dividedDebt * 1000).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+      });
+  }, [])
 
-  getCurrentNationalDebt(debtUrl);
 
   return (
     <div className={debtAccordion}>
@@ -1031,14 +1029,15 @@ export const nationalDebtDataSources = (
     page. {' '}<CustomLink url={'/datasets/debt-to-the-penny/'}>Debt to the Penny</CustomLink>{' '}
     provides daily values;
     {' '}<CustomLink url={'/datasets/monthly-statement-public-debt/'}>
-      Monthly Statement of the Public Debt (MSPD)</CustomLink>{' '} December values are used
+      Monthly Statement of the Public Debt (MSPD)
+         </CustomLink>{' '} December values are used
     for visualizations showing calendar years;
     and {' '}<CustomLink url={'/datasets/historical-debt-outstanding/'}>
       Historical Debt Outstanding
-    </CustomLink>{' '} provides an annual value for fiscal years. Interest rates are pulled from the
+             </CustomLink>{' '} provides an annual value for fiscal years. Interest rates are pulled from the
     {' '}<CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}>
       Average Interest Rates on U.S. Treasury Securities
-    </CustomLink>{' '}
+         </CustomLink>{' '}
     dataset. Adjustments for inflation are calculated using Consumer Price Index values
     from the
     {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Labor Statistics</CustomLink>.
@@ -1047,6 +1046,7 @@ export const nationalDebtDataSources = (
     {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Economic Analysis</CustomLink>.
     For detailed documentation, users can reference our
     {' '}<CustomLink url={'https://github.com/fedspendingtransparency/'}>
-    Github repository</CustomLink>.
+    Github repository
+         </CustomLink>.
   </>
 )
