@@ -130,6 +130,9 @@ module.exports = {
           'prod': {
             policy: [{ userAgent: '*', allow: '/' }]
           },
+          'stg': {
+            policy: [{ userAgent: '*', allow: '/' }]
+          },
           development: {
             policy: [{ userAgent: '*', disallow: ['/'] }]
           },
