@@ -33,7 +33,8 @@ import {
   EmailShareButton
 } from "react-share";
 
-const baseUrl = globalConstants.BASE_SITE_URL;
+// const baseUrl = globalConstants.BASE_SITE_URL;
+const baseUrl = 'https://stg.fiscaldata.treasury.gov';
 
 
 
