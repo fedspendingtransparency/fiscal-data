@@ -131,7 +131,7 @@ module.exports = {
             policy: [{ userAgent: '*', allow: '/' }]
           },
           development: {
-            policy: [{ userAgent: '*', allow: '/' }]
+            policy: [{ userAgent: '*', disallow: ['/'] }]
           },
         }
       }
