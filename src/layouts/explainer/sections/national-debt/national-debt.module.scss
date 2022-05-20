@@ -134,7 +134,7 @@
   }
 }
 
-.growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
+.growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
   background-color: $body-background;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -182,6 +182,17 @@
     margin: 0 auto;
   }
 }
+
+.debtTrendsOverTimeSectionGraphContainer {
+
+  .lineChartContainer {
+    width: 100%;
+    max-width: 524px;
+    margin: 0 auto;
+  }
+
+}
+
 .postGraphContent {
   margin-top: 3rem;
 }
@@ -298,7 +309,7 @@
     }
   }
 
-  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
+  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
     padding: 22px;
 
     .title {

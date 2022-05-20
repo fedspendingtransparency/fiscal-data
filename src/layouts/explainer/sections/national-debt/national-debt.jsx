@@ -1,15 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { ResponsiveLine } from '@nivo/line'
 import { withWindowSize } from 'react-fns';
 import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -88,6 +78,7 @@ import {
   footerContainer,
   debtBreakdownSectionGraphContainer,
   barChartContainer,
+  lineChartContainer,
   postGraphContent,
   // Dive Deeper Section
   diveDeeperQuoteRight,
@@ -95,23 +86,11 @@ import {
   diveDeeperLink,
   fundingProgramsBox,
   //Accordion styling
-  debtAccordion
-
-
+  debtAccordion, debtTrendsOverTimeSectionGraphContainer
 
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
 import {ResponsiveContainer} from "recharts";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -205,7 +184,7 @@ const KeyTakeawaysSection = () => (
           <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
         </div>
         <p>The national debt has steadily increased since 2000.</p>
-      </div>
+    </div>
       <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
           <FontAwesomeIcon icon={faPollH} className={icon} />
@@ -225,7 +204,7 @@ const KeyTakeawaysSection = () => (
           The national debt is often accessed by looking at debt over time or the ratio of the federal
           debt related to GDP.
         </p>
-    </div>
+      </div>
   </>
 );
 
@@ -568,59 +547,281 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const displayDate = tempDate ? getYear(new Date(tempDate)) : getYear(dateWithoutOffset);
   const displayValue = tempDate ? simplifyNumber(tempValue, true) : simplifyNumber(value, true);
 
-  const [data1, setData1] = useState([]);
-  const [data2, setData2] = useState([]);
 
-  useEffect(() => {
-    const exData = [];
-    const exData2 = [];
-    let prev = 100;
-    let prev2 = 80;
-    for (let i = 0; i < 100; i++) {
-      prev += 5 - Math.random() * 10;
-      exData.push({x: i, y: prev});
-      prev2 += 5 - Math.random() * 10;
-      exData2.push({x: i, y: prev2});
+  const exampleData = [
+    {
+      "id": "japan",
+      "color": "hsl(358, 70%, 50%)",
+      "data": [
+        {
+          "x": "plane",
+          "y": 140
+        },
+        {
+          "x": "helicopter",
+          "y": 256
+        },
+        {
+          "x": "boat",
+          "y": 48
+        },
+        {
+          "x": "train",
+          "y": 4
+        },
+        {
+          "x": "subway",
+          "y": 168
+        },
+        {
+          "x": "bus",
+          "y": 222
+        },
+        {
+          "x": "car",
+          "y": 133
+        },
+        {
+          "x": "moto",
+          "y": 45
+        },
+        {
+          "x": "bicycle",
+          "y": 202
+        },
+        {
+          "x": "horse",
+          "y": 251
+        },
+        {
+          "x": "skateboard",
+          "y": 9
+        },
+        {
+          "x": "others",
+          "y": 118
+        }
+      ]
+    },
+    {
+      "id": "france",
+      "color": "hsl(204, 70%, 50%)",
+      "data": [
+        {
+          "x": "plane",
+          "y": 207
+        },
+        {
+          "x": "helicopter",
+          "y": 142
+        },
+        {
+          "x": "boat",
+          "y": 170
+        },
+        {
+          "x": "train",
+          "y": 206
+        },
+        {
+          "x": "subway",
+          "y": 186
+        },
+        {
+          "x": "bus",
+          "y": 29
+        },
+        {
+          "x": "car",
+          "y": 90
+        },
+        {
+          "x": "moto",
+          "y": 100
+        },
+        {
+          "x": "bicycle",
+          "y": 152
+        },
+        {
+          "x": "horse",
+          "y": 219
+        },
+        {
+          "x": "skateboard",
+          "y": 266
+        },
+        {
+          "x": "others",
+          "y": 21
+        }
+      ]
+    },
+    {
+      "id": "us",
+      "color": "hsl(219, 70%, 50%)",
+      "data": [
+        {
+          "x": "plane",
+          "y": 273
+        },
+        {
+          "x": "helicopter",
+          "y": 292
+        },
+        {
+          "x": "boat",
+          "y": 66
+        },
+        {
+          "x": "train",
+          "y": 169
+        },
+        {
+          "x": "subway",
+          "y": 108
+        },
+        {
+          "x": "bus",
+          "y": 251
+        },
+        {
+          "x": "car",
+          "y": 71
+        },
+        {
+          "x": "moto",
+          "y": 255
+        },
+        {
+          "x": "bicycle",
+          "y": 177
+        },
+        {
+          "x": "horse",
+          "y": 120
+        },
+        {
+          "x": "skateboard",
+          "y": 43
+        },
+        {
+          "x": "others",
+          "y": 27
+        }
+      ]
+    },
+    {
+      "id": "germany",
+      "color": "hsl(241, 70%, 50%)",
+      "data": [
+        {
+          "x": "plane",
+          "y": 21
+        },
+        {
+          "x": "helicopter",
+          "y": 68
+        },
+        {
+          "x": "boat",
+          "y": 84
+        },
+        {
+          "x": "train",
+          "y": 13
+        },
+        {
+          "x": "subway",
+          "y": 72
+        },
+        {
+          "x": "bus",
+          "y": 70
+        },
+        {
+          "x": "car",
+          "y": 198
+        },
+        {
+          "x": "moto",
+          "y": 104
+        },
+        {
+          "x": "bicycle",
+          "y": 68
+        },
+        {
+          "x": "horse",
+          "y": 266
+        },
+        {
+          "x": "skateboard",
+          "y": 181
+        },
+        {
+          "x": "others",
+          "y": 220
+        }
+      ]
+    },
+    {
+      "id": "norway",
+      "color": "hsl(267, 70%, 50%)",
+      "data": [
+        {
+          "x": "plane",
+          "y": 68
+        },
+        {
+          "x": "helicopter",
+          "y": 190
+        },
+        {
+          "x": "boat",
+          "y": 171
+        },
+        {
+          "x": "train",
+          "y": 151
+        },
+        {
+          "x": "subway",
+          "y": 174
+        },
+        {
+          "x": "bus",
+          "y": 2
+        },
+        {
+          "x": "car",
+          "y": 50
+        },
+        {
+          "x": "moto",
+          "y": 44
+        },
+        {
+          "x": "bicycle",
+          "y": 88
+        },
+        {
+          "x": "horse",
+          "y": 35
+        },
+        {
+          "x": "skateboard",
+          "y": 120
+        },
+        {
+          "x": "others",
+          "y": 3
+        }
+      ]
     }
-    setData1(exData);
-    setData2(exData2);
-  }, [])
+  ]
 
-  const exampleOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: {
-      intersect: false
-    },
-    plugins: {
-      legend: false
-    },
-    scales: {
-      x: {
-        type: 'linear'
-      }
-    },
-    animation: {
-      duration: 0
-    }
-  };
 
-  const lineData = {
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: data1,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: 'Dataset 2',
-        data: data2,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  }
 
   return (
     <div className={growingNationalDebt}>
@@ -679,28 +880,105 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         </div>
       )}
       <p>{sampleCopy}</p>
-
-      <div className={visWithCallout}>
-        {/*<div*/}
-        {/*  style={{*/}
-        {/*    height: 500,*/}
-        {/*    margin: '16px 0 32px 0',*/}
-        {/*    display: 'flex',*/}
-        {/*    justifyContent: 'center',*/}
-        {/*    alignItems: 'center',*/}
-        {/*    color: '#fff',*/}
-        {/*    backgroundColor: '#555'*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Graph*/}
-        {/*</div>*/}
-        <div style={{maxWidth: '75%'}}>
-          <Line options={exampleOptions} data={lineData}/>
+        <div className={visWithCallout}>
+          <>
+            <div
+              className={debtTrendsOverTimeSectionGraphContainer}
+            >
+              <p className={title}>
+                Federal Debt Trends Over Time, 1948 - 2021
+              </p>
+              <div className={headerContainer}>
+                <div>
+                  <div className={header}>{displayDate}</div>
+                  <span className={subHeader}>Year</span>
+                </div>
+                <div>
+                  <div className={header}>{displayValue}</div>
+                  <span className={subHeader}>Total Debt</span>
+                </div>
+              </div>
+              <ResponsiveLine
+                data={exampleData}
+                width={524}
+                height={468}
+                margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
+                xScale={{ type: 'point' }}
+                yScale={{
+                  type: 'linear',
+                  min: 'auto',
+                  max: 'auto',
+                  stacked: true,
+                  reverse: false
+                }}
+                yFormat=" >-.2f"
+                axisTop={null}
+                axisRight={null}
+                axisBottom={{
+                  orient: 'bottom',
+                  tickSize: 5,
+                  tickPadding: 5,
+                  tickRotation: 0,
+                  legend: 'transportation',
+                  legendOffset: 36,
+                  legendPosition: 'middle'
+                }}
+                axisLeft={{
+                  orient: 'left',
+                  tickSize: 5,
+                  tickPadding: 5,
+                  tickRotation: 0,
+                  legend: 'count',
+                  legendOffset: -40,
+                  legendPosition: 'middle'
+                }}
+                pointSize={10}
+                pointColor={{ theme: 'background' }}
+                pointBorderWidth={2}
+                pointBorderColor={{ from: 'serieColor' }}
+                pointLabelYOffset={-12}
+                useMesh={true}
+                legends={[
+                  {
+                    anchor: 'bottom-right',
+                    direction: 'column',
+                    justify: false,
+                    translateX: 100,
+                    translateY: 0,
+                    itemsSpacing: 0,
+                    itemDirection: 'left-to-right',
+                    itemWidth: 80,
+                    itemHeight: 20,
+                    itemOpacity: 0.75,
+                    symbolSize: 12,
+                    symbolShape: 'circle',
+                    symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                    effects: [
+                      {
+                        on: 'hover',
+                        style: {
+                          itemBackground: 'rgba(0, 0, 0, .03)',
+                          itemOpacity: 1
+                        }
+                      }
+                    ]
+                  }
+                ]}
+              />
+              </div>
+              {/*<div className={footerContainer}>*/}
+              {/*  <CustomLink url={slug}>*/}
+              {/*    Visit our dataset page to explore and download this data, {name}.*/}
+              {/*  </CustomLink>*/}
+              {/*  <p>*/}
+              {/*    Last updated: heh*/}
+              {/*  </p>*/}
+              {/*</div>*/}
+          <VisualizationCallout color={debtExplainerPrimary}>
+            <p>The U.S. has steadily increased the federal debt since 2000.</p>
+          </VisualizationCallout>
+        </>
         </div>
-        <VisualizationCallout color={debtExplainerPrimary}>
-          <p>{smallSampleCopy}</p>
-        </VisualizationCallout>
-      </div>
       <VisualizingTheDebtAccordion width={width}>
       </VisualizingTheDebtAccordion>
     </div>
@@ -1110,14 +1388,15 @@ export const nationalDebtDataSources = (
     page. {' '}<CustomLink url={'/datasets/debt-to-the-penny/'}>Debt to the Penny</CustomLink>{' '}
     provides daily values;
     {' '}<CustomLink url={'/datasets/monthly-statement-public-debt/'}>
-      Monthly Statement of the Public Debt (MSPD)</CustomLink>{' '} December values are used
+      Monthly Statement of the Public Debt (MSPD)
+         </CustomLink>{' '} December values are used
     for visualizations showing calendar years;
     and {' '}<CustomLink url={'/datasets/historical-debt-outstanding/'}>
       Historical Debt Outstanding
-    </CustomLink>{' '} provides an annual value for fiscal years. Interest rates are pulled from the
+             </CustomLink>{' '} provides an annual value for fiscal years. Interest rates are pulled from the
     {' '}<CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}>
       Average Interest Rates on U.S. Treasury Securities
-    </CustomLink>{' '}
+         </CustomLink>{' '}
     dataset. Adjustments for inflation are calculated using Consumer Price Index values
     from the
     {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Labor Statistics</CustomLink>.
@@ -1126,6 +1405,7 @@ export const nationalDebtDataSources = (
     {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Economic Analysis</CustomLink>.
     For detailed documentation, users can reference our
     {' '}<CustomLink url={'https://github.com/fedspendingtransparency/'}>
-    Github repository</CustomLink>.
+    Github repository
+         </CustomLink>.
   </>
 )
