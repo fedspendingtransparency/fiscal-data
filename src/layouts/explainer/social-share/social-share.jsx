@@ -32,7 +32,6 @@ import {
   RedditShareButton,
   EmailShareButton
 } from "react-share";
-import globalConstants from "../../../helpers/constants";
 
 // const baseUrl = globalConstants.BASE_SITE_URL;
 const baseUrl = 'https://stg.fiscaldata.treasury.gov';
@@ -105,13 +104,13 @@ const SocialMetaData = ({ image, title, summary, url }) => {
   return (
     <>
       <Helmet>
-        <meta property="og:image" content={ image + 'nationalDebt-Wide2.png'} />
+        <meta property="og:image" content={ image } />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={ url } />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={ title } />
         <meta name="twitter:description" content={ summary } />
-        <meta name="twitter:image" content={ image + 'nationalDebt-Twitter.png'} />
+        <meta name="twitter:image" content={ image } />
       </Helmet>
     </>
   )

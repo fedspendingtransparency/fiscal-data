@@ -9,8 +9,7 @@ import {
   nationalDebtHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
-import globalConstants from "../../../helpers/constants";
-import nationalDebtImage from '../../../../public/images/nationalDebt-Wide2.png';
+
 // const baseUrl = globalConstants.BASE_SITE_URL;
 const baseUrl = 'https://stg.fiscaldata.treasury.gov';
 
@@ -44,7 +43,7 @@ export const explainerSocialShareMap = {
     title: 'Sample Title',
     summary: sampleCopy,
     url: baseUrl+'/national-debt/',
-    image: baseUrl+'/images/'
+    image: baseUrl+'/images/nationalDebt-Wide.png'
   }
 }
 
