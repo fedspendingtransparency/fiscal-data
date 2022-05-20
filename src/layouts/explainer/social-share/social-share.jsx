@@ -107,6 +107,8 @@ const SocialMetaData = ({ image, title, summary }) => {
         <meta property="og:image" content={ image } />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={ baseUrl } />
+        <meta property="og:image:width" content="1440" />
+        <meta property="og:image:height" content="753" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={ title } />
         <meta name="twitter:description" content={ summary } />
