@@ -44,7 +44,7 @@ export const explainerSocialShareMap = {
     title: 'Sample Title',
     summary: sampleCopy,
     url: baseUrl+'/national-debt/',
-    image: baseUrl+'/images/nationalDebt-Wide2.png'
+    image: baseUrl+'/images/'
   }
 }
 
