@@ -47,7 +47,6 @@
     }
 
     :global(.secondaryNavContainer) {
-      width: 500px;
       :global(.navSectionLink):hover {
         color: $debt-explainer-secondary !important;
         text-decoration: none;
