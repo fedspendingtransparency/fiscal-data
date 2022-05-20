@@ -34,7 +34,8 @@ import {
 } from "react-share";
 import globalConstants from "../../../helpers/constants";
 
-const baseUrl = globalConstants.BASE_SITE_URL;
+// const baseUrl = globalConstants.BASE_SITE_URL;
+const baseUrl = 'https://stg.fiscaldata.treasury.gov';
 
 
 const shareButtonContentMap = {
@@ -100,15 +101,13 @@ export const ShareButtonContent = ({ name, width }) => {
   )
 };
 
-const SocialMetaData = ({ image, title, summary }) => {
+const SocialMetaData = ({ image, title, summary, url }) => {
   return (
     <>
       <Helmet>
         <meta property="og:image" content={ image } />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={ baseUrl } />
-        <meta property="og:image:width" content="1440" />
-        <meta property="og:image:height" content="753" />
+        <meta property="og:url" content={ url } />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={ title } />
         <meta name="twitter:description" content={ summary } />
@@ -124,6 +123,7 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
        <SocialMetaData image={ image }
                        title={ title }
                        summary={ summary }
+                       url={ url }
        />
        <div className={ socialShareContent }>
          <h3>
