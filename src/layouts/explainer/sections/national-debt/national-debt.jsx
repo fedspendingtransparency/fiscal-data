@@ -587,12 +587,13 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         {
           "x": 2020,
           "y": 135
-        }
+        },
       ]
     }
   ]
 
   const chartBorderTheme = {
+    fontSize: 14,
     axis: {
       domain: {
         line: {
@@ -603,6 +604,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
     }
   }
 
+  const formatPercentage = v => `${v}%`
 
   const CustomPoint = (props) => {
     const { currentPoint, borderWidth, borderColor } = props;
@@ -723,7 +725,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                       CustomPoint,
                       'mesh'
                     ]}
-                    margin={{ top: 0, right: 30, bottom: 20, left: 30 }}
+                    margin={{ top: 5, right: 30, bottom: 40, left: 40 }}
                     xScale={{ type: 'point' }}
                     yScale={{
                       type: 'linear',
@@ -742,10 +744,9 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                       tickRotation: 0
                     }}
                     axisLeft={{
+                      format: formatPercentage,
                       orient: 'left',
-                      tickSize: 0,
-                      tickPadding: 5,
-                      tickRotation: 0
+                      tickSize: 0
                     }}
                     enablePoints={false}
                     pointSize={0}
