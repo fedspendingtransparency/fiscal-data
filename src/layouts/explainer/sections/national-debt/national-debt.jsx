@@ -714,6 +714,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 </div>
                 <div
                   className={lineChartContainer}
+                  data-testid={"debtTrendsChart"}
                 >
                   <ResponsiveLine
                     data={exampleData}
