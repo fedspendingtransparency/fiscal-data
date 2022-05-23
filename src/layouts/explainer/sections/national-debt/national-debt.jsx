@@ -183,7 +183,7 @@ const KeyTakeawaysSection = () => (
           <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
         </div>
         <p>The national debt has steadily increased since 2000.</p>
-      </div>
+    </div>
       <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
           <FontAwesomeIcon icon={faPollH} className={icon} />
@@ -203,7 +203,7 @@ const KeyTakeawaysSection = () => (
           The national debt is often accessed by looking at debt over time or the ratio of the federal
           debt related to GDP.
         </p>
-    </div>
+      </div>
   </>
 );
 
@@ -341,6 +341,9 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [rows, setRows] = useState(visualizingTheDebtTableContent.desktop.rows);
   const [columns, setColumns] = useState(visualizingTheDebtTableContent.desktop.columns);
+  const [nationalDebtValue, setNationalDebtValue] = useState("99999999999999.99");
+  const [nationalDebtValueInTenths, setNationalDebtValueInTenths] = useState("99999999999999.9");
+  const [numberOfSquares, setNumberOfSquares] = useState("0");
 
   useEffect(() => {
     setIsLoading(false);
@@ -378,10 +381,29 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
     )
   }
 
+  const fields = 'fields=tot_pub_debt_out_amt,record_date';
+  const sort = 'sort=-record_date';
+  const pagination = 'page[size]=1&page[number]=1';
+  const endpointUrl = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        if (res.data) {
+          const totalPublicDebtOutstanding = Math.trunc(res.data[0]['tot_pub_debt_out_amt']);
+          const dividedDebt = (totalPublicDebtOutstanding / 1000000000000);
+          setNationalDebtValue(dividedDebt.toFixed());
+          setNationalDebtValueInTenths(dividedDebt.toFixed(1));
+          setNumberOfSquares((dividedDebt * 1000).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+      });
+  }, [])
+
+
   return (
     <div className={debtAccordion}>
       <Accordion
-        title="Visualizing the debt - How much is $28 trillion dollars?"
+        title={`Visualizing the debt - How much is $${nationalDebtValue} trillion dollars?`}
         containerClass={growingNationalDebtSectionAccordion}
       >
         <div className={accordionHeader}>
@@ -396,7 +418,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         )}
         <div className={accordionFooter}>
           <p>(1000 squares drawn to scale.)</p>
-          <p>Today's debt is $28.4T, that's YY,YYY squares.</p>
+          <p>{`Today's debt is $${nationalDebtValueInTenths}T, that's ${numberOfSquares} squares.`}</p>
         </div>
       </Accordion>
     </div>
@@ -1007,14 +1029,15 @@ export const nationalDebtDataSources = (
     page. {' '}<CustomLink url={'/datasets/debt-to-the-penny/'}>Debt to the Penny</CustomLink>{' '}
     provides daily values;
     {' '}<CustomLink url={'/datasets/monthly-statement-public-debt/'}>
-      Monthly Statement of the Public Debt (MSPD)</CustomLink>{' '} December values are used
+      Monthly Statement of the Public Debt (MSPD)
+         </CustomLink>{' '} December values are used
     for visualizations showing calendar years;
     and {' '}<CustomLink url={'/datasets/historical-debt-outstanding/'}>
       Historical Debt Outstanding
-    </CustomLink>{' '} provides an annual value for fiscal years. Interest rates are pulled from the
+             </CustomLink>{' '} provides an annual value for fiscal years. Interest rates are pulled from the
     {' '}<CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}>
       Average Interest Rates on U.S. Treasury Securities
-    </CustomLink>{' '}
+         </CustomLink>{' '}
     dataset. Adjustments for inflation are calculated using Consumer Price Index values
     from the
     {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Labor Statistics</CustomLink>.
@@ -1023,6 +1046,7 @@ export const nationalDebtDataSources = (
     {' '}<CustomLink url={'https://www.bls.gov'}>Bureau of Economic Analysis</CustomLink>.
     For detailed documentation, users can reference our
     {' '}<CustomLink url={'https://github.com/fedspendingtransparency/'}>
-    Github repository</CustomLink>.
+    Github repository
+         </CustomLink>.
   </>
 )
