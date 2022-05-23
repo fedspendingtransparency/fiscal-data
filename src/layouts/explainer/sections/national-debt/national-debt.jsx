@@ -554,39 +554,39 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
       "data": [
         {
           "x": 1948,
-          "y": 273
+          "y": 40
         },
         {
           "x": 1950,
-          "y": 292
+          "y": 45
         },
         {
           "x": 1960,
-          "y": 315
+          "y": 55
         },
         {
           "x": 1970,
-          "y": 273
+          "y": 60
         },
         {
           "x": 1980,
-          "y": 292
+          "y": 90
         },
         {
           "x": 1990,
-          "y": 600
+          "y": 100
         },
         {
           "x": 2000,
-          "y": 900
+          "y": 110
         },
         {
           "x": 2010,
-          "y": 1000
+          "y": 120
         },
         {
           "x": 2020,
-          "y": 1900
+          "y": 135
         }
       ]
     }
@@ -597,7 +597,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
       domain: {
         line: {
           stroke: '#777777',
-          strokeWidth: 1
+          strokeWidth: 0.5
         }
       }
     }
@@ -700,6 +700,16 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
                 <p className={title}> Federal Debt Trends Over Time, 1948 - 2021 </p>
+                <div className={headerContainer}>
+                  <div>
+                    <div className={header}>2022</div>
+                    <span className={subHeader}>Fiscal Year</span>
+                  </div>
+                  <div>
+                    <div className={header}>135%</div>
+                    <span className={subHeader}>Debt to GDP</span>
+                  </div>
+                </div>
                 <div
                   className={lineChartContainer}
                 >
@@ -713,7 +723,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                       CustomPoint,
                       'mesh'
                     ]}
-                    margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
+                    margin={{ top: 0, right: 30, bottom: 20, left: 30 }}
                     xScale={{ type: 'point' }}
                     yScale={{
                       type: 'linear',
@@ -733,7 +743,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     }}
                     axisLeft={{
                       orient: 'left',
-                      tickSize: 5,
+                      tickSize: 0,
                       tickPadding: 5,
                       tickRotation: 0
                     }}
