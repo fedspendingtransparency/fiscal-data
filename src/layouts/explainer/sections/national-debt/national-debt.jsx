@@ -385,22 +385,20 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const sort = 'sort=-record_date';
   const pagination = 'page[size]=1&page[number]=1';
   const endpointUrl = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
-  const debtUrl = `${apiPrefix}${endpointUrl}`;
 
-  const getCurrentNationalDebt = (url) => {
-    basicFetch(`${url}`)
-    .then((res) => {
-      if (res.data) {
-        const totalPublicDebtOutstanding = Math.trunc(res.data[0]['tot_pub_debt_out_amt']);
-        const dividedDebt = (totalPublicDebtOutstanding / 1000000000000);
-        setNationalDebtValue(dividedDebt.toFixed());
-        setNationalDebtValueInTenths(dividedDebt.toFixed(1));
-        setNumberOfSquares((dividedDebt * 1000).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      }
-    });
-  };
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        if (res.data) {
+          const totalPublicDebtOutstanding = Math.trunc(res.data[0]['tot_pub_debt_out_amt']);
+          const dividedDebt = (totalPublicDebtOutstanding / 1000000000000);
+          setNationalDebtValue(dividedDebt.toFixed());
+          setNationalDebtValueInTenths(dividedDebt.toFixed(1));
+          setNumberOfSquares((dividedDebt * 1000).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        }
+      });
+  }, [])
 
-  getCurrentNationalDebt(debtUrl);
 
   return (
     <div className={debtAccordion}>
