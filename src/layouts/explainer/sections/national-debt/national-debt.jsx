@@ -547,26 +547,63 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const displayValue = tempDate ? simplifyNumber(tempValue, true) : simplifyNumber(value, true);
 
 
+  // Below are the configs for custom properties for the debt trends over time line chart
+
   const exampleData = [
     {
       "id": "us",
       "color": "hsl(219, 70%, 50%)",
       "data": [
         {
-          "x": "plane",
+          "x": 1948,
           "y": 273
         },
         {
-          "x": "helicopter",
+          "x": 1950,
           "y": 292
         },
         {
-          "x": "boat",
-          "y": 66
+          "x": 1960,
+          "y": 315
+        },
+        {
+          "x": 1970,
+          "y": 273
+        },
+        {
+          "x": 1980,
+          "y": 292
+        },
+        {
+          "x": 1990,
+          "y": 600
+        },
+        {
+          "x": 2000,
+          "y": 900
+        },
+        {
+          "x": 2010,
+          "y": 1000
+        },
+        {
+          "x": 2020,
+          "y": 1900
         }
       ]
     }
   ]
+
+  const chartBorderTheme = {
+    axis: {
+      domain: {
+        line: {
+          stroke: '#777777',
+          strokeWidth: 1
+        }
+      }
+    }
+  }
 
 
   const CustomPoint = (props) => {
@@ -664,15 +701,17 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <>
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
-                <p className={title}> Chart title goes here </p>
+                <p className={title}> Federal Debt Trends Over Time, 1948 - 2021 </p>
                 <div
                   className={lineChartContainer}
                 >
                   <ResponsiveLine
                     data={exampleData}
+                    theme={chartBorderTheme}
                     layers={[
                       'axes',
                       'lines',
+                      'grid',
                       CustomPoint,
                       'mesh'
                     ]}
@@ -708,7 +747,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     pointLabelYOffset={-12}
                     colors={debtExplainerPrimary}
                     useMesh={true}
-                    enableGridY={false}
+                    enableGridY={true}
                     enableGridX={false}
                     enableCrosshair={false}
                     animate={false}
@@ -716,10 +755,10 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 </div>
                 <div className={footerContainer}>
                   <CustomLink url={slug}>
-                    Visit our dataset page to explore and download this data, {name}.
+                    Visit the {name} dataset to explore and download this data.
                   </CustomLink>
                   <p>
-                    Last updated: insert data here
+                    Last updated: October 1, 2021
                   </p>
                 </div>
               </div>
@@ -727,12 +766,13 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             </div>
             <VisualizationCallout color={debtExplainerPrimary}>
               <p>
-                There are two major categories for federal debt: debt held by the public
-                and intergovernmental holdings.
-              </p>
-
-              <p>
-                The debt held by the public has increased by heh
+                When adjusted for inflation,
+                the U.S. federal debt has steadily increased since 2001.
+                Without adjusting for inflation,
+                the U.S. federal debt has steadily increased since 1957.
+                Another way to view the federal debt over time
+                is to look at the ratio of federal debt related to GDP.
+                The ratio has increased over time.
               </p>
             </VisualizationCallout>
           </>
