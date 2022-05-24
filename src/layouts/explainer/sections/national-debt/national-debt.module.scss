@@ -211,6 +211,14 @@
     }
   };
 
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    .lineChartContainer {
+      height: 227px;
+    }
+  };
+
+
+
 
 
 }
