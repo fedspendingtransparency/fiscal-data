@@ -134,15 +134,28 @@
   }
 }
 
-.growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
+
+
+.growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
   background-color: $body-background;
   margin-top: 1rem;
   margin-bottom: 1rem;
 
   .title {
     margin-top: 0;
+    margin-bottom: 0;
     font-weight: 600;
     color: $font-title;
+  }
+
+  .titleBreakdown {
+    margin-top: 0;
+    font-weight: 600;
+    color: $font-title;
+  }
+
+  .subTitle {
+    margin-top: 0;
   }
 
   .headerContainer {
@@ -182,6 +195,26 @@
     margin: 0 auto;
   }
 }
+
+.debtTrendsOverTimeSectionGraphContainer {
+
+  .lineChartContainer {
+    width: 100%;
+    max-width: 524px;
+    margin: 0 auto;
+    height: 400px;
+  }
+
+  @media screen and (max-width: $breakpoint-lg - 1) {
+    .lineChartContainer {
+      height: 293px;
+    }
+  };
+
+
+
+}
+
 .postGraphContent {
   margin-top: 3rem;
 }
@@ -298,10 +331,14 @@
     }
   }
 
-  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
+  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
     padding: 22px;
 
     .title {
+      font-size: $font-size-18;
+    }
+
+    .titleBreakdown {
       font-size: $font-size-18;
     }
 
@@ -409,7 +446,7 @@
     }
   }
 
-  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer {
+  .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
     font-size: $font-size-10;
     padding: 14px;
 
@@ -421,20 +458,28 @@
       font-size: $font-size-12;
     }
 
+    .subTitle {
+      font-size: $font-size-12;
+    }
+
+    .titleBreakdown {
+      font-size: $font-size-12;
+    }
+
     .header {
       font-size: $font-size-22;
       min-width: 110px;
     }
 
     .subHeader {
-      font-size: $font-size-10;
+      font-size: $font-size-12;
     }
 
     .footerContainer {
       padding-top: 15px;
 
       p {
-        font-size: $font-size-10;
+        font-size: $font-size-12;
       }
     }
   }

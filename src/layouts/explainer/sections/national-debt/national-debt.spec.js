@@ -116,6 +116,14 @@ describe('The Growing National Debt', () => {
     expect(await findByTestId('chart')).toBeInTheDocument();
   })
 
+  it('contains the debt trends line chart', async () => {
+    const { findByTestId } = render(
+      <GrowingNationalDebtSection sectionId={sectionId} />
+    );
+
+    expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
+  })
+
   it('displays the latest date and value', async () => {
     const latestDate = getYear(new Date(mockExplainerPageResponse.data[0][config.dateField]));
     const latestValue = simplifyNumber(mockExplainerPageResponse.data[0][config.valueField], true);
