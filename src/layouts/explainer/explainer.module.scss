@@ -46,6 +46,15 @@
       }
     }
 
+    :global(.secondaryNavContainer) {
+      :global(.navSectionLink):hover {
+        color: $debt-explainer-secondary !important;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    }
+
+
     .socialShare {
       text-align: center;
     }

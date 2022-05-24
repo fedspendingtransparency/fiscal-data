@@ -61,6 +61,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
           heading={heroImage.heading}
           subHeading={heroImage.subHeading}
           primaryColor={explainerColorMap[pageName].primary}
+          secondaryColor={explainerColorMap[pageName].secondaryLight}
         >
           {explainerHeroMap[pageName]}
         </HeroImage>
