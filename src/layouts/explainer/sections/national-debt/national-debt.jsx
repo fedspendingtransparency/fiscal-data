@@ -723,8 +723,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     theme={chartBorderTheme}
                     layers={[
                       'axes',
-                      'lines',
                       'grid',
+                      'lines',
                       CustomPoint,
                       'mesh'
                     ]}
