@@ -86,8 +86,8 @@ import {
   diveDeeperLink,
   fundingProgramsBox,
   //Accordion styling
-  debtAccordion, debtTrendsOverTimeSectionGraphContainer
-
+  debtAccordion, debtTrendsOverTimeSectionGraphContainer, subTitle,
+  titleBreakdown
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
 
@@ -604,7 +604,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
     }
   }
 
-  const formatPercentage = v => `${v}%`
+  const formatPercentage = v => `${v}%`;
 
   const CustomPoint = (props) => {
     const { currentPoint, borderWidth, borderColor } = props;
@@ -647,6 +647,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 U.S. Federal Debt Total of the Last 100 Years,
                 {' '}{getYear(dateWithoutOffset) - 100} - {getYear(dateWithoutOffset)}
               </p>
+              <p className={subTitle}> (Inflation Adjusted - 2021 Dollars) </p>
               <div className={headerContainer}>
                 <div>
                   <div className={header}>{displayDate}</div>
@@ -702,6 +703,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
                 <p className={title}> Federal Debt Trends Over Time, 1948 - 2021 </p>
+                <p className={subTitle}> Debt to Gross Domestic Product (GDP) </p>
                 <div className={headerContainer}>
                   <div>
                     <div className={header}>2022</div>
@@ -913,7 +915,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
           <>
             <div>
               <div className={debtBreakdownSectionGraphContainer}>
-                <p className={title}>Intragovernmental Holdings and Debt Held by the Public,
+                <p className={titleBreakdown}>Intragovernmental Holdings and Debt Held by the Public,
                   {' '}{data[0].record_calendar_year} and {data[1].record_calendar_year}
                 </p>
                 <div

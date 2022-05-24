@@ -134,6 +134,8 @@
   }
 }
 
+
+
 .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
   background-color: $body-background;
   margin-top: 1rem;
@@ -141,8 +143,19 @@
 
   .title {
     margin-top: 0;
+    margin-bottom: 0;
     font-weight: 600;
     color: $font-title;
+  }
+
+  .titleBreakdown {
+    margin-top: 0;
+    font-weight: 600;
+    color: $font-title;
+  }
+
+  .subTitle {
+    margin-top: 0;
   }
 
   .headerContainer {
@@ -325,6 +338,10 @@
       font-size: $font-size-18;
     }
 
+    .titleBreakdown {
+      font-size: $font-size-18;
+    }
+
     .header {
       font-size: $font-size-36;
       min-width: 140px;
@@ -438,6 +455,10 @@
     }
 
     .title {
+      font-size: $font-size-12;
+    }
+
+    .titleBreakdown {
       font-size: $font-size-12;
     }
 
