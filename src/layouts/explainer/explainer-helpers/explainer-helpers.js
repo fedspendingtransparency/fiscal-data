@@ -9,9 +9,9 @@ import {
   nationalDebtHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
+import globalConstants from "../../../helpers/constants";
 
-// const baseUrl = globalConstants.BASE_SITE_URL;
-const baseUrl = 'https://stg.fiscaldata.treasury.gov';
+const baseUrl = globalConstants.BASE_SITE_URL;
 
 const sampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
   labore et dolore magna aliqua.`;
