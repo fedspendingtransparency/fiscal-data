@@ -632,6 +632,30 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         </g>
       );
     }
+    else {
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={434}
+            cy={0}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={434}
+            cy={0}
+          />
+        </g>
+      );
+    }
   };
 
   return (
@@ -723,8 +747,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     theme={chartBorderTheme}
                     layers={[
                       'axes',
-                      'lines',
                       'grid',
+                      'lines',
                       CustomPoint,
                       'mesh'
                     ]}
