@@ -32,7 +32,9 @@ import {
   RedditShareButton,
   EmailShareButton
 } from "react-share";
+import globalConstants from "../../../helpers/constants";
 
+const baseUrl = globalConstants.BASE_SITE_URL;
 
 
 const shareButtonContentMap = {
@@ -98,18 +100,19 @@ export const ShareButtonContent = ({ name, width }) => {
   )
 };
 
-const SocialMetaData = ({ image, title, summary }) => {
-  // facebook, linkedIn, and reddit should be all looking for og:image and other og: properties
-  // twitter will be looking for twitter: properties
+const SocialMetaData = ({ image, title, summary, url }) => {
   return (
     <>
       <Helmet>
+        <meta property="og:title" content={ title } />
+        <meta property="og:description" content={ summary } />
         <meta property="og:image" content={ image } />
-        <meta property="twitter:image" content={ image } />
-        <meta property="twitter:summary_large_image" content={ image } />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:description" content={ summary } />
-        <meta property="twitter:title" content={ title } />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={ url } />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={ title } />
+        <meta name="twitter:description" content={ summary } />
+        <meta name="twitter:image" content={ image } />
       </Helmet>
     </>
   )
@@ -121,6 +124,7 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
        <SocialMetaData image={ image }
                        title={ title }
                        summary={ summary }
+                       url={ url }
        />
        <div className={ socialShareContent }>
          <h3>
@@ -135,9 +139,9 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
            </FacebookShareButton>
          </div>
          <div className={ shareButtonContainer }>
-           <TwitterShareButton className={shareButton}
-                               url={url}
-                               title={title}
+           <TwitterShareButton className={ shareButton }
+                               url={ url }
+                               title={ title }
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
@@ -147,7 +151,7 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
                                 url={ url }
                                 title={ title }
                                 summary={ summary }
-                                source={ "" }
+                                source={ baseUrl }
            >
              <ShareButtonContent name={ 'linkedin' } width={ width } />
            </LinkedinShareButton>
