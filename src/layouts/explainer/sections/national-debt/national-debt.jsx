@@ -766,9 +766,12 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                   />
                 </div>
                 <div className={footerContainer}>
-                  <CustomLink url={slug}>
-                    Visit the {name} dataset to explore and download this data.
-                  </CustomLink>
+                  <p> Visit the <CustomLink url={slug}>
+                    {name}
+                   </CustomLink> dataset to explore and download this data.
+                    The GDP data is sourced from the
+                    <CustomLink url={"https://www.bea.gov/"}> Bureau of Economic Analysis</CustomLink>.
+                  </p>
                   <p>
                     Last updated: October 1, 2021
                   </p>
