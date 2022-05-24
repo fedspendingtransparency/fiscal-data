@@ -593,7 +593,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   ]
 
   const chartBorderTheme = {
-    fontSize: 14,
+    fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
     axis: {
       domain: {
         line: {
