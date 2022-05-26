@@ -48,7 +48,7 @@ const NationalDebtHero = (): JSX.Element => {
       )
       }
       <div className={calloutContainer}>
-        <div className={heroImageCallout}>
+        <div className={heroImageCallout} data-testid={"nationalDebtCallout"}>
           <FontAwesomeIcon icon={faFlagUsa} className={icon}/>
           <p>
             This topic is the first of four U.S. government financial concepts from Your Guide to
