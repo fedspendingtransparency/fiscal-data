@@ -641,7 +641,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             strokeWidth={borderWidth}
             stroke={borderColor}
             fillOpacity={0.35}
-            cx={434}
+            cx={495.5}
             cy={0}
           />
           <circle
@@ -650,7 +650,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             stroke={"#000000"}
             fill={"#000000"}
             fillOpacity={0.85}
-            cx={434}
+            cx={495.5}
             cy={0}
           />
         </g>
