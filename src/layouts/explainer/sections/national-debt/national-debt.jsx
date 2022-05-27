@@ -752,7 +752,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                       CustomPoint,
                       'mesh'
                     ]}
-                    margin={{ top: 5, right: 30, bottom: 40, left: 40 }}
+                    margin={{ top: 5, right: 15, bottom: 30, left: 40 }}
                     xScale={{ type: 'point' }}
                     yScale={{
                       type: 'linear',
@@ -786,13 +786,13 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     enableGridY={true}
                     enableGridX={false}
                     enableCrosshair={false}
-                    animate={false}
+                    animate={true}
                   />
                 </div>
                 <div className={footerContainer}>
                   <p> Visit the <CustomLink url={slug}>
                     {name}
-                   </CustomLink> dataset to explore and download this data.
+                                </CustomLink> dataset to explore and download this data.
                     The GDP data is sourced from the
                     <CustomLink url={"https://www.bea.gov/"}> Bureau of Economic Analysis</CustomLink>.
                   </p>
