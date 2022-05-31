@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
+import { ResponsiveLine } from '@nivo/line';
 import { withWindowSize } from 'react-fns';
 import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -81,6 +82,7 @@ import {
   multichartLegend,
   aveInterestLegend,
   debtLegend,
+  lineChartContainer,
   postGraphContent,
   // Dive Deeper Section
   diveDeeperQuoteRight,
@@ -88,10 +90,8 @@ import {
   diveDeeperLink,
   fundingProgramsBox,
   //Accordion styling
-  debtAccordion
-
-
-
+  debtAccordion, debtTrendsOverTimeSectionGraphContainer, subTitle,
+  titleBreakdown
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
 import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
@@ -551,6 +551,120 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const displayDate = tempDate ? getYear(new Date(tempDate)) : getYear(dateWithoutOffset);
   const displayValue = tempDate ? simplifyNumber(tempValue, true) : simplifyNumber(value, true);
 
+
+  // Below are the configs for custom properties for the debt trends over time line chart
+
+  const exampleData = [
+    {
+      "id": "us",
+      "color": "hsl(219, 70%, 50%)",
+      "data": [
+        {
+          "x": 1948,
+          "y": 40
+        },
+        {
+          "x": 1950,
+          "y": 45
+        },
+        {
+          "x": 1960,
+          "y": 55
+        },
+        {
+          "x": 1970,
+          "y": 60
+        },
+        {
+          "x": 1980,
+          "y": 90
+        },
+        {
+          "x": 1990,
+          "y": 100
+        },
+        {
+          "x": 2000,
+          "y": 110
+        },
+        {
+          "x": 2010,
+          "y": 120
+        },
+        {
+          "x": 2020,
+          "y": 135
+        },
+      ]
+    }
+  ]
+
+  const chartBorderTheme = {
+    fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    axis: {
+      domain: {
+        line: {
+          stroke: '#777777',
+          strokeWidth: 0.5
+        }
+      }
+    }
+  }
+
+  const formatPercentage = v => `${v}%`;
+
+  const CustomPoint = (props) => {
+    const { currentPoint, borderWidth, borderColor } = props;
+    if (currentPoint) {
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+        </g>
+      );
+    }
+    else {
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={434}
+            cy={0}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={434}
+            cy={0}
+          />
+        </g>
+      );
+    }
+  };
+
   return (
     <div className={growingNationalDebt}>
       <p>{sampleCopy}</p>
@@ -564,6 +678,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 U.S. Federal Debt Total of the Last 100 Years,
                 {' '}{getYear(dateWithoutOffset) - 100} - {getYear(dateWithoutOffset)}
               </p>
+              <p className={subTitle}> (Inflation Adjusted - 2021 Dollars) </p>
               <div className={headerContainer}>
                 <div>
                   <div className={header}>{displayDate}</div>
@@ -608,24 +723,106 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         </div>
       )}
       <p>{sampleCopy}</p>
-
       <div className={visWithCallout}>
-        <div
-          style={{
-            height: 500,
-            margin: '16px 0 32px 0',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#fff',
-            backgroundColor: '#555'
-          }}
-        >
-          Graph
-        </div>
-        <VisualizationCallout color={debtExplainerPrimary}>
-          <p>{smallSampleCopy}</p>
-        </VisualizationCallout>
+        {!exampleData && (
+          <div>
+            <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+          </div>
+        )}
+        {exampleData && (
+          <>
+            <div>
+              <div className={debtTrendsOverTimeSectionGraphContainer}>
+                <p className={title}> Federal Debt Trends Over Time, 1948 - 2021 </p>
+                <p className={subTitle}> Debt to Gross Domestic Product (GDP) </p>
+                <div className={headerContainer}>
+                  <div>
+                    <div className={header}>2022</div>
+                    <span className={subHeader}>Fiscal Year</span>
+                  </div>
+                  <div>
+                    <div className={header}>135%</div>
+                    <span className={subHeader}>Debt to GDP</span>
+                  </div>
+                </div>
+                <div
+                  className={lineChartContainer}
+                  data-testid={"debtTrendsChart"}
+                >
+                  <ResponsiveLine
+                    data={exampleData}
+                    theme={chartBorderTheme}
+                    layers={[
+                      'axes',
+                      'grid',
+                      'lines',
+                      CustomPoint,
+                      'mesh'
+                    ]}
+                    margin={{ top: 5, right: 30, bottom: 40, left: 40 }}
+                    xScale={{ type: 'point' }}
+                    yScale={{
+                      type: 'linear',
+                      min: 'auto',
+                      max: 'auto',
+                      stacked: true,
+                      reverse: false
+                    }}
+                    yFormat=" >-.2f"
+                    axisTop={null}
+                    axisRight={null}
+                    axisBottom={{
+                      orient: 'bottom',
+                      tickSize: 5,
+                      tickPadding: 5,
+                      tickRotation: 0
+                    }}
+                    axisLeft={{
+                      format: formatPercentage,
+                      orient: 'left',
+                      tickSize: 0
+                    }}
+                    enablePoints={false}
+                    pointSize={0}
+                    pointColor={debtExplainerPrimary}
+                    pointBorderWidth={2}
+                    pointBorderColor={debtExplainerPrimary}
+                    pointLabelYOffset={-12}
+                    colors={debtExplainerPrimary}
+                    useMesh={true}
+                    enableGridY={true}
+                    enableGridX={false}
+                    enableCrosshair={false}
+                    animate={false}
+                  />
+                </div>
+                <div className={footerContainer}>
+                  <p> Visit the <CustomLink url={slug}>
+                    {name}
+                   </CustomLink> dataset to explore and download this data.
+                    The GDP data is sourced from the
+                    <CustomLink url={"https://www.bea.gov/"}> Bureau of Economic Analysis</CustomLink>.
+                  </p>
+                  <p>
+                    Last updated: October 1, 2021
+                  </p>
+                </div>
+              </div>
+
+            </div>
+            <VisualizationCallout color={debtExplainerPrimary}>
+              <p>
+                When adjusted for inflation,
+                the U.S. federal debt has steadily increased since 2001.
+                Without adjusting for inflation,
+                the U.S. federal debt has steadily increased since 1957.
+                Another way to view the federal debt over time
+                is to look at the ratio of federal debt related to GDP.
+                The ratio has increased over time.
+              </p>
+            </VisualizationCallout>
+          </>
+        )}
       </div>
       <VisualizingTheDebtAccordion width={width}>
       </VisualizingTheDebtAccordion>
@@ -835,7 +1032,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
           <>
             <div>
               <div className={debtBreakdownSectionGraphContainer}>
-                <p className={title}>Intragovernmental Holdings and Debt Held by the Public,
+                <p className={titleBreakdown}>Intragovernmental Holdings and Debt Held by the Public,
                   {' '}{data[0].record_calendar_year} and {data[1].record_calendar_year}
                 </p>
                 <div
