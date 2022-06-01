@@ -741,9 +741,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 <div
                   className={lineChartContainer}
                   data-testid={"debtTrendsChart"}
-                  aria-labelledby={"Debt trends over time"}
                   role={"img"}
-                  aria-describedby={"Line graph displaying the federal debt to GDP trend over time from YYYY {year associated with latest data point} to YYYY {year associated with latest data point}."}
+                  aria-label={"Line graph displaying the federal debt to GDP trend over time from YYYY {year associated with latest data point} to YYYY {year associated with latest data point}."}
                 >
                   <ResponsiveLine
                     data={exampleData}
