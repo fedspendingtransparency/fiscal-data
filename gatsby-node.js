@@ -11,6 +11,7 @@ const varToEnvironmentConfig = {
   qat: 'qat',
   uat: 'uat',
   dev: 'dev',
+  stg: 'stg',
   prod: 'prod'
 };
 

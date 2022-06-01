@@ -10,7 +10,7 @@ import {
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
-import nationalDebtImage from '../../../images/nationalDebt-Wide.png';
+
 const baseUrl = globalConstants.BASE_SITE_URL;
 
 const sampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -42,8 +42,8 @@ export const explainerSocialShareMap = {
     quote: 'Sample Quote',
     title: 'Sample Title',
     summary: sampleCopy,
-    url: baseUrl + "/national-debt/",
-    image: nationalDebtImage
+    url: baseUrl+'/national-debt/',
+    image: baseUrl+'/images/nationalDebt-Wide.png'
   }
 }
 
