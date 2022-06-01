@@ -44,8 +44,8 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
         >
           {heading}
         </h1>
-        {children}
         <p className={heroImageSubHeading}>{subHeading}</p>
+        {children}
       </div>
       <div className={heroBorder}
             data-testid="hero-border"
