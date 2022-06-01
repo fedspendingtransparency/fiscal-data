@@ -41,7 +41,7 @@ const NationalDebtHero = (): JSX.Element => {
                             valueType="currency"
           />
           <div className={counterSourceInfo}>
-            This number is updated daily from the{' '}
+            Updated daily from the {' '}
             <CustomLink url={'/datasets/debt-to-the-penny'}>Debt to the Penny</CustomLink> dataset.
           </div>
         </div>
