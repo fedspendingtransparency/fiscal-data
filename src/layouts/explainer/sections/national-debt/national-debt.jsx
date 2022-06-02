@@ -38,7 +38,9 @@ import {
   fontBodyCopy,
   fontSize_10,
   fontSize_14,
-  fontSize_16, fontSize_36, fontTitle, debtExplainerPrimary
+  fontSize_16,
+  fontSize_36,
+  debtExplainerPrimary
 } from '../../../../variables.module.scss';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import curvedArrow from '../../../../images/curved-arrow.svg';
@@ -429,7 +431,6 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const chartId = `${sectionId}-chart`;
   const chartOptions = {
     forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
-    forceYAxisWidth: width < pxToNumber(breakpointLg) ? 36 : undefined,
     forceLabelFontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
     format: true,
     yAxisTickNumber: 5,
@@ -487,6 +488,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         const latestEntry = dataset.data[0];
         // Use window.innerWidth instead of width prop because this doesn't trigger on mount
         chartOptions.forceHeight = window.innerWidth < pxToNumber(breakpointLg) ? 200 : 400;
+        chartOptions.forceLabelFontSize = window.innerWidth < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14;
 
         const xAxisTickValues = [];
         const step = Math.floor(dataset.data.length / 5);
