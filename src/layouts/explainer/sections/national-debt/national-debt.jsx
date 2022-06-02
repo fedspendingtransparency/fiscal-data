@@ -599,8 +599,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
     axis: {
       domain: {
         line: {
-          stroke: '#777777',
-          strokeWidth: 0.5
+          stroke: '#666666',
+          strokeWidth: 1,
         }
       }
     }
@@ -643,8 +643,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             strokeWidth={borderWidth}
             stroke={borderColor}
             fillOpacity={0.35}
-            cx={495.5}
-            cy={0}
+            cx={440.5}
+            cy={14}
           />
           <circle
             r={2}
@@ -652,13 +652,14 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             stroke={"#000000"}
             fill={"#000000"}
             fillOpacity={0.85}
-            cx={495.5}
-            cy={0}
+            cx={440.5}
+            cy={14}
           />
         </g>
       );
     }
   };
+
 
   return (
     <div className={growingNationalDebt}>
@@ -759,11 +760,15 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     margin={width < pxToNumber(breakpointLg) ?
                       { top: 5, right: 15, bottom: 30, left: 30 } :
                       { top: 5, right: 15, bottom: 30, left: 40 }}
-                    xScale={{ type: 'point' }}
+                    xScale={{
+                      type: 'linear',
+                      min: 1940,
+                      max: 2030
+                    }}
                     yScale={{
                       type: 'linear',
-                      min: 'auto',
-                      max: 'auto',
+                      min: 0,
+                      max: 140,
                       stacked: true,
                       reverse: false
                     }}
@@ -774,12 +779,14 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                       orient: 'bottom',
                       tickSize: 5,
                       tickPadding: 5,
-                      tickRotation: 0
+                      tickRotation: 0,
+                      tickValues: 9
                     }}
                     axisLeft={{
                       format: formatPercentage,
                       orient: 'left',
-                      tickSize: 0
+                      tickSize: 0,
+                      tickValues: 8
                     }}
                     enablePoints={false}
                     pointSize={0}
