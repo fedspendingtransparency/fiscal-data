@@ -797,6 +797,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     colors={debtExplainerPrimary}
                     useMesh={true}
                     enableGridY={true}
+                    gridYValues={8}
                     enableGridX={false}
                     enableCrosshair={false}
                     animate={true}
