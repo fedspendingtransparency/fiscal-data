@@ -756,8 +756,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                       'mesh'
                     ]}
                     margin={width < pxToNumber(breakpointLg) ?
-                      { top: 5, right: 15, bottom: 30, left: 30 } :
-                      { top: 5, right: 15, bottom: 30, left: 40 }}
+                      { top: 8, right: 15, bottom: 30, left: 30 } :
+                      { top: 8, right: 15, bottom: 30, left: 40 }}
                     xScale={{
                       type: 'linear',
                       min: 1940,
