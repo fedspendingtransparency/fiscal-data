@@ -23,7 +23,6 @@ const NationalDebtHero = (): JSX.Element => {
         if (res.data) {
           const totalPublicDebtOutstanding: string = Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toString();
           setNationalDebtValue(totalPublicDebtOutstanding);
-          console.log(nationalDebtValue);
         }
     });
   };
