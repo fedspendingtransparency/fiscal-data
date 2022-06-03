@@ -162,7 +162,7 @@
   .headerContainer {
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 
     div {
       text-align: center;
@@ -340,7 +340,10 @@
   }
 
   .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
-    padding: 22px;
+    padding-top: 22px;
+    padding-left: 22px;
+    padding-right: 22px;
+
 
     .title {
       font-size: $font-size-18;
@@ -361,6 +364,7 @@
 
     .footerContainer {
       padding-top: 1rem;
+      padding-bottom: 2rem;
 
       p {
         font-size: $font-size-14;
