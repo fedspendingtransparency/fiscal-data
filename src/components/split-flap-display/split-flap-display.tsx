@@ -60,12 +60,13 @@ const toPrecision = (number: string, precision): string => {
   return bNumber.toFixed(precision)
 };
 
+
 const SplitFlapDisplay = (
   {
     minLength,
     value,
     valueType = 'currency',
-    precision = window.innerWidth < pxToNumber(breakpointLg) ? 1 : 0,
+    precision = typeof(window) !== 'undefined' ? (window.innerWidth < pxToNumber(breakpointLg) ? 1 : 0) : 0,
     showCommas = true,
     charSet = numericCharSet,
     stepCycleDelay = globalConstants.config.splitFlap.speed,
