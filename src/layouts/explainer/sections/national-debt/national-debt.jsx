@@ -751,15 +751,15 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     data={exampleData}
                     theme={chartBorderTheme}
                     layers={[
-                      'axes',
                       'grid',
                       'lines',
+                      'axes',
                       CustomPoint,
                       'mesh'
                     ]}
                     margin={width < pxToNumber(breakpointLg) ?
-                      { top: 5, right: 15, bottom: 30, left: 30 } :
-                      { top: 5, right: 15, bottom: 30, left: 40 }}
+                      { top: 8, right: 15, bottom: 30, left: 30 } :
+                      { top: 8, right: 15, bottom: 30, left: 40 }}
                     xScale={{
                       type: 'linear',
                       min: 1940,
@@ -797,6 +797,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     colors={debtExplainerPrimary}
                     useMesh={true}
                     enableGridY={true}
+                    gridYValues={8}
                     enableGridX={false}
                     enableCrosshair={false}
                     animate={true}
