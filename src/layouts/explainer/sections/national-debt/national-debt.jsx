@@ -38,7 +38,9 @@ import {
   fontBodyCopy,
   fontSize_10,
   fontSize_14,
-  fontSize_16, fontSize_36, fontTitle, debtExplainerPrimary
+  fontSize_16,
+  fontSize_36,
+  debtExplainerPrimary
 } from '../../../../variables.module.scss';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import curvedArrow from '../../../../images/curved-arrow.svg';
@@ -436,7 +438,6 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const chartId = `${sectionId}-chart`;
   const chartOptions = {
     forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
-    forceYAxisWidth: width < pxToNumber(breakpointLg) ? 36 : undefined,
     forceLabelFontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
     format: true,
     yAxisTickNumber: 5,
@@ -494,6 +495,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         const latestEntry = dataset.data[0];
         // Use window.innerWidth instead of width prop because this doesn't trigger on mount
         chartOptions.forceHeight = window.innerWidth < pxToNumber(breakpointLg) ? 200 : 400;
+        chartOptions.forceLabelFontSize = window.innerWidth < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14;
 
         const xAxisTickValues = [];
         const step = Math.floor(dataset.data.length / 5);
@@ -604,8 +606,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
     axis: {
       domain: {
         line: {
-          stroke: '#777777',
-          strokeWidth: 0.5
+          stroke: '#666666',
+          strokeWidth: 1,
         }
       }
     }
@@ -648,8 +650,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             strokeWidth={borderWidth}
             stroke={borderColor}
             fillOpacity={0.35}
-            cx={434}
-            cy={0}
+            cx={440.5}
+            cy={14}
           />
           <circle
             r={2}
@@ -657,13 +659,14 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             stroke={"#000000"}
             fill={"#000000"}
             fillOpacity={0.85}
-            cx={434}
-            cy={0}
+            cx={440.5}
+            cy={14}
           />
         </g>
       );
     }
   };
+
 
   return (
     <div className={growingNationalDebt}>
@@ -748,23 +751,31 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 <div
                   className={lineChartContainer}
                   data-testid={"debtTrendsChart"}
+                  role={"img"}
+                  aria-label={"Line graph displaying the federal debt to GDP trend over time from YYYY {year associated with latest data point} to YYYY {year associated with latest data point}."}
                 >
                   <ResponsiveLine
                     data={exampleData}
                     theme={chartBorderTheme}
                     layers={[
-                      'axes',
                       'grid',
                       'lines',
+                      'axes',
                       CustomPoint,
                       'mesh'
                     ]}
-                    margin={{ top: 5, right: 30, bottom: 40, left: 40 }}
-                    xScale={{ type: 'point' }}
+                    margin={width < pxToNumber(breakpointLg) ?
+                      { top: 8, right: 15, bottom: 30, left: 30 } :
+                      { top: 8, right: 15, bottom: 30, left: 40 }}
+                    xScale={{
+                      type: 'linear',
+                      min: 1940,
+                      max: 2030
+                    }}
                     yScale={{
                       type: 'linear',
-                      min: 'auto',
-                      max: 'auto',
+                      min: 0,
+                      max: 140,
                       stacked: true,
                       reverse: false
                     }}
@@ -775,12 +786,14 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                       orient: 'bottom',
                       tickSize: 5,
                       tickPadding: 5,
-                      tickRotation: 0
+                      tickRotation: 0,
+                      tickValues: 9
                     }}
                     axisLeft={{
                       format: formatPercentage,
                       orient: 'left',
-                      tickSize: 0
+                      tickSize: 0,
+                      tickValues: 8
                     }}
                     enablePoints={false}
                     pointSize={0}
@@ -791,15 +804,16 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     colors={debtExplainerPrimary}
                     useMesh={true}
                     enableGridY={true}
+                    gridYValues={8}
                     enableGridX={false}
                     enableCrosshair={false}
-                    animate={false}
+                    animate={true}
                   />
                 </div>
                 <div className={footerContainer}>
                   <p> Visit the <CustomLink url={slug}>
                     {name}
-                   </CustomLink> dataset to explore and download this data.
+                                </CustomLink> dataset to explore and download this data.
                     The GDP data is sourced from the
                     <CustomLink url={"https://www.bea.gov/"}> Bureau of Economic Analysis</CustomLink>.
                   </p>

@@ -9,9 +9,8 @@ const explainerPagesSource = {
     },
     heroImage: {
       heading: 'What is the national debt?',
-      subHeading: `The national debt is a measurement of how much money is borrowed to cover the
-        outstanding balance of our expenses. The federal government  has over $26 trillion in
-        federal debt.`
+      subHeading: `The national debt is the total amount of outstanding borrowings by the U.S. Federal
+      Government accumulated over the nation’s history.`
     },
     relatedDatasets: ["015-BFS-2014Q3-056", "015-BFS-2014Q3-065", "015-BFS-2014Q3-071", "015-BFS-2014Q1-11"]
   }
