@@ -136,7 +136,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         })
         .catch(error => {
           console.error(`failed to get metadata ${++numMetaDataCalls} time(s), error:${error}`);
-          if(numMetaDataCalls < 3){
+          if (numMetaDataCalls < 3) {
             getMetaData();
           } else {
             reject(error);
@@ -146,7 +146,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   }
 
   const freshMetadata = await getMetaData().then(res => res)
-    .catch(error => {throw error});
+    .catch(error => {
+      throw error
+    });
   const freshReleaseCalendarData =
     await getReleaseCalendarData()
       .then(res => res)
@@ -241,20 +243,23 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   }
 
-  const resultData = getBLSData();
-  console.log(resultData);
-  const node = {
-    Results: resultData.Results,
-    // required fields
-    id: `bls-inflation-data`,
-    parent: null,
-    children: [],
-    internal: {
-      type: `BLSPublicAPIData`,
-      contentDigest: createContentDigest(resultData),
-    }
-  };
-  createNode(node);
+  const resultData = await getBLSData().then(res => res)
+    .catch(error => {
+      throw error
+    });
+  resultData.Results.series[0].data.forEach((blsRow) => {
+    blsRow.id = createNodeId(blsRow.year + blsRow.periodName);
+    const node = {
+      ...blsRow,
+      parent: null,
+      children: [],
+      internal: {
+        type: `BLSPublicAPIData`,
+      }
+    };
+    node.internal.contentDigest = createContentDigest(node);
+    createNode(node);
+  })
 };
 
 exports.createSchemaCustomization = ({ actions }) => {
@@ -294,6 +299,12 @@ exports.createSchemaCustomization = ({ actions }) => {
       pageName: String,
       seoConfig: SEOConfig,
       breadCrumbLinkName: String
+    }
+    type BLSPublicAPIData implements Node{
+      year: String,
+      periodName: String,
+      latest: String,
+      value: String
     }
   `;
 
