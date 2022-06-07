@@ -44,7 +44,7 @@ const releaseCalendarMockData =
   require('./src/testData/release-calendar.mock.data.json').data;
 
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
-  const {createNode} = actions;
+  const { createNode } = actions;
   const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
   const metadataUrl = `${API_BASE_URL}/services/dtg/metadata/`;
 
@@ -136,7 +136,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         })
         .catch(error => {
           console.error(`failed to get metadata ${++numMetaDataCalls} time(s), error:${error}`);
-          if (numMetaDataCalls < 3) {
+          if(numMetaDataCalls < 3){
             getMetaData();
           } else {
             reject(error);
@@ -146,9 +146,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   }
 
   const freshMetadata = await getMetaData().then(res => res)
-    .catch(error => {
-      throw error
-    });
+    .catch(error => {throw error});
   const freshReleaseCalendarData =
     await getReleaseCalendarData()
       .then(res => res)
@@ -224,10 +222,10 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   })
 
-  const blsUrl = `https://api.bls.gov/publicAPI/v1/timeseries/data/CUUR0000SA0`;
+  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v1/timeseries/data/CUUR0000SA0`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
-      fetch(blsUrl)
+      fetch(blsPublicApiUrl)
         .then(res => {
           resolve(res.json());
         })

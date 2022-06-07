@@ -2,25 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
-import mockExplainerPageResponse, {mockCPIResponse} from './explainer-test-helper';
+import mockExplainerPageResponse from './explainer-test-helper';
 import { setGlobalFetchResponse } from '../../utils/mock-utils';
-import {inflateAmountToCurrentDollars} from "./explainer-helpers/explainer-helpers";
-
-
-
-describe('Explainer Helpers', () => {
-  beforeEach(() => {
-    setGlobalFetchResponse( jest, mockCPIResponse);
-  });
-
-  it('inflation adjustment helper', async () => {
-    const dollar_amount = 5;
-    const date = 1;
-    inflateAmountToCurrentDollars(dollar_amount, date);
-    expect(true);
-  })
-
-});
 
 describe('Explainer Page Layout', () => {
   const pageName = 'national-debt';

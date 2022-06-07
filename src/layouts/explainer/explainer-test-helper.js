@@ -180,13 +180,3 @@ export const mockFifthSectionResponse = {
     count: mockFifthSectionData.length,
   }
 };
-
-export const mockCPIResponse = {
-  Results: {
-    series: [{
-      data: [{
-        value: "200"
-      }]
-    }]
-  }
-}

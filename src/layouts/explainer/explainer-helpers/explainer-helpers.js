@@ -51,10 +51,6 @@ export const explainerHeroMap = {
   'national-debt': <NationalDebtHero />
 }
 
-
-
-
-
 export const datasetSectionConfig = {
   'national-debt': {
     'growing-national-debt': {
