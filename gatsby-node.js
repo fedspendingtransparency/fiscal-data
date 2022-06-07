@@ -67,6 +67,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   let numMetaDataCalls = 0;
   let numRelCalendarCalls = 0;
+  let numBLSAPICalls = 0;
 
   const getReleaseCalendarData = async () => {
 
@@ -220,6 +221,43 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     node.internal.contentDigest = createContentDigest(node);
     createNode(node);
   })
+
+  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v1/timeseries/data/CUUR0000SA0`;
+  const getBLSData = async () => {
+    return new Promise((resolve, reject) => {
+      fetch(blsPublicApiUrl)
+        .then(res => {
+          resolve(res.json());
+        })
+        .catch(error => {
+          console.error(`failed to get metadata ${++numBLSAPICalls} time(s), error:${error}`);
+          if (numBLSAPICalls < 3) {
+            getBLSData();
+          } else {
+            reject(error);
+          }
+          console.error(error);
+        });
+    });
+  }
+
+  const resultData = await getBLSData().then(res => res)
+    .catch(error => {
+      throw error
+    });
+  resultData.Results.series[0].data.forEach((blsRow) => {
+    blsRow.id = createNodeId(blsRow.year + blsRow.periodName);
+    const node = {
+      ...blsRow,
+      parent: null,
+      children: [],
+      internal: {
+        type: `BLSPublicAPIData`,
+      }
+    };
+    node.internal.contentDigest = createContentDigest(node);
+    createNode(node);
+  })
 };
 
 exports.createSchemaCustomization = ({ actions }) => {
@@ -259,6 +297,12 @@ exports.createSchemaCustomization = ({ actions }) => {
       pageName: String,
       seoConfig: SEOConfig,
       breadCrumbLinkName: String
+    }
+    type BLSPublicAPIData implements Node{
+      year: String,
+      periodName: String,
+      latest: String,
+      value: String
     }
   `;
 
@@ -386,8 +430,36 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           relatedDatasets
         }
       }
+      allCpi100Csv {
+        cpi100Csv: nodes {
+          year
+          value
+        }
+      }
+      allBlsPublicApiData {
+        blsPublicApiData: nodes {
+          year
+          value
+          periodName
+          latest
+        }
+      }
     }
   `);
+
+  result.data.allBlsPublicApiData.blsPublicApiData.filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))
+    .forEach(blsRow => {
+      const appendRow = {
+        year: blsRow.year,
+        value: blsRow.value
+      };
+      result.data.allCpi100Csv.cpi100Csv.push(appendRow);
+  });
+  result.data.allCpi100Csv.cpi100Csv.sort((a,b) => Number(a.year) - Number(b.year));
+  const cpiYearMap = {};
+  result.data.allCpi100Csv.cpi100Csv.forEach(row => {
+    cpiYearMap[row.year] = row.value;
+  })
 
   for (const config of result.data.allDatasets.datasets) {
     createPage({
@@ -444,7 +516,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           breadCrumbLinkName: explainer.breadCrumbLinkName,
           seoConfig: explainer.seoConfig,
           heroImage: explainer.heroImage,
-          relatedDatasets: explainerRelatedDatasets
+          relatedDatasets: explainerRelatedDatasets,
+          cpiDataByYear: cpiYearMap
         }
       });
     });
