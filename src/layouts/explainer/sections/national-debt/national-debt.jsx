@@ -452,6 +452,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const [tempValue, setTempValue] = useState(0);
   const [labels, setLabels] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [lineChartHoveredYear, setLinechartHoveredYear] = useState('');
+  const [lineChartHoveredValue, setLinechartHoveredValue] = useState('');
 
   const chartRef = useRef();
 
@@ -615,57 +617,67 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
 
   const CustomPoint = (props) => {
     const { currentPoint, borderWidth, borderColor, points } = props;
-    if (!isLoadingDebtTrends) {
-      if (currentPoint) {
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-          </g>
-        );
-      } else {
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={points[points.length - 1].x}
-              cy={points[points.length - 1].y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={points[points.length - 1].x}
-              cy={points[points.length - 1].y}
-            />
-          </g>
-        );
-      }
+    if (currentPoint) {
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+        </g>
+      );
+    }
+    else {
+      const lastPoint = points[points.length - 1];
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={lastPoint.x}
+            cy={lastPoint.y}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={lastPoint.x}
+            cy={lastPoint.y}
+          />
+        </g>
+      );
     }
   };
 
+  const lineChartOnMouseMove = (point) => {
+    setLinechartHoveredValue(formatPercentage(point.data.y));
+    setLinechartHoveredYear(point.data.x);
+  };
+
+  const lineChartOnMouseLeave = () => {
+    setLinechartHoveredValue(formatPercentage(exampleData[0]
+      .data[exampleData[0].data.length - 1].y));
+    setLinechartHoveredYear(exampleData[0].data[exampleData[0].data.length - 1].x);
+  };
 
   return (
     <div className={growingNationalDebt}>
@@ -735,15 +747,15 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <>
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
-                <p className={title}> Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x} </p>
+                <p className={title}> Federal Debt Trends Over Time, 1948 - 2021 </p>
                 <p className={subTitle}> Debt to Gross Domestic Product (GDP) </p>
                 <div className={headerContainer}>
                   <div>
-                    <div className={header}>2021</div>
+                    <div className={header}>{lineChartHoveredYear}</div>
                     <span className={subHeader}>Fiscal Year</span>
                   </div>
                   <div>
-                    <div className={header}>124%</div>
+                    <div className={header}>{lineChartHoveredValue}</div>
                     <span className={subHeader}>Debt to GDP</span>
                   </div>
                 </div>
@@ -807,6 +819,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     enableGridX={false}
                     enableCrosshair={false}
                     animate={true}
+                    onMouseMove={lineChartOnMouseMove}
+                    onMouseLeave={lineChartOnMouseLeave}
                   />
                 </div>
                 <div className={footerContainer}>
