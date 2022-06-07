@@ -44,7 +44,7 @@ const releaseCalendarMockData =
   require('./src/testData/release-calendar.mock.data.json').data;
 
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
-  const { createNode } = actions;
+  const {createNode} = actions;
   const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
   const metadataUrl = `${API_BASE_URL}/services/dtg/metadata/`;
 
@@ -67,6 +67,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   let numMetaDataCalls = 0;
   let numRelCalendarCalls = 0;
+  let numBLSAPICalls = 0;
 
   const getReleaseCalendarData = async () => {
 
@@ -220,6 +221,40 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     node.internal.contentDigest = createContentDigest(node);
     createNode(node);
   })
+
+  const blsUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=8d808b5dd9914fd2a173a908be42baf4`;
+  const getBLSData = async () => {
+    return new Promise((resolve, reject) => {
+      fetch(blsUrl)
+        .then(res => {
+          resolve(res.json());
+        })
+        .catch(error => {
+          console.error(`failed to get metadata ${++numBLSAPICalls} time(s), error:${error}`);
+          if (numBLSAPICalls < 3) {
+            getBLSData();
+          } else {
+            reject(error);
+          }
+          console.error(error);
+        });
+    });
+  }
+
+  const resultData = getBLSData();
+  console.log(resultData);
+  const node = {
+    Results: resultData.Results,
+    // required fields
+    id: `bls-inflation-data`,
+    parent: null,
+    children: [],
+    internal: {
+      type: `BLSPublicAPIData`,
+      contentDigest: createContentDigest(resultData),
+    }
+  };
+  createNode(node);
 };
 
 exports.createSchemaCustomization = ({ actions }) => {
