@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   debtExplainerPrimary,
   debtExplainerSecondary,
@@ -10,7 +10,6 @@ import {
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
-import {basicFetch} from "../../../utils/api-utils";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -52,20 +51,7 @@ export const explainerHeroMap = {
   'national-debt': <NationalDebtHero />
 }
 
-export const inflateAmountToCurrentDollars = (originalAmount, dateOfOrigin) => {
-  let current_cpi = 289.109;
-  let initial_cpi = 1;
 
-  // basicFetch(url)
-  //   .then((data) => {
-  //     current_cpi = data['Results']['series']['0']['data']['0']['value'];
-  //     console.log(current_cpi);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //   });
-  return originalAmount * (current_cpi/initial_cpi);
-}
 
 
 

@@ -30,7 +30,7 @@ import simplifyNumber from '../../../../helpers/simplify-number/simplifyNumber';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import {
   datasetSectionConfig,
-  getDateWithoutOffset, inflateAmountToCurrentDollars
+  getDateWithoutOffset
 } from '../../explainer-helpers/explainer-helpers';
 import {
   breakpointLg,
@@ -608,7 +608,6 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
 
   const formatPercentage = v => `${v}%`;
 
-  // console.log(inflateAmountToCurrentDollars(5));
   const CustomPoint = (props) => {
     const { currentPoint, borderWidth, borderColor } = props;
     if (currentPoint) {

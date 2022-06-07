@@ -224,7 +224,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   })
 
-  const blsUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=8d808b5dd9914fd2a173a908be42baf4`;
+  const blsUrl = `https://api.bls.gov/publicAPI/v1/timeseries/data/CUUR0000SA0`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
       fetch(blsUrl)
@@ -432,8 +432,36 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           relatedDatasets
         }
       }
+      allCpi100Csv {
+        cpi100Csv: nodes {
+          year
+          value
+        }
+      }
+      allBlsPublicApiData {
+        blsPublicApiData: nodes {
+          year
+          value
+          periodName
+          latest
+        }
+      }
     }
   `);
+
+  result.data.allBlsPublicApiData.blsPublicApiData.filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))
+    .forEach(blsRow => {
+      const appendRow = {
+        year: blsRow.year,
+        value: blsRow.value
+      };
+      result.data.allCpi100Csv.cpi100Csv.push(appendRow);
+  });
+  result.data.allCpi100Csv.cpi100Csv.sort((a,b) => Number(a.year) - Number(b.year));
+  const cpiYearMap = {};
+  result.data.allCpi100Csv.cpi100Csv.forEach(row => {
+    cpiYearMap[row.year] = row.value;
+  })
 
   for (const config of result.data.allDatasets.datasets) {
     createPage({
@@ -490,7 +518,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           breadCrumbLinkName: explainer.breadCrumbLinkName,
           seoConfig: explainer.seoConfig,
           heroImage: explainer.heroImage,
-          relatedDatasets: explainerRelatedDatasets
+          relatedDatasets: explainerRelatedDatasets,
+          cpiDataByYear: cpiYearMap
         }
       });
     });
