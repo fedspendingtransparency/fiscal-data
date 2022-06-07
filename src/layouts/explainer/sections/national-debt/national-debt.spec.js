@@ -20,7 +20,10 @@ import {
   mockPublicDebtIncrease,
   mockGovtDebtIncrease
 } from '../../explainer-test-helper';
-import { setGlobalFetchResponse } from '../../../../utils/mock-utils';
+import {
+  determineBEAFetchResponse,
+  setGlobalFetchResponse
+} from '../../../../utils/mock-utils';
 import { getYear } from 'date-fns';
 import simplifyNumber from '../../../../helpers/simplify-number/simplifyNumber';
 import { breakpointSm } from '../../../../variables.module.scss';
@@ -76,7 +79,7 @@ describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
   const config = nationalDebtSectionConfigs[sectionId]
   beforeEach(() => {
-    setGlobalFetchResponse(jest, mockExplainerPageResponse);
+    determineBEAFetchResponse(jest, mockExplainerPageResponse);
   });
 
   afterEach(() => {

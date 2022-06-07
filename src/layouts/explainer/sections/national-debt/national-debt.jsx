@@ -564,7 +564,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           if(res.BEAAPI.Results.Data) {
             const gdpData = res.BEAAPI.Results.Data.filter(entry => entry.LineDescription === 'Gross domestic product');
             const averagedGDPByYear = [];
-            for(let i = 1948; i <= 2021; i++) {
+            for(let i = parseInt(debtData[debtData.length - 1].record_fiscal_year); i <= parseInt(debtData[0].record_fiscal_year); i++) {
               const allQuartersForGivenYear = gdpData.filter(entry => entry.TimePeriod.includes(i.toString()));
               let totalGDP = 0;
               allQuartersForGivenYear.forEach(quarter => {
