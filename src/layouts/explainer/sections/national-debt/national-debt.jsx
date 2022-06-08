@@ -459,6 +459,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const [tempValue, setTempValue] = useState(0);
   const [labels, setLabels] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [lineChartHoveredYear, setLinechartHoveredYear] = useState('');
+  const [lineChartHoveredValue, setLinechartHoveredValue] = useState('');
 
   const chartRef = useRef();
 
@@ -556,50 +558,55 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
 
   // Below are the configs for custom properties for the debt trends over time line chart
 
-  const exampleData = [
-    {
-      "id": "us",
-      "color": "hsl(219, 70%, 50%)",
-      "data": [
-        {
-          "x": 1948,
-          "y": 40
-        },
-        {
-          "x": 1950,
-          "y": 45
-        },
-        {
-          "x": 1960,
-          "y": 55
-        },
-        {
-          "x": 1970,
-          "y": 60
-        },
-        {
-          "x": 1980,
-          "y": 90
-        },
-        {
-          "x": 1990,
-          "y": 100
-        },
-        {
-          "x": 2000,
-          "y": 110
-        },
-        {
-          "x": 2010,
-          "y": 120
-        },
-        {
-          "x": 2020,
-          "y": 135
-        },
-      ]
-    }
-  ]
+  const [debtTrendsData, setDebtTrendsData] = useState([]);
+  const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
+
+  const debtEndpointUrl = 'v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948';
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${debtEndpointUrl}`)
+    .then((res) => {
+      if (res.data) {
+        const debtData = res.data;
+        basicFetch(`https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`)
+        .then((res) => {
+          if(res.BEAAPI.Results.Data) {
+            const gdpData = res.BEAAPI.Results.Data.filter(entry => entry.LineDescription === 'Gross domestic product');
+            const averagedGDPByYear = [];
+            for(let i = parseInt(debtData[debtData.length - 1].record_fiscal_year); i <= parseInt(debtData[0].record_fiscal_year); i++) {
+              const allQuartersForGivenYear = gdpData.filter(entry => entry.TimePeriod.includes(i.toString()));
+              let totalGDP = 0;
+              allQuartersForGivenYear.forEach(quarter => {
+                totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
+              })
+              averagedGDPByYear.push({
+                // Correct BEA data to display in trillions
+                average: ((parseInt(String(totalGDP) + '000000')) / 4),
+                year: i
+              })
+            }
+            const debtToGDP = [];
+            averagedGDPByYear.forEach(GDPEntry => {
+              const record = debtData.find(entry => entry.record_date.includes(GDPEntry.year));
+              debtToGDP.push({
+                "x": GDPEntry.year,
+                "y": Math.round(((parseFloat(record.debt_outstanding_amt) / GDPEntry.average) * 100))
+              })
+            });
+            const finalData = [
+              {
+                "id": "us",
+                "color": "hsl(219, 70%, 50%)",
+                "data": debtToGDP
+              }
+            ]
+            setDebtTrendsData(finalData);
+            setIsLoadingDebtTrends(false);
+          }
+        });
+      }
+    });
+  }, [])
 
   const chartBorderTheme = {
     fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
@@ -616,57 +623,69 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const formatPercentage = v => `${v}%`;
 
   const CustomPoint = (props) => {
-    const { currentPoint, borderWidth, borderColor } = props;
-    if (currentPoint) {
-      return (
-        <g>
-          <circle
-            fill={"#D8D8D8"}
-            r={8}
-            strokeWidth={borderWidth}
-            stroke={borderColor}
-            fillOpacity={0.35}
-            cx={currentPoint.x}
-            cy={currentPoint.y}
-          />
-          <circle
-            r={2}
-            strokeWidth={"4"}
-            stroke={"#000000"}
-            fill={"#000000"}
-            fillOpacity={0.85}
-            cx={currentPoint.x}
-            cy={currentPoint.y}
-          />
-        </g>
-      );
-    }
-    else {
-      return (
-        <g>
-          <circle
-            fill={"#D8D8D8"}
-            r={8}
-            strokeWidth={borderWidth}
-            stroke={borderColor}
-            fillOpacity={0.35}
-            cx={440.5}
-            cy={14}
-          />
-          <circle
-            r={2}
-            strokeWidth={"4"}
-            stroke={"#000000"}
-            fill={"#000000"}
-            fillOpacity={0.85}
-            cx={440.5}
-            cy={14}
-          />
-        </g>
-      );
+    const { currentPoint, borderWidth, borderColor, points } = props;
+    if (!isLoadingDebtTrends) {
+      if (currentPoint) {
+        return (
+          <g>
+            <circle
+              fill={"#D8D8D8"}
+              r={8}
+              strokeWidth={borderWidth}
+              stroke={borderColor}
+              fillOpacity={0.35}
+              cx={currentPoint.x}
+              cy={currentPoint.y}
+            />
+            <circle
+              r={2}
+              strokeWidth={"4"}
+              stroke={"#000000"}
+              fill={"#000000"}
+              fillOpacity={0.85}
+              cx={currentPoint.x}
+              cy={currentPoint.y}
+            />
+          </g>
+        );
+      } else {
+        const lastPoint = points[points.length - 1];
+        return (
+          <g>
+            <circle
+              fill={"#D8D8D8"}
+              r={8}
+              strokeWidth={borderWidth}
+              stroke={borderColor}
+              fillOpacity={0.35}
+              cx={lastPoint.x}
+              cy={lastPoint.y}
+            />
+            <circle
+              r={2}
+              strokeWidth={"4"}
+              stroke={"#000000"}
+              fill={"#000000"}
+              fillOpacity={0.85}
+              cx={lastPoint.x}
+              cy={lastPoint.y}
+            />
+          </g>
+        );
+      }
     }
   };
 
+  const lineChartOnMouseMove = (point) => {
+    setLinechartHoveredValue(formatPercentage(point.data.y));
+    setLinechartHoveredYear(point.data.x);
+  };
+
+  const lineChartOnMouseLeave = () => {
+    setLinechartHoveredValue(formatPercentage(debtTrendsData[0]
+      .data[debtTrendsData[0].data.length - 1].y));
+    setLinechartHoveredYear(debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x);
+  };
 
   return (
     <div className={growingNationalDebt}>
@@ -727,24 +746,24 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
       )}
       <p>{sampleCopy}</p>
       <div className={visWithCallout}>
-        {!exampleData && (
+        {isLoadingDebtTrends && (
           <div>
             <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
           </div>
         )}
-        {exampleData && (
+        {!isLoadingDebtTrends && (
           <>
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
-                <p className={title}> Federal Debt Trends Over Time, 1948 - 2021 </p>
+                <p className={title}> Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x}</p>
                 <p className={subTitle}> Debt to Gross Domestic Product (GDP) </p>
                 <div className={headerContainer}>
                   <div>
-                    <div className={header}>2022</div>
+                    <div className={header}>{lineChartHoveredYear}</div>
                     <span className={subHeader}>Fiscal Year</span>
                   </div>
                   <div>
-                    <div className={header}>135%</div>
+                    <div className={header}>{lineChartHoveredValue}</div>
                     <span className={subHeader}>Debt to GDP</span>
                   </div>
                 </div>
@@ -752,10 +771,10 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                   className={lineChartContainer}
                   data-testid={"debtTrendsChart"}
                   role={"img"}
-                  aria-label={"Line graph displaying the federal debt to GDP trend over time from YYYY {year associated with latest data point} to YYYY {year associated with latest data point}."}
+                  aria-label={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x}.`}
                 >
                   <ResponsiveLine
-                    data={exampleData}
+                    data={debtTrendsData}
                     theme={chartBorderTheme}
                     layers={[
                       'grid',
@@ -808,6 +827,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     enableGridX={false}
                     enableCrosshair={false}
                     animate={true}
+                    onMouseMove={lineChartOnMouseMove}
+                    onMouseLeave={lineChartOnMouseLeave}
                   />
                 </div>
                 <div className={footerContainer}>
@@ -818,7 +839,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                     <CustomLink url={"https://www.bea.gov/"}> Bureau of Economic Analysis</CustomLink>.
                   </p>
                   <p>
-                    Last updated: October 1, 2021
+                    Last updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
                   </p>
                 </div>
               </div>
