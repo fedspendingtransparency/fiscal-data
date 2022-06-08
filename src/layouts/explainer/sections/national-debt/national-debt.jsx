@@ -553,6 +553,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
 
   const [debtTrendsData, setDebtTrendsData] = useState([]);
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
+  const [lastDebtValue, setLastDebtValue] = useState({});
 
   const debtEndpointUrl = 'v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948';
 
@@ -594,6 +595,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
               }
             ]
             setDebtTrendsData(finalData);
+            setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
             setIsLoadingDebtTrends(false);
           }
         });
@@ -675,9 +677,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   };
 
   const lineChartOnMouseLeave = () => {
-    setLinechartHoveredValue(formatPercentage(debtTrendsData[0]
-      .data[debtTrendsData[0].data.length - 1].y));
-    setLinechartHoveredYear(debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x);
+    setLinechartHoveredValue(formatPercentage(lastDebtValue.y));
+    setLinechartHoveredYear(lastDebtValue.x);
   };
 
   return (
@@ -748,15 +749,15 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <>
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
-                <p className={title}> Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x}</p>
+                <p className={title}> Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {lastDebtValue.x}</p>
                 <p className={subTitle}> Debt to Gross Domestic Product (GDP) </p>
                 <div className={headerContainer}>
                   <div>
-                    <div className={header}>{lineChartHoveredYear}</div>
+                    <div className={header}>{lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}</div>
                     <span className={subHeader}>Fiscal Year</span>
                   </div>
                   <div>
-                    <div className={header}>{lineChartHoveredValue}</div>
+                    <div className={header}>{lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue}</div>
                     <span className={subHeader}>Debt to GDP</span>
                   </div>
                 </div>
@@ -764,7 +765,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                   className={lineChartContainer}
                   data-testid={"debtTrendsChart"}
                   role={"img"}
-                  aria-label={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x}.`}
+                  aria-label={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
                 >
                   <ResponsiveLine
                     data={debtTrendsData}
