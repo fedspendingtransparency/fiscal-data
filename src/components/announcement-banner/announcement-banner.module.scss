@@ -1,0 +1,30 @@
+@import '../../variables.module.scss';
+
+.container {
+
+}
+
+
+.bannerText {
+  font-size: $font-size-14;
+  max-width: 945px;
+  display: flex;
+  align-items: center;
+  p {
+    padding: 0 1rem 0 1rem;
+    margin: 0;
+  }
+}
+
+.bannerIcon {
+  font-size: 1rem;
+}
+
+
+.banner {
+  justify-content: center;
+  display: flex;
+  background-color: #fff1d2;
+  padding: 14px 0 16px 0;
+
+}

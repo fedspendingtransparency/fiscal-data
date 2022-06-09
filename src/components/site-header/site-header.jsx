@@ -9,6 +9,7 @@ import { isIE } from 'react-device-detect';
 import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
+import AnnouncementBanner from "../announcement-banner/announcement-banner";
 
 const SiteHeader = ({ lowerEnvMsg }) => {
   const pageLinks = [
@@ -46,6 +47,9 @@ const SiteHeader = ({ lowerEnvMsg }) => {
 
   return (
     <header>
+      <AnnouncementBanner
+        announcementText={`We are excited to announce that Fiscal Data is realigning with our sister website Data Lab to better serve you
+        beginning November 30th! Moving forward, you can find new content here at Fiscal Data.`}/>
       <OfficialBanner data-testid="officialBanner" />
       <div className={styles.container}>
         <div className={styles.content}>
