@@ -129,12 +129,12 @@ export const divvyUpFilters = (filters) => {
 
   //fc.value.includes('(') || fc.value.includes(')')
   filters.forEach(fc => {
-    // filters that use 'neq', 'nin', or test for 'null' or that have :in: values
-    // with internal parentheses don't get serialized for an API param, but are applied in the
+    // filters that use 'neq', 'nin', or test for 'null'
+    // don't get serialized for an API param, but are applied in the
     // front end after load
     if (fc.operator === 'neq' || fc.operator === 'nin' || fc.value === 'null' ||
       (fc.operator === 'in' &&
-        (fc.value.split(',').some(v => v === 'null' || v.includes('(') || v.includes(')')) || fc.value.includes('&44;')))) {
+        (fc.value.split(',').some(v => v === 'null') || fc.value.includes('&44;')))) {
       postLoadFilters.push(fc);
     } else {
       serializableFilters.push(fc);

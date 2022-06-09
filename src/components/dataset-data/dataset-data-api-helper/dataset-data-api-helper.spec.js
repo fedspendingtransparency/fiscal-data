@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   divvyUpFilters,
   getApiData,
@@ -235,7 +234,8 @@ describe('DatasetDataApiHelper with proper dataset table props', () => {
       expect(pivotApiDataFn(decodedVal, inFilter)).toBeTruthy();
       expect(pivotApiDataFn(decodedVal, ninFilter)).toBeFalsy();
     });
-    // Take a random field, not listed in the listOfFields, and test them against the inFilter and ninFilter
+    // Take a random field, not listed in the listOfFields, and test them against
+    // the inFilter and ninFilter
     expect(pivotApiDataFn(randomField, inFilter)).toBeFalsy();
     expect(pivotApiDataFn(randomField, ninFilter)).toBeTruthy();
   });
@@ -374,7 +374,7 @@ describe('DatasetDataApiHelper without proper dataset table props', () => {
         "value": "Roma&44;tomato"
       }];
     const [apiFilters, browserFilters] = divvyUpFilters(mockFilters);
-    expect(apiFilters.map(f => f.key)).toEqual(['col1', 'col4', 'col8']);
-    expect(browserFilters.map(f => f.key)).toEqual(['col2', 'col3', 'col5', 'col6', 'col7', 'col9']);
+    expect(apiFilters.map(f => f.key)).toEqual(['col1', 'col4', 'col7', 'col8']);
+    expect(browserFilters.map(f => f.key)).toEqual(['col2', 'col3', 'col5', 'col6', 'col9']);
   });
 });
