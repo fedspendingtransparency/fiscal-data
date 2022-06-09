@@ -5,7 +5,6 @@ import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartLine,
-  faMoneyCheckDollar,
   faPeopleCarry,
   faDollarSign,
   faHandHoldingMedical,
@@ -15,7 +14,9 @@ import {
   faSpinner,
   faFunnelDollar,
   faCoins,
-  faFileInvoiceDollar, faFlagUsa
+  faFileInvoiceDollar,
+  faFlagUsa,
+  faMoneyCheckDollar
 } from '@fortawesome/free-solid-svg-icons';
 
 import Accordion from '../../../../components/accordion/accordion';
@@ -186,8 +187,8 @@ const KeyTakeawaysSection = () => (
   <>
     <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={"fa-solid fa-money-check-dollar"} className={icon} />
-          <FontAwesomeIcon icon={"fa-solid fa-money-check-dollar"} className={offsetIcon} />
+          <FontAwesomeIcon icon={faMoneyCheckDollar} className={icon} />
+          <FontAwesomeIcon icon={faMoneyCheckDollar} className={offsetIcon} />
         </div>
         <p>The national debt has steadily increased since 2000.</p>
     </div>
