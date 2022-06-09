@@ -279,7 +279,7 @@ const FundingProgramsSection = () => (
       <div className={debtAccordion}>
         <Accordion title="What are some of the major spending categories?"
         altStyleAccordion={{padding:'9px 16px'}}
-                   containerClass={fundingProgramAccordion}
+        containerClass={fundingProgramAccordion}
         >
           {sampleCopy}
           <div className={spendingCategoriesTable}>
