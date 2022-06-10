@@ -40,7 +40,7 @@ describe('Detail-Pills component', () => {
 
   it('displays a pill containing a times-circle icon next to the Data Dictionary label when the Data dictionary is incomplete.',  () => {
     const icon = pills[4].findByProps({'data-test-id': 'dictionary-icon'});
-    expect(icon.props.icon.iconName).toBe('times-circle');
+    expect(icon.props.icon.iconName).toBe('circle-xmark');
     expect(icon.props.alt).toBe('data dictionary incomplete');
     expect(pills[4].findByProps({className: 'pillText'}).props.children).toEqual('Data Dictionary');
   });
@@ -53,7 +53,7 @@ describe('Detail-Pills component', () => {
     const pillsInstance = pills.root;
     const dictionaryPill = pillsInstance.findAllByProps({className: styles.pill})[4];
     const icon = dictionaryPill.findByProps({'data-test-id': 'dictionary-icon'});
-    expect(icon.props.icon.iconName).toBe('check-circle');
+    expect(icon.props.icon.iconName).toBe('circle-check');
     expect(icon.props.alt).toBe('data dictionary complete');
     expect(dictionaryPill.findByProps({className: 'pillText'}).props.children).toEqual('Data Dictionary');
   });

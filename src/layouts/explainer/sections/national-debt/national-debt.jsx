@@ -5,8 +5,7 @@ import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartLine,
-  faPercent,
-  faPollH,
+  faPeopleCarry,
   faDollarSign,
   faHandHoldingMedical,
   faHeartbeat,
@@ -15,8 +14,11 @@ import {
   faSpinner,
   faFunnelDollar,
   faCoins,
-  faFileInvoiceDollar
+  faFileInvoiceDollar,
+  faFlagUsa,
+  faMoneyCheckDollar
 } from '@fortawesome/free-solid-svg-icons';
+
 import Accordion from '../../../../components/accordion/accordion';
 import VisualizationCallout
   from "../../../../components/visualization-callout/visualization-callout";
@@ -87,8 +89,12 @@ import {
   diveDeeperQuoteLeft,
   diveDeeperLink,
   fundingProgramsBox,
+  fundingProgramsIcon,
   //Accordion styling
-  debtAccordion, debtTrendsOverTimeSectionGraphContainer, subTitle,
+  debtAccordion,
+  fundingProgramAccordion,
+  debtTrendsOverTimeSectionGraphContainer,
+  subTitle,
   titleBreakdown
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
@@ -181,15 +187,15 @@ const KeyTakeawaysSection = () => (
   <>
     <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={faChartLine} className={icon} />
-          <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
+          <FontAwesomeIcon icon={faMoneyCheckDollar} className={icon} />
+          <FontAwesomeIcon icon={faMoneyCheckDollar} className={offsetIcon} />
         </div>
         <p>The national debt has steadily increased since 2000.</p>
     </div>
       <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={faPollH} className={icon} />
-          <FontAwesomeIcon icon={faPollH} className={offsetIcon} />
+          <FontAwesomeIcon icon={faChartLine} className={icon} />
+          <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
         </div>
         <p>
           Different parts of the debt impact the health and stability of our national debt, including
@@ -198,8 +204,8 @@ const KeyTakeawaysSection = () => (
       </div>
       <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={faPercent} className={icon} />
-          <FontAwesomeIcon icon={faPercent} className={offsetIcon} />
+          <FontAwesomeIcon icon={faPeopleCarry} className={icon} />
+          <FontAwesomeIcon icon={faPeopleCarry} className={offsetIcon} />
         </div>
         <p>
           The national debt is often accessed by looking at debt over time or the ratio of the federal
@@ -273,6 +279,7 @@ const FundingProgramsSection = () => (
       <div className={debtAccordion}>
         <Accordion title="What are some of the major spending categories?"
         altStyleAccordion={{padding:'9px 16px'}}
+        containerClass={fundingProgramAccordion}
         >
           {sampleCopy}
           <div className={spendingCategoriesTable}>
@@ -332,6 +339,12 @@ const FundingProgramsSection = () => (
             </div>
           </div>
         </Accordion>
+      </div>
+      <div className={fundingProgramsIcon}>
+        <div className={iconBackground}>
+          <FontAwesomeIcon icon={faFlagUsa} className={icon} />
+          <FontAwesomeIcon icon={faFlagUsa} className={offsetIcon} />
+        </div>
       </div>
       <div className={fundingProgramsBox}>
         <p>{sampleCopy}</p>
