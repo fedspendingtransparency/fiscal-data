@@ -1,13 +1,12 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { MultichartRenderer } from "../../../components/charts/chart-primary/multichart-renderer"
-import { basicFetch } from "../../../utils/api-utils"
 
 type ChartOptions = {
   forceHeight: number,
   forceYAxisWidth?: number,
   forceLabelFontSize: string,
   format: boolean,
-  yAxisTickNumber: number,
+  yAxisTickNumber?: number,
   xAxisTickValues?: any[],
   showOuterXAxisTicks: boolean,
   placeInitialMarker: boolean,
@@ -16,9 +15,14 @@ type ChartOptions = {
   noInnerXAxisTicks: boolean,
   inverted?: boolean
   shading?: {
-    side: string,
-    color: any,
-    hatchDirection: string
+    side?: string,
+    color?: any,
+    hatchDirection?: string
+  },
+  marginLabelOptions?: {
+    fontSize?: number | string,
+    fontColor?: string,
+    fontWeight?: number | string,
   }
 }
 
@@ -34,40 +38,64 @@ export type ChartConfig = {
   segmentMinY?: number,
   segmentMaxY?: number,
   lines?: any,
-  markers?: any
+  previousExtent?: any,
+  markers?: any,
+  marginLabelFormatter?: any;
+  zeroMarginLabelLeft?: boolean,
+  zeroMarginLabelRight?: boolean,
+  marginLabelLeft?: boolean,
+  marginLabelRight?: boolean
 }
 
 export type MultichartProperties = {
   chartConfigs: ChartConfig[],
-  chartId: string
+  chartId: string,
+  hoverEffectHandler: any
 }
 
 const Multichart: FunctionComponent<MultichartProperties> =
-  ({ chartConfigs, chartId }: MultichartProperties) => {
+  ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
 
-  // const [data, setData] = useState([]);
+  const [chartRenderer, setChartRenderer] = useState(null);
 
   const itemRef = useRef();
   // you can access the elements with itemsRef.current[n]
 
-/*  useEffect(() => {
-    if (dataLoaded) {
-      dataSetter(data);
+  const handleMouseEnter = (event) => {
+
+    console.log('event.target[\'id\']', event.target['id']);
+    if (event.target['id'] === chartId) {
+      chartRenderer.addHoverEffects(hoverEffectHandler);
     }
-  }, [dataLoaded]);*/
+  };
+
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      chartRenderer.removeHoverEffects();
+    }, 500)
+  };
+
+    useEffect(() => {
+      if (chartRenderer && chartRenderer.rendered) {
+        chartRenderer.generateChart();
+      }
+    }, [window.innerWidth]);
 
   useEffect(() => {
-    console.log('Multichart chartConfigs', chartConfigs);
-    new MultichartRenderer(chartConfigs, itemRef.current, chartId);
+    setChartRenderer(new MultichartRenderer(chartConfigs, itemRef.current, chartId));
   }, []);
 
   return (
     <>
       <div ref={itemRef}
+           id={chartId}
            style={{
-             height: 600,
+             display: 'block',
              backgroundColor: '#f1f1f1'
            }}
+           data-testid="multichart"
+           onMouseEnter={handleMouseEnter}
+           onMouseLeave={handleMouseLeave}
       />
     </>
   );

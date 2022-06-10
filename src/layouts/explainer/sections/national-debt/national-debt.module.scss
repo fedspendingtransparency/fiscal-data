@@ -32,11 +32,13 @@
 }
 
 .fundingProgramsBox {
+  box-sizing: border-box;
   border: solid 2px $debt-explainer-light-secondary;
   border-radius: 3px;
   width: 100%;
   font-size: $font-size-18;
   box-shadow: 0 2px 4px 0 $debt-explainer-light-secondary;
+  margin-right: 1.75rem;
 
   p {
     padding: 1rem 1rem .75rem;
@@ -196,12 +198,14 @@
     max-width: 524px;
     margin: 0 auto;
   }
+
   .multichartContainer {
-    width: 100%;
-    max-width: 524px;
-    margin: 0 auto;
-    border-right: 1px dashed #555555;
+
+    :global(.tick) line {
+      stroke: #666666;
+    }
   }
+
   .aveInterestLegend {
     width: 40px;
     height: 2px;
@@ -210,7 +214,7 @@
   }
 
   .multichartLegend {
-    margin: 2rem auto;
+    margin: 2rem auto 0 auto;
     display: flex;
 
     padding: 0 3rem;
@@ -218,10 +222,11 @@
     align-content: space-around;
     > div {
       flex-grow: 1;
-      margin: 0 20px;
-      vertical-align: top;
+      margin: 0 20px  12px;
+      vertical-align: middle;
+      white-space: nowrap;
       div {
-        vertical-align: top;
+        vertical-align: middle;
         display: inline-block;
       }
     }
@@ -242,27 +247,14 @@
     aspect-ratio: 1 / 1;
     height: 440px;
   }
-
-  @media screen and (max-width: $breakpoint-lg - 1) {
-    .lineChartContainer {
-      height: 293px;
-    }
-  };
-
-  @media screen and (max-width: $breakpoint-sm - 1) {
-    .lineChartContainer {
-      height: 240px;
-    }
-  };
-
-
-
-
-
 }
 
 .postGraphContent {
   margin-top: 3rem;
+}
+
+.postGraphAccordionContainer {
+  margin-top: 1rem;
 }
 
 .diveDeeperQuoteLeft {
@@ -420,6 +412,14 @@
     p {
       margin-left: 2rem;
     }
+  }
+
+  .multichartContainer {
+    // max-width: 400px;
+  }
+
+  .debtAccordion {
+    min-width: 508px;
   }
 }
 
@@ -604,5 +604,8 @@
       width: calc(5% - 1px);
       padding-bottom: calc(5% - 1px);
     }
+  }
+  :global(#interestToDebt .tick text) {
+    font-size: $font-size-10;
   }
 }

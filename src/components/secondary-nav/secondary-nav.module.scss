@@ -9,13 +9,18 @@
     flex-direction: column;
     align-self: flex-start;
     padding: 0 1rem 0 0;
+    min-width: 250px;
+
+    .linkContainer {
+      border-bottom: solid 1px $dd-border-color;
+      min-width: 220px;
+    }
 
     .sectionLink {
-      padding: 10px 15px;
-      border-bottom: solid 1px $dd-border-color;
-      border-left: solid 5px transparent;
+      padding: 10px 0 10px 15px;
       cursor: pointer;
-      min-width: 210px;
+      white-space: nowrap;
+      border-left: solid 5px transparent;
 
       &.defaultLink {
         display: flex;
@@ -44,6 +49,10 @@
     max-height: calc(100vh - 16px);
     overflow-y: auto;
     max-width: calc((#{$site-content-width} * 0.25) - 1rem);
+
+    .linkContainer {
+      max-width: 270px;
+    }
   }
 
   .navigableContent {

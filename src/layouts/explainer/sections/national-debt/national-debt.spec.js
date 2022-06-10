@@ -10,20 +10,21 @@ import nationalDebtSections, {
   DebtBreakdownSection,
   DebtCeilingSection,
   debtCeilingSectionAccordionTitle,
-  DiveDeeperSection,
-  diveDeeperAccordionTitle, VisualizingTheDebtAccordion, nationalDebtDataSources,
+  VisualizingTheDebtAccordion, nationalDebtDataSources,
 } from "./national-debt"
 import {
   mockFifthSectionValueMarkers,
   mockExplainerPageResponse,
-  mockFifthSectionResponse,
   mockPublicDebtIncrease,
-  mockGovtDebtIncrease
-} from '../../explainer-test-helper';
+  mockGovtDebtIncrease,
+  mockInterestRatesResponse,
+  mockTotalDebtResponse,
+  mockDebtBreakdownResponse
+} from "../../explainer-test-helper"
 import {
-  determineBEAFetchResponse,
-  setGlobalFetchResponse
-} from '../../../../utils/mock-utils';
+  determineBEAFetchResponse, setGlobalFetchMatchingResponse,
+  setGlobalFetchResponse,
+} from "../../../../utils/mock-utils"
 import { getYear } from 'date-fns';
 import simplifyNumber from '../../../../helpers/simplify-number/simplifyNumber';
 import { breakpointSm } from '../../../../variables.module.scss';
@@ -33,8 +34,8 @@ import {
   growingNationalDebtSectionAccordion
 } from './national-debt.module.scss';
 import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
-import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import fetchMock from "fetch-mock";
+import { waitFor } from "@testing-library/dom"
 
 
 jest.mock('./variables.module.scss', (content) => ({
@@ -92,7 +93,8 @@ describe('The Growing National Debt', () => {
       <GrowingNationalDebtSection sectionId={sectionId} />
     );
 
-    expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`)).toBeInTheDocument();
+    expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`))
+      .toBeInTheDocument();
   })
 
   it('shows the correct amount of rows and columns for different screen sizes', async () => {
@@ -148,7 +150,24 @@ describe('Breaking Down the Debt', () => {
   const sectionId = nationalDebtSectionIds[4];
 
   beforeEach(() => {
-    setGlobalFetchResponse(jest, mockFifthSectionResponse);
+    setGlobalFetchMatchingResponse(jest, [
+      {
+        matcher: (url) => {
+          return url.includes('mspd_table_1?fields');
+          },
+        jsonResponse: mockDebtBreakdownResponse
+      },
+      {
+        matcher: (url) => {
+          return url.includes('mspd_table_1?filter');
+        },
+        jsonResponse: mockTotalDebtResponse
+      },
+      {
+        matcher: (url) => { return url.includes('avg_interest_rates');},
+        jsonResponse: mockInterestRatesResponse
+      }
+    ]);
   });
 
   afterEach(() => {
@@ -183,7 +202,8 @@ describe('Breaking Down the Debt', () => {
 
   it('displays the correct years and values', async () => {
     const latestYear =
-      mockFifthSectionResponse.data[mockFifthSectionResponse.data.length - 1].record_calendar_year;
+      mockDebtBreakdownResponse.data[mockDebtBreakdownResponse.data.length - 1]
+        .record_calendar_year;
     const firstYear = latestYear - 10;
 
     const { findByText, findAllByText, findByTestId } = render(
@@ -207,6 +227,59 @@ describe('Breaking Down the Debt', () => {
     expect(await findByTestId('public-debt-increase')).toHaveTextContent(mockPublicDebtIncrease);
     expect(await findByTestId('govt-debt-increase')).toHaveTextContent(mockGovtDebtIncrease);
   });
+
+  it('contains a multichart', async () => {
+    const { findByTestId } = render(
+      <DebtBreakdownSection sectionId={sectionId} />
+    );
+
+    expect(await findByTestId('multichart')).toBeInTheDocument();
+  });
+
+  it('contains a title for the multichart with correct date values', async () => {
+    const { findByText } = render(
+      <DebtBreakdownSection sectionId={sectionId} />
+    );
+
+    expect(await findByText('Interest Rate and Total Debt, 2012 – 2021')).toBeInTheDocument();
+  });
+
+  it('contains a header for the multichart with correct default values', async () => {
+    const { getByTestId } = render(
+      <DebtBreakdownSection sectionId={sectionId} />
+    );
+
+    let elem;
+    await waitFor(() => {
+      elem = getByTestId('interest-and-debt-chart-header');
+      expect(elem).toHaveTextContent('Interest');
+      expect(elem).toHaveTextContent('Total Debt');
+      expect(elem).toHaveTextContent('Fiscal Year');
+      expect(elem).toHaveTextContent('1.56%');
+      expect(elem).toHaveTextContent('$29.6 T');
+      expect(elem).toHaveTextContent('2021');
+    });
+  });
+
+  it('contains a legend for items represented in the multichart', async () => {
+    const { getByTestId } = render(
+      <DebtBreakdownSection sectionId={sectionId} />
+    );
+    let elem;
+    await waitFor(() => {
+      elem = getByTestId('interest-and-debt-chart-legend')
+      expect(elem).toHaveTextContent('Average Interest Rate');
+      expect(elem).toHaveTextContent('Total Debt');
+    });
+  });
+
+  it('contains a last-updated text string', async () => {
+    const { findByText } = render(
+      <DebtBreakdownSection sectionId={sectionId} />
+    );
+    expect(await findByText('Last updated: December 2021')).toBeInTheDocument();
+  });
+
 });
 
 describe('The Debt Ceiling', () => {
@@ -255,7 +328,9 @@ describe('Visualing the debt accordion values', () => {
     const {getByText} = render(<VisualizingTheDebtAccordion />);
     expect(fetchSpy).toBeCalled();
     await waitForElementToBeRemoved(() => getByText(/99999999999999.99/i));
-    expect(await getByText("Visualizing the debt - How much is $29 trillion dollars?", {exact: false})).toBeInTheDocument();
+    expect(
+      await getByText("Visualizing the debt - How much is $29 trillion dollars?", {exact: false}))
+      .toBeInTheDocument();
     global.fetch.mockRestore();
   });
 
