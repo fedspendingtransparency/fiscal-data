@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'gatsby';
 import * as styles from './site-header.module.scss';
 import MobileMenu from "./mobile-menu/mobile-menu";
@@ -9,9 +9,17 @@ import { isIE } from 'react-device-detect';
 import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faCaretRight, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const SiteHeader = ({ lowerEnvMsg }) => {
+  const [isHovering, setIsHovering] = useState(false);
   const pageLinks = [
+    {
+      title: 'Topics',
+      to: '/',
+      testId: 'topics'
+    },
     {
       title: 'Dataset Search',
       to: '/datasets/',
@@ -43,6 +51,16 @@ const SiteHeader = ({ lowerEnvMsg }) => {
       label: document.title
     });
   }
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  }
+
+  const dropdownTempText = 'Coming soon! - Short analyses on federal finance topics';
 
   return (
     <header>
@@ -81,6 +99,38 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                       {pageLink.title}
                     </Link>
                   </Experimental>
+                )
+              }
+
+              if (pageLink.title === 'Topics') {
+                return (
+                  <div className={styles.dropdown}>
+                    <div className={styles.dropdownLabel}>
+                      {pageLink.title}
+                      <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                    </div>
+                    <div className={styles.dropdownContent}>
+                      <div className={styles.dropdownRow}>
+                        <div className={styles.dropdownColumn}>
+                          <div className={styles.dropdownTitle}>
+                            AMERICA'S FINANCE GUIDE
+                            <Link href={'/'}>Revenue</Link>
+                            <Link href={'/'}>Spending</Link>
+                            <Link href={'/'}>Debt</Link>
+                            <Link href={'/'}>Deficit</Link>
+                          </div>
+                        </div>
+                        <div className={styles.dropdownColumn}>
+                          <div className={styles.dropdownTitle}>
+                            INSIGHTS
+                            <div className={styles.dropdownTempText}>
+                              {dropdownTempText}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 )
               }
 
