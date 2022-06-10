@@ -31,17 +31,41 @@
   }
 }
 
+.fundingProgramAccordion {
+  margin-bottom:0;
+}
+
+.fundingProgramsIcon {
+  .iconBackground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $debt-explainer-light-secondary;
+    position: relative;
+    left: calc(50%);
+
+    .icon {
+      color: #fff;
+    }
+
+    .offsetIcon {
+      color: $debt-explainer-primary;
+      position: absolute;
+    }
+  }
+}
 .fundingProgramsBox {
+  border-radius: .125rem;
   box-sizing: border-box;
-  border: solid 2px $debt-explainer-light-secondary;
-  border-radius: 3px;
   width: 100%;
   font-size: $font-size-18;
-  box-shadow: 0 2px 4px 0 $debt-explainer-light-secondary;
+  border: solid .125rem $debt-explainer-light-secondary;
+  box-shadow: .25rem .25rem $debt-explainer-light-secondary;
   margin-right: 1.75rem;
 
   p {
-    padding: 1rem 1rem .75rem;
+    margin: 0;
+    font-size: $font-size-20;
   }
 }
 
@@ -323,12 +347,12 @@
       border-radius: 2rem;
 
       .icon, .offsetIcon {
-        font-size: 1.75rem;
-        transform: translate(5px, -5px);
+        font-size: 2.313rem;
+        transform: translate(1.125rem, -0.563rem);
       }
 
       .offsetIcon {
-        transform: translate(8px, -8px);
+        transform: translate(1.313rem, -0.75rem);
       }
     }
 
@@ -359,6 +383,30 @@
     td {
       width: 80px;
       padding: 12px 20px;
+    }
+  }
+
+  .fundingProgramsIcon {
+    .iconBackground {
+      height: 4rem;
+      width: 4rem;
+      min-width: 4rem;
+      border-radius: 2rem;
+      transform:translate(-50%,2rem);
+
+      .icon, .offsetIcon {
+        font-size: 2.313rem;
+        transform: translate(1.125rem, -0.563rem);
+      }
+
+      .offsetIcon {
+        transform: translate(1.313rem, -0.75rem);
+      }
+    }
+  }
+  .fundingProgramsBox {
+    p {
+      padding: 3.188rem 1.25rem 2rem;
     }
   }
 
@@ -415,7 +463,6 @@
   }
 
   .multichartContainer {
-    // max-width: 400px;
   }
 
   .debtAccordion {
@@ -432,12 +479,14 @@
       border-radius: 26px;
 
       .icon, .offsetIcon {
-        font-size: 1.5rem;
-        transform: translate(3px, -3px);
+        font-size: 1.813rem;
+        transform: translate(0.75rem, -0.563rem);
+
       }
 
       .offsetIcon {
-        transform: translate(6px, -6px);
+        transform: translate(0.938rem, -0.75rem);
+
       }
     }
 
@@ -493,6 +542,31 @@
       p {
         margin-left: 15px;
       }
+    }
+  }
+
+  .fundingProgramsIcon {
+    .iconBackground {
+      height: 3rem;
+      width: 3rem;
+      min-width: 3rem;
+      border-radius: 1.5rem;
+      transform:translate(-50%, 1.5rem);
+      margin-top: .5rem;
+
+      .icon, .offsetIcon {
+        font-size: 1.813rem;
+        transform: translate(0.75rem, -0.375rem);
+      }
+
+      .offsetIcon {
+        transform: translate(0.938rem, -0.563rem);
+      }
+    }
+  }
+  .fundingProgramsBox {
+    p {
+      padding: 2.813rem .875rem 1.813rem 1.125rem;
     }
   }
 
