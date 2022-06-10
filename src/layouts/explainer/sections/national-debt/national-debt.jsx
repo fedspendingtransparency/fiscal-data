@@ -5,8 +5,7 @@ import { format, getYear } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartLine,
-  faPercent,
-  faPollH,
+  faPeopleCarry,
   faDollarSign,
   faHandHoldingMedical,
   faHeartbeat,
@@ -15,8 +14,11 @@ import {
   faSpinner,
   faFunnelDollar,
   faCoins,
-  faFileInvoiceDollar
+  faFileInvoiceDollar,
+  faFlagUsa,
+  faMoneyCheckDollar
 } from '@fortawesome/free-solid-svg-icons';
+
 import Accordion from '../../../../components/accordion/accordion';
 import VisualizationCallout
   from "../../../../components/visualization-callout/visualization-callout";
@@ -87,8 +89,12 @@ import {
   diveDeeperQuoteLeft,
   diveDeeperLink,
   fundingProgramsBox,
+  fundingProgramsIcon,
   //Accordion styling
-  debtAccordion, debtTrendsOverTimeSectionGraphContainer, subTitle,
+  debtAccordion,
+  fundingProgramAccordion,
+  debtTrendsOverTimeSectionGraphContainer,
+  subTitle,
   titleBreakdown
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
@@ -181,15 +187,15 @@ const KeyTakeawaysSection = () => (
   <>
     <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={faChartLine} className={icon} />
-          <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
+          <FontAwesomeIcon icon={faMoneyCheckDollar} className={icon} />
+          <FontAwesomeIcon icon={faMoneyCheckDollar} className={offsetIcon} />
         </div>
         <p>The national debt has steadily increased since 2000.</p>
     </div>
       <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={faPollH} className={icon} />
-          <FontAwesomeIcon icon={faPollH} className={offsetIcon} />
+          <FontAwesomeIcon icon={faChartLine} className={icon} />
+          <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
         </div>
         <p>
           Different parts of the debt impact the health and stability of our national debt, including
@@ -198,8 +204,8 @@ const KeyTakeawaysSection = () => (
       </div>
       <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={faPercent} className={icon} />
-          <FontAwesomeIcon icon={faPercent} className={offsetIcon} />
+          <FontAwesomeIcon icon={faPeopleCarry} className={icon} />
+          <FontAwesomeIcon icon={faPeopleCarry} className={offsetIcon} />
         </div>
         <p>
           The national debt is often accessed by looking at debt over time or the ratio of the federal
@@ -273,6 +279,7 @@ const FundingProgramsSection = () => (
       <div className={debtAccordion}>
         <Accordion title="What are some of the major spending categories?"
         altStyleAccordion={{padding:'9px 16px'}}
+        containerClass={fundingProgramAccordion}
         >
           {sampleCopy}
           <div className={spendingCategoriesTable}>
@@ -332,6 +339,12 @@ const FundingProgramsSection = () => (
             </div>
           </div>
         </Accordion>
+      </div>
+      <div className={fundingProgramsIcon}>
+        <div className={iconBackground}>
+          <FontAwesomeIcon icon={faFlagUsa} className={icon} />
+          <FontAwesomeIcon icon={faFlagUsa} className={offsetIcon} />
+        </div>
       </div>
       <div className={fundingProgramsBox}>
         <p>{sampleCopy}</p>
@@ -553,6 +566,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
 
   const [debtTrendsData, setDebtTrendsData] = useState([]);
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
+  const [lastDebtValue, setLastDebtValue] = useState({});
 
   const debtEndpointUrl = 'v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948';
 
@@ -594,6 +608,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
               }
             ]
             setDebtTrendsData(finalData);
+            setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
             setIsLoadingDebtTrends(false);
           }
         });
@@ -675,9 +690,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   };
 
   const lineChartOnMouseLeave = () => {
-    setLinechartHoveredValue(formatPercentage(debtTrendsData[0]
-      .data[debtTrendsData[0].data.length - 1].y));
-    setLinechartHoveredYear(debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x);
+    setLinechartHoveredValue(formatPercentage(lastDebtValue.y));
+    setLinechartHoveredYear(lastDebtValue.x);
   };
 
   return (
@@ -748,15 +762,15 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <>
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
-                <p className={title}> Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x}</p>
+                <p className={title}> Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {lastDebtValue.x}</p>
                 <p className={subTitle}> Debt to Gross Domestic Product (GDP) </p>
                 <div className={headerContainer}>
                   <div>
-                    <div className={header}>{lineChartHoveredYear}</div>
+                    <div className={header}>{lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}</div>
                     <span className={subHeader}>Fiscal Year</span>
                   </div>
                   <div>
-                    <div className={header}>{lineChartHoveredValue}</div>
+                    <div className={header}>{lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue}</div>
                     <span className={subHeader}>Debt to GDP</span>
                   </div>
                 </div>
@@ -764,7 +778,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                   className={lineChartContainer}
                   data-testid={"debtTrendsChart"}
                   role={"img"}
-                  aria-label={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${debtTrendsData[0].data[debtTrendsData[0].data.length - 1].x}.`}
+                  aria-label={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
                 >
                   <ResponsiveLine
                     data={debtTrendsData}
