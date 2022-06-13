@@ -19,25 +19,32 @@ const AnnouncementBanner = ({
       setOpen(false);
   };
 
+  const Banner = () => {
     return (
-      <div className={open ? undefined : hide}>
-        <div className={bannerContainer}
-             style={altStyle}
+      <div className={bannerContainer}
+           style={altStyle}
+           data-testid="bannerContainer"
+      >
+        <div className={bannerContent}>
+          <FontAwesomeIcon className={infoIcon} icon={faInfoCircle} />
+          {children}
+        </div>
+        <div
+          onClick={hideBanner}
+          onKeyPress={hideBanner}
+          tabIndex={0}
+          role="button"
         >
-          <div className={bannerContent}>
-            <FontAwesomeIcon className={infoIcon} icon={faInfoCircle} />
-            {children}
-          </div>
-          <div
-            onClick={hideBanner}
-            onKeyPress={hideBanner}
-            tabIndex={0}
-            role="button"
-          >
-            <FontAwesomeIcon className={xMarkIcon} icon={faXmark} />
-          </div>
+          <FontAwesomeIcon className={xMarkIcon} icon={faXmark} />
         </div>
       </div>
+    );
+  }
+
+    return (
+      <>
+        {open ? <Banner /> : undefined}
+      </>
     );
 }
 
