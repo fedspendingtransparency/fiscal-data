@@ -444,17 +444,20 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           latest
         }
       }
-      allGlossary {
+      allGlossaryCsv {
         glossaryCsv: nodes {
-          id
           term
           definition
+          id
           url_display
           url_path
         }
       }
     }
   `);
+
+
+  const glossaryData = result.data.allGlossaryCsv.glossaryCsv;
 
   result.data.allBlsPublicApiData.blsPublicApiData.filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))
     .forEach(blsRow => {
@@ -469,8 +472,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   result.data.allCpi100Csv.cpi100Csv.forEach(row => {
     cpiYearMap[row.year] = row.value;
   })
-
-  console.log(result.data.allGlossary.glossaryCsv);
 
   for (const config of result.data.allDatasets.datasets) {
     createPage({
@@ -528,7 +529,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           seoConfig: explainer.seoConfig,
           heroImage: explainer.heroImage,
           relatedDatasets: explainerRelatedDatasets,
-          cpiDataByYear: cpiYearMap
+          cpiDataByYear: cpiYearMap,
+          glossary: glossaryData
         }
       });
     });
