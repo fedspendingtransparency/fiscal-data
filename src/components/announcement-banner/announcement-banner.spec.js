@@ -11,7 +11,7 @@ describe('Announcement Banner', () => {
     expect(getByText(mockText)).toBeInTheDocument();
   });
 
-  it('expects the x icon to be rendered', () => {
+  it('expects the x icon button to be rendered', () => {
     const { getByRole } = render(<AnnouncementBanner>{mockText}</AnnouncementBanner>);
     expect(getByRole('button', {tabIndex: '0'})).toBeInTheDocument();
   });

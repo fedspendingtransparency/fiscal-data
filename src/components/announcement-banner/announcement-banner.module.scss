@@ -1,10 +1,6 @@
 @import '../../variables.module.scss';
 
-.hide {
-  display: none;
-}
-
-.bannerContainer {
+.container {
   display: flex;
   justify-content: center;
   padding: 0.875rem 2rem 1rem 2rem;
@@ -12,7 +8,7 @@
   color: #444444;
 }
 
-.bannerContent {
+.content {
   display: flex;
   align-items: center;
   font-size: $font-size-14;
@@ -25,8 +21,12 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .bannerContainer {
+  .container {
     padding: 1rem 1.875rem 1rem;
+  }
+
+  .content {
+    align-items: normal;
   }
 
   .infoIcon {
@@ -35,9 +35,5 @@
 
   .infoIcon, .xMarkIcon {
     margin: 0 1.375rem;
-  }
-
-  .bannerContent {
-    align-items: normal;
   }
 }

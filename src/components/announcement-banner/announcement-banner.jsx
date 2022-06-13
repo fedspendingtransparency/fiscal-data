@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import {
-  bannerContainer,
-  bannerContent,
+  container,
+  content,
   infoIcon,
-  xMarkIcon,
-  hide
+  xMarkIcon
 } from "./announcement-banner.module.scss";
 import {faInfoCircle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -14,18 +13,18 @@ const AnnouncementBanner = ({
   altStyle,
   children
 }) => {
-  const [open, setOpen] = useState(true);
+  const [visible, setVisible] = useState(true);
   const hideBanner = () => {
-      setOpen(false);
+    setVisible(false);
   };
 
   const Banner = () => {
     return (
-      <div className={bannerContainer}
+      <div className={`${container} bannerContainer`}
            style={altStyle}
            data-testid="bannerContainer"
       >
-        <div className={bannerContent}>
+        <div className={`${content} bannerContent`}>
           <FontAwesomeIcon className={infoIcon} icon={faInfoCircle} />
           {children}
         </div>
@@ -43,7 +42,7 @@ const AnnouncementBanner = ({
 
     return (
       <>
-        {open ? <Banner /> : undefined}
+        {visible ? <Banner /> : undefined}
       </>
     );
 }
