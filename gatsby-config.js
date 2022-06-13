@@ -162,6 +162,13 @@ module.exports = {
         path: `${__dirname}/static/data/CPI/`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `glossary`,
+        path: `${__dirname}/static/data/glossary/`,
+      },
+    }
     `gatsby-transformer-csv`,
     {
       resolve: `gatsby-plugin-mdx`,

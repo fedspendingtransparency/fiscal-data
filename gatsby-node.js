@@ -444,6 +444,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           latest
         }
       }
+      allGlossary {
+        glossaryCsv: nodes {
+          id
+          term
+          definition
+          url_display
+          url_path
+        }
+      }
     }
   `);
 
@@ -460,6 +469,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   result.data.allCpi100Csv.cpi100Csv.forEach(row => {
     cpiYearMap[row.year] = row.value;
   })
+
+  console.log(result.data.allGlossary.glossaryCsv);
 
   for (const config of result.data.allDatasets.datasets) {
     createPage({
