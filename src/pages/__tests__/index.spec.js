@@ -11,12 +11,11 @@ describe('Site Home Index', () => {
   const renderer = new ShallowRenderer();
   renderer.render(<Index />);
   const component = renderer.getRenderOutput();
-  const instance = component.props.children;
-
-  const siteHome = instance.find(e => e.props['data-testid'] === 'site-home');
+  const instance = component.props.children[1];
+  const siteHome = instance.props.children.find(e => e.props['data-testid'] === 'site-home');
 
   it('renders the watermark', () => {
-    expect(instance.find(e => e.props['data-testid'] === 'site-watermark')).toBeDefined();
+    expect(instance.props.children.find(e => e.props['data-testid'] === 'site-watermark')).toBeDefined();
   });
 
   it('renders the PageHelmet containing metadata', () => {
