@@ -17,7 +17,6 @@
 
 .infoIcon, .xMarkIcon {
   font-size: 1rem;
-  margin: 0 1rem;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -27,13 +26,17 @@
 
   .content {
     align-items: normal;
+    margin-right: 1.375rem;
   }
 
   .infoIcon {
     padding-top: .7rem;
+    margin-right: 1.375rem;
   }
+}
 
+@media screen and (min-width: $breakpoint-lg) {
   .infoIcon, .xMarkIcon {
-    margin: 0 1.375rem;
+    margin: 0 1rem;
   }
 }
