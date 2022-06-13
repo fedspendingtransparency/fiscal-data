@@ -47,10 +47,6 @@ const SiteHeader = ({ lowerEnvMsg }) => {
 
   return (
     <header>
-      <AnnouncementBanner>
-        We are excited to announce that Fiscal Data is realigning with our sister website Data Lab to better serve you
-        beginning November 30th! Moving forward, you can find new content here at Fiscal Data.
-      </AnnouncementBanner>
       <OfficialBanner data-testid="officialBanner" />
       <div className={styles.container}>
         <div className={styles.content}>
