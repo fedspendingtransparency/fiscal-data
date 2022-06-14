@@ -72,22 +72,34 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
-    //margin-left: 40%;
   }
 
-  .dropdownColumn {
+  .dropdownColumnOne {
     flex-flow: column nowrap;
     justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .dropdownColumnTwo {
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin: 2rem 0 2rem 20%;
   }
 
   .dropdown:hover .dropdownContent {
     display: flex;
+    justify-content: center;
   }
 
-  .dropdownContent:hover {
-    display: flex;
+  .dropdownTitle {
+    font-weight: $semi-bold-weight;
+    white-space: nowrap;
+    margin-bottom: 1rem;
   }
 
+  .dropdownListItem {
+    margin-bottom: 0.4rem;
+  }
 
   .pageLinks {
     display: flex;

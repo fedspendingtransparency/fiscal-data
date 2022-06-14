@@ -107,26 +107,26 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                   <div className={styles.dropdown}>
                     <div className={styles.dropdownLabel}>
                       {pageLink.title}
-                      <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                      <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
                     </div>
                     <div className={styles.dropdownContent}>
                       <div className={styles.dropdownRow}>
-                        <div className={styles.dropdownColumn}>
+                        <div className={styles.dropdownColumnOne}>
                           <div className={styles.dropdownTitle}>
                             AMERICA'S FINANCE GUIDE
-                            <Link href={'/'}>Revenue</Link>
-                            <Link href={'/'}>Spending</Link>
-                            <Link href={'/'}>Debt</Link>
-                            <Link href={'/'}>Deficit</Link>
                           </div>
+                            <Link href={'/'} className={styles.dropdownListItem}>Debt</Link>
+                            <Link href={'/'} className={styles.dropdownListItem}>Deficit</Link>
+                            <Link href={'/'} className={styles.dropdownListItem}>Revenue</Link>
+                            <Link href={'/'} className={styles.dropdownListItem}>Spending</Link>
                         </div>
-                        <div className={styles.dropdownColumn}>
+                        <div className={styles.dropdownColumnTwo}>
                           <div className={styles.dropdownTitle}>
                             INSIGHTS
-                            <div className={styles.dropdownTempText}>
-                              {dropdownTempText}
-                            </div>
                           </div>
+                            <div className={styles.dropdownTempText}>
+                              <em>{dropdownTempText}</em>
+                            </div>
                         </div>
                       </div>
                     </div>
