@@ -164,6 +164,14 @@ module.exports = {
     },
     `gatsby-transformer-csv`,
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `glossary`,
+        path: `${__dirname}/static/data/glossary/`,
+      },
+    },
+    `gatsby-transformer-csv`,
+    {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: [`.mdx`, `.md`],
