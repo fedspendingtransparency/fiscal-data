@@ -13,7 +13,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const SiteHeader = ({ lowerEnvMsg }) => {
-  const [isHovering, setIsHovering] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const pageLinks = [
     {
       title: 'Topics',
@@ -53,11 +53,13 @@ const SiteHeader = ({ lowerEnvMsg }) => {
   }
 
   const handleMouseOver = () => {
-    setIsHovering(true);
+    console.log('mouse over');
+    setIsExpanded(true);
   }
 
   const handleMouseLeave = () => {
-    setIsHovering(false);
+    console.log('mouse leave');
+    setIsExpanded(false);
   }
 
   const dropdownTempText = 'Coming soon! - Short analyses on federal finance topics';
@@ -105,10 +107,10 @@ const SiteHeader = ({ lowerEnvMsg }) => {
               if (pageLink.title === 'Topics') {
                 return (
                   <div className={styles.dropdown}>
-                    <div className={styles.dropdownLabel}>
+                    <button className={styles.dropdownButton}>
                       {pageLink.title}
                       <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                    </div>
+                    </button>
                     <div className={styles.dropdownContent}>
                       <div className={styles.dropdownRow}>
                         <div className={styles.dropdownColumnOne}>

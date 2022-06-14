@@ -39,16 +39,17 @@
     height: 55px;
   }
 
-  .dropdown {
-    //overflow: hidden;
-  }
-
-  .dropdown .dropdownLabel {
-    //margin: 0;
+  .dropdown .dropdownButton {
     margin-right: 3rem;
+    border: none;
+    outline: none;
+    background-color: inherit;
+    font-size: 1rem;
+    color: $font-title;
+    height: 55px;
   }
 
-  .dropdown:hover .dropdownLabel {
+  .dropdown:hover .dropdownButton {
     color: $primary;
     font-weight: $semi-bold-weight;
   }
@@ -62,7 +63,7 @@
     position: absolute;
     background-color: white;
     width: 100%;
-    margin-top: 28px;
+    //margin-top: 10px;
     left: 0;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
