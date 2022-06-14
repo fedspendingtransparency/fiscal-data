@@ -5,6 +5,7 @@ describe('Glossary term finder', () => {
     {
       id: 1,
       term: 'Hello',
+      site_page: 'debt',
       definition: 'A greeting',
       urlDisplay: 'example.com',
       urlPath: 'example.com'
@@ -12,31 +13,37 @@ describe('Glossary term finder', () => {
     {
       id: 2,
       term: 'gOOdbYe',
+      site_page: 'debt',
       definition: 'A test of case insensitivity',
       urlDisplay: 'example.com',
       urlPath: 'example.com'
     },
     {
       id: 3,
-      term: 'Blue',
-      definition: 'A color',
+      term: 'hEllo',
+      site_page: 'debt',
+      definition: 'A messed up greeting',
       urlDisplay: 'example.com',
       urlPath: 'example.com'
     }
   ]
 
   it('Gets the proper term definition based on term name', () => {
-    expect(findGlossaryTerm('Hello', glossaryExample)).toBe(glossaryExample[0])
+    const result = findGlossaryTerm('Hello', glossaryExample);
+    expect(result).toContain(glossaryExample[0])
+    expect(result).toContain(glossaryExample[2])
   })
 
   it('Gets the proper term definition regardless of term case', () => {
-    expect(findGlossaryTerm('Goodbye', glossaryExample)).toBe(glossaryExample[1])
+    const result = findGlossaryTerm('Goodbye', glossaryExample);
+    expect(result).toContain(glossaryExample[1])
   })
 
   it('Does not find term and throws console warning', () => {
     global.console = {warn: jest.fn()}
-    findGlossaryTerm('Wow', glossaryExample);
+    const result = findGlossaryTerm('Wow', glossaryExample);
     expect(console.warn).toBeCalled();
+    expect(result).toEqual([]);
   })
 
 } )
