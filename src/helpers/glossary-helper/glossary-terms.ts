@@ -1,7 +1,8 @@
 import {IGlossaryTerm} from "../../models/IGlossaryTerm";
 
 export const findGlossaryTerm = (term: string, glossaryData: IGlossaryTerm[]): IGlossaryTerm => {
-  const match = glossaryData.find(entry => entry.term === term);
+  // Uses toLowerCase() for case-insensitive matching
+  const match = glossaryData.find(entry => entry.term.toLowerCase() === term.toLowerCase());
   if (match) {
     return match;
   }

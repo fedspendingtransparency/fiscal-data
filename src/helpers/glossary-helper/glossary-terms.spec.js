@@ -11,8 +11,8 @@ describe('Glossary term finder', () => {
     },
     {
       id: 2,
-      term: 'Goodbye',
-      definition: 'A farewell',
+      term: 'gOOdbYe',
+      definition: 'A test of case insensitivity',
       urlDisplay: 'example.com',
       urlPath: 'example.com'
     },
@@ -27,6 +27,10 @@ describe('Glossary term finder', () => {
 
   it('Gets the proper term definition based on term name', () => {
     expect(findGlossaryTerm('Hello', glossaryExample)).toBe(glossaryExample[0])
+  })
+
+  it('Gets the proper term definition regardless of term case', () => {
+    expect(findGlossaryTerm('Goodbye', glossaryExample)).toBe(glossaryExample[1])
   })
 
   it('Does not find term and throws console warning', () => {
