@@ -4,15 +4,15 @@ const explainerPagesSource = {
     breadCrumbLinkName: 'Debt',
     seoConfig: {
       pageTitle: 'Understanding the National Debt',
-      description: `By the end of 2020, the federal government had $26.95 trillion in federal debt.
-        Learn how the national debt works and how it impacts you.`
+      description: `The federal government currently has $XX.XX trillion in federal debt.
+      Learn how the national debt works and how it impacts you.`
     },
     heroImage: {
       heading: 'What is the national debt?',
       subHeading: `The national debt is the total amount of outstanding borrowings by the U.S. Federal
       Government accumulated over the nation’s history.`
     },
-    relatedDatasets: ["015-BFS-2014Q3-056", "015-BFS-2014Q3-065", "015-BFS-2014Q3-071", "015-BFS-2014Q1-11"]
+    relatedDatasets: ["015-BFS-2014Q3-065", "015-BFS-2014Q3-071", "015-BFS-2014Q1-11", "015-BFS-2014Q3-056"]
   }
 }
 

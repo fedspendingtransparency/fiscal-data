@@ -33,6 +33,7 @@
 
 .fundingProgramAccordion {
   margin-bottom:0;
+  margin-top: 2rem;
 }
 
 .fundingProgramsIcon {
@@ -66,44 +67,46 @@
     font-size: $font-size-20;
   }
 }
-
-.spendingCategoriesTable {
-  .row {
-    display: flex;
-
-    .firstColumn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 72px;
-      min-width: 50px;
-    }
-
-    .secondColumn {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-
-  }
-  .row:first-child {
-    padding-top: 3.25rem;
-  }
-
+.spendingCategoriesAccordionContent {
   p {
-    margin: 0;
+    margin-top: 0.438rem;
   }
+  .spendingCategoriesTable {
+    .row {
+      display: flex;
 
-  .icon {
-    font-size: $font-size-36;
-    color: $debt-explainer-light-secondary;
+      .firstColumn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 72px;
+        min-width: 50px;
+      }
+
+      .secondColumn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+    .row:first-child {
+      padding-top: 2.25rem;
+    }
+
+    .icon {
+      font-size: $font-size-36;
+      color: $debt-explainer-light-secondary;
+    }
   }
 }
 
 .nationalDebtExplainedTextContent {
   p {
-    margin: 0;
+    margin-top: 0;
   }
 }
 
@@ -247,12 +250,24 @@
   margin-top: 3rem;
 }
 
+.diveDeeperQuoteRight, .diveDeeperQuoteLeft {
+  .diveDeeperQuote {
+    font-size: $font-size-20;
+    padding-bottom: 1rem;
+  }
+
+  .diveDeeperCitation {
+    font-size: $font-size-14;
+  }
+}
+
 .diveDeeperQuoteLeft {
   display: flex;
   align-items: center;
   padding-bottom: 2rem;
   img {
     height: 142px;
+    padding-left: 2.125rem;
   }
 }
 
@@ -260,17 +275,17 @@
   display: flex;
   align-items: center;
   padding-top: 1rem;
-  padding-bottom: 2rem;
+  padding-bottom: 4.063rem;
   img {
     height: 142px;
+    padding-right: 2.125rem;
   }
 }
 
 .diveDeeperLink {
-  p {
-    margin-top:0;
-  }
+  padding-bottom: 1.25rem;
 }
+
 .debtAccordion {
   :global(.accordionHeading) {
     font-size: $font-size-18;
@@ -326,15 +341,20 @@
       margin-left: 2rem;
     }
   }
+  .spendingCategoriesAccordionContent {
+    .spendingCategoriesTable {
 
-  .spendingCategoriesTable {
+      .firstColumn {
+        padding-right: 31px;
+      }
 
-    .firstColumn {
-      padding-right: 31px;
-    }
+      .row {
+        padding-bottom: .5rem;
+      }
 
-    .row:not(:last-child) {
-      padding-bottom: 10px;
+      .row:not(:last-child) {
+        padding-bottom: 1.75rem;
+      }
     }
   }
 
@@ -383,6 +403,10 @@
     }
   }
 
+  .debtTrendsOverTimeSectionGraphContainer {
+    margin-bottom: 3.25rem;
+  }
+
   .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
     padding-top: 22px;
     padding-left: 22px;
@@ -409,10 +433,7 @@
     .footerContainer {
       padding-top: 1rem;
       padding-bottom: 2rem;
-
-      p {
-        font-size: $font-size-14;
-      }
+      font-size: $font-size-14;
     }
   }
 
@@ -453,14 +474,15 @@
       margin-left: 1rem;
     }
   }
+  .spendingCategoriesAccordionContent {
+    .spendingCategoriesTable {
+      .firstColumn {
+        padding-right: 21px;
+      }
 
-  .spendingCategoriesTable {
-    .firstColumn {
-      padding-right: 21px;
-    }
-
-    .row:not(:last-child) {
-      padding-bottom: 30px;
+      .row:not(:last-child) {
+        padding-bottom: 30px;
+      }
     }
   }
 
