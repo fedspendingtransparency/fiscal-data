@@ -30,8 +30,11 @@
 }
 
 @media screen and (min-width: $breakpoint-lg) {
+  .content {
+    height: 70px;
+  }
   .container {
-    padding: 0 2rem 0.5rem;
+    padding: 0 2rem;
   }
 
   .logo {
@@ -49,9 +52,19 @@
     height: 55px;
   }
 
-  .dropdown:hover .dropdownButton {
+  // todo - make this class nested under dropdownButton
+  .dropdownButtonExpanded {
+    margin-right: 3rem;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    background-color: inherit;
+    font-size: 1rem;
+    height: 55px;
     color: $primary;
     font-weight: $semi-bold-weight;
+    // todo - make this work right
+    border-bottom: 4px $primary;
   }
 
   .caret {
@@ -59,11 +72,12 @@
   }
 
   .dropdownContent {
-    display: none;
+    justify-content: center;
+    display: flex;
     position: absolute;
     background-color: white;
     width: 100%;
-    //margin-top: 10px;
+    margin-top: 10px;
     left: 0;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -85,11 +99,6 @@
     flex-flow: column nowrap;
     justify-content: center;
     margin: 2rem 0 2rem 20%;
-  }
-
-  .dropdown:hover .dropdownContent {
-    display: flex;
-    justify-content: center;
   }
 
   .dropdownTitle {

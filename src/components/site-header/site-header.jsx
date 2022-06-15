@@ -53,12 +53,10 @@ const SiteHeader = ({ lowerEnvMsg }) => {
   }
 
   const handleMouseOver = () => {
-    console.log('mouse over');
     setIsExpanded(true);
   }
 
   const handleMouseLeave = () => {
-    console.log('mouse leave');
     setIsExpanded(false);
   }
 
@@ -107,31 +105,44 @@ const SiteHeader = ({ lowerEnvMsg }) => {
               if (pageLink.title === 'Topics') {
                 return (
                   <div className={styles.dropdown}>
-                    <button className={styles.dropdownButton}>
+                    <button
+                      className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
+                      onMouseOver={handleMouseOver}
+                      onFocus={handleMouseOver}>
                       {pageLink.title}
-                      <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                      {isExpanded
+                      ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                      : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                      }
                     </button>
-                    <div className={styles.dropdownContent}>
-                      <div className={styles.dropdownRow}>
-                        <div className={styles.dropdownColumnOne}>
-                          <div className={styles.dropdownTitle}>
-                            AMERICA'S FINANCE GUIDE
-                          </div>
-                            <Link href={'/'} className={styles.dropdownListItem}>Debt</Link>
-                            <Link href={'/'} className={styles.dropdownListItem}>Deficit</Link>
-                            <Link href={'/'} className={styles.dropdownListItem}>Revenue</Link>
-                            <Link href={'/'} className={styles.dropdownListItem}>Spending</Link>
-                        </div>
-                        <div className={styles.dropdownColumnTwo}>
-                          <div className={styles.dropdownTitle}>
-                            INSIGHTS
-                          </div>
-                            <div className={styles.dropdownTempText}>
-                              <em>{dropdownTempText}</em>
+                    {isExpanded && (
+                      <div
+                        className={styles.dropdownContent}
+                        onMouseOver={handleMouseOver}
+                        onMouseLeave={handleMouseLeave}
+                        onFocus={handleMouseOver}
+                      >
+                        <div className={styles.dropdownRow}>
+                          <div className={styles.dropdownColumnOne}>
+                            <div className={styles.dropdownTitle}>
+                              AMERICA'S FINANCE GUIDE
                             </div>
+                              <Link href={'/'} className={styles.dropdownListItem}>Debt</Link>
+                              <Link href={'/'} className={styles.dropdownListItem}>Deficit</Link>
+                              <Link href={'/'} className={styles.dropdownListItem}>Revenue</Link>
+                              <Link href={'/'} className={styles.dropdownListItem}>Spending</Link>
+                          </div>
+                          <div className={styles.dropdownColumnTwo}>
+                            <div className={styles.dropdownTitle}>
+                              INSIGHTS
+                            </div>
+                              <div className={styles.dropdownTempText}>
+                                <em>{dropdownTempText}</em>
+                              </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 )
               }
