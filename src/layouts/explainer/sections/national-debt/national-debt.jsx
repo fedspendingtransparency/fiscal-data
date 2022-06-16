@@ -96,23 +96,12 @@ import {
   //Accordion styling
   debtAccordion,
   fundingProgramAccordion,
+  debtCeilingAccordion,
   debtTrendsOverTimeSectionGraphContainer,
   subTitle,
   titleBreakdown
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
-import {star} from "../../../../components/home-highlight-cards/home-highlight-card/sparkler/sparkler.module.scss";
-
-const sampleCopy = `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum.
-`
-
-const smallSampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua.`
 
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
@@ -206,8 +195,8 @@ const KeyTakeawaysSection = () => (
           <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
         </div>
         <p>
-          The U.S. has carried debt since its inception. Debts incurred during the American Revolutionary War amounted to $75 million,
-          primarily borrowed from domestic investors and the French Government for war materials.
+          The U.S. has carried debt since its inception. Debts incurred during the American Revolutionary War amounted to
+          $75 million, primarily borrowed from domestic investors and the French Government for war materials.
         </p>
       </div>
       <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
@@ -238,8 +227,9 @@ export const NationalDebtExplainedSection = () => {
           experiences reoccurring deficits, which is common, the national debt grows.
         </p>
         <p>
-          Simply put, the national debt is similar to a person using a credit card for purchases and not paying off the full balance each month.
-          The cost of purchases exceeding the amount paid off represents a deficit, while accumulated deficits over time represents a person’s overall debt.
+          Simply put, the national debt is similar to a person using a credit card for purchases and not paying off the full
+          balance each month. The cost of purchases exceeding the amount paid off represents a deficit, while accumulated deficits
+          over time represents a person’s overall debt.
         </p>
       </div>
       <VisualizationCallout color={debtExplainerPrimary}>
@@ -248,7 +238,7 @@ export const NationalDebtExplainedSection = () => {
     </div>
     <div className={nationalDebtExplainedTable}
          role='img'
-         alt='Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years.'
+         aria-label='Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years.'
     >
       <table>
         <thead>
@@ -301,17 +291,19 @@ const FundingProgramsSection = () => {
   return (
     <>
       <p>
-        The federal government needs to borrow money to pay its bills when its ongoing spending activities and investments cannot be funded
-        by federal revenues alone. Decreases in federal revenue are largely due to either a decrease in tax rates or individuals or corporations
-        making less money. The national debt enables the federal government to pay for important programs and services even if it does not have
-        funds immediately available, often due to a decrease in revenue. Decreases in federal revenue coupled with increased government spending
+        The federal government needs to borrow money to pay its bills when its ongoing spending activities and
+        investments cannot be funded by federal revenues alone. Decreases in federal revenue are largely due to either
+        a decrease in tax rates or individuals or corporations making less money. The national debt enables the federal
+        government to pay for important programs and services even if it does not have funds immediately available,
+        often due to a decrease in revenue. Decreases in federal revenue coupled with increased government spending
         further increases the deficit.
       </p>
       <p>
-        Consistent with the purpose of the federal government established by the U.S. Constitution, money is spent on programs and services to
-        ensure the well-being of U.S. residents. The Constitution’s preamble states that the purpose of the federal government is “…to establish
-        Justice, insure domestic Tranquility, provide for the common defense, promote the general Welfare, and secure the Blessings of Liberty to
-        ourselves and our Posterity.” Uninterrupted funding of programs and services is critical to residents’ health, welfare, and security.
+        Consistent with the purpose of the federal government established by the U.S. Constitution, money is spent on
+        programs and services to ensure the well-being of U.S. residents. The Constitution’s preamble states that the
+        purpose of the federal government is “…to establish Justice, insure domestic Tranquility, provide for the common
+        defense, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity.”
+        Uninterrupted funding of programs and services is critical to residents’ health, welfare, and security.
       </p>
       <div className={debtAccordion}>
         <Accordion title="What are some of the major spending categories?"
@@ -320,9 +312,10 @@ const FundingProgramsSection = () => {
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
-              Below are some of the federal government’s largest spending categories. Visit {usaSpending} to explore federal spending by
-              the types of items and services purchased by the federal government. Explore federal spending by {objectClass} or learn how
-              spending categories and subcategories break down by viewing federal spending by {budgetFunction}.
+              Below are some of the federal government’s largest spending categories. Visit {usaSpending} to explore
+              federal spending by the types of items and services purchased by the federal government. Explore federal
+              spending by {objectClass} or learn how spending categories and subcategories break down by viewing federal
+              spending by {budgetFunction}.
             </p>
             <div className={spendingCategoriesTable}>
               <div className={row}>
@@ -332,9 +325,9 @@ const FundingProgramsSection = () => {
                 <div className={secondColumn}>
                   <strong>Income Security</strong>
                   <p>
-                    Supports programs such as unemployment compensation, federal employee retirement and disability, and food and
-                    nutrition assistance; spending for this program increased during the COVID-19 Pandemic because of the CARES Act
-                    and American Rescue Plan Act
+                    Supports programs such as unemployment compensation, federal employee retirement and disability,
+                    and food and nutrition assistance; spending for this program increased during the COVID-19 Pandemic
+                    because of the CARES Act and American Rescue Plan Act
                   </p>
                 </div>
               </div>
@@ -345,7 +338,8 @@ const FundingProgramsSection = () => {
                 <div className={secondColumn}>
                   <strong>Social Security</strong>
                   <p>
-                    Supports programs for beneficiaries including retirement, disability insurance, and supplemental security income payments
+                    Supports programs for beneficiaries including retirement, disability insurance, and supplemental security
+                    income payments
                   </p>
                 </div>
               </div>
@@ -356,8 +350,8 @@ const FundingProgramsSection = () => {
                 <div className={secondColumn}>
                   <strong>Health</strong>
                   <p>
-                    Supports spending for programs related to health care services, health research and training, and consumer and occupational
-                    health and safety, except for Medicare which has its own category
+                    Supports spending for programs related to health care services, health research and training,
+                    and consumer and occupational health and safety, except for Medicare which has its own category
                   </p>
                 </div>
               </div>
@@ -581,7 +575,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         setStartValue(earliestEntry[valueField]);
         setLabels(dataset.meta.labels)
         setIsLoading(false);
-        console.log(earliestEntry);
+
         drawChart(
           dataset.data,
           chartRef.current,
@@ -757,29 +751,24 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
     setLinechartHoveredYear(lastDebtValue.x);
   };
 
-  // const earliestYear = data[100].record_fiscal_year;
-  // const earliestDebt = simplifyNumber(data[100].debt_outstanding_amt, true);
-  // const latestYear = data[0].record_fiscal_year;
-  // const latestDebt = simplifyNumber(data[0].debt_outstanding_amt, true);
-
-  // console.log(date);
-  // console.log(value);
-
   return (
     <div className={growingNationalDebt}>
       <p>
-        The U.S. has carried debt since its inception. Debts incurred during the American Revolutionary War amounted to over $75
-        million by January 1, 1791. Over the next 45 years, the debt continued to grow until 1835 when it notably shrank due to the
-        sale of federally-owned lands and cuts to the federal budget. Shortly thereafter, an economic depression caused the debt to
-        again grow into the millions. The debt grew over 4,000% through the course of the American Civil War, increasing from $65 million
-        in 1860 to $1 billion in 1863 and around $2.7 billion shortly after the conclusion of the war in 1865. The debt grew steadily into
-        the 20th century and was roughly $22 billion after the country financed its involvement in World War I.
+        The U.S. has carried debt since its inception. Debts incurred during the American Revolutionary War
+        amounted to over $75 million by January 1, 1791. Over the next 45 years, the debt continued to grow until
+        1835 when it notably shrank due to the sale of federally-owned lands and cuts to the federal budget.
+        Shortly thereafter, an economic depression caused the debt to again grow into the millions. The debt
+        grew over 4,000% through the course of the American Civil War, increasing from $65 million in 1860 to
+        $1 billion in 1863 and around $2.7 billion shortly after the conclusion of the war in 1865. The debt grew
+        steadily into the 20th century and was roughly $22 billion after the country financed its involvement
+        in World War I.
       </p>
       <p>
-        Notable recent events triggering large spikes in the debt include the Afghanistan and Iraq Wars, the 2008 Great Recession,
-        and the COVID-19 Pandemic. From FY 2019 to FY 2021, spending increased by about 50%, largely due to the COVID-19 Pandemic.
-        Tax cuts, stimulus programs, increased government spending, and decreased tax revenue caused by widespread unemployment generally
-        account for sharp rises in the national debt.
+        Notable recent events triggering large spikes in the debt include the Afghanistan and Iraq Wars,
+        the 2008 Great Recession, and the COVID-19 Pandemic. From FY 2019 to FY 2021, spending increased by
+        about 50%, largely due to the COVID-19 Pandemic. Tax cuts, stimulus programs, increased government
+        spending, and decreased tax revenue caused by widespread unemployment generally account for sharp
+        rises in the national debt.
       </p>
       {!isLoading ? (
         <div className={visWithCallout}>
@@ -966,6 +955,8 @@ export const DebtBreakdownSection = (({ sectionId }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date ());
   const [isChartRendered, setIsChartRendered] = useState(false);
+  const [startYear, setStartYear] = useState('');
+  const [endYear, setEndYear] = useState('');
 
   const {
     name,
@@ -1062,7 +1053,9 @@ export const DebtBreakdownSection = (({ sectionId }) => {
         const transformed = transformer(response);
         if (transformed && transformed.length === 2) {
           setData(transformed);
-          setDate(getDateWithoutOffset(transformed[1].record_date))
+          setDate(getDateWithoutOffset(transformed[1].record_date));
+          setStartYear(transformed[0].record_calendar_year);
+          setEndYear(transformed[1].record_calendar_year);
         }
       });
   }, []);
@@ -1077,7 +1070,7 @@ export const DebtBreakdownSection = (({ sectionId }) => {
         nor does it include debts carried by individuals, such as personal credit card debt or mortgages.
       </p>
       <p>
-        The visual below comparing calendar year {data[0].record_calendar_year} and {data[1].record_calendar_year} displays the difference in growth
+        The visual below comparing calendar year {startYear} and {endYear} displays the difference in growth
         between debt held by the public and intragovernmental debt. While both types of debt combine to make up the national debt,
         they have increased by different amounts in the past several years. One of the main causes of the jump in public debt can be
         attributed to increased funding of programs and services during the COVID-19 pandemic. Intragovernmental debt has not
@@ -1288,7 +1281,7 @@ export const DebtCeilingSection = () => (
       unknown but would likely have catastrophic  repercussions in the United States and in markets across the globe.
     </p>
     <div className={debtAccordion}>
-      <Accordion title={ debtCeilingSectionAccordionTitle }>
+      <Accordion title={ debtCeilingSectionAccordionTitle } containerClass={debtCeilingAccordion}>
         Government shutdowns occur when annual funding for ongoing federal government operations expires, and Congress does not renew it in time.
       </Accordion>
     </div>

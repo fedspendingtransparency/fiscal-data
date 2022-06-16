@@ -118,12 +118,23 @@ const SocialMetaData = ({ image, title, summary, url }) => {
   )
 };
 
-export const SocialShareComponent = ({ title, summary, url, image, quote, width }) => {
+export const SocialShareComponent = (
+  {
+    title,
+    text,
+    hashtags,
+    hashtagsArray,
+    emailSubject,
+    emailBody,
+    url,
+    image,
+    width }) => {
+
    return (
      <>
        <SocialMetaData image={ image }
                        title={ title }
-                       summary={ summary }
+                       summary={ text + ' ' + hashtags }
                        url={ url }
        />
        <div className={ socialShareContent }>
@@ -133,7 +144,8 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
          <div className={ shareButtonContainer }>
            <FacebookShareButton className={ shareButton }
                                 url={ url }
-                                quote={ quote }
+                                quote={ text }
+                                hashtag={ hashtags }
            >
              <ShareButtonContent name={ 'facebook' } width={ width } />
            </FacebookShareButton>
@@ -141,7 +153,8 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
          <div className={ shareButtonContainer }>
            <TwitterShareButton className={ shareButton }
                                url={ url }
-                               title={ title }
+                               title={ text }
+                               hashtags={ hashtagsArray }
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
@@ -150,7 +163,7 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
            <LinkedinShareButton className={ shareButton }
                                 url={ url }
                                 title={ title }
-                                summary={ summary }
+                                summary={ text }
                                 source={ baseUrl }
            >
              <ShareButtonContent name={ 'linkedin' } width={ width } />
@@ -167,8 +180,8 @@ export const SocialShareComponent = ({ title, summary, url, image, quote, width 
          <div className={ shareButtonContainer }>
            <EmailShareButton className={ shareButton }
                              url={ url }
-                             subject={ title }
-                             body={ summary }
+                             subject={ emailSubject }
+                             body={ emailBody }
                              separator={ "\n" }
            >
              <ShareButtonContent name={ 'email' } width={ width } />

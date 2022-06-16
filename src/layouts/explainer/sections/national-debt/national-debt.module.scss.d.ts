@@ -105,6 +105,7 @@ export const diveDeeperQuoteLeft: string;
 export const diveDeeperCitation: string;
 export const diveDeeperLink: string;
 export const debtAccordion: string;
+export const debtCeilingAccordion: string;
 export const growingNationalDebt: string;
 export const paddingTop: string;
 export const diveDeeperContent: string;
