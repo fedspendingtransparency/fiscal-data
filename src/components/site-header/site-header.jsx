@@ -108,7 +108,9 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                     <button
                       className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
                       onMouseOver={handleMouseOver}
-                      onFocus={handleMouseOver}>
+                      onFocus={handleMouseOver}
+                      data-testid={'topicsButton'}
+                    >
                       {pageLink.title}
                       {isExpanded
                       ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
@@ -121,6 +123,7 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                         onMouseOver={handleMouseOver}
                         onMouseLeave={handleMouseLeave}
                         onFocus={handleMouseOver}
+                        data-testid={'dropdownContent'}
                       >
                         <div className={styles.dropdownRow}>
                           <div className={styles.dropdownColumnOne}>
