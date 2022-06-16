@@ -44,12 +44,16 @@
 
   .dropdown .dropdownButton {
     margin-right: 3rem;
-    border: none;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
     outline: none;
     background-color: inherit;
+    border-bottom: 2px solid transparent;
     font-size: 1rem;
     color: $font-title;
     height: 55px;
+    min-width: 81px;
   }
 
   // todo - make this class nested under dropdownButton
@@ -63,12 +67,12 @@
     height: 55px;
     color: $primary;
     font-weight: $semi-bold-weight;
-    // todo - make this work right
-    border-bottom: 4px $primary;
+    border-bottom: 2px solid $primary;
   }
 
   .caret {
     padding-left: 1rem;
+    min-width: 10px;
   }
 
   .dropdownContent {
@@ -115,6 +119,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 15px;
 
     a {
       display: block;
