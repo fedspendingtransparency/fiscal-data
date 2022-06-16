@@ -128,9 +128,6 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                               AMERICA'S FINANCE GUIDE
                             </div>
                               <Link href={'/'} className={styles.dropdownListItem}>Debt</Link>
-                              <Link href={'/'} className={styles.dropdownListItem}>Deficit</Link>
-                              <Link href={'/'} className={styles.dropdownListItem}>Revenue</Link>
-                              <Link href={'/'} className={styles.dropdownListItem}>Spending</Link>
                           </div>
                           <div className={styles.dropdownColumnTwo}>
                             <div className={styles.dropdownTitle}>
