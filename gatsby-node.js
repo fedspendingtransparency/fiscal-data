@@ -448,6 +448,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         glossaryCsv: nodes {
           term
           definition
+          site_page
           id
           url_display
           url_path
