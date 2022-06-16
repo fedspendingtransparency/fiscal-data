@@ -61,18 +61,6 @@
   }
 }
 
-// Trying to maximize the flexibility of the components here in CSS over class usage.
-
-.visWithCallout {
-  display: flex;
-  flex-direction: column;
-  @media screen and (min-width: $breakpoint-lg) {
-    > *:first-child {
-      width: 100%;
-    }
-  }
-}
-
 .sectionHeading {
   margin-top: 0;
   margin-bottom: 1.5rem;
@@ -86,6 +74,7 @@
 }
 
 .section {
+  width: 99%;
   position: relative;
 }
 
@@ -94,12 +83,14 @@
 @media screen and (min-width: $breakpoint-lg) {
 
   .socialShareContainer {
-    display: flex;
-    flex-direction: row-reverse;
+    position: relative;
   }
+
   .socialShare {
+    width: calc(33% - 2rem);
+    margin-left: 2rem;
+    float: right;
     padding-top: 1.25rem;
-    padding-right: 7rem;
   }
 }
 
@@ -109,21 +100,12 @@
     padding-left: 2rem;
   }
 
-  .contentContainer {
-    flex-direction: row;
-
-    // Trying to maximize the flexibility of the components here in CSS over class usage.
-
-    .mainContent {
-      > section {
-        flex-direction: column;
-        width: 92%;
-      }
-    }
+  .chartBackdrop {
+    min-width: 464px;
   }
 
-  .section {
-    width: 67%;
+  .contentContainer {
+    flex-direction: row;
   }
 
   .sectionBorder {
@@ -131,9 +113,16 @@
   }
 
   .visWithCallout {
+    display: flex;
+    width: 146%;
+
     flex-direction: row;
-    > * {
-      flex: 0 0 auto;
+    > :first-child {
+      flex: 2.6 1 0;
+    }
+
+    > :last-child {
+      flex: 1 1 0;
     }
   }
 
@@ -153,6 +142,10 @@
 
     .sectionHeading {
       margin-bottom: 2rem;
+    }
+
+    section {
+      width: 100%
     }
   }
 

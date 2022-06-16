@@ -112,7 +112,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                   </DataSourcesMethodologies>
                 </section>
               </div>
-            </div>
+          </div>
           </SecondaryNav>
         </div>
         <div className={relatedDatasetsStyle}>

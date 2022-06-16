@@ -14,6 +14,7 @@ import {
   mainContainer,
   navContainer,
   navigableContent,
+  linkContainer,
   sectionLink,
   headingLevel2,
   headingLevel3
@@ -133,10 +134,11 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
               key={s.index}
               onMouseEnter={() => handleMouseEnter(s.index)}
               onMouseLeave={handleMouseLeave}
+              className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
             >
               <Link
                 className={
-                  `${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink} ${hoveredSection === s.index ? hoverClass : ''}`
+                  `${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}`
                 }
                 title={s.title}
                 activeClass={activeClass}

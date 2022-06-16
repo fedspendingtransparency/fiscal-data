@@ -22,7 +22,7 @@ import {
 import Accordion from '../../../../components/accordion/accordion';
 import VisualizationCallout
   from "../../../../components/visualization-callout/visualization-callout";
-import { visWithCallout } from "../../explainer.module.scss";
+import { visWithCallout, chartBackdrop } from "../../explainer.module.scss";
 import drawChart, {
   addHoverEffects,
   removeHoverEffects
@@ -76,12 +76,17 @@ import {
   growingNationalDebtSectionGraph,
   growingNationalDebtSectionAccordion,
   title,
+  simple,
   headerContainer,
   header,
   subHeader,
   footerContainer,
   debtBreakdownSectionGraphContainer,
   barChartContainer,
+  multichartContainer,
+  multichartLegend,
+  aveInterestLegend,
+  debtLegend,
   lineChartContainer,
   postGraphContent,
   // Dive Deeper Section
@@ -95,9 +100,11 @@ import {
   fundingProgramAccordion,
   debtTrendsOverTimeSectionGraphContainer,
   subTitle,
-  titleBreakdown
+  titleBreakdown,
+  postGraphAccordionContainer
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
+import Multichart from "../../multichart/multichart"
 
 const sampleCopy = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -198,8 +205,9 @@ const KeyTakeawaysSection = () => (
           <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
         </div>
         <p>
-          Different parts of the debt impact the health and stability of our national debt, including
-          gross domestic product (GDP), interest rates, and various economic trends.
+          Different parts of the debt impact the health and stability of our
+          national debt, including gross domestic product (GDP), interest rates,
+          and various economic trends.
         </p>
       </div>
       <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
@@ -208,7 +216,8 @@ const KeyTakeawaysSection = () => (
           <FontAwesomeIcon icon={faPeopleCarry} className={offsetIcon} />
         </div>
         <p>
-          The national debt is often accessed by looking at debt over time or the ratio of the federal
+          The national debt is often accessed by looking at debt over time or
+          the ratio of the federal
           debt related to GDP.
         </p>
       </div>
@@ -332,8 +341,8 @@ const FundingProgramsSection = () => (
               <div className={secondColumn}>
                 <strong>Health</strong>
                 <p>
-                  Health Care Services, Heath Research and Training, Consumer and Occupational Health
-                  and Safety
+                  Health Care Services, Heath Research and Training,
+                  Consumer and Occupational Health and Safety
                 </p>
               </div>
             </div>
@@ -433,7 +442,9 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         )}
         <div className={accordionFooter}>
           <p>(1000 squares drawn to scale.)</p>
-          <p>{`Today's debt is $${nationalDebtValueInTenths}T, that's ${numberOfSquares} squares.`}</p>
+          <p>
+            {`Today's debt is $${nationalDebtValueInTenths}T, that's ${numberOfSquares} squares.`}
+          </p>
         </div>
       </Accordion>
     </div>
@@ -503,7 +514,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         const latestEntry = dataset.data[0];
         // Use window.innerWidth instead of width prop because this doesn't trigger on mount
         chartOptions.forceHeight = window.innerWidth < pxToNumber(breakpointLg) ? 200 : 400;
-        chartOptions.forceLabelFontSize = window.innerWidth < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14;
+        chartOptions.forceLabelFontSize = window.innerWidth < pxToNumber(breakpointLg) ?
+          fontSize_10 : fontSize_14;
 
         const xAxisTickValues = [];
         const step = Math.floor(dataset.data.length / 5);
@@ -530,7 +542,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
       })
       .catch((err) => {
         console.error(err);
-      })
+      });
   }, []);
 
   useEffect(() => {
@@ -568,7 +580,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
   const [lastDebtValue, setLastDebtValue] = useState({});
 
-  const debtEndpointUrl = 'v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948';
+  const debtEndpointUrl =
+    'v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948';
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${debtEndpointUrl}`)
@@ -578,10 +591,13 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         basicFetch(`https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`)
         .then((res) => {
           if(res.BEAAPI.Results.Data) {
-            const gdpData = res.BEAAPI.Results.Data.filter(entry => entry.LineDescription === 'Gross domestic product');
+            const gdpData = res.BEAAPI.Results.Data
+              .filter(entry => entry.LineDescription === 'Gross domestic product');
             const averagedGDPByYear = [];
-            for(let i = parseInt(debtData[debtData.length - 1].record_fiscal_year); i <= parseInt(debtData[0].record_fiscal_year); i++) {
-              const allQuartersForGivenYear = gdpData.filter(entry => entry.TimePeriod.includes(i.toString()));
+            for (let i = parseInt(debtData[debtData.length - 1].record_fiscal_year);
+                i <= parseInt(debtData[0].record_fiscal_year); i++) {
+              const allQuartersForGivenYear = gdpData
+                .filter(entry => entry.TimePeriod.includes(i.toString()));
               let totalGDP = 0;
               allQuartersForGivenYear.forEach(quarter => {
                 totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
@@ -597,7 +613,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
               const record = debtData.find(entry => entry.record_date.includes(GDPEntry.year));
               debtToGDP.push({
                 "x": GDPEntry.year,
-                "y": Math.round(((parseFloat(record.debt_outstanding_amt) / GDPEntry.average) * 100))
+                "y": Math.round(
+                  ((parseFloat(record.debt_outstanding_amt) / GDPEntry.average) * 100))
               })
             });
             const finalData = [
@@ -701,7 +718,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         <div className={visWithCallout}>
           <div>
             <div
-              className={growingNationalDebtSectionGraphContainer}
+              className={`${growingNationalDebtSectionGraphContainer} ${chartBackdrop}`}
             >
               <p className={title}>
                 U.S. Federal Debt Total of the Last 100 Years,
@@ -762,20 +779,26 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <>
             <div>
               <div className={debtTrendsOverTimeSectionGraphContainer}>
-                <p className={title}> Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {lastDebtValue.x}</p>
+                <p className={title}>
+                  Federal Debt Trends Over Time, {debtTrendsData[0].data[0].x} to {lastDebtValue.x}
+                </p>
                 <p className={subTitle}> Debt to Gross Domestic Product (GDP) </p>
                 <div className={headerContainer}>
                   <div>
-                    <div className={header}>{lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}</div>
+                    <div className={header}>
+                      {lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}
+                    </div>
                     <span className={subHeader}>Fiscal Year</span>
                   </div>
                   <div>
-                    <div className={header}>{lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue}</div>
+                    <div className={header}>
+                      {lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue}
+                    </div>
                     <span className={subHeader}>Debt to GDP</span>
                   </div>
                 </div>
                 <div
-                  className={lineChartContainer}
+                  className={`${lineChartContainer} ${chartBackdrop}`}
                   data-testid={"debtTrendsChart"}
                   role={"img"}
                   aria-label={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
@@ -839,11 +862,14 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                   />
                 </div>
                 <div className={footerContainer}>
-                  <p> Visit the <CustomLink url={slug}>
+                  <p> Visit the {' '}
+                    <CustomLink url={slug}>
                     {name}
-                                </CustomLink> dataset to explore and download this data.
-                    The GDP data is sourced from the
-                    <CustomLink url={"https://www.bea.gov/"}> Bureau of Economic Analysis</CustomLink>.
+                    </CustomLink>{' '} dataset to explore and download this data.
+                    The GDP data is sourced from the {' '}
+                    <CustomLink url={"https://www.bea.gov/"}>
+                      Bureau of Economic Analysis
+                    </CustomLink>.
                   </p>
                   <p>
                     Last updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
@@ -866,23 +892,38 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           </>
         )}
       </div>
-      <VisualizingTheDebtAccordion width={width}>
-      </VisualizingTheDebtAccordion>
+      <div className={postGraphAccordionContainer}>
+        <VisualizingTheDebtAccordion width={width} />
+      </div>
+
     </div>
   );
 });
 
-export const DebtBreakdownSection = (({ sectionId }) => {
+export const percentageFormatter = (value) => Number(value).toFixed(2) + '%';
+export const trillionsFormatter = (value) => `$${(Number(value) / 1000000).toFixed(1)} T`;
+
+export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date ());
   const [isChartRendered, setIsChartRendered] = useState(false);
+  const [multichartConfigs, setMultichartConfigs] = useState([]);
+  const [multichartDataLoaded, setMultichartDataLoaded] = useState(false);
+  const [debtValue, setDebtValue] = useState('0');
+  const [interestValue, setInterestValue] = useState('0');
+  const [focalYear, setFocalYear] = useState(1900);
+  const [multichartStartYear, setMultichartStartYear] = useState('');
+  const [multichartEndYear, setMultichartEndYear] = useState('');
 
   const {
     name,
     slug,
     endpoint,
     getQueryString,
-    transformer } = nationalDebtSectionConfigs[sectionId];
+    transformer,
+    multichart
+  } = nationalDebtSectionConfigs[sectionId];
+
 
   const fiveTheme = {
     fontSize: fontSize_16,
@@ -960,11 +1001,125 @@ export const DebtBreakdownSection = (({ sectionId }) => {
       )
     };
 
+
+  const chartOptions = {
+    forceHeight: 400,
+    forceYAxisWidth: 60,
+    forceLabelFontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    format: true,
+    showOuterXAxisTicks: true,
+    placeInitialMarker: true,
+    noTooltip: true,
+    noShaders: true,
+    noInnerXAxisTicks: false,
+    placeInnerXAxisTicksBelowLine: true,
+    excludeYAxis: true,
+    marginLabelOptions: {
+      fontSize: 14,
+      fontColor: '#666666',
+      fontWeight: 600
+    }
+  }
+
+  const interestChartOptions = Object.assign({ inverted: false }, chartOptions);
+  const amountChartOptions = Object.assign({
+    inverted: true,
+    shading: {
+      side: 'under',
+      color: chartPatternBackground
+    }
+  }, chartOptions);
+
+  const localMultichartConfigs = [
+    {
+      name: 'interest',
+      dataSourceUrl: `${apiPrefix}${multichart.endpoints[0].path}`,
+      dateField: multichart.endpoints[0].dateField,
+      fields: [multichart.endpoints[0].valueField],
+      options: interestChartOptions,
+      marginLabelFormatter: percentageFormatter,
+      marginLabelLeft: true,
+      marginLabelRight: true,
+      zeroMarginLabelLeft: true,
+    }, {
+      name: 'debt',
+      dataSourceUrl: `${apiPrefix}${multichart.endpoints[1].path}`,
+      dateField: multichart.endpoints[1].dateField,
+      fields: [multichart.endpoints[1].valueField],
+      options: amountChartOptions,
+      marginLabelFormatter: trillionsFormatter,
+      marginLabelLeft: true,
+      marginLabelRight: true
+    }
+  ];
+
+  const hoverEffectHandler = (recordDate) => {
+    const year = recordDate === null ?
+      multichartConfigs[0].data[0][multichartConfigs[0].dateField].substring(0, 4) :
+       recordDate.substring(0,4);
+    if (multichartConfigs[0].data && multichartConfigs[1].data) {
+      const interestRow = multichartConfigs[0].data
+        .find(row => row[multichartConfigs[0].dateField].indexOf(year) === 0);
+      const interest = percentageFormatter(interestRow[multichartConfigs[0].fields[0]]);
+
+      const debtRow = multichartConfigs[1].data
+        .find(row => row[multichartConfigs[1].dateField].indexOf(year) === 0);
+      const debt = trillionsFormatter(debtRow[multichartConfigs[1].fields[0]]);
+      setInterestValue(interest);
+      setDebtValue(debt);
+      setFocalYear(year);
+    }
+  };
+
   useEffect(() => {
     if (isChartRendered) {
       applyChartScaling();
+
+      const fetchers = [];
+      localMultichartConfigs.forEach((chartConfig) => {
+
+        fetchers.push(basicFetch(chartConfig.dataSourceUrl).then(response => {
+          const xAxisTickValues = [];
+          for (let i = 0, il = response.data.length; i < il; i += 1) {
+            const tickValue = new Date(response.data[i][chartConfig.dateField]);
+            xAxisTickValues.push(tickValue);
+          }
+          chartConfig.options.xAxisTickValues = xAxisTickValues;
+          chartConfig.data = response.data;
+
+          }).catch((err) => {
+          console.error(err);
+        }));
+      });
+
+      Promise.all(fetchers).then(() => {
+        const dataPopulatedConfigs = [];
+        localMultichartConfigs.forEach((config) => {
+          dataPopulatedConfigs.push(Object.assign({}, config));
+        });
+        setMultichartConfigs(dataPopulatedConfigs);
+        setMultichartStartYear(dataPopulatedConfigs[0]
+          .data[dataPopulatedConfigs[0].data.length - 1].record_calendar_year);
+        setMultichartEndYear(dataPopulatedConfigs[0].data[0].record_calendar_year);
+      });
     }
   }, [isChartRendered]);
+
+  useEffect(() => {
+    if (multichartConfigs && multichartConfigs.length > 1) {
+      if (multichartConfigs.every(config => config.data && config.data.length)) {
+        setMultichartDataLoaded(true);
+      }
+    }
+  }, [multichartConfigs]);
+
+  useEffect(() => {
+    if (multichartDataLoaded) {
+      hoverEffectHandler(multichartConfigs[0].data[0][multichartConfigs[0].dateField])
+    }
+  }, [multichartDataLoaded]);
+
+  const multichartId = 'interestToDebt';
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${endpoint}${getQueryString()}`)
@@ -990,8 +1145,9 @@ export const DebtBreakdownSection = (({ sectionId }) => {
         {data && (
           <>
             <div>
-              <div className={debtBreakdownSectionGraphContainer}>
-                <p className={titleBreakdown}>Intragovernmental Holdings and Debt Held by the Public,
+              <div className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}>
+                <p className={titleBreakdown}>
+                  Intragovernmental Holdings and Debt Held by the Public,
                   {' '}{data[0].record_calendar_year} and {data[1].record_calendar_year}
                 </p>
                 <div
@@ -1117,31 +1273,94 @@ export const DebtBreakdownSection = (({ sectionId }) => {
       </div>
       <div className={postGraphContent}>
         <h3>Maintaining the National Debt</h3>
-        <p>{sampleCopy}</p>
+      </div>
+      <p>
+        The federal government is charged interest for the use of lenders’ money, in the
+        same way that lenders charge an individual interest for a car loan or mortgage.
+        How much the government pays in interest depends on the total national debt
+        and the various securities’ interest rates.
+      </p>
+      <p>
+        As of December {multichartEndYear} it costs $XX.XX trillion to maintain the debt which is
+        XX.XX%  of the total federal debt.
+      </p>
+      <p>
+        Although the national debt has increased every year over the past ten years,
+        interest expenses have remained fairly stable due to low interest rates and
+        investors’ perception that the U.S. government has a very low risk of default.
+      </p>
         <div className={visWithCallout}>
-          <div
-            style={{
-              height: 500,
-              margin: '16px 0 32px 0',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              color: '#fff',
-              backgroundColor: '#555'
-            }}
-          >
-            Graph
+          {multichartDataLoaded && (
+
+          <div>
+            <div className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}>
+              <p className={`${title} ${simple}`}>
+                Interest Rate and Total
+                Debt, {multichartStartYear} – {multichartEndYear}
+              </p>
+              <div className={headerContainer} data-testid="interest-and-debt-chart-header">
+                <div>
+                  <div className={header}>{focalYear}</div>
+                  <span className={subHeader}>Fiscal Year</span>
+                </div>
+                <div>
+                  <div className={header}>{interestValue}</div>
+                  <span className={subHeader}>Average Interest Rate</span>
+                </div>
+                <div>
+                  <div className={header}>{debtValue}</div>
+                  <span className={subHeader}>Total Debt</span>
+                </div>
+              </div>
+              <div className={multichartContainer}>
+                <Multichart chartId={multichartId}
+                            chartConfigs={multichartConfigs}
+                            hoverEffectHandler={hoverEffectHandler}
+                />
+              </div>
+              <div className={multichartLegend} data-testid="interest-and-debt-chart-legend">
+                <div><div className={aveInterestLegend} />
+                  <div>Average Interest Rate</div>
+                </div>
+                <div><div className={debtLegend} />
+                  <div>Total Debt</div>
+                </div>
+              </div>
+              <div className={footerContainer}>
+                <p>
+                  Visit the {' '}
+                  <CustomLink url={'/datasets/debt-to-the-penny/'}>
+                    Average Interest Rates on U.S. Treasury  Securities
+                  </CustomLink>
+                  {' '} and {' '}
+                  <CustomLink url={'/'}>
+                    U.S. Treasury Monthly Statement
+                    of the Public Debt (MSPD)
+                  </CustomLink>
+                  {' '} datasets to explore and download this data.
+                </p>
+                <p>
+                  Last updated: December {multichartEndYear}
+                </p>
+              </div>
+            </div>
           </div>
+          )}
           <VisualizationCallout color={debtExplainerPrimary}>
-            <p>{smallSampleCopy}</p>
+            <p>
+              Interest rates have fallen over the past decade. Due to lower interest rates,
+              interest expenses on the debt paid by the federal government have remained stable
+              even as the federal debt has increased.
+            </p>
           </VisualizationCallout>
         </div>
-        <div className={debtAccordion}>
-          <Accordion title="Why can't the government just print more money?">
-            {sampleCopy}
-          </Accordion>
+        <div className={postGraphAccordionContainer}>
+          <div className={debtAccordion}>
+            <Accordion title="Why can't the government just print more money?">
+              {sampleCopy}
+            </Accordion>
+          </div>
         </div>
-      </div>
     </>
   );
 });
