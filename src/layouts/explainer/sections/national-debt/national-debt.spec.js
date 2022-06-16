@@ -19,7 +19,7 @@ import {
   mockGovtDebtIncrease,
   mockInterestRatesResponse,
   mockTotalDebtResponse,
-  mockDebtBreakdownResponse
+  mockDebtBreakdownResponse, mockInterestToDebtChartHeaderSummary,
 } from "../../explainer-test-helper"
 import {
   determineBEAFetchResponse, setGlobalFetchMatchingResponse,
@@ -252,12 +252,14 @@ describe('Breaking Down the Debt', () => {
     let elem;
     await waitFor(() => {
       elem = getByTestId('interest-and-debt-chart-header');
-      expect(elem).toHaveTextContent('Interest');
-      expect(elem).toHaveTextContent('Total Debt');
-      expect(elem).toHaveTextContent('Fiscal Year');
-      expect(elem).toHaveTextContent('1.56%');
-      expect(elem).toHaveTextContent('$29.6 T');
-      expect(elem).toHaveTextContent('2021');
+      Object.entries(mockInterestToDebtChartHeaderSummary)
+        .forEach(([label, value]) => {
+
+          console.log('label', label);
+            expect(elem).toHaveTextContent(label);
+            expect(elem).toHaveTextContent(value);
+          }
+        )
     });
   });
 

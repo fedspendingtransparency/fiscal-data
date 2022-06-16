@@ -427,6 +427,13 @@ export const mockTotalDebtData = [{
   "record_calendar_day": "31",
 }];
 
+// default header values based on mock data above
+export const mockInterestToDebtChartHeaderSummary = {
+  'Interest': '1.56%',
+  'Total Debt': '$29.6 T',
+  'Fiscal Year': '2021'
+};
+
 export const mockFifthSectionValueMarkers = [
   '$10.3 T',
   '$4.7 T',

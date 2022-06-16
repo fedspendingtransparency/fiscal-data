@@ -88,6 +88,7 @@ export const growingNationalDebtSectionGraphContainer: string;
 export const debtBreakdownSectionGraphContainer: string;
 export const debtTrendsOverTimeSectionGraphContainer: string;
 export const title: string;
+export const simple: string;
 export const titleBreakdown: string;
 export const subTitle: string;
 export const headerContainer: string;

@@ -163,7 +163,6 @@
 
 
 .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
-  //max-width: 31.5rem;
   background-color: $body-background;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -173,7 +172,13 @@
     margin-bottom: 0;
     font-weight: 600;
     color: $font-title;
+
+    &.simple {
+      margin-bottom: 2rem;
+    }
   }
+
+
 
   .titleBreakdown {
     margin-top: 0;

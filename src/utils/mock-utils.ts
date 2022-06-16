@@ -42,16 +42,7 @@ export const setGlobalFetchResponse = (
     });
   }) as (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 };
-/*export const determineResponseForDebtBreakdownSection = (
-  jest: { fn: (unknown) => unknown },
-  jsonResponse: Record<string, unknown> | [Record<string, unknown>]
-): void => {
-  global.fetch = jest.fn((url) => {
-    if (url.includes('https://apps.bea.gov/api/')) {
 
-    }
-  })
-};*/
 export const determineBEAFetchResponse = (
   jest: { fn: (unknown) => unknown },
   jsonResponse: Record<string, unknown> | [Record<string, unknown>]

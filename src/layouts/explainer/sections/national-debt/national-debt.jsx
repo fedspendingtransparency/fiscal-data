@@ -76,6 +76,7 @@ import {
   growingNationalDebtSectionGraph,
   growingNationalDebtSectionAccordion,
   title,
+  simple,
   headerContainer,
   header,
   subHeader,
@@ -1293,7 +1294,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
 
           <div>
             <div className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}>
-              <p className={title}>
+              <p className={`${title} ${simple}`}>
                 Interest Rate and Total
                 Debt, {multichartStartYear} – {multichartEndYear}
               </p>
