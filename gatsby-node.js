@@ -444,8 +444,21 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           latest
         }
       }
+      allGlossaryCsv {
+        glossaryCsv: nodes {
+          term
+          definition
+          site_page
+          id
+          url_display
+          url_path
+        }
+      }
     }
   `);
+
+
+  const glossaryData = result.data.allGlossaryCsv.glossaryCsv;
 
   result.data.allBlsPublicApiData.blsPublicApiData.filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))
     .forEach(blsRow => {
@@ -517,7 +530,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           seoConfig: explainer.seoConfig,
           heroImage: explainer.heroImage,
           relatedDatasets: explainerRelatedDatasets,
-          cpiDataByYear: cpiYearMap
+          cpiDataByYear: cpiYearMap,
+          glossary: glossaryData
         }
       });
     });

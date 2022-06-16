@@ -9,10 +9,9 @@ $menuWidth: 257px;
 
 .menuContainer {
   position: absolute;
-  top: 24px;
   width: 0;
   right: 0;
-
+  margin-top: -43px;
   transition: width 0.5s ease-in-out;
   z-index: 100;
 

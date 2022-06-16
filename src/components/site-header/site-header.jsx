@@ -9,6 +9,7 @@ import { isIE } from 'react-device-detect';
 import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
+import AnnouncementBanner from "../announcement-banner/announcement-banner";
 
 const SiteHeader = ({ lowerEnvMsg }) => {
   const pageLinks = [

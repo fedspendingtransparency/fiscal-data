@@ -1,0 +1,42 @@
+@import '../../variables.module.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 0.875rem 2rem 1rem 2rem;
+  background-color: #fff1d2;
+  color: #444444;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-14;
+  max-width: 62.5rem;
+}
+
+.infoIcon, .xMarkIcon {
+  font-size: 1rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    padding: 1rem 1.875rem 1rem;
+  }
+
+  .content {
+    align-items: normal;
+    margin-right: 1.375rem;
+  }
+
+  .infoIcon {
+    padding-top: .7rem;
+    margin-right: 1.375rem;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .infoIcon, .xMarkIcon {
+    margin: 0 1rem;
+  }
+}

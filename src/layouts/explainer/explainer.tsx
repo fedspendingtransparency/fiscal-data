@@ -32,6 +32,8 @@ import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets } = pageContext;
 
+  //TODO add glossary to page context above, and call helper function findGlossaryTerm(term, glossary) to get term info
+
   const breadCrumbLinks: Record<string, unknown>[] = [
     {
       name: breadCrumbLinkName,
@@ -113,7 +115,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                   </DataSourcesMethodologies>
                 </section>
               </div>
-            </div>
+          </div>
           </SecondaryNav>
         </div>
         <div className={relatedDatasetsStyle}>

@@ -1,3 +1,8 @@
+/* istanbul ignore file */
+
+/* ^^ File is ignored for coverage report since this exists purely as a helper to
+* spec files and should not have unit tests written against it */
+
 import {sub, format, parseISO} from 'date-fns';
 
 export const todayForTests = parseISO(format(new Date(), "yyyy-MM-dd"));
@@ -217,16 +222,17 @@ export const setGlobalFetchMatchingResponse = (
     }
     ]): void => {
   global.fetch = jest.fn((input: RequestInfo) => {
+
     return Promise.resolve({
       ok: true,
       ready: true,
       json: () => {
         let response;
 
-        const respSrc = responseMap.filter(value => value.matcher(`${input}`));
+        const respSrc = responseMap.find(value => value.matcher(`${input}`));
 
         if (respSrc) {
-          response = respSrc['jsonResponse'][0]; // return first match found
+          response = respSrc.jsonResponse; // return first match found
         } else {
           response = null;
         }
