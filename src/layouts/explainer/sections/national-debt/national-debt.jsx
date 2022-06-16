@@ -191,9 +191,10 @@ const KeyTakeawaysSection = () => (
           <FontAwesomeIcon icon={faMoneyCheckDollar} className={offsetIcon} />
         </div>
         <p>
-          The national debt is composed of distinct types of debt, similar to an individual whose debt may consist of a
-          mortgage, car loan, and credit cards. The different types of debt include non-marketable or marketable and whether
-          it is debt held by the public or debt held by the government itself (known as intragovernmental).
+          The national debt is composed of distinct types of debt, similar to an individual whose
+          debt may consist of a mortgage, car loan, and credit cards. The different types of debt
+          include non-marketable or marketable securities and whether it is debt held by the public
+          or debt held by the government itself (known as intragovernmental).
         </p>
     </div>
       <div className={keyTakeawaysContent}>
@@ -1373,7 +1374,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
         </p>
         <p>
           As of December {multichartEndYear} it costs $XX.XX trillion to maintain the debt, which is
-          XX.XX% of the total federal debt.
+          XX.XX% of the total federal spending.
         </p>
         <p>
           The national debt has increased every year over the past ten years. Interest expenses during this period have remained
