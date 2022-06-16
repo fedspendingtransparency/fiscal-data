@@ -1,7 +1,7 @@
 @import '../../../variables.module.scss';
 
 
-.nationalDebtActive {
+.nationalDebtActive, .nationalDebtHover {
   border-left-color: $debt-explainer-secondary !important;
   color: $debt-explainer-primary !important;
   font-weight: bold;

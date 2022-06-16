@@ -56,10 +56,12 @@
 }
 .fundingProgramsBox {
   border-radius: .125rem;
+  box-sizing: border-box;
   width: 100%;
   font-size: $font-size-18;
   border: solid .125rem $debt-explainer-light-secondary;
   box-shadow: .25rem .25rem $debt-explainer-light-secondary;
+  margin-right: 1.75rem;
 
   p {
     margin: 0;
@@ -161,7 +163,6 @@
 
 
 .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
-  //max-width: 31.5rem;
   background-color: $body-background;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -171,7 +172,13 @@
     margin-bottom: 0;
     font-weight: 600;
     color: $font-title;
+
+    &.simple {
+      margin-bottom: 2rem;
+    }
   }
+
+
 
   .titleBreakdown {
     margin-top: 0;
@@ -220,6 +227,46 @@
     max-width: 524px;
     margin: 0 auto;
   }
+
+  .multichartContainer {
+
+    :global(.tick) line {
+      stroke: #666666;
+    }
+  }
+
+  .aveInterestLegend {
+    width: 40px;
+    height: 2px;
+    margin: 11px 16px 11px 0;
+    background-color: #555;
+  }
+
+  .multichartLegend {
+    margin: 2rem auto 0 auto;
+    display: flex;
+
+    padding: 0 3rem;
+
+    align-content: space-around;
+    > div {
+      flex-grow: 1;
+      margin: 0 20px  12px;
+      vertical-align: middle;
+      white-space: nowrap;
+      div {
+        vertical-align: middle;
+        display: inline-block;
+      }
+    }
+  }
+
+  .debtLegend {
+    width: 40px;
+    height: 24px;
+    margin: 0 16px 0 0;
+    background-color: #4a0072;
+  }
 }
 
 .debtTrendsOverTimeSectionGraphContainer {
@@ -229,22 +276,14 @@
     aspect-ratio: 1 / 1;
     height: 440px;
   }
-
-  @media screen and (max-width: $breakpoint-lg - 1) {
-    .lineChartContainer {
-      height: 293px;
-    }
-  };
-
-  @media screen and (max-width: $breakpoint-sm - 1) {
-    .lineChartContainer {
-      height: 240px;
-    }
-  };
 }
 
 .postGraphContent {
   margin-top: 3rem;
+}
+
+.postGraphAccordionContainer {
+  margin-top: 1rem;
 }
 
 .diveDeeperQuoteLeft {
@@ -426,6 +465,13 @@
     p {
       margin-left: 2rem;
     }
+  }
+
+  .multichartContainer {
+  }
+
+  .debtAccordion {
+    min-width: 508px;
   }
 }
 
@@ -637,5 +683,8 @@
       width: calc(5% - 1px);
       padding-bottom: calc(5% - 1px);
     }
+  }
+  :global(#interestToDebt .tick text) {
+    font-size: $font-size-10;
   }
 }

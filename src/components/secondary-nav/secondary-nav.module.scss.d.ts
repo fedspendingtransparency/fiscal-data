@@ -65,6 +65,7 @@ export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const mainContainer: string;
 export const navContainer: string;
+export const linkContainer: string;
 export const sectionLink: string;
 export const defaultLink: string;
 export const headingLevel2: string;

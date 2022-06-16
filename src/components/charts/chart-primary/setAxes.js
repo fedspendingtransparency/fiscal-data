@@ -9,14 +9,14 @@ const complexDate = (d, i) => {
   if ((timeFormat('%d')(d) === '01') && (timeFormat('%m')(d) === '01')) {
     return timeFormat('%Y')(d);
   } else if (i === 0) {
-    return timeFormat('%b %d, %Y')(d)
+    return timeFormat('%b %d, %Y')(d);
   } else {
-    return timeFormat('%b %d')(d)
+    return timeFormat('%b %d')(d);
   }
 }
 
 const markMonths = (d, i) => {
-  return timeFormat('%b')(d)
+  return timeFormat('%b')(d);
 }
 
 const thinXLabels = (xAxis) => {
@@ -41,26 +41,36 @@ const thinXLabels = (xAxis) => {
   }
 
   if (days < 180) {
-    xAxis.tickFormat(complexDate)
+    xAxis.tickFormat(complexDate);
   } else if (days < 400) {
     xAxis.tickFormat(markMonths);
   } else {
-    xAxis.tickFormat(timeFormat('%Y'))
+    xAxis.tickFormat(timeFormat('%Y'));
   }
 
 }
 
 const setXAxis = () => {
+  let innerTickSize = 0;
+  if (!options.noInnerXAxisTicks) {
+    innerTickSize = options.placeInnerXAxisTicksBelowLine ? 5 : 0 - chartDimensions.height;
+  }
   const xAxis = axisBottom(scales.x)
-    .tickSizeInner(!options.noInnerXAxisTicks ? 0 - chartDimensions.height : 0)
+    .tickSizeInner(innerTickSize)
     .tickSizeOuter(options.showOuterXAxisTicks ? 5 : 0);
 
   thinXLabels(xAxis);
-  
-  container.append('g')
-    .attr('class', 'axis axis--x')
-    .attr('transform', 'translate(0,' + chartDimensions.height + ')')
-    .call(xAxis);
+  if (!options.excludeYAxis) {
+    container.append('g')
+      .attr('class', 'axis axis--x')
+      .attr('transform', 'translate(0,' + chartDimensions.height + ')')
+      .call(xAxis);
+  } else {
+    container.append('g')
+      .attr('class', 'axis axis--x')
+      .attr('transform', 'translate(0,475)')
+      .call(xAxis);
+  }
 }
 
 const setYAxis = () => {
@@ -103,7 +113,7 @@ const createShaders = (noShaders) => {
     .lower()
     .selectAll('rect')
     .data(new Array(rectCount))
-  
+
   if (!noShaders) {
     const rectHeight = scales.y(tickValues[0]) - scales.y(tickValues[1]);
 
@@ -123,8 +133,12 @@ const setAxes = (_container, _scales, _chartDimensions, _dataType, _options = {}
   dataType = _dataType;
   options = _options;
 
-  setXAxis();
-  setYAxis();
+  if (!options.excludeXAxis) {
+    setXAxis();
+  }
+  if (!options.excludeYAxis) {
+    setYAxis();
+  }
 
   createShaders(options.noShaders);
 

@@ -64,3 +64,4 @@ export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const nationalDebtActive: string;
+export const nationalDebtHover: string;

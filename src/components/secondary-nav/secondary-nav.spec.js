@@ -85,7 +85,7 @@ describe('Secondary Nav', () => {
     expect(queryByText(sections[0].title)).not.toBeInTheDocument();
     expect(getByText(childContent)).toBeInTheDocument();
   });
-  
+
   it('hides the page content when the table of contents is open on mobile', () => {
     const { getByRole, getByText, container } = render(
       <SecondaryNav
@@ -95,18 +95,19 @@ describe('Secondary Nav', () => {
         <div id={sections[0].id}>{childContent}</div>
       </SecondaryNav>
     );
-      
+
     const button = getByRole('button');
     act(() => {
       button.click();
     });
-      
+
     expect(getByText(sections[0].title)).toBeInTheDocument();
     // the page content is still on the document, but it is hidden using a CSS class
     expect(container.querySelector('.hidden')).toBeInTheDocument();
   });
 
-  it('sets a hover style on a link when hovered and removes it when not hovered', () => {
+  it(`sets a hover style on a link's container when hovered and
+  removes it when not hovered`, () => {
     const { getByText } = render(
       <SecondaryNav
         sections={sections}
@@ -117,11 +118,11 @@ describe('Secondary Nav', () => {
       </SecondaryNav>
     );
 
-    const link = getByText(sections[0].title);
+    const link = getByText(sections[0].title).parentElement;
 
     fireEvent.mouseOver(link);
     expect(link.className.includes(hoverClass)).toBeTruthy();
-    
+
     fireEvent.mouseOut(link);
     expect(link.className.includes(hoverClass)).toBeFalsy();
   });
@@ -152,7 +153,7 @@ describe('Secondary Nav', () => {
       </SecondaryNav>
     );
     const button = getByRole('button');
-      
+
     // Click to open TOC
     act(() => {
       button.click();
