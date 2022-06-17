@@ -105,7 +105,7 @@ const SiteHeader = ({ lowerEnvMsg }) => {
 
               if (pageLink.title === 'Topics') {
                 return (
-                  <div className={styles.dropdown}>
+                  <div className={styles.dropdown} key={pageLink.title}>
                     <button
                       className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
                       onMouseOver={handleMouseOver}
@@ -128,18 +128,18 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                       >
                         <div className={styles.dropdownRow}>
                           <div className={styles.dropdownColumnOne}>
-                            <div className={styles.dropdownTitle}>
+                            <div className={styles.dropdownTitle} >
                               AMERICA'S FINANCE GUIDE
                             </div>
-                              <Link href={'/'} className={styles.dropdownListItem}>Debt</Link>
+                            <Link href={'/'} className={styles.dropdownListItem} to={'/'}>Debt</Link>
                           </div>
                           <div className={styles.dropdownColumnTwo}>
-                            <div className={styles.dropdownTitle}>
+                            <div className={styles.dropdownTitle} >
                               INSIGHTS
                             </div>
-                              <div className={styles.dropdownTempText}>
-                                <em>{dropdownTempText}</em>
-                              </div>
+                            <div className={styles.dropdownTempText} >
+                              <em>{dropdownTempText}</em>
+                            </div>
                           </div>
                         </div>
                       </div>
