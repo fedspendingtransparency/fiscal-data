@@ -61,7 +61,7 @@ const SiteHeader = ({ lowerEnvMsg }) => {
     setIsExpanded(false);
   }
 
-  const dropdownTempText = 'Coming soon! - Short analyses on federal finance topics';
+  const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
 
   return (
     <header>
