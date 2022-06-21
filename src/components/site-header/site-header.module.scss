@@ -18,6 +18,13 @@
   display: none;
 }
 
+.pageLinkButton {
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
+  border-bottom: 2px solid transparent;
+}
+
 .logo {
   width: 8.25rem;
   height: 35px;
@@ -41,6 +48,33 @@
     width: 12rem;
     height: 55px;
   }
+  .pageLinkButtonContainer {
+    .pageLinkButton {
+      padding-top: 3px;
+      margin-right: 3rem;
+      //border-top-style: none;
+      //border-right-style: none;
+      //border-left-style: none;
+      background-color: inherit;
+      font-size: 1rem;
+      height: 55px;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        a {
+          color: $primary;
+          font-weight: $semi-bold-weight;
+        }
+        border-bottom: 2px solid $primary;
+      }
+
+      &.activeLink {
+        color: #555555;
+        font-weight: $semi-bold-weight;
+        border-bottom: 2px solid #555555;
+      }
+    }
+  }
 
   .dropdown .dropdownButton {
     padding-top: 3px;
@@ -59,6 +93,7 @@
 
   // todo - make this class nested under dropdownButton
   .dropdownButtonExpanded {
+
     padding-top: 3px;
     margin-right: 3rem;
     border-top-style: none;
@@ -123,12 +158,15 @@
   .dropdownListItem {
     margin-bottom: 0.4rem;
     font-size: 1rem;
-  }
+    a {
+      &:hover {
+        color: $primary;
+        font-weight: $semi-bold-weight;
+      }
 
-  .dropdownListItemActive {
-    &:hover{
-      font-weight: $semi-bold-weight;
-      color: #0071BC;
+      &.activeTopicLink {
+        font-weight: $semi-bold-weight;
+      }
     }
   }
 
@@ -148,8 +186,14 @@
       &:last-child {
         margin-right: 0;
       }
-      &.activeLink {
+
+      &:hover {
         color: $primary;
+        font-weight: $semi-bold-weight;
+      }
+
+      &.activeLink {
+        color: #555555;
         font-weight: $semi-bold-weight;
       }
     }

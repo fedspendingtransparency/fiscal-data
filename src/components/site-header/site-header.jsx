@@ -85,8 +85,6 @@ const SiteHeader = ({ lowerEnvMsg }) => {
             aria-label="Fiscal Data logo - return to home page"
             to="/"
             onClick={() => clickHandler('Logo')}
-
-
           >
             <StaticImage
               src="../../images/logos/fd-logo.svg"
@@ -115,7 +113,9 @@ const SiteHeader = ({ lowerEnvMsg }) => {
 
               if (pageLink.title === 'Topics') {
                 return (
-                  <div className={styles.dropdown} key={pageLink.title}>
+                  <div className={styles.dropdown} key={pageLink.title}
+                  style={{transition:'opacity 1s ease'}}
+                  >
                     <button
                       className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
                       onMouseOver={handleMouseOver}
@@ -145,10 +145,12 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                               {topicsPageLinks.map((topicPageLink) => {
                                 return (
                                   <div key={topicPageLink.title}
-                                       className={styles.dropdownListItemActive}
+                                       className={styles.dropdownListItem}
+
                                   >
                                     <Link
                                       to={topicPageLink.to}
+                                      activeClassName={styles.activeTopicLink}
                                     >
                                       {topicPageLink.title}
                                     </Link>
@@ -173,15 +175,19 @@ const SiteHeader = ({ lowerEnvMsg }) => {
               }
 
               return (
-                <Link
-                  key={pageLink.title}
-                  to={pageLink.to}
-                  activeClassName={styles.activeLink}
-                  data-testid={pageLink.testId}
-                  onClick={() => clickHandler(pageLink.title)}
-                >
-                  {pageLink.title}
-                </Link>
+                <div className={styles.pageLinkButtonContainer}>
+                <button className={styles.pageLinkButton}>
+                  <Link
+                    key={pageLink.title}
+                    to={pageLink.to}
+                    activeClassName={styles.activeLink}
+                    data-testid={pageLink.testId}
+                    onClick={() => clickHandler(pageLink.title)}
+                  >
+                    {pageLink.title}
+                  </Link>
+                </button>
+                </div>
               )
             })}
           </div>
