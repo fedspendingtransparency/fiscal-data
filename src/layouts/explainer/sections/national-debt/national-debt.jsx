@@ -1180,7 +1180,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
         setMultichartStartYear(dataPopulatedConfigs[0]
           .data[dataPopulatedConfigs[0].data.length - 1].record_calendar_year);
         setMultichartEndYear(dataPopulatedConfigs[0].data[0].record_calendar_year);
-        sortedInterestRates = dataPopulatedConfigs[0].data.sort((a,b) => {return a.avg_interest_rate_amt - b.avg_interest_rate_amt});
+        sortedInterestRates = [...dataPopulatedConfigs[0].data].sort((a,b) => {return a.avg_interest_rate_amt - b.avg_interest_rate_amt});
         setMultichartInterestRateMin(percentageFormatter(sortedInterestRates[0].avg_interest_rate_amt));
         setMultichartInterestRateMax(percentageFormatter(sortedInterestRates[sortedInterestRates.length-1].avg_interest_rate_amt));
       });
@@ -1209,7 +1209,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
         const transformed = transformer(response);
         if (transformed && transformed.length === 2) {
           setData(transformed);
-          setDate(getDateWithoutOffset(transformed[1].record_date));
+          setDate(getDateWithoutOffset(transformed[1].record_date))
           setStartYear(transformed[0].record_calendar_year);
           setEndYear(transformed[1].record_calendar_year);
         }

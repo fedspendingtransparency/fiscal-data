@@ -122,8 +122,6 @@ export const SocialShareComponent = (
   {
     title,
     text,
-    hashtags,
-    hashtagsArray,
     emailSubject,
     emailBody,
     url,
@@ -134,7 +132,7 @@ export const SocialShareComponent = (
      <>
        <SocialMetaData image={ image }
                        title={ title }
-                       summary={ text + ' ' + hashtags }
+                       summary={ text }
                        url={ url }
        />
        <div className={ socialShareContent }>
@@ -145,7 +143,6 @@ export const SocialShareComponent = (
            <FacebookShareButton className={ shareButton }
                                 url={ url }
                                 quote={ text }
-                                hashtag={ hashtags }
            >
              <ShareButtonContent name={ 'facebook' } width={ width } />
            </FacebookShareButton>
@@ -154,7 +151,6 @@ export const SocialShareComponent = (
            <TwitterShareButton className={ shareButton }
                                url={ url }
                                title={ text }
-                               hashtags={ hashtagsArray }
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
