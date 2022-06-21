@@ -1,7 +1,7 @@
 @import '../../variables.module.scss';
 
 .container {
-  border-bottom: 2px solid $slate-blue;
+  border-bottom: 1px solid $slate-blue;
   background-color: white;
   padding: 0.5rem 0.75rem;
 }
@@ -30,8 +30,11 @@
 }
 
 @media screen and (min-width: $breakpoint-lg) {
+  .content {
+    height: 70px;
+  }
   .container {
-    padding: 0 2rem 0.5rem;
+    padding: 0 2rem;
   }
 
   .logo {
@@ -39,16 +42,94 @@
     height: 55px;
   }
 
+  .dropdown .dropdownButton {
+    padding-top: 3px;
+    margin-right: 3rem;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    outline: none;
+    background-color: inherit;
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    color: #666666;
+    height: 55px;
+    min-width: 81px;
+  }
+
+  // todo - make this class nested under dropdownButton
+  .dropdownButtonExpanded {
+    padding-top: 3px;
+    margin-right: 3rem;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    background-color: inherit;
+    font-size: 1rem;
+    height: 55px;
+    color: $primary;
+    font-weight: $semi-bold-weight;
+    border-bottom: 2px solid $primary;
+  }
+
+  .caret {
+    padding-left: 1rem;
+    min-width: 10px;
+  }
+
+  .dropdownContent {
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    margin-top: 1px;
+    left: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdownRow {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+  }
+
+  .dropdownColumnOne {
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .dropdownColumnTwo {
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin: 2rem 0 2rem 20%;
+  }
+
+  .dropdownTitle {
+    font-weight: $semi-bold-weight;
+    white-space: nowrap;
+    margin-bottom: 1rem;
+    font-size: 14px;
+  }
+
+  .dropdownListItem {
+    margin-bottom: 0.4rem;
+    font-size: 1rem;
+  }
+
   .pageLinks {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 15px;
 
     a {
       display: block;
       margin-right: 3rem;
       text-decoration: none;
-      color: $card-body;
+      color: #666666;
       white-space: nowrap;
 
       &:last-child {

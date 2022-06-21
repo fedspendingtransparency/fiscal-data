@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from "@testing-library/react"
+import {fireEvent, render} from "@testing-library/react"
 import SiteHeader from "./site-header";
 import * as styles from './site-header.module.scss';
 import * as rdd from 'react-device-detect';
@@ -54,6 +54,17 @@ describe('SiteHeader', () => {
     const message = 'Message';
     const { getByText } = render(<SiteHeader lowerEnvMsg={message} />);
     expect(getByText(message)).toBeDefined();
+  });
+
+  it('displays the topics button', () => {
+    const { getByTestId } = render(<SiteHeader />);
+    expect(getByTestId('topicsButton')).toBeInTheDocument();
+  });
+
+  it('displays the topics drop down renders when mousing over topics button', () => {
+    const { getByTestId } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByTestId('topicsButton'));
+    expect(getByTestId('dropdownContent')).toBeInTheDocument();
   });
 
   it('expects that all of the header links are not active/highlighted by default', () => {

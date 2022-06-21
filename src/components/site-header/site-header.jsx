@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'gatsby';
 import * as styles from './site-header.module.scss';
 import MobileMenu from "./mobile-menu/mobile-menu";
@@ -10,9 +10,17 @@ import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
 import AnnouncementBanner from "../announcement-banner/announcement-banner";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faCaretRight, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const SiteHeader = ({ lowerEnvMsg }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const pageLinks = [
+    {
+      title: 'Topics',
+      to: '/',
+      testId: 'topics'
+    },
     {
       title: 'Dataset Search',
       to: '/datasets/',
@@ -44,6 +52,16 @@ const SiteHeader = ({ lowerEnvMsg }) => {
       label: document.title
     });
   }
+
+  const handleMouseOver = () => {
+    setIsExpanded(true);
+  }
+
+  const handleMouseLeave = () => {
+    setIsExpanded(false);
+  }
+
+  const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
 
   return (
     <header>
@@ -82,6 +100,51 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                       {pageLink.title}
                     </Link>
                   </Experimental>
+                )
+              }
+
+              if (pageLink.title === 'Topics') {
+                return (
+                  <div className={styles.dropdown} key={pageLink.title}>
+                    <button
+                      className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
+                      onMouseOver={handleMouseOver}
+                      onFocus={handleMouseOver}
+                      data-testid={'topicsButton'}
+                    >
+                      {pageLink.title}
+                      {isExpanded
+                      ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                      : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                      }
+                    </button>
+                    {isExpanded && (
+                      <div
+                        className={styles.dropdownContent}
+                        onMouseOver={handleMouseOver}
+                        onMouseLeave={handleMouseLeave}
+                        onFocus={handleMouseOver}
+                        data-testid={'dropdownContent'}
+                      >
+                        <div className={styles.dropdownRow}>
+                          <div className={styles.dropdownColumnOne}>
+                            <div className={styles.dropdownTitle} >
+                              AMERICA'S FINANCE GUIDE
+                            </div>
+                            <Link href={'/'} className={styles.dropdownListItem} to={'/'}>Debt</Link>
+                          </div>
+                          <div className={styles.dropdownColumnTwo}>
+                            <div className={styles.dropdownTitle} >
+                              INSIGHTS
+                            </div>
+                            <div className={styles.dropdownTempText} >
+                              <em>{dropdownTempText}</em>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )
               }
 
