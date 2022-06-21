@@ -16,7 +16,7 @@ const ExplainerRelatedDatasets:
   return (
       <div className={paddingAdjust}>
         <h1 className={titleStyle}> See the datasets behind federal debt </h1>
-        {datasets.map((dataset, i) => (
+        { datasets ? datasets.map((dataset, i) => (
           <div
             data-testid="cardWrapper"
             className={cardWrapper}
@@ -28,7 +28,8 @@ const ExplainerRelatedDatasets:
               referrer={referrer}
             />
           </div>
-        ))}
+        ))
+        : []}
       </div>
   )
 }
