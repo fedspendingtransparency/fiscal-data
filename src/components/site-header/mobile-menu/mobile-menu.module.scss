@@ -55,7 +55,7 @@ $menuWidth: 320px;
 }
 
 .logo {
-  height: 35px;
+  height: 40px;
   padding-bottom: 1.5rem;
 }
 
@@ -70,7 +70,7 @@ $menuWidth: 320px;
 .linkHeaderContainer {
   display: flex;
   flex-direction: row;
-  gap: 97px;
+  gap: 72px;
   padding-left: 1rem;
 }
 
@@ -119,6 +119,7 @@ $menuWidth: 320px;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 28px;
+  color: #666666;
   font-size: $font-size-16;
   overflow-wrap: break-word;
   width: 256px;
@@ -130,8 +131,9 @@ $menuWidth: 320px;
     text-decoration: none;
     color: #666666;
     white-space: nowrap;
+    padding-top: 14px;
     padding-bottom: 1rem;
-    font-size: 18px;
+    font-size: 16px;
     padding-left: 1rem;
   }
 }
