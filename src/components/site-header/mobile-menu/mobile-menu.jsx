@@ -59,7 +59,7 @@ const MobileMenu = () => {
                   }
                 </div>
                 {isExpanded && (
-                  <div>
+                  <div data-testid={'expandedContent'}>
                     <div className={styles.AFGHeader}>
                       AMERICA'S FINANCE GUIDE
                     </div>
