@@ -990,10 +990,8 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
   const [focalYear, setFocalYear] = useState(1900);
   const [multichartStartYear, setMultichartStartYear] = useState('');
   const [multichartEndYear, setMultichartEndYear] = useState('');
-  const [multichartEndYearDebt, setMultichartEndYearDebt] = useState('');
-  const [multichartEndYearDebtPercent, setMultichartEndYearDebtPercent] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
-  const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('');
+  const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
 
 
   const {
@@ -1167,12 +1165,6 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
           }
           chartConfig.options.xAxisTickValues = xAxisTickValues;
           chartConfig.data = response.data;
-          // console.log("1");
-          console.log("1", chartConfig.data);
-          console.log("2", chartConfig.options.xAxisTickValues);
-          const max = multichartConfigs[1].data
-            .find(row => row.avg_interest_rate_amt > multichartInterestRateMax);
-          console.log(max);
           }).catch((err) => {
           console.error(err);
         }));
@@ -1180,6 +1172,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
 
       Promise.all(fetchers).then(() => {
         const dataPopulatedConfigs = [];
+        let sortedInterestRates = [];
         localMultichartConfigs.forEach((config) => {
           dataPopulatedConfigs.push(Object.assign({}, config));
         });
@@ -1187,10 +1180,9 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
         setMultichartStartYear(dataPopulatedConfigs[0]
           .data[dataPopulatedConfigs[0].data.length - 1].record_calendar_year);
         setMultichartEndYear(dataPopulatedConfigs[0].data[0].record_calendar_year);
-        console.log(dataPopulatedConfigs[0]);
-        setMultichartEndYearDebt(dataPopulatedConfigs[1].data[0].total_mil_amt);
-        setMultichartEndYearDebtPercent(dataPopulatedConfigs[1].data[0].valueField);
-
+        sortedInterestRates = dataPopulatedConfigs[0].data.sort((a,b) => {return a.avg_interest_rate_amt - b.avg_interest_rate_amt});
+        setMultichartInterestRateMin(percentageFormatter(sortedInterestRates[0].avg_interest_rate_amt));
+        setMultichartInterestRateMax(percentageFormatter(sortedInterestRates[sortedInterestRates.length-1].avg_interest_rate_amt));
       });
     }
   }, [isChartRendered]);
@@ -1402,7 +1394,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
             <div className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
                  role={"img"}
                  aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
-                 "the last decade, ranging from X.X% to X.X%"}
+                 "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin}
             >
               <p className={`${title} ${simple}`}>
                 Interest Rate and Total
