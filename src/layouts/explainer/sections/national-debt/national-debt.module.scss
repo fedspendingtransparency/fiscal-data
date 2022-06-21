@@ -283,6 +283,10 @@
 
 .postGraphContent {
   margin-top: 3rem;
+  h3 {
+    font-size: $font-size-24;
+    padding-bottom: 1rem;
+  }
 }
 
 .postGraphAccordionContainer {
@@ -447,7 +451,7 @@
   }
 
   .debtTrendsOverTimeSectionGraphContainer {
-    margin-bottom: 3.25rem;
+    margin-bottom: 2.75rem;
   }
 
   .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
@@ -537,7 +541,7 @@
   }
 
   .nationalDebtExplainedTable {
-    padding: 15px;
+    padding: 15px 15px 0 15px;
     font-size: $font-size-14;
 
     th {
@@ -601,9 +605,18 @@
     }
   }
 
+  .postGraphContent {
+    h3 {
+      font-size: $font-size-24;
+      padding-bottom: .5rem;
+    }
+  }
+
+
   .debtTrendsOverTimeSectionGraphContainer {
     font-size: $font-size-10;
     padding: 14px;
+    margin-top: 2rem;
 
     .headerContainer {
       margin-bottom: 1.25rem;
@@ -681,15 +694,24 @@
     margin-top: 2rem;
   }
 
-  .diveDeeperQuoteLeft {
-    p {
-      margin-right: 1rem;
+  .diveDeeperQuoteLeft, .diveDeeperQuoteRight {
+    .diveDeeperQuote {
+      font-size: 0.781rem;
+    }
+    .diveDeeperCitation {
+      font-size: 0.544rem;
     }
   }
 
   .diveDeeperQuoteRight {
-    p {
-      margin-left: 1rem;
+    img {
+      padding-right: 1.188rem;
+    }
+  }
+
+  .diveDeeperQuoteLeft {
+    img {
+      padding-left: 1.188rem;
     }
   }
 }
