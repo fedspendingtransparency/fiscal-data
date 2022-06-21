@@ -50,7 +50,7 @@ const MobileMenu = () => {
                 </Link>
                 <MenuButton clickHandler={toggleState} isOpen={activeState} />
               </div>
-              <div className={isExpanded ? styles.dropdownButtonMobileExpanded : styles.dropdownButtonMobile} onClick={() => {setIsExpanded(!isExpanded)}}>
+              <div onClick={() => {setIsExpanded(!isExpanded)}}>
                 <div className={isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader}>
                   Topics
                   {isExpanded
