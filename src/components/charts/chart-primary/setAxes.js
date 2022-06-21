@@ -68,7 +68,8 @@ const setXAxis = () => {
   } else {
     container.append('g')
       .attr('class', 'axis axis--x')
-      .attr('transform', 'translate(0,475)')
+      .attr('transform', 'translate(0,' +
+        (Number(chartDimensions.height) - (Number(chartDimensions.xAxisHeight))) + ')')
       .call(xAxis);
   }
 }

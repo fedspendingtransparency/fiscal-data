@@ -39,8 +39,8 @@ export class MultichartRenderer {
   elementRef: any;
   rendered: boolean = false;
   chartDimensions = {
-    height: 475,
-    xAxisHeight: 30,
+    height: 408,
+    xAxisHeight: 16,
     yAxisWidth: baseYAxisWidth,
     marginTop: 10,
     marginRight: 50,
@@ -99,7 +99,7 @@ export class MultichartRenderer {
 
     //set min to 0 if greater than zero.
     extent[0] = extent[0] > 0 ? 0 : extent[0];
-    const segmentHeight = 215;
+    const segmentHeight = 180;
 
     config.segmentMinY = segmentHeight * chartIndex;
     config.segmentMaxY = segmentHeight * (chartIndex + 1);
@@ -365,7 +365,7 @@ export class MultichartRenderer {
       d3.select(elemClass)
         .append('text')
         .text('0')
-        .attr('font-size', config.options.marginLabelOptions.fontSize || 14)
+        .classed('multichart-margin-label', true)
         .attr('font-weight', config.options.marginLabelOptions.fontWeight || 600)
         .attr('text-anchor', 'end')
         .attr('fill', config.options.marginLabelOptions.fontColor || '#666666')
@@ -379,7 +379,7 @@ export class MultichartRenderer {
       d3.select(elemClass)
         .append('text')
         .text(config.marginLabelFormatter(config.data[config.data.length - 1][config.fields[0]]))
-        .attr('font-size', config.options.marginLabelOptions.fontSize || 14)
+        .classed('multichart-margin-label', true)
         .attr('font-weight', config.options.marginLabelOptions.fontWeight || 600)
         .attr('text-anchor', 'end')
         .attr('fill', config.options.marginLabelOptions.fontColor || '#666666')
@@ -392,7 +392,7 @@ export class MultichartRenderer {
       d3.select(elemClass)
         .append('text')
         .text(config.marginLabelFormatter(config.data[0][config.fields[0]]))
-        .attr('font-size', config.options.marginLabelOptions.fontSize || 14)
+        .classed('multichart-margin-label', true)
         .attr('font-weight', config.options.marginLabelOptions.fontWeight || 600)
         .attr('fill', config.options.marginLabelOptions.fontColor || '#666666')
         .attr('dy', 14)
@@ -432,21 +432,21 @@ export class MultichartRenderer {
     if (this.chartConfigs[0].data && this.chartConfigs[1].data) {
       const elemClass = `.${this.chartId}-surface`;
 
-      const x1 = this.chartConfigs[0]
+      // using 2 y values, but the same x value to ensure where rounding/etc. may occur,
+      // the connecting line is always truly vertical
+      const xPos = this.chartConfigs[0]
         .scales.x(parseTime(this.chartConfigs[0].data[dataIndex][this.chartConfigs[0].dateField]));
       const y1 = this.chartConfigs[0]
         .scales.y(Number(this.chartConfigs[0].data[dataIndex][this.chartConfigs[0].fields[0]]));
-      const x2 = this.chartConfigs[1]
-        .scales.x(parseTime(this.chartConfigs[1].data[dataIndex][this.chartConfigs[1].dateField]));
       const y2 = this.chartConfigs[1]
         .scales.y(Number(this.chartConfigs[1].data[dataIndex][this.chartConfigs[1].fields[0]]));
 
       d3.select(elemClass)
         .append('svg:line')
         .classed('marker-connector', true)
-        .attr('x1', x1)
+        .attr('x1', xPos)
         .attr('y1', y1)
-        .attr('x2', x2)
+        .attr('x2', xPos)
         .attr('y2', y2)
         .style('stroke-dasharray', ('2, 4'))
         .style('stroke-width', 2)
