@@ -4,15 +4,21 @@ import React, { useState } from 'react';
 import * as styles from './mobile-menu.module.scss';
 import { Link } from "gatsby";
 import MenuButton from "../menu-button/menu-button";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 
 const MobileMenu = () => {
   const [activeState, setActiveState] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
     }
   }
+
+  const dropdownTempText = 'Coming soon! — Short analyses on '
+    + 'federal finance topics';
 
   return (
     <div
@@ -29,16 +35,46 @@ const MobileMenu = () => {
         onClick={toggleState}
       />
       <div className={`${styles.tray} ${activeState ? styles.open : ''}`}>
+        {!activeState && (
           <MenuButton clickHandler={toggleState} isOpen={activeState} />
+        )}
           {activeState && (
             <>
-              <Link to="/" data-testid="logo">
-                <img
-                  src="/logos/fd-logo-mobile.svg"
-                  alt="Fiscal Data logo"
-                  className={styles.logo}
-                />
-              </Link>
+              <div className={styles.linkHeaderContainer}>
+                <Link to="/" data-testid="logo">
+                  <img
+                    src="/logos/fd-logo-mobile.svg"
+                    alt="Fiscal Data logo"
+                    className={styles.logo}
+                  />
+                </Link>
+                <MenuButton clickHandler={toggleState} isOpen={activeState} />
+              </div>
+              <div className={isExpanded ? styles.dropdownButtonMobileExpanded : styles.dropdownButtonMobile} onClick={() => {setIsExpanded(!isExpanded)}}>
+                <div className={isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader}>
+                  Topics
+                  {isExpanded
+                    ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                    : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                  }
+                </div>
+                {isExpanded && (
+                  <div>
+                    <div className={styles.AFGHeader}>
+                      AMERICA'S FINANCE GUIDE
+                    </div>
+                    <div className={styles.debtLinkContainer}>
+                      <Link to="/" className={styles.debtLink}>Debt</Link>
+                    </div>
+                    <div className={styles.AFGHeader}>
+                      INSIGHTS
+                    </div>
+                    <div className={styles.dropdownTempText}>
+                      <em>{dropdownTempText}</em>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div className={styles.pageLinks}>
                 <Link to="/datasets/" data-testid="datasets">Dataset Search</Link>
                 <Link to="/api-documentation/" data-testid="apiDocs">API Documentation</Link>

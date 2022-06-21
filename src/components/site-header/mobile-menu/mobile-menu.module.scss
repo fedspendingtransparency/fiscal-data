@@ -1,6 +1,6 @@
 @import '../../../variables.module.scss';
 
-$menuWidth: 257px;
+$menuWidth: 320px;
 
 @keyframes fadeIn {
   0%   {opacity: 0;}
@@ -32,9 +32,12 @@ $menuWidth: 257px;
   height: 100vh;
   box-sizing: border-box;
   &.open {
-    padding: 0.5rem 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
     position: fixed;
     width: 100%;
+    border-left: 4px solid #0071bc;
   }
 }
 
@@ -56,14 +59,80 @@ $menuWidth: 257px;
   padding-bottom: 1.5rem;
 }
 
+.dropdownButtonMobile {
+
+}
+
+.dropdownButtonMobileExpanded {
+
+}
+
+.linkHeaderContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 97px;
+  padding-left: 1rem;
+}
+
+.AFGHeader {
+  background-color: #f1f1f1;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  font-size: 14px;
+  font-weight: $semi-bold-weight;
+}
+
+.topicsHeader {
+  margin-bottom: 14px;
+  padding-left: 1rem;
+}
+
+.topicsHeaderExpanded {
+  margin-bottom: 14px;
+  padding-left: 1rem;
+  color: $primary;
+  font-weight: $semi-bold-weight;
+}
+
+.caret {
+  padding-left: 1rem;
+  min-width: 10px;
+}
+
+.debtLinkContainer {
+  display: block;
+  text-decoration: none;
+  color: $card-body;
+  white-space: nowrap;
+  font-size: $font-size-16;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.debtLink {
+  padding-left: 2rem;
+  color: #666666;
+}
+
+.dropdownTempText {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 28px;
+  font-size: $font-size-16;
+  overflow-wrap: break-word;
+  width: 256px;
+}
+
 .pageLinks {
   a {
     display: block;
     text-decoration: none;
-    color: $card-body;
+    color: #666666;
     white-space: nowrap;
     padding-bottom: 1rem;
     font-size: 18px;
+    padding-left: 1rem;
   }
 }
 

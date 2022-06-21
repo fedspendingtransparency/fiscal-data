@@ -14,6 +14,20 @@ $buttonWidth: 57px;
   cursor: pointer;
 }
 
+.buttonActivated {
+  top: 0;
+  width: $buttonWidth;
+  background-color: white;
+  border: none;
+  z-index: 99;
+  padding: 0 0.5rem 0;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  color: #666666;
+  font-size: 12px;
+  margin-left: 1rem;
+}
+
 .menuText {
   @include bodySmallStyle;
   color: black;
