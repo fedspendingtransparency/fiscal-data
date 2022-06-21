@@ -77,4 +77,5 @@ export const dropdownColumnOne: string;
 export const dropdownColumnTwo: string;
 export const dropdownTitle: string;
 export const dropdownListItem: string;
+export const dropdownListItemActive: string;
 export const activeLink: string;

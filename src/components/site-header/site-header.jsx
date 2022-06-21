@@ -42,7 +42,15 @@ const SiteHeader = ({ lowerEnvMsg }) => {
       testId: 'experimental',
       isExperimental: true,
       featureId: 'experimental-page'
-    },
+    }
+  ]
+
+  const topicsPageLinks = [
+    {
+      title: 'Debt',
+      to: '/national-debt/',
+      testId: 'debt'
+    }
   ]
 
   const clickHandler = (title) => {
@@ -77,6 +85,8 @@ const SiteHeader = ({ lowerEnvMsg }) => {
             aria-label="Fiscal Data logo - return to home page"
             to="/"
             onClick={() => clickHandler('Logo')}
+
+
           >
             <StaticImage
               src="../../images/logos/fd-logo.svg"
@@ -131,7 +141,21 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                             <div className={styles.dropdownTitle} >
                               AMERICA'S FINANCE GUIDE
                             </div>
-                            <Link href={'/'} className={styles.dropdownListItem} to={'/'}>Debt</Link>
+                            <div>
+                              {topicsPageLinks.map((topicPageLink) => {
+                                return (
+                                  <div key={topicPageLink.title}
+                                       className={styles.dropdownListItemActive}
+                                  >
+                                    <Link
+                                      to={topicPageLink.to}
+                                    >
+                                      {topicPageLink.title}
+                                    </Link>
+                                  </div>
+                                )
+                              })}
+                            </div>
                           </div>
                           <div className={styles.dropdownColumnTwo}>
                             <div className={styles.dropdownTitle} >

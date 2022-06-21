@@ -87,6 +87,12 @@
     left: 0;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    link {
+      color: #0071BC;
+      &:hover{
+        font-weight: $semi-bold-weight;
+      }
+    }
   }
 
   .dropdownRow {
@@ -117,6 +123,13 @@
   .dropdownListItem {
     margin-bottom: 0.4rem;
     font-size: 1rem;
+  }
+
+  .dropdownListItemActive {
+    &:hover{
+      font-weight: $semi-bold-weight;
+      color: #0071BC;
+    }
   }
 
   .pageLinks {
