@@ -124,7 +124,7 @@ module.exports = {
       resolve: `gatsby-plugin-robots-txt`,
       options: {
         host: 'https://fiscaldata.treasury.gov/',
-        sitemap: 'https://fiscaldata.treasury.gov/sitemap.xml',
+        sitemap: 'https://fiscaldata.treasury.gov/sitemap/sitemap-index.xml',
         resolveEnv: () => process.env.BUILD_ENV,
         env: {
           'prod': {
