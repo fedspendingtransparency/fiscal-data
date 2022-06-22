@@ -122,7 +122,7 @@ describe('Multichart', () => {
       />
     );
     expect(getByText('2.52%')).toBeInTheDocument();
-    expect(getByText('1.56%')).toBeInTheDocument();
+    expect(getByText('1.57%')).toBeInTheDocument();
     expect(getByText('$16.4 T')).toBeInTheDocument();
     expect(getByText('$29.6 T')).toBeInTheDocument();
     expect(getByText('0')).toBeInTheDocument();

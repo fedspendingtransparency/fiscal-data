@@ -974,7 +974,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   );
 });
 
-export const percentageFormatter = (value) => Number(value).toFixed(2) + '%';
+export const percentageFormatter = (value) => (Math.round(Number(value) * 100)
+  .toPrecision(15) / 100).toFixed(2) + '%';
 export const trillionsFormatter = (value) => `$${(Number(value) / 1000000).toFixed(1)} T`;
 
 export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
