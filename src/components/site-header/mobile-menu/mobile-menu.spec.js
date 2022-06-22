@@ -33,8 +33,15 @@ describe('MobileMenu actions', () => {
     triggerClickEvent(theButton);
     expect(theContainer).toHaveClass('open');
 
+    const expandedTopicsContent = getByTestId('expandedContent');
+    expect(expandedTopicsContent).toBeInTheDocument();
+
+    // Re find button as the new one is now inside the expanded menu
+    theButton = queryByRole('button');
+
     triggerClickEvent(theButton);
     expect(theContainer).not.toHaveClass('open');
+
   });
 
   it('after the menu is open, closes the menu when the overlay is clicked', () => {
