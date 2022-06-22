@@ -279,7 +279,7 @@ describe('Breaking Down the Debt', () => {
     const { findByText } = render(
       <DebtBreakdownSection sectionId={sectionId} />
     );
-    expect(await findByText('Last updated: December 2021')).toBeInTheDocument();
+    expect(await findByText('Last updated: September 2021')).toBeInTheDocument();
   });
 
 });
