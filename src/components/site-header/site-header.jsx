@@ -11,9 +11,13 @@ import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import LocationAware from "../location-aware/location-aware";
 
-const SiteHeader = ({ lowerEnvMsg }) => {
+const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [menuExpanding, setMenuExpanding] = useState(false);
+  const [toggled, setToggled] = useState(false);
+
   const pageLinks = [
     {
       title: 'Topics',
@@ -62,14 +66,28 @@ const SiteHeader = ({ lowerEnvMsg }) => {
   }
 
   const handleMouseOver = () => {
-    setIsExpanded(true);
+    if(!isExpanded) {
+      setMenuExpanding(true);
+      setToggled(true);
+      setIsExpanded(true);
+      setTimeout( () => {
+        setMenuExpanding(false);
+      }, 10);
+    }
   }
 
   const handleMouseLeave = () => {
-    setIsExpanded(false);
+    if(isExpanded) {
+      setMenuExpanding(true);
+      setToggled(false);
+      setTimeout(() => {
+        setIsExpanded(false);
+      }, 500);
+    }
   }
 
   const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
+
 
   return (
     <header>
@@ -95,22 +113,25 @@ const SiteHeader = ({ lowerEnvMsg }) => {
               width={192}
             />
           </Link>
-          <div className={styles.pageLinks} data-testid="pageLinks">
+          <div className={styles.pageLinks} data-testid="pageLinks"
+          >
             {pageLinks.map((pageLink) => {
               if (pageLink.isExperimental) {
                 return (
                   <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-                    <div className={styles.pageLinkButtonContainer}
-                         style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
-                      <button className={styles.pageLinkButton} >
-                        <Link
-                          to={pageLink.to}
-                          activeClassName={styles.activeLink}
-                          data-testid={pageLink.testId}
-                        >
-                          {pageLink.title}
-                        </Link>
-                      </button>
+                    <div style={{paddingRight:'1rem'}}>
+                      <div className={styles.pageLinkButtonContainer}
+                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                        <button className={styles.pageLinkButton} >
+                          <Link
+                            to={pageLink.to}
+                            activeClassName={styles.activeLink}
+                            data-testid={pageLink.testId}
+                          >
+                            {pageLink.title}
+                          </Link>
+                        </button>
+                      </div>
                     </div>
                   </Experimental>
                 )
@@ -123,20 +144,20 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                          style={{transition:'opacity 1s ease'}}
                     >
                       <button
-                        className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
-                        onMouseOver={handleMouseOver}
+                        className={toggled ? styles.dropdownButtonExpanded : styles.dropdownButton}
+                        onMouseEnter={handleMouseOver}
                         onFocus={handleMouseOver}
                         data-testid={'topicsButton'}
                       >
                         {pageLink.title}
-                        {isExpanded
+                        {toggled
                           ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
                           : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
                         }
                       </button>
                       {isExpanded && (
                         <div
-                          className={styles.dropdownContent}
+                          className={`${styles.dropdownContent} ${menuExpanding ? styles.dropdownHidden : ''}`}
                           onMouseOver={handleMouseOver}
                           onMouseLeave={handleMouseLeave}
                           onFocus={handleMouseOver}
@@ -185,17 +206,28 @@ const SiteHeader = ({ lowerEnvMsg }) => {
                 <div style={{paddingRight:'1rem'}}>
                   <div className={styles.pageLinkButtonContainer}
                        style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
-                    <button className={styles.pageLinkButton} >
-                      <Link
-                        key={pageLink.title}
-                        to={pageLink.to}
-                        activeClassName={styles.activeLink}
-                        data-testid={pageLink.testId}
-                        onClick={() => clickHandler(pageLink.title)}
+                    {pageLink.to === location.pathname ?
+                      <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
+                              disabled
                       >
-                        {pageLink.title}
-                      </Link>
-                    </button>
+                        <span>
+                          {pageLink.title}
+                        </span>
+                      </button> : (
+                        <button className={styles.pageLinkButton}
+                          >
+                          <Link
+                            key={pageLink.title}
+                            to={pageLink.to}
+                            activeClassName={styles.activeLink}
+                            data-testid={pageLink.testId}
+                            onClick={() => clickHandler(pageLink.title)}
+                          >
+                            {pageLink.title}
+                          </Link>
+                        </button>
+                      )
+                    }
                   </div>
                 </div>
               )
@@ -225,4 +257,4 @@ const SiteHeader = ({ lowerEnvMsg }) => {
   );
 };
 
-export default withWindowSize(SiteHeader);
+export default LocationAware(withWindowSize(SiteHeader));

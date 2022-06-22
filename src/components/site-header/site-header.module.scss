@@ -49,14 +49,22 @@
     height: 55px;
   }
   .pageLinkButtonContainer {
+    transform: translateX(2rem);
     .pageLinkButton {
       padding-top: 3px;
-      //padding-right: 1rem;
-      //margin-right: 3rem;
       background-color: inherit;
       font-size: 1rem;
       height: 55px;
       border-bottom: 2px solid transparent;
+
+      &.pageLinkButtonActive {
+        border-bottom: 2px solid #555555;
+        color: #555555;
+        font-weight: $semi-bold-weight;
+        &:hover {
+          border-bottom: 2px solid #555555;
+        }
+      }
 
       &:hover {
         a {
@@ -65,16 +73,14 @@
         }
         border-bottom: 2px solid $primary;
       }
-
-      &.activeLink {
-        color: #555555;
-        font-weight: $semi-bold-weight;
-        border-bottom: 2px solid #555555;
-      }
     }
+
+
   }
 
   .dropdown .dropdownButton {
+    overflow: hidden;
+    transform: translateX(2rem);
     padding-top: 3px;
     margin-right: 2rem;
     border-top-style: none;
@@ -91,7 +97,8 @@
 
   // todo - make this class nested under dropdownButton
   .dropdownButtonExpanded {
-
+    overflow: hidden;
+    transform: translateX(2rem);
     padding-top: 3px;
     margin-right: 2rem;
     border-top-style: none;
@@ -111,6 +118,8 @@
   }
 
   .dropdownContent {
+    overflow: hidden;
+    transition: opacity 500ms ease;
     justify-content: center;
     display: flex;
     position: absolute;
@@ -120,11 +129,16 @@
     left: 0;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+
     link {
       color: #0071BC;
       &:hover{
         font-weight: $semi-bold-weight;
       }
+    }
+
+    &.dropdownHidden {
+      opacity: 0;
     }
   }
 
@@ -194,6 +208,9 @@
         color: #555555;
         font-weight: $semi-bold-weight;
       }
+    }
+    &.activeLink {
+      border-bottom: 2px solid #555555;
     }
   }
 }

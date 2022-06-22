@@ -50,8 +50,10 @@ const MobileMenu = () => {
                 </Link>
                 <MenuButton clickHandler={toggleState} isOpen={activeState} />
               </div>
-              <div onClick={() => {setIsExpanded(!isExpanded)}}>
-                <div className={isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader}>
+              <div>
+                <div className={isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader}
+                     onClick={() => {setIsExpanded(!isExpanded)}}
+                >
                   Topics
                   {isExpanded
                     ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
@@ -64,7 +66,7 @@ const MobileMenu = () => {
                       AMERICA'S FINANCE GUIDE
                     </div>
                     <div className={styles.debtLinkContainer}>
-                      <Link to="/" className={styles.debtLink}>Debt</Link>
+                      <Link to="/national-debt/" className={styles.debtLink}>Debt</Link>
                     </div>
                     <div className={styles.AFGHeader}>
                       INSIGHTS
