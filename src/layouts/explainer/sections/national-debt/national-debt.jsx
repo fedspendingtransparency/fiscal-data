@@ -1443,7 +1443,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
                   {' '} datasets to explore and download this data.
                 </p>
                 <p>
-                  Last updated: September {multichartEndYear}
+                  Last updated: September 30, {multichartEndYear}
                 </p>
               </div>
             </div>
