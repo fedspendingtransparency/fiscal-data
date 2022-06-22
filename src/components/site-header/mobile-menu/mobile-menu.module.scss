@@ -17,7 +17,7 @@ $menuWidth: 320px;
 
   &.open {
     width: $menuWidth;
-
+    margin
     .overlay {
       display: block;
       animation: fadeIn 1s;
@@ -123,7 +123,7 @@ $menuWidth: 320px;
     text-decoration: none;
     color: #666666;
     white-space: nowrap;
-    padding-top: 14px;
+    padding-top: 12px;
     padding-bottom: 1rem;
     font-size: 16px;
     padding-left: 1rem;
