@@ -13,22 +13,10 @@ export const context = 'Related Dataset';
 const ExplainerRelatedDatasets:
   FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer }) => {
 
-  let sortedDatasets = [];
-
-  const sortByName = (a, b) => {
-    const nameA = a.name;
-    const nameB = b.name;
-    return nameA.localeCompare(nameB);
-  };
-
-  if (datasets) {
-    sortedDatasets = datasets.sort(sortByName);
-  }
-
   return (
       <div className={paddingAdjust}>
         <h1 className={titleStyle}> See the datasets behind federal debt </h1>
-        {sortedDatasets.map((dataset, i) => (
+        { datasets ? datasets.map((dataset, i) => (
           <div
             data-testid="cardWrapper"
             className={cardWrapper}
@@ -40,7 +28,8 @@ const ExplainerRelatedDatasets:
               referrer={referrer}
             />
           </div>
-        ))}
+        ))
+        : []}
       </div>
   )
 }

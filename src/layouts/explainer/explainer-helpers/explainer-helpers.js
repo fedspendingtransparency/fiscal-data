@@ -13,9 +13,6 @@ import globalConstants from "../../../helpers/constants";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
-const sampleCopy = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua.`;
-
 export const getDateWithoutOffset = (date) => {
   const today = new Date(date);
   return new Date(today.getTime() + today.getTimezoneOffset() * 60000);
@@ -39,11 +36,13 @@ export const explainerClassMap = {
 
 export const explainerSocialShareMap = {
   'national-debt': {
-    quote: 'Sample Quote',
-    title: 'Sample Title',
-    summary: sampleCopy,
+    title: 'Fiscal Data Explains the National Debt',
+    text: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! ' +
+      '#FiscalData #OpenData #NationalDebt',
+    emailSubject: 'Fiscal Data Explains the National Debt',
+    emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
     url: baseUrl+'/national-debt/',
-    image: baseUrl+'/images/nationalDebt-Wide.png'
+    image: baseUrl+'/images/nationalDebt_1200x630.png'
   }
 }
 
@@ -109,13 +108,13 @@ export const datasetSectionConfig = {
         endpoints:  [
           {
             name: 'Interest Expense',
-            path: 'v2/accounting/od/avg_interest_rates?filter=security_type_desc:eq:Interest-bearing%20Debt,record_calendar_day:eq:31,record_calendar_month:eq:12&sort=-record_date&page[size]=10',
+            path: 'v2/accounting/od/avg_interest_rates?filter=security_type_desc:eq:Interest-bearing%20Debt,record_calendar_day:eq:30,record_calendar_month:eq:09&sort=-record_date&page[size]=10',
             dateField: 'record_date',
             valueField: 'avg_interest_rate_amt'
           },
           {
             name: 'Total Debt',
-            path: 'v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_day:eq:31,record_calendar_month:eq:12&sort=-record_date&page[size]=10',
+            path: 'v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_day:eq:30,record_calendar_month:eq:09&sort=-record_date&page[size]=10',
             dateField: 'record_date',
             valueField: 'total_mil_amt'
           }
