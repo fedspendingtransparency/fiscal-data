@@ -9,7 +9,6 @@ import { isIE } from 'react-device-detect';
 import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
-import AnnouncementBanner from "../announcement-banner/announcement-banner";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -19,7 +18,8 @@ const SiteHeader = ({ lowerEnvMsg }) => {
     {
       title: 'Topics',
       to: '/',
-      testId: 'topics'
+      testId: 'topics',
+      featureId: 'topics'
     },
     {
       title: 'Dataset Search',
@@ -100,93 +100,103 @@ const SiteHeader = ({ lowerEnvMsg }) => {
               if (pageLink.isExperimental) {
                 return (
                   <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-                    <Link
-                      to={pageLink.to}
-                      activeClassName={styles.activeLink}
-                      data-testid={pageLink.testId}
-                    >
-                      {pageLink.title}
-                    </Link>
+                    <div className={styles.pageLinkButtonContainer}
+                         style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                      <button className={styles.pageLinkButton} >
+                        <Link
+                          to={pageLink.to}
+                          activeClassName={styles.activeLink}
+                          data-testid={pageLink.testId}
+                        >
+                          {pageLink.title}
+                        </Link>
+                      </button>
+                    </div>
                   </Experimental>
                 )
               }
 
               if (pageLink.title === 'Topics') {
                 return (
-                  <div className={styles.dropdown} key={pageLink.title}
-                  style={{transition:'opacity 1s ease'}}
-                  >
-                    <button
-                      className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
-                      onMouseOver={handleMouseOver}
-                      onFocus={handleMouseOver}
-                      data-testid={'topicsButton'}
+                  <Experimental featureId={pageLink.featureId}>
+                    <div className={styles.dropdown} key={pageLink.title}
+                         style={{transition:'opacity 1s ease'}}
                     >
-                      {pageLink.title}
-                      {isExpanded
-                      ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                      : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                      }
-                    </button>
-                    {isExpanded && (
-                      <div
-                        className={styles.dropdownContent}
+                      <button
+                        className={isExpanded ? styles.dropdownButtonExpanded : styles.dropdownButton}
                         onMouseOver={handleMouseOver}
-                        onMouseLeave={handleMouseLeave}
                         onFocus={handleMouseOver}
-                        data-testid={'dropdownContent'}
+                        data-testid={'topicsButton'}
                       >
-                        <div className={styles.dropdownRow}>
-                          <div className={styles.dropdownColumnOne}>
-                            <div className={styles.dropdownTitle} >
-                              AMERICA'S FINANCE GUIDE
-                            </div>
-                            <div>
-                              {topicsPageLinks.map((topicPageLink) => {
-                                return (
-                                  <div key={topicPageLink.title}
-                                       className={styles.dropdownListItem}
+                        {pageLink.title}
+                        {isExpanded
+                          ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                          : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                        }
+                      </button>
+                      {isExpanded && (
+                        <div
+                          className={styles.dropdownContent}
+                          onMouseOver={handleMouseOver}
+                          onMouseLeave={handleMouseLeave}
+                          onFocus={handleMouseOver}
+                          data-testid={'dropdownContent'}
+                        >
+                          <div className={styles.dropdownRow}>
+                            <div className={styles.dropdownColumnOne}>
+                              <div className={styles.dropdownTitle} >
+                                AMERICA'S FINANCE GUIDE
+                              </div>
+                              <div>
+                                {topicsPageLinks.map((topicPageLink) => {
+                                  return (
+                                    <div key={topicPageLink.title}
+                                         className={styles.dropdownListItem}
 
-                                  >
-                                    <Link
-                                      to={topicPageLink.to}
-                                      activeClassName={styles.activeTopicLink}
                                     >
-                                      {topicPageLink.title}
-                                    </Link>
-                                  </div>
-                                )
-                              })}
+                                      <Link
+                                        to={topicPageLink.to}
+                                        activeClassName={styles.activeTopicLink}
+                                      >
+                                        {topicPageLink.title}
+                                      </Link>
+                                    </div>
+                                  )
+                                })}
+                              </div>
                             </div>
-                          </div>
-                          <div className={styles.dropdownColumnTwo}>
-                            <div className={styles.dropdownTitle} >
-                              INSIGHTS
-                            </div>
-                            <div className={styles.dropdownTempText} >
-                              <em>{dropdownTempText}</em>
+                            <div className={styles.dropdownColumnTwo}>
+                              <div className={styles.dropdownTitle} >
+                                INSIGHTS
+                              </div>
+                              <div className={styles.dropdownTempText} >
+                                <em>{dropdownTempText}</em>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  </Experimental>
                 )
               }
 
               return (
-                <div className={styles.pageLinkButtonContainer}>
-                <button className={styles.pageLinkButton}>
-                  <Link
-                    key={pageLink.title}
-                    to={pageLink.to}
-                    activeClassName={styles.activeLink}
-                    data-testid={pageLink.testId}
-                    onClick={() => clickHandler(pageLink.title)}
-                  >
-                    {pageLink.title}
-                  </Link>
-                </button>
+                <div style={{paddingRight:'1rem'}}>
+                  <div className={styles.pageLinkButtonContainer}
+                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                    <button className={styles.pageLinkButton} >
+                      <Link
+                        key={pageLink.title}
+                        to={pageLink.to}
+                        activeClassName={styles.activeLink}
+                        data-testid={pageLink.testId}
+                        onClick={() => clickHandler(pageLink.title)}
+                      >
+                        {pageLink.title}
+                      </Link>
+                    </button>
+                  </div>
                 </div>
               )
             })}

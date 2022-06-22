@@ -51,10 +51,8 @@
   .pageLinkButtonContainer {
     .pageLinkButton {
       padding-top: 3px;
-      margin-right: 3rem;
-      //border-top-style: none;
-      //border-right-style: none;
-      //border-left-style: none;
+      //padding-right: 1rem;
+      //margin-right: 3rem;
       background-color: inherit;
       font-size: 1rem;
       height: 55px;
@@ -78,7 +76,7 @@
 
   .dropdown .dropdownButton {
     padding-top: 3px;
-    margin-right: 3rem;
+    margin-right: 2rem;
     border-top-style: none;
     border-right-style: none;
     border-left-style: none;
@@ -95,7 +93,7 @@
   .dropdownButtonExpanded {
 
     padding-top: 3px;
-    margin-right: 3rem;
+    margin-right: 2rem;
     border-top-style: none;
     border-right-style: none;
     border-left-style: none;
