@@ -804,7 +804,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
               <div className={headerContainer}>
                 <div>
                   <div className={header}>{displayDate}</div>
-                  <span className={subHeader}>Year</span>
+                  <span className={subHeader}>Fiscal Year</span>
                 </div>
                 <div>
                   <div className={header}>{displayValue}</div>
