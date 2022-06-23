@@ -9,7 +9,7 @@ const explainerPagesSource = {
     },
     heroImage: {
       heading: 'What is the national debt?',
-      subHeading: `The national debt is the total amount of outstanding borrowings by the U.S. Federal
+      subHeading: `The national debt is the total amount of outstanding borrowing by the U.S. Federal
       Government accumulated over the nation’s history.`
     },
     relatedDatasets: [ "015-BFS-2014Q3-065", "015-BFS-2014Q3-071", "015-BFS-2014Q1-11", "015-BFS-2014Q3-056" ]

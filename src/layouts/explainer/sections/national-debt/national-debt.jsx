@@ -839,7 +839,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
               Over the past 100 years, the U.S. federal debt has increased
-              from {simplifyNumber(startValue, true)} in {startYear} to {simplifyNumber(value, true)} in {startYear}
+              from {simplifyNumber(startValue, true)} in {startYear} to {simplifyNumber(value, true)} in {year}.
             </p>
           </VisualizationCallout>
         </div>
