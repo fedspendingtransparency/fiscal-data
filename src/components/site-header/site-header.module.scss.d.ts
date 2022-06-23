@@ -69,6 +69,7 @@ export const pageLinks: string;
 export const pageLinkButton: string;
 export const logo: string;
 export const pageLinkButtonContainer: string;
+export const pageLinkButtonContent: string;
 export const pageLinkButtonActive: string;
 export const dropdown: string;
 export const dropdownButton: string;

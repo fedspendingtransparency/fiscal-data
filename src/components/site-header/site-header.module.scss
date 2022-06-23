@@ -48,7 +48,11 @@
     width: 12rem;
     height: 55px;
   }
+
   .pageLinkButtonContainer {
+    padding-right: 1rem;
+  }
+  .pageLinkButtonContent {
     transform: translateX(2rem);
     .pageLinkButton {
       padding-top: 3px;

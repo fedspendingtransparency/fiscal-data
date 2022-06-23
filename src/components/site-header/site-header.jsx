@@ -119,8 +119,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               if (pageLink.isExperimental) {
                 return (
                   <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-                    <div style={{paddingRight:'1rem'}}>
-                      <div className={styles.pageLinkButtonContainer}
+                    <div className={styles.pageLinkButtonContainer}>
+                      <div className={styles.pageLinkButtonContent}
                            style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
                         <button className={styles.pageLinkButton} >
                           <Link
@@ -173,7 +173,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                                   return (
                                     <div key={topicPageLink.title}
                                          className={styles.dropdownListItem}
-
                                     >
                                       <Link
                                         to={topicPageLink.to}
@@ -203,19 +202,18 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               }
 
               return (
-                <div style={{paddingRight:'1rem'}}>
-                  <div className={styles.pageLinkButtonContainer}
+                <div className={styles.pageLinkButtonContainer}>
+                  <div className={styles.pageLinkButtonContent}
                        style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
                               disabled
                       >
-                        <span>
+                        <span key={pageLink.title}>
                           {pageLink.title}
                         </span>
                       </button> : (
-                        <button className={styles.pageLinkButton}
-                          >
+                        <button className={styles.pageLinkButton}>
                           <Link
                             key={pageLink.title}
                             to={pageLink.to}
