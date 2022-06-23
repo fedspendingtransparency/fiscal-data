@@ -6,6 +6,7 @@ import { Link } from "gatsby";
 import MenuButton from "../menu-button/menu-button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
+import Experimental from "../../experimental/experimental";
 
 const MobileMenu = () => {
   const [activeState, setActiveState] = useState(false);
@@ -50,30 +51,34 @@ const MobileMenu = () => {
                 </Link>
                 <MenuButton clickHandler={toggleState} isOpen={activeState} />
               </div>
-              <div onClick={() => {setIsExpanded(!isExpanded)}}>
-                <div className={isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader}>
-                  Topics
-                  {isExpanded
-                    ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                    : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                  }
-                </div>
-                {isExpanded && (
-                  <div data-testid={'expandedContent'}>
-                    <div className={styles.AFGHeader}>
-                      AMERICA'S FINANCE GUIDE
-                    </div>
-                    <div className={styles.debtLinkContainer}>
-                      <Link to="/" className={styles.debtLink}>Debt</Link>
-                    </div>
-                    <div className={styles.AFGHeader}>
-                      INSIGHTS
-                    </div>
-                    <div className={styles.dropdownTempText}>
-                      <em>{dropdownTempText}</em>
-                    </div>
+              <div>
+                <Experimental featureId={'topics'}>
+                  <div className={isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader}
+                       onClick={() => {setIsExpanded(!isExpanded)}}
+                  >
+                    Topics
+                    {isExpanded
+                      ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                      : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                    }
                   </div>
-                )}
+                  {isExpanded && (
+                    <div data-testid={'expandedContent'}>
+                      <div className={styles.AFGHeader}>
+                        AMERICA'S FINANCE GUIDE
+                      </div>
+                      <div className={styles.debtLinkContainer}>
+                        <Link to="/national-debt/" className={styles.debtLink}>Debt</Link>
+                      </div>
+                      <div className={styles.AFGHeader}>
+                        INSIGHTS
+                      </div>
+                      <div className={styles.dropdownTempText}>
+                        <em>{dropdownTempText}</em>
+                      </div>
+                    </div>
+                  )}
+                </Experimental>
               </div>
               <div className={styles.pageLinks}>
                 <Link to="/datasets/" data-testid="datasets">Dataset Search</Link>
