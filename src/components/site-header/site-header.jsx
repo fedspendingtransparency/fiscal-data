@@ -113,8 +113,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               width={192}
             />
           </Link>
-          <div className={styles.pageLinks} data-testid="pageLinks"
-          >
+          <div className={styles.pageLinks} data-testid="pageLinks">
             {pageLinks.map((pageLink) => {
               if (pageLink.isExperimental) {
                 return (
@@ -139,8 +138,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
               if (pageLink.title === 'Topics') {
                 return (
-                  <Experimental featureId={pageLink.featureId}>
-                    <div className={styles.dropdown} key={pageLink.title}
+                  <Experimental featureId={pageLink.featureId} key={pageLink.title}>
+                    <div className={styles.dropdown}
                          style={{transition:'opacity 1s ease'}}
                     >
                       <button
@@ -202,14 +201,14 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               }
 
               return (
-                <div className={styles.pageLinkButtonContainer}>
+                <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
                        style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
                               disabled
                       >
-                        <span key={pageLink.title}>
+                        <span>
                           {pageLink.title}
                         </span>
                       </button> : (
