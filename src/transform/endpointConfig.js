@@ -1751,6 +1751,52 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/schedules_fed_debt_daily_summary',
     'dateField': 'record_date',
     'downloadName': 'SFD_SchedFedDebtDailySummary'
+  },
+  '176': {
+    'endpoint': 'v1/accounting/od/fbp_gl_borrowing_balances',
+    'dateField': 'record_date',
+    'downloadName': 'FBP_SummaryGeneralLedgerBorrowingBalances',
+    'dataDisplays': [
+      {
+        'title': 'By Account',
+        'dimensionField': 'account'
+      },
+      {
+        'title': 'By Department',
+        'dimensionField': 'dept'
+      }
+    ],
+    'valueFieldOptions': [
+      'loans_receivable',
+      'capitalized_interest_receivable',
+      'interest_receivable',
+      'interest_revenue',
+      'gain',
+      'loss'
+    ]
+  },
+  '177': {
+    'endpoint': 'v1/accounting/od/fbp_gl_repay_advance_balances',
+    'dateField': 'record_date',
+    'downloadName': 'FBP_SummaryGeneralLedgerRepayableAdvanceBalances',
+    'dataDisplays': [
+      {
+        'title': 'By Account',
+        'dimensionField': 'account'
+      },
+      {
+        'title': 'By Department',
+        'dimensionField': 'dept'
+      }
+    ],
+    'valueFieldOptions': [
+      'loans_receivable',
+      'capitalized_interest_receivable',
+      'interest_receivable',
+      'interest_revenue',
+      'gain',
+      'loss'
+    ]
   }
 };
 
