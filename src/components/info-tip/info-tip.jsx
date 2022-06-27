@@ -51,7 +51,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ title, secondary, clickEvent, children }) => {
+const InfoTip = ({ title, secondary, clickEvent, textButton, children }) => {
   const {
     button,
     primarySvgColor,
@@ -78,19 +78,25 @@ const InfoTip = ({ title, secondary, clickEvent, children }) => {
 
   return (
     <span data-testid="infoTipContainer">
-      <Button
-        aria-describedby={id}
-        aria-label={label}
-        data-testid="infoTipButton"
-        variant="contained"
-        className={`${button} ${styles.infoIcon}`}
-        onClick={handleClick}
-      >
-        <FontAwesomeIcon
-          icon={faInfoCircle}
-          className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`}
-        />
-      </Button>
+      {textButton ? (
+        <span onMouseEnter={handleClick} style={{textDecoration:'underline'}}>
+          {textButton}
+        </span>
+      ) : (
+        <Button
+          aria-describedby={id}
+          aria-label={label}
+          data-testid="infoTipButton"
+          variant="contained"
+          className={`${button} ${styles.infoIcon}`}
+          onClick={handleClick}
+        >
+          <FontAwesomeIcon
+            icon={faInfoCircle}
+            className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`}
+          />
+        </Button>
+      )}
         <Popover
           id={id}
           className={popOver}

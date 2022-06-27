@@ -109,6 +109,7 @@ import {
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
 import Multichart from "../../multichart/multichart"
+import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
@@ -183,9 +184,13 @@ export const visualizingTheDebtTableContent = {
 export const chartPatternBackground = '#4A0072';
 const alternateBarColor = '#b699c6';
 
-const KeyTakeawaysSection = () => (
-  <>
-    <div className={keyTakeawaysContent}>
+const KeyTakeawaysSection = () => {
+  const nonMarketableSecurities = <GlossaryTerm glossaryTerm='Non-Marketable Securities' page='debt'>non-marketable</GlossaryTerm>;
+  const marketableSecurities = <GlossaryTerm glossaryTerm='Marketable Securities' page='debt'>marketable</GlossaryTerm>;
+
+  return (
+    <>
+      <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
           <FontAwesomeIcon icon={faMoneyCheckDollar} className={icon} />
           <FontAwesomeIcon icon={faMoneyCheckDollar} className={offsetIcon} />
@@ -193,10 +198,11 @@ const KeyTakeawaysSection = () => (
         <p>
           The national debt is composed of distinct types of debt, similar to an individual whose
           debt may consist of a mortgage, car loan, and credit cards. The different types of debt
-          include non-marketable or marketable securities and whether it is debt held by the public
-          or debt held by the government itself (known as intragovernmental).
+          include {nonMarketableSecurities} or {marketableSecurities} securities
+          and whether it is debt held by the public or debt held by the government itself
+          (known as intragovernmental).
         </p>
-    </div>
+      </div>
       <div className={keyTakeawaysContent}>
         <div className={iconBackground}>
           <FontAwesomeIcon icon={faChartLine} className={icon} />
@@ -216,11 +222,25 @@ const KeyTakeawaysSection = () => (
           The national debt enables the federal government to pay for important programs and services for the American public.
         </p>
       </div>
-  </>
-);
+    </>
+  );
+}
 
 
 export const NationalDebtExplainedSection = () => {
+  const glossaryTerms = {
+    'fiscalYear':  <GlossaryTerm glossaryTerm='Fiscal Year (FY)' page='Debt'>fiscal year (FY)</GlossaryTerm>,
+    'spending': <GlossaryTerm glossaryTerm='Spending' page='Debt'>spending</GlossaryTerm>,
+    'revenue': <GlossaryTerm glossaryTerm='Revenue' page='Debt'>revenue</GlossaryTerm>,
+    'deficit': <GlossaryTerm glossaryTerm='Deficit' page='Debt'>deficit</GlossaryTerm>,
+    'bonds': <GlossaryTerm glossaryTerm='Bonds' page='Debt'>bonds</GlossaryTerm>,
+    'bills': <GlossaryTerm glossaryTerm='Bills' page='Debt'>bills</GlossaryTerm>,
+    'notes': <GlossaryTerm glossaryTerm='Notes' page='Debt'>notes</GlossaryTerm>,
+    'floatingRateNotes': <GlossaryTerm glossaryTerm='Floating Rate Notes' page='Debt'>floating rate notes</GlossaryTerm>,
+    'tips': <GlossaryTerm glossaryTerm='Treasury Inflation Protected Securities (TIPS)' page='Debt'>
+              Treasury inflation-protected securities (TIPS)
+            </GlossaryTerm>
+  }
 
   return (
   <>
@@ -228,12 +248,13 @@ export const NationalDebtExplainedSection = () => {
       <div className={nationalDebtExplainedTextContent}>
         <p>
           The national debt is the amount of money the federal government has borrowed to cover the outstanding balance
-          of expenses incurred over time. In a given fiscal year (FY), when spending (ex. money for roadways) exceeds
-          revenue (ex. money from federal income tax), a budget deficit results. To pay for this deficit, the federal
-          government borrows money by selling marketable securities such as Treasury bonds, bills, notes, floating rate
-          notes, and Treasury inflation-protected securities (TIPS). The national debt is the accumulation of this borrowing
-          along with associated interest owed to the investors who purchased these securities. As the federal government
-          experiences reoccurring deficits, which is common, the national debt grows.
+          of expenses incurred over time. In a given {glossaryTerms.fiscalYear}, when {glossaryTerms.spending} (ex. money
+          for roadways) exceeds {glossaryTerms.revenue} (ex. money from federal income tax), a budget {glossaryTerms.deficit} results.
+          To pay for this deficit, the federal government borrows money by selling marketable securities such as
+          Treasury {glossaryTerms.bonds}, {glossaryTerms.bills}, {glossaryTerms.notes}, {glossaryTerms.floatingRateNotes},
+          and {glossaryTerms.tips}. The national debt is the accumulation of this borrowing along with associated interest
+          owed to the investors who purchased these securities. As the federal government experiences reoccurring deficits,
+          which is common, the national debt grows.
         </p>
         <p>
           Simply put, the national debt is similar to a person using a credit card for purchases and not paying off the full
@@ -536,6 +557,10 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const historicalDebtOutstandingLink = <CustomLink url={slug}>{name}</CustomLink>;
   const beaLink = <CustomLink url={"https://www.bea.gov/"}>Bureau of Economic Analysis</CustomLink>;
   const blsLink = <CustomLink url={"https://www.bls.gov/"}>Bureau of Labor Statistics</CustomLink>;
+
+  const gdp = <GlossaryTerm glossaryTerm='Gross Domestic Product (GDP)' page='Debt Explainer'>
+                gross domestic product (GDP)
+              </GlossaryTerm>
 
   const handleChange = (newDate, newValue) => {
     setTempDate(newDate);
@@ -849,7 +874,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
         </div>
       )}
       <p>
-        Comparing a country’s debt to its gross domestic product (GDP) reveals the country’s ability to pay down its debt.
+        Comparing a country’s debt to its {gdp} reveals the country’s ability to pay down its debt.
         This ratio is considered a better indicator of a country’s fiscal situation than just the national debt number because
         it shows the burden of debt relative to the country’s total economic output and therefore its ability to repay it.
         The U.S. debt to GDP ratio surpassed 100% in 2013 when both debt and GDP were approximately 16.7 trillion.
@@ -993,6 +1018,28 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
   const [multichartEndYear, setMultichartEndYear] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
   const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
+
+
+  const glossaryTerms = {
+    'debtHeldByThePublic':
+      <GlossaryTerm glossaryTerm='Debt Held by the Public' page='Debt Explainer'>
+        debt held by the public
+      </GlossaryTerm>,
+    'intragovernmental':
+      <GlossaryTerm glossaryTerm='Intragovernmental Holdings' page='Debt Explainer'>
+        intragovernmental
+      </GlossaryTerm>,
+    'calendarYear':
+      <GlossaryTerm glossaryTerm='Calendar Year' page='Debt Explainer'>
+        calendar year
+      </GlossaryTerm>,
+    'interestRates':
+      <GlossaryTerm glossaryTerm='Interest Rates' page='Debt Explainer'>
+        interest rates
+      </GlossaryTerm>
+  }
+  //TODO const foreignInvestors
+
 
 
   const {
@@ -1222,12 +1269,12 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
       <p>
         The national debt is composed of distinct types of debt, similar to an individual whose debt consists of a mortgage,
         car loan, and credit cards. The national debt can be broken down by whether it is non-marketable or marketable and
-        whether it is debt held by the public or debt held by the government itself (known as intragovernmental). The national
-        debt does not include debts carried by state and local governments, such as debt used to pay state-funded programs;
+        whether it is {glossaryTerms.debtHeldByThePublic} or debt held by the government itself (known as {glossaryTerms.intragovernmental}).
+        The national debt does not include debts carried by state and local governments, such as debt used to pay state-funded programs;
         nor does it include debts carried by individuals, such as personal credit card debt or mortgages.
       </p>
       <p>
-        The visual below comparing calendar year {startYear} and {endYear} displays the difference in growth
+        The visual below comparing {glossaryTerms.calendarYear} {startYear} and {endYear} displays the difference in growth
         between debt held by the public and intragovernmental debt. While both types of debt combine to make up the national debt,
         they have increased by different amounts in the past several years. One of the main causes of the jump in public debt can be
         attributed to increased funding of programs and services during the COVID-19 pandemic. Intragovernmental debt has not
@@ -1377,7 +1424,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
         <p>
           The federal government is charged interest for the use of lenders’ money, in the same way that lenders charge an individual
           interest for a car loan or mortgage. How much the government pays in interest depends on the total national debt and the
-          various securities’ interest rates.
+          various securities’ {glossaryTerms.interestRates}.
         </p>
         <p>
           As of December {multichartEndYear} it costs $XX.XX trillion to maintain the debt, which is
