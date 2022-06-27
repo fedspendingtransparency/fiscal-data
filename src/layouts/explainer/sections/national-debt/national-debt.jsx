@@ -655,7 +655,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
             for (let i = parseInt(debtData[debtData.length - 1].record_fiscal_year);
                 i <= parseInt(debtData[0].record_fiscal_year); i++) {
               const allQuartersForGivenYear = gdpData
-                .filter(entry => entry.TimePeriod.includes(i.toString()));
+                .filter(entry => (entry.TimePeriod.includes(i.toString() + 'Q1') || entry.TimePeriod.includes(i.toString() + 'Q2') ||
+                  entry.TimePeriod.includes(i.toString() + 'Q3') || entry.TimePeriod.includes((i - 1).toString() + 'Q4')));
               let totalGDP = 0;
               allQuartersForGivenYear.forEach(quarter => {
                 totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
@@ -666,6 +667,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 year: i
               })
             }
+            console.log(averagedGDPByYear);
             const debtToGDP = [];
             averagedGDPByYear.forEach(GDPEntry => {
               const record = debtData.find(entry => entry.record_date.includes(GDPEntry.year));
