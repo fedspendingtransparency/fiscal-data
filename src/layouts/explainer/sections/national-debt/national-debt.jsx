@@ -667,7 +667,6 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
                 year: i
               })
             }
-            console.log(averagedGDPByYear);
             const debtToGDP = [];
             averagedGDPByYear.forEach(GDPEntry => {
               const record = debtData.find(entry => entry.record_date.includes(GDPEntry.year));
