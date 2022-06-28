@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
 import * as styles from './info-tip.module.scss';
+import {debounce} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -51,7 +52,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ title, secondary, clickEvent, textButton, children }) => {
+const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
   const {
     button,
     primarySvgColor,
@@ -61,12 +62,30 @@ const InfoTip = ({ title, secondary, clickEvent, textButton, children }) => {
   } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     if (clickEvent) {
       clickEvent();
     }
   };
+
+  const handleGlossaryClick = (e) => {
+    if (e.key === undefined || e.key === 'Enter') {
+      e.stopPropagation();
+      setAnchorEl(e.currentTarget);
+      if (clickEvent) {
+        clickEvent();
+      }
+    }
+  };
+
+  const handleGlossaryHover = debounce(handleGlossaryClick, 0);
+  //   (e) => {
+  //   debounce(() => {
+  //     setAnchorEl(e.currentTarget);
+  //   }, 500);
+  // }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -78,9 +97,16 @@ const InfoTip = ({ title, secondary, clickEvent, textButton, children }) => {
 
   return (
     <span data-testid="infoTipContainer">
-      {textButton ? (
-        <span onMouseEnter={handleClick} style={{textDecoration:'underline'}}>
-          {textButton}
+      {glossaryText ? (
+        <span
+          className={styles.glossaryButton}
+          onMouseEnter={handleGlossaryHover}
+          onClick={handleGlossaryClick}
+          onKeyPress={handleGlossaryClick}
+          role="button"
+          tabIndex={0}
+        >
+          {glossaryText}
         </span>
       ) : (
         <Button
@@ -103,6 +129,7 @@ const InfoTip = ({ title, secondary, clickEvent, textButton, children }) => {
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
+          onBlur={handleClose}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center',

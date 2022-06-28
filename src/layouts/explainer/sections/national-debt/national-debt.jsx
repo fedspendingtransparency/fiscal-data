@@ -184,9 +184,15 @@ export const visualizingTheDebtTableContent = {
 export const chartPatternBackground = '#4A0072';
 const alternateBarColor = '#b699c6';
 
-const KeyTakeawaysSection = () => {
-  const nonMarketableSecurities = <GlossaryTerm glossaryTerm='Non-Marketable Securities' page='debt'>non-marketable</GlossaryTerm>;
-  const marketableSecurities = <GlossaryTerm glossaryTerm='Marketable Securities' page='debt'>marketable</GlossaryTerm>;
+const KeyTakeawaysSection = ({glossary}) => {
+  const nonMarketableSecurities =
+    <GlossaryTerm glossaryTerm='Non-Marketable Securities' page='Debt explainer' glossary={glossary}>
+      non-marketable
+    </GlossaryTerm>;
+  const marketableSecurities =
+    <GlossaryTerm glossaryTerm='Marketable Securities' page='Debt explainer' glossary={glossary}>
+      marketable
+    </GlossaryTerm>;
 
   return (
     <>
@@ -227,17 +233,17 @@ const KeyTakeawaysSection = () => {
 }
 
 
-export const NationalDebtExplainedSection = () => {
+export const NationalDebtExplainedSection = ({glossary}) => {
   const glossaryTerms = {
-    'fiscalYear':  <GlossaryTerm glossaryTerm='Fiscal Year (FY)' page='Debt'>fiscal year (FY)</GlossaryTerm>,
-    'spending': <GlossaryTerm glossaryTerm='Spending' page='Debt'>spending</GlossaryTerm>,
-    'revenue': <GlossaryTerm glossaryTerm='Revenue' page='Debt'>revenue</GlossaryTerm>,
-    'deficit': <GlossaryTerm glossaryTerm='Deficit' page='Debt'>deficit</GlossaryTerm>,
-    'bonds': <GlossaryTerm glossaryTerm='Bonds' page='Debt'>bonds</GlossaryTerm>,
-    'bills': <GlossaryTerm glossaryTerm='Bills' page='Debt'>bills</GlossaryTerm>,
-    'notes': <GlossaryTerm glossaryTerm='Notes' page='Debt'>notes</GlossaryTerm>,
-    'floatingRateNotes': <GlossaryTerm glossaryTerm='Floating Rate Notes' page='Debt'>floating rate notes</GlossaryTerm>,
-    'tips': <GlossaryTerm glossaryTerm='Treasury Inflation Protected Securities (TIPS)' page='Debt'>
+    'fiscalYear':  <GlossaryTerm glossaryTerm='Fiscal Year' page='Debt explainer' glossary={glossary}>fiscal year (FY)</GlossaryTerm>,
+    'spending': <GlossaryTerm glossaryTerm='Spending' page='Debt explainer' glossary={glossary}>spending</GlossaryTerm>,
+    'revenue': <GlossaryTerm glossaryTerm='Revenue' page='Debt explainer' glossary={glossary}>revenue</GlossaryTerm>,
+    'deficit': <GlossaryTerm glossaryTerm='Deficit' page='Debt explainer' glossary={glossary}>deficit</GlossaryTerm>,
+    'bonds': <GlossaryTerm glossaryTerm='Bonds' page='Debt explainer' glossary={glossary}>bonds</GlossaryTerm>,
+    'bills': <GlossaryTerm glossaryTerm='Bills' page='Debt explainer' glossary={glossary}>bills</GlossaryTerm>,
+    'notes': <GlossaryTerm glossaryTerm='Notes' page='Debt explainer' glossary={glossary}>notes</GlossaryTerm>,
+    'floatingRateNotes': <GlossaryTerm glossaryTerm='Floating Rate Notes' page='Debt explainer' glossary={glossary}>floating rate notes</GlossaryTerm>,
+    'tips': <GlossaryTerm glossaryTerm='Treasury Inflation Protected Securities (TIPS)' page='Debt explainer' glossary={glossary}>
               Treasury inflation-protected securities (TIPS)
             </GlossaryTerm>
   }
@@ -519,7 +525,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   );
 };
 
-export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) => {
+export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary, width }) => {
   const chartId = `${sectionId}-chart`;
   const chartOptions = {
     forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
@@ -558,7 +564,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   const beaLink = <CustomLink url={"https://www.bea.gov/"}>Bureau of Economic Analysis</CustomLink>;
   const blsLink = <CustomLink url={"https://www.bls.gov/"}>Bureau of Labor Statistics</CustomLink>;
 
-  const gdp = <GlossaryTerm glossaryTerm='Gross Domestic Product (GDP)' page='Debt Explainer'>
+  const gdp = <GlossaryTerm glossaryTerm='Gross Domestic Product (GDP)' page='Debt explainer' glossary={glossary}>
                 gross domestic product (GDP)
               </GlossaryTerm>
 
@@ -1003,7 +1009,7 @@ export const percentageFormatter = (value) => (Math.round(Number(value) * 100)
   .toPrecision(15) / 100).toFixed(2) + '%';
 export const trillionsFormatter = (value) => `$${(Number(value) / 1000000).toFixed(1)} T`;
 
-export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
+export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date ());
   const [isChartRendered, setIsChartRendered] = useState(false);
@@ -1019,27 +1025,24 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
   const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
 
-
   const glossaryTerms = {
     'debtHeldByThePublic':
-      <GlossaryTerm glossaryTerm='Debt Held by the Public' page='Debt Explainer'>
+      <GlossaryTerm glossaryTerm='Debt Held by the Public' page='Debt explainer' glossary={glossary}>
         debt held by the public
       </GlossaryTerm>,
     'intragovernmental':
-      <GlossaryTerm glossaryTerm='Intragovernmental Holdings' page='Debt Explainer'>
+      <GlossaryTerm glossaryTerm='Intragovernmental Holdings' page='Debt explainer' glossary={glossary}>
         intragovernmental
       </GlossaryTerm>,
     'calendarYear':
-      <GlossaryTerm glossaryTerm='Calendar Year' page='Debt Explainer'>
+      <GlossaryTerm glossaryTerm='Calendar Year' page='Debt explainer' glossary={glossary}>
         calendar year
       </GlossaryTerm>,
     'interestRates':
-      <GlossaryTerm glossaryTerm='Interest Rates' page='Debt Explainer'>
+      <GlossaryTerm glossaryTerm='Interest Rates' page='Debt explainer' glossary={glossary}>
         interest rates
       </GlossaryTerm>
   }
-  //TODO const foreignInvestors
-
 
 
   const {
@@ -1668,49 +1671,49 @@ const nationalDebtSections = [
     index: 0,
     id: nationalDebtSectionIds[0],
     title: 'Key Takeaways',
-    component: <KeyTakeawaysSection />
+    component: (glossary) => <KeyTakeawaysSection glossary={glossary}/>
   },
   {
     index: 1,
     id: nationalDebtSectionIds[1],
     title: 'The National Debt Explained',
-    component: <NationalDebtExplainedSection />
+    component: (glossary) => <NationalDebtExplainedSection glossary={glossary}/>
   },
   {
     index: 2,
     id: nationalDebtSectionIds[2],
     title: 'Funding Programs & Services',
-    component: <FundingProgramsSection />
+    component: (glossary) => <FundingProgramsSection glossary={glossary}/>
   },
   {
     index: 3,
     id: nationalDebtSectionIds[3],
     title: 'The Growing National Debt',
-    component: <GrowingNationalDebtSection sectionId={nationalDebtSectionIds[3]} />
+    component: (glossary) => <GrowingNationalDebtSection sectionId={nationalDebtSectionIds[3]} glossary={glossary}/>
   },
   {
     index: 4,
     id: nationalDebtSectionIds[4],
     title: 'Breaking Down the Debt',
-    component: <DebtBreakdownSection sectionId={nationalDebtSectionIds[4]} />
+    component:(glossary) =>  <DebtBreakdownSection sectionId={nationalDebtSectionIds[4]} glossary={glossary}/>
   },
   {
     index: 5,
     id: nationalDebtSectionIds[5],
     title: 'The Debt Ceiling',
-    component: <DebtCeilingSection />
+    component: (glossary) => <DebtCeilingSection glossary={glossary}/>
   },
   {
     index: 6,
     id: nationalDebtSectionIds[6],
     title: 'Tracking the Debt',
-    component: <DebtTrackingSection />
+    component: (glossary) => <DebtTrackingSection glossary={glossary}/>
   },
   {
     index: 7,
     id: nationalDebtSectionIds[7],
     title: 'Dive Deeper into the Debt',
-    component: <DiveDeeperSection />
+    component: (glossary) => <DiveDeeperSection glossary={glossary}/>
   }
 ]
 

@@ -2,7 +2,7 @@ export interface IGlossaryTerm {
   id: number,
   term: string,
   definition: string,
-  sitePage: string,
-  urlDisplay: string,
-  urlPath: string
+  site_page: string,
+  url_display: string,
+  url_path: string
 }

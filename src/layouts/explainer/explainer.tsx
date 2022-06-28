@@ -44,7 +44,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
       link: '/'
     }
   ];
-  console.log(glossary);
+
 
   return (
     <SiteLayout isPreProd={false}>
@@ -98,7 +98,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                       >
                         {s.title}
                       </h2>
-                      {s.component}
+                      {s.component(glossary)}
                       {s.index !== explainerSections[pageName].length - 1 && (
                         <div
                           className={sectionBorder}
