@@ -5,7 +5,26 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://dev.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.dev.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
-  ADDITIONAL_DATASETS: {},
+  ADDITIONAL_DATASETS: {
+    "015-BFS-2014Q3-038": {
+      "seoConfig": {
+        "pageTitle": "Federal Borrowings Program: Summary General Ledger Balances Report | U.S. Treasury Fiscal Data",
+        "description": "A monthly summary report containing outstanding principal debt and related interest balances for all borrowing accounts.",
+        "keywords": "Debt, Financial Summaries, Interest and Exchange Rates, Revenue, Savings Bonds, Spending"
+      },
+      "topics": ["Debt", "Financial Summaries", "Interest and Exchange Rates", "Revenue", "Savings Bonds", "Spending"],
+      "relatedDatasets": [
+        "015-BFS-2014Q3-037",
+        "015-BFS-2014Q1-11",
+        "015-BFS-2014Q3-076",
+        "015-BFS-2014Q1-03",
+        "015-BFS-2014Q1-13",
+        "015-BFS-2014Q3-103"
+      ],
+      "slug": "/fbp-summary-general-ledger-balances-report/",
+      "currentDateButton": "byMonth"
+    }
+  },
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,
   ADDITIONAL_ENDPOINTS: {
     '137': {
