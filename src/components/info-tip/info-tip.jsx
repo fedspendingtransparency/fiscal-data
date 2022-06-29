@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
 import * as styles from './info-tip.module.scss';
-import {debounce} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -61,7 +60,7 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
     popupContainer
   } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  let timeout;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,21 +70,22 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
   };
 
   const handleGlossaryClick = (e) => {
+    let anchor = e.currentTarget;
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
-      setAnchorEl(e.currentTarget);
-      if (clickEvent) {
-        clickEvent();
+      if (e.type === 'mouseenter') {
+        timeout = setTimeout(() => {
+          setAnchorEl(anchor);
+        }, 500);
+      } else {
+        setAnchorEl(e.currentTarget);
       }
     }
   };
 
-  const handleGlossaryHover = debounce(handleGlossaryClick, 0);
-  //   (e) => {
-  //   debounce(() => {
-  //     setAnchorEl(e.currentTarget);
-  //   }, 500);
-  // }
+  const handleMouseLeave = () => {
+    clearTimeout(timeout);
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -100,7 +100,8 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
       {glossaryText ? (
         <span
           className={styles.glossaryButton}
-          onMouseEnter={handleGlossaryHover}
+          onMouseEnter={handleGlossaryClick}
+          onMouseLeave={handleMouseLeave}
           onClick={handleGlossaryClick}
           onKeyPress={handleGlossaryClick}
           role="button"
@@ -129,7 +130,6 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
-          onBlur={handleClose}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center',
