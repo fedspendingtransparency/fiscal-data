@@ -13,6 +13,7 @@ import Analytics from '../../../utils/analytics/analytics';
 
 const Preview = ({ selectedFile }) => {
   const [isPdf, setIsPdf] = useState(true);
+  const [isTxt, setIsTxt] = useState(false);
   const [fileType, setFileType] = useState(null);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(null);
 
@@ -21,11 +22,9 @@ const Preview = ({ selectedFile }) => {
   // todo - Revisit the altText below. This is very specific and can be refined to be more
   //  generic for all datasets and different file types.
   if (selectedFile && selectedFile.report_group_desc === 'Monthly Treasury Statement (.pdf)') {
-
     altText = 'Preview the downloadable PDF report of the MTS Receipts and Outlays of the U.S.' +
     ' Government for the selected month and year for the previous five years.'
   } else if (selectedFile && selectedFile.report_group_desc === 'Entire (.pdf)') {
-
     altText = 'Preview the downloadable PDF report of the MSPD for the selected month and year' +
       ' for the previous five years.';
   }
@@ -35,12 +34,14 @@ const Preview = ({ selectedFile }) => {
       && selectedFile.path !== previousSelectedPath
       && selectedFile.report_group_desc
       && selectedFile.path) {
-
+      console.log('selectedFile.path', selectedFile.path);
       setPreviousSelectedPath(selectedFile);
       const groupName = selectedFile.report_group_desc.toLowerCase();
       const pdfTextBool = groupName.indexOf('(.pdf)') !== -1;
       setIsPdf(pdfTextBool);
-      if (!pdfTextBool){
+      const txtTextBool = groupName.indexOf('(.txt)') !== -1;
+      setIsTxt(txtTextBool);
+      if (!pdfTextBool && !txtTextBool){
         const fileTypeIdx = groupName.indexOf('(.');
         let newFileType = null;
         if (fileTypeIdx !== -1) {
@@ -82,10 +83,14 @@ const Preview = ({ selectedFile }) => {
                      data-test-id="embedElement"
                      title={altText}
               />
-            :
-              <NotShownMessage heading="Previews can only be generated for PDF file types."
-                               bodyText={`The selected file is ${fileType}`}
-              />
+              :
+              isTxt ?
+                <iframe title={'unique title'} src={selectedFile.path}>not found</iframe>
+                :
+                // todo - make this message more general, bc we can now show txt files too
+                <NotShownMessage heading="Previews can only be generated for PDF file types."
+                                 bodyText={`The selected file is ${fileType}`}
+                />
           : <NotShownMessage heading="Select a Report Above To Generate A Preview" />
         }
       </div>
