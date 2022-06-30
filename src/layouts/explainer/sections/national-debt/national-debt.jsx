@@ -186,11 +186,11 @@ const alternateBarColor = '#b699c6';
 
 const KeyTakeawaysSection = ({glossary}) => {
   const nonMarketableSecurities =
-    <GlossaryTerm glossaryTerm='Non-Marketable Securities' page='Debt explainer' glossary={glossary}>
+    <GlossaryTerm term='Non-Marketable Securities' page='Debt explainer' glossary={glossary}>
       non-marketable
     </GlossaryTerm>;
   const marketableSecurities =
-    <GlossaryTerm glossaryTerm='Marketable Securities' page='Debt explainer' glossary={glossary}>
+    <GlossaryTerm term='Marketable Securities' page='Debt explainer' glossary={glossary}>
       marketable
     </GlossaryTerm>;
 
@@ -235,15 +235,15 @@ const KeyTakeawaysSection = ({glossary}) => {
 
 export const NationalDebtExplainedSection = ({glossary}) => {
   const glossaryTerms = {
-    'fiscalYear':  <GlossaryTerm glossaryTerm='Fiscal Year' page='Debt explainer' glossary={glossary}>fiscal year (FY)</GlossaryTerm>,
-    'spending': <GlossaryTerm glossaryTerm='Spending' page='Debt explainer' glossary={glossary}>spending</GlossaryTerm>,
-    'revenue': <GlossaryTerm glossaryTerm='Revenue' page='Debt explainer' glossary={glossary}>revenue</GlossaryTerm>,
-    'deficit': <GlossaryTerm glossaryTerm='Deficit' page='Debt explainer' glossary={glossary}>deficit</GlossaryTerm>,
-    'bonds': <GlossaryTerm glossaryTerm='Bonds' page='Debt explainer' glossary={glossary}>bonds</GlossaryTerm>,
-    'bills': <GlossaryTerm glossaryTerm='Bills' page='Debt explainer' glossary={glossary}>bills</GlossaryTerm>,
-    'notes': <GlossaryTerm glossaryTerm='Notes' page='Debt explainer' glossary={glossary}>notes</GlossaryTerm>,
-    'floatingRateNotes': <GlossaryTerm glossaryTerm='Floating Rate Notes' page='Debt explainer' glossary={glossary}>floating rate notes</GlossaryTerm>,
-    'tips': <GlossaryTerm glossaryTerm='Treasury Inflation Protected Securities (TIPS)' page='Debt explainer' glossary={glossary}>
+    'fiscalYear':  <GlossaryTerm term='Fiscal Year' page='Debt explainer' glossary={glossary}>fiscal year (FY)</GlossaryTerm>,
+    'spending': <GlossaryTerm term='Spending' page='Debt explainer' glossary={glossary}>spending</GlossaryTerm>,
+    'revenue': <GlossaryTerm term='Revenue' page='Debt explainer' glossary={glossary}>revenue</GlossaryTerm>,
+    'deficit': <GlossaryTerm term='Deficit' page='Debt explainer' glossary={glossary}>deficit</GlossaryTerm>,
+    'bonds': <GlossaryTerm term='Bonds' page='Debt explainer' glossary={glossary}>bonds</GlossaryTerm>,
+    'bills': <GlossaryTerm term='Bills' page='Debt explainer' glossary={glossary}>bills</GlossaryTerm>,
+    'notes': <GlossaryTerm term='Notes' page='Debt explainer' glossary={glossary}>notes</GlossaryTerm>,
+    'floatingRateNotes': <GlossaryTerm term='Floating Rate Notes' page='Debt explainer' glossary={glossary}>floating rate notes</GlossaryTerm>,
+    'tips': <GlossaryTerm term='Treasury Inflation Protected Securities (TIPS)' page='Debt explainer' glossary={glossary}>
               Treasury inflation-protected securities (TIPS)
             </GlossaryTerm>
   }
@@ -564,7 +564,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   const beaLink = <CustomLink url={"https://www.bea.gov/"}>Bureau of Economic Analysis</CustomLink>;
   const blsLink = <CustomLink url={"https://www.bls.gov/"}>Bureau of Labor Statistics</CustomLink>;
 
-  const gdp = <GlossaryTerm glossaryTerm='Gross Domestic Product (GDP)' page='Debt explainer' glossary={glossary}>
+  const gdp = <GlossaryTerm term='Gross Domestic Product (GDP)' page='Debt explainer' glossary={glossary}>
                 gross domestic product (GDP)
               </GlossaryTerm>
 
@@ -1027,19 +1027,19 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
 
   const glossaryTerms = {
     'debtHeldByThePublic':
-      <GlossaryTerm glossaryTerm='Debt Held by the Public' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term='Debt Held by the Public' page='Debt explainer' glossary={glossary}>
         debt held by the public
       </GlossaryTerm>,
     'intragovernmental':
-      <GlossaryTerm glossaryTerm='Intragovernmental Holdings' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term='Intragovernmental Holdings' page='Debt explainer' glossary={glossary}>
         intragovernmental
       </GlossaryTerm>,
     'calendarYear':
-      <GlossaryTerm glossaryTerm='Calendar Year' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term='Calendar Year' page='Debt explainer' glossary={glossary}>
         calendar year
       </GlossaryTerm>,
     'interestRates':
-      <GlossaryTerm glossaryTerm='Interest Rates' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term='Interest Rates' page='Debt explainer' glossary={glossary}>
         interest rates
       </GlossaryTerm>
   }
