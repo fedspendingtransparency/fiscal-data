@@ -39,7 +39,7 @@ export class MultichartRenderer {
   elementRef: any;
   rendered: boolean = false;
   chartDimensions = {
-    height: 408,
+    height: 400,
     xAxisHeight: 16,
     yAxisWidth: baseYAxisWidth,
     marginTop: 10,
@@ -71,7 +71,7 @@ export class MultichartRenderer {
         config.scales = this.setScales(config, this.chartConfigs.length, index);
         this.y = setAxes(this.container,
           config.scales,
-          config.chartDimensions,
+          this.chartDimensions,
           'RATE',
           config.options);
         this.draw(config);
@@ -99,7 +99,9 @@ export class MultichartRenderer {
 
     //set min to 0 if greater than zero.
     extent[0] = extent[0] > 0 ? 0 : extent[0];
-    const segmentHeight = 180;
+
+    const segmentHeight = ((this.chartDimensions.height - this.chartDimensions.marginTop) / 2) -
+      this.chartDimensions.xAxisHeight;
 
     config.segmentMinY = segmentHeight * chartIndex;
     config.segmentMaxY = segmentHeight * (chartIndex + 1);
@@ -257,6 +259,18 @@ export class MultichartRenderer {
     parentSelection.select("svg").remove();
 
     this.setWidth(parentSelection);
+
+    // initially retrieve dimensions config from first chart
+    const config = this.chartConfigs[0];
+    this.chartDimensions.height = config.options.forceHeight || this.chartDimensions.height;
+
+    // scale height-to-width as needed
+    if (config.options.maxHeightToWidthRatio) {
+      this.chartDimensions.height =
+        ((this.chartDimensions.height / this.w) <=
+          config.options.maxHeightToWidthRatio) ? this.chartDimensions.height :
+          this.w * config.options.maxHeightToWidthRatio;
+    }
 
     this.container = parentSelection
       .append("svg")
