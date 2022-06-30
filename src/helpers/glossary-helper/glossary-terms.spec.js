@@ -4,7 +4,7 @@ describe('Glossary term finder', () => {
   const glossaryExample = [
     {
       id: 1,
-      term: 'Hello There',
+      term: 'Hello',
       site_page: 'debt',
       definition: 'A greeting',
       urlDisplay: 'example.com',
@@ -21,7 +21,7 @@ describe('Glossary term finder', () => {
     {
       id: 3,
       term: 'hEllo',
-      site_page: 'debt',
+      site_page: 'spending',
       definition: 'A messed up greeting',
       urlDisplay: 'example.com',
       urlPath: 'example.com'
@@ -29,9 +29,9 @@ describe('Glossary term finder', () => {
   ]
 
   it('Gets the proper term definition based on term name', () => {
-    const result = findGlossaryTerm('Hello There', glossaryExample);
+    const result = findGlossaryTerm('Hello', glossaryExample);
     expect(result).toContain(glossaryExample[0])
-    // expect(result).toContain(glossaryExample[2])
+    expect(result).toContain(glossaryExample[2])
   })
 
   it('Gets the proper term definition regardless of term case', () => {
