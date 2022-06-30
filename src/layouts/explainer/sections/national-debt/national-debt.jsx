@@ -110,6 +110,7 @@ import {
 } from './national-debt.module.scss';
 import { Bar } from '@nivo/bar';
 import Multichart from "../../multichart/multichart"
+import {adjustDataForInflation} from "../../../../helpers/inflation-adjust/inflation-adjust";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
@@ -499,7 +500,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   );
 };
 
-export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) => {
+export const GrowingNationalDebtSection = withWindowSize(({ sectionId, cpiDataByYear, width }) => {
   const chartId = `${sectionId}-chart`;
   const chartOptions = {
     forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
@@ -566,6 +567,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, width }) 
   useEffect(() => {
     basicFetch(`${apiPrefix}${endpoint}`)
       .then((dataset) => {
+        dataset.data = adjustDataForInflation(dataset.data, valueField, dateField, cpiDataByYear);
         const latestEntry = dataset.data[0];
         const earliestEntry = dataset.data[dataset.data.length - 1];
         // Use window.innerWidth instead of width prop because this doesn't trigger on mount
@@ -1632,49 +1634,55 @@ const nationalDebtSections = [
     index: 0,
     id: nationalDebtSectionIds[0],
     title: 'Key Takeaways',
-    component: <KeyTakeawaysSection />
+    component: (glossary, cpiDataByYear) => <KeyTakeawaysSection glossary={glossary}/>
   },
   {
     index: 1,
     id: nationalDebtSectionIds[1],
     title: 'The National Debt Explained',
-    component: <NationalDebtExplainedSection />
+    component: (glossary, cpiDataByYear) => <NationalDebtExplainedSection glossary={glossary}/>
   },
   {
     index: 2,
     id: nationalDebtSectionIds[2],
     title: 'Funding Programs & Services',
-    component: <FundingProgramsSection />
+    component: (glossary, cpiDataByYear) => <FundingProgramsSection glossary={glossary}/>
   },
   {
     index: 3,
     id: nationalDebtSectionIds[3],
     title: 'The Growing National Debt',
-    component: <GrowingNationalDebtSection sectionId={nationalDebtSectionIds[3]} />
+    component:(glossary, cpiDataByYear) =>
+      <GrowingNationalDebtSection
+        sectionId={nationalDebtSectionIds[3]}
+        glossary={glossary}
+        cpiDataByYear={cpiDataByYear}
+      />
   },
   {
     index: 4,
     id: nationalDebtSectionIds[4],
     title: 'Breaking Down the Debt',
-    component: <DebtBreakdownSection sectionId={nationalDebtSectionIds[4]} />
+    component: (glossary, cpiDataByYear) =>
+      <DebtBreakdownSection sectionId={nationalDebtSectionIds[4]} glossary={glossary}/>
   },
   {
     index: 5,
     id: nationalDebtSectionIds[5],
     title: 'The Debt Ceiling',
-    component: <DebtCeilingSection />
+    component: (glossary, cpiDataByYear) => <DebtCeilingSection glossary={glossary}/>
   },
   {
     index: 6,
     id: nationalDebtSectionIds[6],
     title: 'Tracking the Debt',
-    component: <DebtTrackingSection />
+    component: (glossary, cpiDataByYear) => <DebtTrackingSection glossary={glossary}/>
   },
   {
     index: 7,
     id: nationalDebtSectionIds[7],
     title: 'Dive Deeper into the Debt',
-    component: <DiveDeeperSection />
+    component: (glossary, cpiDataByYear) => <DiveDeeperSection glossary={glossary}/>
   }
 ]
 

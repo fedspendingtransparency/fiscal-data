@@ -9,5 +9,6 @@ export interface IExplainerPageContext {
   seoConfig: ISEOConfig,
   heroImage: IHeroImage,
   relatedDatasets: IDataset[],
-  glossary: IGlossaryTerm[]
+  glossary: IGlossaryTerm[],
+  cpiDataByYear: any
 }
