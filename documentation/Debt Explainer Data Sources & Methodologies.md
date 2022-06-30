@@ -51,9 +51,11 @@ We adjust debt values for inflation using the following:
 **API call:** https://apps.bea.gov/api/data/?UserID=X&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON
 
 To determine a fiscal year (FY) annual GDP value, we average the relevant quarterly values. As the fiscal year runs from October through September, we average four relevant quarterly values from calendar year Q4 of the previous calendar year through calendar year Q3.* When the debt value is available before BEA releases its estimates for the final fiscal year quarterly value (calendar year Q3), we average across the three most recent quarterly values available. The fiscal year GDP value is updated when BEA releases its Second and Third (final) Estimates for the quarter.
+
 Before using the API, users must obtain a unique 36-character UserID.  This UserID will replace "X" in the API call above.
 
-\* Prior to 1977, the fiscal year ran from July to June. The Congressional Budget Act of 1974 (Section 501 of P.L. 93-344, currently codified at 31 U.S.C. 1102) took effect and shifted the fiscal year cycle between FY 1976 and 1977. Starting with FY 1977, the fiscal year starts on October 1 and ends on September 30.
+\* Prior to 1977, the fiscal year ran from July to June. The Congressional Budget Act of 1974 (Section 501 of P.L. 93-344, currently codified at 31 U.S.C. 1102) took effect and shifted the fiscal year cycle between FY 1976 and 1977. Starting with FY 1977, the fiscal year starts on October 1 and ends on September 30.  GDP values prior to 1977 will use the relevant quarterly estimates for calendar year Q3 through calendar year Q2.
+
 
 ### Calculations
  We compare `debt_outstanding_amt` values to the relevant fiscal year GDP values.
@@ -85,3 +87,4 @@ The line chart shows calendar year-end `avg_interest_rate_amt` values where `sec
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?sort=-record_date&filter=record_calendar_month:eq:09,security_type_desc:eq:Total%20Public%20Debt%20Outstanding&page[size]=11
 
 The area chart shows calendar year-end `total_mil_amt` values where `security_class_desc` equals "Total Public Debt Outstanding".
+
