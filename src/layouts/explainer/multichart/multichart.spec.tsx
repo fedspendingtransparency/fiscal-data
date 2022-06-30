@@ -16,6 +16,7 @@ export const mockChartConfigs = [
     "options": {
       "inverted": false,
       "forceHeight": 400,
+      "maxHeightToWidthRatio": 0.8,
       "forceYAxisWidth": 60,
       "forceLabelFontSize": "0.875rem",
       "format": true,

@@ -84,6 +84,7 @@ import {
   footerContainer,
   debtBreakdownSectionGraphContainer,
   barChartContainer,
+  multichartWrapper,
   multichartContainer,
   multichartLegend,
   aveInterestLegend,
@@ -1086,6 +1087,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
   const chartOptions = {
     forceHeight: 400,
     forceYAxisWidth: 60,
+    maxHeightToWidthRatio: 0.8,
     forceLabelFontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
     format: true,
     showOuterXAxisTicks: true,
@@ -1392,7 +1394,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
         <div className={visWithCallout}>
           {multichartDataLoaded && (
 
-          <div>
+          <div className={multichartWrapper}>
             <div className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
                  role={"img"}
                  aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
