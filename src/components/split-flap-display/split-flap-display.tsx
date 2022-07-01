@@ -103,6 +103,8 @@ const SplitFlapDisplay = (
     if (!displayValue) return;
     const finalValue = purgeCharactersNotInCharSet(displayValue, charSet, precision, showCommas);
 
+    console.log(finalValue);
+
     if (timer.current || workingPrevValue.current === finalValue) {
       return;
     }
@@ -117,7 +119,6 @@ const SplitFlapDisplay = (
       .map((char: string, valuePosition: number, srcArray: string[]) => {
         const currChar = currChars[valuePosition];
         const charSetIndex = charSet.indexOf(currChar);
-
         if (showCommas && char === ',') return char;
         if (valueType !== "integer"
           && char === '.'
