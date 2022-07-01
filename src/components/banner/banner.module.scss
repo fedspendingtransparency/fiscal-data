@@ -3,9 +3,22 @@
 $lead-text-max: 550px;
 $max-img-width-desktop: 771.5px;
 
-.leadText {
-  max-width: $lead-text-max;
+.bannerContainer{
+  margin-bottom: 4rem;
 }
+
+.leadText {
+  max-width: 100%;//$lead-text-max;
+  margin-bottom: .5rem;
+
+  .sectionHeader {
+    color: #555555;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    margin-bottom: .5rem;
+  }
+}
+
 
 .headerSubText {
   font-weight: $light-weight;
@@ -14,8 +27,14 @@ $max-img-width-desktop: 771.5px;
 .siteBannerHeader {
   font-weight: $semi-bold-weight;
   color: $primary;
-  margin: 2rem 0 1rem;
-  font-size: $font-size-48;
+  //margin: 2rem 0 1rem;
+  margin: .5rem 0;
+  font-size: $font-size-24;
+  svg {
+    //height: 32px;
+    //width: 32px;
+    margin-right: 0.5rem;
+  }
 }
 
 .siteHeaderButton {
@@ -49,8 +68,8 @@ $max-img-width-desktop: 771.5px;
   }
 
   .siteBannerHeader {
-    margin-top: 0;
-    font-size: $font-size-56;
+    //margin-top: 0;
+    //font-size: $font-size-24;
   }
 
   .siteHeaderButton {

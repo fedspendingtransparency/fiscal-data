@@ -1,0 +1,10 @@
+@import '../../variables.module.scss';
+
+
+.mainContent {
+  h4 {
+    font-size: $font-size-32;
+    font-weight: $semi-bold-weight;
+    margin: 0;
+  }
+}

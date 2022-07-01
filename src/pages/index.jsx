@@ -12,6 +12,7 @@ import HomeFeatures from '../components/home-features/home-features';
 import LocationAware from '../components/location-aware/location-aware';
 import { StaticImage } from 'gatsby-plugin-image';
 import AnnouncementBanner from "../components/announcement-banner/announcement-banner";
+import AFGBanner from "../components/banner/AFG-banner";
 
 export const Index = () => {
   return (
@@ -21,16 +22,16 @@ export const Index = () => {
         beginning November 30th! Moving forward, you can find new content here at Fiscal Data.
       </AnnouncementBanner>
       <SiteLayout isPreProd={ENV_ID === "preprod"}>
-        <div className={styles.watermark} data-testid="site-watermark">
-          <StaticImage
-            src="../images/hp-watermark.webp"
-            alt="Decorative illustrations including a savings bond, chart and graph to depict
-           information found on Fiscal Data."
-            role="presentation"
-            placeholder="none"
-            quality={95} // needed to preserve quality for image with narrow contrast range
-          />
-        </div>
+        {/*<div className={styles.watermark} data-testid="site-watermark">*/}
+        {/*  <StaticImage*/}
+        {/*    src="../images/hp-watermark.webp"*/}
+        {/*    alt="Decorative illustrations including a savings bond, chart and graph to depict*/}
+        {/*   information found on Fiscal Data."*/}
+        {/*    role="presentation"*/}
+        {/*    placeholder="none"*/}
+        {/*    quality={95} // needed to preserve quality for image with narrow contrast range*/}
+        {/*  />*/}
+        {/*</div>*/}
         <div data-testid="site-home" className={styles.siteHome} data-environment={ENV_ID}>
           <PageHelmet
             data-testid="helmet"
@@ -40,10 +41,9 @@ export const Index = () => {
             keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
           />
-          <div data-testid="banner" className={styles.bannerWrapper}>
-            <BannerLeadText />
-            <BannerGraphic />
-          </div>
+          {/*<div data-testid="banner" className={styles.bannerWrapper}>*/}
+            <AFGBanner />
+          {/*</div>*/}
           <HomeMainContent />
           <HomeFeatures />
         </div>
