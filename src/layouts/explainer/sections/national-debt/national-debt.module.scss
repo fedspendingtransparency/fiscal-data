@@ -680,8 +680,12 @@
   .multichartWrapper .debtBreakdownSectionGraphContainer {
     padding: 0 14px 0 0;
 
-    .title, .footerContainer {
+    .title {
       padding: 1.5rem 0.875rem 0;
+    }
+
+    .footerContainer {
+      padding: 1.5rem 0.875rem 1.625rem;
     }
   }
 
