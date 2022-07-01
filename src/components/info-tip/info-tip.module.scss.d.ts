@@ -67,3 +67,4 @@ export const svgStyle: string;
 export const header: string;
 export const popupContainer: string;
 export const popoverContents: string;
+export const glossaryButton: string;

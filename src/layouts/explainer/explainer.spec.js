@@ -16,12 +16,14 @@ describe('Explainer Page Layout', () => {
     heading: 'mock heading',
     subHeading: 'mock subheading'
   }
+  const glossary = [];
 
   const mockPageContext = {
     pageName,
     breadCrumbLinkName,
     seoConfig,
-    heroImage
+    heroImage,
+    glossary
   }
 
   beforeEach(() => {

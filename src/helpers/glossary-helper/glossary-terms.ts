@@ -3,13 +3,8 @@ import {IGlossaryTerm} from "../../models/IGlossaryTerm";
 export const findGlossaryTerm = (term: string, glossaryData: IGlossaryTerm[]): IGlossaryTerm[] => {
   // Uses toLowerCase() for case-insensitive matching
   const matches = [];
-
   glossaryData.forEach((entry => {
-    const insensitiveWords = [];
-    entry.term.split(/[\s,]+/).forEach(word => {
-      insensitiveWords.push(word.toLowerCase());
-    });
-    if(insensitiveWords.includes(term.toLowerCase())) {
+    if(entry.term && entry.term.toLowerCase() === term.toLowerCase()) {
       matches.push(entry);
     }
   }))

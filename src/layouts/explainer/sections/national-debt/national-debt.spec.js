@@ -60,8 +60,12 @@ describe('National Debt explainer page sections', () => {
 });
 
 describe('National Debt Explained', () => {
+  const glossary = [];
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
   it('renders the table showing a breakdown of how the national debt works', () => {
-    const { container, getByText } = render(<NationalDebtExplainedSection />);
+    const { container, getByText } = render(<NationalDebtExplainedSection glossary={glossary}/>);
 
     expect(container.querySelector(`.${nationalDebtExplainedTable}`)).toBeInTheDocument();
 
@@ -79,8 +83,11 @@ describe('National Debt Explained', () => {
 describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
   const config = nationalDebtSectionConfigs[sectionId]
+  const glossary = [];
   beforeEach(() => {
     determineBEAFetchResponse(jest, mockExplainerPageResponse);
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+
   });
 
   afterEach(() => {
@@ -90,7 +97,7 @@ describe('The Growing National Debt', () => {
 
   it('renders the Visualizing the Debt table inside an accordion', async () => {
     const { container } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} />
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} />
     );
 
     expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`))
@@ -115,7 +122,7 @@ describe('The Growing National Debt', () => {
 
   it('contains the chart', async () => {
     const { findByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} />
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}/>
     );
 
     expect(await findByTestId('chart')).toBeInTheDocument();
@@ -123,7 +130,7 @@ describe('The Growing National Debt', () => {
 
   it('contains the debt trends line chart', async () => {
     const { findByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} />
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}/>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -134,7 +141,7 @@ describe('The Growing National Debt', () => {
     const latestValue = simplifyNumber(mockExplainerPageResponse.data[0][config.valueField], true);
 
     const { findAllByText, findByText } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} />
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}/>
     );
 
     // Latest year is also the text content for the last value on the graph's x-axis
@@ -148,8 +155,9 @@ describe('The Growing National Debt', () => {
 
 describe('Breaking Down the Debt', () => {
   const sectionId = nationalDebtSectionIds[4];
-
+  const glossary = [];
   beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, [
       {
         matcher: (url) => {
@@ -177,7 +185,7 @@ describe('Breaking Down the Debt', () => {
 
   it('contains the chart', async () => {
     const { findByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
 
     expect(await findByTestId('breakdownChart')).toBeInTheDocument();
@@ -190,7 +198,7 @@ describe('Breaking Down the Debt', () => {
       return new Date(new Date(2021, 11, 1, 12).valueOf());
     });
     render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
 
     const queryString = '?fields=debt_held_public_mil_amt,intragov_hold_mil_amt,' +
@@ -207,7 +215,7 @@ describe('Breaking Down the Debt', () => {
     const firstYear = latestYear - 10;
 
     const { findByText, findAllByText, findByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
 
     // Latest year is in the component
@@ -230,7 +238,7 @@ describe('Breaking Down the Debt', () => {
 
   it('contains a multichart', async () => {
     const { findByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
 
     expect(await findByTestId('multichart')).toBeInTheDocument();
@@ -238,7 +246,7 @@ describe('Breaking Down the Debt', () => {
 
   it('contains a title for the multichart with correct date values', async () => {
     const { findByText } = render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
 
     expect(await findByText('Interest Rate and Total Debt, 2012 – 2021')).toBeInTheDocument();
@@ -246,7 +254,7 @@ describe('Breaking Down the Debt', () => {
 
   it('contains a header for the multichart with correct default values', async () => {
     const { getByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
 
     let elem;
@@ -265,7 +273,7 @@ describe('Breaking Down the Debt', () => {
 
   it('contains a legend for items represented in the multichart', async () => {
     const { getByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
     let elem;
     await waitFor(() => {
@@ -277,7 +285,7 @@ describe('Breaking Down the Debt', () => {
 
   it('contains a last-updated text string', async () => {
     const { findByText } = render(
-      <DebtBreakdownSection sectionId={sectionId} />
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
     expect(await findByText('Last updated: September 30, 2021')).toBeInTheDocument();
   });
