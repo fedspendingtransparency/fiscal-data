@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBookOpen} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Grid } from "@material-ui/core"
-import ExplainerCard from "./explainer-card";
+import ExplainerTile from "./explainer-tile";
 import debtDesktopImage from '../../images/homepage_debt_1200x630.png';
 import debtMobileImage from '../../images/homepage_debt_square.png';
 import deficitDesktopImage from '../../images/homepage_deficit_coming-soon_desktop.png';
@@ -19,6 +19,7 @@ const AFGBanner = () => {
         'over time.',
       desktopImagePath: debtDesktopImage,
       mobileImagePath: debtMobileImage,
+      altText: '',
       main: true
     },
     'deficit': {
@@ -27,6 +28,7 @@ const AFGBanner = () => {
         'given period of time. Learn more about the U.S. deficit and how it has changed over time.',
       desktopImagePath: deficitDesktopImage,
       mobileImagePath: deficitMobileImage,
+      altText: '',
       main: false
     }
   }
@@ -47,22 +49,12 @@ const AFGBanner = () => {
         </i>
       </div>
       <div>
-        <Grid container spacing={2}>
-          <Grid item xs={6} md={8}>
-            <ExplainerCard
-              title={pageMap['debt'].title}
-              body={pageMap['debt'].body}
-              imagePath={pageMap['debt'].desktopImagePath}
-              main={pageMap['debt'].main}
-            />
+        <Grid container spacing={4}>
+          <Grid item sm={8}>
+            <ExplainerTile tileContent={pageMap['debt']} />
           </Grid>
-          <Grid item xs={6} md={4}>
-            <ExplainerCard
-              title={pageMap['deficit'].title}
-              body={pageMap['deficit'].body}
-              imagePath={pageMap['deficit'].desktopImagePath}
-              main={pageMap['debt'].main}
-            />
+          <Grid item sm={4}>
+            <ExplainerTile tileContent={pageMap['deficit']} />
           </Grid>
         </Grid>
       </div>
