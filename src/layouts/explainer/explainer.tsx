@@ -30,7 +30,7 @@ import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-rel
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies"
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
-  const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets } = pageContext;
+  const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets, glossary } = pageContext;
 
   //TODO add glossary to page context above, and call helper function findGlossaryTerm(term, glossary) to get term info
 
@@ -44,6 +44,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
       link: '/'
     }
   ];
+
 
   return (
     <SiteLayout isPreProd={false}>
@@ -85,7 +86,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
               </div>
               <div className={mainContent}>
                 {explainerSections[pageName].map((s) => (
-                  <React.Fragment key={s.index}>
+                  <React.Fragment key={s.index} >
                     <section
                       id={s.id}
                       className={section}
@@ -97,7 +98,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                       >
                         {s.title}
                       </h2>
-                      {s.component}
+                      {s.component(glossary)}
                       {s.index !== explainerSections[pageName].length - 1 && (
                         <div
                           className={sectionBorder}

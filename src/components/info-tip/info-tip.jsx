@@ -51,7 +51,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ title, secondary, clickEvent, children }) => {
+const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
   const {
     button,
     primarySvgColor,
@@ -60,6 +60,7 @@ const InfoTip = ({ title, secondary, clickEvent, children }) => {
     popupContainer
   } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let timeout;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,6 +68,24 @@ const InfoTip = ({ title, secondary, clickEvent, children }) => {
       clickEvent();
     }
   };
+
+  const handleGlossaryClick = (e) => {
+    let anchor = e.currentTarget;
+    if (e.key === undefined || e.key === 'Enter') {
+      e.stopPropagation();
+      if (e.type === 'mouseenter') {
+        timeout = setTimeout(() => {
+          setAnchorEl(anchor);
+        }, 500);
+      } else {
+        setAnchorEl(e.currentTarget);
+      }
+    }
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(timeout);
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -78,19 +97,33 @@ const InfoTip = ({ title, secondary, clickEvent, children }) => {
 
   return (
     <span data-testid="infoTipContainer">
-      <Button
-        aria-describedby={id}
-        aria-label={label}
-        data-testid="infoTipButton"
-        variant="contained"
-        className={`${button} ${styles.infoIcon}`}
-        onClick={handleClick}
-      >
-        <FontAwesomeIcon
-          icon={faInfoCircle}
-          className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`}
-        />
-      </Button>
+      {glossaryText ? (
+        <span
+          className={styles.glossaryButton}
+          onMouseEnter={handleGlossaryClick}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleGlossaryClick}
+          onKeyPress={handleGlossaryClick}
+          role="button"
+          tabIndex={0}
+        >
+          {glossaryText}
+        </span>
+      ) : (
+        <Button
+          aria-describedby={id}
+          aria-label={label}
+          data-testid="infoTipButton"
+          variant="contained"
+          className={`${button} ${styles.infoIcon}`}
+          onClick={handleClick}
+        >
+          <FontAwesomeIcon
+            icon={faInfoCircle}
+            className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`}
+          />
+        </Button>
+      )}
         <Popover
           id={id}
           className={popOver}
