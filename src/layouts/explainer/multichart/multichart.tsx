@@ -3,6 +3,7 @@ import { MultichartRenderer } from "../../../components/charts/chart-primary/mul
 
 type ChartOptions = {
   forceHeight: number,
+  maxHeightToWidthRatio?: number,
   forceYAxisWidth?: number,
   forceLabelFontSize: string,
   format: boolean,

@@ -115,3 +115,4 @@ export const debtCeilingAccordion: string;
 export const growingNationalDebt: string;
 export const paddingTop: string;
 export const diveDeeperContent: string;
+export const multichartWrapper: string;

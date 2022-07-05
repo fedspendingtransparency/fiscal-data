@@ -266,13 +266,15 @@
     margin: 1rem auto 0 auto;
     white-space: nowrap;
     text-align: center;
-    padding: 0 3rem;
     align-content: space-around;
     > div {
       display: inline-block;
-      margin: 0 20px  2px;
       vertical-align: middle;
       white-space: nowrap;
+
+      &:first-child {
+        margin-right: 10%;
+      }
       div {
         vertical-align: middle;
         display: inline-block;
@@ -672,6 +674,18 @@
       p {
         font-size: $font-size-12;
       }
+    }
+  }
+
+  .multichartWrapper .debtBreakdownSectionGraphContainer {
+    padding: 0 14px 0 0;
+
+    .title {
+      padding: 1.625rem 0 0 0.875rem;
+    }
+
+    .footerContainer {
+      padding: 1.5rem  0 1.625rem 0.875rem;
     }
   }
 
