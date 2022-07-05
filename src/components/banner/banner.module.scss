@@ -3,8 +3,8 @@
 $lead-text-max: 550px;
 $max-img-width-desktop: 771.5px;
 
-.bannerContainer{
-  margin-bottom: 4rem;
+.topicsSectionContainer{
+  margin: .75rem 0 4rem;
 }
 
 .leadText {
@@ -17,8 +17,12 @@ $max-img-width-desktop: 771.5px;
     font-weight: $semi-bold-weight;
     margin-bottom: .5rem;
   }
-}
 
+
+}
+.tileContainer {
+  margin-top: .5rem;
+}
 
 .headerSubText {
   font-weight: $light-weight;

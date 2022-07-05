@@ -12,7 +12,7 @@ import HomeFeatures from '../components/home-features/home-features';
 import LocationAware from '../components/location-aware/location-aware';
 import { StaticImage } from 'gatsby-plugin-image';
 import AnnouncementBanner from "../components/announcement-banner/announcement-banner";
-import AFGBanner from "../components/banner/AFG-banner";
+import TopicsSection from "../components/banner/topics-section";
 
 export const Index = () => {
   return (
@@ -42,7 +42,7 @@ export const Index = () => {
           financial data, debt, Treasury, US government"
           />
           {/*<div data-testid="banner" className={styles.bannerWrapper}>*/}
-            <AFGBanner />
+            <TopicsSection />
           {/*</div>*/}
           <HomeMainContent />
           <HomeFeatures />
