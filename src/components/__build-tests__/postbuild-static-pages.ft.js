@@ -244,7 +244,7 @@ describe('Fully built site', () => {
       // todo - Update the following to be an "await Promise.all" as seen in the test below
       //  so these checks can be done in parallel rather than sequence.
       for (const dataset of Object.values(ADDITIONAL_DATASETS)) {
-        if (ENV_ID === 'preprod') {
+        if (ENV_ID !== 'production') {
           await verifyPageStatus(`${siteRoot}/datasets${dataset.slug}`);
         } else {
           await verifyPageStatus(`${siteRoot}/datasets${dataset.slug}`, 404);
