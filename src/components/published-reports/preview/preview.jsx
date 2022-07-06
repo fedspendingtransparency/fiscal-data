@@ -5,7 +5,9 @@ import {
   titleContainer,
   headerWrapper,
   header,
-  previewContent
+  previewContent,
+  textReportContainer,
+  textReportPreview
 } from './preview.module.scss';
 import NotShownMessage
   from "../../dataset-data/table-section-container/not-shown-message/not-shown-message";
@@ -13,19 +15,19 @@ import Analytics from '../../../utils/analytics/analytics';
 
 const Preview = ({ selectedFile }) => {
   const [isPdf, setIsPdf] = useState(true);
+  const [isTxt, setIsTxt] = useState(false);
   const [fileType, setFileType] = useState(null);
   const [previousSelectedPath, setPreviousSelectedPath] = useState(null);
+  const [reportTextContent, setReportTextContext] = useState('');
 
   let altText;
 
   // todo - Revisit the altText below. This is very specific and can be refined to be more
   //  generic for all datasets and different file types.
   if (selectedFile && selectedFile.report_group_desc === 'Monthly Treasury Statement (.pdf)') {
-
     altText = 'Preview the downloadable PDF report of the MTS Receipts and Outlays of the U.S.' +
     ' Government for the selected month and year for the previous five years.'
   } else if (selectedFile && selectedFile.report_group_desc === 'Entire (.pdf)') {
-
     altText = 'Preview the downloadable PDF report of the MSPD for the selected month and year' +
       ' for the previous five years.';
   }
@@ -35,24 +37,34 @@ const Preview = ({ selectedFile }) => {
       && selectedFile.path !== previousSelectedPath
       && selectedFile.report_group_desc
       && selectedFile.path) {
-
       setPreviousSelectedPath(selectedFile);
       const groupName = selectedFile.report_group_desc.toLowerCase();
       const pdfTextBool = groupName.indexOf('(.pdf)') !== -1;
       setIsPdf(pdfTextBool);
-      if (!pdfTextBool){
+      const txtTextBool = groupName.indexOf('(.txt)') !== -1;
+      setIsTxt(txtTextBool);
+      if (pdfTextBool) {
+        Analytics.event({
+          'category': 'Published Report Preview',
+          'action': 'load pdf preview',
+          'value': selectedFile.path
+        });
+      } else if (txtTextBool)  {
+        fetch(selectedFile.path).then(res => res.text()).then(textFile => {
+                  setReportTextContext(textFile);
+                  });
+        Analytics.event({
+          'category': 'Published Report Preview',
+          'action': 'load text preview',
+          'value': selectedFile.path
+        });
+      } else {
         const fileTypeIdx = groupName.indexOf('(.');
         let newFileType = null;
         if (fileTypeIdx !== -1) {
           newFileType = groupName.substring(fileTypeIdx + 1, groupName.indexOf(')'));
         }
         setFileType(newFileType);
-      } else {
-        Analytics.event({
-          'category': 'Published Report Preview',
-          'action': 'load pdf preview',
-          'value': selectedFile.path
-        })
       }
     }
   }, [selectedFile]);
@@ -82,10 +94,17 @@ const Preview = ({ selectedFile }) => {
                      data-test-id="embedElement"
                      title={altText}
               />
-            :
-              <NotShownMessage heading="Previews can only be generated for PDF file types."
-                               bodyText={`The selected file is ${fileType}`}
-              />
+              :
+              isTxt ?
+                <div className={textReportContainer}>
+                  <pre className={textReportPreview}>
+                    {reportTextContent}
+                  </pre>
+                </div>
+                :
+                <NotShownMessage heading="Preview cannot be displayed for this file type."
+                                 bodyText={`The selected file type is ${fileType}`}
+                />
           : <NotShownMessage heading="Select a Report Above To Generate A Preview" />
         }
       </div>

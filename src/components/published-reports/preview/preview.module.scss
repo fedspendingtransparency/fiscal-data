@@ -8,6 +8,34 @@
   z-index: 9;
 }
 
+.textReportContainer {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+
+.textReportPreview {
+  font-size: $font-size-14;
+}
+
+@media screen and (max-width: $breakpoint-xl) {
+  .textReportPreview {
+    font-size: 1.15vw;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+  .textReportPreview {
+    font-size: 1.2vw;
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .textReportPreview {
+    font-size: 1vw;
+  }
+}
+
 .headerWrapper {
   display: flex;
   align-items: center;
