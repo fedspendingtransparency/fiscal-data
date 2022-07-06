@@ -99,7 +99,6 @@ const Preview = ({ selectedFile }) => {
                   {reportTextContent}
                 </pre>
                 :
-                // todo - make this message more general, bc we can now show txt files too
                 <NotShownMessage heading="Preview cannot be displayed for this file type."
                                  bodyText={`The selected file type is ${fileType}`}
                 />
