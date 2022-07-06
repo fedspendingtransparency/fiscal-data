@@ -102,9 +102,6 @@ const SplitFlapDisplay = (
 
     if (!displayValue) return;
     const finalValue = purgeCharactersNotInCharSet(displayValue, charSet, precision, showCommas);
-
-    console.log(finalValue);
-
     if (timer.current || workingPrevValue.current === finalValue) {
       return;
     }
