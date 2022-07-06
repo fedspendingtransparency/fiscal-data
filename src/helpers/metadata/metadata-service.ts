@@ -18,8 +18,6 @@ export class MetadataService {
     globalConstants.METADATA_SUMMARY;
   private readonly PUBLISHED_REPORT_URL: string =
     globalConstants.PUBLISHED_REPORTS;
-  private readonly BASE_SITE_URL: string =
-    globalConstants.BASE_SITE_URL;
 
   private readonly METADATA_POLLING_INTERVAL: number =
     globalConstants.config.metadataUpdateService.pollingInterval;
@@ -91,7 +89,6 @@ export class MetadataService {
         .pipe(
           map((rawJson): IPublishedReportDataJson[] => {
             return rawJson.map((report) => {
-              report.path = this.BASE_SITE_URL + report.path;
               let curDate = report.report_date;
               if (typeof curDate === 'string') {
                 const [year,month,day] = curDate.split('-');
