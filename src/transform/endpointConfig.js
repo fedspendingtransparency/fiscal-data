@@ -1759,20 +1759,20 @@ const endpointConfig = {
     'dataDisplays': [
       {
         'title': 'By Account',
-        'dimensionField': 'account'
+        'dimensionField': 'account_cd'
       },
       {
         'title': 'By Department',
-        'dimensionField': 'dept'
+        'dimensionField': 'dept_cd'
       }
     ],
     'valueFieldOptions': [
-      'loans_receivable',
-      'capitalized_interest_receivable',
-      'interest_receivable',
-      'interest_revenue',
-      'gain',
-      'loss'
+      'loans_receivable_amt',
+      'capitalized_interest_receivable_amt',
+      'interest_receivable_amt',
+      'interest_revenue_amt',
+      'gain_amt',
+      'loss_amt'
     ]
   },
   '177': {
@@ -1782,20 +1782,20 @@ const endpointConfig = {
     'dataDisplays': [
       {
         'title': 'By Account',
-        'dimensionField': 'account'
+        'dimensionField': 'account_cd'
       },
       {
         'title': 'By Department',
-        'dimensionField': 'dept'
+        'dimensionField': 'dept_cd'
       }
     ],
     'valueFieldOptions': [
-      'loans_receivable',
-      'capitalized_interest_receivable',
-      'interest_receivable',
-      'interest_revenue',
-      'gain',
-      'loss'
+      'loans_receivable_amt',
+      'capitalized_interest_receivable_amt',
+      'interest_receivable_amt',
+      'interest_revenue_amt',
+      'gain_amt',
+      'loss_amt'
     ]
   }
 };
