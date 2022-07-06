@@ -15,18 +15,24 @@
 
 
 .textReportPreview {
-  font-size: 0.68vw;
+  font-size: $font-size-14;
+}
+
+@media screen and (max-width: $breakpoint-xl) {
+  .textReportPreview {
+    font-size: 1.15vw;
+  }
 }
 
 @media screen and (max-width: $breakpoint-md) {
   .textReportPreview {
-    font-size: 0.9vw;
+    font-size: 1.2vw;
   }
 }
 
 @media screen and (max-width: $breakpoint-sm) {
   .textReportPreview {
-    font-size: 1.1vw;
+    font-size: 1vw;
   }
 }
 
