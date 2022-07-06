@@ -21,7 +21,7 @@ describe('Glossary term finder', () => {
     {
       id: 3,
       term: 'hEllo',
-      site_page: 'debt',
+      site_page: 'spending',
       definition: 'A messed up greeting',
       urlDisplay: 'example.com',
       urlPath: 'example.com'

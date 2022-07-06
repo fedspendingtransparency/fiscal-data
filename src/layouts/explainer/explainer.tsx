@@ -85,7 +85,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
               </div>
               <div className={mainContent}>
                 {explainerSections[pageName].map((s) => (
-                  <React.Fragment key={s.index}>
+                  <React.Fragment key={s.index} >
                     <section
                       id={s.id}
                       className={section}
