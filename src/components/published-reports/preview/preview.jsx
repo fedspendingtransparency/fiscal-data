@@ -6,6 +6,7 @@ import {
   headerWrapper,
   header,
   previewContent,
+  textReportContainer,
   textReportPreview
 } from './preview.module.scss';
 import NotShownMessage
@@ -95,9 +96,11 @@ const Preview = ({ selectedFile }) => {
               />
               :
               isTxt ?
-                <pre className={textReportPreview}>
-                  {reportTextContent}
-                </pre>
+                <div className={textReportContainer}>
+                  <pre className={textReportPreview}>
+                    {reportTextContent}
+                  </pre>
+                </div>
                 :
                 <NotShownMessage heading="Preview cannot be displayed for this file type."
                                  bodyText={`The selected file type is ${fileType}`}

@@ -106,18 +106,21 @@ describe('Preview component', () => {
 
   it('displays the content of a text for preview when file type is txt', async () => {
     spy.mockClear();
-    const file = 'helloAgain.txt';
+
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const textFilename = 'helloAgain.txt';
     const groupName = 'groupName (.txt)';
 
     await renderer.act(async () => {
       await component.update(
         <Preview selectedFile={{
-            path: file,
+            path: textFilename,
             report_group_desc: groupName
           }}
         />);
     });
 
+    expect(fetchSpy).toHaveBeenCalledWith(textFilename);
     const preformattedTextElement = instance.findByType('pre');
     expect(preformattedTextElement.props.children).toStrictEqual(mockTestReport);
   });

@@ -8,8 +8,13 @@
   z-index: 9;
 }
 
-.textReportPreview {
-  font-size: 0.8vw;
+.textReportContainer {
+  max-height: 70vh;
+  overflow-y: auto;
+
+  .textReportPreview {
+    font-size: 0.8vw;
+  }
 }
 
 .headerWrapper {
