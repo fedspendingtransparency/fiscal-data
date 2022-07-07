@@ -14,12 +14,12 @@ module.exports = {
           "Exchange Rates, Revenue, Savings Bonds, Spending"
       },
       "topics": [
-        "Debt",
-        "Financial Summaries",
-        "Interest and Exchange Rates",
-        "Revenue",
-        "Savings Bonds",
-        "Spending"],
+        "debt",
+        "financial-summaries",
+        "interest-exchange-rates",
+        "revenue",
+        "savings-bonds",
+        "spending"],
       "relatedDatasets": [
         "015-BFS-2014Q3-037",
         "015-BFS-2014Q1-11",
