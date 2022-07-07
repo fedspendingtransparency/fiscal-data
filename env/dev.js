@@ -15,11 +15,8 @@ module.exports = {
       },
       "topics": [
         "debt",
-        "financial-summaries",
-        "interest-exchange-rates",
-        "revenue",
-        "savings-bonds",
-        "spending"],
+        "financial-summaries"
+      ],
       "relatedDatasets": [
         "015-BFS-2014Q3-037",
         "015-BFS-2014Q1-11",
