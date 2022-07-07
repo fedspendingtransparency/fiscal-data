@@ -2,7 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
-import mockExplainerPageResponse from './explainer-test-helper';
+import  {
+  mockExplainerPageResponse,
+} from './explainer-test-helper';
 import { setGlobalFetchResponse } from '../../utils/mock-utils';
 
 describe('Explainer Page Layout', () => {

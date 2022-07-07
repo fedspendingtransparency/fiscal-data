@@ -1227,23 +1227,27 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
   useEffect(() => {
     basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?page%5bsize%5d=1&sort=-record_date`)
     .then(response => {
-      setInterestExpenseEndYear(response.data[0].record_calendar_year);
-      const date = new Date();
-      date.setMonth(response.data[0].record_calendar_month - 1);
-      setInterestExpenseEndMonth(date.toLocaleString('en-US', {
-        month: 'long',
-      }));
-      setMaintainDebtExpense(parseFloat(response.data[0].fytd_expense_amt));
-      setShortenedDebtExpense((maintainDebtExpense / 10000000000).toFixed(2).toString());
+      if (response && response.data && response.data.length) {
+        setInterestExpenseEndYear(response.data[0].record_calendar_year);
+        const date = new Date();
+        date.setMonth(response.data[0].record_calendar_month - 1);
+        setInterestExpenseEndMonth(date.toLocaleString('en-US', {
+          month: 'long',
+        }));
+        setMaintainDebtExpense(parseFloat(response.data[0].fytd_expense_amt));
+        setShortenedDebtExpense((maintainDebtExpense / 10000000000).toFixed(2).toString());
+      }
     })
     basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
     current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
     record_date,record_calendar_month,record_calendar_year,record_fiscal_year
     &filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`)
     .then(response => {
-      const percent = (maintainDebtExpense /
-        parseFloat(response.data[0].current_fytd_net_outly_amt) * 100).toFixed(2);
-      setDebtExpensePercent(`${percent}%`);
+      if (response && response.data && response.data.length) {
+        const percent = (maintainDebtExpense /
+          parseFloat(response.data[0].current_fytd_net_outly_amt) * 100).toFixed(2);
+        setDebtExpensePercent(`${percent}%`);
+      }
     })
   }, []);
 
