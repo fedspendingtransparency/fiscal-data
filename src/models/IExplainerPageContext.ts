@@ -2,6 +2,7 @@ import { ISEOConfig } from "./ISEOConfig";
 import { IHeroImage } from "./IHeroImage";
 import {IDataset} from "./IDataset";
 import {IGlossaryTerm} from "./IGlossaryTerm";
+import {ICpiDataMap} from "./ICpiDataMap";
 
 export interface IExplainerPageContext {
   pageName: string,
@@ -9,5 +10,6 @@ export interface IExplainerPageContext {
   seoConfig: ISEOConfig,
   heroImage: IHeroImage,
   relatedDatasets: IDataset[],
-  glossary: IGlossaryTerm[]
+  glossary: IGlossaryTerm[],
+  cpiDataByYear: ICpiDataMap
 }
