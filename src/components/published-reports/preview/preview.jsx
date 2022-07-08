@@ -12,6 +12,7 @@ import {
 import NotShownMessage
   from "../../dataset-data/table-section-container/not-shown-message/not-shown-message";
 import Analytics from '../../../utils/analytics/analytics';
+import { getIFetch } from "../../../utils/api-utils"
 
 const Preview = ({ selectedFile }) => {
   const [isPdf, setIsPdf] = useState(true);
@@ -50,7 +51,7 @@ const Preview = ({ selectedFile }) => {
           'value': selectedFile.path
         });
       } else if (txtTextBool)  {
-        fetch(selectedFile.path).then(res => res.text()).then(textFile => {
+        getIFetch()(selectedFile.path).then(res => res.text()).then(textFile => {
                   setReportTextContext(textFile);
                   });
         Analytics.event({
