@@ -85,9 +85,11 @@ describe('The Growing National Debt', () => {
   const config = nationalDebtSectionConfigs[sectionId]
   const glossary = [];
   const mockCpiDataset = {
-    "2000": "5",
-    "2010": "10",
-    "2020": "15"
+    "2011": "10",
+    "2012": "5",
+    "2013": "5",
+    "2020": "15",
+    "2021": "15"
   };
 
 
