@@ -4,7 +4,7 @@ $lead-text-max: 550px;
 $max-img-width-desktop: 771.5px;
 
 .topicsSectionContainer{
-  margin: .75rem 0 4rem;
+  padding: 0rem 0 4rem;
 
   .sectionHeader {
     color: #555555;
@@ -33,7 +33,7 @@ $max-img-width-desktop: 771.5px;
 
 @media screen and (max-width: $breakpoint-lg) {
   .topicsSectionContainer {
-    margin-top: 1rem;
+    margin-top: 2rem;
 
     .siteBannerHeader {
       align-items: start;
@@ -47,10 +47,9 @@ $max-img-width-desktop: 771.5px;
     }
 
     .line {
-      width: 341px;
-      //height: 1px;
-      //margin: 496px 7px 15.5px 12px;
-      border: solid 1px #d8d8d8;
+      width: 100%;
+      margin: 0 16px;
+      border-bottom: solid 1px #d8d8d8;
     }
   }
 

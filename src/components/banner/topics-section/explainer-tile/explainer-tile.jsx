@@ -9,6 +9,7 @@ import {
   breakpointLg
 } from '../../../../variables.module.scss';
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
+import Link from "gatsby-link";
 
 
 const ExplainerTile =({content, width}) => {
@@ -28,19 +29,30 @@ const ExplainerTile =({content, width}) => {
       style={{width:'100%'}}
     />;
 
+  const card =
+    <div className={mainContent}>
+      <div>
+        {width >= pxToNumber(breakpointLg) ? desktopImage : mobileImage}
+      </div>
+      <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
+        {content.title}
+      </h5>
+      <div>
+        {content.body}
+      </div>
+    </div>;
+
   return (
     <>
-      <div className={mainContent}>
+      {content.path ?
+        <Link to={content.path}>
+          {card}
+        </Link>
+       :
         <div>
-          {width >= pxToNumber(breakpointLg) ? desktopImage : mobileImage}
+          {card}
         </div>
-        <h4 className={content.mainFeature ? mainTitle : secondaryTitle}>
-          {content.title}
-        </h4>
-        <div style={{textOverflow:'ellipsis'}} >
-          {content.body}
-        </div>
-      </div>
+      }
     </>
   )
 }

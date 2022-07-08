@@ -15,6 +15,8 @@ import {
   line
 } from "./topics-section.module.scss";
 import {withWindowSize} from "react-fns";
+import {breakpointLg} from "../../../variables.module.scss";
+import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
 
 
 const TopicsSection = ({width}) => {
@@ -28,7 +30,8 @@ const TopicsSection = ({width}) => {
         'money, and magnifying glass',
       desktopImagePath: debtDesktopImage,
       mobileImagePath: debtMobileImage,
-      mainFeature: true
+      mainFeature: true,
+      path: '/national-debt/'
     },
     'deficit': {
       title: 'What is the national deficit?',
@@ -64,7 +67,7 @@ const TopicsSection = ({width}) => {
           <Grid item md={mainWidth}>
             <ExplainerTile content={pageMap['debt']} width={width} />
           </Grid>
-          <div className={line}/>
+          {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
           <Grid item md={secondaryWidth}>
             <ExplainerTile content={pageMap['deficit']} width={width} />
           </Grid>
