@@ -1036,6 +1036,10 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
   const [multichartEndYear, setMultichartEndYear] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
   const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
+  const [interestExpenseEndMonth, setInterestExpenseEndMonth] = useState('');
+  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('');
+  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('0');
+  const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
 
   const glossaryTerms = {
     'debtHeldByThePublic':
@@ -1280,6 +1284,35 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
       });
   }, []);
 
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?page%5bsize%5d=1&sort=-record_date`)
+    .then(response => {
+      if (response && response.data && response.data.length) {
+        setInterestExpenseEndYear(response.data[0].record_calendar_year);
+        const date = new Date();
+        date.setMonth(response.data[0].record_calendar_month - 1);
+        setInterestExpenseEndMonth(date.toLocaleString('en-US', {
+          month: 'long',
+        }));
+        const maintainDebtExpense = (parseFloat(response.data[0].fytd_expense_amt));
+        setShortenedDebtExpense((maintainDebtExpense / 10000000000).toFixed(2).toString());
+        basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
+        current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
+        record_date,record_calendar_month,record_calendar_year,record_fiscal_year
+        &filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`)
+        .then(response => {
+          if (response && response.data && response.data.length) {
+            const percent = (maintainDebtExpense /
+              parseFloat(response.data[0].current_fytd_net_outly_amt) * 100).toFixed(2);
+            setDebtExpensePercent(`${percent}%`);
+          }
+        })
+      }
+    })
+  }, []);
+
+
   return (
     <>
       <p>
@@ -1443,8 +1476,8 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
           various securities’ {glossaryTerms.interestRates}.
         </p>
         <p>
-          As of December {multichartEndYear} it costs $XX.XX trillion to maintain the debt, which is
-          XX.XX% of the total federal spending.
+          As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} trillion to maintain the debt, which
+          is {debtExpensePercent} of the total federal spending.
         </p>
         <p>
           The national debt has increased every year over the past ten years. Interest expenses during this period have remained

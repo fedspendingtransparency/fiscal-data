@@ -19,7 +19,10 @@ import {
   mockGovtDebtIncrease,
   mockInterestRatesResponse,
   mockTotalDebtResponse,
-  mockDebtBreakdownResponse, mockInterestToDebtChartHeaderSummary,
+  mockDebtBreakdownResponse,
+  mockInterestToDebtChartHeaderSummary,
+  mockInterestExpenseResponse,
+  mockDebtExpenseResponse
 } from "../../explainer-test-helper"
 import {
   determineBEAFetchResponse, setGlobalFetchMatchingResponse,
@@ -181,6 +184,18 @@ describe('Breaking Down the Debt', () => {
       {
         matcher: (url) => { return url.includes('avg_interest_rates');},
         jsonResponse: mockInterestRatesResponse
+      },
+      {
+        matcher: (url) => {
+          return url.includes('interest_expense');
+        },
+        jsonResponse: mockInterestExpenseResponse
+      },
+      {
+        matcher: (url) => {
+          return url.includes('mts_table_5?fields');
+        },
+        jsonResponse: mockDebtExpenseResponse
       }
     ]);
   });
