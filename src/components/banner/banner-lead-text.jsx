@@ -15,6 +15,8 @@ export const analyticsObject = {
   label: 'Search Datasets Top'
 }
 
+// TODO: Delete file
+
 const BannerLeadText = () => {
   const clickHandler = () => {
     Analytics.event(analyticsObject);
@@ -28,17 +30,6 @@ const BannerLeadText = () => {
 
   return (
     <div data-test-id="banner-lead-text" className={leadText}>
-      <div className={sectionHeader}>
-        TOPICS
-      </div>
-      <h5 className={siteBannerHeader}>
-        <FontAwesomeIcon icon={faBookOpen}/>
-        Your Guide to America’s Finances
-      </h5>
-      <i>
-        Fiscal Data presents the first of four concepts from Your Guide to America's Finances,
-        which will be added in the coming months.
-      </i>
       {/*<h1 data-test-id="site-banner-header" className={siteBannerHeader}>*/}
       {/*  {headerText}*/}
       {/*</h1>*/}

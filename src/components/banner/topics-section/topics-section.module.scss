@@ -1,0 +1,57 @@
+@import '../../../variables.module.scss';
+
+$lead-text-max: 550px;
+$max-img-width-desktop: 771.5px;
+
+.topicsSectionContainer{
+  margin: .75rem 0 4rem;
+
+  .sectionHeader {
+    color: #555555;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    margin-bottom: .5rem;
+  }
+  .tileContainer {
+    margin-top: .5rem;
+  }
+
+  .siteBannerHeader {
+    font-weight: $semi-bold-weight;
+    color: $primary;
+    margin: .5rem 0;
+    font-size: $font-size-24;
+    display: flex;
+    align-items: center;
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+
+}
+
+
+@media screen and (max-width: $breakpoint-lg) {
+  .topicsSectionContainer {
+    margin-top: 1rem;
+
+    .siteBannerHeader {
+      align-items: start;
+      svg {
+        margin-top: .25rem;
+      }
+    }
+
+    i {
+      padding: .5rem 0 .5rem;
+    }
+
+    .line {
+      width: 341px;
+      //height: 1px;
+      //margin: 496px 7px 15.5px 12px;
+      border: solid 1px #d8d8d8;
+    }
+  }
+
+}

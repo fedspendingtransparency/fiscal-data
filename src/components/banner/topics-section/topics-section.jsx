@@ -2,17 +2,18 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBookOpen} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Grid } from "@material-ui/core"
-import ExplainerTile from "./explainer-tile";
-import debtDesktopImage from '../../images/homepage_debt_1200x630.png';
-import debtMobileImage from '../../images/homepage_debt_square.png';
-import deficitDesktopImage from '../../images/homepage_deficit_coming-soon_desktop.png';
-import deficitMobileImage from '../../images/homepage_deficit_coming-soon_mobile.png';
+import ExplainerTile from "./explainer-tile/explainer-tile";
+import debtDesktopImage from '../../../images/homepage_debt_1200x630.png';
+import debtMobileImage from '../../../images/homepage_debt_square.png';
+import deficitDesktopImage from '../../../images/homepage_deficit_coming-soon_desktop.png';
+import deficitMobileImage from '../../../images/homepage_deficit_coming-soon_mobile.png';
 import {
   tileContainer,
   sectionHeader,
   siteBannerHeader,
-  topicsSectionContainer
-} from "./banner.module.scss";
+  topicsSectionContainer,
+  line
+} from "./topics-section.module.scss";
 import {withWindowSize} from "react-fns";
 
 
@@ -50,7 +51,9 @@ const TopicsSection = ({width}) => {
       </div>
       <h5 className={siteBannerHeader}>
         <FontAwesomeIcon icon={faBookOpen}/>
-        Your Guide to America’s Finances
+        <div>
+          Your Guide to America’s Finances
+        </div>
       </h5>
       <i>
         Fiscal Data presents the first of four concepts from Your Guide to America's Finances,
@@ -58,10 +61,11 @@ const TopicsSection = ({width}) => {
       </i>
       <div className={tileContainer}>
         <Grid container spacing={4}>
-          <Grid item sm={mainWidth}>
+          <Grid item md={mainWidth}>
             <ExplainerTile content={pageMap['debt']} width={width} />
           </Grid>
-          <Grid item sm={secondaryWidth}>
+          <div className={line}/>
+          <Grid item md={secondaryWidth}>
             <ExplainerTile content={pageMap['deficit']} width={width} />
           </Grid>
         </Grid>
