@@ -1286,30 +1286,36 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
 
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}v2/accounting/od/interest_expense?page%5bsize%5d=1&sort=-record_date`)
-    .then(response => {
-      if (response && response.data && response.data.length) {
-        setInterestExpenseEndYear(response.data[0].record_calendar_year);
-        const date = new Date();
-        date.setMonth(response.data[0].record_calendar_month - 1);
-        setInterestExpenseEndMonth(date.toLocaleString('en-US', {
-          month: 'long',
-        }));
-        const maintainDebtExpense = (parseFloat(response.data[0].fytd_expense_amt));
-        setShortenedDebtExpense((maintainDebtExpense / 10000000000).toFixed(2).toString());
         basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
         current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
         record_date,record_calendar_month,record_calendar_year,record_fiscal_year
         &filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`)
         .then(response => {
           if (response && response.data && response.data.length) {
-            const percent = (maintainDebtExpense /
-              parseFloat(response.data[0].current_fytd_net_outly_amt) * 100).toFixed(2);
-            setDebtExpensePercent(`${percent}%`);
+            const fytdNet = response.data[0].current_fytd_net_outly_amt;
+            const MTSMonth = response.data[0].record_calendar_month;
+            basicFetch(
+              `${apiPrefix}v2/accounting/od/interest_expense?page%5bsize%5d=1&filter=record_calendar_month:eq:${MTSMonth}&sort=-record_date`)
+            .then(response => {
+              if (response && response.data && response.data.length) {
+                setInterestExpenseEndYear(
+                  response.data[0].record_calendar_year);
+                const date = new Date();
+                date.setMonth(response.data[0].record_calendar_month - 1);
+                setInterestExpenseEndMonth(date.toLocaleString('en-US', {
+                  month: 'long',
+                }));
+                const maintainDebtExpense = (parseFloat(
+                  response.data[0].fytd_expense_amt));
+                const percent = (maintainDebtExpense /
+                  parseFloat(fytdNet) * 100).toFixed(2);
+                setDebtExpensePercent(`${percent}%`);
+                setShortenedDebtExpense(
+                  (maintainDebtExpense / 1000000000).toFixed(1).toString());
+              }
+            })
           }
         })
-      }
-    })
   }, []);
 
 
@@ -1476,7 +1482,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
           various securities’ {glossaryTerms.interestRates}.
         </p>
         <p>
-          As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} trillion to maintain the debt, which
+          As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} billion to maintain the debt, which
           is {debtExpensePercent} of the total federal spending.
         </p>
         <p>
