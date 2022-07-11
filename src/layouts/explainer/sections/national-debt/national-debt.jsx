@@ -1699,7 +1699,7 @@ export const DiveDeeperSection = () => (
           “Rather go to bed without dinner than to rise in debt.”
         </div>
         <div className={diveDeeperCitation}>
-          Benjamin Franklin, Statesman, civic leader, and diplomat
+          Benjamin Franklin, statesman, civic leader, and diplomat
         </div>
       </div>
     </div>
@@ -1786,7 +1786,7 @@ export default nationalDebtSections;
   const bls = <CustomLink url={'https://www.bls.gov/developers'}>Bureau of Labor Statistics</CustomLink>;
   const bea = <CustomLink url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey'}>
     Bureau of Economic Analysis</CustomLink>;
-  const github = <CustomLink url={'https://github.com/fedspendingtransparency/'}>Github repository</CustomLink>;
+  const github = <CustomLink url={'https://github.com/fedspendingtransparency/'}>GitHub repository</CustomLink>;
 
   export const nationalDebtDataSources = (
   <>
