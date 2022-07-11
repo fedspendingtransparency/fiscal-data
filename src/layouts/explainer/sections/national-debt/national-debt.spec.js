@@ -19,7 +19,10 @@ import {
   mockGovtDebtIncrease,
   mockInterestRatesResponse,
   mockTotalDebtResponse,
-  mockDebtBreakdownResponse, mockInterestToDebtChartHeaderSummary,
+  mockDebtBreakdownResponse,
+  mockInterestToDebtChartHeaderSummary,
+  mockInterestExpenseResponse,
+  mockDebtExpenseResponse
 } from "../../explainer-test-helper"
 import {
   determineBEAFetchResponse, setGlobalFetchMatchingResponse,
@@ -85,9 +88,11 @@ describe('The Growing National Debt', () => {
   const config = nationalDebtSectionConfigs[sectionId]
   const glossary = [];
   const mockCpiDataset = {
-    "2000": "5",
-    "2010": "10",
-    "2020": "15"
+    "2011": "10",
+    "2012": "5",
+    "2013": "5",
+    "2020": "15",
+    "2021": "15"
   };
 
 
@@ -181,6 +186,18 @@ describe('Breaking Down the Debt', () => {
       {
         matcher: (url) => { return url.includes('avg_interest_rates');},
         jsonResponse: mockInterestRatesResponse
+      },
+      {
+        matcher: (url) => {
+          return url.includes('interest_expense');
+        },
+        jsonResponse: mockInterestExpenseResponse
+      },
+      {
+        matcher: (url) => {
+          return url.includes('mts_table_5?fields');
+        },
+        jsonResponse: mockDebtExpenseResponse
       }
     ]);
   });

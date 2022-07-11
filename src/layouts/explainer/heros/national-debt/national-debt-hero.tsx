@@ -15,7 +15,7 @@ const NationalDebtHero = (): JSX.Element => {
   const debtUrl: string = `${apiPrefix}${endpointUrl}`;
 
   const [nationalDebtValue, setNationalDebtValue]
-    = useState<string | null>("99999999999999");
+    = useState<string | null>(null);
 
   const getCurrentNationalDebt = (url) => {
     basicFetch(`${url}`)
