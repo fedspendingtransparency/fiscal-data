@@ -1234,7 +1234,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
           month: 'long',
         }));
         const maintainDebtExpense = (parseFloat(response.data[0].fytd_expense_amt));
-        setShortenedDebtExpense((maintainDebtExpense / 10000000000).toFixed(2).toString());
+        setShortenedDebtExpense((maintainDebtExpense / 1000000000).toFixed(1).toString());
         basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
         current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
         record_date,record_calendar_month,record_calendar_year,record_fiscal_year
@@ -1414,7 +1414,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, width }) => {
           various securities’ interest rates.
         </p>
         <p>
-          As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} trillion to maintain the debt, which
+          As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} billion to maintain the debt, which
           is {debtExpensePercent} of the total federal spending.
         </p>
         <p>
