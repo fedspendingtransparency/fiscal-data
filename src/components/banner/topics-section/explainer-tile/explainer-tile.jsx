@@ -4,10 +4,7 @@ import {
   mainTitle,
   secondaryTitle
 } from './explainer-tile.module.scss';
-import {
-  breakpointMd,
-  breakpointLg
-} from '../../../../variables.module.scss';
+import { breakpointLg } from '../../../../variables.module.scss';
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
 
 import Link from "gatsby-link";
@@ -15,13 +12,18 @@ import {GatsbyImage, getImage} from "gatsby-plugin-image";
 
 
 const ExplainerTile =({content, images, width}) => {
-  const desktopImage = images.find(image => image.name === content.desktopImage);
-  const mobileImage = images.find(image => image.name === content.mobileImage);
+  let desktopImage, mobileImage;
+
+  if(images) {
+    desktopImage = images.find(image => image.name === content.desktopImage);
+    mobileImage = images.find(image => image.name === content.mobileImage);
+  }
 
   const desktop =
     <GatsbyImage
       image={getImage(desktopImage)}
       alt={content.altText}
+      loading="eager"
       role="presentation"
     />;
 
@@ -29,11 +31,12 @@ const ExplainerTile =({content, images, width}) => {
     <GatsbyImage
       image={getImage(mobileImage)}
       alt={content.altText}
+      loading="eager"
       role="presentation"
     />;
 
   const card =
-    <div className={mainContent}>
+    <div className={mainContent} data-testid="tile">
       <div>
         {width >= pxToNumber(breakpointLg) ? desktop : mobile}
       </div>
@@ -48,7 +51,9 @@ const ExplainerTile =({content, images, width}) => {
   return (
     <>
       {content.path ?
-        <Link to={content.path}>
+        <Link to={content.path}
+              data-testid={'tile-link'}
+        >
           {card}
         </Link>
        :

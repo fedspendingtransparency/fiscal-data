@@ -1,4 +1,4 @@
-export const pageMap = {
+export const pageTileMap = {
   'debt': {
     title: 'What is the national debt?',
     body: 'The national debt enables the federal government to pay for important programs and ' +
@@ -17,7 +17,6 @@ export const pageMap = {
       'given period of time. Learn more about the U.S. deficit and how it has changed over time.',
     altText: '',
     desktopImage: 'homepage_deficit_coming-soon_desktop',
-    mobileImage: 'homepage_deficit_coming-soon_mobile',
-    mainFeature: false
+    mobileImage: 'homepage_deficit_coming-soon_mobile'
   }
 };

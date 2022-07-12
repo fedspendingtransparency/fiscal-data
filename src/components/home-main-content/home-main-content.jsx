@@ -18,7 +18,7 @@ const HomeMainContent = () => {
           DATASET SEARCH
         </div>
         <h5 className={highlightCardsHeader}>
-          <FontAwesomeIcon icon={faChartColumn}/>
+          <FontAwesomeIcon icon={faChartColumn} />
           Today in Fiscal Data:
         </h5>
         <p>
@@ -29,7 +29,7 @@ const HomeMainContent = () => {
           for further analysis.
         </p>
       </div>
-      <HomeHighlightCards/>
+      <HomeHighlightCards />
     </>
   )
 };

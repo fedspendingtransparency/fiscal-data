@@ -138,65 +138,64 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
               if (pageLink.title === 'Topics') {
                 return (
-                  <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-                    <div className={styles.dropdown}
-                         style={{transition:'opacity 1s ease'}}
+                  <div className={styles.dropdown}
+                       style={{transition:'opacity 1s ease'}}
+                       key={pageLink.title}
+                  >
+                    <button
+                      className={toggled ? styles.dropdownButtonExpanded : styles.dropdownButton}
+                      onMouseEnter={handleMouseOver}
+                      onFocus={handleMouseOver}
+                      data-testid={'topicsButton'}
                     >
-                      <button
-                        className={toggled ? styles.dropdownButtonExpanded : styles.dropdownButton}
-                        onMouseEnter={handleMouseOver}
+                      {pageLink.title}
+                      {toggled
+                        ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                        : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                      }
+                    </button>
+                    {isExpanded && (
+                      <div
+                        className={`${styles.dropdownContent} ${menuExpanding ? styles.dropdownHidden : ''}`}
+                        onMouseOver={handleMouseOver}
+                        onMouseLeave={handleMouseLeave}
                         onFocus={handleMouseOver}
-                        data-testid={'topicsButton'}
+                        data-testid={'dropdownContent'}
                       >
-                        {pageLink.title}
-                        {toggled
-                          ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                          : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                        }
-                      </button>
-                      {isExpanded && (
-                        <div
-                          className={`${styles.dropdownContent} ${menuExpanding ? styles.dropdownHidden : ''}`}
-                          onMouseOver={handleMouseOver}
-                          onMouseLeave={handleMouseLeave}
-                          onFocus={handleMouseOver}
-                          data-testid={'dropdownContent'}
-                        >
-                          <div className={styles.dropdownRow}>
-                            <div className={styles.dropdownColumnOne}>
-                              <div className={styles.dropdownTitle} >
-                                AMERICA'S FINANCE GUIDE
-                              </div>
-                              <div>
-                                {topicsPageLinks.map((topicPageLink) => {
-                                  return (
-                                    <div key={topicPageLink.title}
-                                         className={styles.dropdownListItem}
-                                    >
-                                      <Link
-                                        to={topicPageLink.to}
-                                        activeClassName={styles.activeTopicLink}
-                                      >
-                                        {topicPageLink.title}
-                                      </Link>
-                                    </div>
-                                  )
-                                })}
-                              </div>
+                        <div className={styles.dropdownRow}>
+                          <div className={styles.dropdownColumnOne}>
+                            <div className={styles.dropdownTitle} >
+                              AMERICA'S FINANCE GUIDE
                             </div>
-                            <div className={styles.dropdownColumnTwo}>
-                              <div className={styles.dropdownTitle} >
-                                INSIGHTS
-                              </div>
-                              <div className={styles.dropdownTempText} >
-                                <em>{dropdownTempText}</em>
-                              </div>
+                            <div>
+                              {topicsPageLinks.map((topicPageLink) => {
+                                return (
+                                  <div key={topicPageLink.title}
+                                       className={styles.dropdownListItem}
+                                  >
+                                    <Link
+                                      to={topicPageLink.to}
+                                      activeClassName={styles.activeTopicLink}
+                                    >
+                                      {topicPageLink.title}
+                                    </Link>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                          <div className={styles.dropdownColumnTwo}>
+                            <div className={styles.dropdownTitle} >
+                              INSIGHTS
+                            </div>
+                            <div className={styles.dropdownTempText} >
+                              <em>{dropdownTempText}</em>
                             </div>
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </Experimental>
+                      </div>
+                    )}
+                  </div>
                 )
               }
 
@@ -243,13 +242,13 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       )}
       {
         isIE && (
-        <PageNotice warningLevel={1}>
-          <strong data-testid="ieDetected">You seem to be using an unsupported browser</strong>
-          <div>
-            To get the best experience with Fiscal Data please use Chrome, Firefox, Edge, or Safari.
-          </div>
-        </PageNotice>
-      )}
+          <PageNotice warningLevel={1}>
+            <strong data-testid="ieDetected">You seem to be using an unsupported browser</strong>
+            <div>
+              To get the best experience with Fiscal Data please use Chrome, Firefox, Edge, or Safari.
+            </div>
+          </PageNotice>
+        )}
     </header>
   );
 };

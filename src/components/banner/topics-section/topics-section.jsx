@@ -13,13 +13,11 @@ import {
 import {withWindowSize} from "react-fns";
 import {breakpointLg} from "../../../variables.module.scss";
 import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
-import {
-  pageMap
-} from "./explainer-tile/explainer-tile-helper";
+import {pageTileMap} from "./explainer-tile/explainer-tile-helper";
 
 
 
-const TopicsSection = ({images, width}) => {
+export const TopicsSection = ({images, width}) => {
   const mainWidth = 8;
   const secondaryWidth = 4;
 
@@ -41,16 +39,16 @@ const TopicsSection = ({images, width}) => {
       <div className={tileContainer}>
         <Grid container spacing={4}>
           <Grid item md={mainWidth}>
-            <ExplainerTile content={pageMap['debt']}
+            <ExplainerTile content={pageTileMap['debt']}
                            images={images.allFile.topicsImages}
                            width={width}
             />
           </Grid>
           {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
           <Grid item md={secondaryWidth}>
-            <ExplainerTile content={pageMap['deficit']}
-                             images={images.allFile.topicsImages}
-                             width={width}
+            <ExplainerTile content={pageTileMap['deficit']}
+                           images={images.allFile.topicsImages}
+                           width={width}
             />
           </Grid>
         </Grid>
