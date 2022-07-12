@@ -9,30 +9,33 @@ import {
   breakpointLg
 } from '../../../../variables.module.scss';
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
+
 import Link from "gatsby-link";
+import {GatsbyImage, getImage} from "gatsby-plugin-image";
 
 
-const ExplainerTile =({content, width}) => {
-  const desktopImage =
-    <img
-      src={content.desktopImagePath}
-      alt={content.imageAltText}
+const ExplainerTile =({content, images, width}) => {
+  const desktopImage = images.find(image => image.name === content.desktopImage);
+  const mobileImage = images.find(image => image.name === content.mobileImage);
+
+  const desktop =
+    <GatsbyImage
+      image={getImage(desktopImage)}
+      alt={content.altText}
       role="presentation"
-      style={{width:'100%'}}
     />;
 
-  const mobileImage =
-    <img
-      src={content.mobileImagePath}
-      alt={content.imageAltText}
+  const mobile =
+    <GatsbyImage
+      image={getImage(mobileImage)}
+      alt={content.altText}
       role="presentation"
-      style={{width:'100%'}}
     />;
 
   const card =
     <div className={mainContent}>
       <div>
-        {width >= pxToNumber(breakpointLg) ? desktopImage : mobileImage}
+        {width >= pxToNumber(breakpointLg) ? desktop : mobile}
       </div>
       <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
         {content.title}

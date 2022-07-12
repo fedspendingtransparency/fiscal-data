@@ -150,6 +150,13 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
+        name: `explainer-tile-images`,
+        path: `${__dirname}/static/explainer-tile-images/`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
         name: `markdown`,
         path: `${__dirname}/src/markdown/`,
         ignore: [`**/\.*`] // ignore files starting with a dot
