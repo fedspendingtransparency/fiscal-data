@@ -6,7 +6,7 @@ const testTiles = {
   'pageName': {
     title: 'Page title',
     body: 'Page description',
-    altText: '',
+    altText: 'altText',
     desktopImage: 'testDesktopImage',
     mobileImage: 'testMobileImage',
     mainFeature: true,
@@ -15,11 +15,35 @@ const testTiles = {
   'anotherPage': {
     title: 'Page title',
     body: 'Page description',
-    altText: '',
+    altText: 'altText',
     desktopImage: 'testDesktopImage',
     mobileImage: 'testMobileImage'
   }
 };
+
+const mockImages = [
+  {
+    name: 'testDesktopImage',
+    childImageSharp: {
+      gatsbyImageData: {
+
+      }
+    }
+  },
+  {
+    name: 'testMobileImage',
+    childImageSharp: {
+      gatsbyImageData: {
+
+      }
+    }
+  }
+];
+
+jest.mock('./variables.module.scss', (content) => ({
+  ...content,
+  breakpointLg: 992
+}));
 
 describe('Explainer Tile', () => {
 
@@ -29,6 +53,21 @@ describe('Explainer Tile', () => {
         content={testTiles['pageName']}
         images={''}
         width={'1200'}
+      />
+    );
+
+    expect(getByTestId('tile')).toBeInTheDocument();
+    expect(getByText('Page title')).toBeInTheDocument();
+    expect(getByText('Page description')).toBeInTheDocument();
+    expect(getByRole('presentation')).toBeInTheDocument();
+  });
+
+  it('renders a topics tile for mobile view', () => {
+    const { getByText, getByTestId, getByRole } = render(
+      <ExplainerTile
+        content={testTiles['pageName']}
+        images={''}
+        width={'400'}
       />
     );
 
@@ -64,4 +103,15 @@ describe('Explainer Tile', () => {
     expect(tileLink).not.toBeInTheDocument();
   });
 
+  it('renders the tile images with the provided alternate text', () => {
+    const { getByRole } = render(
+      <ExplainerTile
+        content={testTiles['pageName']}
+        images={mockImages}
+        width={'1200'}
+      />
+    );
+    expect(getByRole('presentation')).toBeInTheDocument();
+    expect(getByRole('presentation')).toHaveAttribute('alt', 'altText');
+  });
 });
