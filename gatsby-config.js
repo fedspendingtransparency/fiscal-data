@@ -150,8 +150,8 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `explainer-tile-images`,
-        path: `${__dirname}/static/explainer-tile-images/`,
+        name: `topics-section-images`,
+        path: `${__dirname}/static/topics-section-images/`,
       },
     },
     {
