@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import NotesAndLimitations, { sectionTitle } from './notes-and-limitations';
 import ReactMarkdown from "react-markdown";
@@ -54,9 +54,11 @@ describe('Notes and Limitations (N&KL) - Dataset and data table level N&KL', () 
   });
 
   it('includes the title and N&KL for any data table that have their own', () => {
-    const {getByText} = render(<NotesAndLimitations apis={apis} bodyText={dsText} />);
+    const {getByText, getAllByTestId} = render(<NotesAndLimitations apis={apis} bodyText={dsText} />);
+    fireEvent.click(getAllByTestId('button')[0]);
     expect(getByText(apis[1].apiNotesAndLimitations)).toBeInTheDocument();
     expect(getByText(apis[1].tableName)).toBeInTheDocument();
+    fireEvent.click(getAllByTestId('button')[1]);
     expect(getByText(apis[2].apiNotesAndLimitations)).toBeInTheDocument();
     expect(getByText(apis[2].tableName)).toBeInTheDocument();
   });

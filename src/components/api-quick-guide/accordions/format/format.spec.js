@@ -1,7 +1,7 @@
 import React from 'react';
 import FormatAccordion from './format';
 import * as accordionStyles from '../../../accordion/accordion.module.scss';
-import {render} from "@testing-library/react";
+import {fireEvent, render} from "@testing-library/react";
 
 describe('Format Accordion', () => {
   const titleText = 'Format';
@@ -27,6 +27,7 @@ describe('Format Accordion', () => {
 
   it('displays the endpoint of the current table in the full url', () => {
     const { getByTestId } = render(<FormatAccordion selectedTable={mockSelectedTable} />);
+    fireEvent.click(getByTestId('button'));
     expect(getByTestId('fullUrl').innerHTML).toContain(mockEndpoint);
   });
 });

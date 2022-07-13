@@ -62,11 +62,18 @@ const Accordion = ({
             <span data-testid="sr-desc" className="sr-only">toggle contents</span>
           </div>
         </div>
-        <div data-testid="content"
-             className={`${content} accordionContent`}
-        >
-          {children}
-        </div>
+        {open ? (
+          <div data-testid="content"
+               className={`${content} accordionContent`}
+          >
+            {children}
+          </div>
+        ) : (
+          <div data-testid="content"
+               className={`${content} accordionContent`}
+          >
+          </div>
+        ) }
       </section>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import Accordion from './accordion';
 import * as styles from './accordion.module.scss';
-import { render } from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 
 describe('Accordion', () => {
 
@@ -20,6 +20,7 @@ describe('Accordion', () => {
 
   it('expects the body content to be rendered.', () => {
     const { getByTestId } = render(<Accordion title={titleText}>{bodyText}</Accordion>);
+    fireEvent.click(getByTestId('heading'));
     expect(getByTestId('content')).toHaveTextContent(bodyText);
   });
 
