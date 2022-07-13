@@ -364,7 +364,7 @@ const FundingProgramsSection = () => {
                   <strong>Income Security</strong>
                   <p>
                     Supports programs such as unemployment compensation, federal employee retirement and disability,
-                    and food and nutrition assistance; spending for this program increased during the COVID-19 Pandemic
+                    and food and nutrition assistance; spending for this program increased during the COVID-19 pandemic
                     because of the CARES Act and American Rescue Plan Act
                   </p>
                 </div>
@@ -411,7 +411,8 @@ const FundingProgramsSection = () => {
                 <div className={secondColumn}>
                   <strong>Medicare</strong>
                   <p>
-                    Supports spending programs providing health insurance for people aged 65 or older
+                    Supports spending programs providing health insurance for people such as those aged 65 or older
+                    and certain younger people with disabilities
                   </p>
                 </div>
               </div>
@@ -826,8 +827,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
       </p>
       <p>
         Notable recent events triggering large spikes in the debt include the Afghanistan and Iraq Wars,
-        the 2008 Great Recession, and the COVID-19 Pandemic. From FY 2019 to FY 2021, spending increased by
-        about 50%, largely due to the COVID-19 Pandemic. Tax cuts, stimulus programs, increased government
+        the 2008 Great Recession, and the COVID-19 pandemic. From FY 2019 to FY 2021, spending increased by
+        about 50%, largely due to the COVID-19 pandemic. Tax cuts, stimulus programs, increased government
         spending, and decreased tax revenue caused by widespread unemployment generally account for sharp
         rises in the national debt.
       </p>
@@ -1698,7 +1699,7 @@ export const DiveDeeperSection = () => (
           “Rather go to bed without dinner than to rise in debt.”
         </div>
         <div className={diveDeeperCitation}>
-          Benjamin Franklin, Statesman, civic leader, and diplomat
+          Benjamin Franklin, statesman, civic leader, and diplomat
         </div>
       </div>
     </div>
