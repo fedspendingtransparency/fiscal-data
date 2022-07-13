@@ -519,7 +519,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         <div className={accordionFooter}>
           <p>(1000 squares drawn to scale.)</p>
           <p>
-            {`Today's debt is $${nationalDebtValueInTenths}T. That's ${numberOfSquares} squares!`}
+            {`Today's debt is $${nationalDebtValueInTenths} T. That's ${numberOfSquares} squares!`}
           </p>
         </div>
       </Accordion>
@@ -874,7 +874,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                   The inflation data is sourced from the {blsLink}.
                 </p>
                 <p>
-                  Last updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
+                  Last Updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
                 </p>
               </div>
             </div>
@@ -993,7 +993,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                     The GDP data is sourced from the {beaLink}.
                   </p>
                   <p>
-                    Last updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
+                    Last Updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
                   </p>
                 </div>
               </div>
@@ -1443,7 +1443,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
                 <div className={footerContainer}>
                   Visit the <CustomLink url={slug}>{name}</CustomLink> to explore and download this data.
                   <p>
-                    Last updated: {format(date, 'MMMM d, yyyy')}
+                    Last Updated: {format(date, 'MMMM d, yyyy')}
                   </p>
                 </div>
               </div>
@@ -1546,7 +1546,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
                   {' '} datasets to explore and download this data.
                 </p>
                 <p>
-                  Last updated: September 30, {multichartEndYear}
+                  Last Updated: September 30, {multichartEndYear}
                 </p>
               </div>
             </div>
@@ -1785,7 +1785,7 @@ export default nationalDebtSections;
   const bls = <CustomLink url={'https://www.bls.gov/developers'}>Bureau of Labor Statistics</CustomLink>;
   const bea = <CustomLink url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey'}>
     Bureau of Economic Analysis</CustomLink>;
-  const github = <CustomLink url={'https://github.com/fedspendingtransparency/'}>Github repository</CustomLink>;
+  const github = <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>Github repository</CustomLink>;
 
   export const nationalDebtDataSources = (
   <>
