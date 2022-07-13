@@ -2,7 +2,7 @@ import React from 'react';
 import SortingAccordion from './sorting';
 import * as accordionStyles from '../accordions.module.scss';
 import {selectedTable} from "../../test-helpers/test-helpers";
-import {render} from "@testing-library/react";
+import {fireEvent, render} from "@testing-library/react";
 
 describe('Sorting Accordion', () => {
 
@@ -25,6 +25,7 @@ describe('Sorting Accordion', () => {
 
   it('writes a sorting example drafted from the provided selectedTable prop', () => {
     const {getByTestId} = render( <SortingAccordion selectedTable={selectedTable}/>);
+    fireEvent.click(getByTestId('button'));
     expect(getByTestId('sortingAccordionQuery').innerHTML).toBe(`?sort=-${selectedTable.dateField}`);
   });
 

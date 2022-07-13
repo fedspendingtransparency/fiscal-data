@@ -1,5 +1,10 @@
 import React from 'react';
-import {render, act, waitForElementToBeRemoved} from '@testing-library/react';
+import {
+  render,
+  act,
+  waitForElementToBeRemoved,
+  fireEvent
+} from '@testing-library/react';
 import nationalDebtSections, {
   nationalDebtSectionIds,
   nationalDebtSectionConfigs,
@@ -117,10 +122,10 @@ describe('The Growing National Debt', () => {
   })
 
   it('shows the correct amount of rows and columns for different screen sizes', async () => {
-    const { findAllByTestId, rerender } = render(
+    const { findByTestId, findAllByTestId, rerender } = render(
       <VisualizingTheDebtAccordion width={breakpointSm} />
     );
-
+    fireEvent.click(await findByTestId('button'));
     const rowsDesktop = await findAllByTestId('accordion-table-row');
     expect(rowsDesktop).toHaveLength(visualizingTheDebtTableContent.desktop.rows);
     rerender(
@@ -311,7 +316,7 @@ describe('Breaking Down the Debt', () => {
     const { findByText } = render(
       <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
     );
-    expect(await findByText('Last updated: September 30, 2021')).toBeInTheDocument();
+    expect(await findByText('Last Updated: September 30, 2021')).toBeInTheDocument();
   });
 
 });
