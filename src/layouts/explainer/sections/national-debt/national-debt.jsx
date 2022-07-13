@@ -1786,7 +1786,7 @@ export default nationalDebtSections;
   const bls = <CustomLink url={'https://www.bls.gov/developers'}>Bureau of Labor Statistics</CustomLink>;
   const bea = <CustomLink url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey'}>
     Bureau of Economic Analysis</CustomLink>;
-  const github = <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>Github repository</CustomLink>;
+  const github = <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>GitHub repository</CustomLink>;
 
   export const nationalDebtDataSources = (
   <>
