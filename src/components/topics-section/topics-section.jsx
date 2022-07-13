@@ -1,18 +1,18 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBookOpen} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import { Grid } from "@material-ui/core"
+import {createTheme, Grid, ThemeProvider} from "@material-ui/core"
 import ExplainerTile from "./explainer-tile/explainer-tile";
 import {
   tileContainer,
   sectionHeader,
-  siteBannerHeader,
+  topicsSectionHeader,
   topicsSectionContainer,
   line
 } from "./topics-section.module.scss";
 import {withWindowSize} from "react-fns";
-import {breakpointLg} from "../../../variables.module.scss";
-import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
+import {breakpointLg} from "../../variables.module.scss";
+import {pxToNumber} from "../../helpers/styles-helper/styles-helper";
 import {pageTileMap} from "./explainer-tile/explainer-tile-helper";
 
 
@@ -21,12 +21,20 @@ export const TopicsSection = ({images, width}) => {
   const mainWidth = 8;
   const secondaryWidth = 4;
 
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        lg: 992
+      }
+    }
+  })
+
   return (
     <div className={topicsSectionContainer} >
       <div className={sectionHeader}>
         TOPICS
       </div>
-      <h5 className={siteBannerHeader}>
+      <h5 className={topicsSectionHeader}>
         <FontAwesomeIcon icon={faBookOpen}/>
         <div>
           Your Guide to America’s Finances
@@ -37,21 +45,23 @@ export const TopicsSection = ({images, width}) => {
         which will be added in the coming months.
       </i>
       <div className={tileContainer}>
-        <Grid container spacing={4}>
-          <Grid item md={mainWidth}>
-            <ExplainerTile content={pageTileMap['debt']}
-                           images={images}
-                           width={width}
-            />
+        <ThemeProvider theme={theme}>
+          <Grid container spacing={4}>
+            <Grid item lg={mainWidth}>
+              <ExplainerTile content={pageTileMap['debt']}
+                             images={images}
+                             width={width}
+              />
+            </Grid>
+            {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
+            <Grid item lg={secondaryWidth}>
+              <ExplainerTile content={pageTileMap['deficit']}
+                             images={images}
+                             width={width}
+              />
+            </Grid>
           </Grid>
-          {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
-          <Grid item md={secondaryWidth}>
-            <ExplainerTile content={pageTileMap['deficit']}
-                           images={images}
-                           width={width}
-            />
-          </Grid>
-        </Grid>
+        </ThemeProvider>
       </div>
     </div>
   )

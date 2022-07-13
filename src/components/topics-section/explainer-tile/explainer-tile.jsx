@@ -4,8 +4,8 @@ import {
   mainTitle,
   secondaryTitle
 } from './explainer-tile.module.scss';
-import { breakpointLg, breakpointMd } from '../../../../variables.module.scss';
-import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
+import { breakpointLg } from '../../../variables.module.scss';
+import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
 
 import Link from "gatsby-link";
 import {GatsbyImage, getImage} from "gatsby-plugin-image";

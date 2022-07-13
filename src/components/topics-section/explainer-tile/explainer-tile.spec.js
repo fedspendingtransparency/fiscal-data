@@ -83,7 +83,7 @@ describe('Explainer Tile', () => {
   });
 
   it('wraps the tile in a link when a path is provided', () => {
-    const { getByText, getByTestId, getByRole } = render(
+    const { getByRole } = render(
       <ExplainerTile
         content={testTiles['pageName']}
         images={''}

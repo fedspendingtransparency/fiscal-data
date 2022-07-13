@@ -1,10 +1,10 @@
-@import '../../../variables.module.scss';
+@import 'src/variables.module';
 
 $lead-text-max: 550px;
 $max-img-width-desktop: 771.5px;
 
 .topicsSectionContainer{
-  padding: 0rem 0 4rem;
+  padding: 0 0 4rem;
 
   .sectionHeader {
     color: #555555;
@@ -17,7 +17,7 @@ $max-img-width-desktop: 771.5px;
     overflow: hidden;
   }
 
-  .siteBannerHeader {
+  .topicsSectionHeader {
     font-weight: $semi-bold-weight;
     color: $primary;
     margin: .5rem 0;
@@ -28,15 +28,14 @@ $max-img-width-desktop: 771.5px;
       margin-right: 0.5rem;
     }
   }
-
 }
 
 
-@media screen and (max-width: $breakpoint-lg) {
+@media screen and (max-width: $breakpoint-lg - 1) {
   .topicsSectionContainer {
     margin-top: 2rem;
 
-    .siteBannerHeader {
+    .topicsSectionHeader {
       align-items: start;
       svg {
         margin-top: .25rem;

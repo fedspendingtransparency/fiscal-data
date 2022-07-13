@@ -66,5 +66,5 @@ export const debtExplainerLightSecondary: string;
 export const topicsSectionContainer: string;
 export const sectionHeader: string;
 export const tileContainer: string;
-export const siteBannerHeader: string;
+export const topicsSectionHeader: string;
 export const line: string;

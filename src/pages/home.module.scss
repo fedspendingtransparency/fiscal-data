@@ -1,40 +1,9 @@
 @import '../variables.module.scss';
 
-.watermark {
-  position: absolute;
-  z-index: -100;
-  width: 750px;
-  height: 845px;
-
-  @media screen and (max-width: $breakpoint-lg - 1px) {
-    top: 40%;
-    width: 100%;
-  }
-
-  @media screen and (max-width: $breakpoint-xl) {
-    right: 0;
-  }
-
-  @media screen and (min-width: $breakpoint-lg) {
-    margin-left: 50%;
-    width: 50%;
-  }
-}
-
 .siteHome {
   max-width: $main-width;
   margin: 0 auto 1rem;
   padding: 0 0.75rem;
-}
-
-.bannerWrapper {
-  margin-bottom: 1rem;
-}
-
-@media screen and (min-width: $breakpoint-lg) and (max-width: 1204px) {
-  .bannerWrapper {
-    display: flex;
-  }
 }
 
 @media screen and (min-width: $breakpoint-sm) {
@@ -43,9 +12,3 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-xl) {
-  .bannerWrapper {
-    display: flex;
-    align-items: stretch;
-  }
-}
