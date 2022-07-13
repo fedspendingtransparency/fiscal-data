@@ -19,7 +19,10 @@ import {
   mockGovtDebtIncrease,
   mockInterestRatesResponse,
   mockTotalDebtResponse,
-  mockDebtBreakdownResponse, mockInterestToDebtChartHeaderSummary,
+  mockDebtBreakdownResponse,
+  mockInterestToDebtChartHeaderSummary,
+  mockInterestExpenseResponse,
+  mockDebtExpenseResponse
 } from "../../explainer-test-helper"
 import {
   determineBEAFetchResponse, setGlobalFetchMatchingResponse,
@@ -84,6 +87,15 @@ describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
   const config = nationalDebtSectionConfigs[sectionId]
   const glossary = [];
+  const mockCpiDataset = {
+    "2011": "10",
+    "2012": "5",
+    "2013": "5",
+    "2020": "15",
+    "2021": "15"
+  };
+
+
   beforeEach(() => {
     determineBEAFetchResponse(jest, mockExplainerPageResponse);
     jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -97,7 +109,7 @@ describe('The Growing National Debt', () => {
 
   it('renders the Visualizing the Debt table inside an accordion', async () => {
     const { container } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} />
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
     );
 
     expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`))
@@ -122,7 +134,7 @@ describe('The Growing National Debt', () => {
 
   it('contains the chart', async () => {
     const { findByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}/>
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
     );
 
     expect(await findByTestId('chart')).toBeInTheDocument();
@@ -130,7 +142,7 @@ describe('The Growing National Debt', () => {
 
   it('contains the debt trends line chart', async () => {
     const { findByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}/>
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -141,7 +153,7 @@ describe('The Growing National Debt', () => {
     const latestValue = simplifyNumber(mockExplainerPageResponse.data[0][config.valueField], true);
 
     const { findAllByText, findByText } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}/>
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
     );
 
     // Latest year is also the text content for the last value on the graph's x-axis
@@ -174,6 +186,18 @@ describe('Breaking Down the Debt', () => {
       {
         matcher: (url) => { return url.includes('avg_interest_rates');},
         jsonResponse: mockInterestRatesResponse
+      },
+      {
+        matcher: (url) => {
+          return url.includes('interest_expense');
+        },
+        jsonResponse: mockInterestExpenseResponse
+      },
+      {
+        matcher: (url) => {
+          return url.includes('mts_table_5?fields');
+        },
+        jsonResponse: mockDebtExpenseResponse
       }
     ]);
   });

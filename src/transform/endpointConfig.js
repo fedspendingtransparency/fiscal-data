@@ -1751,6 +1751,52 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/schedules_fed_debt_daily_summary',
     'dateField': 'record_date',
     'downloadName': 'SFD_SchedFedDebtDailySummary'
+  },
+  '176': {
+    'endpoint': 'v1/accounting/od/fbp_gl_borrowing_balances',
+    'dateField': 'record_date',
+    'downloadName': 'FBP_SummaryGeneralLedgerBorrowingBalances',
+    'dataDisplays': [
+      {
+        'title': 'By Account',
+        'dimensionField': 'account_cd'
+      },
+      {
+        'title': 'By Department',
+        'dimensionField': 'dept_cd'
+      }
+    ],
+    'valueFieldOptions': [
+      'loans_receivable_amt',
+      'capitalized_interest_receivable_amt',
+      'interest_receivable_amt',
+      'interest_revenue_amt',
+      'gain_amt',
+      'loss_amt'
+    ]
+  },
+  '177': {
+    'endpoint': 'v1/accounting/od/fbp_gl_repay_advance_balances',
+    'dateField': 'record_date',
+    'downloadName': 'FBP_SummaryGeneralLedgerRepayableAdvanceBalances',
+    'dataDisplays': [
+      {
+        'title': 'By Account',
+        'dimensionField': 'account_cd'
+      },
+      {
+        'title': 'By Department',
+        'dimensionField': 'dept_cd'
+      }
+    ],
+    'valueFieldOptions': [
+      'loans_receivable_amt',
+      'capitalized_interest_receivable_amt',
+      'interest_receivable_amt',
+      'interest_revenue_amt',
+      'gain_amt',
+      'loss_amt'
+    ]
   }
 };
 

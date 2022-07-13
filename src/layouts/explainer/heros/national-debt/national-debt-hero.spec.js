@@ -33,7 +33,7 @@ describe('National Debt Hero', () => {
 
     const {getByText} = render(<NationalDebtHero />);
     expect(fetchSpy).toBeCalled();
-    await waitForElementToBeRemoved(() => getByText(/99999999999999/i));
+    await waitFor(() => getByText("28908004857445", {exact:false}));
     expect(await getByText("28908004857445", {exact: false})).toBeInTheDocument();
     global.fetch.mockRestore();
   });

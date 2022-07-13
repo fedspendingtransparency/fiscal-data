@@ -53,7 +53,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   console.info(`Loading release calendar from ${releaseCalendarUrl} `
     + `with${apiKey ? '' : 'out'} authentication.`)
 
-  if (ENV_ID === 'preprod') {
+  if (ENV_ID !== 'production') {
     console.info('App is including datasets whitelisted for lower environments');
     if (ADDITIONAL_DATASETS && Object.keys(ADDITIONAL_DATASETS).length) {
       Object.assign(datasetIdMap, ADDITIONAL_DATASETS);
@@ -460,7 +460,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const glossaryData = result.data.allGlossaryCsv.glossaryCsv;
 
-  result.data.allBlsPublicApiData.blsPublicApiData.filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))
+  result.data.allBlsPublicApiData.blsPublicApiData
+    .filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))
     .forEach(blsRow => {
       const appendRow = {
         year: blsRow.year,

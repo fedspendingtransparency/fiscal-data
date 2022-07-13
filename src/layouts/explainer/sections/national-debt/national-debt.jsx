@@ -111,6 +111,7 @@ import {
 import { Bar } from '@nivo/bar';
 import Multichart from "../../multichart/multichart"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
+import {adjustDataForInflation} from "../../../../helpers/inflation-adjust/inflation-adjust";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
@@ -363,7 +364,7 @@ const FundingProgramsSection = () => {
                   <strong>Income Security</strong>
                   <p>
                     Supports programs such as unemployment compensation, federal employee retirement and disability,
-                    and food and nutrition assistance; spending for this program increased during the COVID-19 Pandemic
+                    and food and nutrition assistance; spending for this program increased during the COVID-19 pandemic
                     because of the CARES Act and American Rescue Plan Act
                   </p>
                 </div>
@@ -410,7 +411,8 @@ const FundingProgramsSection = () => {
                 <div className={secondColumn}>
                   <strong>Medicare</strong>
                   <p>
-                    Supports spending programs providing health insurance for people aged 65 or older
+                    Supports spending programs providing health insurance for people such as those aged 65 or older
+                    and certain younger people with disabilities
                   </p>
                 </div>
               </div>
@@ -526,7 +528,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   );
 };
 
-export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary, width }) => {
+export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary, cpiDataByYear, width }) => {
   const chartId = `${sectionId}-chart`;
   const chartOptions = {
     forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
@@ -597,6 +599,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   useEffect(() => {
     basicFetch(`${apiPrefix}${endpoint}`)
       .then((dataset) => {
+        dataset.data = adjustDataForInflation(dataset.data, valueField, dateField, cpiDataByYear);
         const latestEntry = dataset.data[0];
         const earliestEntry = dataset.data[dataset.data.length - 1];
         // Use window.innerWidth instead of width prop because this doesn't trigger on mount
@@ -824,8 +827,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
       </p>
       <p>
         Notable recent events triggering large spikes in the debt include the Afghanistan and Iraq Wars,
-        the 2008 Great Recession, and the COVID-19 Pandemic. From FY 2019 to FY 2021, spending increased by
-        about 50%, largely due to the COVID-19 Pandemic. Tax cuts, stimulus programs, increased government
+        the 2008 Great Recession, and the COVID-19 pandemic. From FY 2019 to FY 2021, spending increased by
+        about 50%, largely due to the COVID-19 pandemic. Tax cuts, stimulus programs, increased government
         spending, and decreased tax revenue caused by widespread unemployment generally account for sharp
         rises in the national debt.
       </p>
@@ -1034,6 +1037,10 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
   const [multichartEndYear, setMultichartEndYear] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
   const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
+  const [interestExpenseEndMonth, setInterestExpenseEndMonth] = useState('');
+  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('');
+  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('0');
+  const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
 
   const glossaryTerms = {
     'debtHeldByThePublic':
@@ -1278,6 +1285,41 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
       });
   }, []);
 
+
+  useEffect(() => {
+        basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
+        current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
+        record_date,record_calendar_month,record_calendar_year,record_fiscal_year
+        &filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`)
+        .then(response => {
+          if (response && response.data && response.data.length) {
+            const fytdNet = response.data[0].current_fytd_net_outly_amt;
+            const MTSMonth = response.data[0].record_calendar_month;
+            basicFetch(
+              `${apiPrefix}v2/accounting/od/interest_expense?page%5bsize%5d=1&filter=record_calendar_month:eq:${MTSMonth}&sort=-record_date`)
+            .then(response => {
+              if (response && response.data && response.data.length) {
+                setInterestExpenseEndYear(
+                  response.data[0].record_calendar_year);
+                const date = new Date();
+                date.setMonth(response.data[0].record_calendar_month - 1);
+                setInterestExpenseEndMonth(date.toLocaleString('en-US', {
+                  month: 'long',
+                }));
+                const maintainDebtExpense = (parseFloat(
+                  response.data[0].fytd_expense_amt));
+                const percent = (maintainDebtExpense /
+                  parseFloat(fytdNet) * 100).toFixed(2);
+                setDebtExpensePercent(`${percent}%`);
+                setShortenedDebtExpense(
+                  (maintainDebtExpense / 1000000000).toFixed(1).toString());
+              }
+            })
+          }
+        })
+  }, []);
+
+
   return (
     <>
       <p>
@@ -1441,8 +1483,8 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
           various securities’ {glossaryTerms.interestRates}.
         </p>
         <p>
-          As of December {multichartEndYear} it costs $XX.XX trillion to maintain the debt, which is
-          XX.XX% of the total federal spending.
+          As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} billion to maintain the debt, which
+          is {debtExpensePercent} of the total federal spending.
         </p>
         <p>
           The national debt has increased every year over the past ten years. Interest expenses during this period have remained
@@ -1657,7 +1699,7 @@ export const DiveDeeperSection = () => (
           “Rather go to bed without dinner than to rise in debt.”
         </div>
         <div className={diveDeeperCitation}>
-          Benjamin Franklin, Statesman, civic leader, and diplomat
+          Benjamin Franklin, statesman, civic leader, and diplomat
         </div>
       </div>
     </div>
@@ -1682,49 +1724,55 @@ const nationalDebtSections = [
     index: 0,
     id: nationalDebtSectionIds[0],
     title: 'Key Takeaways',
-    component: (glossary) => <KeyTakeawaysSection glossary={glossary}/>
+    component: (glossary, cpiDataByYear) => <KeyTakeawaysSection glossary={glossary}/>
   },
   {
     index: 1,
     id: nationalDebtSectionIds[1],
     title: 'The National Debt Explained',
-    component: (glossary) => <NationalDebtExplainedSection glossary={glossary}/>
+    component: (glossary, cpiDataByYear) => <NationalDebtExplainedSection glossary={glossary}/>
   },
   {
     index: 2,
     id: nationalDebtSectionIds[2],
     title: 'Funding Programs & Services',
-    component: (glossary) => <FundingProgramsSection glossary={glossary}/>
+    component: (glossary, cpiDataByYear) => <FundingProgramsSection glossary={glossary}/>
   },
   {
     index: 3,
     id: nationalDebtSectionIds[3],
     title: 'The Growing National Debt',
-    component: (glossary) => <GrowingNationalDebtSection sectionId={nationalDebtSectionIds[3]} glossary={glossary}/>
+    component:(glossary, cpiDataByYear) =>
+      <GrowingNationalDebtSection
+        sectionId={nationalDebtSectionIds[3]}
+        glossary={glossary}
+        cpiDataByYear={cpiDataByYear}
+      />
   },
   {
     index: 4,
     id: nationalDebtSectionIds[4],
     title: 'Breaking Down the Debt',
-    component:(glossary) =>  <DebtBreakdownSection sectionId={nationalDebtSectionIds[4]} glossary={glossary}/>
+    component: (glossary, cpiDataByYear) =>
+      <DebtBreakdownSection sectionId={nationalDebtSectionIds[4]} glossary={glossary}/>
   },
   {
     index: 5,
     id: nationalDebtSectionIds[5],
     title: 'The Debt Ceiling',
-    component: (glossary) => <DebtCeilingSection glossary={glossary}/>
+    component: (glossary, cpiDataByYear) => <DebtCeilingSection glossary={glossary}/>
   },
   {
     index: 6,
     id: nationalDebtSectionIds[6],
     title: 'Tracking the Debt',
-    component: (glossary) => <DebtTrackingSection glossary={glossary}/>
+    component: (glossary, cpiDataByYear) => <DebtTrackingSection glossary={glossary}/>
   },
   {
     index: 7,
     id: nationalDebtSectionIds[7],
     title: 'Dive Deeper into the Debt',
-    component: (glossary) => <DiveDeeperSection glossary={glossary}/>
+    component: (glossary, cpiDataByYear) => <DiveDeeperSection glossary={glossary}/>
   }
 ]
 
@@ -1738,7 +1786,7 @@ export default nationalDebtSections;
   const bls = <CustomLink url={'https://www.bls.gov/developers'}>Bureau of Labor Statistics</CustomLink>;
   const bea = <CustomLink url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey'}>
     Bureau of Economic Analysis</CustomLink>;
-  const github = <CustomLink url={'https://github.com/fedspendingtransparency/'}>Github repository</CustomLink>;
+  const github = <CustomLink url={'https://github.com/fedspendingtransparency/'}>GitHub repository</CustomLink>;
 
   export const nationalDebtDataSources = (
   <>
