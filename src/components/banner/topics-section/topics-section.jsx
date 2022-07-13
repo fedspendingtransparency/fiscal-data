@@ -22,7 +22,7 @@ export const TopicsSection = ({images, width}) => {
   const secondaryWidth = 4;
 
   return (
-    <div className={topicsSectionContainer}>
+    <div className={topicsSectionContainer} >
       <div className={sectionHeader}>
         TOPICS
       </div>
@@ -40,14 +40,14 @@ export const TopicsSection = ({images, width}) => {
         <Grid container spacing={4}>
           <Grid item md={mainWidth}>
             <ExplainerTile content={pageTileMap['debt']}
-                           images={images.allFile.topicsImages}
+                           images={images}
                            width={width}
             />
           </Grid>
           {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
           <Grid item md={secondaryWidth}>
             <ExplainerTile content={pageTileMap['deficit']}
-                           images={images.allFile.topicsImages}
+                           images={images}
                            width={width}
             />
           </Grid>

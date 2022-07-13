@@ -4,7 +4,7 @@ import {
   mainTitle,
   secondaryTitle
 } from './explainer-tile.module.scss';
-import { breakpointLg } from '../../../../variables.module.scss';
+import { breakpointLg, breakpointMd } from '../../../../variables.module.scss';
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
 
 import Link from "gatsby-link";
@@ -13,10 +13,9 @@ import {GatsbyImage, getImage} from "gatsby-plugin-image";
 
 const ExplainerTile =({content, images, width}) => {
   let desktopImage, mobileImage;
-
   if(images) {
-    desktopImage = images.find(image => image.name === content.desktopImage);
-    mobileImage = images.find(image => image.name === content.mobileImage);
+    desktopImage = images.allFile.topicsImages.find(image => image.name === content.desktopImage);
+    mobileImage = images.allFile.topicsImages.find(image => image.name === content.mobileImage);
   }
 
   const desktop =

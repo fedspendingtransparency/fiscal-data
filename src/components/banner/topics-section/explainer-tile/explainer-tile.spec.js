@@ -21,24 +21,29 @@ const testTiles = {
   }
 };
 
-const mockImages = [
-  {
-    name: 'testDesktopImage',
-    childImageSharp: {
-      gatsbyImageData: {
+const mockImages = {
+  allFile: {
+    topicsImages: [
+      {
+        name: 'testDesktopImage',
+        childImageSharp: {
+          gatsbyImageData: {
 
-      }
-    }
-  },
-  {
-    name: 'testMobileImage',
-    childImageSharp: {
-      gatsbyImageData: {
+          }
+        }
+      },
+      {
+        name: 'testMobileImage',
+        childImageSharp: {
+          gatsbyImageData: {
 
+          }
+        }
       }
-    }
+    ]
   }
-];
+};
+
 
 jest.mock('./variables.module.scss', (content) => ({
   ...content,
@@ -91,7 +96,7 @@ describe('Explainer Tile', () => {
     expect(tileLink).toHaveAttribute('href', '/');
   });
 
-  it('does not wrap the tile in a link when a path is not provided', () => {
+  it('does not wrap the tile in a link if a path is not provided', () => {
     const { queryByRole } = render(
       <ExplainerTile
         content={testTiles['anotherPage']}
