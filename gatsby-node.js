@@ -508,6 +508,27 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     })
   }
 
+  result.data.allExplainers.explainers.forEach((explainer) => {
+    const explainerRelatedDatasets = [];
+    explainer.relatedDatasets.forEach((dataset) => {
+      explainerRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+    });
+    createPage({
+      path: explainer.slug,
+      matchPath: `${explainer.slug}*`,
+      component: path.resolve('./src/layouts/explainer/explainer.tsx'),
+      context: {
+        pageName: explainer.pageName,
+        breadCrumbLinkName: explainer.breadCrumbLinkName,
+        seoConfig: explainer.seoConfig,
+        heroImage: explainer.heroImage,
+        relatedDatasets: explainerRelatedDatasets,
+        cpiDataByYear: cpiYearMap,
+        glossary: glossaryData
+      }
+    });
+  });
+
   if (ENV_ID !== 'production') {
     createPage({
       path: `/experimental/`,
@@ -515,27 +536,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
     });
 
-
-    result.data.allExplainers.explainers.forEach((explainer) => {
-      const explainerRelatedDatasets = [];
-      explainer.relatedDatasets.forEach((dataset) => {
-        explainerRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-      });
-      createPage({
-        path: explainer.slug,
-        matchPath: `${explainer.slug}*`,
-        component: path.resolve('./src/layouts/explainer/explainer.tsx'),
-        context: {
-          pageName: explainer.pageName,
-          breadCrumbLinkName: explainer.breadCrumbLinkName,
-          seoConfig: explainer.seoConfig,
-          heroImage: explainer.heroImage,
-          relatedDatasets: explainerRelatedDatasets,
-          cpiDataByYear: cpiYearMap,
-          glossary: glossaryData
-        }
-      });
-    });
     const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
     const features = await graphql(`
 		{
