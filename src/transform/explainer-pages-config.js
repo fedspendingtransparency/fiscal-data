@@ -4,8 +4,7 @@ const explainerPagesSource = {
     breadCrumbLinkName: 'Debt',
     seoConfig: {
       pageTitle: 'Understanding the National Debt',
-      description: `The federal government currently has $XX.XX trillion in federal debt.
-      Learn how the national debt works and how it impacts you.`
+      description: `Learn how the national debt works and how it impacts you.`
     },
     heroImage: {
       heading: 'What is the national debt?',

@@ -1774,19 +1774,19 @@ const nationalDebtSections = [
     title: 'Dive Deeper into the Debt',
     component: (glossary, cpiDataByYear) => <DiveDeeperSection glossary={glossary}/>
   }
-]
+];
 
 export default nationalDebtSections;
 
-  const debtToThePenny = <CustomLink url={'/datasets/debt-to-the-penny/'}>Debt to the Penny</CustomLink>;
-  const mspd = <CustomLink url={'/datasets/monthly-statement-public-debt/'}>Monthly Statement of the Public Debt (MSPD)</CustomLink>;
-  const historicalDebt = <CustomLink url={'/datasets/historical-debt-outstanding/'}>Historical Debt Outstanding</CustomLink>;
-  const treasurySecurities = <CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}>
+const debtToThePenny = <CustomLink url={'/datasets/debt-to-the-penny/'}>Debt to the Penny</CustomLink>;
+const mspd = <CustomLink url={'/datasets/monthly-statement-public-debt/'}>Monthly Statement of the Public Debt (MSPD)</CustomLink>;
+const historicalDebt = <CustomLink url={'/datasets/historical-debt-outstanding/'}>Historical Debt Outstanding</CustomLink>;
+const treasurySecurities = <CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}>
     Average Interest Rates on U.S. Treasury Securities</CustomLink>;
-  const bls = <CustomLink url={'https://www.bls.gov/developers'}>Bureau of Labor Statistics</CustomLink>;
-  const bea = <CustomLink url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey'}>
+const bls = <CustomLink url={'https://www.bls.gov/developers'}>Bureau of Labor Statistics</CustomLink>;
+const bea = <CustomLink url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey'}>
     Bureau of Economic Analysis</CustomLink>;
-  const github = <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>GitHub repository</CustomLink>;
+const github = <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>GitHub repository</CustomLink>;
 
   export const nationalDebtDataSources = (
   <>
@@ -1797,4 +1797,27 @@ export default nationalDebtSections;
     four relevant quarterly values from calendar year quarter 4 of the prior year through calendar year quarter 3 of the fiscal year shown.
     For detailed documentation, users can reference our {github}.
   </>
-)
+);
+
+// export for use in tests
+export const nationalDebtDescriptionAppendix =
+  'Learn how the national debt works and how it impacts you.';
+
+export const nationalDebtDescriptionGenerator = () => {
+  const fields = 'fields=tot_pub_debt_out_amt,record_date';
+  const sort = 'sort=-record_date';
+  const pagination = 'page[size]=1&page[number]=1';
+  const endpointUrl
+    = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
+  const debtUrl = `${apiPrefix}${endpointUrl}`;
+  return basicFetch(debtUrl).then(res => {
+    let seoDescription = nationalDebtDescriptionAppendix;
+    if (res && res.data) {
+      const amount = '$' + (Number(res.data[0]['tot_pub_debt_out_amt']) / 1000000000000).toFixed(2);
+      seoDescription =
+        `The federal government currently has ${amount} trillion in federal debt. ` +
+        seoDescription;
+    }
+    return seoDescription;
+  });
+};

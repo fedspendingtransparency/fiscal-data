@@ -15,7 +15,10 @@ import nationalDebtSections, {
   DebtBreakdownSection,
   DebtCeilingSection,
   debtCeilingSectionAccordionTitle,
-  VisualizingTheDebtAccordion, nationalDebtDataSources,
+  VisualizingTheDebtAccordion,
+  nationalDebtDataSources,
+  nationalDebtDescriptionGenerator,
+  nationalDebtDescriptionAppendix,
 } from "./national-debt"
 import {
   mockFifthSectionValueMarkers,
@@ -373,4 +376,45 @@ describe('Visualing the debt accordion values', () => {
     global.fetch.mockRestore();
   });
 
+});
+
+describe('SEO Description Generator', () => {
+
+  afterEach(() => {
+    jest.resetModules();
+    global.fetch.mockRestore();
+  });
+
+  it("makes api call for debt data and returns formatted description", async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ ok: true, json: () =>
+          Promise.resolve({
+            data: [{
+              'tot_pub_debt_out_amt': "28908004857445.12",
+              'record_date': "2021-12-13"
+            }]
+          })
+      }));
+
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const result = await nationalDebtDescriptionGenerator();
+    expect(fetchSpy.mock.calls[0][0])
+      .toContain('/debt_to_penny?fields=tot_pub_debt_out_amt,record_date&sort=-record_date');
+    expect(result)
+      .toStrictEqual('The federal government currently has $28.91 trillion in federal debt. ' +
+      nationalDebtDescriptionAppendix);
+  });
+
+  it("makes api call for debt data and handles api failure", async () => {
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ ok: true, json: () =>
+          Promise.resolve({
+            "ERROR": "Mock error condition from API"
+          })
+      }));
+
+    const result = await nationalDebtDescriptionGenerator();
+    expect(result).toStrictEqual(nationalDebtDescriptionAppendix);
+  });
 });

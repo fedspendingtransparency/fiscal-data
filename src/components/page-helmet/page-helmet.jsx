@@ -6,7 +6,7 @@ import { ENV_ID } from 'gatsby-env-variables';
 import { graphql, useStaticQuery } from 'gatsby';
 
 
-const PageHelmet = ({ pageTitle, description, keywords, image, canonical, datasetDetails }) => {
+const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, image, canonical, datasetDetails }) => {
 
   let versionInfo = useStaticQuery(graphql`
     {
@@ -36,19 +36,27 @@ const PageHelmet = ({ pageTitle, description, keywords, image, canonical, datase
   const builtOnDate = versionInfo.currentBuildDate ? versionInfo.currentBuildDate.currentDate : '';
 
   const [dapAnalytics, setDapAnalytics] = useState(null);
+  const [finalDescription, setFinalDescription] = useState(description);
   const baseUrl = globalConstants.BASE_SITE_URL;
   const title = pageTitle
-    ? `${pageTitle} | U.S. Treasury Fiscal Data` 
+    ? `${pageTitle} | U.S. Treasury Fiscal Data`
     : 'U.S. Treasury Fiscal Data';
 
-  useEffect(() => setDapAnalytics(
-    <script
-      async
-      type="text/javascript"
-      src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
-      id="_fed_an_ua_tag"
-    />
-  ), []);
+  useEffect(() => {
+    if (descriptionGenerator) {
+      descriptionGenerator().then(res => {
+        setFinalDescription(res)
+      });
+    }
+    setDapAnalytics(
+      <script
+        async
+        type="text/javascript"
+        src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
+        id="_fed_an_ua_tag"
+      />
+    )
+  }, []);
 
   return (
     <Helmet>
@@ -72,8 +80,8 @@ const PageHelmet = ({ pageTitle, description, keywords, image, canonical, datase
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width" />
       <title>{title}</title>
-      <meta property="og:title" content={title}/>
-      <meta name="description" content={description} />
+      <meta property="og:title" content={title} />
+      <meta name="description" content={finalDescription || description} />
       <meta property="og:description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta
