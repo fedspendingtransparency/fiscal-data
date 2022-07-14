@@ -2,21 +2,25 @@ import React from 'react';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
 import { Index } from '../index';
-import BannerGraphic from '../../components/banner/banner-graphic';
-import BannerLeadText from '../../components/banner/banner-lead-text';
 import HomeMainContent from '../../components/home-main-content/home-main-content';
 import HomeFeatures from '../../components/home-features/home-features';
+import * as Gatsby from "gatsby";
+
+const imageQueryMock = {
+  allFile: {
+    topicsImages: []
+  }
+}
+
+const useStaticQueryMock = jest.spyOn(Gatsby, 'useStaticQuery');
+useStaticQueryMock.mockImplementation(() => (imageQueryMock));
 
 describe('Site Home Index', () => {
   const renderer = new ShallowRenderer();
   renderer.render(<Index />);
   const component = renderer.getRenderOutput();
   const instance = component.props.children[1];
-  const siteHome = instance.props.children.find(e => e.props['data-testid'] === 'site-home');
-
-  it('renders the watermark', () => {
-    expect(instance.props.children.find(e => e.props['data-testid'] === 'site-watermark')).toBeDefined();
-  });
+  const siteHome = [instance.props.children].find(e => e.props['data-testid'] === 'site-home');
 
   it('renders the PageHelmet containing metadata', () => {
     const helmet = siteHome.props.children.find(e => e.props['data-testid'] === 'helmet');
@@ -25,13 +29,9 @@ describe('Site Home Index', () => {
     expect(helmet.props.keywords).toBeDefined();
   });
 
-  it('renders the banner components', () => {
-    expect(siteHome.props.children).toContainEqual(
-      <div data-testid='banner' className='bannerWrapper'>
-        <BannerLeadText />
-        <BannerGraphic />
-      </div>
-    );
+  it('renders the topics section', () => {
+    const topicsSection = siteHome.props.children.find(e => e.props['data-testid'] === 'topics-section');
+    expect(topicsSection.props.images).toBe(imageQueryMock);
   });
 
   it('renders the HomeMainContent component', () => {
