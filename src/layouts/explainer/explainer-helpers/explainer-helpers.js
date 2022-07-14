@@ -42,7 +42,7 @@ export const explainerSocialShareMap = {
     emailSubject: 'Fiscal Data Explains the National Debt',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
     url: baseUrl+'/national-debt/',
-    image: baseUrl+'/images/nationalDebt_1200x630.png'
+    image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png'
   }
 }
 
