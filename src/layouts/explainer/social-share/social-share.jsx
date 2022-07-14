@@ -35,7 +35,7 @@ import {
 import globalConstants from "../../../helpers/constants";
 
 // const baseUrl = globalConstants.BASE_SITE_URL;
-const baseUrl = 'https://stg.fiscaldata.treasury.gov/';
+const baseUrl = 'https://stg.fiscaldata.treasury.gov';
 
 const shareButtonContentMap = {
   'facebook': {
