@@ -11,7 +11,9 @@ import {
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
 
-const baseUrl = globalConstants.BASE_SITE_URL;
+// const baseUrl = globalConstants.BASE_SITE_URL;
+const baseUrl = 'https://stg.fiscaldata.treasury.gov/';
+
 
 export const getDateWithoutOffset = (date) => {
   const today = new Date(date);
@@ -42,7 +44,9 @@ export const explainerSocialShareMap = {
     emailSubject: 'Fiscal Data Explains the National Debt',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
     url: baseUrl+'/national-debt/',
-    image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png'
+    image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png',
+    hashtagString: '#FiscalData #OpenData #NationalDebt',
+    hashtagArray: ['#FiscalData', '#OpenData', '#NationalDebt']
   }
 }
 

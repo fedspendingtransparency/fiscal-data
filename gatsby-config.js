@@ -126,14 +126,7 @@ module.exports = {
         host: 'https://fiscaldata.treasury.gov/',
         sitemap: 'https://fiscaldata.treasury.gov/sitemap/sitemap-index.xml',
         resolveEnv: () => process.env.BUILD_ENV,
-        env: {
-          'prod': {
-            policy: [{ userAgent: '*', allow: '/' }]
-          },
-          development: {
-            policy: [{ userAgent: '*', disallow: ['/'] }]
-          },
-        }
+        policy: [{ userAgent: '*', allow: '/' }]
       }
     },
     {

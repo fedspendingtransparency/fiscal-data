@@ -34,8 +34,8 @@ import {
 } from "react-share";
 import globalConstants from "../../../helpers/constants";
 
-const baseUrl = globalConstants.BASE_SITE_URL;
-
+// const baseUrl = globalConstants.BASE_SITE_URL;
+const baseUrl = 'https://stg.fiscaldata.treasury.gov/';
 
 const shareButtonContentMap = {
   'facebook': {
@@ -126,6 +126,8 @@ export const SocialShareComponent = (
     emailBody,
     url,
     image,
+    hashtagString,
+    hashtagArray,
     width }) => {
 
    return (
@@ -143,6 +145,7 @@ export const SocialShareComponent = (
            <FacebookShareButton className={ shareButton }
                                 url={ url }
                                 quote={ text }
+                                hashtag={ hashtagString }
            >
              <ShareButtonContent name={ 'facebook' } width={ width } />
            </FacebookShareButton>
@@ -151,6 +154,7 @@ export const SocialShareComponent = (
            <TwitterShareButton className={ shareButton }
                                url={ url }
                                title={ text }
+                               hashtags={ hashtagArray }
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
