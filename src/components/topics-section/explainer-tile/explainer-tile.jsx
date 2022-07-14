@@ -2,7 +2,8 @@ import React from "react"
 import {
   mainContent,
   mainTitle,
-  secondaryTitle
+  secondaryTitle,
+  comingSoon
 } from './explainer-tile.module.scss';
 import { breakpointLg } from '../../../variables.module.scss';
 import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
@@ -39,11 +40,13 @@ const ExplainerTile =({content, images, width}) => {
       <div>
         {width >= pxToNumber(breakpointLg) ? desktop : mobile}
       </div>
-      <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
-        {content.title}
-      </h5>
-      <div>
-        {content.body}
+      <div className={content.path ? undefined : comingSoon }>
+        <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
+          {content.title}
+        </h5>
+        <div>
+          {content.body}
+        </div>
       </div>
     </div>;
 
