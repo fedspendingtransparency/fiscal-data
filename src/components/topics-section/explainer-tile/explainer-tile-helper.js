@@ -15,7 +15,8 @@ export const pageTileMap = {
     title: 'What is the national deficit?',
     body: 'A national deficit occurs when the money going out exceeds the money coming in for a ' +
       'given period of time. Learn more about the U.S. deficit and how it has changed over time.',
-    altText: '',
+    altText: 'A hand holding a gold coin beside a variety of symbols, including a pie chart, bar ' +
+      'graph, and lit lightbulb.',
     desktopImage: 'homepage_deficit_coming-soon_desktop',
     mobileImage: 'homepage_deficit_coming-soon_mobile'
   }
