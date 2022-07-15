@@ -1294,9 +1294,8 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
         .then(response => {
           if (response && response.data && response.data.length) {
             const fytdNet = response.data[0].current_fytd_net_outly_amt;
-            const MTSMonth = response.data[0].record_calendar_month;
             basicFetch(
-              `${apiPrefix}v2/accounting/od/interest_expense?page%5bsize%5d=1&filter=record_calendar_month:eq:${MTSMonth}&sort=-record_date`)
+              `${apiPrefix}v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:4177&sort=-record_date&page[size]=1`)
             .then(response => {
               if (response && response.data && response.data.length) {
                 setInterestExpenseEndYear(
@@ -1307,7 +1306,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
                   month: 'long',
                 }));
                 const maintainDebtExpense = (parseFloat(
-                  response.data[0].fytd_expense_amt));
+                  response.data[0].current_fytd_net_outly_amt));
                 const percent = (maintainDebtExpense /
                   parseFloat(fytdNet) * 100).toFixed(2);
                 setDebtExpensePercent(`${percent}%`);
