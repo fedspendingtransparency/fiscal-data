@@ -107,6 +107,7 @@ const SocialMetaData = ({ image, title, description, url }) => {
         <meta property="og:title" content={ title } />
         <meta property="og:description" content={ description } />
         <meta property="og:image" content={ image } />
+        <meta property="og:image:secure_url" content={ image } />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={ url } />
         <meta name="twitter:card" content="summary_large_image" />
@@ -126,7 +127,6 @@ export const SocialShareComponent = (
     emailBody,
     url,
     image,
-    hashtags,
     width }) => {
 
    return (
@@ -152,7 +152,6 @@ export const SocialShareComponent = (
            <TwitterShareButton className={ shareButton }
                                url={ url }
                                title={ body }
-                               hashtags={ hashtags }
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
