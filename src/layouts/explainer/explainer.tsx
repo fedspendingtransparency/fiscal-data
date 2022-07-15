@@ -2,7 +2,10 @@ import React, { FunctionComponent } from 'react';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import explainerSections, { explainerDataSources } from './sections/sections';
+import explainerSections, {
+  explainerDataSources,
+  explainerDescriptionGenerators
+} from './sections/sections';
 import HeroImage from './hero-image/hero-image';
 import { IExplainerPage } from '../../models/IExplainerPage';
 import {
@@ -30,7 +33,15 @@ import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-rel
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies"
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
-  const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
+  const {
+    pageName,
+    breadCrumbLinkName,
+    heroImage,
+    seoConfig,
+    relatedDatasets,
+    glossary,
+    cpiDataByYear
+  } = pageContext;
 
   //TODO add glossary to page context above, and call helper function findGlossaryTerm(term, glossary) to get term info
 
@@ -50,6 +61,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
+        descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
         keywords=""
         image=""
         canonical=""
