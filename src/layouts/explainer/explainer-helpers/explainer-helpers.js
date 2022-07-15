@@ -46,7 +46,7 @@ export const explainerSocialShareMap = {
     url: baseUrl+'/national-debt/',
     image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png',
     hashtagString: '#FiscalData #OpenData #NationalDebt',
-    hashtagArray: ['#FiscalData', '#OpenData', '#NationalDebt']
+    hashtagArray: ['FiscalData', 'OpenData', 'NationalDebt']
   }
 }
 
