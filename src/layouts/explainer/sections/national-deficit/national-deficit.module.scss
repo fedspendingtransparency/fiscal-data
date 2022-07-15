@@ -1,0 +1,157 @@
+@import '../../../../variables.module.scss';
+
+$deficit-explainer-primary: #b3532d;
+$deficit-explainer-secondary: #9f4224;
+$deficit-explainer-light-secondary: #e0baab;
+
+
+.keyTakeawaysContent {
+  display: flex;
+  align-items: center;
+
+  &:not(.noMarginBottom) {
+    margin-bottom: 25px;
+  }
+
+  .iconBackground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $deficit-explainer-light-secondary;
+    position: relative;
+
+    .icon {
+      color: white;
+    }
+
+    .offsetIcon {
+      color: $deficit-explainer-secondary;
+      position: absolute;
+    }
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.understandingDeficitContent {
+  p {
+    margin: 0 0 1rem 0;
+  }
+
+  .calloutText{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .folderVisContainer {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .folderVis {
+    display: flex;
+    align-items: center;
+    border: solid 1px #d6d7d9;
+    width: 100%;
+    font-size: $font-size-16;
+    p {
+      padding: 4.063rem 4.25rem 4.063rem 2rem;
+      width: 55%;
+    }
+    img {
+      padding: 4.063rem 2rem 4.063rem 4.188rem;
+      width: 45%;
+    }
+  }
+
+  .understandingVisContainer {
+    margin-bottom: 0;
+  }
+}
+
+.deficitDebtDifferenceContent {
+  .deficitDebtDifferenceVisContainer {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .keyTakeawaysContent {
+    .iconBackground {
+      height: 4rem;
+      width: 4rem;
+      min-width: 4rem;
+      border-radius: 2rem;
+
+      .icon, .offsetIcon {
+        font-size: 1.75rem;
+        transform: translate(5px, -5px);
+      }
+
+      .offsetIcon {
+        transform: translate(8px, -8px);
+      }
+    }
+
+    p {
+      margin-left: 34px;
+    }
+  }
+
+  .understandingDeficitContent {
+    .vis-callout {
+      margin-top: calc(20% + 4rem);
+      margin-bottom: calc(20% + 4rem);
+    }
+  }
+
+  .deficitByYearContent {
+    :global(.vis-callout) {
+      margin-top: calc(20% + 4rem);
+      margin-bottom: calc(20% + 4rem);
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .keyTakeawaysContent {
+    .iconBackground {
+      height: 52px;
+      width: 52px;
+      min-width: 52px;
+      border-radius: 26px;
+
+      .icon, .offsetIcon {
+        font-size: 1.5rem;
+        transform: translate(3px, -3px);
+      }
+
+      .offsetIcon {
+        transform: translate(6px, -6px);
+      }
+    }
+
+    p {
+      margin-left: 15px;
+    }
+  }
+
+  .understandingDeficitContent {
+    .folderVisContainer {
+      margin-top: 2rem;
+    }
+  }
+
+}
+
+
+:export {
+  deficitExplainerPrimary: $deficit-explainer-primary;
+  deficitExplainerSecondary: $deficit-explainer-secondary;
+  deficitExplainerLightSecondary: $deficit-explainer-light-secondary;
+}
+

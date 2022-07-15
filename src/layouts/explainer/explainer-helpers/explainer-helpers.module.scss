@@ -1,9 +1,25 @@
 @import '../../../variables.module.scss';
+@import '../sections/national-deficit/national-deficit.module';
 
 
-.nationalDebtActive, .nationalDebtHover {
+.nationalDebtActive {
   border-left-color: $debt-explainer-secondary !important;
   color: $debt-explainer-primary !important;
+  font-weight: bold;
+}
+
+.nationalDebtHover {
+  color: $debt-explainer-secondary !important;
+  font-weight: bold;
+}
+
+.nationalDeficitActive {
+  border-left-color: $deficit-explainer-secondary !important;
+  color: $deficit-explainer-primary !important;
+  font-weight: bold;
+
+}.nationalDeficitHover{
+  color: $deficit-explainer-secondary !important;
   font-weight: bold;
 }
 

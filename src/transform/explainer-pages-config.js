@@ -13,6 +13,21 @@ const explainerPagesSource = {
       Government accumulated over the nation’s history.`
     },
     relatedDatasets: [ "015-BFS-2014Q3-065", "015-BFS-2014Q3-071", "015-BFS-2014Q1-11", "015-BFS-2014Q3-056" ]
+  },
+  'national-deficit': {
+    slug: '/national-deficit/',
+    breadCrumbLinkName: 'Deficit',
+    seoConfig: {
+      pageTitle: 'Understanding the National Deficit',
+      description: `...`
+    },
+    heroImage: {
+      heading: 'What is the national deficit?',
+      subHeading: `A deficit occurs when the Federal Government’s spending exceeds its revenues.
+      In 2021, the Federal Government spent $XX.XX trillion more than it collected, resulting
+      in a national deficit. `
+    },
+    relatedDatasets: [ ]
   }
 }
 
