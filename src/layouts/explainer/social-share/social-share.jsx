@@ -100,18 +100,18 @@ export const ShareButtonContent = ({ name, width }) => {
   )
 };
 
-const SocialMetaData = ({ image, title, summary, url }) => {
+const SocialMetaData = ({ image, title, description, url }) => {
   return (
     <>
       <Helmet>
         <meta property="og:title" content={ title } />
-        <meta property="og:description" content={ summary } />
+        <meta property="og:description" content={ description } />
         <meta property="og:image" content={ image } />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={ url } />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={ title } />
-        <meta name="twitter:description" content={ summary } />
+        <meta name="twitter:description" content={ description } />
         <meta name="twitter:image" content={ image } />
       </Helmet>
     </>
@@ -121,20 +121,19 @@ const SocialMetaData = ({ image, title, summary, url }) => {
 export const SocialShareComponent = (
   {
     title,
-    text,
+    body,
     emailSubject,
     emailBody,
     url,
     image,
-    hashtagString,
-    hashtagArray,
+    hashtags,
     width }) => {
 
    return (
      <>
        <SocialMetaData image={ image }
                        title={ title }
-                       summary={ text }
+                       description={ body }
                        url={ url }
        />
        <div className={ socialShareContent }>
@@ -144,8 +143,7 @@ export const SocialShareComponent = (
          <div className={ shareButtonContainer }>
            <FacebookShareButton className={ shareButton }
                                 url={ url }
-                                quote={ text }
-                                hashtag={ hashtagString }
+                                quote={ body }
            >
              <ShareButtonContent name={ 'facebook' } width={ width } />
            </FacebookShareButton>
@@ -153,8 +151,8 @@ export const SocialShareComponent = (
          <div className={ shareButtonContainer }>
            <TwitterShareButton className={ shareButton }
                                url={ url }
-                               title={ text }
-                               hashtags={ hashtagArray }
+                               title={ body }
+                               hashtags={ hashtags }
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
@@ -163,7 +161,7 @@ export const SocialShareComponent = (
            <LinkedinShareButton className={ shareButton }
                                 url={ url }
                                 title={ title }
-                                summary={ text }
+                                summary={ body }
                                 source={ baseUrl }
            >
              <ShareButtonContent name={ 'linkedin' } width={ width } />

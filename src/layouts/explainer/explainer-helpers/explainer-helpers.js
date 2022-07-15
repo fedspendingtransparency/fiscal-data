@@ -39,14 +39,13 @@ export const explainerClassMap = {
 export const explainerSocialShareMap = {
   'national-debt': {
     title: 'Fiscal Data Explains the National Debt',
-    text: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! ' +
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! ' +
       '#FiscalData #OpenData #NationalDebt',
     emailSubject: 'Fiscal Data Explains the National Debt',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
     url: baseUrl+'/national-debt/',
-    image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png',
-    hashtagString: '#FiscalData #OpenData #NationalDebt',
-    hashtagArray: ['FiscalData', 'OpenData', 'NationalDebt']
+    image: baseUrl+'/images/nationalDebt-YourGuide.png',
+    hashtags: ['FiscalData', 'OpenData', 'NationalDebt']
   }
 }
 
