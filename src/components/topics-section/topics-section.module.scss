@@ -1,0 +1,61 @@
+@import 'src/variables.module';
+
+$lead-text-max: 550px;
+$max-img-width-desktop: 771.5px;
+
+.topicsSectionContainer{
+  padding: 0 0 4rem;
+
+  .sectionHeader {
+    color: #555555;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    margin-bottom: .5rem;
+  }
+  .tileContainer {
+    margin-top: .5rem;
+    overflow: hidden;
+  }
+
+  .topicsSectionHeader {
+    font-weight: $semi-bold-weight;
+    color: $primary;
+    margin: .5rem 0;
+    font-size: $font-size-24;
+    display: flex;
+    align-items: center;
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .topicsSectionContainer {
+    margin-top: 1rem;
+  }
+}
+
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .topicsSectionContainer {
+
+    .topicsSectionHeader {
+      align-items: start;
+      svg {
+        margin-top: .25rem;
+      }
+    }
+
+    i {
+      padding: .5rem 0 .5rem;
+    }
+
+    .line {
+      width: 100%;
+      margin: 0 16px;
+      border-bottom: solid 1px #d8d8d8;
+    }
+  }
+
+}

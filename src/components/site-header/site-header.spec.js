@@ -56,18 +56,16 @@ describe('SiteHeader', () => {
     expect(getByText(message)).toBeDefined();
   });
 
-  //TODO: Add tests back in once topics button is no longer experimental
+  it('displays the topics button', () => {
+    const { getByTestId } = render(<SiteHeader />);
+    expect(getByTestId('topicsButton')).toBeInTheDocument();
+  });
 
-  // it('displays the topics button', () => {
-  //   const { getByTestId } = render(<SiteHeader />);
-  //   expect(getByTestId('topicsButton')).toBeInTheDocument();
-  // });
-  //
-  // it('displays the topics drop down renders when mousing over topics button', () => {
-  //   const { getByTestId } = render(<SiteHeader />);
-  //   fireEvent.mouseEnter(getByTestId('topicsButton'));
-  //   expect(getByTestId('dropdownContent')).toBeInTheDocument();
-  // });
+  it('displays the topics drop down renders when mousing over topics button', () => {
+    const { getByTestId } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByTestId('topicsButton'));
+    expect(getByTestId('dropdownContent')).toBeInTheDocument();
+  });
 
   it('expects that all of the header links are not active/highlighted by default', () => {
     const { container } = render(<SiteHeader />);

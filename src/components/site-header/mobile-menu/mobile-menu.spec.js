@@ -33,10 +33,9 @@ describe('MobileMenu actions', () => {
     triggerClickEvent(theButton);
     expect(theContainer).toHaveClass('open');
 
-    //TODO: add back in once topics is not marked as experimental
 
-    // const expandedTopicsContent = getByTestId('expandedContent');
-    // expect(expandedTopicsContent).toBeInTheDocument();
+    const expandedTopicsContent = getByTestId('expandedContent');
+    expect(expandedTopicsContent).toBeInTheDocument();
 
     // Re find button as the new one is now inside the expanded menu
     theButton = queryByRole('button');
