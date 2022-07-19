@@ -2,7 +2,10 @@ import React, { FunctionComponent } from 'react';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import explainerSections, { explainerDataSources } from './sections/sections';
+import explainerSections, {
+  explainerDataSources,
+  explainerDescriptionGenerators
+} from './sections/sections';
 import HeroImage from './hero-image/hero-image';
 import { IExplainerPage } from '../../models/IExplainerPage';
 import {
@@ -30,7 +33,15 @@ import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-rel
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies"
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
-  const { pageName, breadCrumbLinkName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
+  const {
+    pageName,
+    breadCrumbLinkName,
+    heroImage,
+    seoConfig,
+    relatedDatasets,
+    glossary,
+    cpiDataByYear
+  } = pageContext;
 
 
   const breadCrumbLinks: Record<string, unknown>[] = [
@@ -49,6 +60,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
+        descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
         keywords=""
         image=""
         canonical=""
@@ -75,7 +87,8 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
             <div className={socialShareContainer}>
               <div className={socialShare}>
                 <SocialShare title={explainerSocialShareMap[pageName].title}
-                             text={explainerSocialShareMap[pageName].summary}
+                             description={explainerSocialShareMap[pageName].description}
+                             body={explainerSocialShareMap[pageName].body}
                              emailSubject={explainerSocialShareMap[pageName].emailSubject}
                              emailBody={explainerSocialShareMap[pageName].emailBody}
                              url={explainerSocialShareMap[pageName].url}

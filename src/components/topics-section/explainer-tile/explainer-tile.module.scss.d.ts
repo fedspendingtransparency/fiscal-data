@@ -66,4 +66,5 @@ export const debtExplainerLightSecondary: string;
 export const mainContent: string;
 export const mainTitle: string;
 export const secondaryTitle: string;
+export const comingSoon: string;
 export const tileContainer: string;

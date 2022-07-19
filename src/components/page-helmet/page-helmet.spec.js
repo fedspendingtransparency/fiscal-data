@@ -3,8 +3,10 @@ import PageHelmet from "./page-helmet";
 import mockDatasetDetails from './mockDatasetDetails';
 import {useStaticQuery} from "gatsby";
 import { renderIntoDocument } from 'react-dom/test-utils';
+import { render, act } from "@testing-library/react";
 import { Helmet } from 'react-helmet';
 import globalConstants from "../../helpers/constants";
+import { waitFor } from "@testing-library/dom"
 
 const pageTitle = 'Some Page';
 const titleAppend = 'U.S. Treasury Fiscal Data';
@@ -144,6 +146,18 @@ describe('page helmet with specified title', () => {
   });
 });
 
+const getMetaByName = (metaName) => {
+  const metas = document.getElementsByTagName("meta");
+  for (let i = 0; i < metas.length; i += 1) {
+    if (metas[i].getAttribute("name") === metaName) {
+      return metas[i].getAttribute("content");
+    }
+  }
+  return "";
+};
+const staticDescription = 'mock static description';
+const dynamicDescription = 'Mock Dynamic SEO Description';
+
 describe('page helmet with canonical tag', ()=> {
   renderIntoDocument(<PageHelmet canonical="/datasets/test-canonical"/>)
   const helmet=Helmet.peek();
@@ -152,5 +166,29 @@ describe('page helmet with canonical tag', ()=> {
     const canonical=helmet.linkTags.find(r=>r.rel === "canonical")
     expect(canonical).toBeDefined();
     expect(canonical.href).toBe(`${baseUrl}/datasets/test-canonical`)
+  });
+});
+
+// the two related describe blocks below are separated to prevent overlapping async dom updates
+describe('page helmet with static SEO description', ()=> {
+
+  it('uses a static description when no descriptionGenerator supplied', async () => {
+    render(<PageHelmet description={staticDescription} />);
+    await waitFor(() => expect(getMetaByName('description')).toEqual(staticDescription));
+  });
+});
+
+describe('page helmet with dynamic SEO description', ()=> {
+  it('calls the descriptionGenerator when one is supplied', async () => {
+    const mockDescriptionGenerator = () => Promise.resolve(dynamicDescription);
+
+    await act(async () => {
+      render(
+        <PageHelmet
+          description={'stand-in'}
+          descriptionGenerator={mockDescriptionGenerator}
+        />);
+      await waitFor(() => expect(getMetaByName("description")).toEqual(dynamicDescription));
+    });
   });
 });
