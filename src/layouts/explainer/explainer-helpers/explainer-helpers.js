@@ -11,8 +11,7 @@ import {
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
 
-// const baseUrl = globalConstants.BASE_SITE_URL;
-const baseUrl = 'https://stg.fiscaldata.treasury.gov';
+const baseUrl = globalConstants.BASE_SITE_URL;
 
 
 export const getDateWithoutOffset = (date) => {

@@ -34,8 +34,7 @@ import {
 } from "react-share";
 import globalConstants from "../../../helpers/constants";
 
-// const baseUrl = globalConstants.BASE_SITE_URL;
-const baseUrl = 'https://stg.fiscaldata.treasury.gov';
+const baseUrl = globalConstants.BASE_SITE_URL;
 
 const shareButtonContentMap = {
   'facebook': {
