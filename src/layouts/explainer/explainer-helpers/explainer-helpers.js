@@ -12,7 +12,8 @@ import {
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
-import {deficitExplainerPrimary,
+import {
+  deficitExplainerPrimary,
   deficitExplainerSecondary,
   deficitExplainerLightSecondary
 } from "../sections/national-deficit/national-deficit.module.scss";
@@ -72,6 +73,11 @@ export const explainerSocialShareMap = {
 export const explainerHeroMap = {
   'national-debt': <NationalDebtHero />,
   'national-deficit': <div>Hero Placeholder</div>
+}
+
+export const explainerRelatedDatasetMap = {
+  'national-debt': 'See the datasets that relate to the national debt',
+  'national-deficit': 'See the datasets behind the national deficit'
 }
 
 export const datasetSectionConfig = {

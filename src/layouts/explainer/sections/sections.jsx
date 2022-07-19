@@ -1,5 +1,5 @@
 import nationalDebtSections, { nationalDebtDataSources } from "./national-debt/national-debt"
-import nationalDeficitSections from "./national-deficit/national-deficit";
+import nationalDeficitSections, { nationalDeficitDataSources } from "./national-deficit/national-deficit";
 
 const explainerSections = {
   'national-debt': nationalDebtSections,
@@ -8,7 +8,7 @@ const explainerSections = {
 }
 export const explainerDataSources = {
   'national-debt': nationalDebtDataSources,
-  'national-deficit': nationalDebtDataSources
+  'national-deficit': nationalDeficitDataSources
 }
 
 export default explainerSections

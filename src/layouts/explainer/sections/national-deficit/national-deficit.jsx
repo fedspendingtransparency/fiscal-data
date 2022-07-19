@@ -1,27 +1,11 @@
 import React from "react";
-import sampleImg from '../../../../../static/topic-icons/debt.png'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faPercent, faPollH } from "@fortawesome/free-solid-svg-icons";
-import Accordion from "../../../../components/accordion/accordion";
-import { visWithCallout } from "../../explainer.module.scss";
-import VisualizationCallout from "../../../../components/visualization-callout/visualization-callout";
-import {
-  icon,
-  iconBackground,
-  keyTakeawaysContent,
-  noMarginBottom,
-  offsetIcon,
-  understandingDeficitContent,
-  deficitByYearContent,
-  folderVisContainer,
-  folderVis,
-  calloutText,
-  understandingVisContainer,
-  deficitDebtDifferenceContent,
-  deficitDebtDifferenceVisContainer,
-  deficitExplainerPrimary
-} from "./national-deficit.module.scss";
 import DeficitKeyTakeaways from "./key-takeaways/deficit-key-takeaways";
+import UnderstandingDeficit from "./understanding/understanding-deficit";
+import DeficitAndSurplusCauses from "./causes/deficit-and-surplus-causes";
+import DebtDeficitDifference from "./difference/debt-deficit-difference";
+import DeficitByYear from "./deficit-by-year/deficit-by-year";
+import DeficitLearnMore from "./learn-more/deficit-learn-more";
+import CustomLink from "../../../../components/links/custom-link/custom-link";
 
 
 export const sampleCopy = `
@@ -53,6 +37,22 @@ export const ChartPlaceholder = () => (
   </div>
 );
 
+const mst =
+  <CustomLink url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government'}>
+    Monthly Treasury Statement (MTS)
+  </CustomLink>;
+const github =
+  <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>
+    GitHub repository
+  </CustomLink>;
+
+export const nationalDeficitDataSources = (
+  <>
+    The {mst} dataset provides all deficit, spending, and revenue values
+    on this page. For detailed documentation, users can reference our {github}.
+  </>
+);
+
 export const nationalDeficitSectionIds = [
   'key-takeaways',
   'understanding',
@@ -62,95 +62,6 @@ export const nationalDeficitSectionIds = [
   'learn-more'
 ];
 
-
-
-const UnderstandingDeficitFolderVis = () => (
-  <div className={folderVisContainer}>
-    <div className={folderVis}>
-      <img src={sampleImg} alt="placeholder alt text" />
-      <p>{smallSampleCopy}</p>
-    </div>
-  </div>
-);
-
-const UnderstandingDeficitSection = () => (
-  <div className={understandingDeficitContent}>
-    <div className={visWithCallout}>
-      <p>
-        {sampleCopy}
-        {sampleCopy}
-      </p>
-      <VisualizationCallout color={deficitExplainerPrimary} textWithCallout={true}>
-        <p className={calloutText}>{smallSampleCopy}</p>
-      </VisualizationCallout>
-    </div>
-    <UnderstandingDeficitFolderVis />
-    <p>{smallSampleCopy}</p>
-    <div className={visWithCallout}>
-      <div className={understandingVisContainer}>
-        <ChartPlaceholder />
-      </div>
-      <VisualizationCallout color={deficitExplainerPrimary}>
-        <p className={calloutText}>{smallSampleCopy}</p>
-      </VisualizationCallout>
-    </div>
-  </div>
-);
-
-const CausesAndSurplusesSection = () => (
-  <>
-    <p>
-      {sampleCopy}
-      {sampleCopy}
-    </p>
-  </>
-);
-
-export const DeficitDebtDifferenceSection = () => (
-  <>
-    <div className={deficitDebtDifferenceContent}>
-      <p>{sampleCopy}</p>
-      <div className={deficitDebtDifferenceVisContainer}>
-        <ChartPlaceholder />
-      </div>
-      <Accordion
-        title="How else does the federal government finance a deficit?"
-        altStyleAccordion={{
-          color:deficitExplainerPrimary,
-          fontSize: '18px',
-          borderColor:deficitExplainerPrimary,
-          borderWidth:'1px'
-        }}
-        altStyleIcon={{
-          color:deficitExplainerPrimary
-        }}
-        altStyleContent={{
-          borderColor:deficitExplainerPrimary
-        }}
-      >
-        <p>{smallSampleCopy}</p>
-      </Accordion>
-    </div>
-  </>
-);
-
-const DeficitByYearSection = () => (
-  <div className={deficitByYearContent}>
-    <p>{sampleCopy}</p>
-    <div className={visWithCallout}>
-      <ChartPlaceholder />
-      <VisualizationCallout color={deficitExplainerPrimary}>
-        <p>{smallSampleCopy}</p>
-      </VisualizationCallout>
-    </div>
-  </div>
-);
-
-const LearnMoreSection = () => (
-  <>
-    <p>{smallSampleCopy}</p>
-  </>
-);
 
 const nationalDeficitSections = [
   {
@@ -163,31 +74,31 @@ const nationalDeficitSections = [
     index: 1,
     id: nationalDeficitSectionIds[1],
     title: 'Understanding the National Deficit',
-    component: (glossary, cpiDataByYear) => <UnderstandingDeficitSection />
+    component: (glossary, cpiDataByYear) => <UnderstandingDeficit />
   },
   {
     index: 2,
     id: nationalDeficitSectionIds[2],
     title: 'The Causes of Deficits and Surpluses',
-    component: (glossary, cpiDataByYear) => <CausesAndSurplusesSection />
+    component: (glossary, cpiDataByYear) => <DeficitAndSurplusCauses />
   },
   {
     index: 3,
     id: nationalDeficitSectionIds[3],
     title: 'The Difference Between the National Deficit and the National Debt',
-    component: (glossary, cpiDataByYear) => <DeficitDebtDifferenceSection />
+    component: (glossary, cpiDataByYear) => <DebtDeficitDifference />
   },
   {
     index: 4,
     id: nationalDeficitSectionIds[4],
     title: 'U.S. Deficit by Year',
-    component: (glossary, cpiDataByYear) => <DeficitByYearSection />
+    component: (glossary, cpiDataByYear) => <DeficitByYear />
   },
   {
     index: 5,
     id: nationalDeficitSectionIds[5],
     title: 'Learn More about the Deficit',
-    component: (glossary, cpiDataByYear) => <LearnMoreSection />
+    component: (glossary, cpiDataByYear) => <DeficitLearnMore />
   }
 ];
 
