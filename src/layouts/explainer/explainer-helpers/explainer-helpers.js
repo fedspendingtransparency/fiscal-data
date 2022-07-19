@@ -39,6 +39,7 @@ export const explainerClassMap = {
 export const explainerSocialShareMap = {
   'national-debt': {
     title: 'Fiscal Data Explains the National Debt',
+    description: 'Check out @FiscalService Fiscal Data’s new national debt page! #NationalDebt',
     body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! ' +
       '#FiscalData #OpenData #NationalDebt',
     emailSubject: 'Fiscal Data Explains the National Debt',

@@ -76,12 +76,12 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
             <div className={socialShareContainer}>
               <div className={socialShare}>
                 <SocialShare title={explainerSocialShareMap[pageName].title}
+                             description={explainerSocialShareMap[pageName].description}
                              body={explainerSocialShareMap[pageName].body}
                              emailSubject={explainerSocialShareMap[pageName].emailSubject}
                              emailBody={explainerSocialShareMap[pageName].emailBody}
                              url={explainerSocialShareMap[pageName].url}
                              image={explainerSocialShareMap[pageName].image}
-                             hashtags={explainerSocialShareMap[pageName].hashtags}
                 />
               </div>
               <div className={mainContent}>
