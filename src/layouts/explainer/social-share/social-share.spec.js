@@ -10,19 +10,21 @@ jest.mock('./variables.module.scss', (content) => ({
 }));
 
 describe('Social Share component', () => {
-  const quote = 'Quote';
   const title = 'Title';
-  const summary = 'Summary';
+  const description = 'Description';
+  const body = 'Body';
   const url = 'testUrl';
   const image = 'testImage';
 
   it('renders all five social share buttons ', () => {
     const { getByRole } = render(
       <SocialShareComponent
-                   quote={quote}
                    title={title}
-                   summary={summary}
-                   url={url}/>
+                   description={description}
+                   body={body}
+                   url={url}
+                   image={image}
+      />
     );
 
     const facebook = getByRole('button', {name: 'facebook'});
@@ -41,12 +43,12 @@ describe('Social Share component', () => {
   it('renders the heading and button text in desktop view',() => {
     const { getByRole, getByText } = render(
       <SocialShareComponent
-                   quote={ quote }
-                   title={ title }
-                   summary={ summary }
-                   url={ url }
-                   image={ image }
-                   width={ breakpointLg }
+                  title={title}
+                  description={description}
+                  body={body}
+                  url={url}
+                  image={image}
+                  width={ breakpointLg }
       />
     );
 
@@ -62,12 +64,12 @@ describe('Social Share component', () => {
   it('renders only the icons in mobile view, and not the header or button text', () => {
     const { getByRole, queryByText } = render(
       <SocialShareComponent
-                   quote={ quote }
-                   title={ title }
-                   summary={ summary }
-                   url={ url }
-                   image={ image }
-                   width={ breakpointSm }
+                  title={title}
+                  description={description}
+                  body={body}
+                  url={url}
+                  image={image}
+                  width={ breakpointSm }
       />
     );
 

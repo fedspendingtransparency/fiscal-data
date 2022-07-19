@@ -13,6 +13,7 @@ import globalConstants from "../../../helpers/constants";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
+
 export const getDateWithoutOffset = (date) => {
   const today = new Date(date);
   return new Date(today.getTime() + today.getTimezoneOffset() * 60000);
@@ -37,12 +38,13 @@ export const explainerClassMap = {
 export const explainerSocialShareMap = {
   'national-debt': {
     title: 'Fiscal Data Explains the National Debt',
-    text: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! ' +
+    description: 'Check out @FiscalService Fiscal Data’s new national debt page! #NationalDebt',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! ' +
       '#FiscalData #OpenData #NationalDebt',
     emailSubject: 'Fiscal Data Explains the National Debt',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
     url: baseUrl+'/national-debt/',
-    image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png'
+    image: baseUrl+'/images/nationalDebt-YourGuide.png'
   }
 }
 
