@@ -1,5 +1,4 @@
 import {
-  calloutText,
   deficitExplainerPrimary,
   folderVis,
   folderVisContainer,
@@ -12,10 +11,10 @@ import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
-import {ChartPlaceholder, sampleCopy, smallSampleCopy} from "../national-deficit";
+import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
 
 const UnderstandingDeficitFolderVis = () => (
-  <div className={folderVisContainer}>
+  <div className={folderVisContainer} data-testid={'folderVis'}>
     <div className={folderVis}>
       <img src={sampleImg} alt="placeholder alt text" />
       <p>
@@ -28,7 +27,7 @@ const UnderstandingDeficitFolderVis = () => (
 const UnderstandingDeficit = () => (
   <div className={understandingDeficitContainer}>
     <div className={visWithCallout}>
-      <div className={textContent}>
+      <div className={textContent} data-testid={'textContent'}>
         <p>
           A budget deficit occurs when money going out (spending) exceeds money coming in (revenue)
           during a defined period. In FY YYYY (latest complete fiscal year), the federal government
@@ -59,7 +58,7 @@ const UnderstandingDeficit = () => (
       revenue and spending.
     </p>
     <div className={visWithCallout}>
-      <div className={understandingVisContainer}>
+      <div className={understandingVisContainer} data-testid={'chart'}>
         <ChartPlaceholder />
       </div>
       <VisualizationCallout color={deficitExplainerPrimary}>

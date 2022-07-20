@@ -6,7 +6,7 @@ import {
 } from "../national-deficit.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
 import React from "react";
-import {ChartPlaceholder} from "../national-deficit";
+import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 
 export const DebtDeficitDifference = () => {
@@ -17,7 +17,7 @@ export const DebtDeficitDifference = () => {
     </CustomLink>
   return (
     <>
-      <div className={deficitDebtDifferenceContent}>
+      <div className={deficitDebtDifferenceContent} data-testid={'textContent'}>
         <p>
           The terms deficit and debt are frequently used when discussing the nation’s finances and
           are often confused with one another.
@@ -36,8 +36,8 @@ export const DebtDeficitDifference = () => {
           debt. This interest expense increases spending each year, increasing spending (and thus,
           deficits) as the debt grows.
         </p>
-        <div className={deficitDebtDifferenceVisContainer}>
-          <ChartPlaceholder />
+        <div className={deficitDebtDifferenceVisContainer} data-testid={'chart'}>
+          <ChartPlaceholder  />
         </div>
         <div className={deficitAccordion}>
           <Accordion

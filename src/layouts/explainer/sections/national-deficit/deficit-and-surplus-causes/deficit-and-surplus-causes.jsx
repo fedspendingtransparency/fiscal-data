@@ -7,7 +7,7 @@ const DeficitAndSurplusCauses = () => {
       the federal response to COVID-19
     </CustomLink>
   return (
-    <>
+    <div data-testid={'textContent'}>
       <p>
         The size of the national deficit or surplus is largely influenced by the health of the
         economy and spending and revenue policies set by Congress and the President. The health of
@@ -25,7 +25,7 @@ const DeficitAndSurplusCauses = () => {
         spending related to widespread unemployment and health care caused spikes in the deficit.
         Visit USAspending.gov to learn more about {federalCovidResponseLink}.
       </p>
-    </>
+    </div>
   )
 };
 

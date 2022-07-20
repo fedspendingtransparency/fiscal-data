@@ -1,57 +1,19 @@
 import React from "react";
-import DeficitKeyTakeaways from "./key-takeaways/deficit-key-takeaways";
 import UnderstandingDeficit from "./understanding/understanding-deficit";
-import DeficitAndSurplusCauses from "./causes/deficit-and-surplus-causes";
-import DebtDeficitDifference from "./difference/debt-deficit-difference";
+import DeficitAndSurplusCauses from "./deficit-and-surplus-causes/deficit-and-surplus-causes";
+import DebtDeficitDifference from "./debt-deficit-difference/debt-deficit-difference";
 import DeficitByYear from "./deficit-by-year/deficit-by-year";
-import DeficitLearnMore from "./learn-more/deficit-learn-more";
-import CustomLink from "../../../../components/links/custom-link/custom-link";
-
-
-export const sampleCopy = `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-  in culpa qui officia deserunt mollit anim id est laborum.
-`
-
-export const smallSampleCopy = `
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-  eiusmod tempor incididunt ut labore et dolore magna aliqua.
-`
-
-export const ChartPlaceholder = () => (
-  <div
-    style={{
-      height: 500,
-      marginTop: '16px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      color: '#fff',
-      backgroundColor: '#555'
-    }}
-  >
-    Placeholder
-  </div>
-);
-
-const mst =
-  <CustomLink url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government'}>
-    Monthly Treasury Statement (MTS)
-  </CustomLink>;
-const github =
-  <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>
-    GitHub repository
-  </CustomLink>;
-
-export const nationalDeficitDataSources = (
-  <>
-    The {mst} dataset provides all deficit, spending, and revenue values
-    on this page. For detailed documentation, users can reference our {github}.
-  </>
-);
+import {
+  deficitExplainerLightSecondary,
+  deficitExplainerPrimary
+} from "./national-deficit.module.scss";
+import KeyTakeaways from "../../explainer-components/key-takeaways/key-takeaways";
+import {
+  deficitKeyTakeaways,
+  deficitLearnMoreDescription,
+  deficitLearnMoreLinks
+} from "../../explainer-helpers/national-deficit-helper";
+import LearnMoreSection from "../../explainer-components/learn-more/learn-more-section";
 
 export const nationalDeficitSectionIds = [
   'key-takeaways',
@@ -68,7 +30,11 @@ const nationalDeficitSections = [
     index: 0,
     id: nationalDeficitSectionIds[0],
     title: 'Key Takeaways',
-    component: (glossary, cpiDataByYear) => <DeficitKeyTakeaways />
+    component: (glossary, cpiDataByYear) =>
+      <KeyTakeaways takeaways={deficitKeyTakeaways}
+                    primaryColor={deficitExplainerPrimary}
+                    secondaryColor={deficitExplainerLightSecondary}
+      />
   },
   {
     index: 1,
@@ -98,7 +64,11 @@ const nationalDeficitSections = [
     index: 5,
     id: nationalDeficitSectionIds[5],
     title: 'Learn More about the Deficit',
-    component: (glossary, cpiDataByYear) => <DeficitLearnMore />
+    component: (glossary, cpiDataByYear) =>
+      <LearnMoreSection
+        links={deficitLearnMoreLinks}
+        description={deficitLearnMoreDescription}
+      />
   }
 ];
 
