@@ -1,4 +1,4 @@
-import {deficitByYearContent, deficitExplainerPrimary} from "../national-deficit.module.scss";
+import {deficitExplainerPrimary} from "../national-deficit.module.scss";
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
@@ -13,7 +13,7 @@ const DeficitByYear = () => {
     </CustomLink>
 
   return (
-    <div className={deficitByYearContent}>
+    <>
       <p>
         Since 2001, the federal government’s budget has run a deficit each year. Beginning in 2016,
         increases in spending on Social Security, health care, and interest on federal debt have
@@ -23,7 +23,7 @@ const DeficitByYear = () => {
         From FY 2019 to FY 2021, federal spending increased by about 50 percent in response to the
         COVID-19 pandemic. Visit USAspending.gov to learn more about {federalCovidResponseLink}.
       </p>
-      <div className={visWithCallout}>
+      <div className={visWithCallout} >
         <ChartPlaceholder />
         <VisualizationCallout color={deficitExplainerPrimary}>
           <p>
@@ -35,7 +35,7 @@ const DeficitByYear = () => {
           </p>
         </VisualizationCallout>
       </div>
-    </div>
+    </>
   )
 };
 

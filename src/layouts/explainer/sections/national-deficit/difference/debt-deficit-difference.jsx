@@ -1,7 +1,8 @@
 import {
   deficitDebtDifferenceContent,
   deficitDebtDifferenceVisContainer,
-  deficitExplainerPrimary
+  deficitExplainerPrimary,
+  deficitAccordion
 } from "../national-deficit.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
 import React from "react";
@@ -38,28 +39,22 @@ export const DebtDeficitDifference = () => {
         <div className={deficitDebtDifferenceVisContainer}>
           <ChartPlaceholder />
         </div>
-        <Accordion
-          title="How else does the federal government finance a deficit?"
-          altStyleAccordion={{
-            color:deficitExplainerPrimary,
-            fontSize: '18px',
-            borderColor:deficitExplainerPrimary,
-            borderWidth:'1px'
-          }}
-          altStyleIcon={{
-            color:deficitExplainerPrimary
-          }}
-          altStyleContent={{
-            borderColor:deficitExplainerPrimary
-          }}
-        >
-          <p>
-            The government also uses operating cash available from an account at the Federal
-            Reserve to pay for the deficit. This would be similar to a business using a line
-            of credit from a bank to finance spending for a large project such as building a
-            factory.
-          </p>
-        </Accordion>
+        <div className={deficitAccordion}>
+          <Accordion
+            title="How else does the federal government finance a deficit?"
+            altStyleAccordion={{
+              borderColor:deficitExplainerPrimary,
+              borderWidth:'1px'
+            }}
+          >
+            <p>
+              The government also uses operating cash available from an account at the Federal
+              Reserve to pay for the deficit. This would be similar to a business using a line
+              of credit from a bank to finance spending for a large project such as building a
+              factory.
+            </p>
+          </Accordion>
+        </div>
       </div>
     </>
   )

@@ -3,7 +3,9 @@ import {
   deficitExplainerPrimary,
   folderVis,
   folderVisContainer,
-  understandingDeficitContent, understandingVisContainer
+  understandingDeficitContainer,
+  understandingVisContainer,
+  textContent
 } from "../national-deficit.module.scss";
 import sampleImg from "../../../../../../static/topic-icons/debt.png";
 import {visWithCallout} from "../../../explainer.module.scss";
@@ -16,15 +18,17 @@ const UnderstandingDeficitFolderVis = () => (
   <div className={folderVisContainer}>
     <div className={folderVis}>
       <img src={sampleImg} alt="placeholder alt text" />
-      <p>{smallSampleCopy}</p>
+      <p>
+        Deficit / Surplus vis placeholder
+      </p>
     </div>
   </div>
 );
 
 const UnderstandingDeficit = () => (
-  <div className={understandingDeficitContent}>
+  <div className={understandingDeficitContainer}>
     <div className={visWithCallout}>
-      <div>
+      <div className={textContent}>
         <p>
           A budget deficit occurs when money going out (spending) exceeds money coming in (revenue)
           during a defined period. In FY YYYY (latest complete fiscal year), the federal government
@@ -43,7 +47,7 @@ const UnderstandingDeficit = () => (
         </p>
       </div>
       <VisualizationCallout color={deficitExplainerPrimary} textWithCallout={true}>
-        <p className={calloutText}>
+        <p>
           The terms “national deficit”, “federal deficit” and “U.S. deficit” have the same meaning
           and are used interchangeably by the U.S. Treasury.
         </p>
@@ -59,7 +63,7 @@ const UnderstandingDeficit = () => (
         <ChartPlaceholder />
       </div>
       <VisualizationCallout color={deficitExplainerPrimary}>
-        <p className={calloutText}>
+        <p>
           In FY YYYY (latest complete fiscal year) total government spending was $XX.XX trillion
           and total revenue was $XX.XX trillion, resulting in a deficit of $XX.XX trillion,
           an increase/decrease of $XX.XX trillion from the previous fiscal year.

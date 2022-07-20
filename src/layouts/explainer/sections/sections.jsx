@@ -1,4 +1,5 @@
-import nationalDeficitSections, { nationalDeficitDataSources } from "./national-deficit/national-deficit";
+import nationalDeficitSections,
+{ nationalDeficitDataSources } from "./national-deficit/national-deficit";
 import nationalDebtSections, {
   nationalDebtDataSources,
   nationalDebtDescriptionGenerator,

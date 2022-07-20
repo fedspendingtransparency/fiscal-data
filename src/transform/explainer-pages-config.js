@@ -17,8 +17,9 @@ const explainerPagesSource = {
     slug: '/national-deficit/',
     breadCrumbLinkName: 'Deficit',
     seoConfig: {
-      pageTitle: 'Understanding the National Deficit',
-      description: `...`
+      pageTitle: 'National Deficit | U.S. Treasury Fiscal Data',
+      description: `Learn about the national deficit, the difference between budget deficit and
+      debt, and how the deficit has changed over time.`
     },
     heroImage: {
       heading: 'What is the national deficit?',

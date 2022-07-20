@@ -4,46 +4,44 @@ $deficit-explainer-primary: #b3532d;
 $deficit-explainer-secondary: #9f4224;
 $deficit-explainer-light-secondary: #e0baab;
 
-
-.keyTakeawaysContent {
-  display: flex;
-  align-items: center;
-
-  &:not(.noMarginBottom) {
-    margin-bottom: 25px;
+.deficitAccordion {
+  :global(.accordionHeading) {
+    font-size: $font-size-18;
+    color: $deficit-explainer-primary;
+    border: none;
+    padding: .563rem 1rem;
   }
 
-  .iconBackground {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $deficit-explainer-light-secondary;
-    position: relative;
-
-    .icon {
-      color: white;
-    }
-
-    .offsetIcon {
-      color: $deficit-explainer-secondary;
-      position: absolute;
+  :global(.accordionToggle) {
+    svg path {
+      color: $deficit-explainer-primary;
     }
   }
 
-  p {
-    margin-top: 0;
-    margin-bottom: 0;
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  :global(.accordionContent) {
+    padding-right:1.25rem;
+    padding-left:1.25rem;
+    padding-bottom:1.5rem;
+    border: none;
+  }
+
+  :global(.accordionOpen), :global(.accordionClosed) {
+    border: solid 0.06rem $deficit-explainer-primary;
+    border-radius: 0.13rem;
   }
 }
 
-.understandingDeficitContent {
-  p {
-    margin: 0 0 1rem 0;
-  }
-
-  .calloutText{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+.understandingDeficitContainer {
+  .textContent {
+    p {
+      margin-top: 0;
+    }
   }
 
   .folderVisContainer {
@@ -80,70 +78,29 @@ $deficit-explainer-light-secondary: #e0baab;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-  .keyTakeawaysContent {
-    .iconBackground {
-      height: 4rem;
-      width: 4rem;
-      min-width: 4rem;
-      border-radius: 2rem;
 
-      .icon, .offsetIcon {
-        font-size: 1.75rem;
-        transform: translate(5px, -5px);
-      }
-
-      .offsetIcon {
-        transform: translate(8px, -8px);
-      }
-    }
-
-    p {
-      margin-left: 34px;
-    }
-  }
-
-  .understandingDeficitContent {
-    .vis-callout {
-      margin-top: calc(20% + 4rem);
-      margin-bottom: calc(20% + 4rem);
-    }
-  }
-
-  .deficitByYearContent {
+  .understandingDeficitContainer {
     :global(.vis-callout) {
-      margin-top: calc(20% + 4rem);
-      margin-bottom: calc(20% + 4rem);
+      margin-top: calc(4rem);
     }
+  }
+
+
+  .debtAccordion {
+    min-width: 508px;
   }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .keyTakeawaysContent {
-    .iconBackground {
-      height: 52px;
-      width: 52px;
-      min-width: 52px;
-      border-radius: 26px;
 
-      .icon, .offsetIcon {
-        font-size: 1.5rem;
-        transform: translate(3px, -3px);
-      }
-
-      .offsetIcon {
-        transform: translate(6px, -6px);
-      }
-    }
-
-    p {
-      margin-left: 15px;
-    }
-  }
-
-  .understandingDeficitContent {
+  .understandingDeficitContainer {
     .folderVisContainer {
       margin-top: 2rem;
     }
+  }
+
+  .debtAccordion {
+    margin-top: 2rem;
   }
 
 }
