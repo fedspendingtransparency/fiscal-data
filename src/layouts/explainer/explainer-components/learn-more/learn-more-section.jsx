@@ -1,4 +1,4 @@
-import {learnMoreLink} from "./learn-more.module.scss";
+import {resource} from "./learn-more-section.module.scss";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import React from "react";
 
@@ -10,7 +10,7 @@ const LearnMoreSection = ({links, description}) => {
         {description}
       </p>
       { links.map((link) =>
-        <div className={learnMoreLink} key={link.title}>
+        <div className={resource} key={link.title}>
           <strong>{link.title}</strong>
           <br />
           <CustomLink url={link.url}>

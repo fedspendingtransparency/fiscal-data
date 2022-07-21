@@ -7,7 +7,7 @@ import {
   deficitExplainerLightSecondary,
   deficitExplainerPrimary
 } from "./national-deficit.module.scss";
-import KeyTakeaways from "../../explainer-components/key-takeaways/key-takeaways";
+import KeyTakeawaysSection from "../../explainer-components/key-takeaways/key-takeaways-section";
 import {
   deficitKeyTakeaways,
   deficitLearnMoreDescription,
@@ -31,9 +31,9 @@ const nationalDeficitSections = [
     id: nationalDeficitSectionIds[0],
     title: 'Key Takeaways',
     component: (glossary, cpiDataByYear) =>
-      <KeyTakeaways takeaways={deficitKeyTakeaways}
-                    primaryColor={deficitExplainerPrimary}
-                    secondaryColor={deficitExplainerLightSecondary}
+      <KeyTakeawaysSection takeaways={deficitKeyTakeaways}
+                           primaryColor={deficitExplainerPrimary}
+                           secondaryColor={deficitExplainerLightSecondary}
       />
   },
   {

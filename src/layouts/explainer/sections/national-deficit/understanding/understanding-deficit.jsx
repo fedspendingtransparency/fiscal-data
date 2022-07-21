@@ -1,11 +1,11 @@
 import {
-  deficitExplainerPrimary,
   folderVis,
   folderVisContainer,
   understandingDeficitContainer,
   understandingVisContainer,
   textContent
-} from "../national-deficit.module.scss";
+} from "./understanding-deficit.module.scss";
+import {deficitExplainerPrimary} from "../national-deficit.module.scss";
 import sampleImg from "../../../../../../static/topic-icons/debt.png";
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout

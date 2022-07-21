@@ -4,10 +4,10 @@ import {
   iconBackground,
   keyTakeawaysContent,
   offsetIcon
-} from "./key-takeaways.module.scss";
+} from "./key-takeaways-section.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const KeyTakeaways = ({takeaways, primaryColor, secondaryColor}) => (
+const KeyTakeawaysSection = ({takeaways, primaryColor, secondaryColor}) => (
   <>
     {takeaways.map((takeaway) =>
       <div className={keyTakeawaysContent} key={takeaway.text}>
@@ -24,4 +24,4 @@ const KeyTakeaways = ({takeaways, primaryColor, secondaryColor}) => (
   </>
 );
 
-export default KeyTakeaways;
+export default KeyTakeawaysSection;

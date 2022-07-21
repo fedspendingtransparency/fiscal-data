@@ -1,9 +1,11 @@
 import {
-  deficitDebtDifferenceContent,
-  deficitDebtDifferenceVisContainer,
   deficitExplainerPrimary,
   deficitAccordion
 } from "../national-deficit.module.scss";
+import {
+  deficitDebtDifferenceContent,
+  deficitDebtDifferenceVisContainer
+} from "./debt-deficit-difference.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
 import React from "react";
 import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";

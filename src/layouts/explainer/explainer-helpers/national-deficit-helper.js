@@ -71,15 +71,19 @@ export const deficitLearnMoreLinks = [
   },
 ];
 
-export const deficitLearnMoreDescription = `For more information about the national deficit, please explore more
-    of Fiscal Data and check out the extensive resources listed below.`;
+export const deficitLearnMoreDescription = `For more information about the national deficit, please
+  explore more of Fiscal Data and check out the extensive resources listed below.`;
 
 const mst =
-  <CustomLink url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government'}>
+  <CustomLink
+    url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government'}
+  >
     Monthly Treasury Statement (MTS)
   </CustomLink>;
 const github =
-  <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>
+  <CustomLink
+    url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}
+  >
     GitHub repository
   </CustomLink>;
 
