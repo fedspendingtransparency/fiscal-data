@@ -46,14 +46,13 @@ describe('simplify number', () => {
     });
 
 });
-// describe('number with commas', () => {
-//   it('adds commas to number', () => {
-//     expect(numberWithCommas(123456.122)).toBe('123,456.122');
-//   });
-//   it('adds commas to number', () => {
-//     expect(numberWithCommas(123456.12)).toBe('123,456.12');
-//   });
-//   it('adds commas to number', () => {
-//     expect(numberWithCommas(123456789)).toBe('123,456,789');
-//   });
-// });
+
+describe('number with commas', () => {
+  it('adds commas to number', () => {
+    expect(numberWithCommas(123456)).toBe('123,456');
+  });
+
+  it('adds commas to number', () => {
+    expect(numberWithCommas(123456789)).toBe('123,456,789');
+  });
+});
