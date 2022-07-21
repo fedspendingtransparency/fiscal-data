@@ -16,9 +16,9 @@ const DeficitByYear = () => {
     <>
       <div data-testid={'textContent'}>
         <p>
-          Since 2001, the federal government’s budget has run a deficit each year. Beginning in 2016,
-          increases in spending on Social Security, health care, and interest on federal debt have
-          outpaced the growth of federal revenue.
+          Since 2001, the federal government’s budget has run a deficit each year. Beginning in
+          2016, increases in spending on Social Security, health care, and interest on federal debt
+          have outpaced the growth of federal revenue.
         </p>
         <p>
           From FY 2019 to FY 2021, federal spending increased by about 50 percent in response to the

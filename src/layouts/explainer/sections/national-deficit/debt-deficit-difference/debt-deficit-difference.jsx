@@ -49,12 +49,10 @@ export const DebtDeficitDifference = () => {
               borderWidth:'1px'
             }}
           >
-            <p>
-              The government also uses operating cash available from an account at the Federal
-              Reserve to pay for the deficit. This would be similar to a business using a line
-              of credit from a bank to finance spending for a large project such as building a
-              factory.
-            </p>
+            The government also uses operating cash available from an account at the Federal
+            Reserve to pay for the deficit. This would be similar to a business using a line
+            of credit from a bank to finance spending for a large project such as building a
+            factory.
           </Accordion>
         </div>
       </div>
