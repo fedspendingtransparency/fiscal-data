@@ -19,5 +19,5 @@ export default function simplifyNumber(n, currency) {
 }
 
 export const numberWithCommas = (x) => {
-  return x.toString();
+  return x.toString().replace(/\B(?<!\.\d)(?=(\d{3})+(?!\d))/g, ",");
 };
