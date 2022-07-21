@@ -36,7 +36,7 @@ export const DebtDeficitDifference = () => {
           debt. This interest expense increases spending each year, increasing spending (and thus,
           deficits) as the debt grows.
         </p>
-        <div className={deficitDebtDifferenceVisContainer} data-testid={'chart'}>
+        <div className={deficitDebtDifferenceVisContainer}>
           <ChartPlaceholder  />
         </div>
         <div className={deficitAccordion}>

@@ -5,13 +5,8 @@ import DeficitByYear from "./deficit-by-year";
 
 describe('Deficit and Surplus Causes Section', () => {
   it('renders the text content', () => {
-    const {getByTestId} = render(<DeficitByYear />);
+    const {getByTestId, getByRole} = render(<DeficitByYear />);
     expect(getByTestId('textContent')).toBeInTheDocument();
-  });
-
-  it('renders the link', () => {
-    const {getByRole} = render(<DeficitByYear />);
     expect(getByRole('link')).toBeInTheDocument();
   });
-
 });

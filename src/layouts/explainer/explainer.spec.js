@@ -58,3 +58,39 @@ describe('Explainer Page Layout', () => {
     expect(dataSourcesMethodologies).toBeInTheDocument();
   })
 });
+
+describe('Explainer Pages', () => {
+  it('renders the deficit explainer page', async () => {
+    const pageName = 'national-deficit';
+    const breadCrumbLinkName = 'mock link';
+    const seoConfig = {
+      pageTitle: 'mock title',
+      description: 'mock description'
+    };
+    const heroImage = {
+      heading: 'mock heading',
+      subHeading: 'mock subheading'
+    }
+    const glossary = [];
+    const mockPageContext = {
+      pageName,
+      breadCrumbLinkName,
+      seoConfig,
+      heroImage,
+      glossary
+    }
+
+
+    const { findAllByTestId, findByText } = render(
+      <ExplainerPageLayout
+        pageContext={mockPageContext}
+      />
+    );
+
+    const sectionHeadings = await findAllByTestId('section-heading')
+    expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
+
+    const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
+    expect(dataSourcesMethodologies).toBeInTheDocument();
+  })
+})
