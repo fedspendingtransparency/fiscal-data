@@ -13,10 +13,10 @@ const DeficitAndSurplusCauses = () => {
         economy and spending and revenue policies set by Congress and the President. The health of
         the economy is often evaluated by the growth in the country’s gross domestic product (GDP),
         fluctuations in the nation’s employment rates, and the stability of prices. Simply put,
-        when the country’s people and businesses are making less money, the amount collected by the
-        government also decreases. Similarly, when the economy is doing well and people and businesses
-        are earning more money, the government collects more. On the spending side, the increase or
-        decrease of spending also impacts the budget, creating deficits or surpluses.
+        when the country’s people and businesses are making less money, the amount collected by
+        the government also decreases. Similarly, when the economy is doing well and people and
+        businesses are earning more money, the government collects more. On the spending side, the
+        increase or decrease of spending also impacts the budget, creating deficits or surpluses.
       </p>
       <p>
         Legislation increasing spending on Social Security, health care, and defense that outpace

@@ -20,22 +20,20 @@ export const ChartPlaceholder = () => (
 
 export const deficitKeyTakeaways = [
   {
-    text: 'A budget deficit occurs when the money going out exceeds the ' +
-      'money coming in for a given period. On this page, we calculate the ' +
-      'deficit by the government’s fiscal year.',
+    text: `A budget deficit occurs when the money going out exceeds the money coming in for a
+    given period. On this page, we calculate the deficit by the government’s fiscal year.`,
     icon: faChartColumn
   },
   {
-    text: 'In the last 50 years, the federal government budget has run a ' +
-      'surplus five times, most recently in 2001.',
+    text: `In the last 50 years, the federal government budget has run a surplus five times,
+    most recently in 2001.`,
     icon: faCoins
   },
   {
-    text: 'To pay for government programs while operating under a deficit, ' +
-      'the federal government borrows money by selling U.S. Treasury bonds, ' +
-      'bills, and other securities. The national debt is the accumulation of ' +
-      'this borrowing along with associated interest owed to investors who ' +
-      'purchased these securities.',
+    text: `To pay for government programs while operating under a deficit, the federal
+    government borrows money by selling U.S. Treasury bonds, bills, and other securities.
+    The national debt is the accumulation of this borrowing along with associated interest
+    owed to investors who purchased these securities.`,
     icon: faHandHoldingDollar
   }
 ];
@@ -55,7 +53,7 @@ export const deficitLearnMoreLinks = [
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
-    url: '/national-deficit/'
+    url: 'https://www.whitehouse.gov/omb/historical-tables/'
   },
   {
     title: 'President’s Budget – Historical Tables',
