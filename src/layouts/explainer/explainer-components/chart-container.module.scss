@@ -1,48 +1,41 @@
 @import '../../../variables.module.scss';
 
-.chartContainer {
-  width: 100%;
-  max-width: 524px;
-  margin: 0 auto;
-}
 
 .container {
   background-color: $body-background;
   margin-top: 1rem;
-  padding: 2rem 1.5rem;
+  padding: 1.75rem 1.5rem;
 
-  .title {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-weight: 600;
-    color: $font-title;
-    font-size: $font-size-18;
-  }
-
-  .titleBreakdown {
+  .chartTitle {
     margin-top: 0;
     font-weight: 600;
     color: $font-title;
     font-size: $font-size-18;
   }
 
-  .subTitle {
-    margin-top: 0;
-  }
-
-  .header {
-    font-size: $font-size-36;
-    min-width: 140px;
-  }
-
-  .subHeader {
-    font-size: $font-size-14;
+  .chartContainer {
+    width: 100%;
+    max-width: 524px;
+    margin: 0 auto;
   }
 
   .footerContainer {
     margin-bottom: 0;
-    //padding-top: 1rem;
     font-size: $font-size-14;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    padding: 1.25rem 1.125rem;
+
+    .chartTitle {
+      font-size: $font-size-12;
+    }
+
+    .footerContainer {
+      font-size: $font-size-12;
+    }
   }
 }
 

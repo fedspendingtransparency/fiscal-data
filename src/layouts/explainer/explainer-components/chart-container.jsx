@@ -2,7 +2,7 @@ import {
   chartContainer,
   container,
   footerContainer,
-  titleBreakdown
+  chartTitle
 } from "./chart-container.module.scss";
 import {chartBackdrop} from "../explainer.module.scss";
 import React from "react";
@@ -14,7 +14,7 @@ const ChartContainer = ({title, altText, footer, children}) => {
          role={"img"}
          aria-label={altText}
     >
-      <p className={titleBreakdown}>{title}</p>
+      <div className={chartTitle}>{title}</div>
       <div
         data-testid="chart"
         className={chartContainer}

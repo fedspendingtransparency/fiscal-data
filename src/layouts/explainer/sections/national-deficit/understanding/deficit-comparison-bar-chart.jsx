@@ -3,18 +3,19 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 import {Bar} from "@nivo/bar";
-import {fontBodyCopy, fontSize_16, fontSize_36} from "../../../../../variables.module.scss";
+import {fontBodyCopy, fontSize_16} from "../../../../../variables.module.scss";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {format} from "date-fns";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {deficitExplainerPrimary, deficitExplainerSecondary} from "../national-deficit.module.scss";
 import ChartContainer from "../../../explainer-components/chart-container";
-import {chartPatternBackground} from "../../national-debt/national-debt";
 
 
 const DeficitComparisonBarChart = () => {
+  const [isChartRendered, setIsChartRendered] = useState(false);
+
   const date = new Date();
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
@@ -64,11 +65,11 @@ const DeficitComparisonBarChart = () => {
 
   const rightSideMarkerPos = {
     axis: 'y',
-    legendOffsetX: -30,
+    legendOffsetX: -28,
   };
   const leftSideMarkerPos = {
     axis: 'y',
-    legendOffsetX: 285,
+    legendOffsetX: 292,
   };
   const categoryMarkerText = {
     fontSize: fontSize_16,
@@ -160,6 +161,23 @@ const DeficitComparisonBarChart = () => {
     }
   ];
 
+  const applyChartScaling = () => {
+    // rewrite some element attribs after render to ensure Chart scales with container
+    // which doesn't seem to happen naturally when nivo has a flex container
+    const svgChart = document.querySelector('[data-testid="deficitComparisonChart"] svg');
+    if (svgChart) {
+      svgChart.setAttribute('viewBox', '0 0 520 372');
+      svgChart.setAttribute('height', '100%');
+      svgChart.setAttribute('width', '100%');
+    }
+  };
+
+  useEffect(() => {
+    if (isChartRendered) {
+      applyChartScaling();
+    }
+  }, [isChartRendered]);
+
 
   return(
     <div className={visWithCallout}>
@@ -170,22 +188,22 @@ const DeficitComparisonBarChart = () => {
       )}
       {data && (
         <>
-          <div>
+          <div data-testid={'deficitComparisonChart'}>
             <ChartContainer
               title={title}
               altText={altText}
               footer={footer}
             >
               <Bar
-                width={524}
-                height={365}
+                width={520}
+                height={372}
                 axisTop={null}
                 axisRight={null}
                 axisLeft={null}
                 axisBottom={null}
                 data={data}
                 keys={['revenue', 'deficit', 'spending']}
-                margin={{ top: 32, right: 133, bottom: 45, left: 133 }}
+                margin={{ top: 32, right: 128, bottom: 45, left: 128 }}
                 padding={0.29}
                 valueScale={{ type: 'linear' }}
                 colors={[revenueBarColor, deficitBarColor, spendingBarColor]}
@@ -195,7 +213,16 @@ const DeficitComparisonBarChart = () => {
                 gridYValues={[0]}
                 markers={markers}
                 enableLabel={false}
-                layers={layers}
+                layers={[
+                  ...layers,
+                  () => {
+                    // this final empty layer fn is called only after everything else is
+                    // rendered, so it serves as a handy postRender hook.
+                    // It's wrapped in a setTimout to avoid triggering a browser warning
+                    setTimeout(() => setIsChartRendered(true));
+                    return (<></>);
+                  }
+                ]}
                 theme={theme}
               />
             </ChartContainer>
