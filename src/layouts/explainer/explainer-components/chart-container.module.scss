@@ -1,0 +1,48 @@
+@import '../../../variables.module.scss';
+
+.chartContainer {
+  width: 100%;
+  max-width: 524px;
+  margin: 0 auto;
+}
+
+.container {
+  background-color: $body-background;
+  margin-top: 1rem;
+  padding: 2rem 1.5rem;
+
+  .title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: $font-title;
+    font-size: $font-size-18;
+  }
+
+  .titleBreakdown {
+    margin-top: 0;
+    font-weight: 600;
+    color: $font-title;
+    font-size: $font-size-18;
+  }
+
+  .subTitle {
+    margin-top: 0;
+  }
+
+  .header {
+    font-size: $font-size-36;
+    min-width: 140px;
+  }
+
+  .subHeader {
+    font-size: $font-size-14;
+  }
+
+  .footerContainer {
+    margin-bottom: 0;
+    //padding-top: 1rem;
+    font-size: $font-size-14;
+  }
+}
+
