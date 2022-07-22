@@ -13,7 +13,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $debt-explainer-light-secondary;
     position: relative;
 
     .icon {
@@ -21,7 +20,6 @@
     }
 
     .offsetIcon {
-      color: $debt-explainer-primary;
       position: absolute;
     }
   }
