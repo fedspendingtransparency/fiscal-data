@@ -1,0 +1,63 @@
+@import '../../../../variables.module.scss';
+
+$deficit-explainer-primary: #b3532d;
+$deficit-explainer-secondary: #9f4224;
+$deficit-explainer-light-secondary: #e0baab;
+
+.deficitAccordion {
+  :global(.accordionHeading) {
+    font-size: $font-size-18;
+    color: $deficit-explainer-primary;
+    border: none;
+    padding: .563rem 1rem;
+  }
+
+  :global(.accordionToggle) {
+    svg path {
+      color: $deficit-explainer-primary;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  :global(.accordionContent) {
+    padding: 1.5rem 1.25rem;
+    border: none;
+  }
+
+  :global(.accordionOpen), :global(.accordionClosed) {
+    border: solid 0.06rem $deficit-explainer-primary;
+    border-radius: 0.13rem;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .deficitAccordion {
+    min-width: 508px;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .deficitAccordion {
+    margin-top: 2rem;
+
+    :global(.accordionHeading) {
+      padding: .75rem .875rem;
+    }
+
+    :global(.accordionContent) {
+      padding: 1.25rem 1rem 1.75rem;
+    }
+  }
+}
+
+:export {
+  deficitExplainerPrimary: $deficit-explainer-primary;
+  deficitExplainerSecondary: $deficit-explainer-secondary;
+  deficitExplainerLightSecondary: $deficit-explainer-light-secondary;
+}
+

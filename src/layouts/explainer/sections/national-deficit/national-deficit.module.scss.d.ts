@@ -67,7 +67,3 @@ export const deficitExplainerPrimary: string;
 export const deficitExplainerSecondary: string;
 export const deficitExplainerLightSecondary: string;
 export const deficitAccordion: string;
-export const nationalDebtActive: string;
-export const nationalDebtHover: string;
-export const nationalDeficitActive: string;
-export const nationalDeficitHover: string;

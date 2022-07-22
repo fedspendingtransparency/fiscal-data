@@ -12,6 +12,22 @@ const explainerPagesSource = {
       Government accumulated over the nation’s history.`
     },
     relatedDatasets: [ "015-BFS-2014Q3-065", "015-BFS-2014Q3-071", "015-BFS-2014Q1-11", "015-BFS-2014Q3-056" ]
+  },
+  'national-deficit': {
+    slug: '/national-deficit/',
+    breadCrumbLinkName: 'Deficit',
+    seoConfig: {
+      pageTitle: 'National Deficit | U.S. Treasury Fiscal Data',
+      description: `Learn about the national deficit, the difference between budget deficit and
+      debt, and how the deficit has changed over time.`
+    },
+    heroImage: {
+      heading: 'What is the national deficit?',
+      subHeading: `A deficit occurs when the federal government’s spending exceeds its revenues.
+      In fiscal year (FY) {YYYY (latest complete fiscal year)}, the federal government spent
+      {$XX.XX trillion} more than it collected, resulting in a national deficit.`
+    },
+    relatedDatasets: [ ]
   }
 }
 

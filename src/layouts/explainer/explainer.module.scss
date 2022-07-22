@@ -40,17 +40,17 @@
 
     :global(.secondaryNavContainer) {
       :global(.navSectionLink) {
-        padding-top: 21px;
-        padding-bottom: 21px;
-        padding-left: 20px;
+        padding: 21px 20px;
+        white-space: normal;
       }
     }
 
     :global(.secondaryNavContainer) {
       :global(.navSectionLink):hover {
-        color: $debt-explainer-secondary !important;
         text-decoration: none;
         font-weight: bold;
+        padding-right:0;
+
       }
     }
 

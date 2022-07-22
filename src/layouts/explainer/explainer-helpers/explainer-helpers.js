@@ -6,13 +6,19 @@ import {
 } from '../../../variables.module.scss';
 import {
   nationalDebtActive,
-  nationalDebtHover
+  nationalDebtHover,
+  nationalDeficitActive,
+  nationalDeficitHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
+import {
+  deficitExplainerPrimary,
+  deficitExplainerSecondary,
+  deficitExplainerLightSecondary
+} from "../sections/national-deficit/national-deficit.module.scss";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
-
 
 export const getDateWithoutOffset = (date) => {
   const today = new Date(date);
@@ -25,6 +31,11 @@ export const explainerColorMap = {
     primary: debtExplainerPrimary,
     secondary: debtExplainerSecondary,
     secondaryLight: debtExplainerLightSecondary
+  },
+  'national-deficit': {
+    primary: deficitExplainerPrimary,
+    secondary: deficitExplainerSecondary,
+    secondaryLight: deficitExplainerLightSecondary
   }
 }
 
@@ -32,6 +43,10 @@ export const explainerClassMap = {
   'national-debt': {
     active: nationalDebtActive,
     hover: nationalDebtHover
+  },
+  'national-deficit': {
+    active: nationalDeficitActive,
+    hover: nationalDeficitHover
   }
 }
 
@@ -45,11 +60,27 @@ export const explainerSocialShareMap = {
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
     url: baseUrl+'/national-debt/',
     image: baseUrl+'/images/nationalDebt-YourGuide.png'
+  },
+  'national-deficit': {
+    title: '',
+    description: '',
+    body: '',
+    emailSubject: '',
+    emailBody: '',
+    url: baseUrl+'/national-deficit/',
+    image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png'
+
   }
 }
 
 export const explainerHeroMap = {
-  'national-debt': <NationalDebtHero />
+  'national-debt': <NationalDebtHero />,
+  'national-deficit': <div>Hero Placeholder</div>
+}
+
+export const explainerRelatedDatasetMap = {
+  'national-debt': 'See the datasets that relate to the national debt',
+  'national-deficit': 'See the datasets behind the national deficit'
 }
 
 export const datasetSectionConfig = {

@@ -11,7 +11,7 @@ import { IExplainerPage } from '../../models/IExplainerPage';
 import {
   explainerClassMap,
   explainerColorMap,
-  explainerHeroMap,
+  explainerHeroMap, explainerRelatedDatasetMap,
   explainerSocialShareMap
 } from './explainer-helpers/explainer-helpers';
 
@@ -43,7 +43,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
     cpiDataByYear
   } = pageContext;
 
-  //TODO add glossary to page context above, and call helper function findGlossaryTerm(term, glossary) to get term info
 
   const breadCrumbLinks: Record<string, unknown>[] = [
     {
@@ -130,7 +129,11 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
           </SecondaryNav>
         </div>
         <div className={relatedDatasetsStyle}>
-          <ExplainerRelatedDatasets datasets={relatedDatasets} referrer={"example"} />
+          <ExplainerRelatedDatasets
+            datasets={relatedDatasets}
+            referrer={"example"}
+            header={explainerRelatedDatasetMap[pageName]}
+          />
         </div>
       </div>
     </SiteLayout>
