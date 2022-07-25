@@ -1,21 +1,31 @@
 import {visWithCallout} from "../../../explainer.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-
 import {Bar} from "@nivo/bar";
-import {fontBodyCopy, fontSize_16} from "../../../../../variables.module.scss";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {format} from "date-fns";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React, {useEffect, useState} from "react";
-import {deficitExplainerPrimary, deficitExplainerSecondary} from "../national-deficit.module.scss";
 import ChartContainer from "../../../explainer-components/chart-container";
+import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
+import {withWindowSize} from "react-fns";
+import {chartContainer} from './deficit-comparison-bar-chart.module.scss';
+import {
+  deficitExplainerPrimary,
+  deficitExplainerSecondary
+} from "../national-deficit.module.scss";
+import {
+  breakpointLg,
+  fontBodyCopy,
+  fontSize_16,
+  fontSize_12,
+  semiBoldWeight
+} from "../../../../../variables.module.scss";
 
-
-const DeficitComparisonBarChart = () => {
+const DeficitComparisonBarChart = ({width}) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
-
+  const desktop = width >= pxToNumber(breakpointLg);
   const date = new Date();
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
@@ -65,25 +75,25 @@ const DeficitComparisonBarChart = () => {
 
   const rightSideMarkerPos = {
     axis: 'y',
-    legendOffsetX: -28,
+    legendOffsetX: desktop ? -28 : -25,
   };
   const leftSideMarkerPos = {
     axis: 'y',
-    legendOffsetX: 292,
+    legendOffsetX: desktop ? 292 : 200,
   };
   const categoryMarkerText = {
-    fontSize: fontSize_16,
+    fontSize: desktop ? fontSize_16 : fontSize_12,
     fill: fontBodyCopy,
-    fontWeight: 'bold'
+    fontWeight: desktop ? 'bold' : semiBoldWeight
   };
   const valueMarkerText = {
-    fontSize: fontSize_16,
+    fontSize: desktop ? fontSize_16 : fontSize_12,
     fill: fontBodyCopy,
     fontWeight: 'normal'
   };
   const deficitMarker = {
     ...leftSideMarkerPos,
-    legendOffsetY: -85,
+    legendOffsetY: desktop ? -85 : -58,
     textStyle: {
       ...categoryMarkerText,
       textAnchor: 'middle'
@@ -91,7 +101,7 @@ const DeficitComparisonBarChart = () => {
   };
   const deficitValueMarker = {
     ...leftSideMarkerPos,
-    legendOffsetY: 91,
+    legendOffsetY: desktop ? 91 : 66,
     textStyle: {
       ...valueMarkerText,
       textAnchor: 'middle'
@@ -99,7 +109,7 @@ const DeficitComparisonBarChart = () => {
   };
   const revenueMarker = {
     ...leftSideMarkerPos,
-    legendOffsetY: -227,
+    legendOffsetY: desktop ? -227 : -154,
     textStyle: {
       ...categoryMarkerText,
       textAnchor: 'middle'
@@ -107,7 +117,7 @@ const DeficitComparisonBarChart = () => {
   };
   const revenueValueMarker = {
     ...leftSideMarkerPos,
-    legendOffsetY: -63,
+    legendOffsetY: desktop ? -63 : -40,
     textStyle: {
       ...valueMarkerText,
       textAnchor: 'middle'
@@ -115,7 +125,7 @@ const DeficitComparisonBarChart = () => {
   };
   const spendingMarker = {
     ...rightSideMarkerPos,
-    legendOffsetY: -155,
+    legendOffsetY: desktop ? -155 : -112,
     textStyle: {
       ...categoryMarkerText,
       textAnchor: 'middle'
@@ -123,7 +133,7 @@ const DeficitComparisonBarChart = () => {
   };
   const spendingValueMarker = {
     ...rightSideMarkerPos,
-    legendOffsetY: -130,
+    legendOffsetY: desktop ? -130 : -96,
     textStyle: {
       ...valueMarkerText,
       textAnchor: 'middle'
@@ -162,14 +172,12 @@ const DeficitComparisonBarChart = () => {
   ];
 
   const applyChartScaling = () => {
-    // rewrite some element attribs after render to ensure Chart scales with container
-    // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="deficitComparisonChart"] svg');
-    if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 520 372');
-      svgChart.setAttribute('height', '100%');
-      svgChart.setAttribute('width', '100%');
-    }
+    // if (svgChart) {
+    //   svgChart.setAttribute('viewBox', '0 0 520 372');
+    //   svgChart.setAttribute('height', '100%');
+    //   svgChart.setAttribute('width', '100%');
+    // }
   };
 
   useEffect(() => {
@@ -194,37 +202,42 @@ const DeficitComparisonBarChart = () => {
               altText={altText}
               footer={footer}
             >
-              <Bar
-                width={520}
-                height={372}
-                axisTop={null}
-                axisRight={null}
-                axisLeft={null}
-                axisBottom={null}
-                data={data}
-                keys={['revenue', 'deficit', 'spending']}
-                margin={{ top: 32, right: 128, bottom: 45, left: 128 }}
-                padding={0.29}
-                valueScale={{ type: 'linear' }}
-                colors={[revenueBarColor, deficitBarColor, spendingBarColor]}
-                isInteractive={false}
-                borderColor={fontBodyCopy}
-                enableGridY={true}
-                gridYValues={[0]}
-                markers={markers}
-                enableLabel={false}
-                layers={[
-                  ...layers,
-                  () => {
-                    // this final empty layer fn is called only after everything else is
-                    // rendered, so it serves as a handy postRender hook.
-                    // It's wrapped in a setTimout to avoid triggering a browser warning
-                    setTimeout(() => setIsChartRendered(true));
-                    return (<></>);
+              <div className={chartContainer}>
+                <Bar
+                  width={desktop ? 408 : 304}
+                  height={desktop ? 288 : 208}
+                  axisTop={null}
+                  axisRight={null}
+                  axisLeft={null}
+                  axisBottom={null}
+                  data={data}
+                  keys={['revenue', 'deficit', 'spending']}
+                  margin={ desktop ?
+                    { top: 0, right: 74, bottom: 0, left: 74 } :
+                    { top: 0, right: 65, bottom: 0, left: 65 }
                   }
-                ]}
-                theme={theme}
-              />
+                  padding={desktop ? 0.29 : 0.19}
+                  valueScale={{ type: 'linear' }}
+                  colors={[revenueBarColor, deficitBarColor, spendingBarColor]}
+                  isInteractive={false}
+                  borderColor={fontBodyCopy}
+                  enableGridY={true}
+                  gridYValues={[0]}
+                  markers={markers}
+                  enableLabel={false}
+                  layers={[
+                    ...layers,
+                    () => {
+                      // this final empty layer fn is called only after everything else is
+                      // rendered, so it serves as a handy postRender hook.
+                      // It's wrapped in a setTimout to avoid triggering a browser warning
+                      setTimeout(() => setIsChartRendered(true));
+                      return (<></>);
+                    }
+                  ]}
+                  theme={theme}
+                />
+              </div>
             </ChartContainer>
           </div>
           <VisualizationCallout color={deficitExplainerPrimary}>
@@ -240,4 +253,4 @@ const DeficitComparisonBarChart = () => {
   )
 }
 
-export default DeficitComparisonBarChart;
+export default withWindowSize(DeficitComparisonBarChart);

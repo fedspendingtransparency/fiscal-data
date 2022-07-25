@@ -1,0 +1,14 @@
+@import '../../../../../variables.module.scss';
+
+.chartContainer {
+  margin: 48px 128px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .chartContainer{
+    margin: 32px 0;
+  }
+}
