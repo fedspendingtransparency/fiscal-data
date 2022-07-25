@@ -17,6 +17,7 @@ import {
   deficitExplainerSecondary,
   deficitExplainerLightSecondary
 } from "../sections/national-deficit/national-deficit.module.scss";
+import NationalDeficitHero from "../heros/national-deficit/national-deficit-hero";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -75,7 +76,7 @@ export const explainerSocialShareMap = {
 
 export const explainerHeroMap = {
   'national-debt': <NationalDebtHero />,
-  'national-deficit': <div>Hero Placeholder</div>
+  'national-deficit': <NationalDeficitHero />
 }
 
 export const explainerRelatedDatasetMap = {
