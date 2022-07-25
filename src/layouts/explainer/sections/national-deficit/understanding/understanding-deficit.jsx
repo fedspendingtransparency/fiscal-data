@@ -11,7 +11,7 @@ import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
-import DeficitComparisonBarChart from "./deficit-comparison-bar-chart";
+import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
 
 const UnderstandingDeficitFolderVis = () => (
   <div className={folderVisContainer} data-testid={'folderVis'}>
