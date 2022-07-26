@@ -5,7 +5,7 @@ import {Bar} from "@nivo/bar";
 import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
-import ChartContainer from "../../../../explainer-components/chart-container";
+import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {withWindowSize} from "react-fns";
 import {barChart, container} from './deficit-comparison-bar-chart.module.scss';
