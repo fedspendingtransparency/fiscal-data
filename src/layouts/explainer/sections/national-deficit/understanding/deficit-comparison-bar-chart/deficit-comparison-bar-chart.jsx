@@ -17,7 +17,7 @@ import {
   breakpointLg,
   fontBodyCopy
 } from "../../../../../../variables.module.scss";
-import {chart, getMarkers,} from './deficit-comparison-bar-chart-helper';
+import {chart, getMarkers} from './deficit-comparison-bar-chart-helper';
 
 const DeficitComparisonBarChart = ({width}) => {
   const desktop = width >= pxToNumber(breakpointLg);

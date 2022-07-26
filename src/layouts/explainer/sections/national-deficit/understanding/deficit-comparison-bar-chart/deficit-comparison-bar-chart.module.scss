@@ -5,7 +5,7 @@
 }
 
 .barChart {
-  margin: 48px 128px;
+  margin: 3rem 8rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -13,6 +13,6 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .barChart{
-    margin: 32px 0;
+    margin: 2rem 0;
   }
 }

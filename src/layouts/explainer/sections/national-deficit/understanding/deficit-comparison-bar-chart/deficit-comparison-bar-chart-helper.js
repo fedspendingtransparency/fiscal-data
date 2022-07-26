@@ -12,7 +12,7 @@ import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper"
 
 
 
-export const date = new Date();
+const date = new Date();
 const name = 'Monthly Treasury Statement (MTS)';
 const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
