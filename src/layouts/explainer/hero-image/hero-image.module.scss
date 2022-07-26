@@ -65,6 +65,44 @@
     font-size: $font-size-14;
     margin-top: .25rem;
   }
+
+  .deficitBoxContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+  }
+
+  .deficitBox {
+    border-radius: 12px;
+    background:  rgba(179, 83, 45, 0.1);
+    height: 1.5rem;
+    width: 9rem;
+    font-size: $font-size-14;
+    font-weight: 600;
+    color: #666666;
+    padding-top: 0.25rem;
+  }
+
+  .deficitBoxPercent {
+    border-radius: 12px;
+    background:  rgba(179, 83, 45, 0.1);
+    height: 1.5rem;
+    width: 4rem;
+    font-size: $font-size-14;
+    font-weight: 600;
+    color: #666666;
+    padding-top: 0.25rem;
+  }
+
+  .deficitArrow {
+    width: 1rem;
+    height:1.5rem;
+    font-size: $font-size-18;
+    padding-top: 0.25rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
 }
 
 .heroBorder {
