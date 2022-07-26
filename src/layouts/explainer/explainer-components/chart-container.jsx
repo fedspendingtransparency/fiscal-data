@@ -1,23 +1,22 @@
 import {
+  chart,
   chartContainer,
-  container,
   footerContainer,
   chartTitle
 } from "./chart-container.module.scss";
-import {chartBackdrop} from "../explainer.module.scss";
 import React from "react";
 
 
 const ChartContainer = ({title, altText, footer, children}) => {
   return(
-    <div className={`${container} ${chartBackdrop}`}
+    <div className={`${chartContainer}`}
          role={"img"}
          aria-label={altText}
     >
       <div className={chartTitle}>{title}</div>
       <div
         data-testid="chart"
-        className={chartContainer}
+        className={chart}
       >
         {children}
       </div>

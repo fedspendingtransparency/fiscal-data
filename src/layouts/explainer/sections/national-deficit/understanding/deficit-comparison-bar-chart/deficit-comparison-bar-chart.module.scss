@@ -1,6 +1,10 @@
-@import '../../../../../variables.module.scss';
+@import 'src/variables.module';
 
-.chartContainer {
+.container {
+  overflow:hidden;
+}
+
+.barChart {
   margin: 48px 128px;
   width: 100%;
   display: flex;
@@ -8,7 +12,7 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .chartContainer{
+  .barChart{
     margin: 32px 0;
   }
 }

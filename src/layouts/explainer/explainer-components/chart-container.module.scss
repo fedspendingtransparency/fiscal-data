@@ -1,7 +1,6 @@
 @import '../../../variables.module.scss';
 
-
-.container {
+.chartContainer {
   background-color: $body-background;
   margin-top: 1rem;
   padding: 1.75rem 1.5rem;
@@ -13,9 +12,9 @@
     font-size: $font-size-18;
   }
 
-  .chartContainer {
+  .chart {
     width: 100%;
-    max-width: 524px;
+    max-width: 464px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -28,7 +27,7 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .container {
+  .chartContainer {
     padding: 1.25rem 1.125rem;
 
     .chartTitle {

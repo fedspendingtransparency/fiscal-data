@@ -8,7 +8,7 @@ import React from "react";
 import ChartContainer from "../../../../explainer-components/chart-container";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {withWindowSize} from "react-fns";
-import {chartContainer} from './deficit-comparison-bar-chart.module.scss';
+import {barChart, container} from './deficit-comparison-bar-chart.module.scss';
 import {
   deficitExplainerPrimary,
   deficitExplainerSecondary
@@ -63,40 +63,40 @@ const DeficitComparisonBarChart = ({width}) => {
       )}
       {data && (
         <>
-          <div data-testid={'deficitComparisonChart'}>
-            <ChartContainer
-              title={chart.title}
-              altText={chart.altText}
-              footer={chart.footer}
-            >
-              <div className={chartContainer}>
-                <Bar
-                  width={desktop ? 408 : 304}
-                  height={desktop ? 288 : 208}
-                  axisTop={null}
-                  axisRight={null}
-                  axisLeft={null}
-                  axisBottom={null}
-                  data={data}
-                  keys={['revenue', 'deficit', 'spending']}
-                  margin={ desktop ?
-                    { top: 0, right: 74, bottom: 0, left: 74 } :
-                    { top: 0, right: 65, bottom: 0, left: 65 }
-                  }
-                  padding={desktop ? 0.29 : 0.19}
-                  valueScale={{ type: 'linear' }}
-                  colors={[revenueBarColor, deficitBarColor, spendingBarColor]}
-                  isInteractive={false}
-                  borderColor={fontBodyCopy}
-                  enableGridY={true}
-                  gridYValues={[0]}
-                  markers={desktop ? markers[0] : markers[1]}
-                  enableLabel={false}
-                  layers={[...layers]}
-                  theme={theme}
-                />
-              </div>
-            </ChartContainer>
+          <div data-testid={'deficitComparisonChart'} className={container}>
+              <ChartContainer
+                title={chart.title}
+                altText={chart.altText}
+                footer={chart.footer}
+              >
+                <div className={barChart} >
+                  <Bar
+                    width={desktop ? 408 : 304}
+                    height={desktop ? 288 : 208}
+                    axisTop={null}
+                    axisRight={null}
+                    axisLeft={null}
+                    axisBottom={null}
+                    data={data}
+                    keys={['revenue', 'deficit', 'spending']}
+                    margin={ desktop ?
+                      { top: 0, right: 74, bottom: 0, left: 74 } :
+                      { top: 0, right: 65, bottom: 0, left: 65 }
+                    }
+                    padding={desktop ? 0.29 : 0.19}
+                    valueScale={{ type: 'linear' }}
+                    colors={[revenueBarColor, deficitBarColor, spendingBarColor]}
+                    isInteractive={false}
+                    borderColor={fontBodyCopy}
+                    enableGridY={true}
+                    gridYValues={[0]}
+                    markers={desktop ? markers[0] : markers[1]}
+                    enableLabel={false}
+                    layers={[...layers]}
+                    theme={theme}
+                  />
+                </div>
+              </ChartContainer>
           </div>
           <VisualizationCallout color={deficitExplainerPrimary}>
             <p>
