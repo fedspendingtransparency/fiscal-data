@@ -1,0 +1,71 @@
+@import '../../../../../../variables.module.scss';
+@import '../../national-deficit.module';
+
+.folderVisContainer {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+
+  .title{
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    color: $deficit-explainer-primary !important;
+    font-weight: $semi-bold-weight;
+
+  }
+}
+
+.folderVis {
+  min-height: 272px;
+  display: flex;
+  align-items: center;
+  border-right: solid 2px $deficit-explainer-light-secondary;
+  border-left: solid 2px $deficit-explainer-light-secondary;
+  border-bottom: solid 2px $deficit-explainer-light-secondary;
+  border-top: solid 2px $deficit-explainer-light-secondary;
+  //box-shadow: .25rem .25rem $deficit-explainer-light-secondary;
+  font-size: $font-size-16;
+  padding: 0 4.25rem;
+  border-radius: 2px;
+  background-color: white !important;
+
+  i {
+    font-weight: $semi-bold-weight;
+  }
+
+  img {
+    height: 155px;
+    width: 158px;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  img {
+    padding-right: 4rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .folderVisContainer {
+    margin-top: 2rem;
+
+    .title {
+      padding: 0 .1rem;
+    }
+
+    .folderVis {
+      flex-direction: column;
+      padding: 24px 26px;
+      p {
+        padding-bottom: 0;
+        font-size: $font-size-10;
+      }
+      img {
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}
+
