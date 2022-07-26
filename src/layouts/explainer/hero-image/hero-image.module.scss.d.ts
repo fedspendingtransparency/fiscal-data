@@ -71,4 +71,5 @@ export const heroImageCallout: string;
 export const icon: string;
 export const counterContainer: string;
 export const counterSourceInfo: string;
+export const footNotes: string;
 export const heroBorder: string;
