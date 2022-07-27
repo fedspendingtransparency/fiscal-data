@@ -11,6 +11,7 @@ import React from "react";
 import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
 import 'react-tabs/style/react-tabs.css';
 import SurplusIllustration from "./surplus-illustration/surplus-illustration";
+import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
 
 const UnderstandingDeficit = () => (
   <div className={understandingDeficitContainer}>
@@ -45,18 +46,7 @@ const UnderstandingDeficit = () => (
       The chart below provides a breakdown of how the U.S. deficit compares to the corresponding
       revenue and spending.
     </p>
-    <div className={visWithCallout}>
-      <div className={understandingVisContainer} data-testid={'chart'}>
-        <ChartPlaceholder />
-      </div>
-      <VisualizationCallout color={deficitExplainerPrimary}>
-        <p>
-          In FY YYYY (latest complete fiscal year) total government spending was $XX.XX trillion
-          and total revenue was $XX.XX trillion, resulting in a deficit of $XX.XX trillion,
-          an increase/decrease of $XX.XX trillion from the previous fiscal year.
-        </p>
-      </VisualizationCallout>
-    </div>
+    <DeficitComparisonBarChart />
   </div>
 );
 

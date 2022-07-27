@@ -1,0 +1,42 @@
+@import 'src/variables.module';
+
+.chartContainer {
+  background-color: $body-background;
+  margin-top: 1rem;
+  padding: 1.75rem 1.5rem;
+
+  .chartTitle {
+    margin-top: 0;
+    font-weight: 600;
+    color: $font-title;
+    font-size: $font-size-18;
+  }
+
+  .chart {
+    width: 100%;
+    max-width: 464px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .footerContainer {
+    margin-bottom: 0;
+    font-size: $font-size-14;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .chartContainer {
+    padding: 1.25rem 1.125rem;
+
+    .chartTitle {
+      font-size: $font-size-12;
+    }
+
+    .footerContainer {
+      font-size: $font-size-12;
+    }
+  }
+}
+

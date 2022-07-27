@@ -8,4 +8,9 @@ describe('Deficit and Surplus Causes Section', () => {
     const {getByTestId} = render(<UnderstandingDeficit />);
     expect(getByTestId('textContent')).toBeInTheDocument();
   });
+
+  it('renders the bar chart', () => {
+    const {getByTestId} = render(<UnderstandingDeficit />);
+    expect(getByTestId('deficitComparisonChart')).toBeInTheDocument();
+  });
 });
