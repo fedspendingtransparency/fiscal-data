@@ -27,7 +27,7 @@ const NationalDeficitHero = (): JSX.Element => {
   const [deficitStatus, setDeficitStatus] = useState<string>('');
   const [deficitDifPercent, setDeficitDifPercent] = useState<string>('');
 
-  const getCurrentNationalDeficit = (url) => {
+  const getCurrentNationalDeficitData = (url) => {
     basicFetch(`${url}`)
     .then((res) => {
       if (res.data) {
@@ -80,7 +80,7 @@ const NationalDeficitHero = (): JSX.Element => {
   }
 
   useEffect(() => {
-    getCurrentNationalDeficit(deficitUrl);
+    getCurrentNationalDeficitData(deficitUrl);
   }, [useWindowSize()]);
 
   const mtsLink =
