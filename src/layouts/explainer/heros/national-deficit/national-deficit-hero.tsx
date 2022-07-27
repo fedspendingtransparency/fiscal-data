@@ -59,9 +59,6 @@ const NationalDeficitHero = (): JSX.Element => {
         else if (currentDeficit < priorYearDeficit) {
           setDeficitStatus('decreased');
         }
-        else {
-          setDeficitStatus('not changed');
-        }
       }
     });
   };
@@ -90,6 +87,9 @@ const NationalDeficitHero = (): JSX.Element => {
   const debt = <CustomLink url={'/national-debt/'}>Debt</CustomLink>;
   return (
     <>
+      <div>
+        FLIP CARD PLACEHOLDER
+      </div>
       <div className={counterSourceInfo}>
         <p>
           Fiscal year-to-date (since October {currentFiscalYear}) total updated monthly using
