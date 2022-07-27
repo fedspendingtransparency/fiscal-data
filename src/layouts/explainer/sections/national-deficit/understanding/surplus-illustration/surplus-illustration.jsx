@@ -71,7 +71,7 @@ const SurplusIllustration = ({width}) => {
         <TabPanel>
           <div className={folderVis}>
             <div className={folderContent}>
-              <img src={surplus} alt="" data-testid={"surplus-image"}/>
+              <img src={surplus} alt="" data-testid={"surplus-image"} />
               <div>
                 <p>
                   A <i>surplus</i> occurs when the government collects more money than it spends.
@@ -86,7 +86,7 @@ const SurplusIllustration = ({width}) => {
         <TabPanel>
           <div className={folderVis}>
             <div className={folderContent}>
-              <img src={balancedBudget} alt="" data-testid={"balanced-budget-image"}/>
+              <img src={balancedBudget} alt="" data-testid={"balanced-budget-image"} />
               <div>
                 <p>
                   A <i>balanced budget</i> occurs when the amount the government spends equals the
@@ -97,13 +97,13 @@ const SurplusIllustration = ({width}) => {
                   to instances where there is no deficit.
                 </p>
               </div>
-              </div>
+            </div>
           </div>
         </TabPanel>
         <TabPanel>
           <div className={folderVis}>
             <div className={folderContent}>
-              <img src={deficit} alt="" data-testid={"deficit-image"}/>
+              <img src={deficit} alt="" data-testid={"deficit-image"} />
               <div>
                 <p>
                   A <i>deficit</i> occurs when the government spends more money than it collects.
