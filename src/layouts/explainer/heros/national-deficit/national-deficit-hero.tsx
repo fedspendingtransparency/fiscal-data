@@ -41,8 +41,8 @@ const NationalDeficitHero = (): JSX.Element => {
         }));
         setPreviousFiscalYear((parseInt(res.data[0].record_fiscal_year) - 1).toString());
         setCurrentFiscalYear(res.data[0].record_fiscal_year);
-        const currentDeficit = parseFloat(res.data[0].current_fytd_net_outly_amt);
-        const priorYearDeficit = parseFloat(res.data[0].prior_fytd_net_outly_amt);
+        const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
+        const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
         setDeficitDifPercent((((currentDeficit - priorYearDeficit) / priorYearDeficit)*100).toFixed())
         if(Math.abs(currentDeficit) > Math.abs(priorYearDeficit)) {
           setDeficitStatus('increased');
@@ -87,12 +87,12 @@ const NationalDeficitHero = (): JSX.Element => {
           {
             deficitStatus === 'increased' ? (
               <div className={deficitArrow}>
-                <FontAwesomeIcon icon={faUpLong} />
+                <FontAwesomeIcon icon={faUpLong} title={"up arrow"}/>
               </div>
             )
             : (
               <div className={deficitArrow}>
-                <FontAwesomeIcon icon={faDownLong} />
+                <FontAwesomeIcon icon={faDownLong} title={"down arrow"}/>
               </div>
             )
           }
