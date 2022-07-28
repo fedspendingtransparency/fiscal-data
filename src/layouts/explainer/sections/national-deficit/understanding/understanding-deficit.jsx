@@ -1,28 +1,17 @@
 import {
-  folderVis,
-  folderVisContainer,
   understandingDeficitContainer,
   understandingVisContainer,
   textContent
 } from "./understanding-deficit.module.scss";
 import {deficitExplainerPrimary} from "../national-deficit.module.scss";
-import sampleImg from "../../../../../../static/topic-icons/debt.png";
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
+import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
+import 'react-tabs/style/react-tabs.css';
+import SurplusIllustration from "./surplus-illustration/surplus-illustration";
 import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
-
-const UnderstandingDeficitFolderVis = () => (
-  <div className={folderVisContainer} data-testid={'folderVis'}>
-    <div className={folderVis}>
-      <img src={sampleImg} alt="placeholder alt text" />
-      <p>
-        Deficit / Surplus vis placeholder
-      </p>
-    </div>
-  </div>
-);
 
 const UnderstandingDeficit = () => (
   <div className={understandingDeficitContainer}>
@@ -52,7 +41,7 @@ const UnderstandingDeficit = () => (
         </p>
       </VisualizationCallout>
     </div>
-    <UnderstandingDeficitFolderVis />
+    <SurplusIllustration />
     <p>
       The chart below provides a breakdown of how the U.S. deficit compares to the corresponding
       revenue and spending.

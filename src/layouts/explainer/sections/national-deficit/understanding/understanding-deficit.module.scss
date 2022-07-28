@@ -1,30 +1,10 @@
 @import '../../../../../variables.module.scss';
+@import '../national-deficit.module';
 
 .understandingDeficitContainer {
   .textContent {
     p {
       margin-top: 0;
-    }
-  }
-
-  .folderVisContainer {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .folderVis {
-    display: flex;
-    align-items: center;
-    border: solid 1px #d6d7d9;
-    width: 100%;
-    font-size: $font-size-16;
-    p {
-      padding: 4.063rem 4.25rem 4.063rem 2rem;
-      width: 55%;
-    }
-    img {
-      padding: 4.063rem 2rem 4.063rem 4.188rem;
-      width: 45%;
     }
   }
 
@@ -42,11 +22,4 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
 
-  .understandingDeficitContainer {
-    .folderVisContainer {
-      margin-top: 2rem;
-    }
-  }
-}
