@@ -36,9 +36,9 @@ export const Index = () => {
   return (
     <>
       <AnnouncementBanner>
-        We are excited to announce that Fiscal Data is realigning
-        with our sister website Data Lab to better serve you
-        beginning this Fall 2022! Moving forward, you can find new content here at Fiscal Data.
+        We are excited to announce that Fiscal Data is realigning with our sister website
+        Data Lab to better serve you beginning November 30th! Moving forward, you can find
+        new content here at Fiscal Data.
       </AnnouncementBanner>
       <SiteLayout isPreProd={ENV_ID === "preprod"}>
         <div data-testid="site-home" className={styles.siteHome} data-environment={ENV_ID}>
