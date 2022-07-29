@@ -6,6 +6,7 @@ const explainerPagesSource = {
       pageTitle: 'Understanding the National Debt',
       description: `Learn how the national debt works and how it impacts you.`
     },
+    prodReady: true,
     heroImage: {
       heading: 'What is the national debt?',
       subHeading: `The national debt is the total amount of outstanding borrowing by the U.S. Federal
@@ -21,6 +22,7 @@ const explainerPagesSource = {
       description: `Learn about the national deficit, the difference between budget deficit and
       debt, and how the deficit has changed over time.`
     },
+    prodReady: false,
     heroImage: {
       heading: 'What is the national deficit?',
       subHeading: `A deficit occurs when the federal government’s spending exceeds its revenues.
