@@ -422,6 +422,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             description
             keywords
           }
+          prodReady
           breadCrumbLinkName
           heroImage {
             heading
@@ -509,24 +510,27 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   }
 
   result.data.allExplainers.explainers.forEach((explainer) => {
-    const explainerRelatedDatasets = [];
-    explainer.relatedDatasets.forEach((dataset) => {
-      explainerRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-    });
-    createPage({
-      path: explainer.slug,
-      matchPath: `${explainer.slug}*`,
-      component: path.resolve('./src/layouts/explainer/explainer.tsx'),
-      context: {
-        pageName: explainer.pageName,
-        breadCrumbLinkName: explainer.breadCrumbLinkName,
-        seoConfig: explainer.seoConfig,
-        heroImage: explainer.heroImage,
-        relatedDatasets: explainerRelatedDatasets,
-        cpiDataByYear: cpiYearMap,
-        glossary: glossaryData
-      }
-    });
+    if (ENV_ID !== 'production' || explainer.prodReady) {
+      const explainerRelatedDatasets = [];
+      explainer.relatedDatasets.forEach((dataset) => {
+        explainerRelatedDatasets.push(
+          result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+      });
+      createPage({
+        path: explainer.slug,
+        matchPath: `${explainer.slug}*`,
+        component: path.resolve('./src/layouts/explainer/explainer.tsx'),
+        context: {
+          pageName: explainer.pageName,
+          breadCrumbLinkName: explainer.breadCrumbLinkName,
+          seoConfig: explainer.seoConfig,
+          heroImage: explainer.heroImage,
+          relatedDatasets: explainerRelatedDatasets,
+          cpiDataByYear: cpiYearMap,
+          glossary: glossaryData
+        }
+      });
+    }
   });
 
   if (ENV_ID !== 'production') {
