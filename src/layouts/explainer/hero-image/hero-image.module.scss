@@ -17,10 +17,13 @@
   }
 
   .heroImageSubHeading {
+    margin: 0;
     padding-bottom: 1rem;
     max-width: 554px;
     font-size: $font-size-18;
-    margin: 0 0 1rem 0;
+    &.deficit {
+      margin: 0 0 1rem 0;
+    }
   }
 
   .calloutContainer {
@@ -55,6 +58,9 @@
   }
   .counterSourceInfo {
     padding-top: 1rem;
+    &.deficit {
+      padding-top: 0;
+    }
     font-size: $font-size-14;
     > a {
       color: $hero-primary-link;

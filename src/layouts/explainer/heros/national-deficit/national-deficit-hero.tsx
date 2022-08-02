@@ -11,6 +11,7 @@ import {
   deficitBoxContainer,
   deficitArrow,
   heroImageSubHeading,
+  deficit
 } from "../../hero-image/hero-image.module.scss"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFlagUsa, faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
@@ -138,10 +139,10 @@ const NationalDeficitHero = (): JSX.Element => {
   const debt = <CustomLink url={'/national-debt/'}>Debt</CustomLink>;
   return (
     <>
-      <p className={heroImageSubHeading}>A deficit occurs when the federal government’s
-        spending exceeds its revenues. In fiscal year (FY) {previousFiscalYear}, the
-        federal government spent ${textPreviousDeficit} more than it collected, resulting
-        in a national deficit.
+      <p className={`${heroImageSubHeading} ${deficit}`}>A deficit occurs when the
+        federal government’s spending exceeds its revenues. In fiscal year (FY)
+        {previousFiscalYear}, the  federal government spent ${textPreviousDeficit}
+        more than it collected, resulting in a national deficit.
       </p>
       <div>
         <SplitFlapDisplay value={desktopDeficit}
@@ -150,7 +151,7 @@ const NationalDeficitHero = (): JSX.Element => {
                           valueType="currency"
         />
       </div>
-      <div className={counterSourceInfo}>
+      <div className={`${counterSourceInfo} ${deficit}`}>
         <p>
           Fiscal year-to-date (since October {previousFiscalYear}) total updated monthly using
           the {mtsLink} dataset.
