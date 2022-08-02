@@ -25,9 +25,7 @@ const explainerPagesSource = {
     prodReady: false,
     heroImage: {
       heading: 'What is the national deficit?',
-      subHeading: `A deficit occurs when the federal government’s spending exceeds its revenues.
-      In fiscal year (FY) {YYYY (latest complete fiscal year)}, the federal government spent
-      {$XX.XX trillion} more than it collected, resulting in a national deficit.`
+      subHeading: ''
     },
     relatedDatasets: [ ]
   }

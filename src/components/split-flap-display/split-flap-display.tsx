@@ -181,7 +181,7 @@ const SplitFlapDisplay = (
     if (numberLength <= sigFigs) {
       shortenedNumber = +fullNumber;
     } else {
-      shortenedNumber = bNumber.dividedBy(Math.pow(10, ((numberLength - sigFigs)))).toNumber();
+      shortenedNumber = bNumber.dividedBy(Math.pow(10, ((sections - 1) * 3))).toNumber();
     }
 
     return {
