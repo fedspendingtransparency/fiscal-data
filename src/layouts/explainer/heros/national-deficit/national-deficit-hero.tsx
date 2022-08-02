@@ -34,7 +34,7 @@ const NationalDeficitHero = (): JSX.Element => {
     .then((res) => {
       if (res.data) {
         setMobileDeficit(numberWithCommas(Math.abs(
-          (parseFloat(res.data[0].prior_fytd_net_outly_amt) / 1000000000)).toFixed() + 'B'));
+          (parseFloat(res.data[0].prior_fytd_net_outly_amt) / 1000000000)).toFixed() + ' B'));
         setDesktopDeficit(numberWithCommas(
           parseFloat(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed())));
         const date = new Date();
