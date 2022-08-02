@@ -140,8 +140,8 @@ const NationalDeficitHero = (): JSX.Element => {
   return (
     <>
       <p className={`${heroImageSubHeading} ${deficit}`}>A deficit occurs when the
-        federal government’s spending exceeds its revenues. In fiscal year (FY)
-        {previousFiscalYear}, the  federal government spent ${textPreviousDeficit}
+        federal government’s spending exceeds its revenues. In fiscal year (FY){' '}
+        {previousFiscalYear}, the  federal government spent ${textPreviousDeficit}{' '}
         more than it collected, resulting in a national deficit.
       </p>
       <div>
