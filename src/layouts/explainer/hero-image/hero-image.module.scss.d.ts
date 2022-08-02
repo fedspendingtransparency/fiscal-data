@@ -66,6 +66,7 @@ export const debtExplainerLightSecondary: string;
 export const mainContainer: string;
 export const heroImageHeading: string;
 export const heroImageSubHeading: string;
+export const deficit: string;
 export const calloutContainer: string;
 export const heroImageCallout: string;
 export const icon: string;
