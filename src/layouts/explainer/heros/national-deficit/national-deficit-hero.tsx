@@ -34,11 +34,11 @@ const NationalDeficitHero = (): JSX.Element => {
         if(typeof(window) !== 'undefined') {
           if (window.innerWidth < pxToNumber(breakpointLg)) {
             setDisplayedDeficitValue(Math.abs(
-              (parseFloat(res.data[0].current_fytd_net_outly_amt) / 1000000000)).toFixed() + 'B');
+              (parseFloat(res.data[0].prior_fytd_net_outly_amt) / 1000000000)).toFixed() + 'B');
           }
           else {
             setDisplayedDeficitValue(numberWithCommas(
-              parseFloat(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed())));
+              parseFloat(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed())));
           }
         }
         const date = new Date();
