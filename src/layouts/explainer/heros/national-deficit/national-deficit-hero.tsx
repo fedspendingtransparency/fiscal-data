@@ -20,6 +20,8 @@ const NationalDeficitHero = (): JSX.Element => {
   const [displayedDeficitValue, setDisplayedDeficitValue] =
     useState<string | null>(null);
 
+  const [desktopDeficit, setDesktopDeficit] = useState<string | null>(null);
+  const [mobileDeficit, setMobileDeficit] = useState<string | null>(null);
   const [currentRecordMonth, setCurrentRecordMonth] = useState<string>('');
   const [previousCalendarYear, setPreviousCalendarYear] = useState<string>('');
   const [currentFiscalYear, setCurrentFiscalYear] = useState<string>('');
@@ -31,16 +33,10 @@ const NationalDeficitHero = (): JSX.Element => {
     basicFetch(`${url}`)
     .then((res) => {
       if (res.data) {
-        if(typeof(window) !== 'undefined') {
-          if (window.innerWidth < pxToNumber(breakpointLg)) {
-            setDisplayedDeficitValue(Math.abs(
-              (parseFloat(res.data[0].prior_fytd_net_outly_amt) / 1000000000)).toFixed() + 'B');
-          }
-          else {
-            setDisplayedDeficitValue(numberWithCommas(
-              parseFloat(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed())));
-          }
-        }
+        setMobileDeficit(numberWithCommas(Math.abs(
+          (parseFloat(res.data[0].prior_fytd_net_outly_amt) / 1000000000)).toFixed() + 'B'));
+        setDesktopDeficit(numberWithCommas(
+          parseFloat(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed())));
         const date = new Date();
         date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
         setCurrentRecordMonth(date.toLocaleString('en-US', {
@@ -63,6 +59,17 @@ const NationalDeficitHero = (): JSX.Element => {
     });
   };
 
+  const formatDeficit = () => {
+    if(typeof(window) !== 'undefined') {
+      if (window.innerWidth < pxToNumber(breakpointLg)) {
+        setDisplayedDeficitValue(mobileDeficit);
+      }
+      else {
+        setDisplayedDeficitValue(desktopDeficit);
+      }
+    }
+  }
+
   const useWindowSize = () => {
     const [size, setSize] = useState([0, 0]);
     useLayoutEffect(() => {
@@ -78,7 +85,11 @@ const NationalDeficitHero = (): JSX.Element => {
 
   useEffect(() => {
     getCurrentNationalDeficitData(deficitUrl);
-  }, [useWindowSize()]);
+  }, []);
+
+  useEffect(() => {
+    formatDeficit();
+  }, [useWindowSize(), []])
 
   const mtsLink =
     <CustomLink url={'https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government'}>
