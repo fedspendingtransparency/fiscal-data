@@ -28,8 +28,8 @@ describe('National Deficit Hero', () => {
 
     const {getByText} = render(<NationalDeficitHero />);
     expect(fetchSpy).toBeCalled();
-    await waitFor(() => getByText("$515,067,070,149", {exact:false}));
-    expect(await getByText("$515,067,070,149", {exact: false})).toBeInTheDocument();
+    await waitFor(() => getByText("$2,237,949,464,925", {exact:false}));
+    expect(await getByText("$2,237,949,464,925", {exact: false})).toBeInTheDocument();
     expect(await getByText("decreased", {exact: false})).toBeInTheDocument();
     expect(await getByText("down arrow", {exact: false})).toBeInTheDocument();
     global.fetch.mockRestore();
