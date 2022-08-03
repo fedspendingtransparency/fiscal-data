@@ -14,6 +14,7 @@ import {
   deficitLearnMoreLinks
 } from "../../explainer-helpers/national-deficit-helper";
 import LearnMoreSection from "../../explainer-components/learn-more/learn-more-section";
+import {datasetSectionConfig} from "../../explainer-helpers/explainer-helpers";
 
 export const nationalDeficitSectionIds = [
   'key-takeaways',
@@ -24,6 +25,7 @@ export const nationalDeficitSectionIds = [
   'learn-more'
 ];
 
+export const nationalDeficitSectionConfigs = datasetSectionConfig['national-deficit'];
 
 const nationalDeficitSections = [
   {
@@ -40,7 +42,8 @@ const nationalDeficitSections = [
     index: 1,
     id: nationalDeficitSectionIds[1],
     title: 'Understanding the National Deficit',
-    component: (glossary, cpiDataByYear) => <UnderstandingDeficit />
+    component: (glossary, cpiDataByYear) =>
+      <UnderstandingDeficit sectionId={nationalDeficitSectionIds[1]} />
   },
   {
     index: 2,

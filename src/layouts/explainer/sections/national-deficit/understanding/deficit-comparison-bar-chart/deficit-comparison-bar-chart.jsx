@@ -4,55 +4,151 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {Bar} from "@nivo/bar";
 import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {withWindowSize} from "react-fns";
 import {barChart, container} from './deficit-comparison-bar-chart.module.scss';
-import {
-  deficitExplainerPrimary,
-  deficitExplainerSecondary
-} from "../../national-deficit.module.scss";
+import {deficitExplainerPrimary} from "../../national-deficit.module.scss";
 import {
   breakpointLg,
   fontBodyCopy
 } from "../../../../../../variables.module.scss";
-import {chart, getMarkers} from './deficit-comparison-bar-chart-helper';
+import {
+  barChartColors,
+  desktopHeight,
+  mobileHeight,
+  getMarkers,
+  layers,
+  theme
+} from './deficit-comparison-bar-chart-helper';
+import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
+import {nationalDeficitSectionConfigs} from "../../national-deficit";
+import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 
-const DeficitComparisonBarChart = ({width}) => {
+const DeficitComparisonBarChart = ({sectionId, width}) => {
+  const [date, setDate] = useState(new Date ());
+  const [lastFiscalYear, setLastFiscalYear] = useState(0);
+  const [deficitValue, setDeficitValue] = useState(0);
+  const [deficitLabel, setDeficitLabel] = useState("");
+  const [deficitChangeValue, setDeficitChangeValue] = useState(0);
+  const [deficitChangeLabel, setDeficitChangeLabel] = useState("");
+  const [revenueValue, setRevenueValue] = useState(0);
+  const [revenueLabel, setRevenueLabel] = useState("");
+  const [spendingValue, setSpendingValue] = useState(0);
+  const [spendingLabel, setSpendingLabel] = useState("");
+  const [data, setData] = useState(null);
   const desktop = width >= pxToNumber(breakpointLg);
-  const data = [
-    {
-      id: 0,
-      revenue: 3.42,
-      deficit: 3.13
-    },
-    {
-      id: 1,
-      spending: 6.55
-    }
-  ];
+  const {
+    name,
+    slug,
+    endpoints
+  } = nationalDeficitSectionConfigs[sectionId];
 
+  const footer =
+    <div>
+      Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and download
+      this data.
+      <p>
+        Please note: This data visual only includes completed fiscal years. The following
+        year will be displayed at the end of the fiscal year.
+      </p>
+    </div>
 
-  const spendingBarColor = '#00766c';
-  const revenueBarColor = '#0a2f5a';
-  const deficitBarColor = deficitExplainerSecondary;
+  const chartCopy = {
+    title: 'U.S. Deficit Compared to Revenue and Spending, FY ',
+    altText: 'Bar chart comparing the differences between the U.S. government’s spending and '+
+      'revenue, resulting in a deficit for FY ',
+    footer: footer
+  }
 
-  const theme = {
-    markers: {
-      lineStrokeWidth: 0
-    },
-    grid: {
-      line: {
-        stroke: fontBodyCopy,
-        strokeWidth: 1
-      }
-    },
-  };
-
-  const layers = ['axes', 'grid', 'markers', 'bars'];
+  const dateEndpoint = endpoints[0];
+  const deficitEndpoint = endpoints[1];
+  const revenueEndpoint = endpoints[2];
+  const spendingEndpoint = endpoints[3];
+  const deficitChangeEndpoint = endpoints[4];
 
   const markers = getMarkers(data, width);
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${dateEndpoint.path}`)
+      .then(response => {
+        setDate(new Date(response.data[0][dateEndpoint.dateField]));
+        setLastFiscalYear(response.data[0][dateEndpoint.valueField]);
+      });
+  }, []);
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${deficitEndpoint.path}`)
+      .then(response => {
+        const value = Math.abs(response.data[0][deficitEndpoint.valueField]);
+        setDeficitValue(value);
+        setDeficitLabel((value / 1000000000000).toFixed(2));
+      });
+  }, []);
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${revenueEndpoint.path}`)
+      .then(response => {
+        const value = response.data[0][revenueEndpoint.valueField];
+        setRevenueValue(value);
+        setRevenueLabel((value / 1000000000000).toFixed(2));
+      });
+  }, []);
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${spendingEndpoint.path}`)
+      .then(response => {
+        const value = response.data[0][spendingEndpoint.valueField];
+        setSpendingValue(value);
+        setSpendingLabel((value / 1000000000000).toFixed(2));
+
+      });
+  }, []);
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${deficitChangeEndpoint.path}`)
+      .then(response => {
+        const value = Math.abs(response.data[0][deficitChangeEndpoint.valueField]);
+        setDeficitChangeValue(value);
+      });
+  }, []);
+
+  if(!data && deficitValue && revenueValue && spendingValue && deficitChangeValue) {
+    const deficitDifference = Math.abs(deficitValue - deficitChangeValue);
+    let deficitDifferenceText = '';
+
+    if(deficitDifference >= 1000000000000) {
+      deficitDifferenceText =`$${(deficitDifference / 1000000000000).toFixed(2)} trillion`
+    } else {
+      deficitDifferenceText =`$${(deficitDifference / 1000000000).toFixed(2)} billion`
+    }
+
+    if(deficitValue > deficitChangeValue) {
+      setDeficitChangeLabel(
+        `an increase of ${deficitDifferenceText}`);
+    } else if(deficitValue < deficitChangeValue) {
+      setDeficitChangeLabel(
+        `a decrease of ${deficitDifferenceText}`);
+    } else {
+      setDeficitChangeLabel('not changed');
+    }
+
+    setData(
+      [
+        {
+          id: 0,
+          revenue: revenueValue,
+          deficit: deficitValue
+        },
+        {
+          id: 1,
+          spending: spendingValue
+        }
+      ]
+    );
+  }
+
 
   return(
     <div className={visWithCallout}>
@@ -64,45 +160,46 @@ const DeficitComparisonBarChart = ({width}) => {
       {data && (
         <>
           <div data-testid={'deficitComparisonChart'} className={container}>
-              <ChartContainer
-                title={chart.title}
-                altText={chart.altText}
-                footer={chart.footer}
-              >
-                <div className={barChart} >
-                  <Bar
-                    width={desktop ? 408 : 304}
-                    height={desktop ? 288 : 208}
-                    axisTop={null}
-                    axisRight={null}
-                    axisLeft={null}
-                    axisBottom={null}
-                    data={data}
-                    keys={['revenue', 'deficit', 'spending']}
-                    margin={ desktop ?
-                      { top: 0, right: 74, bottom: 0, left: 74 } :
-                      { top: 0, right: 65, bottom: 0, left: 65 }
-                    }
-                    padding={desktop ? 0.29 : 0.19}
-                    valueScale={{ type: 'linear' }}
-                    colors={[revenueBarColor, deficitBarColor, spendingBarColor]}
-                    isInteractive={false}
-                    borderColor={fontBodyCopy}
-                    enableGridY={true}
-                    gridYValues={[0]}
-                    markers={desktop ? markers[0] : markers[1]}
-                    enableLabel={false}
-                    layers={[...layers]}
-                    theme={theme}
-                  />
-                </div>
-              </ChartContainer>
+            <ChartContainer
+              title={`${chartCopy.title}${lastFiscalYear}`}
+              altText={`${chartCopy.altText}${lastFiscalYear}.`}
+              footer={chartCopy.footer}
+              date={date}
+            >
+              <div className={barChart} >
+                <Bar
+                  width={desktop ? 408 : 304}
+                  height={desktop ? desktopHeight : mobileHeight}
+                  axisTop={null}
+                  axisRight={null}
+                  axisLeft={null}
+                  axisBottom={null}
+                  data={data}
+                  keys={['revenue', 'deficit', 'spending']}
+                  margin={ desktop ?
+                    { top: 0, right: 74, bottom: 0, left: 74 } :
+                    { top: 0, right: 65, bottom: 0, left: 65 }
+                  }
+                  padding={desktop ? 0.29 : 0.19}
+                  valueScale={{ type: 'linear' }}
+                  colors={barChartColors}
+                  isInteractive={false}
+                  borderColor={fontBodyCopy}
+                  enableGridY={true}
+                  gridYValues={[0]}
+                  markers={desktop ? markers[0] : markers[1]}
+                  enableLabel={false}
+                  layers={[...layers]}
+                  theme={theme}
+                />
+              </div>
+            </ChartContainer>
           </div>
           <VisualizationCallout color={deficitExplainerPrimary}>
             <p>
-              In FY YYYY (latest complete fiscal year) total government spending was $XX.XX trillion
-              and total revenue was $XX.XX trillion, resulting in a deficit of $XX.XX trillion,
-              an increase/decrease of $XX.XX trillion from the previous fiscal year.
+              In FY {lastFiscalYear} total government spending was ${spendingLabel} trillion
+              and total revenue was ${revenueLabel} trillion, resulting in a deficit of
+              ${deficitLabel} trillion, {deficitChangeLabel} from the previous fiscal year.
             </p>
           </VisualizationCallout>
         </>
