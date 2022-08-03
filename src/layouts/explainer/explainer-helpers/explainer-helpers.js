@@ -63,14 +63,14 @@ export const explainerSocialShareMap = {
     image: baseUrl+'/images/nationalDebt-YourGuide.png'
   },
   'national-deficit': {
-    title: '',
-    description: '',
-    body: '',
-    emailSubject: '',
-    emailBody: '',
+    title: 'Fiscal Data Explains the National Deficit',
+    description: 'Check out @FiscalService Fiscal Data’s new national deficit page! #NationalDeficit',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining the national deficit! '
+      + '#FiscalData #OpenData #NationalDeficit',
+    emailSubject: 'Fiscal Data Explains the National Deficit',
+    emailBody: 'Check out Fiscal Data’s new topic page explaining the national deficit!',
     url: baseUrl+'/national-deficit/',
-    image: baseUrl+'/images/nationalDebt_YourGuide_1200x630.png'
-
+    image: baseUrl+'/images/nationalDeficit_1200x630.png'
   }
 }
 
