@@ -70,30 +70,30 @@ export const getMarkers = (data, width) => {
     const markerHeights = {
       desktop:{
         deficit: {
-          label: labelBarAdjustment.desktop.deficit + 13,
-          value: labelBarAdjustment.desktop.deficit - 12
+          label: labelBarAdjustment.desktop.deficit - 13,
+          value: labelBarAdjustment.desktop.deficit + 12
         },
         revenue: {
-          label: labelBarAdjustment.desktop.revenue  + 13 - deficitDesktopHeight,
-          value: labelBarAdjustment.desktop.revenue  - 12 - deficitDesktopHeight
+          label: labelBarAdjustment.desktop.revenue  - 13 - deficitDesktopHeight,
+          value: labelBarAdjustment.desktop.revenue  + 12 - deficitDesktopHeight
         },
         spending: {
-          label:  labelBarAdjustment.desktop.spending + 13,
-          value:  labelBarAdjustment.desktop.spending - 12
+          label:  labelBarAdjustment.desktop.spending - 13,
+          value:  labelBarAdjustment.desktop.spending + 12
         }
       },
       mobile: {
         deficit: {
-          label: labelBarAdjustment.mobile.deficit + 8,
-          value: labelBarAdjustment.mobile.deficit - 8
+          label: labelBarAdjustment.mobile.deficit - 8,
+          value: labelBarAdjustment.mobile.deficit + 8
         },
         revenue: {
-          label: labelBarAdjustment.mobile.revenue  + 8 - deficitMobileHeight,
-          value: labelBarAdjustment.mobile.revenue  - 8 - deficitMobileHeight
+          label: labelBarAdjustment.mobile.revenue  - 8 - deficitMobileHeight,
+          value: labelBarAdjustment.mobile.revenue  + 8 - deficitMobileHeight
         },
         spending: {
-          label:  labelBarAdjustment.mobile.spending + 8,
-          value:  labelBarAdjustment.mobile.spending - 8
+          label:  labelBarAdjustment.mobile.spending - 8,
+          value:  labelBarAdjustment.mobile.spending + 8
         }
       }
     }
