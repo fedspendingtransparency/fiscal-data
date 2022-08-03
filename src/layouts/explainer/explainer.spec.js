@@ -5,7 +5,9 @@ import explainerSections from './sections/sections';
 import  {
   mockExplainerPageResponse,
 } from './explainer-test-helper';
-import { setGlobalFetchResponse } from '../../utils/mock-utils';
+import {setGlobalFetchMatchingResponse, setGlobalFetchResponse} from '../../utils/mock-utils';
+import {understandingDeficitMatchers} from
+    "./explainer-helpers/national-deficit/national-deficit-test-helper";
 
 describe('Explainer Page Layout', () => {
   const pageName = 'national-debt';
@@ -62,6 +64,16 @@ describe('Explainer Page Layout', () => {
 });
 
 describe('Explainer Pages', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    global.fetch.mockReset();
+  });
+
   it('renders the deficit explainer page', async () => {
     const pageName = 'national-deficit';
     const breadCrumbLinkName = 'mock link';
@@ -81,7 +93,6 @@ describe('Explainer Pages', () => {
       heroImage,
       glossary
     }
-
 
     const { findAllByTestId, findByText } = render(
       <ExplainerPageLayout

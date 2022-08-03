@@ -3,7 +3,7 @@ import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
-import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
+import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit/national-deficit-helper";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 
 const DeficitByYear = () => {

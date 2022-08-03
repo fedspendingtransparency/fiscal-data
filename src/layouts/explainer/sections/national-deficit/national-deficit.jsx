@@ -12,7 +12,7 @@ import {
   deficitKeyTakeaways,
   deficitLearnMoreDescription,
   deficitLearnMoreLinks
-} from "../../explainer-helpers/national-deficit-helper";
+} from "../../explainer-helpers/national-deficit/national-deficit-helper";
 import LearnMoreSection from "../../explainer-components/learn-more/learn-more-section";
 import {datasetSectionConfig} from "../../explainer-helpers/explainer-helpers";
 
