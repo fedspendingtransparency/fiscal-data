@@ -9,4 +9,8 @@ describe('Deficit and Surplus Causes Section', () => {
     expect(getByTestId('textContent')).toBeInTheDocument();
     expect(getByRole('link')).toBeInTheDocument();
   });
+  it('renders the trends chart', () => {
+    const {getByTestId} = render(<DeficitByYear />);
+    expect(getByTestId('deficitTrendsBarChart')).toBeInTheDocument();
+  });
 });
