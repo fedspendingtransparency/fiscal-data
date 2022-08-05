@@ -2,18 +2,22 @@ import {
   chart,
   chartContainer,
   footerContainer,
-  chartTitle
+  chartTitle,
+  headerContainer
 } from "./chart-container.module.scss";
 import React from "react";
 
 
-const ChartContainer = ({title, altText, footer, children}) => {
+const ChartContainer = ({title, altText, header, footer, children}) => {
   return(
     <div className={`${chartContainer}`}
          role={"img"}
          aria-label={altText}
     >
       <div className={chartTitle}>{title}</div>
+      <div className={headerContainer}>
+        {header}
+      </div>
       <div
         data-testid="chart"
         className={chart}
