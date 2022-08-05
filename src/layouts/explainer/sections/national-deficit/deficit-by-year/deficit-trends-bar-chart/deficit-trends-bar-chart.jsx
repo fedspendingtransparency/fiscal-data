@@ -158,7 +158,7 @@ const DeficitTrendsBarChart = ({ width }) => {
             <Bar
               data={data}
               theme={chartTheme}
-              width={desktop ? 463 : 315}
+              width={desktop ? 490 : 315}
               height={desktop ? 388 : 241}
               keys={[
                 'deficit'
@@ -168,7 +168,7 @@ const DeficitTrendsBarChart = ({ width }) => {
                 { top: 15, right: 0, bottom: 20, left: 55 } :
                 { top: 10, right: 0, bottom: 20, left: 50 }
               }
-              padding={desktop ? 0.55 : 0.35}
+              padding={desktop ? 0.47 : 0.35}
               valueScale={{type: 'linear'}}
               indexScale={{type: 'band', round: true}}
               colors={(bar) => bar.data.year === "2021" ? '#666666' : deficitExplainerPrimary}
