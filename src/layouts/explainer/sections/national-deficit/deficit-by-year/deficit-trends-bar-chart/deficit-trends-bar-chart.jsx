@@ -150,7 +150,9 @@ const DeficitTrendsBarChart = ({ width }) => {
       <div data-testid={'deficitTrendsBarChart'} className={container}>
         <ChartContainer
           title={'Federal Deficit Trends Over Time, 2001-2021'}
-          altText={'Alt Text'}
+          altText={'Bar graph that shows the federal deficit trend from 2001 to '
+          + '{YYYY (latest complete fiscal year)}. Over the years, the data fluctuates '
+          + 'with a spiked increase starting in 2019.'}
           header={header}
           footer={footer}
         >
@@ -195,8 +197,6 @@ const DeficitTrendsBarChart = ({ width }) => {
               gridYValues={['-0.5', '0', '0.5' ,'1', '1.5', '2', '2.5', '3', '3.5']}
               enableLabel={false}
               isInteractive={false}
-              role="application"
-              ariaLabel="Deficit trends chart"
             />
           </div>
         </ChartContainer>
