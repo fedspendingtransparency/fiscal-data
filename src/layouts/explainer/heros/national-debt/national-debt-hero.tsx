@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFlagUsa} from "@fortawesome/free-solid-svg-icons";
+import Analytics from "../../../../utils/analytics/analytics";
 
 const NationalDebtHero = (): JSX.Element => {
   const fields: string = 'fields=tot_pub_debt_out_amt,record_date';
@@ -21,7 +22,8 @@ const NationalDebtHero = (): JSX.Element => {
     basicFetch(`${url}`)
       .then((res) => {
         if (res.data) {
-          const totalPublicDebtOutstanding: string = Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toString();
+          const totalPublicDebtOutstanding: string =
+            Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toString();
           setNationalDebtValue(totalPublicDebtOutstanding);
         }
     });
@@ -30,6 +32,19 @@ const NationalDebtHero = (): JSX.Element => {
   useEffect(() => {
     getCurrentNationalDebt(debtUrl);
   }, []);
+
+  const clickHandler = () => {
+    Analytics.event({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: `Debt - What is the national debt?`
+    });
+    console.log({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: `Debt - What is the national debt?`
+    });
+  }
 
   return (
     <>
@@ -42,18 +57,21 @@ const NationalDebtHero = (): JSX.Element => {
           />
           <div className={counterSourceInfo}>
             Updated daily from the {' '}
-            <CustomLink url={'/datasets/debt-to-the-penny'}>Debt to the Penny</CustomLink> dataset.
+            <CustomLink url={'/datasets/debt-to-the-penny'} onClick={() => clickHandler()}>
+              Debt to the Penny
+            </CustomLink> dataset.
           </div>
         </div>
       )
       }
       <div className={calloutContainer}>
         <div className={heroImageCallout} data-testid={"nationalDebtCallout"}>
-          <FontAwesomeIcon icon={faFlagUsa} className={icon}/>
+          <FontAwesomeIcon icon={faFlagUsa} className={icon} />
           <p>
             This topic is the first of four U.S. government financial concepts from Your Guide to
             America’s Finances with more being added in the coming months.
-            We’ll help you learn more about money coming in (Revenue), money going out (Spending), and the Deficit and Debt.
+            We’ll help you learn more about money coming in (Revenue), money going out (Spending),
+            and the Deficit and Debt.
           </p>
         </div>
       </div>

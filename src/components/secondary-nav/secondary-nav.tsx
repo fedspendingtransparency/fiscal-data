@@ -20,6 +20,7 @@ import {
   headingLevel3
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
+import Analytics from "../../utils/analytics/analytics";
 
 export const scrollDelay: number = globalConstants.config.smooth_scroll.delay;
 export const scrollDuration: number = globalConstants.config.smooth_scroll.duration;
@@ -36,6 +37,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   activeClass,
   hoverClass,
   linkClass,
+  analytics,
+  analyticsCategory,
+  analyticsPageLabel,
   width,
   headerComponent,
   children
@@ -46,6 +50,19 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [lastScrollPosition, setLastScrollPosition] = useState<number>(0);
 
+  const analyticsClickHandler = (section) => {
+    Analytics.event({
+      category: analyticsCategory,
+      action: `Left Nav Click`,
+      label: `${analyticsPageLabel} - ${section}`
+    });
+    console.log({
+      category: analyticsCategory,
+      action: `Left Nav Click`,
+      label: `${analyticsPageLabel} - ${section}`
+    });
+  }
+
   const handleMouseEnter: (index: number) => void = (index) => {
     setHoveredSection(index);
   }
@@ -54,8 +71,12 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     setHoveredSection(-1);
   }
 
-  const handleInteraction = (e, id) => {
+  const handleInteraction = (e, id, title) => {
     // only proceed on mouse click or Enter key press
+    if(analytics) {
+      analyticsClickHandler(title);
+    }
+
     if (e?.key && e.key !== 'Enter') {
       return;
     }
@@ -148,8 +169,8 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                 spy
                 duration={scrollDuration}
                 delay={scrollDelay}
-                onClick={() => handleInteraction(null, s.id)}
-                onKeyPress={(e) => handleInteraction(e, s.id)}
+                onClick={() => handleInteraction(null, s.id, s.title)}
+                onKeyPress={(e) => handleInteraction(e, s.id, s.title)}
               >
                 {s.title}
               </Link>

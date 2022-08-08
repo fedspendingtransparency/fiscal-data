@@ -6,6 +6,9 @@ export interface ISecondaryNav {
   activeClass: string,
   hoverClass?: string,
   linkClass?: string,
+  analytics?: boolean,
+  analyticsCategory?: string,
+  analyticsPageLabel?: string,
   width?: number,
   headerComponent?: ReactElement
 }

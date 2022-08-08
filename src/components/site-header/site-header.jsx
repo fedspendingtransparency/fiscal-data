@@ -65,6 +65,19 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     });
   }
 
+  const topicsClickHandler = (title) => {
+    Analytics.event({
+      category: 'Sitewide Navigation',
+      action: `Topics Click`,
+      label: title
+    });
+    console.log({
+      category: 'Sitewide Navigation',
+      action: `Topics Click`,
+      label: title
+    });
+  }
+
   const handleMouseOver = () => {
     if(!isExpanded) {
       setMenuExpanding(true);
@@ -176,6 +189,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                                     <Link
                                       to={topicPageLink.to}
                                       activeClassName={styles.activeTopicLink}
+                                      onClick={() => topicsClickHandler(topicPageLink.title)}
                                     >
                                       {topicPageLink.title}
                                     </Link>
