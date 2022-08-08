@@ -5,6 +5,7 @@ import VisualizationCallout
 import React from "react";
 import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
+import  DeficitTrendsBarChart  from "./deficit-trends-bar-chart/deficit-trends-bar-chart";
 
 const DeficitByYear = () => {
   const federalCovidResponseLink =
@@ -27,7 +28,7 @@ const DeficitByYear = () => {
         </p>
       </div>
       <div className={visWithCallout} >
-        <ChartPlaceholder />
+        <DeficitTrendsBarChart />
         <VisualizationCallout color={deficitExplainerPrimary}>
           <p>
             The federal deficit was XX% greater/less in FY 2001 than in FY YYYY (latest complete

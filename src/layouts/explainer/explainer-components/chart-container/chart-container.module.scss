@@ -26,6 +26,26 @@
   }
 }
 
+.headerContainer {
+  display: flex;
+  justify-content: center;
+  gap: 7.25rem;
+  margin-top: 2rem;
+
+  div {
+    text-align: center;
+
+    .header {
+      font-weight: bold;
+    }
+
+    .subHeader {
+      font-weight: $semi-bold-weight;
+    }
+  }
+}
+
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .chartContainer {
     padding: 1.25rem 1.125rem;
@@ -37,6 +57,9 @@
     .footerContainer {
       font-size: $font-size-12;
     }
+  }
+  .headerContainer {
+    gap: 2rem;
   }
 }
 
