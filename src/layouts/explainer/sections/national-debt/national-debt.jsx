@@ -337,7 +337,7 @@ export const NationalDebtExplainedSection = ({glossary}) => {
 };
 
 
-const FundingProgramsSection = () => {
+export const FundingProgramsSection = () => {
   const usaSpending =
     <CustomLink
       url={'https://www.usaspending.gov/'}
@@ -409,7 +409,7 @@ const FundingProgramsSection = () => {
             <div className={spendingCategoriesTable}>
               <div className={row}>
                 <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faDollarSign} className={icon}/>
+                  <FontAwesomeIcon icon={faDollarSign} className={icon} />
                 </div>
                 <div className={secondColumn}>
                   <strong>Income Security</strong>
@@ -423,7 +423,7 @@ const FundingProgramsSection = () => {
               </div>
               <div className={row}>
                 <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faUserFriends} className={icon}/>
+                  <FontAwesomeIcon icon={faUserFriends} className={icon} />
                 </div>
                 <div className={secondColumn}>
                   <strong>Social Security</strong>

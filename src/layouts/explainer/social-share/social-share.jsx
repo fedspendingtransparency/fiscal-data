@@ -71,11 +71,6 @@ const analyticsClickHandler = (page, social) => {
     action: `Share Click`,
     label: `${page} - Share on ${social}`
   });
-  console.log({
-    category: 'Explainers',
-    action: `Share Click`,
-    label: `${page} - Share on ${social}`
-  });
 }
 
 export const ShareButtonContent = ({ name, width }) => {

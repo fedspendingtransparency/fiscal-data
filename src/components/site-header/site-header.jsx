@@ -71,11 +71,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       action: `Topics Click`,
       label: title
     });
-    console.log({
-      category: 'Sitewide Navigation',
-      action: `Topics Click`,
-      label: title
-    });
   }
 
   const handleMouseOver = () => {

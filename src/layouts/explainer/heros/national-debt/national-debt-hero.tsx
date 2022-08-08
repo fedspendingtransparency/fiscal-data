@@ -39,11 +39,6 @@ const NationalDebtHero = (): JSX.Element => {
       action: `Citation Click`,
       label: `Debt - What is the national debt?`
     });
-    console.log({
-      category: 'Explainers',
-      action: `Citation Click`,
-      label: `Debt - What is the national debt?`
-    });
   }
 
   return (

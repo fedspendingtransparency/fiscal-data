@@ -19,6 +19,7 @@ import nationalDebtSections, {
   nationalDebtDataSources,
   nationalDebtDescriptionGenerator,
   nationalDebtDescriptionAppendix,
+  FundingProgramsSection
 } from "./national-debt"
 import {
   mockFifthSectionValueMarkers,
@@ -47,6 +48,7 @@ import {
 import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
 import fetchMock from "fetch-mock";
 import { waitFor } from "@testing-library/dom"
+import Analytics from "../../../../utils/analytics/analytics";
 
 
 jest.mock('./variables.module.scss', (content) => ({
@@ -91,6 +93,52 @@ describe('National Debt Explained', () => {
 
 });
 
+describe('Funding Programs & Services', () => {
+  it('calls the appropriate analytics event when links are clicked on', () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText, getAllByText } = render(<FundingProgramsSection />);
+
+
+    const accordion = getByText('What are some of the major spending categories?');
+    accordion.click();
+    const usaSpending = getAllByText('USAspending.gov');
+    const objectClass = getByText('Object Class');
+    const budgetFunction = getByText('Budget Function');
+
+    usaSpending[1].click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - Funding Programs & Services'
+    });
+    spy.mockClear();
+
+    usaSpending[0].click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - What are the major spending categories?'
+    });
+    spy.mockClear();
+
+    objectClass.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - What are the major spending categories?'
+    });
+    spy.mockClear();
+
+    budgetFunction.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - What are the major spending categories?'
+    });
+    spy.mockClear();
+  });
+});
+
 describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
   const config = nationalDebtSectionConfigs[sectionId]
@@ -117,7 +165,9 @@ describe('The Growing National Debt', () => {
 
   it('renders the Visualizing the Debt table inside an accordion', async () => {
     const { container } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
+      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}
+                                  cpiDataByYear={mockCpiDataset}
+      />
     );
 
     expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`))
@@ -142,7 +192,10 @@ describe('The Growing National Debt', () => {
 
   it('contains the chart', async () => {
     const { findByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
+      <GrowingNationalDebtSection sectionId={sectionId}
+                                  glossary={glossary}
+                                  cpiDataByYear={mockCpiDataset}
+      />
     );
 
     expect(await findByTestId('chart')).toBeInTheDocument();
@@ -150,7 +203,10 @@ describe('The Growing National Debt', () => {
 
   it('contains the debt trends line chart', async () => {
     const { findByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
+      <GrowingNationalDebtSection sectionId={sectionId}
+                                  glossary={glossary}
+                                  cpiDataByYear={mockCpiDataset}
+      />
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -161,7 +217,10 @@ describe('The Growing National Debt', () => {
     const latestValue = simplifyNumber(mockExplainerPageResponse.data[0][config.valueField], true);
 
     const { findAllByText, findByText } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset}/>
+      <GrowingNationalDebtSection sectionId={sectionId}
+                                  glossary={glossary}
+                                  cpiDataByYear={mockCpiDataset}
+      />
     );
 
     // Latest year is also the text content for the last value on the graph's x-axis
@@ -170,6 +229,46 @@ describe('The Growing National Debt', () => {
 
     const valueComponent = await findByText(latestValue);
     expect(valueComponent).toBeInTheDocument();
+  });
+
+  it('calls the appropriate analytics event when links are clicked on', async () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const pageTitle = 'test page title'
+    const { getByText } = render(
+      <GrowingNationalDebtSection sectionId={sectionId}
+                                  glossary={glossary}
+                                  cpiDataByYear={mockCpiDataset}
+      />
+    );
+    document.title = pageTitle;
+
+    const historicalDebt = await waitFor(() => getByText('Historical Debt Outstanding'));
+    const bls = await waitFor(() => getByText('Bureau of Labor Statistics'));
+    const bea = await waitFor(() => getByText('Bureau of Economic Analysis'));
+
+    historicalDebt.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
+    });
+    spy.mockClear();
+
+    bls.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
+    });
+    spy.mockClear();
+
+    bea.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - Federal Debt Trends Over Time'
+    });
+    spy.mockClear();
   });
 });
 

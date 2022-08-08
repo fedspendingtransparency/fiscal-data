@@ -56,11 +56,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       action: `Left Nav Click`,
       label: `${analyticsPageLabel} - ${section}`
     });
-    console.log({
-      category: analyticsCategory,
-      action: `Left Nav Click`,
-      label: `${analyticsPageLabel} - ${section}`
-    });
   }
 
   const handleMouseEnter: (index: number) => void = (index) => {
