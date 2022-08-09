@@ -8,6 +8,7 @@ describe('Chart container component', () => {
   const mockFooter = 'Footer';
   const mockChart = <div>chart</div>
   const mockAltText = 'alt text';
+  const mockDate = new Date('2021-09-30');
 
   it('renders the title', () => {
     const {getByText} = render(
@@ -15,6 +16,7 @@ describe('Chart container component', () => {
         title={mockTitle}
         footer={mockFooter}
         altText={mockAltText}
+        date={mockDate}
       >
         {mockChart}
       </ChartContainer>
@@ -28,11 +30,14 @@ describe('Chart container component', () => {
         title={mockTitle}
         footer={mockFooter}
         altText={mockAltText}
+        date={mockDate}
       >
         {mockChart}
       </ChartContainer>
     );
-    expect(getByText(mockFooter)).toBeInTheDocument();
+    expect(getByText(mockFooter, {exact: false})).toBeInTheDocument();
+    expect(getByText('Last Updated:', {exact: false})).toBeInTheDocument();
+    expect(getByText('September 29, 2021', {exact: false})).toBeInTheDocument();
   });
 
   it('renders the chart', () => {
@@ -41,6 +46,7 @@ describe('Chart container component', () => {
         title={mockTitle}
         footer={mockFooter}
         altText={mockAltText}
+        date={mockDate}
       >
         {mockChart}
       </ChartContainer>

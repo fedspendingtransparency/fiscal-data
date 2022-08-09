@@ -1,5 +1,5 @@
 import {faChartColumn, faCoins, faHandHoldingDollar} from "@fortawesome/free-solid-svg-icons";
-import CustomLink from "../../../components/links/custom-link/custom-link";
+import CustomLink from "../../../../components/links/custom-link/custom-link";
 import React from "react";
 
 export const ChartPlaceholder = () => (
