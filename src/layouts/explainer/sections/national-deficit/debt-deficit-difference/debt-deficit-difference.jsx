@@ -8,7 +8,7 @@ import {
 } from "./debt-deficit-difference.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
 import React from "react";
-import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
+import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit/national-deficit-helper";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 
 export const DebtDeficitDifference = () => {

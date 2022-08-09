@@ -1,6 +1,5 @@
 import {
   understandingDeficitContainer,
-  understandingVisContainer,
   textContent
 } from "./understanding-deficit.module.scss";
 import {deficitExplainerPrimary} from "../national-deficit.module.scss";
@@ -8,12 +7,11 @@ import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
-import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
 import 'react-tabs/style/react-tabs.css';
 import SurplusIllustration from "./surplus-illustration/surplus-illustration";
 import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
 
-const UnderstandingDeficit = () => (
+const UnderstandingDeficit = ({sectionId}) => (
   <div className={understandingDeficitContainer}>
     <div className={visWithCallout}>
       <div className={textContent} data-testid={'textContent'}>
@@ -46,7 +44,7 @@ const UnderstandingDeficit = () => (
       The chart below provides a breakdown of how the U.S. deficit compares to the corresponding
       revenue and spending.
     </p>
-    <DeficitComparisonBarChart />
+    <DeficitComparisonBarChart sectionId={sectionId} />
   </div>
 );
 

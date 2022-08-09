@@ -155,5 +155,52 @@ export const datasetSectionConfig = {
         ]
       }
     }
+  },
+  'national-deficit': {
+    'understanding': {
+      name: 'Monthly Treasury Statement (MTS)',
+      slug: '/datasets/monthly-treasury-statement/' +
+        'summary-of-receipts-and-outlays-of-the-u-s-government',
+      endpoints: [
+        {
+          name: 'Fiscal Year',
+          path: 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,' +
+                'record_fiscal_year,record_calendar_month&filter=line_code_nbr:eq:5694,' +
+                'record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1',
+          dateField: 'record_date',
+          valueField: 'record_fiscal_year'
+        },
+        {
+          name: 'Deficit',
+          path: 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,' +
+                'record_calendar_month&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09' +
+                '&sort=-record_date&page%5bsize%5d=1',
+          valueField: 'current_fytd_net_outly_amt'
+        },
+        {
+          name: 'Revenue',
+          path: 'v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,record_date,' +
+            'record_fiscal_year&filter=line_code_nbr:eq:830,record_calendar_month:eq:09&' +
+            'sort=-record_date&page%5bsize%5d=1',
+          dateField: 'record_date',
+          valueField: 'current_fytd_net_rcpt_amt'
+        },
+        {
+          name: 'Spending',
+          path: 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,' +
+            'record_calendar_month,record_fiscal_year&filter=line_code_nbr:eq:5691,' +
+            'record_calendar_month:eq:09&sort=-record_date&page[size]=1',
+          valueField: 'current_fytd_net_outly_amt'
+        },
+        {
+          name: 'Deficit Prior Year',
+          path: 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,' +
+                'prior_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year&' +
+                'filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&sort=-record_date&' +
+                'page[size]=1',
+          valueField: 'prior_fytd_net_outly_amt'
+        }
+      ]
+    }
   }
 }
