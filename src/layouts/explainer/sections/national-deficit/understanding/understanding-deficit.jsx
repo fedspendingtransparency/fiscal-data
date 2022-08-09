@@ -30,11 +30,6 @@ const UnderstandingDeficit = ({glossary}) => {
       surplus
     </GlossaryTerm>
 
-  const balancedBudget =
-    <GlossaryTerm term={'balanced budget'} page={'Deficit Explainer'} glossary={glossary}>
-      surplus
-    </GlossaryTerm>
-
   return (
   <div className={understandingDeficitContainer}>
     <div className={visWithCallout}>
@@ -63,7 +58,7 @@ const UnderstandingDeficit = ({glossary}) => {
         </p>
       </VisualizationCallout>
     </div>
-    <SurplusIllustration />
+    <SurplusIllustration glossary={glossary}/>
     <p>
       The chart below shows a breakdown of how the U.S. deficit compares to the corresponding
       revenue and spending.

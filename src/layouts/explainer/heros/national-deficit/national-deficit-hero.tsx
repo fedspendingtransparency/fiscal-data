@@ -20,9 +20,11 @@ import {numberWithCommas} from "../../../../helpers/simplify-number/simplifyNumb
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../variables.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display"
+import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 
-const NationalDeficitHero = (): JSX.Element => {
-  const fields: string = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
+const NationalDeficitHero = ({glossary}): JSX.Element => {
+  const fields: string = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' +
+    'record_calendar_month,record_calendar_year,record_fiscal_year';
   const sort: string = 'sort=-record_date';
   const filter: string = 'filter=line_code_nbr:eq:5694'
   const pagination: string = 'page[size]=13';
@@ -133,14 +135,23 @@ const NationalDeficitHero = (): JSX.Element => {
   }, [useWindowSize(), []])
 
   const mtsLink =
-    <CustomLink url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government'}>
+    <CustomLink url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays' +
+    '-of-the-u-s-government'}
+    >
       Monthly Treasury Statement (MTS)
     </CustomLink>;
+
   const debt = <CustomLink url={'/national-debt/'}>Debt</CustomLink>;
+
+  const fiscalYear =
+    <GlossaryTerm term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >
+      fiscal year (FY)
+    </GlossaryTerm>
+
   return (
     <>
       <p className={`${heroImageSubHeading} ${deficit}`}>A deficit occurs when the
-        federal government’s spending exceeds its revenues. In fiscal year (FY){' '}
+        federal government’s spending exceeds its revenues. In {fiscalYear}{' '}
         {previousFiscalYear}, the  federal government spent ${textPreviousDeficit}{' '}
         more than it collected, resulting in a national deficit.
       </p>

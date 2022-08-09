@@ -64,7 +64,8 @@ export const explainerSocialShareMap = {
   },
   'national-deficit': {
     title: 'Fiscal Data Explains the National Deficit',
-    description: 'Check out @FiscalService Fiscal Data’s new national deficit page! #NationalDeficit',
+    description: 'Check out @FiscalService Fiscal Data’s new national deficit page! ' +
+      '#NationalDeficit',
     body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining the national deficit! '
       + '#FiscalData #OpenData #NationalDeficit',
     emailSubject: 'Fiscal Data Explains the National Deficit',
@@ -75,8 +76,12 @@ export const explainerSocialShareMap = {
 }
 
 export const explainerHeroMap = {
-  'national-debt': <NationalDebtHero />,
-  'national-deficit': <NationalDeficitHero />
+  'national-debt': {
+    component: (glossary) => <NationalDebtHero />
+  },
+  'national-deficit': {
+    component: (glossary) => <NationalDeficitHero glossary={glossary} />
+  }
 }
 
 export const explainerRelatedDatasetMap = {

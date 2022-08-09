@@ -15,9 +15,10 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../../variables.module.scss";
+import GlossaryTerm from "../../../../../../components/glossary-term/glossary-term";
 
 
-const SurplusIllustration = ({width}) => {
+const SurplusIllustration = ({glossary, width}) => {
   const tabListStyle = {
     margin:'0',
     borderColor:deficitExplainerLightSecondary,
@@ -47,6 +48,11 @@ const SurplusIllustration = ({width}) => {
   };
 
   const tabStyle = width < pxToNumber(breakpointLg) ? tabStyleMobile : tabStyleDesktop;
+
+  const balancedBudgetGlossary =
+    <GlossaryTerm term={'balanced budget'} page={'Deficit Explainer'} glossary={glossary}>
+      balanced budget
+    </GlossaryTerm>
 
   return (
     <div className={folderVisContainer} data-testid={'surplus-illustration'}>
@@ -89,7 +95,7 @@ const SurplusIllustration = ({width}) => {
               <img src={balancedBudget} alt="" data-testid={"balanced-budget-image"} />
               <div>
                 <p>
-                  A <i>balanced budget</i> occurs when the amount the government spends equals the
+                  A <i>{balancedBudgetGlossary}</i> occurs when the amount the government spends equals the
                   amount the government collects.
                 </p>
                 <p>

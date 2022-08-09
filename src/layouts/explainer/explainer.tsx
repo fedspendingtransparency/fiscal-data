@@ -76,7 +76,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
           primaryColor={explainerColorMap[pageName].primary}
           secondaryColor={explainerColorMap[pageName].secondaryLight}
         >
-          {explainerHeroMap[pageName]}
+          {explainerHeroMap[pageName].component(glossary)}
         </HeroImage>
         <div className={contentContainer}>
           <SecondaryNav
@@ -125,7 +125,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                   </DataSourcesMethodologies>
                 </section>
               </div>
-          </div>
+            </div>
           </SecondaryNav>
         </div>
         <div className={relatedDatasetsStyle}>
