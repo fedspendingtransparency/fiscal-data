@@ -2,12 +2,43 @@ import {deficitExplainerPrimary} from "../national-deficit.module.scss";
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
-import React from "react";
-import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit-helper";
+import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import  DeficitTrendsBarChart  from "./deficit-trends-bar-chart/deficit-trends-bar-chart";
+import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
+import {
+  deficit2001Full,
+  endpointUrl,
+  getDeficitDiffPercentage
+} from "./deficit-trends-bar-chart/deficit-trends-bar-chart-helpers";
 
 const DeficitByYear = () => {
+
+  const [latestFiscalYear, setLatestFiscalYear] = useState('');
+  const [defDifPercent, setDefDifPercent] = useState('');
+  const [difBool, setDifBool] = useState('');
+
+  const getCalloutData = () => {
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+    .then((result) => {
+      const latestDeficit = parseFloat(result.data[result.data.length - 1].current_fytd_net_outly_amt);
+      const latestFiscalYear = result.data[result.data.length - 1].record_fiscal_year;
+      const difResult = getDeficitDiffPercentage(latestDeficit);
+      setDefDifPercent(difResult);
+      if (latestDeficit < deficit2001Full) {
+        setDifBool('less');
+      }
+      else {
+        setDifBool('greater');
+      }
+      setLatestFiscalYear(latestFiscalYear);
+    });
+  }
+
+  useEffect(() => {
+    getCalloutData();
+  }, [])
+
   const federalCovidResponseLink =
     <CustomLink url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'}>
       the federal response to COVID-19
@@ -31,8 +62,7 @@ const DeficitByYear = () => {
         <DeficitTrendsBarChart />
         <VisualizationCallout color={deficitExplainerPrimary}>
           <p>
-            The federal deficit was XX% greater/less in FY 2001 than in FY YYYY (latest complete
-            fiscal year).
+            The federal deficit was {defDifPercent}% {difBool} in FY 2001 than in FY {latestFiscalYear}.
           </p>
           <p>
             The last surplus for the federal government was in 2001.
