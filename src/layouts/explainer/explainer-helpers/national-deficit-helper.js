@@ -61,11 +61,13 @@ export const deficitLearnMoreLinks = [
   },
   {
     title: 'Monthly Treasury Statement',
-    url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202109.pdf'
+    url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/' +
+      'MonthlyTreasuryStatement_202109.pdf'
   },
   {
     title: 'U.S. Current Account Deficit Widens in Third Quarter 2021',
-    url: 'https://www.bea.gov/news/blog/2021-12-20/us-current-account-deficit-widens-third-quarter-2021'
+    url: 'https://www.bea.gov/news/blog/2021-12-20/us-current-account-deficit-' +
+      'widens-third-quarter-2021'
   },
 ];
 
@@ -74,7 +76,8 @@ export const deficitLearnMoreDescription = `For more information about the natio
 
 const mst =
   <CustomLink
-    url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government'}
+    url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-' +
+    'the-u-s-government'}
   >
     Monthly Treasury Statement (MTS)
   </CustomLink>;
