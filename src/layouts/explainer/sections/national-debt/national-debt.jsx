@@ -134,11 +134,6 @@ const analyticsClickHandler = (action, section) => {
     action: action,
     label: `Debt - ${section}`
   });
-  console.log({
-    category: 'Explainers',
-    action: action,
-    label: `Debt - ${section}`
-  });
 }
 
 export const nationalDebtExplainedTableContent = {
@@ -1528,15 +1523,12 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
                   />
                 </div>
                 <div className={footerContainer}>
-                  Visit the
-                  <CustomLink
-                    url={slug}
-                    onClick={() => analyticsClickHandler('Citation Click',
-                      'Intragovernmental Holdings and Debt Held by the Public')}
+                  Visit the <CustomLink url={slug}
+                                        onClick={() => analyticsClickHandler('Citation Click',
+                                          'Intragovernmental Holdings and Debt Held by the Public')}
                   >
-                    {name}
-                  </CustomLink>
-                  to explore and download this data.
+                  {name}
+                  </CustomLink> to explore and download this data.
                   <p>
                     Last Updated: {format(date, 'MMMM d, yyyy')}
                   </p>
@@ -1703,7 +1695,7 @@ export const DebtCeilingSection = () => (
   </>
 );
 
-const DebtTrackingSection = () => {
+export const DebtTrackingSection = () => {
   const fiscalService =
     <CustomLink
       url={'https://www.fiscal.treasury.gov/'}
@@ -1953,7 +1945,9 @@ const treasurySecurities =
   </CustomLink>;
 
 const bls =
-  <CustomLink url={'https://www.bls.gov/developers'}>
+  <CustomLink url={'https://www.bls.gov/developers'}
+              onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
     Bureau of Labor Statistics
   </CustomLink>;
 

@@ -19,7 +19,7 @@ import nationalDebtSections, {
   nationalDebtDataSources,
   nationalDebtDescriptionGenerator,
   nationalDebtDescriptionAppendix,
-  FundingProgramsSection
+  FundingProgramsSection, DebtTrackingSection, DiveDeeperSection
 } from "./national-debt"
 import {
   mockFifthSectionValueMarkers,
@@ -233,14 +233,12 @@ describe('The Growing National Debt', () => {
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const pageTitle = 'test page title'
     const { getByText } = render(
       <GrowingNationalDebtSection sectionId={sectionId}
                                   glossary={glossary}
                                   cpiDataByYear={mockCpiDataset}
       />
     );
-    document.title = pageTitle;
 
     const historicalDebt = await waitFor(() => getByText('Historical Debt Outstanding'));
     const bls = await waitFor(() => getByText('Bureau of Labor Statistics'));
@@ -421,6 +419,35 @@ describe('Breaking Down the Debt', () => {
     expect(await findByText('Last Updated: September 30, 2021')).toBeInTheDocument();
   });
 
+
+  it('calls the appropriate analytics event when links are clicked on', async () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(
+      <DebtBreakdownSection sectionId={sectionId} glossary={glossary}/>
+    );
+
+    const mspd = await waitFor(() => getByText(
+      'U.S. Treasury Monthly Statement of the Public Debt (MSPD)'));
+    const averageInterestRates = await waitFor(() => getByText(
+      'Average Interest Rates on U.S. Treasury Securities'));
+
+    mspd.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - Intragovernmental Holdings and Debt Held by the Public'
+    });
+    spy.mockClear();
+
+    averageInterestRates.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - Interest Rate and Total Debt'
+    });
+    spy.mockClear();
+
+  });
 });
 
 describe('The Debt Ceiling', () => {
@@ -432,6 +459,58 @@ describe('The Debt Ceiling', () => {
     expect(getByText(debtCeilingSectionAccordionTitle)).toBeInTheDocument();
   });
 });
+
+describe('Tracking the debt', () => {
+  it('calls the appropriate analytics event when link is clicked on',  () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(
+      <DebtTrackingSection />
+    );
+
+    const fiscalService = getByText('Bureau of the Fiscal Service');
+
+    fiscalService.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - Tracking the Debt'
+    });
+    spy.mockClear();
+
+  });
+})
+
+describe('Dive deeper into the debt', () => {
+  it('calls the appropriate analytics event when links are clicked on',  () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(
+      <DiveDeeperSection />
+    );
+
+    const financialReport = getByText('FRUSG_2021.pdf', {exact:false});
+    const americasFiscalFuture = getByText('americas-fiscal-future', {exact:false});
+    const debtCeiling = getByText('whitehouse.gov/cea', {exact:false});
+    const federalBorrowing = getByText('whitehouse.gov/wp-content', {exact:false});
+    const federalNetInterestCost = getByText('cbo.gov/publication/56910', {exact:false});
+    const treasurySecurities = getByText('federalreserve.gov', {exact:false});
+    const reducingDeficit = getByText('cbo.gov/publication/56783', {exact:false});
+    const treasuryBulletin = getByText('treasury-bulletin', {exact:false});
+    const usaSpending = getByText('usaspending.gov', {exact:false});
+
+    const resources = [financialReport, americasFiscalFuture, debtCeiling, federalBorrowing,
+      federalNetInterestCost, treasurySecurities, reducingDeficit, treasuryBulletin, usaSpending];
+
+    resources.forEach(resource => {
+      resource.click();
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Explainers',
+        action: `Citation Click`,
+        label: 'Debt - Dive Deeper into the Debt'
+      });
+      spy.mockClear();
+    })
+  });
+})
 
 describe('Data Sources & Methodologies', () => {
   it('contains content for a Data sources and methodologies section', async () => {
@@ -448,6 +527,46 @@ describe('Data Sources & Methodologies', () => {
       await findByText('Bureau of Economic Analysis');
     expect(accordionContentsSegment)
       .toBeInTheDocument();
+  });
+
+  it('calls the appropriate analytics event when links are clicked on',  () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText, getByRole } = render(
+      <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>
+    );
+
+    const toggle = getByRole('button');
+    act(() => {
+      toggle.click();
+    });
+
+    const debtToThePenny = getByText('Debt to the Penny');
+    const mspd = getByText('MSPD', {exact:false});
+    const debtCeiling = getByText('Historical Debt Outstanding');
+    const averageInterestRates = getByText('Average Interest Rates on U.S. Treasury Securities');
+    const bls = getByText('Bureau of Labor Statistics');
+    const bea = getByText('Bureau of Economic Analysis');
+    const github = getByText('GitHub repository');
+
+    const resources = [ debtToThePenny, mspd, debtCeiling, averageInterestRates, bls, bea];
+
+    resources.forEach(resource => {
+      resource.click();
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Explainers',
+        action: `Citation Click`,
+        label: 'Debt - DS&M'
+      });
+      spy.mockClear();
+    });
+
+    github.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Debt - DS&M Github'
+    });
+    spy.mockClear();
   });
 });
 
