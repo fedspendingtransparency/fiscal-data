@@ -445,6 +445,22 @@ export const mockInterestExpenseResponse = {
   }]
 }
 
+export const mockDeficitTrendsData = {
+  "data": [{
+    "current_fytd_net_outly_amt": "-438898858122.71",
+    "record_calendar_month": "09",
+    "record_date": "2015-09-30",
+    "record_fiscal_year": "2015",
+  },
+    {
+      "current_fytd_net_outly_amt": "-587411769636.30",
+      "record_calendar_month": "09",
+      "record_date": "2016-09-30",
+      "record_fiscal_year": "2016"
+    }
+  ]
+}
+
 export const mockDebtExpenseResponse = {
   "data": [{
     "current_fytd_net_outly_amt": "1000000000000.00",
