@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 552 369" style="enable-background:new 0 0 552 369;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#F1F1F1;}
+	.st1{fill:#666666;}
+	.st2{font-family:'SourceSansPro-Regular';}
+	.st3{font-size:12px;}
+	.st4{fill:none;stroke:#666666;stroke-linecap:round;stroke-linejoin:round;}
+	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:#B3532D;}
+	.st6{fill-rule:evenodd;clip-rule:evenodd;fill:#4A0072;}
+	.st7{font-size:14px;}
+	.st8{fill:none;stroke:#666666;stroke-width:2;stroke-linecap:round;}
+	.st9{fill:none;stroke:#666666;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+	.st10{fill:#555555;}
+	.st11{font-family:'SourceSansPro-Semibold';}
+	.st12{font-size:16px;}
+</style>
+<g id="Deficit">
+	<g id="Deficit---Desktop---1440px---April-_x27_22" transform="translate(-444.000000, -3367.000000)">
+		<g id="The-Difference-Between-the-National-Deficit-and-the-National-Debt" transform="translate(443.000000, 2963.500000)">
+			<g id="Visualizing-Deficit-vs.-Debt" transform="translate(1.000000, 404.000000)">
+				<rect id="Rectangle" y="0" class="st0" width="552" height="368"/>
+				<g id="Data-contents" transform="translate(38.542895, 64.000000)">
+					<text transform="matrix(1 0 0 1 21.5291 116)" class="st1 st2 st3">$150</text>
+					<text transform="matrix(1 0 0 1 63.5111 144)" class="st1 st2 st3">$75</text>
+					<text transform="matrix(1 0 0 1 100.5291 134)" class="st1 st2 st3">$100</text>
+					<text transform="matrix(1 0 0 1 225.5291 135)" class="st1 st2 st3">$100</text>
+					<text transform="matrix(1 0 0 1 405.5291 12)" class="st1 st2 st3">$425</text>
+					<g id="Amounts" transform="translate(0.000000, 124.000000)">
+						<line id="Line-Copy-5" class="st4" x1="0" y1="56" x2="144" y2="56"/>
+						<g id="Group" transform="translate(17.000000, 0.000000)">
+							<rect id="Rectangle-Copy-12" x="0" y="0" class="st5" width="32" height="56"/>
+							<rect id="Rectangle-Copy-13" x="79.5" y="18" class="st5" width="32" height="38"/>
+							<rect id="Rectangle-Copy-14" x="39.5" y="28" class="st5" width="32" height="28"/>
+						</g>
+					</g>
+					<g id="this-year_x27_s-deficit" transform="translate(200.000000, 143.000000)">
+						<line id="Line-Copy-6" class="st4" x1="0" y1="37.6" x2="72" y2="37.6"/>
+						<rect id="Rectangle-Copy-16" x="21" y="0" class="st5" width="32" height="38"/>
+					</g>
+					<g id="total-debt" transform="translate(381.000000, 20.000000)">
+						<line id="Line-Copy-7" class="st4" x1="0" y1="159.5" x2="72" y2="159.5"/>
+						<rect id="Rectangle-Copy-17" x="20" y="0" class="st6" width="32" height="160"/>
+					</g>
+					<text transform="matrix(1 0 0 1 39.421 209.9909)" class="st1 st2 st7">Deficit from </text>
+					<text transform="matrix(1 0 0 1 31.49 225.9909)" class="st1 st2 st7">previous years</text>
+					<text transform="matrix(1 0 0 1 181 211.0974)" class="st1 st2 st7">  This year’s deficit</text>
+					<text transform="matrix(1 0 0 1 389.272 209.4479)" class="st1 st2 st7">Total debt</text>
+					<g id="Plus" transform="translate(167.000000, 124.000000)">
+						<line id="Line-4" class="st8" x1="8.5" y1="0" x2="8.5" y2="16"/>
+						<line id="Line-5" class="st9" x1="0" y1="8.5" x2="16" y2="8.5"/>
+					</g>
+					<g id="Equal" transform="translate(324.000000, 128.000000)">
+						<line id="Line-6" class="st9" x1="0" y1="0.5" x2="16" y2="0.5"/>
+						<line id="Line-6-Copy" class="st9" x1="0" y1="8.5" x2="16" y2="8.5"/>
+					</g>
+				</g>
+				<text transform="matrix(1 0 0 1 38.5 338.5429)" class="st1 st2 st7">*Please note this illustration uses fictional data.</text>
+				<text transform="matrix(1 0 0 1 185.032 42)" class="st10 st11 st12">Visualizing Deficit vs. Debt</text>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
