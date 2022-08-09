@@ -21,7 +21,7 @@ jest.mock('../../../../components/split-flap-display/split-flap-display',
 
 describe('National Debt Hero', () => {
 
-  beforeEach(() => {
+  beforeAll(() => {
     fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
       {
         "data": [{

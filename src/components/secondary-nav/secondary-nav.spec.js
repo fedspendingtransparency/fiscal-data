@@ -180,11 +180,11 @@ describe('Secondary Nav', () => {
         analyticsPageLabel={'Label'}
       >
         {sections.map((section) =>
-          <div id={section.id} key={section.id}/>
+          <div id={section.id} key={section.id} />
         )}
       </SecondaryNav>);
 
-    sections.map((section) => {
+    sections.forEach(section => {
       const button = getByText(section.title);
       button.click();
       expect(spy).toHaveBeenCalledWith({
