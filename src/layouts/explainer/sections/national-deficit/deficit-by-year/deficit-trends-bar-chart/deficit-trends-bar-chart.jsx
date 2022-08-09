@@ -9,7 +9,6 @@ import {breakpointLg, fontSize_12, fontSize_16} from "../../../../../../variable
 import {withWindowSize} from "react-fns";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {apiPrefix, basicFetch} from '../../../../../../utils/api-utils';
-import {format} from "date-fns";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-chart-helpers";
@@ -17,6 +16,7 @@ import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-
 const DeficitTrendsBarChart = ({ width }) => {
 
   const desktop = width >= pxToNumber(breakpointLg);
+  const [date, setDate] = useState(new Date ());
   const [chartData, setChartData] = useState([]);
   const [tickValuesX, setTickValuesX] = useState([]);
   const [tickValuesY, setTickValuesY] = useState([]);
@@ -44,6 +44,7 @@ const DeficitTrendsBarChart = ({ width }) => {
           "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(1)
         })
       })
+      setDate(new Date(result.data[result.data.length -1].record_date));
       const newData = preAPIData.concat(apiData);
       setChartData(newData);
       setMostRecentFiscalYear(newData[newData.length - 1].year);
@@ -64,7 +65,6 @@ const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
-  const date = new Date();
   const name = 'Monthly Treasury Statement (MTS)';
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
@@ -75,7 +75,6 @@ const DeficitTrendsBarChart = ({ width }) => {
       <p>
         Please note: This data visual only includes completed fiscal years.
       </p>
-      Last Updated: {format(date, 'MMMM d, yyyy')}
     </div>
 
   const header =
@@ -106,6 +105,7 @@ const DeficitTrendsBarChart = ({ width }) => {
             + 'with a spiked increase starting in 2019.'}
             header={header}
             footer={footer}
+            date={date}
           >
             <div className={barChart}>
               <Bar

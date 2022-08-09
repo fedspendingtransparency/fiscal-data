@@ -1,9 +1,9 @@
 import {
   chart,
   chartContainer,
+  headerContainer,
   footerContainer,
-  chartTitle,
-  headerContainer
+  chartTitle
 } from "./chart-container.module.scss";
 import React from "react";
 import {format} from "date-fns";
