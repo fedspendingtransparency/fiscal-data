@@ -46,9 +46,9 @@ const DeficitTrendsBarChart = ({ width }) => {
       })
       setDate(new Date(result.data[result.data.length -1].record_date));
       const newData = preAPIData.concat(apiData);
-      setChartData(newData);
       setMostRecentFiscalYear(newData[newData.length - 1].year);
       setMostRecentDeficit(newData[newData.length - 1].deficit);
+      setChartData(newData);
     });
   }
 
