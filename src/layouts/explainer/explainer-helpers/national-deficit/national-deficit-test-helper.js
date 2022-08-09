@@ -1,4 +1,4 @@
-
+import {mockDeficitHeroData} from "../../explainer-test-helper";
 
 const mockMtsDeficitData_decrease = [{
   "current_fytd_net_outly_amt": "2750000000000",
@@ -109,6 +109,12 @@ const understandingDeficit_RevenueSpendingMatchers = [
 ]
 
 export const understandingDeficitMatchers = [
+  {
+    matcher: (url) => {
+      return url.includes('filter=line_code_nbr:eq:5694') && url.includes('page[size]=13');
+    },
+    jsonResponse: mockDeficitHeroData
+  },
   {
     matcher: (url) => {
       return url.includes('filter=line_code_nbr:eq:5694');
