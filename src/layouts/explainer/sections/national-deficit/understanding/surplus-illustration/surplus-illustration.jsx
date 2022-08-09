@@ -95,8 +95,8 @@ const SurplusIllustration = ({glossary, width}) => {
               <img src={balancedBudget} alt="" data-testid={"balanced-budget-image"} />
               <div>
                 <p>
-                  A <i>{balancedBudgetGlossary}</i> occurs when the amount the government spends equals the
-                  amount the government collects.
+                  A <i>{balancedBudgetGlossary}</i> occurs when the amount the government spends
+                  equals the amount the government collects.
                 </p>
                 <p>
                   Sometimes the term balanced budget is used more broadly to refer
