@@ -24,6 +24,8 @@ const DeficitTrendsBarChart = ({ width }) => {
   const [mostRecentDeficit, setMostRecentDeficit] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [minValue, setMinValue] = useState('');
+  const [headerYear, setHeaderYear] = useState('');
+  const [headerDeficit, setHeaderDeficit] = useState('');
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -46,10 +48,34 @@ const DeficitTrendsBarChart = ({ width }) => {
       })
       setDate(new Date(result.data[result.data.length -1].record_date));
       const newData = preAPIData.concat(apiData);
-      setMostRecentFiscalYear(newData[newData.length - 1].year);
-      setMostRecentDeficit(newData[newData.length - 1].deficit);
+      const latestYear = newData[newData.length - 1].year;
+      const latestDeficit = newData[newData.length - 1].deficit;
+      setMostRecentFiscalYear(latestYear);
+      setHeaderYear(latestYear);
+      setMostRecentDeficit(latestDeficit);
+      setHeaderDeficit(latestDeficit);
       setChartData(newData);
     });
+  }
+
+  const chartChangeOnMouseEnter = (data, event) => {
+    event.target.style.fill = '#555555';
+    setHeaderYear(data.data.year);
+    setHeaderDeficit(data.data.deficit);
+  }
+
+  const chartChangeOnMouseLeave = (data, event, chartData) => {
+    if (data.formattedValue === chartData[chartData.length -1].deficit) {
+      event.target.style.fill = '#666666';
+    }
+    else {
+      event.target.style.fill = deficitExplainerPrimary;
+    }
+  }
+
+  const resetHeaderValues = () => {
+    setHeaderYear(mostRecentFiscalYear);
+    setHeaderDeficit(mostRecentDeficit);
   }
 
   useEffect(() => {
@@ -80,11 +106,11 @@ const DeficitTrendsBarChart = ({ width }) => {
   const header =
     <>
       <div>
-        <div className={headerTitle}>{mostRecentFiscalYear}</div>
+        <div className={headerTitle}>{headerYear}</div>
         <span className={subHeader}>Fiscal Year</span>
       </div>
     <div>
-      <div className={headerTitle}>${mostRecentDeficit} T</div>
+      <div className={headerTitle}>${headerDeficit} T</div>
       <span className={subHeader}>Total Deficit</span>
     </div>
     </>
@@ -107,10 +133,11 @@ const DeficitTrendsBarChart = ({ width }) => {
             footer={footer}
             date={date}
           >
-            <div className={barChart}>
+            <div className={barChart} onMouseLeave={resetHeaderValues}>
               <Bar
                 data={chartData}
                 theme={chartTheme}
+                layers={['grid', 'axes', 'bars']}
                 width={desktop ? 490 : 315}
                 height={desktop ? 388 : 241}
                 keys={[
@@ -147,7 +174,12 @@ const DeficitTrendsBarChart = ({ width }) => {
                 enableGridY={true}
                 gridYValues={tickValuesY}
                 enableLabel={false}
-                isInteractive={false}
+                isInteractive={true}
+                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event)}}
+                onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event, chartData)}}
+                tooltip={() => (
+                  <></>
+                )}
               />
             </div>
           </ChartContainer>

@@ -6,6 +6,7 @@
 // The empty entry for 2000 is to provide needed left margin on the chart
 
  import {numberWithCommas} from "../../../../../../helpers/simplify-number/simplifyNumber";
+import {deficitExplainerPrimary} from "../../national-deficit.module.scss";
 
 const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
  const sort = 'sort=record_date';
@@ -97,7 +98,12 @@ export const generateTickValues = (chartData) => {
   const maxValue = Math.max(...deficitValues);
   const minValue  = Math.min(...deficitValues);
   for(let i = Math.floor(minValue*2)/2; i <= Math.ceil(maxValue*2)/2; i += 0.5) {
-    yValues.push(i);
+    if(i !== 0) {
+      yValues.push(i.toFixed(1));
+    }
+    else {
+      yValues.push(i.toFixed());
+    }
   }
   tickValues.push(xValues);
   tickValues.push(yValues);
