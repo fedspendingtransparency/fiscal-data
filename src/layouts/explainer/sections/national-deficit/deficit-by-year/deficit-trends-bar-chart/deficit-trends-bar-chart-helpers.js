@@ -97,7 +97,12 @@ export const generateTickValues = (chartData) => {
   const maxValue = Math.max(...deficitValues);
   const minValue  = Math.min(...deficitValues);
   for(let i = Math.floor(minValue*2)/2; i <= Math.ceil(maxValue*2)/2; i += 0.5) {
-    yValues.push(i);
+    if(i !== 0) {
+      yValues.push(i.toFixed(1));
+    }
+    else {
+      yValues.push(i.toFixed());
+    }
   }
   tickValues.push(xValues);
   tickValues.push(yValues);
