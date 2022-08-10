@@ -67,6 +67,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
     .then((res) => {
       if (res.data) {
 
+
         // create local variable to immediately find last complete year record
         const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 1).toString();
         const lastCompleteYearRecord =

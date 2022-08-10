@@ -67,3 +67,6 @@ export const chartContainer: string;
 export const chartTitle: string;
 export const chart: string;
 export const footerContainer: string;
+export const headerContainer: string;
+export const header: string;
+export const subHeader: string;
