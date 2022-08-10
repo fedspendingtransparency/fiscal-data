@@ -41,7 +41,7 @@ describe('Deficit and Surplus Causes Section', () => {
   it('renders the chart footer', async () => {
     const {findByText} = render(<DeficitComparisonBarChart sectionId={sectionId} />);
 
-    expect(await findByText('Last Updated: September 29, 2021')).toBeInTheDocument();
+    expect(await findByText('Last Updated: September 30, 2021')).toBeInTheDocument();
   });
 });
 
