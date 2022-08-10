@@ -48,6 +48,9 @@ typings/
 # Optional REPL history
 .node_repl_history
 
+#intellij manual adds
+.idea
+
 # Output of 'npm pack'
 *.tgz
 
