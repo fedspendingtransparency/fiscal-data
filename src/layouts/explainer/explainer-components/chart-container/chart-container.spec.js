@@ -8,7 +8,7 @@ describe('Chart container component', () => {
   const mockFooter = 'Footer';
   const mockChart = <div>chart</div>
   const mockAltText = 'alt text';
-  const mockDate = new Date('2021-09-30');
+  const mockDate = new Date('2021-09-30T00:00:00.000'); // prevent timezone adjustment
 
   it('renders the title', () => {
     const {getByText} = render(
@@ -37,7 +37,7 @@ describe('Chart container component', () => {
     );
     expect(getByText(mockFooter, {exact: false})).toBeInTheDocument();
     expect(getByText('Last Updated:', {exact: false})).toBeInTheDocument();
-    expect(getByText('September 29, 2021', {exact: false})).toBeInTheDocument();
+    expect(getByText('September 30, 2021', {exact: false})).toBeInTheDocument();
   });
 
   it('renders the chart', () => {
