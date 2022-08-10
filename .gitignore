@@ -49,7 +49,12 @@ typings/
 .node_repl_history
 
 #intellij manual adds
-.idea
+.idea/
+fiscal-data.iml
+modules.xml
+runConfigurations.xml
+vcs.xml
+workspace.xml
 
 # Output of 'npm pack'
 *.tgz
