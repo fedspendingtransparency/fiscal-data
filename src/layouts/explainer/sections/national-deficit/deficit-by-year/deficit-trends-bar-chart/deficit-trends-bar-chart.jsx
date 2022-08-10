@@ -27,6 +27,17 @@ const DeficitTrendsBarChart = ({ width }) => {
   const [headerYear, setHeaderYear] = useState('');
   const [headerDeficit, setHeaderDeficit] = useState('');
 
+  const applyChartScaling = () => {
+    // rewrite some element attribs after render to ensure Chart scales with container
+    // which doesn't seem to happen naturally when nivo has a flex container
+    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
+    if (svgChart) {
+      svgChart.setAttribute('viewBox', '0 0 495 388');
+      svgChart.setAttribute('height', '100%');
+      svgChart.setAttribute('width', '100%');
+    }
+  };
+
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
       return `-$${Math.abs(v)} T`;
@@ -79,6 +90,7 @@ const DeficitTrendsBarChart = ({ width }) => {
   }
 
   useEffect(() => {
+    applyChartScaling();
     getChartData();
   }, []);
 
@@ -133,19 +145,19 @@ const DeficitTrendsBarChart = ({ width }) => {
             footer={footer}
             date={date}
           >
-            <div className={barChart} onMouseLeave={resetHeaderValues}>
+            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'}>
               <Bar
                 data={chartData}
                 theme={chartTheme}
                 layers={['grid', 'axes', 'bars']}
-                width={desktop ? 490 : 315}
-                height={desktop ? 388 : 241}
+                width={ 495 }
+                height={ 388 }
                 keys={[
                   'deficit'
                 ]}
                 indexBy="year"
                 margin={desktop ?
-                  {top: 15, right: 0, bottom: 20, left: 55} :
+                  {top: 15, right: 0, bottom: 20, left: 50} :
                   {top: 10, right: 0, bottom: 20, left: 50}
                 }
                 padding={desktop ? 0.47 : 0.35}

@@ -6,7 +6,6 @@
 // The empty entry for 2000 is to provide needed left margin on the chart
 
  import {numberWithCommas} from "../../../../../../helpers/simplify-number/simplifyNumber";
-import {deficitExplainerPrimary} from "../../national-deficit.module.scss";
 
 const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
  const sort = 'sort=record_date';
