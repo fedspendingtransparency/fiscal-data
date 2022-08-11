@@ -24,6 +24,19 @@ const DeficitTrendsBarChart = ({ width }) => {
   const [mostRecentDeficit, setMostRecentDeficit] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [minValue, setMinValue] = useState('');
+  const [headerYear, setHeaderYear] = useState('');
+  const [headerDeficit, setHeaderDeficit] = useState('');
+
+  const applyChartScaling = () => {
+    // rewrite some element attribs after render to ensure Chart scales with container
+    // which doesn't seem to happen naturally when nivo has a flex container
+    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
+    if (svgChart) {
+      svgChart.setAttribute('viewBox', '0 0 495 388');
+      svgChart.setAttribute('height', '100%');
+      svgChart.setAttribute('width', '100%');
+    }
+  };
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -46,13 +59,38 @@ const DeficitTrendsBarChart = ({ width }) => {
       })
       setDate(new Date(result.data[result.data.length -1].record_date));
       const newData = preAPIData.concat(apiData);
-      setMostRecentFiscalYear(newData[newData.length - 1].year);
-      setMostRecentDeficit(newData[newData.length - 1].deficit);
+      const latestYear = newData[newData.length - 1].year;
+      const latestDeficit = newData[newData.length - 1].deficit;
+      setMostRecentFiscalYear(latestYear);
+      setHeaderYear(latestYear);
+      setMostRecentDeficit(latestDeficit);
+      setHeaderDeficit(latestDeficit);
       setChartData(newData);
     });
   }
 
+  const chartChangeOnMouseEnter = (data, event) => {
+    event.target.style.fill = '#555555';
+    setHeaderYear(data.data.year);
+    setHeaderDeficit(data.data.deficit);
+  }
+
+  const chartChangeOnMouseLeave = (data, event, chartData) => {
+    if (data.formattedValue === chartData[chartData.length -1].deficit) {
+      event.target.style.fill = '#666666';
+    }
+    else {
+      event.target.style.fill = deficitExplainerPrimary;
+    }
+  }
+
+  const resetHeaderValues = () => {
+    setHeaderYear(mostRecentFiscalYear);
+    setHeaderDeficit(mostRecentDeficit);
+  }
+
   useEffect(() => {
+    applyChartScaling();
     getChartData();
   }, []);
 
@@ -80,11 +118,11 @@ const DeficitTrendsBarChart = ({ width }) => {
   const header =
     <>
       <div>
-        <div className={headerTitle}>{mostRecentFiscalYear}</div>
+        <div className={headerTitle}>{headerYear}</div>
         <span className={subHeader}>Fiscal Year</span>
       </div>
     <div>
-      <div className={headerTitle}>${mostRecentDeficit} T</div>
+      <div className={headerTitle}>${headerDeficit} T</div>
       <span className={subHeader}>Total Deficit</span>
     </div>
     </>
@@ -107,18 +145,19 @@ const DeficitTrendsBarChart = ({ width }) => {
             footer={footer}
             date={date}
           >
-            <div className={barChart}>
+            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'}>
               <Bar
                 data={chartData}
                 theme={chartTheme}
-                width={desktop ? 490 : 315}
-                height={desktop ? 388 : 241}
+                layers={['grid', 'axes', 'bars']}
+                width={ 495 }
+                height={ 388 }
                 keys={[
                   'deficit'
                 ]}
                 indexBy="year"
                 margin={desktop ?
-                  {top: 15, right: 0, bottom: 20, left: 55} :
+                  {top: 15, right: 0, bottom: 20, left: 50} :
                   {top: 10, right: 0, bottom: 20, left: 50}
                 }
                 padding={desktop ? 0.47 : 0.35}
@@ -147,7 +186,12 @@ const DeficitTrendsBarChart = ({ width }) => {
                 enableGridY={true}
                 gridYValues={tickValuesY}
                 enableLabel={false}
-                isInteractive={false}
+                isInteractive={true}
+                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event)}}
+                onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event, chartData)}}
+                tooltip={() => (
+                  <></>
+                )}
               />
             </div>
           </ChartContainer>
