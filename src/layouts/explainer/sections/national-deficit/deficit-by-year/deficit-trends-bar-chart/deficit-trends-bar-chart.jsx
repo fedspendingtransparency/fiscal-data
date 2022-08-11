@@ -12,6 +12,7 @@ import {apiPrefix, basicFetch} from '../../../../../../utils/api-utils';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-chart-helpers";
+import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 
 const DeficitTrendsBarChart = ({ width }) => {
 
@@ -57,7 +58,7 @@ const DeficitTrendsBarChart = ({ width }) => {
           "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(1)
         })
       })
-      setDate(new Date(result.data[result.data.length -1].record_date));
+      setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
       const newData = preAPIData.concat(apiData);
       const latestYear = newData[newData.length - 1].year;
       const latestDeficit = newData[newData.length - 1].deficit;

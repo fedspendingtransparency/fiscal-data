@@ -5,9 +5,7 @@
 // The initial deficit values were divided by 1 trillion, then rounded to the nearest tenth value
 // The empty entry for 2000 is to provide needed left margin on the chart
 
- import {numberWithCommas} from "../../../../../../helpers/simplify-number/simplifyNumber";
-
-const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
+ const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
  const sort = 'sort=record_date';
  export const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
 
@@ -18,7 +16,7 @@ export const preAPIData = [
   },
   {
     "year": "2001",
-    "deficit": "-0.1"
+    "deficit": "-0.2"
   },
   {
     "year": "2002",
@@ -75,11 +73,6 @@ export const preAPIData = [
 ];
 
 export const deficit2001Full = 127165000000;
-
-export const getDeficitDiffPercentage = (latestDeficit) => {
-  const value = Math.abs((Math.abs((latestDeficit - deficit2001Full)) / latestDeficit) * 100).toFixed();
-  return numberWithCommas(parseInt(value));
-}
 
 export const generateTickValues = (chartData) => {
   const xValues = [];
