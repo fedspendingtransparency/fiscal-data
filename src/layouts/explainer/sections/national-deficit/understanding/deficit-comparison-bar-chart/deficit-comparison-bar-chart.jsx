@@ -25,6 +25,7 @@ import {
 import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {nationalDeficitSectionConfigs} from "../../national-deficit";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
+import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 
 const DeficitComparisonBarChart = ({sectionId, width}) => {
   const [date, setDate] = useState(new Date ());
@@ -69,13 +70,6 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
   const deficitChangeEndpoint = endpoints[4];
 
   const markers = getMarkers(data, width);
-
-  const getDateWithoutTimeZoneAdjust = (dateStr) => {
-    const localDate = new Date(dateStr); // convert to date obj
-
-    // strip timezone indicator then remake date obj
-    return new Date(localDate.toISOString().slice(0, -1));
-  }
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${dateEndpoint.path}`)
