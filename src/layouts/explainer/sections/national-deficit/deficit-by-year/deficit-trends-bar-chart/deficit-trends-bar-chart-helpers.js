@@ -16,11 +16,11 @@ export const preAPIData = [
   },
   {
     "year": "2001",
-    "deficit": "-0.2"
+    "deficit": "-0.1"
   },
   {
     "year": "2002",
-    "deficit": "0.1"
+    "deficit": "0.2"
   },
   {
     "year": "2003",
