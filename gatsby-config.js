@@ -16,9 +16,6 @@ module.exports = {
   siteMetadata: {
     siteUrl: 'https://fiscaldata.treasury.gov'
   },
-  flags: {
-    LMDB_STORE: true
-  },
   plugins: [
     // ////// IMPORTANT: Google Analytics Plugin must be the first item in this array //////
     {
