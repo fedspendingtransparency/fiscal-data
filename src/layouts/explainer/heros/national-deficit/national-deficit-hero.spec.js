@@ -19,14 +19,16 @@ describe('National Deficit Hero', () => {
 
   it("Hero Image section loads with relevant data", async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
+    const glossary = [];
+    global.console = {warn: jest.fn()}
 
-    const {getByText} = render(<NationalDeficitHero />);
+    const {getByText} = render(<NationalDeficitHero glossary={glossary} />);
     expect(fetchSpy).toBeCalled();
     await waitFor(() => getByText("$2,237,949,464,925", {exact:false}));
     expect(await getByText("$2,237,949,464,925", {exact: false})).toBeInTheDocument();
     expect(await getByText("decreased", {exact: false})).toBeInTheDocument();
     expect(await getByText("down arrow", {exact: false})).toBeInTheDocument();
-    expect(await getByText("In fiscal year (FY) 2021", {exact: false})).toBeInTheDocument();
+    expect(await getByText("2021, the federal government", {exact: false})).toBeInTheDocument();
     expect(await getByText("government spent $2.77 trillion", {exact: false})).toBeInTheDocument();
     global.fetch.mockRestore();
   });

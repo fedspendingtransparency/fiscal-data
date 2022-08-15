@@ -6,7 +6,8 @@ import CustomLink from "../links/custom-link/custom-link";
 const GlossaryTerm = ({term, page, glossary, children}) => {
 
   const lookupTerm = (value) => {
-    let entry = findGlossaryTerm(value, glossary).filter(e => (e.site_page === page))[0];
+    const entry = findGlossaryTerm(value, glossary)
+      .filter(e => (e.site_page.includes(page.split(' ')[0])))[0];
     let glossaryTerm = '';
     let definition = '';
     let definitionSplit = [];

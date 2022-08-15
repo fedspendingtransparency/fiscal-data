@@ -43,13 +43,13 @@ const nationalDeficitSections = [
     id: nationalDeficitSectionIds[1],
     title: 'Understanding the National Deficit',
     component: (glossary, cpiDataByYear) =>
-      <UnderstandingDeficit sectionId={nationalDeficitSectionIds[1]} />
+      <UnderstandingDeficit sectionId={nationalDeficitSectionIds[1]} glossary={glossary} />
   },
   {
     index: 2,
     id: nationalDeficitSectionIds[2],
     title: 'The Causes of Deficits and Surpluses',
-    component: (glossary, cpiDataByYear) => <DeficitAndSurplusCauses />
+    component: (glossary, cpiDataByYear) => <DeficitAndSurplusCauses glossary={glossary} />
   },
   {
     index: 3,

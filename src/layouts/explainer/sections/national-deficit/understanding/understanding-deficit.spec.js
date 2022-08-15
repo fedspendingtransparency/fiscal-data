@@ -11,6 +11,7 @@ import {waitFor} from "@testing-library/dom";
 
 describe('Deficit and Surplus Causes Section', () => {
   const sectionId = nationalDeficitSectionIds[1];
+  const glossary = [];
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
@@ -22,19 +23,22 @@ describe('Deficit and Surplus Causes Section', () => {
   });
 
   it('renders the text content', () => {
-    const {getByTestId} = render(<UnderstandingDeficit sectionId={sectionId} />);
+    const {getByTestId} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     expect(getByTestId('textContent')).toBeInTheDocument();
   });
 
   it('renders the bar chart', async () => {
-    const {getByTestId} = render(<UnderstandingDeficit sectionId={sectionId} />);
+    const {getByTestId} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     await waitFor(() => {
       expect(getByTestId('deficitComparisonChart')).toBeInTheDocument();
     })
   });
 
   it('renders the surplus illustration', () => {
-    const {getByTestId} = render(<UnderstandingDeficit sectionId={sectionId} />);
+    const {getByTestId} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     expect(getByTestId('surplus-illustration')).toBeInTheDocument();
   });
 });
