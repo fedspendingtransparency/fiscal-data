@@ -112,6 +112,7 @@ import { Bar } from '@nivo/bar';
 import Multichart from "../../multichart/multichart"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import {adjustDataForInflation} from "../../../../helpers/inflation-adjust/inflation-adjust";
+import Analytics from "../../../../utils/analytics/analytics";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
@@ -125,6 +126,15 @@ export const nationalDebtSectionIds = [
   'debt-tracking',
   'dive-deeper'
 ];
+
+
+const analyticsClickHandler = (action, section) => {
+  Analytics.event({
+    category: 'Explainers',
+    action: action,
+    label: `Debt - ${section}`
+  });
+}
 
 export const nationalDebtExplainedTableContent = {
   header: [
@@ -322,26 +332,61 @@ export const NationalDebtExplainedSection = ({glossary}) => {
 };
 
 
-const FundingProgramsSection = () => {
-  const usaSpending = <CustomLink url={'https://www.usaspending.gov/'}>USAspending.gov</CustomLink>;
-  const objectClass = <CustomLink url={'https://www.usaspending.gov/#/explorer/object_class'}>Object Class</CustomLink>;
-  const budgetFunction = <CustomLink url={'https://www.usaspending.gov/explorer/budget_function'}>Budget Function</CustomLink>;
+export const FundingProgramsSection = () => {
+  const usaSpending =
+    <CustomLink
+      url={'https://www.usaspending.gov/'}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'Funding Programs & Services')}
+    >
+      USAspending.gov
+    </CustomLink>;
+
+  const usaSpending_majorSpendingCategories =
+    <CustomLink
+      url={'https://www.usaspending.gov/'}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'What are the major spending categories?')}
+    >
+      USAspending.gov
+    </CustomLink>;
+
+  const objectClass =
+    <CustomLink
+      url={'https://www.usaspending.gov/#/explorer/object_class'}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'What are the major spending categories?')}
+    >
+      Object Class
+    </CustomLink>;
+
+  const budgetFunction =
+    <CustomLink
+      url={'https://www.usaspending.gov/explorer/budget_function'}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'What are the major spending categories?')}
+    >
+      Budget Function
+    </CustomLink>;
+
   return (
     <>
       <p>
-        The federal government needs to borrow money to pay its bills when its ongoing spending activities and
-        investments cannot be funded by federal revenues alone. Decreases in federal revenue are largely due to either
-        a decrease in tax rates or individuals or corporations making less money. The national debt enables the federal
-        government to pay for important programs and services even if it does not have funds immediately available,
-        often due to a decrease in revenue. Decreases in federal revenue coupled with increased government spending
-        further increases the deficit.
+        The federal government needs to borrow money to pay its bills when its ongoing spending
+        activities and investments cannot be funded by federal revenues alone. Decreases in federal
+        revenue are largely due to either a decrease in tax rates or individuals or corporations
+        making less money. The national debt enables the federal government to pay for important
+        programs and services even if it does not have funds immediately available, often due to a
+        decrease in revenue. Decreases in federal revenue coupled with increased government
+        spending further increases the deficit.
       </p>
       <p>
-        Consistent with the purpose of the federal government established by the U.S. Constitution, money is spent on
-        programs and services to ensure the well-being of U.S. residents. The Constitution’s preamble states that the
-        purpose of the federal government is “…to establish Justice, insure domestic Tranquility, provide for the common
-        defense, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity.”
-        Uninterrupted funding of programs and services is critical to residents’ health, welfare, and security.
+        Consistent with the purpose of the federal government established by the U.S. Constitution,
+        money is spent on programs and services to ensure the well-being of U.S. residents. The
+        Constitution’s preamble states that the purpose of the federal government is “…to establish
+        Justice, insure domestic Tranquility, provide for the common defense, promote the general
+        Welfare, and secure the Blessings of Liberty to ourselves and our Posterity.” Uninterrupted
+        funding of programs and services is critical to residents’ health, welfare, and security.
       </p>
       <div className={debtAccordion}>
         <Accordion title="What are some of the major spending categories?"
@@ -350,52 +395,56 @@ const FundingProgramsSection = () => {
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
-              Below are some of the federal government’s largest spending categories. Visit {usaSpending} to explore
-              federal spending by the types of items and services purchased by the federal government. Explore federal
-              spending by {objectClass} or learn how spending categories and subcategories break down by viewing federal
-              spending by {budgetFunction}.
+              Below are some of the federal government’s largest spending categories.
+              Visit {usaSpending_majorSpendingCategories} to explore federal spending by the types
+              of items and services purchased by the federal government. Explore federal spending
+              by {objectClass} or learn how spending categories and subcategories break down by
+              viewing federal spending by {budgetFunction}.
             </p>
             <div className={spendingCategoriesTable}>
               <div className={row}>
                 <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faDollarSign} className={icon}/>
+                  <FontAwesomeIcon icon={faDollarSign} className={icon} />
                 </div>
                 <div className={secondColumn}>
                   <strong>Income Security</strong>
                   <p>
-                    Supports programs such as unemployment compensation, federal employee retirement and disability,
-                    and food and nutrition assistance; spending for this program increased during the COVID-19 pandemic
-                    because of the CARES Act and American Rescue Plan Act
+                    Supports programs such as unemployment compensation, federal employee retirement
+                    and disability, and food and nutrition assistance; spending for this program
+                    increased during the COVID-19 pandemic because of the CARES Act and American
+                    Rescue Plan Act
                   </p>
                 </div>
               </div>
               <div className={row}>
                 <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faUserFriends} className={icon}/>
+                  <FontAwesomeIcon icon={faUserFriends} className={icon} />
                 </div>
                 <div className={secondColumn}>
                   <strong>Social Security</strong>
                   <p>
-                    Supports programs for beneficiaries including retirement, disability insurance, and supplemental security
+                    Supports programs for beneficiaries including retirement, disability insurance,
+                    and supplemental security
                     income payments
                   </p>
                 </div>
               </div>
               <div className={row}>
                 <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faHeartbeat} className={icon}/>
+                  <FontAwesomeIcon icon={faHeartbeat} className={icon} />
                 </div>
                 <div className={secondColumn}>
                   <strong>Health</strong>
                   <p>
-                    Supports spending for programs related to health care services, health research and training,
-                    and consumer and occupational health and safety, except for Medicare which has its own category
+                    Supports spending for programs related to health care services, health research
+                    and training, and consumer and occupational health and safety, except for
+                    Medicare which has its own category
                   </p>
                 </div>
               </div>
               <div className={row}>
                 <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faShieldAlt} className={icon}/>
+                  <FontAwesomeIcon icon={faShieldAlt} className={icon} />
                 </div>
                 <div className={secondColumn}>
                   <strong>National Defense</strong>
@@ -406,13 +455,13 @@ const FundingProgramsSection = () => {
               </div>
               <div className={row}>
                 <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faHandHoldingMedical} className={icon}/>
+                  <FontAwesomeIcon icon={faHandHoldingMedical} className={icon} />
                 </div>
                 <div className={secondColumn}>
                   <strong>Medicare</strong>
                   <p>
-                    Supports spending programs providing health insurance for people such as those aged 65 or older
-                    and certain younger people with disabilities
+                    Supports spending programs providing health insurance for people such as those
+                    aged 65 or older and certain younger people with disabilities
                   </p>
                 </div>
               </div>
@@ -422,16 +471,17 @@ const FundingProgramsSection = () => {
       </div>
       <div className={fundingProgramsIcon}>
         <div className={iconBackground}>
-          <FontAwesomeIcon icon={faFlagUsa} className={icon}/>
-          <FontAwesomeIcon icon={faFlagUsa} className={offsetIcon}/>
+          <FontAwesomeIcon icon={faFlagUsa} className={icon} />
+          <FontAwesomeIcon icon={faFlagUsa} className={offsetIcon} />
         </div>
       </div>
       <div className={fundingProgramsBox}>
         <p>
-          In accordance with the 2014 DATA Act, federal agencies are required to submit financial data on a quarterly
-          and/or monthly basis to {usaSpending}. Anyone can visit USAspending for a breakdown of what the federal
-          government spends each year and how it spends that money. Visitors can follow the money from the Congressional
-          appropriations to the federal agencies and down to local communities and businesses.
+          In accordance with the 2014 DATA Act, federal agencies are required to submit financial
+          data on a quarterly and/or monthly basis to {usaSpending}. Anyone can
+          visit USAspending for a breakdown of what the federal government spends each year and how
+          it spends that money. Visitors can follow the money from the Congressional appropriations
+          to the federal agencies and down to local communities and businesses.
         </p>
       </div>
     </>
@@ -563,9 +613,41 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
 
   const { name, slug, dateField, valueField, endpoint } = nationalDebtSectionConfigs[sectionId];
 
-  const historicalDebtOutstandingLink = <CustomLink url={slug}>{name}</CustomLink>;
-  const beaLink = <CustomLink url={"https://www.bea.gov/"}>Bureau of Economic Analysis</CustomLink>;
-  const blsLink = <CustomLink url={"https://www.bls.gov/"}>Bureau of Labor Statistics</CustomLink>;
+  const historicalDebtOutstanding_Last100Years =
+    <CustomLink
+      url={slug}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'U.S. Federal Debt Trends Over the Last 100 Years')}
+    >
+      {name}
+    </CustomLink>;
+
+  const historicalDebtOutstanding_DebtTrends =
+    <CustomLink
+      url={slug}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'Federal Debt Trends Over Time')}
+    >
+      {name}
+    </CustomLink>;
+
+  const beaLink =
+    <CustomLink
+      url={"https://www.bea.gov/"}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'Federal Debt Trends Over Time')}
+    >
+      Bureau of Economic Analysis
+    </CustomLink>;
+
+  const blsLink =
+    <CustomLink
+      url={"https://www.bls.gov/"}
+      onClick={() => analyticsClickHandler('Citation Click',
+        'U.S. Federal Debt Trends Over the Last 100 Years')}
+    >
+      Bureau of Labor Statistics
+    </CustomLink>;
 
   const gdp = <GlossaryTerm term='Gross Domestic Product (GDP)' page='Debt explainer' glossary={glossary}>
                 gross domestic product (GDP)
@@ -871,7 +953,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
               </div>
               <div className={footerContainer}>
                 <p>
-                  Visit the {historicalDebtOutstandingLink} dataset to explore and download this data.
+                  Visit the {historicalDebtOutstanding_Last100Years} dataset to explore and download this data.
                   The inflation data is sourced from the {blsLink}.
                 </p>
                 <p>
@@ -990,7 +1072,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                   />
                 </div>
                 <div className={footerContainer}>
-                  <p> Visit the {historicalDebtOutstandingLink} dataset to explore and download this data.
+                  <p> Visit the {historicalDebtOutstanding_DebtTrends} dataset to explore and download this data.
                     The GDP data is sourced from the {beaLink}.
                   </p>
                   <p>
@@ -1441,7 +1523,12 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
                   />
                 </div>
                 <div className={footerContainer}>
-                  Visit the <CustomLink url={slug}>{name}</CustomLink> to explore and download this data.
+                  Visit the <CustomLink url={slug}
+                                        onClick={() => analyticsClickHandler('Citation Click',
+                                          'Intragovernmental Holdings and Debt Held by the Public')}
+                  >
+                  {name}
+                  </CustomLink> to explore and download this data.
                   <p>
                     Last Updated: {format(date, 'MMMM d, yyyy')}
                   </p>
@@ -1534,13 +1621,21 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
               <div className={footerContainer}>
                 <p>
                   Visit the {' '}
-                  <CustomLink url={'https://fiscaldata.treasury.gov/datasets/average-interest-rates-treasury-securities' +
-                  '/average-interest-rates-on-u-s-treasury-securities'}>
+                  <CustomLink
+                    url={'https://fiscaldata.treasury.gov/datasets/average-interest-rates-treasury'+
+                      '-securities/average-interest-rates-on-u-s-treasury-securities'}
+                    onClick={() => analyticsClickHandler('Citation Click',
+                      'Interest Rate and Total Debt')}
+                  >
                     Average Interest Rates on U.S. Treasury Securities
                   </CustomLink>
                   {' '} and {' '}
-                  <CustomLink url={'https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/' +
-                  'summary-of-treasury-securities-outstanding'}>
+                  <CustomLink
+                    url={'https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/' +
+                         'summary-of-treasury-securities-outstanding'}
+                    onClick={() => analyticsClickHandler('Citation Click',
+                      'Interest Rate and Total Debt')}
+                  >
                     U.S. Treasury Monthly Statement of the Public Debt (MSPD)
                   </CustomLink>
                   {' '} datasets to explore and download this data.
@@ -1600,92 +1695,136 @@ export const DebtCeilingSection = () => (
   </>
 );
 
-const DebtTrackingSection = () => (
-  <>
-    <p>
-      Created in 2012 and operating under the Department of the Treasury, the <CustomLink url={'https://www.fiscal.treasury.gov/'}>
-      Bureau of the Fiscal Service</CustomLink> manages all federal payments and collections and provides government-wide accounting
-      and reporting services. A primary function of the Fiscal Service is to account for and report the national debt, as dictated
-      by the U.S. Constitution, which states that “regular Statement and Account of the Receipts and Expenditures of all public
-      Money shall be published from time to time.”
-    </p>
-  </>
-);
+export const DebtTrackingSection = () => {
+  const fiscalService =
+    <CustomLink
+      url={'https://www.fiscal.treasury.gov/'}
+      onClick={() => analyticsClickHandler('Citation Click', 'Tracking the Debt')}
+    >
+      Bureau of the Fiscal Service
+    </CustomLink>;
+
+  return (
+    <>
+      <p>
+        Created in 2012 and operating under the Department of the Treasury,
+        the {fiscalService} manages all federal payments and collections and provides
+        government-wide accounting and reporting services. A primary function of the Fiscal Service
+        is to account for and report the national debt, as dictated by the U.S. Constitution, which
+        states that “regular Statement and Account of the Receipts and Expenditures of all public
+        Money shall be published from time to time.”
+      </p>
+    </>
+  )
+};
 
 export const DiveDeeperSection = () => (
   <>
     <p>
-      For more information about the national debt, please explore more of Fiscal Data and check out the extensive resources listed below.
+      For more information about the national debt, please explore more of Fiscal Data and check
+      out the extensive resources listed below.
     </p>
     <div className={diveDeeperLink}>
       <div className={diveDeeperLink}>
         <strong>The most recent U.S. Government Financial Report</strong>
-        <br/>
-        <CustomLink url={'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2021.pdf'}>
+        <br />
+        <CustomLink
+          url={'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2021.pdf'}
+          onClick={() => analyticsClickHandler('Citation Click',
+            'Dive Deeper into the Debt')}
+        >
           https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2021.pdf
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>America’s Fiscal Future: Federal Debt</strong>
-        <br/>
-        <CustomLink url={'https://www.gao.gov/americas-fiscal-future/federal-debt'}>
+        <br />
+        <CustomLink
+          url={'https://www.gao.gov/americas-fiscal-future/federal-debt'}
+          onClick={() => analyticsClickHandler('Citation Click',
+            'Dive Deeper into the Debt')}
+        >
           https://www.gao.gov/americas-fiscal-future/federal-debt
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>{'The Debt Ceiling: An Explainer\n'}</strong>
-        <br/>
-        <CustomLink url={'https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-an-explainer/'}>
+        <br />
+        <CustomLink
+          url={'https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-' +
+            'an-explainer/'}
+          onClick={() => analyticsClickHandler('Citation Click',
+            'Dive Deeper into the Debt')}
+        >
           https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-an-explainer/
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>{'Federal Borrowing and Debt\n'}</strong>
-        <br/>
-        <CustomLink url={'https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf'}>
+        <br />
+        <CustomLink
+          url={'https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf'}
+          onClick={() => analyticsClickHandler('Citation Click',
+            'Dive Deeper into the Debt')}
+        >
           https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>Federal Net Interest Costs: A Primer</strong>
-        <br/>
-        <CustomLink url={'https://www.cbo.gov/publication/56910'}>
+        <br />
+        <CustomLink url={'https://www.cbo.gov/publication/56910'}
+                    onClick={() => analyticsClickHandler('Citation Click',
+                      'Dive Deeper into the Debt')}
+        >
           https://www.cbo.gov/publication/56910
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?</strong>
-        <br/>
-        <CustomLink url={'https://www.federalreserve.gov/faqs/money_12853.htm'}>
+        <br />
+        <CustomLink url={'https://www.federalreserve.gov/faqs/money_12853.htm'}
+                    onClick={() => analyticsClickHandler('Citation Click',
+                      'Dive Deeper into the Debt')}
+        >
           https://www.federalreserve.gov/faqs/money_12853.htm
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>Options for Reducing Deficit</strong>
-        <br/>
-        <CustomLink url={'https://www.cbo.gov/publication/56783'}>
+        <br />
+        <CustomLink url={'https://www.cbo.gov/publication/56783'}
+                    onClick={() => analyticsClickHandler('Citation Click',
+                      'Dive Deeper into the Debt')}
+        >
           https://www.cbo.gov/publication/56783
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>Treasury Bulletin</strong>
-        <br/>
-        <CustomLink url={'https://fiscal.treasury.gov/reports-statements/treasury-bulletin/'}>
+        <br />
+        <CustomLink url={'https://fiscal.treasury.gov/reports-statements/treasury-bulletin/'}
+                    onClick={() => analyticsClickHandler('Citation Click',
+                      'Dive Deeper into the Debt')}
+        >
           https://fiscal.treasury.gov/reports-statements/treasury-bulletin/
         </CustomLink>
       </div>
 
       <div className={diveDeeperLink}>
         <strong>USAspending</strong>
-        <br/>
-        <CustomLink url={'https://www.usaspending.gov'}>
+        <br />
+        <CustomLink url={'https://www.usaspending.gov'}
+                    onClick={() => analyticsClickHandler('Citation Click',
+                      'Dive Deeper into the Debt')}
+        >
           https://www.usaspending.gov
         </CustomLink>
       </div>
@@ -1777,24 +1916,68 @@ const nationalDebtSections = [
 
 export default nationalDebtSections;
 
-const debtToThePenny = <CustomLink url={'/datasets/debt-to-the-penny/'}>Debt to the Penny</CustomLink>;
-const mspd = <CustomLink url={'/datasets/monthly-statement-public-debt/'}>Monthly Statement of the Public Debt (MSPD)</CustomLink>;
-const historicalDebt = <CustomLink url={'/datasets/historical-debt-outstanding/'}>Historical Debt Outstanding</CustomLink>;
-const treasurySecurities = <CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}>
-    Average Interest Rates on U.S. Treasury Securities</CustomLink>;
-const bls = <CustomLink url={'https://www.bls.gov/developers'}>Bureau of Labor Statistics</CustomLink>;
-const bea = <CustomLink url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey'}>
-    Bureau of Economic Analysis</CustomLink>;
-const github = <CustomLink url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}>GitHub repository</CustomLink>;
+const debtToThePenny =
+  <CustomLink url={'/datasets/debt-to-the-penny/'}
+              onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
+    Debt to the Penny
+  </CustomLink>;
+
+const mspd =
+  <CustomLink url={'/datasets/monthly-statement-public-debt/'}
+              onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
+    Monthly Statement of the Public Debt (MSPD)
+  </CustomLink>;
+
+const historicalDebt =
+  <CustomLink url={'/datasets/historical-debt-outstanding/'}
+              onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
+  Historical Debt Outstanding
+  </CustomLink>;
+
+const treasurySecurities =
+  <CustomLink url={'/datasets/average-interest-rates-treasury-securities/'}
+              onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
+    Average Interest Rates on U.S. Treasury Securities
+  </CustomLink>;
+
+const bls =
+  <CustomLink url={'https://www.bls.gov/developers'}
+              onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
+    Bureau of Labor Statistics
+  </CustomLink>;
+
+const bea =
+  <CustomLink
+    url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&' +
+      'categories=survey'}
+    onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
+    Bureau of Economic Analysis
+  </CustomLink>;
+
+const github =
+  <CustomLink
+    url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}
+    onClick={() => analyticsClickHandler('Citation Click', 'DS&M Github')}
+  >
+    GitHub repository
+  </CustomLink>;
 
   export const nationalDebtDataSources = (
   <>
-    Three different Fiscal Data datasets are used for federal debt values on this page. {debtToThePenny} provides daily values;
-    values from the December {mspd} are used for visualizations showing calendar years; and {historicalDebt} provides an annual
-    value for fiscal years. Interest rates are pulled from the {treasurySecurities} dataset. Adjustments for inflation are calculated
-    using Consumer Price Index values from the {bls}. Fiscal year Gross Domestic Product values from the {bea} are calculated by averaging
-    four relevant quarterly values from calendar year quarter 4 of the prior year through calendar year quarter 3 of the fiscal year shown.
-    For detailed documentation, users can reference our {github}.
+    Three different Fiscal Data datasets are used for federal debt values on this
+    page. {debtToThePenny} provides daily values; values from the December {mspd} are used for
+    visualizations showing calendar years; and {historicalDebt} provides an annual value for
+    fiscal years. Interest rates are pulled from the {treasurySecurities} dataset. Adjustments
+    for inflation are calculated using Consumer Price Index values from the {bls}. Fiscal year
+    Gross Domestic Product values from the {bea} are calculated by averaging four relevant
+    quarterly values from calendar year quarter 4 of the prior year through calendar year quarter
+    3 of the fiscal year shown. For detailed documentation, users can reference our {github}.
   </>
 );
 

@@ -9,6 +9,7 @@ import explainerSections, {
 import HeroImage from './hero-image/hero-image';
 import { IExplainerPage } from '../../models/IExplainerPage';
 import {
+  explainerAnalyticsLabelMap,
   explainerClassMap,
   explainerColorMap,
   explainerHeroMap, explainerRelatedDatasetMap,
@@ -83,6 +84,9 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
             sections={explainerSections[pageName]}
             activeClass={explainerClassMap[pageName].active}
             hoverClass={explainerClassMap[pageName].hover}
+            analytics={true}
+            analyticsCategory={'Explainers'}
+            analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
           >
             <div className={socialShareContainer}>
               <div className={socialShare}>
@@ -93,6 +97,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                              emailBody={explainerSocialShareMap[pageName].emailBody}
                              url={explainerSocialShareMap[pageName].url}
                              image={explainerSocialShareMap[pageName].image}
+                             pageName={explainerAnalyticsLabelMap[pageName]}
                 />
               </div>
               <div className={mainContent}>

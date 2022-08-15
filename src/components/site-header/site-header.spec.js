@@ -89,13 +89,14 @@ describe('SiteHeader', () => {
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const pageTitle = 'test page title'
-    const { getByTestId } = render(<SiteHeader />);
+    const { getByTestId, getByText } = render(<SiteHeader />);
     document.title = pageTitle;
 
     const logo = getByTestId('logo');
     const searchButton = getByTestId('search');
     const apiDocsButton = getByTestId('apiDocs');
     const aboutButton = getByTestId('about');
+    const topicsButton = getByTestId('topicsButton');
 
     logo.click();
     expect(spy).toHaveBeenCalledWith({
@@ -127,5 +128,16 @@ describe('SiteHeader', () => {
       action: `Top About Us Click`,
       label: pageTitle
     });
+    spy.mockClear();
+
+    fireEvent.mouseEnter(topicsButton);
+    const debtButton = getByText('Debt');
+    debtButton.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Sitewide Navigation',
+      action: `Topics Click`,
+      label: 'Debt'
+    });
+    spy.mockClear();
   });
 });

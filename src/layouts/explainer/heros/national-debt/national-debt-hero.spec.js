@@ -1,10 +1,13 @@
 import React from "react";
 import {
+  fireEvent,
   render,
-  act, waitFor, screen, waitForElementToBeRemoved
+  waitFor
 } from "@testing-library/react";
 import fetchMock from 'fetch-mock';
 import NationalDebtHero from "./national-debt-hero";
+import Analytics from "../../../../utils/analytics/analytics";
+import SiteHeader from "../../../../components/site-header/site-header";
 
 jest.mock('../../../../components/split-flap-display/split-flap-display',
   () => {
@@ -18,7 +21,7 @@ jest.mock('../../../../components/split-flap-display/split-flap-display',
 
 describe('National Debt Hero', () => {
 
-  beforeEach(() => {
+  beforeAll(() => {
     fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
       {
         "data": [{
@@ -36,6 +39,22 @@ describe('National Debt Hero', () => {
     await waitFor(() => getByText("28908004857445", {exact:false}));
     expect(await getByText("28908004857445", {exact: false})).toBeInTheDocument();
     global.fetch.mockRestore();
+  });
+
+  it('calls the appropriate analytics event when link is clicked on', async () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const {getByText} = render(<NationalDebtHero />);
+    await waitFor(() => getByText("28908004857445", {exact:false}));
+
+    const debtToThePenny = getByText('Debt to the Penny');
+
+    debtToThePenny.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: `Debt - What is the national debt?`
+    });
+    spy.mockClear();
   });
 
 });

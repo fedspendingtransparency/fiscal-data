@@ -26,6 +26,10 @@ export const getDateWithoutOffset = (date) => {
   return new Date(today.getTime() + today.getTimezoneOffset() * 60000);
 }
 
+export const explainerAnalyticsLabelMap = {
+  'national-debt': 'Debt',
+  'national-deficit': 'Deficit'
+}
 
 export const explainerColorMap = {
   'national-debt': {

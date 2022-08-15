@@ -3,6 +3,7 @@ import { act, fireEvent, render } from "@testing-library/react";
 import { scrollOptions, SecondaryNav } from "./secondary-nav";
 import { animateScroll } from 'react-scroll';
 import * as addressPathFunctions from '../../helpers/address-bar/address-bar';
+import Analytics from "../../utils/analytics/analytics";
 
 jest.mock('./variables.module.scss', (content) => ({
   ...content,
@@ -165,5 +166,33 @@ describe('Secondary Nav', () => {
       button.click();
     });
     expect(animateScrollToSpy).toHaveBeenCalledWith(0, scrollOptions);
+  });
+
+  it('calls the appropriate analytics event when links are clicked on', () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(
+      <SecondaryNav
+        sections={sections}
+        width={largeWidth}
+        hoverClass={hoverClass}
+        analytics={true}
+        analyticsCategory={'Category'}
+        analyticsPageLabel={'Label'}
+      >
+        {sections.map((section) =>
+          <div id={section.id} key={section.id} />
+        )}
+      </SecondaryNav>);
+
+    sections.forEach(section => {
+      const button = getByText(section.title);
+      button.click();
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Category',
+        action: `Left Nav Click`,
+        label: `Label - ${section.title}`
+      });
+      spy.mockClear();
+    })
   });
 });

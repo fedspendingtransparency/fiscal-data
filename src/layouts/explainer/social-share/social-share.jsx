@@ -33,6 +33,7 @@ import {
   EmailShareButton
 } from "react-share";
 import globalConstants from "../../../helpers/constants";
+import Analytics from "../../../utils/analytics/analytics";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -62,6 +63,14 @@ const shareButtonContentMap = {
     text: "Email",
     icon: faEnvelope
   }
+}
+
+const analyticsClickHandler = (page, social) => {
+  Analytics.event({
+    category: 'Explainers',
+    action: `Share Click`,
+    label: `${page} - Share on ${social}`
+  });
 }
 
 export const ShareButtonContent = ({ name, width }) => {
@@ -126,7 +135,9 @@ export const SocialShareComponent = (
     emailBody,
     url,
     image,
-    width }) => {
+    pageName,
+    width
+  }) => {
 
    return (
      <>
@@ -143,6 +154,7 @@ export const SocialShareComponent = (
            <FacebookShareButton className={ shareButton }
                                 url={ url }
                                 quote={ body }
+                                onClick={() => analyticsClickHandler(pageName, 'Facebook')}
            >
              <ShareButtonContent name={ 'facebook' } width={ width } />
            </FacebookShareButton>
@@ -151,6 +163,7 @@ export const SocialShareComponent = (
            <TwitterShareButton className={ shareButton }
                                url={ url }
                                title={ body }
+                               onClick={() => analyticsClickHandler(pageName, 'Twitter')}
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
@@ -161,6 +174,7 @@ export const SocialShareComponent = (
                                 title={ title }
                                 summary={ body }
                                 source={ baseUrl }
+                                onClick={() => analyticsClickHandler(pageName, 'LinkedIn')}
            >
              <ShareButtonContent name={ 'linkedin' } width={ width } />
            </LinkedinShareButton>
@@ -169,6 +183,7 @@ export const SocialShareComponent = (
            <RedditShareButton className={ shareButton }
                               url={ url }
                               title={ title }
+                              onClick={() => analyticsClickHandler(pageName, 'Reddit')}
            >
              <ShareButtonContent name={ 'reddit' } width={ width } />
            </RedditShareButton>
@@ -179,6 +194,7 @@ export const SocialShareComponent = (
                              subject={ emailSubject }
                              body={ emailBody }
                              separator={ "\n" }
+                             onClick={() => analyticsClickHandler(pageName, 'Email')}
            >
              <ShareButtonContent name={ 'email' } width={ width } />
            </EmailShareButton>
