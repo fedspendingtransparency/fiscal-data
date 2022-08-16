@@ -1801,11 +1801,7 @@ const endpointConfig = {
   '178': {
     'endpoint': 'v1/accounting/od/slgs_demand_deposit_rates',
     'dateField': 'record_date',
-    'downloadName': 'SLGS_DailyRateTable_DemandDepositRates',
-    'valueFieldOptions': [
-      'annualized_effective_rate',
-      'daily_factor'
-    ]
+    'downloadName': 'SLGS_DailyRateTable_DemandDepositRates'
   },
   '179': {
     'endpoint': 'v1/accounting/od/slgs_time_deposit_rates',
