@@ -1797,6 +1797,29 @@ const endpointConfig = {
       'gain_amt',
       'loss_amt'
     ]
+  },
+  '178': {
+    'endpoint': 'v1/accounting/od/slgs_demand_deposit_rates',
+    'dateField': 'record_date',
+    'downloadName': 'SLGS_DailyRateTable_DemandDepositRates'
+  },
+  '179': {
+    'endpoint': 'v1/accounting/od/slgs_time_deposit_rates',
+    'dateField': 'record_date',
+    'downloadName': 'SLGS_DailyRateTable_TimeDepositRates',
+    'dataDisplays': [
+      {
+        'title': 'By From (Year-Month)',
+        'dimensionField': 'from'
+      },
+      {
+        'title': 'By Through (Year-Month)',
+        'dimensionField': 'through'
+      }
+    ],
+    'valueFieldOptions': [
+      'rate'
+    ]
   }
 };
 

@@ -28,6 +28,28 @@ module.exports = {
       ],
       "slug": "/fbp-summary-general-ledger-balances-report/",
       "currentDateButton": "byMonth"
+    },
+    "015-BFS-2014Q3-059": {
+      "seoConfig": {
+        "pageTitle": "SLGS Daily Rate Table",
+        "description": "Interest rates for time deposit securities with a maturity of " +
+          "one month up to 40 years and a daily rate for demand deposits.",
+        "keywords": "Debt, Financial Summaries, Interest and " +
+          "Exchange Rates, Revenue, Savings Bonds, Spending"
+      },
+      "topics": [
+        "debt",
+        "interest-exchange-rates"
+      ],
+      "relatedDatasets": [
+        "015-BFS-2014Q3-yy",
+        "015-BFS-2014Q3-058",
+        "015-BFS-2014Q1-03",
+        "015-BFS-2014Q1-13",
+        "015-BFS-2014Q1-11"
+      ],
+      "slug": "/slgs-daily-rate-table/",
+      "currentDateButton": "byMonth"
     }
   },
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,
