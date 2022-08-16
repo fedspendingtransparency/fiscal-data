@@ -154,7 +154,7 @@ export const SocialShareComponent = (
            <FacebookShareButton className={ shareButton }
                                 url={ url }
                                 quote={ body }
-                                onClick={() => analyticsClickHandler(pageName, 'Facebook')}
+                                beforeOnClick={() => analyticsClickHandler(pageName, 'Facebook')}
            >
              <ShareButtonContent name={ 'facebook' } width={ width } />
            </FacebookShareButton>
@@ -163,7 +163,7 @@ export const SocialShareComponent = (
            <TwitterShareButton className={ shareButton }
                                url={ url }
                                title={ body }
-                               onClick={() => analyticsClickHandler(pageName, 'Twitter')}
+                               beforeOnClick={() => analyticsClickHandler(pageName, 'Twitter')}
            >
              <ShareButtonContent name={ 'twitter' } width={ width } />
            </TwitterShareButton>
@@ -174,7 +174,7 @@ export const SocialShareComponent = (
                                 title={ title }
                                 summary={ body }
                                 source={ baseUrl }
-                                onClick={() => analyticsClickHandler(pageName, 'LinkedIn')}
+                                beforeOnClick={() => analyticsClickHandler(pageName, 'LinkedIn')}
            >
              <ShareButtonContent name={ 'linkedin' } width={ width } />
            </LinkedinShareButton>
@@ -183,7 +183,7 @@ export const SocialShareComponent = (
            <RedditShareButton className={ shareButton }
                               url={ url }
                               title={ title }
-                              onClick={() => analyticsClickHandler(pageName, 'Reddit')}
+                              beforeOnClick={() => analyticsClickHandler(pageName, 'Reddit')}
            >
              <ShareButtonContent name={ 'reddit' } width={ width } />
            </RedditShareButton>
@@ -194,7 +194,7 @@ export const SocialShareComponent = (
                              subject={ emailSubject }
                              body={ emailBody }
                              separator={ "\n" }
-                             onClick={() => analyticsClickHandler(pageName, 'Email')}
+                             beforeOnClick={() => analyticsClickHandler(pageName, 'Email')}
            >
              <ShareButtonContent name={ 'email' } width={ width } />
            </EmailShareButton>
