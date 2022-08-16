@@ -54,6 +54,11 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       title: 'Debt',
       to: '/national-debt/',
       testId: 'debt'
+    },
+    {
+      title: 'Deficit',
+      to: '/national-deficit/',
+      testId: 'deficit'
     }
   ]
 
