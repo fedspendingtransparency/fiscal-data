@@ -28,6 +28,21 @@ const explainerPagesSource = {
       subHeading: ''
     },
     relatedDatasets: [ ]
+  },
+  'federal-spending': {
+    slug: '/federal-spending/',
+    breadCrumbLinkName: 'Spending',
+    seoConfig: {
+      pageTitle: 'Federal Spending',
+      description: `Explore federal spending by category or agency and learn how much the United
+      States government spends each year.`
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'How much has the U.S. government spent this year?',
+      subHeading: ''
+    },
+    relatedDatasets: [ ]
   }
 }
 

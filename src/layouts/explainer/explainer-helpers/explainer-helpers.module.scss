@@ -1,5 +1,6 @@
 @import '../../../variables.module.scss';
 @import '../sections/national-deficit/national-deficit.module';
+@import '../sections/federal-spending/federal-spending.module';
 
 
 .nationalDebtActive {
@@ -18,11 +19,22 @@
   color: $deficit-explainer-primary !important;
   font-weight: bold;
   padding-right:0 !important;
-
 }
 
 .nationalDeficitHover{
   color: $deficit-explainer-secondary !important;
+  font-weight: bold;
+ }
+
+.federalSpendingActive {
+  border-left-color: $spending-explainer-secondary !important;
+  color: $spending-explainer-primary !important;
+  font-weight: bold;
+  padding-right:0 !important;
+}
+
+.federalSpendingHover{
+  color: $spending-explainer-secondary !important;
   font-weight: bold;
  }
 

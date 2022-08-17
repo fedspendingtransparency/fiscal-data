@@ -8,7 +8,9 @@ import {
   nationalDebtActive,
   nationalDebtHover,
   nationalDeficitActive,
-  nationalDeficitHover
+  nationalDeficitHover,
+  federalSpendingActive,
+  federalSpendingHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
@@ -18,6 +20,11 @@ import {
   deficitExplainerLightSecondary
 } from "../sections/national-deficit/national-deficit.module.scss";
 import NationalDeficitHero from "../heros/national-deficit/national-deficit-hero";
+import {
+  spendingExplainerPrimary,
+  spendingExplainerSecondary,
+  spendingExplainerLightSecondary
+} from "../sections/federal-spending/federal-spending.module.scss";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -28,7 +35,8 @@ export const getDateWithoutOffset = (date) => {
 
 export const explainerAnalyticsLabelMap = {
   'national-debt': 'Debt',
-  'national-deficit': 'Deficit'
+  'national-deficit': 'Deficit',
+  'federal-spending': 'Spending',
 }
 
 export const explainerColorMap = {
@@ -41,6 +49,11 @@ export const explainerColorMap = {
     primary: deficitExplainerPrimary,
     secondary: deficitExplainerSecondary,
     secondaryLight: deficitExplainerLightSecondary
+  },
+  'federal-spending': {
+    primary: spendingExplainerPrimary,
+    secondary: spendingExplainerSecondary,
+    secondaryLight: spendingExplainerLightSecondary
   }
 }
 
@@ -52,6 +65,10 @@ export const explainerClassMap = {
   'national-deficit': {
     active: nationalDeficitActive,
     hover: nationalDeficitHover
+  },
+  'federal-spending': {
+    active: federalSpendingActive,
+    hover: federalSpendingHover
   }
 }
 
@@ -76,6 +93,15 @@ export const explainerSocialShareMap = {
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national deficit!',
     url: baseUrl+'/national-deficit/',
     image: baseUrl+'/images/nationalDeficit_1200x630.png'
+  },
+  'federal-spending': {
+    title: '',
+    description: '',
+    body: '',
+    emailSubject: '',
+    emailBody: '',
+    url: baseUrl+'/federal-spending/',
+    image: baseUrl+'/images/nationalDeficit_1200x630.png'
   }
 }
 
@@ -85,12 +111,16 @@ export const explainerHeroMap = {
   },
   'national-deficit': {
     component: (glossary) => <NationalDeficitHero glossary={glossary} />
+  },
+  'federal-spending': {
+    component: (glossary) => <div>Hero Placeholder</div>
   }
 }
 
 export const explainerRelatedDatasetMap = {
   'national-debt': 'See the datasets that relate to the national debt',
-  'national-deficit': 'See the datasets behind the national deficit'
+  'national-deficit': 'See the datasets behind the national deficit',
+  'federal-spending': 'See the datasets that relate to federal spending',
 }
 
 export const datasetSectionConfig = {
