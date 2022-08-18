@@ -7,7 +7,7 @@ import {
   spendingExplainerPrimary,
   spendingExplainerLightSecondary,
 } from "./federal-spending.module.scss";
-import {FederalSpendingOverview} from "./overview/federal-spending-overview";
+import {SpendingOverview} from "./overview/spending-overview";
 import {SpendingCategories} from "./spending-categories/spending-categories";
 import {SpendingDifference} from "./spending-difference/spending-difference";
 import {SpendingTrends} from "./spending-trends/spending-trends";
@@ -38,7 +38,7 @@ const federalSpendingSection = [
     index: 1,
     id: nationalDeficitSectionIds[1],
     title: 'Federal Spending Overview',
-    component: (glossary, cpiDataByYear) => <FederalSpendingOverview />
+    component: (glossary, cpiDataByYear) => <SpendingOverview />
   },
   {
     index: 2,

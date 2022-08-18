@@ -9,8 +9,8 @@ import {
   spendingCategoriesContent
 } from "./spending-categories.module.scss";
 import {
-  federalSpendingPrimary,
-  spendingAccordion
+  spendingAccordion,
+  spendingExplainerPrimary
 } from "../federal-spending.module.scss";
 
 export const SpendingCategories = () => {
@@ -31,7 +31,7 @@ export const SpendingCategories = () => {
       </p>
       <div className={visWithCallout}>
         <ChartPlaceholder />
-        <VisualizationCallout color={federalSpendingPrimary}>
+        <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency, visit
             USAspending.gov’s Spending Explorer and Agency Profile pages.

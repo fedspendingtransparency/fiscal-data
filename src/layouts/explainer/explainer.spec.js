@@ -74,29 +74,53 @@ describe('Explainer Pages', () => {
     global.fetch.mockReset();
   });
 
+  const breadCrumbLinkName = 'mock link';
+  const seoConfig = {
+    pageTitle: 'mock title',
+    description: 'mock description'
+  };
+  const heroImage = {
+    heading: 'mock heading',
+    subHeading: 'mock subheading'
+  }
+  const glossary = [];
+  const mockPageContext = {
+    breadCrumbLinkName,
+    seoConfig,
+    heroImage,
+    glossary
+  }
+
   it('renders the deficit explainer page', async () => {
     const pageName = 'national-deficit';
-    const breadCrumbLinkName = 'mock link';
-    const seoConfig = {
-      pageTitle: 'mock title',
-      description: 'mock description'
-    };
-    const heroImage = {
-      heading: 'mock heading',
-      subHeading: 'mock subheading'
-    }
-    const glossary = [];
-    const mockPageContext = {
+    const deficitPageContext = {
       pageName,
-      breadCrumbLinkName,
-      seoConfig,
-      heroImage,
-      glossary
+      ...mockPageContext
     }
 
     const { findAllByTestId, findByText } = render(
       <ExplainerPageLayout
-        pageContext={mockPageContext}
+        pageContext={deficitPageContext}
+      />
+    );
+
+    const sectionHeadings = await findAllByTestId('section-heading')
+    expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
+
+    const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
+    expect(dataSourcesMethodologies).toBeInTheDocument();
+  })
+
+  it('renders the spending explainer page', async () => {
+    const pageName = 'federal-spending';
+    const spendingPageContext = {
+      pageName,
+      ...mockPageContext
+    }
+
+    const { findAllByTestId, findByText } = render(
+      <ExplainerPageLayout
+        pageContext={spendingPageContext}
       />
     );
 
