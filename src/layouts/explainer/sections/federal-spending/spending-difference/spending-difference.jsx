@@ -21,7 +21,6 @@ export const SpendingDifference = () => {
         Appropriations, in which spending laws are passed to address needs that have arisen after
         the fiscal year has begun.
       </p>
-      <ChartPlaceholder />
       <h6>Mandatory Spending</h6>
       <p>
         Mandatory spending, also known as direct spending, is mandated by existing laws. This type
@@ -33,6 +32,7 @@ export const SpendingDifference = () => {
         amended again. Due to authorization laws, the funding for these programs must be allocated
         for spending each year, hence the term mandatory.
       </p>
+      <ChartPlaceholder />
       <h6>Discretionary Spending</h6>
       <p>
         Discretionary spending is money formally approved by Congress and the President during the

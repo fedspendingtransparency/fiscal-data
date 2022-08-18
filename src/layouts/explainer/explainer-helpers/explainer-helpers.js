@@ -25,6 +25,7 @@ import {
   spendingExplainerSecondary,
   spendingExplainerLightSecondary
 } from "../sections/federal-spending/federal-spending.module.scss";
+import FederalSpendingHero from "../heros/federal-spending/federal-spending-hero";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -113,7 +114,7 @@ export const explainerHeroMap = {
     component: (glossary) => <NationalDeficitHero glossary={glossary} />
   },
   'federal-spending': {
-    component: (glossary) => <div>Hero Placeholder</div>
+    component: (glossary) => <FederalSpendingHero />
   }
 }
 

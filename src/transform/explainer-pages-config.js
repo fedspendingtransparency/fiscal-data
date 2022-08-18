@@ -42,7 +42,8 @@ const explainerPagesSource = {
       heading: 'How much has the U.S. government spent this year?',
       subHeading: ''
     },
-    relatedDatasets: [ ]
+    relatedDatasets: ["015-BFS-2014Q1-13", "015-BFS-2014Q3-103", "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-07"]
   }
 }
 
