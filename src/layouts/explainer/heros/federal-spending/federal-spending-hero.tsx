@@ -1,4 +1,4 @@
-import {heroImageCallout, icon} from "../../hero-image/hero-image.module.scss";
+import {footNotes, heroImageCallout, heroImageSubHeading, icon} from "../../hero-image/hero-image.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFlagUsa} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
@@ -11,17 +11,18 @@ const FederalSpendingHero = (): JSX.Element => {
 
   return (
     <>
-      <p>
+      <p className={heroImageSubHeading}>
         The U.S. government has spent ($XX.X total spending) in fiscal year 2022 to ensure the
         well-being of the people of the United States.
       </p>
       <div>
         Flip card placeholder
       </div>
-      <p>
-        Fiscal Year-to-Date (since October YYYY (current FY)) total updated monthly using the
-        Monthly Treasury Statement (MTS) dataset.
-      </p>
+      <div className={footNotes}>
+        <p>
+          Footnotes placeholder
+        </p>
+      </div>
       <div className={heroImageCallout} >
         <FontAwesomeIcon icon={faFlagUsa} className={icon} />
         <p>
