@@ -170,11 +170,14 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         </p>
       </div>
       <div className={footNotes}>
-        <p>
-          Compared to the national deficit total for the same period last year
-          (Oct {previousFiscalYear} - {currentRecordMonth} {previousCalendarYear}),
+        {currentRecordMonth === 'Oct' ?<p>Compared to the same period last year
+            (Oct {previousFiscalYear} - {currentRecordMonth} {previousCalendarYear}),
+            our national deficit has {deficitStatus}.
+          </p> : <p>Compared to the same period last year
+          (Oct {previousFiscalYear}),
           our national deficit has {deficitStatus}.
         </p>
+        }
       </div>
       <div className={deficitBoxContainer}>
         <div className={deficitBox}>
