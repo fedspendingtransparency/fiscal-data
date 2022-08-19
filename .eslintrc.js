@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   globals: {
     __PATH_PREFIX__: true,
     graphql: true
@@ -34,21 +35,21 @@ module.exports = {
       "gatsby"
     ]
   },
-  overrides: [
-    {
-      files: ["*.{ts,tsx}"],
-      parser: "@typescript-eslint/parser",
-      plugins: ["@typescript-eslint"],
-      extends: ["plugin:@typescript-eslint/recommended"],
-      rules: {
-        "@typescript-eslint/ban-types": [1],
-        "@typescript-eslint/no-inferrable-types": [0, {
-          ignoreParameters: true,
-          ignoreProperties: true
-        }]
-      }
-    }
-  ],
+  // overrides: [
+  //   {
+  //     files: ["*.{ts,tsx}"],
+  //     parser: "@typescript-eslint/parser",
+  //     plugins: ["@typescript-eslint"],
+  //     extends: ["plugin:@typescript-eslint/recommended"],
+  //     rules: {
+  //       "@typescript-eslint/ban-types": [1],
+  //       "@typescript-eslint/no-inferrable-types": [0, {
+  //         ignoreParameters: true,
+  //         ignoreProperties: true
+  //       }]
+  //     }
+  //   }
+  // ],
   plugins: ["jsx-a11y"],
   rules: {
     "import/extensions": [
