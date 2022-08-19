@@ -6,6 +6,7 @@ import { Link } from "gatsby";
 import MenuButton from "../menu-button/menu-button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
+import Analytics from "../../../utils/analytics/analytics";
 
 const MobileMenu = () => {
   const [activeState, setActiveState] = useState(false);
@@ -16,6 +17,14 @@ const MobileMenu = () => {
       setActiveState(!activeState);
     }
   }
+
+  const topicsClickHandler = (title) => {
+    Analytics.event({
+      category: 'Sitewide Navigation',
+      action: `Topics Click`,
+      label: title
+    });
+  };
 
   const dropdownTempText = 'Coming soon! — Short analyses on '
     + 'federal finance topics';
@@ -66,8 +75,17 @@ const MobileMenu = () => {
                       AMERICA'S FINANCE GUIDE
                     </div>
                     <div className={styles.explainerLinkContainer}>
-                      <Link to="/national-debt/" className={styles.explainerLink}>Debt</Link>
-                      <Link to="/national-deficit/" className={styles.explainerLink}>Deficit</Link>
+                      <Link to="/national-debt/"
+                            className={styles.explainerLink}
+                            onClick={() => topicsClickHandler('Debt')}
+                      >
+                        Debt
+                      </Link>
+                      <Link to="/national-deficit/"
+                            className={styles.explainerLink}
+                      >
+                        Deficit
+                      </Link>
                     </div>
                     <div className={styles.AFGHeader}>
                       INSIGHTS
