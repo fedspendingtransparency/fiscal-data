@@ -41,6 +41,15 @@ describe('Deficit and Surplus Causes Section', () => {
       render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     expect(getByTestId('surplus-illustration')).toBeInTheDocument();
   });
+
+  it('renders the spending label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('In FY 2021, the federal government')).toBeInTheDocument();
+    })
+  });
+
 });
 
 
