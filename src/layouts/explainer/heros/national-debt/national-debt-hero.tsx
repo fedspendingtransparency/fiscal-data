@@ -66,7 +66,7 @@ const NationalDebtHero = (): JSX.Element => {
             This topic is the first of four U.S. government financial concepts from Your Guide to
             America’s Finances with more being added in the coming months.
             We’ll help you learn more about money coming in (Revenue), money going out (Spending),
-            and the Deficit and Debt.
+            and the <CustomLink url={'/national-deficit/'}> Deficit </CustomLink> and Debt.
           </p>
         </div>
       </div>
