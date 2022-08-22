@@ -149,7 +149,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       fiscal year (FY)
     </GlossaryTerm>
 
-  const changeNationaDeficitFooter = currentRecordMonth === 'Oct' ?
+  const changeNationaDeficitFooter = (currentRecordMonth === 'Oct') ?
     <p>Compared to the same period last year
       (Oct {previousFiscalYear}),
       our national deficit has {deficitStatus}.
