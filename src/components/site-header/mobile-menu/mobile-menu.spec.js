@@ -12,9 +12,10 @@ const triggerClickEvent = (itemToClick) => {
 describe('MobileMenu actions', () => {
   let getByTestId = jest.fn();
   let queryByRole = jest.fn();
+  let getByText = jest.fn();
   let theButton = null;
   beforeEach(() => {
-    ({getByTestId, queryByRole} = render(<MobileMenu />));
+    ({getByTestId, queryByRole, getByText} = render(<MobileMenu />));
     theButton = queryByRole('button');
   });
 
@@ -66,5 +67,7 @@ describe('MobileMenu actions', () => {
     expect(getByTestId('datasets')).toBeDefined();
     expect(getByTestId('apiDocs')).toBeDefined();
     expect(getByTestId('about')).toBeDefined();
+    expect(getByText('Debt')).toBeDefined();
+    expect(getByText('Deficit')).toBeDefined();
   });
 });

@@ -92,17 +92,19 @@ $menuWidth: 320px;
   min-width: 10px;
 }
 
-.debtLinkContainer {
-  display: block;
-  text-decoration: none;
-  color: $card-body;
-  white-space: nowrap;
-  font-size: $font-size-16;
-  padding-top: 14px;
-  padding-bottom: 14px;
+.explainerLinkContainer {
+  a {
+    display: block;
+    text-decoration: none;
+    color: $card-body;
+    white-space: nowrap;
+    font-size: $font-size-16;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
 }
 
-.debtLink {
+.explainerLink {
   padding-left: 2rem;
   color: #666666;
 }
