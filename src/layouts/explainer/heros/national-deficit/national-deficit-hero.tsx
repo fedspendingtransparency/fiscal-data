@@ -9,7 +9,7 @@ import {
   deficitBox,
   deficitBoxPercent,
   deficitBoxContainer,
-  deficitArrow,
+  explainerArrow,
   heroImageSubHeading,
   deficit
 } from "../../hero-image/hero-image.module.scss"
@@ -21,6 +21,7 @@ import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../variables.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
+import {getShortForm} from "../hero-helper";
 
 const NationalDeficitHero = ({glossary}): JSX.Element => {
   const fields: string = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' +
@@ -45,22 +46,6 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   const [deficitStatus, setDeficitStatus] = useState<string>('');
   const [deficitDifPercent, setDeficitDifPercent] = useState<string>('');
 
-  // shorten values that may be billions or trillions
-  const getShortForm = (
-    value: string,
-    fractionDigits: number = 0,
-    abbreviate: boolean = true
-  ): string => {
-
-    const trimmed = Math.abs(Number(value)).toFixed();
-    const inTrillions = trimmed.length > 12;
-    const divisor = inTrillions ? 1000000000000 : 1000000000;
-    const appendix = inTrillions ? (abbreviate ? ' T' : ' trillion') :
-      (abbreviate ? ' B' : ' billion');
-
-    return Math.abs(
-      (parseFloat(value) / divisor)).toFixed(fractionDigits) + appendix;
-  }
 
   const getCurrentNationalDeficitData = (url) => {
     basicFetch(`${url}`)
@@ -182,12 +167,12 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         </div>
           {
             deficitStatus === 'increased' ? (
-              <div className={deficitArrow}>
+              <div className={explainerArrow}>
                 <FontAwesomeIcon icon={faUpLong} title={"up arrow"} />
               </div>
             )
             : (
-              <div className={deficitArrow}>
+              <div className={explainerArrow}>
                 <FontAwesomeIcon icon={faDownLong} title={"down arrow"} />
               </div>
             )
