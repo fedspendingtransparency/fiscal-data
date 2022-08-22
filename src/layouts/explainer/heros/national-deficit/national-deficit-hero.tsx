@@ -152,9 +152,9 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   return (
     <>
       <p className={`${heroImageSubHeading} ${deficit}`}>A deficit occurs when the
-        federal government’s spending exceeds its revenues. In {fiscalYear}{' '}
-        {previousFiscalYear}, the  federal government spent ${textPreviousDeficit}{' '}
-        more than it collected, resulting in a national deficit.
+        federal government’s spending exceeds its revenues. The federal government has
+        spent ${textPreviousDeficit}{' '} more than it has collected in {fiscalYear}{' '}
+        {previousFiscalYear}, resulting in a national deficit.
       </p>
       <div>
         <SplitFlapDisplay value={desktopDeficit}

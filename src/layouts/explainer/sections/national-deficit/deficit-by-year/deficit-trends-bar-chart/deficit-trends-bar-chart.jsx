@@ -138,7 +138,7 @@ const DeficitTrendsBarChart = ({ width }) => {
       { chartData !== [] ? (
         <div data-testid={'deficitTrendsBarChart'} className={container}>
           <ChartContainer
-            title={`Federal Deficit Trends Over Time, 2001-${mostRecentFiscalYear}`}
+            title={`Federal Deficit Trends Over Time, FY 2001-${mostRecentFiscalYear}`}
             altText={'Bar graph that shows the federal deficit trend from 2001 to '
             + `${mostRecentFiscalYear}. Over the years, the data fluctuates `
             + 'with a spiked increase starting in 2019.'}
