@@ -42,29 +42,6 @@ describe('Deficit and Surplus Causes Section', () => {
     expect(getByTestId('surplus-illustration')).toBeInTheDocument();
   });
 
-  it('renders the spending label', async () => {
-    const {getByText} =
-      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
-    await waitFor(() => {
-      expect(getByText('spent $6.82 trillion and',{exact:false})).toBeInTheDocument();
-    })
-  });
-
-  it('renders the revnue label', async () => {
-    const {getByText} =
-      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
-    await waitFor(() => {
-      expect(getByText(' collected $4.05 trillion in ',{exact:false})).toBeInTheDocument();
-    })
-  });
-
-  it('renders the deficit label', async () => {
-    const {getByText} =
-      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
-    await waitFor(() => {
-      expect(getByText('$2.77 trillion in 2021',{exact:false})).toBeInTheDocument();
-    })
-  });
 
   it('renders the current year label', async () => {
     const {getByText} =
@@ -73,6 +50,30 @@ describe('Deficit and Surplus Causes Section', () => {
       expect(getByText('FY 2021, the federal',{exact:false})).toBeInTheDocument();
     })
   });
+  it('renders the spending label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('federal government spent $6.',{exact:false})).toBeInTheDocument();
+    })
+  });
+
+  it('renders the revnue label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('collected $4.',{exact:false})).toBeInTheDocument();
+    })
+  });
+
+  it('renders the deficit label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('exceeds revenue, $2.',{exact:false})).toBeInTheDocument();
+    })
+  });
+
 
 });
 
