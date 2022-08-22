@@ -67,6 +67,13 @@ describe('SiteHeader', () => {
     expect(getByTestId('dropdownContent')).toBeInTheDocument();
   });
 
+  it('displays the explainer buttons when the topics dropdown menu is open', () => {
+    const { getByTestId, getByText } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByTestId('topicsButton'));
+    expect(getByText('Debt')).toBeDefined();
+    expect(getByText('Deficit')).toBeDefined();
+  })
+
   it('expects that all of the header links are not active/highlighted by default', () => {
     const { container } = render(<SiteHeader />);
 

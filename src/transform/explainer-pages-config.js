@@ -27,7 +27,8 @@ const explainerPagesSource = {
       heading: 'What is the national deficit?',
       subHeading: ''
     },
-    relatedDatasets: [ ]
+    relatedDatasets: ["015-BFS-2014Q1-13", "015-BFS-2014Q3-096", "015-BFS-2014Q1-07",
+      "015-BFS-2014Q1-03"]
   },
   'federal-spending': {
     slug: '/federal-spending/',
@@ -44,6 +45,7 @@ const explainerPagesSource = {
     },
     relatedDatasets: ["015-BFS-2014Q1-13", "015-BFS-2014Q3-103", "015-BFS-2014Q1-03",
       "015-BFS-2014Q1-07"]
+
   }
 }
 
