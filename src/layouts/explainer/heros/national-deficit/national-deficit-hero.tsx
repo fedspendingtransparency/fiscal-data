@@ -42,6 +42,10 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   const [currentRecordMonth, setCurrentRecordMonth] = useState<string>('');
   const [previousCalendarYear, setPreviousCalendarYear] = useState<string>('');
   const [previousFiscalYear, setPreviousFiscalYear] = useState<string>('');
+
+  // calendar year in which prior fiscal year began (PreviousFiscalYear - 1);
+  const [previousFiscalStartYear, setPreviousFiscalStartYear] = useState<string>('');
+
   const [deficitStatus, setDeficitStatus] = useState<string>('');
   const [deficitDifPercent, setDeficitDifPercent] = useState<string>('');
 
@@ -74,6 +78,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
           res.data.find(row => row.record_fiscal_year === lastFiscalYear);
 
         setPreviousFiscalYear(lastFiscalYear);
+        setPreviousFiscalStartYear((Number(lastFiscalYear) - 1).toString())
         setTextPreviousDeficit(
           getShortForm(lastCompleteYearRecord.current_fytd_net_outly_amt, 2, false));
 
@@ -172,7 +177,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       <div className={footNotes}>
         <p>
           Compared to the national deficit total for the same period last year
-          (Oct {previousFiscalYear} - {currentRecordMonth} {previousCalendarYear}),
+          (Oct {previousFiscalStartYear} - {currentRecordMonth} {previousCalendarYear}),
           our national deficit has {deficitStatus}.
         </p>
       </div>
