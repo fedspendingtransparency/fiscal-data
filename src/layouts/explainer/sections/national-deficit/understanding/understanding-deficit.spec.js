@@ -54,7 +54,7 @@ describe('Deficit and Surplus Causes Section', () => {
     const {getByText} =
       render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     await waitFor(() => {
-      expect(getByText('federal government spent $6.',{exact:false})).toBeInTheDocument();
+      expect(getByText('federal government spent $6.97',{exact:false})).toBeInTheDocument();
     })
   });
 
@@ -62,7 +62,7 @@ describe('Deficit and Surplus Causes Section', () => {
     const {getByText} =
       render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     await waitFor(() => {
-      expect(getByText('collected $4.',{exact:false})).toBeInTheDocument();
+      expect(getByText('collected $4.22',{exact:false})).toBeInTheDocument();
     })
   });
 
@@ -70,7 +70,7 @@ describe('Deficit and Surplus Causes Section', () => {
     const {getByText} =
       render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     await waitFor(() => {
-      expect(getByText('exceeds revenue, $2.',{exact:false})).toBeInTheDocument();
+      expect(getByText('exceeds revenue, $2.75',{exact:false})).toBeInTheDocument();
     })
   });
 

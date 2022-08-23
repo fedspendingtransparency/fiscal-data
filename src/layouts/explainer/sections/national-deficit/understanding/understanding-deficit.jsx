@@ -33,16 +33,11 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
       surplus
     </GlossaryTerm>
 
-    const [date, setDate] = useState(new Date ());
     const [lastFiscalYear, setLastFiscalYear] = useState(0);
-    const [deficitValue, setDeficitValue] = useState(0);
     const [deficitLabel, setDeficitLabel] = useState("");
-    const [deficitChangeValue, setDeficitChangeValue] = useState(0);
-    const [revenueValue, setRevenueValue] = useState(0);
     const [revenueLabel, setRevenueLabel] = useState("");
-    const [spendingValue, setSpendingValue] = useState(0);
     const [spendingLabel, setSpendingLabel] = useState("");
-    const [data, setData] = useState(null);
+
 
     const {
       endpoints
@@ -52,12 +47,11 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
   const deficitEndpoint = endpoints[1];
   const revenueEndpoint = endpoints[2];
   const spendingEndpoint = endpoints[3];
-  const deficitChangeEndpoint = endpoints[4];
+ // const deficitChangeEndpoint = endpoints[4];
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${dateEndpoint.path}`)
       .then(response => {
-        setDate(getDateWithoutTimeZoneAdjust(response.data[0][dateEndpoint.dateField]));
         setLastFiscalYear(response.data[0][dateEndpoint.valueField]);
       });
   }, []);
@@ -66,7 +60,6 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
     basicFetch(`${apiPrefix}${deficitEndpoint.path}`)
       .then(response => {
         const value = Math.abs(response.data[0][deficitEndpoint.valueField]);
-        setDeficitValue(value);
         setDeficitLabel((value / 1000000000000).toFixed(2));
       });
   }, []);
@@ -75,7 +68,6 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
     basicFetch(`${apiPrefix}${revenueEndpoint.path}`)
       .then(response => {
         const value = response.data[0][revenueEndpoint.valueField];
-        setRevenueValue(value);
         setRevenueLabel((value / 1000000000000).toFixed(2));
       });
   }, []);
@@ -84,45 +76,11 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
     basicFetch(`${apiPrefix}${spendingEndpoint.path}`)
       .then(response => {
         const value = response.data[0][spendingEndpoint.valueField];
-        setSpendingValue(value);
         setSpendingLabel((value / 1000000000000).toFixed(2));
 
       });
   }, []);
 
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${deficitChangeEndpoint.path}`)
-      .then(response => {
-        const value = Math.abs(response.data[0][deficitChangeEndpoint.valueField]);
-        setDeficitChangeValue(value);
-      });
-  }, []);
-
-  if(!data && deficitValue && revenueValue && spendingValue && deficitChangeValue) {
-    const deficitDifference = Math.abs(deficitValue - deficitChangeValue);
-    let deficitDifferenceText = '';
-
-    if(deficitDifference >= 1000000000000) {
-      deficitDifferenceText =`$${(deficitDifference / 1000000000000).toFixed(2)} trillion`
-    } else {
-      deficitDifferenceText =`$${(deficitDifference / 1000000000).toFixed(2)} billion`
-    }
-
-
-    setData(
-      [
-        {
-          id: 0,
-          revenue: revenueValue,
-          deficit: deficitValue
-        },
-        {
-          id: 1,
-          spending: spendingValue
-        }
-      ]
-    );
-  }
 
   return (
   <div className={understandingDeficitContainer}>
