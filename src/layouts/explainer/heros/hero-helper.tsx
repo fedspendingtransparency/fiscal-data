@@ -24,11 +24,14 @@ export const getShortForm = (
 export const getFootNotesDateRange = (
   priorFY: string,
   currentFY: string,
-  currentRecordMonth:string): string => {
+  currentRecordMonth: string): string => {
+  const date = new Date();
+  date.setMonth(parseInt(currentRecordMonth) - 1);
+  const currentMonth = date.toLocaleString('en-US', {month: 'short',});
   return (currentRecordMonth === 'Oct' ? (
     `Oct ${priorFY}`
   ) : (
-    `Oct ${priorFY} - ${currentRecordMonth} ${currentFY}`
+    `Oct ${priorFY} - ${currentMonth} ${currentFY}`
   ));
 };
 

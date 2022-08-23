@@ -14,6 +14,8 @@ import {
   getFootNotesDateRange,
   getPillData
 } from "../hero-helper";
+import {spendingExplainerLightSecondary} from
+    "../../sections/federal-spending/federal-spending.module.scss";
 
 
 const FederalSpendingHero = (): JSX.Element => {
@@ -29,8 +31,10 @@ const FederalSpendingHero = (): JSX.Element => {
   const [totalSpending, setTotalSpending] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(0);
   const [priorFiscalYear, setPriorFiscalYear] = useState(null);
-  const [currentMonth, setCurrentMonth] = useState(null);
-  const [currentFiscalYear, setCurrentFiscalYear] = useState(null);
+  const [priorCalendarYear, setPriorCalendarYear] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  const [recordCalendarMonth, setRecordCalendarMonth] = useState(null);
+  // const [recordCalendarYear, setRecordCalendarMonthYear] = useState(null);
   const [spendingChangeLabel, setSpendingChangeLabel] = useState(null);
   const [spendingChange, setSpendingChange] = useState( 0);
   const [spendingPercentChange, setSpendingPercentChange] = useState(0);
@@ -51,10 +55,12 @@ const FederalSpendingHero = (): JSX.Element => {
           const priorTotalSpending = data.prior_fytd_net_outly_amt;
           const difference = currentTotalSpending - priorTotalSpending;
           setTotalSpending(currentTotalSpending);
-          setCurrentFiscalYear(data.record_fiscal_year);
+          setRecordFiscalYear(data.record_fiscal_year);
           setPriorYearSpending(priorTotalSpending);
-          setPriorFiscalYear(data.record_fiscal_year - 2);
-          setCurrentMonth(data.record_calendar_month);
+          setPriorFiscalYear(data.record_fiscal_year - 1);
+          setPriorCalendarYear(data.record_calendar_year - 1);
+          setRecordCalendarMonth(data.record_calendar_month);
+          // setRecordCalendarMonthYear(data.record_calendar_year);
           setSpendingChange(difference);
           setSpendingPercentChange((difference / priorTotalSpending) * 100);
 
@@ -77,24 +83,25 @@ const FederalSpendingHero = (): JSX.Element => {
     <>
       <p className={heroImageSubHeading}>
         The U.S. government has spent ${getShortForm(totalSpending, 2, false)} in
-        fiscal year {currentFiscalYear} to ensure the well-being of the people of the United States.
+        fiscal year {recordFiscalYear} to ensure the well-being of the people of the United States.
       </p>
       <div>
         Flip card placeholder
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal Year-to-Date (since October {currentFiscalYear}) total updated monthly using
+          Fiscal Year-to-Date (since October {priorFiscalYear}) total updated monthly using
           the {mts} dataset.
         </p>
         <p>
           Compared to the federal spending of
-          ${getShortForm(priorYearSpending.toString(), 1, false)} for the same period last
-          year ({getFootNotesDateRange(priorFiscalYear, currentFiscalYear, currentMonth)}) our
-          federal spending has {spendingChangeLabel} by
+          ${getShortForm(priorYearSpending.toString(), 1, false)} for the same period last year
+          ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)})
+          our federal spending has {spendingChangeLabel} by
           ${getShortForm(spendingChange.toString(), 1, false)}.
         </p>
-        {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel, true, "#99C8C4")}
+        {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel,
+          true, spendingExplainerLightSecondary)}
       </div>
       <div className={heroImageCallout} >
         <FontAwesomeIcon icon={faFlagUsa} className={icon} />
