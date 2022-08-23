@@ -1,6 +1,6 @@
 # Deficit Explainer Data Sources & Methodologies
 
-The [Deficit Explainer page](https://fiscaldata.treasury.gov/deficit-url/) is intended to give a high-level overview on the topic of the U.S. national deficit. Here, we document the datasets, API calls, and calculations used to source data for each visualization on the page.
+The [Deficit Explainer page](https://fiscaldata.treasury.gov/national-deficit/) is intended to give a high-level overview on the topic of the U.S. national deficit. Here, we document the datasets, API calls, and calculations used to source data for each visualization on the page.
 
 
 ## What is the national deficit?

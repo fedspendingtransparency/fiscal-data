@@ -1809,10 +1809,6 @@ const endpointConfig = {
     'downloadName': 'SLGS_DailyRateTable_TimeDepositRates',
     'dataDisplays': [
       {
-        'title': 'By From (Year-Month)',
-        'dimensionField': 'from'
-      },
-      {
         'title': 'By Through (Year-Month)',
         'dimensionField': 'through'
       }
