@@ -18,7 +18,7 @@
     "start": "npm run develop",
     "clean": "gatsby clean",
     "serve": "gatsby serve",
-    "test": "jest",
+    "test": "jest --logHeapUsage",
     "test:post-build": "jest --config=jest-postbuild-config.js",
     "test:coverage": "jest --coverage",
     "test:silent": "jest --coverage --silent",
