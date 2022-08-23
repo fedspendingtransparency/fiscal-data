@@ -38,7 +38,6 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
     const [deficitValue, setDeficitValue] = useState(0);
     const [deficitLabel, setDeficitLabel] = useState("");
     const [deficitChangeValue, setDeficitChangeValue] = useState(0);
-    const [deficitChangeLabel, setDeficitChangeLabel] = useState("");
     const [revenueValue, setRevenueValue] = useState(0);
     const [revenueLabel, setRevenueLabel] = useState("");
     const [spendingValue, setSpendingValue] = useState(0);
@@ -46,8 +45,6 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
     const [data, setData] = useState(null);
 
     const {
-      name,
-      slug,
       endpoints
     } = nationalDeficitSectionConfigs[sectionId];
 
@@ -56,8 +53,6 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
   const revenueEndpoint = endpoints[2];
   const spendingEndpoint = endpoints[3];
   const deficitChangeEndpoint = endpoints[4];
-
-
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${dateEndpoint.path}`)
@@ -113,15 +108,6 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
       deficitDifferenceText =`$${(deficitDifference / 1000000000).toFixed(2)} billion`
     }
 
-    if(deficitValue > deficitChangeValue) {
-      setDeficitChangeLabel(
-        `an increase of ${deficitDifferenceText}`);
-    } else if(deficitValue < deficitChangeValue) {
-      setDeficitChangeLabel(
-        `a decrease of ${deficitDifferenceText}`);
-    } else {
-      setDeficitChangeLabel('not changed');
-    }
 
     setData(
       [
