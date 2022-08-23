@@ -76,7 +76,8 @@ a {
   margin-bottom: 1rem;
 }
 
-.statLower, .statUpper {
+.statLower,
+.statUpper {
   display: flex;
   flex-direction: column;
 }
@@ -160,7 +161,8 @@ a {
 }
 
 // The following styles the x-axis for non-d3 charts to match that of our d3 line charts
-.xAxis, .x-label-text {
+.xAxis,
+.x-label-text {
   margin-top: 0.75rem;
   padding-top: 0.5rem;
   border-top: 1px solid #666;
@@ -172,4 +174,8 @@ a {
   justify-content: center;
   height: 100px;
   margin: 1rem 0 2.5rem;
+}
+
+.spending {
+  background-color: gray !important;
 }

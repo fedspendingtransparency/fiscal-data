@@ -13,7 +13,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
-
+// reference
 const DeficitTrendsBarChart = ({ width }) => {
 
   const desktop = width >= pxToNumber(breakpointLg);
@@ -50,6 +50,7 @@ const DeficitTrendsBarChart = ({ width }) => {
 
   const getChartData = () => {
     const apiData = [];
+    // how to make api calls
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       result.data.forEach((entry) => {

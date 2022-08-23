@@ -87,3 +87,4 @@ export const tooltipLabel: string;
 export const xAxis: string;
 export const xLabelText: string;
 export const imageContainer: string;
+export const spending: string;
