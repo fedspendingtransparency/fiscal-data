@@ -21,4 +21,9 @@ describe('Federal Spending Overview', () => {
     fireEvent.click(accordion);
     expect(getByText('Discretionary spending is determined', {exact: false})).toBeInTheDocument();
   });
+
+  it('render the spedingImg', () => {
+    const {getByTestId} = render(<SpendingDifference />);
+    expect(getByTestId('mandatorySpendingImg')).toBeInTheDocument();
+  });
 });

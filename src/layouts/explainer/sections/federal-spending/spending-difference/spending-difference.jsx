@@ -6,8 +6,13 @@ import {
 } from "./spending-difference.module.scss";
 import {spendingAccordion} from "../federal-spending.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
+import {withWindowSize} from "react-fns";
+import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
+import {breakpointLg} from "../../../../../variables.module.scss";
+import {MandatorySpendingImgDesktop} from "../../../../../../static/images/mandatory-spending_desktop.svg";
+import {MandatorySpendingImgMobile} from "../../../../../../static/images/mandatory-spending_desktop.svg";
 
-export const SpendingDifference = () => {
+export const SpendingDifference = ({width}) => {
   return (
     <div className={spendingDifferenceContent}>
       <h5>Who controls federal government spending?</h5>
@@ -32,7 +37,13 @@ export const SpendingDifference = () => {
         amended again. Due to authorization laws, the funding for these programs must be allocated
         for spending each year, hence the term mandatory.
       </p>
-      <ChartPlaceholder />
+      <img src={width < pxToNumber(breakpointLg) ? MandatorySpendingImgMobile : MandatorySpendingImgDesktop}
+           alt={"Step 1: Existing laws require (mandatory) money for spending each year " +
+           "Step 2: The Treasury issues funds to specific agency spending accounts towards contracts, " +
+           "loans, grants, direct payments, and other financial assistance" +
+           "Step 3: Entitlement program benefits are paid out from these accounts to support " +
+           "people, businesses, and state and local governments "}
+           data-testid={'mandatorySpendingImg'}/>
       <h6>Discretionary Spending</h6>
       <p>
         Discretionary spending is money formally approved by Congress and the President during the
@@ -41,7 +52,7 @@ export const SpendingDifference = () => {
         other agencies and programs. These programs range from transportation, education, housing,
         and social service programs, as well as science and environmental organizations.
       </p>
-      <ChartPlaceholder />
+      <ChartPlaceholder/>
       <h6>Supplemental Spending</h6>
       <p>
         Supplemental appropriations, also known as supplemental spending, are appropriations enacted
@@ -51,7 +62,7 @@ export const SpendingDifference = () => {
         related to these supplemental appropriation laws in USAspending.gov’s COVID-19 Spending
         Profile page.
       </p>
-      <ChartPlaceholder />
+      <ChartPlaceholder/>
       <div className={spendingAccordion}>
         <Accordion title="What is the process for determining discretionary spending?">
           Discretionary spending is determined by the president and Congress each year in the
@@ -69,3 +80,5 @@ export const SpendingDifference = () => {
     </div>
   );
 }
+
+export default withWindowSize(SpendingDifference);
