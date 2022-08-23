@@ -1,6 +1,6 @@
 # Debt Explainer Data Sources & Methodologies
 
-The [National Debt Explainer page](https://dev.fiscaldata.treasury.gov/national-debt/) is intended to give a high-level overview on the topic of federal debt. This README documents the datasets, API calls, and calculations used to source data for visualizations on the page.
+The [National Debt Explainer page](https://fiscaldata.treasury.gov/national-debt/) is intended to give a high-level overview on the topic of federal debt. This README documents the datasets, API calls, and calculations used to source data for visualizations on the page.
 
 
 ## What is the national debt?

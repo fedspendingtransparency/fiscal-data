@@ -29,6 +29,7 @@ describe('National Deficit Hero', () => {
     expect(await getByText("decreased", {exact: false})).toBeInTheDocument();
     expect(await getByText("down arrow", {exact: false})).toBeInTheDocument();
     expect(await getByText("2021, the federal government", {exact: false})).toBeInTheDocument();
+    expect(await getByText("same period last year (Oct 2020", {exact: false})).toBeInTheDocument();
     expect(await getByText("government spent $2.77 trillion", {exact: false})).toBeInTheDocument();
     expect(await getByText('period last year (Oct 2021', {exact: false})).toBeInTheDocument();
     expect(await getByText('Jun 2021), our ', {exact: false})).toBeInTheDocument();

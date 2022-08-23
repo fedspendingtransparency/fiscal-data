@@ -41,21 +41,21 @@ export const TopicsSection = ({images, width}) => {
         </div>
       </h5>
       <i>
-        Fiscal Data presents the first of four concepts from Your Guide to America's Finances,
+        Fiscal Data presents the second of four concepts from Your Guide to America’s Finances,
         which will be added in the coming months.
       </i>
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4}>
             <Grid item lg={mainWidth}>
-              <ExplainerTile content={pageTileMap['debt']}
+              <ExplainerTile content={pageTileMap['deficit']}
                              images={images}
                              width={width}
               />
             </Grid>
-            {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
+            {width < pxToNumber(breakpointLg) ? <div className={line} /> : undefined}
             <Grid item lg={secondaryWidth}>
-              <ExplainerTile content={pageTileMap['deficit']}
+              <ExplainerTile content={pageTileMap['debt']}
                              images={images}
                              width={width}
               />
