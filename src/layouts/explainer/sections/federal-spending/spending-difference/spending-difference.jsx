@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {
@@ -15,8 +15,13 @@ import MandatorySpendingImgDesktop from "../../../../../../static/images/mandato
 import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png";
 import DeficitDesk from "../../../../../../static/images/deficit-vs-debt_desktop.svg"
 import DeficitMobile from "../../../../../../static/images/deficit-vs-debt_mobile.svg"
+//import {useEffect} from react;
 
-export const SpendingDifference = ({width}) => {
+const SpendingDifference = ({width}) => {
+useEffect(() => {
+  console.log(width);
+}, [width]);
+
   return (
     <div className={spendingDifferenceContent}>
       <h5>Who controls federal government spending?</h5>
@@ -42,7 +47,7 @@ export const SpendingDifference = ({width}) => {
         for spending each year, hence the term mandatory.
       </p>
       <div className={mandatorySpendingContainer}>
-        <img src={width < pxToNumber(breakpointLg) ? DeficitMobile : DeficitDesk}
+        <img src={width < pxToNumber(breakpointLg) ? MandatorySpendingImgMobile : MandatorySpendingImgDesktop}
              alt={"Step 1: Existing laws require (mandatory) money for spending each year " +
              "Step 2: The Treasury issues funds to specific agency spending accounts towards contracts, " +
              "loans, grants, direct payments, and other financial assistance " +
