@@ -7,6 +7,7 @@
     font-weight: $semi-bold-weight;
     margin: 2rem 0 1rem;
   }
+
   h6 {
     font-size: $font-size-20;
     font-weight: $semi-bold-weight;
@@ -14,4 +15,16 @@
     color: $spending-explainer-secondary;
   }
 
+  .mandatorySpendingContainer{
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+  }
+  .mandatorySpendingImgStyle {
+    padding-right: 0rem;
+  }
 }
+
+
+
+
