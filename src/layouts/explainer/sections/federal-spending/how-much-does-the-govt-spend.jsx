@@ -71,7 +71,7 @@ const HowMuchDoesTheGovtSpend = props => {
               <div
                 style={{
                   background: "#00766C",
-                  width: `${item.percentage * 20}px`,
+                  width: `${item.percentage * 12}px`,
                 }}
               ></div>
               <div>{item.percentage} %</div>
@@ -83,7 +83,7 @@ const HowMuchDoesTheGovtSpend = props => {
           <div
             style={{
               background: "#00766C",
-              width: `${otherPercentage * 20}px`,
+              width: `${otherPercentage * 12}px`,
             }}
           ></div>
           <div>{otherPercentage} %</div>
