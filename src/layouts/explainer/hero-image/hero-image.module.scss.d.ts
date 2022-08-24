@@ -81,4 +81,7 @@ export const deficitBoxContainer: string;
 export const deficitBox: string;
 export const deficitBoxPercent: string;
 export const explainerArrow: string;
+export const pillDataContainer: string;
+export const pillDataValue: string;
+export const pillDataPercent: string;
 export const heroBorder: string;

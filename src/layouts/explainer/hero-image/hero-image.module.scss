@@ -113,6 +113,33 @@
     padding-left: 0.5rem;
   }
 
+  .pillDataContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+
+  .pillDataValue {
+    border-radius: 15px;
+    height: 1.5rem;
+    width: 4rem;
+    font-size: $font-size-14;
+    font-weight: 600;
+    color: #666666;
+    padding-top: 0.25rem;
+  }
+
+  .pillDataPercent {
+    border-radius: 15px;
+    height: 1.5rem;
+    width: 4rem;
+    font-size: $font-size-14;
+    font-weight: 600;
+    color: #666666;
+    padding-top: 0.25rem;
+  }
+
 }
 
 .heroBorder {
@@ -157,7 +184,6 @@
     .deficitBox {
       width: 5rem;
     }
-
   }
 
   .heroBorder {

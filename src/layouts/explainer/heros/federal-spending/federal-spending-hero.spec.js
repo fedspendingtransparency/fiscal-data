@@ -28,7 +28,7 @@ describe('National Deficit Hero', () => {
       .toBeInTheDocument();
     expect(await getByText("Compared to the federal spending of $2.2 trillion", {exact: false}))
       .toBeInTheDocument();
-    expect(await getByText("(Oct 2021 - Jun 2021)", {exact: false})).toBeInTheDocument();
+    expect(await getByText("(Oct 2020 - Jun 2021)", {exact: false})).toBeInTheDocument();
     expect(await getByText("federal spending has increased by $2.3 trillion", {exact: false}))
       .toBeInTheDocument();
 

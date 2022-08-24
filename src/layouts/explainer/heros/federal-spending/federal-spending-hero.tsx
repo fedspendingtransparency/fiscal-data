@@ -34,7 +34,6 @@ const FederalSpendingHero = (): JSX.Element => {
   const [priorCalendarYear, setPriorCalendarYear] = useState(null);
   const [recordFiscalYear, setRecordFiscalYear] = useState(null);
   const [recordCalendarMonth, setRecordCalendarMonth] = useState(null);
-  // const [recordCalendarYear, setRecordCalendarMonthYear] = useState(null);
   const [spendingChangeLabel, setSpendingChangeLabel] = useState(null);
   const [spendingChange, setSpendingChange] = useState( 0);
   const [spendingPercentChange, setSpendingPercentChange] = useState(0);
@@ -51,7 +50,6 @@ const FederalSpendingHero = (): JSX.Element => {
       .then((res) => {
         if(res.data) {
           const data = res.data[0];
-          // console.log(data);
           const currentTotalSpending = data.current_fytd_net_outly_amt;
           const priorTotalSpending = data.prior_fytd_net_outly_amt;
           const difference = currentTotalSpending - priorTotalSpending;
@@ -61,7 +59,6 @@ const FederalSpendingHero = (): JSX.Element => {
           setPriorFiscalYear(data.record_fiscal_year - 1);
           setPriorCalendarYear(data.record_calendar_year - 1);
           setRecordCalendarMonth(data.record_calendar_month);
-          // setRecordCalendarMonthYear(data.record_calendar_year);
           setSpendingChange(difference);
           setSpendingPercentChange((difference / priorTotalSpending) * 100);
 
@@ -96,7 +93,8 @@ const FederalSpendingHero = (): JSX.Element => {
         </p>
         <p>
           Compared to the federal spending of
-          ${getShortForm(priorYearSpending.toString(), 1, false)} for the same period last year
+          ${getShortForm(priorYearSpending.toString(), 1, false)} for the same period
+          last year
           ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)})
           our federal spending has {spendingChangeLabel} by
           ${getShortForm(spendingChange.toString(), 1, false)}.

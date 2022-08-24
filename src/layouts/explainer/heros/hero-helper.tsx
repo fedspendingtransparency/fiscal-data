@@ -1,8 +1,8 @@
-import {deficitBox, deficitBoxContainer, deficitBoxPercent, explainerArrow} from "../hero-image/hero-image.module.scss";
+import {pillDataContainer, pillDataValue, pillDataPercent, explainerArrow}
+  from "../hero-image/hero-image.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import {numberWithCommas} from "../../../helpers/simplify-number/simplifyNumber";
 
 
 export const getShortForm = (
@@ -14,8 +14,9 @@ export const getShortForm = (
   const trimmed = Math.abs(Number(value)).toFixed();
   const inTrillions = trimmed.length > 12;
   const divisor = inTrillions ? 1000000000000 : 1000000000;
-  const appendix = inTrillions ? (abbreviate ? ' T' : ' trillion') :
-    (abbreviate ? ' B' : ' billion');
+  const trillionLabel = abbreviate ? ' T' : ' trillion';
+  const billionLabel = abbreviate ? ' B' : ' billion';
+  const appendix = inTrillions ? trillionLabel : billionLabel;
 
   return Math.abs(
     (parseFloat(value) / divisor)).toFixed(fractionDigits) + appendix;
@@ -27,11 +28,12 @@ export const getFootNotesDateRange = (
   currentRecordMonth: string): string => {
   const date = new Date();
   date.setMonth(parseInt(currentRecordMonth) - 1);
-  const currentMonth = date.toLocaleString('en-US', {month: 'short',});
+  const currentMonth = date.toLocaleString('en-US', {month: 'short'});
+  const priorFiscalStartYear = Number(priorFY) -1;
   return (currentRecordMonth === 'Oct' ? (
-    `Oct ${priorFY}`
+    `Oct ${priorFiscalStartYear}`
   ) : (
-    `Oct ${priorFY} - ${currentMonth} ${currentFY}`
+    `Oct ${priorFiscalStartYear} - ${currentMonth} ${currentFY}`
   ));
 };
 
@@ -41,11 +43,19 @@ export const getPillData = (
   changeLabel: string,
   desktop: boolean,
   color: string): JSX.Element => {
+  const testValue = -900000000000;
+  const displayValue = getShortForm(testValue.toString(), 0);
+  const displayPercent = percent.toFixed();
+  const valueLength = displayValue.length;
+  const percentLength = displayPercent.length + 1;
+  const getWidth = (x) => (x > 4 ? ((x - 4) / 2) + 4 : 4);
 
   return (
-    <div className={deficitBoxContainer}>
-      <div className={deficitBox} style={{background:color}}>
-        ${getShortForm(value.toString(), 0)}
+    <div className={pillDataContainer}>
+      <div className={pillDataValue}
+           style={{background:color, width:`${getWidth(valueLength)}rem`}}
+      >
+        ${displayValue}
       </div>
       {
         changeLabel === 'increased' ? (
@@ -59,8 +69,10 @@ export const getPillData = (
             </div>
           )
       }
-      <div className={deficitBoxPercent} style={{background:color}}>
-        {percent.toFixed()}%
+      <div className={pillDataPercent}
+           style={{background:color, width:`${getWidth(percentLength)}rem`}}
+      >
+        {displayPercent}%
       </div>
     </div>
   )
