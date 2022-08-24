@@ -14,6 +14,16 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 // reference
+
+export const formatCurrency = v => {
+  if (parseFloat(v) < 0) {
+    return `-$${Math.abs(v)} T`;
+  }
+  else {
+    return `$${v} T`;
+  }
+};
+
 const DeficitTrendsBarChart = ({ width }) => {
 
   const desktop = width >= pxToNumber(breakpointLg);
@@ -39,14 +49,7 @@ const DeficitTrendsBarChart = ({ width }) => {
     }
   };
 
-  const formatCurrency = v => {
-    if (parseFloat(v) < 0) {
-      return `-$${Math.abs(v)} T`;
-    }
-    else {
-      return `$${v} T`;
-    }
-  };
+
 
   const getChartData = () => {
     const apiData = [];

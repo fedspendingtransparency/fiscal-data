@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles"
 import { theme } from "../../../../theme"
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils"
 import { card } from "../../../../components/home-highlight-cards/home-highlight-cards.module.scss"
-
+import formatCurrency from "../national-deficit/deficit-by-year/deficit-trends-bar-chart/deficit-trends-bar-chart"
 const cardStyles = {
   root: {
     fontSize: "1rem",
@@ -33,61 +33,119 @@ const HowMuchDoesTheGovtSpend = props => {
   useEffect(() => {
     getChartData()
   }, [])
+  const type = "category"
 
-  let sortedCategoryItems = chartData?.category.data.sort((a, b) => {
+  let sortedItems = chartData[type]?.data.sort((a, b) => {
     return b.current_fytd_rcpt_outly_amt - a.current_fytd_rcpt_outly_amt
   })
 
-  const total = sortedCategoryItems
+  const total = sortedItems
     ?.map(item => parseInt(item.current_fytd_rcpt_outly_amt, 10))
     ?.reduce((a, b) => a + b)
 
-  sortedCategoryItems = sortedCategoryItems?.map(item => {
+  // logic for toggling percentage/dollars here
+
+  sortedItems = sortedItems?.map(item => {
     return {
       ...item,
       percentage: Math.round(
         (parseInt(item.current_fytd_rcpt_outly_amt, 10) / total) * 100
       ),
+      dollarAmount: formatCurrency(parseInt(item.current_fytd_rcpt_outly_amt)),
     }
   })
 
-  const firstTen = sortedCategoryItems?.slice(0, 10)
-  const other = sortedCategoryItems?.slice(10)
+  console.log(sortedItems, "s")
+
+  const firstTen = sortedItems?.slice(0, 10)
+  const other = sortedItems?.slice(10)
   const otherTotal = other
     ?.map(item => parseInt(item.current_fytd_rcpt_outly_amt, 10))
     ?.reduce((a, b) => a + b)
   const otherPercentage = Math.round((otherTotal / total) * 100)
-  console.log(firstTen, "FIRST TEN")
   return (
     <MuiThemeProvider theme={theme}>
       <Card
         data-testid="highlight-card"
-        style={{ background: "grey" }}
+        style={{
+          background: "#f1f1f1",
+          padding: "48px",
+          paddingLeft: "16px",
+          paddingTop: "16px",
+        }}
         className={card}
       >
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{ color: "#555555", fontSize: "18px", fontWeight: "bold" }}
+          >
+            U.S. Government Spending, FY 2021
+          </div>
+          <div
+            style={{ color: "#2A328C", fontSize: "16px", marginBottom: "48px" }}
+          >
+            Top 10 Spending by Category and Agency
+          </div>
+        </div>
         {firstTen?.map(item => {
           return (
-            <div style={{ display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                marginBottom: "16px",
+                marginLeft: "36px",
+                alignItems: "center",
+              }}
+            >
               <div
                 style={{
                   background: "#00766C",
-                  width: `${item.percentage * 12}px`,
+                  width: `${item.percentage * 11}px`,
+                  marginRight: "16px",
+                  height: "55px",
                 }}
               ></div>
-              <div>{item.percentage} %</div>
-              <div>{item.classification_desc} </div>
+              <div
+                style={{
+                  marginRight: "8px",
+                  color: "#2A328C ",
+                  fontWeight: "bold",
+                }}
+              >
+                {item.percentage} %
+              </div>
+              <div style={{ marginRight: "16px" }}>
+                {item.classification_desc}
+              </div>
             </div>
           )
         })}
-        <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            marginRight: "16px",
+            marginLeft: "36px",
+            alignItems: "center",
+          }}
+        >
           <div
             style={{
               background: "#00766C",
-              width: `${otherPercentage * 12}px`,
+              width: `${otherPercentage * 11}px`,
+              marginRight: "16px",
+              height: "55px",
             }}
           ></div>
-          <div>{otherPercentage} %</div>
-          <div>Other </div>
+          <div
+            style={{
+              marginRight: "8px",
+              color: "#2A328C ",
+              fontWeight: "bold",
+            }}
+          >
+            {otherPercentage} %
+          </div>
+          <div style={{ marginRight: "16px" }}>Other </div>
         </div>
       </Card>
     </MuiThemeProvider>
