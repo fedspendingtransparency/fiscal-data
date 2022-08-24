@@ -73,6 +73,10 @@
   .footNotes {
     font-size: $font-size-14;
     margin-top: .25rem;
+
+    .footNotesPillData {
+      margin-top: 2rem;
+    }
   }
 
   .deficitBoxContainer {

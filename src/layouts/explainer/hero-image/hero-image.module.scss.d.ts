@@ -77,6 +77,7 @@ export const icon: string;
 export const counterContainer: string;
 export const counterSourceInfo: string;
 export const footNotes: string;
+export const footNotesPillData: string;
 export const deficitBoxContainer: string;
 export const deficitBox: string;
 export const deficitBoxPercent: string;

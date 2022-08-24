@@ -1,5 +1,6 @@
 import {
   footNotes,
+  footNotesPillData,
   heroImageCallout,
   heroImageSubHeading,
   icon
@@ -91,16 +92,18 @@ const FederalSpendingHero = (): JSX.Element => {
           Fiscal Year-to-Date (since October {priorFiscalYear}) total updated monthly using
           the {mts} dataset.
         </p>
-        <p>
-          Compared to the federal spending of
-          ${getShortForm(priorYearSpending.toString(), 1, false)} for the same period
-          last year
-          ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)})
-          our federal spending has {spendingChangeLabel} by
-          ${getShortForm(spendingChange.toString(), 1, false)}.
-        </p>
-        {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel,
-          true, spendingExplainerLightSecondary)}
+        <div className={footNotesPillData}>
+          <p>
+            Compared to the federal spending of
+            ${getShortForm(priorYearSpending.toString(), 1, false)} for the same period
+            last year
+            ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)})
+            our federal spending has {spendingChangeLabel} by
+            ${getShortForm(spendingChange.toString(), 1, false)}.
+          </p>
+          {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel,
+            true, spendingExplainerLightSecondary)}
+        </div>
       </div>
       <div className={heroImageCallout} >
         <FontAwesomeIcon icon={faFlagUsa} className={icon} />
