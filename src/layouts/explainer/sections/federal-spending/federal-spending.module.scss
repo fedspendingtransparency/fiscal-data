@@ -24,6 +24,10 @@ $spending-explainer-light-secondary: #99c8c4;
     }
   }
 
+  @media screen and (max-width: $breakpoint-lg - 1) {
+    margin-top: 2rem;
+  }
+
   :global(.accordionContent) {
     padding-right:1.25rem;
     padding-left:1.25rem;
