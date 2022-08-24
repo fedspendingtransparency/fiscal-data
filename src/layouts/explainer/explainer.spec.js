@@ -123,7 +123,6 @@ describe('Spending explainer', () => {
 
   afterEach(() => {
     jest.resetModules();
-    // global.fetch.mockReset();
   });
   const breadCrumbLinkName = 'mock link';
   const seoConfig = {
@@ -160,6 +159,5 @@ describe('Spending explainer', () => {
 
     const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
     expect(dataSourcesMethodologies).toBeInTheDocument();
-    global.fetch.mockReset();
   })
 })
