@@ -22,7 +22,7 @@ const explainerPagesSource = {
       description: `Learn about the national deficit, the difference between budget deficit and
       debt, and how the deficit has changed over time.`
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'What is the national deficit?',
       subHeading: ''
