@@ -43,8 +43,7 @@ export const getPillData = (
   changeLabel: string,
   desktop: boolean,
   color: string): JSX.Element => {
-  const testValue = -900000000000;
-  const displayValue = getShortForm(testValue.toString(), 0);
+  const displayValue = getShortForm(value.toString(), 0);
   const displayPercent = percent.toFixed();
   const valueLength = displayValue.length;
   const percentLength = displayPercent.length + 1;

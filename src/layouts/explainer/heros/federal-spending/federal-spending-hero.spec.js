@@ -7,7 +7,7 @@ import fetchMock from 'fetch-mock';
 import {mockSpendingHeroData, mockSpendingHeroData_decrease} from "../../explainer-test-helper";
 import FederalSpendingHero from "./federal-spending-hero";
 
-describe('National Deficit Hero', () => {
+describe('Federal spending Hero', () => {
   beforeAll(() => {
     // include a "current" and a last record from the prior year for testing values
     fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
