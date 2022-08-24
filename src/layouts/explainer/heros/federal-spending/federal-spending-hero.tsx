@@ -51,6 +51,7 @@ const FederalSpendingHero = (): JSX.Element => {
       .then((res) => {
         if(res.data) {
           const data = res.data[0];
+          // console.log(data);
           const currentTotalSpending = data.current_fytd_net_outly_amt;
           const priorTotalSpending = data.prior_fytd_net_outly_amt;
           const difference = currentTotalSpending - priorTotalSpending;
