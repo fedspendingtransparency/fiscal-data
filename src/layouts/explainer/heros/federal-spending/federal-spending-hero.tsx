@@ -17,6 +17,7 @@ import {
 } from "../hero-helper";
 import {spendingExplainerLightSecondary} from
     "../../sections/federal-spending/federal-spending.module.scss";
+import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 
 
 const FederalSpendingHero = (): JSX.Element => {
@@ -85,7 +86,11 @@ const FederalSpendingHero = (): JSX.Element => {
         fiscal year {recordFiscalYear} to ensure the well-being of the people of the United States.
       </p>
       <div>
-        Flip card placeholder
+        <SplitFlapDisplay value={totalSpending}
+                          precision={0}
+                          minLength={17} // number of characters to initially display
+                          valueType="currency"
+        />
       </div>
       <div className={footNotes}>
         <p>
