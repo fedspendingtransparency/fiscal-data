@@ -2,10 +2,15 @@ import React from "react";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {
-  spendingDifferenceContent
+  spendingDifferenceContent,
+  mandatorySpendingContainer,
+  mandatorySpendingImgStyle
 } from "./spending-difference.module.scss";
 import {spendingAccordion} from "../federal-spending.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
+import {withWindowSize} from "react-fns";
+import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
+import {breakpointLg} from "../../../../../variables.module.scss";
 import discretionarySpendingDesktop from "../../../../../../static/images/discretionary-spending_desktop.png";
 import discretionarySpendingMobile from "../../../../../../static/images/discretionary-spending_desktop.png";
 
@@ -34,7 +39,7 @@ export const SpendingDifference = ({width}) => {
         amended again. Due to authorization laws, the funding for these programs must be allocated
         for spending each year, hence the term mandatory.
       </p>
-      <ChartPlaceholder />
+      <ChartPlaceholder/>
       <h6>Discretionary Spending</h6>
       <p>
         Discretionary spending is money formally approved by Congress and the President during the
@@ -43,9 +48,14 @@ export const SpendingDifference = ({width}) => {
         other agencies and programs. These programs range from transportation, education, housing,
         and social service programs, as well as science and environmental organizations.
       </p>
+      <div className={mandatorySpendingContainer}>
       <img src={width < pxToNumber(breakpointLg) ? discretionarySpendingMobile : discretionarySpendingDesktop}
-           data-testid={diseretionarySpendingMobileImg} 
-           />
+           alt={"Step 1: President submits recommendation for the next year’s budget in the President's Budget " +
+             "Step 2: Congress reviews, revises, and votes on the budget during the appropriations process each year " +
+             "Step 3: President signs the budget into law, and spending goes to national defense and other federal agency "+
+             "programs. The accounts are funded annually and disbursements are made unless an amendment is made to the law}"}
+           data-testid={'diseretionarySpendingMobileImg'} className={mandatorySpendingImgStyle}/>
+      </div>
       <h6>Supplemental Spending</h6>
       <p>
         Supplemental appropriations, also known as supplemental spending, are appropriations enacted
@@ -57,21 +67,22 @@ export const SpendingDifference = ({width}) => {
       </p>
       <ChartPlaceholder />
       <div className={spendingAccordion}>
-        <Accordion title="What is the process for determining discretionary spending?">
-          Discretionary spending is determined by the president and Congress each year in the
-          budget and appropriations process. First, the president creates a budget proposal and
-          sends it to Congress. Then, the House and Senate both draft budget resolutions. Congress
-          can change funding levels and add or eliminate programs, taxes, and other sources of
-          revenue. Once the budget resolutions have been finalized in the House and Senate, Congress
-          reconciles the differences and votes on a final budget. The discretionary spending levels
-          in the budget are divided among the twelve Appropriations Subcommittees, which then draft
-          bills providing funding levels for the departments, bureaus, and agencies within their
-          jurisdiction. After the House and Senate agree to a final funding level for each bill,
-          they are sent to the president for approval or veto.
-        </Accordion>
-      </div>
-    </div>
-  );
+        <Accordion title=" What is the process for determining discretionary spending?">
+      Discretionary spending is determined by the president and Congress each year in the
+      budget and appropriations process. First, the president creates a budget proposal and
+      sends it to Congress. Then, the House and Senate both draft budget resolutions. Congress
+      can change funding levels and add or eliminate programs, taxes, and other sources of
+      revenue. Once the budget resolutions have been finalized in the House and Senate, Congress
+      reconciles the differences and votes on a final budget. The discretionary spending levels
+      in the budget are divided among the twelve Appropriations Subcommittees, which then draft
+      bills providing funding levels for the departments, bureaus, and agencies within their
+      jurisdiction. After the House and Senate agree to a final funding level for each bill,
+      they are sent to the president for approval or veto.
+    </Accordion>
+</div>
+</div>
+)
+  ;
 }
 
-export default withWindowSize(SpendingDifference)
+export default withWindowSize(SpendingDifference);
