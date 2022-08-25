@@ -6,15 +6,48 @@ import { theme } from "../../../../theme"
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils"
 import { card } from "../../../../components/home-highlight-cards/home-highlight-cards.module.scss"
 import formatCurrency from "../national-deficit/deficit-by-year/deficit-trends-bar-chart/deficit-trends-bar-chart"
+import Switch from "react-switch"
+import numeral from "numeral"
 const cardStyles = {
   root: {
     fontSize: "1rem",
     background: "darkgrey",
   },
 }
+export const capitalizeLastLetter = word => {
+  const parts = word.split("")
+  const last = word[parts.length - 1].toUpperCase()
+  parts[parts.length - 1] = last
+  return parts.join("")
+}
 
-const HowMuchDoesTheGovtSpend = props => {
+export const ToggleSwitch = ({ checked, handleChange }) => {
+  return (
+    <label htmlFor="material-switch">
+      <Switch
+        checked={checked}
+        onChange={handleChange}
+        onColor="#86d3ff"
+        onHandleColor="#2693e6"
+        handleDiameter={15}
+        uncheckedIcon={false}
+        checkedIcon={false}
+        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+        height={20}
+        width={48}
+        className="react-switch"
+        id="material-switch"
+      />
+    </label>
+  )
+}
+
+const HowMuchDoesTheGovtSpend = ({ type = "category" }) => {
   const [chartData, setChartData] = useState(null)
+  const [percentDollarToggleChecked, setPercentDollarToggleChecked] = useState(
+    false
+  )
   const getChartData = () => {
     Promise.all([
       basicFetch(
@@ -33,11 +66,12 @@ const HowMuchDoesTheGovtSpend = props => {
   useEffect(() => {
     getChartData()
   }, [])
-  const type = "category"
 
-  let sortedItems = chartData[type]?.data.sort((a, b) => {
-    return b.current_fytd_rcpt_outly_amt - a.current_fytd_rcpt_outly_amt
-  })
+  let sortedItems =
+    chartData &&
+    chartData[type]?.data.sort((a, b) => {
+      return b.current_fytd_rcpt_outly_amt - a.current_fytd_rcpt_outly_amt
+    })
 
   const total = sortedItems
     ?.map(item => parseInt(item.current_fytd_rcpt_outly_amt, 10))
@@ -51,11 +85,9 @@ const HowMuchDoesTheGovtSpend = props => {
       percentage: Math.round(
         (parseInt(item.current_fytd_rcpt_outly_amt, 10) / total) * 100
       ),
-      dollarAmount: formatCurrency(parseInt(item.current_fytd_rcpt_outly_amt)),
+      dollarAmount: parseInt(item.current_fytd_rcpt_outly_amt),
     }
   })
-
-  console.log(sortedItems, "s")
 
   const firstTen = sortedItems?.slice(0, 10)
   const other = sortedItems?.slice(10)
@@ -86,6 +118,14 @@ const HowMuchDoesTheGovtSpend = props => {
           >
             Top 10 Spending by Category and Agency
           </div>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <ToggleSwitch
+              checked={percentDollarToggleChecked}
+              handleChange={e => {
+                setPercentDollarToggleChecked(e)
+              }}
+            ></ToggleSwitch>
+          </div>
         </div>
         {firstTen?.map(item => {
           return (
@@ -112,7 +152,11 @@ const HowMuchDoesTheGovtSpend = props => {
                   fontWeight: "bold",
                 }}
               >
-                {item.percentage} %
+                {percentDollarToggleChecked
+                  ? `${capitalizeLastLetter(
+                      numeral(item.dollarAmount).format("($ 0.00 a)")
+                    )}`
+                  : `${item.percentage} %`}
               </div>
               <div style={{ marginRight: "16px" }}>
                 {item.classification_desc}
@@ -143,7 +187,11 @@ const HowMuchDoesTheGovtSpend = props => {
               fontWeight: "bold",
             }}
           >
-            {otherPercentage} %
+            {percentDollarToggleChecked
+              ? `${capitalizeLastLetter(
+                  numeral(otherTotal).format("($ 0.00 a)")
+                )}`
+              : `${otherPercentage} %`}
           </div>
           <div style={{ marginRight: "16px" }}>Other </div>
         </div>
