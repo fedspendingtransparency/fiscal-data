@@ -17,7 +17,6 @@ describe('Federal spending Hero', () => {
 
   it("Hero Image section loads with relevant data", async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    global.console = {warn: jest.fn()}
 
     const {getByText} = render(<FederalSpendingHero />);
     expect(fetchSpy).toBeCalled();
@@ -42,7 +41,6 @@ describe("Pill data section", () => {
       mockSpendingHeroData, {overwriteRoutes: true}, {repeat: 1}
     )
     const fetchSpy = jest.spyOn(global, 'fetch');
-    global.console = {warn: jest.fn()}
 
     const {getByText, getByRole} = render(<FederalSpendingHero />);
     expect(fetchSpy).toBeCalled();
@@ -59,7 +57,6 @@ describe("Pill data section", () => {
       mockSpendingHeroData_decrease, {overwriteRoutes: true}, {repeat: 1}
     )
     const fetchSpy = jest.spyOn(global, 'fetch');
-    global.console = {warn: jest.fn()}
 
     const {getByText, getByRole} = render(<FederalSpendingHero />);
     expect(fetchSpy).toBeCalled();
