@@ -114,7 +114,8 @@ const HowMuchDoesTheGovtSpend = ({ type = "category" }) => {
     ?.map(item => parseInt(item.current_fytd_rcpt_outly_amt, 10))
     ?.reduce((a, b) => a + b)
   const otherPercentage = Math.round((otherTotal / total) * 100)
-  // TODO:  clean up styling, placeholder for switch at the top, responsiveness
+  // TODO:  clean up in-line styling, placeholder for switch at the top, test responsiveness
+  // callout??
   return (
     <ChartContainer
       customContainerStyles={{ flexDirection: "column" }}
