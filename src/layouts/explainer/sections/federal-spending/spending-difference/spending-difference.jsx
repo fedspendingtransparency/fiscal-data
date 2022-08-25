@@ -13,11 +13,8 @@ import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../variables.module.scss";
 import MandatorySpendingImgDesktop from "../../../../../../static/images/mandatory-spending_desktop.png";
 import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png";
-import DeficitDesk from "../../../../../../static/images/deficit-vs-debt_desktop.svg"
-import DeficitMobile from "../../../../../../static/images/deficit-vs-debt_mobile.svg"
-//import {useEffect} from react;
 
-const SpendingDifference = ({width}) => {
+export const SpendingDifference = ({width}) => {
 useEffect(() => {
   console.log(width);
 }, [width]);
