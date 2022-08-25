@@ -215,7 +215,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 background: "#00766C",
                 width: `${item.percentage * 3}%`,
                 marginRight: "16px",
-                height: "55px",
+                height: "40px",
               }}
             ></div>
             <div className={percentOrDollarContainer}>
@@ -225,7 +225,13 @@ const HowMuchDoesTheGovtSpend = () => {
                   )}`
                 : `${item.percentage} %`}
             </div>
-            <div className={descContainer}>
+            <div
+              className={descContainer}
+              style={{
+                maxWidth: item.percentage > 10 ? "96px" : "inherit",
+                width: item.percentage > 20 ? "min-content" : "inherit",
+              }}
+            >
               {item.classification_desc?.replace("Total--", "")}
             </div>
           </div>
@@ -237,7 +243,7 @@ const HowMuchDoesTheGovtSpend = () => {
             background: "#00766C",
             width: `${otherPercentage * 3}%`,
             marginRight: "16px",
-            height: "55px",
+            height: "40px",
           }}
         ></div>
         <div className={percentOrDollarContainer}>

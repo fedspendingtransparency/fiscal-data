@@ -45,8 +45,8 @@ $govt-spending-header: #99c8c4;
 
 .descContainer {
     margin-right: 16px;
-    max-width: 96px;
     font-size: 12px;
+    width: min-content;
 }
 
 .chartToggle {
