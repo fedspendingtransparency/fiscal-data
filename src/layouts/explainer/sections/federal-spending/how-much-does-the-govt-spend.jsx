@@ -119,7 +119,7 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   })
 
-  // console.log(sortedItems, "SORTED ITEMS")
+  console.log(sortedItems, "SORTED ITEMS")
 
   const firstTen = sortedItems?.slice(0, 10)
   const other = sortedItems?.slice(10)
@@ -226,7 +226,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 : `${item.percentage} %`}
             </div>
             <div className={descContainer}>
-              {item.classification_desc?.replace("--", "-")}
+              {item.classification_desc?.replace("Total--", "")}
             </div>
           </div>
         )
