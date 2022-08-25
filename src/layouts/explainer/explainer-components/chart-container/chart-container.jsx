@@ -9,7 +9,7 @@ import React from "react";
 import {format} from "date-fns";
 
 
-const ChartContainer = ({title, altText, header, footer, date, children}) => {
+const ChartContainer = ({title, altText, header, footer, date, children, customContainerStyles}) => {
   return(
     <div className={`${chartContainer}`}
          role={"img"}
@@ -22,6 +22,7 @@ const ChartContainer = ({title, altText, header, footer, date, children}) => {
       <div
         data-testid="chart"
         className={chart}
+        style={{...customContainerStyles}}
       >
         {children}
       </div>
