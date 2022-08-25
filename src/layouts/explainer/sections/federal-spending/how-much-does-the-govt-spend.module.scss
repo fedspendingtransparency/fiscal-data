@@ -45,7 +45,7 @@ $govt-spending-header: #99c8c4;
 
 .descContainer {
     margin-right: 16px;
-    min-width: 80px;
+    max-width: 70px
 }
 
 .chartToggle {
@@ -58,7 +58,6 @@ $govt-spending-header: #99c8c4;
 
 .toggleButton {
     width: 43%;
-    background: #00766C;
     margin-bottom: 2%;
     cursor: pointer;
 }

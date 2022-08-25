@@ -97,33 +97,41 @@ const HowMuchDoesTheGovtSpend = () => {
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
   )
+  const sortField =
+    selectedChartView === "category"
+      ? "current_fytd_rcpt_outly_amt"
+      : "current_fytd_app_rcpt_amt"
   let sortedItems =
     chartData &&
     chartData[selectedChartView]?.data.sort((a, b) => {
-      return b.current_fytd_rcpt_outly_amt - a.current_fytd_rcpt_outly_amt
+      return b[sortField] - a[sortField]
     })
 
   const total = sortedItems
-    ?.map(item => parseInt(item.current_fytd_rcpt_outly_amt, 10))
+    ?.map(item => parseInt(item[sortField], 10))
     ?.reduce((a, b) => a + b)
 
   sortedItems = sortedItems?.map(item => {
     return {
       ...item,
-      percentage: Math.round(
-        (parseInt(item.current_fytd_rcpt_outly_amt, 10) / total) * 100
-      ),
-      dollarAmount: parseInt(item.current_fytd_rcpt_outly_amt),
+      percentage: Math.round((parseInt(item[sortField], 10) / total) * 100),
+      dollarAmount: parseInt(item[sortField]),
     }
   })
 
+  // console.log(sortedItems, "SORTED ITEMS")
+
   const firstTen = sortedItems?.slice(0, 10)
   const other = sortedItems?.slice(10)
+
   const otherTotal = other
-    ?.map(item => parseInt(item.current_fytd_rcpt_outly_amt, 10))
+    ?.map(item => parseInt(item[sortField], 10))
     ?.reduce((a, b) => a + b)
   const otherPercentage = Math.round((otherTotal / total) * 100)
-  // TODO:  styling, (box shadow on toggle) test responsiveness, check all heights against the mockups, clean up layouts
+  // TODO:  styling: (box shadow on toggle)
+  // test responsiveness/text-wrapping,
+  // check all heights against the mockups
+  //  clean up layouts
   return (
     <ChartContainer
       customContainerStyles={{
@@ -217,7 +225,9 @@ const HowMuchDoesTheGovtSpend = () => {
                   )}`
                 : `${item.percentage} %`}
             </div>
-            <div className={descContainer}>{item.classification_desc}</div>
+            <div className={descContainer}>
+              {item.classification_desc?.replace("--", "-")}
+            </div>
           </div>
         )
       })}
