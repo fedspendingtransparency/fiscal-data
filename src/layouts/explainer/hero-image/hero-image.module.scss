@@ -1,4 +1,5 @@
 @import '../../../variables.module.scss';
+@import '../sections/federal-spending/federal-spending.module';
 
 .mainContainer {
   display: flex;
@@ -72,17 +73,22 @@
   .footNotes {
     font-size: $font-size-14;
     margin-top: .25rem;
+
+    .footNotesPillData {
+      margin-top: 2rem;
+    }
   }
 
   .deficitBoxContainer {
     display: flex;
     flex-direction: row;
     margin-bottom: 2rem;
+    justify-content: center;
   }
 
   .deficitBox {
-    border-radius: 12px;
-    background:  rgba(179, 83, 45, 0.1);
+    border-radius: 15px;
+    background: rgba(179, 83, 45, 0.1);
     height: 1.5rem;
     width: 9rem;
     font-size: $font-size-14;
@@ -92,7 +98,7 @@
   }
 
   .deficitBoxPercent {
-    border-radius: 12px;
+    border-radius: 15px;
     background:  rgba(179, 83, 45, 0.1);
     height: 1.5rem;
     width: 4rem;
@@ -102,13 +108,40 @@
     padding-top: 0.25rem;
   }
 
-  .deficitArrow {
+  .explainerArrow {
     width: 1rem;
     height:1.5rem;
     font-size: $font-size-18;
     padding-top: 0.25rem;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+  }
+
+  .pillDataContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+
+  .pillDataValue {
+    border-radius: 15px;
+    height: 1.5rem;
+    width: 4rem;
+    font-size: $font-size-14;
+    font-weight: 600;
+    color: #666666;
+    padding-top: 0.25rem;
+  }
+
+  .pillDataPercent {
+    border-radius: 15px;
+    height: 1.5rem;
+    width: 4rem;
+    font-size: $font-size-14;
+    font-weight: 600;
+    color: #666666;
+    padding-top: 0.25rem;
   }
 
 }
@@ -155,7 +188,6 @@
     .deficitBox {
       width: 5rem;
     }
-
   }
 
   .heroBorder {
