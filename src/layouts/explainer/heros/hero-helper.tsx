@@ -45,14 +45,15 @@ export const getPillData = (
   color: string): JSX.Element => {
   const displayValue = getShortForm(value.toString(), 0);
   const displayPercent = percent.toFixed();
-  const valueLength = displayValue.length;
+  const valueLength = displayValue.length + 1;
   const percentLength = displayPercent.length + 1;
-  const getWidth = (x) => (x > 4 ? ((x - 4) / 2) + 4 : 4);
+  const getPillWidth = (displayValueLength) =>
+    (displayValueLength > 4 ? ((displayValueLength - 4) / 2) + 4 : 4);
 
   return (
     <div className={pillDataContainer}>
       <div className={pillDataValue}
-           style={{background:color, width:`${getWidth(valueLength)}rem`}}
+           style={{background:color, width:`${getPillWidth(valueLength)}rem`}}
       >
         ${displayValue}
       </div>
@@ -69,7 +70,7 @@ export const getPillData = (
           )
       }
       <div className={pillDataPercent}
-           style={{background:color, width:`${getWidth(percentLength)}rem`}}
+           style={{background:color, width:`${getPillWidth(percentLength)}rem`}}
       >
         {displayPercent}%
       </div>
