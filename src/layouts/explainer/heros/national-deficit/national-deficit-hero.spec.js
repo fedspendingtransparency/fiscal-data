@@ -41,28 +41,3 @@ describe('National Deficit Hero', () => {
   });
 });
 
-describe('National Deficit Hero Oct Date Range', () => {
-  beforeAll(() => {
-    // include a "current" and a last record from the prior year for testing values
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockDeficitHeroDataOct,{overwriteRoutes: true}, {repeat: 1}
-    )
-  });
-
-  afterAll(() => {
-    jest.resetModules();
-    global.fetch.mockRestore();
-  });
-
-  const glossary = [];
-
-  it('Evergreen 11 month ', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    global.console = {warn: jest.fn()}
-
-    const {getByText} = render(<NationalDeficitHero glossary={glossary} />);
-    expect(fetchSpy).toBeCalled();
-    expect(await getByText("(Oct 2020)", {exact: false})).toBeInTheDocument();
-
-  });
-});
