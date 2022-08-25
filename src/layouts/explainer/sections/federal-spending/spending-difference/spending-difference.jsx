@@ -6,8 +6,10 @@ import {
 } from "./spending-difference.module.scss";
 import {spendingAccordion} from "../federal-spending.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
+import discretionarySpendingDesktop from "../../../../../../static/images/discretionary-spending_desktop.png";
+import discretionarySpendingMobile from "../../../../../../static/images/discretionary-spending_desktop.png";
 
-export const SpendingDifference = () => {
+export const SpendingDifference = ({width}) => {
   return (
     <div className={spendingDifferenceContent}>
       <h5>Who controls federal government spending?</h5>
@@ -41,7 +43,9 @@ export const SpendingDifference = () => {
         other agencies and programs. These programs range from transportation, education, housing,
         and social service programs, as well as science and environmental organizations.
       </p>
-      <ChartPlaceholder />
+      <img src={width < pxToNumber(breakpointLg) ? discretionarySpendingMobile : discretionarySpendingDesktop}
+           data-testid={diseretionarySpendingMobileImg} 
+           />
       <h6>Supplemental Spending</h6>
       <p>
         Supplemental appropriations, also known as supplemental spending, are appropriations enacted
@@ -69,3 +73,5 @@ export const SpendingDifference = () => {
     </div>
   );
 }
+
+export default withWindowSize(SpendingDifference)
