@@ -24,6 +24,9 @@ export default function DtgTableRow(props) {
       // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
       const date = new Date(cellData.replace(/-/g, '\/'));
       formattedData = dateFormatter.format(date);
+    } else if (type === 'SMALL_FRACTION') {
+      formattedData = new Intl.NumberFormat('en-US', {maximumSignificantDigits:5})
+        .format(cellData);
     }
 
     cells.push(<td key={index} className={dataTypes.includes(type) ? styles.formattedCell : ''}>{formattedData}</td>);
