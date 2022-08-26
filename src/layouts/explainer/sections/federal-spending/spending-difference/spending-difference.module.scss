@@ -13,4 +13,16 @@
     margin: 2rem 0 1rem;
     color: $spending-explainer-secondary;
   }
+
+  .mandatorySpendingContainer{
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+    img{
+      width:100%;
+    }
+  }
+  .mandatorySpendingImgStyle {
+    padding-right: 0rem;
+  }
 }

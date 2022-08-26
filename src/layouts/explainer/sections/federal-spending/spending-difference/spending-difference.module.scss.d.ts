@@ -68,3 +68,5 @@ export const spendingExplainerSecondary: string;
 export const spendingExplainerLightSecondary: string;
 export const spendingAccordion: string;
 export const spendingDifferenceContent: string;
+export const mandatorySpendingContainer: string;
+export const mandatorySpendingImgStyle: string;

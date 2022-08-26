@@ -9,7 +9,7 @@ import {
 } from "./federal-spending.module.scss";
 import {SpendingOverview} from "./overview/spending-overview";
 import {SpendingCategories} from "./spending-categories/spending-categories";
-import {SpendingDifference} from "./spending-difference/spending-difference";
+import SpendingDifference from "./spending-difference/spending-difference";
 import {SpendingTrends} from "./spending-trends/spending-trends";
 
 export const nationalDeficitSectionIds = [
