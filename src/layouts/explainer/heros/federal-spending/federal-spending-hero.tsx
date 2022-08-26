@@ -1,4 +1,5 @@
 import {
+  counterContainerSpending,
   footNotes,
   footNotesPillData,
   heroImageCallout,
@@ -17,6 +18,7 @@ import {
 } from "../hero-helper";
 import {spendingExplainerLightSecondary} from
     "../../sections/federal-spending/federal-spending.module.scss";
+import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 
 
 const FederalSpendingHero = (): JSX.Element => {
@@ -84,8 +86,11 @@ const FederalSpendingHero = (): JSX.Element => {
         The U.S. government has spent ${getShortForm(totalSpending, 2, false)} in
         fiscal year {recordFiscalYear} to ensure the well-being of the people of the United States.
       </p>
-      <div>
-        Flip card placeholder
+      <div className={counterContainerSpending}>
+        <SplitFlapDisplay value={totalSpending}
+                          minLength={17} // number of characters to initially display
+                          valueType="currency"
+        />
       </div>
       <div className={footNotes}>
         <p>
