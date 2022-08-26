@@ -9,14 +9,15 @@ import React from "react";
 import {format} from "date-fns";
 
 
-const ChartContainer = ({title, altText, header, footer, date, children, customContainerStyles}) => {
+const ChartContainer = ({title, altText, header, footer, date, children, customContainerStyles, customHeaderStyles, customSpacing}) => {
   return(
     <div className={`${chartContainer}`}
          role={"img"}
          aria-label={altText}
+         style={{...customSpacing}}
     >
       <div className={chartTitle}>{title}</div>
-      <div className={headerContainer}>
+      <div className={headerContainer} style={{...customHeaderStyles}}>
         {header}
       </div>
       <div

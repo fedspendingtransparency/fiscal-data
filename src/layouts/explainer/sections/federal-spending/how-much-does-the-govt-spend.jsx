@@ -1,10 +1,6 @@
-import React, { useState, useEffect, FunctionComponent } from "react"
-import Card from "@material-ui/core/Card"
-import { MuiThemeProvider } from "@material-ui/core"
+import React, { useState, useEffect } from "react"
 import { withStyles } from "@material-ui/core/styles"
-import { theme } from "../../../../theme"
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils"
-import { card } from "../../../../components/home-highlight-cards/home-highlight-cards.module.scss"
 import Switch from "react-switch"
 import numeral from "numeral"
 import CustomLink from "../../../../components/links/custom-link/custom-link"
@@ -14,7 +10,6 @@ import {
   headerContainer,
   headerStyle,
   subHeader,
-  column,
   chartsContainer,
   percentOrDollarContainer,
   descContainer,
@@ -34,22 +29,19 @@ export const capitalizeLastLetter = word => {
   return parts.join("")
 }
 
-export const ToggleSwitch = ({ checked, handleChange }) => {
+export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
   return (
     <label htmlFor="material-switch">
       <Switch
         checked={checked}
         onChange={handleChange}
-        onColor="#00766C"
-        onHandleColor="#00766C"
+        onColor={"#00766C"}
+        offColor={"#00766C"}
         handleDiameter={15}
         uncheckedIcon={false}
         checkedIcon={false}
-        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
         height={20}
         width={48}
-        className="react-switch"
         id="material-switch"
       />
     </label>
@@ -62,6 +54,16 @@ const HowMuchDoesTheGovtSpend = () => {
   const [percentDollarToggleChecked, setPercentDollarToggleChecked] = useState(
     false
   )
+  const styleSwitch = () => {
+    const switchHandle = document.querySelector("div.react-switch-handle")
+    const backgroundWithOpacity = document.querySelector("div.react-switch-bg")
+    if (switchHandle) {
+      switchHandle.style.outline = "2px solid #00766c"
+    }
+    if (backgroundWithOpacity) {
+      backgroundWithOpacity.style.opacity = "0.25"
+    }
+  }
   const getChartData = () => {
     Promise.all([
       basicFetch(
@@ -79,6 +81,7 @@ const HowMuchDoesTheGovtSpend = () => {
   }
   useEffect(() => {
     getChartData()
+    styleSwitch()
   }, [])
 
   const name = "Monthly Treasury Statement (MTS)"
@@ -119,8 +122,6 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   })
 
-  console.log(sortedItems, "SORTED ITEMS")
-
   const firstTen = sortedItems?.slice(0, 10)
   const other = sortedItems?.slice(10)
 
@@ -128,16 +129,20 @@ const HowMuchDoesTheGovtSpend = () => {
     ?.map(item => parseInt(item[sortField], 10))
     ?.reduce((a, b) => a + b)
   const otherPercentage = Math.round((otherTotal / total) * 100)
-  // TODO:  styling: (box shadow on toggle)
-  // test responsiveness/text-wrapping,
-  // check all heights against the mockups
-  //  clean up layouts
+
   return (
     <ChartContainer
       customContainerStyles={{
         flexDirection: "column",
         marginLeft: "0px",
         maxWidth: "100%",
+      }}
+      customSpacing={{
+        marginBottom: "32px",
+      }}
+      customHeaderStyles={{
+        marginTop: "0px",
+        justifyContent: "flex-start",
       }}
       header={header}
       footer={footer}
@@ -188,12 +193,16 @@ const HowMuchDoesTheGovtSpend = () => {
             color: "#00766C",
           }}
         >
-          Percent
+          Percentage
         </span>
         <ToggleSwitch
           checked={percentDollarToggleChecked}
           handleChange={e => {
             setPercentDollarToggleChecked(e)
+          }}
+          customStyles={{
+            onColor: "#99c8c480",
+            onHandleColor: "#99c8c480",
           }}
         ></ToggleSwitch>
         <span
@@ -221,7 +230,9 @@ const HowMuchDoesTheGovtSpend = () => {
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
                 ? `${capitalizeLastLetter(
-                    numeral(item.dollarAmount).format("($ 0.00 a)")
+                    Math.abs(item.dollarAmount) > 999999999999
+                      ? numeral(item.dollarAmount).format("($ 0.0 a)")
+                      : numeral(item.dollarAmount).format("($ 0 a)")
                   )}`
                 : `${item.percentage} %`}
             </div>

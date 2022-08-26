@@ -19,9 +19,10 @@ $govt-spending-header: #99c8c4;
 }
 
 .subHeader {
-    color: #2A328C;
+    color: #666666;
     font-size: 16px;
     margin-bottom: 16px;
+    margin-right: 8px
 }
 
 .column {
@@ -32,13 +33,13 @@ $govt-spending-header: #99c8c4;
 .chartsContainer {
     display: flex;
     margin-bottom: 16px;
-    margin-left: 36px;
+    margin-left: 7%;
     align-items: center;
 }
 
 .percentOrDollarContainer {
     margin-right: 8px;
-    color: #2A328C;
+    color: #666666;
     font-weight: bold;
     min-width: 80px;
 }
@@ -46,7 +47,6 @@ $govt-spending-header: #99c8c4;
 .descContainer {
     margin-right: 16px;
     font-size: 12px;
-    width: min-content;
 }
 
 .chartToggle {
@@ -55,10 +55,13 @@ $govt-spending-header: #99c8c4;
     width: 100%;
     margin-bottom: 16px;
     border-radius: 8px;
+    margin-top: 16px;
 }
 
 .toggleButton {
     width: 43%;
     margin-bottom: 2%;
     cursor: pointer;
+    height: 32px;
+    border: 2px solid #00766C;
 }
