@@ -242,7 +242,12 @@ const HowMuchDoesTheGovtSpend = () => {
                     height: "40px",
                   }}
                 ></div>
-                <div className={percentOrDollarContainer}>
+                <div
+                  className={percentOrDollarContainer}
+                  style={{
+                    marginRight: item.percentage > 20 ? "0px" : "8px",
+                  }}
+                >
                   {percentDollarToggleChecked
                     ? `${capitalizeLastLetter(
                         Math.abs(item.dollarAmount) > 999999999999
@@ -256,6 +261,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   style={{
                     maxWidth: item.percentage > 10 ? "96px" : "inherit",
                     width: item.percentage > 20 ? "min-content" : "inherit",
+                    marginRight: item.percentage > 20 ? "0px" : "16px",
                   }}
                 >
                   {item.classification_desc?.replace("Total--", "")}
