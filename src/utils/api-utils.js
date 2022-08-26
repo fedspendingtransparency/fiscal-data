@@ -102,10 +102,6 @@ const checkError = (response, urlAttempted) => {
   }
 }
 
-const updateSmallFractionDataType = (table) => {
-  table.fields[2].dataType = 'SMALL_FRACTION';
-  return table;
-};
 
 export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize) => {
   const dateField = table.dateField;
@@ -115,7 +111,8 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   let toStr = to;
 
   if(table.apiId === 178) {
-    table = updateSmallFractionDataType(table);
+    //Overwrite type for special case format handling
+    table.fields[2].dataType = 'SMALL_FRACTION';
   }
 
   if (table.endpoint.indexOf('redemption_tables') > -1 || table.endpoint.indexOf('sb_value') > -1) {
