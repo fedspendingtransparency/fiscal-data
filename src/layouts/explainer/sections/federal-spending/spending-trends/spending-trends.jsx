@@ -1,9 +1,15 @@
 import React from "react";
+import {
+  spendingTrends,
+  comingSoon,
+  rectangle
+} from "./spending-trends.scss"
 
 export const SpendingTrends = () => {
   return (
-    <div>
-      Coming Soon
+    <div className={rectangle}>
+      <p className={comingSoon}>Coming Soon</p>
     </div>
   );
 }
+
