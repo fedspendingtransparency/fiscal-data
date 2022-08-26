@@ -31,10 +31,7 @@ export const SpendingCategories = () => {
         fiscal year).
       </p>
       <div className={visWithCallout}>
-        {/* put new chart here */}
-        {/* <ChartPlaceholder /> */}
         <HowMuchDoesTheGovtSpend />
-        
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency, visit
