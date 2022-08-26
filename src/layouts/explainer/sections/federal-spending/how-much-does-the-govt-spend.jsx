@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, Fragment } from "react"
 import { withStyles } from "@material-ui/core/styles"
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils"
 import Switch from "react-switch"
@@ -15,7 +15,11 @@ import {
   descContainer,
   chartToggle,
   toggleButton,
+  loadingIcon,
 } from "./how-much-does-the-govt-spend.module.scss"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+
 const cardStyles = {
   root: {
     fontSize: "1rem",
@@ -35,8 +39,8 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
       <Switch
         checked={checked}
         onChange={handleChange}
-        onColor={"#00766C"}
-        offColor={"#00766C"}
+        onColor={customStyles.onColor}
+        offColor={customStyles.offColor}
         handleDiameter={15}
         uncheckedIcon={false}
         checkedIcon={false}
@@ -50,6 +54,7 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
 
 const HowMuchDoesTheGovtSpend = () => {
   const [chartData, setChartData] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [selectedChartView, setSelectedChartView] = useState("category")
   const [percentDollarToggleChecked, setPercentDollarToggleChecked] = useState(
     false
@@ -77,6 +82,7 @@ const HowMuchDoesTheGovtSpend = () => {
         category: result[0],
         agency: result[1],
       })
+      setLoading(false)
     })
   }
   useEffect(() => {
@@ -148,81 +154,120 @@ const HowMuchDoesTheGovtSpend = () => {
       footer={footer}
       date={new Date()}
     >
-      <div className={chartToggle}>
-        <button
-          className={toggleButton}
-          style={{
-            borderBottomLeftRadius: "4px",
-            borderTopLeftRadius: "4px",
-            color: selectedChartView === "category" ? "white" : "#00766C",
-            background: selectedChartView === "category" ? "#00766C" : "white",
-            borderRight: "none",
-          }}
-          onClick={() => {
-            setSelectedChartView("category")
-          }}
-        >
-          Category
-        </button>
-        <button
-          className={toggleButton}
-          style={{
-            borderBottomRightRadius: "4px",
-            borderTopRightRadius: "4px",
-            color: selectedChartView === "agency" ? "white" : "#00766C",
-            background: selectedChartView === "agency" ? "#00766C" : "white",
-          }}
-          onClick={() => {
-            setSelectedChartView("agency")
-          }}
-        >
-          Agency
-        </button>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginRight: "48px",
-        }}
-      >
-        <span
-          style={{
-            fontWeight: !percentDollarToggleChecked ? "bold" : "inherit",
-            marginRight: "4px",
-            color: "#00766C",
-          }}
-        >
-          Percentage
-        </span>
-        <ToggleSwitch
-          checked={percentDollarToggleChecked}
-          handleChange={e => {
-            setPercentDollarToggleChecked(e)
-          }}
-          customStyles={{
-            onColor: "#99c8c480",
-            onHandleColor: "#99c8c480",
-          }}
-        ></ToggleSwitch>
-        <span
-          style={{
-            fontWeight: percentDollarToggleChecked ? "bold" : "inherit",
-            marginLeft: "4px",
-            color: "#00766C",
-            marginBottom: "24px",
-          }}
-        >
-          Dollars
-        </span>
-      </div>
-      {firstTen?.map(item => {
-        return (
+      {loading ? (
+        <div className={loadingIcon}>
+          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+        </div>
+      ) : (
+        <Fragment>
+          {" "}
+          <div className={chartToggle}>
+            <button
+              className={toggleButton}
+              style={{
+                borderBottomLeftRadius: "4px",
+                borderTopLeftRadius: "4px",
+                color: selectedChartView === "category" ? "white" : "#00766C",
+                background:
+                  selectedChartView === "category" ? "#00766C" : "white",
+                borderRight: "none",
+              }}
+              onClick={() => {
+                setSelectedChartView("category")
+              }}
+            >
+              Category
+            </button>
+            <button
+              className={toggleButton}
+              style={{
+                borderBottomRightRadius: "4px",
+                borderTopRightRadius: "4px",
+                color: selectedChartView === "agency" ? "white" : "#00766C",
+                background:
+                  selectedChartView === "agency" ? "#00766C" : "white",
+              }}
+              onClick={() => {
+                setSelectedChartView("agency")
+              }}
+            >
+              Agency
+            </button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginRight: "48px",
+            }}
+          >
+            <span
+              style={{
+                fontWeight: !percentDollarToggleChecked ? "bold" : "inherit",
+                marginRight: "4px",
+                color: "#00766C",
+              }}
+            >
+              Percentage
+            </span>
+            <ToggleSwitch
+              checked={percentDollarToggleChecked}
+              handleChange={e => {
+                setPercentDollarToggleChecked(e)
+              }}
+              customStyles={{
+                onColor: "#00766C",
+                offColor: "#00766C",
+              }}
+            ></ToggleSwitch>
+            <span
+              style={{
+                fontWeight: percentDollarToggleChecked ? "bold" : "inherit",
+                marginLeft: "4px",
+                color: "#00766C",
+                marginBottom: "24px",
+              }}
+            >
+              Dollars
+            </span>
+          </div>
+          {firstTen?.map(item => {
+            return (
+              <div className={chartsContainer}>
+                <div
+                  style={{
+                    background: "#00766C",
+                    width: `${item.percentage * 3}%`,
+                    marginRight: "16px",
+                    height: "40px",
+                  }}
+                ></div>
+                <div className={percentOrDollarContainer}>
+                  {percentDollarToggleChecked
+                    ? `${capitalizeLastLetter(
+                        Math.abs(item.dollarAmount) > 999999999999
+                          ? numeral(item.dollarAmount).format("($ 0.0 a)")
+                          : numeral(item.dollarAmount).format("($ 0 a)")
+                      )}`
+                    : `${item.percentage} %`}
+                </div>
+                <div
+                  className={descContainer}
+                  style={{
+                    maxWidth: item.percentage > 10 ? "96px" : "inherit",
+                    width: item.percentage > 20 ? "min-content" : "inherit",
+                  }}
+                >
+                  {item.classification_desc?.replace("Total--", "")}
+                </div>
+              </div>
+            )
+          })}
           <div className={chartsContainer}>
             <div
               style={{
                 background: "#00766C",
-                width: `${item.percentage * 3}%`,
+                width: `${otherPercentage * 3}%`,
                 marginRight: "16px",
                 height: "40px",
               }}
@@ -230,42 +275,14 @@ const HowMuchDoesTheGovtSpend = () => {
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
                 ? `${capitalizeLastLetter(
-                    Math.abs(item.dollarAmount) > 999999999999
-                      ? numeral(item.dollarAmount).format("($ 0.0 a)")
-                      : numeral(item.dollarAmount).format("($ 0 a)")
+                    numeral(otherTotal).format("($ 0.00 a)")
                   )}`
-                : `${item.percentage} %`}
+                : `${otherPercentage} %`}
             </div>
-            <div
-              className={descContainer}
-              style={{
-                maxWidth: item.percentage > 10 ? "96px" : "inherit",
-                width: item.percentage > 20 ? "min-content" : "inherit",
-              }}
-            >
-              {item.classification_desc?.replace("Total--", "")}
-            </div>
+            <div className={descContainer}>Other </div>
           </div>
-        )
-      })}
-      <div className={chartsContainer}>
-        <div
-          style={{
-            background: "#00766C",
-            width: `${otherPercentage * 3}%`,
-            marginRight: "16px",
-            height: "40px",
-          }}
-        ></div>
-        <div className={percentOrDollarContainer}>
-          {percentDollarToggleChecked
-            ? `${capitalizeLastLetter(
-                numeral(otherTotal).format("($ 0.00 a)")
-              )}`
-            : `${otherPercentage} %`}
-        </div>
-        <div className={descContainer}>Other </div>
-      </div>
+        </Fragment>
+      )}
     </ChartContainer>
   )
 }

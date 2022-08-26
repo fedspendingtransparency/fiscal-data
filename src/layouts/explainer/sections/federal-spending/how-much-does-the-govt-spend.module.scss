@@ -1,6 +1,4 @@
-$spending-explainer-primary: #00766c;
-$spending-explainer-secondary: #005e56;
-$govt-spending-header: #99c8c4;
+@import "../../../../variables.module.scss";
 
 .footerStyle {
     margin-top: 32px;
@@ -65,3 +63,10 @@ $govt-spending-header: #99c8c4;
     height: 32px;
     border: 2px solid #00766C;
 }
+
+.loadingIcon {
+    max-width: $site-content-width;
+    margin: 2rem auto;
+    text-align: center;
+    font-size: $font-size-48;
+  }
