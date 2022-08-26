@@ -1,0 +1,50 @@
+@import '../../../../variables.module.scss';
+
+$spending-explainer-primary: #00766c;
+$spending-explainer-secondary: #005e56;
+$spending-explainer-light-secondary: #99c8c4;
+
+.spendingAccordion {
+  :global(.accordionHeading) {
+    font-size: $font-size-18;
+    color: $spending-explainer-primary;
+    border: none;
+    padding: .75rem 1rem;
+  }
+
+  :global(.accordionToggle) {
+    svg path {
+      color: $spending-explainer-primary;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-lg - 1) {
+    margin-top: 2rem;
+  }
+
+  :global(.accordionContent) {
+    padding-right:1.25rem;
+    padding-left:1.25rem;
+    padding-bottom:1.5rem;
+    border: none;
+  }
+
+  :global(.accordionOpen), :global(.accordionClosed) {
+    border: solid 0.06rem $spending-explainer-primary;
+    border-radius: 0.13rem;
+  }
+}
+
+
+:export {
+  spendingExplainerPrimary: $spending-explainer-primary;
+  spendingExplainerSecondary: $spending-explainer-secondary;
+  spendingExplainerLightSecondary: $spending-explainer-light-secondary;
+}
+

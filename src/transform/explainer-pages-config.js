@@ -22,12 +22,30 @@ const explainerPagesSource = {
       description: `Learn about the national deficit, the difference between budget deficit and
       debt, and how the deficit has changed over time.`
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'What is the national deficit?',
       subHeading: ''
     },
-    relatedDatasets: ["015-BFS-2014Q1-13", "015-BFS-2014Q3-096", "015-BFS-2014Q1-07", "015-BFS-2014Q1-03"]
+    relatedDatasets: ["015-BFS-2014Q1-13", "015-BFS-2014Q3-096", "015-BFS-2014Q1-07",
+      "015-BFS-2014Q1-03"]
+  },
+  'federal-spending': {
+    slug: '/federal-spending/',
+    breadCrumbLinkName: 'Spending',
+    seoConfig: {
+      pageTitle: 'Federal Spending',
+      description: `Explore federal spending by category or agency and learn how much the United
+      States government spends each year.`
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'How much has the U.S. government spent this year?',
+      subHeading: ''
+    },
+    relatedDatasets: ["015-BFS-2014Q1-13", "015-BFS-2014Q3-103", "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-07"]
+
   }
 }
 

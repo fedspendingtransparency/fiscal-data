@@ -2,12 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
-import  {
-  mockExplainerPageResponse,
+import {
+  mockExplainerPageResponse, mockSpendingHeroData,
 } from './explainer-test-helper';
 import {setGlobalFetchMatchingResponse, setGlobalFetchResponse} from '../../utils/mock-utils';
 import {understandingDeficitMatchers} from
     "./explainer-helpers/national-deficit/national-deficit-test-helper";
+import fetchMock from "fetch-mock";
 
 describe('Explainer Page Layout', () => {
   const pageName = 'national-debt';
@@ -63,7 +64,7 @@ describe('Explainer Page Layout', () => {
 
 });
 
-describe('Explainer Pages', () => {
+describe('Deficit explainer', () => {
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
@@ -74,29 +75,82 @@ describe('Explainer Pages', () => {
     global.fetch.mockReset();
   });
 
+  const breadCrumbLinkName = 'mock link';
+  const seoConfig = {
+    pageTitle: 'mock title',
+    description: 'mock description'
+  };
+  const heroImage = {
+    heading: 'mock heading',
+    subHeading: 'mock subheading'
+  }
+  const glossary = [];
+  const mockPageContext = {
+    breadCrumbLinkName,
+    seoConfig,
+    heroImage,
+    glossary
+  }
+
   it('renders the deficit explainer page', async () => {
     const pageName = 'national-deficit';
-    const breadCrumbLinkName = 'mock link';
-    const seoConfig = {
-      pageTitle: 'mock title',
-      description: 'mock description'
-    };
-    const heroImage = {
-      heading: 'mock heading',
-      subHeading: 'mock subheading'
-    }
-    const glossary = [];
-    const mockPageContext = {
+    const deficitPageContext = {
       pageName,
-      breadCrumbLinkName,
-      seoConfig,
-      heroImage,
-      glossary
+      ...mockPageContext
     }
 
     const { findAllByTestId, findByText } = render(
       <ExplainerPageLayout
-        pageContext={mockPageContext}
+        pageContext={deficitPageContext}
+      />
+    );
+
+    const sectionHeadings = await findAllByTestId('section-heading')
+    expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
+
+    const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
+    expect(dataSourcesMethodologies).toBeInTheDocument();
+  })
+})
+
+describe('Spending explainer', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
+      mockSpendingHeroData, {overwriteRoutes: true}, {repeat: 1}
+    )
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+  });
+  const breadCrumbLinkName = 'mock link';
+  const seoConfig = {
+    pageTitle: 'mock title',
+    description: 'mock description'
+  };
+  const heroImage = {
+    heading: 'mock heading',
+    subHeading: 'mock subheading'
+  }
+  const glossary = [];
+  const mockPageContext = {
+    breadCrumbLinkName,
+    seoConfig,
+    heroImage,
+    glossary
+  }
+
+  it('renders the spending explainer page', async () => {
+    const pageName = 'federal-spending';
+    const spendingPageContext = {
+      pageName,
+      ...mockPageContext
+    }
+
+    const { findAllByTestId, findByText } = render(
+      <ExplainerPageLayout
+        pageContext={spendingPageContext}
       />
     );
 
