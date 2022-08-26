@@ -1,4 +1,5 @@
 import {
+  counterContainerSpending,
   footNotes,
   footNotesPillData,
   heroImageCallout,
@@ -85,9 +86,8 @@ const FederalSpendingHero = (): JSX.Element => {
         The U.S. government has spent ${getShortForm(totalSpending, 2, false)} in
         fiscal year {recordFiscalYear} to ensure the well-being of the people of the United States.
       </p>
-      <div>
+      <div className={counterContainerSpending}>
         <SplitFlapDisplay value={totalSpending}
-                          precision={0}
                           minLength={17} // number of characters to initially display
                           valueType="currency"
         />
