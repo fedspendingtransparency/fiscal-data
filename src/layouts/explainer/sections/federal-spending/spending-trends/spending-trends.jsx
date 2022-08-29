@@ -1,14 +1,14 @@
 import React from "react";
 import {
-  spendingTrends,
+
   comingSoon,
-  rectangle
-} from "./spending-trends.scss"
+
+} from "./spending-trends.module.scss"
 
 export const SpendingTrends = () => {
   return (
-    <div className={rectangle}>
-      <p className={comingSoon}>Coming Soon</p>
+    <div>
+      <p className={comingSoon}>COMING SOON!</p>
     </div>
   );
 }

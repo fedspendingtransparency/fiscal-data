@@ -1,21 +1,16 @@
 @import '../../../../../variables.module.scss';
 @import '../federal-spending.module';
 
-.spendingTrends {
-}
   .comingSoon{
-
-    font-weight: normal;
-    font-stretch: normal;
+    width: 7rem;
+    height: 1.25rem;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: .875rem;
     font-style: italic;
-    line-height: normal;
+    line-height: 1.25rem;
     letter-spacing: normal;
     text-align: center;
     color: #444;
-  }
-  .rectangle {
-    
     background-color: #fff1d2;
   }
-
 
