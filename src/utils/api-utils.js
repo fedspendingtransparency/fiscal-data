@@ -102,15 +102,12 @@ const checkError = (response, urlAttempted) => {
   }
 }
 
-
 export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize) => {
   const dateField = table.dateField;
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
   let fromStr = from;
   let toStr = to;
-
-
   if (table.endpoint.indexOf('redemption_tables') > -1 || table.endpoint.indexOf('sb_value') > -1) {
     fromStr = fromStr.substring(0, from.lastIndexOf('-'));
     toStr = toStr.substring(0, to.lastIndexOf('-'));
