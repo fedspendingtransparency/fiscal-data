@@ -10,7 +10,7 @@ const DeficitByYear = () => {
 
   const federalCovidResponseLink =
     <CustomLink url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'}>
-      the federal response to COVID-19
+      in response to the COVID-19 pandemic
     </CustomLink>
 
   return (
@@ -22,9 +22,7 @@ const DeficitByYear = () => {
           debt have outpaced the growth of federal revenue.
         </p>
         <p>
-          From FY 2019 to FY 2021, federal spending increased by about 50 percent in response to
-          the COVID-19 pandemic. Visit USAspending.gov to learn more
-          about {federalCovidResponseLink}.
+          From FY 2019 to FY 2021, federal spending increased by about 50 percent {federalCovidResponseLink}.
         </p>
       </div>
       <div className={visWithCallout} >

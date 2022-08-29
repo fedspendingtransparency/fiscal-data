@@ -41,6 +41,40 @@ describe('Deficit and Surplus Causes Section', () => {
       render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
     expect(getByTestId('surplus-illustration')).toBeInTheDocument();
   });
+
+
+  it('renders the current year label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('FY 2021, the federal',{exact:false})).toBeInTheDocument();
+    })
+  });
+  it('renders the spending label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('federal government spent $6.97',{exact:false})).toBeInTheDocument();
+    })
+  });
+
+  it('renders the revnue label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('collected $4.22',{exact:false})).toBeInTheDocument();
+    })
+  });
+
+  it('renders the deficit label', async () => {
+    const {getByText} =
+      render(<UnderstandingDeficit sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => {
+      expect(getByText('exceeds revenue, $2.75',{exact:false})).toBeInTheDocument();
+    })
+  });
+
+
 });
 
 
