@@ -12,7 +12,7 @@ import {
   spendingAccordion,
   spendingExplainerPrimary
 } from "../federal-spending.module.scss";
-import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend";
+import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend";
 
 export const SpendingCategories = () => {
   return (

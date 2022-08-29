@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react"
 import { withStyles } from "@material-ui/core/styles"
-import { apiPrefix, basicFetch } from "../../../../utils/api-utils"
+import { apiPrefix, basicFetch } from "../../../../../utils/api-utils"
 import Switch from "react-switch"
 import numeral from "numeral"
-import CustomLink from "../../../../components/links/custom-link/custom-link"
-import ChartContainer from "../../explainer-components/chart-container/chart-container"
+import CustomLink from "../../../../../components/links/custom-link/custom-link"
+import ChartContainer from "../../../explainer-components/chart-container/chart-container"
 import {
   footerStyle,
   headerContainer,
@@ -66,7 +66,7 @@ const HowMuchDoesTheGovtSpend = () => {
       switchHandle.style.outline = "2px solid #00766c"
     }
     if (backgroundWithOpacity) {
-      backgroundWithOpacity.style.opacity = "0.25"
+      backgroundWithOpacity.style.setProperty("opacity", "0.25 ", "important")
     }
   }
   const getChartData = () => {
@@ -87,8 +87,12 @@ const HowMuchDoesTheGovtSpend = () => {
   }
   useEffect(() => {
     getChartData()
-    styleSwitch()
   }, [])
+  useEffect(() => {
+    if (!loading) {
+      styleSwitch()
+    }
+  }, [loading])
 
   const name = "Monthly Treasury Statement (MTS)"
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
@@ -142,9 +146,12 @@ const HowMuchDoesTheGovtSpend = () => {
         flexDirection: "column",
         marginLeft: "0px",
         maxWidth: "100%",
+        paddingLeft: "0px",
       }}
+      customFooterSpacing={{ paddingLeft: "32px" }}
       customSpacing={{
         marginBottom: "32px",
+        paddingLeft: "0px",
       }}
       customHeaderStyles={{
         marginTop: "0px",
@@ -167,9 +174,9 @@ const HowMuchDoesTheGovtSpend = () => {
               style={{
                 borderBottomLeftRadius: "4px",
                 borderTopLeftRadius: "4px",
-                color: selectedChartView === "category" ? "white" : "#00766C",
+                color: selectedChartView === "category" ? "#f1f1f1" : "#00766C",
                 background:
-                  selectedChartView === "category" ? "#00766C" : "white",
+                  selectedChartView === "category" ? "#00766C" : "#f1f1f1",
                 borderRight: "none",
               }}
               onClick={() => {
@@ -183,9 +190,9 @@ const HowMuchDoesTheGovtSpend = () => {
               style={{
                 borderBottomRightRadius: "4px",
                 borderTopRightRadius: "4px",
-                color: selectedChartView === "agency" ? "white" : "#00766C",
+                color: selectedChartView === "agency" ? "#f1f1f1" : "#00766C",
                 background:
-                  selectedChartView === "agency" ? "#00766C" : "white",
+                  selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
               }}
               onClick={() => {
                 setSelectedChartView("agency")
@@ -231,13 +238,13 @@ const HowMuchDoesTheGovtSpend = () => {
               Dollars
             </span>
           </div>
-          {firstTen?.map(item => {
+          {firstTen?.map((item, i) => {
             return (
-              <div className={chartsContainer}>
+              <div className={chartsContainer} key={i}>
                 <div
                   style={{
                     background: "#00766C",
-                    width: `${item.percentage * 3}%`,
+                    width: `${item.percentage * 2}%`,
                     marginRight: "16px",
                     height: "40px",
                   }}
@@ -259,9 +266,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 <div
                   className={descContainer}
                   style={{
-                    maxWidth: item.percentage > 10 ? "96px" : "inherit",
-                    width: item.percentage > 20 ? "min-content" : "inherit",
-                    marginRight: item.percentage > 20 ? "0px" : "16px",
+                    maxWidth: item.percentage > 10 ? "120px" : "inherit",
                   }}
                 >
                   {item.classification_desc?.replace("Total--", "")}
@@ -269,11 +274,11 @@ const HowMuchDoesTheGovtSpend = () => {
               </div>
             )
           })}
-          <div className={chartsContainer}>
+          <div className={chartsContainer} key={otherPercentage}>
             <div
               style={{
                 background: "#00766C",
-                width: `${otherPercentage * 3}%`,
+                width: `${otherPercentage * 2}%`,
                 marginRight: "16px",
                 height: "40px",
               }}
