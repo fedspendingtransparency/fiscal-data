@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react"
-import { withStyles } from "@material-ui/core/styles"
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils"
 import Switch from "react-switch"
 import numeral from "numeral"
