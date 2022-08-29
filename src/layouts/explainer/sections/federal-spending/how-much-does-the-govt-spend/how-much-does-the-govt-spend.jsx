@@ -19,13 +19,7 @@ import {
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
-
-const cardStyles = {
-  root: {
-    fontSize: "1rem",
-    background: "darkgrey",
-  },
-}
+import { useWindowSize } from "../../../../../hooks/windowResize"
 export const capitalizeLastLetter = word => {
   const parts = word.split("")
   const last = word[parts.length - 1].toUpperCase()
@@ -51,7 +45,10 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
     </label>
   )
 }
-
+const breakpoint = {
+  desktop: 992,
+  tablet: 600,
+}
 const HowMuchDoesTheGovtSpend = () => {
   const [chartData, setChartData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -59,6 +56,9 @@ const HowMuchDoesTheGovtSpend = () => {
   const [percentDollarToggleChecked, setPercentDollarToggleChecked] = useState(
     false
   )
+  const [isMobile, setIsMobile] = useState(true)
+  const [width, height] = useWindowSize()
+
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
     const backgroundWithOpacity = document.querySelector("div.react-switch-bg")
@@ -93,6 +93,14 @@ const HowMuchDoesTheGovtSpend = () => {
       styleSwitch()
     }
   }, [loading])
+
+  useEffect(() => {
+    if (window.innerWidth < breakpoint.desktop) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+  }, [width, height])
 
   const name = "Monthly Treasury Statement (MTS)"
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
@@ -244,7 +252,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 <div
                   style={{
                     background: "#00766C",
-                    width: `${item.percentage * 2}%`,
+                    width: `${item.percentage * (isMobile ? 1 : 2)}%`,
                     marginRight: "16px",
                     height: "40px",
                   }}
@@ -278,7 +286,7 @@ const HowMuchDoesTheGovtSpend = () => {
             <div
               style={{
                 background: "#00766C",
-                width: `${otherPercentage * 2}%`,
+                width: `${otherPercentage * (isMobile ? 1 : 2)}%`,
                 marginRight: "16px",
                 height: "40px",
               }}
@@ -298,4 +306,4 @@ const HowMuchDoesTheGovtSpend = () => {
   )
 }
 
-export default withStyles(cardStyles)(HowMuchDoesTheGovtSpend)
+export default HowMuchDoesTheGovtSpend
