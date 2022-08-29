@@ -175,7 +175,15 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   const isPaginationControlNeeded = () => (currentPage > 1 ||
     (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]));
 
+  const updateSmallFractionDataType = () => {
+      //Overwrite type for special case number format handling
+    if(selectedTable && selectedTable.apiId === 178) {
+      selectedTable.fields[2].dataType = 'SMALL_FRACTION';
+    }
+  };
+
   useEffect(() => {
+    updateSmallFractionDataType();
     setCurrentPage(1);
     setApiError(false);
     const ssp = tableProps.serverSidePagination;

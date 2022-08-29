@@ -110,10 +110,6 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
   let fromStr = from;
   let toStr = to;
 
-  if(table.apiId === 178) {
-    //Overwrite type for special case format handling
-    table.fields[2].dataType = 'SMALL_FRACTION';
-  }
 
   if (table.endpoint.indexOf('redemption_tables') > -1 || table.endpoint.indexOf('sb_value') > -1) {
     fromStr = fromStr.substring(0, from.lastIndexOf('-'));
