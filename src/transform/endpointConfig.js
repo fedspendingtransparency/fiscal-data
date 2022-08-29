@@ -1807,12 +1807,6 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/slgs_time_deposit_rates',
     'dateField': 'record_date',
     'downloadName': 'SLGS_DailyRateTable_TimeDepositRates',
-    'dataDisplays': [
-      {
-        'title': 'By Through (Year-Month)',
-        'dimensionField': 'through'
-      }
-    ],
     'valueFieldOptions': [
       'rate'
     ]
