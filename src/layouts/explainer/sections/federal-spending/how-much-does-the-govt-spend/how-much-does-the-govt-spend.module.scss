@@ -45,7 +45,7 @@
 
 .descContainer {
     margin-right: 16px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .chartToggle {
@@ -63,6 +63,11 @@
     cursor: pointer;
     height: 32px;
     border: 2px solid #00766C;
+}
+
+.toggleText {
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .loadingIcon {

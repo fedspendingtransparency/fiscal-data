@@ -15,6 +15,7 @@ import {
   chartToggle,
   toggleButton,
   loadingIcon,
+  toggleText,
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
@@ -190,7 +191,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("category")
               }}
             >
-              Category
+              <span className={toggleText}>Category</span>
             </button>
             <button
               className={toggleButton}
@@ -205,14 +206,13 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("agency")
               }}
             >
-              Agency
+              <span className={toggleText}>Agency</span>
             </button>
           </div>
           <div
             style={{
               display: "flex",
               justifyContent: "flex-end",
-              marginRight: "48px",
             }}
           >
             <span
@@ -220,6 +220,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 fontWeight: !percentDollarToggleChecked ? "bold" : "inherit",
                 marginRight: "4px",
                 color: "#00766C",
+                minWidth: "80px",
               }}
             >
               Percentage
@@ -240,6 +241,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 marginLeft: "4px",
                 color: "#00766C",
                 marginBottom: "24px",
+                minWidth: "80px",
               }}
             >
               Dollars
