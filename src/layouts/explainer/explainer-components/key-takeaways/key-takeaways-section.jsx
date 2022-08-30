@@ -9,24 +9,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term"
 import reactStringReplace from "react-string-replace"
 
-const Text = ({ takeaway, glossary }) => {
-  const { text } = takeaway
-  const glossaryTerms = ["discretionary", "mandatory"]
-
-  glossaryTerms.forEach(term => {
-    text = reactStringReplace(text, term, (match, i) => (
+const getText = (takeaway, glossary) => {
+  const { hasGlossaryTerm, glossaryRegex, text } = takeaway
+  if (hasGlossaryTerm) {
+    return reactStringReplace(text, glossaryRegex, (match, i) => (
       <GlossaryTerm
-        term={term}
-        page={"Federal Spending Explainer"}
+        term={match[0].toUpperCase() + match.substring(1)}
+        page={"Spending Explainer"}
         glossary={glossary}
         key={i}
       >
         {match}
       </GlossaryTerm>
     ))
-  })
-
-  return <p>{text}</p>
+  }
+  return text
 }
 
 const KeyTakeawaysSection = ({
@@ -48,8 +45,8 @@ const KeyTakeawaysSection = ({
             className={offsetIcon}
             style={{ color: primaryColor }}
           />
-          <Text takeaway={takeaway} glossary={glossary} />
         </div>
+        <p>{getText(takeaway, glossary)}</p>
       </div>
     ))}
   </>
