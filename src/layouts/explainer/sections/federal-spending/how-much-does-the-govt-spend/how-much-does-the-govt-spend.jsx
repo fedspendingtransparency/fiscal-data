@@ -128,11 +128,11 @@ const HowMuchDoesTheGovtSpend = () => {
       return b[sortField] - a[sortField]
     })
 
-  const total = sortedItems
-    ?.map(item => parseInt(item[sortField], 10))
+  const total = (sortedItems || [])
+    .map(item => parseInt(item[sortField], 10))
     ?.reduce((item, nextItem) => {
       return item + nextItem
-    }, [])
+    }, 0)
 
   sortedItems = sortedItems?.map(item => {
     return {
@@ -145,11 +145,11 @@ const HowMuchDoesTheGovtSpend = () => {
   const firstTen = sortedItems?.slice(0, 10)
   const other = sortedItems?.slice(10)
 
-  const otherTotal = other
-    ?.map(item => parseInt(item[sortField], 10))
+  const otherTotal = (other || [])
+    .map(item => parseInt(item[sortField], 10))
     ?.reduce((item, nextItem) => {
       return item + nextItem
-    }, [])
+    }, 0)
   const otherPercentage = Math.round((otherTotal / total) * 100)
 
   return (
