@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
-
+// Polyfill "window.fetch" used in the React components.
+import 'whatwg-fetch';
 // Gatsby's StaticImage doesn't render in these tests
 // This mocks the plugin by replacing StaticImage with a regular HTML img
 jest.mock("gatsby-plugin-image", () => {

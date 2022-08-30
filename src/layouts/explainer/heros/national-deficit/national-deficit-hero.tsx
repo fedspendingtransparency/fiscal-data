@@ -36,13 +36,14 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   const [displayedPriorDeficitValue, setDisplayedPriorDeficitValue] =
     useState<string | null>(null);
 
-  const [textPreviousDeficit, setTextPreviousDeficit] = useState<string | null>(null);
+  const [textCurrentDeficit, setTextCurrentDeficit] = useState<string | null>(null);
   const [desktopDeficit, setDesktopDeficit] = useState<string | null>(null);
   const [desktopPriorDeficit, setDesktopPriorDeficit] = useState<string | null>(null);
   const [mobilePriorDeficit, setMobilePriorDeficit] = useState<string | null>(null);
   const [currentRecordMonth, setCurrentRecordMonth] = useState<string>('');
   const [previousCalendarYear, setPreviousCalendarYear] = useState<string>('');
   const [previousFiscalYear, setPreviousFiscalYear] = useState<string>('');
+  const [currentFiscalYear, setCurrentFiscalYear] = useState<string>('')
 
   // calendar year in which prior fiscal year began (PreviousFiscalYear - 1);
   const [previousFiscalStartYear, setPreviousFiscalStartYear] = useState<string>('');
@@ -59,14 +60,14 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
         // create local variable to immediately find last complete year record
         const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 1).toString();
-        const lastCompleteYearRecord =
-          res.data.find(row => row.record_fiscal_year === lastFiscalYear);
+        setCurrentFiscalYear(res.data[0].record_fiscal_year);
 
         setPreviousFiscalYear(lastFiscalYear);
         setPreviousFiscalStartYear((Number(lastFiscalYear) - 1).toString())
-        setTextPreviousDeficit(
-          getShortForm(lastCompleteYearRecord.current_fytd_net_outly_amt, 2, false));
 
+        setTextCurrentDeficit(
+          getShortForm(res.data[0].current_fytd_net_outly_amt, 2, false)
+        )
 
         setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
 
@@ -139,12 +140,22 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       fiscal year (FY)
     </GlossaryTerm>
 
+  const changeNationaDeficitFooter = (currentRecordMonth === 'Oct') ?
+    <p>Compared to the same period last year
+      (Oct {previousFiscalStartYear}),
+      our national deficit has {deficitStatus}.
+    </p>:
+    <p>Compared to the same period last year
+      (Oct {previousFiscalStartYear} - {currentRecordMonth} {previousCalendarYear}),
+      our national deficit has {deficitStatus}.
+    </p> ;
+
   return (
     <>
       <p className={`${heroImageSubHeading} ${deficit}`}>A deficit occurs when the
         federal government’s spending exceeds its revenues. The federal government has
-        spent ${textPreviousDeficit}{' '} more than it has collected in {fiscalYear}{' '}
-        {previousFiscalYear}, resulting in a national deficit.
+        spent ${textCurrentDeficit}{' '} more than it has collected in {fiscalYear}{' '}
+        {currentFiscalYear}, resulting in a national deficit.
       </p>
       <div>
         <SplitFlapDisplay value={desktopDeficit}
@@ -160,11 +171,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         </p>
       </div>
       <div className={footNotes}>
-        <p>
-          Compared to the national deficit total for the same period last year
-          (Oct {previousFiscalStartYear} - {currentRecordMonth} {previousCalendarYear}),
-          our national deficit has {deficitStatus}.
-        </p>
+        {changeNationaDeficitFooter}
       </div>
       <div className={deficitBoxContainer}>
         <div className={deficitBox}>

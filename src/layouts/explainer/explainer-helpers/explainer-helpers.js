@@ -96,13 +96,15 @@ export const explainerSocialShareMap = {
     image: baseUrl+'/images/nationalDeficit_1200x630.png'
   },
   'federal-spending': {
-    title: '',
-    description: '',
-    body: '',
-    emailSubject: '',
-    emailBody: '',
+    title: 'Fiscal Data Explains Federal Spending',
+    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! '
+      + '#FederalSpending ',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, '
+      + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
+    emailSubject: 'Fiscal Data Explains Federal Spending',
+    emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
     url: baseUrl+'/federal-spending/',
-    image: baseUrl+'/images/nationalDeficit_1200x630.png'
+    image: baseUrl+'/images/Spending-1200x630.png'
   }
 }
 

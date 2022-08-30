@@ -53,14 +53,10 @@ const federalSpendingSection = [
     component: (glossary, cpiDataByYear) => <SpendingDifference />
   },
   {
-    index: 3.5,
-    id: nationalDeficitSectionIds[3.5],
-    component: (glossary, cpiDateByYear) => <ComingSoon />
-  },
-  {
     index: 4,
     id: nationalDeficitSectionIds[4],
     title: 'Spending Trends Over Time and the U.S. Economy',
+    comingSoon: true,
     component: (glossary, cpiDataByYear) => <SpendingTrends />
   }
 ];
