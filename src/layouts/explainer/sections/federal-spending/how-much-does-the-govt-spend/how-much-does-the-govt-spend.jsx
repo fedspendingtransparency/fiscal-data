@@ -295,7 +295,9 @@ const HowMuchDoesTheGovtSpend = () => {
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
                 ? `${capitalizeLastLetter(
-                    numeral(otherTotal).format("($ 0.00 a)")
+                    Math.abs(otherTotal) > 999999999999
+                      ? numeral(otherTotal).format("($ 0.0 a)")
+                      : numeral(otherTotal).format("($ 0 a)")
                   )}`
                 : `${otherPercentage} %`}
             </div>
