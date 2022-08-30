@@ -43,6 +43,15 @@ describe('Secondary Nav', () => {
       headingTitle: 'section 4 heading'
     },
   ];
+  const comingSoonSections = [
+    {
+      id: 'section-4',
+      index: 4,
+      title: 'section 4',
+      comingSoon: true,
+      headingTitle: 'section 4 heading'
+    },
+  ];
   const largeWidth = 1000;
   const smallWidth = 375;
   const childContent = 'child content';
@@ -194,5 +203,32 @@ describe('Secondary Nav', () => {
       });
       spy.mockClear();
     })
+  });
+
+  it('renders the coming soon flag on sections with the comingSoon ' +
+    'set to true', () => {
+    const { getByText } = render(
+      <SecondaryNav
+        sections={comingSoonSections}
+        width={largeWidth}
+        hoverClass={hoverClass}
+      >
+        <div id={sections[0].id}>{childContent}</div>
+      </SecondaryNav>
+    );
+    expect(getByText('COMING SOON!').toBeInTheDocument);
+  });
+
+  it('does not render a coming soon flag when no sections have comingSoon set to true', () => {
+    const { queryByText } = render(
+      <SecondaryNav
+        sections={sections}
+        width={largeWidth}
+        hoverClass={hoverClass}
+      >
+        <div id={sections[0].id}>{childContent}</div>
+      </SecondaryNav>
+    );
+    expect(queryByText('COMING SOON!')).toBeNull();
   });
 });

@@ -15,6 +15,7 @@ import {
   chartToggle,
   toggleButton,
   loadingIcon,
+  toggleText,
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
@@ -127,9 +128,11 @@ const HowMuchDoesTheGovtSpend = () => {
       return b[sortField] - a[sortField]
     })
 
-  const total = sortedItems
-    ?.map(item => parseInt(item[sortField], 10))
-    ?.reduce((a, b) => a + b)
+  const total = (sortedItems || [])
+    .map(item => parseInt(item[sortField], 10))
+    ?.reduce((item, nextItem) => {
+      return item + nextItem
+    }, 0)
 
   sortedItems = sortedItems?.map(item => {
     return {
@@ -142,9 +145,11 @@ const HowMuchDoesTheGovtSpend = () => {
   const firstTen = sortedItems?.slice(0, 10)
   const other = sortedItems?.slice(10)
 
-  const otherTotal = other
-    ?.map(item => parseInt(item[sortField], 10))
-    ?.reduce((a, b) => a + b)
+  const otherTotal = (other || [])
+    .map(item => parseInt(item[sortField], 10))
+    ?.reduce((item, nextItem) => {
+      return item + nextItem
+    }, 0)
   const otherPercentage = Math.round((otherTotal / total) * 100)
 
   return (
@@ -190,7 +195,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("category")
               }}
             >
-              Category
+              <span className={toggleText}>Category</span>
             </button>
             <button
               className={toggleButton}
@@ -205,14 +210,13 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("agency")
               }}
             >
-              Agency
+              <span className={toggleText}>Agency</span>
             </button>
           </div>
           <div
             style={{
               display: "flex",
               justifyContent: "flex-end",
-              marginRight: "48px",
             }}
           >
             <span
@@ -220,6 +224,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 fontWeight: !percentDollarToggleChecked ? "bold" : "inherit",
                 marginRight: "4px",
                 color: "#00766C",
+                minWidth: "80px",
               }}
             >
               Percentage
@@ -240,6 +245,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 marginLeft: "4px",
                 color: "#00766C",
                 marginBottom: "24px",
+                minWidth: "80px",
               }}
             >
               Dollars
@@ -273,7 +279,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 <div
                   className={descContainer}
                   style={{
-                    maxWidth: item.percentage > 10 ? "120px" : "inherit",
+                    maxWidth: item.percentage > 10 ? "130px" : "inherit",
                   }}
                 >
                   {item.classification_desc?.replace("Total--", "")}
@@ -293,7 +299,9 @@ const HowMuchDoesTheGovtSpend = () => {
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
                 ? `${capitalizeLastLetter(
-                    numeral(otherTotal).format("($ 0.00 a)")
+                    Math.abs(otherTotal) > 999999999999
+                      ? numeral(otherTotal).format("($ 0.0 a)")
+                      : numeral(otherTotal).format("($ 0 a)")
                   )}`
                 : `${otherPercentage} %`}
             </div>

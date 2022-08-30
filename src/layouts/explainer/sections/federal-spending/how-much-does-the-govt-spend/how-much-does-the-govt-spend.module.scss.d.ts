@@ -73,4 +73,5 @@ export const percentOrDollarContainer: string;
 export const descContainer: string;
 export const chartToggle: string;
 export const toggleButton: string;
+export const toggleText: string;
 export const loadingIcon: string;
