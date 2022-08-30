@@ -36,39 +36,6 @@
   margin-top: 2rem;
 }
 
-.fundingProgramsIcon {
-  .iconBackground {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $debt-explainer-light-secondary;
-    position: relative;
-    left: calc(50%);
-
-    .icon {
-      color: #fff;
-    }
-
-    .offsetIcon {
-      color: $debt-explainer-primary;
-      position: absolute;
-    }
-  }
-}
-.fundingProgramsBox {
-  border-radius: .125rem;
-  box-sizing: border-box;
-  width: 100%;
-  font-size: $font-size-18;
-  border: solid .125rem $debt-explainer-light-secondary;
-  box-shadow: .25rem .25rem $debt-explainer-light-secondary;
-  margin-right: 1.75rem;
-
-  p {
-    margin: 0;
-    font-size: $font-size-20;
-  }
-}
 .spendingCategoriesAccordionContent {
   p {
     margin-top: 0.438rem;
@@ -441,30 +408,6 @@
     }
   }
 
-  .fundingProgramsIcon {
-    .iconBackground {
-      height: 4rem;
-      width: 4rem;
-      min-width: 4rem;
-      border-radius: 2rem;
-      transform:translate(-50%,2rem);
-
-      .icon, .offsetIcon {
-        font-size: 2.313rem;
-        transform: translate(1.125rem, -0.563rem);
-      }
-
-      .offsetIcon {
-        transform: translate(1.313rem, -0.75rem);
-      }
-    }
-  }
-  .fundingProgramsBox {
-    p {
-      padding: 3.188rem 1.25rem 2rem;
-    }
-  }
-
   .growingNationalDebt {
     :global(.vis-callout) {
       margin-top: calc(20% + 4rem);
@@ -602,31 +545,6 @@
       p {
         margin-left: 15px;
       }
-    }
-  }
-
-  .fundingProgramsIcon {
-    .iconBackground {
-      height: 3rem;
-      width: 3rem;
-      min-width: 3rem;
-      border-radius: 1.5rem;
-      transform:translate(-50%, 1.5rem);
-      margin-top: .5rem;
-
-      .icon, .offsetIcon {
-        font-size: 1.813rem;
-        transform: translate(0.75rem, -0.375rem);
-      }
-
-      .offsetIcon {
-        transform: translate(0.938rem, -0.563rem);
-      }
-    }
-  }
-  .fundingProgramsBox {
-    p {
-      padding: 2.813rem .875rem 1.813rem 1.125rem;
     }
   }
 
