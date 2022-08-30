@@ -69,8 +69,6 @@ export const iconBackground: string;
 export const icon: string;
 export const offsetIcon: string;
 export const fundingProgramAccordion: string;
-export const fundingProgramsIcon: string;
-export const fundingProgramsBox: string;
 export const spendingCategoriesAccordionContent: string;
 export const spendingCategoriesTable: string;
 export const row: string;

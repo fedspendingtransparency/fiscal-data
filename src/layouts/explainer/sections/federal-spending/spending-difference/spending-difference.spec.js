@@ -25,5 +25,6 @@ describe('Federal Spending Overview', () => {
   it('render the spedingImg', () => {
     const {getByTestId} = render(<SpendingDifference />);
     expect(getByTestId('mandatorySpendingImg')).toBeInTheDocument();
+
   });
 });

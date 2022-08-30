@@ -42,7 +42,8 @@ import {
   fontSize_14,
   fontSize_16,
   fontSize_36,
-  debtExplainerPrimary
+  debtExplainerPrimary,
+  debtExplainerLightSecondary
 } from '../../../../variables.module.scss';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import curvedArrow from '../../../../images/curved-arrow.svg';
@@ -97,8 +98,7 @@ import {
   diveDeeperLink,
   diveDeeperQuote,
   diveDeeperCitation,
-  fundingProgramsBox,
-  fundingProgramsIcon,
+
   //Accordion styling
   debtAccordion,
   fundingProgramAccordion,
@@ -113,6 +113,7 @@ import Multichart from "../../multichart/multichart"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import {adjustDataForInflation} from "../../../../helpers/inflation-adjust/inflation-adjust";
 import Analytics from "../../../../utils/analytics/analytics";
+import QuoteBox from "../../quote-box/quote-box"
 
 export const nationalDebtSectionConfigs = datasetSectionConfig['national-debt'];
 
@@ -469,13 +470,11 @@ export const FundingProgramsSection = () => {
           </div>
         </Accordion>
       </div>
-      <div className={fundingProgramsIcon}>
-        <div className={iconBackground}>
-          <FontAwesomeIcon icon={faFlagUsa} className={icon} />
-          <FontAwesomeIcon icon={faFlagUsa} className={offsetIcon} />
-        </div>
-      </div>
-      <div className={fundingProgramsBox}>
+      <QuoteBox
+        icon={faFlagUsa}
+        primaryColor={debtExplainerPrimary}
+        secondaryColor={debtExplainerLightSecondary}
+      >
         <p>
           In accordance with the 2014 DATA Act, federal agencies are required to submit financial
           data on a quarterly and/or monthly basis to {usaSpending}. Anyone can
@@ -483,7 +482,7 @@ export const FundingProgramsSection = () => {
           it spends that money. Visitors can follow the money from the Congressional appropriations
           to the federal agencies and down to local communities and businesses.
         </p>
-      </div>
+      </QuoteBox>
     </>
   )
 };

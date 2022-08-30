@@ -8,6 +8,7 @@ describe('DtgTableRow', () => {
   const data3 = {row1: undefined};
   const data4 = {row1: 'null'};
   const data5 = {row1: '*'};
+  const data6 = {row1: 0.00067898};
   const columns = [
     {name: 'row1', order: 1, property: 'row1', width: 12},
   ];
@@ -49,5 +50,13 @@ describe('DtgTableRow', () => {
         <DtgTableRow columns={cols} data={data1} />
     );
     expect(component.root.findByType('td').props.children).toBe(`${data1.row1}%`);
+  });
+  it('formats SMALL_FRACTION types correctly', () => {
+    const cols = columns;
+    cols[0].type = 'SMALL_FRACTION';
+    const component = renderer.create(
+        <DtgTableRow columns={cols} data={data6} />
+    );
+    expect(component.root.findByType('td').props.children).toBe(`${data6.row1}`);
   });
 });

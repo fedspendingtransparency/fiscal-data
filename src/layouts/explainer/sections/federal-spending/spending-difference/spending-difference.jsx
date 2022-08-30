@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {
@@ -15,8 +15,6 @@ import MandatorySpendingImgDesktop from "../../../../../../static/images/mandato
 import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png";
 
 export const SpendingDifference = ({width}) => {
-
-
   return (
     <div className={spendingDifferenceContent}>
       <h5>Who controls federal government spending?</h5>
@@ -41,6 +39,7 @@ export const SpendingDifference = ({width}) => {
         amended again. Due to authorization laws, the funding for these programs must be allocated
         for spending each year, hence the term mandatory.
       </p>
+
       <div className={mandatorySpendingContainer}>
         <img src={width < pxToNumber(breakpointLg) ? MandatorySpendingImgMobile : MandatorySpendingImgDesktop}
              alt={"Step 1: Existing laws require (mandatory) money for spending each year " +
@@ -70,7 +69,7 @@ export const SpendingDifference = ({width}) => {
       </p>
       <ChartPlaceholder/>
       <div className={spendingAccordion}>
-        <Accordion title="What is the process for determining discretionary spending?">
+        <Accordion title=" What is the process for determining discretionary spending?">
           Discretionary spending is determined by the president and Congress each year in the
           budget and appropriations process. First, the president creates a budget proposal and
           sends it to Congress. Then, the House and Senate both draft budget resolutions. Congress
@@ -85,6 +84,7 @@ export const SpendingDifference = ({width}) => {
       </div>
     </div>
   );
+
 }
 
 export default withWindowSize(SpendingDifference);
