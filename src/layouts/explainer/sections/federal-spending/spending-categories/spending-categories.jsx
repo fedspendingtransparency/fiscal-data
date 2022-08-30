@@ -10,7 +10,7 @@ import {
 } from "../federal-spending.module.scss"
 import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend"
 import reactStringReplace from "react-string-replace"
-
+import CustomLink from "../../../../../components/links/custom-link/custom-link"
 export const SpendingCategories = () => {
   const accContent = `Each year, the Social Security and Medicare Boards of Trustees publish their Annual Report on the Financial Status of Social Security and Medicare. The Boards’ projections
   indicate that spending will continue to increase. As the average age of Americans
@@ -19,7 +19,9 @@ export const SpendingCategories = () => {
   const contentWithLink = reactStringReplace(
     accContent,
     "Annual Report on the Financial Status of Social Security and Medicare.",
-    (match, i) => <a href={"https://www.ssa.gov/oact/TRSUM/"}>{match}</a>
+    (match, i) => (
+      <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}>{match}</CustomLink>
+    )
   )
   return (
     <div className={spendingCategoriesContent}>

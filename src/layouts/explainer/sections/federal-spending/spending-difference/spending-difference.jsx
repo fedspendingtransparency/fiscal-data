@@ -14,7 +14,7 @@ import discretionarySpendingDesktop from "../../../../../../static/images/discre
 import discretionarySpendingMobile from "../../../../../../static/images/discretionary-spending_mobile.png"
 import reactStringReplace from "react-string-replace"
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term"
-
+import CustomLink from "../../../../../components/links/custom-link/custom-link"
 export const SpendingDifference = ({ width, glossary }) => {
   useEffect(() => {
     console.log(width)
@@ -59,9 +59,11 @@ export const SpendingDifference = ({ width, glossary }) => {
     content,
     "COVID-19 Spending Profile",
     match => (
-      <a href={"https://www.usaspending.gov/disaster/covid-19?publicLaw=all"}>
+      <CustomLink
+        href={"https://www.usaspending.gov/disaster/covid-19?publicLaw=all"}
+      >
         {match}
-      </a>
+      </CustomLink>
     )
   )
   return (
