@@ -1,5 +1,4 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
-import {graphql, useStaticQuery} from 'gatsby';
 import * as Scroll from 'react-scroll';
 import { Link } from 'react-scroll';
 import { withWindowSize } from 'react-fns';
@@ -17,7 +16,10 @@ import {
   linkContainer,
   sectionLink,
   headingLevel2,
-  headingLevel3
+  headingLevel3,
+  comingSoon,
+  comingSoonContainer,
+  comingSoonLink
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
 import Analytics from "../../utils/analytics/analytics";
@@ -146,30 +148,40 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           }
 
           return (
-            <div
-              key={s.index}
-              onMouseEnter={() => handleMouseEnter(s.index)}
-              onMouseLeave={handleMouseLeave}
-              className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
-            >
-              <Link
-                className={
-                  `${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}`
-                }
-                title={s.title}
-                activeClass={activeClass}
-                tabIndex={0}
-                to={s.id}
-                smooth
-                spy
-                duration={scrollDuration}
-                delay={scrollDelay}
-                onClick={() => handleInteraction(null, s.id, s.title)}
-                onKeyPress={(e) => handleInteraction(e, s.id, s.title)}
+            <>
+              {s.comingSoon ? (
+              <div className={comingSoonContainer}>
+                <i className={comingSoon}>COMING SOON!</i>
+              </div>
+              ) : undefined}
+
+
+              <div
+                key={s.index}
+                onMouseEnter={() => handleMouseEnter(s.index)}
+                onMouseLeave={handleMouseLeave}
+                className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
               >
-                {s.title}
-              </Link>
-            </div>
+                <Link
+                  className={
+                    `${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
+                    ${s.comingSoon ? comingSoonLink : undefined}`
+                  }
+                  title={s.title}
+                  activeClass={activeClass}
+                  tabIndex={0}
+                  to={s.id}
+                  smooth
+                  spy
+                  duration={scrollDuration}
+                  delay={scrollDelay}
+                  onClick={() => handleInteraction(null, s.id, s.title)}
+                  onKeyPress={(e) => handleInteraction(e, s.id, s.title)}
+                >
+                  {s.title}
+                </Link>
+              </div>
+            </>
           )
         })}
       </div>

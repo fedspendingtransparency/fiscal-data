@@ -11,6 +11,23 @@
     padding: 0 1rem 0 0;
     min-width: 250px;
 
+    .comingSoonContainer {
+      padding: 16px 20px 0;
+
+      .comingSoon {
+        background-color: #fff1d2;
+        color: #444444;
+        font-size: $font-size-14;
+        padding: 2px .75rem;
+        margin-left: .25rem;
+      }
+    }
+
+    .comingSoonLink {
+      padding-top: 4px !important;
+
+    }
+
     .linkContainer {
       border-bottom: solid 1px $dd-border-color;
       min-width: 220px;
