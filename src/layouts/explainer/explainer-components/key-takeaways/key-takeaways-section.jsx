@@ -9,19 +9,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term"
 import reactStringReplace from "react-string-replace"
 
+export const toTitleCase = text => {
+  return text
+    .toLowerCase()
+    .split(" ")
+    .map(s => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(" ")
+    .trim()
+}
+
 const getText = (takeaway, glossary) => {
-  const { hasGlossaryTerm, glossaryRegex, text } = takeaway
+  const {
+    hasGlossaryTerm,
+    page,
+    glossaryRegex,
+    text,
+    glossaryString,
+  } = takeaway
   if (hasGlossaryTerm) {
-    return reactStringReplace(text, glossaryRegex, (match, i) => (
-      <GlossaryTerm
-        term={match[0].toUpperCase() + match.substring(1)}
-        page={"Spending Explainer"}
-        glossary={glossary}
-        key={i}
-      >
-        {match}
-      </GlossaryTerm>
-    ))
+    return reactStringReplace(
+      text,
+      glossaryRegex || glossaryString,
+      (match, i) => {
+        return (
+          <GlossaryTerm
+            term={toTitleCase(match)}
+            page={page}
+            glossary={glossary}
+            key={i}
+          >
+            {match}
+          </GlossaryTerm>
+        )
+      }
+    )
   }
   return text
 }
