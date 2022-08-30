@@ -68,4 +68,3 @@ export const spendingExplainerSecondary: string;
 export const spendingExplainerLightSecondary: string;
 export const spendingAccordion: string;
 export const comingSoon: string;
-export const comingSoonfake: string;
