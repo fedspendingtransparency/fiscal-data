@@ -107,7 +107,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                       id={s.id}
                       className={section}
                     >
-                      {/*conditional check {comingSoon}*/}
                       {s.comingSoon && <ComingSoon /> }
                       <h2
                         className={sectionHeading}
