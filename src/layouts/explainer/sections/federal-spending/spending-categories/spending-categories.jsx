@@ -1,9 +1,9 @@
 import React from "react";
-import {ChartPlaceholder} from
-    "../../../explainer-helpers/federal-spending/federal-spending-helper";
+import { ChartPlaceholder } from
+  "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
-import {visWithCallout} from "../../../explainer.module.scss";
+import { visWithCallout } from "../../../explainer.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
 import {
   spendingCategoriesContent
@@ -12,6 +12,7 @@ import {
   spendingAccordion,
   spendingExplainerPrimary
 } from "../federal-spending.module.scss";
+import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend";
 
 export const SpendingCategories = () => {
   return (
@@ -30,7 +31,7 @@ export const SpendingCategories = () => {
         fiscal year).
       </p>
       <div className={visWithCallout}>
-        <ChartPlaceholder />
+        <HowMuchDoesTheGovtSpend />
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency, visit
