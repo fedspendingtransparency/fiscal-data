@@ -279,7 +279,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 <div
                   className={descContainer}
                   style={{
-                    maxWidth: item.percentage > 10 ? "120px" : "inherit",
+                    maxWidth: item.percentage > 10 ? "130px" : "inherit",
                   }}
                 >
                   {item.classification_desc?.replace("Total--", "")}
