@@ -58,6 +58,7 @@ const HowMuchDoesTheGovtSpend = () => {
   )
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
+  const [date, setDate] = useState(new Date())
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -102,6 +103,18 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   }, [width, height])
 
+  useEffect(() => {
+    if (chartData) {
+      setDate(
+        new Date(
+          chartData[selectedChartView].data[
+            chartData[selectedChartView].data.length - 1
+          ].record_date
+        )
+      )
+    }
+  }, [selectedChartView, chartData])
+
   const name = "Monthly Treasury Statement (MTS)"
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`
@@ -122,6 +135,7 @@ const HowMuchDoesTheGovtSpend = () => {
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
       : "current_fytd_app_rcpt_amt"
+
   let sortedItems =
     chartData &&
     chartData[selectedChartView]?.data.sort((a, b) => {
@@ -171,7 +185,7 @@ const HowMuchDoesTheGovtSpend = () => {
       }}
       header={header}
       footer={footer}
-      date={new Date()}
+      date={date}
     >
       {loading ? (
         <div className={loadingIcon}>
