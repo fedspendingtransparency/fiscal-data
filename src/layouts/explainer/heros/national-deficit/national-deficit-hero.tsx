@@ -76,6 +76,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         setDesktopPriorDeficit(numberWithCommas(
           parseFloat(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed())));
         const date = new Date();
+        date.setDate(15);
         date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
         setCurrentRecordMonth(date.toLocaleString('en-US', {
           month: 'short',
