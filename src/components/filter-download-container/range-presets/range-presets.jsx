@@ -17,7 +17,8 @@ const RangePresets = ({
   setIsCustomDateRange,
   allTablesSelected,
   datasetDateRange,
-  finalDatesNotFound
+  finalDatesNotFound,
+  dateButtonMonthView
 }) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
@@ -70,7 +71,7 @@ const RangePresets = ({
   };
 
   const prepUpdateDateRange = (preset) => {
-    const curDateRange = determineDateRange(availableDateRange, preset);
+    const curDateRange = determineDateRange(availableDateRange, preset, dateButtonMonthView);
     updateDateRange(curDateRange);
   };
 

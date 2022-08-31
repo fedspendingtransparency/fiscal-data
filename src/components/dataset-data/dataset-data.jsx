@@ -218,6 +218,7 @@ export const DatasetDataComponent = ({
               latestDate: config.techSpecs.latestDate}
             }
             finalDatesNotFound={finalDatesNotFound}
+            dateButtonMonthView={config.currentDateButton}
           />
           }
         </FilterAndDownload>
