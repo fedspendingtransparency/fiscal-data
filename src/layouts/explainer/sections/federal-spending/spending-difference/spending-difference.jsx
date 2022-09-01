@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {
@@ -15,6 +15,7 @@ import MandatorySpendingImgDesktop from "../../../../../../static/images/mandato
 import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png";
 
 export const SpendingDifference = ({width}) => {
+
   return (
     <div className={spendingDifferenceContent}>
       <h5>Who controls federal government spending?</h5>

@@ -27,6 +27,7 @@ export const getFootNotesDateRange = (
   currentFY: string,
   currentRecordMonth: string): string => {
   const date = new Date();
+  date.setDate(15);
   date.setMonth(parseInt(currentRecordMonth) - 1);
   const currentMonth = date.toLocaleString('en-US', {month: 'short'});
   const priorFiscalStartYear = Number(priorFY) -1;
