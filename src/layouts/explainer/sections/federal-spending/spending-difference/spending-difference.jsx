@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {
@@ -13,11 +13,10 @@ import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../variables.module.scss";
 import discretionarySpendingDesktop from "../../../../../../static/images/discretionary-spending_desktop.png";
 import discretionarySpendingMobile from "../../../../../../static/images/discretionary-spending_mobile.png";
+import supplementalSpendingDesktop from "../../../../../../static/images/supplemental-spending_desktop.png";
+import supplementalSpendingMobile from "../../../../../../static/images/supplemental-spending_mobile.png";
 
 export const SpendingDifference = ({width}) => {
-  useEffect(() => {
-    console.log(width);
-  }, [width]);
 
   return (
     <div className={spendingDifferenceContent}>
@@ -57,7 +56,7 @@ export const SpendingDifference = ({width}) => {
              alt={"Step 1: President submits recommendation for the next year’s budget in the President's Budget " +
              "Step 2: Congress reviews, revises, and votes on the budget during the appropriations process each year " +
              "Step 3: President signs the budget into law, and spending goes to national defense and other federal agency " +
-             "programs. The accounts are funded annually and disbursements are made unless an amendment is made to the law}"}
+             "programs. The accounts are funded annually and disbursements are made unless an amendment is made to the law"}
              data-testid={'diseretionarySpendingMobileImg'} className={mandatorySpendingImgStyle}/>
       </div>
       <h6>Supplemental Spending</h6>
@@ -69,7 +68,13 @@ export const SpendingDifference = ({width}) => {
         related to these supplemental appropriation laws in USAspending.gov’s COVID-19 Spending
         Profile page.
       </p>
-      <ChartPlaceholder/>
+      <div className={mandatorySpendingContainer}>
+      <img src={width < pxToNumber(breakpointLg) ? supplementalSpendingMobile : supplementalSpendingDesktop}
+           alt={"Step 1: Congress proposes and votes on legislation for supplemental appropriations " +
+           "Step 2: President enacts the law by signing it " +
+           "Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified"}
+           data-testid={'supplementalSpendingImg'} className={mandatorySpendingImgStyle}/>
+      </div>
       <div className={spendingAccordion}>
         <Accordion title=" What is the process for determining discretionary spending?">
           Discretionary spending is determined by the president and Congress each year in the
