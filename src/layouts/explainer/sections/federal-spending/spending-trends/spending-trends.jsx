@@ -1,9 +1,16 @@
 import React from "react";
+import {
+
+  comingSoon,
+
+} from "./spending-trends.module.scss"
 
 export const SpendingTrends = () => {
   return (
     <div>
-      Coming Soon
+      <p className={comingSoon}>Coming Soon: A chapter exploring changes
+        in spending trends over time, and how GDP factors into those trends</p>
     </div>
   );
 }
+
