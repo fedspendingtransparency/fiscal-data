@@ -64,12 +64,10 @@ export default function determineDateRange(table, preset, currentDateButton){
     };
   } else if (preset.key === 'current') {
     const dateForCurrentDateButton = convertDate(table.latestDate);
-    let rangeStartDate = dateForCurrentDateButton;
+    let rangeStartDate = new Date(dateForCurrentDateButton);
 
     if(currentDateButton === 'byMonth') {
-      const year = dateForCurrentDateButton.getFullYear();
-      const month = dateForCurrentDateButton.getMonth();
-      rangeStartDate = new Date(year, month, 1);
+      rangeStartDate.setDate(1);
     }
 
     dateRangeObj = {
