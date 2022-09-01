@@ -1,6 +1,4 @@
-import React from "react";
-import { ChartPlaceholder } from
-  "../../../explainer-helpers/federal-spending/federal-spending-helper";
+import React, {useEffect, useState} from "react";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import { visWithCallout } from "../../../explainer.module.scss";
@@ -13,8 +11,21 @@ import {
   spendingExplainerPrimary
 } from "../federal-spending.module.scss";
 import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend";
+import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 
 export const SpendingCategories = () => {
+  const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
+
+  useEffect(() => {
+    const endpointUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19';
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        if (res.data) {
+          setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
+        }
+      });
+  }, [])
+
   return (
     <div className={spendingCategoriesContent}>
       <p>
@@ -27,8 +38,7 @@ export const SpendingCategories = () => {
         The government buys a variety of products and services used to serve the public -
         everything from military aircraft, construction and highway maintenance equipment,
         buildings, and livestock, to research, education, and training. The chart below shows
-        the top 10 categories and agencies for federal spending in FY YYYY (latest complete
-        fiscal year).
+        the top 10 categories and agencies for federal spending in FY {latestCompleteFiscalYear}.
       </p>
       <div className={visWithCallout}>
         <HowMuchDoesTheGovtSpend />

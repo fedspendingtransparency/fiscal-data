@@ -1,12 +1,7 @@
 import React from "react";
-import KeyTakeawaysSection from "../../explainer-components/key-takeaways/key-takeaways-section";
 import {datasetSectionConfig} from "../../explainer-helpers/explainer-helpers";
-import {spendingKeyTakeaways} from
-    "../../explainer-helpers/federal-spending/federal-spending-helper";
-import {
-  spendingExplainerPrimary,
-  spendingExplainerLightSecondary,
-} from "./federal-spending.module.scss";
+import SpendingKeyTakeaways from "./key-takeaways/key-takeaways";
+
 import {SpendingOverview} from "./overview/spending-overview";
 import {SpendingCategories} from "./spending-categories/spending-categories";
 import SpendingDifference from "./spending-difference/spending-difference";
@@ -23,16 +18,13 @@ export const nationalDeficitSectionIds = [
 
 export const federalSpendingSectionConfigs = datasetSectionConfig['national-deficit'];
 
+
 const federalSpendingSection = [
   {
     index: 0,
     id: nationalDeficitSectionIds[0],
     title: 'Key Takeaways',
-    component: (glossary, cpiDataByYear) =>
-      <KeyTakeawaysSection takeaways={spendingKeyTakeaways}
-                           primaryColor={spendingExplainerPrimary}
-                           secondaryColor={spendingExplainerLightSecondary}
-      />
+    component: (glossary, cpiDataByYear) => <SpendingKeyTakeaways />
   },
   {
     index: 1,
