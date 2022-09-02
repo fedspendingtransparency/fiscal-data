@@ -41,8 +41,8 @@ export const TopicsSection = ({images, width}) => {
         </div>
       </h5>
       <i>
-        Fiscal Data presents the second of four concepts from Your Guide to America’s Finances,
-        which will be added in the coming months.
+        Fiscal Data presents the third of four concepts from Your Guide
+        to America’s Finances, which will be added in the coming months.
       </i>
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
@@ -54,6 +54,13 @@ export const TopicsSection = ({images, width}) => {
               />
             </Grid>
             {width < pxToNumber(breakpointLg) ? <div className={line} /> : undefined}
+            <Grid item lg={secondaryWidth}>
+              <ExplainerTile content={pageTileMap['spending']}
+                             images={images}
+                             width={width}
+              />
+            </Grid>
+
             <Grid item lg={secondaryWidth}>
               <ExplainerTile content={pageTileMap['debt']}
                              images={images}

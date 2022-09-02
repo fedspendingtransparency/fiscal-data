@@ -14,6 +14,9 @@ import {GatsbyImage, getImage} from "gatsby-plugin-image";
 
 const ExplainerTile =({content, images, width}) => {
   let desktopImage, mobileImage;
+  console.log(desktopImage);
+  console.log("img " + {images});
+  console.log("content " + {content});
   if(images) {
     desktopImage = images.allFile.topicsImages.find(image => image.name === content.desktopImage);
     mobileImage = images.allFile.topicsImages.find(image => image.name === content.mobileImage);

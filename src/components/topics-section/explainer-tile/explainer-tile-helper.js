@@ -1,4 +1,5 @@
 export const pageTileMap = {
+
   'debt': {
     title: 'What is the national debt?',
     body: 'The national debt enables the federal government to pay for important programs and ' +
@@ -9,6 +10,18 @@ export const pageTileMap = {
     desktopImage: 'homepage_debt_1200x630',
     mobileImage: 'homepage_debt_square',
     path: '/national-debt/'
+  },
+  'spending': {
+    title: 'How much has the U.S. government spent this year?',
+    body: 'The U.S. government has spent {$XX.X trillion (total spending)} in fiscal ' +
+      'year {YYYY (current fiscal year)} to ensure the well-being of the people of the ' +
+      'United States. Learn more about spending categories, types of spending, and ' +
+      'spending trends over time.',
+    altText: 'The US Treasury building is placed next to a row of homes. A pair of hands ' +
+      'exchange money in the foreground.',
+    desktopImage: 'homepage_spending_1200x630',
+    mobileImage: 'homepage_spending_square',
+    path: '/national-spending/'
   },
   'deficit': {
     title: 'What is the national deficit?',
