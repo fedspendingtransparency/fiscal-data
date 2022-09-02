@@ -17,11 +17,18 @@ export const pageTileMap = {
       'year {YYYY (current fiscal year)} to ensure the well-being of the people of the ' +
       'United States. Learn more about spending categories, types of spending, and ' +
       'spending trends over time.',
+    bodyGenerator: () =>  {
+      //placeholder for fetch logic
+      const amount = 'XX.X trillion'
+      const year = 'YYYY'
+    return `The U.S. government has spent $${amount}
+    in fiscal year ${year} to ensure the well-being of the people of the United States.
+    Learn more about spending categories, types of spending, and spending trends over time.`},
     altText: 'The US Treasury building is placed next to a row of homes. A pair of hands ' +
       'exchange money in the foreground.',
     desktopImage: 'homepage_spending_1200x630',
-    mobileImage: 'homepage_spending_square',
-    path: '/national-spending/'
+    mobileImage: 'homepage_debt_square',
+    path: '/federal-spending/'
   },
   'deficit': {
     title: 'What is the national deficit?',
