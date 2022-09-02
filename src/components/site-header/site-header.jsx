@@ -51,19 +51,17 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
   const topicsPageLinks = [
     {
-      title: 'Debt',
-      to: '/national-debt/',
-      testId: 'debt'
-    },
-    {
-      title: 'Deficit',
-      to: '/national-deficit/',
-      testId: 'deficit'
-    },
-    {
       title: 'Spending',
       to: '/federal-spending/',
       testId: 'spending'
+    },{
+      title: 'Deficit',
+      to: '/national-deficit/',
+      testId: 'deficit'
+    },{
+      title: 'Debt',
+      to: '/national-debt/',
+      testId: 'debt'
     }
   ]
 
