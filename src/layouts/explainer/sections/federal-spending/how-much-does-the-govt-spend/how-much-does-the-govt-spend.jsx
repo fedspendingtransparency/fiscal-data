@@ -20,6 +20,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { useWindowSize } from "../../../../../hooks/windowResize"
+import moment from "moment"
+
 export const capitalizeLastLetter = word => {
   const parts = word.split("")
   const last = word[parts.length - 1].toUpperCase()
@@ -102,6 +104,16 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   }, [width, height])
 
+  useEffect(() => {
+    if (chartData && chartData[selectedChartView]?.data) {
+      const dataItems = chartData[selectedChartView].data
+      const dates = dataItems.map(item => moment(item.record_date))
+      const maxDate = moment.max(dates)
+      const updatedDate = new Date(maxDate.toDate())
+      setDate(updatedDate)
+    }
+  }, [selectedChartView, chartData])
+
   const name = "Monthly Treasury Statement (MTS)"
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`
@@ -121,7 +133,8 @@ const HowMuchDoesTheGovtSpend = () => {
   const sortField =
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
-      : "current_fytd_app_rcpt_amt"
+      : "current_fytd_net_outly_amt"
+
   let sortedItems =
     chartData &&
     chartData[selectedChartView]?.data.sort((a, b) => {
