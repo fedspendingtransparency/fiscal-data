@@ -38,6 +38,7 @@ export const explainerAnalyticsLabelMap = {
   'national-debt': 'Debt',
   'national-deficit': 'Deficit',
   'federal-spending': 'Spending',
+  'americas-finance-guide': "Americas Finance Guide"
 }
 
 export const explainerColorMap = {
@@ -55,6 +56,11 @@ export const explainerColorMap = {
     primary: spendingExplainerPrimary,
     secondary: spendingExplainerSecondary,
     secondaryLight: spendingExplainerLightSecondary
+  },
+  'americas-finance-guide': {
+    primary: spendingExplainerPrimary,
+    secondary: spendingExplainerSecondary,
+    secondaryLight: spendingExplainerLightSecondary
   }
 }
 
@@ -68,6 +74,10 @@ export const explainerClassMap = {
     hover: nationalDeficitHover
   },
   'federal-spending': {
+    active: federalSpendingActive,
+    hover: federalSpendingHover
+  },
+  'americas-finance-guide': {
     active: federalSpendingActive,
     hover: federalSpendingHover
   }
@@ -105,6 +115,17 @@ export const explainerSocialShareMap = {
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
     url: baseUrl+'/federal-spending/',
     image: baseUrl+'/images/Spending-1200x630.png'
+  },
+  'americas-finance-guide': {
+    title: 'Fiscal Data Explains Federal Spending',
+    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! '
+      + '#FederalSpending ',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, '
+      + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
+    emailSubject: 'Fiscal Data Explains Federal Spending',
+    emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
+    url: baseUrl+'/federal-spending/',
+    image: baseUrl+'/images/Spending-1200x630.png'
   }
 }
 
@@ -117,6 +138,9 @@ export const explainerHeroMap = {
   },
   'federal-spending': {
     component: (glossary) => <FederalSpendingHero />
+  },
+  'americas-finance-guide': {
+    component: (glossary) => <div >hello</div>
   }
 }
 
@@ -124,6 +148,8 @@ export const explainerRelatedDatasetMap = {
   'national-debt': 'See the datasets that relate to the national debt',
   'national-deficit': 'See the datasets behind the national deficit',
   'federal-spending': 'See the datasets that relate to federal spending',
+  'americas-finance-guide': 'See the datasets that relate to federal spending',
+
 }
 
 export const datasetSectionConfig = {

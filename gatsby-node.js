@@ -1,5 +1,7 @@
 const { freshTopics } = require("./src/transform/topics-config");
 const { freshExplainerPages } = require("./src/transform/explainer-pages-config");
+const { freshRevenuePages } = require("./src/transform/revenue-pages-config");
+
 const { getEndpointConfigsById } = require( './src/transform/endpointConfig');
 const { sortPublishers } = require('./src/transform/filters/filterDefinitions');
 let { filters } = require('./src/transform/filters/filterDefinitions');
@@ -162,7 +164,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   filters = sortPublishers(filters);
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
-
+  const revenuePages = freshRevenuePages();
   await datasets.forEach(async dataset => {
     dataset.id = createNodeId(dataset.datasetId);
     const node = {
@@ -216,6 +218,20 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       children: [],
       internal: {
         type: `Explainers`
+      }
+    };
+    node.internal.contentDigest = createContentDigest(node);
+    createNode(node);
+  })
+
+  revenuePages.forEach((revenuePage) => {
+    revenuePage.id = createNodeId(revenuePage.slug);
+    const node = {
+      ...revenuePage,
+      parent: null,
+      children: [],
+      internal: {
+        type: `Revenue`
       }
     };
     node.internal.contentDigest = createContentDigest(node);
@@ -431,7 +447,24 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
           relatedDatasets
         }
+        revenuePages: nodes {
+          pageName
+          slug
+          seoConfig {
+            pageTitle
+            description
+            keywords
+          }
+          prodReady
+          breadCrumbLinkName
+          heroImage {
+            heading
+            subHeading
+          }
+          relatedDatasets
+        }
       }
+
       allCpi100Csv {
         cpi100Csv: nodes {
           year
@@ -511,6 +544,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   }
 
   result.data.allExplainers.explainers.forEach((explainer) => {
+    console.log(explainer, "EXPLAINER HERE")
     if (ENV_ID !== 'production' || explainer.prodReady) {
       const explainerRelatedDatasets = [];
       explainer.relatedDatasets.forEach((dataset) => {
@@ -533,6 +567,30 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       });
     }
   });
+
+  // result.data.allExplainers.revenuePages.forEach((rPage) => {
+  //   if (ENV_x`ID !== 'production' || rPage.prodReady) {
+  //     const explainerRelatedDatasets = [];
+  //     rPage.relatedDatasets.forEach((dataset) => {
+  //       explainerRelatedDatasets.push(
+  //         result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+  //     });
+  //     createPage({
+  //       path: rPage.slug,
+  //       matchPath: `${rPage.slug}*`,
+  //       component: path.resolve('./src/layouts/explainer/explainer.tsx'),
+  //       context: {
+  //         pageName: rPage.pageName,
+  //         breadCrumbLinkName: rPage.breadCrumbLinkName,
+  //         seoConfig: rPage.seoConfig,
+  //         heroImage: rPage.heroImage,
+  //         relatedDatasets: explainerRelatedDatasets,
+  //         cpiDataByYear: cpiYearMap,
+  //         glossary: glossaryData
+  //       }
+  //     });
+  //   }
+  // });
 
   if (ENV_ID !== 'production') {
     createPage({
