@@ -29,7 +29,13 @@ export const capitalizeLastLetter = word => {
   return parts.join("")
 }
 
-export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
+export const ToggleSwitch = ({
+  checked,
+  handleChange,
+  customStyles,
+  setPercentDollarToggleChecked,
+  percentDollarToggleChecked,
+}) => {
   return (
     <label htmlFor="material-switch">
       <Switch
@@ -43,6 +49,11 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
         height={20}
         width={48}
         id="material-switch"
+        onKeyDown={e => {
+          if (e.key === "Enter") {
+            setPercentDollarToggleChecked(!percentDollarToggleChecked)
+          }
+        }}
       />
     </label>
   )
@@ -60,7 +71,7 @@ const HowMuchDoesTheGovtSpend = () => {
   )
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(null)
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -252,6 +263,8 @@ const HowMuchDoesTheGovtSpend = () => {
                 onColor: "#00766C",
                 offColor: "#00766C",
               }}
+              percentDollarToggleChecked={percentDollarToggleChecked}
+              setPercentDollarToggleChecked={setPercentDollarToggleChecked}
             ></ToggleSwitch>
             <span
               style={{
