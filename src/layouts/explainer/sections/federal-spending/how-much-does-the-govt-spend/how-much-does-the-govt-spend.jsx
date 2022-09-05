@@ -60,6 +60,7 @@ const HowMuchDoesTheGovtSpend = () => {
   )
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null)
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -110,7 +111,7 @@ const HowMuchDoesTheGovtSpend = () => {
       const dates = dataItems.map(item => moment(item.record_date))
       const maxDate = moment.max(dates)
       const updatedDate = new Date(maxDate.toDate())
-      setDate(updatedDate)
+      setLastUpdatedDate(updatedDate)
     }
   }, [selectedChartView, chartData])
 
@@ -184,7 +185,7 @@ const HowMuchDoesTheGovtSpend = () => {
       }}
       header={header}
       footer={footer}
-      date={new Date()}
+      date={lastUpdatedDate}
     >
       {loading ? (
         <div className={loadingIcon}>
