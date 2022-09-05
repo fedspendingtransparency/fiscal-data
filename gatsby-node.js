@@ -1,7 +1,5 @@
 const { freshTopics } = require("./src/transform/topics-config");
 const { freshExplainerPages } = require("./src/transform/explainer-pages-config");
-const { freshRevenuePages } = require("./src/transform/revenue-pages-config");
-
 const { getEndpointConfigsById } = require( './src/transform/endpointConfig');
 const { sortPublishers } = require('./src/transform/filters/filterDefinitions');
 let { filters } = require('./src/transform/filters/filterDefinitions');
@@ -164,7 +162,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   filters = sortPublishers(filters);
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
-  const revenuePages = freshRevenuePages();
   await datasets.forEach(async dataset => {
     dataset.id = createNodeId(dataset.datasetId);
     const node = {
@@ -224,19 +221,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   })
 
-  revenuePages.forEach((revenuePage) => {
-    revenuePage.id = createNodeId(revenuePage.slug);
-    const node = {
-      ...revenuePage,
-      parent: null,
-      children: [],
-      internal: {
-        type: `Revenue`
-      }
-    };
-    node.internal.contentDigest = createContentDigest(node);
-    createNode(node);
-  })
+
 
   const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?
   registrationkey=8d808b5dd9914fd2a173a908be42baf4`;
@@ -447,22 +432,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
           relatedDatasets
         }
-        revenuePages: nodes {
-          pageName
-          slug
-          seoConfig {
-            pageTitle
-            description
-            keywords
-          }
-          prodReady
-          breadCrumbLinkName
-          heroImage {
-            heading
-            subHeading
-          }
-          relatedDatasets
-        }
       }
 
       allCpi100Csv {
@@ -567,30 +536,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       });
     }
   });
-
-  // result.data.allExplainers.revenuePages.forEach((rPage) => {
-  //   if (ENV_x`ID !== 'production' || rPage.prodReady) {
-  //     const explainerRelatedDatasets = [];
-  //     rPage.relatedDatasets.forEach((dataset) => {
-  //       explainerRelatedDatasets.push(
-  //         result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-  //     });
-  //     createPage({
-  //       path: rPage.slug,
-  //       matchPath: `${rPage.slug}*`,
-  //       component: path.resolve('./src/layouts/explainer/explainer.tsx'),
-  //       context: {
-  //         pageName: rPage.pageName,
-  //         breadCrumbLinkName: rPage.breadCrumbLinkName,
-  //         seoConfig: rPage.seoConfig,
-  //         heroImage: rPage.heroImage,
-  //         relatedDatasets: explainerRelatedDatasets,
-  //         cpiDataByYear: cpiYearMap,
-  //         glossary: glossaryData
-  //       }
-  //     });
-  //   }
-  // });
 
   if (ENV_ID !== 'production') {
     createPage({
