@@ -513,7 +513,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   }
 
   result.data.allExplainers.explainers.forEach((explainer) => {
-    console.log(explainer, "EXPLAINER HERE")
     if (ENV_ID !== 'production' || explainer.prodReady) {
       const explainerRelatedDatasets = [];
       explainer.relatedDatasets.forEach((dataset) => {
