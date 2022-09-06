@@ -124,7 +124,7 @@ export const explainerSocialShareMap = {
       + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
     emailSubject: 'Fiscal Data Explains Federal Spending',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
-    url: baseUrl+'/federal-spending/',
+    url: baseUrl+'/americas-finance-guide/',
     image: baseUrl+'/images/Spending-1200x630.png'
   }
 }
