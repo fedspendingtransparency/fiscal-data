@@ -10,7 +10,9 @@ import {
   nationalDeficitActive,
   nationalDeficitHover,
   federalSpendingActive,
-  federalSpendingHover
+  federalSpendingHover,
+  revenueActive, 
+  revenueHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
@@ -83,8 +85,8 @@ export const explainerClassMap = {
     hover: federalSpendingHover
   },
   'americas-finance-guide': {
-    active: federalSpendingActive,
-    hover: federalSpendingHover
+    active: revenueActive,
+    hover: revenueHover
   }
 }
 
