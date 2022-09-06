@@ -25,6 +25,11 @@ import {
   spendingExplainerSecondary,
   spendingExplainerLightSecondary
 } from "../sections/federal-spending/federal-spending.module.scss";
+import {
+  revenueExplainerPrimary,
+  revenueExplainerSecondary,
+  revenueExplainerLightSecondary
+} from "../sections/revenue/revenue.module.scss";
 import FederalSpendingHero from "../heros/federal-spending/federal-spending-hero";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
@@ -58,9 +63,9 @@ export const explainerColorMap = {
     secondaryLight: spendingExplainerLightSecondary
   },
   'americas-finance-guide': {
-    primary: spendingExplainerPrimary,
-    secondary: spendingExplainerSecondary,
-    secondaryLight: spendingExplainerLightSecondary
+    primary: revenueExplainerPrimary,
+    secondary: revenueExplainerSecondary,
+    secondaryLight: revenueExplainerLightSecondary
   }
 }
 
