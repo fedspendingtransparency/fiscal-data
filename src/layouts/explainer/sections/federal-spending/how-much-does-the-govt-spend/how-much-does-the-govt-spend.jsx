@@ -20,6 +20,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { useWindowSize } from "../../../../../hooks/windowResize"
+import moment from "moment"
+
 export const capitalizeLastLetter = word => {
   const parts = word.split("")
   const last = word[parts.length - 1].toUpperCase()
@@ -58,7 +60,7 @@ const HowMuchDoesTheGovtSpend = () => {
   )
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
-  const [date, setDate] = useState(new Date())
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -104,14 +106,12 @@ const HowMuchDoesTheGovtSpend = () => {
   }, [width, height])
 
   useEffect(() => {
-    if (chartData) {
-      setDate(
-        new Date(
-          chartData[selectedChartView].data[
-            chartData[selectedChartView].data.length - 1
-          ].record_date
-        )
-      )
+    if (chartData && chartData[selectedChartView]?.data) {
+      const dataItems = chartData[selectedChartView].data
+      const dates = dataItems.map(item => moment(item.record_date))
+      const maxDate = moment.max(dates)
+      const updatedDate = new Date(maxDate.toDate())
+      setLastUpdatedDate(updatedDate)
     }
   }, [selectedChartView, chartData])
 
@@ -134,7 +134,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const sortField =
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
-      : "current_fytd_app_rcpt_amt"
+      : "current_fytd_net_outly_amt"
 
   let sortedItems =
     chartData &&
@@ -185,7 +185,7 @@ const HowMuchDoesTheGovtSpend = () => {
       }}
       header={header}
       footer={footer}
-      date={date}
+      date={lastUpdatedDate}
     >
       {loading ? (
         <div className={loadingIcon}>
