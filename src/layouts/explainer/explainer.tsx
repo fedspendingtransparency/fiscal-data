@@ -31,8 +31,8 @@ import {
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import SocialShare from "./social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
-import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies"
-
+import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies";
+import ComingSoon from "./explainer-components/hightlighted-text/highlighted-text";
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const {
     pageName,
@@ -107,6 +107,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
                       id={s.id}
                       className={section}
                     >
+                      {s.comingSoon && <ComingSoon /> }
                       <h2
                         className={sectionHeading}
                         style={{ color: explainerColorMap[pageName].primary}}
