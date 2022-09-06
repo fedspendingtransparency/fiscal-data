@@ -60,7 +60,7 @@ const HowMuchDoesTheGovtSpend = () => {
   )
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(null)
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
