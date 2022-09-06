@@ -61,16 +61,15 @@ const explainerPagesSource = {
   },
   "americas-finance-guide": {
     slug: "/americas-finance-guide/",
-    breadCrumbLinkName: "Debt",
+    breadCrumbLinkName: "Revenue",
     seoConfig: {
-      pageTitle: "Understanding the National Debt",
-      description: `Learn how the national debt works and how it impacts you.`,
+      pageTitle: "Government Revenue | U.S. Treasury Fiscal Data",
+      description: `Learn how much the U.S. government collects in revenue, and what types of revenue it brings in.`,
     },
     prodReady: false,
     heroImage: {
-      heading: "What is the national debt?",
-      subHeading: `The national debt is the total amount of outstanding borrowing by the U.S. Federal
-        Government accumulated over the nation’s history.`,
+      heading: "How much revenue has the U.S. government collected this year? ",
+      subHeading: `Government revenue is income received from taxes and other sources to pay for government expenditures. The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current FY)}.`,
     },
     relatedDatasets: [
       "015-BFS-2014Q1-13",
