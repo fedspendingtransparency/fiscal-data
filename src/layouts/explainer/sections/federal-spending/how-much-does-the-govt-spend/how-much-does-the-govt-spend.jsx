@@ -46,7 +46,7 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
   )
 }
 const breakpoint = {
-  desktop: 992,
+  desktop: 1015,
   tablet: 600,
 }
 const HowMuchDoesTheGovtSpend = () => {
@@ -58,6 +58,7 @@ const HowMuchDoesTheGovtSpend = () => {
   )
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
+  const [date, setDate] = useState(new Date())
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -102,6 +103,18 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   }, [width, height])
 
+  useEffect(() => {
+    if (chartData) {
+      setDate(
+        new Date(
+          chartData[selectedChartView].data[
+            chartData[selectedChartView].data.length - 1
+          ].record_date
+        )
+      )
+    }
+  }, [selectedChartView, chartData])
+
   const name = "Monthly Treasury Statement (MTS)"
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`
@@ -122,6 +135,7 @@ const HowMuchDoesTheGovtSpend = () => {
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
       : "current_fytd_app_rcpt_amt"
+
   let sortedItems =
     chartData &&
     chartData[selectedChartView]?.data.sort((a, b) => {
@@ -171,7 +185,7 @@ const HowMuchDoesTheGovtSpend = () => {
       }}
       header={header}
       footer={footer}
-      date={new Date()}
+      date={date}
     >
       {loading ? (
         <div className={loadingIcon}>
@@ -221,9 +235,9 @@ const HowMuchDoesTheGovtSpend = () => {
           >
             <span
               style={{
-                fontWeight: !percentDollarToggleChecked ? "bold" : "inherit",
+                fontWeight: !percentDollarToggleChecked ? "600" : "inherit",
                 marginRight: "4px",
-                color: "#00766C",
+                color: !percentDollarToggleChecked ? "#00766C" : "#666",
                 minWidth: "80px",
               }}
             >
@@ -241,9 +255,9 @@ const HowMuchDoesTheGovtSpend = () => {
             ></ToggleSwitch>
             <span
               style={{
-                fontWeight: percentDollarToggleChecked ? "bold" : "inherit",
+                fontWeight: percentDollarToggleChecked ? "600" : "inherit",
                 marginLeft: "4px",
-                color: "#00766C",
+                color: percentDollarToggleChecked ? "#00766C" : "#666",
                 marginBottom: "24px",
                 minWidth: "80px",
               }}
@@ -279,7 +293,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 <div
                   className={descContainer}
                   style={{
-                    maxWidth: item.percentage > 10 ? "130px" : "inherit",
+                    maxWidth: item.percentage > 10 ? "140px" : "inherit",
                   }}
                 >
                   {item.classification_desc?.replace("Total--", "")}

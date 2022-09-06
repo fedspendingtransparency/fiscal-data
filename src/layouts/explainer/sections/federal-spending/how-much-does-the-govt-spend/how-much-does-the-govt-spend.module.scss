@@ -39,13 +39,15 @@
 .percentOrDollarContainer {
     margin-right: 8px;
     color: #666666;
-    font-weight: bold;
+    font-weight: 600;
     min-width: 56px;
+    font-size: 14px;
 }
 
 .descContainer {
     margin-right: 16px;
     font-size: 14px;
+    font-weight: 600;
 }
 
 .chartToggle {
@@ -66,7 +68,7 @@
 }
 
 .toggleText {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 }
 
