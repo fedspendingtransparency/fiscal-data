@@ -27,7 +27,7 @@ export const pageTileMap = {
     altText: 'The US Treasury building is placed next to a row of homes. A pair of hands ' +
       'exchange money in the foreground.',
     desktopImage: 'homepage_spending_1200x630',
-    mobileImage: 'homepage_debt_square',
+    mobileImage: 'homepage_spending_square',
     path: '/federal-spending/'
   },
   'deficit': {
