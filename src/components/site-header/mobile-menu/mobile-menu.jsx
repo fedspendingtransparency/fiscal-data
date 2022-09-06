@@ -75,16 +75,21 @@ const MobileMenu = () => {
                       AMERICA'S FINANCE GUIDE
                     </div>
                     <div className={styles.explainerLinkContainer}>
-                      <Link to="/national-debt/"
-                            className={styles.explainerLink}
-                            onClick={() => topicsClickHandler('Debt')}
+                      <Link to="/federal-spending/"
+                        className={styles.explainerLink}
                       >
-                        Debt
+                        Spending
                       </Link>
                       <Link to="/national-deficit/"
-                            className={styles.explainerLink}
+                        className={styles.explainerLink}
                       >
                         Deficit
+                      </Link>
+                      <Link to="/national-debt/"
+                        className={styles.explainerLink}
+                        onClick={() => topicsClickHandler('Debt')}
+                      >
+                        Debt
                       </Link>
                     </div>
                     <div className={styles.AFGHeader}>
