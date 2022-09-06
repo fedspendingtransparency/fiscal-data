@@ -59,7 +59,7 @@ export const ToggleSwitch = ({
   )
 }
 const breakpoint = {
-  desktop: 992,
+  desktop: 1015,
   tablet: 600,
 }
 const HowMuchDoesTheGovtSpend = () => {
@@ -246,9 +246,9 @@ const HowMuchDoesTheGovtSpend = () => {
           >
             <span
               style={{
-                fontWeight: !percentDollarToggleChecked ? "bold" : "inherit",
+                fontWeight: !percentDollarToggleChecked ? "600" : "inherit",
                 marginRight: "4px",
-                color: "#00766C",
+                color: !percentDollarToggleChecked ? "#00766C" : "#666",
                 minWidth: "80px",
               }}
             >
@@ -268,9 +268,9 @@ const HowMuchDoesTheGovtSpend = () => {
             ></ToggleSwitch>
             <span
               style={{
-                fontWeight: percentDollarToggleChecked ? "bold" : "inherit",
+                fontWeight: percentDollarToggleChecked ? "600" : "inherit",
                 marginLeft: "4px",
-                color: "#00766C",
+                color: percentDollarToggleChecked ? "#00766C" : "#666",
                 marginBottom: "24px",
                 minWidth: "80px",
               }}
@@ -306,7 +306,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 <div
                   className={descContainer}
                   style={{
-                    maxWidth: item.percentage > 10 ? "130px" : "inherit",
+                    maxWidth: item.percentage > 10 ? "140px" : "inherit",
                   }}
                 >
                   {item.classification_desc?.replace("Total--", "")}
