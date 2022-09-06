@@ -162,6 +162,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   filters = sortPublishers(filters);
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
+
   await datasets.forEach(async dataset => {
     dataset.id = createNodeId(dataset.datasetId);
     const node = {
@@ -220,8 +221,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     node.internal.contentDigest = createContentDigest(node);
     createNode(node);
   })
-
-
 
   const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?
   registrationkey=8d808b5dd9914fd2a173a908be42baf4`;
@@ -433,7 +432,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           relatedDatasets
         }
       }
-
       allCpi100Csv {
         cpi100Csv: nodes {
           year
