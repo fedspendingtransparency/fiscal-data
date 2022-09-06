@@ -5,6 +5,7 @@ import determineDateRange, {
 } from './helper';
 import Analytics from "../../../../utils/analytics/analytics";
 import {PRESETS, TABLE_OBJ} from "./test-helper";
+import {formatDate} from "../../../download-wrapper/helpers";
 
 describe('Range Presets Helpers - determineDateRange', () => {
 
@@ -26,6 +27,18 @@ describe('Range Presets Helpers - determineDateRange', () => {
       const year = yearsArr[i];
       expect(determineDateRange(TABLE_OBJ, year).selectionPath).toStrictEqual(year.expectedPath);
     }
+  });
+
+  it('sets the date range to the entire month of the most recent date available, ' +
+    'when currentDateButton is set to byMonth', () => {
+    expect(determineDateRange(TABLE_OBJ, PRESETS.current, 'byMonth').selectionPath)
+  .toStrictEqual(PRESETS.current.expectedPath);
+
+    expect(formatDate(determineDateRange(TABLE_OBJ, PRESETS.current, 'byMonth').from))
+  .toStrictEqual('01/01/2021');
+
+    expect(formatDate(determineDateRange(TABLE_OBJ, PRESETS.current, 'byMonth').to))
+  .toStrictEqual('01/06/2021');
   });
 });
 

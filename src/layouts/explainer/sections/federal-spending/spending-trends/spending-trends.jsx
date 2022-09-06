@@ -9,7 +9,7 @@ export const SpendingTrends = () => {
   return (
     <div>
       <p className={comingSoon}>Coming Soon: A chapter exploring changes
-        in spending trends over time, and how GDP factors into those trends</p>
+        in spending trends over time, and how GDP factors into those trends.</p>
     </div>
   );
 }
