@@ -203,7 +203,7 @@ export class MetadataService {
   private _indexApiData(apis: ISummaryDatasetAPIData[]): Record<number, ISummaryDatasetAPIData> {
     const output: Record<number, ISummaryDatasetAPIData> = {};
 
-    apis.forEach((api: ISummaryDatasetAPIData) => {
+    apis?.forEach((api: ISummaryDatasetAPIData) => {
       output[api.api_id] = api;
       output[api.api_id] = {
         ...api,

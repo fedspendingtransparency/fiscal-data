@@ -5,6 +5,7 @@ import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import {
   spendingExplainerPrimary,
+  spendingExplainerSecondary,
   spendingExplainerLightSecondary
 } from "../federal-spending.module.scss";
 import QuoteBox from "../../../quote-box/quote-box"
@@ -68,7 +69,7 @@ export const SpendingOverview = () => {
       </div>
       <QuoteBox
         icon={faFlagUsa}
-        primaryColor={spendingExplainerPrimary}
+        primaryColor={spendingExplainerSecondary}
         secondaryColor={spendingExplainerLightSecondary}
       >
         <p>

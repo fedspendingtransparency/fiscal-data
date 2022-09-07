@@ -20,6 +20,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { useWindowSize } from "../../../../../hooks/windowResize"
+import moment from "moment"
+
 export const capitalizeLastLetter = word => {
   const parts = word.split("")
   const last = word[parts.length - 1].toUpperCase()
@@ -27,7 +29,13 @@ export const capitalizeLastLetter = word => {
   return parts.join("")
 }
 
-export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
+export const ToggleSwitch = ({
+  checked,
+  handleChange,
+  customStyles,
+  setPercentDollarToggleChecked,
+  percentDollarToggleChecked,
+}) => {
   return (
     <label htmlFor="material-switch">
       <Switch
@@ -41,12 +49,17 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles }) => {
         height={20}
         width={48}
         id="material-switch"
+        onKeyDown={e => {
+          if (e.key === "Enter") {
+            setPercentDollarToggleChecked(!percentDollarToggleChecked)
+          }
+        }}
       />
     </label>
   )
 }
 const breakpoint = {
-  desktop: 992,
+  desktop: 1015,
   tablet: 600,
 }
 const HowMuchDoesTheGovtSpend = () => {
@@ -58,6 +71,7 @@ const HowMuchDoesTheGovtSpend = () => {
   )
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -102,6 +116,16 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   }, [width, height])
 
+  useEffect(() => {
+    if (chartData && chartData[selectedChartView]?.data) {
+      const dataItems = chartData[selectedChartView].data
+      const dates = dataItems.map(item => moment(item.record_date))
+      const maxDate = moment.max(dates)
+      const updatedDate = new Date(maxDate.toDate())
+      setLastUpdatedDate(updatedDate)
+    }
+  }, [selectedChartView, chartData])
+
   const name = "Monthly Treasury Statement (MTS)"
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`
@@ -121,7 +145,8 @@ const HowMuchDoesTheGovtSpend = () => {
   const sortField =
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
-      : "current_fytd_app_rcpt_amt"
+      : "current_fytd_net_outly_amt"
+
   let sortedItems =
     chartData &&
     chartData[selectedChartView]?.data.sort((a, b) => {
@@ -171,7 +196,7 @@ const HowMuchDoesTheGovtSpend = () => {
       }}
       header={header}
       footer={footer}
-      date={new Date()}
+      date={lastUpdatedDate}
     >
       {loading ? (
         <div className={loadingIcon}>
@@ -221,9 +246,9 @@ const HowMuchDoesTheGovtSpend = () => {
           >
             <span
               style={{
-                fontWeight: !percentDollarToggleChecked ? "bold" : "inherit",
+                fontWeight: !percentDollarToggleChecked ? "600" : "inherit",
                 marginRight: "4px",
-                color: "#00766C",
+                color: !percentDollarToggleChecked ? "#00766C" : "#666",
                 minWidth: "80px",
               }}
             >
@@ -238,12 +263,14 @@ const HowMuchDoesTheGovtSpend = () => {
                 onColor: "#00766C",
                 offColor: "#00766C",
               }}
+              percentDollarToggleChecked={percentDollarToggleChecked}
+              setPercentDollarToggleChecked={setPercentDollarToggleChecked}
             ></ToggleSwitch>
             <span
               style={{
-                fontWeight: percentDollarToggleChecked ? "bold" : "inherit",
+                fontWeight: percentDollarToggleChecked ? "600" : "inherit",
                 marginLeft: "4px",
-                color: "#00766C",
+                color: percentDollarToggleChecked ? "#00766C" : "#666",
                 marginBottom: "24px",
                 minWidth: "80px",
               }}
@@ -279,7 +306,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 <div
                   className={descContainer}
                   style={{
-                    maxWidth: item.percentage > 10 ? "130px" : "inherit",
+                    maxWidth: item.percentage > 10 ? "140px" : "inherit",
                   }}
                 >
                   {item.classification_desc?.replace("Total--", "")}

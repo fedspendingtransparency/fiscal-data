@@ -72,6 +72,7 @@ describe('SiteHeader', () => {
     fireEvent.mouseEnter(getByTestId('topicsButton'));
     expect(getByText('Debt')).toBeDefined();
     expect(getByText('Deficit')).toBeDefined();
+    expect(getByText('Spending')).toBeDefined();
   })
 
   it('expects that all of the header links are not active/highlighted by default', () => {
