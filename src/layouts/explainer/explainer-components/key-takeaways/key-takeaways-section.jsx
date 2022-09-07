@@ -32,7 +32,6 @@ const getText = (takeaway, glossary) => {
       text,
       glossaryRegex || glossaryString,
       (match, i) => {
-        console.log(match, "MATCH", glossaryTerm)
         return (
           <GlossaryTerm
             term={toTitleCase(glossaryTerm ? glossaryTerm : match)}
