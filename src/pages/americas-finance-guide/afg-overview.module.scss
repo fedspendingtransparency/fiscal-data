@@ -1,0 +1,31 @@
+@import '../../variables.module.scss';
+
+.debtText{
+    color: #b3532d
+}
+.deficitText{
+    color: #4a0072
+}
+
+.middleHeader{
+
+    .middleHeaderHeading{
+        @include headingStyle4;
+        font-size: $font-size-32 !important;
+        font-weight: $light-weight !important;
+        color: #555 !important;
+        margin-left: 1rem;
+    }
+}
+
+
+.comparisonSection{
+    text-align: center;
+
+    .comparisonHeading{
+        font-size: $font-size-32 !important;
+        font-weight: $light-weight !important;
+        color: #555 !important;
+    }
+
+}

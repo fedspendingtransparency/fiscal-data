@@ -1,0 +1,26 @@
+@import 'src/variables.module';
+
+.topicSection{
+    margin-top: 24px !important;
+    margin-bottom: 24px !important;
+
+
+    .topicHeading{
+        @include headingStyle5;
+        color: #555;
+        margin: 1rem 0rem;
+    }
+    .body{
+        @include bodyStyleRegular;
+        margin: 0rem ;       
+    }
+    .link{
+        @include columnLabelCopy7;
+        display: block;
+        margin-top: 1rem !important;
+    }
+    img{
+        width: 100%;
+    }
+    
+}
