@@ -59,8 +59,8 @@ const explainerPagesSource = {
       "015-BFS-2014Q1-07",
     ],
   },
-  "federal-revenue": {
-    slug: "/americas-finance-guide/government-revenue",
+  "government-revenue": {
+    slug: "/americas-finance-guide/",
     breadCrumbLinkName: "Revenue",
     seoConfig: {
       pageTitle: "Government Revenue | U.S. Treasury Fiscal Data",
@@ -72,7 +72,10 @@ const explainerPagesSource = {
       subHeading: `Government revenue is income received from taxes and other sources to pay for government expenditures. The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current FY)}.`,
     },
     relatedDatasets: [
-
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q3-103",
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q1-07",
     ],
   },
 }

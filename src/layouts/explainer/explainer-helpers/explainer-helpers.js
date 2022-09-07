@@ -11,7 +11,7 @@ import {
   nationalDeficitHover,
   federalSpendingActive,
   federalSpendingHover,
-  revenueActive,
+  revenueActive, 
   revenueHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
@@ -45,7 +45,7 @@ export const explainerAnalyticsLabelMap = {
   'national-debt': 'Debt',
   'national-deficit': 'Deficit',
   'federal-spending': 'Spending',
-  'government-revenue': "Revenue"
+  'government-revenue': "Americas Finance Guide"
 }
 
 export const explainerColorMap = {
@@ -124,13 +124,15 @@ export const explainerSocialShareMap = {
     image: baseUrl+'/images/Spending-1200x630.png'
   },
   'government-revenue': {
-    title: '',
-    description: '',
-    body: ' ',
-    emailSubject: '',
-    emailBody: '',
-    url: baseUrl+'',
-    image: baseUrl+''
+    title: 'Fiscal Data Explains Federal Spending',
+    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! '
+      + '#FederalSpending ',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, '
+      + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
+    emailSubject: 'Fiscal Data Explains Federal Spending',
+    emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
+    url: baseUrl+'/americas-finance-guide/',
+    image: baseUrl+'/images/Spending-1200x630.png'
   }
 }
 
@@ -145,7 +147,7 @@ export const explainerHeroMap = {
     component: (glossary) => <FederalSpendingHero />
   },
   'government-revenue': {
-    component: (glossary) => <div>Hero placeholder</div>
+    component: (glossary) => <div> Hero Image Placeholder </div>
   }
 }
 
@@ -153,7 +155,7 @@ export const explainerRelatedDatasetMap = {
   'national-debt': 'See the datasets that relate to the national debt',
   'national-deficit': 'See the datasets behind the national deficit',
   'federal-spending': 'See the datasets that relate to federal spending',
-  'federal-revenue': 'See the datasets that relate to federal revenue',
+  'government-revenue': 'See the datasets that relate to federal spending',
 
 }
 
