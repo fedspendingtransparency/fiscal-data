@@ -19,8 +19,6 @@ export const SpendingOverview = () => {
   const [spendingChange, setSpendingChange] = useState(null);
   const [deficitTerm, setDeficitTerm] = useState(null);
 
-
-
   const deficit = <CustomLink url={'/national-deficit/'}>national deficit</CustomLink>;
   const usaSpending =
     <CustomLink url={'https://www.usaspending.gov/explorer'}>USAspending.gov</CustomLink>;
@@ -32,7 +30,6 @@ export const SpendingOverview = () => {
         if (res.data) {
           const data = res.data[0];
           const priorSpending = data.current_fytd_net_outly_amt;
-          console.log(res.data);
           setLatestCompleteFiscalYear(data.record_fiscal_year);
           setPriorYearSpending(getShortForm(priorSpending.toString(), 1, false));
           setSpendingChange(priorSpending < 0 ? 'more' : 'less');

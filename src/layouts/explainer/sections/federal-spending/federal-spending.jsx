@@ -1,6 +1,6 @@
 import React from "react";
 import {datasetSectionConfig} from "../../explainer-helpers/explainer-helpers";
-import SpendingKeyTakeaways from "./key-takeaways/key-takeaways";
+import SpendingKeyTakeaways from "./key-takeaways/spending-key-takeaways";
 
 import {SpendingOverview} from "./overview/spending-overview";
 import {SpendingCategories} from "./spending-categories/spending-categories";

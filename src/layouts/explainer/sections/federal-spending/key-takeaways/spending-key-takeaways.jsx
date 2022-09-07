@@ -18,10 +18,14 @@ const SpendingKeyTakeaways = () => {
   const [spendingGDPSimple, setSpendingGDPSimple] = useState(0);
 
   useEffect(() => {
-    const endpointUrl = 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+    const endpointUrl = 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,' +
+      'record_date,record_calendar_month,record_fiscal_year&filter=line_code_nbr:eq:5694,'+
+      'record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {
+          console.log("here");
           const data = res.data[0];
           const priorSpending = data.current_fytd_net_outly_amt;
           setSpendingRevComparison(priorSpending < 0 ? 'more' : 'less');
@@ -31,42 +35,42 @@ const SpendingKeyTakeaways = () => {
   }, [])
 
   useEffect(() => {
-    const endpointUrl = 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
-    const beaEndpointUrl = 'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
+    const endpointUrl = 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,'+
+      'prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,'+
+      'record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort='+
+      '-record_date&page[size]=1';
+    const beaEndpointUrl = 'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-'+
+      '9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year='+
+      'X&ResultFormat=JSON';
 
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {
-          const debtData = res.data;
           const data = res.data[0];
           setPriorYearSpending(data.current_fytd_net_outly_amt);
           setLatestCompleteFiscalYear(data.record_fiscal_year);
-          setPriorYearSpendingShort(getShortForm("1", 1, false));
-          console.log('here');
+          setPriorYearSpendingShort(getShortForm(priorYearSpending.toString(), 1, false));
           basicFetch(`${beaEndpointUrl}`)
             .then((bea_res) => {
               if (bea_res.BEAAPI.Results.Data) {
                 const gdpData = bea_res.BEAAPI.Results.Data
                   .filter(entry => entry.LineDescription === 'Gross domestic product');
                 const averagedGDPByYear = [];
-                for (let i = parseInt(debtData[debtData.length - 1].record_fiscal_year);
-                     i <= parseInt(debtData[0].record_fiscal_year); i++) {
-                  const allQuartersForGivenYear = gdpData.filter(entry => (
-                        entry.TimePeriod.includes(i.toString() + 'Q1') ||
-                        entry.TimePeriod.includes(i.toString() + 'Q2') ||
-                        entry.TimePeriod.includes(i.toString() + 'Q3') ||
-                        entry.TimePeriod.includes((i - 1).toString() + 'Q4')));
-                  console.log(allQuartersForGivenYear);
-                  let totalGDP = 0;
-                  allQuartersForGivenYear.forEach(quarter => {
-                    totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
-                  })
-                  averagedGDPByYear.push({
-                    // Correct BEA data to display in trillions
-                    average: ((parseInt(String(totalGDP) + '000000')) / 4),
-                    year: i
-                  })
-                }
+                const allQuartersForGivenYear = gdpData.filter(entry => (
+                  entry.TimePeriod.includes(latestCompleteFiscalYear.toString() + 'Q1') ||
+                  entry.TimePeriod.includes(latestCompleteFiscalYear.toString() + 'Q2') ||
+                  entry.TimePeriod.includes(latestCompleteFiscalYear.toString() + 'Q3') ||
+                  entry.TimePeriod.includes((latestCompleteFiscalYear - 1).toString() + 'Q4')));
+
+                let totalGDP = 0;
+                allQuartersForGivenYear.forEach(quarter => {
+                  totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
+                })
+                averagedGDPByYear.push({
+                  // Correct BEA data to display in trillions
+                  average: ((parseInt(String(totalGDP) + '000000')) / 4),
+                  year: latestCompleteFiscalYear
+                })
                 setSpendingGDPSimple(
                   Math.round((priorYearSpending / averagedGDPByYear[0].average) * 10));
               }
