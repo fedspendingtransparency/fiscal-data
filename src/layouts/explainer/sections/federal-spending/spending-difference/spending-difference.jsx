@@ -66,9 +66,25 @@ export const SpendingDifference = ({ width, glossary }) => {
         Due to authorization laws, the funding for these programs must be
         allocated for spending each year, hence the term mandatory.
       </p>
-      <ChartPlaceholder />
+      <div className={mandatorySpendingContainer}>
+        <img
+          src={
+            width < pxToNumber(breakpointLg)
+              ? MandatorySpendingImgMobile
+              : MandatorySpendingImgDesktop
+          }
+          alt={
+            "Step 1: Existing laws require (mandatory) money for spending each year " +
+            "Step 2: The Treasury issues funds to specific agency spending accounts towards contracts, " +
+            "loans, grants, direct payments, and other financial assistance " +
+            "Step 3: Entitlement program benefits are paid out from these accounts to support " +
+            "people, businesses, and state and local governments "
+          }
+          data-testid={"mandatorySpendingImg"}
+          className={mandatorySpendingImgStyle}
+        />
+      </div>
       <h6>Discretionary Spending</h6>
-
       <p>
         Discretionary spending is money formally approved by Congress and the
         President during the appropriations process each year. Generally,
@@ -113,7 +129,22 @@ export const SpendingDifference = ({ width, glossary }) => {
         }{" "}
         page.
       </p>
-      <ChartPlaceholder />
+      <div className={mandatorySpendingContainer}>
+        <img
+          src={
+            width < pxToNumber(breakpointLg)
+              ? supplementalSpendingMobile
+              : supplementalSpendingDesktop
+          }
+          alt={
+            "Step 1: Congress proposes and votes on legislation for supplemental appropriations " +
+            "Step 2: President enacts the law by signing it " +
+            "Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified"
+          }
+          data-testid={"supplementalSpendingImg"}
+          className={mandatorySpendingImgStyle}
+        />
+      </div>{" "}
       <div className={spendingAccordion}>
         <Accordion title=" What is the process for determining discretionary spending?">
           Discretionary spending is determined by the president and Congress
