@@ -11,7 +11,7 @@ import {
   nationalDeficitHover,
   federalSpendingActive,
   federalSpendingHover,
-  revenueActive, 
+  revenueActive,
   revenueHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
@@ -45,7 +45,7 @@ export const explainerAnalyticsLabelMap = {
   'national-debt': 'Debt',
   'national-deficit': 'Deficit',
   'federal-spending': 'Spending',
-  'americas-finance-guide': "Americas Finance Guide"
+  'government-revenue': "Revenue"
 }
 
 export const explainerColorMap = {
@@ -64,7 +64,7 @@ export const explainerColorMap = {
     secondary: spendingExplainerSecondary,
     secondaryLight: spendingExplainerLightSecondary
   },
-  'americas-finance-guide': {
+  'government-revenue': {
     primary: revenueExplainerPrimary,
     secondary: revenueExplainerSecondary,
     secondaryLight: revenueExplainerLightSecondary
@@ -84,7 +84,7 @@ export const explainerClassMap = {
     active: federalSpendingActive,
     hover: federalSpendingHover
   },
-  'americas-finance-guide': {
+  'government-revenue': {
     active: revenueActive,
     hover: revenueHover
   }
@@ -123,16 +123,14 @@ export const explainerSocialShareMap = {
     url: baseUrl+'/federal-spending/',
     image: baseUrl+'/images/Spending-1200x630.png'
   },
-  'americas-finance-guide': {
-    title: 'Fiscal Data Explains Federal Spending',
-    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! '
-      + '#FederalSpending ',
-    body: 'Check out @FiscalService Fiscal Data’s new topic page, '
-      + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
-    emailSubject: 'Fiscal Data Explains Federal Spending',
-    emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
-    url: baseUrl+'/americas-finance-guide/',
-    image: baseUrl+'/images/Spending-1200x630.png'
+  'government-revenue': {
+    title: '',
+    description: '',
+    body: ' ',
+    emailSubject: '',
+    emailBody: '',
+    url: baseUrl+'',
+    image: baseUrl+''
   }
 }
 
@@ -146,8 +144,8 @@ export const explainerHeroMap = {
   'federal-spending': {
     component: (glossary) => <FederalSpendingHero />
   },
-  'americas-finance-guide': {
-    component: (glossary) => <div >hello</div>
+  'government-revenue': {
+    component: (glossary) => <div>Hero placeholder</div>
   }
 }
 
@@ -155,7 +153,7 @@ export const explainerRelatedDatasetMap = {
   'national-debt': 'See the datasets that relate to the national debt',
   'national-deficit': 'See the datasets behind the national deficit',
   'federal-spending': 'See the datasets that relate to federal spending',
-  'americas-finance-guide': 'See the datasets that relate to federal spending',
+  'federal-revenue': 'See the datasets that relate to federal revenue',
 
 }
 
