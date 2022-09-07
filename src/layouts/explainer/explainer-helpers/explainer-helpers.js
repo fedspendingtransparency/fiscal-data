@@ -45,7 +45,7 @@ export const explainerAnalyticsLabelMap = {
   'national-debt': 'Debt',
   'national-deficit': 'Deficit',
   'federal-spending': 'Spending',
-  'americas-finance-guide': "Americas Finance Guide"
+  'government-revenue': "Americas Finance Guide"
 }
 
 export const explainerColorMap = {
@@ -64,7 +64,7 @@ export const explainerColorMap = {
     secondary: spendingExplainerSecondary,
     secondaryLight: spendingExplainerLightSecondary
   },
-  'americas-finance-guide': {
+  'government-revenue': {
     primary: revenueExplainerPrimary,
     secondary: revenueExplainerSecondary,
     secondaryLight: revenueExplainerLightSecondary
@@ -84,7 +84,7 @@ export const explainerClassMap = {
     active: federalSpendingActive,
     hover: federalSpendingHover
   },
-  'americas-finance-guide': {
+  'government-revenue': {
     active: revenueActive,
     hover: revenueHover
   }
@@ -123,7 +123,7 @@ export const explainerSocialShareMap = {
     url: baseUrl+'/federal-spending/',
     image: baseUrl+'/images/Spending-1200x630.png'
   },
-  'americas-finance-guide': {
+  'government-revenue': {
     title: 'Fiscal Data Explains Federal Spending',
     description: 'Check out @FiscalService Fiscal Data’s new federal spending page! '
       + '#FederalSpending ',
@@ -146,7 +146,7 @@ export const explainerHeroMap = {
   'federal-spending': {
     component: (glossary) => <FederalSpendingHero />
   },
-  'americas-finance-guide': {
+  'government-revenue': {
     component: (glossary) => <div >hello</div>
   }
 }
@@ -155,7 +155,7 @@ export const explainerRelatedDatasetMap = {
   'national-debt': 'See the datasets that relate to the national debt',
   'national-deficit': 'See the datasets behind the national deficit',
   'federal-spending': 'See the datasets that relate to federal spending',
-  'americas-finance-guide': 'See the datasets that relate to federal spending',
+  'government-revenue': 'See the datasets that relate to federal spending',
 
 }
 

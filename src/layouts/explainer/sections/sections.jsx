@@ -53,13 +53,13 @@ const explainerSections = {
   "national-debt": nationalDebtSections,
   "national-deficit": nationalDeficitSections,
   "federal-spending": federalSpendingSection,
-  "americas-finance-guide": mockRevenueSection,
+  "government-revenue": mockRevenueSection,
 }
 export const explainerDataSources = {
   "national-debt": nationalDebtDataSources,
   "national-deficit": nationalDeficitDataSources,
   "federal-spending": federalSpendingDataSources,
-  "americas-finance-guide": federalSpendingDataSources,
+  "government-revenue": federalSpendingDataSources,
 }
 
 export const explainerDescriptionGenerators = {

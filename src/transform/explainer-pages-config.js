@@ -59,7 +59,7 @@ const explainerPagesSource = {
       "015-BFS-2014Q1-07",
     ],
   },
-  "americas-finance-guide": {
+  "government-revenue": {
     slug: "/americas-finance-guide/",
     breadCrumbLinkName: "Revenue",
     seoConfig: {
