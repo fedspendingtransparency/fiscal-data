@@ -3,7 +3,6 @@ import {
   revenueExplainerLightSecondary,
   revenueExplainerPrimary
 } from "./revenue.module.scss";
-import {ChartPlaceholder} from "../../explainer-helpers/federal-spending/federal-spending-helper";
 import React from "react";
 import {revenueKeyTakeaways} from
     "../../explainer-helpers/government-revenue/government-revenue-helper";

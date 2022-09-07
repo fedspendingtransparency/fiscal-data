@@ -52,6 +52,9 @@ const SourcesOfFederalRevenue = () => {
         Medicare Part A, and the Supplementary Medicare Insurance Trust Fund (SMI). These funds pay
         for hospital, home health, skilled nursing, and hospice care for the elderly and disabled.
       </p>
+      <div>
+        quote box placeholder
+      </div>
     </div>
   );
 }
