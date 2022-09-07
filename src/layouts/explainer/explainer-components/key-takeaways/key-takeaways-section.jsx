@@ -25,15 +25,17 @@ const getText = (takeaway, glossary) => {
     glossaryRegex,
     text,
     glossaryString,
+    glossaryTerm,
   } = takeaway
   if (hasGlossaryTerm) {
     return reactStringReplace(
       text,
       glossaryRegex || glossaryString,
       (match, i) => {
+        console.log(match, "MATCH", glossaryTerm)
         return (
           <GlossaryTerm
-            term={toTitleCase(match)}
+            term={toTitleCase(glossaryTerm ? glossaryTerm : match)}
             page={page}
             glossary={glossary}
             key={i}

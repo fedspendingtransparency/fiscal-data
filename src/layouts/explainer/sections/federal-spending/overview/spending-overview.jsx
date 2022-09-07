@@ -2,9 +2,7 @@ import React from "react"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import { visWithCallout } from "../../../explainer.module.scss"
 import VisualizationCallout from "../../../../../components/visualization-callout/visualization-callout"
-import reactStringReplace from "react-string-replace"
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term"
-import { toTitleCase } from "../../../explainer-components/key-takeaways/key-takeaways-section"
 import {
   spendingExplainerPrimary,
   spendingExplainerSecondary,
@@ -60,29 +58,30 @@ export const SpendingOverview = ({ glossary }) => {
       USAspending.gov
     </CustomLink>
   )
-  let content = `The federal government spends money on a variety of goods, programs, and
-  services that support the economy and people of the United States. The federal
-  government also spends money on the interest it has incurred on outstanding
-  federal debt. Consequently, as the debt grows, the spending on interest expense
-  also generally grows. If the government spends more than it collects in revenue,
-  then there is a budget deficit. If the government spends less than it collects in
-  revenue, there is a budget surplus.`
-
-  content = reactStringReplace(content, "federal debt", (match, i) => (
+  const federalDebt = (
     <GlossaryTerm
-      term={toTitleCase(match)}
+      term={"Federal Debt"}
       page={"Spending Explainer"}
       glossary={glossary}
-      key={i}
     >
-      {match}
+      federal debt
     </GlossaryTerm>
-  ))
+  )
+
   return (
     <>
       <div className={visWithCallout}>
         <div>
-          <p>{content}</p>
+          <p>
+            The federal government spends money on a variety of goods, programs,
+            and services that support the economy and people of the United
+            States. The federal government also spends money on the interest it
+            has incurred on outstanding {federalDebt}. Consequently, as the debt
+            grows, the spending on interest expense also generally grows. If the
+            government spends more than it collects in revenue, then there is a
+            budget deficit. If the government spends less than it collects in
+            revenue, there is a budget surplus
+          </p>
           <p>
             If the government spends more than it collects in {revenue}, then
             there is a budget deficit. If the government spends less than it

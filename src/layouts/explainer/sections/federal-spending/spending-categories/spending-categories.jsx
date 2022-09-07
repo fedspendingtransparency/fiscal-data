@@ -9,20 +9,8 @@ import {
   spendingExplainerPrimary,
 } from "../federal-spending.module.scss"
 import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend"
-import reactStringReplace from "react-string-replace"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 export const SpendingCategories = () => {
-  const accContent = `Each year, the Social Security and Medicare Boards of Trustees publish their Annual Report on the Financial Status of Social Security and Medicare. The Boards’ projections
-  indicate that spending will continue to increase. As the average age of Americans
-  increases, more funding is needed to support entitlement programs like Social Security,
-  Medicare, and retirement and disability services for both military and civil servants`
-  const contentWithLink = reactStringReplace(
-    accContent,
-    "Annual Report on the Financial Status of Social Security and Medicare.",
-    (match, i) => (
-      <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}>{match}</CustomLink>
-    )
-  )
   return (
     <div className={spendingCategoriesContent}>
       <p>
@@ -50,7 +38,19 @@ export const SpendingCategories = () => {
       </div>
       <div className={spendingAccordion}>
         <Accordion title="What does the future of Social Security and Medicare look like?">
-          {contentWithLink}
+          Each year, the Social Security and Medicare Boards of Trustees publish
+          their
+          {
+            <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}>
+              Annual Report on the Financial Status of Social Security and
+              Medicare.
+            </CustomLink>
+          }
+          The Boards’ projections indicate that spending will continue to
+          increase. As the average age of Americans increases, more funding is
+          needed to support entitlement programs like Social Security, Medicare,
+          and retirement and disability services for both military and civil
+          servants{" "}
         </Accordion>
       </div>
     </div>

@@ -31,7 +31,8 @@ export const spendingKeyTakeaways = [
     than it collected (revenue), resulting in a {deficit/surplus}. `,
     icon: faHandHoldingDollar,
     hasGlossaryTerm: true,
-    glossaryString: "fiscal year ",
+    glossaryString: "fiscal year (FY)",
+    glossaryTerm: "fiscal year",
     page: "Debt & Spending explainer",
   },
   {
