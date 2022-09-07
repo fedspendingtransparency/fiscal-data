@@ -6,7 +6,6 @@ import {SpendingOverview} from "./overview/spending-overview";
 import {SpendingCategories} from "./spending-categories/spending-categories";
 import SpendingDifference from "./spending-difference/spending-difference";
 import {SpendingTrends} from "./spending-trends/spending-trends";
-
 export const nationalDeficitSectionIds = [
   'key-takeaways',
   'understanding',
@@ -47,7 +46,7 @@ const federalSpendingSection = [
   {
     index: 4,
     id: nationalDeficitSectionIds[4],
-    title: 'Spending Trends Over Time',
+    title: 'Spending Trends Over Time and the U.S. Economy',
     comingSoon: true,
     component: (glossary, cpiDataByYear) => <SpendingTrends />
   }
