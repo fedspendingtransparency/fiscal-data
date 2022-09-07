@@ -43,8 +43,9 @@ const explainerPagesSource = {
     slug: "/federal-spending/",
     breadCrumbLinkName: "Spending",
     seoConfig: {
-      pageTitle: "Federal Spending | U.S. Treasury Fiscal Data",
-      description: `Explore federal spending by category or agency and learn how much the United States government spends each year.`,
+      pageTitle: "Federal Spending",
+      description: `Explore federal spending by category or agency and learn how much the United
+      States government spends each year.`,
     },
     prodReady: true,
     heroImage: {
@@ -56,6 +57,28 @@ const explainerPagesSource = {
       "015-BFS-2014Q3-103",
       "015-BFS-2014Q1-03",
       "015-BFS-2014Q1-07",
+    ],
+  },
+  "government-revenue": {
+    slug: "/americas-finance-guide/government-revenue/",
+    breadCrumbLinkName: "Revenue",
+    seoConfig: {
+      pageTitle: "Government Revenue",
+      description: `Learn how much the U.S. government collects in revenue, and what types of
+      revenue it brings in.`,
+    },
+    prodReady: false,
+    heroImage: {
+      heading: "How much revenue has the U.S. government collected this year? ",
+      subHeading: `Government revenue is income received from taxes and other sources to pay for
+      government expenditures. The U.S. government has collected {$XX.X trillion (total revenue)}
+      in fiscal year {YYYY (current FY)}.`,
+    },
+    relatedDatasets: [
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q1-04",
+      "015-BFS-2020Q4-yy",
+      "015-BFS-2014Q1-07"
     ],
   },
 }
