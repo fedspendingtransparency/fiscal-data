@@ -47,18 +47,19 @@ export const TopicsSection = ({images, width}) => {
         <ThemeProvider theme={theme}>
           <Grid container spacing={4}>
             <Grid item lg={mainWidth}>
-              <ExplainerTile content={pageTileMap['deficit']}
-                             images={images}
-                             width={width}
-              />
-            </Grid>
-            {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
-            <Grid item lg={secondaryWidth}>
               <ExplainerTile content={pageTileMap['spending']}
                              images={images}
                              width={width}
 
               />
+            </Grid>
+            {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
+            <Grid item lg={secondaryWidth}>
+              <ExplainerTile content={pageTileMap['deficit']}
+                             images={images}
+                             width={width}
+              />
+
               <div className={line}/>
               <ExplainerTile lg={{mt: 2}} content={pageTileMap['debt']}
                              images={images}
