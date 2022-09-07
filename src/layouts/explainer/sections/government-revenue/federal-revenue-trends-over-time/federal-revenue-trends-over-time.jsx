@@ -6,6 +6,7 @@ import React from "react";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
+import {customCallout} from "./federal-trends-over-time.scss"
 
 const FederalRevenueTrendsOverTime = () => {
 
@@ -23,7 +24,6 @@ const FederalRevenueTrendsOverTime = () => {
             when individuals or corporations make less money or the tax rate is lowered,
             the government earns less revenue.
           </p>
-          <p>
             If the U.S. government increases tariffs on imports from
             a particular country or countries,
             it could increase revenues, depending on the level of trade the U.S.
@@ -31,14 +31,13 @@ const FederalRevenueTrendsOverTime = () => {
             However, if tariffs increase and U.S. consumers import
             fewer goods as a result of the higher prices,
             then revenue from customs duties could decrease overall.
-          </p>
         </div>
-        <VisualizationCallout color={revenueExplainerPrimary} textWithCallout={true}>
-          <p>
-            Individual income tax has remained the top source of income for the U.S.
-            government since (YYYY)
-          </p>
-        </VisualizationCallout>
+          <VisualizationCallout color={revenueExplainerPrimary} customTopMargin={'2.8%'}>
+            <p>
+              Individual income tax has remained the top source of income for the U.S.
+              government since (YYYY)
+            </p>
+          </VisualizationCallout>
       </div>
       <p>
         The chart below shows how federal revenue has changed over time, broken out by the
