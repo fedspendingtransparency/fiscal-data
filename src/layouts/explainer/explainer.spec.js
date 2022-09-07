@@ -161,3 +161,42 @@ describe('Spending explainer', () => {
     expect(dataSourcesMethodologies).toBeInTheDocument();
   })
 })
+
+describe('Revenue explainer', () => {
+  const breadCrumbLinkName = 'mock link';
+  const seoConfig = {
+    pageTitle: 'mock title',
+    description: 'mock description'
+  };
+  const heroImage = {
+    heading: 'mock heading',
+    subHeading: 'mock subheading'
+  }
+  const glossary = [];
+  const mockPageContext = {
+    breadCrumbLinkName,
+    seoConfig,
+    heroImage,
+    glossary
+  }
+
+  it('renders the revenue explainer page', async () => {
+    const pageName = 'government-revenue';
+    const spendingPageContext = {
+      pageName,
+      ...mockPageContext
+    }
+
+    const { findAllByTestId, findByText } = render(
+      <ExplainerPageLayout
+        pageContext={spendingPageContext}
+      />
+    );
+
+    const sectionHeadings = await findAllByTestId('section-heading')
+    expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
+
+    const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
+    expect(dataSourcesMethodologies).toBeInTheDocument();
+  })
+})
