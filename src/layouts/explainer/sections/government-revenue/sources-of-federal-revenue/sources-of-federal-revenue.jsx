@@ -5,12 +5,13 @@ import React from "react";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
+import {sourcesContent} from "./sources-of-federal-revenue.module.scss";
 
 
 const SourcesOfFederalRevenue = () => {
 
-  return(
-    <div>
+  return (
+    <div className={sourcesContent}>
       <p>
         Most of the revenue the U.S. government collects comes from contributions from individual
         taxpayers, small businesses, and corporations through taxes. Additional sources of tax
