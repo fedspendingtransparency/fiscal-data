@@ -45,7 +45,7 @@ export const explainerAnalyticsLabelMap = {
   'national-debt': 'Debt',
   'national-deficit': 'Deficit',
   'federal-spending': 'Spending',
-  'government-revenue': "Americas Finance Guide"
+  'government-revenue': 'Revenue'
 }
 
 export const explainerColorMap = {
