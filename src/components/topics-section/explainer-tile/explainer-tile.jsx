@@ -45,7 +45,7 @@ const ExplainerTile =({content, images, width}) => {
           {content.title}
         </h5>
         <div>
-          {content.body}
+          {content.bodyGenerator ? content.bodyGenerator() : content.body}
         </div>
       </div>
     </div>;

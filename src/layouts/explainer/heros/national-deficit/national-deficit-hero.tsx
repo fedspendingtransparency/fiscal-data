@@ -76,6 +76,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         setDesktopPriorDeficit(numberWithCommas(
           parseFloat(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed())));
         const date = new Date();
+        date.setDate(15);
         date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
         setCurrentRecordMonth(date.toLocaleString('en-US', {
           month: 'short',
@@ -134,6 +135,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
     </CustomLink>;
 
   const debt = <CustomLink url={'/national-debt/'}>Debt</CustomLink>;
+  const spending = <CustomLink url={'/federal-spending/'}>Spending</CustomLink>
 
   const fiscalYear =
     <GlossaryTerm term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >
@@ -199,7 +201,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
           <p>
             This topic is the second of four U.S. government financial concepts from Your Guide to
             America’s Finances with more being added in the coming months. We’ll help you learn more
-            about money coming in (Revenue), money going out (Spending), and the Deficit and {debt}.
+            about money coming in (Revenue), money going out ({spending}), and the Deficit and {debt}.
           </p>
         </div>
       </div>

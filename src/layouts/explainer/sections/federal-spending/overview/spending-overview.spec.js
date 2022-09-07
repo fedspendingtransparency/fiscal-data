@@ -13,4 +13,10 @@ describe('Federal Spending Overview', () => {
     const {getByRole} = render(<SpendingOverview />);
     expect(getByRole('link', {name: 'USAspending.gov'})).toBeInTheDocument();
   });
+
+  it('renders the quotebox', () => {
+    const { getByTestId } = render(<SpendingOverview />);
+    expect(getByTestId('quote-box')).toBeInTheDocument();
+  });
+
 });

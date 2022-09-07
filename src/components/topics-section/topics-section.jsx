@@ -16,7 +16,6 @@ import {pxToNumber} from "../../helpers/styles-helper/styles-helper";
 import {pageTileMap} from "./explainer-tile/explainer-tile-helper";
 
 
-
 export const TopicsSection = ({images, width}) => {
   const mainWidth = 8;
   const secondaryWidth = 4;
@@ -30,7 +29,7 @@ export const TopicsSection = ({images, width}) => {
   })
 
   return (
-    <div className={topicsSectionContainer} >
+    <div className={topicsSectionContainer}>
       <div className={sectionHeader}>
         TOPICS
       </div>
@@ -41,24 +40,32 @@ export const TopicsSection = ({images, width}) => {
         </div>
       </h5>
       <i>
-        Fiscal Data presents the second of four concepts from Your Guide to America’s Finances,
-        which will be added in the coming months.
+        Fiscal Data presents the third of four concepts from Your Guide
+        to America’s Finances, which will be added in the coming months.
       </i>
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4}>
             <Grid item lg={mainWidth}>
-              <ExplainerTile content={pageTileMap['deficit']}
+              <ExplainerTile content={pageTileMap['spending']}
                              images={images}
                              width={width}
               />
             </Grid>
-            {width < pxToNumber(breakpointLg) ? <div className={line} /> : undefined}
+            {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
             <Grid item lg={secondaryWidth}>
-              <ExplainerTile content={pageTileMap['debt']}
+
+              <ExplainerTile content={pageTileMap['deficit']}
+                             images={images}
+                             width={width}
+
+              />
+              <div className={line}/>
+              <ExplainerTile  content={pageTileMap['debt']}
                              images={images}
                              width={width}
               />
+
             </Grid>
           </Grid>
         </ThemeProvider>

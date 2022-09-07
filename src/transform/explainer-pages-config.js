@@ -46,7 +46,7 @@ const explainerPagesSource = {
       pageTitle: "Federal Spending | U.S. Treasury Fiscal Data",
       description: `Explore federal spending by category or agency and learn how much the United States government spends each year.`,
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: "How much has the U.S. government spent this year?",
       subHeading: "",

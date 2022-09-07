@@ -6,6 +6,13 @@ import { spendingExplainerPrimary } from "../federal-spending.module.scss"
 import reactStringReplace from "react-string-replace"
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term"
 import { toTitleCase } from "../../../explainer-components/key-takeaways/key-takeaways-section"
+import {
+  spendingExplainerPrimary,
+  spendingExplainerSecondary,
+  spendingExplainerLightSecondary,
+} from "../federal-spending.module.scss"
+import QuoteBox from "../../../quote-box/quote-box"
+import { faFlagUsa } from "@fortawesome/free-solid-svg-icons"
 export const SpendingOverview = ({ glossary }) => {
   const deficit = (
     <CustomLink url={"/national-deficit/"}>national deficit</CustomLink>
@@ -122,13 +129,19 @@ export const SpendingOverview = ({ glossary }) => {
           </p>
         </VisualizationCallout>
       </div>
-      <p>
-        According to the Constitution’s Preamble, the purpose of the federal
-        government is “…to establish Justice, insure domestic Tranquility,
-        provide for the common defense, promote the general Welfare, and secure
-        the Blessings of Liberty to ourselves and our Posterity.” These goals
-        are achieved through government spending.
-      </p>
+      <QuoteBox
+        icon={faFlagUsa}
+        primaryColor={spendingExplainerSecondary}
+        secondaryColor={spendingExplainerLightSecondary}
+      >
+        <p>
+          According to the Constitution’s Preamble, the purpose of the federal
+          government is “…to establish Justice, insure domestic Tranquility,
+          provide for the common defense, promote the general Welfare, and
+          secure the Blessings of Liberty to ourselves and our Posterity.” These
+          goals are achieved through government spending.
+        </p>
+      </QuoteBox>
     </>
   )
 }

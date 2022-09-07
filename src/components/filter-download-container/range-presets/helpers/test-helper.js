@@ -28,8 +28,8 @@ export const PRESETS = {
 };
 
 export const TABLE_OBJ = {
-  earliest_date: '2001-01-01',
-  latest_date: '2021-01-01'
+  earliestDate: '2001-01-01',
+  latestDate: '2021-01-06'
 };
 
 // just to simplify the output ranges for testing clarity
