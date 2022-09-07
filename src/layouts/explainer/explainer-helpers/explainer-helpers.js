@@ -147,7 +147,7 @@ export const explainerHeroMap = {
     component: (glossary) => <FederalSpendingHero />
   },
   'government-revenue': {
-    component: (glossary) => <div >hello</div>
+    component: (glossary) => <div> Hero Image Placeholder </div>
   }
 }
 
