@@ -1,0 +1,50 @@
+@import '../../../../variables.module.scss';
+
+$revenue-explainer-primary: #0a2f5a;
+$revenue-explainer-secondary: #0a2f5a;
+$revenue-explainer-light-secondary: #9dabbd;
+
+.spendingAccordion {
+  :global(.accordionHeading) {
+    font-size: $font-size-18;
+    color: $revenue-explainer-primary;
+    border: none;
+    padding: .75rem 1rem;
+  }
+
+  :global(.accordionToggle) {
+    svg path {
+      color: $revenue-explainer-primary;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-sm - 1) {
+    :global(.accordionToggle) {
+      padding-left: 1.5rem;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-lg - 1) {
+    margin-top: 2rem;
+  }
+
+  :global(.accordionContent) {
+    padding-right:1.25rem;
+    padding-left:1.25rem;
+    padding-bottom:1.5rem;
+    border: none;
+  }
+
+  :global(.accordionOpen), :global(.accordionClosed) {
+    border: solid 0.06rem $revenue-explainer-primary;
+    border-radius: 0.13rem;
+  }
+}
+
+
+:export {
+  revenueExplainerPrimary: $revenue-explainer-primary;
+  revenueExplainerSecondary: $revenue-explainer-secondary;
+  revenueExplainerLightSecondary: $revenue-explainer-light-secondary;
+}
+

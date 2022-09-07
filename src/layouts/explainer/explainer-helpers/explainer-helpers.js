@@ -10,7 +10,9 @@ import {
   nationalDeficitActive,
   nationalDeficitHover,
   federalSpendingActive,
-  federalSpendingHover
+  federalSpendingHover,
+  revenueActive,
+  revenueHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import globalConstants from "../../../helpers/constants";
@@ -25,6 +27,11 @@ import {
   spendingExplainerSecondary,
   spendingExplainerLightSecondary
 } from "../sections/federal-spending/federal-spending.module.scss";
+import {
+  revenueExplainerPrimary,
+  revenueExplainerSecondary,
+  revenueExplainerLightSecondary
+} from "../sections/government-revenue/revenue.module.scss";
 import FederalSpendingHero from "../heros/federal-spending/federal-spending-hero";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
@@ -38,6 +45,7 @@ export const explainerAnalyticsLabelMap = {
   'national-debt': 'Debt',
   'national-deficit': 'Deficit',
   'federal-spending': 'Spending',
+  'government-revenue': 'Revenue'
 }
 
 export const explainerColorMap = {
@@ -55,6 +63,11 @@ export const explainerColorMap = {
     primary: spendingExplainerPrimary,
     secondary: spendingExplainerSecondary,
     secondaryLight: spendingExplainerLightSecondary
+  },
+  'government-revenue': {
+    primary: revenueExplainerPrimary,
+    secondary: revenueExplainerSecondary,
+    secondaryLight: revenueExplainerLightSecondary
   }
 }
 
@@ -70,6 +83,10 @@ export const explainerClassMap = {
   'federal-spending': {
     active: federalSpendingActive,
     hover: federalSpendingHover
+  },
+  'government-revenue': {
+    active: revenueActive,
+    hover: revenueHover
   }
 }
 
@@ -105,6 +122,17 @@ export const explainerSocialShareMap = {
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
     url: baseUrl+'/federal-spending/',
     image: baseUrl+'/images/Spending-1200x630.png'
+  },
+  'government-revenue': {
+    title: 'Fiscal Data Explains Federal Spending',
+    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! '
+      + '#FederalSpending ',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, '
+      + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
+    emailSubject: 'Fiscal Data Explains Federal Spending',
+    emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
+    url: baseUrl+'/americas-finance-guide/',
+    image: baseUrl+'/images/Spending-1200x630.png'
   }
 }
 
@@ -117,6 +145,9 @@ export const explainerHeroMap = {
   },
   'federal-spending': {
     component: (glossary) => <FederalSpendingHero />
+  },
+  'government-revenue': {
+    component: (glossary) => <div> Hero Image Placeholder </div>
   }
 }
 
@@ -124,6 +155,8 @@ export const explainerRelatedDatasetMap = {
   'national-debt': 'See the datasets that relate to the national debt',
   'national-deficit': 'See the datasets behind the national deficit',
   'federal-spending': 'See the datasets that relate to federal spending',
+  'government-revenue': 'See the datasets that relate to government revenue',
+
 }
 
 export const datasetSectionConfig = {
