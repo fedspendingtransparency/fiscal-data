@@ -1,11 +1,10 @@
-import {
-  textContent
-} from "../../national-deficit/understanding/understanding-deficit.module.scss";
+import {textContent} from "../../national-deficit/understanding/understanding-deficit.module.scss";
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
-import {ChartPlaceholder} from "../../../explainer-helpers/federal-spending/federal-spending-helper";
+import {ChartPlaceholder} from
+    "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
 
 const FederalRevenueTrendsOverTime = () => {
@@ -26,24 +25,26 @@ const FederalRevenueTrendsOverTime = () => {
           </p>
           <VisualizationCallout color={revenueExplainerPrimary} textWithCallout={true}>
             <p>
-              Individual income tax has remained the top source of income for the U.S. government since (YYYY)
+              Individual income tax has remained the top source of income for the U.S.
+              government since (YYYY)
             </p>
           </VisualizationCallout>
-          <p>
-            If the U.S. government increases tariffs on imports from
-            a particular country or countries,
-            it could increase revenues, depending on the level of trade the U.S.
-            continues to do with those countries.
-            However, if tariffs increase and U.S. consumers import
-            fewer goods as a result of the higher prices,
-            then revenue from customs duties could decrease overall.
-          </p>
         </div>
-        <p>
-          The chart below shows how federal revenue has changed over time, broken out by the various source categories.
-        </p>
-        <ChartPlaceholder/>
       </div>
+      <p>
+        If the U.S. government increases tariffs on imports from
+        a particular country or countries,
+        it could increase revenues, depending on the level of trade the U.S.
+        continues to do with those countries.
+        However, if tariffs increase and U.S. consumers import
+        fewer goods as a result of the higher prices,
+        then revenue from customs duties could decrease overall.
+      </p>
+      <p>
+        The chart below shows how federal revenue has changed over time, broken out by the
+        various source categories.
+      </p>
+      <ChartPlaceholder/>
     </div>
   );
 }
