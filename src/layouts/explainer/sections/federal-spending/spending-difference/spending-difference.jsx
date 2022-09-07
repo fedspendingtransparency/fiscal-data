@@ -1,5 +1,4 @@
 import React, { useEffect } from "react"
-import { ChartPlaceholder } from "../../../explainer-helpers/federal-spending/federal-spending-helper"
 import {
   spendingDifferenceContent,
   mandatorySpendingImgStyle,
@@ -14,6 +13,11 @@ import discretionarySpendingDesktop from "../../../../../../static/images/discre
 import discretionarySpendingMobile from "../../../../../../static/images/discretionary-spending_mobile.png"
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
+import supplementalSpendingDesktop from "../../../../../../static/images/supplemental-spending_desktop.png"
+import supplementalSpendingMobile from "../../../../../../static/images/supplemental-spending_mobile.png"
+import MandatorySpendingImgDesktop from "../../../../../../static/images/mandatory-spending_desktop.png"
+import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png"
+
 export const SpendingDifference = ({ width, glossary }) => {
   useEffect(() => {
     console.log(width)
