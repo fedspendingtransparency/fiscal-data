@@ -28,6 +28,7 @@ export const pageTileMap = {
       'exchange money in the foreground.',
     desktopImage: 'homepage_spending_1200x630',
     mobileImage: 'homepage_spending_square',
+    mainFeature: true,
     path: '/federal-spending/'
   },
   'deficit': {
@@ -38,7 +39,6 @@ export const pageTileMap = {
       'graph, and lit lightbulb.',
     desktopImage: 'homepage_deficit_1200x630',
     mobileImage: 'homepage_deficit_square',
-    mainFeature: true,
     path: '/national-deficit/'
   }
 };

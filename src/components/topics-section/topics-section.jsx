@@ -50,18 +50,18 @@ export const TopicsSection = ({images, width}) => {
               <ExplainerTile content={pageTileMap['spending']}
                              images={images}
                              width={width}
-
               />
             </Grid>
             {width < pxToNumber(breakpointLg) ? <div className={line}/> : undefined}
             <Grid item lg={secondaryWidth}>
+
               <ExplainerTile content={pageTileMap['deficit']}
                              images={images}
                              width={width}
-              />
 
+              />
               <div className={line}/>
-              <ExplainerTile lg={{mt: 2}} content={pageTileMap['debt']}
+              <ExplainerTile  content={pageTileMap['debt']}
                              images={images}
                              width={width}
               />
