@@ -1,62 +1,30 @@
-import React from "react"
-import { nationalDeficitDataSources } from "../explainer-helpers/national-deficit/national-deficit-helper"
-import nationalDeficitSections from "./national-deficit/national-deficit"
-import nationalDebtSections, {
-  nationalDebtDataSources,
-  nationalDebtDescriptionGenerator,
-} from "./national-debt/national-debt"
-import federalSpendingSection from "./federal-spending/federal-spending"
-import { federalSpendingDataSources } from "../explainer-helpers/federal-spending/federal-spending-helper"
+import KeyTakeawaysSection from "../../explainer-components/key-takeaways/key-takeaways-section";
 import {
-  revenueExplainerPrimary,
-  revenueExplainerSecondary,
   revenueExplainerLightSecondary,
-} from "./government-revenue/revenue.module.scss"
-import KeyTakeawaysSection from "../explainer-components/key-takeaways/key-takeaways-section"
-import { SpendingOverview } from "./federal-spending/overview/spending-overview"
-import { SpendingCategories } from "./federal-spending/spending-categories/spending-categories"
-import SpendingDifference from "./federal-spending/spending-difference/spending-difference"
-import { SpendingTrends } from "./federal-spending/spending-trends/spending-trends"
-import { spendingKeyTakeaways } from "../explainer-helpers/federal-spending/federal-spending-helper"
-import {
-  faHandHoldingDollar,
-  faCommentDollar,
-  faPiggyBank,
-} from "@fortawesome/free-solid-svg-icons"
-import { ChartPlaceholder } from "../explainer-helpers/federal-spending/federal-spending-helper"
-import Accordion from "../../../components/accordion/accordion"
-import QuoteBox from "../quote-box/quote-box"
-import { faFlagUsa } from "@fortawesome/free-solid-svg-icons"
+  revenueExplainerPrimary,
+  revenueExplainerSecondary
+} from "./revenue.module.scss";
+import {ChartPlaceholder} from "../../explainer-helpers/federal-spending/federal-spending-helper";
+import Accordion from "../../../../components/accordion/accordion";
+import QuoteBox from "../../quote-box/quote-box";
+import {faFlagUsa} from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import {revenueKeyTakeaways} from "../sections";
 
-const nationalDeficitSectionIds = [
-  "key-takeaways1",
-  "understanding1",
-  "causes-and-sur1pluses",
-  "deficit-vs-deb1t",
-  "deficit-by-year1",
-  "1learn-more",
+
+const governmentRevenueSectionIds = [
+  "key-takeaways",
+  "federal-revenue-overview",
+  "sources-of-federal-revenue",
+  "federal-revenue-trends-over-time",
+  "federal-revenue-trends-and-us-economy"
 ]
 
-export const revenueKeyTakeaways = [
-  {
-    text: `The primary sources of revenue for the U.S. government are taxes on individual and corporate income, Social Security, and Medicare. This income is used to fund a variety of goods, programs, and services to support the American public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`,
-    icon: faHandHoldingDollar,
-  },
-  {
-    text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `,
-    icon: faCommentDollar,
-  },
-  {
-    text:
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    icon: faPiggyBank,
-  },
-]
 
-const mockRevenueSection = [
+const governmentRevenueSections = [
   {
     index: 0,
-    id: nationalDeficitSectionIds[0],
+    id: governmentRevenueSectionIds[0],
     title: "Key Takeaways",
     component: (glossary, cpiDataByYear) => (
       <KeyTakeawaysSection
@@ -69,7 +37,7 @@ const mockRevenueSection = [
 
   {
     index: 1,
-    id: nationalDeficitSectionIds[1],
+    id: governmentRevenueSectionIds[1],
     title: "Federal Revenue Overview",
     component: (glossary, cpiDataByYear) =>
       `Where does the money come from? If you lived or worked in the United States in {YYYY (latest complete fiscal year}, most likely your contributions are part of the {$X.XX trillion} collected in revenue. The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes from people who live, work, or do business in the United States each fiscal year. It also collects revenue from services like admission to national parks and customs duties. In FY {YYYY (latest complete fiscal year)}, the federal government spent {$X.XX trillion}. Since the government spent {more/less} than it collected, the {deficit/surplus} for {YYYY (latest complete fiscal year)} was {$X.XX trillion}.  `,
@@ -77,7 +45,7 @@ const mockRevenueSection = [
 
   {
     index: 2,
-    id: nationalDeficitSectionIds[2],
+    id: governmentRevenueSectionIds[2],
     title: "Sources of Federal Revenue",
     component: (glossary, cpiDataByYear) => {
       return (
@@ -125,7 +93,7 @@ const mockRevenueSection = [
   },
   {
     index: 3,
-    id: nationalDeficitSectionIds[3],
+    id: governmentRevenueSectionIds[3],
     title: "Federal Revenue Trends Over Time",
     component: (glossary, cpiDataByYear) => {
       return (
@@ -155,7 +123,7 @@ const mockRevenueSection = [
   },
   {
     index: 4,
-    id: nationalDeficitSectionIds[4],
+    id: governmentRevenueSectionIds[4],
     title: "Federal Revenue Trends and the U.S. Economy",
     component: (glossary, cpiDataByYear) => {
       return (
@@ -169,21 +137,5 @@ const mockRevenueSection = [
     },
   },
 ]
-const explainerSections = {
-  "national-debt": nationalDebtSections,
-  "national-deficit": nationalDeficitSections,
-  "federal-spending": federalSpendingSection,
-  "government-revenue": mockRevenueSection,
-}
-export const explainerDataSources = {
-  "national-debt": nationalDebtDataSources,
-  "national-deficit": nationalDeficitDataSources,
-  "federal-spending": federalSpendingDataSources,
-  "government-revenue": federalSpendingDataSources,
-}
 
-export const explainerDescriptionGenerators = {
-  "national-debt": nationalDebtDescriptionGenerator,
-}
-
-export default explainerSections
+export default governmentRevenueSections;

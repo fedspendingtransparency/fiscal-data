@@ -11,7 +11,7 @@ import {
   nationalDeficitHover,
   federalSpendingActive,
   federalSpendingHover,
-  revenueActive, 
+  revenueActive,
   revenueHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
@@ -31,7 +31,7 @@ import {
   revenueExplainerPrimary,
   revenueExplainerSecondary,
   revenueExplainerLightSecondary
-} from "../sections/revenue/revenue.module.scss";
+} from "../sections/government-revenue/revenue.module.scss";
 import FederalSpendingHero from "../heros/federal-spending/federal-spending-hero";
 
 const baseUrl = globalConstants.BASE_SITE_URL;
@@ -155,7 +155,7 @@ export const explainerRelatedDatasetMap = {
   'national-debt': 'See the datasets that relate to the national debt',
   'national-deficit': 'See the datasets behind the national deficit',
   'federal-spending': 'See the datasets that relate to federal spending',
-  'government-revenue': 'See the datasets that relate to federal spending',
+  'government-revenue': 'See the datasets that relate to government revenue',
 
 }
 

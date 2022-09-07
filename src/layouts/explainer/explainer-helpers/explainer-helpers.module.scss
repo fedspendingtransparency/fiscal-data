@@ -1,7 +1,7 @@
 @import '../../../variables.module.scss';
 @import '../sections/national-deficit/national-deficit.module';
 @import '../sections/federal-spending/federal-spending.module';
-@import '../sections/revenue/revenue.module';
+@import 'src/layouts/explainer/sections/government-revenue/revenue.module';
 
 .nationalDebtActive {
   border-left-color: $debt-explainer-secondary !important;

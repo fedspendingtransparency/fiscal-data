@@ -63,16 +63,22 @@ const explainerPagesSource = {
     slug: "/americas-finance-guide/government-revenue/",
     breadCrumbLinkName: "Revenue",
     seoConfig: {
-      pageTitle: "Government Revenue | U.S. Treasury Fiscal Data",
-      description: `Learn how much the U.S. government collects in revenue, and what types of revenue it brings in.`,
+      pageTitle: "Government Revenue",
+      description: `Learn how much the U.S. government collects in revenue, and what types of
+      revenue it brings in.`,
     },
     prodReady: false,
     heroImage: {
       heading: "How much revenue has the U.S. government collected this year? ",
-      subHeading: `Government revenue is income received from taxes and other sources to pay for government expenditures. The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current FY)}.`,
+      subHeading: `Government revenue is income received from taxes and other sources to pay for
+      government expenditures. The U.S. government has collected {$XX.X trillion (total revenue)}
+      in fiscal year {YYYY (current FY)}.`,
     },
     relatedDatasets: [
-
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q1-04",
+      "015-BFS-2020Q4-yy",
+      "015-BFS-2014Q1-07"
     ],
   },
 }
