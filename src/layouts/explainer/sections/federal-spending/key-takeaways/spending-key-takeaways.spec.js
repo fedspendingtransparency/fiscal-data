@@ -3,7 +3,6 @@ import React from "react";
 import SpendingKeyTakeaways from "./spending-key-takeaways";
 import fetchMock from "fetch-mock";
 import {determineBEAFetchResponse} from "../../../../../utils/mock-utils";
-import {mockExplainerPageResponse} from "../../../explainer-test-helper";
 
 
 describe('Spending Key Takeaways evergreen values', () => {
@@ -19,13 +18,15 @@ describe('Spending Key Takeaways evergreen values', () => {
   }
 
   beforeAll(() => {
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service
+    /v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
       mockData, {overwriteRoutes: true}, {repeat: 1}
     );
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt`,
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/
+    v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt`,
       mockData, {overwriteRoutes: true}, {repeat: 1}
     );
-    determineBEAFetchResponse(jest, mockExplainerPageResponse);
+    determineBEAFetchResponse(jest, mockData);
   });
 
   it('renders the data correctly in takeaway 1', async () => {
@@ -34,7 +35,7 @@ describe('Spending Key Takeaways evergreen values', () => {
 
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
     await waitFor(() => getByText("In fiscal year (FY) 2021", {exact:false}));
-    await waitFor(() => getByText("the government spent $2.8 trillion", {exact:false}));
+    await waitFor(() => getByText("the government spent $4.5 trillion", {exact:false}));
     expect(await getByText("which was less than", {exact: false})).toBeInTheDocument();
     expect(await getByText("resulting in a surplus", {exact: false})).toBeInTheDocument();
   });
@@ -42,13 +43,9 @@ describe('Spending Key Takeaways evergreen values', () => {
   it('renders the data correctly in takeaway 3', async() => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const {getByText} = render(<SpendingKeyTakeaways />);
-    await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
-
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     await waitFor(() => getByText("In FY 2021", {exact:false}));
-    await waitFor(() => getByText("$3 out of every", {exact:false}));
-    console.log(getByText('Money for federal spending', {exact:false}).outerHTML);
-    expect(await getByText("$3 out of every", {exact: false})).toBeInTheDocument();
-
+    await waitFor(() => getByText("$186 out of every", {exact:false}));
   });
 
 });
