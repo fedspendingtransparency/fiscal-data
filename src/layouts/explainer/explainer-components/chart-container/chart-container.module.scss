@@ -12,6 +12,12 @@
     font-size: $font-size-18;
   }
 
+  .chartSubTitle {
+    margin-top: 0;
+    color: $font-title;
+    font-size: $font-size-16;
+  }
+
   .chart {
     width: 100%;
     max-width: 464px;

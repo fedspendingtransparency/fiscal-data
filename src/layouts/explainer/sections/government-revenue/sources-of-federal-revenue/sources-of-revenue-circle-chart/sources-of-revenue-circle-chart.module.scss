@@ -1,0 +1,13 @@
+@import "src/variables.module";
+
+.dataHeaderContainer {
+  display: flex;
+  flex-direction: column;
+  .header {
+    font-size: $font-size-24;
+    font-weight: bold;
+  }
+  .subheader {
+
+  }
+}

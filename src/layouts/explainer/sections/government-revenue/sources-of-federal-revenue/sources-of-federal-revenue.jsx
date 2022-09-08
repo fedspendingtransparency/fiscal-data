@@ -6,6 +6,8 @@ import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
 import {sourcesContent} from "./sources-of-federal-revenue.module.scss";
+import SourcesOfRevenueCircleChart
+  from "./sources-of-revenue-circle-chart/sources-of-revenue-circle-chart";
 
 
 const SourcesOfFederalRevenue = () => {
@@ -26,7 +28,7 @@ const SourcesOfFederalRevenue = () => {
         sale of natural resources, and various usage and licensing fees.
       </p>
       <div className={visWithCallout}>
-        <ChartPlaceholder />
+        <SourcesOfRevenueCircleChart />
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
             In FY YYYY (current fiscal year-to-date), the combined contribution of individual and
