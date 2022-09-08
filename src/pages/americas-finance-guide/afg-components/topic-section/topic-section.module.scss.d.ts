@@ -67,3 +67,4 @@ export const topicSection: string;
 export const topicHeading: string;
 export const body: string;
 export const link: string;
+export const arrow: string;

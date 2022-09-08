@@ -5,6 +5,7 @@ import { ChartPlaceholder } from '../../../../layouts/explainer/explainer-helper
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRightLong} from "@fortawesome/free-solid-svg-icons";
 import * as styles from "./topic-section.module.scss";
+import { style } from 'd3-selection';
 
 export default function TopicSection({
     heading,
@@ -20,7 +21,9 @@ export default function TopicSection({
             <Grid item lg >
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>
-                <a href={linkUrl} style={{ color: linkColor, marginTop: '2rem' }} className={styles.link}>{linkText}   <FontAwesomeIcon icon={faRightLong} title={"right arrow"} /></a>
+                <a href={linkUrl} style={{ color: linkColor, marginTop: '2rem' }} className={styles.link}>{linkText}
+                    <FontAwesomeIcon icon={faRightLong} title={"right arrow"} className={styles.arrow}/>
+                </a>
             </Grid>
             <Grid item lg>
                 {image ? <img src={image} alt={imageAltText} /> : <ChartPlaceholder />}

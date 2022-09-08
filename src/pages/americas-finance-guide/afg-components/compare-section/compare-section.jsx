@@ -34,17 +34,17 @@ export default function CompareSection()
     return (
         <div className={styles.compareSection} data-testid="compare-section">
             <h3 className={styles.heading}>How did these totals compare to YYYY year-end? </h3>
-            <Grid className="comparisonGrid" container spacing={4}>
+            <Grid container spacing={4}>
                 {subSections.map((s) => (
-                    <React.Fragment key={s.mainColor} >
-                        <Grid item md={1} >
+                    <Grid container item md={6} spacing={4} key={s.mainColor} >
+                        <Grid item xs={2} classes={{ root: styles.compareIcon }}>
                             <AfgIcon faIcon={s.faIcon} backgroundColor={s.mainColor} />
                         </Grid>
-                        <Grid item md={5} >
+                        <Grid item xs={10} >
                             <h5 className={styles.subHeading}>{s.heading}</h5>
                             <div className={styles.body}>{s.body}</div>
-                        </Grid>
-                    </React.Fragment>
+                        </Grid>                        
+                    </Grid>
                 ))}
             </Grid>
         </div>

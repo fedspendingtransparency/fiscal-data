@@ -54,7 +54,7 @@ export default function AmericasFinanceGuidePage() {
 
         <div className={styles.middleHeader}>
           <Grid container spacing={4}>
-            <Grid item md={1}><AfgIcon faIcon={faMoneyBill1Wave} backgroundColor="#666666" /></Grid>
+            <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}><AfgIcon faIcon={faMoneyBill1Wave} backgroundColor="#666666" /></Grid>
             <Grid item md={11}>
               <h3 className={styles.middleHeaderHeading}>How have federal revenue and spending affected the <span className={styles.deficitText}>deficit</span> and federal <span className={styles.debtText}>debt</span> so far in fiscal year YYYY? </h3>
             </Grid>
@@ -93,7 +93,7 @@ export default function AmericasFinanceGuidePage() {
 
       <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
           <Grid classes={{ root: styles.quoteGrid }} container spacing={3} >
-            <Grid item md={2}>
+            <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
               <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
             </Grid>
             <Grid item md={8}>
@@ -101,7 +101,7 @@ export default function AmericasFinanceGuidePage() {
               <p className={styles.citation}>Thomas Jefferson to Albert Gallatin, 1802 (edited)</p>
               <div className={styles.quoteBar}></div>
             </Grid>
-            <Grid item md={2}><FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} /></Grid>
+            <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}><FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} /></Grid>
           </Grid>
       </Container>
 

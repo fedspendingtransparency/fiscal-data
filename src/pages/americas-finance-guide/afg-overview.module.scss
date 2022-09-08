@@ -1,48 +1,48 @@
 @import '../../variables.module.scss';
 
-.topContainer{
+.topContainer {
     max-width: $breakpoint-lg;
 }
 
-.debtText{
+.debtText {
     color: #b3532d
 }
-.deficitText{
+
+.deficitText {
     color: #4a0072
 }
 
-.middleHeader{
+.middleHeader {
 
-    .middleHeaderHeading{
+    .middleHeaderHeading {
         @include headingStyle4;
-        font-size: $font-size-32 !important;
-        font-weight: $light-weight !important;
+        font-size: $font-size-32  !important;
+        font-weight: $light-weight  !important;
         color: #555 !important;
         margin-left: 1rem;
     }
 }
-.quoteContainer{
+
+.quoteContainer {
     background-color: $body-background;
     max-width: $explainer-page-width;
     margin-top: 4rem;
 
-    .quoteGrid{
+    .quoteGrid {
         max-width: $breakpoint-lg;
         margin: 0 auto !important;
         padding: 2rem;
     }
 
-    img{
+    
 
-    }
-
-    .quoteIcon{
+    .quoteIcon {
         font-size: 4rem;
         transform: scale(-1, 1);
         margin-left: 1rem;
     }
 
-    .quote{
+    .quote {
         color: 666666;
         font-size: $font-size-20;
         line-height: 1.875rem;
@@ -51,42 +51,61 @@
         margin-top: 0.5rem;
     }
 
-    .citation{
+    .citation {
         font-size: $font-size-14;
         line-height: 1rem;
         margin-left: 1rem;
 
     }
-    .quoteBar{
+
+    .quoteBar {
         width: 6rem;
         height: 0.5rem;
         background-color: #555555;
-        display: block; 
-        margin-left: 1rem; 
-        margin-top: 2rem;      
+        display: block;
+        margin-left: 1rem;
+        margin-top: 2rem;
     }
 }
 
-.bottomContainer{
+.bottomContainer {
     max-width: $site-content-width;
     margin-top: 2rem;
     margin-bottom: 2rem;
 
-    .bottomHeading{
+    .bottomHeading {
         @include columnLabelCopy7;
         display: block;
         margin-top: 1rem !important;
     }
 
-    .blueText{
+    .blueText {
         color: $primary
     }
 
-    img{
+    img {
         margin: 0 auto;
         display: block;
     }
 
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+    
+    
+    .middleHeader {
+        .middleHeaderIcon {
+            margin: 0 auto !important;
+            display: block
+        }
+    }
+
+    .quoteContainer {
+        .quoteContainerIcon, .quoteContainerImg{
+            margin: 0 auto !important;
+            display: block;
+        }
+    }
     
 
+}

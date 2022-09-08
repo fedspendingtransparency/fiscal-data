@@ -77,3 +77,6 @@ export const quoteBar: string;
 export const bottomContainer: string;
 export const bottomHeading: string;
 export const blueText: string;
+export const middleHeaderIcon: string;
+export const quoteContainerIcon: string;
+export const quoteContainerImg: string;
