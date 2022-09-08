@@ -19,10 +19,6 @@ import MandatorySpendingImgDesktop from "../../../../../../static/images/mandato
 import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png"
 
 export const SpendingDifference = ({ width, glossary }) => {
-  useEffect(() => {
-    console.log(width)
-  }, [width])
-
   const appropriations = (
     <GlossaryTerm
       term={"appropriations"}

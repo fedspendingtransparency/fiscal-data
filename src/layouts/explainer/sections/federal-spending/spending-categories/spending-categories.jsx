@@ -39,13 +39,13 @@ export const SpendingCategories = () => {
       <div className={spendingAccordion}>
         <Accordion title="What does the future of Social Security and Medicare look like?">
           Each year, the Social Security and Medicare Boards of Trustees publish
-          their
+          their{" "}
           {
             <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}>
               Annual Report on the Financial Status of Social Security and
               Medicare.
             </CustomLink>
-          }
+          }{" "}
           The Boards’ projections indicate that spending will continue to
           increase. As the average age of Americans increases, more funding is
           needed to support entitlement programs like Social Security, Medicare,
