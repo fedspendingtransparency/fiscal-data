@@ -4,6 +4,30 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
+  ADDITIONAL_DATASETS: {
+    "015-BFS-2014Q3-039": {
+      "seoConfig": {
+        "pageTitle": "Federal Credit Similar Maturity Rates",
+        "description": "Interest rates for time deposit securities with a maturity " +
+          "of one month up to 40 years and a daily rate for demand deposits.",
+        "keywords": "Debt, Interest and Exchange Rates"
+      },
+      "topics": [
+        "debt",
+        "interest-exchange-rates"
+      ],
+      "relatedDatasets": [
+        "015-BFS-2014Q3-037",
+        "015-BFS-2014Q1-11",
+        "015-BFS-2014Q3-076",
+        "015-BFS-2014Q1-03",
+        "015-BFS-2014Q1-13",
+        "015-BFS-2014Q3-103"
+      ],
+      "slug": "/fed-credit-similar-maturity-rates/",
+      "currentDateButton": "byMonth"
+    }
+  },
   ADDITIONAL_ENDPOINTS: {
     '27': {
       'endpoint': 'v1/debt/mspd/mspd_table_1',
