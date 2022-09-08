@@ -80,11 +80,11 @@ const SpendingKeyTakeaways = ({glossary}) => {
 
    const takeaways =  [
       {
-        text: `The federal government spends money on a variety of goods, programs, and services to
-        support the American public and pay interest incurred from borrowing. In fiscal year
-        (FY) ${latestCompleteFiscalYear}, the government spent $${priorYearSpendingShort},
-        which was ${spendingRevComparison} than it collected (revenue), resulting in
-        a ${deficitLabel}. `,
+        text: `The federal government spends money on a variety of goods, programs, and
+        services to support the American public and pay interest incurred from borrowing. In
+        fiscal year (FY) ${latestCompleteFiscalYear}, the government spent
+        $${priorYearSpendingShort}, which was ${spendingRevComparison} than it collected (revenue),
+        resulting in a ${deficitLabel}. `,
         icon: faHandHoldingDollar,
         hasGlossaryTerm: true,
         glossaryString: "fiscal year (FY)",
