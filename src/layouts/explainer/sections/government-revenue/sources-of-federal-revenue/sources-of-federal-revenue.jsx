@@ -1,15 +1,18 @@
-import {visWithCallout} from "../../../explainer.module.scss";
+import {visWithCallout, quoteBoxContent} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
+import QuoteBox from "../../../quote-box/quote-box"
+import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
-import {revenueExplainerPrimary} from "../revenue.module.scss";
+import {revenueExplainerPrimary, revenueExplainerLightSecondary} from "../revenue.module.scss";
 import {sourcesContent} from "./sources-of-federal-revenue.module.scss";
+import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons"
 
 
 const SourcesOfFederalRevenue = () => {
-
+  const irsGov = <CustomLink url={'https://www.irs.gov/newsroom/historical-highlights-of-the-irs'}>irs.gov</CustomLink>;
   return (
     <div className={sourcesContent}>
       <p>
@@ -52,9 +55,19 @@ const SourcesOfFederalRevenue = () => {
         Medicare Part A, and the Supplementary Medicare Insurance Trust Fund (SMI). These funds pay
         for hospital, home health, skilled nursing, and hospice care for the elderly and disabled.
       </p>
-      <div>
-        quote box placeholder
-      </div>
+      <QuoteBox
+        icon={faMartiniGlassCitrus}
+        primaryColor={revenueExplainerPrimary}
+        secondaryColor={revenueExplainerLightSecondary}
+      >
+        <p className={quoteBoxContent}>
+        From 1868 until 1913, 90% of all federal revenue came from taxes on liquor, beer, wine, and tobacco.
+        <br/>
+        <span>
+          Source: {irsGov}
+        </span>
+        </p>
+      </QuoteBox>
     </div>
   );
 }
