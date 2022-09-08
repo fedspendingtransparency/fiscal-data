@@ -12,17 +12,18 @@ export default function TopicSection({
     linkUrl,
     linkText,
     linkColor,
-    image
+    image,
+    imageAltText
 }) {
     return (
-        <Grid className={styles.topicSection} container spacing={4}>
+        <Grid className={styles.topicSection} container spacing={4} data-testid="topic-section">
             <Grid item lg >
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>
-                <a href={linkUrl} style={{ color: linkColor, 'margin-top': '2rem' }} className={styles.link}>{linkText}   <FontAwesomeIcon icon={faRightLong} title={"right arrow"} /></a>
+                <a href={linkUrl} style={{ color: linkColor, marginTop: '2rem' }} className={styles.link}>{linkText}   <FontAwesomeIcon icon={faRightLong} title={"right arrow"} /></a>
             </Grid>
             <Grid item lg>
-                {image ? <img src={image} alt="" /> : <ChartPlaceholder />}
+                {image ? <img src={image} alt={imageAltText} /> : <ChartPlaceholder />}
             </Grid>
         </Grid>
     )

@@ -1,0 +1,32 @@
+@import '../../../../variables.module.scss';
+
+.compareSection{
+    
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+
+    .comparisonHeading{
+        font-size: $font-size-32 !important;
+        font-weight: $light-weight !important;
+        color: #555 !important;
+    }
+
+    .heading{
+        @include headingStyle4;
+        margin-bottom: 3rem;
+        text-align: center;
+
+    }
+
+    .subHeading{
+        @include headingStyle5;
+        margin: 0 0 1rem 1.5rem;
+
+    }
+
+    .body{
+        @include bodyStyleRegular;
+        margin-left: 1.5rem;
+    }
+
+}

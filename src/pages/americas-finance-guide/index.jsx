@@ -3,26 +3,34 @@ import PageHelmet from "../../components/page-helmet/page-helmet";
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import { Container, Grid, Box } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
-import CustomLink from '../../components/links/custom-link/custom-link';
-import { ChartPlaceholder } from '../../layouts/explainer/explainer-helpers/national-deficit/national-deficit-helper';
 import * as styles from "./afg-overview.module.scss"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHandHoldingDollar, faMoneyBill1Wave} from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBill1Wave, faQuoteLeft} from "@fortawesome/free-solid-svg-icons";
 import TopicSection from './afg-components/topic-section/topic-section';
 import AfgIcon from './afg-components/afg-icon/afg-icon';
+import CompareSection from './afg-components/compare-section/compare-section';
 
-export default function index() {
+export default function AmericasFinanceGuidePage() {
 
 
 
   return (
     <SiteLayout isPreProd={false}>
-      <Container className='mainContainer' maxWidth="md" >
+      <PageHelmet
+        pageTitle="America’s Finance Guide | U.S. Treasury Fiscal Data"
+        description="Your guide to America’s finances: explore U.S. revenue, spending, deficit, and debt with this accessible and open-source guide to federal finance data."
+        keywords=""
+        image=""
+        canonical=""
+        datasetDetails=""
+      />
+      <Container classes={{ root: styles.topContainer }} maxWidth="md" data-testid="topContainer">
         <div className="heroSection" mb={5}>
           <h1>A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.</h1>
           <p>U.S. Constitution, Article 1, Section 9</p>
         </div>
-        <Box my={5}>Pointing Nav goes here</Box>
+        <Box my={5}>Social Share Goes Here</Box>
+        <Box my={5}>AFG Sub-navigation Bar </Box>
       
         <TopicSection
           heading='In fiscal year YYYY, the federal government has collected $X.X in revenue.'
@@ -31,6 +39,7 @@ export default function index() {
           linkText='Learn more about government revenue'
           linkColor='#0A2F5A'
           image='/topics-section-images/homepage_deficit_1200x630.png'
+          imageAltText='U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building.'
           
         />
         <TopicSection
@@ -40,14 +49,16 @@ export default function index() {
           linkText='Learn more about federal spending'
           linkColor='#005E56'
           image='/topics-section-images/homepage_deficit_1200x630.png'
+          imageAltText='The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. '
         /> 
 
         <div className={styles.middleHeader}>
           <Grid container spacing={4}>
-            <Grid item lg={1}><AfgIcon faIcon={faMoneyBill1Wave} backgroundColor="#666666" /></Grid>
-            <Grid item lg={11}>
+            <Grid item md={1}><AfgIcon faIcon={faMoneyBill1Wave} backgroundColor="#666666" /></Grid>
+            <Grid item md={11}>
               <h3 className={styles.middleHeaderHeading}>How have federal revenue and spending affected the <span className={styles.deficitText}>deficit</span> and federal <span className={styles.debtText}>debt</span> so far in fiscal year YYYY? </h3>
             </Grid>
+            
           </Grid>
         </div>
 
@@ -59,6 +70,7 @@ export default function index() {
           linkText='Learn more about national deficit'
           linkColor='#B3532D'
           image='/topics-section-images/homepage_deficit_1200x630.png'
+          imageAltText='A hand reaches up to grab a $ coin. Other objects appear to the left of the hand, including a pie chart, bar graph, and lit lightbulb.'
         />
         <TopicSection
           heading='In YYYY, the federal government has $X.X in federal debt.'
@@ -69,22 +81,36 @@ export default function index() {
           linkText='Learn more about national debt'
           linkColor='#4a0072'
           image='/topics-section-images/homepage_debt_1200x630.png'
+          imageAltText='A variety of hands reach up with objects, including a magnifying glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone.'
         />
 
-        <div className={styles.comparisonSection}>
-          <h3 className={styles.comparisonHeading}>How did these totals compare to YYYY year-end? </h3>
-          <Grid className="comparisonGrid" container spacing={4}>
-            <Grid item lg>
-              <div className="comparisonSectionIcon">
-              <AfgIcon faIcon={faHandHoldingDollar} backgroundColor="#0a2f5a" />
-              </div>
-                
-              <div className="comparisonSectionHeading"></div>
-              <div className="comparisonSectionBody"></div>
-            </Grid>
-          </Grid>
-        </div>
+        <CompareSection/>
 
+        <DataSourcesMethodologies>
+          Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the Monthly Treasury Statement (MTS). Current fiscal year values are updated monthly. The Monthly Statement of the Public Debt (MSPD)Debt to the Penny is the data source for federal debt. Current fiscal year values are updated daily. 
+        </DataSourcesMethodologies>
+      </Container>
+
+      <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
+          <Grid classes={{ root: styles.quoteGrid }} container spacing={3} >
+            <Grid item md={2}>
+              <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
+            </Grid>
+            <Grid item md={8}>
+              <p className={styles.quote}>We might hope to see the finances of the Union as clear and intelligible as a merchant’s books, so that every member of Congress, and every person of any mind in the Union should be able to comprehend them, to investigate abuses, and consequently to control them. </p>
+              <p className={styles.citation}>Thomas Jefferson to Albert Gallatin, 1802 (edited)</p>
+              <div className={styles.quoteBar}></div>
+            </Grid>
+            <Grid item md={2}><FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} /></Grid>
+          </Grid>
+      </Container>
+
+      <Container classes={{ root: styles.bottomContainer }} data-testid="bottomContainer">
+          <p className={styles.bottomHeading}>Americans asked. We listened.</p>
+          <p className={styles.bottomBody}>Your Guide to America's Finances is a re-invention of the <span className={styles.blueText}> Citizen's Guide to the Financial Report of the U.S. Government.</span> This site was created in response to the public's desire to learn more about the financial picture of the United States. Where does the money come from? Where does it go? What are the trends over time? This guide was created to make federal financial information open and accessible to all - reflecting the very principles that our founding fathers set forth when the United States was formed.</p>
+
+          <p style={{textAlign:'center'}}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
+          <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
       </Container>
         
     </SiteLayout>
