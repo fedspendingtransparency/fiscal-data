@@ -9,7 +9,7 @@ import KeyTakeawaysSection from "../../../explainer-components/key-takeaways/key
 import {getShortForm} from "../../../heros/hero-helper";
 
 
-const SpendingKeyTakeaways = () => {
+const SpendingKeyTakeaways = ({glossary}) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [priorYearSpendingShort, setPriorYearSpendingShort] = useState("");
   const [spendingRevComparison, setSpendingRevComparison] = useState("");
@@ -78,40 +78,47 @@ const SpendingKeyTakeaways = () => {
       });
   }, [])
 
-
-
-
-
    const takeaways =  [
       {
         text: `The federal government spends money on a variety of goods, programs, and services to
         support the American public and pay interest incurred from borrowing. In fiscal year
-        (FY) ${latestCompleteFiscalYear}, the government spent $${priorYearSpendingShort}, which
-        was ${spendingRevComparison} than it collected (revenue), resulting in a ${deficitLabel}. `,
-        icon: faHandHoldingDollar
+        (FY) ${latestCompleteFiscalYear}, the government spent $${priorYearSpendingShort},
+        which was ${spendingRevComparison} than it collected (revenue), resulting in
+        a ${deficitLabel}. `,
+        icon: faHandHoldingDollar,
+        hasGlossaryTerm: true,
+        glossaryString: "fiscal year (FY)",
+        glossaryTerm: "fiscal year",
+        page: "Debt & Spending explainer",
       },
       {
-        text: `The U.S. Constitution gives Congress the ability to create a federal budget – in
-        other words, to determine how much money the government can spend over the course of the
+        text: `The U.S. Constitution gives Congress the ability to create a federal budget –
+        in other words, to determine how much money the government can spend over the course of the
         upcoming fiscal year.  Congress’s budget is then approved by the President. Every year,
         Congress decides the amount and the type of discretionary spending, as well as provides
         resources for mandatory spending.`,
-        icon: faCommentDollar
+        icon: faCommentDollar,
+        hasGlossaryTerm: true,
+        glossaryRegex: /\b(discretionary|mandatory)\b/g,
+        page: "Spending Explainer",
       },
       {
         text: `Money for federal spending primarily comes from government tax collection and
-        borrowing. In FY ${latestCompleteFiscalYear} government spending equated to
-        roughly $${spendingGDPSimple} out of every $10 of the goods produced and services
-        provided in the United States.`,
-        icon: faPiggyBank
+        borrowing. In FY ${latestCompleteFiscalYear} government spending equated to roughly
+        $${spendingGDPSimple} out of every $10 of the goods produced and services provided in the
+        United States.`,
+        icon: faPiggyBank,
+        page: "Spending Explainer",
       }
     ];
-  return (
-    <KeyTakeawaysSection takeaways={takeaways}
-                         primaryColor={spendingExplainerPrimary}
-                         secondaryColor={spendingExplainerLightSecondary}
-    />
 
+  return (
+    <KeyTakeawaysSection
+      takeaways={takeaways}
+      primaryColor={spendingExplainerPrimary}
+      secondaryColor={spendingExplainerLightSecondary}
+      glossary={glossary}
+    />
 );
 }
 

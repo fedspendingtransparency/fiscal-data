@@ -1,17 +1,10 @@
 import React from "react";
-import {datasetSectionConfig} from "../../explainer-helpers/explainer-helpers";
 import SpendingKeyTakeaways from "./key-takeaways/spending-key-takeaways";
-
 import {SpendingOverview} from "./overview/spending-overview";
 import {SpendingCategories} from "./spending-categories/spending-categories";
 import SpendingDifference from "./spending-difference/spending-difference";
 import {SpendingTrends} from "./spending-trends/spending-trends";
-import KeyTakeawaysSection from "../../explainer-components/key-takeaways/key-takeaways-section"
-import { spendingKeyTakeaways } from "../../explainer-helpers/federal-spending/federal-spending-helper"
-import {
-  spendingExplainerPrimary,
-  spendingExplainerLightSecondary,
-} from "./federal-spending.module.scss"
+
 
 export const nationalDeficitSectionIds = [
   "key-takeaways",
@@ -22,9 +15,6 @@ export const nationalDeficitSectionIds = [
   "learn-more",
 ]
 
-export const federalSpendingSectionConfigs =
-  datasetSectionConfig["national-deficit"]
-
 
 const federalSpendingSection = [
   {
@@ -32,15 +22,10 @@ const federalSpendingSection = [
     id: nationalDeficitSectionIds[0],
     title: "Key Takeaways",
     component: (glossary, cpiDataByYear) => (
-      <KeyTakeawaysSection
-        takeaways={spendingKeyTakeaways}
-        primaryColor={spendingExplainerPrimary}
-        secondaryColor={spendingExplainerLightSecondary}
+      <SpendingKeyTakeaways
         glossary={glossary}
       />
     ),
-    // title: 'Key Takeaways',
-    // component: (glossary, cpiDataByYear) => <SpendingKeyTakeaways />
   },
   {
     index: 1,
@@ -55,7 +40,7 @@ const federalSpendingSection = [
     id: nationalDeficitSectionIds[2],
     title: "Spending Categories",
     component: (glossary, cpiDataByYear) => (
-      <SpendingCategories glossary={glossary} />
+      <SpendingCategories />
     ),
   },
   {
@@ -64,7 +49,7 @@ const federalSpendingSection = [
     title:
       "The Difference Between Mandatory, Discretionary, and Supplemental Spending",
     component: (glossary, cpiDataByYear) => (
-      <SpendingDifference glossary={glossary} />
+      <SpendingDifference />
     ),
   },
   {
@@ -73,9 +58,9 @@ const federalSpendingSection = [
     title: "Spending Trends Over Time",
     comingSoon: true,
     component: (glossary, cpiDataByYear) => (
-      <SpendingTrends glossary={glossary} />
+      <SpendingTrends />
     ),
   },
 ]
 
-export default federalSpendingSection
+export default federalSpendingSection;
