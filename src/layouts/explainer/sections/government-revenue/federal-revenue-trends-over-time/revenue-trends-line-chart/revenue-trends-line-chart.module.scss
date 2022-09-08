@@ -1,0 +1,89 @@
+@import 'src/variables.module';
+
+
+.container {
+  overflow:hidden;
+}
+
+.lineChart {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.legendContainer {
+  justify-content: center;
+  gap: 2rem;
+  display: flex;
+  flex-direction: row;
+  margin-left: 5rem;
+}
+
+.legendColumn {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.legendElement {
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.legendText {
+  font-size: 14px;
+  max-width: 128px;
+}
+
+// Legend rectangles
+
+.estateRect {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.125rem;
+  background: #4b3974;
+}
+
+.customsRect {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.125rem;
+  background: #ffa600;
+}
+
+.exciseRect {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.125rem;
+  background: #883c7f;
+}
+
+.miscRect {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.125rem;
+  background: #ff773e;
+}
+
+.corpRect {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.125rem;
+  background: #c13f77;
+}
+
+.socialSecRect {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.125rem;
+  background: #eb5160;
+}
+
+.indvRect {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.125rem;
+  background: #0a2f5a;
+}
+
