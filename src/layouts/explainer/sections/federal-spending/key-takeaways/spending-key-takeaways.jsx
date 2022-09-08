@@ -28,9 +28,11 @@ const SpendingKeyTakeaways = () => {
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {
-          setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
+          const fiscalYear = res.data[0].record_fiscal_year;
+          const priorYearSpending = res.data[0].current_fytd_net_outly_amt;
+          setLatestCompleteFiscalYear(fiscalYear);
           setPriorYearSpendingShort(
-            getShortForm(res.data[0].current_fytd_net_outly_amt.toString(), 1, false));
+            getShortForm(priorYearSpending.toString(), 1, false));
 
           basicFetch(`${beaEndpointUrl}`)
             .then((bea_res) => {
@@ -39,11 +41,10 @@ const SpendingKeyTakeaways = () => {
                   .filter(entry => entry.LineDescription === 'Gross domestic product');
                 const averagedGDPByYear = [];
                 const allQuartersForGivenYear = gdpData.filter(entry => (
-                  entry.TimePeriod.includes(res.data[0].record_fiscal_year.toString() + 'Q1') ||
-                  entry.TimePeriod.includes(res.data[0].record_fiscal_year.toString() + 'Q2') ||
-                  entry.TimePeriod.includes(res.data[0].record_fiscal_year.toString() + 'Q3') ||
-                  entry.TimePeriod.includes((res.data[0].record_fiscal_year - 1)
-                    .toString() + 'Q4')));
+                  entry.TimePeriod.includes(fiscalYear.toString() + 'Q1') ||
+                  entry.TimePeriod.includes(fiscalYear.toString() + 'Q2') ||
+                  entry.TimePeriod.includes(fiscalYear.toString() + 'Q3') ||
+                  entry.TimePeriod.includes((fiscalYear - 1).toString() + 'Q4')));
 
                 let totalGDP = 0;
                 allQuartersForGivenYear.forEach(quarter => {
@@ -52,11 +53,10 @@ const SpendingKeyTakeaways = () => {
                 averagedGDPByYear.push({
                   // Correct BEA data to display in trillions
                   average: ((parseInt(String(totalGDP) + '000000')) / 4),
-                  year: res.data[0].record_fiscal_year
+                  year: fiscalYear
                 })
                 setSpendingGDPSimple(
-                  Math.round((res.data[0].current_fytd_net_outly_amt /
-                    averagedGDPByYear[0].average) * 10));
+                  Math.round((priorYearSpending / averagedGDPByYear[0].average) * 10));
               }
             });
         }
