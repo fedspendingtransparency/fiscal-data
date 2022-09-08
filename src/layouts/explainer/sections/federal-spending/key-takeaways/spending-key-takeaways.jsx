@@ -25,9 +25,7 @@ const SpendingKeyTakeaways = () => {
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {
-          console.log("here");
-          const data = res.data[0];
-          const priorSpending = data.current_fytd_net_outly_amt;
+          const priorSpending = res.data[0].current_fytd_net_outly_amt;
           setSpendingRevComparison(priorSpending < 0 ? 'more' : 'less');
           setDeficitLabel(priorSpending < 0 ? 'deficit' : 'surplus');
         }
@@ -46,10 +44,10 @@ const SpendingKeyTakeaways = () => {
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {
-          const data = res.data[0];
-          setPriorYearSpending(data.current_fytd_net_outly_amt);
-          setLatestCompleteFiscalYear(data.record_fiscal_year);
+          setPriorYearSpending(res.data[0].current_fytd_net_outly_amt);
+          setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
           setPriorYearSpendingShort(getShortForm(priorYearSpending.toString(), 1, false));
+
           basicFetch(`${beaEndpointUrl}`)
             .then((bea_res) => {
               if (bea_res.BEAAPI.Results.Data) {
