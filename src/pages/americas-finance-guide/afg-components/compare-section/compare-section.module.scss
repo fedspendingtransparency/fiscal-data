@@ -5,6 +5,10 @@
     margin-top: 4rem;
     margin-bottom: 4rem;
 
+    // .compareGridContainer{
+    //     max-width: 50%;
+    // }
+
     .comparisonHeading{
         font-size: $font-size-32 !important;
         font-weight: $light-weight !important;
@@ -27,6 +31,18 @@
     .body{
         @include bodyStyleRegular;
         margin-left: 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+
+    .compareIcon {
+        margin: 0 auto !important;
+        display: block;
+    }
+    .subHeading, .body{
+        margin-left: 0.25rem !important;
     }
 
 }
