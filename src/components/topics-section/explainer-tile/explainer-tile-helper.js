@@ -1,3 +1,35 @@
+import React, {useEffect, useState} from "react";
+import {apiPrefix, basicFetch} from "../../../utils/api-utils";
+import {getShortForm} from "../../../layouts/explainer/heros/hero-helper";
+
+export const SpendingBodyGenerator = () => {
+  const fields = 'fields=current_fytd_net_outly_amt,record_fiscal_year,record_date';
+  const filter = 'filter=line_code_nbr:eq:5691';
+  const sort = 'sort=-record_date';
+  const pagination = 'page[size]=1';
+  const endpointUrl
+    = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
+  const spendingUrl = `${apiPrefix}${endpointUrl}`;
+  const [amount, setAmount] = useState('5');
+  const [year, setYear] = useState('1111');
+
+  useEffect(() => {
+    basicFetch(`${spendingUrl}`)
+      .then((res) => {
+        if (res.data) {
+          const data = res.data[0];
+          setAmount(data.current_fytd_net_outly_amt);
+          setYear(data.record_fiscal_year);
+        }
+      })
+  }, []);
+
+  return (<>The U.S. government has spent ${getShortForm(amount, 1, false)}{' '}
+    in fiscal year {year} to ensure the well-being of the people of the United States.
+    Learn more about spending categories, types of spending, and spending trends over time.</>);
+};
+
+
 export const pageTileMap = {
 
   'debt': {
@@ -17,13 +49,7 @@ export const pageTileMap = {
       'year {YYYY (current fiscal year)} to ensure the well-being of the people of the ' +
       'United States. Learn more about spending categories, types of spending, and ' +
       'spending trends over time.',
-    bodyGenerator: () =>  {
-      //placeholder for fetch logic
-      const amount = 'XX.X trillion'
-      const year = 'YYYY'
-    return `The U.S. government has spent $${amount}
-    in fiscal year ${year} to ensure the well-being of the people of the United States.
-    Learn more about spending categories, types of spending, and spending trends over time.`},
+    bodyGenerator: SpendingBodyGenerator,
     altText: 'The US Treasury building is placed next to a row of homes. A pair of hands ' +
       'exchange money in the foreground.',
     desktopImage: 'homepage_spending_1200x630',
