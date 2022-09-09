@@ -10,7 +10,7 @@ import {ChartPlaceholder} from
 
 const FederalRevenueTrendsAndUSEconomy = () => {
 
-  const irsGov = <CustomLink url={'https://www.gps.gov/policy/funding/'}>GPS.gov</CustomLink>;
+  const gpsGov = <CustomLink url={'https://www.gps.gov/policy/funding/'}>GPS.gov</CustomLink>;
 
   return(
     <div>
@@ -27,7 +27,7 @@ const FederalRevenueTrendsAndUSEconomy = () => {
           Free GPS (Global Positioning System) service enjoyed throughout the world is funded by general U.S. tax revenues.
           <br/>
           <span>
-          Source: {irsGov}
+          Source: {gpsGov}
         </span>
         </p>
       </QuoteBox>
