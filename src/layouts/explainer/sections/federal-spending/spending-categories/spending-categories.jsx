@@ -28,6 +28,17 @@ export const SpendingCategories = () => {
       });
   }, [])
 
+  const spendingExplorer = (
+    <CustomLink url={"https://www.usaspending.gov/explorer"}>
+      Spending Explorer
+    </CustomLink>
+  )
+  const agencyProfile = (
+    <CustomLink url={"https://www.usaspending.gov/agency"}>
+      Agency Profile
+    </CustomLink>
+  )
+
   return (
     <div className={spendingCategoriesContent}>
       <p>
@@ -49,7 +60,8 @@ export const SpendingCategories = () => {
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency,
-            visit USAspending.gov’s Spending Explorer and Agency Profile pages.
+            visit USAspending.gov’s {spendingExplorer} and {agencyProfile}{" "}
+            pages.
           </p>
         </VisualizationCallout>
       </div>

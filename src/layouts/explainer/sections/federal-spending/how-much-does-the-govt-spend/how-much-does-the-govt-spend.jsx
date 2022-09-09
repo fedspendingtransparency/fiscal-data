@@ -197,6 +197,9 @@ const HowMuchDoesTheGovtSpend = () => {
       header={header}
       footer={footer}
       date={lastUpdatedDate}
+      altText={
+        "Horizontal bar graph comparing government spending by category or agency from largest to smallest, by percentage or dollar value"
+      }
     >
       {loading ? (
         <div className={loadingIcon}>
