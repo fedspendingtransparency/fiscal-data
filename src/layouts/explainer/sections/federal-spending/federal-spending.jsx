@@ -49,7 +49,7 @@ const federalSpendingSection = [
     title:
       "The Difference Between Mandatory, Discretionary, and Supplemental Spending",
     component: (glossary, cpiDataByYear) => (
-      <SpendingDifference />
+      <SpendingDifference glossary={glossary} />
     ),
   },
   {
