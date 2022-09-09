@@ -223,7 +223,14 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("category")
               }}
             >
-              <span className={toggleText}>Category</span>
+              <span
+                style={{
+                  fontSize: isMobile ? "16px" : "14px",
+                  color: selectedChartView === "agency" ? "inherit" : "#F1F1F1",
+                }}
+              >
+                Category
+              </span>
             </button>
             <button
               className={toggleButton}
@@ -238,7 +245,14 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("agency")
               }}
             >
-              <span className={toggleText}>Agency</span>
+              <span
+                style={{
+                  fontSize: isMobile ? "16px" : "14px",
+                  color: selectedChartView === "agency" ? "#F1F1F1" : "inherit",
+                }}
+              >
+                Agency
+              </span>
             </button>
           </div>
           <div
