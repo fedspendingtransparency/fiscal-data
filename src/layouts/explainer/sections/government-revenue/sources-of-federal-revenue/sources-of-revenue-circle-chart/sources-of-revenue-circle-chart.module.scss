@@ -3,11 +3,29 @@
 .dataHeaderContainer {
   display: flex;
   flex-direction: column;
+  //margin-top: .25rem;
   .header {
     font-size: $font-size-24;
     font-weight: bold;
   }
-  .subheader {
+  .category {
+    font-size: $font-size-14;
+    font-weight: $semi-bold-weight;
+    margin: .75rem 0;
+  }
+  .dataLabels {
+    display: flex;
+    flex-direction: row;
 
+    .headerTitle {
+      font-weight: bold;
+      font-size: 36px;
+    }
+
+    .subHeader {
+      font-size: 14px;
+      font-weight: $semi-bold-weight;
+      margin: 0 1.25rem;
+    }
   }
 }
