@@ -1,15 +1,9 @@
 import React from "react";
-import {visWithCallout, quoteBoxContent} from "../../../explainer.module.scss";
-import VisualizationCallout
-  from "../../../../../components/visualization-callout/visualization-callout";
+import { quoteBoxContent } from "../../../explainer.module.scss";
 import QuoteBox from "../../../quote-box/quote-box";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {revenueExplainerPrimary, revenueExplainerLightSecondary} from "../revenue.module.scss";
 import { faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
-import {
-  sourcesContent,
-  sourceURL
-} from "./federal-revenue-trends-and-us-economy.module.scss";
 import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 // This section will be filled out more post-mvp
@@ -32,7 +26,7 @@ const FederalRevenueTrendsAndUSEconomy = () => {
         <p className={quoteBoxContent}>
           Free GPS (Global Positioning System) service enjoyed throughout the world is funded by general U.S. tax revenues.
           <br/>
-          <span className={sourceURL}>
+          <span>
           Source: {irsGov}
         </span>
         </p>

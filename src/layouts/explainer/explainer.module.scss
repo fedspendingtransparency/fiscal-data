@@ -77,8 +77,9 @@
   width: 99%;
   position: relative;
 }
-
-
+.sourceURL {
+  font-size: $font-size-16;
+}
 
 @media screen and (min-width: $breakpoint-lg) {
 
@@ -128,6 +129,13 @@
 
   .relatedDatasets {
     margin-top: 150px;
+  }
+}
+.quoteBoxContent {
+  font-size: $font-size-20;
+
+  span {
+    font-size: $font-size-16;
   }
 }
 
