@@ -25,6 +25,13 @@ const RevenueTrendsLineChart = ({ width }) => {
   // const socialSecColor = '#eb5160';
   // const indvColor = '#0a2f5a';
 
+  const blsLink =
+    <CustomLink
+      url={"https://www.bls.gov/"}
+    >
+      Bureau of Labor Statistics
+    </CustomLink>;
+
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
     // which doesn't seem to happen naturally when nivo has a flex container
@@ -53,8 +60,10 @@ const RevenueTrendsLineChart = ({ width }) => {
   receipts-and-outlays-of-the-u-s-government`;
   const footer =
     <div>
+      <p>
       Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and
-      download this data.
+      download this data. The inflation data is sourced from the {blsLink}
+      </p>
       <p></p>
     </div>;
 
