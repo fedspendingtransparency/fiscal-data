@@ -1,0 +1,17 @@
+@import "src/variables.module";
+
+.sourcesContent {
+  h5 {
+    font-size: $font-size-24;
+    color: #666666;
+    font-weight: $semi-bold-weight;
+    margin: 0 0 1rem;
+  }
+  p {
+    margin-top: 0;
+  }
+
+}
+.sourceURL{
+  font-size: $font-size-16;
+}
