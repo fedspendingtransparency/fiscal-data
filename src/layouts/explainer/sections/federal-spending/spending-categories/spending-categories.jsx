@@ -71,7 +71,7 @@ export const SpendingCategories = () => {
           their{" "}
           {
             <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}>
-              Annual Report on the Financial Status of Social Security and
+              Annual Reports on the Financial Status of Social Security and
               Medicare.
             </CustomLink>
           }{" "}
