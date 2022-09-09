@@ -29,3 +29,20 @@
     }
   }
 }
+
+.label {
+  max-width: 120px;
+}
+
+.totalRevenueDataPill {
+  width: 225px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  background-color: white;
+  border-radius: 15px;
+  height: 2rem;
+  font-weight: $semi-bold-weight;
+  margin-bottom:2rem;
+}
