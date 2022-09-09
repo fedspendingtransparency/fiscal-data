@@ -11,12 +11,17 @@ import {
 import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 export const SpendingCategories = () => {
-  const usaSpending = (
+  const spendingExplorer = (
     <CustomLink url={"https://www.usaspending.gov/explorer"}>
-      {" "}
-      USAspending.gov.
+      Spending Explorer
     </CustomLink>
   )
+  const agencyProfile = (
+    <CustomLink url={"https://www.usaspending.gov/agency"}>
+      Agency Profile
+    </CustomLink>
+  )
+
   return (
     <div className={spendingCategoriesContent}>
       <p>
@@ -38,7 +43,8 @@ export const SpendingCategories = () => {
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency,
-            visit {usaSpending}
+            visit USAspending.gov’s {spendingExplorer} and {agencyProfile}{" "}
+            pages.
           </p>
         </VisualizationCallout>
       </div>
