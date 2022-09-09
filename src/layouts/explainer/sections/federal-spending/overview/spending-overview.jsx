@@ -107,8 +107,8 @@ export const SpendingOverview = ({ glossary }) => {
             If the government spends more than it collects in {revenue}, then
             there is a budget deficit. If the government spends less than it
             collects in revenue, there is a budget surplus. In fiscal year
-            (FY) {latestCompleteFiscalYear}, the government spent ${priorYearSpending}
-            trillion, which was {spendingChange} than it collected (revenue), resulting
+            (FY) {latestCompleteFiscalYear}, the government spent ${priorYearSpending},
+            which was {spendingChange} than it collected (revenue), resulting
             in a {deficitTerm}. Visit the {deficit} explainer to see how the
             deficit and revenue compare to federal spending
           </p>
