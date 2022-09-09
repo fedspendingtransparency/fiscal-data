@@ -55,9 +55,7 @@ const RevenueTrendsLineChart = ({ width }) => {
     <div>
       Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and
       download this data.
-      <p>
-        Please note: This data visual only includes completed fiscal years.
-      </p>
+      <p></p>
     </div>;
 
   const chartTheme = {
