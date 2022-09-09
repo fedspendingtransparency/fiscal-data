@@ -17,12 +17,8 @@ module.exports = {
         "interest-exchange-rates"
       ],
       "relatedDatasets": [
-        "015-BFS-2014Q3-037",
-        "015-BFS-2014Q1-11",
-        "015-BFS-2014Q3-076",
-        "015-BFS-2014Q1-03",
-        "015-BFS-2014Q1-13",
-        "015-BFS-2014Q3-103"
+        "015-BFS-2014Q3-093",
+        "015-BFS-2014Q3-056"
       ],
       "slug": "/fed-credit-similar-maturity-rates/",
       "currentDateButton": "byMonth"
