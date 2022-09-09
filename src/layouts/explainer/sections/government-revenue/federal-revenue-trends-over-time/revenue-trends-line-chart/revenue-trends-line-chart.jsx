@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {breakpointLg, fontSize_12, fontSize_14} from "../../../../../../variables.module.scss";
+import {breakpointLg, fontSize_10, fontSize_14} from "../../../../../../variables.module.scss";
 import {withWindowSize} from "react-fns";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -15,12 +15,22 @@ const RevenueTrendsLineChart = ({ width }) => {
 
   const date = new Date();
 
+  // The below const values are for mapping colors to data for when the data gets hooked in
+
+  // const estateColor = '#4b3974';
+  // const customsColor = '#ffa600';
+  // const exciseColor = '#883c7f';
+  // const miscColor = '#ff773e';
+  // const corpColor = '#c13f77';
+  // const socialSecColor = '#eb5160';
+  // const indvColor = '#0a2f5a';
+
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
     // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 495 388');
+      svgChart.setAttribute('viewBox', '0 0 480 500');
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
@@ -30,8 +40,11 @@ const RevenueTrendsLineChart = ({ width }) => {
     if (parseFloat(v) < 0) {
       return `$${Math.abs(v)} T`;
     }
-    else {
+    else if (parseFloat(v) > 0){
       return `$${v} T`;
+    }
+    else {
+      return `$${v}`;
     }
   };
 
@@ -48,7 +61,7 @@ const RevenueTrendsLineChart = ({ width }) => {
     </div>;
 
   const chartTheme = {
-    fontSize:  width < pxToNumber(breakpointLg) ? fontSize_12 : fontSize_14,
+    fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
     fontColor: '#666666',
     axis: {
       domain: {
@@ -60,12 +73,22 @@ const RevenueTrendsLineChart = ({ width }) => {
     }
   };
 
+  const calcTickSize = (tick) => {
+    console.log(tick);
+    return 6;
+  }
+
+  useEffect(() => {
+    applyChartScaling()
+  }, [])
+
   return (
     <>
       { chartData !== [] ? (
         <div data-testid={'revenueTrendsLineChart'} className={styles.container}>
           <ChartContainer
             title={'U.S. Federal Revenue Trends Over Time, FY 2015-2021'}
+            subTitle={'Inflation Adjusted - 2021 Dollars'}
             altText={'Area chart chowing federal revenue totals by revenue category from 2015 - 2021'}
             footer={footer}
             date={date}
@@ -73,14 +96,19 @@ const RevenueTrendsLineChart = ({ width }) => {
             <div className={styles.lineChart} data-testid={'chartParent'}>
               <Line
                 data={chartData}
+                colors={d => d.color}
                 width={ 515 }
                 height={ 500 }
-                margin={{ top: 10, right: 40, bottom: 60, left: 45 }}
-                xScale={{ type: 'point' }}
+                margin={{ top: 10, right: 50, bottom: 60, left: 37 }}
+                xScale={{
+                  type: 'linear',
+                  min: 2015,
+                  max: 2021
+                }}
                 yScale={{
                   type: 'linear',
-                  min: 'auto',
-                  max: 'auto',
+                  min: 0,
+                  max: 5,
                   stacked: true,
                   reverse: false
                 }}
@@ -94,9 +122,10 @@ const RevenueTrendsLineChart = ({ width }) => {
                 axisRight={null}
                 axisBottom={{
                   orient: 'bottom',
-                  tickSize: 10,
+                  tickSize: 6,
                   tickPadding: 5,
                   tickRotation: 0,
+                  tickValues: 7
                 }}
                 axisLeft={{
                   format: formatCurrency,
@@ -104,6 +133,7 @@ const RevenueTrendsLineChart = ({ width }) => {
                   tickSize: 5,
                   tickPadding: 5,
                   tickRotation: 0,
+                  tickValues: 6
                 }}
                 pointSize={0}
                 pointLabelYOffset={-12}

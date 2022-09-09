@@ -17,6 +17,7 @@
   display: flex;
   flex-direction: row;
   margin-left: 5rem;
+  margin-right: 2rem;
 }
 
 .legendColumn {
@@ -32,8 +33,19 @@
 }
 
 .legendText {
-  font-size: 14px;
+  font-size: 0.875rem;
   max-width: 128px;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .legendText {
+    font-size: 0.625rem;
+    max-width: 80px;
+  }
+  .legendContainer {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
 }
 
 // Legend rectangles
