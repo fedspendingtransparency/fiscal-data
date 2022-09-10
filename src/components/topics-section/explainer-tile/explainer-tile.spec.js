@@ -1,6 +1,12 @@
 import React from 'react';
-import { render } from "@testing-library/react"
+import {
+  render,
+  waitFor
+} from "@testing-library/react";
 import ExplainerTile from "./explainer-tile";
+import {SpendingBodyGenerator} from './explainer-tile-helper';
+import fetchMock from 'fetch-mock';
+import {mockSpendingHeroData} from "../../../layouts/explainer/explainer-test-helper";
 
 const testTiles = {
   'pageName': {
@@ -119,4 +125,16 @@ describe('Explainer Tile', () => {
     expect(getByRole('presentation')).toBeInTheDocument();
     expect(getByRole('presentation')).toHaveAttribute('alt', 'altText');
   });
+});
+
+describe('Spending Body Generator ', () => {
+  it('renders the amount and year', async () => {
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
+      mockSpendingHeroData, {overwriteRoutes: true}, {repeat: 1}
+    )
+    const {getByText} = render(<SpendingBodyGenerator />);
+    await waitFor(() => getByText("$4.5 trillion", {exact:false}));
+    expect(await getByText("in fiscal year 2022", {exact: false})).toBeInTheDocument();
+  });
+
 });

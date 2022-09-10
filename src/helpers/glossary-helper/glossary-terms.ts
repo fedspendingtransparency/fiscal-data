@@ -1,23 +1,26 @@
-import {IGlossaryTerm} from "../../models/IGlossaryTerm";
+import { IGlossaryTerm } from "../../models/IGlossaryTerm"
 
-export const findGlossaryTerm = (term: string, glossaryData: IGlossaryTerm[]): IGlossaryTerm[] => {
+export const findGlossaryTerm = (
+  term: string,
+  glossaryData: IGlossaryTerm[]
+): IGlossaryTerm[] => {
   // Uses toLowerCase() for case-insensitive matching
-  const matches = [];
-  glossaryData.forEach((entry => {
-    if(entry.term && entry.term.toLowerCase() === term.toLowerCase()) {
-      matches.push(entry);
+  const matches = []
+  if (!glossaryData) {
+    console.warn(term);
+    console.warn("Glossary data missing, did you pass the glossary prop?")
+    return
+  }
+  glossaryData.forEach(entry => {
+    if (entry.term && entry.term.toLowerCase() === term.toLowerCase()) {
+      matches.push(entry)
     }
-  }))
+  })
 
-  if(matches.length >= 1) {
-    return matches;
+  if (matches.length >= 1) {
+    return matches
+  } else {
+    console.warn("Glossary term not found.")
+    return []
   }
-
-  else {
-    console.warn('Glossary term not found.')
-    return [];
-  }
-
 }
-
-
