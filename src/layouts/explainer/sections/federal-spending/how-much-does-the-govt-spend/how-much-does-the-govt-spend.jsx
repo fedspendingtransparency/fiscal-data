@@ -302,7 +302,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   style={{
                     background: "#00766C",
                     width: `${item.percentage * (isMobile ? 1 : 2)}%`,
-                    marginRight: "16px",
+                    marginRight: "10px",
                     height: "40px",
                   }}
                 ></div>
@@ -336,7 +336,7 @@ const HowMuchDoesTheGovtSpend = () => {
               style={{
                 background: "#00766C",
                 width: `${otherPercentage * (isMobile ? 1 : 2)}%`,
-                marginRight: "16px",
+                marginRight: "10px",
                 height: "40px",
               }}
             ></div>
