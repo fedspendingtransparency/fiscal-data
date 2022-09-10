@@ -37,7 +37,7 @@
 }
 
 .percentOrDollarContainer {
-    margin-right: 8px;
+    margin-right: 16px !important;
     color: #666666;
     font-weight: 600;
     min-width: 36px;
@@ -48,6 +48,7 @@
     margin-right: 16px;
     font-size: 14px;
     font-weight: 600;
+    max-width: 180px;
 }
 
 .chartToggle {
