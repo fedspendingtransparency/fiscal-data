@@ -20,7 +20,7 @@ const SourcesOfFederalRevenue = () => {
     <CustomLink
       url={"https://www.irs.gov/newsroom/historical-highlights-of-the-irs"}
     >
-      irs.gov
+      IRS.gov
     </CustomLink>
   )
   return (
@@ -75,6 +75,7 @@ const SourcesOfFederalRevenue = () => {
         icon={faMartiniGlassCitrus}
         primaryColor={revenueExplainerPrimary}
         secondaryColor={revenueExplainerLightSecondary}
+        fontSize={"2rem"}
       >
         <p className={quoteBoxContent}>
           From 1868 until 1913, 90% of all federal revenue came from taxes on
