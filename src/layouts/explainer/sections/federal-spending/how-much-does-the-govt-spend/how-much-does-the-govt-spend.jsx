@@ -267,6 +267,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 marginRight: "4px",
                 color: !percentDollarToggleChecked ? "#00766C" : "#666",
                 minWidth: "80px",
+                fontSize: isMobile ? "16px" : "14px",
               }}
             >
               Percentage
@@ -290,6 +291,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 color: percentDollarToggleChecked ? "#00766C" : "#666",
                 marginBottom: "24px",
                 minWidth: "80px",
+                fontSize: isMobile ? "16px" : "14px",
               }}
             >
               Dollars
