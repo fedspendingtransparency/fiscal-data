@@ -121,10 +121,7 @@ export const SpendingOverview = ({ glossary }) => {
             and services that support the economy and people of the United
             States. The federal government also spends money on the interest it
             has incurred on outstanding {federalDebt}. Consequently, as the debt
-            grows, the spending on interest expense also generally grows. If the
-            government spends more than it collects in revenue, then there is a
-            budget deficit. If the government spends less than it collects in
-            revenue, there is a budget surplus
+            grows, the spending on interest expense also generally grows.
           </p>
           <p>
             If the government spends more than it collects in {revenue}, then
@@ -133,7 +130,7 @@ export const SpendingOverview = ({ glossary }) => {
             (FY) {latestCompleteFiscalYear}, the government spent ${priorYearSpending},
             which was {spendingChange} than it collected (revenue), resulting
             in a {deficitTerm}. Visit the {deficit} explainer to see how the
-            deficit and revenue compare to federal spending
+            deficit and revenue compare to federal spending.
           </p>
           <p>
             Federal government spending pays for everything from Social Security
@@ -141,7 +138,7 @@ export const SpendingOverview = ({ glossary }) => {
             construction, research, and education. This spending can be broken
             down into two primary categories: mandatory and discretionary. These
             purchases can also be classified by {objectClass} and{" "}
-            {budgetFunctions}
+            {budgetFunctions}.
           </p>
           <p>
             Throughout this page, we use outlays to represent spending. This is
