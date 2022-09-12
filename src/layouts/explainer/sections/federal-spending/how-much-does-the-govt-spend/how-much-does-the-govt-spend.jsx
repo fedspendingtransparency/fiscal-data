@@ -223,7 +223,14 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("category")
               }}
             >
-              <span className={toggleText}>Category</span>
+              <span
+                style={{
+                  fontSize: isMobile ? "16px" : "14px",
+                  color: selectedChartView === "agency" ? "inherit" : "#F1F1F1",
+                }}
+              >
+                Category
+              </span>
             </button>
             <button
               className={toggleButton}
@@ -238,7 +245,14 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("agency")
               }}
             >
-              <span className={toggleText}>Agency</span>
+              <span
+                style={{
+                  fontSize: isMobile ? "16px" : "14px",
+                  color: selectedChartView === "agency" ? "#F1F1F1" : "inherit",
+                }}
+              >
+                Agency
+              </span>
             </button>
           </div>
           <div
@@ -288,7 +302,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   style={{
                     background: "#00766C",
                     width: `${item.percentage * (isMobile ? 1 : 2)}%`,
-                    marginRight: "16px",
+                    marginRight: "10px",
                     height: "40px",
                   }}
                 ></div>
@@ -306,12 +320,7 @@ const HowMuchDoesTheGovtSpend = () => {
                       )}`
                     : `${item.percentage} %`}
                 </div>
-                <div
-                  className={descContainer}
-                  style={{
-                    maxWidth: item.percentage > 10 ? "140px" : "inherit",
-                  }}
-                >
+                <div className={descContainer}>
                   {item.classification_desc?.replace("Total--", "")}
                 </div>
               </div>
@@ -322,7 +331,7 @@ const HowMuchDoesTheGovtSpend = () => {
               style={{
                 background: "#00766C",
                 width: `${otherPercentage * (isMobile ? 1 : 2)}%`,
-                marginRight: "16px",
+                marginRight: "10px",
                 height: "40px",
               }}
             ></div>
