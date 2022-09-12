@@ -70,9 +70,7 @@ const explainerPagesSource = {
     prodReady: false,
     heroImage: {
       heading: "How much revenue has the U.S. government collected this year? ",
-      subHeading: `Government revenue is income received from taxes and other sources to pay for
-      government expenditures. The U.S. government has collected {$XX.X trillion (total revenue)}
-      in fiscal year {YYYY (current FY)}.`,
+      subHeading: "",
     },
     relatedDatasets: [
       "015-BFS-2014Q1-13",
