@@ -302,7 +302,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   style={{
                     background: "#00766C",
                     width: `${item.percentage * (isMobile ? 1 : 2)}%`,
-                    marginRight: "16px",
+                    marginRight: "10px",
                     height: "40px",
                   }}
                 ></div>
@@ -320,12 +320,7 @@ const HowMuchDoesTheGovtSpend = () => {
                       )}`
                     : `${item.percentage} %`}
                 </div>
-                <div
-                  className={descContainer}
-                  style={{
-                    maxWidth: item.percentage > 10 ? "140px" : "inherit",
-                  }}
-                >
+                <div className={descContainer}>
                   {item.classification_desc?.replace("Total--", "")}
                 </div>
               </div>
@@ -336,7 +331,7 @@ const HowMuchDoesTheGovtSpend = () => {
               style={{
                 background: "#00766C",
                 width: `${otherPercentage * (isMobile ? 1 : 2)}%`,
-                marginRight: "16px",
+                marginRight: "10px",
                 height: "40px",
               }}
             ></div>

@@ -133,7 +133,7 @@ describe('Spending Body Generator ', () => {
       mockSpendingHeroData, {overwriteRoutes: true}, {repeat: 1}
     )
     const {getByText} = render(<SpendingBodyGenerator />);
-    await waitFor(() => getByText("$4.5 trillion", {exact:false}));
+    await waitFor(() => getByText("$4.52 trillion", {exact:false}));
     expect(await getByText("in fiscal year 2022", {exact: false})).toBeInTheDocument();
   });
 
