@@ -225,7 +225,7 @@ const HowMuchDoesTheGovtSpend = () => {
             >
               <span
                 style={{
-                  fontSize: isMobile ? "16px" : "14px",
+                  fontSize: "14px",
                   color: selectedChartView === "agency" ? "inherit" : "#F1F1F1",
                 }}
               >
@@ -247,7 +247,7 @@ const HowMuchDoesTheGovtSpend = () => {
             >
               <span
                 style={{
-                  fontSize: isMobile ? "16px" : "14px",
+                  fontSize: "14px",
                   color: selectedChartView === "agency" ? "#F1F1F1" : "inherit",
                 }}
               >
@@ -267,7 +267,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 marginRight: "4px",
                 color: !percentDollarToggleChecked ? "#00766C" : "#666",
                 minWidth: "80px",
-                fontSize: isMobile ? "16px" : "14px",
+                fontSize: "14px",
               }}
             >
               Percentage
@@ -291,7 +291,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 color: percentDollarToggleChecked ? "#00766C" : "#666",
                 marginBottom: "24px",
                 minWidth: "80px",
-                fontSize: isMobile ? "16px" : "14px",
+                fontSize: "14px",
               }}
             >
               Dollars
