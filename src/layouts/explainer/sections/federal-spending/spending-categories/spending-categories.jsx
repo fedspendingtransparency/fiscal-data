@@ -1,16 +1,33 @@
-import React from "react"
-import { ChartPlaceholder } from "../../../explainer-helpers/federal-spending/federal-spending-helper"
-import VisualizationCallout from "../../../../../components/visualization-callout/visualization-callout"
-import { visWithCallout } from "../../../explainer.module.scss"
-import Accordion from "../../../../../components/accordion/accordion"
-import { spendingCategoriesContent } from "./spending-categories.module.scss"
+import React, {useEffect, useState} from "react";
+import VisualizationCallout
+  from "../../../../../components/visualization-callout/visualization-callout";
+import { visWithCallout } from "../../../explainer.module.scss";
+import Accordion from "../../../../../components/accordion/accordion";
+import {
+  spendingCategoriesContent
+} from "./spending-categories.module.scss";
 import {
   spendingAccordion,
-  spendingExplainerPrimary,
-} from "../federal-spending.module.scss"
-import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend"
+  spendingExplainerPrimary
+} from "../federal-spending.module.scss";
+import HowMuchDoesTheGovtSpend from "../how-much-does-the-govt-spend/how-much-does-the-govt-spend";
+import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
+
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 export const SpendingCategories = () => {
+  const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
+
+  useEffect(() => {
+    const endpointUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,'+
+      'record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19';
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        if (res.data) {
+          setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
+        }
+      });
+  }, [])
+
   const spendingExplorer = (
     <CustomLink url={"https://www.usaspending.gov/explorer"}>
       Spending Explorer
@@ -36,7 +53,7 @@ export const SpendingCategories = () => {
         public - everything from military aircraft, construction and highway
         maintenance equipment, buildings, and livestock, to research, education,
         and training. The chart below shows the top 10 categories and agencies
-        for federal spending in FY YYYY (latest complete fiscal year).
+        for federal spending in FY {latestCompleteFiscalYear}.
       </p>
       <div className={visWithCallout}>
         <HowMuchDoesTheGovtSpend />
@@ -54,7 +71,7 @@ export const SpendingCategories = () => {
           their{" "}
           {
             <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}>
-              Annual Report on the Financial Status of Social Security and
+              Annual Reports on the Financial Status of Social Security and
               Medicare.
             </CustomLink>
           }{" "}

@@ -5,7 +5,11 @@ import explainerSections from './sections/sections';
 import {
   mockExplainerPageResponse, mockSpendingHeroData,
 } from './explainer-test-helper';
-import {setGlobalFetchMatchingResponse, setGlobalFetchResponse} from '../../utils/mock-utils';
+import {
+  determineBEAFetchResponse,
+  setGlobalFetchMatchingResponse,
+  setGlobalFetchResponse
+} from '../../utils/mock-utils';
 import {understandingDeficitMatchers} from
     "./explainer-helpers/national-deficit/national-deficit-test-helper";
 import fetchMock from "fetch-mock";
@@ -114,11 +118,31 @@ describe('Deficit explainer', () => {
 })
 
 describe('Spending explainer', () => {
+  const mockData = {
+    "data": [{
+      "current_fytd_net_outly_amt": "4515067070149.23",
+      "prior_fytd_net_outly_amt": "2237949464925.20",
+      "record_calendar_month": "06",
+      "record_calendar_year": "2021",
+      "record_date": "2021-06-30",
+      "record_fiscal_year": "2021"
+    }]
+  }
+
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
       mockSpendingHeroData, {overwriteRoutes: true}, {repeat: 1}
     )
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service
+    /v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
+      mockData, {overwriteRoutes: true}, {repeat: 1}
+    );
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/
+    v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt`,
+      mockData, {overwriteRoutes: true}, {repeat: 1}
+    );
+    determineBEAFetchResponse(jest, mockData);
   });
 
   afterEach(() => {
