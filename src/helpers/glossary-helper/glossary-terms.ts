@@ -7,6 +7,7 @@ export const findGlossaryTerm = (
   // Uses toLowerCase() for case-insensitive matching
   const matches = []
   if (!glossaryData) {
+    console.warn(term);
     console.warn("Glossary data missing, did you pass the glossary prop?")
     return
   }

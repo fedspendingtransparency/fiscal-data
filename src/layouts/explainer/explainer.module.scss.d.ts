@@ -75,4 +75,5 @@ export const section: string;
 export const socialShareContainer: string;
 export const chartBackdrop: string;
 export const visWithCallout: string;
+export const quoteBoxContent: string;
 export const relatedDatasets: string;
