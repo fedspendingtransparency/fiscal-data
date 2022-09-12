@@ -10,21 +10,22 @@ export const SpendingBodyGenerator = () => {
   const endpointUrl
     = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
   const spendingUrl = `${apiPrefix}${endpointUrl}`;
-  const [amount, setAmount] = useState('5');
-  const [year, setYear] = useState('1111');
+  const [amount, setAmount] = useState('0');
+  const [year, setYear] = useState('null');
 
   useEffect(() => {
     basicFetch(`${spendingUrl}`)
       .then((res) => {
         if (res.data) {
           const data = res.data[0];
-          setAmount(data.current_fytd_net_outly_amt);
+          const currentTotalSpending = data.current_fytd_net_outly_amt;
+          setAmount(currentTotalSpending);
           setYear(data.record_fiscal_year);
         }
       })
   }, []);
-
-  return (<>The U.S. government has spent ${getShortForm(amount, 1, false)}{' '}
+console.log(amount);
+  return (<>The U.S. government has spent ${getShortForm(amount, 2, false)}{' '}
     in fiscal year {year} to ensure the well-being of the people of the United States.
     Learn more about spending categories, types of spending, and spending trends over time.</>);
 };
