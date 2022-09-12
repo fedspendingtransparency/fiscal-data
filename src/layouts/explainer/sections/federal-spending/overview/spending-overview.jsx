@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from "react";
-import CustomLink from "../../../../../components/links/custom-link/custom-link";
-import {visWithCallout} from "../../../explainer.module.scss";
-import VisualizationCallout
-  from "../../../../../components/visualization-callout/visualization-callout";
+import React, { useEffect, useState } from "react"
+import CustomLink from "../../../../../components/links/custom-link/custom-link"
+import { visWithCallout } from "../../../explainer.module.scss"
+import VisualizationCallout from "../../../../../components/visualization-callout/visualization-callout"
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term"
 import {
   spendingExplainerPrimary,
@@ -11,19 +10,22 @@ import {
 } from "../federal-spending.module.scss"
 import QuoteBox from "../../../quote-box/quote-box"
 import { faFlagUsa } from "@fortawesome/free-solid-svg-icons"
-import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
-import {getShortForm} from "../../../heros/hero-helper";
+import { apiPrefix, basicFetch } from "../../../../../utils/api-utils"
+import { getShortForm } from "../../../heros/hero-helper"
 export const SpendingOverview = ({ glossary }) => {
-  const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
-  const [priorYearSpending, setPriorYearSpending] = useState(null);
-  const [spendingChange, setSpendingChange] = useState(null);
-  const [deficitTerm, setDeficitTerm] = useState(null);
+  const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null)
+  const [priorYearSpending, setPriorYearSpending] = useState(null)
+  const [spendingChange, setSpendingChange] = useState(null)
+  const [deficitTerm, setDeficitTerm] = useState(null)
 
   const deficit = (
     <CustomLink url={"/national-deficit/"}>national deficit</CustomLink>
   )
-  const usaSpending =
-    <CustomLink url={'https://www.usaspending.gov/explorer'}>USAspending.gov</CustomLink>;
+  const usaSpending = (
+    <CustomLink url={"https://www.usaspending.gov/explorer"}>
+      USAspending.gov
+    </CustomLink>
+  )
 
   const objectClass = (
     <GlossaryTerm
@@ -75,18 +77,18 @@ export const SpendingOverview = ({ glossary }) => {
   )
 
   useEffect(() => {
-    const endpointUrl = 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
-    basicFetch(`${apiPrefix}${endpointUrl}`)
-      .then((res) => {
-        if (res.data) {
-          const data = res.data[0];
-          const priorSpending = data.current_fytd_net_outly_amt;
-          setLatestCompleteFiscalYear(data.record_fiscal_year);
-          setPriorYearSpending(getShortForm(priorSpending.toString(), 1, false));
-          setSpendingChange(priorSpending < 0 ? 'more' : 'less');
-          setDeficitTerm(priorSpending < 0 ? 'deficit' : 'surplus');
-        }
-      });
+    const endpointUrl =
+      "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page[size]=1"
+    basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
+      if (res.data) {
+        const data = res.data[0]
+        const priorSpending = data.current_fytd_net_outly_amt
+        setLatestCompleteFiscalYear(data.record_fiscal_year)
+        setPriorYearSpending(getShortForm(priorSpending.toString(), 1, false))
+        setSpendingChange(priorSpending < 0 ? "more" : "less")
+        setDeficitTerm(priorSpending < 0 ? "deficit" : "surplus")
+      }
+    })
   }, [])
 
   return (
@@ -101,16 +103,17 @@ export const SpendingOverview = ({ glossary }) => {
             grows, the spending on interest expense also generally grows. If the
             government spends more than it collects in revenue, then there is a
             budget deficit. If the government spends less than it collects in
-            revenue, there is a budget surplus
+            revenue, there is a budget surplus.
           </p>
           <p>
             If the government spends more than it collects in {revenue}, then
             there is a budget deficit. If the government spends less than it
-            collects in revenue, there is a budget surplus. In fiscal year
-            (FY) {latestCompleteFiscalYear}, the government spent ${priorYearSpending},
-            which was {spendingChange} than it collected (revenue), resulting
-            in a {deficitTerm}. Visit the {deficit} explainer to see how the
-            deficit and revenue compare to federal spending
+            collects in revenue, there is a budget surplus. In fiscal year (FY){" "}
+            {latestCompleteFiscalYear}, the government spent $
+            {priorYearSpending}, which was {spendingChange} than it collected
+            (revenue), resulting in a {deficitTerm}. Visit the {deficit}{" "}
+            explainer to see how the deficit and revenue compare to federal
+            spending.
           </p>
           <p>
             Federal government spending pays for everything from Social Security
@@ -118,7 +121,7 @@ export const SpendingOverview = ({ glossary }) => {
             construction, research, and education. This spending can be broken
             down into two primary categories: mandatory and discretionary. These
             purchases can also be classified by {objectClass} and{" "}
-            {budgetFunctions}
+            {budgetFunctions}.
           </p>
           <p>
             Throughout this page, we use outlays to represent spending. This is
