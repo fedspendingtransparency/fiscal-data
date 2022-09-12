@@ -1810,6 +1810,24 @@ const endpointConfig = {
     'valueFieldOptions': [
       'rate'
     ]
+  },
+  '180': {
+    'endpoint': 'v1/accounting/od/federal_maturity_rates',
+      'dateField': 'record_date',
+      'downloadName': 'FederalCreditSimilarMaturityRates',
+      'dataDisplays': [
+      {
+        'title': 'By Fiscal Year',
+        "dimensionField": "record_fiscal_year"
+      }
+    ],
+      'valueFieldOptions': [
+      'one_year_or_less',
+      'between_1_and_5_years',
+      'between_5_and_10_years',
+      'between_10_and_20_years',
+      'twenty_years_or_greater'
+    ]
   }
 };
 
