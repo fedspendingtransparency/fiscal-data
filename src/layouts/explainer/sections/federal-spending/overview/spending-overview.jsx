@@ -75,19 +75,42 @@ export const SpendingOverview = ({ glossary }) => {
   )
 
   useEffect(() => {
-    const endpointUrl = 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+    const fields = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' +
+                   'record_calendar_month,record_calendar_year,record_fiscal_year';
+    const filter = 'filter=line_code_nbr:eq:5691,record_calendar_month:eq:09';
+    const sort = 'sort=-record_date';
+    const pagination = 'page[size]=1';
+    const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
+
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        if (res.data) {
+          const data = res.data[0];
+          setLatestCompleteFiscalYear(data.record_fiscal_year);
+          setPriorYearSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 1, false));
+        }
+      });
+  }, [])
+
+  useEffect(() => {
+    const fields =
+      'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
+    const filter = 'filter=line_code_nbr:eq:5694,record_calendar_month:eq:09';
+    const sort = 'sort=-record_date';
+    const pagination = 'page[size]=1';
+    const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
+
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {
           const data = res.data[0];
           const priorSpending = data.current_fytd_net_outly_amt;
-          setLatestCompleteFiscalYear(data.record_fiscal_year);
-          setPriorYearSpending(getShortForm(priorSpending.toString(), 1, false));
           setSpendingChange(priorSpending < 0 ? 'more' : 'less');
           setDeficitTerm(priorSpending < 0 ? 'deficit' : 'surplus');
         }
       });
   }, [])
+
 
   return (
     <>

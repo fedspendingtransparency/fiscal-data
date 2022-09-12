@@ -32,7 +32,7 @@ describe('Federal Spending Overview', () => {
     }]
   }
     fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockData, {overwriteRoutes: true, repeat: 1}
+      mockData, {overwriteRoutes: true}, {repeat: 1}
     )
     const fetchSpy = jest.spyOn(global, 'fetch');
 
@@ -56,7 +56,7 @@ describe('Federal Spending Overview', () => {
     }]
   }
     fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockData, {overwriteRoutes: true, repeat: 1}
+      mockData, {overwriteRoutes: true}, {repeat: 1}
     )
     const fetchSpy = jest.spyOn(global, 'fetch');
 
