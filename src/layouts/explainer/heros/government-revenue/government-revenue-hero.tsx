@@ -4,11 +4,13 @@ import {
   footNotes,
   heroImageSubHeading,
   footNotesPillData,
+  flapWrapper
 } from "../../hero-image/hero-image.module.scss"
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import { getFootNotesDateRange, getPillData, getShortForm } from "../hero-helper"
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
+import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 
 const GovernmentRevenueHero = (): JSX.Element => {
 
@@ -71,34 +73,47 @@ const GovernmentRevenueHero = (): JSX.Element => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        Government revenue is income received from taxes and other sources to pay for
-        government expenditures. The U.S. government has collected {' '}
-        ${getShortForm(currentRevenue, 2, false)} {' '}
-        in fiscal year {recordFiscalYear}.
+        Government revenue is income received from taxes and other sources to
+        pay for government expenditures. The U.S. government has collected $
+        {getShortForm(currentRevenue, 2, false)} in fiscal year{" "}
+        {recordFiscalYear}.
       </p>
-      <div>
-        <p>SplitFlap Display PlaceHolder</p>
+      <div className={flapWrapper}>
+        <SplitFlapDisplay
+          value={currentRevenue}
+          minLength={17}
+          valueType="currency"
+        />
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal Year-to-Date (since October {priorFiscalYear}) total updated monthly using
-          the {mts} dataset.
+          Fiscal Year-to-Date (since October {priorFiscalYear}) total updated
+          monthly using the {mts} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>
-            Compared to the national revenue of
-            ${getShortForm(priorYearRevenue.toString(), 1, false)} for the same period
-            last year
-            ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)})
-            national revenue has {revenueChangeLabel} by
-            ${getShortForm(revenueChange.toString(), 1, false)}.
+            Compared to the national revenue of $
+            {getShortForm(priorYearRevenue.toString(), 1, false)} for the same
+            period last year (
+            {getFootNotesDateRange(
+              priorFiscalYear,
+              priorCalendarYear,
+              recordCalendarMonth
+            )}
+            ) national revenue has {revenueChangeLabel} by $
+            {getShortForm(revenueChange.toString(), 1, false)}.
           </p>
-          {getPillData(revenueChange, revenuePercentChange, revenueChangeLabel,
-            true, revenueExplainerLightSecondary)}
+          {getPillData(
+            revenueChange,
+            revenuePercentChange,
+            revenueChangeLabel,
+            true,
+            revenueExplainerLightSecondary
+          )}
         </div>
       </div>
     </>
-  );
+  )
 }
 
 export default GovernmentRevenueHero;
