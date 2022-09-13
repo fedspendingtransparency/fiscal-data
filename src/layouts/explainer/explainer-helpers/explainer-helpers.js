@@ -33,6 +33,7 @@ import {
   revenueExplainerLightSecondary
 } from "../sections/government-revenue/revenue.module.scss";
 import FederalSpendingHero from "../heros/federal-spending/federal-spending-hero";
+import GovernmentRevenueHero from "../heros/government-revenue/government-revenue-hero"
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -147,7 +148,7 @@ export const explainerHeroMap = {
     component: (glossary) => <FederalSpendingHero />
   },
   'government-revenue': {
-    component: (glossary) => <div> Hero Image Placeholder </div>
+    component: (glossary) => <GovernmentRevenueHero />
   }
 }
 
