@@ -9,6 +9,7 @@ import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import { getFootNotesDateRange, getPillData, getShortForm } from "../hero-helper"
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
+import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 
 const GovernmentRevenueHero = (): JSX.Element => {
 
@@ -77,11 +78,10 @@ const GovernmentRevenueHero = (): JSX.Element => {
         in fiscal year {recordFiscalYear}.
       </p>
       <div>
-        <p>SplitFlap Display PlaceHolder</p>
-        {/* <SplitFlapDisplay value={totalSpending}
+        <SplitFlapDisplay value={currentRevenue}
                           minLength={17} // number of characters to initially display
                           valueType="currency"
-        /> */}
+        />
       </div>
       <div className={footNotes}>
         <p>
