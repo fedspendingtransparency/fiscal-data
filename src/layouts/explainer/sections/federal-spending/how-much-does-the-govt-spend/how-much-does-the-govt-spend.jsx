@@ -225,14 +225,8 @@ const HowMuchDoesTheGovtSpend = () => {
             >
               <span
                 style={{
-<<<<<<< Updated upstream
-                  fontSize: "14px",
-                  color: selectedChartView === "agency" ? "inherit" : "#F1F1F1",
-=======
                   fontSize: isMobile ? "16px" : "14px",
-                  color:
-                    selectedChartView === "agency" ? "inherit" : "#ffffff",
->>>>>>> Stashed changes
+                  color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
                 }}
               >
                 Category
@@ -253,14 +247,8 @@ const HowMuchDoesTheGovtSpend = () => {
             >
               <span
                 style={{
-<<<<<<< Updated upstream
-                  fontSize: "14px",
-                  color: selectedChartView === "agency" ? "#F1F1F1" : "inherit",
-=======
                   fontSize: isMobile ? "16px" : "14px",
-                  color:
-                    selectedChartView === "agency" ? "#ffffff" : "inherit",
->>>>>>> Stashed changes
+                  color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
                 }}
               >
                 Agency
