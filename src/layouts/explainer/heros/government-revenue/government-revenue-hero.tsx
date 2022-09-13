@@ -23,6 +23,9 @@ const GovernmentRevenueHero = (): JSX.Element => {
     = `v1/accounting/mts/mts_table_4?${fields}&${filter}&${sort}&${pagination}`;
   const revenueUrl: string = `${apiPrefix}${endpointUrl}`;
 
+  // appending 40 to a 6 digit hex color is equivalent to specifiying 25% opacity
+  const pillColorWithTransparency = `${revenueExplainerLightSecondary}40`;
+
   const [currentRevenue, setCurrentRevenue] = useState(null);
   const [priorYearRevenue, setPriorYearRevenue] = useState(0);
   const [priorFiscalYear, setPriorFiscalYear] = useState(null);
@@ -108,7 +111,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
             revenuePercentChange,
             revenueChangeLabel,
             true,
-            `${revenueExplainerLightSecondary}40`
+            pillColorWithTransparency
           )}
         </div>
       </div>
