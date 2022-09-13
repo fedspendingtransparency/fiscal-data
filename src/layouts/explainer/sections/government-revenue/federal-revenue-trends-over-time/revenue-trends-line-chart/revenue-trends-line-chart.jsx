@@ -56,8 +56,7 @@ const RevenueTrendsLineChart = ({ width }) => {
   };
 
   const name = 'Monthly Treasury Statement (MTS)';
-  const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`;
+  const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`;
   const footer =
     <div>
       <p>
@@ -94,9 +93,9 @@ const RevenueTrendsLineChart = ({ width }) => {
       { chartData !== [] ? (
         <div data-testid={'revenueTrendsLineChart'} className={styles.container}>
           <ChartContainer
-            title={'U.S. Federal Revenue Trends Over Time, FY 2015-2021'}
+            title={'Federal Revenue Trends Over Time, FY 2015-2021'}
             subTitle={'Inflation Adjusted - 2021 Dollars'}
-            altText={'Area chart chowing federal revenue totals by revenue category from 2015 - 2021'}
+            altText={'Area chart showing federal revenue totals by revenue category from 2015 - 2021'}
             footer={footer}
             date={date}
           >
@@ -106,7 +105,7 @@ const RevenueTrendsLineChart = ({ width }) => {
                 colors={d => d.color}
                 width={ 515 }
                 height={ 500 }
-                margin={{ top: 10, right: 50, bottom: 60, left: 37 }}
+                margin={{ top: 10, right: 50, bottom: 60, left: 40 }}
                 xScale={{
                   type: 'linear',
                   min: 2015,

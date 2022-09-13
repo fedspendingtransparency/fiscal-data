@@ -44,7 +44,16 @@ const FederalRevenueTrendsOverTime = () => {
         The chart below shows how federal revenue has changed over time, broken out by the
         various source categories.
       </p>
-      <RevenueTrendsLineChart />
+      <div className={visWithCallout}>
+        <RevenueTrendsLineChart />
+        <VisualizationCallout color={revenueExplainerPrimary}>
+          <p>
+            Total revenue has (increased/decreased) from
+            ($XX.X T) in (YYYY (first available year in the chart)} to
+            ($XX.X T) in (YYYY (latest complete fiscal year)).
+          </p>
+        </VisualizationCallout>
+      </div>
     </div>
   );
 }
