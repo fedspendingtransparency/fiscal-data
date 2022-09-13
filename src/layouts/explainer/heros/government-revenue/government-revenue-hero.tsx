@@ -108,7 +108,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
             revenuePercentChange,
             revenueChangeLabel,
             true,
-            revenueExplainerLightSecondary
+            `${revenueExplainerLightSecondary}40`
           )}
         </div>
       </div>
