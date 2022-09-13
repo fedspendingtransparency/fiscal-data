@@ -21,6 +21,8 @@ const ChartContainer = ({
   customHeaderStyles,
   customSpacing,
   customFooterSpacing,
+  customTitleStyles,
+  customSubTitleStyles
 }) => {
   return (
     <div
@@ -29,8 +31,8 @@ const ChartContainer = ({
       aria-label={altText}
       style={{ ...customSpacing }}
     >
-      <div className={chartTitle}>{title}</div>
-      <div className={chartSubTitle}>{subTitle}</div>
+      <div className={chartTitle} style={{ ...customTitleStyles }}>{title}</div>
+      <div className={chartSubTitle} style={{ ...customSubTitleStyles }}>{subTitle}</div>
       <div className={headerContainer} style={{ ...customHeaderStyles }}>
         {header}
       </div>
