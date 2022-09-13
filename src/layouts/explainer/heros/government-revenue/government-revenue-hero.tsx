@@ -78,6 +78,10 @@ const GovernmentRevenueHero = (): JSX.Element => {
       </p>
       <div>
         <p>SplitFlap Display PlaceHolder</p>
+        {/* <SplitFlapDisplay value={totalSpending}
+                          minLength={17} // number of characters to initially display
+                          valueType="currency"
+        /> */}
       </div>
       <div className={footNotes}>
         <p>
