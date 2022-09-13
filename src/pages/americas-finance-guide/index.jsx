@@ -12,12 +12,10 @@ import CompareSection from './afg-components/compare-section/compare-section';
 
 export default function AmericasFinanceGuidePage() {
 
-
-
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
-        pageTitle="America’s Finance Guide | U.S. Treasury Fiscal Data"
+        pageTitle="America’s Finance Guide"
         description="Your guide to America’s finances: explore U.S. revenue, spending, deficit, and debt with this accessible and open-source guide to federal finance data."
         keywords=""
         image=""
@@ -33,29 +31,29 @@ export default function AmericasFinanceGuidePage() {
         <Box my={5}>AFG Sub-navigation Bar </Box>
       
         <TopicSection
-          heading='In fiscal year YYYY, the federal government has collected $X.X in revenue.'
+          heading= {['In fiscal year YYYY, the federal government has collected $X.X in ' ,<span style={{ fontStyle: 'italic' }}>revenue.</span>]}
           body='The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties.'
           linkUrl='/government-revenue'
           linkText='Learn more about government revenue'
-          linkColor='#0A2F5A'
-          image='/topics-section-images/homepage_deficit_1200x630.png'
+          linkColor={styles.revenueExplainerPrimary}
+          image='/topics-section-images/homepage_revenue_1200x630.png'
           imageAltText='U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building.'
           
         />
         <TopicSection
-          heading='In fiscal year YYYYY the federal government has spent $X.X.'
+          heading= {['In fiscal year YYYYY the federal government has ' , <span style={{ fontStyle: 'italic' }}>spent.</span>, ' $X.X.']}
           body='The federal government funds a variety of programs and services that support the American public. The federal government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
           linkUrl='/federal-spending'
           linkText='Learn more about federal spending'
-          linkColor='#005E56'
-          image='/topics-section-images/homepage_deficit_1200x630.png'
+          linkColor={styles.spendingExplainerPrimary}
+          image='/topics-section-images/homepage_spending_1200x630.png'
           imageAltText='The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. '
         /> 
 
         <div className={styles.middleHeader}>
           <Grid container spacing={4}>
-            <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}><AfgIcon faIcon={faMoneyBill1Wave} backgroundColor="#666666" /></Grid>
-            <Grid item md={11}>
+            <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}><AfgIcon faIcon={faMoneyBill1Wave} backgroundColor={styles.fontBodyCopy} /></Grid>
+            <Grid item md={11} classes={{ root: styles.middleHeaderHeadingContainer }}>
               <h3 className={styles.middleHeaderHeading}>How have federal revenue and spending affected the <span className={styles.deficitText}>deficit</span> and federal <span className={styles.debtText}>debt</span> so far in fiscal year YYYY? </h3>
             </Grid>
             
@@ -64,22 +62,22 @@ export default function AmericasFinanceGuidePage() {
 
 
         <TopicSection
-          heading='The amount by which spending exceeds revenue, $X.X in YYYY, is referred to as deficit spending.'
+          heading= {['The amount by which spending exceeds revenue, $X.X in YYYY, is referred to as ' ,<span style={{ fontStyle: 'italic' }}>deficit.</span>]}
           body='A budget deficit occurs when the money spent exceeds the money collected for a given period.'
           linkUrl='/national-deficit'
           linkText='Learn more about national deficit'
-          linkColor='#B3532D'
+          linkColor={styles.deficitExplainerPrimary}
           image='/topics-section-images/homepage_deficit_1200x630.png'
           imageAltText='A hand reaches up to grab a $ coin. Other objects appear to the left of the hand, including a pie chart, bar graph, and lit lightbulb.'
         />
         <TopicSection
-          heading='In YYYY, the federal government has $X.X in federal debt.'
+          heading= {['In YYYY, the federal government has $X.X in federal ' ,<span style={{ fontStyle: 'italic' }}>debt.</span>]}
           body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.  
 
           Are federal debt and deficit the same thing? No, but they do affect one another"
           linkUrl='/national-debt'
           linkText='Learn more about national debt'
-          linkColor='#4a0072'
+          linkColor={styles.spendingExplainerPrimary}
           image='/topics-section-images/homepage_debt_1200x630.png'
           imageAltText='A variety of hands reach up with objects, including a magnifying glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone.'
         />

@@ -16,6 +16,7 @@ export default function TopicSection({
     image,
     imageAltText
 }) {
+
     return (
         <Grid className={styles.topicSection} container spacing={4} data-testid="topic-section">
             <Grid item lg >

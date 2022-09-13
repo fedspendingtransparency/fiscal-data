@@ -1,15 +1,20 @@
 @import '../../variables.module.scss';
+@import '../../layouts/explainer/sections/national-debt/national-debt.module.scss';
+@import '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
+
+//Variables
+$revenueExplainerPrimary: #0A2F5A;
 
 .topContainer {
     max-width: $breakpoint-lg;
 }
 
 .debtText {
-    color: #b3532d
+    color: $deficit-explainer-primary;
 }
 
 .deficitText {
-    color: #4a0072
+    color: $debt-explainer-primary;
 }
 
 .middleHeader {
@@ -18,7 +23,7 @@
         @include headingStyle4;
         font-size: $font-size-32  !important;
         font-weight: $light-weight  !important;
-        color: #555 !important;
+        color: $card-body !important;
         margin-left: 1rem;
     }
 }
@@ -43,7 +48,7 @@
     }
 
     .quote {
-        color: 666666;
+        color: $font-body-copy;
         font-size: $font-size-20;
         line-height: 1.875rem;
         font-style: italic;
@@ -61,7 +66,7 @@
     .quoteBar {
         width: 6rem;
         height: 0.5rem;
-        background-color: #555555;
+        background-color: $card-body;
         display: block;
         margin-left: 1rem;
         margin-top: 2rem;
@@ -84,7 +89,7 @@
     }
 
     img {
-        margin: 0 auto;
+        margin: 2rem auto;
         display: block;
     }
 
@@ -98,14 +103,33 @@
             margin: 0 auto !important;
             display: block
         }
+
+        .middleHeaderHeadingContainer{
+            margin: 0 3.625rem !important;
+            padding: 0 !important
+        }
+        .middleHeaderHeading:par {
+            font-size: $font-size-36 !important;
+        }
+        
     }
+
+    
 
     .quoteContainer {
         .quoteContainerIcon, .quoteContainerImg{
             margin: 0 auto !important;
             display: block;
         }
+
+        .quoteBar {
+            width: 3.25rem !important;            
+        }
     }
     
 
+}
+
+:export {
+    revenueExplainerPrimary : $revenueExplainerPrimary
 }

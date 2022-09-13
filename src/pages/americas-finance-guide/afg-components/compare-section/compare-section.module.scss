@@ -5,19 +5,15 @@
     margin-top: 4rem;
     margin-bottom: 4rem;
 
-    // .compareGridContainer{
-    //     max-width: 50%;
-    // }
-
     .comparisonHeading{
         font-size: $font-size-32 !important;
         font-weight: $light-weight !important;
-        color: #555 !important;
+        color: $card-body !important;
     }
 
     .heading{
         @include headingStyle4;
-        margin-bottom: 3rem;
+        margin-bottom: 4rem;
         text-align: center;
 
     }
@@ -43,6 +39,11 @@
     }
     .subHeading, .body{
         margin-left: 0.25rem !important;
+    }
+
+    .heading{
+        margin-left: 3.625rem !important;
+        margin-right: 3.625rem !important;
     }
 
 }
