@@ -17,6 +17,7 @@
     }
   }
 }
+
 .quoteContainer {
   border-radius: .125rem;
   box-sizing: border-box;
@@ -40,10 +41,11 @@
       width: 4rem;
       min-width: 4rem;
       border-radius: 2rem;
-      transform:translate(-50%,2rem);
+      transform: translate(-50%, 2rem);
 
-      .iconBackdrop, .offsetIcon {
-        font-size: 2.313rem;
+      .iconBackdrop,
+      .offsetIcon {
+        font-size: 2rem;
         transform: translate(1.125rem, -0.563rem);
       }
 
@@ -52,6 +54,7 @@
       }
     }
   }
+
   .quoteContainer {
     p {
       padding: 3.188rem 1.25rem 2rem;
@@ -67,10 +70,11 @@
       width: 3rem;
       min-width: 3rem;
       border-radius: 1.5rem;
-      transform:translate(-50%, 1.5rem);
+      transform: translate(-50%, 1.5rem);
       margin-top: .5rem;
 
-      .iconBackdrop, .offsetIcon {
+      .iconBackdrop,
+      .offsetIcon {
         font-size: 1.813rem;
         transform: translate(0.75rem, -0.375rem);
       }
@@ -80,6 +84,7 @@
       }
     }
   }
+
   .quoteContainer {
     p {
       padding: 2.813rem .875rem 1.813rem 1.125rem;
