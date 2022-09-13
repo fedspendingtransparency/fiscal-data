@@ -11,3 +11,11 @@
     margin-top: 0;
   }
 }
+
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .mobileContentWrapper {
+    margin-bottom: 1rem;
+  }
+}
+
