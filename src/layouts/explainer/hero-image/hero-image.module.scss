@@ -170,11 +170,16 @@
     .heroImageSubHeading {
       text-align: center;
     }
+
+    .flapWrapper {
+      margin-top: 1rem;
+    }
   }
 
   .heroBorder {
     margin-bottom: 2rem;
   }
+
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
