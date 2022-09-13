@@ -4,12 +4,14 @@ import {
   headerContainer,
   footerContainer,
   chartTitle,
+  chartSubTitle,
 } from "./chart-container.module.scss"
 import React from "react"
 import { format } from "date-fns"
 
 const ChartContainer = ({
   title,
+  subTitle,
   altText,
   header,
   footer,
@@ -28,6 +30,7 @@ const ChartContainer = ({
       style={{ ...customSpacing }}
     >
       <div className={chartTitle}>{title}</div>
+      <div className={chartSubTitle}>{subTitle}</div>
       <div className={headerContainer} style={{ ...customHeaderStyles }}>
         {header}
       </div>

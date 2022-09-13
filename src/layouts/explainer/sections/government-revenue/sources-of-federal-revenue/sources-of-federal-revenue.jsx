@@ -20,7 +20,7 @@ const SourcesOfFederalRevenue = () => {
     <CustomLink
       url={"https://www.irs.gov/newsroom/historical-highlights-of-the-irs"}
     >
-      irs.gov
+      IRS.gov
     </CustomLink>
   )
   return (
