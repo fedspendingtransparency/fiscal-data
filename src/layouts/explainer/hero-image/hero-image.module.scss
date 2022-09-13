@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color:#666666;
+  color: #666666;
   text-align: center;
   padding: 2.25rem .625rem 2.813rem;
 
@@ -23,6 +23,7 @@
     padding-bottom: 1rem;
     max-width: 554px;
     font-size: $font-size-18;
+
     &.deficit {
       margin: 0 0 1rem 0;
     }
@@ -68,13 +69,20 @@
 
   .counterSourceInfo {
     padding-top: 1rem;
+
     &.deficit {
       padding-top: 0;
     }
+
     font-size: $font-size-14;
-    > a {
+
+    >a {
       color: $hero-primary-link;
     }
+  }
+
+  .flapWrapper {
+    margin-top: 2rem;
   }
 
   .footNotes {
@@ -106,7 +114,7 @@
 
   .deficitBoxPercent {
     border-radius: 15px;
-    background:  rgba(179, 83, 45, 0.1);
+    background: rgba(179, 83, 45, 0.1);
     height: 1.5rem;
     width: 4rem;
     font-size: $font-size-14;
@@ -117,7 +125,7 @@
 
   .explainerArrow {
     width: 1rem;
-    height:1.5rem;
+    height: 1.5rem;
     font-size: $font-size-18;
     padding-top: 0.25rem;
     padding-right: 0.5rem;
@@ -163,6 +171,7 @@
       text-align: center;
     }
   }
+
   .heroBorder {
     margin-bottom: 2rem;
   }
@@ -176,6 +185,7 @@
 
     .heroImageCallout {
       padding: .938rem .5rem .938rem .563rem;
+
       .icon {
         height: 1.5rem;
         padding-right: .875rem;

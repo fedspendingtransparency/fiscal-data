@@ -4,6 +4,7 @@ import {
   footNotes,
   heroImageSubHeading,
   footNotesPillData,
+  flapWrapper
 } from "../../hero-image/hero-image.module.scss"
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import { getFootNotesDateRange, getPillData, getShortForm } from "../hero-helper"
@@ -77,7 +78,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
         {getShortForm(currentRevenue, 2, false)} in fiscal year{" "}
         {recordFiscalYear}.
       </p>
-      <div>
+      <div className={flapWrapper}>
         <SplitFlapDisplay
           value={currentRevenue}
           minLength={17}
