@@ -32,6 +32,7 @@ const FederalRevenueTrendsAndUSEconomy = () => {
         </p>
       </QuoteBox>
     </div>
+
   );
 }
 

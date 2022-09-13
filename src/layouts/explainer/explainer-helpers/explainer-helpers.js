@@ -33,6 +33,7 @@ import {
   revenueExplainerLightSecondary
 } from "../sections/government-revenue/revenue.module.scss";
 import FederalSpendingHero from "../heros/federal-spending/federal-spending-hero";
+import GovernmentRevenueHero from "../heros/government-revenue/government-revenue-hero"
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -124,15 +125,15 @@ export const explainerSocialShareMap = {
     image: baseUrl+'/images/Spending-1200x630.png'
   },
   'government-revenue': {
-    title: 'Fiscal Data Explains Federal Spending',
-    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! '
-      + '#FederalSpending ',
-    body: 'Check out @FiscalService Fiscal Data’s new topic page, '
-      + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
-    emailSubject: 'Fiscal Data Explains Federal Spending',
-    emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
-    url: baseUrl+'/americas-finance-guide/',
-    image: baseUrl+'/images/Spending-1200x630.png'
+    title: 'Fiscal Data Explains Federal Revenue',
+    description: ' Check out @FiscalService Fiscal Data’s new topic page, explaining ' +
+      'federal revenue! #FiscalData #OpenData #FederalRevenue  ',
+    body: 'Check out @FiscalService Fiscal Data’s new federal revenue page!' +
+      ' #FederalRevenue',
+    emailSubject: 'Fiscal Data Explains Federal Revenue',
+    emailBody: 'Check out Fiscal Data’s new topic page, explaining federal revenue!',
+    url: baseUrl+'/americas-finance-guide/government-revenue',
+    image: baseUrl+'/images/Revenue-Homepage-1200x630.png'
   }
 }
 
@@ -147,7 +148,7 @@ export const explainerHeroMap = {
     component: (glossary) => <FederalSpendingHero />
   },
   'government-revenue': {
-    component: (glossary) => <div> Hero Image Placeholder </div>
+    component: (glossary) => <GovernmentRevenueHero />
   }
 }
 

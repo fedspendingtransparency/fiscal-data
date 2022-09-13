@@ -138,7 +138,9 @@ const HowMuchDoesTheGovtSpend = () => {
 
   const header = (
     <div className={headerContainer}>
-      <div className={headerStyle}>U.S. Government Spending, FY 2021</div>
+      <div className={headerStyle} style={{ fontWeight: "600" }}>
+        U.S. Government Spending, FY 2021
+      </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
   )
@@ -197,6 +199,9 @@ const HowMuchDoesTheGovtSpend = () => {
       header={header}
       footer={footer}
       date={lastUpdatedDate}
+      altText={
+        "Horizontal bar graph comparing government spending by category or agency from largest to smallest, by percentage or dollar value"
+      }
     >
       {loading ? (
         <div className={loadingIcon}>
@@ -220,7 +225,14 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("category")
               }}
             >
-              <span className={toggleText}>Category</span>
+              <span
+                style={{
+                  fontSize: isMobile ? "16px" : "14px",
+                  color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
+                }}
+              >
+                Category
+              </span>
             </button>
             <button
               className={toggleButton}
@@ -235,7 +247,14 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("agency")
               }}
             >
-              <span className={toggleText}>Agency</span>
+              <span
+                style={{
+                  fontSize: isMobile ? "16px" : "14px",
+                  color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
+                }}
+              >
+                Agency
+              </span>
             </button>
           </div>
           <div
@@ -250,6 +269,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 marginRight: "4px",
                 color: !percentDollarToggleChecked ? "#00766C" : "#666",
                 minWidth: "80px",
+                fontSize: "14px",
               }}
             >
               Percentage
@@ -273,6 +293,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 color: percentDollarToggleChecked ? "#00766C" : "#666",
                 marginBottom: "24px",
                 minWidth: "80px",
+                fontSize: "14px",
               }}
             >
               Dollars
@@ -285,7 +306,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   style={{
                     background: "#00766C",
                     width: `${item.percentage * (isMobile ? 1 : 2)}%`,
-                    marginRight: "16px",
+                    marginRight: "10px",
                     height: "40px",
                   }}
                 ></div>
@@ -303,12 +324,7 @@ const HowMuchDoesTheGovtSpend = () => {
                       )}`
                     : `${item.percentage} %`}
                 </div>
-                <div
-                  className={descContainer}
-                  style={{
-                    maxWidth: item.percentage > 10 ? "140px" : "inherit",
-                  }}
-                >
+                <div className={descContainer}>
                   {item.classification_desc?.replace("Total--", "")}
                 </div>
               </div>
@@ -319,7 +335,7 @@ const HowMuchDoesTheGovtSpend = () => {
               style={{
                 background: "#00766C",
                 width: `${otherPercentage * (isMobile ? 1 : 2)}%`,
-                marginRight: "16px",
+                marginRight: "10px",
                 height: "40px",
               }}
             ></div>

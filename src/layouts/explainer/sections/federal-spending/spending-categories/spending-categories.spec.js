@@ -1,7 +1,8 @@
 import {SpendingCategories} from "./spending-categories";
-import {render} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
 import React from "react";
 import {fireEvent} from "@testing-library/dom";
+import fetchMock from "fetch-mock";
 
 
 describe('Federal Spending Overview', () => {
@@ -16,5 +17,28 @@ describe('Federal Spending Overview', () => {
     expect(accordion).toBeInTheDocument();
     fireEvent.click(accordion);
     expect(getByText('Each year, the Social Security', {exact: false})).toBeInTheDocument();
+  });
+
+  it('loads the evergreen data', async () => {
+    const mockData = {
+      "data": [{
+        "current_fytd_net_outly_amt": "4515067070149.23",
+        "prior_fytd_net_outly_amt": "2237949464925.20",
+        "record_calendar_month": "06",
+        "record_calendar_year": "2022",
+        "record_date": "2022-06-30",
+        "record_fiscal_year": "2022"
+      }]
+    }
+
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/`,
+      mockData, {overwriteRoutes: true}, {repeat: 1}
+    )
+
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByText } = render(<SpendingCategories />);
+
+    expect(fetchSpy).toBeCalled();
+    await waitFor(() => getByText("federal spending in FY 2022", {exact:false}));
   });
 });

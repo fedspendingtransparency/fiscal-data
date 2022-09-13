@@ -535,6 +535,28 @@ export const mockSpendingHeroData_decrease = {
   }]
 }
 
+export const mockRevenueHeroData = {
+  "data": [{
+    "current_fytd_net_rcpt_amt": "4104725332729.16",
+    "prior_fytd_net_rcpt_amt": "3318077685879.47",
+    "record_calendar_month": "06",
+    "record_calendar_year": "2022",
+    "record_date": "2022-06-30",
+    "record_fiscal_year": "2022"
+  }]
+};
+export const mockRevenueHeroData_decrease = {
+  "data": [{
+    "current_fytd_net_rcpt_amt": "4104725332729.16",
+    "prior_fytd_net_rcpt_amt": "4318077685879.47",
+    "record_calendar_month": "06",
+    "record_calendar_year": "2022",
+    "record_date": "2022-06-30",
+    "record_fiscal_year": "2022"
+  }]
+};
+
+
 export const mockDebtExpenseResponse = {
   "data": [{
     "current_fytd_net_outly_amt": "1000000000000.00",
