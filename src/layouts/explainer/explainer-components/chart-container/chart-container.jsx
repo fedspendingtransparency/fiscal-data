@@ -3,8 +3,8 @@ import {
   chartContainer,
   headerContainer,
   footerContainer,
-  chartTitle,
   chartSubTitle,
+  chartTitle,
 } from "./chart-container.module.scss"
 import React from "react"
 import { format } from "date-fns"
@@ -30,8 +30,8 @@ const ChartContainer = ({
       style={{ ...customSpacing }}
     >
       <div className={chartTitle}>{title}</div>
-      <div className={chartSubTitle}>{subTitle}</div>
-      <div className={headerContainer} style={{ ...customHeaderStyles }}>
+      <div className={`${chartSubTitle} chartContainerSubTitle`}>{subTitle}</div>
+      <div className={`${headerContainer} chartContainerHeader`} style={{ ...customHeaderStyles }}>
         {header}
       </div>
       <div
