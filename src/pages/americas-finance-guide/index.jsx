@@ -4,6 +4,9 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import { Container, Grid, Box } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
 import * as styles from "./afg-overview.module.scss"
+import {spendingExplainerPrimary} from '../../layouts/explainer/sections/federal-spending/federal-spending.module.scss'
+import {debtExplainerPrimary} from '../../layouts/explainer/sections/national-debt/national-debt.module.scss'
+import {deficitExplainerPrimary} from '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faMoneyBill1Wave, faQuoteLeft} from "@fortawesome/free-solid-svg-icons";
 import TopicSection from './afg-components/topic-section/topic-section';
@@ -45,7 +48,7 @@ export default function AmericasFinanceGuidePage() {
           body='The federal government funds a variety of programs and services that support the American public. The federal government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
           linkUrl='/federal-spending'
           linkText='Learn more about federal spending'
-          linkColor={styles.spendingExplainerPrimary}
+          linkColor={spendingExplainerPrimary}
           image='/topics-section-images/homepage_spending_1200x630.png'
           imageAltText='The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. '
         /> 
@@ -66,7 +69,7 @@ export default function AmericasFinanceGuidePage() {
           body='A budget deficit occurs when the money spent exceeds the money collected for a given period.'
           linkUrl='/national-deficit'
           linkText='Learn more about national deficit'
-          linkColor={styles.deficitExplainerPrimary}
+          linkColor={deficitExplainerPrimary}
           image='/topics-section-images/homepage_deficit_1200x630.png'
           imageAltText='A hand reaches up to grab a $ coin. Other objects appear to the left of the hand, including a pie chart, bar graph, and lit lightbulb.'
         />
@@ -77,7 +80,7 @@ export default function AmericasFinanceGuidePage() {
           Are federal debt and deficit the same thing? No, but they do affect one another"
           linkUrl='/national-debt'
           linkText='Learn more about national debt'
-          linkColor={styles.spendingExplainerPrimary}
+          linkColor={debtExplainerPrimary}
           image='/topics-section-images/homepage_debt_1200x630.png'
           imageAltText='A variety of hands reach up with objects, including a magnifying glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone.'
         />

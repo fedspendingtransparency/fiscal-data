@@ -27,3 +27,14 @@
     }
     
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+    .imageContainer{
+        order: 1;
+        padding-bottom: 0rem !important;
+    }
+    .textContainer{
+        order: 2;
+        padding-top: 0rem !important;
+    }
+}

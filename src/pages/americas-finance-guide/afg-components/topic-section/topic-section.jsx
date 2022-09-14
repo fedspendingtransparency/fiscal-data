@@ -18,15 +18,15 @@ export default function TopicSection({
 }) {
 
     return (
-        <Grid className={styles.topicSection} container spacing={4} data-testid="topic-section">
-            <Grid item lg >
+        <Grid classes={{ root: styles.topicSection }} container spacing={4} data-testid="topic-section">
+            <Grid item lg classes={{ root: styles.textContainer }}>
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>
                 <a href={linkUrl} style={{ color: linkColor, marginTop: '2rem' }} className={styles.link}>{linkText}
                     <FontAwesomeIcon icon={faRightLong} title={"right arrow"} className={styles.arrow}/>
                 </a>
             </Grid>
-            <Grid item lg>
+            <Grid item lg classes={{ root: styles.imageContainer }}>
                 {image ? <img src={image} alt={imageAltText} /> : <ChartPlaceholder />}
             </Grid>
         </Grid>
