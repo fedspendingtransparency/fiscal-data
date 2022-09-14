@@ -11,6 +11,7 @@ import LocationAware from '../components/location-aware/location-aware';
 import AnnouncementBanner from "../components/announcement-banner/announcement-banner";
 import TopicsSection from "../components/topics-section/topics-section";
 import {graphql, useStaticQuery} from "gatsby";
+import ExplainerSubNav from "../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav";
 
 export const Index = () => {
   const allFile = useStaticQuery(
@@ -52,6 +53,7 @@ export const Index = () => {
           financial data, debt, Treasury, US government"
           />
           <TopicsSection images={topicsImages} data-testid="topics-section"/>
+          <ExplainerSubNav/>
           <HomeMainContent />
           <HomeFeatures />
         </div>
