@@ -31,7 +31,7 @@ const ChartContainer = ({
     >
       <div className={chartTitle}>{title}</div>
       <div className={chartSubTitle}>{subtitle}</div>
-      <div className={headerContainer} style={{ ...customHeaderStyles }}>
+      <div className={`${headerContainer} chartHeaderContainer`} style={{ ...customHeaderStyles }}>
         {header}
       </div>
       <div

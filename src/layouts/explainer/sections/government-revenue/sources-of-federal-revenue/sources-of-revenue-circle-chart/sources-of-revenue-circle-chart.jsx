@@ -9,14 +9,14 @@ import {
   headerTitle,
   subHeader,
   category,
-  footer,
+  footerContainer,
   totalRevenueDataPill
 } from "./sources-of-revenue-circle-chart.module.scss";
 import { withWindowSize } from "react-fns";
 import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.scss";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 
-const SourcesOfRevenueCircleChart = ({width}) => {
+const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [categoryName, setCategoryName] = useState("Individual Income Taxes");
   const [revenueAmount, setRevenueAmount] = useState(2);
@@ -30,7 +30,7 @@ const SourcesOfRevenueCircleChart = ({width}) => {
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
   const footer =
-    <div className={footer}>
+    <div className={footerContainer}>
       <p>
         <i>
           To explore this visual, hover or tap over any category bubble to discover its data.

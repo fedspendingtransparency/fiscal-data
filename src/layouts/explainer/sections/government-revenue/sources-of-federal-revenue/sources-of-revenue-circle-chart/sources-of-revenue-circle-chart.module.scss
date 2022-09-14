@@ -1,16 +1,22 @@
 @import "src/variables.module";
 
+:global(.chartHeaderContainer) {
+  margin-top: 1.625rem;
+}
+
 .dataHeaderContainer {
   display: flex;
   flex-direction: column;
+
   .header {
     font-size: $font-size-24;
     font-weight: bold;
   }
   .category {
+    color: #5b616b;
     font-size: $font-size-14;
     font-weight: $semi-bold-weight;
-    margin: .75rem 0;
+    margin: .625rem 0;
   }
   .dataLabels {
     display: flex;
@@ -22,6 +28,7 @@
     }
 
     .subHeader {
+      color: #5b616b;
       font-size: $font-size-14;
       font-weight: $semi-bold-weight;
       margin: 0 1.25rem;
@@ -29,7 +36,7 @@
   }
 }
 
-.footer {
+.footerContainer {
   font-size: $font-size-14;
 }
 
@@ -51,34 +58,41 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .header {
-    font-size: $font-size-18;
+  :global(.chartHeaderContainer) {
+    margin-top: 1.0625rem;
   }
-  .category {
-    font-size: $font-size-10;
-    margin: .25rem 0;
-  }
-  .dataLabels {
-    .headerTitle {
-      font-weight: bold;
-      font-size: $font-size-24;
+  .dataHeaderContainer {
+      .header {
+        font-size: $font-size-18;
+      }
+      .category {
+        font-size: $font-size-10;
+        margin: .1rem 0 .55rem;
+
+      }
+      .dataLabels {
+        .headerTitle {
+          font-weight: bold;
+          font-size: $font-size-24;
+          line-height: $font-size-24;
+        }
+
+        .subHeader {
+          font-size: $font-size-10;
+          margin: 0 .5rem;
+        }
     }
 
-    .subHeader {
-      font-size: $font-size-10;
-      margin: 0 .75rem;
-    }
   }
-
   .totalRevenueDataPill {
     font-size: $font-size-12;
     height: 1.5rem;
     width: 10rem;
-    margin-bottom:1.25rem;
+    margin-bottom:1rem;
 
   }
 
-  .footer {
+  .footerContainer {
     font-size: $font-size-12;
   }
 }
