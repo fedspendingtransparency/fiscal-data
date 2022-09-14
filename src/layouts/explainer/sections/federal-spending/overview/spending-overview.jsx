@@ -75,19 +75,42 @@ export const SpendingOverview = ({ glossary }) => {
   )
 
   useEffect(() => {
-    const endpointUrl = 'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+    const fields = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' +
+                   'record_calendar_month,record_calendar_year,record_fiscal_year';
+    const filter = 'filter=line_code_nbr:eq:5691,record_calendar_month:eq:09';
+    const sort = 'sort=-record_date';
+    const pagination = 'page[size]=1';
+    const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
+
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        if (res.data) {
+          const data = res.data[0];
+          setLatestCompleteFiscalYear(data.record_fiscal_year);
+          setPriorYearSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 1, false));
+        }
+      });
+  }, [])
+
+  useEffect(() => {
+    const fields =
+      'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
+    const filter = 'filter=line_code_nbr:eq:5694,record_calendar_month:eq:09';
+    const sort = 'sort=-record_date';
+    const pagination = 'page[size]=1';
+    const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
+
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {
           const data = res.data[0];
           const priorSpending = data.current_fytd_net_outly_amt;
-          setLatestCompleteFiscalYear(data.record_fiscal_year);
-          setPriorYearSpending(getShortForm(priorSpending.toString(), 1, false));
           setSpendingChange(priorSpending < 0 ? 'more' : 'less');
           setDeficitTerm(priorSpending < 0 ? 'deficit' : 'surplus');
         }
       });
   }, [])
+
 
   return (
     <>
@@ -98,10 +121,7 @@ export const SpendingOverview = ({ glossary }) => {
             and services that support the economy and people of the United
             States. The federal government also spends money on the interest it
             has incurred on outstanding {federalDebt}. Consequently, as the debt
-            grows, the spending on interest expense also generally grows. If the
-            government spends more than it collects in revenue, then there is a
-            budget deficit. If the government spends less than it collects in
-            revenue, there is a budget surplus
+            grows, the spending on interest expense also generally grows.
           </p>
           <p>
             If the government spends more than it collects in {revenue}, then
@@ -110,7 +130,7 @@ export const SpendingOverview = ({ glossary }) => {
             (FY) {latestCompleteFiscalYear}, the government spent ${priorYearSpending},
             which was {spendingChange} than it collected (revenue), resulting
             in a {deficitTerm}. Visit the {deficit} explainer to see how the
-            deficit and revenue compare to federal spending
+            deficit and revenue compare to federal spending.
           </p>
           <p>
             Federal government spending pays for everything from Social Security
@@ -118,7 +138,7 @@ export const SpendingOverview = ({ glossary }) => {
             construction, research, and education. This spending can be broken
             down into two primary categories: mandatory and discretionary. These
             purchases can also be classified by {objectClass} and{" "}
-            {budgetFunctions}
+            {budgetFunctions}.
           </p>
           <p>
             Throughout this page, we use outlays to represent spending. This is

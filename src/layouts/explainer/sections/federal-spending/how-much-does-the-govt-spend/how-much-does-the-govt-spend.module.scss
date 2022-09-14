@@ -1,80 +1,76 @@
 @import "src/variables.module";
 
 .footerStyle {
-    margin-top: 32px;
-    margin-bottom: 16px;
+  margin-top: 32px;
+  margin-bottom: 16px;
 }
 
 .headerContainer {
-    display: flex;
-    flex-direction: column;
-    padding-left: 32px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 32px;
 }
 
 .headerStyle {
-    color: #555555;
-    font-size: 18px;
-    font-weight: bold;
+  color: #555555;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .subHeader {
-    color: #666666;
-    font-size: 16px;
-    margin-bottom: 16px;
-    margin-right: 8px
+  color: #666666;
+  font-size: 16px;
+  margin-bottom: 16px;
+  margin-right: 8px;
 }
 
 .column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .chartsContainer {
-    display: flex;
-    margin-bottom: 16px;
-    margin-left: 7%;
-    align-items: center;
+  display: flex;
+  margin-bottom: 16px;
+  margin-left: 7%;
+  align-items: center;
 }
 
 .percentOrDollarContainer {
-    margin-right: 8px;
-    color: #666666;
-    font-weight: 600;
-    min-width: 56px;
-    font-size: 14px;
+  color: #666666;
+  font-weight: 600;
+  min-width: 36px;
+  font-size: 14px;
 }
 
 .descContainer {
-    margin-right: 16px;
-    font-size: 14px;
-    font-weight: 600;
+  margin-right: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  max-width: 180px;
+  margin-left: 4px;
 }
 
 .chartToggle {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 16px;
-    border-radius: 8px;
-    margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
 }
 
 .toggleButton {
-    width: 43%;
-    margin-bottom: 2%;
-    cursor: pointer;
-    height: 32px;
-    border: 2px solid #00766C;
-}
-
-.toggleText {
-    font-size: 14px;
-    font-weight: 600;
+  width: 43%;
+  margin-bottom: 2%;
+  cursor: pointer;
+  height: 32px;
+  border: 2px solid #00766c;
 }
 
 .loadingIcon {
-    max-width: $site-content-width;
-    margin: 2rem auto;
-    text-align: center;
-    font-size: $font-size-48;
+  max-width: $site-content-width;
+  margin: 2rem auto;
+  text-align: center;
+  font-size: $font-size-48;
 }

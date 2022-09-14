@@ -30,3 +30,46 @@ Post build (integration) tests can be run for any environment once you've run a
 build (for any environment). The post-build test uses Puppeteer and 
 defaults to port `9898`. If you have difficulty with using that port,
 you can `npm config set post_build_test_port=<port>`. 
+
+
+
+## Troubleshoot Issues
+Sometimes there might be issues when running `npm install`. Here are a few tips for 
+resolving some of these issues. First run the following command:
+`npm config list`
+`npm install --verbose`
+
+If the installation hangs for more han 10 minutes, type the following on your keyboard:
+`[ctrl] + C` to close out the process. This should either continue running or end the installation.
+Then type the following command to clean your cache and re-install:
+`npm cache clean --force`
+`npm install --verbose`
+
+Sometimes the issue might be that you're missing a binding.node file in your `~/<user>/node/` directory.
+Check with the dev team about adding the following files to your node folder located in your Windows user directory:
+`C:/Users/<user>/node/win32-x64-72_binding.node`
+`C:/Users/<user>/node/win32-x64-83_binding.node`
+
+When you're done adding the files try to run the project locally by typing the following command:
+`npm run develop-dev`
+
+To view the app on your browser, go to the local host address
+`http://localhost:8000/`
+
+When switching branches that contain new packages run:
+`npm install --verbose`
+
+
+## Gatsby Builds
+For builds with silent warnings that are also optimized, you can run the gatsby build and serve the app using:
+`gatsby build`
+`npm run serve`
+
+To remove gatsby cache files when switching environments
+`gatsby clean`
+
+
+## Environment Builds
+To see dev builds go to
+`https://dev-fiscaldata.treasury.gov`
+

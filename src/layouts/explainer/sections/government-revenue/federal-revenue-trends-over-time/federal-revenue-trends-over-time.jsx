@@ -7,6 +7,7 @@ import {ChartPlaceholder} from
     "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
 import {customCallout} from "./federal-trends-over-time.scss"
+import RevenueTrendsLineChart from "./revenue-trends-line-chart/revenue-trends-line-chart";
 
 const FederalRevenueTrendsOverTime = () => {
 
@@ -43,7 +44,16 @@ const FederalRevenueTrendsOverTime = () => {
         The chart below shows how federal revenue has changed over time, broken out by the
         various source categories.
       </p>
-      <ChartPlaceholder/>
+      <div className={visWithCallout}>
+        <RevenueTrendsLineChart />
+        <VisualizationCallout color={revenueExplainerPrimary}>
+          <p>
+            Total revenue has (increased/decreased) from
+            ($XX.X T) in (YYYY (first available year in the chart)} to
+            ($XX.X T) in (YYYY (latest complete fiscal year)).
+          </p>
+        </VisualizationCallout>
+      </div>
     </div>
   );
 }

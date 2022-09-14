@@ -11,7 +11,7 @@ import { format } from "date-fns"
 
 const ChartContainer = ({
   title,
-  subtitle,
+  subTitle,
   altText,
   header,
   footer,
@@ -30,7 +30,7 @@ const ChartContainer = ({
       style={{ ...customSpacing }}
     >
       <div className={chartTitle}>{title}</div>
-      <div className={chartSubTitle}>{subtitle}</div>
+      <div className={chartSubTitle}>{subTitle}</div>
       <div className={`${headerContainer} chartHeaderContainer`} style={{ ...customHeaderStyles }}>
         {header}
       </div>
