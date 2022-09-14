@@ -2,7 +2,6 @@ import React from "react";
 import {
   visWithCallout,
   quoteBoxContent,
-  quoteBoxLink,
 } from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
@@ -11,7 +10,7 @@ import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import {revenueExplainerPrimary,
   revenueExplainerLightSecondary,
 } from "../revenue.module.scss";
-import {sourcesContent, mobileContentWrapper}
+import {sourcesContent}
   from "./sources-of-federal-revenue.module.scss";
 import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons"
 import SourcesOfRevenueCircleChart
@@ -29,7 +28,6 @@ const SourcesOfFederalRevenue = () => {
   )
   return (
     <div className={sourcesContent}>
-      <div className={mobileContentWrapper}>
         <p>
           Most of the revenue the U.S. government collects comes from
           contributions from individual taxpayers, small businesses, and
@@ -56,7 +54,6 @@ const SourcesOfFederalRevenue = () => {
             </p>
           </VisualizationCallout>
         </div>
-      </div>
       <h5>Social Security and Medicare Taxes</h5>
       <p>
         Unlike personal income taxes, which support a variety of programs, these

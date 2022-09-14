@@ -1,6 +1,6 @@
 @import "src/variables.module";
 
-:global(.chartHeaderContainer) {
+:global(.chartContainerHeader) {
   margin-top: 1.625rem;
 }
 
@@ -38,6 +38,9 @@
 
 .footerContainer {
   font-size: $font-size-14;
+  p {
+    margin-top: 0;
+  }
 }
 
 .label {
@@ -56,10 +59,23 @@
   font-weight: $semi-bold-weight;
   margin-bottom:2rem;
 }
+.dataContent {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  .chartSize {
+    height: 28.125rem;
+    overflow: hidden;
+  }
+}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartHeaderContainer) {
+  :global(.chartContainerHeader) {
     margin-top: 1.0625rem;
+  }
+
+  :global(.chartContainerSubTitle) {
+    font-size: $font-size-12 !important;
   }
   .dataHeaderContainer {
       .header {
@@ -94,5 +110,14 @@
 
   .footerContainer {
     font-size: $font-size-12;
+  }
+
+  .dataContent {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    .chartSize {
+      height: 19.625rem;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
-import { CirclePacking, ResponsiveCirclePacking } from '@nivo/circle-packing';
+import { CirclePacking } from '@nivo/circle-packing';
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {
   dataHeaderContainer,
@@ -10,7 +10,9 @@ import {
   subHeader,
   category,
   footerContainer,
-  totalRevenueDataPill
+  totalRevenueDataPill,
+  dataContent,
+  chartSize
 } from "./sources-of-revenue-circle-chart.module.scss";
 import { withWindowSize } from "react-fns";
 import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.scss";
@@ -138,16 +140,16 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     },
   }
 
-  const LabelComponent = ({node, style, label}) => {
+  const LabelComponent = ({node, label}) => {
     const labelFormat = width < pxToNumber(breakpointLg) ?
       labelFormatTable[label].mobile : labelFormatTable[label].desktop;
-    const lines = labelFormat.lines; //labelFormatTable[label].desktop;
+    const lines = labelFormat.lines;
     const lineSpaceOffset = width < pxToNumber(breakpointLg) ? 12.5 : 16.5;
     const yStartPoint = node.y - ((lines.length / 2) * lineSpaceOffset) + 9;
       return (
         <>
           {lines.map((line, index) => (
-              <>
+              <React.Fragment key={index} >
                 {labelFormatTable[label].external ?
                   (
                     <text
@@ -180,7 +182,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                     {line}
                   </text>
                 }
-              </>
+              </React.Fragment>
             )
           )}
         </>
@@ -204,17 +206,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     EstateAndGiftTaxes,
     ExciseTaxes,
   ];
-
-  const theme = {
-    "textColor": '#FFFFFF',
-    "fontSize":  width < pxToNumber(breakpointLg) ? '12px' : '14px',
-    "legend": {
-      "text": {
-        "fontSize": 12,
-        "fill": "#FFFFFF"
-      }
-    },
-  }
 
   const data = {
     children: [
@@ -253,14 +244,14 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     <>
       <ChartContainer
         title={title}
-        subtitle={subTitle}
+        subTitle={subTitle}
         header={dataHeader}
         footer={footer}
         altText={title}
         date={date}
       >
-        <div style={{display:'flex', justifyContent:'center', flexDirection: 'column'}} >
-          <div style={{height: width < pxToNumber(breakpointLg) ? '325px' : '450px', overflow: 'hidden'}}>
+        <div className={dataContent} >
+          <div className={chartSize} >
             <CirclePacking
               data={data}
               margin={{top: 0, right: 10, bottom:0, left:10}}
@@ -268,12 +259,11 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               width={ width < pxToNumber(breakpointLg) ? 350 : 500 }
               colors={colors}
               colorBy={'id'}
-              // theme={theme}
               leavesOnly
               enableLabels={true}
               labelsSkipRadius={0}
               labelComponent={({node, label}) =>
-                <LabelComponent node={node}  label={label} />}
+                <LabelComponent node={node} label={label} />}
               animate={false}
             />
           </div>

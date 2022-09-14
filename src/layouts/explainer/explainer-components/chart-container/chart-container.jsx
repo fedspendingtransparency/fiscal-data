@@ -30,8 +30,8 @@ const ChartContainer = ({
       style={{ ...customSpacing }}
     >
       <div className={chartTitle}>{title}</div>
-      <div className={chartSubTitle}>{subTitle}</div>
-      <div className={`${headerContainer} chartHeaderContainer`} style={{ ...customHeaderStyles }}>
+      <div className={`${chartSubTitle} chartContainerSubTitle`}>{subTitle}</div>
+      <div className={`${headerContainer} chartContainerHeader`} style={{ ...customHeaderStyles }}>
         {header}
       </div>
       <div
