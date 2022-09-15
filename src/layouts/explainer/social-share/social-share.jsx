@@ -1,13 +1,12 @@
-
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import {
   faFacebookF,
   faTwitter,
   faLinkedinIn,
-  faRedditAlien
-} from "@fortawesome/free-brands-svg-icons";
+  faRedditAlien,
+} from "@fortawesome/free-brands-svg-icons"
 
 import {
   socialShareContent,
@@ -19,189 +18,199 @@ import {
   emailIcon,
   shareButton,
   shareButtonText,
-  shareButtonContainer
-} from "./social-share.module.scss";
-import { withWindowSize } from "react-fns";
-import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
-import { breakpointLg } from "../../../variables.module.scss";
-import { Helmet } from "react-helmet";
+  shareButtonContainer,
+} from "./social-share.module.scss"
+import { withWindowSize } from "react-fns"
+import { pxToNumber } from "../../../helpers/styles-helper/styles-helper"
+import { breakpointLg } from "../../../variables.module.scss"
+import { Helmet } from "react-helmet"
 import {
   FacebookShareButton,
   TwitterShareButton,
   LinkedinShareButton,
   RedditShareButton,
-  EmailShareButton
-} from "react-share";
-import globalConstants from "../../../helpers/constants";
-import Analytics from "../../../utils/analytics/analytics";
+  EmailShareButton,
+} from "react-share"
+import globalConstants from "../../../helpers/constants"
+import Analytics from "../../../utils/analytics/analytics"
 
-const baseUrl = globalConstants.BASE_SITE_URL;
+const baseUrl = globalConstants.BASE_SITE_URL
 
 const shareButtonContentMap = {
-  'facebook': {
+  facebook: {
     className: facebookIcon,
     text: "Facebook",
-    icon: faFacebookF
+    icon: faFacebookF,
   },
-  'twitter': {
+  twitter: {
     className: twitterIcon,
     text: "Twitter",
-    icon: faTwitter
+    icon: faTwitter,
   },
-  'linkedin': {
+  linkedin: {
     className: linkedInIcon,
     text: "LinkedIn",
-    icon: faLinkedinIn
+    icon: faLinkedinIn,
   },
-  'reddit': {
+  reddit: {
     className: redditIcon,
     text: "Reddit",
-    icon: faRedditAlien
+    icon: faRedditAlien,
   },
-  'email': {
+  email: {
     className: emailIcon,
     text: "Email",
-    icon: faEnvelope
-  }
+    icon: faEnvelope,
+  },
 }
 
 const analyticsClickHandler = (page, social) => {
   Analytics.event({
-    category: 'Explainers',
+    category: "Explainers",
     action: `Share Click`,
-    label: `${page} - Share on ${social}`
-  });
+    label: `${page} - Share on ${social}`,
+  })
 }
 
 export const ShareButtonContent = ({ name, width }) => {
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false)
 
   const handleMouseEnter = () => {
-    if(width >= pxToNumber(breakpointLg)) {
-      setHovered(true);
+    if (width >= pxToNumber(breakpointLg)) {
+      setHovered(true)
     }
-  };
+  }
 
   const handleMouseLeave = () => {
-    setHovered(false);
-  };
+    setHovered(false)
+  }
 
-  const style = hovered ? {color: "#555555"} : {};
-  const text = width >= pxToNumber(breakpointLg) ? shareButtonContentMap[name].text : "";
+  const style = hovered ? { color: "#555555" } : {}
+  const text =
+    width >= pxToNumber(breakpointLg) ? shareButtonContentMap[name].text : ""
   return (
     <>
-      <div className={ shareButtonContent }
-           onMouseEnter={ handleMouseEnter }
-           onMouseLeave={ handleMouseLeave }
+      <div
+        className={shareButtonContent}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <FontAwesomeIcon className={ shareButtonContentMap[name].className }
-                         icon={ shareButtonContentMap[name].icon }
-                         style={ style }
+        <FontAwesomeIcon
+          className={shareButtonContentMap[name].className}
+          icon={shareButtonContentMap[name].icon}
+          style={style}
         />
-        <span className={ shareButtonText }
-             style={ style }
-        >
-          { text }
+        <span className={shareButtonText} style={style}>
+          {text}
         </span>
       </div>
     </>
   )
-};
+}
 
 const SocialMetaData = ({ image, title, description, url }) => {
   return (
     <>
       <Helmet>
-        <meta property="og:title" content={ title } />
-        <meta property="og:description" content={ description } />
-        <meta property="og:image" content={ image } />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={ url } />
+        <meta property="og:url" content={url} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={ title } />
-        <meta name="twitter:description" content={ description } />
-        <meta name="twitter:image" content={ image } />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
       </Helmet>
     </>
   )
-};
+}
 
-export const SocialShareComponent = (
-  {
-    title,
-    description,
-    body,
-    emailSubject,
-    emailBody,
-    url,
-    image,
-    pageName,
-    width
-  }) => {
-
-   return (
-     <>
-       <SocialMetaData image={ image }
-                       title={ title }
-                       description={ description }
-                       url={ url }
-       />
-       <div className={ socialShareContent }>
-         <h3>
-           { width >= pxToNumber(breakpointLg) ? "Share this page:" : "" }
-         </h3>
-         <div className={ shareButtonContainer }>
-           <FacebookShareButton className={ shareButton }
-                                url={ url }
-                                quote={ body }
-                                beforeOnClick={() => analyticsClickHandler(pageName, 'Facebook')}
-           >
-             <ShareButtonContent name={ 'facebook' } width={ width } />
-           </FacebookShareButton>
-         </div>
-         <div className={ shareButtonContainer }>
-           <TwitterShareButton className={ shareButton }
-                               url={ url }
-                               title={ body }
-                               beforeOnClick={() => analyticsClickHandler(pageName, 'Twitter')}
-           >
-             <ShareButtonContent name={ 'twitter' } width={ width } />
-           </TwitterShareButton>
-         </div>
-         <div className={ shareButtonContainer }>
-           <LinkedinShareButton className={ shareButton }
-                                url={ url }
-                                title={ title }
-                                summary={ body }
-                                source={ baseUrl }
-                                beforeOnClick={() => analyticsClickHandler(pageName, 'LinkedIn')}
-           >
-             <ShareButtonContent name={ 'linkedin' } width={ width } />
-           </LinkedinShareButton>
-         </div>
-         <div className={ shareButtonContainer }>
-           <RedditShareButton className={ shareButton }
-                              url={ url }
-                              title={ title }
-                              beforeOnClick={() => analyticsClickHandler(pageName, 'Reddit')}
-           >
-             <ShareButtonContent name={ 'reddit' } width={ width } />
-           </RedditShareButton>
-         </div>
-         <div className={ shareButtonContainer }>
-           <EmailShareButton className={ shareButton }
-                             url={ url }
-                             subject={ emailSubject }
-                             body={ emailBody }
-                             separator={ "\n" }
-                             beforeOnClick={() => analyticsClickHandler(pageName, 'Email')}
-           >
-             <ShareButtonContent name={ 'email' } width={ width } />
-           </EmailShareButton>
-         </div>
-       </div>
-     </>
+export const SocialShareComponent = ({
+  title,
+  description,
+  body,
+  emailSubject,
+  emailBody,
+  url,
+  image,
+  pageName,
+  width,
+  orientation,
+}) => {
+  const orientationStyle = {
+    display:
+      orientation === "horizontal"
+        ? "inline-flex"
+        : shareButtonContainer.display,
+  }
+  return (
+    <>
+      <SocialMetaData
+        image={image}
+        title={title}
+        description={description}
+        url={url}
+      />
+      <div className={socialShareContent}>
+        <h3>{width >= pxToNumber(breakpointLg) ? "Share this page:" : ""}</h3>
+        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+          <FacebookShareButton
+            className={shareButton}
+            url={url}
+            quote={body}
+            beforeOnClick={() => analyticsClickHandler(pageName, "Facebook")}
+          >
+            <ShareButtonContent name={"facebook"} width={width} />
+          </FacebookShareButton>
+        </div>
+        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+          <TwitterShareButton
+            className={shareButton}
+            url={url}
+            title={body}
+            beforeOnClick={() => analyticsClickHandler(pageName, "Twitter")}
+          >
+            <ShareButtonContent name={"twitter"} width={width} />
+          </TwitterShareButton>
+        </div>
+        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+          <LinkedinShareButton
+            className={shareButton}
+            url={url}
+            title={title}
+            summary={body}
+            source={baseUrl}
+            beforeOnClick={() => analyticsClickHandler(pageName, "LinkedIn")}
+          >
+            <ShareButtonContent name={"linkedin"} width={width} />
+          </LinkedinShareButton>
+        </div>
+        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+          <RedditShareButton
+            className={shareButton}
+            url={url}
+            title={title}
+            beforeOnClick={() => analyticsClickHandler(pageName, "Reddit")}
+          >
+            <ShareButtonContent name={"reddit"} width={width} />
+          </RedditShareButton>
+        </div>
+        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+          <EmailShareButton
+            className={shareButton}
+            url={url}
+            subject={emailSubject}
+            body={emailBody}
+            separator={"\n"}
+            beforeOnClick={() => analyticsClickHandler(pageName, "Email")}
+          >
+            <ShareButtonContent name={"email"} width={width} />
+          </EmailShareButton>
+        </div>
+      </div>
+    </>
   )
- };
+}
 
-export default withWindowSize(SocialShareComponent);
+export default withWindowSize(SocialShareComponent)
