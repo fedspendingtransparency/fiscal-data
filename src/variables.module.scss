@@ -122,6 +122,12 @@ $pale-bg: #f8f8f8;
   color: $font-title;
 }
 
+@mixin headingStyle4 {
+  color: $font-title;
+  font-size: $font-size-32;
+  font-weight: $light-weight;
+}
+
 @mixin headingStyle5 {
   color: $font-title;
   font-size: $font-size-24;
