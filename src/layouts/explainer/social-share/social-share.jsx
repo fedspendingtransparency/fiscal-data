@@ -138,12 +138,33 @@ export const SocialShareComponent = ({
   width,
   orientation,
 }) => {
-  const orientationStyle = {
-    display:
-      orientation === "horizontal"
-        ? "inline-flex"
-        : shareButtonContainer.display,
+  const orientationStyles = {
+    horizontal: {
+      socialShareContent: {
+        paddingBottom: "1.875rem",
+        height: "1.125rem",
+        marginTop: "1rem",
+        marginBottom: "1rem",
+      },
+
+      shareButton: {
+        display: "flex",
+        textAlign: "justify",
+        marginTop: "0",
+        marginBottom: "2rem",
+        justifyContent: "center",
+      },
+      shareButtonContainer: {
+        display: "inline-flex",
+        textAlign: "justify",
+        justifyContent: "center",
+        width: "20%",
+      },
+    },
   }
+
+  const orientationStyle = orientationStyles[orientation] || {}
+  console.log(orientationStyle, "orientationStyle")
   return (
     <>
       <SocialMetaData
@@ -154,7 +175,12 @@ export const SocialShareComponent = ({
       />
       <div className={socialShareContent}>
         <h3>{width >= pxToNumber(breakpointLg) ? "Share this page:" : ""}</h3>
-        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+        <div
+          className={shareButtonContainer}
+          style={{
+            ...orientationStyle.shareButtonContainer,
+          }}
+        >
           <FacebookShareButton
             className={shareButton}
             url={url}
@@ -164,7 +190,12 @@ export const SocialShareComponent = ({
             <ShareButtonContent name={"facebook"} width={width} />
           </FacebookShareButton>
         </div>
-        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+        <div
+          className={shareButtonContainer}
+          style={{
+            ...orientationStyle.shareButtonContainer,
+          }}
+        >
           <TwitterShareButton
             className={shareButton}
             url={url}
@@ -174,7 +205,7 @@ export const SocialShareComponent = ({
             <ShareButtonContent name={"twitter"} width={width} />
           </TwitterShareButton>
         </div>
-        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+        <div className={shareButtonContainer}>
           <LinkedinShareButton
             className={shareButton}
             url={url}
@@ -186,7 +217,7 @@ export const SocialShareComponent = ({
             <ShareButtonContent name={"linkedin"} width={width} />
           </LinkedinShareButton>
         </div>
-        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+        <div className={shareButtonContainer}>
           <RedditShareButton
             className={shareButton}
             url={url}
@@ -196,7 +227,7 @@ export const SocialShareComponent = ({
             <ShareButtonContent name={"reddit"} width={width} />
           </RedditShareButton>
         </div>
-        <div className={shareButtonContainer} style={{ ...orientationStyle }}>
+        <div className={shareButtonContainer}>
           <EmailShareButton
             className={shareButton}
             url={url}
