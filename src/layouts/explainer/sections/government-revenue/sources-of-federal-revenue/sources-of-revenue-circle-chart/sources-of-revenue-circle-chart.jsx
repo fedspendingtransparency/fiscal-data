@@ -19,11 +19,30 @@ import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.s
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 
 const SourcesOfRevenueCircleChart = ({ width }) => {
-
   const [categoryName, setCategoryName] = useState("Individual Income Taxes");
-  const [revenueAmount, setRevenueAmount] = useState(2);
-  const [totalRevenuePercent, setTotalRevenuePercent] = useState(51);
+  const [revenueAmount, setRevenueAmount] = useState(85);
+  const [defaultRevenueAmount, setDefaultRevenueAmount] = useState(85);
+  const [totalRevenuePercent, setTotalRevenuePercent] = useState(318);
+  const [defaultTotalRevenuePercent, setDefaultTotalRevenuePercent] = useState(318);
   const [totalRevenue, setTotalRevenue] = useState(26.7);
+  const [individualIncomeColor, setIndividualIncomeColor] = useState("rgb(10,47,90)");
+  const [socialSecurityAndMedicareColor, setSocialSecurityAndMedicareColor] = useState("rgb(235,81,96,0.8)");
+  const [corporateIncomeColor, setCorporateIncomeColor] = useState("rgb(193,63,119,0.8)");
+  const [miscellaneousIncomeColor, setMiscellaneousIncomeColor] = useState("rgb(255,119,62,0.8)");
+  const [exciseTaxesColor, setExciseTaxesColor] = useState("rgb(136,60,127,0.8)");
+  const [customsDutiesColor, setCustomsDutiesColor] = useState("rgb(255,166,0,0.8)");
+  const [estateAndGiftTaxesColor, setEstateAndGiftTaxesColor] = useState("rgb(75,57,116,0.8)");
+
+  const colors = [
+    individualIncomeColor,
+    corporateIncomeColor,
+    socialSecurityAndMedicareColor,
+    miscellaneousIncomeColor,
+    customsDutiesColor,
+    estateAndGiftTaxesColor,
+    exciseTaxesColor,
+  ]
+  const opacity = ',0.8';
 
   const title = 'Sources of Revenue for the U.S. Federal Government, FY 2021';
   const subTitle = 'Revenue by Source Categories';
@@ -189,23 +208,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     )
   }
 
-  const individualIncomeTaxes = "rgb(10,47,90, 0.8)" //"#0A2F5A";
-  const SocialSecurityAndMedicareTaxes = "rgb(235,81,96, 0.8)" //"#EB5160";
-  const CorporateIncomeTaxes = "rgb(193, 63, 119, 0.8)" //"#C13F77";
-  const MiscellaneousIncome = "rgb(255, 119, 62, 0.8)" //"#FF773E";
-  const ExciseTaxes = "rgb(136, 60, 127, 0.8)" //"#883C7F";
-  const CustomsDuties = "rgb(255, 166, 0, 0.8)" //"#FFA600";
-  const EstateAndGiftTaxes = "rgb(75, 57, 116, 0.8)" //"#4B3974";
-
-  const colors = [
-    individualIncomeTaxes,
-    CorporateIncomeTaxes,
-    SocialSecurityAndMedicareTaxes,
-    MiscellaneousIncome,
-    CustomsDuties,
-    EstateAndGiftTaxes,
-    ExciseTaxes,
-  ];
 
   const data = {
     children: [
@@ -240,6 +242,56 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     ]
 };
 
+  const colorMap = {
+    'Individual Income Taxes': (color) => setIndividualIncomeColor(color),
+    'Corporate Income Taxes': (color) => setCorporateIncomeColor(color),
+    'Social Security and Medicare Taxes': (color) => setSocialSecurityAndMedicareColor(color),
+    'Miscellaneous Income': (color) => setMiscellaneousIncomeColor(color),
+    'Customs Duties': (color) => setCustomsDutiesColor(color),
+    'Estate & Gift Taxes': (color) => setEstateAndGiftTaxesColor(color),
+    'Excise Taxes': (color) => setExciseTaxesColor(color),
+  }
+
+  const setColors = (node) => {
+    if(node.id !== 'Individual Income Taxes') {
+      setIndividualIncomeColor('rgb(10,47,90,0.8)');
+    }
+    if(node.color.includes(opacity)) {
+      const newColor = node.color.replace(opacity, '');
+      colorMap[node.id](newColor);
+      node.color = newColor;
+    }
+  }
+  const resetColors = (node) => {
+    const currentColor = node.color;
+    let newColor;
+    if(!currentColor.includes(opacity)) {
+      newColor = currentColor.replace(')', opacity+')');
+      colorMap[node.id](newColor);
+      node.color = newColor;
+    }
+  }
+
+  const resetChart = () => {
+    setIndividualIncomeColor("rgb(10,47,90)");
+    setCategoryName("Individual Income Taxes");
+    setRevenueAmount(defaultRevenueAmount);
+    setTotalRevenuePercent(defaultTotalRevenuePercent);
+  }
+
+  const HandleMouseEnter = ({node}) => {
+    setIndividualIncomeColor("rgb(10,47,90)");
+    setRevenueAmount(node.value);
+    setTotalRevenuePercent(Number(((node.value / totalRevenue)*100).toFixed()));
+    setCategoryName(node.id);
+    setColors(node);
+  }
+
+  const HandleMouseLeave = ({node}) => {
+    resetColors(node);
+    resetChart();
+  }
+
   return (
     <>
       <ChartContainer
@@ -265,6 +317,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               labelComponent={({node, label}) =>
                 <LabelComponent node={node} label={label} />}
               animate={false}
+              onMouseEnter={(node) => HandleMouseEnter({node})}
+              onClick={(node) => HandleMouseEnter({node})}
+              onMouseLeave={(node) => HandleMouseLeave({node})}
             />
           </div>
           <div className={totalRevenueDataPill}>

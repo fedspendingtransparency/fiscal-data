@@ -21,6 +21,7 @@
   .dataLabels {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 
     .headerTitle {
       font-weight: bold;
