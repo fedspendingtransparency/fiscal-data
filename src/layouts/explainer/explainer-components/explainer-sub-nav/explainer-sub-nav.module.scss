@@ -13,8 +13,8 @@ $chevronWidth: $chevronHeight/3;
   color: #fff;
   max-width: $breakpoint-lg;
   display: flex;
-  margin: 0 auto;
-  background-color: gray;
+  margin: .5rem auto 2rem auto;
+  justify-content: center;
 }
 
 ul.navBlock {
@@ -24,8 +24,9 @@ ul.navBlock {
   flex-wrap: nowrap;
   justify-content: center;
   align-items: stretch;
-  width: 100%;
+  width: 70%;
   font-size: 1rem;
+  padding: 0px;
 
   li.navItem {
     background-color: #767676;
@@ -33,28 +34,29 @@ ul.navBlock {
     font-size: 1rem;
     display: flex;
     flex-grow: 1;
-    
+
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    
-    .navIcon {
-      margin-right: 10px;
+
+
+    .navLink {
       display: flex;
       color: #fff;
-    }   
-    .navLink{
-        //width: 100%;
-        //height: 100%;
-        display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+
+      .navIcon {
+        margin-right: 10px;
         color: #fff;
-        text-decoration: none;
-        text-align: center;
-        flex-grow: 1;
+      }
     }
   }
+
   li.frontChevron {
     width: 0px;
     height: 0px;
@@ -62,6 +64,7 @@ ul.navBlock {
     border-bottom: $chevronHeight solid white;
     justify-items: end;
   }
+
   li.backChevron {
     width: 0px;
     height: 0px;
@@ -72,61 +75,74 @@ ul.navBlock {
     border-start-end-radius: 1rem;
     border-end-end-radius: 1rem;
   }
+
   li.navItem:first-child {
     border-start-start-radius: 1rem;
-    border-end-start-radius: 1rem;  
+    border-end-start-radius: 1rem;
     background-color: $overviewPrimary;
   }
-  
-  .navItem.overview{
+
+  .navItem.overview {
     background-color: $overviewPrimary;
   }
-  .frontChevron.overview{
+
+  .frontChevron.overview {
     border-left: $chevronWidth solid $overviewPrimary;
   }
-  .navItem.revenue{
+
+  .navItem.revenue {
     background-color: $revenuePrimary;
   }
-  .backChevron.revenue{
+
+  .backChevron.revenue {
     border-top: $chevronHeight solid $revenuePrimary;
     border-bottom: $chevronHeight solid $revenuePrimary;
   }
-  .frontChevron.revenue{
+
+  .frontChevron.revenue {
     border-left: $chevronWidth solid $revenuePrimary;
   }
-  .navItem.spending{
+
+  .navItem.spending {
     background-color: $spendingPrimary;
   }
-  .backChevron.spending{
+
+  .backChevron.spending {
     border-top: $chevronHeight solid $spendingPrimary;
     border-bottom: $chevronHeight solid $spendingPrimary;
   }
-  .frontChevron.spending{
+
+  .frontChevron.spending {
     border-left: $chevronWidth solid $spendingPrimary;
   }
-  .navItem.deficit{
+
+  .navItem.deficit {
     background-color: $deficitPrimary;
   }
-  .backChevron.deficit{
+
+  .backChevron.deficit {
     border-top: $chevronHeight solid $deficitPrimary;
     border-bottom: $chevronHeight solid $deficitPrimary;
   }
-  .frontChevron.deficit{
+
+  .frontChevron.deficit {
     border-left: $chevronWidth solid $deficitPrimary;
   }
-  .navItem.debt{
+
+  .navItem.debt {
     background-color: $debtPrimary;
   }
-  .backChevron.debt{
+
+  .backChevron.debt {
     border-top: $chevronHeight solid $debtPrimary;
     border-bottom: $chevronHeight solid $debtPrimary;
   }
-  
-  li.active{
+
+  li.active {
     font-weight: bold;
   }
 
-  li:hover{
+  li:hover {
     text-decoration: underline;
     cursor: pointer;
   }
