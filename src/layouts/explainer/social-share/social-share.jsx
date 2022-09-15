@@ -141,10 +141,12 @@ export const SocialShareComponent = ({
   const orientationStyles = {
     horizontal: {
       socialShareContent: {
-        paddingBottom: "1.875rem",
+        // paddingBottom: "1.875rem",
         // height: "1.125rem",
-        marginTop: "1rem",
-        marginBottom: "1rem",
+        // marginTop: "1rem",
+        // marginBottom: "1rem",
+        // paddingTop: "16px",
+        // paddingBottom: "16px",
         width: "360px",
         // icon should be 16px, with padding 16px top and bottom
         // 39px padding left and right in container
@@ -154,9 +156,10 @@ export const SocialShareComponent = ({
       shareButton: {
         display: "flex",
         textAlign: "justify",
-        marginTop: "0",
-        marginBottom: "2rem",
+        paddingTop: "1rem",
+        paddingBottom: "1rem",
         justifyContent: "center",
+        height: "1rem",
       },
       shareButtonContainer: {
         display: "inline-flex",
@@ -183,11 +186,10 @@ export const SocialShareComponent = ({
           ...orientationStyle.socialShareContent,
         }}
       >
-        <h3>
-          {width >= pxToNumber(breakpointLg) && !orientation
-            ? "Share this page:"
-            : ""}
-        </h3>
+        {!orientation && (
+          <h3>{width >= pxToNumber(breakpointLg) ? "Share this page:" : ""}</h3>
+        )}
+
         <div
           className={shareButtonContainer}
           style={{
