@@ -142,9 +142,13 @@ export const SocialShareComponent = ({
     horizontal: {
       socialShareContent: {
         paddingBottom: "1.875rem",
-        height: "1.125rem",
+        // height: "1.125rem",
         marginTop: "1rem",
         marginBottom: "1rem",
+        width: "360px",
+        // icon should be 16px, with padding 16px top and bottom
+        // 39px padding left and right in container
+        height: "48px",
       },
 
       shareButton: {
@@ -179,7 +183,11 @@ export const SocialShareComponent = ({
           ...orientationStyle.socialShareContent,
         }}
       >
-        <h3>{width >= pxToNumber(breakpointLg) ? "Share this page:" : ""}</h3>
+        <h3>
+          {width >= pxToNumber(breakpointLg) && !orientation
+            ? "Share this page:"
+            : ""}
+        </h3>
         <div
           className={shareButtonContainer}
           style={{

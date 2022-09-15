@@ -44,7 +44,7 @@ export default function AmericasFinanceGuidePage() {
           </h1>
           <p>U.S. Constitution, Article 1, Section 9</p>
         </div>
-        <Box my={5}>
+        <Box my={5} style={{ display: "flex", justifyContent: "end" }}>
           {" "}
           <SocialShare
             title={explainerSocialShareMap[pageName].title}
