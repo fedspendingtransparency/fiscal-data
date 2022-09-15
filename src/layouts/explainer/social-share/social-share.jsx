@@ -72,7 +72,7 @@ const analyticsClickHandler = (page, social) => {
   })
 }
 
-export const ShareButtonContent = ({ name, width }) => {
+export const ShareButtonContent = ({ name, width, orientation }) => {
   const [hovered, setHovered] = useState(false)
 
   const handleMouseEnter = () => {
@@ -101,7 +101,7 @@ export const ShareButtonContent = ({ name, width }) => {
           style={style}
         />
         <span className={shareButtonText} style={style}>
-          {text}
+          {!orientation && text}
         </span>
       </div>
     </>
@@ -173,7 +173,12 @@ export const SocialShareComponent = ({
         description={description}
         url={url}
       />
-      <div className={socialShareContent}>
+      <div
+        className={socialShareContent}
+        style={{
+          ...orientationStyle.socialShareContent,
+        }}
+      >
         <h3>{width >= pxToNumber(breakpointLg) ? "Share this page:" : ""}</h3>
         <div
           className={shareButtonContainer}
@@ -183,11 +188,18 @@ export const SocialShareComponent = ({
         >
           <FacebookShareButton
             className={shareButton}
+            style={{
+              ...orientationStyle.shareButton,
+            }}
             url={url}
             quote={body}
             beforeOnClick={() => analyticsClickHandler(pageName, "Facebook")}
           >
-            <ShareButtonContent name={"facebook"} width={width} />
+            <ShareButtonContent
+              orientation={orientation}
+              name={"facebook"}
+              width={width}
+            />
           </FacebookShareButton>
         </div>
         <div
@@ -198,45 +210,88 @@ export const SocialShareComponent = ({
         >
           <TwitterShareButton
             className={shareButton}
+            style={{
+              ...orientationStyle.shareButton,
+            }}
             url={url}
             title={body}
             beforeOnClick={() => analyticsClickHandler(pageName, "Twitter")}
           >
-            <ShareButtonContent name={"twitter"} width={width} />
+            <ShareButtonContent
+              orientation={orientation}
+              name={"twitter"}
+              width={width}
+            />
           </TwitterShareButton>
         </div>
-        <div className={shareButtonContainer}>
+        <div
+          className={shareButtonContainer}
+          style={{
+            ...orientationStyle.shareButtonContainer,
+          }}
+        >
           <LinkedinShareButton
             className={shareButton}
+            style={{
+              ...orientationStyle.shareButton,
+            }}
             url={url}
             title={title}
             summary={body}
             source={baseUrl}
             beforeOnClick={() => analyticsClickHandler(pageName, "LinkedIn")}
           >
-            <ShareButtonContent name={"linkedin"} width={width} />
+            <ShareButtonContent
+              orientation={orientation}
+              name={"linkedin"}
+              width={width}
+            />
           </LinkedinShareButton>
         </div>
-        <div className={shareButtonContainer}>
+        <div
+          className={shareButtonContainer}
+          style={{
+            ...orientationStyle.shareButtonContainer,
+          }}
+        >
           <RedditShareButton
             className={shareButton}
+            style={{
+              ...orientationStyle.shareButton,
+            }}
             url={url}
             title={title}
             beforeOnClick={() => analyticsClickHandler(pageName, "Reddit")}
           >
-            <ShareButtonContent name={"reddit"} width={width} />
+            <ShareButtonContent
+              orientation={orientation}
+              name={"reddit"}
+              width={width}
+            />
           </RedditShareButton>
         </div>
-        <div className={shareButtonContainer}>
+        <div
+          className={shareButtonContainer}
+          style={{
+            ...orientationStyle.shareButtonContainer,
+          }}
+        >
           <EmailShareButton
             className={shareButton}
+            style={{
+              ...orientationStyle.shareButton,
+            }}
             url={url}
             subject={emailSubject}
             body={emailBody}
             separator={"\n"}
             beforeOnClick={() => analyticsClickHandler(pageName, "Email")}
           >
-            <ShareButtonContent name={"email"} width={width} />
+            <ShareButtonContent
+              orientation={orientation}
+              name={"email"}
+              width={width}
+            />
           </EmailShareButton>
         </div>
       </div>
