@@ -100,9 +100,11 @@ export const ShareButtonContent = ({ name, width, orientation }) => {
           icon={shareButtonContentMap[name].icon}
           style={style}
         />
-        <span className={shareButtonText} style={style}>
-          {!orientation && text}
-        </span>
+        {!orientation && (
+          <span className={shareButtonText} style={style}>
+            {text}
+          </span>
+        )}
       </div>
     </>
   )
@@ -138,21 +140,16 @@ export const SocialShareComponent = ({
   width,
   orientation,
 }) => {
+  // verify desktop against mocks, then do mobile
   const orientationStyles = {
     horizontal: {
       socialShareContent: {
-        // paddingBottom: "1.875rem",
-        // height: "1.125rem",
-        // marginTop: "1rem",
-        // marginBottom: "1rem",
-        // paddingTop: "16px",
-        // paddingBottom: "16px",
+        display: "flex",
         width: "360px",
-        // icon should be 16px, with padding 16px top and bottom
-        // 39px padding left and right in container
         height: "48px",
+        justifyContent: "center",
+        alignItems: "center",
       },
-
       shareButton: {
         display: "flex",
         textAlign: "justify",
@@ -160,12 +157,16 @@ export const SocialShareComponent = ({
         paddingBottom: "1rem",
         justifyContent: "center",
         height: "1rem",
+        marginTop: "0",
       },
       shareButtonContainer: {
-        display: "inline-flex",
+        display: "flex",
+        alignItems: "center",
         textAlign: "justify",
         justifyContent: "center",
-        width: "20%",
+        width: "16px",
+        height: "16px",
+        marginRight: "50px",
       },
     },
   }
@@ -189,7 +190,6 @@ export const SocialShareComponent = ({
         {!orientation && (
           <h3>{width >= pxToNumber(breakpointLg) ? "Share this page:" : ""}</h3>
         )}
-
         <div
           className={shareButtonContainer}
           style={{
