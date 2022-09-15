@@ -2,9 +2,9 @@ import React from "react"
 import ExplainerSubNav from './explainer-sub-nav'
 import {render} from '@testing-library/react';
 
-describe("Icon Component", () => {
+describe("ExplainerSubNav Component", () => {
   it("renders the component", () => {
-    const { getByTestId } = render(<ExplainerSubNav />)
+    const { getByTestId } = render(<ExplainerSubNav isShown={true}/>)
     expect(getByTestId("explainerSubNav")).toBeInTheDocument()
   })
 })
