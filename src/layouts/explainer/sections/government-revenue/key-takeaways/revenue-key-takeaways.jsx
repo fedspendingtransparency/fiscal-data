@@ -12,6 +12,7 @@ const RevenueKeyTakeaways = ({glossary}) => {
 
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
+  const [totalGDP, setTotalGDP] = useState('');
 
 
 
@@ -43,6 +44,7 @@ const RevenueKeyTakeaways = ({glossary}) => {
             });
             const averageGDP = ((totalGDP / 4) * 1000000);
             setRevenuePercentGDP(Math.round((res.data[0].current_fytd_net_rcpt_amt / averageGDP) * 100));
+            setTotalGDP((averageGDP / 1000000000000).toFixed(2));
           }
         })
       }
@@ -68,7 +70,7 @@ const RevenueKeyTakeaways = ({glossary}) => {
     in relation to the total amount of the entire country's economic output. In fiscal
     year ${latestCompleteFiscalYear}, federal revenue was equal to ${revenuePercentGDP}%
     of total gross domestic product (GDP), or economic activity, of the United States that year
-    {$X.XX trillion}. `,
+    $${totalGDP} trillion. `,
       icon: faPiggyBank,
     },
   ];
