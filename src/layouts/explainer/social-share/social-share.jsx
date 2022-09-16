@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import {
@@ -33,6 +33,7 @@ import {
 } from "react-share"
 import globalConstants from "../../../helpers/constants"
 import Analytics from "../../../utils/analytics/analytics"
+import { useWindowSize } from "../../../hooks/windowResize"
 
 const baseUrl = globalConstants.BASE_SITE_URL
 
@@ -140,15 +141,31 @@ export const SocialShareComponent = ({
   width,
   orientation,
 }) => {
-  // verify desktop against mocks, then do mobile
+  const [_, height] = useWindowSize()
+  const breakpoint = {
+    desktop: 1015,
+    tablet: 600,
+  }
+  // TODO: mobile styles, they the same?
+  const [isMobile, setIsMobile] = useState(true)
+  useEffect(() => {
+    if (window.innerWidth < breakpoint.desktop) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+  }, [width, height])
+  // set up config for rendering of images
   const orientationStyles = {
     horizontal: {
       socialShareContent: {
         display: "flex",
-        width: "360px",
-        height: "48px",
+        maxWidth: "360px",
+        maxHeight: "48px",
         justifyContent: "center",
         alignItems: "center",
+        paddingLeft: "39px",
+        paddingRight: "39px",
       },
       shareButton: {
         display: "flex",
@@ -166,9 +183,14 @@ export const SocialShareComponent = ({
         justifyContent: "center",
         width: "16px",
         height: "16px",
-        marginRight: "50px",
+        marginRight: "48px",
       },
     },
+  }
+
+  if (isMobile) {
+    orientationStyles.horizontal.socialShareContent.padding = "0"
+    orientationStyles.horizontal.socialShareContent.margin = "0"
   }
 
   const orientationStyle = orientationStyles[orientation] || {}
