@@ -146,7 +146,7 @@ export const SocialShareComponent = ({
     desktop: 1015,
     tablet: 600,
   }
-  // TODO: test out functionality, and what do about both images? one of them is uploaded already
+  // TODO: test out functionality, cleanup, ask bonnie Qs on Monday, confirm SEO config
   const defaultOrientationStyles = {
     horizontal: {
       socialShareContent: {
@@ -185,8 +185,6 @@ export const SocialShareComponent = ({
   useEffect(() => {
     const isMobile = window.innerWidth < breakpoint.desktop
     if (isMobile) {
-      console.log("SETTING IS mobile")
-
       if (orientation === "horizontal") {
         const updatedStyles = { ...orientationStyles }
         updatedStyles.horizontal.socialShareContent.paddingLeft = "0"
@@ -196,7 +194,6 @@ export const SocialShareComponent = ({
       }
     } else {
       if (orientation === "horizontal") {
-        console.log("IS NOT MOBILE")
         const updatedStyles = { ...orientationStyles }
         updatedStyles.horizontal.socialShareContent.paddingLeft = "39px "
         updatedStyles.horizontal.socialShareContent.paddingRight = "39px "
