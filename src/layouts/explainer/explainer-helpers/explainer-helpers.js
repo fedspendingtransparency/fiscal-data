@@ -145,7 +145,7 @@ export const explainerSocialShareMap = {
     emailBody:
       " Check out Fiscal Data’s new guide to America’s finances, an accessible and open-source guide to federal finance data! In this guide, you’ll find explanations of the four core pillars of America’s finances – Revenue, Spending, Deficit, and Debt. Have you ever wondered how a budget deficit occurs? Or how government spending has fluctuated over time? Find out the answers to these question and more here!",
     url: baseUrl + "/americas-finance-guide",
-    image: baseUrl + "/images/Revenue_C_1200x630.png",
+    image: baseUrl + "/images/afg-feature-homepage-desktop.png",
   },
 }
 

@@ -147,16 +147,7 @@ export const SocialShareComponent = ({
     tablet: 600,
   }
   // TODO: test out functionality, and what do about both images? one of them is uploaded already
-  const [isMobile, setIsMobile] = useState(true)
-  useEffect(() => {
-    if (window.innerWidth < breakpoint.desktop) {
-      setIsMobile(true)
-    } else {
-      setIsMobile(false)
-    }
-  }, [width, height])
-
-  const orientationStyles = {
+  const defaultOrientationStyles = {
     horizontal: {
       socialShareContent: {
         display: "flex",
@@ -187,11 +178,37 @@ export const SocialShareComponent = ({
       },
     },
   }
-
-  if (isMobile) {
-    orientationStyles.horizontal.socialShareContent.padding = "0"
-    orientationStyles.horizontal.socialShareContent.margin = "0"
-  }
+  const [orientationStyles, setOrientationStyles] = useState(
+    defaultOrientationStyles
+  )
+  useEffect(() => {
+    // TODO: abstract this into a function
+    const isMobile = window.innerWidth < breakpoint.desktop
+    if (isMobile) {
+      console.log(" IS mobile")
+      if (orientation === "horizontal") {
+        const updatedStyles = Object.assign(
+          orientationStyles,
+          { horizontal: { socialShareContent: { padding: "0", margin: "0" } } },
+          {}
+        )
+        setOrientationStyles(updatedStyles)
+      }
+    } else {
+      if (orientation === "horizontal") {
+        const updatedStyles = Object.assign(
+          orientationStyles,
+          {
+            horizontal: {
+              socialShareContent: { paddingLeft: "39px", paddingRight: "39px" },
+            },
+          },
+          {}
+        )
+        setOrientationStyles(updatedStyles)
+      }
+    }
+  }, [width, height])
 
   const orientationStyle = orientationStyles[orientation] || {}
   console.log(orientationStyle, "orientationStyle")
@@ -304,9 +321,14 @@ export const SocialShareComponent = ({
         </div>
         <div
           className={shareButtonContainer}
-          style={{
-            ...orientationStyle.shareButtonContainer,
-          }}
+          style={
+            orientation === "horizontal"
+              ? {
+                  ...orientationStyle.shareButtonContainer,
+                  marginRight: "unset",
+                }
+              : {}
+          }
         >
           <EmailShareButton
             className={shareButton}
