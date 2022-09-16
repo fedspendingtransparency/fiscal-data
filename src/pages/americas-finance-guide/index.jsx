@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import PageHelmet from "../../components/page-helmet/page-helmet"
 import SiteLayout from "../../components/siteLayout/siteLayout"
 import { Container, Grid, Box } from "@material-ui/core"
@@ -20,7 +20,23 @@ import {
   explainerSocialShareMap,
 } from "../../layouts/explainer/explainer-helpers/explainer-helpers"
 import SocialShare from "../../layouts/explainer/social-share/social-share"
+import { useWindowSize } from "../../hooks/windowResize"
+
 export default function AmericasFinanceGuidePage() {
+  const [isMobile, setIsMobile] = useState(false)
+  const [width, height] = useWindowSize()
+  const breakpoint = {
+    desktop: 1015,
+    tablet: 600,
+  }
+  useEffect(() => {
+    const isMobile = window.innerWidth < breakpoint.desktop
+    if (isMobile) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+  }, [width, height])
   const pageName = "americas-finance-guide"
   return (
     <SiteLayout isPreProd={false}>
@@ -44,7 +60,14 @@ export default function AmericasFinanceGuidePage() {
           </h1>
           <p>U.S. Constitution, Article 1, Section 9</p>
         </div>
-        <Box my={5} style={{ display: "flex", justifyContent: "end" }}>
+        <Box
+          my={5}
+          style={{
+            display: "flex",
+            justifyContent: isMobile ? "center" : "end",
+            marginBottom: isMobile ? "0px" : "inherit",
+          }}
+        >
           {" "}
           <SocialShare
             title={explainerSocialShareMap[pageName].title}

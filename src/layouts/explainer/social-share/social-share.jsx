@@ -181,30 +181,25 @@ export const SocialShareComponent = ({
   const [orientationStyles, setOrientationStyles] = useState(
     defaultOrientationStyles
   )
+
   useEffect(() => {
-    // TODO: abstract this into a function
     const isMobile = window.innerWidth < breakpoint.desktop
     if (isMobile) {
-      console.log(" IS mobile")
+      console.log("SETTING IS mobile")
+
       if (orientation === "horizontal") {
-        const updatedStyles = Object.assign(
-          orientationStyles,
-          { horizontal: { socialShareContent: { padding: "0", margin: "0" } } },
-          {}
-        )
+        const updatedStyles = { ...orientationStyles }
+        updatedStyles.horizontal.socialShareContent.paddingLeft = "0"
+        updatedStyles.horizontal.socialShareContent.paddingRight = "0"
+        updatedStyles.horizontal.socialShareContent.margin = "0"
         setOrientationStyles(updatedStyles)
       }
     } else {
       if (orientation === "horizontal") {
-        const updatedStyles = Object.assign(
-          orientationStyles,
-          {
-            horizontal: {
-              socialShareContent: { paddingLeft: "39px", paddingRight: "39px" },
-            },
-          },
-          {}
-        )
+        console.log("IS NOT MOBILE")
+        const updatedStyles = { ...orientationStyles }
+        updatedStyles.horizontal.socialShareContent.paddingLeft = "39px "
+        updatedStyles.horizontal.socialShareContent.paddingRight = "39px "
         setOrientationStyles(updatedStyles)
       }
     }
