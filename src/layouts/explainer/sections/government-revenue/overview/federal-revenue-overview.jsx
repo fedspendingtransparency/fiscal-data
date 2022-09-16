@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import {getShortForm} from "../../../heros/hero-helper";
-import {get} from "react-scroll/modules/mixins/scroller";
 
 const FederalRevenueOverview = () => {
 
