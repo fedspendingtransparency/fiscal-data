@@ -1,0 +1,135 @@
+@import '../../variables.module.scss';
+@import '../../layouts/explainer/sections/national-debt/national-debt.module.scss';
+@import '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
+
+//Variables
+$revenueExplainerPrimary: #0A2F5A;
+
+.topContainer {
+    max-width: $breakpoint-lg;
+}
+
+.debtText {    
+    color: $debt-explainer-primary;
+}
+
+.deficitText {
+    color: $deficit-explainer-primary;
+}
+
+.middleHeader {
+
+    .middleHeaderHeading {
+        @include headingStyle4;
+        font-size: $font-size-32  !important;
+        font-weight: $light-weight  !important;
+        color: $card-body !important;
+        margin-left: 1rem;
+    }
+}
+
+.quoteContainer {
+    background-color: $body-background;
+    max-width: $explainer-page-width;
+    margin-top: 4rem;
+
+    .quoteGrid {
+        max-width: $breakpoint-lg;
+        margin: 0 auto !important;
+        padding: 2rem;
+    }
+
+    
+
+    .quoteIcon {
+        font-size: 4rem;
+        transform: scale(-1, 1);
+        margin-left: 1rem;
+    }
+
+    .quote {
+        color: $font-body-copy;
+        font-size: $font-size-20;
+        line-height: 1.875rem;
+        font-style: italic;
+        margin-left: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .citation {
+        font-size: $font-size-14;
+        line-height: 1rem;
+        margin-left: 1rem;
+
+    }
+
+    .quoteBar {
+        width: 6rem;
+        height: 0.5rem;
+        background-color: $card-body;
+        display: block;
+        margin-left: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+.bottomContainer {
+    max-width: $site-content-width;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    .bottomHeading {
+        @include columnLabelCopy7;
+        display: block;
+        margin-top: 1rem !important;
+    }
+
+    .blueText {
+        color: $primary
+    }
+
+    img {
+        margin: 2rem auto;
+        display: block;
+    }
+
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+    
+    
+    .middleHeader {
+        .middleHeaderIcon {
+            margin: 0 auto !important;
+            display: block
+        }
+
+        .middleHeaderHeadingContainer{
+            margin: 0 3.625rem 2rem 3.625rem !important;
+            padding: 0 !important
+        }
+        .middleHeaderHeading:par {
+            font-size: $font-size-36 !important;
+        }
+        
+    }
+
+    
+
+    .quoteContainer {
+        .quoteContainerIcon, .quoteContainerImg{
+            margin: 0 auto !important;
+            display: block;
+        }
+
+        .quoteBar {
+            width: 3.25rem !important;            
+        }
+    }
+    
+
+}
+
+:export {
+    revenueExplainerPrimary : $revenueExplainerPrimary
+}

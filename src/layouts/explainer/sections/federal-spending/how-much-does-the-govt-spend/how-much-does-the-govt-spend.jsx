@@ -227,7 +227,7 @@ const HowMuchDoesTheGovtSpend = () => {
             >
               <span
                 style={{
-                  fontSize: isMobile ? "16px" : "14px",
+                  fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
                 }}
               >
@@ -249,7 +249,7 @@ const HowMuchDoesTheGovtSpend = () => {
             >
               <span
                 style={{
-                  fontSize: isMobile ? "16px" : "14px",
+                  fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
                 }}
               >
