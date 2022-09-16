@@ -31,8 +31,8 @@ const ChartContainer = ({
       aria-label={altText}
       style={{ ...customSpacing }}
     >
-      <div className={chartTitle}>{title}</div>
-      <div className={`${chartSubTitle} chartContainerSubTitle`}>{subTitle}</div>
+      <div className={chartTitle} style={{ ...customTitleStyles}}>{title}</div>
+      <div className={`${chartSubTitle} chartContainerSubTitle`} style={{ ...customSubTitleStyles}}>{subTitle}</div>
       <div className={`${headerContainer} chartContainerHeader`} style={{ ...customHeaderStyles }}>
         {header}
       </div>

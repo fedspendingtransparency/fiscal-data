@@ -15,7 +15,7 @@ import {
   chartSize
 } from "./sources-of-revenue-circle-chart.module.scss";
 import { withWindowSize } from "react-fns";
-import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.scss";
+import {breakpointLg, fontSize_12, semiBoldWeight} from "../../../../../../variables.module.scss";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 
 const SourcesOfRevenueCircleChart = ({ width }) => {
@@ -249,6 +249,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         footer={footer}
         altText={title}
         date={date}
+        customTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
+        customSubTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
       >
         <div className={dataContent} >
           <div className={chartSize} >
