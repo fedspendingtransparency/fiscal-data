@@ -146,7 +146,7 @@ export const SocialShareComponent = ({
     desktop: 1015,
     tablet: 600,
   }
-  // TODO: mobile styles, they the same?
+  // TODO: test out functionality, and what do about both images? one of them is uploaded already
   const [isMobile, setIsMobile] = useState(true)
   useEffect(() => {
     if (window.innerWidth < breakpoint.desktop) {
@@ -155,7 +155,7 @@ export const SocialShareComponent = ({
       setIsMobile(false)
     }
   }, [width, height])
-  // set up config for rendering of images
+
   const orientationStyles = {
     horizontal: {
       socialShareContent: {

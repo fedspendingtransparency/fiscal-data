@@ -21,7 +21,7 @@ import {
 } from "../../layouts/explainer/explainer-helpers/explainer-helpers"
 import SocialShare from "../../layouts/explainer/social-share/social-share"
 export default function AmericasFinanceGuidePage() {
-  const pageName = "government-revenue"
+  const pageName = "americas-finance-guide"
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
