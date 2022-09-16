@@ -49,7 +49,7 @@ const RevenueKeyTakeaways = ({glossary}) => {
         })
       }
     });
-  });
+  }, []);
 
   const takeaways = [
     {
