@@ -1,13 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, navigate } from "gatsby"
 import * as styles from './explainer-sub-nav.module.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
+import { CSSTrasition } from 'react-transition-group';
 
-export default function ExplainerSubNav() {    
+export default function ExplainerSubNav() {
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
+    const [navBlockStyle, setNavBlockStyle] = useState(styles.navBlock);
+
+    const handleScroll = () => {
+        let position = window.pageYOffset;
+        setPreviousScrollPosition(scrollPosition);
+        setScrollPosition(position);
+
+        if (position > 160) {
+            //Scrolling Down
+            if (previousScrollPosition < scrollPosition) {
+                setNavBlockStyle(styles.navBlockHidden)
+            } else {
+                setNavBlockStyle(styles.navBlockSticky)
+            }
+        }
+        else {
+            setNavBlockStyle(styles.navBlock)
+        }
+
+        console.log(previousScrollPosition, scrollPosition)
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+
+    }, [scrollPosition]);
+
     return (
-        <div id={styles.navContainer} data-testid="explainerSubNav">
-            <ul className={[styles.navBlock]}>
+        <div id={styles.navContainer} data-testid="explainerSubNav" >
+            <ul className={navBlockStyle}>
                 <li className={[styles.navItem, styles.noverview, styles.nactive].join(' ')}>
                     <Link to='/americas-finance-guide/' className={styles.navLink} activeClassName={styles.active}>
                         <FontAwesomeIcon icon={faHouseChimney} className={styles.navIcon} />
@@ -44,6 +78,7 @@ export default function ExplainerSubNav() {
                 </li>
 
             </ul>
+
         </div>
     )
 }

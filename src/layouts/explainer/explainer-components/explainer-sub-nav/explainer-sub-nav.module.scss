@@ -8,6 +8,16 @@ $debtPrimary: #4a0072;
 $chevronHeight: 1rem;
 $chevronWidth: $chevronHeight/3;
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 #navContainer {
   width: 100%;
   color: #fff;
@@ -17,6 +27,11 @@ $chevronWidth: $chevronHeight/3;
   justify-content: center;
 }
 
+ul.navBlockHidden{
+  display: none;
+}
+
+
 ul.navBlock {
   list-style: none;
   display: flex;
@@ -24,9 +39,24 @@ ul.navBlock {
   flex-wrap: nowrap;
   justify-content: center;
   align-items: stretch;
-  width: 70%;
+  width: 100%;
   font-size: 1rem;
-  padding: 0px;
+}
+
+ul.navBlockSticky {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  font-size: 1rem;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+  
 
   li.navItem {
     background-color: #767676;
@@ -34,13 +64,11 @@ ul.navBlock {
     font-size: 1rem;
     display: flex;
     flex-grow: 1;
-
+    max-width: 8rem;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
-
 
     .navLink {
       display: flex;
@@ -138,12 +166,11 @@ ul.navBlock {
     border-bottom: $chevronHeight solid $debtPrimary;
   }
 
-  li.active {
+  a.active {
     font-weight: bold;
   }
 
-  li:hover {
+  a:hover {
     text-decoration: underline;
     cursor: pointer;
   }
-}
