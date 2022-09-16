@@ -36,7 +36,6 @@ const FederalRevenueTrendsOverTime = () => {
             when individuals or corporations make less money or the tax rate is lowered,
             the government earns less revenue.
           </p>
-          <p>
             If the U.S. government increases tariffs on imports from
             a particular country or countries,
             it could increase revenues, depending on the level of trade the U.S.
@@ -44,7 +43,6 @@ const FederalRevenueTrendsOverTime = () => {
             However, if tariffs increase and U.S. consumers import
             fewer goods as a result of the higher prices,
             then revenue from customs duties could decrease overall.
-          </p>
         </div>
           <VisualizationCallout color={revenueExplainerPrimary} customTopMargin={'2.8%'}>
             <p>
