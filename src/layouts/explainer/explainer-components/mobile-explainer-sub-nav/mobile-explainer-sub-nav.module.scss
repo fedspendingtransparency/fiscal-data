@@ -1,0 +1,55 @@
+@import "src/variables.module";
+
+.MenuList2{
+  background-color: #0a2f5a;
+  color: #0a2f5a;
+  height: 1.625rem;
+  width: 18rem;
+  text-algin: right;
+  z-index: 1;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.listItems{
+  background-color: #0a2f5a;
+  height: 2.25rem;
+  width: 100%;
+  color: white;
+  z-index: 1;
+
+}
+
+.revenue{
+  background-color: #0a2f5a;
+}
+.spending{
+  background-color: #00766c;
+}
+.deficit{
+  background-color: #b3532d;
+}
+.debt{
+  background-color: #4a0072;
+}
+.buttonOverview{
+  border-radius: 1rem;
+  background-color:  #0071bc;
+  color: white;
+  width: 21.25rem;
+  height: 2rem;
+  font-size: 1rem;
+  display:flex;
+  justify-content: left;
+  padding-left: 0;
+}
+.MenuList{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+li{
+  padding-left: -1rem;
+}
+.carrot{
+  display:flex;
+  justify-content: right;
+}
