@@ -7,17 +7,21 @@ import CustomLink from "../../../../../../components/links/custom-link/custom-li
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import * as styles from "./revenue-trends-line-chart.module.scss";
-import {chartData} from "./revenue-trends-line-chart-helpers";
 import { Line } from '@nivo/line';
 import {fontSize_16} from "../../../../explainer.module.scss";
 import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust/inflation-adjust";
+import {colors, sum} from "./revenue-trends-line-chart-helpers";
+import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
 
-  const [data, setData] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [lastChartYear, setLastChartYear] = useState(0);
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [chartYears, setChartYears] = useState([]);
 
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
@@ -25,50 +29,75 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     basicFetch(`${apiPrefix}${endPointURL}`)
       .then((res) => {
         if (res.data) {
-          const mappedData = [];
-          console.log(res.data);
-          console.log(cpiDataByYear);
-          res.data = adjustDataForInflation(res.data, "current_fytd_rcpt_outly_amt", "record_date", cpiDataByYear);
-          console.log(res.data);
+          setLastChartYear(res.data[0].record_fiscal_year);
+          const chartDate = new Date(res.data[0].record_date);
+          setLastUpdatedDate(getDateWithoutTimeZoneAdjust(chartDate));
+          const completeData = [];
           const filteredData = [];
-          const incomeTax = res.data.filter((record) => { return record.line_code_nbr === "20"});
+          res.data = adjustDataForInflation(res.data, "current_fytd_rcpt_outly_amt",
+            "record_date", cpiDataByYear);
+          const incomeTax = {
+            name: "Individual Income Taxes",
+            data: res.data.filter((record) => { return record.line_code_nbr === "20"})
+          };
           filteredData.push(incomeTax);
-          const corpTax = res.data.filter((record) => { return record.line_code_nbr === "30"});
-          filteredData.push(corpTax);
-          const socialSecurityMedicare = res.data.filter((record) => {
+          const combinedSocSecData = [];
+          const socialSecurityData = res.data.filter((record) => {
             return record.line_code_nbr === "50"
-              && record.line_code_nbr === "60" && record.line_code_nbr === "70"});
+              || record.line_code_nbr === "60" || record.line_code_nbr === "70"});
+          const socSecYears = [...new Set(socialSecurityData.map(entry => entry.record_fiscal_year))];
+          setChartYears(socSecYears);
+          socSecYears.forEach((year) => {
+            const forAGivenYear = socialSecurityData.filter((entry) => entry.record_fiscal_year === year);
+            const sumOfRevenueForYear = forAGivenYear.map(element => element.current_fytd_rcpt_outly_amt).reduce(sum);
+            combinedSocSecData.push({
+              record_fiscal_year: year,
+              current_fytd_rcpt_outly_amt: sumOfRevenueForYear
+            })
+          })
+          const socialSecurityMedicare = {
+            name: "Social Security and Medicare Taxes",
+            data: combinedSocSecData
+          };
           filteredData.push(socialSecurityMedicare);
-          const exciseTax = res.data.filter((record) => { return record.line_code_nbr === "80"});
-          filteredData.push(exciseTax);
-          const estateTax = res.data.filter((record) => { return record.line_code_nbr === "90"});
-          filteredData.push(estateTax);
-          const customsDuties = res.data.filter((record) => { return record.line_code_nbr === "100"});
-          filteredData.push(customsDuties);
-          const misc = res.data.filter((record) => { return record.line_code_nbr === "110"});
+          const corpTax = {
+            name: "Corporate Income Taxes",
+            data: res.data.filter((record) => { return record.line_code_nbr === "30"})
+          };
+          filteredData.push(corpTax);
+          const misc = {
+            name: "Miscellaneous Income",
+            data: res.data.filter((record) => { return record.line_code_nbr === "110"})
+          };
           filteredData.push(misc);
+          const exciseTax = {
+            name: "Excise Taxes",
+            data: res.data.filter((record) => { return record.line_code_nbr === "80"})
+          };
+          filteredData.push(exciseTax);
+          const customsDuties = {
+            name: "Customs Duties",
+            data: res.data.filter((record) => { return record.line_code_nbr === "100"})
+          };
+          filteredData.push(customsDuties);
+          const estateTax = {
+            name: "Estate & Gift Taxes",
+            data: res.data.filter((record) => { return record.line_code_nbr === "90"})
+          };
+          filteredData.push(estateTax);
           filteredData.forEach((category) => {
-            const totalRevenue = 0;
-            category.forEach((entry) => {
-              parseFloat()
-            });
+              const dataObject = {
+                "id": category.name,
+                "color": colors.find((entry) => category.name === entry.name).value,
+                "data": category.data.map((entry) =>
+                { return {"x": entry.record_fiscal_year, "y": parseFloat((entry.current_fytd_rcpt_outly_amt / 1000000000000).toFixed(2))} })
+              }
+              completeData.push(dataObject);
           });
-          console.log(corpTax);
+          setChartData(completeData);
         }
       });
   }, [])
-
-  const date = new Date();
-
-  // The below const values are for mapping colors to data for when the data gets hooked in
-
-  // const estateColor = '#4b3974';
-  // const customsColor = '#ffa600';
-  // const exciseColor = '#883c7f';
-  // const miscColor = '#ff773e';
-  // const corpColor = '#c13f77';
-  // const socialSecColor = '#eb5160';
-  // const indvColor = '#0a2f5a';
 
   const blsLink =
     <CustomLink
@@ -106,7 +135,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     <div>
       <p>
       Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and
-      download this data. The inflation data is sourced from the {blsLink}
+      download this data. The inflation data is sourced from the {blsLink}.
       </p>
       <p></p>
     </div>;
@@ -124,11 +153,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     }
   };
 
-  const calcTickSize = (tick) => {
-    console.log(tick);
-    return 6;
-  }
-
   useEffect(() => {
     applyChartScaling()
   }, [])
@@ -138,11 +162,11 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       { chartData !== [] ? (
         <div data-testid={'revenueTrendsLineChart'} className={styles.container}>
           <ChartContainer
-            title={'Federal Revenue Trends Over Time, FY 2015-2021'}
-            subTitle={'Inflation Adjusted - 2021 Dollars'}
-            altText={'Area chart showing federal revenue totals by revenue category from 2015 - 2021'}
+            title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
+            subTitle={`Inflation Adjusted - ${lastChartYear} Dollars`}
+            altText={`Area chart showing federal revenue totals by revenue category from 2015 - ${lastChartYear}`}
             footer={footer}
-            date={date}
+            date={lastUpdatedDate}
             customFooterSpacing={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
             customTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_16, color: '#666666'}: {} }
             customSubTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
@@ -157,7 +181,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 xScale={{
                   type: 'linear',
                   min: 2015,
-                  max: 2021
+                  max: lastChartYear
                 }}
                 yScale={{
                   type: 'linear',
@@ -179,7 +203,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   tickSize: 6,
                   tickPadding: 5,
                   tickRotation: 0,
-                  tickValues: 7
+                  tickValues: chartYears
                 }}
                 axisLeft={{
                   format: formatCurrency,

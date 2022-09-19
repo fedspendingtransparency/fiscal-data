@@ -6,7 +6,7 @@ import React from "react";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
 import RevenueTrendsLineChart from "./revenue-trends-line-chart/revenue-trends-line-chart";
 
-const FederalRevenueTrendsOverTime = ( cpiDataByYear ) => {
+const FederalRevenueTrendsOverTime = ( {cpiDataByYear} ) => {
 
   return(
     <div>
