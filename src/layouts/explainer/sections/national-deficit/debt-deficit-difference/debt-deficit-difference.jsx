@@ -20,7 +20,7 @@ import {breakpointLg} from "../../../../../variables.module.scss";
 export const DebtDeficitDifference = ({width}) => {
 
   const nationalDebtLink =
-    <CustomLink url={'/americas-finance-guide/national-debt/'}>
+    <CustomLink url={'/national-debt/'}>
       National Debt Explainer
     </CustomLink>
   return (

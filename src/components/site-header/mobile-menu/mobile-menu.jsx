@@ -80,17 +80,17 @@ const MobileMenu = () => {
                       >
                         Revenue
                       </Link>
-                      <Link to="/americas-finance-guide/federal-spending/"
+                      <Link to="/federal-spending/"
                         className={styles.explainerLink}
                       >
                         Spending
                       </Link>
-                      <Link to="/americas-finance-guide/national-deficit/"
+                      <Link to="/national-deficit/"
                         className={styles.explainerLink}
                       >
                         Deficit
                       </Link>
-                      <Link to="/americas-finance-guide/national-debt/"
+                      <Link to="/national-debt/"
                         className={styles.explainerLink}
                         onClick={() => topicsClickHandler('Debt')}
                       >

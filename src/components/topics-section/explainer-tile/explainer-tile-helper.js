@@ -41,7 +41,7 @@ export const pageTileMap = {
       'money, and magnifying glass',
     desktopImage: 'homepage_debt_1200x630',
     mobileImage: 'homepage_debt_square',
-    path: '/americas-finance-guide/national-debt/'
+    path: '/national-debt/'
   },
   'spending': {
     title: 'How much has the U.S. government spent this year?',
@@ -55,7 +55,7 @@ export const pageTileMap = {
     desktopImage: 'homepage_spending_1200x630',
     mobileImage: 'homepage_spending_square',
     mainFeature: true,
-    path: '/americas-finance-guide/federal-spending/'
+    path: '/federal-spending/'
   },
   'deficit': {
     title: 'What is the national deficit?',
@@ -65,6 +65,6 @@ export const pageTileMap = {
       'graph, and lit lightbulb.',
     desktopImage: 'homepage_deficit_1200x630',
     mobileImage: 'homepage_deficit_square',
-    path: '/americas-finance-guide/national-deficit/'
+    path: '/national-deficit/'
   }
 };

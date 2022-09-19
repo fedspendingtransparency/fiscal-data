@@ -1,6 +1,6 @@
 const explainerPagesSource = {
   "national-debt": {
-    slug: "/americas-finance-guide/national-debt/",
+    slug: "/national-debt/",
     breadCrumbLinkName: "Debt",
     seoConfig: {
       pageTitle: "Understanding the National Debt",
@@ -20,7 +20,7 @@ const explainerPagesSource = {
     ],
   },
   "national-deficit": {
-    slug: "/americas-finance-guide/national-deficit/",
+    slug: "/national-deficit/",
     breadCrumbLinkName: "Deficit",
     seoConfig: {
       pageTitle: "National Deficit",
@@ -40,7 +40,7 @@ const explainerPagesSource = {
     ],
   },
   "federal-spending": {
-    slug: "/americas-finance-guide/federal-spending/",
+    slug: "/federal-spending/",
     breadCrumbLinkName: "Spending",
     seoConfig: {
       pageTitle: "Federal Spending",

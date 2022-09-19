@@ -56,15 +56,15 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       testId: 'revenue'
     },{
       title: 'Spending',
-      to: '/americas-finance-guide/federal-spending/',
+      to: '/federal-spending/',
       testId: 'spending'
     },{
       title: 'Deficit',
-      to: '/americas-finance-guide/national-deficit/',
+      to: '/national-deficit/',
       testId: 'deficit'
     },{
       title: 'Debt',
-      to: '/americas-finance-guide/national-debt/',
+      to: '/national-debt/',
       testId: 'debt'
     }
   ]

@@ -134,8 +134,8 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       Monthly Treasury Statement (MTS)
     </CustomLink>;
 
-  const debt = <CustomLink url={'/americas-finance-guide/national-debt/'}>Debt</CustomLink>;
-  const spending = <CustomLink url={'/americas-finance-guide/federal-spending/'}>Spending</CustomLink>
+  const debt = <CustomLink url={'/national-debt/'}>Debt</CustomLink>;
+  const spending = <CustomLink url={'/federal-spending/'}>Spending</CustomLink>
 
   const fiscalYear =
     <GlossaryTerm term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >
