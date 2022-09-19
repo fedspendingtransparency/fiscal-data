@@ -6,7 +6,7 @@
 $revenueExplainerPrimary: #0A2F5A;
 
 .topContainer {
-    max-width: $breakpoint-lg;
+    max-width: 62rem;
 }
 
 .debtText {    
@@ -45,7 +45,6 @@ $revenueExplainerPrimary: #0A2F5A;
     .quoteIcon {
         font-size: 4rem;
         transform: scale(-1, 1);
-        margin-left: 1rem;
     }
 
     .quote {
@@ -55,6 +54,7 @@ $revenueExplainerPrimary: #0A2F5A;
         font-style: italic;
         margin-left: 1rem;
         margin-top: 0.5rem;
+        max-width: 35rem;
     }
 
     .citation {
@@ -118,6 +118,7 @@ $revenueExplainerPrimary: #0A2F5A;
     
 
     .quoteContainer {
+        
         .quoteContainerIcon, .quoteContainerImg{
             margin: 0 auto !important;
             display: block;
@@ -130,6 +131,7 @@ $revenueExplainerPrimary: #0A2F5A;
     
 
 }
+
 
 :export {
     revenueExplainerPrimary : $revenueExplainerPrimary

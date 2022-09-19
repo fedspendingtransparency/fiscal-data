@@ -25,7 +25,7 @@ export default function AmericasFinanceGuidePage() {
         canonical=""
         datasetDetails=""
       />
-      <Container classes={{ root: styles.topContainer }} maxWidth="md" data-testid="topContainer">
+      <Container classes={{ root: styles.topContainer }} maxWidth="false" data-testid="topContainer">
         <div className="heroSection" mb={5}>
           <h1>A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.</h1>
           <p>U.S. Constitution, Article 1, Section 9</p>
@@ -93,7 +93,7 @@ export default function AmericasFinanceGuidePage() {
       </Container>
 
       <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
-          <Grid classes={{ root: styles.quoteGrid }} container spacing={3} >
+          <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
             <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
               <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
             </Grid>

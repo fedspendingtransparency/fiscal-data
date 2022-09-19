@@ -68,4 +68,5 @@ export const comparisonHeading: string;
 export const heading: string;
 export const subHeading: string;
 export const body: string;
+export const compareGridItem: string;
 export const compareIcon: string;
