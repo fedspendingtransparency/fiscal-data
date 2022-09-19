@@ -67,7 +67,7 @@ const explainerPagesSource = {
       description: `Learn how much the U.S. government collects in revenue, and what types of
       revenue it brings in.`,
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: "How much revenue has the U.S. government collected this year? ",
       subHeading: "",
