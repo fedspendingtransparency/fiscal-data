@@ -83,6 +83,15 @@ ul.navBlockSticky {
         color: #fff;
       }
     }
+
+    .navLink.active {
+      font-weight: bold;
+    }
+  
+    .navLink:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 
   li.frontChevron {
@@ -164,13 +173,4 @@ ul.navBlockSticky {
   .backChevron.debt {
     border-top: $chevronHeight solid $debtPrimary;
     border-bottom: $chevronHeight solid $debtPrimary;
-  }
-
-  a.active {
-    font-weight: bold;
-  }
-
-  a:hover {
-    text-decoration: underline;
-    cursor: pointer;
   }
