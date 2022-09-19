@@ -51,6 +51,10 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
   const topicsPageLinks = [
     {
+      title: 'Revenue',
+      to: '/americas-finance-guide/government-revenue/',
+      testId: 'revenue'
+    },{
       title: 'Spending',
       to: '/federal-spending/',
       testId: 'spending'
