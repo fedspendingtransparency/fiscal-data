@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg, fontSize_10, fontSize_14} from "../../../../../../variables.module.scss";
@@ -10,9 +10,53 @@ import * as styles from "./revenue-trends-line-chart.module.scss";
 import {chartData} from "./revenue-trends-line-chart-helpers";
 import { Line } from '@nivo/line';
 import {fontSize_16} from "../../../../explainer.module.scss";
+import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
+import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust/inflation-adjust";
 
 
-const RevenueTrendsLineChart = ({ width }) => {
+const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
+
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
+      + 'record_calendar_month:eq:09&sort=-record_date';
+    basicFetch(`${apiPrefix}${endPointURL}`)
+      .then((res) => {
+        if (res.data) {
+          const mappedData = [];
+          console.log(res.data);
+          console.log(cpiDataByYear);
+          res.data = adjustDataForInflation(res.data, "current_fytd_rcpt_outly_amt", "record_date", cpiDataByYear);
+          console.log(res.data);
+          const filteredData = [];
+          const incomeTax = res.data.filter((record) => { return record.line_code_nbr === "20"});
+          filteredData.push(incomeTax);
+          const corpTax = res.data.filter((record) => { return record.line_code_nbr === "30"});
+          filteredData.push(corpTax);
+          const socialSecurityMedicare = res.data.filter((record) => {
+            return record.line_code_nbr === "50"
+              && record.line_code_nbr === "60" && record.line_code_nbr === "70"});
+          filteredData.push(socialSecurityMedicare);
+          const exciseTax = res.data.filter((record) => { return record.line_code_nbr === "80"});
+          filteredData.push(exciseTax);
+          const estateTax = res.data.filter((record) => { return record.line_code_nbr === "90"});
+          filteredData.push(estateTax);
+          const customsDuties = res.data.filter((record) => { return record.line_code_nbr === "100"});
+          filteredData.push(customsDuties);
+          const misc = res.data.filter((record) => { return record.line_code_nbr === "110"});
+          filteredData.push(misc);
+          filteredData.forEach((category) => {
+            const totalRevenue = 0;
+            category.forEach((entry) => {
+              parseFloat()
+            });
+          });
+          console.log(corpTax);
+        }
+      });
+  }, [])
 
   const date = new Date();
 

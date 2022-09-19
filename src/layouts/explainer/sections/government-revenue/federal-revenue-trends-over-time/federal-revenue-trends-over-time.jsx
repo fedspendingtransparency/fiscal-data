@@ -3,13 +3,10 @@ import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
-import {ChartPlaceholder} from
-    "../../../explainer-helpers/federal-spending/federal-spending-helper";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
-import {customCallout} from "./federal-trends-over-time.scss"
 import RevenueTrendsLineChart from "./revenue-trends-line-chart/revenue-trends-line-chart";
 
-const FederalRevenueTrendsOverTime = () => {
+const FederalRevenueTrendsOverTime = ( cpiDataByYear ) => {
 
   return(
     <div>
@@ -45,7 +42,7 @@ const FederalRevenueTrendsOverTime = () => {
         various source categories.
       </p>
       <div className={visWithCallout}>
-        <RevenueTrendsLineChart />
+        <RevenueTrendsLineChart cpiDataByYear={cpiDataByYear} />
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
             Total revenue has (increased/decreased) from

@@ -53,7 +53,7 @@ const governmentRevenueSections = [
     index: 3,
     id: governmentRevenueSectionIds[3],
     title: "Federal Revenue Trends Over Time",
-    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsOverTime />
+    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsOverTime cpiDataByYear={cpiDataByYear} />
   },
   {
     index: 4,
