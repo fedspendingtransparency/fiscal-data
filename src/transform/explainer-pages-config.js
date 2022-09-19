@@ -1,6 +1,6 @@
 const explainerPagesSource = {
   "national-debt": {
-    slug: "/national-debt/",
+    slug: "/americas-finance-guide/national-debt/",
     breadCrumbLinkName: "Debt",
     seoConfig: {
       pageTitle: "Understanding the National Debt",
@@ -20,7 +20,7 @@ const explainerPagesSource = {
     ],
   },
   "national-deficit": {
-    slug: "/national-deficit/",
+    slug: "/americas-finance-guide/national-deficit/",
     breadCrumbLinkName: "Deficit",
     seoConfig: {
       pageTitle: "National Deficit",
@@ -40,7 +40,7 @@ const explainerPagesSource = {
     ],
   },
   "federal-spending": {
-    slug: "/federal-spending/",
+    slug: "/americas-finance-guide/federal-spending/",
     breadCrumbLinkName: "Spending",
     seoConfig: {
       pageTitle: "Federal Spending",
@@ -67,7 +67,7 @@ const explainerPagesSource = {
       description: `Learn how much the U.S. government collects in revenue, and what types of
       revenue it brings in.`,
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: "How much revenue has the U.S. government collected this year? ",
       subHeading: "",
