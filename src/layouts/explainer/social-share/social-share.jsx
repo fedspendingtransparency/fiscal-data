@@ -33,7 +33,6 @@ import {
 } from "react-share"
 import globalConstants from "../../../helpers/constants"
 import Analytics from "../../../utils/analytics/analytics"
-import { useWindowSize } from "../../../hooks/windowResize"
 
 const baseUrl = globalConstants.BASE_SITE_URL
 
@@ -141,13 +140,9 @@ export const SocialShareComponent = ({
   width,
   orientation,
 }) => {
-  const [_, height] = useWindowSize()
-  const breakpoint = {
-    desktop: 1015,
-    tablet: 600,
-  }
-  // TODO: test out functionality, cleanup, ask bonnie Qs on Monday, confirm SEO config
-  const defaultOrientationStyles = {
+  // if the orientation is horizontal, we only use the mobile styles
+  // an alternative would be forcing a media query, but that would be risky https://stackoverflow.com/a/37271031
+  const mobileOrientationStyles = {
     horizontal: {
       socialShareContent: {
         display: "flex",
@@ -155,6 +150,10 @@ export const SocialShareComponent = ({
         maxHeight: "48px",
         justifyContent: "center",
         alignItems: "center",
+        paddingLeft: "0",
+        paddingRight: "0",
+        margin: "0",
+        paddingBottom: "0",
         paddingLeft: "39px",
         paddingRight: "39px",
       },
@@ -178,32 +177,10 @@ export const SocialShareComponent = ({
       },
     },
   }
-  const [orientationStyles, setOrientationStyles] = useState(
-    defaultOrientationStyles
-  )
-
-  useEffect(() => {
-    const isMobile = window.innerWidth < breakpoint.desktop
-    if (isMobile) {
-      if (orientation === "horizontal") {
-        const updatedStyles = { ...orientationStyles }
-        updatedStyles.horizontal.socialShareContent.paddingLeft = "0"
-        updatedStyles.horizontal.socialShareContent.paddingRight = "0"
-        updatedStyles.horizontal.socialShareContent.margin = "0"
-        setOrientationStyles(updatedStyles)
-      }
-    } else {
-      if (orientation === "horizontal") {
-        const updatedStyles = { ...orientationStyles }
-        updatedStyles.horizontal.socialShareContent.paddingLeft = "39px "
-        updatedStyles.horizontal.socialShareContent.paddingRight = "39px "
-        setOrientationStyles(updatedStyles)
-      }
-    }
-  }, [width, height])
+  const [orientationStyles] = useState(mobileOrientationStyles)
 
   const orientationStyle = orientationStyles[orientation] || {}
-  console.log(orientationStyle, "orientationStyle")
+
   return (
     <>
       <SocialMetaData
