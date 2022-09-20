@@ -41,6 +41,7 @@ ul.navBlock {
   align-items: stretch;
   width: 100%;
   font-size: 1rem;
+  padding-inline-start: 0px;
 }
 
 ul.navBlockSticky {
@@ -70,6 +71,7 @@ ul.navBlockSticky {
     justify-content: center;
     align-items: center;
 
+    
     .navLink {
       display: flex;
       color: #fff;
@@ -83,7 +85,6 @@ ul.navBlockSticky {
         color: #fff;
       }
     }
-
     .navLink.active {
       font-weight: bold;
     }
@@ -92,6 +93,10 @@ ul.navBlockSticky {
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+
+  li.navItem:first-child {
+    min-width: 9.125rem;
   }
 
   li.frontChevron {
