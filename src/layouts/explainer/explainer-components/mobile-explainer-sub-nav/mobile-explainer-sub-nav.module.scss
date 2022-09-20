@@ -1,6 +1,6 @@
 @import "src/variables.module";
 
-.MenuList2{
+.MenuList2 {
   background-color: #0a2f5a;
   color: #0a2f5a;
   height: 1.625rem;
@@ -9,47 +9,79 @@
   z-index: 1;
   padding-left: 0 !important;
   padding-right: 0 !important;
+
 }
-.listItems{
+
+.listItems {
   background-color: #0a2f5a;
-  height: 2.25rem;
-  width: 100%;
   color: white;
   z-index: 1;
-
+  border-radius: 2px;
 }
 
-.revenue{
+.revenue {
   background-color: #0a2f5a;
+  padding-left: 2px;
+  height: 2rem;
 }
-.spending{
+
+.spending {
   background-color: #00766c;
+  color: white;
 }
-.deficit{
+
+.deficit {
   background-color: #b3532d;
+  color: white;
 }
-.debt{
+
+.debt {
   background-color: #4a0072;
+  color: white;
 }
-.buttonOverview{
+
+.buttonOverview {
   border-radius: 1rem;
-  background-color:  #0071bc;
+  background-color: #0071bc;
+  border-color: white;
   color: white;
   width: 21.25rem;
   height: 2rem;
   font-size: 1rem;
-  display:flex;
-  justify-content: left;
-  padding-left: 0;
+  text-align: left;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .overviewStyle {
+    margin-left: .5rem;
+  }
+
 }
-.MenuList{
-  padding-left: 0px;
-  padding-right: 0px;
+
+.mainDiv {
+  display: flex;
+  justify-content: center;
 }
-li{
-  padding-left: -1rem;
+
+.carrot {
+  padding-left: 5.813rem;
 }
-.carrot{
-  display:flex;
-  justify-content: right;
+
+.faHouse {
+  padding-right: 1.438rem;
+  padding-top: .563rem;
+  padding-bottom: .563rem;
+}
+
+.stylingStyledMenu {
+
+  border-color: white;
+
+  :global(.MuiList-padding) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border: none;
+  }
 }

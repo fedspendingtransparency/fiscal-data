@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -7,9 +7,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouseChimney } from "@fortawesome/free-solid-svg-icons";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
+import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {
   listItems,
   MenuList2,
@@ -18,13 +18,15 @@ import {
   revenue,
   deficit,
   debt,
-  MenuList,
-  carrot
+  carrot,
+  faHouse,
+  stylingStyledMenu,
+  overviewStyle,
+  mainDiv
 } from './mobile-explainer-sub-nav.module.scss';
 
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #999999',
     width: '288px',
 
   },
@@ -47,9 +49,7 @@ const StyledMenu = withStyles({
 const StyledMenuItem = withStyles((theme) => ({
   root: {
     '&:focus': {
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-
-      },
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {},
     },
   },
 }))(MenuItem);
@@ -66,39 +66,41 @@ export default function CustomizedMenus() {
   };
 
   return (
-    <div>
-      <a
+    <div className={mainDiv}>
+      <button
         aria-controls="customized-menu"
         aria-haspopup="true"
         variant="contained"
         color="#0a2f5a"
-        href='#'
         onClick={handleClick}
+        onKeyPress={handleClick}
         className={buttonOverview}
       >
-        <FontAwesomeIcon icon={faHouseChimney} />
-         Overvirew
-        <FontAwesomeIcon className={carrot} icon={faCaretDown} />
-      </a>
+
+        <FontAwesomeIcon icon={faHouseChimney} className={faHouse}/>
+        <span className={overviewStyle}>
+        Overview
+        </span>
+        <FontAwesomeIcon className={carrot} icon={faCaretDown}/>
+      </button>
       <StyledMenu
-        id="customized-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        classes={{root: buttonOverview}}
+        className={stylingStyledMenu}
       >
         <StyledMenuItem className={MenuList2}>
-          <ListItemText className={revenue} primary=" Revenue" />
+          <ListItemText className={revenue, listItems} primary=" Revenue"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList2}>
-          <ListItemText className={spending} primary="Spending" />
+          <ListItemText className={spending} primary="Spending"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList2}>
-          <ListItemText className={deficit} primary="Deficit" />
+          <ListItemText className={deficit} primary="Deficit"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList2}>
-          <ListItemText className={debt} primary="Debt" />
+          <ListItemText className={debt} primary="Debt"/>
         </StyledMenuItem>
       </StyledMenu>
     </div>
