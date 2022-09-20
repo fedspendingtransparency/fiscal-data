@@ -216,9 +216,10 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 pointSize={0}
                 pointLabelYOffset={-12}
                 useMesh={true}
-                enablePoints={false}
-                enableCrosshair={false}
-                isInteractive={false}
+                enablePoints={true}
+                enableCrosshair={true}
+                isInteractive={true}
+                enableSlices={'x'}
                 animate={true}
               />
               <div className={styles.legendContainer}>
