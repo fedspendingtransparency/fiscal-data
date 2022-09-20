@@ -57,7 +57,6 @@ export const TopicsSection = ({ images, width }) => {
                 width={width}
                 layout={"two-col"}
                 customStyles={{
-                  image: { desktop: { width: "260px", height: "160px" } },
                   imageContainer: isMobile
                     ? { paddingTop: "0" }
                     : { paddingTop: "1rem", marginRight: "1rem" },
