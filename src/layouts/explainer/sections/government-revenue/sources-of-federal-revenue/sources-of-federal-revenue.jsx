@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   visWithCallout,
   quoteBoxContent,
@@ -15,10 +15,50 @@ import {sourcesContent}
 import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons"
 import SourcesOfRevenueCircleChart
   from "./sources-of-revenue-circle-chart/sources-of-revenue-circle-chart";
+import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 
 
 
 const SourcesOfFederalRevenue = () => {
+
+  const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
+  const [indvPercent, setIndvPercent] = useState(0);
+  const [ssPercent, setSSPercent] = useState(0);
+
+  useEffect(() => {
+    const endpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
+      + 'sequence_number_cd:eq:1.1&sort=-record_date&page%5bsize%5d=1';
+    const supplementaryEndpointURL = 'v1/accounting/mts/mts_table_9?'
+      + 'filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
+    const socialSecurityEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:in:(50,60,70)&sort=-record_date&page[size]=3';
+    basicFetch(`${apiPrefix}${endpointURL}`)
+      .then((res) => {
+        if (res.data[0]) {
+          setCurrentFiscalYear(res.data[0].record_fiscal_year);
+          basicFetch(`${apiPrefix}${supplementaryEndpointURL}`)
+            .then((supplementaryRes) => {
+              if (supplementaryRes.data[0]) {
+                setIndvPercent(Math.round(((parseFloat(res.data[0].current_fytd_rcpt_outly_amt) /
+                  parseFloat(supplementaryRes.data[0].current_fytd_rcpt_outly_amt))
+                  * 100) * 10 ) / 10);
+                basicFetch(`${apiPrefix}${socialSecurityEndpointURL}`)
+                  .then((socSecRes) => {
+                    if (socSecRes.data[0]) {
+                      let combinedSocialSecurity = 0;
+                      socSecRes.data.forEach((entry) => {
+                        combinedSocialSecurity += parseFloat(entry.current_fytd_rcpt_outly_amt);
+                      })
+                      setSSPercent(Math.round(((combinedSocialSecurity /
+                        parseFloat(supplementaryRes.data[0].current_fytd_rcpt_outly_amt))
+                        * 100) * 10) / 10);
+                    }
+                  })
+              }
+            });
+        }
+      });
+  }, []);
+
   const irsGov = (
     <CustomLink
       url={"https://www.irs.gov/newsroom/historical-highlights-of-the-irs"}
@@ -32,10 +72,9 @@ const SourcesOfFederalRevenue = () => {
           Most of the revenue the U.S. government collects comes from
           contributions from individual taxpayers, small businesses, and
           corporations through taxes. Additional sources of tax revenue consist of
-          excise tax, estate tax, and other taxes and fees. So far in FY YYYY
-          (current fiscal year), individual income taxes have accounted for XX.X%
-          of total revenue while Social Security and Medicare taxes made up
-          another XX.X%.
+          excise tax, estate tax, and other taxes and fees. So far in FY {currentFiscalYear},
+          individual income taxes have accounted for {indvPercent}% of total revenue while Social Security
+          and Medicare taxes made up another {ssPercent}%.
         </p>
         <p>
           Government revenue also comes from payments to federal agencies like the

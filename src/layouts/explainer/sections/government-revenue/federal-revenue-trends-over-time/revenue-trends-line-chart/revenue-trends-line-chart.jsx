@@ -9,6 +9,7 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import * as styles from "./revenue-trends-line-chart.module.scss";
 import {chartData} from "./revenue-trends-line-chart-helpers";
 import { Line } from '@nivo/line';
+import {fontSize_16} from "../../../../explainer.module.scss";
 
 
 const RevenueTrendsLineChart = ({ width }) => {
@@ -98,6 +99,9 @@ const RevenueTrendsLineChart = ({ width }) => {
             altText={'Area chart showing federal revenue totals by revenue category from 2015 - 2021'}
             footer={footer}
             date={date}
+            customFooterSpacing={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
+            customTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_16, color: '#666666'}: {} }
+            customSubTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
           >
             <div className={styles.lineChart} data-testid={'chartParent'}>
               <Line
