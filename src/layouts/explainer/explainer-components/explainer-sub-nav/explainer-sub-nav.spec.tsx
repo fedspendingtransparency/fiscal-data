@@ -24,9 +24,9 @@ const urls = [{
   }
 ]
 
-describe("Icon Component", () => {
+describe("ExplainerSubNav Component", () => {
   it("renders the component", () => {
-    const { getByTestId } = render(<ExplainerSubNav />)
+    const { getByTestId } = render(<ExplainerSubNav isShown={true}/>)
     expect(getByTestId("explainerSubNav")).toBeInTheDocument()
   })
 
