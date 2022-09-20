@@ -1,6 +1,6 @@
 @import "src/variables.module";
 
-.MenuList2 {
+.MenuList {
   background-color: #0a2f5a;
   color: #0a2f5a;
   height: 1.625rem;
@@ -68,9 +68,18 @@
 
 }
 
-.mainDiv {
+.mainContainer {
   display: flex;
   justify-content: center;
+
+}
+.mainContainerSticky{
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+.mainContainerHidden{
+  display: none;
 }
 
 .carrot {

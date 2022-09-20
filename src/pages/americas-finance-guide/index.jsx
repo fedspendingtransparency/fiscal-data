@@ -4,6 +4,9 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import { Container, Grid, Box } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
 import * as styles from "./afg-overview.module.scss"
+import { withWindowSize } from 'react-fns'
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../src/variables.module.scss'
 import {spendingExplainerPrimary} from '../../layouts/explainer/sections/federal-spending/federal-spending.module.scss'
 import {debtExplainerPrimary} from '../../layouts/explainer/sections/national-debt/national-debt.module.scss'
 import {deficitExplainerPrimary} from '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss'
@@ -12,8 +15,9 @@ import { faMoneyBill1Wave, faQuoteLeft} from "@fortawesome/free-solid-svg-icons"
 import TopicSection from './afg-components/topic-section/topic-section';
 import AfgIcon from './afg-components/afg-icon/afg-icon';
 import CompareSection from './afg-components/compare-section/compare-section';
-
-export default function AmericasFinanceGuidePage() {
+import DeskTopSubNav from '../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav';
+import MobileSubNav from '../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
+export function AmericasFinanceGuidePage({width}) {
 
   return (
     <SiteLayout isPreProd={false}>
@@ -32,7 +36,7 @@ export default function AmericasFinanceGuidePage() {
         </div>
         <Box my={5}>Social Share Goes Here</Box>
         <Box my={5}>AFG Sub-navigation Bar </Box>
-      
+        {width < pxToNumber(breakpointLg) ? <MobileSubNav /> : <DeskTopSubNav hidePosition={630}/>}
         <TopicSection
           heading= {['In fiscal year YYYY, the federal government has collected $X.X in ' ,<span style={{ fontStyle: 'italic' }}>revenue.</span>]}
           body='The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties.'
@@ -41,7 +45,7 @@ export default function AmericasFinanceGuidePage() {
           linkColor={styles.revenueExplainerPrimary}
           image='/topics-section-images/homepage_revenue_1200x630.png'
           imageAltText='U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building.'
-          
+
         />
         <TopicSection
           heading= {['In fiscal year YYYYY the federal government has ' , <span style={{ fontStyle: 'italic' }}>spent.</span>, ' $X.X.']}
@@ -51,7 +55,7 @@ export default function AmericasFinanceGuidePage() {
           linkColor={spendingExplainerPrimary}
           image='/topics-section-images/homepage_spending_1200x630.png'
           imageAltText='The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. '
-        /> 
+        />
 
         <div className={styles.middleHeader}>
           <Grid container spacing={4}>
@@ -59,7 +63,7 @@ export default function AmericasFinanceGuidePage() {
             <Grid item md={11} classes={{ root: styles.middleHeaderHeadingContainer }}>
               <h3 className={styles.middleHeaderHeading}>How have federal revenue and spending affected the <span className={styles.deficitText}>deficit</span> and federal <span className={styles.debtText}>debt</span> so far in fiscal year YYYY? </h3>
             </Grid>
-            
+
           </Grid>
         </div>
 
@@ -75,7 +79,7 @@ export default function AmericasFinanceGuidePage() {
         />
         <TopicSection
           heading= {['In YYYY, the federal government has $X.X in federal ' ,<span style={{ fontStyle: 'italic' }}>debt.</span>]}
-          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.  
+          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
 
           Are federal debt and deficit the same thing? No, but they do affect one another"
           linkUrl='/national-debt'
@@ -88,7 +92,7 @@ export default function AmericasFinanceGuidePage() {
         <CompareSection/>
 
         <DataSourcesMethodologies>
-          Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the Monthly Treasury Statement (MTS). Current fiscal year values are updated monthly. The Monthly Statement of the Public Debt (MSPD)Debt to the Penny is the data source for federal debt. Current fiscal year values are updated daily. 
+          Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the Monthly Treasury Statement (MTS). Current fiscal year values are updated monthly. The Monthly Statement of the Public Debt (MSPD)Debt to the Penny is the data source for federal debt. Current fiscal year values are updated daily.
         </DataSourcesMethodologies>
       </Container>
 
@@ -113,9 +117,10 @@ export default function AmericasFinanceGuidePage() {
           <p style={{textAlign:'center'}}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
           <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
       </Container>
-        
+
     </SiteLayout>
-    
+
 
   )
 }
+export default withWindowSize(AmericasFinanceGuidePage)

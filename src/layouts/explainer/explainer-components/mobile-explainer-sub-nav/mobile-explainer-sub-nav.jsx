@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
+import * as styles from './../explainer-sub-nav/explainer-sub-nav.module.scss';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -10,9 +11,10 @@ import SendIcon from '@material-ui/icons/Send';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
 import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
+import {navigate} from 'gatsby'
 import {
   listItems,
-  MenuList2,
+  MenuList,
   buttonOverview,
   spending,
   revenue,
@@ -22,7 +24,9 @@ import {
   faHouse,
   stylingStyledMenu,
   overviewStyle,
-  mainDiv
+  mainContainer,
+  mainContainerSticky,
+  mainContainerHidden
 } from './mobile-explainer-sub-nav.module.scss';
 
 const StyledMenu = withStyles({
@@ -54,7 +58,40 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-export default function CustomizedMenus() {
+
+export default function MobileExplainerSubNav() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
+  const [navBlockStyle, setNavBlockStyle] = useState(mainContainerHidden);
+
+  const handleScroll = () => {
+    let position = window.pageYOffset;
+    setPreviousScrollPosition(scrollPosition);
+    setScrollPosition(position);
+
+    if (position > 630) {
+      //Scrolling Down
+      if (previousScrollPosition < scrollPosition) {
+        setNavBlockStyle(mainContainerHidden)
+      } else {
+        setNavBlockStyle(mainContainerSticky)
+      }
+    } else {
+      setNavBlockStyle()
+    }
+
+    console.log(previousScrollPosition, scrollPosition)
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, {passive: true});
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+
+  }, [scrollPosition]);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -66,7 +103,8 @@ export default function CustomizedMenus() {
   };
 
   return (
-    <div className={mainDiv}>
+    <div className={mainContainer} data-testid='mobileSubNav'>
+      <div className={navBlockStyle} >
       <button
         aria-controls="customized-menu"
         aria-haspopup="true"
@@ -77,7 +115,7 @@ export default function CustomizedMenus() {
         className={buttonOverview}
       >
         <span className={overviewStyle}>
-        <FontAwesomeIcon icon={faHouseChimney} className={faHouse}/>
+        <FontAwesomeIcon className={faHouse} icon={faHouseChimney}/>
         Overview
         </span>
         <FontAwesomeIcon className={carrot} icon={faCaretDown}/>
@@ -89,19 +127,24 @@ export default function CustomizedMenus() {
         onClose={handleClose}
         className={stylingStyledMenu}
       >
-        <StyledMenuItem className={MenuList2}>
-          <ListItemText className={revenue} primary=" Revenue"/>
+        <StyledMenuItem className={MenuList}>
+          <ListItemText className={revenue} onClick={() => navigate('/americas-finance-guide/government-revenue/')}
+                        primary=" Revenue"/>
         </StyledMenuItem>
-        <StyledMenuItem className={MenuList2}>
-          <ListItemText className={spending} primary="Spending"/>
+        <StyledMenuItem className={MenuList}>
+          <ListItemText className={spending} onClick={() => navigate('/americas-finance-guide/federal-spending/')}
+                        primary="Spending"/>
         </StyledMenuItem>
-        <StyledMenuItem className={MenuList2}>
-          <ListItemText className={deficit} primary="Deficit"/>
+        <StyledMenuItem className={MenuList}>
+          <ListItemText className={deficit} onClick={() => navigate('/americas-finance-guide/national-deficit/')}
+                        primary="Deficit"/>
         </StyledMenuItem>
-        <StyledMenuItem className={MenuList2}>
-          <ListItemText className={debt} primary="Debt"/>
+        <StyledMenuItem className={MenuList}>
+          <ListItemText className={debt} onClick={() => navigate('/americas-finance-guide/national-debt/')}
+                        primary="Debt"/>
         </StyledMenuItem>
       </StyledMenu>
+    </div>
     </div>
   );
 }
