@@ -13,31 +13,39 @@
 }
 
 .listItems {
-  background-color: #0a2f5a;
   color: white;
-  z-index: 1;
+  height: 2rem;
   border-radius: 2px;
+  padding-left: 2rem;
 }
 
 .revenue {
   background-color: #0a2f5a;
-  padding-left: 2px;
-  height: 2rem;
+  color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
 }
 
 .spending {
-  background-color: #00766c;
+  background-color: #00766c !important;
   color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
+
 }
 
 .deficit {
   background-color: #b3532d;
   color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
 }
 
 .debt {
   background-color: #4a0072;
   color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
 }
 
 .buttonOverview {
@@ -55,7 +63,7 @@
   align-items: center;
 
   .overviewStyle {
-    margin-left: .5rem;
+    margin-left: 1.438rem;
   }
 
 }
@@ -66,13 +74,12 @@
 }
 
 .carrot {
-  padding-left: 5.813rem;
+  padding-right: 1rem;
 }
 
 .faHouse {
-  padding-right: 1.438rem;
-  padding-top: .563rem;
-  padding-bottom: .563rem;
+  padding-right: .5rem;
+
 }
 
 .stylingStyledMenu {
@@ -83,5 +90,6 @@
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     border: none;
+
   }
 }

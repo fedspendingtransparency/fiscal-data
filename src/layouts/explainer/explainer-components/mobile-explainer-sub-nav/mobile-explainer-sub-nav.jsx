@@ -76,9 +76,8 @@ export default function CustomizedMenus() {
         onKeyPress={handleClick}
         className={buttonOverview}
       >
-
-        <FontAwesomeIcon icon={faHouseChimney} className={faHouse}/>
         <span className={overviewStyle}>
+        <FontAwesomeIcon icon={faHouseChimney} className={faHouse}/>
         Overview
         </span>
         <FontAwesomeIcon className={carrot} icon={faCaretDown}/>
@@ -91,7 +90,7 @@ export default function CustomizedMenus() {
         className={stylingStyledMenu}
       >
         <StyledMenuItem className={MenuList2}>
-          <ListItemText className={revenue, listItems} primary=" Revenue"/>
+          <ListItemText className={revenue} primary=" Revenue"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList2}>
           <ListItemText className={spending} primary="Spending"/>
