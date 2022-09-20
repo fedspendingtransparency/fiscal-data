@@ -29,6 +29,10 @@
         margin-left: 1.5rem;
     }
 
+    .compareGridItem:first-child, .compareGridItem:nth-child(2){
+        margin-bottom: 4rem;
+    }
+
 }
 
 @media screen and (max-width: $breakpoint-lg) {
@@ -44,6 +48,10 @@
     .heading{
         margin-left: 3.625rem !important;
         margin-right: 3.625rem !important;
+    }
+
+    .compareGridItem:not(:last-child){
+        margin-bottom: .5rem;
     }
 
 }
