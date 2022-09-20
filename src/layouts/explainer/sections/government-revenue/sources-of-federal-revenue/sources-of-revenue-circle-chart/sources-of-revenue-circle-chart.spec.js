@@ -1,6 +1,7 @@
 import {render} from "@testing-library/react";
 import React from "react";
 import SourcesOfRevenueCircleChart from "./sources-of-revenue-circle-chart";
+import  userEvent from '@testing-library/user-event'
 
 
 describe('Circle chart', () => {
@@ -27,5 +28,17 @@ describe('Circle chart', () => {
   it('renders the data pill', () => {
     const { getByText } = render(<SourcesOfRevenueCircleChart />)
     expect(getByText("Total Revenue:", {exact: false})).toBeInTheDocument();
+  })
+
+  it('defaults data header to Individual Income Taxes', () => {
+    const { getAllByText } = render(<SourcesOfRevenueCircleChart />)
+    expect(getAllByText( "Individual Income Taxes")).toHaveLength(2);
+  })
+
+  it('updates data header when a new bubble is hovered over', () => {
+    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />)
+    const corporateIncomeTaxesLabel = getByText('Excise Taxes');
+    userEvent.hover(corporateIncomeTaxesLabel);
+    expect(getAllByText('Excise Taxes')).toHaveLength(2);
   })
 })
