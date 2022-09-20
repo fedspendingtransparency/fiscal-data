@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import { createTheme, Grid, ThemeProvider } from "@material-ui/core";
+import { createTheme, Grid, ThemeProvider, Divider } from "@material-ui/core";
 import ExplainerTile from "./explainer-tile/explainer-tile";
 import {
   tileContainer,
@@ -42,11 +42,22 @@ export const TopicsSection = ({ images, width }) => {
                 content={pageTileMap["americas-finance-guide"]}
                 images={images}
                 width={width}
+                customStyles={{
+                  imageContainer: { marginBottom: "0.5rem" },
+                  body: { marginBottom: "1rem" },
+                }}
               />
+              <div className={line} />
+
               <ExplainerTile
                 content={pageTileMap["revenue"]}
                 images={images}
                 width={width}
+                layout={"two-col"}
+                customStyles={{
+                  image: { desktop: { width: "260px", height: "160px" } },
+                  imageContainer: { paddingTop: "1rem", marginRight: "1rem" },
+                }}
               />
             </Grid>
             {width < pxToNumber(breakpointLg) ? (
@@ -60,6 +71,7 @@ export const TopicsSection = ({ images, width }) => {
                 images={images}
                 width={width}
               />
+              <div className={line} />
               <ExplainerTile
                 content={pageTileMap["deficit"]}
                 images={images}
