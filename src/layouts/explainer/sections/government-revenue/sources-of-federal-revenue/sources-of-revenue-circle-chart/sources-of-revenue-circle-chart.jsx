@@ -34,7 +34,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [customsDutiesColor, setCustomsDutiesColor] = useState("rgb(255,166,0,0.8)");
   const [estateAndGiftTaxesColor, setEstateAndGiftTaxesColor] = useState("rgb(75,57,116,0.8)");
 
-
   const colors = [
     individualIncomeColor,
     corporateIncomeColor,
@@ -44,6 +43,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     estateAndGiftTaxesColor,
     exciseTaxesColor,
   ]
+
   const opacityValue = ',0.8';
 
   const title = 'Sources of Revenue for the U.S. Federal Government, FY 2021';
@@ -167,24 +167,38 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     const lines = labelFormat.lines;
     const lineSpaceOffset = width < pxToNumber(breakpointLg) ? 12.5 : 16.5;
     const yStartPoint = node.y - ((lines.length / 2) * lineSpaceOffset) + 9;
-
+    const textAnchor = lines.length > 1 ? "middle" : "start";
+    const handleLabelMouseEnter = () => {
+      HandleMouseEnter(node)
+    }
+    const handleInteraction = (e) => {
+      // only proceed on mouse click or Enter key press
+      if (e?.key && e.key !== 'Enter') {
+        return;
+      }
+      HandleMouseEnter(node);
+    }
       return (
         <>
-          <text>
+          <text
+            dominantBaseline="central"
+            style={{
+              fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
+              fontWeight: semiBoldWeight
+            }}
+            onMouseEnter={handleLabelMouseEnter}
+            onKeyPress={(e) => handleInteraction(e)}
+            tabIndex={0}
+          >
           {lines.map((line, index) => (
               <React.Fragment key={index} >
                 {labelFormatTable[label].external ?
                   (
                     <tspan
-                      textAnchor={lines.length > 1 ? "middle" : "start"}
-                      dominantBaseline="central"
+                      textAnchor={textAnchor}
                       x={node.radius + node.x + 6 + labelFormat.horizontalOffset}
                       y={yStartPoint + lineSpaceOffset * index + labelFormat.verticalOffset}
                       fill={'#666666'}
-                      style={{
-                        fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-                        fontWeight: semiBoldWeight
-                      }}
                     >
                       {line}
                     </tspan>
@@ -192,16 +206,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                   :
                   <tspan
                     textAnchor="middle"
-                    dominantBaseline="central"
                     x={node.x}
                     y={yStartPoint + lineSpaceOffset * index}
                     fill={'#FFFFFF'}
-                    style={{
-                      fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-                      fontWeight: semiBoldWeight,
-                      fontColor: '#FFFFFF'
-                    }}
-
                   >
                     {line}
                   </tspan>
@@ -213,7 +220,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         </>
     )
   }
-
 
   const data = {
     children: [
@@ -323,12 +329,10 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         date={date}
         customTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
         customSubTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
+        handleMouseLeave={HandleChartMouseLeave}
       >
         <div className={dataContent} >
-          <div
-            className={chartSize}
-            onMouseLeave={HandleChartMouseLeave}
-          >
+          <div className={chartSize}>
             <CirclePacking
               data={data}
               margin={{top: 0, right: 10, bottom:0, left:10}}
@@ -344,7 +348,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               animate={false}
               onMouseEnter={(node) => HandleMouseEnter(node)}
               onClick={(node) => HandleMouseEnter(node)}
-              // onMouseLeave={(node) => HandleMouseLeave(node)}
             />
           </div>
           <div className={totalRevenueDataPill}>
