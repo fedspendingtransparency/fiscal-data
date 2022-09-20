@@ -87,7 +87,7 @@ export const pageTileMap = {
   "americas-finance-guide": {
     title: "Your Guide to America’s Finances",
     body:
-      "Your Guide to America's Finances is an overview of U.S. government finances where you’ll find information on money coming in (revenue), money going out (spending), the deficit, and debt. Your Guide presents a series of pages exploring each topic through educational content and interactive visualizations, providing a comprehensive overview of the trillions of dollars collected and spent by the federal government each year.",
+      "Here you’ll find information on spending, revenue, the deficit, and debt. The Guide represents a series of interactive visualizations exploring each category and how it has changed over time.",
     altText:
       "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal government finance.’ overlaid.",
     desktopImage: "AFG-Overview_1200x630",

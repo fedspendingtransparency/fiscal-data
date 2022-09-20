@@ -27,6 +27,8 @@ export const TopicsSection = ({ images, width }) => {
     },
   });
 
+  const isMobile = width < pxToNumber(breakpointLg);
+
   return (
     <div className={topicsSectionContainer}>
       <div className={sectionHeader}>TOPICS</div>
@@ -56,12 +58,14 @@ export const TopicsSection = ({ images, width }) => {
                 layout={"two-col"}
                 customStyles={{
                   image: { desktop: { width: "260px", height: "160px" } },
-                  imageContainer: { paddingTop: "1rem", marginRight: "1rem" },
+                  imageContainer: isMobile
+                    ? { paddingTop: "0" }
+                    : { paddingTop: "1rem", marginRight: "1rem" },
                 }}
               />
             </Grid>
-            {width < pxToNumber(breakpointLg) ? (
-              <div className={line} />
+            {isMobile ? (
+              <div className={line} style={{ margin: "0" }} />
             ) : (
               undefined
             )}
