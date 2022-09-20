@@ -153,6 +153,19 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     }
   };
 
+  const customTooltip = (slice) => {
+    console.log(slice);
+    return <div className={styles.tooltipContainer}>
+      <p>{slice.slice.points[0].data.x}</p>
+      <div className={styles.tooltipColumn}>
+        <div className={styles.tooltipItem}>
+          <div className={styles.estateRectTooltip} />
+          <div> {slice.slice.points[0].serieId}: ${slice.slice.points[0].data.y}T (xx%)</div>
+        </div>
+      </div>
+    </div>;
+  }
+
   useEffect(() => {
     applyChartScaling()
   }, [])
@@ -217,6 +230,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 pointLabelYOffset={-12}
                 useMesh={true}
                 enablePoints={true}
+                sliceTooltip={slice => customTooltip(slice)}
                 enableCrosshair={true}
                 isInteractive={true}
                 enableSlices={'x'}
