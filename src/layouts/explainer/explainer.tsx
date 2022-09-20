@@ -57,7 +57,12 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
     }
   ];
 
-  const isAFGPage = window.location.href.includes('americas-finance-guide') ? true : false;
+  const isAFGPage = () => {
+    const isBrowser = () => typeof window !== "undefined"
+    let isAFG = false;
+    isBrowser() && window.location.href.includes('americas-finance-guide') ? isAFG = true : isAFG = false;
+    return isAFG
+  }
 
   return (
     <SiteLayout isPreProd={false}>
