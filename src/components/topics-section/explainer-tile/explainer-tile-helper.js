@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react"
-import { apiPrefix, basicFetch } from "../../../utils/api-utils"
-import { getShortForm } from "../../../layouts/explainer/heros/hero-helper"
+import React, { useEffect, useState } from "react";
+import { apiPrefix, basicFetch } from "../../../utils/api-utils";
+import { getShortForm } from "../../../layouts/explainer/heros/hero-helper";
 
 export const SpendingBodyGenerator = () => {
   const fields =
-    "fields=current_fytd_net_outly_amt,record_fiscal_year,record_date"
-  const filter = "filter=line_code_nbr:eq:5691"
-  const sort = "sort=-record_date"
-  const pagination = "page[size]=1"
-  const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`
-  const spendingUrl = `${apiPrefix}${endpointUrl}`
-  const [amount, setAmount] = useState("0")
-  const [year, setYear] = useState("null")
+    "fields=current_fytd_net_outly_amt,record_fiscal_year,record_date";
+  const filter = "filter=line_code_nbr:eq:5691";
+  const sort = "sort=-record_date";
+  const pagination = "page[size]=1";
+  const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
+  const spendingUrl = `${apiPrefix}${endpointUrl}`;
+  const [amount, setAmount] = useState("0");
+  const [year, setYear] = useState("null");
 
   useEffect(() => {
     basicFetch(`${spendingUrl}`).then(res => {
       if (res.data) {
-        const data = res.data[0]
-        setAmount(data.current_fytd_net_outly_amt)
-        setYear(data.record_fiscal_year)
+        const data = res.data[0];
+        setAmount(data.current_fytd_net_outly_amt);
+        setYear(data.record_fiscal_year);
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <>
@@ -30,8 +30,8 @@ export const SpendingBodyGenerator = () => {
       Learn more about spending categories, types of spending, and spending
       trends over time.
     </>
-  )
-}
+  );
+};
 
 export const pageTileMap = {
   debt: {
@@ -95,4 +95,4 @@ export const pageTileMap = {
     mobileImage: "afg-feature-homepage-mobile",
     path: "americas-finance-guide",
   },
-}
+};
