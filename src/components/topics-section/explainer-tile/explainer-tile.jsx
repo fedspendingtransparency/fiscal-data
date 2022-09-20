@@ -60,7 +60,7 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
             <div
               className={content.path ? undefined : comingSoon}
               style={{
-                paddingTop: "1rem",
+                paddingTop: "0.5rem",
                 paddingBottom: "0.5rem",
                 paddingLeft: "33px",
               }}
