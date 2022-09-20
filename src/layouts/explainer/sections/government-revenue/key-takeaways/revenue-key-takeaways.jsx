@@ -3,10 +3,9 @@ import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import {faCommentDollar, faHandHoldingDollar, faPiggyBank} from "@fortawesome/free-solid-svg-icons";
 import {
   revenueExplainerPrimary,
-  revenueLightSecondary
+  revenueExplainerLightSecondary
 } from "../revenue.module.scss";
 import KeyTakeawaysSection from "../../../explainer-components/key-takeaways/key-takeaways-section";
-import {getShortForm} from "../../../heros/hero-helper";
 
 const RevenueKeyTakeaways = ({glossary}) => {
 
@@ -79,7 +78,7 @@ const RevenueKeyTakeaways = ({glossary}) => {
     <KeyTakeawaysSection
       takeaways={takeaways}
       primaryColor={revenueExplainerPrimary}
-      secondaryColor={revenueLightSecondary}
+      secondaryColor={revenueExplainerLightSecondary}
       glossary={glossary}
     />
   );

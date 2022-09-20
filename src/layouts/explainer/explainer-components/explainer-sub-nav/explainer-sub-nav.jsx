@@ -26,8 +26,6 @@ export default function ExplainerSubNav() {
         else {
             setNavBlockStyle(styles.navBlock)
         }
-
-        console.log(previousScrollPosition, scrollPosition)
     };
 
     useEffect(() => {
