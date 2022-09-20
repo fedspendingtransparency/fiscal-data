@@ -23,18 +23,18 @@ const FederalRevenueTrendsOverTime = ( {cpiDataByYear} ) => {
     basicFetch(`${apiPrefix}${endpointURLFirst}`)
       .then((res) => {
         if (res.data[0]) {
-          res.data = adjustDataForInflation(res.data, 'current_fytd_net_rcpt_amt', 'record_date', cpiDataByYear);
-          setFirstChartYear(res.data[0].record_fiscal_year);
-          setFirstRevenue(getShortForm(res.data[0].current_fytd_net_rcpt_amt, 2, true));
           const endpointURLLast = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,'
             + 'record_calendar_month:eq:09&sort=-record_date&page[size]=1';
           basicFetch(`${apiPrefix}${endpointURLLast}`)
           .then((resLast) => {
             if (resLast.data[0]) {
-              resLast.data = adjustDataForInflation(resLast.data, 'current_fytd_net_rcpt_amt', 'record_date', cpiDataByYear);
-              setLastChartYear(resLast.data[0].record_fiscal_year);
-              setLastRevenue(getShortForm(resLast.data[0].current_fytd_net_rcpt_amt, 2, true));
-              if (parseFloat(resLast.data[0].current_fytd_net_rcpt_amt) > parseFloat(res.data[0].current_fytd_net_rcpt_amt)) {
+              let concatData = res.data.concat(resLast.data);
+              concatData = adjustDataForInflation(concatData, 'current_fytd_net_rcpt_amt', 'record_date', cpiDataByYear);
+              setFirstChartYear(concatData[0].record_fiscal_year);
+              setFirstRevenue(getShortForm(concatData[0].current_fytd_net_rcpt_amt, 2, true));
+              setLastChartYear(concatData[1].record_fiscal_year);
+              setLastRevenue(getShortForm(concatData[1].current_fytd_net_rcpt_amt, 2, true));
+              if (parseFloat(concatData[1].current_fytd_net_rcpt_amt) > parseFloat(res.data[0].current_fytd_net_rcpt_amt)) {
                 setRevenueTag('increased');
               }
               else {
