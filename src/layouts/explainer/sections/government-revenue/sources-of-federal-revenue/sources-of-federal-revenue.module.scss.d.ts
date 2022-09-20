@@ -64,4 +64,3 @@ export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const sourcesContent: string;
-export const mobileContentWrapper: string;

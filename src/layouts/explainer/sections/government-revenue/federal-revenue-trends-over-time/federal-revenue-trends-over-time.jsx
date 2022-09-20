@@ -2,14 +2,25 @@ import {textContent} from "../../national-deficit/understanding/understanding-de
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
-import React from "react";
-import {ChartPlaceholder} from
-    "../../../explainer-helpers/federal-spending/federal-spending-helper";
+import React, {useEffect, useState} from "react";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
-import {customCallout} from "./federal-trends-over-time.scss"
 import RevenueTrendsLineChart from "./revenue-trends-line-chart/revenue-trends-line-chart";
+import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 
 const FederalRevenueTrendsOverTime = () => {
+
+  const [firstChartYear, setFirstChartYear] = useState(0);
+
+  useEffect(() => {
+    const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,'
+      + 'record_calendar_month:eq:09&sort=record_date&page[size]=1';
+    basicFetch(`${apiPrefix}${endpointURL}`)
+      .then((res) => {
+        if (res.data[0]) {
+          setFirstChartYear(res.data[0].record_fiscal_year);
+        }
+      })
+  }, [])
 
   return(
     <div>
@@ -36,7 +47,7 @@ const FederalRevenueTrendsOverTime = () => {
           <VisualizationCallout color={revenueExplainerPrimary} customTopMargin={'2.8%'}>
             <p>
               Individual income tax has remained the top source of income for the U.S.
-              government since (YYYY)
+              government since {firstChartYear}
             </p>
           </VisualizationCallout>
       </div>

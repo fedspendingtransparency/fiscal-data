@@ -41,7 +41,7 @@ export const DATE_RANGE_OBJ = {
   selectionPath: ''
 };
 
-export default function determineDateRange(table, preset, currentDateButton){
+export default function determineDateRange(table, preset) {
   if (!table || !preset) {
     return null;
   }
@@ -64,14 +64,9 @@ export default function determineDateRange(table, preset, currentDateButton){
     };
   } else if (preset.key === 'current') {
     const dateForCurrentDateButton = convertDate(table.latestDate);
-    let rangeStartDate = new Date(dateForCurrentDateButton);
-
-    if(currentDateButton === 'byMonth') {
-      rangeStartDate.setDate(1);
-    }
 
     dateRangeObj = {
-      from: rangeStartDate,
+      from: dateForCurrentDateButton,
       to: dateForCurrentDateButton,
       min: table.earliestDate,
       selectionPath: 'current_report'
