@@ -36,7 +36,7 @@ export function AmericasFinanceGuidePage({width}) {
         </div>
         <Box my={5}>Social Share Goes Here</Box>
         <Box my={5}>AFG Sub-navigation Bar </Box>
-        {width < pxToNumber(breakpointLg) ? <MobileSubNav /> : <DeskTopSubNav hidePosition={630}/>}
+        {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={630} /> : <DeskTopSubNav hidePosition={630}/>}
         <TopicSection
           heading= {['In fiscal year YYYY, the federal government has collected $X.X in ' ,<span style={{ fontStyle: 'italic' }}>revenue.</span>]}
           body='The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties.'

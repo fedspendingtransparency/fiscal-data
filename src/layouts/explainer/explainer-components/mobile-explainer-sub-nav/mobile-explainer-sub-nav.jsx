@@ -59,7 +59,7 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 
-export default function MobileExplainerSubNav() {
+export default function MobileExplainerSubNav({hidePosition}) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(mainContainerHidden);
@@ -69,7 +69,7 @@ export default function MobileExplainerSubNav() {
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 
-    if (position > 630) {
+    if (position > hidePosition) {
       //Scrolling Down
       if (previousScrollPosition < scrollPosition) {
         setNavBlockStyle(mainContainerHidden)
