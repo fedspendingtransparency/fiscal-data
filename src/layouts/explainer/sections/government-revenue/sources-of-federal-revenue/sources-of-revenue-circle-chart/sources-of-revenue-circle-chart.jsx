@@ -36,7 +36,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [chartConfig, setChartConfig] = useState(defaultChartConfig);
 
-  const [individualIncomeColor, setIndividualIncomeColor] = useState("rgb(10,47,90)");
+  const [individualIncomeColor, setIndividualIncomeColor] = useState(defaultValues.categoryColor);
   const [socialSecurityAndMedicareColor, setSocialSecurityAndMedicareColor] =
     useState("rgb(235,81,96,0.8)");
   const [corporateIncomeColor, setCorporateIncomeColor] = useState("rgb(193,63,119,0.8)");
