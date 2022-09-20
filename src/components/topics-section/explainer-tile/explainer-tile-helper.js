@@ -44,7 +44,7 @@ export const pageTileMap = {
       "Hands raised in the air holding various objects, including a calculator, a pencil, " +
       "money, and magnifying glass",
     desktopImage: "homepage_debt_1200x630",
-    mobileImage: "homepage_debt_square",
+    mobileImage: "homepage_debt_1200x630",
     path: "/americas-finance-guide/national-debt/",
   },
   spending: {
@@ -59,7 +59,7 @@ export const pageTileMap = {
       "The US Treasury building is placed next to a row of homes. A pair of hands " +
       "exchange money in the foreground.",
     desktopImage: "homepage_spending_1200x630",
-    mobileImage: "homepage_spending_square",
+    mobileImage: "homepage_spending_1200x630",
     path: "/americas-finance-guide/federal-spending/",
   },
   deficit: {
@@ -70,8 +70,8 @@ export const pageTileMap = {
     altText:
       "A hand holding a gold coin beside a variety of symbols, including a pie chart, bar " +
       "graph, and lit lightbulb.",
-    desktopImage: "homepage_deficit_1200x630",
-    mobileImage: "homepage_deficit_square",
+    desktopImage: "deficit_homepage",
+    mobileImage: "deficit_homepage",
     path: "/americas-finance-guide/national-deficit/",
   },
   revenue: {
