@@ -75,7 +75,12 @@ const MobileMenu = () => {
                       AMERICA'S FINANCE GUIDE
                     </div>
                     <div className={styles.explainerLinkContainer}>
-                    <Link to="/americas-finance-guide/government-revenue/"
+                      <Link to="/americas-finance-guide/"
+                        className={styles.explainerLink}
+                      >
+                        Overview
+                      </Link>
+                      <Link to="/americas-finance-guide/government-revenue/"
                         className={styles.explainerLink}
                       >
                         Revenue
