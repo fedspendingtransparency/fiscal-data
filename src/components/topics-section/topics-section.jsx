@@ -1,23 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons"
-import React from "react"
-import { createTheme, Grid, ThemeProvider } from "@material-ui/core"
-import ExplainerTile from "./explainer-tile/explainer-tile"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { createTheme, Grid, ThemeProvider } from "@material-ui/core";
+import ExplainerTile from "./explainer-tile/explainer-tile";
 import {
   tileContainer,
   sectionHeader,
   topicsSectionHeader,
   topicsSectionContainer,
   line,
-} from "./topics-section.module.scss"
-import { withWindowSize } from "react-fns"
-import { breakpointLg } from "../../variables.module.scss"
-import { pxToNumber } from "../../helpers/styles-helper/styles-helper"
-import { pageTileMap } from "./explainer-tile/explainer-tile-helper"
+} from "./topics-section.module.scss";
+import { withWindowSize } from "react-fns";
+import { breakpointLg } from "../../variables.module.scss";
+import { pxToNumber } from "../../helpers/styles-helper/styles-helper";
+import { pageTileMap } from "./explainer-tile/explainer-tile-helper";
 
 export const TopicsSection = ({ images, width }) => {
-  const mainWidth = 8
-  const secondaryWidth = 4
+  const mainWidth = 8;
+  const secondaryWidth = 4;
 
   const theme = createTheme({
     breakpoints: {
@@ -25,7 +25,7 @@ export const TopicsSection = ({ images, width }) => {
         lg: 992,
       },
     },
-  })
+  });
 
   return (
     <div className={topicsSectionContainer}>
@@ -76,7 +76,7 @@ export const TopicsSection = ({ images, width }) => {
         </ThemeProvider>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default withWindowSize(TopicsSection)
+export default withWindowSize(TopicsSection);
