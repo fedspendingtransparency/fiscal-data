@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
 import {CSSTrasition} from 'react-transition-group';
 
-export default function ExplainerSubNav(hidePosition) {
+export default function ExplainerSubNav({hidePosition}) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(styles.navBlock);
