@@ -63,6 +63,7 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
                 paddingTop: "0.5rem",
                 paddingBottom: "0.5rem",
                 paddingLeft: "33px",
+                maxWidth: "88%",
               }}
             >
               <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
