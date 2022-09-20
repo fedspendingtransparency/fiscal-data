@@ -40,7 +40,7 @@ export default function CompareSection()
             <h3 className={styles.heading}>How did these totals compare to YYYY year-end? </h3>
             <Grid container spacing={4}>
                 {subSections.map((s) => (
-                    <Grid container item md={6} spacing={4} key={s.mainColor} >
+                    <Grid container item md={6} spacing={0} key={s.mainColor} classes={{ root: styles.compareGridItem }}>
                         <Grid item xs={2} classes={{ root: styles.compareIcon }}>
                             <AfgIcon faIcon={s.faIcon} backgroundColor={s.mainColor} />
                         </Grid>

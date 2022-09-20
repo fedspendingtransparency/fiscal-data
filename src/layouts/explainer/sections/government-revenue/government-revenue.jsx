@@ -12,6 +12,7 @@ import FederalRevenueTrendsAndUSEconomy
   from "./federal-revenue-trends-and-us-economy/federal-revenue-trends-and-us-economy";
 import FederalRevenueTrendsOverTime
   from "./federal-revenue-trends-over-time/federal-revenue-trends-over-time";
+import RevenueKeyTakeaways from "./key-takeaways/revenue-key-takeaways";
 
 
 
@@ -30,10 +31,8 @@ const governmentRevenueSections = [
     id: governmentRevenueSectionIds[0],
     title: "Key Takeaways",
     component: (glossary, cpiDataByYear) => (
-      <KeyTakeawaysSection
-        takeaways={revenueKeyTakeaways}
-        primaryColor={revenueExplainerPrimary}
-        secondaryColor={revenueExplainerLightSecondary}
+      <RevenueKeyTakeaways
+        glossary={glossary}
       />
     ),
   },

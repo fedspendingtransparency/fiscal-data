@@ -99,7 +99,7 @@ export const explainerSocialShareMap = {
       '#FiscalData #OpenData #NationalDebt',
     emailSubject: 'Fiscal Data Explains the National Debt',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
-    url: baseUrl+'/national-debt/',
+    url: baseUrl+'/americas-finance-guide/national-debt/',
     image: baseUrl+'/images/nationalDebt-YourGuide.png'
   },
   'national-deficit': {
@@ -110,7 +110,7 @@ export const explainerSocialShareMap = {
       + '#FiscalData #OpenData #NationalDeficit',
     emailSubject: 'Fiscal Data Explains the National Deficit',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national deficit!',
-    url: baseUrl+'/national-deficit/',
+    url: baseUrl+'/americas-finance-guide/national-deficit/',
     image: baseUrl+'/images/nationalDeficit_1200x630.png'
   },
   'federal-spending': {
@@ -121,7 +121,7 @@ export const explainerSocialShareMap = {
       + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
     emailSubject: 'Fiscal Data Explains Federal Spending',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
-    url: baseUrl+'/federal-spending/',
+    url: baseUrl+'/americas-finance-guide/federal-spending/',
     image: baseUrl+'/images/Spending-1200x630.png'
   },
   'government-revenue': {

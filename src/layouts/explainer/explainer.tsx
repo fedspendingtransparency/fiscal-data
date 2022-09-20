@@ -33,6 +33,7 @@ import SocialShare from "./social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies";
 import ComingSoon from "./explainer-components/hightlighted-text/highlighted-text";
+import ExplainerSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const {
     pageName,
@@ -56,6 +57,13 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
     }
   ];
 
+  const isAFGPage = () => {
+    const isBrowser = () => typeof window !== "undefined"
+    let isAFG = false;
+    isBrowser() && window.location.href.includes('americas-finance-guide') ? isAFG = true : isAFG = false;
+    return isAFG
+  }
+
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -67,9 +75,13 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
         canonical=""
         datasetDetails=""
       />
-      <div className={breadCrumbsContainer}>
-        <BreadCrumbs links={breadCrumbLinks} />
-      </div>
+
+      {isAFGPage ? (
+        <ExplainerSubNav isShown={true}/>
+      ) : (
+        <div className={breadCrumbsContainer}><BreadCrumbs links={breadCrumbLinks} /></div>
+      )}
+            
       <div className={mainContainer}>
         <HeroImage
           heading={heroImage.heading}
