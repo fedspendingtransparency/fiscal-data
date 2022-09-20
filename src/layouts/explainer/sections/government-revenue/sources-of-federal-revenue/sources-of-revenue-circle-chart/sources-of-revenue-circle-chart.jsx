@@ -19,12 +19,23 @@ import {breakpointLg, fontSize_12, semiBoldWeight} from "../../../../../../varia
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 
 const SourcesOfRevenueCircleChart = ({ width }) => {
-  const [categoryName, setCategoryName] = useState("Individual Income Taxes");
-  const [revenueAmount, setRevenueAmount] = useState(85);
-  const [defaultRevenueAmount, setDefaultRevenueAmount] = useState(85);
-  const [totalRevenuePercent, setTotalRevenuePercent] = useState(318);
-  const [defaultTotalRevenuePercent, setDefaultTotalRevenuePercent] = useState(318);
-  const [totalRevenue, setTotalRevenue] = useState(26.7);
+  const defaultValues = {
+    revenueAmount: 85,
+    totalRevenuePercent: 328,
+    totalRevenue: 26.7,
+    categoryName: "Individual Income Taxes",
+    categoryColor: "rgb(10,47,90)"
+  };
+
+  const defaultChartConfig = {
+    categoryName: defaultValues.categoryName,
+    revenueAmount: defaultValues.revenueAmount,
+    totalRevenuePercent: defaultValues.totalRevenuePercent,
+    totalRevenue: defaultValues.totalRevenue,
+  }
+
+  const [chartConfig, setChartConfig] = useState(defaultChartConfig);
+
   const [individualIncomeColor, setIndividualIncomeColor] = useState("rgb(10,47,90)");
   const [socialSecurityAndMedicareColor, setSocialSecurityAndMedicareColor] =
     useState("rgb(235,81,96,0.8)");
@@ -67,15 +78,15 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const dataHeader = (
     <div className={dataHeaderContainer}>
-      <div className={header}>{categoryName}</div>
+      <div className={header}>{chartConfig.categoryName}</div>
       <div className={category}>Category</div>
       <div className={dataLabels}>
         <div>
-          <div className={headerTitle}>${revenueAmount} T</div>
+          <div className={headerTitle}>${chartConfig.revenueAmount} T</div>
           <span className={subHeader}>Revenue Amount</span>
         </div>
         <div>
-          <div className={headerTitle}>{totalRevenuePercent}%</div>
+          <div className={headerTitle}>{chartConfig.totalRevenuePercent}%</div>
           <span className={subHeader}>% of Total Revenue</span>
         </div>
       </div>
@@ -301,21 +312,27 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
 
   const HandleMouseEnter = (node) => {
-    if(node.id !== categoryName) {
-      decreaseOpacity(categoryName, colorMap[categoryName].color);
+    if(node.id !== chartConfig.categoryName) {
+      decreaseOpacity(chartConfig.categoryName, colorMap[chartConfig.categoryName].color);
       increaseOpacity(node.id, node.color);
-      setCategoryName(node.id);
-      setRevenueAmount(node.value);
-      setTotalRevenuePercent(Number(((node.value / totalRevenue)*100).toFixed()));
+      setChartConfig({
+        ...chartConfig,
+        categoryName: node.id,
+        revenueAmount: node.value,
+        totalRevenuePercent: Number(((node.value / chartConfig.totalRevenue)*100).toFixed())
+      })
     }
   }
 
   const HandleChartMouseLeave = () => {
-    decreaseOpacity(categoryName, colorMap[categoryName].color);
-    setIndividualIncomeColor("rgb(10,47,90)");
-    setCategoryName("Individual Income Taxes");
-    setRevenueAmount(defaultRevenueAmount);
-    setTotalRevenuePercent(defaultTotalRevenuePercent);
+    decreaseOpacity(chartConfig.categoryName, colorMap[chartConfig.categoryName].color);
+    setIndividualIncomeColor(defaultValues.categoryColor);
+    setChartConfig({
+      ...chartConfig,
+      categoryName: defaultValues.categoryName,
+      revenueAmount:defaultValues.revenueAmount,
+      totalRevenuePercent: defaultValues.totalRevenuePercent
+    })
   }
 
   return (
@@ -351,7 +368,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             />
           </div>
           <div className={totalRevenueDataPill}>
-            Total Revenue: ${totalRevenue} T
+            Total Revenue: ${chartConfig.totalRevenue} T
           </div>
         </div>
       </ChartContainer>
