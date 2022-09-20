@@ -34,10 +34,6 @@ export const TopicsSection = ({ images, width }) => {
         <FontAwesomeIcon icon={faBookOpen} />
         <div>Your Guide to America’s Finances</div>
       </h5>
-      <i>
-        Fiscal Data presents the third of four concepts from Your Guide to
-        America’s Finances, which will be added in the coming months.
-      </i>
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4}>

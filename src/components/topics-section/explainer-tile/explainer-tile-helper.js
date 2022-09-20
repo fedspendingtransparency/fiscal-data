@@ -81,9 +81,8 @@ export const pageTileMap = {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     altText:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    desktopImage: "homepage_revenue_1200x630",
-    // TODO:
-    mobileImage: "homepage_revenue_square",
+    desktopImage: "Revenue_C_1200x630",
+    mobileImage: "Revenue_C_630x630",
     path: "americas-finance-guide/government-revenue",
   },
   "americas-finance-guide": {
@@ -93,8 +92,7 @@ export const pageTileMap = {
     altText:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     desktopImage: "AFG-Overview_1200x630",
-    // TODO:
-    mobileImage: "homepage_revenue_square",
+    mobileImage: "afg-feature-homepage-mobile",
     path: "americas-finance-guide",
   },
 }
