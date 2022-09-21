@@ -91,7 +91,7 @@ export const pageTileMap = {
     altText:
       "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal government finance.’ overlaid.",
     desktopImage: "AFG-Overview_1200x630",
-    mobileImage: "afg-feature-homepage-mobile",
+    mobileImage: "AFG-Overview_1200x630",
     path: "americas-finance-guide",
   },
 };
