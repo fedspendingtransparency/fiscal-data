@@ -25,7 +25,7 @@ export default function AmericasFinanceGuidePage() {
         canonical=""
         datasetDetails=""
       />
-      <Container classes={{ root: styles.topContainer }} maxWidth="false" data-testid="topContainer">
+      <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
         <div className="heroSection" mb={5}>
           <h1>A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.</h1>
           <p>U.S. Constitution, Article 1, Section 9</p>
