@@ -45,7 +45,7 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
   const isDesktop = width >= pxToNumber(breakpointLg);
   const card =
     layout === "two-col" && isDesktop ? (
-      <Grid container spacing={4}>
+      <Grid container>
         <div
           className={mainContent}
           data-testid="tile"
@@ -60,13 +60,15 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
             <div
               className={content.path ? undefined : comingSoon}
               style={{
-                paddingTop: "0.5rem",
                 paddingBottom: "0.5rem",
-                paddingLeft: "33px",
-                maxWidth: "88%",
+                paddingLeft: "40px",
+                maxWidth: "92%",
               }}
             >
-              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
+              <h5
+                className={content.mainFeature ? mainTitle : secondaryTitle}
+                style={{ paddingTop: "0" }}
+              >
                 {content.title}
               </h5>
               <div style={{ ...(customStyles?.body || {}) }}>
