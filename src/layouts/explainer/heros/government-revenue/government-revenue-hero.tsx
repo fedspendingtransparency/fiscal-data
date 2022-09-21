@@ -96,7 +96,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
         <div className={footNotesPillData}>
           <p>
             Compared to the national revenue of $
-            {getShortForm(priorYearRevenue.toString(), 1, false)} for the same
+            {getShortForm(priorYearRevenue.toString(), 2, false)} for the same
             period last year (
             {getFootNotesDateRange(
               priorFiscalYear,
@@ -104,7 +104,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
               recordCalendarMonth
             )}
             ) national revenue has {revenueChangeLabel} by $
-            {getShortForm(revenueChange.toString(), 1, false)}.
+            {getShortForm(revenueChange.toString(), 0, false)}.
           </p>
           {getPillData(
             revenueChange,
