@@ -13,7 +13,6 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Grid } from "@material-ui/core";
 
 const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
-  console.log(width, content, "HERE");
   let desktopImage, mobileImage;
   if (images) {
     desktopImage = images.allFile.topicsImages.find(
@@ -46,7 +45,7 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
   const isDesktop = width >= pxToNumber(breakpointLg);
   const card =
     layout === "two-col" && isDesktop ? (
-      <Grid container>
+      <Grid container spacing={4}>
         <div
           className={mainContent}
           data-testid="tile"
@@ -61,15 +60,13 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
             <div
               className={content.path ? undefined : comingSoon}
               style={{
+                paddingTop: "0.5rem",
                 paddingBottom: "0.5rem",
-                paddingLeft: "40px",
-                maxWidth: "92%",
+                paddingLeft: "33px",
+                maxWidth: "88%",
               }}
             >
-              <h5
-                className={content.mainFeature ? mainTitle : secondaryTitle}
-                style={{ paddingTop: "0" }}
-              >
+              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
                 {content.title}
               </h5>
               <div style={{ ...(customStyles?.body || {}) }}>
