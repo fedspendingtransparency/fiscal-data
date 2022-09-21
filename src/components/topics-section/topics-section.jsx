@@ -48,6 +48,7 @@ export const TopicsSection = ({ images, width }) => {
                   imageContainer: { marginBottom: "0.5rem" },
                   body: { marginBottom: "1rem" },
                 }}
+                hasMobileImage
               />
               <div className={line} />
 
