@@ -128,11 +128,11 @@ export const explainerSocialShareMap = {
     title: 'Fiscal Data Explains Federal Revenue',
     description: ' Check out @FiscalService Fiscal Data’s new topic page, explaining ' +
       'federal revenue! #FiscalData #OpenData #FederalRevenue  ',
-    body: 'Check out @FiscalService Fiscal Data’s new federal revenue page!' +
-      ' #FederalRevenue',
+    body: ' Check out @FiscalService Fiscal Data’s new topic page, explaining ' +
+    'federal revenue! #FiscalData #OpenData #FederalRevenue  ',
     emailSubject: 'Fiscal Data Explains Federal Revenue',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal revenue!',
-    url: baseUrl+'/americas-finance-guide/government-revenue',
+    url: baseUrl+'/americas-finance-guide/government-revenue/',
     image: baseUrl+'/images/Revenue-Homepage-1200x630.png'
   },
   'americas-finance-guide': {
@@ -144,7 +144,7 @@ export const explainerSocialShareMap = {
     emailSubject: "Your Guide to America’s Finances",
     emailBody:
       "Check out Fiscal Data’s new guide to America’s finances, an accessible and open-source guide to federal finance data! In this guide, you’ll find explanations of the four core pillars of America’s finances – Revenue, Spending, Deficit, and Debt. Have you ever wondered how a budget deficit occurs? Or how government spending has fluctuated over time? Find out the answers to these question and more here!",
-    url: baseUrl + "/americas-finance-guide",
+    url: baseUrl + "/americas-finance-guide/",
     image: baseUrl + "/images/AFG-Overview_1200x630.png",
   },
 }
