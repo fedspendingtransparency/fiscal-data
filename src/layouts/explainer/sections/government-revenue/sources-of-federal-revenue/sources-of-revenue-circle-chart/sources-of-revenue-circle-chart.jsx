@@ -19,11 +19,43 @@ import {breakpointLg, fontSize_12, semiBoldWeight} from "../../../../../../varia
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 
 const SourcesOfRevenueCircleChart = ({ width }) => {
+  const defaultValues = {
+    revenueAmount: 85,
+    totalRevenuePercent: 328,
+    totalRevenue: 26.7,
+    categoryName: "Individual Income Taxes",
+    categoryColor: "rgb(10,47,90)"
+  };
 
-  const [categoryName, setCategoryName] = useState("Individual Income Taxes");
-  const [revenueAmount, setRevenueAmount] = useState(2);
-  const [totalRevenuePercent, setTotalRevenuePercent] = useState(51);
-  const [totalRevenue, setTotalRevenue] = useState(26.7);
+  const defaultChartConfig = {
+    categoryName: defaultValues.categoryName,
+    revenueAmount: defaultValues.revenueAmount,
+    totalRevenuePercent: defaultValues.totalRevenuePercent,
+    totalRevenue: defaultValues.totalRevenue,
+  }
+
+  const [chartConfig, setChartConfig] = useState(defaultChartConfig);
+
+  const [individualIncomeColor, setIndividualIncomeColor] = useState(defaultValues.categoryColor);
+  const [socialSecurityAndMedicareColor, setSocialSecurityAndMedicareColor] =
+    useState("rgb(235,81,96,0.8)");
+  const [corporateIncomeColor, setCorporateIncomeColor] = useState("rgb(193,63,119,0.8)");
+  const [miscellaneousIncomeColor, setMiscellaneousIncomeColor] = useState("rgb(255,119,62,0.8)");
+  const [exciseTaxesColor, setExciseTaxesColor] = useState("rgb(136,60,127,0.8)");
+  const [customsDutiesColor, setCustomsDutiesColor] = useState("rgb(255,166,0,0.8)");
+  const [estateAndGiftTaxesColor, setEstateAndGiftTaxesColor] = useState("rgb(75,57,116,0.8)");
+
+  const colors = [
+    individualIncomeColor,
+    corporateIncomeColor,
+    socialSecurityAndMedicareColor,
+    miscellaneousIncomeColor,
+    customsDutiesColor,
+    estateAndGiftTaxesColor,
+    exciseTaxesColor,
+  ]
+
+  const opacityValue = ',0.8';
 
   const title = 'Sources of Revenue for the U.S. Federal Government, FY 2021';
   const subTitle = 'Revenue by Source Categories';
@@ -46,15 +78,15 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const dataHeader = (
     <div className={dataHeaderContainer}>
-      <div className={header}>{categoryName}</div>
+      <div className={header}>{chartConfig.categoryName}</div>
       <div className={category}>Category</div>
       <div className={dataLabels}>
         <div>
-          <div className={headerTitle}>${revenueAmount} T</div>
+          <div className={headerTitle}>${chartConfig.revenueAmount} T</div>
           <span className={subHeader}>Revenue Amount</span>
         </div>
         <div>
-          <div className={headerTitle}>{totalRevenuePercent}%</div>
+          <div className={headerTitle}>{chartConfig.totalRevenuePercent}%</div>
           <span className={subHeader}>% of Total Revenue</span>
         </div>
       </div>
@@ -146,66 +178,59 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     const lines = labelFormat.lines;
     const lineSpaceOffset = width < pxToNumber(breakpointLg) ? 12.5 : 16.5;
     const yStartPoint = node.y - ((lines.length / 2) * lineSpaceOffset) + 9;
+    const textAnchor = lines.length > 1 ? "middle" : "start";
+    const handleLabelMouseEnter = () => {
+      HandleMouseEnter(node)
+    }
+    const handleInteraction = (e) => {
+      // only proceed on mouse click or Enter key press
+      if (e?.key && e.key !== 'Enter') {
+        return;
+      }
+      HandleMouseEnter(node);
+    }
       return (
         <>
+          <text
+            dominantBaseline="central"
+            style={{
+              fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
+              fontWeight: semiBoldWeight
+            }}
+            onMouseEnter={handleLabelMouseEnter}
+            onKeyPress={(e) => handleInteraction(e)}
+            tabIndex={0}
+          >
           {lines.map((line, index) => (
               <React.Fragment key={index} >
                 {labelFormatTable[label].external ?
                   (
-                    <text
-                      textAnchor={lines.length > 1 ? "middle" : "start"}
-                      dominantBaseline="central"
+                    <tspan
+                      textAnchor={textAnchor}
                       x={node.radius + node.x + 6 + labelFormat.horizontalOffset}
                       y={yStartPoint + lineSpaceOffset * index + labelFormat.verticalOffset}
                       fill={'#666666'}
-                      style={{
-                        fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-                        fontWeight: semiBoldWeight
-                      }}
                     >
                       {line}
-                    </text>
+                    </tspan>
                   )
                   :
-                  <text
+                  <tspan
                     textAnchor="middle"
-                    dominantBaseline="central"
                     x={node.x}
                     y={yStartPoint + lineSpaceOffset * index}
                     fill={'#FFFFFF'}
-                    style={{
-                      fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-                      fontWeight: semiBoldWeight,
-                      fontColor: '#FFFFFF'
-                    }}
                   >
                     {line}
-                  </text>
+                  </tspan>
                 }
               </React.Fragment>
             )
           )}
+          </text>
         </>
     )
   }
-
-  const individualIncomeTaxes = "rgb(10,47,90, 0.8)" //"#0A2F5A";
-  const SocialSecurityAndMedicareTaxes = "rgb(235,81,96, 0.8)" //"#EB5160";
-  const CorporateIncomeTaxes = "rgb(193, 63, 119, 0.8)" //"#C13F77";
-  const MiscellaneousIncome = "rgb(255, 119, 62, 0.8)" //"#FF773E";
-  const ExciseTaxes = "rgb(136, 60, 127, 0.8)" //"#883C7F";
-  const CustomsDuties = "rgb(255, 166, 0, 0.8)" //"#FFA600";
-  const EstateAndGiftTaxes = "rgb(75, 57, 116, 0.8)" //"#4B3974";
-
-  const colors = [
-    individualIncomeTaxes,
-    CorporateIncomeTaxes,
-    SocialSecurityAndMedicareTaxes,
-    MiscellaneousIncome,
-    CustomsDuties,
-    EstateAndGiftTaxes,
-    ExciseTaxes,
-  ];
 
   const data = {
     children: [
@@ -240,6 +265,76 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     ]
 };
 
+  const colorMap = {
+    'Individual Income Taxes': {
+      set:(color) => setIndividualIncomeColor(color),
+      color: individualIncomeColor
+    },
+    'Corporate Income Taxes': {
+      set:(color) => setCorporateIncomeColor(color),
+      color: corporateIncomeColor
+    },
+    'Social Security and Medicare Taxes': {
+      set:(color) => setSocialSecurityAndMedicareColor(color),
+      color: socialSecurityAndMedicareColor
+    },
+    'Miscellaneous Income': {
+      set:(color) => setMiscellaneousIncomeColor(color),
+      color: miscellaneousIncomeColor
+    },
+    'Customs Duties': {
+      set:(color) => setCustomsDutiesColor(color),
+      color: customsDutiesColor
+    },
+    'Estate & Gift Taxes': {
+      set:(color) => setEstateAndGiftTaxesColor(color),
+      color: estateAndGiftTaxesColor
+    },
+    'Excise Taxes': {
+      set:(color) => setExciseTaxesColor(color),
+      color: exciseTaxesColor
+    }
+  }
+
+  const increaseOpacity = (id, color) => {
+    if(color.includes(opacityValue)) {
+      const newColor = color.replace(opacityValue, '');
+      colorMap[id].set(newColor);
+    }
+  }
+
+  const decreaseOpacity = (id, color) => {
+    if(!color.includes(opacityValue)) {
+      const newColor = color.replace(')', opacityValue+')');
+      colorMap[id].set(newColor);
+    }
+  }
+
+
+  const HandleMouseEnter = (node) => {
+    if(node.id !== chartConfig.categoryName) {
+      decreaseOpacity(chartConfig.categoryName, colorMap[chartConfig.categoryName].color);
+      increaseOpacity(node.id, node.color);
+      setChartConfig({
+        ...chartConfig,
+        categoryName: node.id,
+        revenueAmount: node.value,
+        totalRevenuePercent: Number(((node.value / chartConfig.totalRevenue)*100).toFixed())
+      })
+    }
+  }
+
+  const HandleChartMouseLeave = () => {
+    decreaseOpacity(chartConfig.categoryName, colorMap[chartConfig.categoryName].color);
+    setIndividualIncomeColor(defaultValues.categoryColor);
+    setChartConfig({
+      ...chartConfig,
+      categoryName: defaultValues.categoryName,
+      revenueAmount:defaultValues.revenueAmount,
+      totalRevenuePercent: defaultValues.totalRevenuePercent
+    })
+  }
+
   return (
     <>
       <ChartContainer
@@ -251,9 +346,10 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         date={date}
         customTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
         customSubTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
+        handleMouseLeave={HandleChartMouseLeave}
       >
         <div className={dataContent} >
-          <div className={chartSize} >
+          <div className={chartSize}>
             <CirclePacking
               data={data}
               margin={{top: 0, right: 10, bottom:0, left:10}}
@@ -267,10 +363,12 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               labelComponent={({node, label}) =>
                 <LabelComponent node={node} label={label} />}
               animate={false}
+              onMouseEnter={(node) => HandleMouseEnter(node)}
+              onClick={(node) => HandleMouseEnter(node)}
             />
           </div>
           <div className={totalRevenueDataPill}>
-            Total Revenue: ${totalRevenue} T
+            Total Revenue: ${chartConfig.totalRevenue} T
           </div>
         </div>
       </ChartContainer>
