@@ -165,7 +165,6 @@ export default function AmericasFinanceGuidePage() {
           federal debt. Current fiscal year values are updated daily.
         </DataSourcesMethodologies>
       </Container>
-
       <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
           <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
             <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
