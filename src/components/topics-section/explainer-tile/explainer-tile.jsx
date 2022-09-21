@@ -13,6 +13,7 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Grid } from "@material-ui/core";
 
 const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
+  console.log(width, content, "HERE");
   let desktopImage, mobileImage;
   if (images) {
     desktopImage = images.allFile.topicsImages.find(
