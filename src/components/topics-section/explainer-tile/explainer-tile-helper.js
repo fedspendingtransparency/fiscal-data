@@ -80,8 +80,8 @@ export const pageTileMap = {
       "The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current fiscal year)} in order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.",
     altText:
       "U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building.",
-    desktopImage: "revenue_homepage_desktop",
-    mobileImage: "revenue_homepage_desktop",
+    desktopImage: "Revenue-HomePage-1200x630",
+    mobileImage: "Revenue-HomePage-1200x630",
     path: "americas-finance-guide/government-revenue",
   },
   "americas-finance-guide": {
@@ -91,7 +91,7 @@ export const pageTileMap = {
     altText:
       "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal government finance.’ overlaid.",
     desktopImage: "AFG-Overview_1200x630",
-    mobileImage: "afg-feature-homepage-mobile",
+    mobileImage: "AFG-Overview_1200x630",
     path: "americas-finance-guide",
   },
 };

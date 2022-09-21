@@ -53,7 +53,7 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
         >
           <Grid lg={4}>
             <div style={{ ...(customStyles?.imageContainer || {}) }}>
-              {isDesktop ? desktop : mobile}
+              {desktop}
             </div>
           </Grid>
           <Grid lg={8}>

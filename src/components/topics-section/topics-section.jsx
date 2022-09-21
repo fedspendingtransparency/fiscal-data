@@ -59,7 +59,12 @@ export const TopicsSection = ({ images, width }) => {
                 customStyles={{
                   imageContainer: isMobile
                     ? { paddingTop: "0" }
-                    : { paddingTop: "1rem", marginRight: "1rem" },
+                    : {
+                        paddingTop: "1rem",
+                        marginRight: "1rem",
+                        width: "260px",
+                      },
+                  image: { desktop: { width: "260px", height: "160px" } },
                 }}
               />
             </Grid>
