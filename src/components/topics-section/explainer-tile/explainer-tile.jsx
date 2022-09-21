@@ -4,6 +4,7 @@ import {
   mainTitle,
   secondaryTitle,
   comingSoon,
+  breakpointSm,
 } from "./explainer-tile.module.scss";
 import { breakpointLg } from "../../../variables.module.scss";
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
@@ -30,7 +31,10 @@ const ExplainerTile = ({
     );
   }
   const isDesktop = width >= pxToNumber(breakpointLg);
-  const isMobile = width <= pxToNumber(breakpointLg);
+  // over write desktop-first styles with mobile-first styles, if we actually have a mobile imgage
+  const isMobile = hasMobileImage
+    ? width <= pxToNumber(breakpointSm)
+    : width <= pxToNumber(breakpointLg);
   const imageStyle = isMobile ? {} : { ...customStyles?.image?.desktop };
   const imageContainerStyle = isMobile
     ? {}
@@ -98,9 +102,7 @@ const ExplainerTile = ({
       </Grid>
     ) : (
       <div className={mainContent} data-testid="tile">
-        <div style={imageContainerStyle}>
-          {isMobile && hasMobileImage ? mobile : desktop}
-        </div>
+        <div style={imageContainerStyle}>{isMobile ? mobile : desktop}</div>
         <div className={content.path ? undefined : comingSoon}>
           <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
             {content.title}
