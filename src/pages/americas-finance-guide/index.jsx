@@ -48,11 +48,7 @@ export default function AmericasFinanceGuidePage() {
         canonical=""
         datasetDetails=""
       />
-      <Container
-        classes={{ root: styles.topContainer }}
-        maxWidth="md"
-        data-testid="topContainer"
-      >
+      <Container classes={{ root: styles.topContainer }} maxWidth="false" data-testid="topContainer">
         <div className="heroSection" mb={5}>
           <h1>
             A regular Statement and Account of the Receipts and Expenditures of
@@ -170,34 +166,18 @@ export default function AmericasFinanceGuidePage() {
         </DataSourcesMethodologies>
       </Container>
 
-      <Container
-        classes={{ root: styles.quoteContainer }}
-        data-testid="quoteContainer"
-      >
-        <Grid classes={{ root: styles.quoteGrid }} container spacing={3}>
-          <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
-            <img
-              src="../images/thomas-jefferson_background.png"
-              alt="A sketched portrait of Thomas Jefferson, from the torso up."
-            />
+      <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
+          <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
+            <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
+              <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
+            </Grid>
+            <Grid item md={8}>
+              <p className={styles.quote}>We might hope to see the finances of the Union as clear and intelligible as a merchant’s books, so that every member of Congress, and every person of any mind in the Union should be able to comprehend them, to investigate abuses, and consequently to control them. </p>
+              <p className={styles.citation}>Thomas Jefferson to Albert Gallatin, 1802 (edited)</p>
+              <div className={styles.quoteBar}></div>
+            </Grid>
+            <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}><FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} /></Grid>
           </Grid>
-          <Grid item md={8}>
-            <p className={styles.quote}>
-              We might hope to see the finances of the Union as clear and
-              intelligible as a merchant’s books, so that every member of
-              Congress, and every person of any mind in the Union should be able
-              to comprehend them, to investigate abuses, and consequently to
-              control them.{" "}
-            </p>
-            <p className={styles.citation}>
-              Thomas Jefferson to Albert Gallatin, 1802 (edited)
-            </p>
-            <div className={styles.quoteBar}></div>
-          </Grid>
-          <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}>
-            <FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} />
-          </Grid>
-        </Grid>
       </Container>
 
       <Container

@@ -41,8 +41,8 @@ const FederalSpendingHero = (): JSX.Element => {
   const [spendingChange, setSpendingChange] = useState( 0);
   const [spendingPercentChange, setSpendingPercentChange] = useState(0);
 
-  const debt = <CustomLink url={'/national-debt/'}>Debt</CustomLink>;
-  const deficit = <CustomLink url={'/national-deficit/'}>Deficit</CustomLink>;
+  const debt = <CustomLink url={'/americas-finance-guide/national-debt/'}>Debt</CustomLink>;
+  const deficit = <CustomLink url={'/americas-finance-guide/national-deficit/'}>Deficit</CustomLink>;
   const mts =
     <CustomLink url={'/datasets/monthly-treasury-statement/outlays-of-the-u-s-government'}>
       Monthly Treasury Statement (MTS)

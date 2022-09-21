@@ -51,16 +51,24 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
   const topicsPageLinks = [
     {
+      title: 'Overview',
+      to: '/americas-finance-guide/',
+      testId: 'overview'
+    },{
+      title: 'Revenue',
+      to: '/americas-finance-guide/government-revenue/',
+      testId: 'revenue'
+    },{
       title: 'Spending',
-      to: '/federal-spending/',
+      to: '/americas-finance-guide/federal-spending/',
       testId: 'spending'
     },{
       title: 'Deficit',
-      to: '/national-deficit/',
+      to: '/americas-finance-guide/national-deficit/',
       testId: 'deficit'
     },{
       title: 'Debt',
-      to: '/national-debt/',
+      to: '/americas-finance-guide/national-debt/',
       testId: 'debt'
     }
   ]
