@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from "@testing-library/react";
 import HeroImage from "./hero-image";
-import NationalDebtHero from "../heros/national-debt/national-debt-hero";
 import { setGlobalFetchResponse } from "../../../utils/mock-utils";
 import { mockExplainerPageResponse } from "../explainer-test-helper";
 
@@ -38,7 +37,6 @@ describe('National Debt Hero', () => {
     const subHeading = 'mock sub-heading';
     const primaryColor = 'test';
     const secondaryColor = 'test';
-    const children = <NationalDebtHero />
 
     const { getAllByRole, getByTestId } = render(
       <HeroImage
@@ -47,14 +45,8 @@ describe('National Debt Hero', () => {
         primaryColor={primaryColor}
         secondaryColor={secondaryColor}
         width={0}
-        children={children}
       />
     );
 
-    const flagIcon = getAllByRole('img', {hidden:true}, {name:"flag-usa"});
-
-    expect(getByTestId('nationalDebtCallout')).toBeInTheDocument();
-    expect(flagIcon).toHaveLength(1);
-    expect(flagIcon[0]).toBeInTheDocument();
   })
 })

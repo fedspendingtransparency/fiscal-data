@@ -1,10 +1,8 @@
-import {counterContainer, counterSourceInfo, heroImageCallout,calloutContainer, icon} from "../../hero-image/hero-image.module.scss";
+import {counterContainer, counterSourceInfo} from "../../hero-image/hero-image.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import React, {useEffect, useState} from "react";
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFlagUsa} from "@fortawesome/free-solid-svg-icons";
 import Analytics from "../../../../utils/analytics/analytics";
 
 const NationalDebtHero = (): JSX.Element => {
@@ -59,17 +57,6 @@ const NationalDebtHero = (): JSX.Element => {
         </div>
       )
       }
-      <div className={calloutContainer}>
-        <div className={heroImageCallout} data-testid={"nationalDebtCallout"}>
-          <FontAwesomeIcon icon={faFlagUsa} className={icon} />
-          <p>
-            This topic is the first of four U.S. government financial concepts from Your Guide to
-            America’s Finances with more being added in the coming months.
-            We’ll help you learn more about money coming in (Revenue), money going out (Spending),
-            and the <CustomLink url={'/americas-finance-guide/national-deficit/'}> Deficit </CustomLink> and Debt.
-          </p>
-        </div>
-      </div>
     </>
   );
 }
