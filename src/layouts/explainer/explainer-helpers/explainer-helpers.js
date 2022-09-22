@@ -126,8 +126,8 @@ export const explainerSocialShareMap = {
   },
   'government-revenue': {
     title: 'Fiscal Data Explains Federal Revenue',
-    description: ' Check out @FiscalService Fiscal Data’s new topic page, explaining ' +
-      'federal revenue! #FiscalData #OpenData #FederalRevenue  ',
+    description: 'Check out @FiscalService Fiscal Data’s new federal revenue page!' +
+    ' #FederalRevenue',
     body: ' Check out @FiscalService Fiscal Data’s new topic page, explaining ' +
     'federal revenue! #FiscalData #OpenData #FederalRevenue  ',
     emailSubject: 'Fiscal Data Explains Federal Revenue',
@@ -138,7 +138,7 @@ export const explainerSocialShareMap = {
   'americas-finance-guide': {
     title: "Your Guide to America’s Finances",
     description:
-      "Check out the new an accessible and data-driven guide to America’s finances, presented by @FiscalService Fiscal Data! #FiscalData #OpenData #AmericasFinances",
+    "Check out @FiscalService Fiscal Data’s new guide to America’s finances! #FiscalData",
     body:
     "Check out the new an accessible and data-driven guide to America’s finances, presented by @FiscalService Fiscal Data! #FiscalData #OpenData #AmericasFinances",
     emailSubject: "Your Guide to America’s Finances",
