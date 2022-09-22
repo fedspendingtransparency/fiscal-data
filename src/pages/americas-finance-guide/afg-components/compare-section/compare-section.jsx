@@ -44,7 +44,7 @@ export default function CompareSection()
                         <Grid item xs={2} classes={{ root: styles.compareIcon }}>
                             <AfgIcon faIcon={s.faIcon} backgroundColor={s.mainColor} />
                         </Grid>
-                        <Grid item xs={10} >
+                        <Grid item xs={10} classes={{ root: styles.compareText }}>
                             <h5 className={styles.subHeading}>{s.heading}</h5>
                             <div className={styles.body}>{s.body}</div>
                         </Grid>                        

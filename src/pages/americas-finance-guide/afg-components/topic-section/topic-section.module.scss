@@ -1,8 +1,14 @@
 @import 'src/variables.module';
 
 .topicSection{
-    margin-top: 24px !important;
-    margin-bottom: 24px !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+
+    
+    img{
+        width: 100%;
+    }
+    
 
 
     .topicHeading{
@@ -18,9 +24,6 @@
         @include columnLabelCopy7;
         display: block;
         margin-top: 1rem !important;
-    }
-    img{
-        width: 100%;
     }
     .arrow{
         margin-left: 1rem;
@@ -38,6 +41,9 @@
     }
     .textContainer{
         order: 2;
-        padding-top: 0rem !important;
+        padding: 0rem !important;
+    }
+    .topicSection{
+        margin-bottom: 2rem !important;
     }
 }

@@ -48,7 +48,7 @@ export default function AmericasFinanceGuidePage() {
         canonical=""
         datasetDetails=""
       />
-      <Container classes={{ root: styles.topContainer }} maxWidth="false" data-testid="topContainer">
+      <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
         <div className="heroSection" mb={5}>
           <h1>
             A regular Statement and Account of the Receipts and Expenditures of
