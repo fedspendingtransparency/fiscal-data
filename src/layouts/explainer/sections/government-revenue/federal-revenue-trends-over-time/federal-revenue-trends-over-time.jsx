@@ -6,18 +6,42 @@ import React, {useEffect, useState} from "react";
 import {revenueExplainerPrimary} from "../revenue.module.scss";
 import RevenueTrendsLineChart from "./revenue-trends-line-chart/revenue-trends-line-chart";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
+import {adjustDataForInflation} from "../../../../../helpers/inflation-adjust/inflation-adjust";
+import {getShortForm} from "../../../heros/hero-helper";
 
-const FederalRevenueTrendsOverTime = () => {
+const FederalRevenueTrendsOverTime = ( {cpiDataByYear} ) => {
 
   const [firstChartYear, setFirstChartYear] = useState(0);
+  const [firstRevenue, setFirstRevenue] = useState('');
+  const [lastChartYear, setLastChartYear] = useState(0);
+  const [lastRevenue, setLastRevenue] = useState('');
+  const [revenueTag, setRevenueTag] = useState('');
 
   useEffect(() => {
-    const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,'
+    const endpointURLFirst = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,'
       + 'record_calendar_month:eq:09&sort=record_date&page[size]=1';
-    basicFetch(`${apiPrefix}${endpointURL}`)
+    basicFetch(`${apiPrefix}${endpointURLFirst}`)
       .then((res) => {
         if (res.data[0]) {
-          setFirstChartYear(res.data[0].record_fiscal_year);
+          const endpointURLLast = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,'
+            + 'record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+          basicFetch(`${apiPrefix}${endpointURLLast}`)
+          .then((resLast) => {
+            if (resLast.data[0]) {
+              let concatData = res.data.concat(resLast.data);
+              concatData = adjustDataForInflation(concatData, 'current_fytd_net_rcpt_amt', 'record_date', cpiDataByYear);
+              setFirstChartYear(concatData[0].record_fiscal_year);
+              setFirstRevenue(getShortForm(concatData[0].current_fytd_net_rcpt_amt, 2, true));
+              setLastChartYear(concatData[1].record_fiscal_year);
+              setLastRevenue(getShortForm(concatData[1].current_fytd_net_rcpt_amt, 2, true));
+              if (parseFloat(concatData[1].current_fytd_net_rcpt_amt) > parseFloat(res.data[0].current_fytd_net_rcpt_amt)) {
+                setRevenueTag('increased');
+              }
+              else {
+                setRevenueTag('decreased');
+              }
+            }
+          })
         }
       })
   }, [])
@@ -56,12 +80,10 @@ const FederalRevenueTrendsOverTime = () => {
         various source categories.
       </p>
       <div className={visWithCallout}>
-        <RevenueTrendsLineChart />
+        <RevenueTrendsLineChart cpiDataByYear={cpiDataByYear} />
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
-            Total revenue has (increased/decreased) from
-            ($XX.X T) in (YYYY (first available year in the chart)} to
-            ($XX.X T) in (YYYY (latest complete fiscal year)).
+            Total revenue has {revenueTag} from ${firstRevenue} in {firstChartYear} to ${lastRevenue} in {lastChartYear}.
           </p>
         </VisualizationCallout>
       </div>

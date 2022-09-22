@@ -6,7 +6,8 @@
 $revenueExplainerPrimary: #0A2F5A;
 
 .topContainer {
-    max-width: $breakpoint-lg;
+    max-width: 62rem;
+    overflow: hidden;
 }
 
 .debtText {    
@@ -18,13 +19,11 @@ $revenueExplainerPrimary: #0A2F5A;
 }
 
 .middleHeader {
-    margin: 2rem 0;
+    margin: 3.75rem 0;
 
     .middleHeaderHeading {
         @include headingStyle4;
-        font-size: $font-size-32  !important;
-        font-weight: $light-weight  !important;
-        color: $card-body !important;
+        
         margin-left: 1rem;
     }
 }
@@ -32,7 +31,7 @@ $revenueExplainerPrimary: #0A2F5A;
 .quoteContainer {
     background-color: $body-background;
     max-width: $explainer-page-width;
-    margin-top: 4rem;
+    margin-top: 2rem;
 
     .quoteGrid {
         max-width: $breakpoint-lg;
@@ -45,7 +44,6 @@ $revenueExplainerPrimary: #0A2F5A;
     .quoteIcon {
         font-size: 4rem;
         transform: scale(-1, 1);
-        margin-left: 1rem;
     }
 
     .quote {
@@ -55,6 +53,7 @@ $revenueExplainerPrimary: #0A2F5A;
         font-style: italic;
         margin-left: 1rem;
         margin-top: 0.5rem;
+        max-width: 35rem;
     }
 
     .citation {
@@ -98,26 +97,33 @@ $revenueExplainerPrimary: #0A2F5A;
 
 @media screen and (max-width: $breakpoint-lg) {
     
+    .topContainer {
+        padding: 0 .625rem !important;
+        margin: 0 !important;
+        left: 50%
+    }
     
     .middleHeader {
+        margin: 4rem 0 4.25rem 0!important;
+
         .middleHeaderIcon {
             margin: 0 auto !important;
             display: block
         }
 
         .middleHeaderHeadingContainer{
-            margin: 0 3.625rem 2rem 3.625rem !important;
+            margin: 0 4.625rem 0 4.625rem !important;
             padding: 0 !important
         }
-        .middleHeaderHeading:par {
-            font-size: $font-size-36 !important;
+        .middleHeaderHeading {
+            font-size: $font-size-32 !important;
+            margin-left: 0 !important;
         }
         
     }
 
-    
-
     .quoteContainer {
+        
         .quoteContainerIcon, .quoteContainerImg{
             margin: 0 auto !important;
             display: block;
@@ -127,9 +133,12 @@ $revenueExplainerPrimary: #0A2F5A;
             width: 3.25rem !important;            
         }
     }
-    
 
+    .bottomContainer img{
+        margin-top: 1rem !important;
+    }
 }
+
 
 :export {
     revenueExplainerPrimary : $revenueExplainerPrimary

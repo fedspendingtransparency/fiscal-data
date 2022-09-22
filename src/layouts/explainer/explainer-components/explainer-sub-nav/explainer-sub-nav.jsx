@@ -15,6 +15,7 @@ export default function ExplainerSubNav({hidePosition}) {
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 
+
     if (position > hidePosition) {
       //Scrolling Down
       if (previousScrollPosition < scrollPosition) {
@@ -28,6 +29,7 @@ export default function ExplainerSubNav({hidePosition}) {
 
     console.log(previousScrollPosition, scrollPosition)
   };
+
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, {passive: true});

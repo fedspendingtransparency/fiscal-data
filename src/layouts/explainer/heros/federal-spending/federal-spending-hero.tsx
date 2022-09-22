@@ -2,12 +2,8 @@ import {
   counterContainerSpending,
   footNotes,
   footNotesPillData,
-  heroImageCallout,
   heroImageSubHeading,
-  icon
 } from "../../hero-image/hero-image.module.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFlagUsa} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
@@ -41,9 +37,7 @@ const FederalSpendingHero = (): JSX.Element => {
   const [spendingChange, setSpendingChange] = useState( 0);
   const [spendingPercentChange, setSpendingPercentChange] = useState(0);
 
-  const debt = <CustomLink url={'/americas-finance-guide/national-debt/'}>Debt</CustomLink>;
-  const deficit = <CustomLink url={'/americas-finance-guide/national-deficit/'}>Deficit</CustomLink>;
-  const mts =
+    const mts =
     <CustomLink url={'/datasets/monthly-treasury-statement/outlays-of-the-u-s-government'}>
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -109,15 +103,6 @@ const FederalSpendingHero = (): JSX.Element => {
           {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel,
             true, spendingExplainerLightSecondary)}
         </div>
-      </div>
-      <div className={heroImageCallout} >
-        <FontAwesomeIcon icon={faFlagUsa} className={icon} />
-        <p>
-          This topic is the third of four U.S. government financial concepts from Your Guide to
-          America’s Finances with more being added in the coming months. We’ll help you learn
-          more about money coming in (Revenue), money going out (Spending), and
-          the {deficit} and {debt}.
-        </p>
       </div>
     </>
   );

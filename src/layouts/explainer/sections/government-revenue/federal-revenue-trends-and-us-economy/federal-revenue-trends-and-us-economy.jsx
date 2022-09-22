@@ -4,8 +4,7 @@ import QuoteBox from "../../../quote-box/quote-box";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {revenueExplainerPrimary, revenueExplainerLightSecondary} from "../revenue.module.scss";
 import { faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
-import {ChartPlaceholder} from
-    "../../../explainer-helpers/federal-spending/federal-spending-helper";
+import {comingSoon} from "./federal-revenue-trends-and-us-economy.module.scss";
 // This section will be filled out more post-mvp
 
 const FederalRevenueTrendsAndUSEconomy = () => {
@@ -15,8 +14,9 @@ const FederalRevenueTrendsAndUSEconomy = () => {
   return(
     <div>
       <div>
-        Coming Soon
-        <ChartPlaceholder />
+        <p className={comingSoon}>
+          Coming Soon: A section exploring how revenue trends relate to the U.S. economy.
+        </p>
       </div>
       <QuoteBox
         icon={faMapLocationDot}

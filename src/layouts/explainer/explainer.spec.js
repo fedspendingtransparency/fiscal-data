@@ -186,7 +186,15 @@ describe('Spending explainer', () => {
   })
 })
 
+
 describe('Revenue explainer', () => {
+  const cpiDataByYear = {
+    "2011": "10",
+    "2012": "5",
+    "2013": "5",
+    "2020": "15",
+    "2021": "15"
+  };
   const breadCrumbLinkName = 'mock link';
   const seoConfig = {
     pageTitle: 'mock title',
@@ -201,7 +209,8 @@ describe('Revenue explainer', () => {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
-    glossary
+    glossary,
+    cpiDataByYear
   }
 
   it('renders the revenue explainer page', async () => {

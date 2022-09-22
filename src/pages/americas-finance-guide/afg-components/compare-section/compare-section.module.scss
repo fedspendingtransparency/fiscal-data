@@ -1,49 +1,71 @@
 @import '../../../../variables.module.scss';
 
-.compareSection{
-    
-    margin-top: 4rem;
+.compareSection {
+
+    margin-top: 6rem;
     margin-bottom: 4rem;
 
-    .comparisonHeading{
-        font-size: $font-size-32 !important;
-        font-weight: $light-weight !important;
-        color: $card-body !important;
+    .comparisonHeading {
+        font-size: $font-size-32  !important;
+        font-weight: $light-weight  !important;
+        color: $card-body  !important;
     }
 
-    .heading{
+    .heading {
         @include headingStyle4;
         margin-bottom: 4rem;
         text-align: center;
 
     }
 
-    .subHeading{
+    .subHeading {
         @include headingStyle5;
         margin: 0 0 1rem 1.5rem;
 
     }
 
-    .body{
+    .body {
         @include bodyStyleRegular;
         margin-left: 1.5rem;
+    }
+
+    .compareGridItem:first-child,
+    .compareGridItem:nth-child(2) {
+        margin-bottom: 2rem;
     }
 
 }
 
 @media screen and (max-width: $breakpoint-lg) {
 
-    .compareIcon {
-        margin: 0 auto !important;
-        display: block;
-    }
-    .subHeading, .body{
-        margin-left: 0.25rem !important;
+    .compareSection {
+
+        margin-top: 4rem !important;
+
+        .compareIcon {
+            margin: 0 auto !important;
+            display: block;
+        }
+
+        .subHeading,
+        .body {
+            margin-left: 1rem !important;
+        }
+
+        .heading {
+            margin-left: 3.625rem !important;
+            margin-right: 3.625rem !important;
+        }
+
+        .compareGridItem:first-child,
+        .compareGridItem:nth-child(2) {
+            margin-bottom: .5rem !important;
+        }
+
+        .compareGridItem:not(:last-child) {
+            margin-bottom: .5rem;
+        }
     }
 
-    .heading{
-        margin-left: 3.625rem !important;
-        margin-right: 3.625rem !important;
-    }
 
 }

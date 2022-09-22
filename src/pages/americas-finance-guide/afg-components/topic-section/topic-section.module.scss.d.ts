@@ -68,5 +68,5 @@ export const topicHeading: string;
 export const body: string;
 export const link: string;
 export const arrow: string;
-export const imageContainer: string;
 export const textContainer: string;
+export const imageContainer: string;

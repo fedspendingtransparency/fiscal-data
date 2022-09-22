@@ -14,7 +14,7 @@ export default function AfgIcon({
     backgroundColor    
 }) {
     return (
-        <div data-testid={'afg-icon'} className={iconBackground} style={{ backgroundColor: backgroundColor + '50' }}>
+        <div data-testid={'afg-icon'} className={iconBackground} style={{ backgroundColor: backgroundColor + '10' }}>
             <FontAwesomeIcon icon={faIcon} className={icon} />
             <FontAwesomeIcon icon={faIcon}
                 className={offsetIcon}

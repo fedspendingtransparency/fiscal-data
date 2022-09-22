@@ -71,5 +71,6 @@ describe('MobileMenu actions', () => {
     expect(getByText('Deficit')).toBeDefined();
     expect(getByText('Spending')).toBeDefined();
     expect(getByText('Revenue')).toBeDefined();
+    expect(getByText('Overview')).toBeDefined();
   });
 });
