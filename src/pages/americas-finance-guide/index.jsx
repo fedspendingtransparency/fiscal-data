@@ -15,12 +15,22 @@ import {
 import TopicSection from "./afg-components/topic-section/topic-section"
 import AfgIcon from "./afg-components/afg-icon/afg-icon"
 import CompareSection from "./afg-components/compare-section/compare-section"
+import { basicFetch } from "../../utils/api-utils"
+import { getShortForm } from "../../layouts/explainer/heros/hero-helper"
 import {
   explainerAnalyticsLabelMap,
   explainerSocialShareMap,
 } from "../../layouts/explainer/explainer-helpers/explainer-helpers"
 import SocialShare from "../../layouts/explainer/social-share/social-share"
 import { useWindowSize } from "../../hooks/windowResize"
+import ApiRequest from "../../helpers/api-request";
+import {
+  debtRequest,
+  deficitRequest,
+  revenueRequest,
+  spendingRequest
+} from "./afg-overview-helpers"
+
 
 export default function AmericasFinanceGuidePage() {
   const [isMobile, setIsMobile] = useState(false)
@@ -37,7 +47,75 @@ export default function AmericasFinanceGuidePage() {
       setIsMobile(false)
     }
   }, [width, height])
-  const pageName = "americas-finance-guide"
+  const pageName = "americas-finance-guide";
+
+  const [fiscalYear, setFiscalYear] = useState('');
+  const [yearToDateRevenue, setYearToDateRevenue] = useState('');
+  const [yearToDateSpending, setYearToDateSpending] = useState('');
+  const [yearToDateDeficit, setYearToDateDeficit] = useState('');
+  const [debt, setDebt] = useState('');
+
+  useEffect(() => {
+    basicFetch(new ApiRequest(revenueRequest).getUrl())
+      .then((res) => {
+        if (res.data) {
+          const data = res.data[0];
+          setYearToDateRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), 2, false));
+          setFiscalYear(data.record_fiscal_year);
+        }
+      });
+    basicFetch(new ApiRequest(spendingRequest).getUrl())
+      .then((res) => {
+        if (res.data) {
+          const data = res.data[0];
+          setYearToDateSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false));
+        }
+      });
+    basicFetch(new ApiRequest(deficitRequest).getUrl())
+      .then((res) => {
+        if (res.data) {
+          const data = res.data[0];
+          const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
+          const formattedAmount = deficitAmount >= 1000000000000 ?
+            getShortForm(deficitAmount.toString(), 2, false) :
+            getShortForm(deficitAmount.toString(), 0, false);
+          setYearToDateDeficit(formattedAmount);
+        }
+      });
+    basicFetch(new ApiRequest(debtRequest).getUrl())
+      .then((res) => {
+        if (res.data) {
+          const data = res.data[0];
+          setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), 2, false));
+        }
+      });
+
+  }, []);
+
+  const revenueHeading =
+    <>
+      In fiscal year {fiscalYear}, the federal government has
+      collected ${yearToDateRevenue} in <span style={{ fontStyle: 'italic' }}>revenue.</span>
+    </>;
+
+  const spendingHeading =
+    <>
+      In fiscal year {fiscalYear} the federal government
+      has <span style={{ fontStyle: 'italic' }}>spent</span>,
+      {' '} ${yearToDateSpending}.
+    </>
+
+  const deficitHeading =
+    <>
+      The amount by which spending exceeds revenue, ${yearToDateDeficit} in {fiscalYear}, is
+      referred to as <span style={{ fontStyle: 'italic' }}>deficit.</span>
+    </>
+  const debtHeading =
+    <>
+      In {fiscalYear}, the federal government has ${debt} in
+      federal <span style={{ fontStyle: 'italic' }}>debt.</span>
+    </>
+
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -48,7 +126,10 @@ export default function AmericasFinanceGuidePage() {
         canonical=""
         datasetDetails=""
       />
-      <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
+      <Container classes={{ root: styles.topContainer }}
+                 maxWidth={false}
+                 data-testid="topContainer"
+      >
         <div className="heroSection" mb={5}>
           <h1>
             A regular Statement and Account of the Receipts and Expenditures of
@@ -80,25 +161,18 @@ export default function AmericasFinanceGuidePage() {
         <Box my={5}>AFG Sub-navigation Bar </Box>
 
         <TopicSection
-          heading={[
-            "In fiscal year YYYY, the federal government has collected $X.X in ",
-            <span style={{ fontStyle: "italic" }}>revenue.</span>,
-          ]}
+          heading={revenueHeading}
           body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties."
-          linkUrl="/government-revenue"
+          linkUrl="./government-revenue"
           linkText="Learn more about government revenue"
           linkColor={styles.revenueExplainerPrimary}
           image="/topics-section-images/homepage_revenue_1200x630.png"
           imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building."
         />
         <TopicSection
-          heading={[
-            "In fiscal year YYYYY the federal government has ",
-            <span style={{ fontStyle: "italic" }}>spent.</span>,
-            " $X.X.",
-          ]}
+          heading={spendingHeading}
           body="The federal government funds a variety of programs and services that support the American public. The federal government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
-          linkUrl="/federal-spending"
+          linkUrl="./federal-spending"
           linkText="Learn more about federal spending"
           linkColor={spendingExplainerPrimary}
           image="/topics-section-images/homepage_spending_1200x630.png"
@@ -108,54 +182,40 @@ export default function AmericasFinanceGuidePage() {
         <div className={styles.middleHeader}>
           <Grid container spacing={4}>
             <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
-              <AfgIcon
-                faIcon={faMoneyBill1Wave}
-                backgroundColor={styles.fontBodyCopy}
-              />
+              <AfgIcon faIcon={faMoneyBill1Wave} backgroundColor={styles.fontBodyCopy} />
             </Grid>
-            <Grid
-              item
-              md={11}
-              classes={{ root: styles.middleHeaderHeadingContainer }}
-            >
-              <h3 className={styles.middleHeaderHeading}>
-                How have federal revenue and spending affected the{" "}
-                <span className={styles.deficitText}>deficit</span> and federal{" "}
-                <span className={styles.debtText}>debt</span> so far in fiscal
-                year YYYY?{" "}
+            <Grid item md={11} classes={{ root: styles.middleHeaderHeadingContainer }}>
+              <h3 className={styles.middleHeaderHeading}>How have federal revenue
+                and spending affected the <span className={styles.deficitText}>deficit</span> and
+                federal <span className={styles.debtText}>debt</span> so
+                far in fiscal year {fiscalYear}?
               </h3>
             </Grid>
           </Grid>
         </div>
 
         <TopicSection
-          heading={[
-            "The amount by which spending exceeds revenue, $X.X in YYYY, is referred to as ",
-            <span style={{ fontStyle: "italic" }}>deficit.</span>,
-          ]}
+          heading={deficitHeading}
           body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-          linkUrl="/national-deficit"
+          linkUrl="./national-deficit"
           linkText="Learn more about national deficit"
           linkColor={deficitExplainerPrimary}
           image="/topics-section-images/homepage_deficit_1200x630.png"
           imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left of the hand, including a pie chart, bar graph, and lit lightbulb."
         />
         <TopicSection
-          heading={[
-            "In YYYY, the federal government has $X.X in federal ",
-            <span style={{ fontStyle: "italic" }}>debt.</span>,
-          ]}
-          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.  
+          heading={debtHeading}
+          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
 
           Are federal debt and deficit the same thing? No, but they do affect one another"
-          linkUrl="/national-debt"
+          linkUrl="./national-debt"
           linkText="Learn more about national debt"
           linkColor={debtExplainerPrimary}
           image="/topics-section-images/homepage_debt_1200x630.png"
           imageAltText="A variety of hands reach up with objects, including a magnifying glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
         />
 
-        <CompareSection />
+        {fiscalYear && (<CompareSection currentFiscalYear={fiscalYear} />)}
 
         <DataSourcesMethodologies>
           Current and prior fiscal year values for federal revenue, spending,
@@ -168,14 +228,23 @@ export default function AmericasFinanceGuidePage() {
       <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
           <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
             <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
-              <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
+              <img src="../images/thomas-jefferson_background.png"
+                   alt="A sketched portrait of Thomas Jefferson, from the torso up."
+              />
             </Grid>
             <Grid item md={8}>
-              <p className={styles.quote}>We might hope to see the finances of the Union as clear and intelligible as a merchant’s books, so that every member of Congress, and every person of any mind in the Union should be able to comprehend them, to investigate abuses, and consequently to control them. </p>
+              <p className={styles.quote}>
+                We might hope to see the finances of the Union as clear and intelligible
+                as a merchant’s books, so that every member of Congress, and every
+                person of any mind in the Union should be able to comprehend them, to
+                investigate abuses, and consequently to control them.
+              </p>
               <p className={styles.citation}>Thomas Jefferson to Albert Gallatin, 1802 (edited)</p>
-              <div className={styles.quoteBar}></div>
+              <div className={styles.quoteBar} />
             </Grid>
-            <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}><FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} /></Grid>
+            <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}>
+              <FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} />
+            </Grid>
           </Grid>
       </Container>
 
