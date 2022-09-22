@@ -67,6 +67,7 @@ const ExplainerTile = ({
           style={{ display: "flex" }}
         >
           <Grid
+            item
             lg={4}
             style={
               isMobile
@@ -79,7 +80,7 @@ const ExplainerTile = ({
           >
             <div style={imageContainerStyle}>{desktop}</div>
           </Grid>
-          <Grid lg={8}>
+          <Grid item lg={8}>
             <div
               className={content.path ? undefined : comingSoon}
               style={{
