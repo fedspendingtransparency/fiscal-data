@@ -48,6 +48,7 @@ export const TopicsSection = ({ images, width }) => {
                   imageContainer: { marginBottom: "0.5rem" },
                   body: { marginBottom: "1rem" },
                 }}
+                hasMobileImage
               />
               <div className={line} />
 
@@ -60,11 +61,12 @@ export const TopicsSection = ({ images, width }) => {
                   imageContainer: isMobile
                     ? { paddingTop: "0" }
                     : {
-                        paddingTop: "1rem",
                         marginRight: "1rem",
                         width: "260px",
+                        height: "160px",
                       },
                   image: { desktop: { width: "260px", height: "160px" } },
+                  body: { maxWidth: "94%" },
                 }}
               />
             </Grid>

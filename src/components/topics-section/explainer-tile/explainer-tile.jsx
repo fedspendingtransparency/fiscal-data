@@ -4,6 +4,7 @@ import {
   mainTitle,
   secondaryTitle,
   comingSoon,
+  breakpointSm,
 } from "./explainer-tile.module.scss";
 import { breakpointLg } from "../../../variables.module.scss";
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
@@ -12,7 +13,14 @@ import Link from "gatsby-link";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Grid } from "@material-ui/core";
 
-const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
+const ExplainerTile = ({
+  content,
+  images,
+  width,
+  customStyles,
+  layout,
+  hasMobileImage,
+}) => {
   let desktopImage, mobileImage;
   if (images) {
     desktopImage = images.allFile.topicsImages.find(
@@ -22,14 +30,22 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
       image => image.name === content.mobileImage
     );
   }
-
+  const isDesktop = width >= pxToNumber(breakpointLg);
+  // over write desktop-first styles with mobile-first styles, if we actually have a mobile imgage
+  const isMobile = hasMobileImage
+    ? width <= pxToNumber(breakpointSm)
+    : width <= pxToNumber(breakpointLg);
+  const imageStyle = isMobile ? {} : { ...customStyles?.image?.desktop };
+  const imageContainerStyle = isMobile
+    ? {}
+    : customStyles?.imageContainer || {};
   const desktop = (
     <GatsbyImage
       image={getImage(desktopImage)}
       alt={content.altText}
       loading="eager"
       role="presentation"
-      style={{ ...customStyles?.image?.desktop }}
+      style={imageStyle}
     />
   );
 
@@ -42,31 +58,40 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
     />
   );
 
-  const isDesktop = width >= pxToNumber(breakpointLg);
   const card =
     layout === "two-col" && isDesktop ? (
-      <Grid container spacing={4}>
+      <Grid container>
         <div
           className={mainContent}
           data-testid="tile"
           style={{ display: "flex" }}
         >
-          <Grid lg={4}>
-            <div style={{ ...(customStyles?.imageContainer || {}) }}>
-              {desktop}
-            </div>
+          <Grid
+            item
+            lg={4}
+            style={
+              isMobile
+                ? {}
+                : {
+                    maxWidth: "260px",
+                    maxHeight: "160px",
+                  }
+            }
+          >
+            <div style={imageContainerStyle}>{desktop}</div>
           </Grid>
-          <Grid lg={8}>
+          <Grid item lg={8}>
             <div
               className={content.path ? undefined : comingSoon}
               style={{
-                paddingTop: "0.5rem",
                 paddingBottom: "0.5rem",
                 paddingLeft: "33px",
-                maxWidth: "88%",
               }}
             >
-              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
+              <h5
+                className={content.mainFeature ? mainTitle : secondaryTitle}
+                style={{ paddingTop: "0" }}
+              >
                 {content.title}
               </h5>
               <div style={{ ...(customStyles?.body || {}) }}>
@@ -78,9 +103,7 @@ const ExplainerTile = ({ content, images, width, customStyles, layout }) => {
       </Grid>
     ) : (
       <div className={mainContent} data-testid="tile">
-        <div style={{ ...(customStyles?.imageContainer || {}) }}>
-          {width >= pxToNumber(breakpointLg) ? desktop : mobile}
-        </div>
+        <div style={imageContainerStyle}>{isMobile ? mobile : desktop}</div>
         <div className={content.path ? undefined : comingSoon}>
           <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
             {content.title}
