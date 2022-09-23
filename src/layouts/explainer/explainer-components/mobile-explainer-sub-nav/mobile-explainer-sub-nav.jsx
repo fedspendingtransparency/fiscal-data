@@ -26,7 +26,8 @@ import {
   overviewStyle,
   mainContainer,
   mainContainerSticky,
-  mainContainerHidden
+  mainContainerHidden,
+  mainContainerShow
 } from './mobile-explainer-sub-nav.module.scss';
 
 const StyledMenu = withStyles({
@@ -62,7 +63,7 @@ const StyledMenuItem = withStyles((theme) => ({
 export default function MobileExplainerSubNav({hidePosition}) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
-  const [navBlockStyle, setNavBlockStyle] = useState(mainContainerHidden);
+  const [navBlockStyle, setNavBlockStyle] = useState(mainContainerShow);
 
   const handleScroll = () => {
     let position = window.pageYOffset;
@@ -77,7 +78,7 @@ export default function MobileExplainerSubNav({hidePosition}) {
         setNavBlockStyle(mainContainerSticky)
       }
     } else {
-      setNavBlockStyle()
+      setNavBlockStyle(mainContainerShow)
     }
 
     console.log(previousScrollPosition, scrollPosition)
