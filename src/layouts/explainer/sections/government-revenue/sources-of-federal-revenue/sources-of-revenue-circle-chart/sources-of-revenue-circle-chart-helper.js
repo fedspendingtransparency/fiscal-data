@@ -48,5 +48,3 @@ export const dataHeader = (categoryName, revenueAmount, revenuePercent) => (
     </div>
   </div>
 )
-
-
