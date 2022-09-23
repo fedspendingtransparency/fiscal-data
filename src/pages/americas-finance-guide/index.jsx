@@ -52,8 +52,7 @@ export function AmericasFinanceGuidePage({width}) {
       setIsMobile(false)
     }
   }, [widthSize, height])
-  const pageName = "americas-finance-guide"
-;
+  const pageName = "americas-finance-guide";
 
   const [fiscalYear, setFiscalYear] = useState('');
   const [yearToDateRevenue, setYearToDateRevenue] = useState('');
@@ -204,7 +203,7 @@ export function AmericasFinanceGuidePage({width}) {
                 federal <span className={styles.debtText}>debt</span> so
                 far in fiscal year {fiscalYear}?
               </h3>
-          </Grid>
+            </Grid>
           </Grid>
         </div>
 
