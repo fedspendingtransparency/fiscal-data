@@ -66,7 +66,6 @@ export const TopicsSection = ({ images, width }) => {
                         height: "160px",
                       },
                   image: { desktop: { width: "260px", height: "160px" } },
-                  body: { maxWidth: "94%" },
                 }}
               />
             </Grid>
