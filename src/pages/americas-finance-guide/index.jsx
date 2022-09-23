@@ -27,7 +27,7 @@ import { useWindowSize } from "../../hooks/windowResize"
 
 export function AmericasFinanceGuidePage({width}) {
   const [isMobile, setIsMobile] = useState(false)
-  const [width, height] = useWindowSize()
+  const [widthSize, height] = useWindowSize()
   const breakpoint = {
     desktop: 1015,
     tablet: 600,
@@ -39,7 +39,7 @@ export function AmericasFinanceGuidePage({width}) {
     } else {
       setIsMobile(false)
     }
-  }, [width, height])
+  }, [widthSize, height])
   const pageName = "americas-finance-guide"
 
   return (
@@ -133,6 +133,7 @@ export function AmericasFinanceGuidePage({width}) {
                 year YYYY?{" "}
               </h3>
           </Grid>
+          </Grid>
         </div>
 
         <TopicSection
@@ -152,7 +153,7 @@ export function AmericasFinanceGuidePage({width}) {
             "In YYYY, the federal government has $X.X in federal ",
             <span style={{ fontStyle: "italic" }}>debt.</span>,
           ]}
-          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.  
+          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
 
           Are federal debt and deficit the same thing? No, but they do affect one another"
           linkUrl="/national-debt"
