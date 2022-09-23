@@ -19,7 +19,7 @@ const ExplainerTile = ({
   width,
   customStyles,
   layout,
-  hasMobileImage,
+  hasMobileImage
 }) => {
   let desktopImage, mobileImage;
   if (images) {
