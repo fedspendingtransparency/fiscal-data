@@ -41,12 +41,18 @@
 
 .tooltipContainer {
   background-color: white;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   padding-left: 1rem;
+  padding-right: 20px;
   padding-bottom: 1rem;
   border-radius: 2px;
   box-shadow: 4px 4px 0 0 rgba(151, 151, 151, 0.5);
-  max-width: 192px;
+  max-width: 12rem;
+}
+
+.tooltipYearHeader {
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .tooltipColumn {
@@ -59,12 +65,65 @@
   flex-direction: row;
 }
 
+.tooltipItemText {
+  font-size: 14px;
+  max-width: 128px;
+}
+
 .estateRectTooltip {
   display: inline-block;
   width: 1rem;
   height: 1rem;
   margin-right: 0.5rem;
   background: #4b3974;
+}
+
+.customsRectTooltip {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background: #ffa600;
+}
+
+.exciseRectTooltip {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background: #883c7f;
+}
+
+.miscRectTooltip {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background: #ff773e;
+}
+
+.corpRectTooltip {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background: #c13f77;
+}
+
+.socialSecRectTooltip {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background: #eb5160;
+}
+
+.indvRectTooltip {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background: #0a2f5a;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -75,6 +134,16 @@
   .legendContainer {
     margin-left: 1rem;
     margin-right: 1rem;
+  }
+  .tooltipContainer {
+    width: 8rem;
+    padding-right: 0.75rem;
+  }
+  .tooltipItemText {
+    font-size: 10px;
+  }
+  .tooltipYearHeader {
+    font-size: 10px;
   }
 }
 
