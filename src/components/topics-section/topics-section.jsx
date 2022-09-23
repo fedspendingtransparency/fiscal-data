@@ -38,8 +38,8 @@ export const TopicsSection = ({ images, width }) => {
       </h5>
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
-          <Grid container spacing={0}>
-            <Grid item lg={mainWidth}>
+          <Grid container spacing={4}>
+            <Grid item lg={mainWidth} spacing={0}>
               <ExplainerTile
                 content={pageTileMap["americas-finance-guide"]}
                 images={images}
@@ -75,7 +75,7 @@ export const TopicsSection = ({ images, width }) => {
             ) : (
               undefined
             )}
-            <Grid item lg={secondaryWidth}>
+            <Grid item lg={secondaryWidth} spacing={0}>
               <ExplainerTile
                 content={pageTileMap["spending"]}
                 images={images}
