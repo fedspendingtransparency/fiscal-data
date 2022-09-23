@@ -13,7 +13,6 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust/inflation-adjust";
 import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
-import {useTooltip} from "@nivo/tooltip";
 
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
@@ -171,46 +170,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     }
   };
 
-  const CustomSlices = (props) => {
-    const {showTooltipFromEvent, hideTooltip} = useTooltip();
-    const slices = props.slices.map(slice => (
-      <rect
-        x={slice.x0}
-        y={slice.y0}
-        width={slice.width}
-        height={slice.height}
-        stroke="#f8dddd"
-        // strokeWidth={slice === props.currentSlice ? 1 : 0}
-        strokeWidth={0}
-        strokeOpacity={1}
-        fill="#f8dddd"
-        // fillOpacity={slice === props.currentSlice ? 0.5 : 0}
-        fillOpacity={0}
-        onMouseEnter={() => props.setCurrentSlice(slice)}
-        onMouseMove={event => {
-          showTooltipFromEvent(
-            React.createElement(props.sliceTooltip, {
-              slice,
-              axis: props.enableSlices,
-            }),
-            event,
-            'right'
-          )
-        }}
-        onMouseLeave={() => {
-          props.setCurrentSlice(null)
-          // hideTooltip();
-        }}
-      />
-    ))
-    return (
-        <>
-          {slices}
-        </>
-    )
-
-  }
-
   const getPercentofTotalRevByYear = (value, year) => {
     const match = totalRevByYear.find((element) => element.year === year.toString());
     return (Math.round((value / match.value) * 100));
@@ -294,19 +253,18 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             <div className={styles.lineChart} data-testid={'chartParent'}>
               <Line
                 data={chartData}
-                // layers={[
-                //   'grid',
-                //   'markers',
-                //   'axes',
-                //   'areas',
-                //   'lines',
-                //   'points',
-                //   // 'slices',
-                //   CustomSlices,
-                //   'crosshair',
-                //   'mesh',
-                //   'legends',
-                // ]}
+                layers={[
+                  'grid',
+                  'markers',
+                  'axes',
+                  'areas',
+                  'lines',
+                  'points',
+                  'slices',
+                  'crosshair',
+                  'mesh',
+                  'legends',
+                ]}
                 colors={d => d.color}
                 width={ 515 }
                 height={ 500 }
