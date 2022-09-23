@@ -1,269 +1,209 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import { CirclePacking } from '@nivo/circle-packing';
-import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {
-  dataHeaderContainer,
-  header,
-  dataLabels,
-  headerTitle,
-  subHeader,
-  category,
-  footerContainer,
   totalRevenueDataPill,
   dataContent,
-  chartSize
+  chartSize,
 } from "./sources-of-revenue-circle-chart.module.scss";
 import { withWindowSize } from "react-fns";
-import {breakpointLg, fontSize_12, semiBoldWeight} from "../../../../../../variables.module.scss";
+import {breakpointLg, fontSize_12} from "../../../../../../variables.module.scss";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
+import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
+import {getShortForm} from "../../../../heros/hero-helper";
+import {visWithCallout} from "../../../../explainer.module.scss";
+import VisualizationCallout
+  from "../../../../../../components/visualization-callout/visualization-callout";
+import {revenueExplainerPrimary} from "../../revenue.module.scss";
+import {
+  opacityValue,
+  title,
+  subTitle,
+  footer,
+  dataHeader
+} from "./sources-of-revenue-circle-chart-helper";
+
+import LabelComponent from "./circle-chart-label";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+
 
 const SourcesOfRevenueCircleChart = ({ width }) => {
-  const defaultValues = {
-    revenueAmount: 85,
-    totalRevenuePercent: 328,
-    totalRevenue: 26.7,
-    categoryName: "Individual Income Taxes",
-    categoryColor: "rgb(10,47,90)"
+  const defaultCategory = {
+    name: "Individual Income Taxes",
+    color: "rgb(10, 47, 90)",
+    location: 0
   };
 
-  const defaultChartConfig = {
-    categoryName: defaultValues.categoryName,
-    revenueAmount: defaultValues.revenueAmount,
-    totalRevenuePercent: defaultValues.totalRevenuePercent,
-    totalRevenue: defaultValues.totalRevenue,
-  }
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [fiscalYear, setFiscalYear] = useState(0);
+  const [recordDate, setRecordDate] = useState(new Date());
 
-  const [chartConfig, setChartConfig] = useState(defaultChartConfig);
+  const [categoryName, setCategoryName] = useState(defaultCategory.name);
+  const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(0);
+  const [categoryRevenuePercent, setCategoryRevenuePercent] = useState(0);
 
-  const [individualIncomeColor, setIndividualIncomeColor] = useState(defaultValues.categoryColor);
-  const [socialSecurityAndMedicareColor, setSocialSecurityAndMedicareColor] =
-    useState("rgb(235,81,96,0.8)");
-  const [corporateIncomeColor, setCorporateIncomeColor] = useState("rgb(193,63,119,0.8)");
-  const [miscellaneousIncomeColor, setMiscellaneousIncomeColor] = useState("rgb(255,119,62,0.8)");
-  const [exciseTaxesColor, setExciseTaxesColor] = useState("rgb(136,60,127,0.8)");
-  const [customsDutiesColor, setCustomsDutiesColor] = useState("rgb(255,166,0,0.8)");
-  const [estateAndGiftTaxesColor, setEstateAndGiftTaxesColor] = useState("rgb(75,57,116,0.8)");
+  const [combinedIncomeAmount, setCombinedIncomeAmount] = useState(0);
+  const [combinedIncomePercent, setCombinedIncomePercent] = useState(0);
 
-  const colors = [
+  const [chartData, setChartData] = useState({});
+
+  const [individualIncomeColor, setIndividualIncomeColor] = useState(defaultCategory.color);
+  const [socialSecurityColor, setSocialSecurityColor] = useState("rgb(235, 81, 96, 0.8)");
+  const [corporateIncomeColor, setCorporateIncomeColor] = useState("rgb(193, 63, 119, 0.8)");
+  const [miscIncomeColor, setMiscIncomeColor] = useState("rgb(255, 119, 62, 0.8)");
+  const [exciseTaxesColor, setExciseTaxesColor] = useState("rgb(136, 60, 127, 0.8)");
+  const [customsDutiesColor, setCustomsDutiesColor] = useState("rgb(255, 166, 0, 0.8)");
+  const [estateTaxesColor, setEstateTaxesColor] = useState("rgb(75, 57, 116, 0.8)");
+
+  useEffect(() => {
+    const url =
+      'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
+    basicFetch(`${apiPrefix}${url}`)
+      .then((res) => {
+        if(res.data[0]) {
+          setFiscalYear(res.data[0].record_fiscal_year);
+          setTotalRevenue(res.data[0].current_fytd_rcpt_outly_amt);
+        }
+    })
+  }, [])
+
+  useEffect(() => {
+    const url =
+      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)'+
+      '&sort=-record_date&page[size]=2';
+    basicFetch(`${apiPrefix}${url}`)
+      .then((res) => {
+        if(res.data[0]) {
+          setCombinedIncomeAmount(Number(res.data[0].current_fytd_rcpt_outly_amt) +
+            Number(res.data[1].current_fytd_rcpt_outly_amt));
+        }
+    })
+  }, [])
+
+  useEffect(() => {
+    const url=
+      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date&page[size]=10';
+    basicFetch(`${apiPrefix}${url}`)
+      .then((res) => {
+        if(res.data[0]) {
+
+          setRecordDate(new Date(res.data[0].record_date));
+
+          const filteredData = [];
+          let totalRev = 0;
+          const getDataValue = (lineNbr) =>
+            res.data.filter((record) => {return record.line_code_nbr === lineNbr});
+
+          let nodeValue = getDataValue("20")[0].current_fytd_rcpt_outly_amt;
+          totalRev += Number(nodeValue);
+          const incomeTax = {
+            "id": "Individual Income Taxes",
+            "color": individualIncomeColor,
+            "value": nodeValue,
+          }
+
+          nodeValue = (Number(getDataValue("50")[0].current_fytd_rcpt_outly_amt) +
+                      Number(getDataValue("60")[0].current_fytd_rcpt_outly_amt) +
+                      Number(getDataValue("70")[0].current_fytd_rcpt_outly_amt)).toString();
+          totalRev += Number(nodeValue);
+          const socialSecurityMedicare = {
+            "id": "Social Security and Medicare Taxes",
+            "color": socialSecurityColor,
+            "value": nodeValue,
+          };
+
+          nodeValue = getDataValue("30")[0].current_fytd_rcpt_outly_amt;
+          totalRev += Number(nodeValue);
+          const corporateIncome = {
+            "id": "Corporate Income Taxes",
+            "color": corporateIncomeColor,
+            "value": nodeValue,
+          };
+
+          nodeValue = getDataValue("110")[0].current_fytd_rcpt_outly_amt;
+          totalRev += Number(nodeValue);
+          const misc = {
+            "id": "Miscellaneous Income",
+            "color": miscIncomeColor,
+            "value": nodeValue,
+          };
+
+          nodeValue = getDataValue("100")[0].current_fytd_rcpt_outly_amt;
+          totalRev += Number(nodeValue);
+          const customsDuties = {
+            "id": "Customs Duties",
+            "color": customsDutiesColor,
+            "value": nodeValue,
+          };
+
+          nodeValue = getDataValue("90")[0].current_fytd_rcpt_outly_amt;
+          totalRev += Number(nodeValue);
+          const estateTax =  {
+            "id": "Estate & Gift Taxes",
+            "color": estateTaxesColor,
+            "value": nodeValue,
+          };
+
+          nodeValue = getDataValue("80")[0].current_fytd_rcpt_outly_amt;
+          totalRev += Number(nodeValue);
+          const exciseTax = {
+            "id": "Excise Taxes",
+            "value": nodeValue,
+            "color": exciseTaxesColor
+          };
+
+          if(categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
+            setCategoryRevenuePercent(Number(incomeTax.value) / totalRev * 100);
+            setCategoryRevenueAmount(Number(incomeTax.value));
+          }
+
+          filteredData.push({
+            ...incomeTax,
+            "percent": Number(incomeTax.value) / totalRev,
+          });
+
+          filteredData.push({
+            ...corporateIncome,
+            "percent": Number(corporateIncome.value) / totalRev,
+          });
+          filteredData.push({
+            ...socialSecurityMedicare,
+            "percent": Number(socialSecurityMedicare.value) / totalRev,
+          });
+          filteredData.push({
+            ...misc,
+            "percent": Number(misc.value) / totalRev,
+          });
+          filteredData.push({
+            ...customsDuties,
+            "percent": Number(customsDuties.value) / totalRev,
+          });
+          filteredData.push({
+            ...estateTax,
+            "percent": Number(estateTax.value) / totalRev,
+          });
+          filteredData.push({
+            ...exciseTax,
+            "percent": Number(exciseTax.value) / totalRev,
+          });
+
+          setChartData({children: filteredData});
+          setCombinedIncomePercent(combinedIncomeAmount / totalRev *100);
+        }
+      })
+  }, [
+    totalRevenue,
+    combinedIncomeAmount,
     individualIncomeColor,
+    socialSecurityColor,
     corporateIncomeColor,
-    socialSecurityAndMedicareColor,
-    miscellaneousIncomeColor,
+    miscIncomeColor,
     customsDutiesColor,
-    estateAndGiftTaxesColor,
-    exciseTaxesColor,
-  ]
+    estateTaxesColor,
+    exciseTaxesColor
+  ])
 
-  const opacityValue = ',0.8';
-
-  const title = 'Sources of Revenue for the U.S. Federal Government, FY 2021';
-  const subTitle = 'Revenue by Source Categories';
-  const date = new Date();
-  const name = 'Monthly Treasury Statement (MTS)';
-  const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`;
-  const footer =
-    <div className={footerContainer}>
-      <p>
-        <i>
-          To explore this visual, hover or tap over any category bubble to discover its data.
-        </i>
-      </p>
-      <p>
-        Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and
-        download this data.
-      </p>
-    </div>
-
-  const dataHeader = (
-    <div className={dataHeaderContainer}>
-      <div className={header}>{chartConfig.categoryName}</div>
-      <div className={category}>Category</div>
-      <div className={dataLabels}>
-        <div>
-          <div className={headerTitle}>${chartConfig.revenueAmount} T</div>
-          <span className={subHeader}>Revenue Amount</span>
-        </div>
-        <div>
-          <div className={headerTitle}>{chartConfig.totalRevenuePercent}%</div>
-          <span className={subHeader}>% of Total Revenue</span>
-        </div>
-      </div>
-    </div>
-  )
-
-  const labelFormatTable = {
-    'Individual Income Taxes': {
-      desktop: {
-        lines: ['Individual Income Taxes'],
-      },
-      mobile: {
-        lines: ['Individual Income','Taxes'],
-      },
-    },
-    'Corporate Income Taxes': {
-      desktop: {
-        lines: ['Corporate', 'Income Taxes'],
-      },
-      mobile: {
-        lines: ['Corporate ','Income', 'Taxes'],
-      },
-    },
-    'Social Security and Medicare Taxes': {
-      desktop: {
-        lines: ['Social Security', 'and Medicare Taxes'],
-      },
-      mobile: {
-        lines: ['Social Security', 'and', 'Medicare Taxes'],
-      },
-    },
-    'Miscellaneous Income': {
-      desktop: {
-        lines: ['Miscellaneous', 'Income'],
-        verticalOffset: -18,
-        horizontalOffset: 6 + 43.75
-      },
-      mobile: {
-        lines: ['Miscellaneous', 'Income'],
-        verticalOffset: -15,
-        horizontalOffset: 30.5
-      },
-      external: true
-    },
-    'Customs Duties': {
-      desktop: {
-        lines: ['Customs Duties'],
-        verticalOffset: -15,
-        horizontalOffset: 6
-      },
-      mobile: {
-        lines: ['Customs Duties'],
-        verticalOffset: -16,
-        horizontalOffset: -2
-      },
-      external: true
-    },
-    'Estate & Gift Taxes': {
-      desktop: {
-        lines: ['Estate & Gift Taxes'],
-        verticalOffset: -24,
-        horizontalOffset: -10
-      },
-      mobile: {
-        lines: ['Estate & Gift Taxes'],
-        verticalOffset: -22,
-        horizontalOffset: -10
-      },
-      external: true
-    },
-    'Excise Taxes': {
-      desktop: {
-        lines: ['Excise Taxes'],
-        verticalOffset: 28,
-        horizontalOffset: -95
-      },
-      mobile: {
-        lines: ['Excise Taxes'],
-        verticalOffset: 15,
-        horizontalOffset: -72
-      },
-      external: true,
-    },
-  }
-
-  const LabelComponent = ({node, label}) => {
-    const labelFormat = width < pxToNumber(breakpointLg) ?
-      labelFormatTable[label].mobile : labelFormatTable[label].desktop;
-    const lines = labelFormat.lines;
-    const lineSpaceOffset = width < pxToNumber(breakpointLg) ? 12.5 : 16.5;
-    const yStartPoint = node.y - ((lines.length / 2) * lineSpaceOffset) + 9;
-    const textAnchor = lines.length > 1 ? "middle" : "start";
-    const handleLabelMouseEnter = () => {
-      HandleMouseEnter(node)
-    }
-    const handleInteraction = (e) => {
-      // only proceed on mouse click or Enter key press
-      if (e?.key && e.key !== 'Enter') {
-        return;
-      }
-      HandleMouseEnter(node);
-    }
-      return (
-        <>
-          <text
-            dominantBaseline="central"
-            style={{
-              fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-              fontWeight: semiBoldWeight
-            }}
-            onMouseEnter={handleLabelMouseEnter}
-            onKeyPress={(e) => handleInteraction(e)}
-            tabIndex={0}
-          >
-          {lines.map((line, index) => (
-              <React.Fragment key={index} >
-                {labelFormatTable[label].external ?
-                  (
-                    <tspan
-                      textAnchor={textAnchor}
-                      x={node.radius + node.x + 6 + labelFormat.horizontalOffset}
-                      y={yStartPoint + lineSpaceOffset * index + labelFormat.verticalOffset}
-                      fill={'#666666'}
-                    >
-                      {line}
-                    </tspan>
-                  )
-                  :
-                  <tspan
-                    textAnchor="middle"
-                    x={node.x}
-                    y={yStartPoint + lineSpaceOffset * index}
-                    fill={'#FFFFFF'}
-                  >
-                    {line}
-                  </tspan>
-                }
-              </React.Fragment>
-            )
-          )}
-          </text>
-        </>
-    )
-  }
-
-  const data = {
-    children: [
-      {
-        id: "Individual Income Taxes",
-        value: 85,
-      },
-      {
-        id: "Corporate Income Taxes",
-        value: 15,
-      },
-      {
-        id: "Social Security and Medicare Taxes",
-        value: 20,
-      },
-      {
-        id: "Miscellaneous Income",
-        value: 1.75,
-      },
-      {
-        id: "Customs Duties",
-        value: 1,
-      },
-      {
-        id: "Estate & Gift Taxes",
-        value: .25,
-      },
-      {
-        id: "Excise Taxes",
-        value: 1,
-      },
-    ]
-};
 
   const colorMap = {
     'Individual Income Taxes': {
@@ -275,20 +215,20 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       color: corporateIncomeColor
     },
     'Social Security and Medicare Taxes': {
-      set:(color) => setSocialSecurityAndMedicareColor(color),
-      color: socialSecurityAndMedicareColor
+      set:(color) => setSocialSecurityColor(color),
+      color: socialSecurityColor
     },
     'Miscellaneous Income': {
-      set:(color) => setMiscellaneousIncomeColor(color),
-      color: miscellaneousIncomeColor
+      set:(color) => setMiscIncomeColor(color),
+      color: miscIncomeColor
     },
     'Customs Duties': {
       set:(color) => setCustomsDutiesColor(color),
       color: customsDutiesColor
     },
     'Estate & Gift Taxes': {
-      set:(color) => setEstateAndGiftTaxesColor(color),
-      color: estateAndGiftTaxesColor
+      set:(color) => setEstateTaxesColor(color),
+      color: estateTaxesColor
     },
     'Excise Taxes': {
       set:(color) => setExciseTaxesColor(color),
@@ -310,68 +250,86 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   }
 
-
   const HandleMouseEnter = (node) => {
-    if(node.id !== chartConfig.categoryName) {
-      decreaseOpacity(chartConfig.categoryName, colorMap[chartConfig.categoryName].color);
+    if(node.id !== categoryName) {
+      decreaseOpacity(categoryName, colorMap[categoryName].color);
       increaseOpacity(node.id, node.color);
-      setChartConfig({
-        ...chartConfig,
-        categoryName: node.id,
-        revenueAmount: node.value,
-        totalRevenuePercent: Number(((node.value / chartConfig.totalRevenue)*100).toFixed())
-      })
+      setCategoryName(node.id);
+      setCategoryRevenueAmount(node.value);
+      setCategoryRevenuePercent(node.percentage);
     }
   }
 
   const HandleChartMouseLeave = () => {
-    decreaseOpacity(chartConfig.categoryName, colorMap[chartConfig.categoryName].color);
-    setIndividualIncomeColor(defaultValues.categoryColor);
-    setChartConfig({
-      ...chartConfig,
-      categoryName: defaultValues.categoryName,
-      revenueAmount:defaultValues.revenueAmount,
-      totalRevenuePercent: defaultValues.totalRevenuePercent
-    })
+    if(chartData !== {}) {
+      decreaseOpacity(categoryName, colorMap[categoryName].color);
+      setIndividualIncomeColor(defaultCategory.color);
+      setCategoryName(defaultCategory.name);
+      setCategoryRevenueAmount(chartData.children[defaultCategory.location].value);
+      setCategoryRevenuePercent(chartData.children[defaultCategory.location].percent * 100);
+    }
   }
 
   return (
     <>
-      <ChartContainer
-        title={title}
-        subTitle={subTitle}
-        header={dataHeader}
-        footer={footer}
-        altText={title}
-        date={date}
-        customTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
-        customSubTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
-        handleMouseLeave={HandleChartMouseLeave}
-      >
-        <div className={dataContent} >
-          <div className={chartSize}>
-            <CirclePacking
-              data={data}
-              margin={{top: 0, right: 10, bottom:0, left:10}}
-              height={ width < pxToNumber(breakpointLg) ? 350 : 500 }
-              width={ width < pxToNumber(breakpointLg) ? 350 : 500 }
-              colors={colors}
-              colorBy={'id'}
-              leavesOnly
-              enableLabels={true}
-              labelsSkipRadius={0}
-              labelComponent={({node, label}) =>
-                <LabelComponent node={node} label={label} />}
-              animate={false}
-              onMouseEnter={(node) => HandleMouseEnter(node)}
-              onClick={(node) => HandleMouseEnter(node)}
-            />
+      <div className={visWithCallout}>
+        <ChartContainer
+          title={title +  fiscalYear}
+          subTitle={subTitle}
+          header={dataHeader(categoryName, categoryRevenueAmount, categoryRevenuePercent)}
+          footer={footer}
+          altText={title}
+          date={recordDate}
+          customTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
+          customSubTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
+        >
+      {chartData !== {} ? (
+          <div className={dataContent} >
+            <div
+              className={chartSize}
+              onMouseLeave={HandleChartMouseLeave}
+            >
+              <CirclePacking
+                data={chartData}
+                colors={{datum: "data.color"}}
+                margin={{top: 25, right: 10, bottom:25, left:10}}
+                height={ width < pxToNumber(breakpointLg) ? 350 : 500 }
+                width={ width < pxToNumber(breakpointLg) ? 350 : 500 }
+                colorBy={'id'}
+                leavesOnly
+                enableLabels={true}
+                labelsSkipRadius={0}
+                labelComponent={({node, label}) =>
+                  <LabelComponent
+                    node={node}
+                    label={label}
+                    width={width}
+                    HandleMouseEnter={HandleMouseEnter}
+                  />}
+                animate={false}
+                onMouseEnter={(node) => HandleMouseEnter(node)}
+                onClick={(node) => HandleMouseEnter(node)}
+              />
+            </div>
+            <div className={totalRevenueDataPill}>
+              Total Revenue: ${getShortForm(totalRevenue.toString(), 2, true)}
+            </div>
           </div>
-          <div className={totalRevenueDataPill}>
-            Total Revenue: ${chartConfig.totalRevenue} T
-          </div>
+      ) : (
+        <div>
+          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
-      </ChartContainer>
+      )}
+        </ChartContainer>
+        <VisualizationCallout color={revenueExplainerPrimary}>
+          <p>
+            In FY {fiscalYear}, the combined contribution
+            of individual and corporate income taxes is
+            ${getShortForm(combinedIncomeAmount.toString(), 0, true, true)},
+            making up {combinedIncomePercent.toFixed()}% of total revenue.
+          </p>
+        </VisualizationCallout>
+      </div>
     </>
   );
 }

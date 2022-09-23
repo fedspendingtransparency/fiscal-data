@@ -8,7 +8,8 @@ import React from "react";
 export const getShortForm = (
   value: string,
   fractionDigits: number = 0,
-  abbreviate: boolean = true
+  abbreviate: boolean = true,
+  defaultDigits: boolean = false,
 ): string => {
 
   const trimmed = Math.abs(Number(value)).toFixed();
@@ -17,9 +18,11 @@ export const getShortForm = (
   const trillionLabel = abbreviate ? ' T' : ' trillion';
   const billionLabel = abbreviate ? ' B' : ' billion';
   const appendix = inTrillions ? trillionLabel : billionLabel;
+  const digits = defaultDigits ?
+    (inTrillions ? 2 : 0) : fractionDigits;
 
   return Math.abs(
-    (parseFloat(value) / divisor)).toFixed(fractionDigits) + appendix;
+    (parseFloat(value) / divisor)).toFixed(digits) + appendix;
 };
 
 export const getFootNotesDateRange = (
