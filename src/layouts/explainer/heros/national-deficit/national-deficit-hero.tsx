@@ -1,10 +1,7 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import {
-  calloutContainer,
   counterSourceInfo,
-  heroImageCallout,
-  icon,
   footNotes,
   deficitBox,
   deficitBoxPercent,
@@ -14,7 +11,7 @@ import {
   deficit
 } from "../../hero-image/hero-image.module.scss"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFlagUsa, faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
+import { faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import {numberWithCommas} from "../../../../helpers/simplify-number/simplifyNumber";
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
@@ -134,9 +131,6 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       Monthly Treasury Statement (MTS)
     </CustomLink>;
 
-  const debt = <CustomLink url={'/americas-finance-guide/national-debt/'}>Debt</CustomLink>;
-  const spending = <CustomLink url={'/americas-finance-guide/federal-spending/'}>Spending</CustomLink>
-
   const fiscalYear =
     <GlossaryTerm term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >
       fiscal year (FY)
@@ -193,16 +187,6 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
           }
         <div className={deficitBoxPercent}>
           {deficitDifPercent}%
-        </div>
-      </div>
-      <div className={calloutContainer}>
-        <div className={heroImageCallout} data-testid={"nationalDebtCallout"}>
-          <FontAwesomeIcon icon={faFlagUsa} className={icon} />
-          <p>
-            This topic is the second of four U.S. government financial concepts from Your Guide to
-            America’s Finances with more being added in the coming months. We’ll help you learn more
-            about money coming in (Revenue), money going out ({spending}), and the Deficit and {debt}.
-          </p>
         </div>
       </div>
     </>

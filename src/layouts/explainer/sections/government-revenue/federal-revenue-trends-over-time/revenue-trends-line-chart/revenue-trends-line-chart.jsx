@@ -13,6 +13,7 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust/inflation-adjust";
 import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import {useTooltip} from "@nivo/tooltip";
 
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
@@ -150,8 +151,66 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           stroke: '#666666'
         }
       }
+    },
+    crosshair: {
+      line: {
+        stroke: '#555555',
+        strokeWidth: 2
+      }
     }
   };
+
+  const CustomSlices = (props) => {
+    const {showTooltipFromEvent, hideTooltip} = useTooltip();
+
+    const slices = props.slices.map(slice => (
+      <rect
+        x={slice.x0}
+        y={slice.y0}
+        width={slice.width}
+        height={slice.height}
+        stroke="#f8dddd"
+        strokeWidth={slice === props.currentSlice ? 1 : 0}
+        strokeOpacity={1}
+        fill="#f8dddd"
+        fillOpacity={slice === props.currentSlice ? 0.5 : 0}
+        onMouseEnter={() => props.setCurrentSlice(slice)}
+        onMouseMove={event => {
+          // FOR TOOLTIP IMPLEMENTATION
+          // showTooltipFromEvent(
+          //   React.createElement(props.sliceTooltip, {
+          //     slice,
+          //     axis: props.enableSlices,
+          //   }),
+          //   event,
+          //   'right'
+          // )
+        }}
+        onMouseLeave={() => {
+          hideTooltip()
+          props.setCurrentSlice(null)
+        }}
+      />
+    ))
+    return (
+      <>
+        {slices}
+      </>
+    )
+
+  }
+
+  const customTooltip = (slice) => {
+    return <div className={styles.tooltipContainer}>
+      <p>{slice.slice.points[0].data.x}</p>
+      <div className={styles.tooltipColumn}>
+        <div className={styles.tooltipItem}>
+          <div className={styles.estateRectTooltip} />
+          <div> {slice.slice.points[0].serieId}: ${slice.slice.points[0].data.y}T (xx%)</div>
+        </div>
+      </div>
+    </div>;
+  }
 
   useEffect(() => {
     applyChartScaling()
@@ -174,6 +233,19 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             <div className={styles.lineChart} data-testid={'chartParent'}>
               <Line
                 data={chartData}
+                layers={[
+                  'grid',
+                  'markers',
+                  'axes',
+                  'areas',
+                  'lines',
+                  'points',
+                  // 'slices',
+                  CustomSlices,
+                  'crosshair',
+                  'mesh',
+                  'legends',
+                ]}
                 colors={d => d.color}
                 width={ 515 }
                 height={ 500 }
@@ -216,9 +288,11 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 pointSize={0}
                 pointLabelYOffset={-12}
                 useMesh={true}
-                enablePoints={false}
-                enableCrosshair={false}
-                isInteractive={false}
+                enablePoints={true}
+                sliceTooltip={slice => customTooltip(slice)}
+                enableCrosshair={true}
+                isInteractive={true}
+                enableSlices={'x'}
                 animate={true}
               />
               <div className={styles.legendContainer}>
