@@ -180,10 +180,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
         width={slice.width}
         height={slice.height}
         stroke="#f8dddd"
-        strokeWidth={slice === props.currentSlice ? 1 : 0}
+        // strokeWidth={slice === props.currentSlice ? 1 : 0}
+        strokeWidth={0}
         strokeOpacity={1}
         fill="#f8dddd"
-        fillOpacity={slice === props.currentSlice ? 0.5 : 0}
+        // fillOpacity={slice === props.currentSlice ? 0.5 : 0}
+        fillOpacity={0}
         onMouseEnter={() => props.setCurrentSlice(slice)}
         onMouseMove={event => {
           showTooltipFromEvent(
@@ -196,15 +198,15 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           )
         }}
         onMouseLeave={() => {
-          hideTooltip()
           props.setCurrentSlice(null)
+          // hideTooltip();
         }}
       />
     ))
     return (
-      <>
-        {slices}
-      </>
+        <>
+          {slices}
+        </>
     )
 
   }
@@ -292,19 +294,19 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             <div className={styles.lineChart} data-testid={'chartParent'}>
               <Line
                 data={chartData}
-                layers={[
-                  'grid',
-                  'markers',
-                  'axes',
-                  'areas',
-                  'lines',
-                  'points',
-                  // 'slices',
-                  CustomSlices,
-                  'crosshair',
-                  'mesh',
-                  'legends',
-                ]}
+                // layers={[
+                //   'grid',
+                //   'markers',
+                //   'axes',
+                //   'areas',
+                //   'lines',
+                //   'points',
+                //   // 'slices',
+                //   CustomSlices,
+                //   'crosshair',
+                //   'mesh',
+                //   'legends',
+                // ]}
                 colors={d => d.color}
                 width={ 515 }
                 height={ 500 }
@@ -352,7 +354,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 enableCrosshair={true}
                 isInteractive={true}
                 enableSlices={'x'}
-                animate={true}
+                animate={false}
               />
               <div className={styles.legendContainer}>
                 <div className={styles.legendColumn}>
