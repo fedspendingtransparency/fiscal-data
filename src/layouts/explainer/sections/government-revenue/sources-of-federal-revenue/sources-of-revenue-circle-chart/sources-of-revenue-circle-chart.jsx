@@ -56,6 +56,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [customsDutiesColor, setCustomsDutiesColor] = useState("rgb(255, 166, 0, 0.8)");
   const [estateTaxesColor, setEstateTaxesColor] = useState("rgb(75, 57, 116, 0.8)");
 
+  const [chartAltText, setChartAltText] = useState("");
+
   useEffect(() => {
     const url =
       'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
@@ -75,22 +77,27 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     basicFetch(`${apiPrefix}${url}`)
       .then((res) => {
         if(res.data[0]) {
-          setCombinedIncomeAmount(Number(res.data[0].current_fytd_rcpt_outly_amt) +
-            Number(res.data[1].current_fytd_rcpt_outly_amt));
+          const income = Number(res.data[0].current_fytd_rcpt_outly_amt) +
+            Number(res.data[1].current_fytd_rcpt_outly_amt);
+          setCombinedIncomeAmount(income);
+          setCombinedIncomePercent(combinedIncomeAmount / totalRevenue * 100);
         }
-    })
-  }, [])
+      })
+  }, [
+    totalRevenue,
+    combinedIncomeAmount
+  ])
 
   useEffect(() => {
-    const url=
-      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date&page[size]=10';
+    const url= 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&'+
+      'sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
     basicFetch(`${apiPrefix}${url}`)
       .then((res) => {
         if(res.data[0]) {
 
           setRecordDate(new Date(res.data[0].record_date));
 
-          const filteredData = [];
+          const data = [];
           let totalRev = 0;
           const getDataValue = (lineNbr) =>
             res.data.filter((record) => {return record.line_code_nbr === lineNbr});
@@ -158,43 +165,51 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             setCategoryRevenueAmount(Number(incomeTax.value));
           }
 
-          filteredData.push({
+          data.push({
             ...incomeTax,
             "percent": Number(incomeTax.value) / totalRev,
           });
 
-          filteredData.push({
+          data.push({
             ...corporateIncome,
             "percent": Number(corporateIncome.value) / totalRev,
           });
-          filteredData.push({
+          data.push({
             ...socialSecurityMedicare,
             "percent": Number(socialSecurityMedicare.value) / totalRev,
           });
-          filteredData.push({
+          data.push({
             ...misc,
             "percent": Number(misc.value) / totalRev,
           });
-          filteredData.push({
+          data.push({
             ...customsDuties,
             "percent": Number(customsDuties.value) / totalRev,
           });
-          filteredData.push({
+          data.push({
             ...estateTax,
             "percent": Number(estateTax.value) / totalRev,
           });
-          filteredData.push({
+          data.push({
             ...exciseTax,
             "percent": Number(exciseTax.value) / totalRev,
           });
 
-          setChartData({children: filteredData});
-          setCombinedIncomePercent(combinedIncomeAmount / totalRev *100);
+          setChartData({children: data});
+
+          if(chartAltText === ""){
+            const altTextData = data.slice().sort((a,b) => b.value - a.value);
+            const altText = `A cluster of seven different colored and sized circles representing
+            the different U.S. government revenue source categories and how much each source
+            contributes to the overall revenue respectively. ${altTextData[0].id} is the largest
+            circle, followed by ${altTextData[1].id} and ${altTextData[2].id}. Smaller circles
+            (in descending order) represent ${altTextData[3].id}, ${altTextData[4].id},
+             ${altTextData[5].id}, and ${altTextData[6].id}.`;
+            setChartAltText(altText);
+          }
         }
       })
   }, [
-    totalRevenue,
-    combinedIncomeAmount,
     individualIncomeColor,
     socialSecurityColor,
     corporateIncomeColor,
@@ -278,7 +293,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           subTitle={subTitle}
           header={dataHeader(categoryName, categoryRevenueAmount, categoryRevenuePercent)}
           footer={footer}
-          altText={title}
+          altText={chartAltText}
           date={recordDate}
           customTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
           customSubTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}

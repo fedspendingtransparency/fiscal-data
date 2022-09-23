@@ -26,8 +26,6 @@ export default function ExplainerSubNav({hidePosition}) {
     } else {
       setNavBlockStyle(styles.navBlock)
     }
-
-    console.log(previousScrollPosition, scrollPosition)
   };
 
 
