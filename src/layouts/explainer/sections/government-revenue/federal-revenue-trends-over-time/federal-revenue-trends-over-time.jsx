@@ -46,44 +46,48 @@ const FederalRevenueTrendsOverTime = ( {cpiDataByYear} ) => {
       })
   }, [])
 
-  return(
+  return (
     <div>
       <div className={visWithCallout}>
-        <div className={textContent} data-testid={'textContent'}>
+        <div className={textContent} data-testid={"textContent"}>
           <p>
-            The majority of federal revenue comes from individual and
-            corporate income taxes as well as social insurance taxes.
-            As shown in the chart below, federal revenue increases during
-            periods of higher earnings for individuals and
-            corporations because more income is collected in taxes.
-            Revenue also increases during periods with higher tax rates. Alternatively,
-            when individuals or corporations make less money or the tax rate is lowered,
-            the government earns less revenue.
+            The majority of federal revenue comes from individual and corporate
+            income taxes as well as social insurance taxes (such as the Social
+            Security taxes described above). As shown in the chart below,
+            federal revenue increases during periods of higher earnings for
+            individuals and corporations because more income is collected in
+            taxes. Revenue also increases during periods with higher tax rates.
+            Alternatively, when individuals or corporations make less money or
+            the tax rate is lowered, the government earns less revenue. The year
+            with the highest revenue collected was YYYY (highest yearly total).
           </p>
-            If the U.S. government increases tariffs on imports from
-            a particular country or countries,
-            it could increase revenues, depending on the level of trade the U.S.
-            continues to do with those countries.
-            However, if tariffs increase and U.S. consumers import
-            fewer goods as a result of the higher prices,
-            then revenue from customs duties could decrease overall.
+          If the U.S. government increases tariffs on imports from a particular
+          country or countries, it could increase revenues, depending on the
+          level of trade the U.S. continues to do with those countries. However,
+          if tariffs increase and U.S. consumers import fewer goods as a result
+          of the higher prices, then revenue from customs duties could decrease
+          overall.
         </div>
-          <VisualizationCallout color={revenueExplainerPrimary} customTopMargin={'2.8%'}>
-            <p>
-              Individual income tax has remained the top source of income for the U.S.
-              government since {firstChartYear}
-            </p>
-          </VisualizationCallout>
+        <VisualizationCallout
+          color={revenueExplainerPrimary}
+          customTopMargin={"2.8%"}
+        >
+          <p>
+            Individual income tax has remained the top source of income for the
+            U.S. government since {firstChartYear}
+          </p>
+        </VisualizationCallout>
       </div>
       <p>
-        The chart below shows how federal revenue has changed over time, broken out by the
-        various source categories.
+        The chart below shows how federal revenue has changed over time, broken
+        out by the various source categories.
       </p>
       <div className={visWithCallout}>
         <RevenueTrendsLineChart cpiDataByYear={cpiDataByYear} />
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
-            Total revenue has {revenueTag} from ${firstRevenue} in {firstChartYear} to ${lastRevenue} in {lastChartYear}.
+            Total revenue has {revenueTag} from ${firstRevenue} in{" "}
+            {firstChartYear} to ${lastRevenue} in {lastChartYear}.
           </p>
         </VisualizationCallout>
       </div>

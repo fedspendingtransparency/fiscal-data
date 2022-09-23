@@ -16,10 +16,11 @@ import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons"
 import SourcesOfRevenueCircleChart
   from "./sources-of-revenue-circle-chart/sources-of-revenue-circle-chart";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
+import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
 
 
 
-const SourcesOfFederalRevenue = () => {
+const SourcesOfFederalRevenue = ({glossary}) => {
 
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
   const [indvPercent, setIndvPercent] = useState(0);
@@ -66,13 +67,34 @@ const SourcesOfFederalRevenue = () => {
       IRS.gov
     </CustomLink>
   )
+
+  const excise = (
+    <GlossaryTerm
+      term={"Excise"}
+      page={"Revenue Explainer & AFG Overview Page"}
+      glossary={glossary}
+    >
+
+      excise
+    </GlossaryTerm>
+  );
+
+  const trustFunds = (
+    <GlossaryTerm
+      term={"Trust fund"}
+      page={"Revenue Explainer"}
+      glossary={glossary}
+    >
+      trust funds
+    </GlossaryTerm>
+  );
+  
   return (
     <div className={sourcesContent}>
         <p>
           Most of the revenue the U.S. government collects comes from
           contributions from individual taxpayers, small businesses, and
-          corporations through taxes. Additional sources of tax revenue consist of
-          excise tax, estate tax, and other taxes and fees. So far in FY {currentFiscalYear},
+          corporations through taxes. Additional sources of tax revenue consist of {excise} tax, estate tax, and other taxes and fees. So far in FY {currentFiscalYear},
           individual income taxes have accounted for {indvPercent}% of total revenue while Social Security
           and Medicare taxes made up another {ssPercent}%.
         </p>
@@ -98,7 +120,7 @@ const SourcesOfFederalRevenue = () => {
         Unlike personal income taxes, which support a variety of programs, these
         taxes are only used to fund Social Security and Medicare. These funds
         are collected from your paycheck, and in most cases, matched by your
-        employer, and then divided into separate trust funds that support each
+        employer, and then divided into separate {trustFunds} that support each
         of those programs.
       </p>
       <p>

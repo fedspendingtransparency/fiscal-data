@@ -63,7 +63,7 @@ const explainerPagesSource = {
     slug: "/americas-finance-guide/government-revenue/",
     breadCrumbLinkName: "Revenue",
     seoConfig: {
-      pageTitle: "Government Revenue",
+      pageTitle: "Government Revenue | U.S. Treasury Fiscal Data",
       description: `Learn how much the U.S. government collects in revenue, and what types of
       revenue it brings in.`,
     },
