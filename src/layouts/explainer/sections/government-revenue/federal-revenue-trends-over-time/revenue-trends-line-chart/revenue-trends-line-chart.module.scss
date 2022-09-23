@@ -63,6 +63,7 @@
 .tooltipItem {
   display: flex;
   flex-direction: row;
+  margin-bottom: 0.5rem;
 }
 
 .tooltipItemText {
@@ -136,11 +137,13 @@
     margin-right: 1rem;
   }
   .tooltipContainer {
-    width: 8rem;
+    max-width: 8rem;
     padding-right: 0.75rem;
+    padding-left: 0.75rem;
   }
   .tooltipItemText {
     font-size: 10px;
+    max-width: 80px;
   }
   .tooltipYearHeader {
     font-size: 10px;

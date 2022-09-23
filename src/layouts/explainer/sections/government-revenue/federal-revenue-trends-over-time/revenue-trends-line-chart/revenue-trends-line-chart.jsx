@@ -165,7 +165,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     crosshair: {
       line: {
         stroke: '#555555',
-        strokeWidth: 2
+        strokeWidth: 2,
       }
     }
   };
