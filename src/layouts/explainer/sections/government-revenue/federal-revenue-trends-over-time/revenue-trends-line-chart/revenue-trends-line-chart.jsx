@@ -97,13 +97,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           });
           const sumRevPerYear = [];
           for (let i = 0; i < completeData[0].data.length; i++) {
-            const sumYear = completeData.map((entry) => entry.data[i].y).reduce(sum);
-            sumRevPerYear.push({
-              year: completeData[0].data[i].x,
-              value: sumYear
-            });
+              const sumYear = completeData.map((entry) => entry.data[i].y).reduce(sum);
+              sumRevPerYear.push({
+                year: completeData[0].data[i].x,
+                value: sumYear
+              });
           }
-          console.log(sumRevPerYear);
           setTotalRevByYear(sumRevPerYear);
           setChartData(completeData);
         }
