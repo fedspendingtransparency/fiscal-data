@@ -4,6 +4,9 @@ import SiteLayout from "../../components/siteLayout/siteLayout"
 import { Container, Grid, Box } from "@material-ui/core"
 import DataSourcesMethodologies from "../../layouts/explainer/data-sources-methodologies/data-sources-methodologies"
 import * as styles from "./afg-overview.module.scss"
+import { withWindowSize } from 'react-fns'
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../src/variables.module.scss'
 import { spendingExplainerPrimary } from "../../layouts/explainer/sections/federal-spending/federal-spending.module.scss"
 import { debtExplainerPrimary } from "../../layouts/explainer/sections/national-debt/national-debt.module.scss"
 import { deficitExplainerPrimary } from "../../layouts/explainer/sections/national-deficit/national-deficit.module.scss"
@@ -15,6 +18,8 @@ import {
 import TopicSection from "./afg-components/topic-section/topic-section"
 import AfgIcon from "./afg-components/afg-icon/afg-icon"
 import CompareSection from "./afg-components/compare-section/compare-section"
+import DeskTopSubNav from '../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav';
+import MobileSubNav from '../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
 import { basicFetch } from "../../utils/api-utils"
 import { getShortForm } from "../../layouts/explainer/heros/hero-helper"
 import {
@@ -32,9 +37,9 @@ import {
 } from "./afg-overview-helpers"
 
 
-export default function AmericasFinanceGuidePage() {
+export function AmericasFinanceGuidePage({width}) {
   const [isMobile, setIsMobile] = useState(false)
-  const [width, height] = useWindowSize()
+  const [widthSize, height] = useWindowSize()
   const breakpoint = {
     desktop: 1015,
     tablet: 600,
@@ -46,8 +51,9 @@ export default function AmericasFinanceGuidePage() {
     } else {
       setIsMobile(false)
     }
-  }, [width, height])
-  const pageName = "americas-finance-guide";
+  }, [widthSize, height])
+  const pageName = "americas-finance-guide"
+;
 
   const [fiscalYear, setFiscalYear] = useState('');
   const [yearToDateRevenue, setYearToDateRevenue] = useState('');
@@ -115,7 +121,6 @@ export default function AmericasFinanceGuidePage() {
       In {fiscalYear}, the federal government has ${debt} in
       federal <span style={{ fontStyle: 'italic' }}>debt.</span>
     </>
-
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -160,6 +165,8 @@ export default function AmericasFinanceGuidePage() {
         </Box>
         <Box my={5}>AFG Sub-navigation Bar </Box>
 
+        {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={630} /> : <DeskTopSubNav hidePosition={630}/>}
+
         <TopicSection
           heading={revenueHeading}
           body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties."
@@ -182,15 +189,22 @@ export default function AmericasFinanceGuidePage() {
         <div className={styles.middleHeader}>
           <Grid container spacing={4}>
             <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
-              <AfgIcon faIcon={faMoneyBill1Wave} backgroundColor={styles.fontBodyCopy} />
+              <AfgIcon
+                faIcon={faMoneyBill1Wave}
+                backgroundColor={styles.fontBodyCopy}
+              />
             </Grid>
-            <Grid item md={11} classes={{ root: styles.middleHeaderHeadingContainer }}>
+            <Grid
+              item
+              md={11}
+              classes={{ root: styles.middleHeaderHeadingContainer }}
+            >
               <h3 className={styles.middleHeaderHeading}>How have federal revenue
                 and spending affected the <span className={styles.deficitText}>deficit</span> and
                 federal <span className={styles.debtText}>debt</span> so
                 far in fiscal year {fiscalYear}?
               </h3>
-            </Grid>
+          </Grid>
           </Grid>
         </div>
 
@@ -279,3 +293,4 @@ export default function AmericasFinanceGuidePage() {
     </SiteLayout>
   )
 }
+export default withWindowSize(AmericasFinanceGuidePage)

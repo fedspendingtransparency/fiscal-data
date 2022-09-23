@@ -37,6 +37,36 @@
   max-width: 128px;
 }
 
+// TOOLTIP STYLES
+
+.tooltipContainer {
+  background-color: white;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 2px;
+  box-shadow: 4px 4px 0 0 rgba(151, 151, 151, 0.5);
+  max-width: 192px;
+}
+
+.tooltipColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.tooltipItem {
+  display: flex;
+  flex-direction: row;
+}
+
+.estateRectTooltip {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background: #4b3974;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .legendText {
     font-size: 0.625rem;

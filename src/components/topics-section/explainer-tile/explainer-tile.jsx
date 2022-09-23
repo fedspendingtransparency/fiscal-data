@@ -60,7 +60,7 @@ const ExplainerTile = ({
 
   const card =
     layout === "two-col" && isDesktop ? (
-      <Grid container>
+      <Grid container spacing={0}>
         <div
           className={mainContent}
           data-testid="tile"

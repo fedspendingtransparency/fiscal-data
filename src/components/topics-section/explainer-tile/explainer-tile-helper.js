@@ -93,5 +93,6 @@ export const pageTileMap = {
     desktopImage: "AFG-Overview_1200x630",
     mobileImage: "afg-feature-homepage-mobile",
     path: "americas-finance-guide",
+    mainFeature: true
   },
 };

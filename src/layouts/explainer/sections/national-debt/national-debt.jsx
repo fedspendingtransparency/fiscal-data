@@ -1064,6 +1064,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                     enableGridY={true}
                     gridYValues={8}
                     enableGridX={false}
+                    tooltip={() => (<></>)}
                     enableCrosshair={false}
                     animate={true}
                     onMouseMove={lineChartOnMouseMove}
