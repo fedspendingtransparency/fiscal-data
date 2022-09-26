@@ -15,14 +15,9 @@ import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons";
 import SourcesOfRevenueCircleChart from "./sources-of-revenue-circle-chart/sources-of-revenue-circle-chart";
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils";
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
-import { currencyFormatter } from "../../../../../helpers/text-format/text-format";
 import { getShortForm } from "../../../heros/hero-helper";
 import BigNumber from "bignumber.js";
 
-const toPrecision = numberprecision => {
-  const bNumber = new BigNumber(number);
-  return bNumber.toFixed(precision);
-};
 const SourcesOfFederalRevenue = ({ glossary }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
   const [indvPercent, setIndvPercent] = useState(0);
