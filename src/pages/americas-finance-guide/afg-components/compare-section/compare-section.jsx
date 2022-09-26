@@ -42,7 +42,7 @@ export default function CompareSection()
                 {subSections.map((s) => (
                     <Grid container item md={6} spacing={0} key={s.mainColor} classes={{ root: styles.compareGridItem }}>
                         <Grid item xs={2} classes={{ root: styles.compareIcon }}>
-                            <AfgIcon faIcon={s.faIcon} backgroundColor={s.mainColor} />
+                            <AfgIcon faIcon={s.faIcon} iconColor={s.mainColor} />
                         </Grid>
                         <Grid item xs={10} classes={{ root: styles.compareText }}>
                             <h5 className={styles.subHeading}>{s.heading}</h5>
