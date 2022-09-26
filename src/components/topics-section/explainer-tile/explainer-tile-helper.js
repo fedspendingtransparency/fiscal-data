@@ -82,7 +82,7 @@ export const pageTileMap = {
       "U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building.",
     desktopImage: "Revenue-HomePage-1200x630",
     mobileImage: "Revenue-HomePage-1200x630",
-    path: "americas-finance-guide/government-revenue",
+    path: "americas-finance-guide/government-revenue/",
   },
   "americas-finance-guide": {
     title: "Your Guide to America’s Finances",
@@ -92,7 +92,7 @@ export const pageTileMap = {
       "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal government finance.’ overlaid.",
     desktopImage: "AFG-Overview_1200x630",
     mobileImage: "afg-feature-homepage-mobile",
-    path: "americas-finance-guide",
-    mainFeature: true
+    path: "americas-finance-guide/",
+    mainFeature: true,
   },
 };
