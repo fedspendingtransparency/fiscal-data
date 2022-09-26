@@ -12,6 +12,8 @@ export const SpendingBodyGenerator = () => {
   const spendingUrl = `${apiPrefix}${endpointUrl}`;
   const [amount, setAmount] = useState("0");
   const [year, setYear] = useState("null");
+  const [currentRevenue, setCurrentRevenue] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
 
   useEffect(() => {
     basicFetch(`${spendingUrl}`).then(res => {

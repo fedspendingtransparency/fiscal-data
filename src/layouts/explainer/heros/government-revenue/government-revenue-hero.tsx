@@ -42,6 +42,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
     </CustomLink>
 
   const getHeroData = (url) => {
+    console.log(url, "THE URL")
     basicFetch(`${url}`)
       .then((res) => {
         if(res.data) {
