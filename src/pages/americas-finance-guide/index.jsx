@@ -12,15 +12,10 @@ import {
   faMoneyBill1Wave,
   faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons"
-import TopicSection from "./afg-components/topic-section/topic-section"
 import AfgIcon from "./afg-components/afg-icon/afg-icon"
 import CompareSection from "./afg-components/compare-section/compare-section"
-import {
-  explainerAnalyticsLabelMap,
-  explainerSocialShareMap,
-} from "../../layouts/explainer/explainer-helpers/explainer-helpers"
-import SocialShare from "../../layouts/explainer/social-share/social-share"
-import { useWindowSize } from "../../hooks/windowResize"
+import AfgTopicSection from "./afg-components/afg-topic-section/afg-topic-section"
+import AfgHero from "./afg-components/afg-hero/afg-hero"
 
 export default function AmericasFinanceGuidePage() {  
   return (
@@ -69,7 +64,8 @@ export default function AmericasFinanceGuidePage() {
             <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
               <AfgIcon
                 faIcon={faMoneyBill1Wave}
-                backgroundColor={styles.fontBodyCopy}
+                backgroundColor={styles.dollarIconBackgroundColor}
+                iconColor={styles.dollarIconColor}
               />
             </Grid>
             <Grid
@@ -168,4 +164,3 @@ export default function AmericasFinanceGuidePage() {
     </SiteLayout>
   )
 }
-export default withWindowSize(AmericasFinanceGuidePage)

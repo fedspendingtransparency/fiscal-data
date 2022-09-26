@@ -18,7 +18,7 @@ export default function AfgTopicSection({
 }) {
 
     return (
-        <Grid classes={{ root: styles.topicSection }} container spacing={0} data-testid="topic-section">
+        <Grid classes={{ root: styles.topicSection }} container spacing={0} data-testid="topic-section" key={linkUrl}>
             <Grid item md classes={{ root: styles.textContainer }}>
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>

@@ -5,6 +5,7 @@
     max-width: $site-content-width;
     margin: 0 auto;
     position: relative;
+    min-height: 47.875rem;
 
     .heroGrayBox {
         max-width: 1075px;
@@ -23,21 +24,20 @@
         width: 95%;
         height: 45rem;
         //z-index: 0;
-        float: right;
-        margin-top: 3rem;
+        bottom: 0;
+        left: 4rem;
         background-image: url('/images/statue-of-liberty.png');
         background-position: right top;
         background-repeat: no-repeat;
         background-size: cover;
-        position: relative;
+        position: absolute;
 
         h3.heroQuote {
             font-style: oblique;
             font-weight: $light-weight;
             font-size: $font-size-24;
             color: #FFFFFF;
-            width: 28.5rem;
-            height: 6rem;
+            width: 50%;
             margin-left: 2rem;
             margin-top: 2.25rem;
         }
@@ -53,16 +53,15 @@
 
     .heroWhiteBox {
         max-width: 1072px;
-        height: 304px;
         width: 95%;
-        //margin: 0 auto;
         background-color: #FFFFFF;
-        top: 464px;
+        bottom: 0;
         position: absolute;
         left: 0; 
         right: 0; 
         margin-left: auto; 
         margin-right: auto; 
+        padding-bottom: 2rem;
 
         h4.heroGuideText{
             font-size: $font-size-16;
@@ -81,59 +80,82 @@
             margin-bottom: 0px;
             font-weight: $light-weight;
         }
+
+        .heroSocialShare{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 2rem;
+            
+        }
     }
-
-
+ 
 }
 
-@mixin stroke($color: #000, $size: 1px) {
-    text-shadow:
-      -#{$size} -#{$size} 0 $color,
-       0        -#{$size} 0 $color,
-       #{$size} -#{$size} 0 $color,
-       #{$size}  0        0 $color,
-       #{$size}  #{$size} 0 $color,
-       0         #{$size} 0 $color,
-      -#{$size}  #{$size} 0 $color,
-      -#{$size}  0        0 $color;
-  }
-
-@media screen and (max-width: $breakpoint-lg - 1) {
+@media screen and (max-width: $breakpoint-lg) {
     .heroContainer {
         margin: 0;
         width: 100%;
-        overflow: hidden;
+        height: 63.125rem;
 
         .heroGrayBox {
             width: 100%;
+            left: 0px;
         }
 
         .heroImageBox {
-            width: calc(100%-10px);
+            width: calc(100% - 10px);
             background-position: right -125px top 10px;
-            margin-top: 1rem;
-            margin-left: 10px;
+            left: 10px;
+            top: .5rem;
 
             h3.heroQuote {
-                @include stroke($font-body-copy, 1px);
                 width: 19rem;
-                height: auto;
                 margin-left: 1rem;
-                margin-top: 2.25rem;
+                margin-top: 2.5rem;
+                font-size: $font-size-24;
             }
 
             p.heroCitation{
-                margin-left: 1;
+                margin-left: 1rem;
                 margin-top: 0;
             }
         }
 
-        
+        .heroWhiteBox {
+            top: 28rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: calc(100% - 20px);
+               
+            h4.heroGuideText{
+               font-size: $font-size-16;
+                margin-left: 1rem;
+                margin-top: 1.5rem;
+                display: flex;
+            }
+    
+            h1.heroHeading{
+                font-size: $font-size-48;
+                //max-width: 304px;
+                margin-left: 1rem;
+                margin-top: 1.5rem;
+                padding-right: 1rem;
+                display: flex;
+            }
 
-       
-        
+            .heroSocialShare {
+                position: relative;
+                bottom: -2rem;
+                left: 0;
+                right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 2rem;
+            }
+        }
 
     }
-
 
 }

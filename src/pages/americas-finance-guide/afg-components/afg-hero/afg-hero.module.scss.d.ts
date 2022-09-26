@@ -71,3 +71,4 @@ export const heroCitation: string;
 export const heroWhiteBox: string;
 export const heroGuideText: string;
 export const heroHeading: string;
+export const heroSocialShare: string;
