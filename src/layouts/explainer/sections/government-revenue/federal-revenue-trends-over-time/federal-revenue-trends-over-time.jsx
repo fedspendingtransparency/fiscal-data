@@ -54,22 +54,25 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
       }
     });
 
-    const highestTotalEndpoint = `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date`;
-    basicFetch(`${highestTotalEndpoint}`).then(res => {
-      if (res) {
-        const highest = res.data
-          .sort(
-            (a, b) => b.current_fytd_net_rcpt_amt - a.current_fytd_net_rcpt_amt
-          )
-          .map(item => {
-            return {
-              amount: item.current_fytd_net_rcpt_amt,
-              year: item.record_fiscal_year,
-            };
-          })[0]?.year;
-        setHighestCollectionYear(highest);
-      }
-    });
+    const highestTotalEndpoint = `v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date`;
+    basicFetch(`${apiPrefix}${highestTotalEndpoint}`)
+      .then(res => {
+        if (res) {
+          const highest = res.data
+            .sort(
+              (a, b) =>
+                b.current_fytd_net_rcpt_amt - a.current_fytd_net_rcpt_amt
+            )
+            .map(item => {
+              return {
+                amount: item.current_fytd_net_rcpt_amt,
+                year: item.record_fiscal_year,
+              };
+            })[0]?.year;
+          setHighestCollectionYear(highest);
+        }
+      })
+      .catch(err => console.log(err, "THE ERROR WHEN FETCHING"));
   }, []);
 
   return (
@@ -100,7 +103,7 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
         >
           <p>
             Individual income tax has remained the top source of income for the
-            U.S. government since {firstChartYear}
+            U.S. government since {firstChartYear}.
           </p>
         </VisualizationCallout>
       </div>
