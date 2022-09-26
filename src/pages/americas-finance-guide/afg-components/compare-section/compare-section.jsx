@@ -26,7 +26,7 @@ import {
   spendingCategoryRequest,
   spendingRequest,
   debtRequest
-} from "../../afg-overview-helpers"
+} from "../../../../layouts/explainer/explainer-helpers/afg-overview-helpers"
 
 
 export default function CompareSection({currentFiscalYear}) {

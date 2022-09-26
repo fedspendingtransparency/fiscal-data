@@ -15,19 +15,12 @@ import {
   faMoneyBill1Wave,
   faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons"
-import TopicSection from "./afg-components/topic-section/topic-section"
 import AfgIcon from "./afg-components/afg-icon/afg-icon"
 import CompareSection from "./afg-components/compare-section/compare-section"
 import DeskTopSubNav from '../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav';
 import MobileSubNav from '../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
 import { basicFetch } from "../../utils/api-utils"
 import { getShortForm } from "../../layouts/explainer/heros/hero-helper"
-import {
-  faMoneyBill1Wave,
-  faQuoteLeft,
-} from "@fortawesome/free-solid-svg-icons"
-import AfgIcon from "./afg-components/afg-icon/afg-icon"
-import CompareSection from "./afg-components/compare-section/compare-section"
 import AfgTopicSection from "./afg-components/afg-topic-section/afg-topic-section"
 import AfgHero from "./afg-components/afg-hero/afg-hero"
 import ApiRequest from "../../helpers/api-request";
@@ -36,24 +29,9 @@ import {
   deficitRequest,
   revenueRequest,
   spendingRequest
-} from "./afg-overview-helpers"
+} from "../../layouts/explainer/explainer-helpers/afg-overview-helpers"
 
-export function AmericasFinanceGuidePage({width}) {
-  const [isMobile, setIsMobile] = useState(false)
-  const [widthSize, height] = useWindowSize()
-  const breakpoint = {
-    desktop: 1015,
-    tablet: 600,
-  }
-  useEffect(() => {
-    const isMobile = window.innerWidth < breakpoint.desktop
-    if (isMobile) {
-      setIsMobile(true)
-    } else {
-      setIsMobile(false)
-    }
-  }, [widthSize, height])
-  const pageName = "americas-finance-guide";
+export const AmericasFinanceGuidePage = ({width}) => {
 
   const [fiscalYear, setFiscalYear] = useState('');
   const [yearToDateRevenue, setYearToDateRevenue] = useState('');
@@ -137,7 +115,10 @@ export function AmericasFinanceGuidePage({width}) {
                  data-testid="topContainer"
       >
 
-        <Box my={5}>AFG Sub-navigation Bar </Box>
+        {width < pxToNumber(breakpointLg) ?
+          <MobileSubNav hidePosition={630} />
+          :
+          <DeskTopSubNav hidePosition={630} />}
 
         <AfgTopicSection
           heading={revenueHeading}

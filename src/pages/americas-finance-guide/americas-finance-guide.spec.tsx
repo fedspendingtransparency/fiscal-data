@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, RenderResult, waitFor, act } from "@testing-library/react"
-import AmericasFinanceGuidePage from "./index"
-import { mockEndpointResponseMap } from "./afg-overview-helpers"
+import { AmericasFinanceGuidePage } from "./index"
+import { mockEndpointResponseMap } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers"
 import { setGlobalFetchMatchingResponse } from "../../utils/mock-utils"
 
 describe('Americas Finance Guide', () => {
@@ -16,7 +16,7 @@ describe('Americas Finance Guide', () => {
     it('renders the top container', async () => {
       let component: RenderResult;
       await act( async () => {
-        component = render(<AmericasFinanceGuidePage />);
+        component = render(<AmericasFinanceGuidePage width={1200} />);
       });
       expect(component.getByTestId("topContainer")).toBeInTheDocument();
       expect(component.getByTestId("quoteContainer")).toBeInTheDocument();
@@ -26,18 +26,17 @@ describe('Americas Finance Guide', () => {
     it('renders an component',  async () => {
       let component: RenderResult;
       await act( async () => {
-        component = render(<AmericasFinanceGuidePage />);
+        component = render(<AmericasFinanceGuidePage  width={1200} />);
       });
-      const { getByTestId, container } = component;
+      const { container } = component;
       expect(container.querySelector('[data-testid="afg-icon"]')).toBeInTheDocument();
-      //expect(getByTestId("afg-icon")).toBeInTheDocument()
     });
 
   it('correctly populates values from API data', async () => {
 
     let component: RenderResult;
     await act( async () => {
-      component = render(<AmericasFinanceGuidePage />);
+      component = render(<AmericasFinanceGuidePage width={1200} />);
     });
     const { getByText, getAllByText } = component;
       await waitFor(() => {

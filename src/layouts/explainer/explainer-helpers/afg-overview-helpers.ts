@@ -1,4 +1,4 @@
-import ApiRequest from "../../helpers/api-request"
+import ApiRequest from "../../../helpers/api-request"
 
 export const revenueRequest =
   {
