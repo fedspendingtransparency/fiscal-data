@@ -22,6 +22,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { useWindowSize } from "../../../../../hooks/windowResize"
 import moment from "moment"
 
+
 export const capitalizeLastLetter = word => {
   const parts = word.split("")
   const last = word[parts.length - 1].toUpperCase()

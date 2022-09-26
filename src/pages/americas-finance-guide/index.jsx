@@ -12,12 +12,15 @@ import {
   faMoneyBill1Wave,
   faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons"
-import AfgTopicSection from "./afg-components/afg-topic-section/afg-topic-section"
+import TopicSection from "./afg-components/topic-section/topic-section"
 import AfgIcon from "./afg-components/afg-icon/afg-icon"
 import CompareSection from "./afg-components/compare-section/compare-section"
-
+import {
+  explainerAnalyticsLabelMap,
+  explainerSocialShareMap,
+} from "../../layouts/explainer/explainer-helpers/explainer-helpers"
+import SocialShare from "../../layouts/explainer/social-share/social-share"
 import { useWindowSize } from "../../hooks/windowResize"
-import AfgHero from "./afg-components/afg-hero/afg-hero"
 
 export default function AmericasFinanceGuidePage() {  
   return (
@@ -101,7 +104,7 @@ export default function AmericasFinanceGuidePage() {
             "In YYYY, the federal government has $X.X in federal ",
             <span style={{ fontStyle: "italic" }}>debt.</span>,
           ]}
-          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.  
+          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
 
           Are federal debt and deficit the same thing? No, but they do affect one another"
           linkUrl="/americas-finance-guide/national-debt/"
@@ -118,7 +121,6 @@ export default function AmericasFinanceGuidePage() {
           and deficit are sourced from the Monthly Treasury Statement (MTS).
           Current fiscal year values are updated monthly. The Monthly Statement
           of the Public Debt (MSPD)Debt to the Penny is the data source for
-          federal debt. Current fiscal year values are updated daily.
         </DataSourcesMethodologies>
       </Container>
       <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
@@ -166,3 +168,4 @@ export default function AmericasFinanceGuidePage() {
     </SiteLayout>
   )
 }
+export default withWindowSize(AmericasFinanceGuidePage)

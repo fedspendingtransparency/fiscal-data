@@ -77,11 +77,11 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
       />
 
       {isAFGPage ? (
-        <ExplainerSubNav isShown={true}/>
+        <ExplainerSubNav hidePosition={160} isShown={true}/>
       ) : (
         <div className={breadCrumbsContainer}><BreadCrumbs links={breadCrumbLinks} /></div>
       )}
-            
+
       <div className={mainContainer}>
         <HeroImage
           heading={heroImage.heading}
