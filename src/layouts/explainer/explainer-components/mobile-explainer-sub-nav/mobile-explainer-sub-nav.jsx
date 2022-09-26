@@ -13,7 +13,6 @@ import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
 import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {navigate} from 'gatsby'
 import {
-  listItems,
   MenuList,
   buttonOverview,
   spending,
@@ -27,12 +26,14 @@ import {
   mainContainer,
   mainContainerSticky,
   mainContainerHidden,
-  mainContainerShow
+  mainContainerShow,
+  activeMenu
 } from './mobile-explainer-sub-nav.module.scss';
 
 const StyledMenu = withStyles({
   paper: {
     width: '288px',
+    backgroundColor: 'transparent'
 
   },
 })((props) => (
@@ -114,6 +115,7 @@ export default function MobileExplainerSubNav({hidePosition}) {
         onClick={handleClick}
         onKeyPress={handleClick}
         className={buttonOverview}
+        activeClassName={activeMenu}
       >
         <span className={overviewStyle}>
         <FontAwesomeIcon className={faHouse} icon={faHouseChimney}/>
@@ -128,8 +130,8 @@ export default function MobileExplainerSubNav({hidePosition}) {
         onClose={handleClose}
         className={stylingStyledMenu}
       >
-        <StyledMenuItem className={MenuList}>
-          <ListItemText className={revenue} onClick={() => navigate('/americas-finance-guide/government-revenue/')}
+        <StyledMenuItem activeClassName={activeMenu} className={MenuList}>
+          <ListItemText  className={revenue} onClick={() => navigate('/americas-finance-guide/government-revenue/')}
                         primary=" Revenue"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList}>

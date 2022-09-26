@@ -3,7 +3,7 @@
 .MenuList {
   background-color: #0a2f5a;
   color: #0a2f5a;
-  min-height: 2rem !important;
+  min-height: 2.25rem !important;
   width: 18rem;
   text-algin: right;
   z-index: 1;
@@ -14,43 +14,34 @@
 
 }
 
-.listItems {
+@mixin afg-menu-item($backgroundColor) {
+  background-color: $backgroundColor !important;
   color: white;
-  height: 2rem;
   border-radius: 2px;
   padding-left: 2rem;
+  min-height: 2.25rem;
+  line-height: .5rem;
+  margin-top: .063rem !important;
+  margin-bottom: .063rem !important;
+  span{
+    line-height: 2.25rem !important;
+  }
 }
 
 .revenue {
-  background-color: #0a2f5a;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
-  min-height: 2rem;
+  @include afg-menu-item(#0a2f5a)
 }
 
 .spending {
-  background-color: #00766c !important;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
-  min-height: 2rem;
+  @include afg-menu-item(#00766c)
 }
 
 .deficit {
-  background-color: #b3532d;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
-  min-height: 2rem;
+  @include afg-menu-item(#b3532d)
 }
 
 .debt {
-  background-color: #4a0072;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
-  min-height: 2rem;
+  @include afg-menu-item(#4a0072)
 }
 
 .buttonOverview {
@@ -60,7 +51,7 @@
   color: white;
   width: 21.25rem;
   height: 2rem;
-  font-size: 1rem;
+  font-size: $font-size-16;
   text-align: left;
   border: none;
   display: flex;
@@ -71,6 +62,9 @@
     margin-left: 1.438rem;
   }
 
+}
+.activeMenu{
+  font-weight: $semi-bold-weight;
 }
 
 .mainContainer {
