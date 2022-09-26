@@ -4,6 +4,9 @@
 
 //Variables
 $revenueExplainerPrimary: #0A2F5A;
+$dollarIconColor: $font-body-copy;
+$dollarIconBackgroundColor: #F1F1F1;
+
 
 .topContainer {
     max-width: 62rem;
@@ -141,5 +144,7 @@ $revenueExplainerPrimary: #0A2F5A;
 
 
 :export {
-    revenueExplainerPrimary : $revenueExplainerPrimary
+    revenueExplainerPrimary : $revenueExplainerPrimary;
+    dollarIconColor: $dollarIconColor;
+    dollarIconBackgroundColor: $dollarIconBackgroundColor;
 }

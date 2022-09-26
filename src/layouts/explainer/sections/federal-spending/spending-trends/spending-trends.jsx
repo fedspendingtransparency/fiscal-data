@@ -4,7 +4,7 @@ import {
   comingSoon,
 
 } from "./spending-trends.module.scss"
-
+import MobileSubNav from '../../../explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
 export const SpendingTrends = () => {
   return (
     <div>
