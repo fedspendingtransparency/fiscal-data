@@ -3,12 +3,14 @@
 .MenuList {
   background-color: #0a2f5a;
   color: #0a2f5a;
-  height: 1.625rem;
+  min-height: 2rem !important;
   width: 18rem;
   text-algin: right;
   z-index: 1;
   padding-left: 0 !important;
   padding-right: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 
 }
 
@@ -24,6 +26,7 @@
   color: white;
   border-radius: 2px;
   padding-left: 2rem;
+  min-height: 2rem;
 }
 
 .spending {
@@ -31,7 +34,7 @@
   color: white;
   border-radius: 2px;
   padding-left: 2rem;
-
+  min-height: 2rem;
 }
 
 .deficit {
@@ -39,6 +42,7 @@
   color: white;
   border-radius: 2px;
   padding-left: 2rem;
+  min-height: 2rem;
 }
 
 .debt {
@@ -46,6 +50,7 @@
   color: white;
   border-radius: 2px;
   padding-left: 2rem;
+  min-height: 2rem;
 }
 
 .buttonOverview {
