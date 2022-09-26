@@ -114,11 +114,15 @@ const ExplainerTile = ({
         </div>
       </div>
     );
-
+  console.log(content.path, "HERE!!");
+  const cardHref = content?.path?.endsWith("/")
+    ? content.path
+    : `${content.path}/`;
+  console.log(cardHref, "cardHrefP");
   return (
     <>
       {content.path ? (
-        <Link to={content.path} data-testid={"tile-link"}>
+        <Link to={cardHref} data-testid={"tile-link"}>
           {card}
         </Link>
       ) : (
