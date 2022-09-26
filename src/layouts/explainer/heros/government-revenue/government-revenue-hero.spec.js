@@ -27,7 +27,7 @@ describe('Government Revenue Hero', () => {
     expect(await getByText("Compared to the federal revenue of $3.32 trillion", {exact: false}))
       .toBeInTheDocument();
     expect(await getByText("(Oct 2020 - Jun 2021)", {exact: false})).toBeInTheDocument();
-    expect(await getByText("national revenue has increased by $787 billion", {exact: false}))
+    expect(await getByText("federal revenue has increased by $787 billion", {exact: false}))
       .toBeInTheDocument();
 
     global.fetch.mockRestore();
