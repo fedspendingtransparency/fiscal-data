@@ -13,6 +13,10 @@ import {
 import {understandingDeficitMatchers} from
     "./explainer-helpers/national-deficit/national-deficit-test-helper";
 import fetchMock from "fetch-mock";
+import {
+  circleChartMockChartData,
+  governmentRevenueMatchers
+} from "./explainer-helpers/government-revenue/government-revenue-test-helper";
 
 describe('Explainer Page Layout', () => {
   const pageName = 'national-debt';
@@ -188,6 +192,16 @@ describe('Spending explainer', () => {
 
 
 describe('Revenue explainer', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    setGlobalFetchMatchingResponse(jest, governmentRevenueMatchers);
+    determineBEAFetchResponse(jest, circleChartMockChartData);
+  });
+  afterEach(() => {
+    jest.resetModules();
+    global.fetch.mockReset();
+  });
+
   const cpiDataByYear = {
     "2011": "10",
     "2012": "5",
