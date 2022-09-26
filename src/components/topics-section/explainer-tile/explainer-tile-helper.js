@@ -75,7 +75,7 @@ export const pageTileMap = {
     path: "/americas-finance-guide/national-deficit/",
   },
   revenue: {
-    title: "How much revenue has the U.S. government collected this year? ",
+    title: "How much has the U.S. government collected this year?",
     body:
       "The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current fiscal year)} in order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.",
     altText:
@@ -87,7 +87,7 @@ export const pageTileMap = {
   "americas-finance-guide": {
     title: "Your Guide to America’s Finances",
     body:
-      "Here you’ll find information on spending, revenue, the deficit, and debt. The Guide represents a series of interactive visualizations exploring each category and how it has changed over time.",
+      "Your Guide to America's Finances is an overview of U.S. government finances where you’ll find information on money coming in (revenue), money going out (spending), the deficit, and debt. Your Guide presents a series of pages exploring each topic through educational content and interactive visualizations, providing a comprehensive overview of the trillions of dollars collected and spent by the federal government each year.",
     altText:
       "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal government finance.’ overlaid.",
     desktopImage: "AFG-Overview_1200x630",
