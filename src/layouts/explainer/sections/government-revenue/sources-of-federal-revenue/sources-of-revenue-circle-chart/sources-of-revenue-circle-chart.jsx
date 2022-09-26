@@ -76,7 +76,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       '&sort=-record_date&page[size]=2';
     basicFetch(`${apiPrefix}${url}`)
       .then((res) => {
-        if(res.data[0]) {
+        if(res.data[0] && res.data[1]) {
           const income = Number(res.data[0].current_fytd_rcpt_outly_amt) +
             Number(res.data[1].current_fytd_rcpt_outly_amt);
           setCombinedIncomeAmount(income);
@@ -101,7 +101,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           let totalRev = 0;
           const getDataValue = (lineNbr) =>
             res.data.filter((record) => {return record.line_code_nbr === lineNbr});
-
           let nodeValue = getDataValue("20")[0].current_fytd_rcpt_outly_amt;
           totalRev += Number(nodeValue);
           const incomeTax = {
