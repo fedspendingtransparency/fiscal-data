@@ -65,6 +65,11 @@ export default function MobileExplainerSubNav({hidePosition}) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(mainContainerShow);
+  const [isRevenue, setIsRevenue] = useState(false);
+  const [isSpending, setIsSpending] = useState(false);
+  const [isDeficit, setIsDeficit] = useState(false);
+  const [isDebt, setIsDebt] = useState(false);
+  const [isOverview, setIsOverview] = useState(false);
 
   const handleScroll = () => {
     let position = window.pageYOffset;
@@ -104,6 +109,27 @@ export default function MobileExplainerSubNav({hidePosition}) {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    const isBrowser = () => typeof window !== "undefined"
+    let thisHref = '';
+    if(isBrowser()){
+      thisHref = window.location.href;
+      if(thisHref.includes('government-revenue')){
+        setIsRevenue(true);
+      }else if(thisHref.includes('federal-spending')){
+        setIsSpending(true);
+      }else if(thisHref.includes('federal-deficit')){
+        setIsDeficit(true);
+      }else if(thisHref.includes('federal-debt')){
+        setIsDebt(true);
+      }else{
+        setIsOverview(true);
+      }
+    }
+
+  }, []);
+
+
   return (
     <div className={mainContainer} data-testid='mobileSubNav'>
       <div className={navBlockStyle} >
@@ -114,8 +140,7 @@ export default function MobileExplainerSubNav({hidePosition}) {
         color="#0a2f5a"
         onClick={handleClick}
         onKeyPress={handleClick}
-        className={buttonOverview}
-        activeClassName={activeMenu}
+        className={[buttonOverview, activeMenu].join(' ')}
       >
         <span className={overviewStyle}>
         <FontAwesomeIcon className={faHouse} icon={faHouseChimney}/>
@@ -130,20 +155,20 @@ export default function MobileExplainerSubNav({hidePosition}) {
         onClose={handleClose}
         className={stylingStyledMenu}
       >
-        <StyledMenuItem activeClassName={activeMenu} className={MenuList}>
-          <ListItemText  className={revenue} onClick={() => navigate('/americas-finance-guide/government-revenue/')}
+        <StyledMenuItem className={MenuList}>
+          <ListItemText  className={`${isRevenue  ? [revenue,activeMenu] : revenue }`} onClick={() => navigate('/americas-finance-guide/government-revenue/')}
                         primary=" Revenue"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList}>
-          <ListItemText className={spending} onClick={() => navigate('/americas-finance-guide/federal-spending/')}
+          <ListItemText className={`${isSpending  ? [spending,activeMenu] : spending }`} onClick={() => navigate('/americas-finance-guide/federal-spending/')}
                         primary="Spending"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList}>
-          <ListItemText className={deficit} onClick={() => navigate('/americas-finance-guide/national-deficit/')}
+          <ListItemText className={`${isDebt  ? [deficit,activeMenu] : deficit }`} onClick={() => navigate('/americas-finance-guide/national-deficit/')}
                         primary="Deficit"/>
         </StyledMenuItem>
         <StyledMenuItem className={MenuList}>
-          <ListItemText className={debt} onClick={() => navigate('/americas-finance-guide/national-debt/')}
+          <ListItemText className={`${isDebt  ? [debt,activeMenu] : debt }`} onClick={() => navigate('/americas-finance-guide/national-debt/')}
                         primary="Debt"/>
         </StyledMenuItem>
       </StyledMenu>

@@ -23,25 +23,31 @@
   line-height: .5rem;
   margin-top: .063rem !important;
   margin-bottom: .063rem !important;
+  font-family: "Source Sans Pro" !important;
+
   span{
     line-height: 2.25rem !important;
   }
 }
 
 .revenue {
-  @include afg-menu-item(#0a2f5a)
+  @include afg-menu-item(#0a2f5a);
+
 }
 
 .spending {
-  @include afg-menu-item(#00766c)
+  @include afg-menu-item(#00766c);
+
 }
 
 .deficit {
-  @include afg-menu-item(#b3532d)
+  @include afg-menu-item(#b3532d);
+
 }
 
 .debt {
-  @include afg-menu-item(#4a0072)
+  @include afg-menu-item(#4a0072);
+
 }
 
 .buttonOverview {
@@ -61,15 +67,14 @@
   .overviewStyle {
     margin-left: 1.438rem;
   }
-
 }
 .activeMenu{
   font-weight: $semi-bold-weight;
 }
-
 .mainContainer {
   display: flex;
   justify-content: center;
+  font-family: "Source Sans Pro" !important;
 
 }
 .mainContainerShow {
