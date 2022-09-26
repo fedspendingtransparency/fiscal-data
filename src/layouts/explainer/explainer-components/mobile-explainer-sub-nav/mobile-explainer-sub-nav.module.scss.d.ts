@@ -72,6 +72,7 @@ export const debt: string;
 export const buttonOverview: string;
 export const overviewStyle: string;
 export const mainContainer: string;
+export const mainContainerShow: string;
 export const mainContainerSticky: string;
 export const mainContainerHidden: string;
 export const carrot: string;

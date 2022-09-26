@@ -4,10 +4,10 @@ import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { ChartPlaceholder } from '../../../../layouts/explainer/explainer-helpers/national-deficit/national-deficit-helper';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightLong} from "@fortawesome/free-solid-svg-icons";
-import * as styles from "./topic-section.module.scss";
+import * as styles from "./afg-topic-section.module.scss";
 import { style } from 'd3-selection';
 
-export default function TopicSection({
+export default function AfgTopicSection({
     heading,
     body,
     linkUrl,
@@ -18,7 +18,7 @@ export default function TopicSection({
 }) {
 
     return (
-        <Grid classes={{ root: styles.topicSection }} container spacing={0} data-testid="topic-section">
+        <Grid classes={{ root: styles.topicSection }} container spacing={0} data-testid="topic-section" key={linkUrl}>
             <Grid item md classes={{ root: styles.textContainer }}>
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>

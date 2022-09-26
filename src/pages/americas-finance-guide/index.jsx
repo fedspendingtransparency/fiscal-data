@@ -23,11 +23,13 @@ import MobileSubNav from '../../layouts/explainer/explainer-components/mobile-ex
 import { basicFetch } from "../../utils/api-utils"
 import { getShortForm } from "../../layouts/explainer/heros/hero-helper"
 import {
-  explainerAnalyticsLabelMap,
-  explainerSocialShareMap,
-} from "../../layouts/explainer/explainer-helpers/explainer-helpers"
-import SocialShare from "../../layouts/explainer/social-share/social-share"
-import { useWindowSize } from "../../hooks/windowResize"
+  faMoneyBill1Wave,
+  faQuoteLeft,
+} from "@fortawesome/free-solid-svg-icons"
+import AfgIcon from "./afg-components/afg-icon/afg-icon"
+import CompareSection from "./afg-components/compare-section/compare-section"
+import AfgTopicSection from "./afg-components/afg-topic-section/afg-topic-section"
+import AfgHero from "./afg-components/afg-hero/afg-hero"
 import ApiRequest from "../../helpers/api-request";
 import {
   debtRequest,
@@ -35,7 +37,6 @@ import {
   revenueRequest,
   spendingRequest
 } from "./afg-overview-helpers"
-
 
 export function AmericasFinanceGuidePage({width}) {
   const [isMobile, setIsMobile] = useState(false)
@@ -130,55 +131,27 @@ export function AmericasFinanceGuidePage({width}) {
         canonical=""
         datasetDetails=""
       />
+      <AfgHero/>
       <Container classes={{ root: styles.topContainer }}
                  maxWidth={false}
                  data-testid="topContainer"
       >
-        <div className="heroSection" mb={5}>
-          <h1>
-            A regular Statement and Account of the Receipts and Expenditures of
-            all public Money shall be published from time to time.
-          </h1>
-          <p>U.S. Constitution, Article 1, Section 9</p>
-        </div>
-        <Box
-          my={5}
-          style={{
-            display: "flex",
-            justifyContent: isMobile ? "center" : "end",
-            marginBottom: isMobile ? "0px" : "inherit",
-          }}
-        >
-          {" "}
-          <SocialShare
-            title={explainerSocialShareMap[pageName].title}
-            description={explainerSocialShareMap[pageName].description}
-            body={explainerSocialShareMap[pageName].body}
-            emailSubject={explainerSocialShareMap[pageName].emailSubject}
-            emailBody={explainerSocialShareMap[pageName].emailBody}
-            url={explainerSocialShareMap[pageName].url}
-            image={explainerSocialShareMap[pageName].image}
-            pageName={explainerAnalyticsLabelMap[pageName]}
-            orientation={"horizontal"}
-          />
-        </Box>
+
         <Box my={5}>AFG Sub-navigation Bar </Box>
 
-        {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={630} /> : <DeskTopSubNav hidePosition={630}/>}
-
-        <TopicSection
+        <AfgTopicSection
           heading={revenueHeading}
           body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties."
-          linkUrl="./government-revenue"
+          linkUrl="/americas-finance-guide/government-revenue/"
           linkText="Learn more about government revenue"
           linkColor={styles.revenueExplainerPrimary}
           image="/topics-section-images/homepage_revenue_1200x630.png"
           imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building."
         />
-        <TopicSection
+        <AfgTopicSection
           heading={spendingHeading}
           body="The federal government funds a variety of programs and services that support the American public. The federal government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
-          linkUrl="./federal-spending"
+          linkUrl="/americas-finance-guide/federal-spending/"
           linkText="Learn more about federal spending"
           linkColor={spendingExplainerPrimary}
           image="/topics-section-images/homepage_spending_1200x630.png"
@@ -190,7 +163,8 @@ export function AmericasFinanceGuidePage({width}) {
             <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
               <AfgIcon
                 faIcon={faMoneyBill1Wave}
-                backgroundColor={styles.fontBodyCopy}
+                backgroundColor={styles.dollarIconBackgroundColor}
+                iconColor={styles.dollarIconColor}
               />
             </Grid>
             <Grid
@@ -207,21 +181,21 @@ export function AmericasFinanceGuidePage({width}) {
           </Grid>
         </div>
 
-        <TopicSection
+        <AfgTopicSection
           heading={deficitHeading}
           body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-          linkUrl="./national-deficit"
+          linkUrl="/americas-finance-guide/national-deficit/"
           linkText="Learn more about national deficit"
           linkColor={deficitExplainerPrimary}
           image="/topics-section-images/homepage_deficit_1200x630.png"
           imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left of the hand, including a pie chart, bar graph, and lit lightbulb."
         />
-        <TopicSection
+        <AfgTopicSection
           heading={debtHeading}
           body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
 
           Are federal debt and deficit the same thing? No, but they do affect one another"
-          linkUrl="./national-debt"
+          linkUrl="/americas-finance-guide/national-debt/"
           linkText="Learn more about national debt"
           linkColor={debtExplainerPrimary}
           image="/topics-section-images/homepage_debt_1200x630.png"

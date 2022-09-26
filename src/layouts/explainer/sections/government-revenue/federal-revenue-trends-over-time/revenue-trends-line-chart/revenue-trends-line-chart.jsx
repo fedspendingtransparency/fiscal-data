@@ -13,7 +13,6 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust/inflation-adjust";
 import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
-import {useTooltip} from "@nivo/tooltip";
 
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
@@ -23,6 +22,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [lastChartYear, setLastChartYear] = useState(0);
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [chartYears, setChartYears] = useState([]);
+  const [totalRevByYear, setTotalRevByYear] = useState([]);
 
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
@@ -95,6 +95,15 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
               }
               completeData.push(dataObject);
           });
+          const sumRevPerYear = [];
+          for (let i = 0; i < completeData[0].data.length; i++) {
+              const sumYear = completeData.map((entry) => entry.data[i].y).reduce(sum);
+              sumRevPerYear.push({
+                year: completeData[0].data[i].x,
+                value: sumYear
+              });
+          }
+          setTotalRevByYear(sumRevPerYear);
           setChartData(completeData);
         }
       });
@@ -155,58 +164,68 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     crosshair: {
       line: {
         stroke: '#555555',
-        strokeWidth: 2
+        strokeWidth: 2,
       }
     }
   };
 
-  const CustomSlices = (props) => {
-    const {showTooltipFromEvent, hideTooltip} = useTooltip();
-
-    const slices = props.slices.map(slice => (
-      <rect
-        x={slice.x0}
-        y={slice.y0}
-        width={slice.width}
-        height={slice.height}
-        stroke="#f8dddd"
-        strokeWidth={slice === props.currentSlice ? 1 : 0}
-        strokeOpacity={1}
-        fill="#f8dddd"
-        fillOpacity={slice === props.currentSlice ? 0.5 : 0}
-        onMouseEnter={() => props.setCurrentSlice(slice)}
-        onMouseMove={event => {
-          // FOR TOOLTIP IMPLEMENTATION
-          // showTooltipFromEvent(
-          //   React.createElement(props.sliceTooltip, {
-          //     slice,
-          //     axis: props.enableSlices,
-          //   }),
-          //   event,
-          //   'right'
-          // )
-        }}
-        onMouseLeave={() => {
-          hideTooltip()
-          props.setCurrentSlice(null)
-        }}
-      />
-    ))
-    return (
-      <>
-        {slices}
-      </>
-    )
-
+  const getPercentofTotalRevByYear = (value, year) => {
+    const match = totalRevByYear.find((element) => element.year === year.toString());
+    return (Math.round((value / match.value) * 100));
   }
 
   const customTooltip = (slice) => {
     return <div className={styles.tooltipContainer}>
-      <p>{slice.slice.points[0].data.x}</p>
+      <p className={styles.tooltipYearHeader}>{slice.slice.points[0].data.x}</p>
       <div className={styles.tooltipColumn}>
         <div className={styles.tooltipItem}>
           <div className={styles.estateRectTooltip} />
-          <div> {slice.slice.points[0].serieId}: ${slice.slice.points[0].data.y}T (xx%)</div>
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[0].serieId}: ${slice.slice.points[0].data.y}T
+            ({getPercentofTotalRevByYear(slice.slice.points[0].data.y, slice.slice.points[0].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.customsRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[1].serieId}: ${slice.slice.points[1].data.y}T
+            ({getPercentofTotalRevByYear(slice.slice.points[1].data.y, slice.slice.points[1].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.exciseRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[2].serieId}: ${slice.slice.points[2].data.y}T
+            ({getPercentofTotalRevByYear(slice.slice.points[2].data.y, slice.slice.points[2].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.miscRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[3].serieId}: ${slice.slice.points[3].data.y}T
+            ({getPercentofTotalRevByYear(slice.slice.points[3].data.y, slice.slice.points[3].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.corpRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[4].serieId}: ${slice.slice.points[4].data.y}T
+            ({getPercentofTotalRevByYear(slice.slice.points[4].data.y, slice.slice.points[4].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.socialSecRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[5].serieId}: ${slice.slice.points[5].data.y}T
+            ({getPercentofTotalRevByYear(slice.slice.points[5].data.y, slice.slice.points[5].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.indvRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[6].serieId}: ${slice.slice.points[6].data.y.toFixed(2)}T
+            ({getPercentofTotalRevByYear(slice.slice.points[6].data.y, slice.slice.points[6].data.x)}%)
+          </div>
         </div>
       </div>
     </div>;
@@ -240,8 +259,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   'areas',
                   'lines',
                   'points',
-                  // 'slices',
-                  CustomSlices,
+                  'slices',
                   'crosshair',
                   'mesh',
                   'legends',
@@ -293,7 +311,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 enableCrosshair={true}
                 isInteractive={true}
                 enableSlices={'x'}
-                animate={true}
+                animate={false}
               />
               <div className={styles.legendContainer}>
                 <div className={styles.legendColumn}>
