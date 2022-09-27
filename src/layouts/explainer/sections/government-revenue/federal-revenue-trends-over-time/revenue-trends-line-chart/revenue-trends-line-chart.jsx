@@ -13,7 +13,7 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust/inflation-adjust";
 import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
-
+import { useTooltip } from '@nivo/tooltip';
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
@@ -131,6 +131,51 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       svgChart.setAttribute('width', '100%');
     }
   };
+
+  const CustomSlices = props => {
+    const { showTooltipFromEvent, hideTooltip } = useTooltip();
+
+    return (
+      <g onMouseLeave={() => {hideTooltip()}}>
+        {props.slices.map(slice => (
+          <rect
+            x={slice.x0}
+            y={slice.y0}
+            tabIndex={0}
+            width={slice.width}
+            height={slice.height}
+            strokeWidth={0}
+            strokeOpacity={0.75}
+            fillOpacity={0}
+            onMouseEnter={() => props.setCurrentSlice(slice)}
+            onFocus={event => {
+              showTooltipFromEvent(
+                React.createElement(props.sliceTooltip, {
+                  slice,
+                  axis: props.enableSlices,
+                }),
+                event,
+                'right'
+              )
+            }}
+            onMouseMove={ event => {
+              showTooltipFromEvent(
+                React.createElement(props.sliceTooltip, {
+                  slice,
+                  axis: props.enableSlices,
+                }),
+                event,
+                'right'
+              )
+            }}
+            onMouseLeave={() => {
+              props.setCurrentSlice(null)
+            }}
+          />
+        ))}
+      </g>
+    )
+  }
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -270,7 +315,8 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   'areas',
                   'lines',
                   'points',
-                  'slices',
+                  // 'slices',
+                  CustomSlices,
                   'crosshair',
                   'mesh',
                   'legends',
