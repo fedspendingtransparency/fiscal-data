@@ -133,7 +133,7 @@ export const explainerSocialShareMap = {
     emailSubject: 'Fiscal Data Explains Federal Revenue',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal revenue!',
     url: baseUrl+'/americas-finance-guide/government-revenue/',
-    image: baseUrl+'/images/Revenue-Homepage-1200x630.png'
+    image: baseUrl+'/images/revenue-social-share.png'
   },
   'americas-finance-guide': {
     title: "Your Guide to America’s Finances",
