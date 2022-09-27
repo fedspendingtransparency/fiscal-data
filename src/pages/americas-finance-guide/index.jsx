@@ -1,104 +1,125 @@
-import React, { useEffect, useState } from "react"
-import PageHelmet from "../../components/page-helmet/page-helmet"
-import SiteLayout from "../../components/siteLayout/siteLayout"
-import { Container, Grid, Box } from "@material-ui/core"
-import DataSourcesMethodologies from "../../layouts/explainer/data-sources-methodologies/data-sources-methodologies"
-import * as styles from "./afg-overview.module.scss"
-import { withWindowSize } from 'react-fns'
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../../src/variables.module.scss'
-import { spendingExplainerPrimary } from "../../layouts/explainer/sections/federal-spending/federal-spending.module.scss"
-import { debtExplainerPrimary } from "../../layouts/explainer/sections/national-debt/national-debt.module.scss"
-import { deficitExplainerPrimary } from "../../layouts/explainer/sections/national-deficit/national-deficit.module.scss"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useEffect, useState } from "react";
+import PageHelmet from "../../components/page-helmet/page-helmet";
+import SiteLayout from "../../components/siteLayout/siteLayout";
+import { Container, Grid, Box } from "@material-ui/core";
+import DataSourcesMethodologies from "../../layouts/explainer/data-sources-methodologies/data-sources-methodologies";
+import * as styles from "./afg-overview.module.scss";
+import { withWindowSize } from "react-fns";
+import { pxToNumber } from "../../helpers/styles-helper/styles-helper";
+import { breakpointLg } from "../../../src/variables.module.scss";
+import { spendingExplainerPrimary } from "../../layouts/explainer/sections/federal-spending/federal-spending.module.scss";
+import { debtExplainerPrimary } from "../../layouts/explainer/sections/national-debt/national-debt.module.scss";
+import { deficitExplainerPrimary } from "../../layouts/explainer/sections/national-deficit/national-deficit.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMoneyBill1Wave,
   faQuoteLeft,
-} from "@fortawesome/free-solid-svg-icons"
-import AfgIcon from "./afg-components/afg-icon/afg-icon"
-import CompareSection from "./afg-components/compare-section/compare-section"
-import DeskTopSubNav from '../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav';
-import MobileSubNav from '../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
-import { basicFetch } from "../../utils/api-utils"
-import { getShortForm } from "../../layouts/explainer/heros/hero-helper"
-import AfgTopicSection from "./afg-components/afg-topic-section/afg-topic-section"
-import AfgHero from "./afg-components/afg-hero/afg-hero"
+} from "@fortawesome/free-solid-svg-icons";
+import AfgIcon from "./afg-components/afg-icon/afg-icon";
+import CompareSection from "./afg-components/compare-section/compare-section";
+import DeskTopSubNav from "../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav";
+import MobileSubNav from "../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
+import { basicFetch } from "../../utils/api-utils";
+import { getShortForm } from "../../layouts/explainer/heros/hero-helper";
+import AfgTopicSection from "./afg-components/afg-topic-section/afg-topic-section";
+import AfgHero from "./afg-components/afg-hero/afg-hero";
 import ApiRequest from "../../helpers/api-request";
 import {
   debtRequest,
   deficitRequest,
   revenueRequest,
-  spendingRequest
-} from "../../layouts/explainer/explainer-helpers/afg-overview-helpers"
+  spendingRequest,
+} from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
+import CustomLink from "../../components/links/custom-link/custom-link";
 
-export const AmericasFinanceGuidePage = ({width}) => {
-
-  const [fiscalYear, setFiscalYear] = useState('');
-  const [yearToDateRevenue, setYearToDateRevenue] = useState('');
-  const [yearToDateSpending, setYearToDateSpending] = useState('');
-  const [yearToDateDeficit, setYearToDateDeficit] = useState('');
-  const [debt, setDebt] = useState('');
+export const AmericasFinanceGuidePage = ({ width }) => {
+  const [fiscalYear, setFiscalYear] = useState("");
+  const [yearToDateRevenue, setYearToDateRevenue] = useState("");
+  const [yearToDateSpending, setYearToDateSpending] = useState("");
+  const [yearToDateDeficit, setYearToDateDeficit] = useState("");
+  const [debt, setDebt] = useState("");
 
   useEffect(() => {
-    basicFetch(new ApiRequest(revenueRequest).getUrl())
-      .then((res) => {
-        if (res.data) {
-          const data = res.data[0];
-          setYearToDateRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), 2, false));
-          setFiscalYear(data.record_fiscal_year);
-        }
-      });
-    basicFetch(new ApiRequest(spendingRequest).getUrl())
-      .then((res) => {
-        if (res.data) {
-          const data = res.data[0];
-          setYearToDateSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false));
-        }
-      });
-    basicFetch(new ApiRequest(deficitRequest).getUrl())
-      .then((res) => {
-        if (res.data) {
-          const data = res.data[0];
-          const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
-          const formattedAmount = deficitAmount >= 1000000000000 ?
-            getShortForm(deficitAmount.toString(), 2, false) :
-            getShortForm(deficitAmount.toString(), 0, false);
-          setYearToDateDeficit(formattedAmount);
-        }
-      });
-    basicFetch(new ApiRequest(debtRequest).getUrl())
-      .then((res) => {
-        if (res.data) {
-          const data = res.data[0];
-          setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), 2, false));
-        }
-      });
-
+    basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setYearToDateRevenue(
+          getShortForm(data.current_fytd_net_rcpt_amt.toString(), 2, false)
+        );
+        setFiscalYear(data.record_fiscal_year);
+      }
+    });
+    basicFetch(new ApiRequest(spendingRequest).getUrl()).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setYearToDateSpending(
+          getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false)
+        );
+      }
+    });
+    basicFetch(new ApiRequest(deficitRequest).getUrl()).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
+        const formattedAmount =
+          deficitAmount >= 1000000000000
+            ? getShortForm(deficitAmount.toString(), 2, false)
+            : getShortForm(deficitAmount.toString(), 0, false);
+        setYearToDateDeficit(formattedAmount);
+      }
+    });
+    basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), 2, false));
+      }
+    });
   }, []);
 
-  const revenueHeading =
+  const revenueHeading = (
     <>
-      In fiscal year {fiscalYear}, the federal government has
-      collected ${yearToDateRevenue} in <span style={{ fontStyle: 'italic' }}>revenue.</span>
-    </>;
+      In fiscal year {fiscalYear}, the federal government has collected $
+      {yearToDateRevenue} in{" "}
+      <span style={{ fontStyle: "italic" }}>revenue.</span>
+    </>
+  );
 
-  const spendingHeading =
+  const spendingHeading = (
     <>
-      In fiscal year {fiscalYear} the federal government
-      has <span style={{ fontStyle: 'italic' }}>spent</span>,
-      {' '} ${yearToDateSpending}.
+      In fiscal year {fiscalYear} the federal government has{" "}
+      <span style={{ fontStyle: "italic" }}>spent</span>, ${yearToDateSpending}.
     </>
+  );
 
-  const deficitHeading =
+  const deficitHeading = (
     <>
-      The amount by which spending exceeds revenue, ${yearToDateDeficit} in {fiscalYear}, is
-      referred to as <span style={{ fontStyle: 'italic' }}>deficit.</span>
+      The amount by which spending exceeds revenue, ${yearToDateDeficit} in{" "}
+      {fiscalYear}, is referred to as{" "}
+      <span style={{ fontStyle: "italic" }}>deficit.</span>
     </>
-  const debtHeading =
+  );
+  const debtHeading = (
     <>
-      In {fiscalYear}, the federal government has ${debt} in
-      federal <span style={{ fontStyle: 'italic' }}>debt.</span>
+      In {fiscalYear}, the federal government has ${debt} in federal{" "}
+      <span style={{ fontStyle: "italic" }}>debt.</span>
     </>
+  );
+  const mts = (
+    <CustomLink
+      url={"/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"}
+    >
+      Monthly Treasury Statement (MTS)
+    </CustomLink>
+  );
+  const debtToThePenny = (
+    <CustomLink
+      url={
+        "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny"
+      }
+    >
+      Debt to the Penny
+    </CustomLink>
+  );
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -109,16 +130,17 @@ export const AmericasFinanceGuidePage = ({width}) => {
         canonical=""
         datasetDetails=""
       />
-      <AfgHero/>
-      <Container classes={{ root: styles.topContainer }}
-                 maxWidth={false}
-                 data-testid="topContainer"
+      <AfgHero />
+      <Container
+        classes={{ root: styles.topContainer }}
+        maxWidth={false}
+        data-testid="topContainer"
       >
-
-        {width < pxToNumber(breakpointLg) ?
+        {width < pxToNumber(breakpointLg) ? (
           <MobileSubNav hidePosition={630} />
-          :
-          <DeskTopSubNav hidePosition={630} />}
+        ) : (
+          <DeskTopSubNav hidePosition={630} />
+        )}
 
         <AfgTopicSection
           heading={revenueHeading}
@@ -153,10 +175,11 @@ export const AmericasFinanceGuidePage = ({width}) => {
               md={11}
               classes={{ root: styles.middleHeaderHeadingContainer }}
             >
-              <h3 className={styles.middleHeaderHeading}>How have federal revenue
-                and spending affected the <span className={styles.deficitText}>deficit</span> and
-                federal <span className={styles.debtText}>debt</span> so
-                far in fiscal year {fiscalYear}?
+              <h3 className={styles.middleHeaderHeading}>
+                How have federal revenue and spending affected the{" "}
+                <span className={styles.deficitText}>deficit</span> and federal{" "}
+                <span className={styles.debtText}>debt</span> so far in fiscal
+                year {fiscalYear}?
               </h3>
             </Grid>
           </Grid>
@@ -183,37 +206,42 @@ export const AmericasFinanceGuidePage = ({width}) => {
           imageAltText="A variety of hands reach up with objects, including a magnifying glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
         />
 
-        {fiscalYear && (<CompareSection currentFiscalYear={fiscalYear} />)}
-
+        {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
+        {/* TODO: add the links here */}
         <DataSourcesMethodologies>
           Current and prior fiscal year values for federal revenue, spending,
-          and deficit are sourced from the Monthly Treasury Statement (MTS).
-          Current fiscal year values are updated monthly. The Monthly Statement
-          of the Public Debt (MSPD)Debt to the Penny is the data source for
-          federal debt. Current fiscal year values are updated daily.
+          and deficit are sourced from the  {mts}. The {debtToThePenny} dataset is the
+          data source for federal debt.
         </DataSourcesMethodologies>
       </Container>
-      <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
-          <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
-            <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
-              <img src="../images/thomas-jefferson_background.png"
-                   alt="A sketched portrait of Thomas Jefferson, from the torso up."
-              />
-            </Grid>
-            <Grid item md={8}>
-              <p className={styles.quote}>
-                We might hope to see the finances of the Union as clear and intelligible
-                as a merchant’s books, so that every member of Congress, and every
-                person of any mind in the Union should be able to comprehend them, to
-                investigate abuses, and consequently to control them.
-              </p>
-              <p className={styles.citation}>Thomas Jefferson to Albert Gallatin, 1802 (edited)</p>
-              <div className={styles.quoteBar} />
-            </Grid>
-            <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}>
-              <FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} />
-            </Grid>
+      <Container
+        classes={{ root: styles.quoteContainer }}
+        data-testid="quoteContainer"
+      >
+        <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
+          <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
+            <img
+              src="../images/thomas-jefferson_background.png"
+              alt="A sketched portrait of Thomas Jefferson, from the torso up."
+            />
           </Grid>
+          <Grid item md={8}>
+            <p className={styles.quote}>
+              We might hope to see the finances of the Union as clear and
+              intelligible as a merchant’s books, so that every member of
+              Congress, and every person of any mind in the Union should be able
+              to comprehend them, to investigate abuses, and consequently to
+              control them.
+            </p>
+            <p className={styles.citation}>
+              Thomas Jefferson to Albert Gallatin, 1802 (edited)
+            </p>
+            <div className={styles.quoteBar} />
+          </Grid>
+          <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}>
+            <FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} />
+          </Grid>
+        </Grid>
       </Container>
 
       <Container
@@ -245,6 +273,6 @@ export const AmericasFinanceGuidePage = ({width}) => {
         />
       </Container>
     </SiteLayout>
-  )
-}
-export default withWindowSize(AmericasFinanceGuidePage)
+  );
+};
+export default withWindowSize(AmericasFinanceGuidePage);
