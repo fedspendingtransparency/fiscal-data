@@ -33,7 +33,7 @@
         position: absolute;
 
         h3.heroQuote {
-            font-style: oblique;
+            font-style: italic;
             font-weight: $light-weight;
             font-size: $font-size-24;
             color: #FFFFFF;
@@ -53,7 +53,7 @@
 
     .heroWhiteBox {
         max-width: 1072px;
-        width: 95%;
+        width: calc(100% - 4rem);
         background-color: #FFFFFF;
         bottom: 0;
         position: absolute;
@@ -90,6 +90,13 @@
         }
     }
  
+}
+
+@media (min-width:997px) and (max-width:1035px) {
+    h1.heroHeading{
+        
+        padding-right: 6rem;
+    }
 }
 
 @media screen and (max-width: $breakpoint-lg) {
