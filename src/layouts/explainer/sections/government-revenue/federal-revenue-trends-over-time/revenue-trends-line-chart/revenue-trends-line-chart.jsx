@@ -176,7 +176,13 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   const getPercentofTotalRevByYear = (value, year) => {
     const match = totalRevByYear.find((element) => element.year === year.toString());
-    return (Math.round((value / match.value) * 100));
+    const percent = (value / match.value) * 100;
+    if (percent < 0.5) {
+      return '<1';
+    }
+    else {
+      return (Math.round((value / match.value) * 100));
+    }
   }
 
   const customTooltip = (slice) => {
