@@ -81,15 +81,20 @@ export default function AmericasFinanceGuidePage() {
 
         <TopicSection
           heading={[
-            "In fiscal year YYYY, the federal government has collected $X.X in ",
+            "In fiscal year YYYY, the federal government has collected $X.XX in ",
             <span style={{ fontStyle: "italic" }}>revenue.</span>,
           ]}
-          body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties."
+          body="The federal government collects revenue from a variety of sources,
+          including individual income taxes, payroll taxes, corporate income taxes, and excise
+          taxes. It also collects revenue from services like admission to national parks and
+          customs duties."
           linkUrl="/government-revenue"
           linkText="Learn more about government revenue"
           linkColor={styles.revenueExplainerPrimary}
           image="/topics-section-images/homepage_revenue_1200x630.png"
-          imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building."
+          imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
+          holding money, hand holding gold coin, woman looking at check, and man looking
+          at building."
         />
         <TopicSection
           heading={[
@@ -97,12 +102,15 @@ export default function AmericasFinanceGuidePage() {
             <span style={{ fontStyle: "italic" }}>spent.</span>,
             " $X.X.",
           ]}
-          body="The federal government funds a variety of programs and services that support the American public. The federal government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
+          body="The federal government funds a variety of programs and services that support
+          the American public. The federal government also spends money on interest it has
+          incurred on outstanding federal debt, including Treasury notes and bonds."
           linkUrl="/federal-spending"
           linkText="Learn more about federal spending"
           linkColor={spendingExplainerPrimary}
           image="/topics-section-images/homepage_spending_1200x630.png"
-          imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
+          imageAltText="The US Treasury building is placed next to a row of homes. A pair
+          of hands exchange money in the foreground. "
         />
 
         <div className={styles.middleHeader}>
@@ -130,39 +138,44 @@ export default function AmericasFinanceGuidePage() {
 
         <TopicSection
           heading={[
-            "The amount by which spending exceeds revenue, $X.X in YYYY, is referred to as ",
+            "The amount by which spending exceeds revenue, $X.XX in YYYY, is referred to as ",
             <span style={{ fontStyle: "italic" }}>deficit.</span>,
           ]}
-          body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
+          body="A budget deficit occurs when the money spent exceeds the money collected for
+          a given period."
           linkUrl="/national-deficit"
           linkText="Learn more about national deficit"
           linkColor={deficitExplainerPrimary}
           image="/topics-section-images/homepage_deficit_1200x630.png"
-          imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left of the hand, including a pie chart, bar graph, and lit lightbulb."
+          imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
+          of the hand, including a pie chart, bar graph, and lit lightbulb."
         />
         <TopicSection
           heading={[
-            "In YYYY, the federal government has $X.X in federal ",
+            "In YYYY, the federal government has $X.XX in federal ",
             <span style={{ fontStyle: "italic" }}>debt.</span>,
           ]}
-          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.  
+          body="The national debt is the money the federal government has borrowed to cover
+          the outstanding balance of expenses incurred over time. To pay for a deficit, the
+          federal government borrows additional funds, which increases the debt. Other
+          activities contribute to the change in federal debt, such as changes in the
+          Treasury's operating cash account and federal student loans.
 
           Are federal debt and deficit the same thing? No, but they do affect one another"
           linkUrl="/national-debt"
           linkText="Learn more about national debt"
           linkColor={debtExplainerPrimary}
           image="/topics-section-images/homepage_debt_1200x630.png"
-          imageAltText="A variety of hands reach up with objects, including a magnifying glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
+          imageAltText="A variety of hands reach up with objects, including a magnifying
+          glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
         />
 
         <CompareSection />
 
         <DataSourcesMethodologies>
-          Current and prior fiscal year values for federal revenue, spending,
-          and deficit are sourced from the Monthly Treasury Statement (MTS).
-          Current fiscal year values are updated monthly. The Monthly Statement
-          of the Public Debt (MSPD)Debt to the Penny is the data source for
-          federal debt. Current fiscal year values are updated daily.
+          Current and prior fiscal year values for federal revenue, spending, and deficit
+          are sourced from the Monthly Treasury Statement (MTS). The Debt to the
+          Penny dataset is the data source for federal debt.
         </DataSourcesMethodologies>
       </Container>
       <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
@@ -171,7 +184,9 @@ export default function AmericasFinanceGuidePage() {
               <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
             </Grid>
             <Grid item md={8}>
-              <p className={styles.quote}>We might hope to see the finances of the Union as clear and intelligible as a merchant’s books, so that every member of Congress, and every person of any mind in the Union should be able to comprehend them, to investigate abuses, and consequently to control them. </p>
+              <p className={styles.quote}>We might hope to see the finances of the Union as clear and intelligible as a merchant’s
+                books, so that every member of Congress, and every person of any mind in the Union should be able to comprehend them,
+                to investigate abuses, and consequently to control them. </p>
               <p className={styles.citation}>Thomas Jefferson to Albert Gallatin, 1802 (edited)</p>
               <div className={styles.quoteBar}></div>
             </Grid>
