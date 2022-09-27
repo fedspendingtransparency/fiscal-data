@@ -43,9 +43,9 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
             if (supplementaryRes.data[0]) {
               setIndvPercent(
                 Math.round(
-                  (parseFloat(res.data[0].current_fytd_rcpt_outly_amt) /
+                  (parseFloat(res.data[0]?.current_fytd_rcpt_outly_amt) /
                     parseFloat(
-                      supplementaryRes.data[0].current_fytd_rcpt_outly_amt
+                      supplementaryRes.data[0]?.current_fytd_rcpt_outly_amt
                     )) *
                     100 *
                     10
@@ -64,7 +64,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
                       Math.round(
                         (combinedSocialSecurity /
                           parseFloat(
-                            supplementaryRes.data[0].current_fytd_rcpt_outly_amt
+                            supplementaryRes.data[0]?.current_fytd_rcpt_outly_amt
                           )) *
                           100 *
                           10
@@ -100,7 +100,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
     basicFetch(`${apiPrefix}${totalPercentEndpoint}`).then(res => {
       const { data } = res;
       if (data) {
-        const total = Math.round(data[0].current_fytd_rcpt_outly_amt);
+        const total = Math.round(data[0]?.current_fytd_rcpt_outly_amt);
         const percent =
           BigNumber(amountForCalc).toNumber() / BigNumber(total).toNumber();
         setPercentageTaxAmount(`${Math.round(percent * 100)}%`);
