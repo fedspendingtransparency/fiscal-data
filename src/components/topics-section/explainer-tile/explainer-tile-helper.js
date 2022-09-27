@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiPrefix, basicFetch } from "../../../utils/api-utils";
 import { getShortForm } from "../../../layouts/explainer/heros/hero-helper";
-
 export const SpendingBodyGenerator = () => {
   const fields =
     "fields=current_fytd_net_outly_amt,record_fiscal_year,record_date";
@@ -12,8 +11,6 @@ export const SpendingBodyGenerator = () => {
   const spendingUrl = `${apiPrefix}${endpointUrl}`;
   const [amount, setAmount] = useState("0");
   const [year, setYear] = useState("null");
-  const [currentRevenue, setCurrentRevenue] = useState(null);
-  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
 
   useEffect(() => {
     basicFetch(`${spendingUrl}`).then(res => {
@@ -35,6 +32,31 @@ export const SpendingBodyGenerator = () => {
   );
 };
 
+export const RevenueBodyGenerator = () => {
+  const [currentRevenue, setCurrentRevenue] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  const revUrl = `v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date&filter=line_code_nbr:eq:830&sort=-record_date&page[size]=1`;
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${revUrl}`).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        const currentTotalRevenue = data.current_fytd_net_rcpt_amt || 0;
+        setCurrentRevenue(currentTotalRevenue);
+        setRecordFiscalYear(data.record_fiscal_year);
+      }
+    });
+  }, []);
+
+  return (
+    <p>
+      The U.S. government has collected $
+      {getShortForm(currentRevenue, 2, false)} in fiscal year {recordFiscalYear}{" "}
+      in order to pay for the goods and services provided to United States
+      citizens and businesses. Learn more about revenue sources, trends over
+      time, and how revenue compares to GDP.
+    </p>
+  );
+};
 export const pageTileMap = {
   debt: {
     title: "What is the national debt?",
@@ -78,6 +100,7 @@ export const pageTileMap = {
   },
   revenue: {
     title: "How much has the U.S. government collected this year?",
+    bodyGenerator: RevenueBodyGenerator,
     body:
       "The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current fiscal year)} in order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.",
     altText:
