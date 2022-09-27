@@ -11,6 +11,7 @@ import SendIcon from '@material-ui/icons/Send';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
 import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
+import {faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import {navigate} from 'gatsby'
 import {
   MenuList,
@@ -52,7 +53,7 @@ const StyledMenu = withStyles({
   />
 ));
 
-const StyledMenuItem = withStyles((theme) => ({
+const StyledMenuItem = withStyles(theme => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {},
@@ -70,6 +71,7 @@ export default function MobileExplainerSubNav({hidePosition}) {
   const [isDeficit, setIsDeficit] = useState(false);
   const [isDebt, setIsDebt] = useState(false);
   const [isOverview, setIsOverview] = useState(false);
+  const [defaultOpen, setDefaultOpen] = useState(false);
 
   const handleScroll = () => {
     let position = window.pageYOffset;
@@ -77,7 +79,7 @@ export default function MobileExplainerSubNav({hidePosition}) {
     setScrollPosition(position);
 
     if (position > hidePosition) {
-      //Scrolling Down
+
       if (previousScrollPosition < scrollPosition) {
         setNavBlockStyle(mainContainerHidden)
       } else {
@@ -86,8 +88,6 @@ export default function MobileExplainerSubNav({hidePosition}) {
     } else {
       setNavBlockStyle(mainContainerShow)
     }
-
-    console.log(previousScrollPosition, scrollPosition)
   };
 
   useEffect(() => {
@@ -101,78 +101,109 @@ export default function MobileExplainerSubNav({hidePosition}) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
+    setDefaultOpen(false);
+    console.log(event, "THE EVENT OVER HERE");
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
+    setDefaultOpen(false);
     setAnchorEl(null);
   };
 
   useEffect(() => {
-    const isBrowser = () => typeof window !== "undefined"
-    let thisHref = '';
-    if(isBrowser()){
+    // setAnchorEl();
+    setDefaultOpen(true);
+  }, []);
+
+  useEffect(() => {
+    setDefaultOpen(false);
+  }, [anchorEl]);
+
+  useEffect(() => {
+    const isBrowser = () => typeof window !== "undefined";
+    let thisHref = "";
+    if (isBrowser()) {
       thisHref = window.location.href;
-      if(thisHref.includes('government-revenue')){
+      if (thisHref.includes("government-revenue")) {
         setIsRevenue(true);
-      }else if(thisHref.includes('federal-spending')){
+      } else if (thisHref.includes("federal-spending")) {
         setIsSpending(true);
-      }else if(thisHref.includes('federal-deficit')){
+      } else if (thisHref.includes("federal-deficit")) {
         setIsDeficit(true);
-      }else if(thisHref.includes('federal-debt')){
+      } else if (thisHref.includes("federal-debt")) {
         setIsDebt(true);
-      }else{
+      } else {
         setIsOverview(true);
       }
     }
-
   }, []);
 
 
   return (
-    <div className={mainContainer} data-testid='mobileSubNav'>
-      <div className={navBlockStyle} >
-      <button
-        aria-controls="customized-menu"
-        aria-haspopup="true"
-        variant="contained"
-        color="#0a2f5a"
-        onClick={handleClick}
-        onKeyPress={handleClick}
-        className={[buttonOverview, activeMenu].join(' ')}
-      >
-        <span className={overviewStyle}>
-        <FontAwesomeIcon className={faHouse} icon={faHouseChimney}/>
-        Overview
-        </span>
-        <FontAwesomeIcon className={carrot} icon={faCaretDown}/>
-      </button>
-      <StyledMenu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        className={stylingStyledMenu}
-      >
-        <StyledMenuItem className={MenuList}>
-          <ListItemText  className={`${isRevenue  ? [revenue,activeMenu] : revenue }`} onClick={() => navigate('/americas-finance-guide/government-revenue/')}
-                        primary=" Revenue"/>
-        </StyledMenuItem>
-        <StyledMenuItem className={MenuList}>
-          <ListItemText className={`${isSpending  ? [spending,activeMenu] : spending }`} onClick={() => navigate('/americas-finance-guide/federal-spending/')}
-                        primary="Spending"/>
-        </StyledMenuItem>
-        <StyledMenuItem className={MenuList}>
-          <ListItemText className={`${isDebt  ? [deficit,activeMenu] : deficit }`} onClick={() => navigate('/americas-finance-guide/national-deficit/')}
-                        primary="Deficit"/>
-        </StyledMenuItem>
-        <StyledMenuItem className={MenuList}>
-          <ListItemText className={`${isDebt  ? [debt,activeMenu] : debt }`} onClick={() => navigate('/americas-finance-guide/national-debt/')}
-                        primary="Debt"/>
-        </StyledMenuItem>
-      </StyledMenu>
-    </div>
+    <div className={mainContainer} data-testid="mobileSubNav">
+      <div className={navBlockStyle}>
+        <button
+          aria-controls="customized-menu"
+          aria-haspopup="true"
+          variant="contained"
+          color="#0a2f5a"
+          onClick={handleClick}
+          onKeyPress={handleClick}
+          className={[buttonOverview, activeMenu].join(" ")}
+        >
+          <span className={overviewStyle} id="home">
+            <FontAwesomeIcon className={faHouse} icon={faHouseChimney} />
+            Overview
+          </span>
+          <FontAwesomeIcon className={carrot} icon={faCaretDown} />
+        </button>
+        <StyledMenu
+          anchorEl={anchorEl}
+          keepMounted
+          disableScrollLock={true}
+          open={defaultOpen || Boolean(anchorEl)}
+          onClose={handleClose}
+          className={[navBlockStyle, stylingStyledMenu].join(" ")}
+          id="styled-menu"
+        >
+          <StyledMenuItem className={MenuList}>
+            <ListItemText
+              className={`${isRevenue ? [revenue, activeMenu] : revenue}`}
+              onClick={() =>
+                navigate("/americas-finance-guide/government-revenue/")
+              }
+              primary=" Revenue"
+            />
+          </StyledMenuItem>
+          <StyledMenuItem className={MenuList}>
+            <ListItemText
+              className={`${isSpending ? [spending, activeMenu] : spending}`}
+              onClick={() =>
+                navigate("/americas-finance-guide/federal-spending/")
+              }
+              primary="Spending"
+            />
+          </StyledMenuItem>
+          <StyledMenuItem className={MenuList}>
+            <ListItemText
+              className={`${isDebt ? [deficit, activeMenu] : deficit}`}
+              onClick={() =>
+                navigate("/americas-finance-guide/national-deficit/")
+              }
+              primary="Deficit"
+            />
+          </StyledMenuItem>
+          <StyledMenuItem className={MenuList}>
+            <ListItemText
+              className={`${isDebt ? [debt, activeMenu] : debt}`}
+              onClick={() => navigate("/americas-finance-guide/national-debt/")}
+              primary="Debt"
+            />
+          </StyledMenuItem>
+        </StyledMenu>
+      </div>
     </div>
   );
 }

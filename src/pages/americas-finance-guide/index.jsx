@@ -81,7 +81,6 @@ export function AmericasFinanceGuidePage({width}) {
             orientation={"horizontal"}
           />
         </Box>
-        <Box my={5}>AFG Sub-navigation Bar </Box>
 
         {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={630} /> : <DeskTopSubNav hidePosition={630}/>}
 
