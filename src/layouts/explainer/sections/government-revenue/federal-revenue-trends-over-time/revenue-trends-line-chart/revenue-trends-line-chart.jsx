@@ -90,14 +90,19 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
               const dataObject = {
                 "id": category.name,
                 "color": colors.find((entry) => category.name === entry.name).value,
-                "data": category.data.map((entry) =>
-                { return {"x": entry.record_fiscal_year, "y": parseFloat((entry.current_fytd_rcpt_outly_amt / 1000000000000).toFixed(2))} })
+                "data": category.data.map((entry) => (
+                    {
+                      x: entry.record_fiscal_year,
+                      y: parseFloat((entry.current_fytd_rcpt_outly_amt / 1000000000000)
+                        .toFixed(2)),
+                      raw: entry.current_fytd_rcpt_outly_amt
+                    }))
               }
               completeData.push(dataObject);
           });
           const sumRevPerYear = [];
           for (let i = 0; i < completeData[0].data.length; i++) {
-              const sumYear = completeData.map((entry) => entry.data[i].y).reduce(sum);
+              const sumYear = completeData.map((entry) => entry.data[i].raw).reduce(sum);
               sumRevPerYear.push({
                 year: completeData[0].data[i].x,
                 value: sumYear
@@ -182,49 +187,49 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           <div className={styles.estateRectTooltip} />
           <div className={styles.tooltipItemText}>
             {slice.slice.points[0].serieId}: ${slice.slice.points[0].data.y}T
-            ({getPercentofTotalRevByYear(slice.slice.points[0].data.y, slice.slice.points[0].data.x)}%)
+            ({getPercentofTotalRevByYear(slice.slice.points[0].data.raw, slice.slice.points[0].data.x)}%)
           </div>
         </div>
         <div className={styles.tooltipItem}>
           <div className={styles.customsRectTooltip} />
           <div className={styles.tooltipItemText}>
             {slice.slice.points[1].serieId}: ${slice.slice.points[1].data.y}T
-            ({getPercentofTotalRevByYear(slice.slice.points[1].data.y, slice.slice.points[1].data.x)}%)
+            ({getPercentofTotalRevByYear(slice.slice.points[1].data.raw, slice.slice.points[1].data.x)}%)
           </div>
         </div>
         <div className={styles.tooltipItem}>
           <div className={styles.exciseRectTooltip} />
           <div className={styles.tooltipItemText}>
             {slice.slice.points[2].serieId}: ${slice.slice.points[2].data.y}T
-            ({getPercentofTotalRevByYear(slice.slice.points[2].data.y, slice.slice.points[2].data.x)}%)
+            ({getPercentofTotalRevByYear(slice.slice.points[2].data.raw, slice.slice.points[2].data.x)}%)
           </div>
         </div>
         <div className={styles.tooltipItem}>
           <div className={styles.miscRectTooltip} />
           <div className={styles.tooltipItemText}>
             {slice.slice.points[3].serieId}: ${slice.slice.points[3].data.y}T
-            ({getPercentofTotalRevByYear(slice.slice.points[3].data.y, slice.slice.points[3].data.x)}%)
+            ({getPercentofTotalRevByYear(slice.slice.points[3].data.raw, slice.slice.points[3].data.x)}%)
           </div>
         </div>
         <div className={styles.tooltipItem}>
           <div className={styles.corpRectTooltip} />
           <div className={styles.tooltipItemText}>
             {slice.slice.points[4].serieId}: ${slice.slice.points[4].data.y}T
-            ({getPercentofTotalRevByYear(slice.slice.points[4].data.y, slice.slice.points[4].data.x)}%)
+            ({getPercentofTotalRevByYear(slice.slice.points[4].data.raw, slice.slice.points[4].data.x)}%)
           </div>
         </div>
         <div className={styles.tooltipItem}>
           <div className={styles.socialSecRectTooltip} />
           <div className={styles.tooltipItemText}>
             {slice.slice.points[5].serieId}: ${slice.slice.points[5].data.y}T
-            ({getPercentofTotalRevByYear(slice.slice.points[5].data.y, slice.slice.points[5].data.x)}%)
+            ({getPercentofTotalRevByYear(slice.slice.points[5].data.raw, slice.slice.points[5].data.x)}%)
           </div>
         </div>
         <div className={styles.tooltipItem}>
           <div className={styles.indvRectTooltip} />
           <div className={styles.tooltipItemText}>
             {slice.slice.points[6].serieId}: ${slice.slice.points[6].data.y.toFixed(2)}T
-            ({getPercentofTotalRevByYear(slice.slice.points[6].data.y, slice.slice.points[6].data.x)}%)
+            ({getPercentofTotalRevByYear(slice.slice.points[6].data.raw, slice.slice.points[6].data.x)}%)
           </div>
         </div>
       </div>
