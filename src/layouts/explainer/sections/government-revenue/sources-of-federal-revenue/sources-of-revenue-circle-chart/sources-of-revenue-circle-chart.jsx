@@ -66,7 +66,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       .then((res) => {
         if(res.data[0]) {
           setFiscalYear(res.data[0].record_fiscal_year);
-          setTotalRevenue(res.data[0].current_fytd_rcpt_outly_amt);
+          setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
         }
     })
   }, [])
@@ -78,7 +78,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     basicFetch(`${apiPrefix}${url}`)
       .then((res) => {
         if(res.data[0] && res.data[1]) {
-          const income = Number(res.data[0].current_fytd_rcpt_outly_amt) +
+          const income = Number(res.data[0]?.current_fytd_rcpt_outly_amt) +
             Number(res.data[1].current_fytd_rcpt_outly_amt);
           setCombinedIncomeAmount(income);
           setCombinedIncomePercent(combinedIncomeAmount / totalRevenue * 100);
@@ -102,7 +102,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           let totalRev = 0;
           const getDataValue = (lineNbr) =>
             res.data.filter((record) => {return record.line_code_nbr === lineNbr});
-          let nodeValue = getDataValue("20")[0].current_fytd_rcpt_outly_amt;
+          let nodeValue = getDataValue("20")[0]?.current_fytd_rcpt_outly_amt;
           totalRev += Number(nodeValue);
           const incomeTax = {
             "id": "Individual Income Taxes",
@@ -110,9 +110,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             "value": nodeValue,
           }
 
-          nodeValue = (Number(getDataValue("50")[0].current_fytd_rcpt_outly_amt) +
-                      Number(getDataValue("60")[0].current_fytd_rcpt_outly_amt) +
-                      Number(getDataValue("70")[0].current_fytd_rcpt_outly_amt)).toString();
+          nodeValue = (Number(getDataValue("50")[0]?.current_fytd_rcpt_outly_amt) +
+                      Number(getDataValue("60")[0]?.current_fytd_rcpt_outly_amt) +
+                      Number(getDataValue("70")[0]?.current_fytd_rcpt_outly_amt)).toString();
           totalRev += Number(nodeValue);
           const socialSecurityMedicare = {
             "id": "Social Security and Medicare Taxes",
@@ -120,7 +120,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             "value": nodeValue,
           };
 
-          nodeValue = getDataValue("30")[0].current_fytd_rcpt_outly_amt;
+          nodeValue = getDataValue("30")[0]?.current_fytd_rcpt_outly_amt;
           totalRev += Number(nodeValue);
           const corporateIncome = {
             "id": "Corporate Income Taxes",
@@ -128,7 +128,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             "value": nodeValue,
           };
 
-          nodeValue = getDataValue("110")[0].current_fytd_rcpt_outly_amt;
+          nodeValue = getDataValue("110")[0]?.current_fytd_rcpt_outly_amt;
           totalRev += Number(nodeValue);
           const misc = {
             "id": "Miscellaneous Income",
@@ -136,7 +136,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             "value": nodeValue,
           };
 
-          nodeValue = getDataValue("100")[0].current_fytd_rcpt_outly_amt;
+          nodeValue = getDataValue("100")[0]?.current_fytd_rcpt_outly_amt;
           totalRev += Number(nodeValue);
           const customsDuties = {
             "id": "Customs Duties",
@@ -144,7 +144,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             "value": nodeValue,
           };
 
-          nodeValue = getDataValue("90")[0].current_fytd_rcpt_outly_amt;
+          nodeValue = getDataValue("90")[0]?.current_fytd_rcpt_outly_amt;
           totalRev += Number(nodeValue);
           const estateTax =  {
             "id": "Estate & Gift Taxes",
@@ -152,7 +152,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             "value": nodeValue,
           };
 
-          nodeValue = getDataValue("80")[0].current_fytd_rcpt_outly_amt;
+          nodeValue = getDataValue("80")[0]?.current_fytd_rcpt_outly_amt;
           totalRev += Number(nodeValue);
           const exciseTax = {
             "id": "Excise Taxes",
