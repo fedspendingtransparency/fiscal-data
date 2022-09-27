@@ -63,7 +63,7 @@ const explainerPagesSource = {
     slug: "/americas-finance-guide/government-revenue/",
     breadCrumbLinkName: "Government Revenue",
     seoConfig: {
-      pageTitle: "Government Revenue | U.S. Treasury Fiscal Data",
+      pageTitle: "Government Revenue",
       description: `Learn how much the U.S. government collects in revenue, and what types of
       revenue it brings in.`,
     },
@@ -76,22 +76,22 @@ const explainerPagesSource = {
       "015-BFS-2014Q1-13",
       "015-BFS-2014Q1-04",
       "015-BFS-2020Q4-yy",
-      "015-BFS-2014Q1-07"
+      "015-BFS-2014Q1-07",
     ],
   },
-}
+};
 
 const freshExplainerPages = () => {
-  const output = []
+  const output = [];
 
   Object.entries(explainerPagesSource).forEach(([pageName, ep]) => {
     output[output.length] = {
       ...ep,
       pageName,
-    }
-  })
+    };
+  });
 
-  return output
-}
+  return output;
+};
 
-exports.freshExplainerPages = freshExplainerPages
+exports.freshExplainerPages = freshExplainerPages;
