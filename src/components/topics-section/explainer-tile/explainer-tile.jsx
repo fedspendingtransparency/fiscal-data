@@ -114,7 +114,6 @@ const ExplainerTile = ({
         </div>
       </div>
     );
-
   return (
     <>
       {content.path ? (
