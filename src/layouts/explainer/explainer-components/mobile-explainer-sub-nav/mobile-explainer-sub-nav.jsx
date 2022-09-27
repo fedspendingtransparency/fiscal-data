@@ -28,26 +28,25 @@ import {
   mainContainerSticky,
   mainContainerHidden,
   mainContainerShow,
-  activeMenu
-} from './mobile-explainer-sub-nav.module.scss';
+  activeMenu,
+} from "./mobile-explainer-sub-nav.module.scss";
 
 const StyledMenu = withStyles({
   paper: {
-    width: '288px',
-    backgroundColor: 'transparent'
-
+    width: "288px",
+    backgroundColor: "transparent",
   },
-})((props) => (
+})(props => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center',
+      vertical: "bottom",
+      horizontal: "center",
     }}
     transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
+      vertical: "top",
+      horizontal: "center",
     }}
     {...props}
   />
@@ -55,14 +54,13 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles(theme => ({
   root: {
-    '&:focus': {
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {},
+    "&:focus": {
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {},
     },
   },
 }))(MenuItem);
 
-
-export default function MobileExplainerSubNav({hidePosition}) {
+export default function MobileExplainerSubNav({ hidePosition }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(mainContainerShow);
@@ -81,22 +79,21 @@ export default function MobileExplainerSubNav({hidePosition}) {
     if (position > hidePosition) {
 
       if (previousScrollPosition < scrollPosition) {
-        setNavBlockStyle(mainContainerHidden)
+        setNavBlockStyle(mainContainerHidden);
       } else {
-        setNavBlockStyle(mainContainerSticky)
+        setNavBlockStyle(mainContainerSticky);
       }
     } else {
-      setNavBlockStyle(mainContainerShow)
+      setNavBlockStyle(mainContainerShow);
     }
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll, {passive: true});
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
-
   }, [scrollPosition]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -139,7 +136,6 @@ export default function MobileExplainerSubNav({hidePosition}) {
       }
     }
   }, []);
-
 
   return (
     <div className={mainContainer} data-testid="mobileSubNav">
