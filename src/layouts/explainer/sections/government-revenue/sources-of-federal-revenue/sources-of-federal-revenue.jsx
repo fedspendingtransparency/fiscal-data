@@ -83,16 +83,7 @@ const SourcesOfFederalRevenue = () => {
           government revenue? Other agencies generate revenue from leases, the
           sale of natural resources, and various usage and licensing fees.
         </p>
-        <div className={visWithCallout}>
-          <SourcesOfRevenueCircleChart />
-          <VisualizationCallout color={revenueExplainerPrimary}>
-            <p>
-              In FY YYYY (current fiscal year-to-date), the combined contribution
-              of individual and corporate income taxes is $XX.X B, making up XX%
-              of total revenue.
-            </p>
-          </VisualizationCallout>
-        </div>
+      <SourcesOfRevenueCircleChart />
       <h5>Social Security and Medicare Taxes</h5>
       <p>
         Unlike personal income taxes, which support a variety of programs, these

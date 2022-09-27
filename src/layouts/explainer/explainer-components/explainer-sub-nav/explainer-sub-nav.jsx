@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react'
-import {Link, navigate} from "gatsby"
+import React, {useState, useEffect} from 'react'
+import {Link} from "gatsby"
 import * as styles from './explainer-sub-nav.module.scss'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
-import {CSSTrasition} from 'react-transition-group';
 
 export default function ExplainerSubNav({hidePosition}) {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -26,8 +25,6 @@ export default function ExplainerSubNav({hidePosition}) {
     } else {
       setNavBlockStyle(styles.navBlock)
     }
-
-    console.log(previousScrollPosition, scrollPosition)
   };
 
 

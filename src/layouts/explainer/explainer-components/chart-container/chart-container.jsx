@@ -22,8 +22,7 @@ const ChartContainer = ({
   customSpacing,
   customFooterSpacing,
   customTitleStyles,
-  customSubTitleStyles,
-  handleMouseLeave
+  customSubTitleStyles
 }) => {
   return (
     <div
@@ -31,7 +30,6 @@ const ChartContainer = ({
       role={"img"}
       aria-label={altText}
       style={{ ...customSpacing }}
-      onMouseLeave={handleMouseLeave}
     >
       <div className={chartTitle} style={{ ...customTitleStyles}}>{title}</div>
       <div className={`${chartSubTitle} chartContainerSubTitle`} style={{ ...customSubTitleStyles}}>

@@ -67,6 +67,8 @@ export const deficitExplainerPrimary: string;
 export const deficitExplainerSecondary: string;
 export const deficitExplainerLightSecondary: string;
 export const revenueExplainerPrimary: string;
+export const dollarIconColor: string;
+export const dollarIconBackgroundColor: string;
 export const keyTakeawaysContent: string;
 export const noMarginBottom: string;
 export const iconBackground: string;

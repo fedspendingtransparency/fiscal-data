@@ -248,15 +248,13 @@ export const determineBEAFetchResponse = (
     });
   }) as (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
-
+export type ResponseMapEntry = {
+  matcher: (url: string) => boolean,
+  jsonResponse: Record<string, unknown>
+};
 export const setGlobalFetchMatchingResponse = (
   jest: { fn: (unknown) => unknown },
-  responseMap: [
-    {
-      matcher: (url: string) => boolean,
-      jsonResponse: Record<string, unknown>
-    }
-    ]): void => {
+  responseMap: ResponseMapEntry[]): void => {
   global.fetch = jest.fn((input: RequestInfo) => {
 
     return Promise.resolve({

@@ -1,0 +1,161 @@
+@import 'src/variables.module';
+
+.heroContainer {
+    width: $site-content-width;
+    max-width: $site-content-width;
+    margin: 0 auto;
+    position: relative;
+    min-height: 47.875rem;
+
+    .heroGrayBox {
+        max-width: 1075px;
+        width: 95%;
+        height: 661px;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        background-color: $body-background;
+        position: absolute;
+    }
+
+    .heroImageBox {
+        max-width: 1075px;
+        width: 95%;
+        height: 45rem;
+        //z-index: 0;
+        bottom: 0;
+        left: 4rem;
+        background-image: url('/images/statue-of-liberty_1075x717px.png');
+        background-position: right top;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+
+        h3.heroQuote {
+            font-style: oblique;
+            font-weight: $light-weight;
+            font-size: $font-size-24;
+            color: #FFFFFF;
+            width: 50%;
+            margin-left: 2rem;
+            margin-top: 2.25rem;
+        }
+        p.heroCitation{
+            font-size: $font-size-16;
+            color: #FFFFFF;
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        
+    }
+
+    .heroWhiteBox {
+        max-width: 1072px;
+        width: 95%;
+        background-color: #FFFFFF;
+        bottom: 0;
+        position: absolute;
+        left: 0; 
+        right: 0; 
+        margin-left: auto; 
+        margin-right: auto; 
+        padding-bottom: 2rem;
+
+        h4.heroGuideText{
+            font-size: $font-size-16;
+            color: $font-body-copy;
+            font-weight: $semi-bold-weight;
+            margin-left: 4rem;
+            margin-top: 2rem;
+            margin-bottom: 0;
+        }
+
+        h1.heroHeading{
+            font-size: $font-size-56;
+            color: $font-title;
+            margin-left: 4rem;
+            margin-top: .5rem;
+            margin-bottom: 0px;
+            font-weight: $light-weight;
+        }
+
+        .heroSocialShare{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 2rem;
+            
+        }
+    }
+ 
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+    .heroContainer {
+        margin: 0;
+        width: 100%;
+        height: 63.125rem;
+
+        .heroGrayBox {
+            width: 100%;
+            left: 0px;
+        }
+
+        .heroImageBox {
+            width: calc(100% - 10px);
+            background-position: right -125px top 10px;
+            left: 10px;
+            top: .5rem;
+
+            h3.heroQuote {
+                width: 19rem;
+                margin-left: 1rem;
+                margin-top: 2.5rem;
+                font-size: $font-size-24;
+            }
+
+            p.heroCitation{
+                margin-left: 1rem;
+                margin-top: 0;
+            }
+        }
+
+        .heroWhiteBox {
+            top: 28rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: calc(100% - 20px);
+               
+            h4.heroGuideText{
+               font-size: $font-size-16;
+                margin-left: 1rem;
+                margin-top: 1.5rem;
+                display: flex;
+            }
+    
+            h1.heroHeading{
+                font-size: $font-size-48;
+                //max-width: 304px;
+                margin-left: 1rem;
+                margin-top: 1.5rem;
+                padding-right: 1rem;
+                display: flex;
+            }
+
+            .heroSocialShare {
+                position: relative;
+                bottom: -2rem;
+                left: 0;
+                right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 2rem;
+            }
+        }
+
+    }
+
+}
