@@ -3,7 +3,6 @@ import {
   visWithCallout,
   quoteBoxContent,
 } from "../../../explainer.module.scss";
-import VisualizationCallout from "../../../../../components/visualization-callout/visualization-callout";
 import QuoteBox from "../../../quote-box/quote-box";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {
@@ -15,15 +14,11 @@ import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons";
 import SourcesOfRevenueCircleChart from "./sources-of-revenue-circle-chart/sources-of-revenue-circle-chart";
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils";
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
-import { getShortForm } from "../../../heros/hero-helper";
-import BigNumber from "bignumber.js";
 
 const SourcesOfFederalRevenue = ({ glossary }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
   const [indvPercent, setIndvPercent] = useState(0);
   const [ssPercent, setSSPercent] = useState(0);
-
-  const [amountForCalc, setAmountForCalc] = useState(0);
 
   useEffect(() => {
     const endpointURL =
@@ -79,34 +74,6 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
       }
     });
   }, []);
-
-  useEffect(() => {
-    const taxTotalEndpoint = `v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)&sort=-record_date&page[size]=2`;
-    basicFetch(`${apiPrefix}${taxTotalEndpoint}`).then(res => {
-      const { data } = res;
-      if (data) {
-        const totalAmount = data
-          .map(dp => new BigNumber(dp.current_fytd_rcpt_outly_amt).toNumber())
-          .reduce((a, b) => {
-            return BigNumber(a).toNumber() + BigNumber(b).toNumber();
-          }, 0);
-        const amount = getShortForm(totalAmount, 2, true);
-        setAmountForCalc(totalAmount);
-        setTotalTaxAmount(amount);
-      }
-    });
-
-    const totalPercentEndpoint = `v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`;
-    basicFetch(`${apiPrefix}${totalPercentEndpoint}`).then(res => {
-      const { data } = res;
-      if (data) {
-        const total = Math.round(data[0]?.current_fytd_rcpt_outly_amt);
-        const percent =
-          BigNumber(amountForCalc).toNumber() / BigNumber(total).toNumber();
-        setPercentageTaxAmount(`${Math.round(percent * 100)}%`);
-      }
-    });
-  }, [currentFiscalYear]);
 
   const irsGov = (
     <CustomLink
