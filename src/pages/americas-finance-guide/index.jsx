@@ -174,8 +174,8 @@ export default function AmericasFinanceGuidePage() {
 
         <DataSourcesMethodologies>
           Current and prior fiscal year values for federal revenue, spending, and deficit
-          are sourced from the Monthly Treasury Statement (MTS). The Debt to the
-          Penny dataset is the data source for federal debt.
+          are sourced from the <a href={www.fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government}>Monthly Treasury Statement (MTS)</a>.
+          The <a href={fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny}>Debt to the Penny</a> dataset is the data source for federal debt.
         </DataSourcesMethodologies>
       </Container>
       <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
@@ -203,7 +203,7 @@ export default function AmericasFinanceGuidePage() {
           Your Guide to America's Finances is a re-invention of the{" "}
           <span className={styles.blueText}>
             {" "}
-            Citizen's Guide to the Financial Report of the U.S. Government.
+            <a href={www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
           </span>{" "}
           This site was created in response to the public's desire to learn more
           about the financial picture of the United States. Where does the money
