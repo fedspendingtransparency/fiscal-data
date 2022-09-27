@@ -26,6 +26,7 @@ import {
 import LabelComponent from "./circle-chart-label";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 
 
 const SourcesOfRevenueCircleChart = ({ width }) => {
@@ -95,7 +96,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       .then((res) => {
         if(res.data[0]) {
 
-          setRecordDate(new Date(res.data[0].record_date));
+          setRecordDate(getDateWithoutTimeZoneAdjust(new Date(res.data[0].record_date)));
 
           const data = [];
           let totalRev = 0;
