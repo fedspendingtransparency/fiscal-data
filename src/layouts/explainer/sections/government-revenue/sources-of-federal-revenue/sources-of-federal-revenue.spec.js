@@ -87,6 +87,13 @@ describe("Sources of Federal Revenue", () => {
       { overwriteRoutes: true },
       { repeat: 1 }
     );
+
+    fetchMock.get(
+      ` https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10`,
+      mockData,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
   });
 
   it("renders the category sub header", () => {
