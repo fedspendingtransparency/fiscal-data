@@ -22,8 +22,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
   const [indvPercent, setIndvPercent] = useState(0);
   const [ssPercent, setSSPercent] = useState(0);
-  const [totalTaxAmount, setTotalTaxAmount] = useState(0);
-  const [percentageTaxAmount, setPercentageTaxAmount] = useState("0%");
+
   const [amountForCalc, setAmountForCalc] = useState(0);
 
   useEffect(() => {
@@ -64,7 +63,8 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
                       Math.round(
                         (combinedSocialSecurity /
                           parseFloat(
-                            supplementaryRes.data[0]?.current_fytd_rcpt_outly_amt
+                            supplementaryRes.data[0]
+                              ?.current_fytd_rcpt_outly_amt
                           )) *
                           100 *
                           10
@@ -156,13 +156,6 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
       </p>
       <div className={visWithCallout}>
         <SourcesOfRevenueCircleChart />
-        <VisualizationCallout color={revenueExplainerPrimary}>
-          <p>
-            In FY {currentFiscalYear}, the combined contribution of individual
-            and corporate income taxes is {totalTaxAmount}, making up{" "}
-            {percentageTaxAmount} of total revenue.
-          </p>
-        </VisualizationCallout>
       </div>
       <h5>Social Security and Medicare Taxes</h5>
       <p>
