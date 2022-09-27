@@ -86,6 +86,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
     } else {
       setNavBlockStyle(mainContainerShow);
     }
+    console.log(position, previousScrollPosition);
   };
 
   useEffect(() => {
@@ -111,12 +112,12 @@ export default function MobileExplainerSubNav({ hidePosition }) {
 
   useEffect(() => {
     // setAnchorEl();
-    setDefaultOpen(true);
+    setTimeout(setDefaultOpen(true), 1000);
   }, []);
 
-  useEffect(() => {
-    setDefaultOpen(false);
-  }, [anchorEl]);
+  // useEffect(() => {
+  //   setDefaultOpen(false);
+  // }, [anchorEl]);
 
   useEffect(() => {
     const isBrowser = () => typeof window !== "undefined";
@@ -153,7 +154,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
             <FontAwesomeIcon className={faHouse} icon={faHouseChimney} />
             Overview
           </span>
-          <FontAwesomeIcon className={carrot} icon={faCaretDown} />
+          <FontAwesomeIcon className={carrot} icon={anchorEl ? faCaretDown: faCaretRight} />
         </button>
         <StyledMenu
           anchorEl={anchorEl}

@@ -116,7 +116,7 @@ export const AmericasFinanceGuidePage = ({width}) => {
       >
 
         {width < pxToNumber(breakpointLg) ?
-          <MobileSubNav hidePosition={630} />
+          <MobileSubNav hidePosition={1162} />
           :
           <DeskTopSubNav hidePosition={630} />}
 
