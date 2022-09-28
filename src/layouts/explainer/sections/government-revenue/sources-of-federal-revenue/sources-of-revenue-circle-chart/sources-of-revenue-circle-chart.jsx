@@ -157,7 +157,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           const exciseTax = {
             "id": "Excise Taxes",
             "value": nodeValue,
-            "color": exciseTaxesColor
+            "color": exciseTaxesColor,
           };
 
           if(categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
@@ -323,7 +323,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                   />}
                 animate={false}
                 onMouseEnter={(node) => HandleMouseEnter(node)}
-                onMouseLeave={HandleChartMouseLeave}
+                onClick={(node) => HandleMouseEnter(node)}
               />
             </div>
             <div className={totalRevenueDataPill}>
