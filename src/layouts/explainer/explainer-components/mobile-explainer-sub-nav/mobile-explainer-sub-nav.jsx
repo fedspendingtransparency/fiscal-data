@@ -83,12 +83,12 @@ export default function MobileExplainerSubNav({ hidePosition }) {
         handleClose();
       } else {
         setNavBlockStyle(mainContainerSticky);
+        handleClose();
       }
     } else {
       setNavBlockStyle(mainContainerShow);
       handleClose();
     }
-    console.log(position, previousScrollPosition);
   };
 
   useEffect(() => {
