@@ -333,7 +333,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                   />}
                 animate={false}
                 onMouseEnter={(node) => HandleMouseEnter(node)}
-                onClick={(node) => HandleMouseEnter(node)}              
+                onClick={(node) => HandleMouseEnter(node)}      
               />
             </div>
             <div className={totalRevenueDataPill}>
