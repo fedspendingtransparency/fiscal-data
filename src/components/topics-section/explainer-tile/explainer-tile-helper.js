@@ -48,7 +48,7 @@ export const RevenueBodyGenerator = () => {
   }, []);
 
   return (
-    <p>
+    <p style={{ marginTop: "0" }}>
       The U.S. government has collected $
       {getShortForm(currentRevenue, 2, false)} in fiscal year {recordFiscalYear}{" "}
       in order to pay for the goods and services provided to United States
