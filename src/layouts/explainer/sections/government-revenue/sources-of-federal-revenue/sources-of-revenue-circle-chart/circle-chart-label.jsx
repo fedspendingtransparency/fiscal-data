@@ -109,22 +109,17 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
     HandleMouseEnter(node, prevFocusedElementId);
   };
 
-  const textElementStyle = {
-    fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-    fontWeight: semiBoldWeight
-  };
 
-  if (!labelFormatTable[label].external) {
-    // if text label over a circle, let the mouse events fall through to its circle
-    textElementStyle.pointerEvents = 'none';
-  }
+
 
   return (
     <>
       <text
         dominantBaseline="central"
-        style={textElementStyle}
-        onMouseEnter={handleLabelMouseEnter}
+        style={{
+          fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
+          fontWeight: semiBoldWeight
+        }}        onMouseEnter={handleLabelMouseEnter}
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
         textAnchor={"middle"}
