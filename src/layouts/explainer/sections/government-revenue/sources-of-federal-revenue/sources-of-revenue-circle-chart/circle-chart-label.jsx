@@ -116,7 +116,7 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
         style={{
           fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
           fontWeight: semiBoldWeight
-        }}        
+        }}
         onMouseEnter={handleLabelMouseEnter}
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
