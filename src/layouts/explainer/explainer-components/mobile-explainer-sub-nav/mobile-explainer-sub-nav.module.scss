@@ -27,6 +27,7 @@
 
   span{
     line-height: 2.25rem !important;
+    font-family: "Source Sans Pro" !important;
   }
 }
 
@@ -70,6 +71,7 @@
 }
 .activeMenu span{
   font-weight: $semi-bold-weight !important;
+  font-family: "Source Sans Pro" !important;
 }
 .mainContainer {
   display: flex;
