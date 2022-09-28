@@ -26,7 +26,7 @@
         //z-index: 0;
         bottom: 0;
         left: 4rem;
-        background-image: url('/images/statue-of-liberty_1075x717px.png');
+        background-image: url('/images/statue-of-liberty_1125x717px.png');
         background-position: right top;
         background-repeat: no-repeat;
         background-size: cover;
@@ -94,7 +94,6 @@
 
 @media (min-width:997px) and (max-width:1035px) {
     h1.heroHeading{
-        
         padding-right: 6rem;
     }
 }
@@ -112,7 +111,7 @@
 
         .heroImageBox {
             width: calc(100% - 10px);
-            background-position: right -100px top 10px;
+            background-position: right -125px top 10px;
             left: 10px;
             top: .5rem;
 
