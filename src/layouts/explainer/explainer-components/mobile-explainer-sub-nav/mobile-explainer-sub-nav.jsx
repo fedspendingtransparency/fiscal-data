@@ -140,7 +140,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           color="#0a2f5a"
           onClick={handleClick}
           onKeyPress={handleClick}
-          className={[buttonOverview, activeMenu].join(" ")}
+          className={`${isOverview ? [buttonOverview, activeMenu].join(" ") : buttonOverview}`}
         >
           <span className={overviewStyle} id="home">
             <FontAwesomeIcon onClick={() => navigate('/americas-finance-guide/')} className={faHouse} icon={faHouseChimney} />
