@@ -273,7 +273,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   }
 
-  const HandleMouseEnter = (node, prevFocusedElementId) => {
+  const HandleMouseEnter = (node, elementId) => {
     if (node.id !== categoryName) {
       decreaseOpacity(categoryName, colorMap[categoryName].color);
       increaseOpacity(node.id, node.color);
@@ -281,7 +281,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       setCategoryRevenueAmount(node.value);
       setCategoryRevenuePercent(node.percentage);
       // preserve focus after this series of re-renders
-      setElementToFocus(prevFocusedElementId)
+      setElementToFocus(elementId)
     }
   };
 
