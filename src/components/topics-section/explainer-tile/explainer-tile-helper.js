@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiPrefix, basicFetch } from "../../../utils/api-utils";
 import { getShortForm } from "../../../layouts/explainer/heros/hero-helper";
-
 export const SpendingBodyGenerator = () => {
   const fields =
     "fields=current_fytd_net_outly_amt,record_fiscal_year,record_date";
@@ -33,6 +32,31 @@ export const SpendingBodyGenerator = () => {
   );
 };
 
+export const RevenueBodyGenerator = () => {
+  const [currentRevenue, setCurrentRevenue] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  const revUrl = `v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date&filter=line_code_nbr:eq:830&sort=-record_date&page[size]=1`;
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${revUrl}`).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        const currentTotalRevenue = data.current_fytd_net_rcpt_amt || 0;
+        setCurrentRevenue(currentTotalRevenue);
+        setRecordFiscalYear(data.record_fiscal_year);
+      }
+    });
+  }, []);
+
+  return (
+    <p>
+      The U.S. government has collected $
+      {getShortForm(currentRevenue, 2, false)} in fiscal year {recordFiscalYear}{" "}
+      in order to pay for the goods and services provided to United States
+      citizens and businesses. Learn more about revenue sources, trends over
+      time, and how revenue compares to GDP.
+    </p>
+  );
+};
 export const pageTileMap = {
   debt: {
     title: "What is the national debt?",
@@ -75,7 +99,8 @@ export const pageTileMap = {
     path: "/americas-finance-guide/national-deficit/",
   },
   revenue: {
-    title: "How much revenue has the U.S. government collected this year? ",
+    title: "How much has the U.S. government collected this year?",
+    bodyGenerator: RevenueBodyGenerator,
     body:
       "The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current fiscal year)} in order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.",
     altText:
@@ -87,7 +112,7 @@ export const pageTileMap = {
   "americas-finance-guide": {
     title: "Your Guide to America’s Finances",
     body:
-      "Here you’ll find information on spending, revenue, the deficit, and debt. The Guide represents a series of interactive visualizations exploring each category and how it has changed over time.",
+      "Your Guide to America's Finances is an overview of U.S. government finances where you’ll find information on money coming in (revenue), money going out (spending), the deficit, and debt. Your Guide presents a series of pages exploring each topic through educational content and interactive visualizations, providing a comprehensive overview of the trillions of dollars collected and spent by the federal government each year.",
     altText:
       "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal government finance.’ overlaid.",
     desktopImage: "AFG-Overview_1200x630",
