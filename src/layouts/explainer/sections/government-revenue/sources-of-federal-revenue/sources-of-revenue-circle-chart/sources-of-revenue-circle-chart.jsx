@@ -280,7 +280,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       setCategoryName(node.id);
       setCategoryRevenueAmount(node.value);
       setCategoryRevenuePercent(node.percentage);
-      // preserve focus after this series of re-renders
+      // set focus on next element after this series of re-renders
       setElementToFocus(elementId)
     }
   };
