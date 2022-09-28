@@ -28,7 +28,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 
-
+const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
   const defaultCategory = {
     name: "Individual Income Taxes",
@@ -58,7 +58,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [estateTaxesColor, setEstateTaxesColor] = useState("rgb(75, 57, 116, 0.8)");
 
   const [chartAltText, setChartAltText] = useState("");
-
+  const [elementToFocus, setElementToFocus] = useState(null);
   useEffect(() => {
     const url =
       'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
@@ -219,6 +219,14 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     exciseTaxesColor
   ])
 
+  useEffect(() => {
+    if (elementToFocus) {
+      setTimeout(() => {
+        const element = document.getElementById(elementToFocus);
+        element?.focus();
+      }, focusDelay);
+    }
+  }, [elementToFocus])
 
   const colorMap = {
     'Individual Income Taxes': {
@@ -265,15 +273,17 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   }
 
-  const HandleMouseEnter = (node) => {
-    if(node.id !== categoryName) {
+  const HandleMouseEnter = (node, prevFocusedElementId) => {
+    if (node.id !== categoryName) {
       decreaseOpacity(categoryName, colorMap[categoryName].color);
       increaseOpacity(node.id, node.color);
       setCategoryName(node.id);
       setCategoryRevenueAmount(node.value);
       setCategoryRevenuePercent(node.percentage);
+      // preserve focus after this series of re-renders
+      setElementToFocus(prevFocusedElementId)
     }
-  }
+  };
 
   const HandleChartMouseLeave = () => {
     if(chartData !== {}) {

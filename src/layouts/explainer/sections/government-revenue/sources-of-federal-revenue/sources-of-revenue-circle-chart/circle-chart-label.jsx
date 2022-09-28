@@ -99,13 +99,15 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
     HandleMouseEnter(node)
   }
 
-  const handleInteraction = (e) => {
+  const handleInteraction = e => {
     // only proceed on mouse click or Enter key press
-    if (e?.key && e.key !== 'Enter') {
+    if (e?.key && e.key !== "Enter") {
       return;
     }
-    HandleMouseEnter(node);
-  }
+    const prevFocusedElementId =
+      e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
+    HandleMouseEnter(node, prevFocusedElementId);
+  };
 
   const textElementStyle = {
     fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
@@ -126,6 +128,7 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
         textAnchor={"middle"}
+        id={`text-container-${label.trim()}`}
       >
         {lines.map((line, index) => (
             <React.Fragment key={index} >
