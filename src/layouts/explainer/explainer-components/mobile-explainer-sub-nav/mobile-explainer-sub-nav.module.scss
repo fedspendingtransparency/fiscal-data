@@ -1,0 +1,109 @@
+@import "src/variables.module";
+
+.MenuList {
+  background-color: #0a2f5a;
+  color: #0a2f5a;
+  height: 1.625rem;
+  width: 18rem;
+  text-algin: right;
+  z-index: 1;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+}
+
+.listItems {
+  color: white;
+  height: 2rem;
+  border-radius: 2px;
+  padding-left: 2rem;
+}
+
+.revenue {
+  background-color: #0a2f5a;
+  color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
+}
+
+.spending {
+  background-color: #00766c !important;
+  color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
+
+}
+
+.deficit {
+  background-color: #b3532d;
+  color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
+}
+
+.debt {
+  background-color: #4a0072;
+  color: white;
+  border-radius: 2px;
+  padding-left: 2rem;
+}
+
+.buttonOverview {
+  border-radius: 1rem;
+  background-color: #0071bc;
+  border-color: white;
+  color: white;
+  width: 21.25rem;
+  height: 2rem;
+  font-size: 1rem;
+  text-align: left;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .overviewStyle {
+    margin-left: 1.438rem;
+  }
+
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: center;
+
+}
+.mainContainerShow {
+  display: flex;
+  justify-content: center;
+
+}
+.mainContainerSticky{
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+.mainContainerHidden{
+  display: none;
+}
+
+.carrot {
+  padding-right: 1rem;
+}
+
+.faHouse {
+  padding-right: .5rem;
+
+}
+
+.stylingStyledMenu {
+
+  border-color: white;
+
+  :global(.MuiList-padding) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border: none;
+
+  }
+}

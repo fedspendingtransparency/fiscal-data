@@ -13,7 +13,7 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust/inflation-adjust";
 import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
-
+import { useTooltip } from '@nivo/tooltip';
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
@@ -22,6 +22,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [lastChartYear, setLastChartYear] = useState(0);
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [chartYears, setChartYears] = useState([]);
+  const [totalRevByYear, setTotalRevByYear] = useState([]);
 
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
@@ -89,11 +90,25 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
               const dataObject = {
                 "id": category.name,
                 "color": colors.find((entry) => category.name === entry.name).value,
-                "data": category.data.map((entry) =>
-                { return {"x": entry.record_fiscal_year, "y": parseFloat((entry.current_fytd_rcpt_outly_amt / 1000000000000).toFixed(2))} })
+                "data": category.data.map((entry) => (
+                    {
+                      x: entry.record_fiscal_year,
+                      y: parseFloat((entry.current_fytd_rcpt_outly_amt / 1000000000000)
+                        .toFixed(2)),
+                      raw: entry.current_fytd_rcpt_outly_amt
+                    }))
               }
               completeData.push(dataObject);
           });
+          const sumRevPerYear = [];
+          for (let i = 0; i < completeData[0].data.length; i++) {
+              const sumYear = completeData.map((entry) => entry.data[i].raw).reduce(sum);
+              sumRevPerYear.push({
+                year: completeData[0].data[i].x,
+                value: sumYear
+              });
+          }
+          setTotalRevByYear(sumRevPerYear);
           setChartData(completeData);
         }
       });
@@ -116,6 +131,51 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       svgChart.setAttribute('width', '100%');
     }
   };
+
+  const CustomSlices = props => {
+    const { showTooltipFromEvent, hideTooltip } = useTooltip();
+
+    return (
+      <g onMouseLeave={() => {hideTooltip()}}>
+        {props.slices.map(slice => (
+          <rect
+            x={slice.x0}
+            y={slice.y0}
+            tabIndex={0}
+            width={slice.width}
+            height={slice.height}
+            strokeWidth={0}
+            strokeOpacity={0.75}
+            fillOpacity={0}
+            onMouseEnter={() => props.setCurrentSlice(slice)}
+            onFocus={event => {
+              showTooltipFromEvent(
+                React.createElement(props.sliceTooltip, {
+                  slice,
+                  axis: props.enableSlices,
+                }),
+                event,
+                'right'
+              )
+            }}
+            onMouseMove={ event => {
+              showTooltipFromEvent(
+                React.createElement(props.sliceTooltip, {
+                  slice,
+                  axis: props.enableSlices,
+                }),
+                event,
+                'right'
+              )
+            }}
+            onMouseLeave={() => {
+              props.setCurrentSlice(null)
+            }}
+          />
+        ))}
+      </g>
+    )
+  }
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -150,8 +210,89 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           stroke: '#666666'
         }
       }
+    },
+    crosshair: {
+      line: {
+        stroke: '#555555',
+        strokeWidth: 2,
+      }
     }
   };
+
+  const getPercentofTotalRevByYear = (value, year) => {
+    const match = totalRevByYear.find((element) => element.year === year.toString());
+    const percent = (value / match.value) * 100;
+    if (percent < 0.5) {
+      return '<1';
+    }
+    else {
+      return (Math.round((value / match.value) * 100));
+    }
+  }
+
+  const determineIfZeroNeeded = (value) => {
+    if (value.toString().split(".")[1].length < 2) {
+      return `${value}0`;
+    }
+    return value;
+  }
+
+  const customTooltip = (slice) => {
+    return <div className={styles.tooltipContainer}>
+      <p className={styles.tooltipYearHeader}>{slice.slice.points[0].data.x}</p>
+      <div className={styles.tooltipColumn}>
+        <div className={styles.tooltipItem}>
+          <div className={styles.estateRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[0].serieId}: ${determineIfZeroNeeded(slice.slice.points[0].data.y)}T
+            ({getPercentofTotalRevByYear(slice.slice.points[0].data.raw, slice.slice.points[0].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.customsRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[1].serieId}: ${determineIfZeroNeeded(slice.slice.points[1].data.y)}T
+            ({getPercentofTotalRevByYear(slice.slice.points[1].data.raw, slice.slice.points[1].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.exciseRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[2].serieId}: ${determineIfZeroNeeded(slice.slice.points[2].data.y)}T
+            ({getPercentofTotalRevByYear(slice.slice.points[2].data.raw, slice.slice.points[2].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.miscRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[3].serieId}: ${determineIfZeroNeeded(slice.slice.points[3].data.y)}T
+            ({getPercentofTotalRevByYear(slice.slice.points[3].data.raw, slice.slice.points[3].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.corpRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[4].serieId}: ${determineIfZeroNeeded(slice.slice.points[4].data.y)}T
+            ({getPercentofTotalRevByYear(slice.slice.points[4].data.raw, slice.slice.points[4].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.socialSecRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[5].serieId}: ${determineIfZeroNeeded(slice.slice.points[5].data.y)}T
+            ({getPercentofTotalRevByYear(slice.slice.points[5].data.raw, slice.slice.points[5].data.x)}%)
+          </div>
+        </div>
+        <div className={styles.tooltipItem}>
+          <div className={styles.indvRectTooltip} />
+          <div className={styles.tooltipItemText}>
+            {slice.slice.points[6].serieId}: ${determineIfZeroNeeded(slice.slice.points[6].data.y.toFixed(2))}T
+            ({getPercentofTotalRevByYear(slice.slice.points[6].data.raw, slice.slice.points[6].data.x)}%)
+          </div>
+        </div>
+      </div>
+    </div>;
+  }
 
   useEffect(() => {
     applyChartScaling()
@@ -174,6 +315,19 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             <div className={styles.lineChart} data-testid={'chartParent'}>
               <Line
                 data={chartData}
+                layers={[
+                  'grid',
+                  'markers',
+                  'axes',
+                  'areas',
+                  'lines',
+                  'points',
+                  // 'slices',
+                  CustomSlices,
+                  'crosshair',
+                  'mesh',
+                  'legends',
+                ]}
                 colors={d => d.color}
                 width={ 515 }
                 height={ 500 }
@@ -216,10 +370,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 pointSize={0}
                 pointLabelYOffset={-12}
                 useMesh={true}
-                enablePoints={false}
-                enableCrosshair={false}
-                isInteractive={false}
-                animate={true}
+                enablePoints={true}
+                sliceTooltip={slice => customTooltip(slice)}
+                enableCrosshair={true}
+                isInteractive={true}
+                enableSlices={'x'}
+                animate={false}
               />
               <div className={styles.legendContainer}>
                 <div className={styles.legendColumn}>

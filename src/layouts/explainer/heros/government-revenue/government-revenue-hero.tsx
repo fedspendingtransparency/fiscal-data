@@ -11,8 +11,9 @@ import { getFootNotesDateRange, getPillData, getShortForm } from "../hero-helper
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
+import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 
-const GovernmentRevenueHero = (): JSX.Element => {
+const GovernmentRevenueHero = ({glossary}): JSX.Element => {
 
   const fields: string = 'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,' +
     'record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
@@ -73,11 +74,21 @@ const GovernmentRevenueHero = (): JSX.Element => {
     getHeroData(revenueUrl);
   }, []);
 
+  const expenditures = (
+    <GlossaryTerm 
+      term={"Expenditures"}
+      page={"Revenue Explainer"}
+      glossary={glossary}
+    >
+      expenditures
+    </GlossaryTerm>
+  );
+
   return (
     <>
       <p className={heroImageSubHeading}>
         Government revenue is income received from taxes and other sources to
-        pay for government expenditures. The U.S. government has collected $
+        pay for government {expenditures}. The U.S. government has collected $
         {getShortForm(currentRevenue, 2, false)} in fiscal year{" "}
         {recordFiscalYear}.
       </p>
@@ -95,7 +106,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
         </p>
         <div className={footNotesPillData}>
           <p>
-            Compared to the national revenue of $
+            Compared to the federal revenue of $
             {getShortForm(priorYearRevenue.toString(), 2, false)} for the same
             period last year (
             {getFootNotesDateRange(
@@ -103,7 +114,7 @@ const GovernmentRevenueHero = (): JSX.Element => {
               priorCalendarYear,
               recordCalendarMonth
             )}
-            ) national revenue has {revenueChangeLabel} by $
+            ) federal revenue has {revenueChangeLabel} by $
             {getShortForm(revenueChange.toString(), 0, false)}.
           </p>
           {getPillData(

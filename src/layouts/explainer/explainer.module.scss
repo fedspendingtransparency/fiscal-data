@@ -81,7 +81,16 @@
   font-size: $font-size-16;
 }
 
+.mobileSubNav{
+  display: none;
+}
+.desktopSubNav{
+  display: block;
+}
+
 @media screen and (min-width: $breakpoint-lg) {
+
+  
 
   .socialShareContainer {
     position: relative;
@@ -167,6 +176,15 @@
 
   .relatedDatasets {
     margin-top: 100px;
+  }
+
+  .mobileSubNav{
+    display: block;
+    margin-top: 1rem;
+
+  }
+  .desktopSubNav{
+    display: none;
   }
 }
 

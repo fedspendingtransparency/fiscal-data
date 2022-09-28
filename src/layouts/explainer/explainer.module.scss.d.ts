@@ -73,6 +73,8 @@ export const sectionHeading: string;
 export const sectionBorder: string;
 export const section: string;
 export const sourceURL: string;
+export const mobileSubNav: string;
+export const desktopSubNav: string;
 export const socialShareContainer: string;
 export const chartBackdrop: string;
 export const visWithCallout: string;

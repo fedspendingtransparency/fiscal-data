@@ -26,14 +26,19 @@ import {
   sectionBorder,
   sectionHeading,
   socialShareContainer,
-  socialShare
+  socialShare,
+  mobileSubNav,
+  desktopSubNav
 } from './explainer.module.scss';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import SocialShare from "./social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies";
 import ComingSoon from "./explainer-components/hightlighted-text/highlighted-text";
-import ExplainerSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
+import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
+import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
+import { breakpointLg } from '../../../src/variables.module.scss'
+
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageContext }) => {
   const {
     pageName,
@@ -77,11 +82,18 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ path, pageCont
       />
 
       {isAFGPage ? (
-        <ExplainerSubNav isShown={true}/>
+        <>
+        <div className={mobileSubNav}>
+          <MobileSubNav hidePosition={160}/>
+        </div>
+        <div className={desktopSubNav}>
+          <DeskTopSubNav hidePosition={160}/>
+        </div>      
+        </>      
       ) : (
         <div className={breadCrumbsContainer}><BreadCrumbs links={breadCrumbLinks} /></div>
       )}
-            
+
       <div className={mainContainer}>
         <HeroImage
           heading={heroImage.heading}
