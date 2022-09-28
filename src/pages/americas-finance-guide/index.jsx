@@ -136,11 +136,11 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         maxWidth={false}
         data-testid="topContainer"
       >
-        {width < pxToNumber(breakpointLg) ? (
-          <MobileSubNav hidePosition={630} />
-        ) : (
-          <DeskTopSubNav hidePosition={630} />
-        )}
+
+        {width < pxToNumber(breakpointLg) ?
+          <MobileSubNav hidePosition={1162} />
+          :
+          <DeskTopSubNav hidePosition={630} />}
 
 
         <AfgTopicSection
