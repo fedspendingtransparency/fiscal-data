@@ -80,11 +80,13 @@ export default function MobileExplainerSubNav({ hidePosition }) {
 
       if (previousScrollPosition < scrollPosition) {
         setNavBlockStyle(mainContainerHidden);
+        handleClose();
       } else {
         setNavBlockStyle(mainContainerSticky);
       }
     } else {
       setNavBlockStyle(mainContainerShow);
+      handleClose();
     }
     console.log(position, previousScrollPosition);
   };
@@ -101,7 +103,6 @@ export default function MobileExplainerSubNav({ hidePosition }) {
 
   const handleClick = event => {
     setDefaultOpen(false);
-    console.log(event, "THE EVENT OVER HERE");
     setAnchorEl(event.currentTarget);
   };
 
@@ -109,15 +110,6 @@ export default function MobileExplainerSubNav({ hidePosition }) {
     setDefaultOpen(false);
     setAnchorEl(null);
   };
-
-  useEffect(() => {
-    // setAnchorEl();
-    setTimeout(setDefaultOpen(true), 1000);
-  }, []);
-
-  // useEffect(() => {
-  //   setDefaultOpen(false);
-  // }, [anchorEl]);
 
   useEffect(() => {
     const isBrowser = () => typeof window !== "undefined";
