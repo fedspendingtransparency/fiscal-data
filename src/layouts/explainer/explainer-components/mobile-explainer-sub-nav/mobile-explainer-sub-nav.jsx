@@ -120,9 +120,9 @@ export default function MobileExplainerSubNav({ hidePosition }) {
         setIsRevenue(true);
       } else if (thisHref.includes("federal-spending")) {
         setIsSpending(true);
-      } else if (thisHref.includes("federal-deficit")) {
+      } else if (thisHref.includes("national-deficit")) {
         setIsDeficit(true);
-      } else if (thisHref.includes("federal-debt")) {
+      } else if (thisHref.includes("national-debt")) {
         setIsDebt(true);
       } else {
         setIsOverview(true);
@@ -143,7 +143,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           className={[buttonOverview, activeMenu].join(" ")}
         >
           <span className={overviewStyle} id="home">
-            <FontAwesomeIcon className={faHouse} icon={faHouseChimney} />
+            <FontAwesomeIcon onClick={() => navigate('/americas-finance-guide/')} className={faHouse} icon={faHouseChimney} />
             Overview
           </span>
           <FontAwesomeIcon className={carrot} icon={anchorEl ? faCaretDown: faCaretRight} />
@@ -159,7 +159,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
         >
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isRevenue ? [revenue, activeMenu] : revenue}`}
+              className={`${isRevenue ? [revenue, activeMenu].join(" ") : revenue}`}
               onClick={() =>
                 navigate("/americas-finance-guide/government-revenue/")
               }
@@ -168,7 +168,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isSpending ? [spending, activeMenu] : spending}`}
+              className={`${isSpending ? [spending, activeMenu].join(" ") : spending}`}
               onClick={() =>
                 navigate("/americas-finance-guide/federal-spending/")
               }
@@ -177,7 +177,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDebt ? [deficit, activeMenu] : deficit}`}
+              className={`${isDeficit ? [deficit, activeMenu].join(" ") : deficit}`}
               onClick={() =>
                 navigate("/americas-finance-guide/national-deficit/")
               }
@@ -186,7 +186,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDebt ? [debt, activeMenu] : debt}`}
+              className={`${isDebt ? [debt, activeMenu].join(" ") : debt}`}
               onClick={() => navigate("/americas-finance-guide/national-debt/")}
               primary="Debt"
             />

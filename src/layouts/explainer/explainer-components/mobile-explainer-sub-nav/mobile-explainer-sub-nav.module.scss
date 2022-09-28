@@ -69,7 +69,7 @@
   }
 }
 .activeMenu{
-  font-weight: $semi-bold-weight;
+  font-weight: $semi-bold-weight !important;
 }
 .mainContainer {
   display: flex;
