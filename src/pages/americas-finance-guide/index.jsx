@@ -131,6 +131,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         datasetDetails=""
       />
       <AfgHero />
+      
+      <div className={styles.mainContainer} >
       <Container
         classes={{ root: styles.topContainer }}
         maxWidth={false}
@@ -228,6 +230,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           data source for federal debt.
         </DataSourcesMethodologies>
       </Container>
+      </div>
       <Container
         classes={{ root: styles.quoteContainer }}
         data-testid="quoteContainer"
