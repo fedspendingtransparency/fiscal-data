@@ -183,6 +183,7 @@ module.exports = {
           default: require.resolve("./src/components/mdx/defaultLayout.jsx")
         }
       }
-    }
+    },
+    `gatsby-plugin-client-side-redirect`
   ],
 };
