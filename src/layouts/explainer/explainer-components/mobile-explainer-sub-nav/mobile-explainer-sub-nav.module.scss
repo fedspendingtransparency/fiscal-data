@@ -76,18 +76,19 @@
 .mainContainer {
   display: flex;
   justify-content: center;
-  font-family: "Source Sans Pro" !important;
-  margin-top: 2rem;
+  margin-top: 2rem !important;
 }
-.mainContainerShow {
+.mainContainerShow  div{
   display: flex;
   justify-content: center;
+  margin-top: 2rem !important;
 
 }
 .mainContainerSticky{
   position: fixed;
   top: 0;
   z-index: 1000;
+  margin-top: 2rem !important;
 }
 .mainContainerHidden{
   display: none;
