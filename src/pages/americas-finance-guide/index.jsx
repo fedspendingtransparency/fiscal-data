@@ -106,7 +106,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   );
   const mts = (
     <CustomLink
-      url={"/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"}
+      url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -222,7 +222,6 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         />
 
         {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
-        {/* TODO: add the links here */}
         <DataSourcesMethodologies>
 
           Current and prior fiscal year values for federal revenue, spending,

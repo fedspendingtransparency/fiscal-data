@@ -17,8 +17,7 @@ export const title = `Sources of Revenue for the U.S. Federal Government, FY `;
 export const subTitle = 'Revenue by Source Categories';
 
 const name = 'Monthly Treasury Statement (MTS)';
-const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`;
+const slug = `/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government`;
 export const footer =
   <div className={footerContainer}>
     <p>
