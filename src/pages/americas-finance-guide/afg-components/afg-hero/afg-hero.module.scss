@@ -26,7 +26,7 @@
         //z-index: 0;
         bottom: 0;
         left: 4rem;
-        background-image: url('/images/statue-of-liberty_1125x717px.png');
+        background-image: url('/images/statue-of-liberty_1075x717px.png');
         background-position: right top;
         background-repeat: no-repeat;
         background-size: cover;
@@ -98,6 +98,19 @@
     }
 }
 
+@media (min-width:960px) and (max-width:992px) {
+    .heroImageBox {
+        background-position: right -100px top 10px;
+    }
+}
+
+@media (max-width:960px) {
+    .heroImageBox {
+        background-position: right -125px top 10px !important;
+    }
+}
+
+
 @media screen and (max-width: $breakpoint-lg) {
     .heroContainer {
         margin: 0;
@@ -111,7 +124,6 @@
 
         .heroImageBox {
             width: calc(100% - 10px);
-            background-position: right -125px top 10px;
             left: 10px;
             top: .5rem;
 
