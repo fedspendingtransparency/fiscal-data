@@ -74,7 +74,7 @@ const labelFormatTable = {
   },
 }
 
-const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
+const LabelComponent = ({node, label, width, HandleMouseEnter, labels}) => {
   const labelFormat = width < pxToNumber(breakpointLg) ?
     labelFormatTable[label].mobile : labelFormatTable[label].desktop;
   const lines = labelFormat.lines;
@@ -99,33 +99,30 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
     HandleMouseEnter(node)
   }
 
-  const handleInteraction = (e) => {
+  const handleInteraction = e => {
     // only proceed on mouse click or Enter key press
-    if (e?.key && e.key !== 'Enter') {
+    if (e?.key && e.key !== "Enter") {
       return;
     }
-    HandleMouseEnter(node);
-  }
-
-  const textElementStyle = {
-    fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-    fontWeight: semiBoldWeight
+    const prevFocusedElementId =
+      e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
+    const prevFocusedElementIdx = labels.indexOf(prevFocusedElementId)
+    const nextElementToFocus = labels[prevFocusedElementIdx] ? labels[prevFocusedElementIdx + 1] || labels[0] : null
+    HandleMouseEnter(node, nextElementToFocus);
   };
-
-  if (!labelFormatTable[label].external) {
-    // if text label over a circle, let the mouse events fall through to its circle
-    textElementStyle.pointerEvents = 'none';
-  }
-
   return (
     <>
       <text
         dominantBaseline="central"
-        style={textElementStyle}
+        style={{
+          fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
+          fontWeight: semiBoldWeight
+        }}
         onMouseEnter={handleLabelMouseEnter}
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
         textAnchor={"middle"}
+        id={label}
       >
         {lines.map((line, index) => (
             <React.Fragment key={index} >

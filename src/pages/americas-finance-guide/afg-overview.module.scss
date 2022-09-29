@@ -7,6 +7,15 @@ $revenueExplainerPrimary: #0A2F5A;
 $dollarIconColor: $font-body-copy;
 $dollarIconBackgroundColor: #F1F1F1;
 
+.mainContainer{
+    width: $site-content-width;
+    max-width: $site-content-width;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
 
 .topContainer {
     max-width: 62rem;
@@ -99,6 +108,9 @@ $dollarIconBackgroundColor: #F1F1F1;
 }
 
 @media screen and (max-width: $breakpoint-lg) {
+    .mainContainer{
+        width: 100%
+    }
     
     .topContainer {
         padding: 0 .625rem !important;

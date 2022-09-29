@@ -3,49 +3,52 @@
 .MenuList {
   background-color: #0a2f5a;
   color: #0a2f5a;
-  height: 1.625rem;
+  min-height: 2.25rem !important;
   width: 18rem;
   text-algin: right;
   z-index: 1;
   padding-left: 0 !important;
   padding-right: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 
 }
 
-.listItems {
+@mixin afg-menu-item($backgroundColor) {
+  background-color: $backgroundColor !important;
   color: white;
-  height: 2rem;
   border-radius: 2px;
   padding-left: 2rem;
+  min-height: 2.25rem;
+  line-height: .5rem;
+  margin-top: .063rem !important;
+  margin-bottom: .063rem !important;
+  font-family: "Source Sans Pro" !important;
+
+  span{
+    line-height: 2.25rem !important;
+    font-family: "Source Sans Pro" !important;
+  }
 }
 
 .revenue {
-  background-color: #0a2f5a;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
+  @include afg-menu-item(#0a2f5a);
+
 }
 
 .spending {
-  background-color: #00766c !important;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
+  @include afg-menu-item(#00766c);
 
 }
 
 .deficit {
-  background-color: #b3532d;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
+  @include afg-menu-item(#b3532d);
+
 }
 
 .debt {
-  background-color: #4a0072;
-  color: white;
-  border-radius: 2px;
-  padding-left: 2rem;
+  @include afg-menu-item(#4a0072);
+
 }
 
 .buttonOverview {
@@ -55,7 +58,7 @@
   color: white;
   width: 21.25rem;
   height: 2rem;
-  font-size: 1rem;
+  font-size: $font-size-16;
   text-align: left;
   border: none;
   display: flex;
@@ -65,13 +68,15 @@
   .overviewStyle {
     margin-left: 1.438rem;
   }
-
 }
-
+.activeMenu span{
+  font-weight: $semi-bold-weight !important;
+  font-family: "Source Sans Pro" !important;
+}
 .mainContainer {
   display: flex;
   justify-content: center;
-
+  margin-top: 2rem !important;
 }
 .mainContainerShow {
   display: flex;
@@ -82,11 +87,16 @@
   position: fixed;
   top: 0;
   z-index: 1000;
+  margin-top: 2rem !important;
 }
 .mainContainerHidden{
   display: none;
 }
-
+.mainListSticky{
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
 .carrot {
   padding-right: 1rem;
 }

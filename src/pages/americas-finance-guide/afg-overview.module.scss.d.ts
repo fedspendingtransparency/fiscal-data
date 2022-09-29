@@ -121,6 +121,7 @@ export const paddingTop: string;
 export const diveDeeperContent: string;
 export const multichartWrapper: string;
 export const deficitAccordion: string;
+export const mainContainer: string;
 export const topContainer: string;
 export const debtText: string;
 export const deficitText: string;

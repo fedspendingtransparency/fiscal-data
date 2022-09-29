@@ -69,6 +69,7 @@
     "gatsby": "^3.10.1",
     "gatsby-env-variables": "^2.0.0",
     "gatsby-plugin-build-date": "^1.0.0",
+    "gatsby-plugin-client-side-redirect": "^1.1.0",
     "gatsby-plugin-exclude": "^1.0.2",
     "gatsby-plugin-google-analytics": "^3.10.0",
     "gatsby-plugin-html-attributes": "^1.0.5",
