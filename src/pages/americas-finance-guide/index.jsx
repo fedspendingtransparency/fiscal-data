@@ -31,6 +31,7 @@ import {
   spendingRequest,
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
+import GlossaryTerm from "../../components/glossary-term/glossary-term";
 
 export const AmericasFinanceGuidePage = ({ width }) => {
   const [fiscalYear, setFiscalYear] = useState("");
@@ -106,7 +107,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   );
   const mts = (
     <CustomLink
-      url={"/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"}
+      url={"https://{env}.fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -224,7 +225,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         <DataSourcesMethodologies>
 
           Current and prior fiscal year values for federal revenue, spending,
-          and deficit are sourced from the  {mts}. The {debtToThePenny} dataset is the
+          and deficit are sourced from the {mts}. The {debtToThePenny} dataset is the
           data source for federal debt.
         </DataSourcesMethodologies>
       </Container>
