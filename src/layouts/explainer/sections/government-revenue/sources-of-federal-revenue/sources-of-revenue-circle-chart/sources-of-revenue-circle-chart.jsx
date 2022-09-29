@@ -294,7 +294,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       setCategoryRevenuePercent(chartData.children[defaultCategory.location].percent * 100);
     }
   }
-  const labels = Object.assign({}, chartData)?.children?.map(item => item.id);
 
   return (
     <>
@@ -331,7 +330,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                     label={label}
                     width={width}
                     HandleMouseEnter={HandleMouseEnter}
-                    labels={labels}
                   />}
                 animate={false}
                 onMouseEnter={(node) => HandleMouseEnter(node)}

@@ -74,7 +74,7 @@ const labelFormatTable = {
   },
 }
 
-const LabelComponent = ({node, label, width, HandleMouseEnter, labels}) => {
+const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
   const labelFormat = width < pxToNumber(breakpointLg) ?
     labelFormatTable[label].mobile : labelFormatTable[label].desktop;
   const lines = labelFormat.lines;
@@ -106,9 +106,7 @@ const LabelComponent = ({node, label, width, HandleMouseEnter, labels}) => {
     }
     const prevFocusedElementId =
       e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
-    const prevFocusedElementIdx = labels.indexOf(prevFocusedElementId)
-    const nextElementToFocus = labels[prevFocusedElementIdx] ? labels[prevFocusedElementIdx + 1] || labels[0] : null
-    HandleMouseEnter(node, nextElementToFocus);
+    HandleMouseEnter(node, prevFocusedElementId);
   };
   return (
     <>
