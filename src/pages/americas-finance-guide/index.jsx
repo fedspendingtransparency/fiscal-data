@@ -105,11 +105,10 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
       <span style={{ fontStyle: "italic" }}>debt.</span>
     </>
   );
-  const exciseTaxes =(
-    <GlossaryTerm term={'Excise'} page={'Revenue Explainer & AFG Overview Page'} glossary={glossary}>
+  const exciseTaxes =
+    <GlossaryTerm term={'Excise'} page={'AFG'} glossary={glossary}>
       excise taxes
     </GlossaryTerm>
-  );
 
   const mts = (
     <CustomLink
@@ -127,6 +126,11 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
       Debt to the Penny
     </CustomLink>
   );
+
+  const revenueBody =
+    <>
+      The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {exciseTaxes}. It also collects revenue from services like admission to national parks and customs duties.
+    </>
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -149,10 +153,9 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
           <DeskTopSubNav hidePosition={630} />
         )}
 
-
         <AfgTopicSection
           heading={revenueHeading}
-          body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and `${exciseTaxes}`. It also collects revenue from services like admission to national parks and customs duties."
+          body={revenueBody}
           linkUrl="/americas-finance-guide/government-revenue/"
 
           linkText="Learn more about government revenue"
