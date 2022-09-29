@@ -311,7 +311,8 @@ exports.createSchemaCustomization = ({ actions }) => {
 };
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions;
+  const { createPage, createRedirect } = actions;
+
   const result = await graphql(`
     query {
       allDatasets
@@ -459,7 +460,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   `);
 
-
   const glossaryData = result.data.allGlossaryCsv.glossaryCsv;
 
   result.data.allBlsPublicApiData.blsPublicApiData
@@ -573,6 +573,30 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       }
     });
   }
+  createRedirect(
+    {
+      fromPath: '/government-revenue/',
+      toPath: '/americas-finance-guide/government-revenue/',
+      isPermanent: true
+    });
+  createRedirect(
+    {
+      fromPath: '/federal-spending/',
+      toPath: '/americas-finance-guide/federal-spending/',
+      isPermanent: true
+    });
+  createRedirect(
+    {
+      fromPath: '/national-deficit/',
+      toPath: '/americas-finance-guide/national-deficit/',
+      isPermanent: true
+    });
+  createRedirect(
+    {
+      fromPath: '/national-debt/',
+      toPath: '/americas-finance-guide/national-debt/',
+      isPermanent: true
+    });
 };
 
 exports.onCreatePage = async ({ page, actions: { createPage } }) => {
