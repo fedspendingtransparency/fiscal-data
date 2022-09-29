@@ -94,10 +94,22 @@
 
 @media (min-width:997px) and (max-width:1035px) {
     h1.heroHeading{
-        
         padding-right: 6rem;
     }
 }
+
+@media (min-width:960px) and (max-width:992px) {
+    .heroImageBox {
+        background-position: right -100px top 10px;
+    }
+}
+
+@media (max-width:960px) {
+    .heroImageBox {
+        background-position: right -125px top 10px !important;
+    }
+}
+
 
 @media screen and (max-width: $breakpoint-lg) {
     .heroContainer {
@@ -112,7 +124,6 @@
 
         .heroImageBox {
             width: calc(100% - 10px);
-            background-position: right -125px top 10px;
             left: 10px;
             top: .5rem;
 
