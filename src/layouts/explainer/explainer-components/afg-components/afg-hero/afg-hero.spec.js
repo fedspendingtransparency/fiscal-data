@@ -1,7 +1,6 @@
 import React from "react"
 import AfgHero from './afg-hero'
 import {render} from '@testing-library/react';
-import {faHandHoldingDollar} from "@fortawesome/free-solid-svg-icons";
 
 describe("AFG Hero Component", () => {
   it("renders the Component and Social Share", () => {
@@ -20,7 +19,7 @@ describe("AFG Hero Component", () => {
     expect(reddit).toBeInTheDocument();
     expect(email).toBeInTheDocument();
 
-    
+
   })
 
 

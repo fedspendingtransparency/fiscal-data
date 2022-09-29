@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import * as styles from './afg-hero.module.scss'
-import { Box } from "@material-ui/core"
-import { useWindowSize } from "../../../../hooks/windowResize"
+import { useWindowSize } from "../../../../../hooks/windowResize"
 import {
     explainerAnalyticsLabelMap,
     explainerSocialShareMap,
-} from "../../../../layouts/explainer/explainer-helpers/explainer-helpers"
-import SocialShare from "../../../../layouts/explainer/social-share/social-share"
+} from "../../../explainer-helpers/explainer-helpers"
+import SocialShare from "../../../social-share/social-share"
 
 export default function AfgHero() {
     const [isMobile, setIsMobile] = useState(false)
@@ -18,7 +17,7 @@ export default function AfgHero() {
         tablet: 600,
     }
 
-    const refSocialShare = useRef(0);    
+    const refSocialShare = useRef(0);
 
     useEffect(() => {
         const isMobile = window.innerWidth < breakpoint.desktop
@@ -27,7 +26,7 @@ export default function AfgHero() {
         } else {
             setIsMobile(false)
         }
-        
+
         setContainerHeight(refSocialShare.current.offsetTop + 450)
     }, [width, height, containerHeight])
 
