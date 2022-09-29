@@ -75,6 +75,7 @@ export const mainContainer: string;
 export const mainContainerShow: string;
 export const mainContainerSticky: string;
 export const mainContainerHidden: string;
+export const mainListSticky: string;
 export const carrot: string;
 export const faHouse: string;
 export const stylingStyledMenu: string;

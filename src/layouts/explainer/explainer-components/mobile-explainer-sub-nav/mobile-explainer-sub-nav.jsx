@@ -29,6 +29,7 @@ import {
   mainContainerHidden,
   mainContainerShow,
   activeMenu,
+  mainListSticky
 } from "./mobile-explainer-sub-nav.module.scss";
 
 const StyledMenu = withStyles({
@@ -64,6 +65,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(mainContainerShow);
+  const [navBlockList, setNavBlockList] = useState(mainContainerShow);
   const [isRevenue, setIsRevenue] = useState(false);
   const [isSpending, setIsSpending] = useState(false);
   const [isDeficit, setIsDeficit] = useState(false);
@@ -80,13 +82,16 @@ export default function MobileExplainerSubNav({ hidePosition }) {
 
       if (previousScrollPosition < scrollPosition) {
         setNavBlockStyle(mainContainerHidden);
+        setNavBlockList(mainContainerHidden);
         handleClose();
       } else {
         setNavBlockStyle(mainContainerSticky);
+        setNavBlockList(mainListSticky);
         handleClose();
       }
     } else {
       setNavBlockStyle(mainContainerShow);
+      setNavBlockList(mainContainerHidden);
       handleClose();
     }
   };
@@ -154,7 +159,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           disableScrollLock={true}
           open={defaultOpen || Boolean(anchorEl)}
           onClose={handleClose}
-          className={[navBlockStyle, stylingStyledMenu].join(" ")}
+          className={[mainListSticky, stylingStyledMenu].join(" ")}
           id="styled-menu"
         >
           <StyledMenuItem className={MenuList}>

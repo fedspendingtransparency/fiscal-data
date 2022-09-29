@@ -78,10 +78,9 @@
   justify-content: center;
   margin-top: 2rem !important;
 }
-.mainContainerShow  div{
+.mainContainerShow {
   display: flex;
   justify-content: center;
-  margin-top: 2rem !important;
 
 }
 .mainContainerSticky{
@@ -93,7 +92,11 @@
 .mainContainerHidden{
   display: none;
 }
-
+.mainListSticky{
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
 .carrot {
   padding-right: 1rem;
 }
