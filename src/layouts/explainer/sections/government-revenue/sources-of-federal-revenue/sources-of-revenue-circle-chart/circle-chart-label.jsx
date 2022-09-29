@@ -74,7 +74,7 @@ const labelFormatTable = {
   },
 }
 
-const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
+const LabelComponent = ({node, label, width, HandleMouseEnter, labels}) => {
   const labelFormat = width < pxToNumber(breakpointLg) ?
     labelFormatTable[label].mobile : labelFormatTable[label].desktop;
   const lines = labelFormat.lines;
@@ -99,13 +99,17 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
     HandleMouseEnter(node)
   }
 
-  const handleInteraction = (e) => {
+  const handleInteraction = e => {
     // only proceed on mouse click or Enter key press
-    if (e?.key && e.key !== 'Enter') {
+    if (e?.key && e.key !== "Enter") {
       return;
     }
-    HandleMouseEnter(node);
-  }
+    const prevFocusedElementId =
+      e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
+    const prevFocusedElementIdx = labels.indexOf(prevFocusedElementId)
+    const nextElementToFocus = labels[prevFocusedElementIdx] ? labels[prevFocusedElementIdx + 1] || labels[0] : null
+    HandleMouseEnter(node, nextElementToFocus);
+  };
   return (
     <>
       <text
@@ -118,6 +122,7 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
         textAnchor={"middle"}
+        id={label}
       >
         {lines.map((line, index) => (
             <React.Fragment key={index} >
