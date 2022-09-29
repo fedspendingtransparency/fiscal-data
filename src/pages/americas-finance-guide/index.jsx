@@ -77,10 +77,6 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
     });
   }, []);
 
-  const exciseTaxes =
-    <GlossaryTerm term={'excise'} page={'revenue explainer & afg overviewpage'} glossary={glossary}>
-      excise taxes
-    </GlossaryTerm>
   const revenueHeading = (
     <>
       In fiscal year {fiscalYear}, the federal government has collected $
@@ -109,6 +105,12 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
       <span style={{ fontStyle: "italic" }}>debt.</span>
     </>
   );
+  const exciseTaxes =(
+    <GlossaryTerm term={'Excise'} page={'Revenue Explainer & AFG Overview Page'} glossary={glossary}>
+      excise taxes
+    </GlossaryTerm>
+  );
+
   const mts = (
     <CustomLink
       url={"https://{env}.fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
@@ -150,7 +152,7 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
 
         <AfgTopicSection
           heading={revenueHeading}
-          body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {${exciseTaxes}}. It also collects revenue from services like admission to national parks and customs duties."
+          body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and `${exciseTaxes}`. It also collects revenue from services like admission to national parks and customs duties."
           linkUrl="/americas-finance-guide/government-revenue/"
 
           linkText="Learn more about government revenue"
