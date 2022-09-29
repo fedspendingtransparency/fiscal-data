@@ -32,8 +32,26 @@ import {
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
 import GlossaryTerm from "../../components/glossary-term/glossary-term";
+import {graphql, useStaticQuery} from "gatsby";
 
-export const AmericasFinanceGuidePage = ({ width, glossary }) => {
+export const AmericasFinanceGuidePage = ({ width }) => {
+  const allGlossary = useStaticQuery(
+    graphql`
+        query {
+             allGlossaryCsv {
+               glossaryCsv: nodes {
+                 term
+                 definition
+                 site_page
+                 id
+                 url_display
+                 url_path
+          }
+         }
+        }
+      `,
+  );
+  const glossary  = allGlossary.allGlossaryCsv.glossaryCsv;
   const [fiscalYear, setFiscalYear] = useState("");
   const [yearToDateRevenue, setYearToDateRevenue] = useState("");
   const [yearToDateSpending, setYearToDateSpending] = useState("");
@@ -106,10 +124,13 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
     </>
   );
   const exciseTaxes =
-    <GlossaryTerm term={'Excise'} page={'AFG'} glossary={glossary}>
-      excise taxes
+    <GlossaryTerm
+      term={"Excise"}
+      page={"Revenue Explainer & AFG Overview Page"}
+      glossary={glossary}
+    >
+      excise
     </GlossaryTerm>
-
   const mts = (
     <CustomLink
       url={"https://{env}.fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
@@ -129,7 +150,7 @@ export const AmericasFinanceGuidePage = ({ width, glossary }) => {
 
   const revenueBody =
     <>
-      The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {exciseTaxes}. It also collects revenue from services like admission to national parks and customs duties.
+      The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {exciseTaxes} taxes. It also collects revenue from services like admission to national parks and customs duties.
     </>
   return (
     <SiteLayout isPreProd={false}>
