@@ -74,6 +74,7 @@ export const tooltipYearHeader: string;
 export const tooltipColumn: string;
 export const tooltipItem: string;
 export const tooltipItemText: string;
+export const tooltipItemCategory: string;
 export const estateRectTooltip: string;
 export const customsRectTooltip: string;
 export const exciseRectTooltip: string;
