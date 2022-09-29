@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useRef, useState } from "react"
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import { CirclePacking } from '@nivo/circle-packing';
 import {
@@ -217,7 +217,22 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     customsDutiesColor,
     estateTaxesColor,
     exciseTaxesColor
-  ])
+  ]);
+
+  const chartWrap = useRef(null);
+
+  useEffect(() => {
+
+    const handleOutsideClick = (event) => {
+      if (chartWrap.current && !chartWrap.current.contains(event.target)) {
+        HandleChartMouseLeave();
+      }
+    }
+    // Adding tap/click event listener
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [chartWrap]);
+
 
   useEffect(() => {
     if (elementToFocus) {
@@ -272,9 +287,21 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       colorMap[id].set(newColor);
     }
   }
-
-  const HandleMouseEnter = (node, elementId) => {
-    if (node.id !== categoryName) {
+  const HandleLabelClick = (node, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const target = document.querySelector(`[cx="${node.x}"]`);
+      const circleEvent = new e.nativeEvent.constructor(e.nativeEvent.type, e.nativeEvent);
+      target.dispatchEvent(circleEvent);
+    }
+  }
+  const HandleMouseEnter = (node, e, elementId) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if(node.id !== categoryName) {
       decreaseOpacity(categoryName, colorMap[categoryName].color);
       increaseOpacity(node.id, node.color);
       setCategoryName(node.id);
@@ -287,11 +314,17 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const HandleChartMouseLeave = () => {
     if(chartData !== {}) {
-      decreaseOpacity(categoryName, colorMap[categoryName].color);
+      Object.keys(colorMap).forEach(colorCategory => {
+        if (colorCategory !== defaultCategory.name) {
+          decreaseOpacity(colorCategory, colorMap[colorCategory].color);
+        }
+      })
       setIndividualIncomeColor(defaultCategory.color);
       setCategoryName(defaultCategory.name);
-      setCategoryRevenueAmount(chartData.children[defaultCategory.location].value);
-      setCategoryRevenuePercent(chartData.children[defaultCategory.location].percent * 100);
+      if (chartData && chartData.children) {
+        setCategoryRevenueAmount(chartData.children[defaultCategory.location].value);
+        setCategoryRevenuePercent(chartData.children[defaultCategory.location].percent * 100);
+      }
     }
   }
   const labels = Object.assign({}, chartData)?.children?.map(item => item.id);
@@ -312,8 +345,11 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       {chartData !== {} ? (
           <div className={dataContent} >
             <div
+              role="presentation"
               className={chartSize}
               onMouseLeave={HandleChartMouseLeave}
+              onClick={HandleChartMouseLeave}
+              ref={chartWrap}
             >
               <CirclePacking
                 data={chartData}
@@ -331,11 +367,13 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                     label={label}
                     width={width}
                     HandleMouseEnter={HandleMouseEnter}
+                    HandleClick={HandleLabelClick}
+                    HandleMouseLeave={HandleChartMouseLeave}
                     labels={labels}
                   />}
                 animate={false}
-                onMouseEnter={(node) => HandleMouseEnter(node)}
-                onClick={(node) => HandleMouseEnter(node)}
+                onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
+                onClick={(node, e) => HandleMouseEnter(node, e)}
               />
             </div>
             <div className={totalRevenueDataPill}>

@@ -1,6 +1,7 @@
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.scss";
 import React from "react";
+import { useNodeMouseHandlers } from "@nivo/circle-packing"
 
 
 const labelFormatTable = {
@@ -74,7 +75,14 @@ const labelFormatTable = {
   },
 }
 
-const LabelComponent = ({node, label, width, HandleMouseEnter, labels}) => {
+const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, HandleMouseLeave, labels}) => {
+
+  const handlers = useNodeMouseHandlers(node, {
+    onMouseEnter: HandleMouseEnter,
+    onMouseLeave: HandleMouseLeave,
+    onClick: HandleClick
+  });
+
   const labelFormat = width < pxToNumber(breakpointLg) ?
     labelFormatTable[label].mobile : labelFormatTable[label].desktop;
   const lines = labelFormat.lines;
@@ -108,17 +116,25 @@ const LabelComponent = ({node, label, width, HandleMouseEnter, labels}) => {
       e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
     const prevFocusedElementIdx = labels.indexOf(prevFocusedElementId)
     const nextElementToFocus = labels[prevFocusedElementIdx] ? labels[prevFocusedElementIdx + 1] || labels[0] : null
-    HandleMouseEnter(node, nextElementToFocus);
+    HandleMouseEnter(node, e, nextElementToFocus);
   };
+  const textElementStyle = {
+    fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
+    fontWeight: semiBoldWeight
+  };
+
+  if (!labelFormatTable[label].external) {
+    // if text label over a circle, let the mouse events fall through to its circle
+    textElementStyle.pointerEvents = 'none';
+  }
+
   return (
     <>
       <text
         dominantBaseline="central"
-        style={{
-          fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-          fontWeight: semiBoldWeight
-        }}
-        onMouseEnter={handleLabelMouseEnter}
+        style={textElementStyle}
+        onClick={handlers.onClick}
+        onMouseEnter={handlers.onMouseEnter}
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
         textAnchor={"middle"}
