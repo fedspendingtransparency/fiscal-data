@@ -75,7 +75,7 @@ const labelFormatTable = {
   },
 }
 
-const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, HandleMouseLeave, labels}) => {
+const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, HandleMouseLeave}) => {
 
   const handlers = useNodeMouseHandlers(node, {
     onMouseEnter: HandleMouseEnter,
@@ -114,9 +114,7 @@ const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, Hand
     }
     const prevFocusedElementId =
       e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
-    const prevFocusedElementIdx = labels.indexOf(prevFocusedElementId)
-    const nextElementToFocus = labels[prevFocusedElementIdx] ? labels[prevFocusedElementIdx + 1] || labels[0] : null
-    HandleMouseEnter(node, e, nextElementToFocus);
+    HandleMouseEnter(node, e, prevFocusedElementId);
   };
   const textElementStyle = {
     fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,

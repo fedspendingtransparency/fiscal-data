@@ -157,7 +157,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           const exciseTax = {
             "id": "Excise Taxes",
             "value": nodeValue,
-            "color": exciseTaxesColor,
+            "color": exciseTaxesColor
           };
 
           if(categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
@@ -327,7 +327,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       }
     }
   }
-  const labels = Object.assign({}, chartData)?.children?.map(item => item.id);
 
   return (
     <>
@@ -369,7 +368,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                     HandleMouseEnter={HandleMouseEnter}
                     HandleClick={HandleLabelClick}
                     HandleMouseLeave={HandleChartMouseLeave}
-                    labels={labels}
                   />}
                 animate={false}
                 onMouseEnter={(node, e) => HandleMouseEnter(node, e)}

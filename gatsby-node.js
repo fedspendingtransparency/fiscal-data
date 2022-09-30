@@ -608,9 +608,9 @@ exports.onCreatePage = async ({ page, actions: { createPage } }) => {
       const datasetForPage = Object.values(datasetIdMap)
         .find(ds => pagePath.indexOf('datasets' + ds.slug) !== -1);
       page.matchPath = '/datasets' + datasetForPage.slug + '/*';
-      page.context = { ...page.context, filters: filters };
+      page.context = { ...page.context, filters: filters  };
       createPage(page);
-    } else if (pagePath.match(/^\/downloads\/$/)) {
+    }else if (pagePath.match(/^\/downloads\/$/)) {
       page.matchPath = '/downloads/*';
       createPage(page);
     } else if (pagePath.match(/^\/topics\/.+/)) {
