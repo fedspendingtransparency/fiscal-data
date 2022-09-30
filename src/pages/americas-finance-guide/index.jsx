@@ -312,7 +312,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           Your Guide to America's Finances is a re-invention of the{" "}
           <span className={styles.blueText}>
             {" "}
-            <a href={'/reports-statements/financial-report/current-report.html'}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
+            <a href={'https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
           </span>{" "}
           This site was created in response to the public's desire to learn more
           about the financial picture of the United States. Where does the money
