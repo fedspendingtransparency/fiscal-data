@@ -26,7 +26,7 @@ module.exports = {
         "015-BFS-2014Q1-11"
       ],
       "slug": "/slgs-daily-rate-table/",
-      "currentDateButton": "byMonth"
+      "currentDateButton": "byDay"
     }
   },
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,
