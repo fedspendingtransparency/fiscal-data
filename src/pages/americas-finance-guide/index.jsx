@@ -51,6 +51,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         }
       `,
   );
+
   const glossary  = allGlossary.allGlossaryCsv.glossaryCsv;
   const [fiscalYear, setFiscalYear] = useState("");
   const [yearToDateRevenue, setYearToDateRevenue] = useState("");
