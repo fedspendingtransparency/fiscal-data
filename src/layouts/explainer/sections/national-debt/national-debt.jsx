@@ -474,6 +474,7 @@ export const FundingProgramsSection = () => {
         icon={faFlagUsa}
         primaryColor={debtExplainerPrimary}
         secondaryColor={debtExplainerLightSecondary}
+        customTopMargin={'0'}
       >
         <p>
           In accordance with the 2014 DATA Act, federal agencies are required to submit financial

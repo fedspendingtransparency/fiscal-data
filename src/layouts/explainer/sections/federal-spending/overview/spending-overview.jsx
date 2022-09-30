@@ -172,6 +172,7 @@ export const SpendingOverview = ({ glossary }) => {
         icon={faFlagUsa}
         primaryColor={spendingExplainerSecondary}
         secondaryColor={spendingExplainerLightSecondary}
+        customTopMargin={'-1rem'}
       >
         <p>
           According to the Constitution’s Preamble, the purpose of the federal
