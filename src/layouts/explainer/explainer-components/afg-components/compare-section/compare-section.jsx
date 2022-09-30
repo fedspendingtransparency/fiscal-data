@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Grid } from '@material-ui/core';
 import * as styles from './compare-section.module.scss';
 import {spendingExplainerPrimary} from
-    '../../../../layouts/explainer/sections/federal-spending/federal-spending.module.scss';
+    '../../../sections/federal-spending/federal-spending.module.scss';
 import {debtExplainerPrimary} from
-    '../../../../layouts/explainer/sections/national-debt/national-debt.module.scss';
+    '../../../sections/national-debt/national-debt.module.scss';
 import {deficitExplainerPrimary} from
-    '../../../../layouts/explainer/sections/national-deficit/national-deficit.module.scss'
+    '../../../sections/national-deficit/national-deficit.module.scss'
 import {revenueExplainerPrimary} from
-    '../../afg-overview.module.scss'
+    '../../../../../pages/americas-finance-guide/afg-overview.module.scss'
 import AfgIcon from '../afg-icon/afg-icon';
 import {
   faCoins,
@@ -16,9 +16,9 @@ import {
   faChartArea,
   faMagnifyingGlassDollar
 } from "@fortawesome/free-solid-svg-icons";
-import { basicFetch } from "../../../../utils/api-utils"
-import { getShortForm } from "../../../../layouts/explainer/heros/hero-helper"
-import ApiRequest from "../../../../helpers/api-request"
+import { basicFetch } from "../../../../../utils/api-utils"
+import { getShortForm } from "../../../heros/hero-helper"
+import ApiRequest from "../../../../../helpers/api-request"
 import {
   deficitRequest,
   revenueCategoryRequest,
@@ -26,7 +26,7 @@ import {
   spendingCategoryRequest,
   spendingRequest,
   debtRequest
-} from "../../../../layouts/explainer/explainer-helpers/afg-overview-helpers"
+} from "../../../explainer-helpers/afg-overview-helpers"
 
 
 export default function CompareSection({currentFiscalYear}) {
@@ -220,4 +220,4 @@ export default function CompareSection({currentFiscalYear}) {
             </Grid>
         </div>
     )
-};
+}

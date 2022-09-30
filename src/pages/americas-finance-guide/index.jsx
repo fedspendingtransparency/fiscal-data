@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from "react";
 import PageHelmet from "../../components/page-helmet/page-helmet";
 import SiteLayout from "../../components/siteLayout/siteLayout";
-import { Container, Grid, Box } from "@material-ui/core";
-import DataSourcesMethodologies from "../../layouts/explainer/data-sources-methodologies/data-sources-methodologies";
+import { Container, Grid } from "@material-ui/core";
+import DataSourcesMethodologies from
+    "../../layouts/explainer/data-sources-methodologies/data-sources-methodologies";
 import * as styles from "./afg-overview.module.scss";
 import { withWindowSize } from "react-fns";
 import { pxToNumber } from "../../helpers/styles-helper/styles-helper";
 import { breakpointLg } from "../../../src/variables.module.scss";
-import { spendingExplainerPrimary } from "../../layouts/explainer/sections/federal-spending/federal-spending.module.scss";
-import { debtExplainerPrimary } from "../../layouts/explainer/sections/national-debt/national-debt.module.scss";
-import { deficitExplainerPrimary } from "../../layouts/explainer/sections/national-deficit/national-deficit.module.scss";
+import { spendingExplainerPrimary } from
+    "../../layouts/explainer/sections/federal-spending/federal-spending.module.scss";
+import { debtExplainerPrimary } from
+    "../../layouts/explainer/sections/national-debt/national-debt.module.scss";
+import { deficitExplainerPrimary } from
+    "../../layouts/explainer/sections/national-deficit/national-deficit.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMoneyBill1Wave,
   faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import AfgIcon from "./afg-components/afg-icon/afg-icon";
-import CompareSection from "./afg-components/compare-section/compare-section";
-import DeskTopSubNav from "../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav";
+import AfgIcon from "../../layouts/explainer/explainer-components/afg-components/afg-icon/afg-icon";
+import CompareSection from
+    "../../layouts/explainer/explainer-components/afg-components/compare-section/compare-section";
+import DeskTopSubNav from
+    "../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
 import { basicFetch } from "../../utils/api-utils";
 import { getShortForm } from "../../layouts/explainer/heros/hero-helper";
-import AfgTopicSection from "./afg-components/afg-topic-section/afg-topic-section";
-import AfgHero from "./afg-components/afg-hero/afg-hero";
+import AfgTopicSection from "../../layouts/explainer/explainer-components/afg-components/afg-topic-section/afg-topic-section";
+import AfgHero from "../../layouts/explainer/explainer-components/afg-components/afg-hero/afg-hero";
 import ApiRequest from "../../helpers/api-request";
 import {
   debtRequest,
