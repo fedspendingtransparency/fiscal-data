@@ -13,6 +13,7 @@ describe('API Documentation/Endpoints', () => {
     allTopics: {
       topics: internalData.topics
     }
+
   };
 
   let component;

@@ -3,8 +3,29 @@ import { render, RenderResult, waitFor, act } from "@testing-library/react"
 import { AmericasFinanceGuidePage } from "./index"
 import { mockEndpointResponseMap } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers"
 import { setGlobalFetchMatchingResponse } from "../../utils/mock-utils"
+import { useStaticQuery } from "gatsby";
 
 describe('Americas Finance Guide', () => {
+  const glossaryMock =
+    {
+        "allGlossaryCsv": {
+          "glossaryCsv": [
+            {
+              "term": "Excise",
+              "definition": "A tax collected on certain goods and commodities produced or sold within the country (i.e. alcohol and tobacco, gasoline) and on licenses granted for certain activities (i.e. import/export license).",
+              "site_page": "Revenue Explainer & AFG Overview Page",
+              "id": "12",
+              "url_display": "",
+              "url_path": ""
+            }
+          ]
+      },
+      "extensions": {}
+    };
+
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
   beforeEach(() => {
     // mock all data endpoints for inline evergreen values
       setGlobalFetchMatchingResponse(jest, mockEndpointResponseMap);

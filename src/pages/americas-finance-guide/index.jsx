@@ -37,8 +37,28 @@ import {
   spendingRequest,
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
+import GlossaryTerm from "../../components/glossary-term/glossary-term";
+import {graphql, useStaticQuery} from "gatsby";
 
 export const AmericasFinanceGuidePage = ({ width }) => {
+  const allGlossary = useStaticQuery(
+    graphql`
+        query {
+             allGlossaryCsv {
+               glossaryCsv: nodes {
+                 term
+                 definition
+                 site_page
+                 id
+                 url_display
+                 url_path
+          }
+         }
+        }
+      `,
+  );
+
+  const glossary  = allGlossary.allGlossaryCsv.glossaryCsv;
   const [fiscalYear, setFiscalYear] = useState("");
   const [yearToDateRevenue, setYearToDateRevenue] = useState("");
   const [yearToDateSpending, setYearToDateSpending] = useState("");
@@ -110,6 +130,14 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       <span style={{ fontStyle: "italic" }}>debt.</span>
     </>
   );
+  const exciseTaxes =
+    <GlossaryTerm
+      term={"Excise"}
+      page={"Revenue Explainer & AFG Overview Page"}
+      glossary={glossary}
+    >
+      excise
+    </GlossaryTerm>
   const mts = (
     <CustomLink
       url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
@@ -126,6 +154,11 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       Debt to the Penny
     </CustomLink>
   );
+
+  const revenueBody =
+    <>
+      The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {exciseTaxes} taxes. It also collects revenue from services like admission to national parks and customs duties.
+    </>
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -150,10 +183,9 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           :
           <DeskTopSubNav hidePosition={630} />}
 
-
         <AfgTopicSection
           heading={revenueHeading}
-          body="The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and excise taxes. It also collects revenue from services like admission to national parks and customs duties."
+          body={revenueBody}
           linkUrl="/americas-finance-guide/government-revenue/"
 
           linkText="Learn more about government revenue"
@@ -231,7 +263,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         <DataSourcesMethodologies>
 
           Current and prior fiscal year values for federal revenue, spending,
-          and deficit are sourced from the  {mts}. The {debtToThePenny} dataset is the
+          and deficit are sourced from the {mts}. The {debtToThePenny} dataset is the
           data source for federal debt.
         </DataSourcesMethodologies>
       </Container>
