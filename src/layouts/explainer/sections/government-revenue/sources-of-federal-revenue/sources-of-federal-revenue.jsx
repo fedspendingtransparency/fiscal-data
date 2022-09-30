@@ -148,6 +148,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
         icon={faMartiniGlassCitrus}
         primaryColor={revenueExplainerPrimary}
         secondaryColor={revenueExplainerLightSecondary}
+        customTopMargin={'-1rem'}
       >
         <p className={quoteBoxContent}>
           From 1868 until 1913, 90% of all federal revenue came from taxes on

@@ -7,13 +7,21 @@ $revenueExplainerPrimary: #0A2F5A;
 $dollarIconColor: $font-body-copy;
 $dollarIconBackgroundColor: #F1F1F1;
 
+.mainContainer{
+    max-width: $site-content-width;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
 
 .topContainer {
     max-width: 62rem;
     overflow: hidden;
 }
 
-.debtText {    
+.debtText {
     color: $debt-explainer-primary;
 }
 
@@ -26,7 +34,7 @@ $dollarIconBackgroundColor: #F1F1F1;
 
     .middleHeaderHeading {
         @include headingStyle4;
-        
+
         margin-left: 1rem;
     }
 }
@@ -42,7 +50,7 @@ $dollarIconBackgroundColor: #F1F1F1;
         padding: 2rem;
     }
 
-    
+
 
     .quoteIcon {
         font-size: 4rem;
@@ -99,13 +107,16 @@ $dollarIconBackgroundColor: #F1F1F1;
 }
 
 @media screen and (max-width: $breakpoint-lg) {
-    
+    .mainContainer{
+        width: 100%
+    }
+
     .topContainer {
         padding: 0 .625rem !important;
         margin: 0 !important;
         left: 50%
     }
-    
+
     .middleHeader {
         margin: 4rem 0 4.25rem 0!important;
 
@@ -122,18 +133,18 @@ $dollarIconBackgroundColor: #F1F1F1;
             font-size: $font-size-32 !important;
             margin-left: 0 !important;
         }
-        
+
     }
 
     .quoteContainer {
-        
+
         .quoteContainerIcon, .quoteContainerImg{
             margin: 0 auto !important;
             display: block;
         }
 
         .quoteBar {
-            width: 3.25rem !important;            
+            width: 3.25rem !important;
         }
     }
 

@@ -133,7 +133,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       excise
     </GlossaryTerm>
   const mts = (
-    <CustomLink
+    <CustomLin
       url={"https://{env}.fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
     >
       Monthly Treasury Statement (MTS)
@@ -164,16 +164,18 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         datasetDetails=""
       />
       <AfgHero />
+      
+      <div className={styles.mainContainer} >
       <Container
         classes={{ root: styles.topContainer }}
         maxWidth={false}
         data-testid="topContainer"
       >
-        {width < pxToNumber(breakpointLg) ? (
-          <MobileSubNav hidePosition={630} />
-        ) : (
-          <DeskTopSubNav hidePosition={630} />
-        )}
+
+        {width < pxToNumber(breakpointLg) ?
+          <MobileSubNav hidePosition={1162} />
+          :
+          <DeskTopSubNav hidePosition={630} />}
 
         <AfgTopicSection
           heading={revenueHeading}
@@ -252,7 +254,6 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         />
 
         {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
-        {/* TODO: add the links here */}
         <DataSourcesMethodologies>
 
           Current and prior fiscal year values for federal revenue, spending,
@@ -260,6 +261,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           data source for federal debt.
         </DataSourcesMethodologies>
       </Container>
+      </div>
       <Container
         classes={{ root: styles.quoteContainer }}
         data-testid="quoteContainer"

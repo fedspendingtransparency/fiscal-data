@@ -11,15 +11,16 @@ import {
 type QuoteBoxProps = {
   icon: any,
   primaryColor: string,
-  secondaryColor: string
+  secondaryColor: string,
+  customTopMargin: string,
   children: any
 }
 
 const QuoteBox: FunctionComponent<QuoteBoxProps> = (
-  {icon, primaryColor, secondaryColor, children}) => {
+  {icon, primaryColor, secondaryColor, customTopMargin, children}) => {
   return (
     <>
-      <div className={iconContainer} data-testid="quote-box">
+      <div className={iconContainer} style={{marginTop: customTopMargin}} data-testid="quote-box">
         <div
           className={iconBackground}
           style={{

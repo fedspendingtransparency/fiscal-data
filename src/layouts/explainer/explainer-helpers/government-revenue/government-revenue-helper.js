@@ -24,13 +24,15 @@ export const revenueKeyTakeaways = [
 ];
 
 
-const mts =
+const mts = (
   <CustomLink
-    url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-' +
-    'the-u-s-government'}
+    url={
+      "/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+    }
   >
     Monthly Treasury Statement (MTS)
-  </CustomLink>;
+  </CustomLink>
+);
 
 const bls =
   <CustomLink
