@@ -67,6 +67,14 @@
   .chartSize {
     height: 28.125rem;
     overflow: hidden;
+
+    circle {
+      opacity: 0.8;
+      &:global(.selected) {
+        opacity: 1;
+      }
+    }
+
   }
 }
 

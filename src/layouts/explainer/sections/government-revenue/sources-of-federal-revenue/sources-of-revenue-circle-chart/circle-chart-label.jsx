@@ -1,7 +1,7 @@
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.scss";
 import React from "react";
-
+import { useNodeMouseHandlers } from "@nivo/circle-packing"
 
 const labelFormatTable = {
   'Individual Income Taxes': {
@@ -74,7 +74,14 @@ const labelFormatTable = {
   },
 }
 
-const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
+const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, HandleMouseLeave}) => {
+
+  const handlers = useNodeMouseHandlers(node, {
+    onMouseEnter: HandleMouseEnter,
+    onMouseLeave: HandleMouseLeave,
+    onClick: HandleClick
+  });
+
   const labelFormat = width < pxToNumber(breakpointLg) ?
     labelFormatTable[label].mobile : labelFormatTable[label].desktop;
   const lines = labelFormat.lines;
@@ -95,10 +102,6 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
   }
   const flipLabel = node.y > flipPoint ? -1 : 1;
 
-  const handleLabelMouseEnter = () => {
-    HandleMouseEnter(node)
-  }
-
   const handleInteraction = e => {
     // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== "Enter") {
@@ -106,17 +109,26 @@ const LabelComponent = ({node, label, width, HandleMouseEnter}) => {
     }
     const prevFocusedElementId =
       e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
-    HandleMouseEnter(node, prevFocusedElementId);
+    HandleMouseEnter(node, e, prevFocusedElementId);
   };
+  const textElementStyle = {
+    fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
+    fontWeight: semiBoldWeight
+  };
+
+  if (!labelFormatTable[label].external) {
+    // if text label over a circle, let the mouse events fall through to its circle
+    textElementStyle.pointerEvents = 'none';
+  }
+
   return (
     <>
       <text
         dominantBaseline="central"
-        style={{
-          fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-          fontWeight: semiBoldWeight
-        }}
-        onMouseEnter={handleLabelMouseEnter}
+        style={textElementStyle}
+        onClick={handlers.onClick}
+        onMouseEnter={handlers.onMouseEnter}
+        onMouseLeave={handlers.onMouseLeave}
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
         textAnchor={"middle"}
