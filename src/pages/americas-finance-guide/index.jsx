@@ -221,7 +221,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
                 faIcon={faMoneyBill1Wave}
                 backgroundColor={styles.dollarIconBackgroundColor}
                 iconColor={styles.dollarIconColor}
-                alt='Dark grey one dollar bill image overlaid on a grey circle.'
+                altText={'Dark grey one dollar bill image overlaid on a grey circle.'}
               />
             </Grid>
             <Grid
