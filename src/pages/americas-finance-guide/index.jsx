@@ -133,8 +133,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       excise
     </GlossaryTerm>
   const mts = (
-    <CustomLin
-      url={"https://{env}.fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
+    <CustomLink
+      url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
