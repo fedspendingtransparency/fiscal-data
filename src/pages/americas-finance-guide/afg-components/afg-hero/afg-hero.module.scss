@@ -1,7 +1,6 @@
 @import 'src/variables.module';
 
 .heroContainer {
-    width: $site-content-width;
     max-width: $site-content-width;
     margin: 0 auto;
     position: relative;
@@ -48,7 +47,7 @@
             margin-top: 1rem;
         }
 
-        
+
     }
 
     .heroWhiteBox {
@@ -57,10 +56,10 @@
         background-color: #FFFFFF;
         bottom: 0;
         position: absolute;
-        left: 0; 
-        right: 0; 
-        margin-left: auto; 
-        margin-right: auto; 
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
         padding-bottom: 2rem;
 
         h4.heroGuideText{
@@ -86,10 +85,10 @@
             bottom: 0;
             right: 0;
             height: 2rem;
-            
+
         }
     }
- 
+
 }
 
 @media (min-width:997px) and (max-width:1035px) {
@@ -146,14 +145,14 @@
             flex-direction: column;
             justify-content: flex-start;
             width: calc(100% - 20px);
-               
+
             h4.heroGuideText{
                font-size: $font-size-16;
                 margin-left: 1rem;
                 margin-top: 1.5rem;
                 display: flex;
             }
-    
+
             h1.heroHeading{
                 font-size: $font-size-48;
                 //max-width: 304px;
