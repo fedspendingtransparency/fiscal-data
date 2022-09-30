@@ -16,7 +16,6 @@ import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
 import {revenueExplainerPrimary} from "../../revenue.module.scss";
 import {
-  opacityValue,
   title,
   subTitle,
   footer,
@@ -48,14 +47,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [combinedIncomePercent, setCombinedIncomePercent] = useState(0);
 
   const [chartData, setChartData] = useState({});
-
-  const [individualIncomeColor, setIndividualIncomeColor] = useState(defaultCategory.color);
-  const [socialSecurityColor, setSocialSecurityColor] = useState("rgb(235, 81, 96, 0.8)");
-  const [corporateIncomeColor, setCorporateIncomeColor] = useState("rgb(193, 63, 119, 0.8)");
-  const [miscIncomeColor, setMiscIncomeColor] = useState("rgb(255, 119, 62, 0.8)");
-  const [exciseTaxesColor, setExciseTaxesColor] = useState("rgb(136, 60, 127, 0.8)");
-  const [customsDutiesColor, setCustomsDutiesColor] = useState("rgb(255, 166, 0, 0.8)");
-  const [estateTaxesColor, setEstateTaxesColor] = useState("rgb(75, 57, 116, 0.8)");
+  const [categoryData, setCategoryData] = useState(null);
 
   const [chartAltText, setChartAltText] = useState("");
   const [elementToFocus, setElementToFocus] = useState(null);
@@ -68,8 +60,16 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           setFiscalYear(res.data[0].record_fiscal_year);
           setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
         }
-    })
-  }, [])
+    });
+    const categoryUrl= 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&'+
+      'sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
+    basicFetch(`${apiPrefix}${categoryUrl}`)
+      .then((res) => {
+        if (res.data[0]) {
+          setCategoryData(res.data)
+        }
+      });
+  }, []);
 
   useEffect(() => {
     const url =
@@ -87,136 +87,127 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   }, [
     totalRevenue,
     combinedIncomeAmount
-  ])
+  ]);
 
   useEffect(() => {
-    const url= 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&'+
-      'sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
-    basicFetch(`${apiPrefix}${url}`)
-      .then((res) => {
-        if(res.data[0]) {
+    if (categoryData) {
 
-          setRecordDate(getDateWithoutTimeZoneAdjust(new Date(res.data[0].record_date)));
+      setRecordDate(getDateWithoutTimeZoneAdjust(new Date(categoryData[0].record_date)));
 
-          const data = [];
-          let totalRev = 0;
-          const getDataValue = (lineNbr) =>
-            res.data.filter((record) => {return record.line_code_nbr === lineNbr});
-          let nodeValue = getDataValue("20")[0]?.current_fytd_rcpt_outly_amt;
-          totalRev += Number(nodeValue);
-          const incomeTax = {
-            "id": "Individual Income Taxes",
-            "color": individualIncomeColor,
-            "value": nodeValue,
-          }
+      const data = [];
+      let totalRev = 0;
+      const getDataValue = (lineNbr) =>
+        categoryData.filter((record) => {return record.line_code_nbr === lineNbr});
+      let nodeValue = getDataValue("20")[0]?.current_fytd_rcpt_outly_amt;
+      totalRev += Number(nodeValue);
+      const incomeTax = {
+        "id": "Individual Income Taxes",
+        "color": defaultCategory.color,
+        "value": nodeValue,
+      }
 
-          nodeValue = (Number(getDataValue("50")[0]?.current_fytd_rcpt_outly_amt) +
-                      Number(getDataValue("60")[0]?.current_fytd_rcpt_outly_amt) +
-                      Number(getDataValue("70")[0]?.current_fytd_rcpt_outly_amt)).toString();
-          totalRev += Number(nodeValue);
-          const socialSecurityMedicare = {
-            "id": "Social Security and Medicare Taxes",
-            "color": socialSecurityColor,
-            "value": nodeValue,
-          };
+      nodeValue = (Number(getDataValue("50")[0]?.current_fytd_rcpt_outly_amt) +
+                  Number(getDataValue("60")[0]?.current_fytd_rcpt_outly_amt) +
+                  Number(getDataValue("70")[0]?.current_fytd_rcpt_outly_amt)).toString();
+      totalRev += Number(nodeValue);
+      const socialSecurityMedicare = {
+        "id": "Social Security and Medicare Taxes",
+        "color": "rgb(235, 81, 96)",
+        "value": nodeValue,
+      };
 
-          nodeValue = getDataValue("30")[0]?.current_fytd_rcpt_outly_amt;
-          totalRev += Number(nodeValue);
-          const corporateIncome = {
-            "id": "Corporate Income Taxes",
-            "color": corporateIncomeColor,
-            "value": nodeValue,
-          };
+      nodeValue = getDataValue("30")[0]?.current_fytd_rcpt_outly_amt;
+      totalRev += Number(nodeValue);
+      const corporateIncome = {
+        "id": "Corporate Income Taxes",
+        "color": "rgb(193, 63, 119)",
+        "value": nodeValue,
+      };
 
-          nodeValue = getDataValue("110")[0]?.current_fytd_rcpt_outly_amt;
-          totalRev += Number(nodeValue);
-          const misc = {
-            "id": "Miscellaneous Income",
-            "color": miscIncomeColor,
-            "value": nodeValue,
-          };
+      nodeValue = getDataValue("110")[0]?.current_fytd_rcpt_outly_amt;
+      totalRev += Number(nodeValue);
+      const misc = {
+        "id": "Miscellaneous Income",
+        "color": "rgb(255, 119, 62)",
+        "value": nodeValue,
+      };
 
-          nodeValue = getDataValue("100")[0]?.current_fytd_rcpt_outly_amt;
-          totalRev += Number(nodeValue);
-          const customsDuties = {
-            "id": "Customs Duties",
-            "color": customsDutiesColor,
-            "value": nodeValue,
-          };
+      nodeValue = getDataValue("100")[0]?.current_fytd_rcpt_outly_amt;
+      totalRev += Number(nodeValue);
+      const customsDuties = {
+        "id": "Customs Duties",
+        "color": "rgb(255, 166, 0)",
+        "value": nodeValue,
+      };
 
-          nodeValue = getDataValue("90")[0]?.current_fytd_rcpt_outly_amt;
-          totalRev += Number(nodeValue);
-          const estateTax =  {
-            "id": "Estate & Gift Taxes",
-            "color": estateTaxesColor,
-            "value": nodeValue,
-          };
+      nodeValue = getDataValue("90")[0]?.current_fytd_rcpt_outly_amt;
+      totalRev += Number(nodeValue);
+      const estateTax =  {
+        "id": "Estate & Gift Taxes",
+        "color": "rgb(75, 57, 116)",
+        "value": nodeValue,
+      };
 
-          nodeValue = getDataValue("80")[0]?.current_fytd_rcpt_outly_amt;
-          totalRev += Number(nodeValue);
-          const exciseTax = {
-            "id": "Excise Taxes",
-            "value": nodeValue,
-            "color": exciseTaxesColor
-          };
+      nodeValue = getDataValue("80")[0]?.current_fytd_rcpt_outly_amt;
+      totalRev += Number(nodeValue);
+      const exciseTax = {
+        "id": "Excise Taxes",
+        "value": nodeValue,
+        "color": "rgb(136, 60, 127)"
+      };
 
-          if(categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
-            setCategoryRevenuePercent(Number(incomeTax.value) / totalRev * 100);
-            setCategoryRevenueAmount(Number(incomeTax.value));
-          }
+      if(categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
+        setCategoryRevenuePercent(Number(incomeTax.value) / totalRev * 100);
+        setCategoryRevenueAmount(Number(incomeTax.value));
+      }
 
-          data.push({
-            ...incomeTax,
-            "percent": Number(incomeTax.value) / totalRev,
-          });
+      data.push({
+        ...incomeTax,
+        "percent": Number(incomeTax.value) / totalRev,
+      });
 
-          data.push({
-            ...corporateIncome,
-            "percent": Number(corporateIncome.value) / totalRev,
-          });
-          data.push({
-            ...socialSecurityMedicare,
-            "percent": Number(socialSecurityMedicare.value) / totalRev,
-          });
-          data.push({
-            ...misc,
-            "percent": Number(misc.value) / totalRev,
-          });
-          data.push({
-            ...customsDuties,
-            "percent": Number(customsDuties.value) / totalRev,
-          });
-          data.push({
-            ...estateTax,
-            "percent": Number(estateTax.value) / totalRev,
-          });
-          data.push({
-            ...exciseTax,
-            "percent": Number(exciseTax.value) / totalRev,
-          });
+      data.push({
+        ...corporateIncome,
+        "percent": Number(corporateIncome.value) / totalRev,
+      });
+      data.push({
+        ...socialSecurityMedicare,
+        "percent": Number(socialSecurityMedicare.value) / totalRev,
+      });
+      data.push({
+        ...misc,
+        "percent": Number(misc.value) / totalRev,
+      });
+      data.push({
+        ...customsDuties,
+        "percent": Number(customsDuties.value) / totalRev,
+      });
+      data.push({
+        ...estateTax,
+        "percent": Number(estateTax.value) / totalRev,
+      });
+      data.push({
+        ...exciseTax,
+        "percent": Number(exciseTax.value) / totalRev,
+      });
 
-          setChartData({children: data});
+      setChartData({children: data});
 
-          if(chartAltText === ""){
-            const altTextData = data.slice().sort((a,b) => b.value - a.value);
-            const altText = `A cluster of seven different colored and sized circles representing
-            the different U.S. government revenue source categories and how much each source
-            contributes to the overall revenue respectively. ${altTextData[0].id} is the largest
-            circle, followed by ${altTextData[1].id} and ${altTextData[2].id}. Smaller circles
-            (in descending order) represent ${altTextData[3].id}, ${altTextData[4].id},
-             ${altTextData[5].id}, and ${altTextData[6].id}.`;
-            setChartAltText(altText);
-          }
-        }
-      })
+      if(chartAltText === ""){
+        const altTextData = data.slice().sort((a,b) => b.value - a.value);
+        const altText = `A cluster of seven different colored and sized circles representing
+        the different U.S. government revenue source categories and how much each source
+        contributes to the overall revenue respectively. ${altTextData[0].id} is the largest
+        circle, followed by ${altTextData[1].id} and ${altTextData[2].id}. Smaller circles
+        (in descending order) represent ${altTextData[3].id}, ${altTextData[4].id},
+         ${altTextData[5].id}, and ${altTextData[6].id}.`;
+        setChartAltText(altText);
+      }
+    }
+    // allow time for chart to render following data load
+    setTimeout(highlightDefaultCircle, 1000);
   }, [
-    individualIncomeColor,
-    socialSecurityColor,
-    corporateIncomeColor,
-    miscIncomeColor,
-    customsDutiesColor,
-    estateTaxesColor,
-    exciseTaxesColor
+    categoryData
   ]);
 
   const chartWrap = useRef(null);
@@ -225,6 +216,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
     const handleOutsideClick = (event) => {
       if (chartWrap.current && !chartWrap.current.contains(event.target)) {
+        event.stopPropagation();
+        event.preventDefault();
         HandleChartMouseLeave();
       }
     }
@@ -243,67 +236,39 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   }, [elementToFocus])
 
-  const colorMap = {
-    'Individual Income Taxes': {
-      set:(color) => setIndividualIncomeColor(color),
-      color: individualIncomeColor
-    },
-    'Corporate Income Taxes': {
-      set:(color) => setCorporateIncomeColor(color),
-      color: corporateIncomeColor
-    },
-    'Social Security and Medicare Taxes': {
-      set:(color) => setSocialSecurityColor(color),
-      color: socialSecurityColor
-    },
-    'Miscellaneous Income': {
-      set:(color) => setMiscIncomeColor(color),
-      color: miscIncomeColor
-    },
-    'Customs Duties': {
-      set:(color) => setCustomsDutiesColor(color),
-      color: customsDutiesColor
-    },
-    'Estate & Gift Taxes': {
-      set:(color) => setEstateTaxesColor(color),
-      color: estateTaxesColor
-    },
-    'Excise Taxes': {
-      set:(color) => setExciseTaxesColor(color),
-      color: exciseTaxesColor
+  const increaseOpacity = (node) => {
+    const circleElem = document.querySelector(`[cx="${node.x}"][cy="${node.y}"]`);
+    circleElem.classList.add('selected');
+  }
+
+  const decreaseOpacity = () => {
+    const selectElems = document.querySelectorAll('circle.selected');
+    if (selectElems && selectElems.length) {
+      [...selectElems].forEach(elem => {
+        elem.classList.remove('selected');
+      });
     }
   }
 
-  const increaseOpacity = (id, color) => {
-    if(color.includes(opacityValue)) {
-      const newColor = color.replace(opacityValue, '');
-      colorMap[id].set(newColor);
-    }
-  }
-
-  const decreaseOpacity = (id, color) => {
-    if(!color.includes(opacityValue)) {
-      const newColor = color.replace(')', opacityValue+')');
-      colorMap[id].set(newColor);
-    }
-  }
   const HandleLabelClick = (node, e) => {
     if (e) {
-      e.preventDefault();
       e.stopPropagation();
-      const target = document.querySelector(`[cx="${node.x}"]`);
-      const circleEvent = new e.nativeEvent.constructor(e.nativeEvent.type, e.nativeEvent);
-      target.dispatchEvent(circleEvent);
+      e.preventDefault();
+
+      const circleElem = document.querySelector(`[cx="${node.x}"][cy="${node.y}"]`);
+      HandleMouseEnter(node, {target: circleElem});
     }
   }
   const HandleMouseEnter = (node, e, elementId) => {
-    if (e) {
+    if (e.preventDefault) {
       e.preventDefault();
       e.stopPropagation();
     }
-    if(node.id !== categoryName) {
-      decreaseOpacity(categoryName, colorMap[categoryName].color);
-      increaseOpacity(node.id, node.color);
+
+    if (node.id !== categoryName) {
+      decreaseOpacity();
+
+      increaseOpacity(node);
       setCategoryName(node.id);
       setCategoryRevenueAmount(node.value);
       setCategoryRevenuePercent(node.percentage);
@@ -312,22 +277,25 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
 
+  const highlightDefaultCircle = () => {
+    if (document) {
+      document.querySelector(`[fill="${defaultCategory.color}"]`)
+        .classList.add('selected');
+    }
+  };
+
   const HandleChartMouseLeave = () => {
     if(chartData !== {}) {
-      Object.keys(colorMap).forEach(colorCategory => {
-        if (colorCategory !== defaultCategory.name) {
-          decreaseOpacity(colorCategory, colorMap[colorCategory].color);
-        }
-      })
-      setIndividualIncomeColor(defaultCategory.color);
+      decreaseOpacity();
+      highlightDefaultCircle();
       setCategoryName(defaultCategory.name);
+
       if (chartData && chartData.children) {
         setCategoryRevenueAmount(chartData.children[defaultCategory.location].value);
         setCategoryRevenuePercent(chartData.children[defaultCategory.location].percent * 100);
       }
     }
   }
-
   return (
     <>
       <div className={visWithCallout}>
@@ -371,6 +339,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                   />}
                 animate={false}
                 onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
+                onMouseLeave={HandleChartMouseLeave}
                 onClick={(node, e) => HandleMouseEnter(node, e)}
               />
             </div>

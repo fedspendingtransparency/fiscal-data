@@ -11,8 +11,6 @@ import CustomLink from "../../../../../../components/links/custom-link/custom-li
 import React from "react";
 import {getShortForm} from "../../../../heros/hero-helper";
 
-export const opacityValue = ', 0.8';
-
 export const title = `Sources of Revenue for the U.S. Federal Government, FY `;
 export const subTitle = 'Revenue by Source Categories';
 

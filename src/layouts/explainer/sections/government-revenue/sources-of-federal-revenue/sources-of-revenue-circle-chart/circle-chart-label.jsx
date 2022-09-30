@@ -3,7 +3,6 @@ import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.s
 import React from "react";
 import { useNodeMouseHandlers } from "@nivo/circle-packing"
 
-
 const labelFormatTable = {
   'Individual Income Taxes': {
     desktop: {
@@ -103,10 +102,6 @@ const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, Hand
   }
   const flipLabel = node.y > flipPoint ? -1 : 1;
 
-  const handleLabelMouseEnter = () => {
-    HandleMouseEnter(node)
-  }
-
   const handleInteraction = e => {
     // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== "Enter") {
@@ -133,6 +128,7 @@ const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, Hand
         style={textElementStyle}
         onClick={handlers.onClick}
         onMouseEnter={handlers.onMouseEnter}
+        onMouseLeave={handlers.onMouseLeave}
         onKeyPress={(e) => handleInteraction(e)}
         tabIndex={0}
         textAnchor={"middle"}
