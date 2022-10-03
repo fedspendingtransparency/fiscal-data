@@ -119,7 +119,7 @@ export const SpendingOverview = ({ glossary }) => {
           <p>
             The federal government spends money on a variety of goods, programs,
             and services that support the economy and people of the United
-            States. The federal government also spends money on the interest it
+            States. The government also spends money on the interest it
             has incurred on outstanding {federalDebt}. Consequently, as the debt
             grows, the spending on interest expense also generally grows.
           </p>
