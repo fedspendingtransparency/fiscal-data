@@ -86,7 +86,7 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
   const handleMouseLeave = () => {
     clearTimeout(timeout);
   }
-
+console.log(timeout);
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -142,8 +142,10 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
           <div
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
+            onMouseLeave={handleClose}
           >
             <h6 className={styles.header}>{title}</h6>
+            <FontAwesomeIcon icon="fa-solid fa-x" />
             <div className={styles.popoverContents}>
               {children}
             </div>
