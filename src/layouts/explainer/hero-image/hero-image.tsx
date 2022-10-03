@@ -32,7 +32,11 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
   const getSubHeading = subHeading => {
     if (pageName === "national-debt") {
       return reactStringReplace(subHeading, "national debt", match => {
-        return `${match} (${getShortForm(debtAmount, 1, true)})`;
+        if (debtAmount) {
+          return `${match} (${getShortForm(debtAmount, 1, true)})`;
+        } else {
+          return match;
+        }
       });
     }
     return subHeading;
