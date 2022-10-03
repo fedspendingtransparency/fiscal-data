@@ -204,7 +204,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
         <AfgTopicSection
           heading={spendingHeading}
-          body="The federal government funds a variety of programs and services that support the American public. The federal government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
+          body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
           linkUrl="/americas-finance-guide/federal-spending/"
 
           linkText="Learn more about federal spending"
