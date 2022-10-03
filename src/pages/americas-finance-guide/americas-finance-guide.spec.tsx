@@ -71,7 +71,7 @@ describe('Americas Finance Guide', () => {
         getByText("the federal government spent the most on Income Security.", { exact: false });
         getByText("government spent $2.77 trillion more than it collected", { exact: false });
         getByText("the national deficit decreased by $360 billion compared", { exact: false });
-        getByText("the government had $28.43 trillion, in federal", { exact: false });
+        getByText("the government had $28.43 trillion in federal", { exact: false });
         expect(getAllByText('2022', { exact: false }).length).toBeGreaterThan(4);
         expect(getAllByText('2021', { exact: false }).length).toBeGreaterThan(8);
         expect(getAllByText('2020', { exact: false }).length).toBeGreaterThan(1);
