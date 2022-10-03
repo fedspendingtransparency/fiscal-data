@@ -190,7 +190,7 @@ export default function CompareSection({currentFiscalYear}) {
           <>
             The national debt enables the federal government to pay for important
             programs and services for the American public. In {priorFiscalYear}, the
-            national debt {debtDirection} by {debtChange} compared
+            national debt {debtDirection} by ${debtChange} compared
             to {priorPriorYear}.
           </>,
         faIcon: faMagnifyingGlassDollar ,
