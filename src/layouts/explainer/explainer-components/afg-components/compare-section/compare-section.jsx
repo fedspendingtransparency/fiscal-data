@@ -183,7 +183,7 @@ export default function CompareSection({currentFiscalYear}) {
     {
         heading:
           <>
-            At the end of {priorFiscalYear} the government had ${debt}, in
+            At the end of {priorFiscalYear} the government had ${debt} in
             federal <span style={{ color: debtExplainerPrimary, fontStyle: 'italic' }}>debt.</span>
           </>,
         body:

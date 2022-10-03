@@ -34,7 +34,7 @@ export default function AfgHero() {
     return (
         <div className={styles.heroContainer} style={{height: `${containerHeight}px`}} data-testid="afg-hero">
             <div className={styles.heroGrayBox}></div>
-            <div className={styles.heroImageBox} aria-label="Statue of Liberty">
+            <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky.">
                 <h3 className={styles.heroQuote}>
                     “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
                 </h3>
