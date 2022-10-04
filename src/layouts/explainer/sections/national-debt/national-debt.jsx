@@ -1090,7 +1090,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                     The GDP data is sourced from the {beaLink}.
                   </p>
                   <p>
-                    Last Updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
+                    Last Updated: September 30, {lastDebtValue.x}
                   </p>
                 </div>
               </div>
