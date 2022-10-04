@@ -4,8 +4,11 @@ import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import * as styles from './info-tip.module.scss';
+import { withWindowSize } from "react-fns";
+import { pxToNumber } from '../../../src/helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../variables.module.scss';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -52,7 +55,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
+const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }) => {
   const {
     button,
     primarySvgColor,
@@ -146,7 +149,10 @@ console.log(timeout);
             data-testid="popupContainer"
             onMouseLeave={handleClose}
           >
-            <h6 className={styles.header}>{title} <FontAwesomeIcon icon={faXmark}/></h6>
+            {width < pxToNumber(breakpointLg) ?
+              <h6 className={styles.header}>{title} <FontAwesomeIcon icon={faXmark} onClick={handleClose}/></h6> :
+              <h6 className={styles.header}>{title}</h6>
+            }
 
             <div className={styles.popoverContents}>
               {children}
@@ -157,4 +163,4 @@ console.log(timeout);
   );
 }
 
-export default InfoTip;
+export default withWindowSize(InfoTip);
