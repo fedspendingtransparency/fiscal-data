@@ -1,10 +1,14 @@
 import React from "react";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import Analytics from "../../../../../utils/analytics/analytics";
 
 const DeficitAndSurplusCauses = ({glossary}) => {
   const federalCovidResponseLink =
-    <CustomLink url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'}>
+    <CustomLink
+    url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'}
+    eventNumber={'14'}
+    >
       the federal response to COVID-19
     </CustomLink>
 
