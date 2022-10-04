@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import * as styles from './info-tip.module.scss';
 
 const useStyles = makeStyles(theme => ({
@@ -139,13 +140,14 @@ console.log(timeout);
             horizontal: 'center',
           }}
         >
+
           <div
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
             onMouseLeave={handleClose}
           >
-            <h6 className={styles.header}>{title}</h6>
-            <FontAwesomeIcon icon="fa-solid fa-x" />
+            <h6 className={styles.header}>{title} <FontAwesomeIcon icon={faXmark}/></h6>
+
             <div className={styles.popoverContents}>
               {children}
             </div>
