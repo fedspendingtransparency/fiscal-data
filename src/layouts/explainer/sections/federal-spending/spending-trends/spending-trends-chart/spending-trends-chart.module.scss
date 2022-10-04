@@ -1,0 +1,47 @@
+@import "src/variables.module";
+
+.chartHeaderContainer {
+    display: flex;
+    flex-direction: column;
+
+  .toggle {
+    border-style: solid;
+    height: 2rem;
+    width:450px;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .dataHeaderContainer {
+    margin-bottom: 1.5rem;
+    .header {
+      font-size: $font-size-24;
+      font-weight: bold;
+    }
+    .category {
+      color: #5b616b;
+      font-size: $font-size-14;
+      font-weight: $semi-bold-weight;
+      margin: .625rem 0;
+    }
+    .dataLabels {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      .headerTitle {
+        font-weight: bold;
+        font-size: $font-size-36;
+        width: 128px;
+      }
+
+      .subHeader {
+        color: #5b616b;
+        font-size: $font-size-14;
+        font-weight: $semi-bold-weight;
+        margin: 0 1.25rem;
+      }
+    }
+  }
+}
+
