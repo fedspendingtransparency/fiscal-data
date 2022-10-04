@@ -90,7 +90,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   const handleMouseLeave = () => {
     clearTimeout(timeout);
   }
-console.log(timeout);
+
   const handleClose = () => {
     setAnchorEl(null);
   };
