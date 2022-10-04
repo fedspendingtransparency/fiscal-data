@@ -150,7 +150,7 @@ console.log(timeout);
             onMouseLeave={handleClose}
           >
             {width < pxToNumber(breakpointLg) ?
-              <h6 className={styles.header}>{title} <FontAwesomeIcon icon={faXmark} onClick={handleClose}/></h6> :
+              <h6 className={styles.header}>{title} <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose}/></h6> :
               <h6 className={styles.header}>{title}</h6>
             }
 
