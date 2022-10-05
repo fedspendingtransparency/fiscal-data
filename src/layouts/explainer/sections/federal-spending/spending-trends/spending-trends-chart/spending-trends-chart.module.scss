@@ -5,6 +5,10 @@
   align-items: center;
 }
 
+:global(.chartContainerChart) {
+  margin: 0 !important;
+}
+
 .chartHeaderContainer {
     display: flex;
     flex-direction: column;

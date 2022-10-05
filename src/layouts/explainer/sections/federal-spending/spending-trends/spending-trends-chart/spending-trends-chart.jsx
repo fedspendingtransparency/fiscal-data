@@ -91,8 +91,7 @@ const SpendingTrendsChart = ({width}) => {
       ]
     }
   ];
-
-
+  //
 
   return (
     <>
@@ -122,7 +121,7 @@ const SpendingTrendsChart = ({width}) => {
               }
             }}
             colors={d => d.color}
-            width={ 515 }
+            width={ 530 }
             height={ 500 }
             margin={{top: 25, right: 50, bottom: 50, left: 50}}
             enablePoints={true}

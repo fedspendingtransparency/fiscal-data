@@ -26,7 +26,7 @@ const ChartContainer = ({
 }) => {
   return (
     <div
-      className={`${chartContainer}`}
+      className={`${chartContainer} chartContainer`}
       role={"img"}
       aria-label={altText}
       style={{ ...customSpacing }}
@@ -40,7 +40,7 @@ const ChartContainer = ({
       </div>
       <div
         data-testid="chart"
-        className={chart}
+        className={`${chart} chartContainerChart`}
         style={{ ...customContainerStyles }}
       >
         {children}
