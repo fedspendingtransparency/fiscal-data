@@ -609,6 +609,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   const [lineChartHoveredYear, setLinechartHoveredYear] = useState('');
   const [lineChartHoveredValue, setLinechartHoveredValue] = useState('');
 
+
   const chartRef = useRef();
 
   const { name, slug, dateField, valueField, endpoint } = nationalDebtSectionConfigs[sectionId];
@@ -657,7 +658,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
     setTempDate(newDate);
     setTempValue(newValue);
   }
-
+  let gaTimeout = null;
   const handleMouseEnter = (event) => {
     if (event.target['id'] === chartId) {
       addHoverEffects(
@@ -665,8 +666,15 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
         chartId,
         dateField,
         [valueField],
-        handleChange
+        handleChange,
       );
+      gaTimeout = setTimeout(() =>{
+        Analytics.event({
+          category: 'Fiscal Data - Explainers',
+          action: 'Chart Hover',
+          label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
+        });
+      }, 3000);
     }
   };
 
@@ -675,7 +683,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
       removeHoverEffects();
       setTempDate(null);
       setTempValue(0);
-    }, 500)
+      }, 500);
+    clearTimeout(gaTimeout);
   };
 
   useEffect(() => {
