@@ -222,7 +222,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const increaseOpacity = (node) => {
     const circleElem = document.querySelector(`[cx="${node.x}"][cy="${node.y}"]`);
-    circleElem.classList.add('selected');
+    circleElem?.classList.add('selected');
   }
 
   const decreaseOpacity = () => {
