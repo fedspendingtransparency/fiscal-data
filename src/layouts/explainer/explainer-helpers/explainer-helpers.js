@@ -140,10 +140,15 @@ export const explainerSocialShareMap = {
     description:
     "Check out @FiscalService Fiscal Data’s new guide to America’s finances! #FiscalData",
     body:
-    "Check out the new an accessible and data-driven guide to America’s finances, presented by @FiscalService Fiscal Data! #FiscalData #OpenData #AmericasFinances",
+    "Check out the latest accessible and data-driven guide to America’s finances, presented by " +
+      "@FiscalService Fiscal Data! #FiscalData #OpenData #AmericasFinances",
     emailSubject: "Your Guide to America’s Finances",
     emailBody:
-      "Check out Fiscal Data’s new guide to America’s finances, an accessible and open-source guide to federal finance data! In this guide, you’ll find explanations of the four core pillars of America’s finances – Revenue, Spending, Deficit, and Debt. Have you ever wondered how a budget deficit occurs? Or how government spending has fluctuated over time? Find out the answers to these question and more here!",
+      "Check out Fiscal Data’s new guide to America’s finances, an accessible and open-source " +
+      "guide to federal finance data! In this guide, you’ll find explanations of the four core " +
+      "pillars of America’s finances – Revenue, Spending, Deficit, and Debt. Have you ever " +
+      "wondered how a budget deficit occurs? Or how government spending has fluctuated over time? "+
+      "Find out the answers to these question and more here!",
     url: baseUrl + "/americas-finance-guide/",
     image: baseUrl + "/images/AFG-Overview_1200x630.png",
   },

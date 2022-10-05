@@ -138,7 +138,8 @@ export default function CompareSection({currentFiscalYear}) {
                 support the American public and pay interest incurred from borrowing.
               </>,
         faIcon: faCoins ,
-        mainColor: revenueExplainerPrimary
+        mainColor: revenueExplainerPrimary,
+        altText: 'Two adjacent stacks of three coins.'
     },
     {
         heading:
@@ -150,12 +151,12 @@ export default function CompareSection({currentFiscalYear}) {
         body:
           <>
             Federal government spending pays for everything from Social Security and Medicare to
-            military equipment, highway maintenance, building construction, research, and
-            education. In {priorFiscalYear}, the federal government spent the most
+            military equipment, highway maintenance, education, and more. In {priorFiscalYear}, the federal government spent the most
             on {spendingCategory}.
           </>,
         faIcon: faHandHoldingDollar ,
-        mainColor: spendingExplainerPrimary
+        mainColor: spendingExplainerPrimary,
+      altText: 'An outstretched open hand beneath a $ sign.'
     },
     {
         heading:
@@ -175,23 +176,26 @@ export default function CompareSection({currentFiscalYear}) {
             to {priorPriorYear}.
           </>,
         faIcon: faChartArea ,
-        mainColor: deficitExplainerPrimary
+        mainColor: deficitExplainerPrimary,
+        altText: 'A mock line graph showing peaks and valleys.'
+
     },
     {
         heading:
           <>
-            At the end of {priorFiscalYear} the government had ${debt}, in
+            At the end of {priorFiscalYear} the government had ${debt} in
             federal <span style={{ color: debtExplainerPrimary, fontStyle: 'italic' }}>debt.</span>
           </>,
         body:
           <>
             The national debt enables the federal government to pay for important
             programs and services for the American public. In {priorFiscalYear}, the
-            national debt {debtDirection} by {debtChange} compared
+            national debt {debtDirection} by ${debtChange} compared
             to {priorPriorYear}.
           </>,
         faIcon: faMagnifyingGlassDollar ,
-        mainColor: debtExplainerPrimary
+        mainColor: debtExplainerPrimary,
+      altText: 'A magnifying glass with a $ in the center.'
     }]
 
     return (
@@ -209,7 +213,7 @@ export default function CompareSection({currentFiscalYear}) {
                       classes={{ root: styles.compareGridItem }}
                     >
                         <Grid item xs={2} classes={{ root: styles.compareIcon }}>
-                            <AfgIcon faIcon={s.faIcon} iconColor={s.mainColor} />
+                            <AfgIcon faIcon={s.faIcon} iconColor={s.mainColor} altText={s.altText}/>
                         </Grid>
                         <Grid item xs={10} classes={{ root: styles.compareText }}>
                             <h5 className={styles.subHeading}>{s.heading}</h5>

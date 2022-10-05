@@ -10,7 +10,8 @@ import {
 export default function AfgIcon({
     faIcon,
     iconColor,
-    backgroundColor = null
+    backgroundColor = null,
+    altText
 
 }) {
     const [circleColor, setCircleColor] = useState('');
@@ -19,7 +20,13 @@ export default function AfgIcon({
     }, [])
 
     return (
-        <div data-testid={'afg-icon'} className={iconBackground} style={{ backgroundColor: circleColor }}>
+        <div
+          aria-label={altText}
+          role={'img'}
+          data-testid={'afg-icon'}
+          className={iconBackground}
+          style={{ backgroundColor: circleColor }}
+        >
             <FontAwesomeIcon icon={faIcon} className={icon} />
             <FontAwesomeIcon icon={faIcon}
                 className={offsetIcon}

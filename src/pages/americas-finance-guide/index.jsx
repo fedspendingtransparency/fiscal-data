@@ -121,7 +121,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     <>
       The amount by which spending exceeds revenue, ${yearToDateDeficit} in{" "}
       {fiscalYear}, is referred to as{" "}
-      <span style={{ fontStyle: "italic" }}>deficit.</span>
+      <span style={{ fontStyle: "italic" }}>deficit</span>
+      {" "}spending.
     </>
   );
   const debtHeading = (
@@ -159,6 +160,11 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     <>
       The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {exciseTaxes} taxes. It also collects revenue from services like admission to national parks and customs duties.
     </>
+  const debtBody =
+    <>The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
+      <br />
+      <br />
+      Are federal debt and deficit the same thing? No, but they do affect one another</>
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -170,7 +176,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         datasetDetails=""
       />
       <AfgHero />
-      
+
       <div className={styles.mainContainer} >
       <Container
         classes={{ root: styles.topContainer }}
@@ -198,7 +204,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
         <AfgTopicSection
           heading={spendingHeading}
-          body="The federal government funds a variety of programs and services that support the American public. The federal government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
+          body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
           linkUrl="/americas-finance-guide/federal-spending/"
 
           linkText="Learn more about federal spending"
@@ -215,6 +221,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
                 faIcon={faMoneyBill1Wave}
                 backgroundColor={styles.dollarIconBackgroundColor}
                 iconColor={styles.dollarIconColor}
+                altText={'Dark grey one dollar bill image overlaid on a grey circle.'}
               />
             </Grid>
             <Grid
@@ -224,7 +231,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             >
               <h3 className={styles.middleHeaderHeading}>
                 How have federal revenue and spending affected the{" "}
-                <span className={styles.deficitText}>deficit</span> and federal{" "}
+                <span className={styles.deficitText}>deficit</span> and {" "}
                 <span className={styles.debtText}>debt</span> so far in fiscal
                 year {fiscalYear}?
               </h3>
@@ -247,10 +254,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
         <AfgTopicSection
           heading={debtHeading}
-          body="The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
-
-
-          Are federal debt and deficit the same thing? No, but they do affect one another"
+          body={debtBody}
           linkUrl="/americas-finance-guide/national-debt/"
           linkText="Learn more about national debt"
           linkColor={debtExplainerPrimary}
@@ -308,7 +312,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           Your Guide to America's Finances is a re-invention of the{" "}
           <span className={styles.blueText}>
             {" "}
-            <a href={'www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
+            <a href={'https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
           </span>{" "}
           This site was created in response to the public's desire to learn more
           about the financial picture of the United States. Where does the money
