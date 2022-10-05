@@ -1,12 +1,13 @@
-import CustomLink from "../../../../../../components/links/custom-link/custom-link";
-import {
-  chartHeaderContainer,
-  dataHeaderContainer, dataLabels, headerTitle, subHeader,
-  toggle
-} from "./spending-trends-chart.module.scss";
 import React from "react";
+import CustomLink from "../../../../../../components/links/custom-link/custom-link";
+import * as styles from "./spending-trends-chart.module.scss";
+import {
+  breakpointLg,
+  fontSize_10,
+  fontSize_14,
+  semiBoldWeight
+} from "../../../../../../variables.module.scss";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {breakpointLg, fontSize_10, fontSize_14} from "../../../../../../variables.module.scss";
 
 const title = "Government Spending and the U.S. Economy (GDP), FY 2015 – 2021";
 const subtitle = "Inflation Adjusted - 2021 Dollars";
@@ -26,31 +27,43 @@ export const chartCopy = {
 }
 
 export const dataHeader = () => (
-  <div className={chartHeaderContainer}>
-    <div className={toggle}>
+  <div className={styles.chartHeaderContainer}>
+    <div className={styles.toggle}>
       Toggle Placeholder
     </div>
-    <div className={dataHeaderContainer}>
-      <div className={dataLabels}>
+    <div className={styles.dataHeaderContainer}>
+      <div className={styles.dataLabels}>
         <div>
-          <div className={headerTitle}>2020</div>
-          <span className={subHeader}>Fiscal Year</span>
+          <div className={styles.headerTitle}>2020</div>
+          <span className={styles.subHeader}>Fiscal Year</span>
         </div>
         <div>
-          <div className={headerTitle}>$7.6 T</div>
-          <span className={subHeader}>Total Spending</span>
+          <div className={styles.headerTitle}>$7.6 T</div>
+          <span className={styles.subHeader}>Total Spending</span>
         </div>
         <div>
-          <div className={headerTitle}>$22.1 T</div>
-          <span className={subHeader}>GDP</span>
+          <div className={styles.headerTitle}>$22.1 T</div>
+          <span className={styles.subHeader}>GDP</span>
         </div>
       </div>
     </div>
   </div>
 )
 
-export const chartTheme = {
-  fontColor: '#666666',
+const formatCurrency = v => {
+  if (parseFloat(v) < 0) {
+    return `$${Math.abs(v)} T`;
+  }
+  else if (parseFloat(v) > 0){
+    return `$${v} T`;
+  }
+  else {
+    return `$${v}`;
+  }
+};
+
+const chartTheme = {
+  textColor: '#666666',
   axis: {
     domain: {
       line: {
@@ -63,23 +76,79 @@ export const chartTheme = {
     line: {
       stroke: '#555555',
       strokeWidth: 2,
+      strokeDasharray: '2,2'
     }
   },
   marker: {
-    fontSize: fontSize_14,
-    fontColor: '#666666'
+    fill: '#666666'
   }
 };
 
-export const layers = [
+const layers = [
   'grid',
-  'markers',
   'axes',
   'areas',
   'lines',
+  'crosshair',
+  'markers',
   'points',
   'slices',
-  'crosshair',
   'mesh',
   'legends',
 ]
+
+export const chartConfigs = {
+  theme: chartTheme,
+  layers: layers,
+  axisLeft: {
+    format: formatCurrency,
+    orient: "left",
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    tickValues: 6,
+  },
+  axisBottom: {
+    orient: "bottom",
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    tickValues: 7,
+  },
+}
+
+export const getMarkers = (width) => {
+  const markerStyle = {
+      axis: 'y',
+      lineStyle: {strokeWidth: 0},
+      textStyle: {
+        fontWeight: semiBoldWeight,
+        fill: '#666666',
+        fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+      },
+    };
+    // const markerBackground = {
+    //   axis: 'y',
+    //   lineStyle: {strokeWidth: 0},
+    //   textStyle: {
+    //     fill: '#f1f1f1',
+    //     fontWeight: 800,
+    //     fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    //   },
+    // };
+
+  return (
+    [
+      {
+        ...markerStyle,
+        legend: 'GDP',
+        value: '22.5',
+      },
+      {
+        ...markerStyle,
+        legend: 'Total Spending',
+        value: '8.5',
+      }
+    ]
+  )
+}

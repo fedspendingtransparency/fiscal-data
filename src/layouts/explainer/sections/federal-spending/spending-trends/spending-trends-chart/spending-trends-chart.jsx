@@ -6,24 +6,20 @@ import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
-  semiBoldWeight
 } from "../../../../../../variables.module.scss";
 import {withWindowSize} from "react-fns";
 import {
   chartCopy,
   dataHeader,
-  layers,
-  chartTheme
+  chartConfigs,
+  getMarkers
 } from "./spending-trends-chart-helper";
 import {visWithCallout} from "../../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
-import {revenueExplainerPrimary} from "../../../government-revenue/revenue.module.scss";
-import {getShortForm} from "../../../../heros/hero-helper";
 import {spendingExplainerPrimary} from "../../federal-spending.module.scss";
 
 const SpendingTrendsChart = ({width}) => {
-
 
   const data = [
     {
@@ -56,7 +52,7 @@ const SpendingTrendsChart = ({width}) => {
         },
         {
           "x": 2021,
-          "y": 24
+          "y": 22
         }
       ]
     },
@@ -98,21 +94,10 @@ const SpendingTrendsChart = ({width}) => {
 
 
 
-  const formatCurrency = v => {
-    if (parseFloat(v) < 0) {
-      return `$${Math.abs(v)} T`;
-    }
-    else if (parseFloat(v) > 0){
-      return `$${v} T`;
-    }
-    else {
-      return `$${v}`;
-    }
-  };
-
   return (
     <>
       <div className={visWithCallout}>
+        <div style={{overflow: 'hidden'}}>
       <ChartContainer
         title={chartCopy.title}
         subTitle={chartCopy.subtitle}
@@ -120,25 +105,32 @@ const SpendingTrendsChart = ({width}) => {
         date={new Date()}
         header={dataHeader()}
       >
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+        }}
+        >
           <Line
             data={data}
-            layers={layers}
+            layers={chartConfigs.layers}
             theme={{
-              ...chartTheme,
+              ...chartConfigs.theme,
               fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+              marker: {
+                fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+              }
             }}
             colors={d => d.color}
             width={ 515 }
-            height={ 450 }
-            margin={{top: 50, right: 50, bottom: 50, left: 50}}
+            height={ 500 }
+            margin={{top: 25, right: 50, bottom: 50, left: 50}}
             enablePoints={true}
-            pointSize={6}
+            pointSize={0}
             enableGridX={false}
             enableGridY={false}
             xScale={{
-              type: "point",
+              type: "linear",
               min: 2015,
               max: 2021
             }}
@@ -151,56 +143,20 @@ const SpendingTrendsChart = ({width}) => {
             }}
             axisTop={null}
             axisRight={null}
-            axisBottom={{
-              orient: "bottom",
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-            }}
-            axisLeft={{
-              format: formatCurrency,
-              orient: "left",
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              tickValues: 6,
-            }}
+            axisBottom={chartConfigs.axisBottom}
+            axisLeft={chartConfigs.axisLeft}
             useMesh={true}
             isInteractive={true}
-            enableSlices={'x'}
-            enableCrosshair={true}
+            enableCrosshair={false}
+            crosshairType={'x'}
             animate={false}
-            pointLabelYOffset={-12}
-            sliceTooltip={slice => null}
-            markers={[
-              {
-                axis: 'y',
-                value: '24',
-                legend: 'GDP',
-                lineStyle: {strokeWidth: 0},
-                textStyle: {
-                  fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-                  fontWeight: semiBoldWeight,
-                  fill: '#666666'
-                },
-                legendPosition: 'top-right'
-              },
-              {
-                axis: 'y',
-                value: '8',
-                legend: 'Total Spending',
-                lineStyle: {strokeWidth: 0},
-                textStyle: {
-                  fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-                  fill: '#666666',
-                  fontWeight: semiBoldWeight
-                }
-              }
-            ]}
+            tooltip={() => null}
+            markers={getMarkers(width)}
           >
           </Line>
         </div>
       </ChartContainer>
+        </div>
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             Since 2015, the Spending to GDP ratio has increased from XX% to XX%.
