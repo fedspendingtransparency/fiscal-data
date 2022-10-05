@@ -13,6 +13,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
+import Analytics from "../../../../utils/analytics/analytics";
 import {numberWithCommas} from "../../../../helpers/simplify-number/simplifyNumber";
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../variables.module.scss";
@@ -124,12 +125,17 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
     formatDeficit();
   }, [useWindowSize(), []])
 
-  const mtsLink =
-    <CustomLink url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays' +
-    '-of-the-u-s-government'}
+  const mtsLink = (
+    <CustomLink
+      url={
+        "/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays" +
+        "-of-the-u-s-government"
+      }
+      eventNumber='2'
     >
       Monthly Treasury Statement (MTS)
-    </CustomLink>;
+    </CustomLink>
+  );
 
   const fiscalYear =
     <GlossaryTerm term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >

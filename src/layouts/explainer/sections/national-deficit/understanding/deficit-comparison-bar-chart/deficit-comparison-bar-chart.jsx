@@ -26,6 +26,7 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {nationalDeficitSectionConfigs} from "../../national-deficit";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import Analytics from "../../../../../../utils/analytics/analytics";
 
 const DeficitComparisonBarChart = ({sectionId, width}) => {
   const [date, setDate] = useState(new Date ());
@@ -46,9 +47,15 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
     endpoints
   } = nationalDeficitSectionConfigs[sectionId];
 
+
+  const mst =
+    <CustomLink url={slug} eventNumber='13'
+      
+    >{name}</CustomLink>
+    
   const footer =
     <div>
-      Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and download
+      Visit the {mst} dataset to explore and download
       this data.
       <p>
         Please note: This data visual only includes completed fiscal years. The following
