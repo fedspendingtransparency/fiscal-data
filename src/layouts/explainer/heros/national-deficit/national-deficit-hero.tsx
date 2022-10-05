@@ -131,13 +131,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         "/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays" +
         "-of-the-u-s-government"
       }
-      onClick={() => {
-        Analytics.event({
-          category: "Fiscal Data - Explainers",
-          action: "Citation Click",
-          label: "Deficit - What is the national deficit?",
-        });
-      }}
+      eventNumber='2'
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>

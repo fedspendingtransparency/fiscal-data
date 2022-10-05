@@ -7,7 +7,7 @@ const DeficitAndSurplusCauses = ({glossary}) => {
   const federalCovidResponseLink =
     <CustomLink
     url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'}
-    eventNumber={'14'}
+    eventNumber='14'
     >
       the federal response to COVID-19
     </CustomLink>

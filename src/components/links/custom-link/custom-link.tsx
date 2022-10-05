@@ -3,7 +3,8 @@ import { Link } from "gatsby";
 import { Link as ScrollLink } from "react-scroll";
 import ExternalLink from "../external-link/external-link";
 import { graphql, useStaticQuery } from "gatsby";
-import { Analytics } from "../../../utils/analytics/analytics";
+import Analytics from "../../../utils/analytics/analytics";
+import useGAEventTracking from "../../../hooks/useGAEventTracking";
 
 type CustomLinkProps = {
   url: string;
@@ -26,42 +27,25 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
-  const [gaEvents, setGaEvents] = useState(null);
 
-  const allDeficitExplainerEventTrackingCsv = useStaticQuery(
-    graphql`
-      query {
-        allDeficitExplainerEventTrackingCsv {
-          deficitExplainerEventTrackingCsv: nodes {
-            Number
-            Trigger
-            eventAction
-            eventCategory
-            eventLabel
-          }
-        }
-      }
-    `
-  );
+  const gaEvent = useGAEventTracking(eventNumber);
 
-  const gaEventsOnClick = (e) => {
-    //e.preventDefault();
-    const gaEvent = gaEvents.filter(
-      gaEvent => gaEvent.Number == eventNumber
-    );
-
-    console.log(eventNumber, gaEvent);
-
-    // Analytics.event({
-    //   category: 'Fiscal Data - Explainers',
-    //   action: `Citation Click`,
-    //   label: 'Deficit - U.S. Deficit Compared to Revenue and Spending'
-    // });
-  }
+  const onClickEventHandler = () => {
+    if (onClick) {
+      return onClick();
+    } else if (eventNumber) {
+      Analytics.event({
+        category: gaEvent.eventCategory,
+        action: gaEvent.eventAction,
+        label: gaEvent.eventLabel,
+      });
+    }
+  };
 
   useEffect(() => {
     const curPath = url || href;
     if (!curPath) return;
+    
     if (curPath !== urlOrHref) {
       setUrlOrHref(curPath);
     }
@@ -70,15 +54,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       setExt(true);
       setUrlOrHref(curPath.replace(externalUrl, ""));
     }
-
-    if (eventNumber) {
-      console.log(eventNumber)
-      setGaEvents(
-        allDeficitExplainerEventTrackingCsv.allDeficitExplainerEventTrackingCsv
-          .deficitExplainerEventTrackingCsv
-      );      
-    }
-  }, [ext, url, href, eventNumber]);
+  }, [ext, url, href]);
 
   if (
     ext ||
@@ -88,7 +64,11 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       ))
   ) {
     return (
-      <ExternalLink url={urlOrHref} onClick={gaEventsOnClick} dataTestId={dataTestId}>
+      <ExternalLink
+        url={urlOrHref}
+        onClick={onClickEventHandler}
+        dataTestId={dataTestId}
+      >
         {children}
       </ExternalLink>
     );
@@ -112,8 +92,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
             className="primary"
             download={urlOrHref.endsWith(".pdf")}
             data-testid={dataTestId || "internal-link"}
-            //onClick={() => (onClick ? onClick() : null)}
-            onClick={gaEventsOnClick}
+            onClick={onClickEventHandler}
           >
             {children}
           </Link>
