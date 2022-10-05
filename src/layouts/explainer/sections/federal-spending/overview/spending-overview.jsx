@@ -20,7 +20,7 @@ export const SpendingOverview = ({ glossary }) => {
   const [deficitTerm, setDeficitTerm] = useState(null);
 
   const deficit = (
-    <CustomLink url={"/national-deficit/"}>national deficit</CustomLink>
+    <CustomLink url={"/americas-finance-guide/national-deficit/"}>national deficit</CustomLink>
   )
   const usaSpending =
     <CustomLink url={'https://www.usaspending.gov/explorer'}>USAspending.gov</CustomLink>;

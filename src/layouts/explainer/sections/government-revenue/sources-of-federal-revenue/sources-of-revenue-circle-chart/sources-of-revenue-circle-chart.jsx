@@ -190,7 +190,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         ...exciseTax,
         "percent": Number(exciseTax.value) / totalRev,
       });
-
       setChartData({children: data});
 
       if(chartAltText === ""){
@@ -210,21 +209,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     categoryData
   ]);
 
-  const chartWrap = useRef(null);
-
-  useEffect(() => {
-
-    const handleOutsideClick = (event) => {
-      if (chartWrap.current && !chartWrap.current.contains(event.target)) {
-        event.stopPropagation();
-        event.preventDefault();
-        HandleChartMouseLeave();
-      }
-    }
-    // Adding tap/click event listener
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
-  }, [chartWrap]);
 
 
   useEffect(() => {
@@ -316,7 +300,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               className={chartSize}
               onMouseLeave={HandleChartMouseLeave}
               onClick={HandleChartMouseLeave}
-              ref={chartWrap}
             >
               <CirclePacking
                 data={chartData}

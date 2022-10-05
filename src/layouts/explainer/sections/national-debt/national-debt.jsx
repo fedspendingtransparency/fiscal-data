@@ -782,15 +782,28 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                 .filter(entry => (entry.TimePeriod.includes(i.toString() + 'Q1') || entry.TimePeriod.includes(i.toString() + 'Q2') ||
                   entry.TimePeriod.includes(i.toString() + 'Q3') || entry.TimePeriod.includes((i - 1).toString() + 'Q4')));
               }
-              let totalGDP = 0;
-              allQuartersForGivenYear.forEach(quarter => {
-                totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
-              })
-              averagedGDPByYear.push({
-                // Correct BEA data to display in trillions
-                average: ((parseInt(String(totalGDP) + '000000')) / 4),
-                year: i
-              })
+              if (i>= 1977 && allQuartersForGivenYear.find(entry => entry.TimePeriod.includes(i.toString() + 'Q3'))) {
+                let totalGDP = 0;
+                allQuartersForGivenYear.forEach(quarter => {
+                  totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
+                })
+                averagedGDPByYear.push({
+                  // Correct BEA data to display in trillions
+                  average: ((parseInt(String(totalGDP) + '000000')) / 4),
+                  year: i
+                })
+              }
+              else if (i <= 1976) {
+                let totalGDP = 0;
+                allQuartersForGivenYear.forEach(quarter => {
+                  totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
+                })
+                averagedGDPByYear.push({
+                  // Correct BEA data to display in trillions
+                  average: ((parseInt(String(totalGDP) + '000000')) / 4),
+                  year: i
+                })
+              }
             }
             const debtToGDP = [];
             averagedGDPByYear.forEach(GDPEntry => {
@@ -1077,7 +1090,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                     The GDP data is sourced from the {beaLink}.
                   </p>
                   <p>
-                    Last Updated: {format(dateWithoutOffset, 'MMMM d, yyyy')}
+                    Last Updated: September 30, {lastDebtValue.x}
                   </p>
                 </div>
               </div>
