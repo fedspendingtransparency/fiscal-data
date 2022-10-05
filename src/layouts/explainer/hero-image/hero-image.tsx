@@ -31,15 +31,16 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
 
   const getSubHeading = subHeading => {
     if (pageName === "national-debt") {
-      return reactStringReplace(subHeading, "national debt", match => {
-        if (debtAmount) {
-          return `${match} ($${getShortForm(debtAmount, 1, true)})`;
-        } else {
-          return match;
-        }
-      });
+      const match = "national debt";
+      if (debtAmount) {
+        return subHeading.replace(
+          match,
+          `${match} ($${getShortForm(debtAmount, 2, true)})`
+        );
+      } else {
+        return subHeading;
+      }
     }
-    return subHeading;
   };
   const lineHeight = 8;
   const chevronHeight = 18;
