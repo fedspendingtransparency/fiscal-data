@@ -35,7 +35,7 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
       if (debtAmount) {
         return subHeading.replace(
           match,
-          `${match} ($${getShortForm(debtAmount, 2, true)})`
+          `${match} ($${getShortForm(debtAmount, 1, true)})`
         );
       } else {
         return subHeading;
