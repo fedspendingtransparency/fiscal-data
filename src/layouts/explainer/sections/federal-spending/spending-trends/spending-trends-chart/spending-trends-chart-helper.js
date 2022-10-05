@@ -27,24 +27,22 @@ export const chartCopy = {
 }
 
 export const dataHeader = () => (
-  <div className={styles.chartHeaderContainer}>
+  <div className={styles.headerContainer}>
     <div className={styles.toggle}>
       Toggle Placeholder
     </div>
-    <div className={styles.dataHeaderContainer}>
-      <div className={styles.dataLabels}>
-        <div>
-          <div className={styles.headerTitle}>2020</div>
-          <span className={styles.subHeader}>Fiscal Year</span>
-        </div>
-        <div>
-          <div className={styles.headerTitle}>$7.6 T</div>
-          <span className={styles.subHeader}>Total Spending</span>
-        </div>
-        <div>
-          <div className={styles.headerTitle}>$22.1 T</div>
-          <span className={styles.subHeader}>GDP</span>
-        </div>
+    <div className={styles.headerData}>
+      <div className={styles.dataElement}>
+        <div className={styles.dataValue}>2020</div>
+        <span className={styles.dataLabel}>Fiscal Year</span>
+      </div>
+      <div className={styles.dataElement}>
+        <div className={styles.dataValue}>$7.6 T</div>
+        <span className={styles.dataLabel}>Total Spending</span>
+      </div>
+      <div className={styles.dataElement}>
+        <div className={styles.dataValue}>$22.1 T</div>
+        <span className={styles.dataLabel}>GDP</span>
       </div>
     </div>
   </div>
@@ -87,14 +85,11 @@ const chartTheme = {
 const layers = [
   'grid',
   'axes',
-  'areas',
   'lines',
   'crosshair',
   'markers',
   'points',
-  'slices',
   'mesh',
-  'legends',
 ]
 
 export const chartConfigs = {

@@ -26,7 +26,7 @@ const ChartContainer = ({
 }) => {
   return (
     <div
-      className={`${chartContainer} chartContainer`}
+      className={`${chartContainer}`}
       role={"img"}
       aria-label={altText}
       style={{ ...customSpacing }}

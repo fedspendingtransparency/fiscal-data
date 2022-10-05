@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import {Line} from "@nivo/line";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
@@ -18,6 +18,8 @@ import {visWithCallout} from "../../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
 import {spendingExplainerPrimary} from "../../federal-spending.module.scss";
+import {lineChart, container} from "./spending-trends-chart.module.scss";
+
 
 const SpendingTrendsChart = ({width}) => {
 
@@ -91,25 +93,35 @@ const SpendingTrendsChart = ({width}) => {
       ]
     }
   ];
-  //
+
+  const applyChartScaling = () => {
+    // rewrite some element attribs after render to ensure Chart scales with container
+    // which doesn't seem to happen naturally when nivo has a flex container
+    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
+    if (svgChart) {
+      svgChart.setAttribute('viewBox', '0 0 550 490');
+      svgChart.setAttribute('height', '100%');
+      svgChart.setAttribute('width', '100%');
+    }
+  };
+
+  useEffect(() => {
+    applyChartScaling()
+  }, [])
 
   return (
     <>
       <div className={visWithCallout}>
-        <div style={{overflow: 'hidden'}}>
+        <div className={container}>
       <ChartContainer
         title={chartCopy.title}
         subTitle={chartCopy.subtitle}
         footer={chartCopy.footer}
         date={new Date()}
         header={dataHeader()}
+        altText={"TODO"}
       >
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-        >
+        <div className={lineChart} data-testid={'chartParent'}>
           <Line
             data={data}
             layers={chartConfigs.layers}
@@ -121,9 +133,9 @@ const SpendingTrendsChart = ({width}) => {
               }
             }}
             colors={d => d.color}
-            width={ 530 }
-            height={ 500 }
-            margin={{top: 25, right: 50, bottom: 50, left: 50}}
+            width={ 550 }
+            height={ 490 }
+            margin={{top: 25, right: 15, bottom: 45, left: 50}}
             enablePoints={true}
             pointSize={0}
             enableGridX={false}

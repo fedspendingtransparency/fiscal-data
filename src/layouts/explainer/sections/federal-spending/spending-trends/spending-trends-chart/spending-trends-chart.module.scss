@@ -5,51 +5,49 @@
   align-items: center;
 }
 
-:global(.chartContainerChart) {
-  margin: 0 !important;
-}
+.container {
+  overflow: hidden;
 
-.chartHeaderContainer {
-    display: flex;
-    flex-direction: column;
-
-  .toggle {
-    border-style: solid;
-    height: 2rem;
-    width:450px;
-    justify-content: center;
-    margin-bottom: 2rem;
-    margin-top: .25rem;
+  .lineChart{
+    width: 100%;
+    margin-top: .625rem;
   }
 
-  .dataHeaderContainer {
-    margin-bottom: .75rem;
-    .header {
-      font-size: $font-size-24;
-      font-weight: bold;
+  .headerContainer {
+      display: flex;
+      flex-direction: column;
+
+    .toggle {
+      border-style: solid;
+      height: 2rem;
+      width: 450px;
+      justify-content: center;
+      margin-bottom: 2rem;
+      margin-top: .25rem;
     }
-    .category {
-      color: #5b616b;
-      font-size: $font-size-14;
-      font-weight: $semi-bold-weight;
-      margin: .625rem 0;
-    }
-    .dataLabels {
+
+    .headerData {
+      margin-bottom: .75rem;
       display: flex;
       flex-direction: row;
       justify-content: center;
 
-      .headerTitle {
-        font-weight: bold;
-        font-size: $font-size-36;
-        width: 128px;
-      }
+        .dataElement:not(:last-child) {
+          padding-right: 1.5rem;
+        }
+      .dataElement{
+        .dataValue {
+          font-weight: bold;
+          font-size: $font-size-36;
+          color: #555555;
+        }
 
-      .subHeader {
-        color: #5b616b;
-        font-size: $font-size-14;
-        font-weight: $semi-bold-weight;
-        margin: 0 1.25rem;
+        .dataLabel {
+          color: #5b616b;
+          font-size: $font-size-14;
+          font-weight: $semi-bold-weight;
+          margin: 0 1.25rem;
+        }
       }
     }
   }
@@ -60,30 +58,34 @@
   :global(.chartContainerFooter) {
     font-size: $font-size-14 !important;
   }
-  .chartHeaderContainer {
-    .toggle {
-      height: 1.5rem;
-      width: 300px;
-      margin-bottom: 2rem;
-      margin-top: .25rem;
-    }
-
-  .dataHeaderContainer {
-    margin-bottom: .75rem;
-    .dataLabels {
-      .headerTitle {
-        font-weight: bold;
-        font-size: $font-size-24;
-        width: 80px;
+  .container {
+    .headerContainer {
+      .toggle {
+        height: 1.5rem;
+        width: 300px;
+        margin-bottom: 2rem;
+        margin-top: .25rem;
       }
 
-      .subHeader {
-        color: #5b616b;
-        font-size: $font-size-10;
-        font-weight: $semi-bold-weight;
-        margin: 0 1.25rem;
+      .headerData {
+        margin-bottom: .75rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .dataElement:not(:last-child) {
+          padding-right: 1.25rem;
+        }
+        .dataElement{
+          .dataValue {
+            font-size: $font-size-24;
+          }
+          .dataLabel {
+            font-size: $font-size-10;
+            margin: 0 1rem;
+          }
+        }
       }
     }
-  }
   }
 }
