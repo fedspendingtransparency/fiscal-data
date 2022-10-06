@@ -27,7 +27,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
 
-  const gaEvent = useGAEventTracking(eventNumber);
+  const gaEvent = useGAEventTracking(eventNumber, "Deficit");
 
   const onClickEventHandler = () => {
     if (onClick) {

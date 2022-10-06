@@ -11,6 +11,8 @@ import {
   content,
 } from "./accordion.module.scss";
 import analytics from "../../utils/analytics/analytics";
+import useGAEventTracking from "../../hooks/useGAEventTracking";
+
 const Accordion = ({
   defaultOpen,
   containerClass,
@@ -22,17 +24,21 @@ const Accordion = ({
   closeEventNumber,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
-  const gaEvent = useGAEventTracking(open ? openEventNumber : closeEventNumber);
+  const gaEvent = useGAEventTracking(
+    open ? openEventNumber : closeEventNumber,
+    "Debt"
+  );
 
   const onToggle = e => {
     if (e.key === undefined || e.key === "Enter") {
       e.stopPropagation();
       setOpen(prevState => !prevState);
-      analytics.event({
-        category: gaEvent.eventCategory,
-        action: gaEvent.eventAction,
-        label: gaEvent.eventLabel,
-      });
+      gaEvent &&
+        analytics.event({
+          category: gaEvent.eventCategory,
+          action: gaEvent.eventAction,
+          label: gaEvent.eventLabel,
+        });
     }
   };
 
