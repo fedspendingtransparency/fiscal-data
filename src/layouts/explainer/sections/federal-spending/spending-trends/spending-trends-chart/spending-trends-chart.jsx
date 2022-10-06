@@ -135,7 +135,7 @@ const SpendingTrendsChart = ({width}) => {
             colors={d => d.color}
             width={ 550 }
             height={ 490 }
-            margin={{top: 25, right: 15, bottom: 45, left: 50}}
+            margin={{top: 25, right: 25, bottom: 45, left: 50}}
             enablePoints={true}
             pointSize={0}
             enableGridX={false}
