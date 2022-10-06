@@ -33,13 +33,14 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
     if (pageName === "national-debt") {
       const match = "national debt";
       if (debtAmount) {
-        return subHeading.replace(
+        return subHeading?.replace(
           match,
           `${match} ($${getShortForm(debtAmount, 2, true)})`
         );
-      } else {
-        return subHeading;
       }
+      return subHeading;
+    } else {
+      return subHeading;
     }
   };
   const lineHeight = 8;
