@@ -5,6 +5,8 @@ import fetchMock from "fetch-mock";
 
 
 describe('Federal Spending Overview', () => {
+  global.console.warn = jest.fn();
+
   it('renders the deficit link', () => {
     const {getByRole} = render(<SpendingOverview />);
     expect(getByRole('link', {name: 'national deficit'})).toBeInTheDocument();
