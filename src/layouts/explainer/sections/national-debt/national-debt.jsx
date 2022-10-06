@@ -393,6 +393,8 @@ export const FundingProgramsSection = () => {
         <Accordion title="What are some of the major spending categories?"
                    altStyleAccordion={{padding: '9px 16px'}}
                    containerClass={fundingProgramAccordion}
+                   openEventNumber={"11"}
+                   closeEventNumber={"12"}
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
