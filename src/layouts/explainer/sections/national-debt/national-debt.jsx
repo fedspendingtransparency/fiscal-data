@@ -909,17 +909,19 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
 
 
   let overTimeTimer = null;
+  const handleMouseEnterTime =  {
+    overTimeTimer = setTimeout(() => {
+        Analytics.event({
+          category: 'Fiscal Data - Explainers',
+          action: 'Chart Hover',
+          label: 'Debt - Federal Debt Trends Over Time'
+        });
+      }, 3000)
+    };
 
   const lineChartOnMouseMove = (point) => {
     setLinechartHoveredValue(formatPercentage(point.data.y));
     setLinechartHoveredYear(point.data.x);
-    overTimeTimer = setTimeout(() =>{
-      Analytics.event({
-        category: 'Fiscal Data - Explainers',
-        action: 'Chart Hover',
-        label: 'Debt - Federal Debt Trends Over Time'
-      });
-    }, 3000);
   };
 
   const lineChartOnMouseLeave = () => {
