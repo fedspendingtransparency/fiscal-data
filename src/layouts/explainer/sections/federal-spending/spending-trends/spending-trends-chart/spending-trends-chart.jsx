@@ -94,6 +94,19 @@ const SpendingTrendsChart = ({width}) => {
     }
   ];
 
+  const applyTextScaling = () => {
+    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
+    if (svgChart) {
+      const containerWidth = document.querySelector('[data-testid="chartParent"]').offsetWidth;
+      const ratio = 550 / containerWidth;
+      const textElements = document.querySelectorAll('[data-testid="chartParent"] text');
+      const fontSize = width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14;
+      [...textElements].forEach(text => {
+        text.style.fontSize = `${parseFloat(fontSize) * ratio}rem`
+      });
+    }
+  };
+
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
     // which doesn't seem to happen naturally when nivo has a flex container
@@ -108,6 +121,10 @@ const SpendingTrendsChart = ({width}) => {
   useEffect(() => {
     applyChartScaling()
   }, [])
+
+  useEffect(() => {
+    applyTextScaling();
+  }, [width])
 
   return (
     <>
