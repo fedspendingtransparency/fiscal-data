@@ -120,15 +120,7 @@ export const getMarkers = (width) => {
         fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
       },
     };
-    // const markerBackground = {
-    //   axis: 'y',
-    //   lineStyle: {strokeWidth: 0},
-    //   textStyle: {
-    //     fill: '#f1f1f1',
-    //     fontWeight: 800,
-    //     fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    //   },
-    // };
+
 
   return (
     [
