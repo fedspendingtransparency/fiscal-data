@@ -13,15 +13,15 @@ import {
   dataHeader,
   chartConfigs,
   getMarkers
-} from "./spending-trends-chart-helper";
+} from "./total-spending-chart-helper";
 import {visWithCallout} from "../../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
 import {spendingExplainerPrimary} from "../../federal-spending.module.scss";
-import {lineChart, container} from "./spending-trends-chart.module.scss";
+import {lineChart, container} from "./total-spending-chart.module.scss";
 
 
-const SpendingTrendsChart = ({width}) => {
+const TotalSpendingChart = ({width}) => {
 
   const data = [
     {
@@ -97,13 +97,14 @@ const SpendingTrendsChart = ({width}) => {
   const applyTextScaling = () => {
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      const containerWidth = document.querySelector('[data-testid="chartParent"]').offsetWidth;
-      const ratio = 550 / containerWidth;
-      const textElements = document.querySelectorAll('[data-testid="chartParent"] text');
-      const fontSize = width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14;
-      [...textElements].forEach(text => {
-        text.style.fontSize = `${parseFloat(fontSize) * ratio}rem`
-      });
+      if(width < pxToNumber(breakpointLg)) {
+        const containerWidth = document.querySelector('[data-testid="chartParent"]').offsetWidth;
+        const ratio = 550 / containerWidth;
+        const textElements = document.querySelectorAll('[data-testid="chartParent"] text');
+        [...textElements].forEach(text => {
+          text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`
+        });
+      }
     }
   };
 
@@ -136,7 +137,7 @@ const SpendingTrendsChart = ({width}) => {
         footer={chartCopy.footer}
         date={new Date()}
         header={dataHeader()}
-        altText={"TODO"}
+        altText={chartCopy.altText}
       >
         <div className={lineChart} data-testid={'chartParent'}>
           <Line
@@ -152,7 +153,7 @@ const SpendingTrendsChart = ({width}) => {
             colors={d => d.color}
             width={ 550 }
             height={ 490 }
-            margin={{top: 25, right: 25, bottom: 45, left: 50}}
+            margin={{top: 25, right: 75, bottom: 45, left: 75}}
             enablePoints={true}
             pointSize={0}
             enableGridX={false}
@@ -195,5 +196,5 @@ const SpendingTrendsChart = ({width}) => {
   );
 }
 
-export default withWindowSize(SpendingTrendsChart);
+export default withWindowSize(TotalSpendingChart);
 

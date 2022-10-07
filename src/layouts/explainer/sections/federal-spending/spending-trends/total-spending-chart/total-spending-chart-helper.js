@@ -1,6 +1,6 @@
 import React from "react";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
-import * as styles from "./spending-trends-chart.module.scss";
+import * as styles from "./total-spending-chart.module.scss";
 import {
   breakpointLg,
   fontSize_10,
@@ -8,9 +8,6 @@ import {
   semiBoldWeight
 } from "../../../../../../variables.module.scss";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-
-const title = "Government Spending and the U.S. Economy (GDP), FY 2015 – 2021";
-const subtitle = "Inflation Adjusted - 2021 Dollars";
 
 const name = 'MTS - Summary of Receipts and Outlays of the U.S. Government';
 const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`;
@@ -21,9 +18,10 @@ const footer =
   </p>;
 
 export const chartCopy = {
-    title: title,
-    subtitle: subtitle,
-    footer: footer
+    title: 'Government Spending and the U.S. Economy (GDP), FY 2015 – 2021',
+    subtitle: 'Inflation Adjusted - 2021 Dollars',
+    footer: footer,
+    altText: 'Line graph comparing the total federal spending to the total GDP dollar amount.'
 }
 
 export const dataHeader = () => (
