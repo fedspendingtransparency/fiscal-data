@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { graphql, useStaticQuery } from "gatsby";
 
+// type: 'Debt', 'Deficit', etc. must be capitalized + match whats in the query name and node query
 const useGAEventTracking = (evNumber, type) => {
   const [gaEvent, setGaEvent] = useState(null);
   const eventTrackingCsvs = useStaticQuery(
