@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
@@ -56,6 +56,25 @@ export const infoTipAnalyticsObject = {
 }
 
 const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }) => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
+  const handleScroll = () => {
+    let position = window.pageYOffset;
+    setPreviousScrollPosition(scrollPosition);
+    setScrollPosition(position);
+
+    if (scrollPosition != previousScrollPosition) {
+      handleClose();
+    };
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollPosition]);
   const {
     button,
     primarySvgColor,
@@ -131,6 +150,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
         <Popover
           id={id}
           className={popOver}
+          disableScrollLock={true}
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
@@ -147,11 +167,16 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           <div
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
-            onMouseLeave={handleClose}
           >
             {width < pxToNumber(breakpointLg) ?
-              <h6 className={styles.header}>{title} <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose}/></h6> :
-              <h6 className={styles.header}>{title}</h6>
+              <span>
+                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose}/>
+                <h6 className={styles.header}>{title}</h6>
+              </span>
+              :
+              <div>
+                <h6 className={styles.header}>{title}</h6>
+              </div>
             }
 
             <div className={styles.popoverContents}>
