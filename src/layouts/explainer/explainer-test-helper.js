@@ -576,10 +576,10 @@ export const mockInterestToDebtChartHeaderSummary = {
 };
 
 export const mockFifthSectionValueMarkers = [
-  '$10.3 T',
-  '$4.7 T',
-  '$22.6 T',
-  '$6.3 T'
+  '$10.26 T',
+  '$4.74 T',
+  '$22.64 T',
+  '$6.27 T'
 ];
 
 export const mockPublicDebtIncrease = '121%';
