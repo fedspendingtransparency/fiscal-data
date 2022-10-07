@@ -682,6 +682,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
     basicFetch(`${apiPrefix}${endpoint}`)
       .then((dataset) => {
         dataset.data = adjustDataForInflation(dataset.data, valueField, dateField, cpiDataByYear);
+        console.log(dataset.data);
         const latestEntry = dataset.data[0];
         const earliestEntry = dataset.data[dataset.data.length - 1];
         // Use window.innerWidth instead of width prop because this doesn't trigger on mount
@@ -1116,7 +1117,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
 
 export const percentageFormatter = (value) => (Math.round(Number(value) * 100)
   .toPrecision(15) / 100).toFixed(2) + '%';
-export const trillionsFormatter = (value) => `$${(Number(value) / 1000000).toFixed(1)} T`;
+export const trillionsFormatter = (value) => `$${(Number(value) / 1000000).toFixed(2)} T`;
 
 export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width }) => {
   const [data, setData] = useState();
@@ -1405,9 +1406,9 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
                   response.data[0].current_fytd_net_outly_amt));
                 const percent = (maintainDebtExpense /
                   parseFloat(fytdNet) * 100).toFixed(2);
-                setDebtExpensePercent(`${percent}%`);
+                setDebtExpensePercent(`${parseFloat(percent).toFixed()}%`);
                 setShortenedDebtExpense(
-                  (maintainDebtExpense / 1000000000).toFixed(1).toString());
+                  (maintainDebtExpense / 1000000000).toFixed().toString());
               }
             })
           }
@@ -1482,22 +1483,22 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
                       {
                         ...sideMarkerLeft,
                         value: data[0]['Intragovernmental Holdings'],
-                        legend: `$${data[0]['Intragovernmental Holdings'].toFixed(1)} T`
+                        legend: `$${data[0]['Intragovernmental Holdings'].toFixed(2)} T`
                       },
                       {
                         ...sideMarkerLeft,
                         value: data[0].total,
-                        legend: `$${data[0]['Debt Held by the Public'].toFixed(1)} T`
+                        legend: `$${data[0]['Debt Held by the Public'].toFixed(2)} T`
                       },
                       {
                         ...sideMarkerRight,
                         value: data[1]['Intragovernmental Holdings'],
-                        legend: `$${data[1]['Intragovernmental Holdings'].toFixed(1)} T`
+                        legend: `$${data[1]['Intragovernmental Holdings'].toFixed(2)} T`
                       },
                       {
                         ...sideMarkerRight,
                         value: data[1].total,
-                        legend: `$${data[1]['Debt Held by the Public'].toFixed(1)} T`
+                        legend: `$${data[1]['Debt Held by the Public'].toFixed(2)} T`
                       }
                     ]}
                     enableLabel={false}

@@ -75,7 +75,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   }, []);
 
   const expenditures = (
-    <GlossaryTerm 
+    <GlossaryTerm
       term={"Expenditures"}
       page={"Revenue Explainer"}
       glossary={glossary}
@@ -95,6 +95,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
       <div className={flapWrapper}>
         <SplitFlapDisplay
           value={currentRevenue}
+          mobilePrecision={2}
           minLength={17}
           valueType="currency"
         />

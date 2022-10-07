@@ -43,7 +43,7 @@ export class MultichartRenderer {
     xAxisHeight: 16,
     yAxisWidth: baseYAxisWidth,
     marginTop: 10,
-    marginRight: 50,
+    marginRight: 55,
     marginLeft: 10,
     width: null
   }
