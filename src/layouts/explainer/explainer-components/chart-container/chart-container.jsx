@@ -40,12 +40,12 @@ const ChartContainer = ({
       </div>
       <div
         data-testid="chart"
-        className={chart}
+        className={`${chart} chartContainerChart`}
         style={{ ...customContainerStyles }}
       >
         {children}
       </div>
-      <div className={footerContainer} style={{ ...customFooterSpacing }}>
+      <div className={`${footerContainer} chartContainerFooter`} style={{ ...customFooterSpacing }}>
         {footer}
         Last Updated: {format(date, "MMMM d, yyyy")}
       </div>
