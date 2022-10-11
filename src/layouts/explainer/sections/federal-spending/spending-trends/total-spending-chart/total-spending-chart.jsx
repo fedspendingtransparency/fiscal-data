@@ -154,8 +154,8 @@ const TotalSpendingChart = ({width}) => {
             width={ 550 }
             height={ 490 }
             margin={width < pxToNumber(breakpointLg) ?
-              {top: 25, right: 25, bottom: 45, left: 65} :
-              {top: 25, right: 25, bottom: 45, left: 50}
+              {top: 25, right: 25, bottom: 35, left: 65} :
+              {top: 25, right: 15, bottom: 45, left: 50}
             }
             enablePoints={true}
             pointSize={0}
