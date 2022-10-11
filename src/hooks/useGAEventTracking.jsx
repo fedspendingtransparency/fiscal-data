@@ -40,7 +40,6 @@ const useGAEventTracking = (evNumber, type) => {
       );
 
       if (gaEvent) {
-        console.log(gaEvent, "gaEvent");
         setGaEvent(gaEvent[0] ? gaEvent[0] : null);
       }
     }
