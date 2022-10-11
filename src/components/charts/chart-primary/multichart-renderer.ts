@@ -43,8 +43,8 @@ export class MultichartRenderer {
     xAxisHeight: 16,
     yAxisWidth: baseYAxisWidth,
     marginTop: 10,
-    marginRight: 50,
-    marginLeft: 10,
+    marginRight: 53,
+    marginLeft: 71,
     width: null
   }
 
@@ -128,7 +128,7 @@ export class MultichartRenderer {
       .scaleTime()
       .domain(d3.extent(config.data, d => parseTime(d[config.dateField])))
       .range([
-        config.chartDimensions.yAxisWidth,
+        config.chartDimensions.marginLeft,
         config.chartDimensions.yAxisWidth + config.chartDimensions.width]);
 
     return scales;

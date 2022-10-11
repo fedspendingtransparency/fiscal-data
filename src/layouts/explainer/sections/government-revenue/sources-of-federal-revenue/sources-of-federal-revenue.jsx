@@ -17,8 +17,8 @@ import GlossaryTerm from "../../../../../components/glossary-term/glossary-term"
 
 const SourcesOfFederalRevenue = ({ glossary }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
-  const [indvPercent, setIndvPercent] = useState(0);
-  const [ssPercent, setSSPercent] = useState(0);
+  const [indvPercent, setIndvPercent] = useState('');
+  const [ssPercent, setSSPercent] = useState('');
 
   useEffect(() => {
     const endpointURL =
@@ -36,14 +36,14 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
           supplementaryRes => {
             if (supplementaryRes.data[0]) {
               setIndvPercent(
-                Math.round(
+                (Math.round(
                   (parseFloat(res.data[0]?.current_fytd_rcpt_outly_amt) /
                     parseFloat(
                       supplementaryRes.data[0]?.current_fytd_rcpt_outly_amt
                     )) *
                     100 *
                     10
-                ) / 10
+                ) / 10).toFixed()
               );
               basicFetch(`${apiPrefix}${socialSecurityEndpointURL}`).then(
                 socSecRes => {
@@ -55,7 +55,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
                       );
                     });
                     setSSPercent(
-                      Math.round(
+                      (Math.round(
                         (combinedSocialSecurity /
                           parseFloat(
                             supplementaryRes.data[0]
@@ -63,7 +63,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
                           )) *
                           100 *
                           10
-                      ) / 10
+                      ) / 10).toFixed()
                     );
                   }
                 }

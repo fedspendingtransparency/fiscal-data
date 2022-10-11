@@ -41,7 +41,7 @@ describe('Federal Spending Overview', () => {
     const { getByText } = render(<SpendingOverview />);
     expect(fetchSpy).toBeCalled();
     await waitFor(() => getByText("In fiscal year (FY) 2022", {exact:false}));
-    expect(await getByText("4.5 trillion", {exact: false})).toBeInTheDocument();
+    expect(await getByText("4.52 trillion", {exact: false})).toBeInTheDocument();
     expect(await getByText("which was less than", {exact: false})).toBeInTheDocument();
     expect(await getByText("resulting in a surplus", {exact: false})).toBeInTheDocument();
   });
@@ -65,7 +65,7 @@ describe('Federal Spending Overview', () => {
     const { getByText } = render(<SpendingOverview />);
     expect(fetchSpy).toBeCalled();
     await waitFor(() => getByText("In fiscal year (FY) 2022", {exact:false}));
-    expect(await getByText("2.5 trillion", {exact: false})).toBeInTheDocument();
+    expect(await getByText("2.52 trillion", {exact: false})).toBeInTheDocument();
     expect(await getByText("which was more than", {exact: false})).toBeInTheDocument();
     expect(await getByText("resulting in a deficit", {exact: false})).toBeInTheDocument();
   });

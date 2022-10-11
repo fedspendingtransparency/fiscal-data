@@ -56,7 +56,7 @@ describe('Split Flap Display ', () => {
 
     setWindowWidth(800);
 
-    expect(getByText(/10.0/i)).toBeInTheDocument();
+    expect(getByText(/10/i)).toBeInTheDocument();
     expect(getAllByText(/million/i).length).toBe(2);
   });
 });
