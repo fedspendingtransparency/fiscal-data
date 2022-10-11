@@ -35,7 +35,8 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       return onClick();
     } else if (eventNumber) {
       Analytics.event({
-        category: gaEvent.eventCategory,
+        //Until we generalize this use of useGAEventTracking, then we have to remove the "Fiscal Data - "that is added in analytics.js as _prefix
+        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
       });
