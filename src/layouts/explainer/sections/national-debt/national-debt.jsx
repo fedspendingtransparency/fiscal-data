@@ -906,18 +906,19 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
       }
     }
   };
-
-
-  let overTimeTimer = null;
-  const handleMouseEnterTime =  {
-    overTimeTimer = setTimeout(() => {
-        Analytics.event({
-          category: 'Fiscal Data - Explainers',
-          action: 'Chart Hover',
-          label: 'Debt - Federal Debt Trends Over Time'
-        });
-      }, 3000)
-    };
+  let onMouseLeaveTimer;
+const onMouseHover = () => {
+  onMouseLeaveTimer = setTimeout(() =>{
+    Analytics.event({
+      category: 'Fiscal Data - Explainers',
+      action: 'Chart Hover',
+      label: 'Debt - Federal Debt Trends Over Time'
+    });
+  }, 3000);
+}
+  const handleMouseLeaveLineChart = () => {
+    clearTimeout(onMouseLeaveTimer);
+  };
 
   const lineChartOnMouseMove = (point) => {
     setLinechartHoveredValue(formatPercentage(point.data.y));
@@ -927,7 +928,6 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   const lineChartOnMouseLeave = () => {
     setLinechartHoveredValue(formatPercentage(lastDebtValue.y));
     setLinechartHoveredYear(lastDebtValue.x);
-    clearTimeout(overTimeTimer);
   };
 
   return (
@@ -977,7 +977,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                 className={growingNationalDebtSectionGraph}
                 ref={chartRef}
                 onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={handleMouseLeaveLineChart}
                 data-testid="chart"
               >
                 {isLoading && (
@@ -1044,6 +1044,8 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                 <div
                   className={`${lineChartContainer} ${chartBackdrop}`}
                   data-testid={"debtTrendsChart"}
+                  onMouseEnter={onMouseHover}
+                  onMouseLeave={handleMouseLeaveLineChart}
                   role={"img"}
                   aria-label={`Line graph displaying the federal debt to GDP trend over time
                   from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
@@ -1436,6 +1438,20 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
         })
   }, []);
 
+  let onMouseLeaveInterestTimer;
+  const onMouseHoverInterest = () => {
+    onMouseLeaveInterestTimer = setTimeout(() =>{
+      Analytics.event({
+        category: 'Fiscal Data - Explainers',
+        action: 'Chart Hover',
+        label: 'Debt - Interest Rate and Total Debt'
+      });
+    }, 3000);
+  }
+  const handleMouseLeaveInterestChart = () => {
+    clearTimeout(onMouseLeaveInterestTimer);
+  };
+
 
   return (
     <>
@@ -1619,6 +1635,8 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
           <div className={multichartWrapper}>
             <div className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
                  role={"img"}
+                 onMouseEnter={onMouseHoverInterest}
+                 onMouseLeave={handleMouseLeaveInterestChart}
                  aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
                  "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin}
             >
