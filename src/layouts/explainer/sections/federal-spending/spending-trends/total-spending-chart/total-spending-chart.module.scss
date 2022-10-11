@@ -43,7 +43,7 @@
         }
 
         .dataLabel {
-          color: #5b616b;
+          color: #666666;
           font-size: $font-size-14;
           font-weight: $semi-bold-weight;
           margin: 0 1.25rem;
@@ -53,6 +53,11 @@
   }
 }
 
+@media screen and (min-width: $breakpoint-lg - 1) {
+  :global(.chartContainerChart) {
+    max-width: 484px !important;
+  }
+}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerFooter) {
@@ -64,7 +69,7 @@
   }
   :global(.chartContainerFooter) {
     p {
-      margin-top: 0;
+      margin-top: .75rem;
     }
   }
 
