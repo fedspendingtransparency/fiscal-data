@@ -30,12 +30,14 @@ const useGAEventTracking = (evNumber, type) => {
   );
 
   useEffect(() => {
-    if (type) {
+    if (type && eventTrackingCsvs) {
       const lookupTypeQuery = `all${type}ExplainerEventTrackingCsv`;
       const typeToLower = type[0].toLowerCase() + type.slice(1);
       const lookupTypeNode = `${typeToLower}ExplainerEventTrackingCsv`;
-      const lookup = eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
-      const gaEvent = lookup.filter(
+      const lookup =
+        eventTrackingCsvs[lookupTypeQuery] &&
+        eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
+      const gaEvent = lookup?.filter(
         eventTrack => eventTrack.Number == evNumber
       );
 
@@ -43,7 +45,7 @@ const useGAEventTracking = (evNumber, type) => {
         setGaEvent(gaEvent[0] ? gaEvent[0] : null);
       }
     }
-  }, [evNumber, type]);
+  }, [evNumber, type, eventTrackingCsvs]);
 
   return gaEvent;
 };
