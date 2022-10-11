@@ -140,6 +140,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           variant="contained"
           className={`${button} ${styles.infoIcon}`}
           onClick={handleClick}
+          onMouseLeave={handleClose}
         >
           <FontAwesomeIcon
             icon={faInfoCircle}
@@ -167,6 +168,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           <div
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
+            onMouseLeave={handleClose}
           >
             {width < pxToNumber(breakpointLg) ?
               <span>
