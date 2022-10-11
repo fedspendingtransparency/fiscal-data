@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -29,16 +29,20 @@ const Accordion = ({
     "Debt"
   );
 
+  useEffect(() => {
+    if (gaEvent) {
+      analytics.event({
+        category: gaEvent.eventCategory,
+        action: gaEvent.eventAction,
+        label: gaEvent.eventLabel,
+      });
+    }
+  }, [gaEvent]);
+
   const onToggle = e => {
     if (e.key === undefined || e.key === "Enter") {
       e.stopPropagation();
       setOpen(prevState => !prevState);
-      gaEvent &&
-        analytics.event({
-          category: gaEvent.eventCategory,
-          action: gaEvent.eventAction,
-          label: gaEvent.eventLabel,
-        });
     }
   };
 
