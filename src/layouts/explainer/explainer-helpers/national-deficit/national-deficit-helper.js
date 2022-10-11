@@ -41,33 +41,41 @@ export const deficitKeyTakeaways = [
 export const deficitLearnMoreLinks = [
   {
     title: 'America’s Fiscal Future',
-    url: 'https://www.gao.gov/americas-fiscal-future'
+    url: 'https://www.gao.gov/americas-fiscal-future',
+    eventNumber: '19'
   },
   {
     title: 'An Update to the Budget and Economic Outlook: 2021 to 2031',
-    url: 'https://www.cbo.gov/publication/57339'
+    url: 'https://www.cbo.gov/publication/57339',
+    eventNumber: '20'
+    
   },
   {
     title: 'Congressional Budget Office Topics – Budget',
-    url: 'https://www.cbo.gov/topics/budget'
+    url: 'https://www.cbo.gov/topics/budget',
+    eventNumber: '21'
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
-    url: 'https://crsreports.congress.gov/product/pdf/R/R46729'
+    url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
+    eventNumber: '22'
   },
   {
     title: 'President’s Budget – Historical Tables',
-    url: 'https://www.whitehouse.gov/omb/historical-tables/'
+    url: 'https://www.whitehouse.gov/omb/historical-tables/',
+    eventNumber: '23'
   },
   {
     title: 'FY 2021 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/' +
-      'MonthlyTreasuryStatement_202109.pdf'
+      'MonthlyTreasuryStatement_202109.pdf',
+    eventNumber: '24'
   },
   {
     title: 'U.S. Current Account Deficit Widens in Third Quarter 2021',
     url: 'https://www.bea.gov/news/blog/2021-12-20/us-current-account-deficit-' +
-      'widens-third-quarter-2021'
+      'widens-third-quarter-2021',
+    eventNumber: '25'
   },
 ];
 
@@ -78,12 +86,14 @@ const mst =
   <CustomLink
     url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-' +
     'the-u-s-government'}
+    eventNumber='28'
   >
     Monthly Treasury Statement (MTS)
   </CustomLink>;
 const github =
   <CustomLink
     url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}
+    eventNumber='29'
   >
     GitHub repository
   </CustomLink>;

@@ -109,7 +109,7 @@ const DeficitTrendsBarChart = ({ width }) => {
   receipts-and-outlays-of-the-u-s-government`;
   const footer =
     <div>
-      Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and
+      Visit the <CustomLink url={slug} eventNumber='18'>{name}</CustomLink> dataset to explore and
       download this data.
       <p>
         Please note: This data visual only includes completed fiscal years.

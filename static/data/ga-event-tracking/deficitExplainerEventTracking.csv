@@ -1,0 +1,31 @@
+﻿Number,Trigger,eventCategory,eventAction,eventLabel
+1,Click on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
+2,"Click on link to MTS dataset within the ""What is the national deficit?"" section",Fiscal Data - Explainers,Citation Click,Deficit - What is the national deficit?
+3,"Click on ""Key Takeaways"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - Key Takeaways
+4,"Click on ""Understanding the National Deficit"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - Understanding the National Deficit
+5,"Click on ""The Causes of Deficits and Surpluses"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - The Causes of Deficits and Surpluses
+6,"Click on ""The Difference Between the National Deficit and the National Debt"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - The Difference Between the National Deficit and the National Debt
+7,"Click on ""U.S. Deficit by Year"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - U.S. Deficit by Year
+8,"Click on ""Learn More About the Deficit"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Deficit - Learn More About the Deficit
+9,"Click on the ""Share this page:"" options",Fiscal Data - Explainers,Share Click,Deficit - Share on <title of sharing option>
+10,"Click on Surplus tab with the ""Understanding the National Deficit"" section",Fiscal Data - Explainers,Tab Click,Deficit - Surplus
+11,"Click on Balanced Budget tab with the ""Understanding the National Deficit"" section",Fiscal Data - Explainers,Tab Click,Deficit - Balanced Budget
+12,"Click on Deficit tab with the ""Understanding the National Deficit"" section",Fiscal Data - Explainers,Tab Click,Deficit - Deficit
+13,Click on link to MTS dataset,Fiscal Data - Explainers,Citation Click,Deficit - U.S. Deficit Compared to Revenue and Spending
+14,"Click on link to USAspending.gov, titled ""the federal response to COVID-19""",Fiscal Data - Explainers,Citation Click,Deficit - The Causes of Deficits and Surpluses
+15,"Expand the accordion labeled ""How else does the federal government finance a deficit?""",Fiscal Data - Explainers,Accordion Expand Click,Deficit - The Difference Between the National Deficit and the National Debt
+16,"Collapse the accordion labeled ""How else does the federal government finance a deficit?""",Fiscal Data - Explainers,Accordion Collapse Click,Deficit - The Difference Between the National Deficit and the National Debt
+17,"Click on link to USAspending.gov, titled ""the federal response to COVID-19""",Fiscal Data - Explainers,Citation Click,Deficit - U.S. Deficit by Year
+18,Click on link to MTS dataset,Fiscal Data - Explainers,Citation Click,Deficit - Federal Deficit Trends Over Time
+19,"Click on link under ""America's Fiscal Future""",Fiscal Data - Explainers,Citation Click,Deficit - America's Fiscal Future
+20,"Click on link under ""An Update to the Budget and Economic Outlook: 2021 to 2031""",Fiscal Data - Explainers,Citation Click,Deficit - An Update to the Budget and Economic Outlook
+21,"Click on link under ""Budget""",Fiscal Data - Explainers,Citation Click,Deficit - Budget
+22,"Click on link under ""Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19""",Fiscal Data - Explainers,Citation Click,"Deficit - Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19"
+23,"Click on link under ""Historical Tables""",Fiscal Data - Explainers,Citation Click,Deficit - Historical Tables
+24,"Click on link under ""Monthly Treasury Statement""",Fiscal Data - Explainers,Citation Click,Deficit - Monthly Treasury Statement
+25,"Click on link under ""U.S. Current Account Deficit Widens in Third Quarter 2021""",Fiscal Data - Explainers,Citation Click,Deficit - U.S. Current Account Deficit Widens in Third Quarter 2021
+26,"Expand the accordion labeled ""Data Sources & Methodologies""",Fiscal Data - Explainers,Accordion Expand Click,Deficit - DS&M
+27,"Collapse the accordion labeled ""Data Sources & Methodologies""",Fiscal Data - Explainers,Accordion Collapse Click,Deficit - DS&M
+28,"Click on the ""Monthly Treasury Statement (MTS)"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Deficit - DS&M
+29,"Click on the ""Github repository"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Deficit - DS&M Github
+30,"Hover (>= 3 secs) over chart data points for ""Federal Deficit Trends Over Time""",Fiscal Data - Explainers,Chart Hover,Deficit - Federal Deficit Trends Over Time

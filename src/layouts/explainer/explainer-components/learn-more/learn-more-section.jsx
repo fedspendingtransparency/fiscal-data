@@ -13,7 +13,7 @@ const LearnMoreSection = ({links, description}) => {
         <div className={resource} key={link.title}>
           <strong>{link.title}</strong>
           <br />
-          <CustomLink url={link.url}>
+          <CustomLink url={link.url} eventNumber={link.eventNumber}>
             {link.url}
           </CustomLink>
         </div>
