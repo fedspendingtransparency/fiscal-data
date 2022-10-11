@@ -32,7 +32,7 @@ const Accordion = ({
   useEffect(() => {
     if (gaEvent) {
       analytics.event({
-        category: gaEvent.eventCategory,
+        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
       });
