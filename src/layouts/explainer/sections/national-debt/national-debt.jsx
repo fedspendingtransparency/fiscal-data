@@ -682,7 +682,6 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
     basicFetch(`${apiPrefix}${endpoint}`)
       .then((dataset) => {
         dataset.data = adjustDataForInflation(dataset.data, valueField, dateField, cpiDataByYear);
-        console.log(dataset.data);
         const latestEntry = dataset.data[0];
         const earliestEntry = dataset.data[dataset.data.length - 1];
         // Use window.innerWidth instead of width prop because this doesn't trigger on mount

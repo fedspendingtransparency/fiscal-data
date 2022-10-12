@@ -16,6 +16,9 @@ export default function simplifyNumber(n, currency) {
                 rounded = `${rounded}0`;
             }
         }
+        else {
+          rounded = `${rounded}.00`;
+        }
     }
     else if (letter === ' B') {
         rounded = (sections > 1) ? Math.round(Math.abs(n) / simplifier)
