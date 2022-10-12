@@ -320,7 +320,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   {percentDollarToggleChecked
                     ? `${capitalizeLastLetter(
                         Math.abs(item.dollarAmount) > 999999999999
-                          ? numeral(item.dollarAmount).format("($ 0.0 a)")
+                          ? numeral(item.dollarAmount).format("($ 0.00 a)")
                           : numeral(item.dollarAmount).format("($ 0 a)")
                       )}`
                     : `${item.percentage} %`}

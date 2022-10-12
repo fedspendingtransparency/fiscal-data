@@ -87,7 +87,7 @@ export const SpendingOverview = ({ glossary }) => {
         if (res.data) {
           const data = res.data[0];
           setLatestCompleteFiscalYear(data.record_fiscal_year);
-          setPriorYearSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 1, false));
+          setPriorYearSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false));
         }
       });
   }, [])
