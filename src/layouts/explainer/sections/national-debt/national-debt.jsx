@@ -393,6 +393,8 @@ export const FundingProgramsSection = () => {
         <Accordion title="What are some of the major spending categories?"
                    altStyleAccordion={{padding: '9px 16px'}}
                    containerClass={fundingProgramAccordion}
+                   openEventNumber={"11"}
+          closeEventNumber={"12"}
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
@@ -556,6 +558,8 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
       <Accordion
         title={`Visualizing the debt - How much is $${nationalDebtValue} trillion dollars?`}
         containerClass={growingNationalDebtSectionAccordion}
+        openEventNumber={"20"}
+        closeEventNumber={"21"}
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>
@@ -1670,7 +1674,8 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
         </div>
         <div className={postGraphAccordionContainer}>
           <div className={debtAccordion}>
-            <Accordion title="Why can't the government just print more money?">
+            <Accordion title="Why can't the government just print more money?"  openEventNumber={"26"}
+                closeEventNumber={"27"}>
               While the Treasury prints actual dollar bills, “printing money” is also a term that is sometimes used to describe a means
               of <CustomLink url={'https://www.federalreserve.gov/monetarypolicy.htm'}>monetary policy</CustomLink> which is conducted by the
               Federal Reserve. Monetary policy involves controlling the supply of money and the cost of borrowing. The Federal Reserve uses
@@ -1702,7 +1707,8 @@ export const DebtCeilingSection = () => (
       unknown but would likely have catastrophic  repercussions in the United States and in markets across the globe.
     </p>
     <div className={debtAccordion}>
-      <Accordion title={ debtCeilingSectionAccordionTitle } containerClass={debtCeilingAccordion}>
+      <Accordion title={ debtCeilingSectionAccordionTitle } containerClass={debtCeilingAccordion} openEventNumber="28"
+        closeEventNumber="29">
         Government shutdowns occur when annual funding for ongoing federal government operations expires, and Congress does not renew it in time.
       </Accordion>
     </div>
