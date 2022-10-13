@@ -43,20 +43,20 @@ export const dataHeader = chartToggleConfig => {
           style={{
             borderBottomLeftRadius: "4px",
             borderTopLeftRadius: "4px",
-            color: selectedChartView === "category" ? "#f1f1f1" : "#00766C",
+            color: selectedChartView === "totalSpending" ? "#f1f1f1" : "#00766C",
             background:
-              selectedChartView === "category" ? "#00766C" : "#f1f1f1",
+              selectedChartView === "totalSpending" ? "#00766C" : "#f1f1f1",
             borderRight: "none",
             width: "50%",
           }}
           onClick={() => {
-            setSelectedChartView("category");
+            setSelectedChartView("totalSpending");
           }}
         >
           <span
             style={{
               fontSize: isMobile ? "14px" : "16px",
-              color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
+              color: selectedChartView === "percentageGdp" ? "inherit" : "#FFFFFF",
             }}
           >
             Total Spending
@@ -67,18 +67,18 @@ export const dataHeader = chartToggleConfig => {
           style={{
             borderBottomRightRadius: "4px",
             borderTopRightRadius: "4px",
-            color: selectedChartView === "agency" ? "#f1f1f1" : "#00766C",
-            background: selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
+            color: selectedChartView === "percentageGdp" ? "#f1f1f1" : "#00766C",
+            background: selectedChartView === "percentageGdp" ? "#00766C" : "#f1f1f1",
             width: "50%",
           }}
           onClick={() => {
-            setSelectedChartView("agency");
+            setSelectedChartView("percentageGdp");
           }}
         >
           <span
             style={{
               fontSize: isMobile ? "14px" : "16px",
-              color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
+              color: selectedChartView === "percentageGdp" ? "#FFFFFF" : "inherit",
             }}
           >
             Percentage of GDP
