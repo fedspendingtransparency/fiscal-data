@@ -50,9 +50,9 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
 
   const mst =
     <CustomLink url={slug} eventNumber='13'
-      
+
     >{name}</CustomLink>
-    
+
   const footer =
     <div>
       Visit the {mst} dataset to explore and download
@@ -129,7 +129,7 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
     if(deficitDifference >= 1000000000000) {
       deficitDifferenceText =`$${(deficitDifference / 1000000000000).toFixed(2)} trillion`
     } else {
-      deficitDifferenceText =`$${(deficitDifference / 1000000000).toFixed(2)} billion`
+      deficitDifferenceText =`$${(deficitDifference / 1000000000).toFixed()} billion`
     }
 
     if(deficitValue > deficitChangeValue) {
