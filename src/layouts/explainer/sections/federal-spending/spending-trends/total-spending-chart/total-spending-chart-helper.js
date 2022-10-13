@@ -47,6 +47,7 @@ export const dataHeader = chartToggleConfig => {
             background:
               selectedChartView === "category" ? "#00766C" : "#f1f1f1",
             borderRight: "none",
+            width: "50%",
           }}
           onClick={() => {
             setSelectedChartView("category");
@@ -58,7 +59,7 @@ export const dataHeader = chartToggleConfig => {
               color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
             }}
           >
-            Category
+            Total Spending
           </span>
         </button>
         <button
@@ -68,6 +69,7 @@ export const dataHeader = chartToggleConfig => {
             borderTopRightRadius: "4px",
             color: selectedChartView === "agency" ? "#f1f1f1" : "#00766C",
             background: selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
+            width: "50%",
           }}
           onClick={() => {
             setSelectedChartView("agency");
@@ -79,7 +81,7 @@ export const dataHeader = chartToggleConfig => {
               color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
             }}
           >
-            Agency
+            Percentage of GDP
           </span>
         </button>
       </div>{" "}

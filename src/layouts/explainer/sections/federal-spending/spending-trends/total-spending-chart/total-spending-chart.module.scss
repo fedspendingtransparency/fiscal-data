@@ -13,6 +13,23 @@
     margin-top: .625rem;
   }
 
+  .chartToggle {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+
+  .toggleButton {
+    width: 50%;
+    margin-bottom: 2%;
+    cursor: pointer;
+    height: 32px;
+    border: 2px solid #00766c;
+  }
+
   .headerContainer {
     display: flex;
     flex-direction: column;
@@ -75,22 +92,7 @@
     }
   }
 
-  .chartToggle {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 16px;
-    border-radius: 8px;
-    margin-top: 16px;
-  }
 
-  .toggleButton {
-    width: 50%;
-    margin-bottom: 2%;
-    cursor: pointer;
-    height: 32px;
-    border: 2px solid #00766c;
-  }
 
   .container {
     .headerContainer {

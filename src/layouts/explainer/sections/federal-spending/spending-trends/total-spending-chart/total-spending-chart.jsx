@@ -131,6 +131,7 @@ const TotalSpendingChart = ({ width }) => {
     desktop: 1015,
     tablet: 600,
   };
+  // update to total spending vs percentage of GDP
   const [selectedChartView, setSelectedChartView] = useState("category");
   const [isMobile, setIsMobile] = useState(true);
   useEffect(() => {
