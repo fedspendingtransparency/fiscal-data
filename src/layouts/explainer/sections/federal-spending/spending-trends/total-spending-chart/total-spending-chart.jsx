@@ -20,7 +20,7 @@ import { spendingExplainerPrimary } from "../../federal-spending.module.scss";
 import { lineChart, container } from "./total-spending-chart.module.scss";
 
 const TotalSpendingChart = ({ width }) => {
-  const data = [
+  const totalData = [
     {
       id: "GDP",
       color: "#666666",
@@ -90,8 +90,43 @@ const TotalSpendingChart = ({ width }) => {
       ],
     },
   ];
-  const [chartData, setChartData] = useState(data);
-
+  const [chartData, setChartData] = useState(totalData);
+  const percentageData = [
+    {
+      id: "GDP Percentage",
+      color: "#666666",
+      data: [
+        {
+          x: 2015,
+          y: 20,
+        },
+        {
+          x: 2016,
+          y: 21,
+        },
+        {
+          x: 2017,
+          y: 25,
+        },
+        {
+          x: 2018,
+          y: 20,
+        },
+        {
+          x: 2019,
+          y: 21,
+        },
+        {
+          x: 2020,
+          y: 35,
+        },
+        {
+          x: 2021,
+          y: 33,
+        },
+      ],
+    },
+  ];
   const applyTextScaling = () => {
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
@@ -146,12 +181,15 @@ const TotalSpendingChart = ({ width }) => {
     selectedChartView,
     setSelectedChartView,
     isMobile,
-    setChartData,
   };
 
   useEffect(() => {
-    if (selectedChartView) {
+    if (!selectedChartView) return;
+    if (selectedChartView === "percentageGdp") {
+      setChartData(percentageData);
       console.log(selectedChartView, "selectedChartView");
+    } else {
+      setChartData(totalData);
     }
   }, [selectedChartView]);
 

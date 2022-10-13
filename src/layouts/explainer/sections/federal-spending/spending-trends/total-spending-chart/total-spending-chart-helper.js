@@ -33,7 +33,6 @@ export const dataHeader = chartToggleConfig => {
     setSelectedChartView,
     selectedChartView,
     isMobile,
-    setChartData,
   } = chartToggleConfig;
 
   return (
