@@ -25,10 +25,10 @@ describe('Federal spending Hero', () => {
     expect(await getByText("in fiscal year 2022", {exact: false})).toBeInTheDocument();
     expect(await getByText("Fiscal Year-to-Date (since October 2021)", {exact: false}))
       .toBeInTheDocument();
-    expect(await getByText("Compared to the federal spending of $2.2 trillion", {exact: false}))
+    expect(await getByText("Compared to the federal spending of $2.24 trillion", {exact: false}))
       .toBeInTheDocument();
     expect(await getByText("(Oct 2020 - Jun 2021)", {exact: false})).toBeInTheDocument();
-    expect(await getByText("federal spending has increased by $2.3 trillion", {exact: false}))
+    expect(await getByText("federal spending has increased by $2 trillion", {exact: false}))
       .toBeInTheDocument();
 
     global.fetch.mockRestore();
@@ -45,7 +45,7 @@ describe("Pill data section", () => {
     const {getByText, getByRole} = render(<FederalSpendingHero />);
     expect(fetchSpy).toBeCalled();
 
-    await waitFor(() => getByText("$2 T", {exact:false}));
+    await waitFor(() => getByText("$2.24 T", {exact:false}));
     expect(await getByRole("img", {name: "up arrow"})).toBeInTheDocument();
     expect(await getByText("102%", {exact: false})).toBeInTheDocument();
 
@@ -61,7 +61,7 @@ describe("Pill data section", () => {
     const {getByText, getByRole} = render(<FederalSpendingHero />);
     expect(fetchSpy).toBeCalled();
 
-    await waitFor(() => getByText("$2 T", {exact:false}));
+    await waitFor(() => getByText("$2.24 T", {exact:false}));
     expect(await getByRole("img", {name: "down arrow"})).toBeInTheDocument();
     expect(await getByText("-50%", {exact: false})).toBeInTheDocument();
 
