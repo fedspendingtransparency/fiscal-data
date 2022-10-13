@@ -33,6 +33,7 @@ export const dataHeader = chartToggleConfig => {
     setSelectedChartView,
     selectedChartView,
     isMobile,
+    setChartData,
   } = chartToggleConfig;
 
   return (
@@ -43,7 +44,8 @@ export const dataHeader = chartToggleConfig => {
           style={{
             borderBottomLeftRadius: "4px",
             borderTopLeftRadius: "4px",
-            color: selectedChartView === "totalSpending" ? "#f1f1f1" : "#00766C",
+            color:
+              selectedChartView === "totalSpending" ? "#f1f1f1" : "#00766C",
             background:
               selectedChartView === "totalSpending" ? "#00766C" : "#f1f1f1",
             borderRight: "none",
@@ -56,7 +58,8 @@ export const dataHeader = chartToggleConfig => {
           <span
             style={{
               fontSize: isMobile ? "14px" : "16px",
-              color: selectedChartView === "percentageGdp" ? "inherit" : "#FFFFFF",
+              color:
+                selectedChartView === "percentageGdp" ? "inherit" : "#FFFFFF",
             }}
           >
             Total Spending
@@ -67,8 +70,10 @@ export const dataHeader = chartToggleConfig => {
           style={{
             borderBottomRightRadius: "4px",
             borderTopRightRadius: "4px",
-            color: selectedChartView === "percentageGdp" ? "#f1f1f1" : "#00766C",
-            background: selectedChartView === "percentageGdp" ? "#00766C" : "#f1f1f1",
+            color:
+              selectedChartView === "percentageGdp" ? "#f1f1f1" : "#00766C",
+            background:
+              selectedChartView === "percentageGdp" ? "#00766C" : "#f1f1f1",
             width: "50%",
           }}
           onClick={() => {
@@ -78,7 +83,8 @@ export const dataHeader = chartToggleConfig => {
           <span
             style={{
               fontSize: isMobile ? "14px" : "16px",
-              color: selectedChartView === "percentageGdp" ? "#FFFFFF" : "inherit",
+              color:
+                selectedChartView === "percentageGdp" ? "#FFFFFF" : "inherit",
             }}
           >
             Percentage of GDP

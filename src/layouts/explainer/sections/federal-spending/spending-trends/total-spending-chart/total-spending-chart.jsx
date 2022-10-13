@@ -90,6 +90,7 @@ const TotalSpendingChart = ({ width }) => {
       ],
     },
   ];
+  const [chartData, setChartData] = useState(data);
 
   const applyTextScaling = () => {
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
@@ -131,8 +132,7 @@ const TotalSpendingChart = ({ width }) => {
     desktop: 1015,
     tablet: 600,
   };
-  // update to total spending vs percentage of GDP
-  const [selectedChartView, setSelectedChartView] = useState("category");
+  const [selectedChartView, setSelectedChartView] = useState("totalSpending");
   const [isMobile, setIsMobile] = useState(true);
   useEffect(() => {
     if (window.innerWidth < breakpoint.desktop) {
@@ -146,7 +146,14 @@ const TotalSpendingChart = ({ width }) => {
     selectedChartView,
     setSelectedChartView,
     isMobile,
+    setChartData,
   };
+
+  useEffect(() => {
+    if (selectedChartView) {
+      console.log(selectedChartView, "selectedChartView");
+    }
+  }, [selectedChartView]);
 
   console.log(chartToggleConfig, "chartToggleConfig1");
 
@@ -165,7 +172,7 @@ const TotalSpendingChart = ({ width }) => {
             >
               <div className={lineChart} data-testid={"chartParent"}>
                 <Line
-                  data={data}
+                  data={chartData}
                   layers={chartConfigs.layers}
                   theme={{
                     ...chartConfigs.theme,
