@@ -75,32 +75,25 @@
     }
   }
 
+  .chartToggle {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+
+  .toggleButton {
+    width: 50%;
+    margin-bottom: 2%;
+    cursor: pointer;
+    height: 32px;
+    border: 2px solid #00766c;
+  }
+
   .container {
     .headerContainer {
-      .toggle {
-        height: 1.5rem;
-        width: 300px;
-        margin-bottom: 1rem;
-        margin-top: 0;
-      }
-
-      .chartToggle {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin-bottom: 16px;
-        border-radius: 8px;
-        margin-top: 16px;
-      }
-
-      .toggleButton {
-        width: 43%;
-        margin-bottom: 2%;
-        cursor: pointer;
-        height: 32px;
-        border: 2px solid #00766c;
-      }
-
       .headerData {
         margin-bottom: .75rem;
         display: flex;

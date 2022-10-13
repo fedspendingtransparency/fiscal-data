@@ -36,68 +36,67 @@ export const dataHeader = chartToggleConfig => {
   } = chartToggleConfig;
 
   return (
-    <div className={styles.headerContainer}>
-      <div className={styles.toggle}>
-        <div className={styles.chartToggle}>
-          <button
-            className={styles.toggleButton}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div className={styles.chartToggle}>
+        <button
+          className={styles.toggleButton}
+          style={{
+            borderBottomLeftRadius: "4px",
+            borderTopLeftRadius: "4px",
+            color: selectedChartView === "category" ? "#f1f1f1" : "#00766C",
+            background:
+              selectedChartView === "category" ? "#00766C" : "#f1f1f1",
+            borderRight: "none",
+          }}
+          onClick={() => {
+            setSelectedChartView("category");
+          }}
+        >
+          <span
             style={{
-              borderBottomLeftRadius: "4px",
-              borderTopLeftRadius: "4px",
-              color: selectedChartView === "category" ? "#f1f1f1" : "#00766C",
-              background:
-                selectedChartView === "category" ? "#00766C" : "#f1f1f1",
-              borderRight: "none",
-            }}
-            onClick={() => {
-              setSelectedChartView("category");
+              fontSize: isMobile ? "14px" : "16px",
+              color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
             }}
           >
-            <span
-              style={{
-                fontSize: isMobile ? "14px" : "16px",
-                color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
-              }}
-            >
-              Category
-            </span>
-          </button>
-          <button
-            className={styles.toggleButton}
+            Category
+          </span>
+        </button>
+        <button
+          className={styles.toggleButton}
+          style={{
+            borderBottomRightRadius: "4px",
+            borderTopRightRadius: "4px",
+            color: selectedChartView === "agency" ? "#f1f1f1" : "#00766C",
+            background: selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
+          }}
+          onClick={() => {
+            setSelectedChartView("agency");
+          }}
+        >
+          <span
             style={{
-              borderBottomRightRadius: "4px",
-              borderTopRightRadius: "4px",
-              color: selectedChartView === "agency" ? "#f1f1f1" : "#00766C",
-              background:
-                selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
-            }}
-            onClick={() => {
-              setSelectedChartView("agency");
+              fontSize: isMobile ? "14px" : "16px",
+              color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
             }}
           >
-            <span
-              style={{
-                fontSize: isMobile ? "14px" : "16px",
-                color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
-              }}
-            >
-              Agency
-            </span>
-          </button>
-        </div>{" "}
-      </div>
-      <div className={styles.headerData}>
-        <div className={styles.dataElement}>
-          <div className={styles.dataValue}>2020</div>
-          <span className={styles.dataLabel}>Fiscal Year</span>
-        </div>
-        <div className={styles.dataElement}>
-          <div className={styles.dataValue}>$7.6 T</div>
-          <span className={styles.dataLabel}>Total Spending</span>
-        </div>
-        <div className={styles.dataElement}>
-          <div className={styles.dataValue}>$22.1 T</div>
-          <span className={styles.dataLabel}>GDP</span>
+            Agency
+          </span>
+        </button>
+      </div>{" "}
+      <div className={styles.headerContainer}>
+        <div className={styles.headerData}>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>2020</div>
+            <span className={styles.dataLabel}>Fiscal Year</span>
+          </div>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>$7.6 T</div>
+            <span className={styles.dataLabel}>Total Spending</span>
+          </div>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>$22.1 T</div>
+            <span className={styles.dataLabel}>GDP</span>
+          </div>
         </div>
       </div>
     </div>
