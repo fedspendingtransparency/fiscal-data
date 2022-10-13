@@ -71,3 +71,5 @@ export const headerData: string;
 export const dataElement: string;
 export const dataValue: string;
 export const dataLabel: string;
+export const chartToggle: string;
+export const toggleButton: string;

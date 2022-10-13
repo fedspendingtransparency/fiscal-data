@@ -5,90 +5,146 @@ import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
-  semiBoldWeight
+  semiBoldWeight,
 } from "../../../../../../variables.module.scss";
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
+import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
 
-const name = 'MTS - Summary of Receipts and Outlays of the U.S. Government';
+const name = "MTS - Summary of Receipts and Outlays of the U.S. Government";
 const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`;
-const footer =
+const footer = (
   <p>
-    Visit the <CustomLink url={slug}>{name}</CustomLink> to explore
-    and download this data.
-  </p>;
+    Visit the <CustomLink url={slug}>{name}</CustomLink> to explore and download
+    this data.
+  </p>
+);
 
 export const chartCopy = {
-    title: 'Government Spending and the U.S. Economy (GDP), FY 2015 – 2021',
-    subtitle: 'Inflation Adjusted - 2021 Dollars',
-    footer: footer,
-    altText: 'Line graph comparing the total federal spending to the total GDP dollar amount.'
-}
+  title: "Government Spending and the U.S. Economy (GDP), FY 2015 – 2021",
+  subtitle: "Inflation Adjusted - 2021 Dollars",
+  footer: footer,
+  altText:
+    "Line graph comparing the total federal spending to the total GDP dollar amount.",
+};
 
-export const dataHeader = () => (
-  <div className={styles.headerContainer}>
-    <div className={styles.toggle}>
-      Toggle Placeholder
+export const dataHeader = chartToggleConfig => {
+  console.log(chartToggleConfig, "chartToggleConfig");
+  if (!chartToggleConfig) return;
+  const {
+    setSelectedChartView,
+    selectedChartView,
+    isMobile,
+  } = chartToggleConfig;
+
+  return (
+    <div className={styles.headerContainer}>
+      <div className={styles.toggle}>
+        <div className={styles.chartToggle}>
+          <button
+            className={styles.toggleButton}
+            style={{
+              borderBottomLeftRadius: "4px",
+              borderTopLeftRadius: "4px",
+              color: selectedChartView === "category" ? "#f1f1f1" : "#00766C",
+              background:
+                selectedChartView === "category" ? "#00766C" : "#f1f1f1",
+              borderRight: "none",
+            }}
+            onClick={() => {
+              setSelectedChartView("category");
+            }}
+          >
+            <span
+              style={{
+                fontSize: isMobile ? "14px" : "16px",
+                color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
+              }}
+            >
+              Category
+            </span>
+          </button>
+          <button
+            className={styles.toggleButton}
+            style={{
+              borderBottomRightRadius: "4px",
+              borderTopRightRadius: "4px",
+              color: selectedChartView === "agency" ? "#f1f1f1" : "#00766C",
+              background:
+                selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
+            }}
+            onClick={() => {
+              setSelectedChartView("agency");
+            }}
+          >
+            <span
+              style={{
+                fontSize: isMobile ? "14px" : "16px",
+                color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
+              }}
+            >
+              Agency
+            </span>
+          </button>
+        </div>{" "}
+      </div>
+      <div className={styles.headerData}>
+        <div className={styles.dataElement}>
+          <div className={styles.dataValue}>2020</div>
+          <span className={styles.dataLabel}>Fiscal Year</span>
+        </div>
+        <div className={styles.dataElement}>
+          <div className={styles.dataValue}>$7.6 T</div>
+          <span className={styles.dataLabel}>Total Spending</span>
+        </div>
+        <div className={styles.dataElement}>
+          <div className={styles.dataValue}>$22.1 T</div>
+          <span className={styles.dataLabel}>GDP</span>
+        </div>
+      </div>
     </div>
-    <div className={styles.headerData}>
-      <div className={styles.dataElement}>
-        <div className={styles.dataValue}>2020</div>
-        <span className={styles.dataLabel}>Fiscal Year</span>
-      </div>
-      <div className={styles.dataElement}>
-        <div className={styles.dataValue}>$7.6 T</div>
-        <span className={styles.dataLabel}>Total Spending</span>
-      </div>
-      <div className={styles.dataElement}>
-        <div className={styles.dataValue}>$22.1 T</div>
-        <span className={styles.dataLabel}>GDP</span>
-      </div>
-    </div>
-  </div>
-)
+  );
+};
 
 const formatCurrency = v => {
   if (parseFloat(v) < 0) {
     return `$${Math.abs(v)} T`;
-  }
-  else if (parseFloat(v) > 0){
+  } else if (parseFloat(v) > 0) {
     return `$${v} T`;
-  }
-  else {
+  } else {
     return `$${v}`;
   }
 };
 
 const chartTheme = {
-  textColor: '#666666',
+  textColor: "#666666",
   axis: {
     domain: {
       line: {
         strokeWidth: 1,
-        stroke: '#666666'
-      }
-    }
+        stroke: "#666666",
+      },
+    },
   },
   crosshair: {
     line: {
-      stroke: '#555555',
+      stroke: "#555555",
       strokeWidth: 2,
-      strokeDasharray: '2,2'
-    }
+      strokeDasharray: "2,2",
+    },
   },
   marker: {
-    fill: '#666666'
-  }
+    fill: "#666666",
+  },
 };
 
 const layers = [
-  'grid',
-  'axes',
-  'lines',
-  'crosshair',
-  'markers',
-  'points',
-  'mesh',
-]
+  "grid",
+  "axes",
+  "lines",
+  "crosshair",
+  "markers",
+  "points",
+  "mesh",
+];
 
 export const chartConfigs = {
   theme: chartTheme,
@@ -108,32 +164,29 @@ export const chartConfigs = {
     tickRotation: 0,
     tickValues: 7,
   },
-}
+};
 
-export const getMarkers = (width) => {
+export const getMarkers = width => {
   const markerStyle = {
-      axis: 'y',
-      lineStyle: {strokeWidth: 0},
-      textStyle: {
-        fontWeight: semiBoldWeight,
-        fill: '#666666',
-        fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      },
-    };
+    axis: "y",
+    lineStyle: { strokeWidth: 0 },
+    textStyle: {
+      fontWeight: semiBoldWeight,
+      fill: "#666666",
+      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    },
+  };
 
-
-  return (
-    [
-      {
-        ...markerStyle,
-        legend: 'GDP',
-        value: '22.5',
-      },
-      {
-        ...markerStyle,
-        legend: 'Total Spending',
-        value: '8.5',
-      }
-    ]
-  )
-}
+  return [
+    {
+      ...markerStyle,
+      legend: "GDP",
+      value: "22.5",
+    },
+    {
+      ...markerStyle,
+      legend: "Total Spending",
+      value: "8.5",
+    },
+  ];
+};

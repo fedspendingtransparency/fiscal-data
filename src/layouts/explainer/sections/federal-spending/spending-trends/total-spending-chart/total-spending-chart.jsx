@@ -1,108 +1,109 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
-import {Line} from "@nivo/line";
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
+import { Line } from "@nivo/line";
+import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
 import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
 } from "../../../../../../variables.module.scss";
-import {withWindowSize} from "react-fns";
+import { withWindowSize } from "react-fns";
 import {
   chartCopy,
   dataHeader,
   chartConfigs,
-  getMarkers
+  getMarkers,
 } from "./total-spending-chart-helper";
-import {visWithCallout} from "../../../../explainer.module.scss";
-import VisualizationCallout
-  from "../../../../../../components/visualization-callout/visualization-callout";
-import {spendingExplainerPrimary} from "../../federal-spending.module.scss";
-import {lineChart, container} from "./total-spending-chart.module.scss";
+import { visWithCallout } from "../../../../explainer.module.scss";
+import VisualizationCallout from "../../../../../../components/visualization-callout/visualization-callout";
+import { spendingExplainerPrimary } from "../../federal-spending.module.scss";
+import { lineChart, container } from "./total-spending-chart.module.scss";
 
-
-const TotalSpendingChart = ({width}) => {
-
+const TotalSpendingChart = ({ width }) => {
   const data = [
     {
-      "id": "GDP",
-      "color": "#666666",
-      "data": [
+      id: "GDP",
+      color: "#666666",
+      data: [
         {
-          "x": 2015,
-          "y": 11
+          x: 2015,
+          y: 11,
         },
         {
-          "x": 2016,
-          "y": 13
+          x: 2016,
+          y: 13,
         },
         {
-          "x": 2017,
-          "y": 15
+          x: 2017,
+          y: 15,
         },
         {
-          "x": 2018,
-          "y": 14
+          x: 2018,
+          y: 14,
         },
         {
-          "x": 2019,
-          "y": 18
+          x: 2019,
+          y: 18,
         },
         {
-          "x": 2020,
-          "y": 21
+          x: 2020,
+          y: 21,
         },
         {
-          "x": 2021,
-          "y": 22
-        }
-      ]
+          x: 2021,
+          y: 22,
+        },
+      ],
     },
     {
-      "id": "Total Spending",
-      "color": "#666666",
-      "data": [
+      id: "Total Spending",
+      color: "#666666",
+      data: [
         {
-          "x": 2015,
-          "y": 2
+          x: 2015,
+          y: 2,
         },
         {
-          "x": 2016,
-          "y": 3
+          x: 2016,
+          y: 3,
         },
         {
-          "x": 2017,
-          "y": 4
+          x: 2017,
+          y: 4,
         },
         {
-          "x": 2018,
-          "y": 6
+          x: 2018,
+          y: 6,
         },
         {
-          "x": 2019,
-          "y": 4
+          x: 2019,
+          y: 4,
         },
         {
-          "x": 2020,
-          "y": 7
+          x: 2020,
+          y: 7,
         },
         {
-          "x": 2021,
-          "y": 8
-        }
-      ]
-    }
+          x: 2021,
+          y: 8,
+        },
+      ],
+    },
   ];
 
   const applyTextScaling = () => {
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      if(width < pxToNumber(breakpointLg)) {
-        const containerWidth = document.querySelector('[data-testid="chartParent"]').offsetWidth;
+      if (width < pxToNumber(breakpointLg)) {
+        const containerWidth = document.querySelector(
+          '[data-testid="chartParent"]'
+        ).offsetWidth;
         const ratio = 550 / containerWidth;
-        const textElements = document.querySelectorAll('[data-testid="chartParent"] text');
+        const textElements = document.querySelectorAll(
+          '[data-testid="chartParent"] text'
+        );
         [...textElements].forEach(text => {
-          text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`
+          text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`;
         });
       }
     }
@@ -113,81 +114,110 @@ const TotalSpendingChart = ({width}) => {
     // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 550 490');
-      svgChart.setAttribute('height', '100%');
-      svgChart.setAttribute('width', '100%');
+      svgChart.setAttribute("viewBox", "0 0 550 490");
+      svgChart.setAttribute("height", "100%");
+      svgChart.setAttribute("width", "100%");
     }
   };
 
   useEffect(() => {
-    applyChartScaling()
-  }, [])
+    applyChartScaling();
+  }, []);
 
   useEffect(() => {
     applyTextScaling();
-  }, [width])
+  }, [width]);
+  const breakpoint = {
+    desktop: 1015,
+    tablet: 600,
+  };
+  const [selectedChartView, setSelectedChartView] = useState("category");
+  const [isMobile, setIsMobile] = useState(true);
+  useEffect(() => {
+    if (window.innerWidth < breakpoint.desktop) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [width]);
+
+  const chartToggleConfig = {
+    selectedChartView,
+    setSelectedChartView,
+    isMobile,
+  };
+
+  console.log(chartToggleConfig, "chartToggleConfig1");
 
   return (
     <>
       <div className={visWithCallout}>
         <div className={container}>
-      <ChartContainer
-        title={chartCopy.title}
-        subTitle={chartCopy.subtitle}
-        footer={chartCopy.footer}
-        date={new Date()}
-        header={dataHeader()}
-        altText={chartCopy.altText}
-      >
-        <div className={lineChart} data-testid={'chartParent'}>
-          <Line
-            data={data}
-            layers={chartConfigs.layers}
-            theme={{
-              ...chartConfigs.theme,
-              fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-              marker: {
-                fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-              }
-            }}
-            colors={d => d.color}
-            width={ 550 }
-            height={ 490 }
-            margin={width < pxToNumber(breakpointLg) ?
-              {top: 25, right: 25, bottom: 35, left: 65} :
-              {top: 25, right: 15, bottom: 45, left: 50}
-            }
-            enablePoints={true}
-            pointSize={0}
-            enableGridX={false}
-            enableGridY={false}
-            xScale={{
-              type: "linear",
-              min: 2015,
-              max: 2021
-            }}
-            yScale={{
-              type: "linear",
-              min: 0,
-              max: 25,
-              stacked: false,
-              reverse: false
-            }}
-            axisTop={null}
-            axisRight={null}
-            axisBottom={chartConfigs.axisBottom}
-            axisLeft={chartConfigs.axisLeft}
-            useMesh={true}
-            isInteractive={true}
-            enableCrosshair={false}
-            crosshairType={'x'}
-            animate={false}
-            tooltip={() => null}
-            markers={getMarkers(width)}
-          >
-          </Line>
-        </div>
-      </ChartContainer>
+          {chartToggleConfig && (
+            <ChartContainer
+              title={chartCopy.title}
+              subTitle={chartCopy.subtitle}
+              footer={chartCopy.footer}
+              date={new Date()}
+              header={dataHeader(chartToggleConfig)}
+              altText={chartCopy.altText}
+            >
+              <div className={lineChart} data-testid={"chartParent"}>
+                <Line
+                  data={data}
+                  layers={chartConfigs.layers}
+                  theme={{
+                    ...chartConfigs.theme,
+                    fontSize:
+                      width < pxToNumber(breakpointLg)
+                        ? fontSize_10
+                        : fontSize_14,
+                    marker: {
+                      fontSize:
+                        width < pxToNumber(breakpointLg)
+                          ? fontSize_10
+                          : fontSize_14,
+                    },
+                  }}
+                  colors={d => d.color}
+                  width={550}
+                  height={490}
+                  margin={
+                    width < pxToNumber(breakpointLg)
+                      ? { top: 25, right: 25, bottom: 35, left: 65 }
+                      : { top: 25, right: 15, bottom: 45, left: 50 }
+                  }
+                  enablePoints={true}
+                  pointSize={0}
+                  enableGridX={false}
+                  enableGridY={false}
+                  xScale={{
+                    type: "linear",
+                    min: 2015,
+                    max: 2021,
+                  }}
+                  yScale={{
+                    type: "linear",
+                    min: 0,
+                    max: 25,
+                    stacked: false,
+                    reverse: false,
+                  }}
+                  axisTop={null}
+                  axisRight={null}
+                  axisBottom={chartConfigs.axisBottom}
+                  axisLeft={chartConfigs.axisLeft}
+                  useMesh={true}
+                  isInteractive={true}
+                  enableCrosshair={false}
+                  crosshairType={"x"}
+                  animate={false}
+                  tooltip={() => null}
+                  markers={getMarkers(width)}
+                ></Line>
+              </div>
+            </ChartContainer>
+          )}
         </div>
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
@@ -197,7 +227,6 @@ const TotalSpendingChart = ({width}) => {
       </div>
     </>
   );
-}
+};
 
 export default withWindowSize(TotalSpendingChart);
-
