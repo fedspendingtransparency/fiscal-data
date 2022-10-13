@@ -8,6 +8,7 @@ import {
   semiBoldWeight
 } from "../../../../../../../variables.module.scss";
 import {pxToNumber} from "../../../../../../../helpers/styles-helper/styles-helper";
+import {formatCurrency} from "../../../../../explainer-helpers/explainer-charting-helper";
 
 const mts =
   <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`}>
@@ -53,18 +54,6 @@ export const dataHeader = () => (
     </div>
   </div>
 )
-
-const formatCurrency = v => {
-  if (parseFloat(v) < 0) {
-    return `$${Math.abs(v)} T`;
-  }
-  else if (parseFloat(v) > 0){
-    return `$${v} T`;
-  }
-  else {
-    return `$${v}`;
-  }
-};
 
 const chartTheme = {
   textColor: '#666666',

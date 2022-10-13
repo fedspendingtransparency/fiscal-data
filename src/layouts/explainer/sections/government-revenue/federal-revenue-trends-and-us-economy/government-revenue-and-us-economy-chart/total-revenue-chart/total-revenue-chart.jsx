@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Line} from "@nivo/line";
+import { Line } from "@nivo/line";
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../../helpers/styles-helper/styles-helper";
 import ChartContainer from "../../../../../explainer-components/chart-container/chart-container";
@@ -19,9 +19,16 @@ import VisualizationCallout
   from "../../../../../../../components/visualization-callout/visualization-callout";
 import {lineChart, container} from "./total-revenue-chart.module.scss";
 import {revenueExplainerPrimary} from "../../../revenue.module.scss";
+import {
+  applyChartScaling,
+  applyTextScaling
+} from "../../../../../explainer-helpers/explainer-charting-helper";
 
 const TotalRevenueChart = ({width}) => {
 
+  const chartParent = "totalRevenueChartParent";
+  const chartWidth = 550;
+  const chartHeight = 490;
   const data = [
     {
       "id": "GDP",
@@ -93,37 +100,13 @@ const TotalRevenueChart = ({width}) => {
     }
   ];
 
-  const applyTextScaling = () => {
-    const svgChart = document.querySelector('[data-testid="totalRevenueChartParent"] svg');
-    if (svgChart) {
-      if(width < pxToNumber(breakpointLg)) {
-        const containerWidth = document.querySelector('[data-testid="totalRevenueChartParent"]').offsetWidth;
-        const ratio = 550 / containerWidth;
-        const textElements = document.querySelectorAll('[data-testid="totalRevenueChartParent"] text');
-        [...textElements].forEach(text => {
-          text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`
-        });
-      }
-    }
-  };
-
-  const applyChartScaling = () => {
-    // rewrite some element attribs after render to ensure Chart scales with container
-    // which doesn't seem to happen naturally when nivo has a flex container
-    const svgChart = document.querySelector('[data-testid="totalRevenueChartParent"] svg');
-    if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 550 490');
-      svgChart.setAttribute('height', '100%');
-      svgChart.setAttribute('width', '100%');
-    }
-  };
 
   useEffect(() => {
-    applyChartScaling()
+    applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
   }, [])
 
   useEffect(() => {
-    applyTextScaling();
+    applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width])
 
   return (
@@ -138,20 +121,20 @@ const TotalRevenueChart = ({width}) => {
             header={dataHeader()}
             altText={chartCopy.altText}
           >
-            <div className={lineChart} data-testid={'totalRevenueChartParent'}>
+            <div className={lineChart} data-testid={chartParent}>
               <Line
                 data={data}
                 layers={chartConfigs.layers}
                 theme={{
                   ...chartConfigs.theme,
-                  fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+                  fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
                   marker: {
-                    fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+                    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
                   }
                 }}
                 colors={d => d.color}
-                width={ 550 }
-                height={ 490 }
+                width={ chartWidth }
+                height={ chartHeight}
                 margin={width < pxToNumber(breakpointLg) ?
                   {top: 25, right: 25, bottom: 35, left: 65} :
                   {top: 25, right: 15, bottom: 45, left: 50}
@@ -190,7 +173,7 @@ const TotalRevenueChart = ({width}) => {
         </div>
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
-            Since 2015, the Revenue to GDP ratio has increased from XX% to XX%.
+            Since 2015, the Revenue-to-GDP ratio has increased from XX% to XX%.
           </p>
         </VisualizationCallout>
       </div>
