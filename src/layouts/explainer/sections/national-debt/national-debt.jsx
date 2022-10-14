@@ -670,7 +670,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
       );
       gaTimeout = setTimeout(() =>{
         Analytics.event({
-          category: 'Fiscal Data - Explainers',
+          category: 'Explainers',
           action: 'Chart Hover',
           label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
         });
@@ -910,7 +910,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
 const onMouseHover = () => {
   onMouseLeaveTimer = setTimeout(() =>{
     Analytics.event({
-      category: 'Fiscal Data - Explainers',
+      category: 'Explainers',
       action: 'Chart Hover',
       label: 'Debt - Federal Debt Trends Over Time'
     });
@@ -1442,7 +1442,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
   const onMouseHoverInterest = () => {
     onMouseLeaveInterestTimer = setTimeout(() =>{
       Analytics.event({
-        category: 'Fiscal Data - Explainers',
+        category: 'Explainers',
         action: 'Chart Hover',
         label: 'Debt - Interest Rate and Total Debt'
       });
