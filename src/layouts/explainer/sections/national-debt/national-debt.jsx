@@ -845,62 +845,35 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   const formatPercentage = v => `${v}%`;
 
   const CustomPoint = (props) => {
-    const { currentPoint, borderWidth, borderColor, points } = props;
+    const { currentSlice, borderWidth, borderColor, points } = props;
     if (!isLoadingDebtTrends) {
-      if (currentPoint) {
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-          </g>
-        );
-      } else {
-        const lastPoint = points[points.length - 1];
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={lastPoint.x}
-              cy={lastPoint.y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={lastPoint.x}
-              cy={lastPoint.y}
-            />
-          </g>
-        );
-      }
+      const currentPoint = (currentSlice?.points?.length) ? currentSlice.points[0] :
+        points[points.length - 1];
+      setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
+      setLinechartHoveredYear(currentPoint.data.x);
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+        </g>
+      );
     }
-  };
-
-  const lineChartOnMouseMove = (point) => {
-    setLinechartHoveredValue(formatPercentage(point.data.y));
-    setLinechartHoveredYear(point.data.x);
   };
 
   const lineChartOnMouseLeave = () => {
@@ -1034,7 +1007,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                       'lines',
                       'axes',
                       CustomPoint,
-                      'mesh'
+                      'slices'
                     ]}
                     margin={width < pxToNumber(breakpointLg) ?
                       { top: 8, right: 15, bottom: 30, left: 30 } :
@@ -1068,20 +1041,21 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                       tickValues: 8
                     }}
                     enablePoints={false}
+                    enableSlices={'x'}
                     pointSize={0}
                     pointColor={debtExplainerPrimary}
                     pointBorderWidth={2}
                     pointBorderColor={debtExplainerPrimary}
                     pointLabelYOffset={-12}
                     colors={debtExplainerPrimary}
-                    useMesh={true}
+                    useMesh={false}
                     enableGridY={true}
                     gridYValues={8}
                     enableGridX={false}
-                    tooltip={() => (<></>)}
+                    sliceTooltip={() => (<></>)}
                     enableCrosshair={false}
                     animate={true}
-                    onMouseMove={lineChartOnMouseMove}
+                    isInteractive={true}
                     onMouseLeave={lineChartOnMouseLeave}
                   />
                 </div>
