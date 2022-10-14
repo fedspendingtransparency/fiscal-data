@@ -192,8 +192,6 @@ const TotalSpendingChart = ({ width }) => {
     }
   }, [selectedChartView]);
 
-  console.log(chartToggleConfig, "chartToggleConfig1");
-
   return (
     <>
       <div className={visWithCallout}>
@@ -244,7 +242,7 @@ const TotalSpendingChart = ({ width }) => {
                   yScale={{
                     type: "linear",
                     min: 0,
-                    max: 25,
+                    max: selectedChartView === "totalSpending" ? 25 : 50,
                     stacked: false,
                     reverse: false,
                   }}
@@ -258,7 +256,7 @@ const TotalSpendingChart = ({ width }) => {
                   crosshairType={"x"}
                   animate={false}
                   tooltip={() => null}
-                  markers={getMarkers(width)}
+                  markers={getMarkers(width, selectedChartView)}
                 ></Line>
               </div>
             </ChartContainer>

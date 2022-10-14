@@ -95,14 +95,25 @@ export const dataHeader = chartToggleConfig => {
             <div className={styles.dataValue}>2020</div>
             <span className={styles.dataLabel}>Fiscal Year</span>
           </div>
-          <div className={styles.dataElement}>
-            <div className={styles.dataValue}>$7.6 T</div>
-            <span className={styles.dataLabel}>Total Spending</span>
-          </div>
-          <div className={styles.dataElement}>
-            <div className={styles.dataValue}>$22.1 T</div>
-            <span className={styles.dataLabel}>GDP</span>
-          </div>
+          {selectedChartView !== "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>$7.6 T</div>
+              <span className={styles.dataLabel}>Total Spending</span>
+            </div>
+          )}
+          {selectedChartView !== "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>$22.1 T</div>
+              <span className={styles.dataLabel}>GDP</span>
+            </div>
+          )}
+
+          {selectedChartView === "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>32%</div>
+              <span className={styles.dataLabel}>GDP Ratio</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -171,7 +182,7 @@ export const chartConfigs = {
   },
 };
 
-export const getMarkers = width => {
+export const getMarkers = (width, selectedChartView) => {
   const markerStyle = {
     axis: "y",
     lineStyle: { strokeWidth: 0 },
@@ -182,16 +193,18 @@ export const getMarkers = width => {
     },
   };
 
-  return [
-    {
-      ...markerStyle,
-      legend: "GDP",
-      value: "22.5",
-    },
-    {
-      ...markerStyle,
-      legend: "Total Spending",
-      value: "8.5",
-    },
-  ];
+  return selectedChartView === "percentageGdp"
+    ? []
+    : [
+        {
+          ...markerStyle,
+          legend: "GDP",
+          value: "22.5",
+        },
+        {
+          ...markerStyle,
+          legend: "Total Spending",
+          value: "8.5",
+        },
+      ];
 };
