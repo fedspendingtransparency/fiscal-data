@@ -187,7 +187,6 @@ const TotalSpendingChart = ({ width }) => {
     if (!selectedChartView) return;
     if (selectedChartView === "percentageGdp") {
       setChartData(percentageData);
-      console.log(selectedChartView, "selectedChartView");
     } else {
       setChartData(totalData);
     }
