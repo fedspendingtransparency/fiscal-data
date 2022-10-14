@@ -58,7 +58,7 @@ const federalSpendingSection = [
     title: "Spending Trends Over Time",
     comingSoon: true,
     component: (glossary, cpiDataByYear) => (
-      <SpendingTrends />
+      <SpendingTrends cpiDataByYear={cpiDataByYear}/>
     ),
   },
 ]
