@@ -12,8 +12,8 @@ const FederalRevenueTrendsAndUSEconomy = () => {
           economy.
         </p>
       <Experimental featureId={'revenue-trends-section'}>
-      </Experimental>
         <TotalRevenueChart />
+      </Experimental>
     </div>
   );
 };
