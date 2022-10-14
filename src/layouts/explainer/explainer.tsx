@@ -159,7 +159,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
                   </React.Fragment>
                 ))}
                 <section className={section}>
-                  <DataSourcesMethodologies>
+                  <DataSourcesMethodologies pageName={pageName}>
                     {explainerDataSources[pageName]}
                   </DataSourcesMethodologies>
                 </section>
