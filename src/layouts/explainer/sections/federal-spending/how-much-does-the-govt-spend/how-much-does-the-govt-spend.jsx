@@ -230,6 +230,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 style={{
                   fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
+                  fontWeight: 600
                 }}
               >
                 Category
@@ -252,6 +253,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 style={{
                   fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
+                  fontWeight: 600
                 }}
               >
                 Agency
