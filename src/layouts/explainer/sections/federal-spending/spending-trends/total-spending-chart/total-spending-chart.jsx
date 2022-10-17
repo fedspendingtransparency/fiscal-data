@@ -25,7 +25,7 @@ import { adjustDataForInflation } from "../../../../../../helpers/inflation-adju
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner} from '@fortawesome/free-solid-svg-icons';
 
-const headingDataEndPoint =
+const callOutDataEndPoint =
   apiPrefix + "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1";
 
 const chartDataEndPoint = apiPrefix + "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date";
@@ -86,9 +86,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   };
 
   useEffect(() => {
-    basicFetch(headingDataEndPoint).then((res)=>{
+    basicFetch(callOutDataEndPoint).then((res)=>{
       if(res.data){
-        setCallOutYear(res.data.record_fiscal_year);
+        setCallOutYear(res.data[0].record_fiscal_year);
       }
     })
       
@@ -103,6 +103,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           let maxAmount;
           let finalSpendingChartData = [];
           res.data = adjustDataForInflation(res.data, "current_fytd_net_outly_amt", "record_date", cpiDataByYear);
+          
           res.data.map((t) => {
             finalSpendingChartData.push({
               x: parseInt(t.record_fiscal_year),
@@ -160,7 +161,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                 maxAmount = spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount;
                 setMaxAmount(maxAmount);
                 setIsLoading(false);
-
                 setFirstRatio(numeral(finalSpendingChartData[0].y / finalGDPChartData[0].y).format("0%"));
                 setlastRatio(numeral(finalSpendingChartData[finalSpendingChartData.length - 1].y / finalGDPChartData[finalGDPChartData.length - 1].y).format("0%"));
                 applyChartScaling();
@@ -176,7 +176,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     applyTextScaling();
   }, [width]);
 
-  console.log(data);
   return (
     <>
       {isLoading && (
@@ -185,6 +184,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         </div>
       )}
       {!isLoading && (
+        
         <div className={visWithCallout}>
           <div className={container}>
             <ChartContainer
