@@ -1,4 +1,4 @@
-export default function simplifyNumber(n, currency) {
+export default function simplifyNumber(n, currency, ignoreDecimal) {
     const negativeSign = (n < 0) ? '-' : '',
         dollarSign = currency ? '$' : '',
         digits = parseInt(Math.abs(n)).toString().length,
@@ -17,7 +17,9 @@ export default function simplifyNumber(n, currency) {
             }
         }
         else {
-          rounded = `${rounded}.00`;
+          if (ignoreDecimal !== true) {
+            rounded = `${rounded}.00`;
+          }
         }
     }
     else if (letter === ' B') {
