@@ -158,18 +158,28 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const revenueBody =
     <>
-      The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {exciseTaxes} taxes. It also collects revenue from services like admission to national parks and customs duties.
+      The federal government collects revenue from a variety of sources, including individual
+      income taxes, payroll taxes, corporate income taxes, and {exciseTaxes} taxes. It also collects
+      revenue from services like admission to national parks and customs duties.
     </>
   const debtBody =
-    <>The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
+    <>
+      The national debt is the money the federal government has borrowed to cover the outstanding
+      balance of expenses incurred over time. To pay for a deficit, the federal government borrows
+      additional funds, which increases the debt. Other activities contribute to the change in
+      federal debt, such as changes in the Treasury's operating cash account and federal student
+      loans.
       <br />
       <br />
-      Are federal debt and deficit the same thing? No, but they do affect one another</>
+      Are federal debt and deficit the same thing? No, but they do affect one another
+    </>
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
         pageTitle="America’s Finance Guide"
-        description="Your guide to America’s finances: explore U.S. revenue, spending, deficit, and debt with this accessible and open-source guide to federal finance data."
+        description={"Your Guide to America’s Finances makes federal financial information open " +
+        "and accessible to all. Explore U.S. revenue, spending, deficit, and debt with this " +
+        "open-source guide to federal finance data."}
         keywords=""
         image=""
         canonical=""
