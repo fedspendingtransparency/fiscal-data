@@ -44,7 +44,8 @@ describe('Spending Key Takeaways evergreen values', () => {
     const {getByText} = render(<SpendingKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     await waitFor(() => getByText("In FY 2021", {exact:false}));
-    await waitFor(() => getByText("$186 out of every", {exact:false}));
+
+    await waitFor(() => getByText("$2 out of every", {exact:false}));
   });
 
 });

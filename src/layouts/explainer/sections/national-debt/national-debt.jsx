@@ -393,6 +393,8 @@ export const FundingProgramsSection = () => {
         <Accordion title="What are some of the major spending categories?"
                    altStyleAccordion={{padding: '9px 16px'}}
                    containerClass={fundingProgramAccordion}
+                   openEventNumber={"11"}
+          closeEventNumber={"12"}
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
@@ -556,6 +558,8 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
       <Accordion
         title={`Visualizing the debt - How much is $${nationalDebtValue} trillion dollars?`}
         containerClass={growingNationalDebtSectionAccordion}
+        openEventNumber={"20"}
+        closeEventNumber={"21"}
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>
@@ -832,6 +836,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
 
   const chartBorderTheme = {
     fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    textColor: '#666666',
     axis: {
       domain: {
         line: {
@@ -845,62 +850,35 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   const formatPercentage = v => `${v}%`;
 
   const CustomPoint = (props) => {
-    const { currentPoint, borderWidth, borderColor, points } = props;
+    const { currentSlice, borderWidth, borderColor, points } = props;
     if (!isLoadingDebtTrends) {
-      if (currentPoint) {
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-          </g>
-        );
-      } else {
-        const lastPoint = points[points.length - 1];
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={lastPoint.x}
-              cy={lastPoint.y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={lastPoint.x}
-              cy={lastPoint.y}
-            />
-          </g>
-        );
-      }
+      const currentPoint = (currentSlice?.points?.length) ? currentSlice.points[0] :
+        points[points.length - 1];
+      setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
+      setLinechartHoveredYear(currentPoint.data.x);
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+        </g>
+      );
     }
-  };
-
-  const lineChartOnMouseMove = (point) => {
-    setLinechartHoveredValue(formatPercentage(point.data.y));
-    setLinechartHoveredYear(point.data.x);
   };
 
   const lineChartOnMouseLeave = () => {
@@ -1034,11 +1012,11 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                       'lines',
                       'axes',
                       CustomPoint,
-                      'mesh'
+                      'slices'
                     ]}
                     margin={width < pxToNumber(breakpointLg) ?
-                      { top: 8, right: 15, bottom: 30, left: 30 } :
-                      { top: 8, right: 15, bottom: 30, left: 40 }}
+                      { top: 8, right: 25, bottom: 30, left: 35 } :
+                      { top: 8, right: 25, bottom: 30, left: 50 }}
                     xScale={{
                       type: 'linear',
                       min: 1940,
@@ -1064,24 +1042,24 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                     axisLeft={{
                       format: formatPercentage,
                       orient: 'left',
-                      tickSize: 0,
+                      tickSize: 5,
                       tickValues: 8
                     }}
                     enablePoints={false}
+                    enableSlices={'x'}
                     pointSize={0}
                     pointColor={debtExplainerPrimary}
                     pointBorderWidth={2}
                     pointBorderColor={debtExplainerPrimary}
                     pointLabelYOffset={-12}
                     colors={debtExplainerPrimary}
-                    useMesh={true}
-                    enableGridY={true}
-                    gridYValues={8}
+                    useMesh={false}
+                    enableGridY={false}
                     enableGridX={false}
-                    tooltip={() => (<></>)}
+                    sliceTooltip={() => (<></>)}
                     enableCrosshair={false}
                     animate={true}
-                    onMouseMove={lineChartOnMouseMove}
+                    isInteractive={true}
                     onMouseLeave={lineChartOnMouseLeave}
                   />
                 </div>
@@ -1670,7 +1648,8 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
         </div>
         <div className={postGraphAccordionContainer}>
           <div className={debtAccordion}>
-            <Accordion title="Why can't the government just print more money?">
+            <Accordion title="Why can't the government just print more money?"  openEventNumber={"26"}
+                closeEventNumber={"27"}>
               While the Treasury prints actual dollar bills, “printing money” is also a term that is sometimes used to describe a means
               of <CustomLink url={'https://www.federalreserve.gov/monetarypolicy.htm'}>monetary policy</CustomLink> which is conducted by the
               Federal Reserve. Monetary policy involves controlling the supply of money and the cost of borrowing. The Federal Reserve uses
@@ -1702,7 +1681,8 @@ export const DebtCeilingSection = () => (
       unknown but would likely have catastrophic  repercussions in the United States and in markets across the globe.
     </p>
     <div className={debtAccordion}>
-      <Accordion title={ debtCeilingSectionAccordionTitle } containerClass={debtCeilingAccordion}>
+      <Accordion title={ debtCeilingSectionAccordionTitle } containerClass={debtCeilingAccordion} openEventNumber="28"
+        closeEventNumber="29">
         Government shutdowns occur when annual funding for ongoing federal government operations expires, and Congress does not renew it in time.
       </Accordion>
     </div>

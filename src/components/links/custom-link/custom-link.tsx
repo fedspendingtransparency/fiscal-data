@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Link } from "gatsby";
 import { Link as ScrollLink } from "react-scroll";
 import ExternalLink from "../external-link/external-link";
-import { graphql, useStaticQuery } from "gatsby";
 import Analytics from "../../../utils/analytics/analytics";
 import useGAEventTracking from "../../../hooks/useGAEventTracking";
 
@@ -28,7 +27,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
 
-  const gaEvent = useGAEventTracking(eventNumber);
+  const gaEvent = useGAEventTracking(eventNumber, "Deficit");
 
   const onClickEventHandler = () => {
     if (onClick) {
@@ -46,7 +45,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   useEffect(() => {
     const curPath = url || href;
     if (!curPath) return;
-    
+
     if (curPath !== urlOrHref) {
       setUrlOrHref(curPath);
     }
