@@ -72,6 +72,7 @@ export const dataHeader = chartToggleConfig => {
               fontSize: isMobile ? "14px" : "16px",
               color:
                 selectedChartView === "percentageGdp" ? "inherit" : "#FFFFFF",
+              fontWeight: "600",
             }}
           >
             Total Spending
@@ -97,6 +98,7 @@ export const dataHeader = chartToggleConfig => {
               fontSize: isMobile ? "14px" : "16px",
               color:
                 selectedChartView === "percentageGdp" ? "#FFFFFF" : "inherit",
+              fontWeight: "600",
             }}
           >
             Percentage of GDP
