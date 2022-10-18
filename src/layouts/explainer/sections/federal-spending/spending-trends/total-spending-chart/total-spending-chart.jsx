@@ -167,7 +167,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         let spendingMaxAmount = Math.ceil(
           finalSpendingChartData[finalSpendingChartData.length - 1].y
         );
-
+        let lastUpdatedDateGDP = new Date();
         setMinYear(spendingMinYear);
         setMaxYear(spendingMaxYear);
 
@@ -175,20 +175,18 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
 
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
+          if (bea_res.BEAAPI.Results.Notes) {
+            let extractedDateGDP = bea_res.BEAAPI.Results?.Notes[0]?.NoteText.slice(
+              bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf("LastRevised: ")
+            );
+            lastUpdatedDateGDP = extractedDateGDP
+              ? new Date(extractedDateGDP)
+              : new Date();
+          }
           if (bea_res.BEAAPI.Results.Data) {
             let finalGDPChartData = [];
             let total = 0;
             let count = 0;
-            let extractedDateGDP =
-              bea_res.BEAAPI.Results.Notes &&
-              bea_res.BEAAPI.Results.Notes[0].NoteText.slice(
-                bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf(
-                  "LastRevised: "
-                )
-              );
-            let lastUpdatedDateGDP = extractedDateGDP
-              ? new Date(extractedDateGDP)
-              : new Date();
 
             bea_res.BEAAPI.Results.Data.map(entry => {
               if (
