@@ -29,8 +29,8 @@ describe('Spending Key Takeaways evergreen values', () => {
     const {getByText} = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getByText("In fiscal year 2021", {exact:false})).toBeInTheDocument();
-    expect(await getByText("9%", {exact:false})).toBeInTheDocument();
-    expect(await getByText("0.24 trillion", {exact:false})).toBeInTheDocument();
+    expect(await getByText("0%", {exact:false})).toBeInTheDocument();
+    expect(await getByText("22.65 trillion", {exact:false})).toBeInTheDocument();
   });
 
 });
