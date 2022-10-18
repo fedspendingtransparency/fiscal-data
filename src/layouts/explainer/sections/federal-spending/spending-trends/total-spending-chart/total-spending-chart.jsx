@@ -42,6 +42,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [callOutYear, setCallOutYear] = useState("");
   const [firstRatio, setFirstRatio] = useState("");
   const [lastRatio, setlastRatio] = useState("");
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+
 
   const data = [
     {
@@ -102,8 +104,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           let spendingMaxYear;
           let maxAmount;
           let finalSpendingChartData = [];
+          let lastUpdatedDateSpending;
           res.data = adjustDataForInflation(res.data, "current_fytd_net_outly_amt", "record_date", cpiDataByYear);
-          
           res.data.map((t) => {
             finalSpendingChartData.push({
               x: parseInt(t.record_fiscal_year),
@@ -112,6 +114,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
 
           })
           
+          lastUpdatedDateSpending = res.data[res.data.length-1].record_date ? new Date(res.data[res.data.length-1].record_date) : new Date();
           spendingMinYear = finalSpendingChartData[0].x;
           spendingMaxYear = finalSpendingChartData[finalSpendingChartData.length - 1].x;
           let spendingMaxAmount = Math.ceil(finalSpendingChartData[finalSpendingChartData.length - 1].y);
@@ -128,6 +131,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                 let finalGDPChartData = [];
                 let total = 0;
                 let count= 0;
+                let extractedDateGDP = bea_res.BEAAPI.Results.Notes[0].NoteText.slice(bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf("LastRevised: "));
+                let lastUpdatedDateGDP = extractedDateGDP ? new Date(extractedDateGDP) : new Date();
 
                 bea_res.BEAAPI.Results.Data
                   .map((entry) => {
@@ -155,6 +160,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                       }
                     }
                   });
+
+                setLastUpdatedDate(lastUpdatedDateSpending < lastUpdatedDateGDP ? lastUpdatedDateSpending : lastUpdatedDateGDP);
                                 
                 setGdpChartData(finalGDPChartData);
                 let gdpMaxAmount = Math.ceil(finalGDPChartData[finalGDPChartData.length - 1].y);
@@ -191,7 +198,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               title={chartCopy.title}
               subTitle={chartCopy.subtitle}
               footer={chartCopy.footer}
-              date={new Date()}
+              date={lastUpdatedDate}
               header={dataHeader()}
               altText={chartCopy.altText}
             >
