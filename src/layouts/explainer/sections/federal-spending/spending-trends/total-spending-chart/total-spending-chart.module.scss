@@ -1,7 +1,7 @@
 @import "src/variables.module";
 
 :global(.chartContainerHeader) {
-  font-size: $font-size-14  !important;
+  font-size: $font-size-14 !important;
   align-items: center;
 }
 
@@ -10,12 +10,11 @@
 
   .lineChart {
     width: 100%;
-    margin-top: .625rem;
+    margin-top: 0.625rem;
   }
 
   .chartToggle {
     display: flex;
-    justify-content: center;
     width: 100%;
     margin-bottom: 16px;
     border-radius: 8px;
@@ -34,20 +33,10 @@
     display: flex;
     flex-direction: column;
 
-    .toggle {
-      border-style: solid;
-      height: 2rem;
-      width: 450px;
-      justify-content: center;
-      margin-bottom: 2rem;
-      margin-top: .25rem;
-    }
-
     .headerData {
-      margin-bottom: .75rem;
+      margin-bottom: 0.75rem;
       display: flex;
       flex-direction: row;
-      justify-content: center;
       min-width: 400px;
 
       .dataElement:not(:last-child) {
@@ -80,28 +69,28 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerFooter) {
-    font-size: $font-size-14  !important;
+    font-size: $font-size-14 !important;
   }
 
   :global(.chartContainerSubTitle) {
-    font-size: $font-size-14  !important;
+    font-size: $font-size-14 !important;
   }
 
   :global(.chartContainerFooter) {
     p {
-      margin-top: .75rem;
+      margin-top: 0.75rem;
     }
   }
 
-
-
   .container {
     .headerContainer {
+      display: flex;
+      justify-content: space-between;
+
       .headerData {
-        margin-bottom: .75rem;
+        margin-bottom: 0.75rem;
         display: flex;
         flex-direction: row;
-        justify-content: center;
         min-width: 400px;
 
         .dataElement:not(:last-child) {

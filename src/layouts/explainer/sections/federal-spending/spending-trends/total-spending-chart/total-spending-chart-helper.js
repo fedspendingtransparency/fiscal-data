@@ -35,7 +35,13 @@ export const dataHeader = chartToggleConfig => {
   } = chartToggleConfig;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: isMobile ? "90%" : "inherit",
+      }}
+    >
       <div className={styles.chartToggle}>
         <button
           className={styles.toggleButton}
@@ -95,12 +101,14 @@ export const dataHeader = chartToggleConfig => {
             <div className={styles.dataValue}>2020</div>
             <span className={styles.dataLabel}>Fiscal Year</span>
           </div>
+
           {selectedChartView !== "percentageGdp" && (
             <div className={styles.dataElement}>
               <div className={styles.dataValue}>$7.6 T</div>
               <span className={styles.dataLabel}>Total Spending</span>
             </div>
           )}
+
           {selectedChartView !== "percentageGdp" && (
             <div className={styles.dataElement}>
               <div className={styles.dataValue}>$22.1 T</div>

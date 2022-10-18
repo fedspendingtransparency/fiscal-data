@@ -68,7 +68,6 @@ export const lineChart: string;
 export const chartToggle: string;
 export const toggleButton: string;
 export const headerContainer: string;
-export const toggle: string;
 export const headerData: string;
 export const dataElement: string;
 export const dataValue: string;
