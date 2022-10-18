@@ -18,19 +18,23 @@ import { visWithCallout } from "../../../../explainer.module.scss";
 import VisualizationCallout from "../../../../../../components/visualization-callout/visualization-callout";
 import { spendingExplainerPrimary } from "../../federal-spending.module.scss";
 import { lineChart, container } from "./total-spending-chart.module.scss";
-import { apiPrefix, basicFetch } from "../../../../../../utils/api-utils"
-import numeral from "numeral"
+import { apiPrefix, basicFetch } from "../../../../../../utils/api-utils";
+import numeral from "numeral";
 import simplifyNumber from "../../../../../../helpers/simplify-number/simplifyNumber";
 import { adjustDataForInflation } from "../../../../../../helpers/inflation-adjust/inflation-adjust";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const callOutDataEndPoint =
-  apiPrefix + "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1";
+  apiPrefix +
+  "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1";
 
-const chartDataEndPoint = apiPrefix + "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date";
+const chartDataEndPoint =
+  apiPrefix +
+  "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date";
 
-const gdpEndPoint = "https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON";
+const gdpEndPoint =
+  "https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON";
 
 const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
@@ -43,8 +47,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [firstRatio, setFirstRatio] = useState("");
   const [lastRatio, setlastRatio] = useState("");
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
-  const [chartData, setChartData] = useState(totalData);
-
   const totalData = [
     {
       id: "GDP",
@@ -57,6 +59,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       data: spendingChartData,
     },
   ];
+  const [chartData, setChartData] = useState(totalData);
 
   const percentageData = [
     {
@@ -176,9 +179,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             let finalGDPChartData = [];
             let total = 0;
             let count = 0;
-            let extractedDateGDP = bea_res.BEAAPI.Results.Notes[0].NoteText.slice(
-              bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf("LastRevised: ")
-            );
+            let extractedDateGDP =
+              bea_res.BEAAPI.Results.Notes &&
+              bea_res.BEAAPI.Results.Notes[0].NoteText.slice(
+                bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf(
+                  "LastRevised: "
+                )
+              );
             let lastUpdatedDateGDP = extractedDateGDP
               ? new Date(extractedDateGDP)
               : new Date();
@@ -354,13 +361,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
             <p>
-              Since {callOutYear}, the Spending to GDP ratio has increased from {firstRatio} to {lastRatio}.
+              Since {callOutYear}, the Spending to GDP ratio has increased from{" "}
+              {firstRatio} to {lastRatio}.
             </p>
           </VisualizationCallout>
         </div>
       )}
     </>
-
   );
 };
 
