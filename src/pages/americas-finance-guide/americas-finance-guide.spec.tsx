@@ -61,7 +61,7 @@ describe('Americas Finance Guide', () => {
     });
     const { getByText, getAllByText } = component;
       await waitFor(() => {
-        getByText("the federal government has collected $4.41 trillion", { exact: false });
+        getByText("the federal government collected $4.41 trillion", { exact: false });
         getByText("$5.35 trillion", { exact: false });
         getByText("by which spending exceeds revenue, $946 billion in", { exact: false });
         getByText("the federal government has $30.90 trillion", { exact: false });

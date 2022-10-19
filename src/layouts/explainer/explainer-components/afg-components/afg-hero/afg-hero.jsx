@@ -23,53 +23,56 @@ export default function AfgHero() {
 
     const refSocialShare = useRef(0);
 
-  useEffect(() => {
-    basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        setFiscalYear(data.record_fiscal_year);
-      }
-    });
+    useEffect(() => {
+      basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setFiscalYear(data.record_fiscal_year);
+        }
+      });
+    }, []);
 
     useEffect(() => {
-        const isMobile = window.innerWidth < breakpoint.desktop
-        if (isMobile) {
-            setIsMobile(true)
-        } else {
-            setIsMobile(false)
-        }
+      const isMobile = window.innerWidth < breakpoint.desktop
+      if (isMobile) {
+        setIsMobile(true)
+      } else {
+        setIsMobile(false)
+      }
 
-        setContainerHeight(refSocialShare.current.offsetTop + 450)
+      setContainerHeight(refSocialShare.current.offsetTop + 450)
     }, [width, height, containerHeight])
 
-
     return (
-        <div className={styles.heroContainer} style={{height: `${containerHeight}px`}} data-testid="afg-hero">
-            <div className={styles.heroGrayBox}></div>
-            <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky.">
-                <h3 className={styles.heroQuote}>
-                    “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
-                </h3>
-                <p className={styles.heroCitation}>U.S. Constitution, Article 1, Section 9</p>
-            </div>
-            <div className={styles.heroWhiteBox} >
-                <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
-                <h1 className={styles.heroHeading}>How much money did the federal government collect and spend in fiscal year {fiscalYear}?</h1>
-                <div className={styles.heroSocialShare} ref={refSocialShare}>
-                    <SocialShare
-                        title={explainerSocialShareMap[pageName].title}
-                        description={explainerSocialShareMap[pageName].description}
-                        body={explainerSocialShareMap[pageName].body}
-                        emailSubject={explainerSocialShareMap[pageName].emailSubject}
-                        emailBody={explainerSocialShareMap[pageName].emailBody}
-                        url={explainerSocialShareMap[pageName].url}
-                        image={explainerSocialShareMap[pageName].image}
-                        pageName={explainerAnalyticsLabelMap[pageName]}
-                        orientation={"horizontal"}
-                    />
-                </div>
-            </div>
-
+      <div className={styles.heroContainer} style={{height: `${containerHeight}px`}}
+           data-testid="afg-hero">
+        <div className={styles.heroGrayBox}></div>
+        <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky.">
+          <h3 className={styles.heroQuote}>
+            “A regular Statement and Account of the Receipts and Expenditures of all public Money
+            shall be published from time to time.”
+          </h3>
+          <p className={styles.heroCitation}>U.S. Constitution, Article 1, Section 9</p>
         </div>
+        <div className={styles.heroWhiteBox}>
+          <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
+          <h1 className={styles.heroHeading}>How much money did the federal government collect and
+            spend in fiscal year {fiscalYear}?</h1>
+          <div className={styles.heroSocialShare} ref={refSocialShare}>
+            <SocialShare
+              title={explainerSocialShareMap[pageName].title}
+              description={explainerSocialShareMap[pageName].description}
+              body={explainerSocialShareMap[pageName].body}
+              emailSubject={explainerSocialShareMap[pageName].emailSubject}
+              emailBody={explainerSocialShareMap[pageName].emailBody}
+              url={explainerSocialShareMap[pageName].url}
+              image={explainerSocialShareMap[pageName].image}
+              pageName={explainerAnalyticsLabelMap[pageName]}
+              orientation={"horizontal"}
+            />
+          </div>
+        </div>
+
+      </div>
     )
 }
