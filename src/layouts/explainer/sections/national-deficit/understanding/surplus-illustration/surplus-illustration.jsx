@@ -6,7 +6,7 @@ import deficit from "../../../../../../images/explainer/national-deficit/deficit
 import React from "react";
 import {withWindowSize} from "react-fns";
 import GlossaryTerm from "../../../../../../components/glossary-term/glossary-term";
-import FolderIllustration from "./folder-illustration";
+import FolderIllustration from "./folder-illustration/folder-illustration";
 
 
 const SurplusIllustration = ({glossary, width}) => {

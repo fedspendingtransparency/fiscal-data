@@ -1,5 +1,5 @@
-@import '../../../../../../variables.module.scss';
-@import '../../national-deficit.module';
+@import 'src/variables.module';
+@import 'src/layouts/explainer/sections/national-deficit/national-deficit.module';
 
 $chevronHeight: .75rem;
 $chevronWidth: 0.15rem;//$chevronHeight/3;
@@ -17,7 +17,7 @@ $chevronWidth: 0.15rem;//$chevronHeight/3;
 }
 
 .tabItem {
-  background-color: $deficit-explainer-primary;
+  background-color: $deficit-explainer-light-secondary;
   color: white;
   border-radius: 5px 5px 0 0;
   padding: 6px 12px;
@@ -28,14 +28,14 @@ $chevronWidth: 0.15rem;//$chevronHeight/3;
   height: 0;
   border-top: 2rem solid white;
   transform: translateY(4px);
-  border-left: $chevronWidth solid $deficit-explainer-primary;
+  border-left: $chevronWidth solid $deficit-explainer-light-secondary;
 }
 
 .leftSide {
   width: 0;
   height: 0;
   border-left: $chevronWidth solid white;
-  border-bottom: 2rem solid $deficit-explainer-primary;
+  border-bottom: 2rem solid $deficit-explainer-light-secondary;
   transform: translateY(4px);
 }
 

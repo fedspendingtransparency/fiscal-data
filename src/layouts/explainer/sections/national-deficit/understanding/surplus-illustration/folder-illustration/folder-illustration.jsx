@@ -46,43 +46,43 @@ const FolderIllustration = ({width, tabList, color}) => {
 
   return (
     <>
-    <div className={styles.folderVisContainer} data-testid={'folder-illustration'}>
-      <Tabs>
-        <TabList style={tabListStyle} className={styles.tabList}>
-          <Tab style={tabStyle}>
-            <FolderTab text={tabList[0].title} />
-          </Tab>
-          <Tab style={tabStyle} >
-            <FolderTab text={tabList[1].title} />
-          </Tab>
-          <Tab style={tabStyle}>
-            <FolderTab text={tabList[2].title} />
-          </Tab>
-        </TabList>
-        <TabPanel>
-          <div className={styles.folderVis}>
-            <div className={styles.folderContent}>
-              {tabList[0].content}
+      <div className={styles.folderVisContainer} data-testid={'folder-illustration'}>
+        <Tabs>
+          <TabList style={tabListStyle} className={styles.tabList}>
+            <Tab style={tabStyle}>
+              <FolderTab text={tabList[0].title} />
+            </Tab>
+            <Tab style={tabStyle} >
+              <FolderTab text={tabList[1].title} />
+            </Tab>
+            <Tab style={tabStyle}>
+              <FolderTab text={tabList[2].title} />
+            </Tab>
+          </TabList>
+          <TabPanel>
+            <div className={styles.folderVis}>
+              <div className={styles.folderContent}>
+                {tabList[0].content}
+              </div>
             </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className={styles.folderVis}>
-            <div className={styles.folderContent}>
-              {tabList[1].content}
+          </TabPanel>
+          <TabPanel>
+            <div className={styles.folderVis}>
+              <div className={styles.folderContent}>
+                {tabList[1].content}
+              </div>
             </div>
-          </div>
-        </TabPanel>
-        <TabPanel>
-          <div className={styles.folderVis}>
-            <div className={styles.folderContent}>
-              {tabList[2].content}
+          </TabPanel>
+          <TabPanel>
+            <div className={styles.folderVis}>
+              <div className={styles.folderContent}>
+                {tabList[2].content}
+              </div>
             </div>
-          </div>
-        </TabPanel>
-      </Tabs>
-    </div>
-      </>
+          </TabPanel>
+        </Tabs>
+      </div>
+    </>
   );
 }
 
