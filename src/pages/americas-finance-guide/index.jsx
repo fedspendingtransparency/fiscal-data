@@ -104,7 +104,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const revenueHeading = (
     <>
-      In fiscal year {fiscalYear}, the federal government has collected $
+      In fiscal year {fiscalYear}, the federal government collected $
       {yearToDateRevenue} in{" "}
       <span style={{ fontStyle: "italic" }}>revenue.</span>
     </>
@@ -112,8 +112,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const spendingHeading = (
     <>
-      In fiscal year {fiscalYear} the federal government has{" "}
-      <span style={{ fontStyle: "italic" }}>spent</span>, ${yearToDateSpending}.
+      In fiscal year {fiscalYear} the federal government {" "}
+      <span style={{ fontStyle: "italic" }}>spent</span> ${yearToDateSpending}.
     </>
   );
 
@@ -158,18 +158,28 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const revenueBody =
     <>
-      The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and {exciseTaxes} taxes. It also collects revenue from services like admission to national parks and customs duties.
+      The federal government collects revenue from a variety of sources, including individual
+      income taxes, payroll taxes, corporate income taxes, and {exciseTaxes} taxes. It also collects
+      revenue from services like admission to national parks and customs duties.
     </>
   const debtBody =
-    <>The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt, such as changes in the Treasury's operating cash account and federal student loans.
+    <>
+      The national debt is the money the federal government has borrowed to cover the outstanding
+      balance of expenses incurred over time. To pay for a deficit, the federal government borrows
+      additional funds, which increases the debt. Other activities contribute to the change in
+      federal debt, such as changes in the Treasury's operating cash account and federal student
+      loans.
       <br />
       <br />
-      Are federal debt and deficit the same thing? No, but they do affect one another</>
+      Are federal debt and deficit the same thing? No, but they do affect one another
+    </>
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
         pageTitle="America’s Finance Guide"
-        description="Your guide to America’s finances: explore U.S. revenue, spending, deficit, and debt with this accessible and open-source guide to federal finance data."
+        description={"Your Guide to America’s Finances makes federal financial information open " +
+        "and accessible to all. Explore U.S. revenue, spending, deficit, and debt with this " +
+        "open-source guide to federal finance data."}
         keywords=""
         image=""
         canonical=""
@@ -178,99 +188,99 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       <AfgHero />
 
       <div className={styles.mainContainer} >
-      <Container
-        classes={{ root: styles.topContainer }}
-        maxWidth={false}
-        data-testid="topContainer"
-      >
+        <Container
+          classes={{ root: styles.topContainer }}
+          maxWidth={false}
+          data-testid="topContainer"
+        >
 
-        {width < pxToNumber(breakpointLg) ?
-          <MobileSubNav hidePosition={1162} />
-          :
-          <DeskTopSubNav hidePosition={630} />}
+          {width < pxToNumber(breakpointLg) ?
+            <MobileSubNav hidePosition={1162} />
+            :
+            <DeskTopSubNav hidePosition={630} />}
 
-        <AfgTopicSection
-          heading={revenueHeading}
-          body={revenueBody}
-          linkUrl="/americas-finance-guide/government-revenue/"
+          <AfgTopicSection
+            heading={revenueHeading}
+            body={revenueBody}
+            linkUrl="/americas-finance-guide/government-revenue/"
 
-          linkText="Learn more about government revenue"
-          linkColor={styles.revenueExplainerPrimary}
-          image="/topics-section-images/homepage_revenue_1200x630.png"
-          imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
+            linkText="Learn more about government revenue"
+            linkColor={styles.revenueExplainerPrimary}
+            image="/topics-section-images/homepage_revenue_1200x630.png"
+            imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
           holding money, hand holding gold coin, woman looking at check, and man looking
           at building."
-        />
+          />
 
-        <AfgTopicSection
-          heading={spendingHeading}
-          body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
-          linkUrl="/americas-finance-guide/federal-spending/"
+          <AfgTopicSection
+            heading={spendingHeading}
+            body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
+            linkUrl="/americas-finance-guide/federal-spending/"
 
-          linkText="Learn more about federal spending"
-          linkColor={spendingExplainerPrimary}
-          image="/topics-section-images/homepage_spending_1200x630.png"
-          imageAltText="The US Treasury building is placed next to a row of homes. A pair
+            linkText="Learn more about federal spending"
+            linkColor={spendingExplainerPrimary}
+            image="/topics-section-images/homepage_spending_1200x630.png"
+            imageAltText="The US Treasury building is placed next to a row of homes. A pair
           of hands exchange money in the foreground. "
-        />
+          />
 
-        <div className={styles.middleHeader}>
-          <Grid container spacing={4}>
-            <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
-              <AfgIcon
-                faIcon={faMoneyBill1Wave}
-                backgroundColor={styles.dollarIconBackgroundColor}
-                iconColor={styles.dollarIconColor}
-                altText={'Dark grey one dollar bill image overlaid on a grey circle.'}
-              />
+          <div className={styles.middleHeader}>
+            <Grid container spacing={4}>
+              <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
+                <AfgIcon
+                  faIcon={faMoneyBill1Wave}
+                  backgroundColor={styles.dollarIconBackgroundColor}
+                  iconColor={styles.dollarIconColor}
+                  altText={'Dark grey one dollar bill image overlaid on a grey circle.'}
+                />
+              </Grid>
+              <Grid
+                item
+                md={11}
+                classes={{ root: styles.middleHeaderHeadingContainer }}
+              >
+                <h3 className={styles.middleHeaderHeading}>
+                  How did federal revenue and spending affect the{" "}
+                  <span className={styles.deficitText}>deficit</span> and {" "}
+                  <span className={styles.debtText}>debt</span> in fiscal
+                  year {fiscalYear}?
+                </h3>
+              </Grid>
             </Grid>
-            <Grid
-              item
-              md={11}
-              classes={{ root: styles.middleHeaderHeadingContainer }}
-            >
-              <h3 className={styles.middleHeaderHeading}>
-                How have federal revenue and spending affected the{" "}
-                <span className={styles.deficitText}>deficit</span> and {" "}
-                <span className={styles.debtText}>debt</span> so far in fiscal
-                year {fiscalYear}?
-              </h3>
-            </Grid>
-          </Grid>
-        </div>
+          </div>
 
 
-        <AfgTopicSection
-          heading={deficitHeading}
-          body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-          linkUrl="/americas-finance-guide/national-deficit/"
+          <AfgTopicSection
+            heading={deficitHeading}
+            body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
+            linkUrl="/americas-finance-guide/national-deficit/"
 
-          linkText="Learn more about national deficit"
-          linkColor={deficitExplainerPrimary}
-          image="/topics-section-images/homepage_deficit_1200x630.png"
-          imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
+            linkText="Learn more about national deficit"
+            linkColor={deficitExplainerPrimary}
+            image="/topics-section-images/homepage_deficit_1200x630.png"
+            imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
           of the hand, including a pie chart, bar graph, and lit lightbulb."
-        />
+          />
 
-        <AfgTopicSection
-          heading={debtHeading}
-          body={debtBody}
-          linkUrl="/americas-finance-guide/national-debt/"
-          linkText="Learn more about national debt"
-          linkColor={debtExplainerPrimary}
-          image="/topics-section-images/homepage_debt_1200x630.png"
-          imageAltText="A variety of hands reach up with objects, including a magnifying
+          <AfgTopicSection
+            heading={debtHeading}
+            body={debtBody}
+            linkUrl="/americas-finance-guide/national-debt/"
+            linkText="Learn more about national debt"
+            linkColor={debtExplainerPrimary}
+            image="/topics-section-images/homepage_debt_1200x630.png"
+            imageAltText="A variety of hands reach up with objects, including a magnifying
           glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
-        />
+          />
 
-        {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
-        <DataSourcesMethodologies>
+          {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
+          <DataSourcesMethodologies>
 
-          Current and prior fiscal year values for federal revenue, spending,
-          and deficit are sourced from the {mts}. The {debtToThePenny} dataset is the
-          data source for federal debt.
-        </DataSourcesMethodologies>
-      </Container>
+            Current and prior fiscal year values for federal revenue, spending,
+            and deficit are sourced from the {mts}. The {debtToThePenny} dataset is the
+            data source for federal debt.
+          </DataSourcesMethodologies>
+        </Container>
       </div>
       <Container
         classes={{ root: styles.quoteContainer }}
