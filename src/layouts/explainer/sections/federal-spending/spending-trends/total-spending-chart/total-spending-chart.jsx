@@ -18,19 +18,23 @@ import { visWithCallout } from "../../../../explainer.module.scss";
 import VisualizationCallout from "../../../../../../components/visualization-callout/visualization-callout";
 import { spendingExplainerPrimary } from "../../federal-spending.module.scss";
 import { lineChart, container } from "./total-spending-chart.module.scss";
-import { apiPrefix, basicFetch } from "../../../../../../utils/api-utils"
-import numeral from "numeral"
+import { apiPrefix, basicFetch } from "../../../../../../utils/api-utils";
+import numeral from "numeral";
 import simplifyNumber from "../../../../../../helpers/simplify-number/simplifyNumber";
 import { adjustDataForInflation } from "../../../../../../helpers/inflation-adjust/inflation-adjust";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const callOutDataEndPoint =
-  apiPrefix + "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1";
+  apiPrefix +
+  "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1";
 
-const chartDataEndPoint = apiPrefix + "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date";
+const chartDataEndPoint =
+  apiPrefix +
+  "v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date";
 
-const gdpEndPoint = "https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON";
+const gdpEndPoint =
+  "https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON";
 
 const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
@@ -43,9 +47,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [firstRatio, setFirstRatio] = useState("");
   const [lastRatio, setlastRatio] = useState("");
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
-
-
-  const data = [
+  const totalData = [
     {
       id: "GDP",
       color: "#666666",
@@ -54,7 +56,45 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     {
       id: "Total Spending",
       color: "#666666",
-      data: spendingChartData
+      data: spendingChartData,
+    },
+  ];
+  const [chartData, setChartData] = useState(totalData);
+
+  const percentageData = [
+    {
+      id: "GDP Percentage",
+      color: "#666666",
+      data: [
+        {
+          x: 2015,
+          y: 20,
+        },
+        {
+          x: 2016,
+          y: 21,
+        },
+        {
+          x: 2017,
+          y: 25,
+        },
+        {
+          x: 2018,
+          y: 20,
+        },
+        {
+          x: 2019,
+          y: 21,
+        },
+        {
+          x: 2020,
+          y: 35,
+        },
+        {
+          x: 2021,
+          y: 33,
+        },
+      ],
     },
   ];
 
@@ -88,102 +128,160 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   };
 
   useEffect(() => {
-    basicFetch(callOutDataEndPoint).then((res)=>{
-      if(res.data){
+    basicFetch(callOutDataEndPoint).then(res => {
+      if (res.data) {
         setCallOutYear(res.data[0].record_fiscal_year);
       }
-    })
-      
+    });
   }, []);
 
   useEffect(() => {
-    basicFetch(chartDataEndPoint)
-      .then((res) => {
-        if (res.data) {
-          let spendingMinYear;
-          let spendingMaxYear;
-          let maxAmount;
-          let finalSpendingChartData = [];
-          let lastUpdatedDateSpending;
-          res.data = adjustDataForInflation(res.data, "current_fytd_net_outly_amt", "record_date", cpiDataByYear);
-          res.data.map((t) => {
-            finalSpendingChartData.push({
-              x: parseInt(t.record_fiscal_year),
-              y: parseFloat(simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2))
-            })
+    basicFetch(chartDataEndPoint).then(res => {
+      if (res.data) {
+        let spendingMinYear;
+        let spendingMaxYear;
+        let maxAmount;
+        let finalSpendingChartData = [];
+        let lastUpdatedDateSpending;
+        res.data = adjustDataForInflation(
+          res.data,
+          "current_fytd_net_outly_amt",
+          "record_date",
+          cpiDataByYear
+        );
+        res.data.map(t => {
+          finalSpendingChartData.push({
+            x: parseInt(t.record_fiscal_year),
+            y: parseFloat(
+              simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2)
+            ),
+          });
+        });
 
-          })
-          
-          lastUpdatedDateSpending = res.data[res.data.length-1].record_date ? new Date(res.data[res.data.length-1].record_date) : new Date();
-          spendingMinYear = finalSpendingChartData[0].x;
-          spendingMaxYear = finalSpendingChartData[finalSpendingChartData.length - 1].x;
-          let spendingMaxAmount = Math.ceil(finalSpendingChartData[finalSpendingChartData.length - 1].y);
-          let lastUpdatedDateGDP = new Date();
-          setMinYear(spendingMinYear);
-          setMaxYear(spendingMaxYear);
+        lastUpdatedDateSpending = res.data[res.data.length - 1].record_date
+          ? new Date(res.data[res.data.length - 1].record_date)
+          : new Date();
+        spendingMinYear = finalSpendingChartData[0].x;
+        spendingMaxYear =
+          finalSpendingChartData[finalSpendingChartData.length - 1].x;
+        let spendingMaxAmount = Math.ceil(
+          finalSpendingChartData[finalSpendingChartData.length - 1].y
+        );
+        let lastUpdatedDateGDP = new Date();
+        setMinYear(spendingMinYear);
+        setMaxYear(spendingMaxYear);
 
-          setSpendingChartData(finalSpendingChartData);
+        setSpendingChartData(finalSpendingChartData);
 
-          //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby     
-          basicFetch(gdpEndPoint)
-            .then((bea_res) => {
-              if(bea_res.BEAAPI.Results.Notes){
-                let extractedDateGDP = bea_res.BEAAPI.Results?.Notes[0]?.NoteText.slice(bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf("LastRevised: "));
-                lastUpdatedDateGDP = extractedDateGDP ? new Date(extractedDateGDP) : new Date();
-              }
-              if (bea_res.BEAAPI.Results.Data) {
-                let finalGDPChartData = [];
-                let total = 0;
-                let count= 0;
+        //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
+        basicFetch(gdpEndPoint).then(bea_res => {
+          if (bea_res.BEAAPI.Results.Notes) {
+            let extractedDateGDP = bea_res.BEAAPI.Results?.Notes[0]?.NoteText.slice(
+              bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf("LastRevised: ")
+            );
+            lastUpdatedDateGDP = extractedDateGDP
+              ? new Date(extractedDateGDP)
+              : new Date();
+          }
+          if (bea_res.BEAAPI.Results.Data) {
+            let finalGDPChartData = [];
+            let total = 0;
+            let count = 0;
 
-                bea_res.BEAAPI.Results.Data
-                  .map((entry) => {
-                    if (entry.LineDescription === 'Gross domestic product' && parseInt(entry.TimePeriod.slice(0, -2)) >= spendingMinYear - 1) {
+            bea_res.BEAAPI.Results.Data.map(entry => {
+              if (
+                entry.LineDescription === "Gross domestic product" &&
+                parseInt(entry.TimePeriod.slice(0, -2)) >= spendingMinYear - 1
+              ) {
+                let quarter = entry.TimePeriod.slice(4);
+                let year = parseInt(entry.TimePeriod.slice(0, -2));
+                let fiscalYear = quarter == "Q4" ? year + 1 : year;
+                let amount = parseInt(String(entry.DataValue) + ",000,000");
+                let average;
+                count++;
 
-                      let quarter = entry.TimePeriod.slice(4);
-                      let year = parseInt(entry.TimePeriod.slice(0, -2));
-                      let fiscalYear = quarter == "Q4" ? year + 1 : year;
-                      let amount = parseInt(String(entry.DataValue) + ',000,000');
-                      let average;
-                      count++;                      
+                if (fiscalYear == year) {
+                  total += amount;
+                } else {
+                  total = amount;
+                  count = 0;
+                }
 
-                      if(fiscalYear == year){
-                        total +=amount;
-                      }else{
-                        total = amount;
-                        count = 0;
-                      }
-                     
-                      if (quarter == "Q3" && fiscalYear >= 2015) {
-                        finalGDPChartData.push({
-                          x: fiscalYear,
-                          y: parseFloat(numeral(total/count).format("00.00"))
-                        });
-                      }
-                    }
+                if (quarter == "Q3" && fiscalYear >= 2015) {
+                  finalGDPChartData.push({
+                    x: fiscalYear,
+                    y: parseFloat(numeral(total / count).format("00.00")),
                   });
-
-                setLastUpdatedDate(lastUpdatedDateSpending < lastUpdatedDateGDP ? lastUpdatedDateSpending : lastUpdatedDateGDP);
-                                
-                setGdpChartData(finalGDPChartData);
-                let gdpMaxAmount = Math.ceil(finalGDPChartData[finalGDPChartData.length - 1].y);
-                maxAmount = spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount;
-                setMaxAmount(maxAmount);
-                setIsLoading(false);
-                setFirstRatio(numeral(finalSpendingChartData[0].y / finalGDPChartData[0].y).format("0%"));
-                setlastRatio(numeral(finalSpendingChartData[finalSpendingChartData.length - 1].y / finalGDPChartData[finalGDPChartData.length - 1].y).format("0%"));
-                applyChartScaling();
- 
+                }
               }
             });
 
-        }
-      });
+            setLastUpdatedDate(
+              lastUpdatedDateSpending < lastUpdatedDateGDP
+                ? lastUpdatedDateSpending
+                : lastUpdatedDateGDP
+            );
+
+            setGdpChartData(finalGDPChartData);
+            let gdpMaxAmount = Math.ceil(
+              finalGDPChartData[finalGDPChartData.length - 1].y
+            );
+            maxAmount =
+              spendingMaxAmount > gdpMaxAmount
+                ? spendingMaxAmount
+                : gdpMaxAmount;
+            setMaxAmount(maxAmount);
+            setIsLoading(false);
+            setFirstRatio(
+              numeral(
+                finalSpendingChartData[0].y / finalGDPChartData[0].y
+              ).format("0%")
+            );
+            setlastRatio(
+              numeral(
+                finalSpendingChartData[finalSpendingChartData.length - 1].y /
+                  finalGDPChartData[finalGDPChartData.length - 1].y
+              ).format("0%")
+            );
+            applyChartScaling();
+          }
+        });
+      }
+    });
   }, []);
 
   useEffect(() => {
     applyTextScaling();
   }, [width]);
+
+  const breakpoint = {
+    desktop: 1015,
+    tablet: 600,
+  };
+  const [selectedChartView, setSelectedChartView] = useState("totalSpending");
+  const [isMobile, setIsMobile] = useState(true);
+  useEffect(() => {
+    if (window.innerWidth < breakpoint.desktop) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, [width]);
+
+  const chartToggleConfig = {
+    selectedChartView,
+    setSelectedChartView,
+    isMobile,
+  };
+
+  useEffect(() => {
+    if (!selectedChartView) return;
+    if (selectedChartView === "percentageGdp") {
+      setChartData(percentageData);
+    } else {
+      setChartData(totalData);
+    }
+  }, [selectedChartView]);
 
   return (
     <>
@@ -192,8 +290,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       )}
-      {!isLoading && (
-        
+      {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
           <div className={container}>
             <ChartContainer
@@ -201,12 +298,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               subTitle={chartCopy.subtitle}
               footer={chartCopy.footer}
               date={lastUpdatedDate}
-              header={dataHeader()}
+              header={dataHeader(chartToggleConfig)}
               altText={chartCopy.altText}
             >
               <div className={lineChart} data-testid={"chartParent"}>
                 <Line
-                  data={data}
+                  data={chartData}
                   layers={chartConfigs.layers}
                   theme={{
                     ...chartConfigs.theme,
@@ -255,20 +352,20 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   crosshairType={"x"}
                   animate={false}
                   tooltip={() => null}
-                  markers={getMarkers(width)}
+                  markers={getMarkers(width, selectedChartView)}
                 ></Line>
               </div>
             </ChartContainer>
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
             <p>
-              Since {callOutYear}, the Spending to GDP ratio has increased from {firstRatio} to {lastRatio}.
+              Since {callOutYear}, the Spending to GDP ratio has increased from{" "}
+              {firstRatio} to {lastRatio}.
             </p>
           </VisualizationCallout>
         </div>
       )}
     </>
-
   );
 };
 
