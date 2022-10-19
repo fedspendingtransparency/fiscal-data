@@ -32,7 +32,7 @@ const SpendingKeyTakeaways = ({glossary}) => {
           const priorYearSpending = res.data[0].current_fytd_net_outly_amt;
           setLatestCompleteFiscalYear(fiscalYear);
           setPriorYearSpendingShort(
-            getShortForm(priorYearSpending.toString(), 1, false));
+            getShortForm(priorYearSpending.toString(), 2, false));
 
           basicFetch(`${beaEndpointUrl}`)
             .then((bea_res) => {

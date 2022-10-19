@@ -48,6 +48,10 @@ const DeficitTrendsBarChart = ({ width }) => {
     }
   };
 
+  const calcDeficit = (value) => {
+    if(value.toString().split(".")[1].length < 2) {}
+  }
+
   const getChartData = () => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
@@ -55,7 +59,7 @@ const DeficitTrendsBarChart = ({ width }) => {
       result.data.forEach((entry) => {
         apiData.push({
           "year": entry.record_fiscal_year,
-          "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(1)
+          "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2)
         })
       })
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));

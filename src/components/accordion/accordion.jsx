@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import {
   container,
   accordion,
@@ -8,8 +8,10 @@ import {
   closed,
   heading,
   toggle,
-  content
-} from './accordion.module.scss';
+  content,
+} from "./accordion.module.scss";
+import analytics from "../../utils/analytics/analytics";
+import useGAEventTracking from "../../hooks/useGAEventTracking";
 
 const Accordion = ({
   defaultOpen,
@@ -17,14 +19,30 @@ const Accordion = ({
   title,
   altStyleIcon,
   altStyleAccordion,
-  children
+  children,
+  openEventNumber,
+  closeEventNumber,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
+  const gaEvent = useGAEventTracking(
+    open ? openEventNumber : closeEventNumber,
+    "Debt"
+  );
 
-  const onToggle = (e) => {
-    if (e.key === undefined || e.key === 'Enter') {
+  useEffect(() => {
+    if (gaEvent) {
+      analytics.event({
+        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
+        action: gaEvent.eventAction,
+        label: gaEvent.eventLabel,
+      });
+    }
+  }, [gaEvent]);
+
+  const onToggle = e => {
+    if (e.key === undefined || e.key === "Enter") {
       e.stopPropagation();
-      setOpen((prevState) => !prevState);
+      setOpen(prevState => !prevState);
     }
   };
 
@@ -32,7 +50,9 @@ const Accordion = ({
     <div className={containerClass ? containerClass : container}>
       <section
         data-testid="section"
-        className={`${accordion} ${open ? `${openStyle} accordionOpen` : `${closed} accordionClosed`}`}
+        className={`${accordion} ${
+          open ? `${openStyle} accordionOpen` : `${closed} accordionClosed`
+        }`}
       >
         <div
           data-testid="heading"
@@ -44,36 +64,27 @@ const Accordion = ({
           style={altStyleAccordion}
         >
           {title}
-          <div
-            data-testid="button"
-            className={`${toggle} accordionToggle`}
-          >
+          <div data-testid="button" className={`${toggle} accordionToggle`}>
             {open ? (
-              <FontAwesomeIcon
-                icon={faMinus}
-                style={altStyleIcon}
-              />
+              <FontAwesomeIcon icon={faMinus} style={altStyleIcon} />
             ) : (
-              <FontAwesomeIcon
-                icon={faPlus}
-                style={altStyleIcon}
-              />
+              <FontAwesomeIcon icon={faPlus} style={altStyleIcon} />
             )}
-            <span data-testid="sr-desc" className="sr-only">toggle contents</span>
+            <span data-testid="sr-desc" className="sr-only">
+              toggle contents
+            </span>
           </div>
         </div>
         {open ? (
-          <div data-testid="content"
-               className={`${content} accordionContent`}
-          >
+          <div data-testid="content" className={`${content} accordionContent`}>
             {children}
           </div>
         ) : (
-          <div data-testid="content"
-               className={`${content} accordionContent`}
-          >
-          </div>
-        ) }
+          <div
+            data-testid="content"
+            className={`${content} accordionContent`}
+          ></div>
+        )}
       </section>
     </div>
   );

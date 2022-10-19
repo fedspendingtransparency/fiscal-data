@@ -113,7 +113,7 @@ describe("Sources of Federal Revenue", () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByText } = render(<SourcesOfFederalRevenue />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText("56.4", { exact: false })).toBeInTheDocument();
+    expect(await getByText("56", { exact: false })).toBeInTheDocument();
     expect(await getByText("100", { exact: false })).toBeInTheDocument();
   });
 });

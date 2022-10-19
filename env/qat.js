@@ -5,30 +5,7 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://dev.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.dev.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
-  ADDITIONAL_DATASETS: {
-    "015-BFS-2014Q3-059": {
-      "seoConfig": {
-        "pageTitle": "SLGS Daily Rate Table",
-        "description": "Interest rates for time deposit securities with a maturity of " +
-          "one month up to 40 years and a daily rate for demand deposits.",
-        "keywords": "Debt, Financial Summaries, Interest and " +
-          "Exchange Rates, Revenue, Savings Bonds, Spending"
-      },
-      "topics": [
-        "debt",
-        "interest-exchange-rates"
-      ],
-      "relatedDatasets": [
-        "015-BFS-2014Q3-yy",
-        "015-BFS-2014Q3-058",
-        "015-BFS-2014Q1-03",
-        "015-BFS-2014Q1-13",
-        "015-BFS-2014Q1-11"
-      ],
-      "slug": "/slgs-daily-rate-table/",
-      "currentDateButton": "byMonth"
-    }
-  },
+  ADDITIONAL_DATASETS: {},
   USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL: true,
   ADDITIONAL_ENDPOINTS: {
     '137': {

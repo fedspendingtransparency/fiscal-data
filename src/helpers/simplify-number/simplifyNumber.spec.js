@@ -2,19 +2,19 @@ import simplifyNumber, {numberWithCommas} from './simplifyNumber.js' ;
 
 describe('simplify number', () => {
     it('handles trillions', () => {
-        expect(simplifyNumber(3123123123123.23)).toBe('3.1 T');
+        expect(simplifyNumber(3123123123123.23)).toBe('3.12 T');
     });
 
     it('handles tens of trillions', () => {
-        expect(simplifyNumber(12312312312312.23)).toBe('12.3 T');
+        expect(simplifyNumber(12312312312312.23)).toBe('12.31 T');
     });
 
     it('handles hundreds of trillions', () => {
-        expect(simplifyNumber(123123123123123.23)).toBe('123.1 T');
+        expect(simplifyNumber(123123123123123.23)).toBe('123.12 T');
     });
 
     it('handles billions', () => {
-        expect(simplifyNumber(123193123123.23)).toBe('123.2 B'); //also validates rounding
+        expect(simplifyNumber(123193123123.23)).toBe('123 B'); //also validates rounding
     });
 
     it('handles millions', () => {

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import * as styles from './info-tip.module.scss';
+import { withWindowSize } from "react-fns";
+import { pxToNumber } from '../../../src/helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../variables.module.scss';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -51,7 +55,26 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
+const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }) => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
+  const handleScroll = () => {
+    let position = window.pageYOffset;
+    setPreviousScrollPosition(scrollPosition);
+    setScrollPosition(position);
+
+    if (scrollPosition != previousScrollPosition) {
+      handleClose();
+    };
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollPosition]);
   const {
     button,
     primarySvgColor,
@@ -117,6 +140,7 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
           variant="contained"
           className={`${button} ${styles.infoIcon}`}
           onClick={handleClick}
+          onMouseLeave={handleClose}
         >
           <FontAwesomeIcon
             icon={faInfoCircle}
@@ -127,6 +151,7 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
         <Popover
           id={id}
           className={popOver}
+          disableScrollLock={true}
           open={open}
           anchorEl={anchorEl}
           onClose={handleClose}
@@ -139,11 +164,23 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
             horizontal: 'center',
           }}
         >
+
           <div
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
+            onMouseLeave={handleClose}
           >
-            <h6 className={styles.header}>{title}</h6>
+            {width < pxToNumber(breakpointLg) ?
+              <span>
+                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose}/>
+                <h6 className={styles.header}>{title}</h6>
+              </span>
+              :
+              <div>
+                <h6 className={styles.header}>{title}</h6>
+              </div>
+            }
+
             <div className={styles.popoverContents}>
               {children}
             </div>
@@ -153,4 +190,4 @@ const InfoTip = ({ title, secondary, clickEvent, glossaryText, children }) => {
   );
 }
 
-export default InfoTip;
+export default withWindowSize(InfoTip);

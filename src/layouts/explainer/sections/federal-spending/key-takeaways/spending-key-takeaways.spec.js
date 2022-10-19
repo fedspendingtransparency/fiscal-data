@@ -34,7 +34,7 @@ describe('Spending Key Takeaways evergreen values', () => {
     const {getByText} = render(<SpendingKeyTakeaways />);
 
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
-    await waitFor(() => getByText("2021, the government spent $4.5 trillion", {exact:false}));
+    await waitFor(() => getByText("2021, the government spent $4.52 trillion", {exact:false}));
     expect(await getByText("which was less than", {exact: false})).toBeInTheDocument();
     expect(await getByText("resulting in a surplus", {exact: false})).toBeInTheDocument();
   });
@@ -44,7 +44,8 @@ describe('Spending Key Takeaways evergreen values', () => {
     const {getByText} = render(<SpendingKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     await waitFor(() => getByText("In FY 2021", {exact:false}));
-    await waitFor(() => getByText("$186 out of every", {exact:false}));
+
+    await waitFor(() => getByText("$2 out of every", {exact:false}));
   });
 
 });

@@ -230,6 +230,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 style={{
                   fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
+                  fontWeight: 600
                 }}
               >
                 Category
@@ -252,6 +253,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 style={{
                   fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
+                  fontWeight: 600
                 }}
               >
                 Agency
@@ -320,7 +322,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   {percentDollarToggleChecked
                     ? `${capitalizeLastLetter(
                         Math.abs(item.dollarAmount) > 999999999999
-                          ? numeral(item.dollarAmount).format("($ 0.0 a)")
+                          ? numeral(item.dollarAmount).format("($ 0.00 a)")
                           : numeral(item.dollarAmount).format("($ 0 a)")
                       )}`
                     : `${item.percentage} %`}

@@ -12,7 +12,7 @@ import {
   getFootNotesDateRange,
   getPillData
 } from "../hero-helper";
-import {spendingExplainerLightSecondary} from
+import {spendingExplainerLightSecondary, spendingExplainerPrimary} from
     "../../sections/federal-spending/federal-spending.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 
@@ -83,6 +83,7 @@ const FederalSpendingHero = (): JSX.Element => {
       <div className={counterContainerSpending}>
         <SplitFlapDisplay value={totalSpending}
                           minLength={17} // number of characters to initially display
+                          mobilePrecision={2}
                           valueType="currency"
         />
       </div>
@@ -94,14 +95,14 @@ const FederalSpendingHero = (): JSX.Element => {
         <div className={footNotesPillData}>
           <p>
             Compared to the federal spending of
-            ${getShortForm(priorYearSpending.toString(), 1, false)} for the same period
+            ${getShortForm(priorYearSpending.toString(), 2, false)} for the same period
             last year
             ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)})
             our federal spending has {spendingChangeLabel} by
-            ${getShortForm(spendingChange.toString(), 1, false)}.
+            ${getShortForm(spendingChange.toString(), 0, false)}.
           </p>
           {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel,
-            true, spendingExplainerLightSecondary)}
+            true, spendingExplainerPrimary+"25")}
         </div>
       </div>
     </>

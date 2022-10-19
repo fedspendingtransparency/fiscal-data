@@ -21,6 +21,7 @@ interface IFlipCardDisplayProps {
                  // very large numbers
   valueType?: 'currency' | 'integer' | 'decimal',
   precision?: number,
+  mobilePrecision?: number,
   showCommas?: boolean,
   charSet?: string[],
   stepCycleDelay?: number,
@@ -65,8 +66,9 @@ const SplitFlapDisplay = (
   {
     minLength,
     value,
+    mobilePrecision,
     valueType = 'currency',
-    precision = typeof(window) !== 'undefined' ? (window.innerWidth < pxToNumber(breakpointLg) ? 1 : 0) : 0,
+    precision = typeof(window) !== 'undefined' ? (window.innerWidth < pxToNumber(breakpointLg) ? mobilePrecision : 0) : 0,
     showCommas = true,
     charSet = numericCharSet,
     stepCycleDelay = globalConstants.config.splitFlap.speed,

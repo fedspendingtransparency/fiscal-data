@@ -1,34 +1,53 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 import { graphql, useStaticQuery } from "gatsby";
 
-const useGAEventTracking = (evNumber) => {
-  const [data, setData] = useState(null);
-  const allDeficitExplainerEventTrackingCsv = useStaticQuery(
+// type: 'Debt', 'Deficit', etc. must be capitalized + match whats in the query name and node query
+const useGAEventTracking = (evNumber, type) => {
+  const [gaEvent, setGaEvent] = useState(null);
+  const eventTrackingCsvs = useStaticQuery(
     graphql`
-          query {
-            allDeficitExplainerEventTrackingCsv {
-              deficitExplainerEventTrackingCsv: nodes {
-                Number
-                Trigger
-                eventAction
-                eventCategory
-                eventLabel
-              }
-            }
+      query {
+        allDeficitExplainerEventTrackingCsv {
+          deficitExplainerEventTrackingCsv: nodes {
+            Number
+            Trigger
+            eventAction
+            eventCategory
+            eventLabel
           }
-        `,
+        }
+        allDebtExplainerEventTrackingCsv {
+          debtExplainerEventTrackingCsv: nodes {
+            Number
+            Trigger
+            eventAction
+            eventCategory
+            eventLabel
+          }
+        }
+      }
+    `
   );
 
   useEffect(() => {
+    if (type && eventTrackingCsvs) {
+      const lookupTypeQuery = `all${type}ExplainerEventTrackingCsv`;
+      const typeToLower = type[0].toLowerCase() + type.slice(1);
+      const lookupTypeNode = `${typeToLower}ExplainerEventTrackingCsv`;
+      const lookup =
+        eventTrackingCsvs[lookupTypeQuery] &&
+        eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
+      const gaEvent = lookup?.filter(
+        eventTrack => eventTrack.Number == evNumber
+      );
 
-    const gaEvent = allDeficitExplainerEventTrackingCsv?.allDeficitExplainerEventTrackingCsv?.deficitExplainerEventTrackingCsv?.filter((eventTrack) => eventTrack.Number == evNumber)
-    if(gaEvent){
-      setData(gaEvent[0] ? gaEvent[0] : null)
+      if (gaEvent) {
+        setGaEvent(gaEvent[0] ? gaEvent[0] : null);
+      }
     }
-    
-  }, [evNumber]);
+  }, [evNumber, type, eventTrackingCsvs]);
 
-  return data;
+  return gaEvent;
 };
 
 export default useGAEventTracking;
