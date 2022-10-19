@@ -104,7 +104,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const revenueHeading = (
     <>
-      In fiscal year {fiscalYear}, the federal government has collected $
+      In fiscal year {fiscalYear}, the federal government collected $
       {yearToDateRevenue} in{" "}
       <span style={{ fontStyle: "italic" }}>revenue.</span>
     </>
@@ -112,8 +112,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const spendingHeading = (
     <>
-      In fiscal year {fiscalYear} the federal government has{" "}
-      <span style={{ fontStyle: "italic" }}>spent</span>, ${yearToDateSpending}.
+      In fiscal year {fiscalYear} the federal government {" "}
+      <span style={{ fontStyle: "italic" }}>spent</span> ${yearToDateSpending}.
     </>
   );
 
@@ -240,9 +240,9 @@ export const AmericasFinanceGuidePage = ({ width }) => {
               classes={{ root: styles.middleHeaderHeadingContainer }}
             >
               <h3 className={styles.middleHeaderHeading}>
-                How have federal revenue and spending affected the{" "}
+                How did federal revenue and spending affect the{" "}
                 <span className={styles.deficitText}>deficit</span> and {" "}
-                <span className={styles.debtText}>debt</span> so far in fiscal
+                <span className={styles.debtText}>debt</span> in fiscal
                 year {fiscalYear}?
               </h3>
             </Grid>

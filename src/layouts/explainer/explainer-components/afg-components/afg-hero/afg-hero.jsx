@@ -6,9 +6,13 @@ import {
     explainerSocialShareMap,
 } from "../../../explainer-helpers/explainer-helpers"
 import SocialShare from "../../../social-share/social-share"
+import ApiRequest from "../../../../../helpers/api-request";
+import {revenueRequest} from "../../../explainer-helpers/afg-overview-helpers";
+import {basicFetch} from "../../../../../utils/api-utils";
 
 export default function AfgHero() {
     const [isMobile, setIsMobile] = useState(false)
+    const [fiscalYear, setFiscalYear] = useState(0);
     const [width, height] = useWindowSize()
     const [containerHeight, setContainerHeight] = useState(765)
     const pageName = "americas-finance-guide"
@@ -18,6 +22,14 @@ export default function AfgHero() {
     }
 
     const refSocialShare = useRef(0);
+
+  useEffect(() => {
+    basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setFiscalYear(data.record_fiscal_year);
+      }
+    });
 
     useEffect(() => {
         const isMobile = window.innerWidth < breakpoint.desktop
@@ -42,7 +54,7 @@ export default function AfgHero() {
             </div>
             <div className={styles.heroWhiteBox} >
                 <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
-                <h1 className={styles.heroHeading}>How much money has the federal government collected and spent so far in fiscal year 2022?</h1>
+                <h1 className={styles.heroHeading}>How much money did the federal government collect and spend in fiscal year {fiscalYear}?</h1>
                 <div className={styles.heroSocialShare} ref={refSocialShare}>
                     <SocialShare
                         title={explainerSocialShareMap[pageName].title}
