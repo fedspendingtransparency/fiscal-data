@@ -128,7 +128,9 @@ export const nationalDebtSectionIds = [
   'dive-deeper'
 ];
 
-
+let gaTimerDebt100Yrs;
+let gaTimerDebtTrends;
+let gaTimerDualChart;
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
     category: 'Explainers',
@@ -658,7 +660,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
     setTempDate(newDate);
     setTempValue(newValue);
   }
-  let gaTimeout = null;
+  
   const handleMouseEnter = (event) => {
     if (event.target['id'] === chartId) {
       addHoverEffects(
@@ -668,7 +670,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
         [valueField],
         handleChange,
       );
-      gaTimeout = setTimeout(() =>{
+      gaTimerDebt100Yrs = setTimeout(() =>{
         Analytics.event({
           category: 'Explainers',
           action: 'Chart Hover',
@@ -679,12 +681,13 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   };
 
   const handleMouseLeave = () => {
+    clearTimeout(gaTimerDebt100Yrs);
     setTimeout(() => {
       removeHoverEffects();
       setTempDate(null);
       setTempValue(0);
       }, 500);
-    clearTimeout(gaTimeout);
+    
   };
 
   useEffect(() => {
@@ -906,9 +909,9 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
       }
     }
   };
-  let onMouseLeaveTimer;
-const onMouseHover = () => {
-  onMouseLeaveTimer = setTimeout(() =>{
+  
+const handleMouseEnterLineChart = () => {
+  gaTimerDebtTrends = setTimeout(() =>{
     Analytics.event({
       category: 'Explainers',
       action: 'Chart Hover',
@@ -917,7 +920,7 @@ const onMouseHover = () => {
   }, 3000);
 }
   const handleMouseLeaveLineChart = () => {
-    clearTimeout(onMouseLeaveTimer);
+    clearTimeout(gaTimerDebtTrends);
   };
 
   const lineChartOnMouseMove = (point) => {
@@ -977,7 +980,7 @@ const onMouseHover = () => {
                 className={growingNationalDebtSectionGraph}
                 ref={chartRef}
                 onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeaveLineChart}
+                onMouseLeave={handleMouseLeave}
                 data-testid="chart"
               >
                 {isLoading && (
@@ -1044,7 +1047,7 @@ const onMouseHover = () => {
                 <div
                   className={`${lineChartContainer} ${chartBackdrop}`}
                   data-testid={"debtTrendsChart"}
-                  onMouseEnter={onMouseHover}
+                  onMouseEnter={handleMouseEnterLineChart}
                   onMouseLeave={handleMouseLeaveLineChart}
                   role={"img"}
                   aria-label={`Line graph displaying the federal debt to GDP trend over time
@@ -1438,9 +1441,9 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
         })
   }, []);
 
-  let onMouseLeaveInterestTimer;
-  const onMouseHoverInterest = () => {
-    onMouseLeaveInterestTimer = setTimeout(() =>{
+
+  const handleMouseEnterInterestChart = () => {
+    gaTimerDualChart = setTimeout(() =>{
       Analytics.event({
         category: 'Explainers',
         action: 'Chart Hover',
@@ -1449,7 +1452,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
     }, 3000);
   }
   const handleMouseLeaveInterestChart = () => {
-    clearTimeout(onMouseLeaveInterestTimer);
+    clearTimeout(gaTimerDualChart);
   };
 
 
@@ -1635,7 +1638,7 @@ export const DebtBreakdownSection = withWindowSize(({ sectionId, glossary, width
           <div className={multichartWrapper}>
             <div className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
                  role={"img"}
-                 onMouseEnter={onMouseHoverInterest}
+                 onMouseEnter={handleMouseEnterInterestChart}
                  onMouseLeave={handleMouseLeaveInterestChart}
                  aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
                  "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin}
