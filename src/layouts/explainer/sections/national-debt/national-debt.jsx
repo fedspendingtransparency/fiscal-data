@@ -560,6 +560,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         containerClass={growingNationalDebtSectionAccordion}
         openEventNumber={"20"}
         closeEventNumber={"21"}
+        dynamicGaEventValue={nationalDebtValue}
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>
