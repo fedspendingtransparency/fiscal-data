@@ -112,7 +112,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const spendingHeading = (
     <>
-      In fiscal year {fiscalYear} the federal government {" "}
+      In fiscal year {fiscalYear}, the federal government {" "}
       <span style={{ fontStyle: "italic" }}>spent</span> ${yearToDateSpending}.
     </>
   );
@@ -127,7 +127,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   );
   const debtHeading = (
     <>
-      In {fiscalYear}, the federal government has ${debt} in federal{" "}
+      Currently, the federal government has ${debt} in federal{" "}
       <span style={{ fontStyle: "italic" }}>debt.</span>
     </>
   );
