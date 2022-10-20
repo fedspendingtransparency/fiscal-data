@@ -26,14 +26,6 @@ export const chartCopy = {
     "Line graph comparing the total federal spending to the total GDP dollar amount.",
 };
 
-const getFirstElPadding = (chartView, isMobileView) => {
-  if (chartView === "percentageGdp") {
-    if (isMobileView) return "112px";
-    return "112px";
-  }
-  return "16px";
-};
-
 export const dataHeader = chartToggleConfig => {
   if (!chartToggleConfig) return;
   const {
@@ -114,7 +106,8 @@ export const dataHeader = chartToggleConfig => {
           <div
             className={styles.dataElement}
             style={{
-              paddingLeft: getFirstElPadding(selectedChartView, isMobile),
+              paddingLeft:
+                selectedChartView === "percentageGdp" ? "112px" : "16px",
             }}
           >
             <div className={styles.dataValue}>2020</div>

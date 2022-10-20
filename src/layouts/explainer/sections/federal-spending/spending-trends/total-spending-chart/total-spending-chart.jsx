@@ -278,10 +278,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     if (!selectedChartView) return;
     if (selectedChartView === "percentageGdp") {
       setChartData(percentageData);
-    } else {
+    }
+    if (
+      selectedChartView === "totalSpending" &&
+      gdpChartData.length &&
+      spendingChartData.length
+    ) {
       setChartData(totalData);
     }
-  }, [selectedChartView]);
+  }, [selectedChartView, gdpChartData, spendingChartData]);
 
   return (
     <>
@@ -294,6 +299,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         <div className={visWithCallout}>
           <div className={container}>
             <ChartContainer
+              key={selectedChartView}
               title={chartCopy.title}
               subTitle={chartCopy.subtitle}
               footer={chartCopy.footer}
