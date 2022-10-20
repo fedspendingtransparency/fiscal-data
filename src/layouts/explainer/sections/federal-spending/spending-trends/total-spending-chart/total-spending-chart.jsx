@@ -109,7 +109,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           res.data.map((t) => {
             finalSpendingChartData.push({
               x: parseInt(t.record_fiscal_year),
-              y: parseFloat(simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2))
+              y: parseFloat(simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2)),
+              actual: t.current_fytd_net_outly_amt
             })
 
           })
@@ -117,7 +118,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           lastUpdatedDateSpending = res.data[res.data.length-1].record_date ? new Date(res.data[res.data.length-1].record_date) : new Date();
           spendingMinYear = finalSpendingChartData[0].x;
           spendingMaxYear = finalSpendingChartData[finalSpendingChartData.length - 1].x;
-          let spendingMaxAmount = Math.ceil(finalSpendingChartData[finalSpendingChartData.length - 1].y);
           let lastUpdatedDateGDP = new Date();
           setMinYear(spendingMinYear);
           setMaxYear(spendingMaxYear);
@@ -135,7 +135,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                 let finalGDPChartData = [];
                 let total = 0;
                 let count= 0;
-
                 bea_res.BEAAPI.Results.Data
                   .map((entry) => {
                     if (entry.LineDescription === 'Gross domestic product' && parseInt(entry.TimePeriod.slice(0, -2)) >= spendingMinYear - 1) {
@@ -143,31 +142,36 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                       let quarter = entry.TimePeriod.slice(4);
                       let year = parseInt(entry.TimePeriod.slice(0, -2));
                       let fiscalYear = quarter == "Q4" ? year + 1 : year;
-                      let amount = parseInt(String(entry.DataValue) + ',000,000');
-                      let average;
-                      count++;                      
-
+                      let amount = parseInt(String(entry.DataValue.replaceAll(',', '')) + '000000');
                       if(fiscalYear == year){
                         total +=amount;
                       }else{
-                        total = amount;
-                        count = 0;
+                        total = amount;                        
                       }
                      
                       if (quarter == "Q3" && fiscalYear >= 2015) {
                         finalGDPChartData.push({
                           x: fiscalYear,
-                          y: parseFloat(numeral(total/count).format("00.00"))
+                          y: total/4,
+                          actual: total/4,
+                          fiscalYear: String(fiscalYear)
+                        });
+                        finalGDPChartData = adjustDataForInflation(finalGDPChartData, "actual", "fiscalYear", cpiDataByYear);
+
+                        finalGDPChartData.map( (gdp) => {
+                          gdp.y = parseFloat(simplifyNumber(gdp.actual, false).slice(0, -2));
                         });
                       }
                     }
                   });
 
+                console.log(finalGDPChartData, finalSpendingChartData);
                 setLastUpdatedDate(lastUpdatedDateSpending < lastUpdatedDateGDP ? lastUpdatedDateSpending : lastUpdatedDateGDP);
-                                
+                let gdpMaxAmount = finalGDPChartData.reduce((max, gdp) => max > gdp.y ? max : gdp.y);
+                let spendingMaxAmount = finalSpendingChartData.reduce((max, spending) => max > spending.y ? max : spending.y);
+                console.log(gdpMaxAmount, spendingMaxAmount);
                 setGdpChartData(finalGDPChartData);
-                let gdpMaxAmount = Math.ceil(finalGDPChartData[finalGDPChartData.length - 1].y);
-                maxAmount = spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount;
+                maxAmount = Math.ceil((spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount)/5) * 5;
                 setMaxAmount(maxAmount);
                 setIsLoading(false);
                 setFirstRatio(numeral(finalSpendingChartData[0].y / finalGDPChartData[0].y).format("0%"));
