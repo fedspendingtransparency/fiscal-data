@@ -28,10 +28,10 @@ export const chartCopy = {
 
 const getFirstElPadding = (chartView, isMobileView) => {
   if (chartView === "percentageGdp") {
-    if (isMobileView) return "64px";
-    return "88px";
+    if (isMobileView) return "112px";
+    return "112px";
   }
-  return "0px";
+  return "16px";
 };
 
 export const dataHeader = chartToggleConfig => {
@@ -47,7 +47,9 @@ export const dataHeader = chartToggleConfig => {
       style={{
         display: "flex",
         flexDirection: "column",
-        width: isMobile ? "90%" : "inherit",
+        marginTop: "1rem",
+        marginBottom: "1rem",
+        justifyContent: "center",
       }}
     >
       <div className={styles.chartToggle}>
@@ -61,7 +63,8 @@ export const dataHeader = chartToggleConfig => {
             background:
               selectedChartView === "totalSpending" ? "#00766C" : "#f1f1f1",
             borderRight: "none",
-            width: "50%",
+            width: isMobile ? "144px" : "224px",
+            height: isMobile ? "1.5rem" : "2rem",
           }}
           onClick={() => {
             setSelectedChartView("totalSpending");
@@ -87,7 +90,8 @@ export const dataHeader = chartToggleConfig => {
               selectedChartView === "percentageGdp" ? "#f1f1f1" : "#00766C",
             background:
               selectedChartView === "percentageGdp" ? "#00766C" : "#f1f1f1",
-            width: "50%",
+            width: isMobile ? "144px" : "224px",
+            height: isMobile ? "1.5rem" : "2rem",
           }}
           onClick={() => {
             setSelectedChartView("percentageGdp");
