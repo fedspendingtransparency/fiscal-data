@@ -136,27 +136,27 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   }, []);
 
   useEffect(() => {
-    basicFetch(chartDataEndPoint).then(res => {
-      if (res.data) {
-        let spendingMinYear;
-        let spendingMaxYear;
-        let maxAmount;
-        let finalSpendingChartData = [];
-        let lastUpdatedDateSpending;
-        res.data = adjustDataForInflation(
-          res.data,
-          "current_fytd_net_outly_amt",
-          "record_date",
-          cpiDataByYear
-        );
-        res.data.map(t => {
-          finalSpendingChartData.push({
-            x: parseInt(t.record_fiscal_year),
-            y: parseFloat(
-              simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2)
-            ),
-          });
-        });
+    basicFetch(chartDataEndPoint)
+      .then((res) => {
+        if (res.data) {
+          let spendingMinYear;
+          let spendingMaxYear;
+          let maxAmount;
+          let finalSpendingChartData = [];
+          let lastUpdatedDateSpending;
+
+          res.data = adjustDataForInflation(
+            res.data,
+            "current_fytd_net_outly_amt",
+            "record_date",
+            cpiDataByYear
+          );
+          res.data.map((t) => {
+            finalSpendingChartData.push({
+              x: parseInt(t.record_fiscal_year),
+              y: parseFloat(simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2)),
+              actual: t.current_fytd_net_outly_amt
+            })
 
           })
 
@@ -168,7 +168,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           setMinYear(spendingMinYear);
           setMaxYear(spendingMaxYear);
 
-        setSpendingChartData(finalSpendingChartData);
+          setSpendingChartData(finalSpendingChartData);
 
           //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby     
           basicFetch(gdpEndPoint)
@@ -180,7 +180,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               if (bea_res.BEAAPI.Results.Data) {
                 let finalGDPChartData = [];
                 let total = 0;
-                let count = 0;
                 bea_res.BEAAPI.Results.Data
                   .map((entry) => {
                     if (entry.LineDescription === 'Gross domestic product' && parseInt(entry.TimePeriod.slice(0, -2)) >= spendingMinYear - 1) {
