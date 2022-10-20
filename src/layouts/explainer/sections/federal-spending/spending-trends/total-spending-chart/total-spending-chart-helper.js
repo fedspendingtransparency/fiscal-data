@@ -26,6 +26,18 @@ export const chartCopy = {
     "Line graph comparing the total federal spending to the total GDP dollar amount.",
 };
 
+const getFirstElPadding = (chartView, isMobile) => {
+  if (chartView === "percentageGdp") {
+    return "112px";
+  }
+  if (chartView === "totalSpending") {
+    if (isMobile) {
+      return "52px";
+    }
+  }
+  return "32px";
+};
+
 export const dataHeader = chartToggleConfig => {
   if (!chartToggleConfig) return;
   const {
@@ -39,7 +51,7 @@ export const dataHeader = chartToggleConfig => {
       style={{
         display: "flex",
         flexDirection: "column",
-        marginTop: "1rem",
+        // marginTop: "1rem",
         marginBottom: "1rem",
         justifyContent: "center",
       }}
@@ -106,8 +118,7 @@ export const dataHeader = chartToggleConfig => {
           <div
             className={styles.dataElement}
             style={{
-              paddingLeft:
-                selectedChartView === "percentageGdp" ? "112px" : "16px",
+              paddingLeft: getFirstElPadding(selectedChartView, isMobile),
             }}
           >
             <div className={styles.dataValue}>2020</div>

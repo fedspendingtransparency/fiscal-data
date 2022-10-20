@@ -306,6 +306,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               date={lastUpdatedDate}
               header={dataHeader(chartToggleConfig)}
               altText={chartCopy.altText}
+              customHeaderStyles={{ marginTop: "1rem", marginBottom: "0" }}
             >
               <div className={lineChart} data-testid={"chartParent"}>
                 <Line
