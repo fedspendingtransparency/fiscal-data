@@ -299,7 +299,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         <div className={visWithCallout}>
           <div className={container}>
             <ChartContainer
-              key={selectedChartView}
               title={chartCopy.title}
               subTitle={chartCopy.subtitle}
               footer={chartCopy.footer}
