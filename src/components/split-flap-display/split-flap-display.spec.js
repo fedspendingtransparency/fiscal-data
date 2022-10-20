@@ -48,15 +48,26 @@ describe('Split Flap Display ', () => {
   });
 
   it('shows shortened number when width less than breakpoint', () => {
-    const { getByText, getAllByText } =
+    const { getByTestId, getByText } =
       render(
         <SplitFlapDisplay value={"10000000.00"}
+                          mobilePrecision={2}
                           minLength={21}
         />);
 
     setWindowWidth(800);
 
-    expect(getByText(/10/i)).toBeInTheDocument();
-    expect(getAllByText(/million/i).length).toBe(2);
+    expect(getByTestId('selectable-digits').textContent).toBe('$10.00');
+    expect(getByText(/million/i)).toBeInTheDocument();
+  });
+
+  it('includes user selectable number for copying and pasting', () => {
+    const { getByTestId } =
+      render(
+        <SplitFlapDisplay value={"1234567890"}
+                          minLength={10}
+        />);
+
+    expect(getByTestId('selectable-digits').textContent).toBe('$1,234,567,890');
   });
 });

@@ -836,6 +836,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
 
   const chartBorderTheme = {
     fontSize:  width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    textColor: '#666666',
     axis: {
       domain: {
         line: {
@@ -848,8 +849,33 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
 
   const formatPercentage = v => `${v}%`;
 
+  const CustomSlices = ({ slices, setCurrentSlice }) => {
+    return (
+      <g>
+        {slices.map(slice => (
+          <rect
+            x={slice.x0}
+            y={slice.y0}
+            tabIndex={0}
+            width={slice.width + 1}
+            height={slice.height}
+            strokeWidth={1}
+            strokeOpacity={0}
+            fillOpacity={0}
+            onMouseEnter={() => setCurrentSlice(slice)}
+            onMouseLeave={() => {
+              setCurrentSlice(null)
+
+            }}
+          />
+        ))}
+      </g>
+    )
+  }
+
   const CustomPoint = (props) => {
     const { currentSlice, borderWidth, borderColor, points } = props;
+
     if (!isLoadingDebtTrends) {
       const currentPoint = (currentSlice?.points?.length) ? currentSlice.points[0] :
         points[points.length - 1];
@@ -1011,11 +1037,11 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                       'lines',
                       'axes',
                       CustomPoint,
-                      'slices'
+                      CustomSlices
                     ]}
                     margin={width < pxToNumber(breakpointLg) ?
-                      { top: 8, right: 15, bottom: 30, left: 30 } :
-                      { top: 8, right: 15, bottom: 30, left: 40 }}
+                      { top: 8, right: 25, bottom: 30, left: 35 } :
+                      { top: 8, right: 25, bottom: 30, left: 50 }}
                     xScale={{
                       type: 'linear',
                       min: 1940,
@@ -1041,7 +1067,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                     axisLeft={{
                       format: formatPercentage,
                       orient: 'left',
-                      tickSize: 0,
+                      tickSize: 5,
                       tickValues: 8
                     }}
                     enablePoints={false}
@@ -1053,8 +1079,7 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
                     pointLabelYOffset={-12}
                     colors={debtExplainerPrimary}
                     useMesh={false}
-                    enableGridY={true}
-                    gridYValues={8}
+                    enableGridY={false}
                     enableGridX={false}
                     sliceTooltip={() => (<></>)}
                     enableCrosshair={false}
