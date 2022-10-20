@@ -79,13 +79,6 @@ describe("Total Spending Chart", () => {
       { overwriteRoutes: true },
       { repeat: 0 }
     );
-    // fetchMock.get(
-    //   `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`,
-    //   mockSpendingData,
-    //   { overwriteRoutes: true },
-    //   { repeat: 0 }
-    // );
-
     determineBEAFetchResponse(jest, mockSpendingData);
   });
 
@@ -96,7 +89,7 @@ describe("Total Spending Chart", () => {
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 18% to 23%.", { exact: false })).toBeInTheDocument();
+    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 20% to 30%.", { exact: false })).toBeInTheDocument();
   });
 
   it("renders the chart", async () => {

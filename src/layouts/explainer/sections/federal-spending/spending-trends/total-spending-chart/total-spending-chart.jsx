@@ -143,7 +143,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                       let quarter = entry.TimePeriod.slice(4);
                       let year = parseInt(entry.TimePeriod.slice(0, -2));
                       let fiscalYear = quarter == "Q4" ? year + 1 : year;
-                      let amount = parseInt(String(entry.DataValue.replaceAll(',', '')) + '000000');
+                      let amount = parseInt(String(entry.DataValue.replace(/,/g, '') + '000000'));
                       if (fiscalYear == year) {
                         total += amount;
                       } else {
