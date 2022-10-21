@@ -24,7 +24,6 @@ const Accordion = ({
   closeEventNumber,
   dynamicGaEventValue,
 }) => {
-  // console.log("dynamicGaEventValue", dynamicGaEventValue);
   const [open, setOpen] = useState(defaultOpen || false);
   const gaEvent = useGAEventTracking(
     open ? openEventNumber : closeEventNumber,
