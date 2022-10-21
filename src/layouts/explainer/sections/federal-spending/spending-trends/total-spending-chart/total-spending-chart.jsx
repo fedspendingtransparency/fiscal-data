@@ -136,27 +136,27 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   }, []);
 
   useEffect(() => {
-    basicFetch(chartDataEndPoint)
-      .then((res) => {
-        if (res.data) {
-          let spendingMinYear;
-          let spendingMaxYear;
-          let maxAmount;
-          let finalSpendingChartData = [];
-          let lastUpdatedDateSpending;
-
-          res.data = adjustDataForInflation(
-            res.data,
-            "current_fytd_net_outly_amt",
-            "record_date",
-            cpiDataByYear
-          );
-          res.data.map((t) => {
-            finalSpendingChartData.push({
-              x: parseInt(t.record_fiscal_year),
-              y: parseFloat(simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2)),
-              actual: t.current_fytd_net_outly_amt
-            })
+    basicFetch(chartDataEndPoint).then(res => {
+      if (res.data) {
+        let spendingMinYear;
+        let spendingMaxYear;
+        let maxAmount;
+        const finalSpendingChartData = [];
+        let lastUpdatedDateSpending;
+        res.data = adjustDataForInflation(
+          res.data,
+          "current_fytd_net_outly_amt",
+          "record_date",
+          cpiDataByYear
+        );
+        res.data.map(t => {
+          finalSpendingChartData.push({
+            x: parseInt(t.record_fiscal_year),
+            y: parseFloat(
+              simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2)
+            ),
+          });
+        });
 
           })
 
@@ -317,14 +317,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   yScale={{
                     type: "linear",
                     min: 0,
-                    max: maxAmount,
+                    max: selectedChartView === "percentageGdp" ? 50 : maxAmount,
                     stacked: false,
                     reverse: false,
                   }}
                   axisTop={null}
                   axisRight={null}
                   axisBottom={chartConfigs.axisBottom}
-                  axisLeft={chartConfigs.axisLeft}
+                  axisLeft={selectedChartView === "percentageGdp" ? chartConfigs.axisLeftPercent : chartConfigs.axisLeftSpending}
                   useMesh={true}
                   isInteractive={true}
                   enableCrosshair={false}
@@ -332,7 +332,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   animate={false}
                   tooltip={() => null}
                   markers={getMarkers(width, selectedChartView)}
-                ></Line>
+                >
+                </Line>
               </div>
             </ChartContainer>
           </div>

@@ -153,6 +153,10 @@ const formatCurrency = v => {
   }
 };
 
+const formatPercent = v => {
+  return `${v}%`
+};
+
 const chartTheme = {
   textColor: "#666666",
   axis: {
@@ -188,8 +192,16 @@ const layers = [
 export const chartConfigs = {
   theme: chartTheme,
   layers: layers,
-  axisLeft: {
+  axisLeftSpending: {
     format: formatCurrency,
+    orient: "left",
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    tickValues: 6,
+  },
+  axisLeftPercent: {
+    format: formatPercent,
     orient: "left",
     tickSize: 5,
     tickPadding: 5,

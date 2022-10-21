@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
 import { graphql, useStaticQuery } from "gatsby";
 
+const setDynamicValue = (gaEvent, dynamicValue) => {
+  if (!gaEvent) return null;
+  gaEvent.Trigger = gaEvent.Trigger.replace("$XX", `$${dynamicValue}`);
+  gaEvent.eventLabel = gaEvent.eventLabel.replace("$XX", `$${dynamicValue}`);
+  return gaEvent;
+};
+
 // type: 'Debt', 'Deficit', etc. must be capitalized + match whats in the query name and node query
-const useGAEventTracking = (evNumber, type) => {
+const useGAEventTracking = (evNumber, type, dynamicValue) => {
   const [gaEvent, setGaEvent] = useState(null);
   const eventTrackingCsvs = useStaticQuery(
     graphql`
@@ -37,16 +44,20 @@ const useGAEventTracking = (evNumber, type) => {
       const lookup =
         eventTrackingCsvs[lookupTypeQuery] &&
         eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
-      const gaEvent = lookup?.filter(
-        eventTrack => eventTrack.Number == evNumber
-      );
+      const gaEvent = lookup
+        ?.filter(eventTrack => eventTrack.Number == evNumber)
+        ?.map(eventInfo => {
+          if (dynamicValue) {
+            eventInfo = setDynamicValue(eventInfo, dynamicValue);
+          }
+          return eventInfo;
+        });
 
       if (gaEvent) {
         setGaEvent(gaEvent[0] ? gaEvent[0] : null);
       }
     }
-  }, [evNumber, type, eventTrackingCsvs]);
-
+  }, [evNumber, type, eventTrackingCsvs, dynamicValue]);
   return gaEvent;
 };
 
