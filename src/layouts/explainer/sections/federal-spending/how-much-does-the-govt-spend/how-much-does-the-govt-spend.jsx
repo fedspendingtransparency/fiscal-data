@@ -73,6 +73,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
+  const [fiscalYear, setFiscalYear] = useState('');
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -124,6 +125,7 @@ const HowMuchDoesTheGovtSpend = () => {
       const maxDate = moment.max(dates)
       const updatedDate = new Date(maxDate.toDate())
       setLastUpdatedDate(updatedDate)
+      setFiscalYear(updatedDate.getFullYear());
     }
   }, [selectedChartView, chartData])
 
@@ -140,7 +142,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const header = (
     <div className={headerContainer}>
       <div className={headerStyle} style={{ fontWeight: "600" }}>
-        U.S. Government Spending, FY 2021
+        U.S. Government Spending, FY {fiscalYear}
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>

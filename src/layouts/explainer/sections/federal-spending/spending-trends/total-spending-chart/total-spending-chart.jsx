@@ -141,7 +141,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         let spendingMinYear;
         let spendingMaxYear;
         let maxAmount;
-        let finalSpendingChartData = [];
+        const finalSpendingChartData = [];
         let lastUpdatedDateSpending;
         res.data = adjustDataForInflation(
           res.data,
@@ -164,7 +164,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         spendingMinYear = finalSpendingChartData[0].x;
         spendingMaxYear =
           finalSpendingChartData[finalSpendingChartData.length - 1].x;
-        let spendingMaxAmount = Math.ceil(
+        const spendingMaxAmount = Math.ceil(
           finalSpendingChartData[finalSpendingChartData.length - 1].y
         );
         let lastUpdatedDateGDP = new Date();
@@ -176,7 +176,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
           if (bea_res.BEAAPI.Results.Notes) {
-            let extractedDateGDP = bea_res.BEAAPI.Results?.Notes[0]?.NoteText.slice(
+            const extractedDateGDP = bea_res.BEAAPI.Results?.Notes[0]?.NoteText.slice(
               bea_res.BEAAPI.Results.Notes[0].NoteText.indexOf("LastRevised: ")
             );
             lastUpdatedDateGDP = extractedDateGDP
@@ -184,7 +184,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               : new Date();
           }
           if (bea_res.BEAAPI.Results.Data) {
-            let finalGDPChartData = [];
+            const finalGDPChartData = [];
             let total = 0;
             let count = 0;
 
@@ -193,10 +193,10 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                 entry.LineDescription === "Gross domestic product" &&
                 parseInt(entry.TimePeriod.slice(0, -2)) >= spendingMinYear - 1
               ) {
-                let quarter = entry.TimePeriod.slice(4);
-                let year = parseInt(entry.TimePeriod.slice(0, -2));
-                let fiscalYear = quarter == "Q4" ? year + 1 : year;
-                let amount = parseInt(String(entry.DataValue) + ",000,000");
+                const quarter = entry.TimePeriod.slice(4);
+                const year = parseInt(entry.TimePeriod.slice(0, -2));
+                const fiscalYear = quarter == "Q4" ? year + 1 : year;
+                const amount = parseInt(String(entry.DataValue) + ",000,000");
                 let average;
                 count++;
 
@@ -223,7 +223,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             );
 
             setGdpChartData(finalGDPChartData);
-            let gdpMaxAmount = Math.ceil(
+            const gdpMaxAmount = Math.ceil(
               finalGDPChartData[finalGDPChartData.length - 1].y
             );
             maxAmount =
@@ -344,14 +344,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   yScale={{
                     type: "linear",
                     min: 0,
-                    max: maxAmount,
+                    max: selectedChartView === "percentageGdp" ? 50 : maxAmount,
                     stacked: false,
                     reverse: false,
                   }}
                   axisTop={null}
                   axisRight={null}
                   axisBottom={chartConfigs.axisBottom}
-                  axisLeft={chartConfigs.axisLeft}
+                  axisLeft={selectedChartView === "percentageGdp" ? chartConfigs.axisLeftPercent : chartConfigs.axisLeftSpending}
                   useMesh={true}
                   isInteractive={true}
                   enableCrosshair={false}
@@ -359,7 +359,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   animate={false}
                   tooltip={() => null}
                   markers={getMarkers(width, selectedChartView)}
-                ></Line>
+                >
+                </Line>
               </div>
             </ChartContainer>
           </div>
