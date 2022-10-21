@@ -51,8 +51,7 @@ export const dataHeader = chartToggleConfig => {
       style={{
         display: "flex",
         flexDirection: "column",
-        // marginTop: "1rem",
-        marginBottom: "1rem",
+        marginBottom: "0.75rem",
         justifyContent: "center",
       }}
     >
