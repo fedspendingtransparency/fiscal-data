@@ -51,11 +51,15 @@ export const dataHeader = chartToggleConfig => {
       style={{
         display: "flex",
         flexDirection: "column",
-        marginBottom: "0.75rem",
         justifyContent: "center",
       }}
     >
-      <div className={styles.chartToggle}>
+      <div
+        className={styles.chartToggle}
+        style={{
+          marginBottom: isMobile ? "0.75rem" : "1rem",
+        }}
+      >
         <button
           className={styles.toggleButton}
           style={{
@@ -161,7 +165,7 @@ const formatCurrency = v => {
 };
 
 const formatPercent = v => {
-  return `${v}%`
+  return `${v}%`;
 };
 
 const chartTheme = {
