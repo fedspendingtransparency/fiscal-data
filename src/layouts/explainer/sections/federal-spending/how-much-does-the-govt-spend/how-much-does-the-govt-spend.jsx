@@ -73,6 +73,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const [isMobile, setIsMobile] = useState(true)
   const [width, height] = useWindowSize()
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
+  const [fiscalYear, setFiscalYear] = useState('');
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -124,6 +125,7 @@ const HowMuchDoesTheGovtSpend = () => {
       const maxDate = moment.max(dates)
       const updatedDate = new Date(maxDate.toDate())
       setLastUpdatedDate(updatedDate)
+      setFiscalYear(updatedDate.getFullYear());
     }
   }, [selectedChartView, chartData])
 
@@ -140,7 +142,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const header = (
     <div className={headerContainer}>
       <div className={headerStyle} style={{ fontWeight: "600" }}>
-        U.S. Government Spending, FY 2021
+        U.S. Government Spending, FY {fiscalYear}
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
@@ -157,10 +159,10 @@ const HowMuchDoesTheGovtSpend = () => {
     })
 
   const total = (sortedItems || [])
-    .map(item => parseInt(item[sortField], 10))
-    ?.reduce((item, nextItem) => {
-      return item + nextItem
-    }, 0)
+  .map(item => parseInt(item[sortField], 10))
+  ?.reduce((item, nextItem) => {
+    return item + nextItem
+  }, 0)
 
   sortedItems = sortedItems?.map(item => {
     return {
@@ -174,10 +176,10 @@ const HowMuchDoesTheGovtSpend = () => {
   const other = sortedItems?.slice(10)
 
   const otherTotal = (other || [])
-    .map(item => parseInt(item[sortField], 10))
-    ?.reduce((item, nextItem) => {
-      return item + nextItem
-    }, 0)
+  .map(item => parseInt(item[sortField], 10))
+  ?.reduce((item, nextItem) => {
+    return item + nextItem
+  }, 0)
   const otherPercentage = Math.round((otherTotal / total) * 100)
 
   return (
@@ -230,6 +232,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 style={{
                   fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "inherit" : "#FFFFFF",
+                  fontWeight: 600
                 }}
               >
                 Category
@@ -252,6 +255,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 style={{
                   fontSize: isMobile ? "14px" : "16px",
                   color: selectedChartView === "agency" ? "#FFFFFF" : "inherit",
+                  fontWeight: 600
                 }}
               >
                 Agency
@@ -319,10 +323,10 @@ const HowMuchDoesTheGovtSpend = () => {
                 >
                   {percentDollarToggleChecked
                     ? `${capitalizeLastLetter(
-                        Math.abs(item.dollarAmount) > 999999999999
-                          ? numeral(item.dollarAmount).format("($ 0.00 a)")
-                          : numeral(item.dollarAmount).format("($ 0 a)")
-                      )}`
+                      Math.abs(item.dollarAmount) > 999999999999
+                        ? numeral(item.dollarAmount).format("($ 0.00 a)")
+                        : numeral(item.dollarAmount).format("($ 0 a)")
+                    )}`
                     : `${item.percentage} %`}
                 </div>
                 <div className={descContainer}>
@@ -343,10 +347,10 @@ const HowMuchDoesTheGovtSpend = () => {
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
                 ? `${capitalizeLastLetter(
-                    Math.abs(otherTotal) > 999999999999
-                      ? numeral(otherTotal).format("($ 0.0 a)")
-                      : numeral(otherTotal).format("($ 0 a)")
-                  )}`
+                  Math.abs(otherTotal) > 999999999999
+                    ? numeral(otherTotal).format("($ 0.0 a)")
+                    : numeral(otherTotal).format("($ 0 a)")
+                )}`
                 : `${otherPercentage} %`}
             </div>
             <div className={descContainer}>Other </div>
