@@ -278,10 +278,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     if (!selectedChartView) return;
     if (selectedChartView === "percentageGdp") {
       setChartData(percentageData);
-    } else {
+    }
+    if (
+      selectedChartView === "totalSpending" &&
+      gdpChartData.length &&
+      spendingChartData.length
+    ) {
       setChartData(totalData);
     }
-  }, [selectedChartView]);
+  }, [selectedChartView, gdpChartData, spendingChartData]);
 
   return (
     <>
@@ -300,6 +305,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               date={lastUpdatedDate}
               header={dataHeader(chartToggleConfig)}
               altText={chartCopy.altText}
+              customHeaderStyles={{ marginTop: "0.5rem", marginBottom: "0" }}
             >
               <div className={lineChart} data-testid={"chartParent"}>
                 <Line

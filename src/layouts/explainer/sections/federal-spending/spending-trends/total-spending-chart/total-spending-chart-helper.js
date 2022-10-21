@@ -26,12 +26,16 @@ export const chartCopy = {
     "Line graph comparing the total federal spending to the total GDP dollar amount.",
 };
 
-const getFirstElPadding = (chartView, isMobileView) => {
+const getFirstElPadding = (chartView, isMobile) => {
   if (chartView === "percentageGdp") {
-    if (isMobileView) return "64px";
-    return "88px";
+    return "112px";
   }
-  return "0px";
+  if (chartView === "totalSpending") {
+    if (isMobile) {
+      return "52px";
+    }
+  }
+  return "32px";
 };
 
 export const dataHeader = chartToggleConfig => {
@@ -47,10 +51,15 @@ export const dataHeader = chartToggleConfig => {
       style={{
         display: "flex",
         flexDirection: "column",
-        width: isMobile ? "90%" : "inherit",
+        justifyContent: "center",
       }}
     >
-      <div className={styles.chartToggle}>
+      <div
+        className={styles.chartToggle}
+        style={{
+          marginBottom: isMobile ? "0.75rem" : "1rem",
+        }}
+      >
         <button
           className={styles.toggleButton}
           style={{
@@ -61,7 +70,8 @@ export const dataHeader = chartToggleConfig => {
             background:
               selectedChartView === "totalSpending" ? "#00766C" : "#f1f1f1",
             borderRight: "none",
-            width: "50%",
+            width: isMobile ? "144px" : "224px",
+            height: isMobile ? "1.5rem" : "2rem",
           }}
           onClick={() => {
             setSelectedChartView("totalSpending");
@@ -87,7 +97,8 @@ export const dataHeader = chartToggleConfig => {
               selectedChartView === "percentageGdp" ? "#f1f1f1" : "#00766C",
             background:
               selectedChartView === "percentageGdp" ? "#00766C" : "#f1f1f1",
-            width: "50%",
+            width: isMobile ? "144px" : "224px",
+            height: isMobile ? "1.5rem" : "2rem",
           }}
           onClick={() => {
             setSelectedChartView("percentageGdp");
@@ -154,7 +165,7 @@ const formatCurrency = v => {
 };
 
 const formatPercent = v => {
-  return `${v}%`
+  return `${v}%`;
 };
 
 const chartTheme = {
