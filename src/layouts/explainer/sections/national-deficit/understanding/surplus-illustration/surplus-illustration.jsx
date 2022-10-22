@@ -3,7 +3,10 @@ import {
   folderVis,
   folderVisContainer,
   title,
-  folderContent
+  folderContent,
+  tabEdgeLeft,
+  tabEdgeRight,
+  tabBaselineWhiteout
 }
 from "./surplus-illustration.module.scss";
 import surplus from "../../../../../../images/explainer/national-deficit/surplus.png";
@@ -29,12 +32,14 @@ const SurplusIllustration = ({glossary, width}) => {
   };
 
   const tabStyleDesktop = {
-    borderColor:deficitExplainerLightSecondary,
-    boxShadow:`.25rem .25rem ${deficitExplainerLightSecondary}`,
+    position: 'relative',
+    borderTopColor:deficitExplainerLightSecondary,
     borderBottom:'0',
-    borderWidth:'0.125rem',
-    margin: '0 0.5rem',
-    borderRadius: '5px 5px 0 0'
+    borderTopWidth:'0.125rem',
+    borderLeft: '0',
+    borderRight: '0',
+    margin: '0 0.875rem',
+    borderRadius: '0 0 0 0'
   };
   const tabStyleMobile = {
     borderColor:deficitExplainerLightSecondary,
@@ -59,18 +64,198 @@ const SurplusIllustration = ({glossary, width}) => {
       <Tabs>
         <TabList style={tabListStyle}>
           <Tab style={tabStyle}>
+              <div className={tabBaselineWhiteout} />
+              <div className={tabEdgeLeft}>
+              <svg version={1.1} overflow="visible" height="36" viewBox="0 -1 14 35">
+                <g strokeLinejoin="miter">
+                  <path
+                    d="M 0 33.7801 L 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 33.7801 L 0 33.7801 Z"
+                    fill="#ffffff"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+              </svg>
+                </div>
             <div className={title}>
               Surplus
             </div>
-          </Tab>
-          <Tab style={tabStyle}>
-            <div className={title}>
-              Balanced Budget
+            <div className={tabEdgeRight}>
+              <svg version={1.1} overflow="hidden" height="35" width="22" viewBox="-8 -1 14 34">
+                <g transform="scale(-1,1)">
+                  <path
+                    d="M -4 37.7801 L -2.6118 35.9027 C -1.0346 35.561 0.3081 34.8803 0.3898 33.5524 L 4.1914 6.3517 C 4.1914 5.0586 5.711 4 7.5816 4 L 8.5451 4 L 8.5451 37.7801 L -4 37.7801 Z"
+                    fill="#e0baab"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M -2.6118 35.9027 C -1.0346 35.561 0.3081 34.8803 0.3898 33.5524 L 4.1914 6.3517 C 4.1914 5.0586 5.711 4 7.5816 4 L 8.5451 4"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+                <g strokeLinejoin="miter" transform="scale(-1,1)">
+                  <path
+                    d="M 0 33.7801 L 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0 L 12.5451 33.7801 L 0 33.7801 Z"
+                    fill="#ffffff"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+              </svg>
             </div>
           </Tab>
           <Tab style={tabStyle}>
+            <div className={tabBaselineWhiteout} />
+            <div className={tabEdgeLeft}>
+              <svg version={1.1} overflow="visible" height="36" viewBox="0 -1 14 35">
+                <g strokeLinejoin="miter">
+                  <path
+                    d="M 0 33.7801 L 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 33.7801 L 0 33.7801 Z"
+                    fill="#ffffff"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+              </svg>
+            </div>
+            <div className={title}>
+              Balanced Budget
+            </div>
+            <div className={tabEdgeRight}>
+              <svg version={1.1} overflow="hidden" height="35" width="22" viewBox="-8 -1 14 34">
+                <g strokeLinejoin="miter" transform="scale(-1,1)">
+                  <path
+                    d="M -4 37.7801 L -2.6118 35.9027 C -1.0346 35.561 0.3081 34.8803 0.3898 33.5524 L 4.1914 6.3517 C 4.1914 5.0586 5.711 4 7.5816 4 L 8.5451 4 L 8.5451 37.7801 L -4 37.7801 Z"
+                    fill="#e0baab"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M -2.6118 35.9027 C -1.0346 35.561 0.3081 34.8803 0.3898 33.5524 L 4.1914 6.3517 C 4.1914 5.0586 5.711 4 7.5816 4 L 8.5451 4"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+                <g strokeLinejoin="miter" transform="scale(-1,1)">
+                  <path
+                    d="M 0 33.7801 L 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0 L 12.5451 33.7801 L 0 33.7801 Z"
+                    fill="#ffffff"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+              </svg>
+            </div>
+          </Tab>
+          <Tab style={tabStyle}>
+            <div className={tabBaselineWhiteout} />
+            <div className={tabEdgeLeft}>
+              <svg version={1.1} overflow="visible" height="36" viewBox="0 -1 14 35">
+                <g strokeLinejoin="miter">
+                  <path
+                    d="M 0 33.7801 L 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 33.7801 L 0 33.7801 Z"
+                    fill="#ffffff"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+              </svg>
+            </div>
             <div className={title}>
               Deficit
+            </div>
+            <div className={tabEdgeRight}>
+              <svg version={1.1} overflow="hidden" height="35" width="22" viewBox="-8 -1 14 34">
+                <g strokeLinejoin="miter" transform="scale(-1,1)">
+                  <path
+                    d="M -4 37.7801 L -2.6118 35.9027 C -1.0346 35.561 0.3081 34.8803 0.3898 33.5524 L 4.1914 6.3517 C 4.1914 5.0586 5.711 4 7.5816 4 L 8.5451 4 L 8.5451 37.7801 L -4 37.7801 Z"
+                    fill="#e0baab"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M -2.6118 35.9027 C -1.0346 35.561 0.3081 34.8803 0.3898 33.5524 L 4.1914 6.3517 C 4.1914 5.0586 5.711 4 7.5816 4 L 8.5451 4"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+                <g strokeLinejoin="miter" transform="scale(-1,1)">
+                  <path
+                    d="M 0 33.7801 L 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0 L 12.5451 33.7801 L 0 33.7801 Z"
+                    fill="#ffffff"
+                    strokeLinecap="round"
+                    stroke="none"
+                    strokeMiterlimit="80"
+                  />
+                  <path
+                    d="M 1.3882 31.9027 C 2.9654 31.561 4.3081 30.8803 4.3898 29.5524 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+                    fill="none"
+                    strokeLinecap="square"
+                    stroke="#e0baab"
+                    strokeMiterlimit="80"
+                    strokeWidth="2"
+                  />
+                </g>
+              </svg>
             </div>
           </Tab>
         </TabList>
