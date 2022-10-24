@@ -24,18 +24,23 @@ const Accordion = ({
   closeEventNumber,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
+  const [gaEventHandler, setgaEventHandler] = useState(null);
   const gaEvent = useGAEventTracking(
     open ? openEventNumber : closeEventNumber,
     "Debt"
   );
 
-  useEffect(() => {
+   useEffect(() => {
     if (gaEvent) {
-      analytics.event({
-        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
-        action: gaEvent.eventAction,
-        label: gaEvent.eventLabel,
-      });
+      const onClickEventHandler = () => {
+        analytics.event({
+          category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
+          action: gaEvent.eventAction,
+          label: gaEvent.eventLabel,
+        });
+      };
+
+      setgaEventHandler(onClickEventHandler)
     }
   }, [gaEvent]);
 
@@ -43,6 +48,7 @@ const Accordion = ({
     if (e.key === undefined || e.key === "Enter") {
       e.stopPropagation();
       setOpen(prevState => !prevState);
+      gaEventHandler;
     }
   };
 
