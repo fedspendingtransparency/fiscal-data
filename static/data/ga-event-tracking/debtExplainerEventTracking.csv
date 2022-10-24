@@ -18,8 +18,8 @@ Number,Trigger,eventCategory,eventAction,eventLabel
 17,"Hover (>= 3 secs) over chart data points for ""Federal Debt Trends Over Time, 1948 - 2021""",Fiscal Data - Explainers,Chart Hover,Debt - Federal Debt Trends Over Time
 18,Click on link to Historical Debt Outstanding dataset,Fiscal Data - Explainers,Citation Click,Debt - Federal Debt Trends Over Time
 19,Click on link to Bureau of Economic Analysis,Fiscal Data - Explainers,Citation Click,Debt - Federal Debt Trends Over Time
-20,"Expand the accordion labeled ""Visualizing the debt - How much is $28 trillion dollars?""",Fiscal Data - Explainers,Accordion Expand Click,Debt - Visualizing the debt - How much is $28 trillion dollars?
-21,"Collapse the accordion labeled ""Visualizing the debt - How much is $28 trillion dollars?""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - Visualizing the debt - How much is $28 trillion dollars?
+20,"Expand the accordion labeled ""Visualizing the debt - How much is $XX trillion dollars?""",Fiscal Data - Explainers,Accordion Expand Click,Debt - Visualizing the debt - How much is $XX trillion dollars?
+21,"Collapse the accordion labeled ""Visualizing the debt - How much is $XX trillion dollars?""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - Visualizing the debt - How much is $XX trillion dollars?
 22,Click on link to U.S. Treasury Monthly Statement of the Public Debt (MSPD) dataset,Fiscal Data - Explainers,Citation Click,Debt - Intragovernmental Holdings and Debt Held by the Public
 23,"Hover (>= 3 secs) over chart data points for ""Interest Rate and Total Debt, 2011 - 2021""",Fiscal Data - Explainers,Chart Hover,Debt - Interest Rate and Total Debt
 24,Click on link to Average Interest Rates on U.S. Treasury Securities dataset,Fiscal Data - Explainers,Citation Click,Debt - Interest Rate and Total Debt

@@ -22,11 +22,13 @@ const Accordion = ({
   children,
   openEventNumber,
   closeEventNumber,
+  dynamicGaEventValue,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
   const gaEvent = useGAEventTracking(
     open ? openEventNumber : closeEventNumber,
-    "Debt"
+    "Debt",
+    dynamicGaEventValue
   );
 
   useEffect(() => {

@@ -8,35 +8,44 @@
 .container {
   overflow: hidden;
 
-  .lineChart{
+  .lineChart {
     width: 100%;
-    margin-top: .625rem;
+    margin-top: 0.625rem;
+  }
+
+  .chartToggle {
+    display: flex;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+
+  .toggleButton {
+    width: 50%;
+    margin-bottom: 2%;
+    cursor: pointer;
+    height: 32px;
+    border: 2px solid #00766c;
   }
 
   .headerContainer {
-      display: flex;
-      flex-direction: column;
-
-    .toggle {
-      border-style: solid;
-      height: 2rem;
-      width: 450px;
-      justify-content: center;
-      margin-bottom: 2rem;
-      margin-top: .25rem;
-    }
+    display: flex;
+    flex-direction: column;
 
     .headerData {
-      margin-bottom: .75rem;
+      margin-bottom: 0.75rem;
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      min-width: 400px;
 
-        .dataElement:not(:last-child) {
-          padding-right: 1.5rem;
-        }
-      .dataElement{
+      .dataElement:not(:last-child) {
+        padding-right: 1.5rem;
+      }
+
+      .dataElement {
         color: #666666;
+
         .dataValue {
           font-weight: bold;
           font-size: $font-size-36;
@@ -66,35 +75,34 @@
   :global(.chartContainerSubTitle) {
     font-size: $font-size-14 !important;
   }
+
   :global(.chartContainerFooter) {
     p {
-      margin-top: .75rem;
+      margin-top: 0.75rem;
     }
   }
 
   .container {
     .headerContainer {
-      .toggle {
-        height: 1.5rem;
-        width: 300px;
-        margin-bottom: 1rem;
-        margin-top: 0;
-      }
+      display: flex;
+      justify-content: space-between;
 
       .headerData {
-        margin-bottom: .75rem;
+        margin-bottom: 0.75rem;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        min-width: 400px;
 
         .dataElement:not(:last-child) {
           padding-right: 1.25rem;
         }
-        .dataElement{
+
+        .dataElement {
           .dataValue {
             font-size: $font-size-24;
             line-height: $font-size-24;
           }
+
           .dataLabel {
             font-size: $font-size-10;
             margin: 0 1rem;
