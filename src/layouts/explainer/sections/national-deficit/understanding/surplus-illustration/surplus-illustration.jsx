@@ -4,7 +4,7 @@ import {
   folderVisContainer,
   title,
   folderContent,
-  tabBaselineWhiteout
+  tabBaselineWhiteout,
 }
 from "./surplus-illustration.module.scss";
 import surplus from "../../../../../../images/explainer/national-deficit/surplus.png";
@@ -39,17 +39,21 @@ const SurplusIllustration = ({glossary, width}) => {
     borderLeft: '0',
     borderRight: '0',
     margin: '0 0.875rem',
+    paddingRight: '1.25rem',
+    paddingLeft: '1.25rem',
     borderRadius: '0 0 0 0'
   };
   const tabStyleMobile = {
     borderColor:deficitExplainerLightSecondary,
-    boxShadow:`.25rem .25rem ${deficitExplainerLightSecondary}`,
     borderBottom:'0',
-    borderWidth:'2px',
-    borderRadius: '5px 5px 0 0',
-    margin: '0 0.25rem',
-    bottom: '-0.125rem',
-    padding: '0.375rem 0.75rem 0.188rem'
+    borderTopWidth: '2px',
+    borderLeft: '0',
+    borderRight: '0',
+    borderRadius: '0 0 0 0',
+    marginRight: '0.55rem',
+    marginLeft: '0.55rem',
+    paddingRight: '8px',
+    paddingLeft: '8px',
   };
 
   const tabStyle = width < pxToNumber(breakpointLg) ? tabStyleMobile : tabStyleDesktop;
@@ -64,8 +68,8 @@ const SurplusIllustration = ({glossary, width}) => {
       <Tabs>
         <TabList style={tabListStyle}>
           <Tab style={tabStyle}>
-              <div className={tabBaselineWhiteout} />
-              <FolderTabEdgeLeft />
+            <div className={tabBaselineWhiteout} />
+            <FolderTabEdgeLeft />
             <div className={title}>
               Surplus
             </div>
