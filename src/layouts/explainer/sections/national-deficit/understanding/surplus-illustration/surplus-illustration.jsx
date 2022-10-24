@@ -4,8 +4,6 @@ import {
   folderVisContainer,
   title,
   folderContent,
-  tabEdgeLeft,
-  tabEdgeRight,
   tabBaselineWhiteout
 }
 from "./surplus-illustration.module.scss";
