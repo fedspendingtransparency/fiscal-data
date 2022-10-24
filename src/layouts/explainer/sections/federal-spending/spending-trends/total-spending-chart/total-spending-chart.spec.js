@@ -63,6 +63,11 @@ describe("Total Spending Chart", () => {
         record_date: "2021-09-30",
         record_fiscal_year: "2021",
       },
+      {
+        current_fytd_net_outly_amt: "6271507596876.00",
+        record_date: "2022-09-30",
+        record_fiscal_year: "2022"
+      }
     ],
   };
 
@@ -89,7 +94,7 @@ describe("Total Spending Chart", () => {
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 20% to 30%.", { exact: false })).toBeInTheDocument();
+    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 22% to 33%.", { exact: false })).toBeInTheDocument();
   });
 
   it("renders the chart", async () => {

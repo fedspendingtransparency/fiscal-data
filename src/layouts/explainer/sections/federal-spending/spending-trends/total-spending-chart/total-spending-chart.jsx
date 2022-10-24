@@ -141,7 +141,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         let spendingMinYear;
         let spendingMaxYear;
         let maxAmount;
-        const finalSpendingChartData = [];
+        let finalSpendingChartData = [];
         let lastUpdatedDateSpending;
 
         res.data = adjustDataForInflation(
@@ -169,9 +169,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           finalSpendingChartData[finalSpendingChartData.length - 1].x;
         let lastUpdatedDateGDP = new Date();
         setMinYear(spendingMinYear);
-        setMaxYear(spendingMaxYear);
+        
 
-        setSpendingChartData(finalSpendingChartData);
+        
 
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
@@ -227,13 +227,19 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               );
             });
 
+            const gdpMaxYear = finalGDPChartData[finalGDPChartData.length - 1].x;
+            setMaxYear(Math.min(gdpMaxYear, spendingMaxYear));
+
+            finalSpendingChartData = finalSpendingChartData.filter((s)=>s.x<=gdpMaxYear);
+
+            setSpendingChartData(finalSpendingChartData);
+
             const gdpMaxAmount = finalGDPChartData.reduce((max, gdp) =>
               max > gdp.y ? max : gdp.y
             );
             const spendingMaxAmount = finalSpendingChartData.reduce(
               (max, spending) => (max > spending.y ? max : spending.y)
             );
-            console.log(finalGDPChartData, finalSpendingChartData);
             setGdpChartData(finalGDPChartData);
             maxAmount =
               Math.ceil(
@@ -260,6 +266,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       }
     });
   }, []);
+
  
 
   useEffect(() => {
