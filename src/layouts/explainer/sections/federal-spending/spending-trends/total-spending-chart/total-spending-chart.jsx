@@ -99,23 +99,23 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     },
   ];
 
-  // const applyTextScaling = () => {
-  //   const svgChart = document.querySelector('[data-testid="chartParent"] svg');
-  //   if (svgChart) {
-  //     if (width < pxToNumber(breakpointLg)) {
-  //       const containerWidth = document.querySelector(
-  //         '[data-testid="chartParent"]'
-  //       ).offsetWidth;
-  //       const ratio = 550 / containerWidth;
-  //       const textElements = document.querySelectorAll(
-  //         '[data-testid="chartParent"] text'
-  //       );
-  //       [...textElements].forEach(text => {
-  //         text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`;
-  //       });
-  //     }
-  //   }
-  // };
+  const applyTextScaling = () => {
+    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
+    if (svgChart) {
+      if (width < pxToNumber(breakpointLg)) {
+        const containerWidth = document.querySelector(
+          '[data-testid="chartParent"]'
+        ).offsetWidth;
+        const ratio = 550 / containerWidth;
+        const textElements = document.querySelectorAll(
+          '[data-testid="chartParent"] text'
+        );
+        [...textElements].forEach(text => {
+          text.style.fontSize = `${(parseFloat(fontSize_10) * ratio) - 0.06}rem`;
+        });
+      }
+    }
+  };
 
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
@@ -251,10 +251,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     });
   }, []);
 
-  // useEffect(() => {
-  //   applyTextScaling();
-  // }, [width]);
-
   const breakpoint = {
     desktop: 1015,
     tablet: 600,
@@ -274,6 +270,10 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     setSelectedChartView,
     isMobile,
   };
+
+  useEffect(() => {
+    applyTextScaling();
+  }, [width, chartToggleConfig]);
 
   useEffect(() => {
     if (!selectedChartView) return;
