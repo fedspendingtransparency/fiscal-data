@@ -126,7 +126,9 @@ export const nationalDebtSectionIds = [
   "debt-tracking",
   "dive-deeper",
 ];
-
+let gaTimerDebt100Yrs;
+let gaTimerDebtTrends;
+let gaTimerDualChart;
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
     category: "Explainers",
@@ -692,7 +694,8 @@ export const GrowingNationalDebtSection = withWindowSize(
     const [lineChartHoveredYear, setLinechartHoveredYear] = useState("");
     const [lineChartHoveredValue, setLinechartHoveredValue] = useState("");
 
-    const chartRef = useRef();
+
+  const chartRef = useRef();
 
     const {
       name,
@@ -768,24 +771,39 @@ export const GrowingNationalDebtSection = withWindowSize(
       </GlossaryTerm>
     );
 
-    const handleChange = (newDate, newValue) => {
-      setTempDate(newDate);
-      setTempValue(newValue);
-    };
+  const handleChange = (newDate, newValue) => {
+    setTempDate(newDate);
+    setTempValue(newValue);
+  }
 
-    const handleMouseEnter = event => {
-      if (event.target["id"] === chartId) {
-        addHoverEffects(data, chartId, dateField, [valueField], handleChange);
-      }
-    };
+  const handleMouseEnter = (event) => {
+    if (event.target['id'] === chartId) {
+      addHoverEffects(
+        data,
+        chartId,
+        dateField,
+        [valueField],
+        handleChange,
+      );
+      gaTimerDebt100Yrs = setTimeout(() =>{
+        Analytics.event({
+          category: 'Explainers',
+          action: 'Chart Hover',
+          label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
+        });
+      }, 3000);
+    }
+  };
 
     const handleMouseLeave = () => {
-      setTimeout(() => {
-        removeHoverEffects();
-        setTempDate(null);
-        setTempValue(0);
+      clearTimeout(gaTimerDebt100Yrs);
+    setTimeout(() => {
+      removeHoverEffects();
+      setTempDate(null);
+      setTempValue(0);
       }, 500);
-    };
+
+  };
 
     useEffect(() => {
       basicFetch(`${apiPrefix}${endpoint}`)
@@ -1044,6 +1062,19 @@ export const GrowingNationalDebtSection = withWindowSize(
       }
     };
 
+const handleMouseEnterLineChart = () => {
+  gaTimerDebtTrends = setTimeout(() =>{
+    Analytics.event({
+      category: 'Explainers',
+      action: 'Chart Hover',
+      label: 'Debt - Federal Debt Trends Over Time'
+    });
+  }, 3000);
+}
+  const handleMouseLeaveLineChart = () => {
+    clearTimeout(gaTimerDebtTrends);
+  };
+
     const lineChartOnMouseLeave = () => {
       setLinechartHoveredValue(formatPercentage(lastDebtValue.y));
       setLinechartHoveredYear(lastDebtValue.x);
@@ -1186,8 +1217,10 @@ export const GrowingNationalDebtSection = withWindowSize(
                   <div
                     className={`${lineChartContainer} ${chartBackdrop}`}
                     data-testid={"debtTrendsChart"}
-                    role={"img"}
-                    aria-label={`Line graph displaying the federal debt to GDP trend over time
+                    onMouseEnter={handleMouseEnterLineChart}
+                  onMouseLeave={handleMouseLeaveLineChart}
+                  role={"img"}
+                  aria-label={`Line graph displaying the federal debt to GDP trend over time
                   from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
                   >
                     <ResponsiveLine
@@ -1672,13 +1705,27 @@ export const DebtBreakdownSection = withWindowSize(
       );
     }, []);
 
-    return (
-      <>
-        <p>
-          The national debt is composed of distinct types of debt, similar to an
-          individual whose debt consists of a mortgage, car loan, and credit
-          cards. The national debt can be broken down by whether it is
-          non-marketable or marketable and whether it is{" "}
+
+  const handleMouseEnterInterestChart = () => {
+    gaTimerDualChart = setTimeout(() =>{
+      Analytics.event({
+        category: 'Explainers',
+        action: 'Chart Hover',
+        label: 'Debt - Interest Rate and Total Debt'
+      });
+    }, 3000);
+  }
+  const handleMouseLeaveInterestChart = () => {
+    clearTimeout(gaTimerDualChart);
+  };
+
+
+  return (
+    <>
+      <p>
+        The national debt is composed of distinct types of debt, similar to an individual whose debt consists of a mortgage,
+        car loan, and credit cards. The national debt can be broken down by whether it is non-marketable or marketable and
+        whether it is {" "}
           {glossaryTerms.debtHeldByThePublic} or debt held by the government
           itself (known as {glossaryTerms.intragovernmental}). The national debt
           does not include debts carried by state and local governments, such as
@@ -1886,12 +1933,10 @@ export const DebtBreakdownSection = withWindowSize(
                 <div
                   className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
                   role={"img"}
-                  aria-label={
-                    "Combined line and area chart comparing average interest rate and total debt trends over " +
-                    "the last decade, ranging from " +
-                    multichartInterestRateMax +
-                    " to " +
-                    multichartInterestRateMin
+                  onMouseEnter={handleMouseEnterInterestChart}
+                 onMouseLeave={handleMouseLeaveInterestChart}
+                 aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
+                 "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin
                   }
                 >
                   <p className={`${title} ${simple}`}>
