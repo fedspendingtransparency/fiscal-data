@@ -5,6 +5,7 @@ import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
+  fontSize_24,
   semiBoldWeight,
 } from "../../../../../../variables.module.scss";
 import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
@@ -228,7 +229,8 @@ export const chartConfigs = {
   },
 };
 
-export const getMarkers = (width, selectedChartView) => {
+export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) => {
+  console.log(gdpValue, spendingValue)
   const markerStyle = {
     axis: "y",
     lineStyle: { strokeWidth: 0 },
@@ -245,12 +247,12 @@ export const getMarkers = (width, selectedChartView) => {
         {
           ...markerStyle,
           legend: "GDP",
-          value: "22.5",
+          value: gdpValue+1,
         },
         {
           ...markerStyle,
           legend: "Total Spending",
-          value: "8.5",
+          value: spendingValue+1,
         },
       ];
 };
