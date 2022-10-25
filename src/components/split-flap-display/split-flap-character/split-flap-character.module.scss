@@ -19,6 +19,7 @@ $flap-padding: .5rem;
 }
 
 .split-flap-character {
+  user-select: none;
   display: block;
   position: relative;
   margin: 0 .1875rem;

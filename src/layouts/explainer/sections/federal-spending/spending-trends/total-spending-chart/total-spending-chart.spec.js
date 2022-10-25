@@ -66,7 +66,7 @@ describe("Total Spending Chart", () => {
     ],
   };
 
-  beforeAll(() => {    
+  beforeAll(() => {
     fetchMock.get(
       `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1`,
       mockCallOutData,
@@ -96,7 +96,12 @@ describe("Total Spending Chart", () => {
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 18% to 23%.", { exact: false })).toBeInTheDocument();
+    expect(
+      await getByText(
+        "Since 2015, the Spending to GDP ratio has increased from 18% to 23%.",
+        { exact: false }
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders the chart", async () => {
@@ -114,10 +119,8 @@ describe("Total Spending Chart", () => {
       <TotalSpendingChart cpiDataByYear={mockCpiDataset} />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByText("Total Spending")).toHaveLength(2);
+    expect(await getAllByText("Total Spending")).toHaveLength(3);
     expect(await getAllByText("GDP")).toHaveLength(2);
     expect(await getByText("Fiscal Year")).toBeInTheDocument();
   });
-
-  
 });

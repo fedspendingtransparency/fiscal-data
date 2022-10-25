@@ -20,6 +20,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   const [chartData, setChartData] = useState([]);
   const [lastChartYear, setLastChartYear] = useState(0);
+  const [firstChartYear, setFirstChartYear] = useState(0);
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [chartYears, setChartYears] = useState([]);
   const [totalRevByYear, setTotalRevByYear] = useState([]);
@@ -31,6 +32,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       .then((res) => {
         if (res.data) {
           setLastChartYear(res.data[0].record_fiscal_year);
+          setFirstChartYear(res.data[res.data.length-1].record_fiscal_year);
           const chartDate = new Date(res.data[0].record_date);
           setLastUpdatedDate(getDateWithoutTimeZoneAdjust(chartDate));
           const completeData = [];
@@ -312,7 +314,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           <ChartContainer
             title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
             subTitle={`Inflation Adjusted - ${lastChartYear} Dollars`}
-            altText={`Area chart showing federal revenue totals by revenue category from 2015 - ${lastChartYear}`}
+            altText={`Area chart showing federal revenue totals by revenue category from ${firstChartYear} - ${lastChartYear}`}
             footer={footer}
             date={lastUpdatedDate}
             customFooterSpacing={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }

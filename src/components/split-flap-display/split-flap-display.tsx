@@ -9,6 +9,9 @@ import {
   magnitude,
   flapContainer,
   rowBreak,
+  selectableDigits,
+  spacedDigit,
+  punctuation,
   blank
 } from './split-flap-display.module.scss';
 import { breakpointLg } from '../../variables.module.scss';
@@ -193,9 +196,7 @@ const SplitFlapDisplay = (
   };
 
   const generateDescription = () => {
-    let output = '';
-    output = `${displayValue} ${displayMagnitude} Dollars`
-
+    const output = `${displayValue}${shortenDisplay ? ' ' + displayMagnitude : ''}`;
     setDescription(output);
   };
 
@@ -286,11 +287,14 @@ const SplitFlapDisplay = (
   }, [shortenDisplay, shortenedValue]);
 
   return (
-    <div className={splitFlapContainer} aria-describedby="split-flap-description">
+    <div className={splitFlapContainer}
+         aria-label={`$${description}`}
+    >
+
       { displayReady &&
       (
         <>
-          <div className={flapContainer}>
+          <div className={flapContainer} aria-hidden={true}>
             {prevChars && <span className={currency}>$</span>}
             {prevChars && prevChars.map((prevChar: string, index: number) => (
               <React.Fragment key={`split-flap-char-${index}`}>
@@ -300,9 +304,17 @@ const SplitFlapDisplay = (
                 />
               </React.Fragment>
             ))}
-            <div className="sr-only" id="split-flap-description">
-              {description}
-            </div>
+            {(displayValue && displayValue.length) && (
+              <div className={selectableDigits} data-testid="selectable-digits">$
+                {displayValue.split('').map((valChar: string, index: number) => (
+                  <span
+                    className={
+                    [',', '.'].includes(valChar) ? punctuation : spacedDigit} key={index}
+                  >{valChar}
+                  </span>
+                  ))}
+              </div>
+            )}
             <div className={blank}>&nbsp;</div>
           </div>
           {shortenDisplay && (
