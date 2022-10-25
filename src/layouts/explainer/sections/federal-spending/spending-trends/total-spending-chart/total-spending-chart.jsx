@@ -6,6 +6,7 @@ import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
+  fontSize_16
 } from "../../../../../../variables.module.scss";
 import { withWindowSize } from "react-fns";
 import {
@@ -98,23 +99,23 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     },
   ];
 
-  const applyTextScaling = () => {
-    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
-    if (svgChart) {
-      if (width < pxToNumber(breakpointLg)) {
-        const containerWidth = document.querySelector(
-          '[data-testid="chartParent"]'
-        ).offsetWidth;
-        const ratio = 550 / containerWidth;
-        const textElements = document.querySelectorAll(
-          '[data-testid="chartParent"] text'
-        );
-        [...textElements].forEach(text => {
-          text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`;
-        });
-      }
-    }
-  };
+  // const applyTextScaling = () => {
+  //   const svgChart = document.querySelector('[data-testid="chartParent"] svg');
+  //   if (svgChart) {
+  //     if (width < pxToNumber(breakpointLg)) {
+  //       const containerWidth = document.querySelector(
+  //         '[data-testid="chartParent"]'
+  //       ).offsetWidth;
+  //       const ratio = 550 / containerWidth;
+  //       const textElements = document.querySelectorAll(
+  //         '[data-testid="chartParent"] text'
+  //       );
+  //       [...textElements].forEach(text => {
+  //         text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`;
+  //       });
+  //     }
+  //   }
+  // };
 
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
@@ -250,9 +251,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     });
   }, []);
 
-  useEffect(() => {
-    applyTextScaling();
-  }, [width]);
+  // useEffect(() => {
+  //   applyTextScaling();
+  // }, [width]);
 
   const breakpoint = {
     desktop: 1015,
