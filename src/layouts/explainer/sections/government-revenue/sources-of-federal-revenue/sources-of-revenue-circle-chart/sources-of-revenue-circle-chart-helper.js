@@ -11,7 +11,7 @@ import CustomLink from "../../../../../../components/links/custom-link/custom-li
 import React from "react";
 import {getShortForm} from "../../../../heros/hero-helper";
 
-export const title = `Sources of Revenue for the U.S. Federal Government, FY `;
+export const title = `Sources of Revenue for the U.S. Federal Government, FYTD `;
 export const subTitle = 'Revenue by Source Categories';
 
 const name = 'Monthly Treasury Statement (MTS)';

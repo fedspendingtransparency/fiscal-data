@@ -22,6 +22,7 @@ const Accordion = ({
   children,
   openEventNumber,
   closeEventNumber,
+  dynamicGaEventValue,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
   const [gaEventHandler, setgaEventHandler] = useState(null);

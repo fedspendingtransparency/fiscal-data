@@ -1,5 +1,5 @@
-Number,Trigger,eventCategory,eventAction,eventLabel
-1,Click on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
+﻿Number,Trigger,eventCategory,eventAction,eventLabel
+1,Click on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Explainers Click,<title of explainer page selected>
 2,"Click on link to Debt to the Penny within the ""What is the national debt?"" section",Fiscal Data - Explainers,Citation Click,Debt - What is the national debt?
 3,"Click on ""Key Takeaways"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Debt - Key Takeaways
 4,"Click on ""The National Debt Explained"" in left navigation bar",Fiscal Data - Explainers,Left Nav Click,Debt - The National Debt Explained
@@ -18,8 +18,8 @@ Number,Trigger,eventCategory,eventAction,eventLabel
 17,"Hover (>= 3 secs) over chart data points for ""Federal Debt Trends Over Time, 1948 - 2021""",Fiscal Data - Explainers,Chart Hover,Debt - Federal Debt Trends Over Time
 18,Click on link to Historical Debt Outstanding dataset,Fiscal Data - Explainers,Citation Click,Debt - Federal Debt Trends Over Time
 19,Click on link to Bureau of Economic Analysis,Fiscal Data - Explainers,Citation Click,Debt - Federal Debt Trends Over Time
-20,"Expand the accordion labeled ""Visualizing the debt - How much is $XX trillion dollars?""",Fiscal Data - Explainers,Accordion Expand Click,Debt - Visualizing the debt - How much is $XX trillion dollars?
-21,"Collapse the accordion labeled ""Visualizing the debt - How much is $XX trillion dollars?""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - Visualizing the debt - How much is $XX trillion dollars?
+20,"Expand the accordion labeled ""Visualizing the debt - How much is $28 trillion dollars?""",Fiscal Data - Explainers,Accordion Expand Click,Debt - Visualizing the debt - How much is $28 trillion dollars?
+21,"Collapse the accordion labeled ""Visualizing the debt - How much is $28 trillion dollars?""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - Visualizing the debt - How much is $28 trillion dollars?
 22,Click on link to U.S. Treasury Monthly Statement of the Public Debt (MSPD) dataset,Fiscal Data - Explainers,Citation Click,Debt - Intragovernmental Holdings and Debt Held by the Public
 23,"Hover (>= 3 secs) over chart data points for ""Interest Rate and Total Debt, 2011 - 2021""",Fiscal Data - Explainers,Chart Hover,Debt - Interest Rate and Total Debt
 24,Click on link to Average Interest Rates on U.S. Treasury Securities dataset,Fiscal Data - Explainers,Citation Click,Debt - Interest Rate and Total Debt
@@ -28,26 +28,17 @@ Number,Trigger,eventCategory,eventAction,eventLabel
 27,"Collapse the accordion labeled ""Why can't the government just print more money?""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - Why can't the government just print more money?
 28,"Expand the accordion labeled ""How is the debt ceiling different from a government shutdown?""",Fiscal Data - Explainers,Accordion Expand Click,Debt - How is the debt ceiling different from a government shutdown?
 29,"Collapse the accordion labeled ""How is the debt ceiling different from a government shutdown?""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - How is the debt ceiling different from a government shutdown?
-30,"Click on ""Bureau of the Fiscal Service"" link",Fiscal Data - Explainers,Citation Click,Debt - Tracking the Debt
-31,"Click on link under ""The most recent U.S. Government Financial Report""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-32,"Click on link under ""America's Fiscal Future: Federal Debt""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-33,"Click on link under ""The Debt Ceiling: An Explainer""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-34,"Click on link under ""Federal Borrowing and Debt""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-35,"Click on link under ""Federal Net Interest Costs: A Primer""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-36,"Click on link under ""Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-37,"Click on link under ""Options for Reducing Deficit""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-38,"Click on link under ""Treasury Bulletin""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-39,"Click on link under ""USAspending""",Fiscal Data - Explainers,Citation Click,Debt - Dive Deeper into the Debt
-40,"Expand the accordion labeled ""Data Sources & Methodologies""",Fiscal Data - Explainers,Accordion Expand Click,Debt - DS&M
-41,"Collapse the accordion labeled ""Data Sources & Methodologies""",Fiscal Data - Explainers,Accordion Collapse Click,Debt - DS&M
+30,Click on link under Bureau of the Fiscal Service,Fiscal Data - Explainers,Citation Click,Debt - Tracking the Debt
+31,"Click on link under ""The most recent U.S. Government Financial Report""",Fiscal Data - Explainers,Citation Click,Debt - Most Recent U.S. Government Financial Report
+32,"Click on link under ""America's Fiscal Future: Federal Debt""",Fiscal Data - Explainers,Citation Click,Debt - America's Fiscal Future: Federal Debt
+33,"Click on link under ""The Debt Ceiling: An Explainer""",Fiscal Data - Explainers,Citation Click,Debt - The Debt Ceiling: An Explainer
+34,"Click on link under ""Federal Borrowing and Debt""",Fiscal Data - Explainers,Citation Click,Debt - Federal Borrowings and Debt
+35,"Click on link under ""Federal Net Interest Costs: A Primer""",Fiscal Data - Explainers,Citation Click,Debt - Federal Net Interest Costs: A Primer
+36,"Click on link under ""Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?""",Fiscal Data - Explainers,Citation Click,Debt - Is the Federal Reserve Printing Money in Order to Buy Treasury Securities?
+37,"Click on link under ""Options for Reducing Deficit""",Fiscal Data - Explainers,Citation Click,Debt - Options for Reducing Deficit
+38,"Click on link under ""Treasury Bulletin""",Fiscal Data - Explainers,Citation Click,Debt - Treasury Bulletin
+39,"Click on link under ""USAspending""",Fiscal Data - Explainers,Citation Click,Debt - USAspending
+40,"Expand the accordion labeled ""Data Sources & Methodologies""",Fiscal Data - Explainers,Accordion Expand Click,Debt - Data Sources & Methodologies
+41,"Collapse the accordion labeled ""Data Sources & Methodologies""",Fiscal Data - Explainers,Accordion Expand Click,Debt - Data Sources & Methodologies
 42,"Click on the ""Share this page:"" options",Fiscal Data - Explainers,Share Click,Debt - Share on <title of sharing option>
-43,"Click on the USAspending.gov link within the ""What are the major spending categories?"" accordion",Fiscal Data - Explainers,Citation Click,Debt - What are the major spending categories?
-44,"Click on ""Object Class"" within the ""What are the major spending categories?"" accordion",Fiscal Data - Explainers,Citation Click,Debt - What are the major spending categories?
-45,"Click on ""Budget Function"" within the ""What are the major spending categories?"" accordion",Fiscal Data - Explainers,Citation Click,Debt - What are the major spending categories?
-46,"Click on the ""Debt to the Penny"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Debt - DS&M
-47,"Click on the ""Monthly Statement of the Public Debt (MSPD)"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Debt - DS&M
-48,"Click on the ""Historical Debt Outstanding"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Debt - DS&M
-49,"Click on the ""Average Interest Rates on U.S. Treasury Securities"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Debt - DS&M
-50,"Click on the ""Bureau of Labor Statistics"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Debt - DS&M
-51,"Click on the ""Bureau of Economic Analysis"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Debt - DS&M
-52,"Click on the ""Github repository"" link in the DS&M accordion",Fiscal Data - Explainers,Citation Click,Debt - DS&M Github
+,,,,

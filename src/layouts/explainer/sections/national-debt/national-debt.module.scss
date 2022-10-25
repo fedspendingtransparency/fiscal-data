@@ -270,6 +270,14 @@
   }
 }
 
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .debtTrendsOverTimeSectionGraphContainer {
+    .lineChartContainer {
+      height: 300px;
+    }
+  }
+}
+
 .postGraphContent {
   margin-top: 3rem;
   h3 {
