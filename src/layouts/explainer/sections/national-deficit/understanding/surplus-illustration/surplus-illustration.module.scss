@@ -1,6 +1,40 @@
 @import '../../../../../../variables.module.scss';
 @import '../../national-deficit.module';
 
+.tabEdgeLeft {
+  position: absolute;
+  left: -11px;
+  top: -2.5px;
+  z-index: -1;
+}
+
+.tabEdgeRight {
+  position: absolute;
+  right: -21px;
+  top: -2.5px;
+  z-index: -1;
+}
+
+[aria-selected="true"] .tabEdgeLeft, [aria-selected="true"] .tabEdgeRight {
+  z-index: 1;
+}
+
+.tabBaselineWhiteout {
+  display: none;
+  position: absolute;
+  min-height: 6px;
+  min-width: 4px;
+  bottom: -4px;
+  left: -1px;
+  right: -1px;
+  background-color: #ffffff;
+  z-index: 100;
+}
+
+[aria-selected="true"] .tabBaselineWhiteout {
+  display: block;
+}
+
 .folderVisContainer {
   margin-top: 1rem;
   margin-bottom: 2rem;
@@ -25,6 +59,7 @@
   max-width: 552px;
 
   .folderContent{
+    margin-top: 0.5px;
     min-height: 272px;
     display: flex;
     align-items: center;

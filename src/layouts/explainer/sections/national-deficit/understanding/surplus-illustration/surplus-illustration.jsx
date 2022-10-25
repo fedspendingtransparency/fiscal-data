@@ -3,7 +3,8 @@ import {
   folderVis,
   folderVisContainer,
   title,
-  folderContent
+  folderContent,
+  tabBaselineWhiteout,
 }
 from "./surplus-illustration.module.scss";
 import surplus from "../../../../../../images/explainer/national-deficit/surplus.png";
@@ -16,6 +17,8 @@ import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../../variables.module.scss";
 import GlossaryTerm from "../../../../../../components/glossary-term/glossary-term";
+import FolderTabEdgeRight from "./folder-illustration-svgs/folder-tab-edge-right";
+import FolderTabEdgeLeft from "./folder-illustration-svgs/folder-tab-edge-left";
 
 
 const SurplusIllustration = ({glossary, width}) => {
@@ -29,22 +32,28 @@ const SurplusIllustration = ({glossary, width}) => {
   };
 
   const tabStyleDesktop = {
-    borderColor:deficitExplainerLightSecondary,
-    boxShadow:`.25rem .25rem ${deficitExplainerLightSecondary}`,
+    position: 'relative',
+    borderTopColor:deficitExplainerLightSecondary,
     borderBottom:'0',
-    borderWidth:'0.125rem',
-    margin: '0 0.5rem',
-    borderRadius: '5px 5px 0 0'
+    borderTopWidth:'0.125rem',
+    borderLeft: '0',
+    borderRight: '0',
+    margin: '0 0.875rem',
+    paddingRight: '1.25rem',
+    paddingLeft: '1.25rem',
+    borderRadius: '0 0 0 0'
   };
   const tabStyleMobile = {
     borderColor:deficitExplainerLightSecondary,
-    boxShadow:`.25rem .25rem ${deficitExplainerLightSecondary}`,
     borderBottom:'0',
-    borderWidth:'2px',
-    borderRadius: '5px 5px 0 0',
-    margin: '0 0.25rem',
-    bottom: '-0.125rem',
-    padding: '0.375rem 0.75rem 0.188rem'
+    borderTopWidth: '2px',
+    borderLeft: '0',
+    borderRight: '0',
+    borderRadius: '0 0 0 0',
+    marginRight: '0.55rem',
+    marginLeft: '0.55rem',
+    paddingRight: '8px',
+    paddingLeft: '8px',
   };
 
   const tabStyle = width < pxToNumber(breakpointLg) ? tabStyleMobile : tabStyleDesktop;
@@ -59,19 +68,28 @@ const SurplusIllustration = ({glossary, width}) => {
       <Tabs>
         <TabList style={tabListStyle}>
           <Tab style={tabStyle}>
+            <div className={tabBaselineWhiteout} />
+            <FolderTabEdgeLeft />
             <div className={title}>
               Surplus
             </div>
+            <FolderTabEdgeRight />
           </Tab>
           <Tab style={tabStyle}>
+            <div className={tabBaselineWhiteout} />
+            <FolderTabEdgeLeft />
             <div className={title}>
               Balanced Budget
             </div>
+            <FolderTabEdgeRight />
           </Tab>
           <Tab style={tabStyle}>
+            <div className={tabBaselineWhiteout} />
+            <FolderTabEdgeLeft />
             <div className={title}>
               Deficit
             </div>
+            <FolderTabEdgeRight />
           </Tab>
         </TabList>
         <TabPanel>

@@ -63,6 +63,11 @@ describe("Total Spending Chart", () => {
         record_date: "2021-09-30",
         record_fiscal_year: "2021",
       },
+      {
+        current_fytd_net_outly_amt: "6271507596876.00",
+        record_date: "2022-09-30",
+        record_fiscal_year: "2022"
+      }
     ],
   };
 
@@ -79,13 +84,6 @@ describe("Total Spending Chart", () => {
       { overwriteRoutes: true },
       { repeat: 0 }
     );
-    // fetchMock.get(
-    //   `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`,
-    //   mockSpendingData,
-    //   { overwriteRoutes: true },
-    //   { repeat: 0 }
-    // );
-
     determineBEAFetchResponse(jest, mockSpendingData);
   });
 
@@ -96,12 +94,7 @@ describe("Total Spending Chart", () => {
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(
-      await getByText(
-        "Since 2015, the Spending to GDP ratio has increased from 18% to 23%.",
-        { exact: false }
-      )
-    ).toBeInTheDocument();
+    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 22% to 33%.", { exact: false })).toBeInTheDocument();
   });
 
   it("renders the chart", async () => {
