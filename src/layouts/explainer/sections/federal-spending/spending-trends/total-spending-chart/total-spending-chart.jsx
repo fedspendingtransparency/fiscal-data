@@ -47,6 +47,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [firstRatio, setFirstRatio] = useState('');
   const [lastRatio, setlastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastGDPValue, setlastGDPValue] = useState('');
+  const [lastSpendingValue, setlastSpendingValue] = useState('');
   const totalData = [
     {
       id: 'GDP',
@@ -170,9 +172,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         let lastUpdatedDateGDP = new Date();
         setMinYear(spendingMinYear);
 
-
-
-
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
           if (bea_res.BEAAPI.Results.Notes) {
@@ -260,6 +259,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   finalGDPChartData[finalGDPChartData.length - 1].y
               ).format('0%')
             );
+            setlastSpendingValue(finalSpendingChartData[finalSpendingChartData.length - 1].y)
+            setlastGDPValue(finalGDPChartData[finalGDPChartData.length - 1].y)
             applyChartScaling();
           }
         });
@@ -379,7 +380,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   crosshairType={'x'}
                   animate={false}
                   tooltip={() => null}
-                  markers={getMarkers(width, selectedChartView)}
+                  markers={getMarkers(width, selectedChartView, lastGDPValue, lastSpendingValue)}
                 ></Line>
               </div>
             </ChartContainer>
