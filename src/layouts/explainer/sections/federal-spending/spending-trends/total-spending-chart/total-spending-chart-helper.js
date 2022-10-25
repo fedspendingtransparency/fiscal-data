@@ -230,7 +230,6 @@ export const chartConfigs = {
 };
 
 export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) => {
-  console.log(gdpValue, spendingValue)
   const markerStyle = {
     axis: "y",
     lineStyle: { strokeWidth: 0 },
