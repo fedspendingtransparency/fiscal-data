@@ -112,7 +112,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           '[data-testid="chartParent"] text'
         );
         [...textElements].forEach(text => {
-          text.style.fontSize = `${parseFloat(fontSize_10) * ratio}rem`;
+          text.style.fontSize = `${(parseFloat(fontSize_10) * ratio) - 0.06}rem`;
         });
       }
     }
@@ -127,7 +127,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
-  }; 
+  };
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
@@ -171,10 +171,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           finalSpendingChartData[finalSpendingChartData.length - 1].x;
         let lastUpdatedDateGDP = new Date();
         setMinYear(spendingMinYear);
-        
-        
-
-        
 
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
@@ -196,17 +192,17 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               ) {
                 const quarter = entry.TimePeriod.slice(4);
                 const year = parseInt(entry.TimePeriod.slice(0, -2));
-                const fiscalYear = quarter == 'Q4' ? year + 1 : year;
+                const fiscalYear = quarter === 'Q4' ? year + 1 : year;
                 const amount = parseInt(
                   String(entry.DataValue.replace(/,/g, '') + '000000')
                 );
-                if (fiscalYear == year) {
+                if (fiscalYear === year) {
                   total += amount;
                 } else {
                   total = amount;
                 }
 
-                if (quarter == 'Q3' && fiscalYear >= 2015) {
+                if (quarter === 'Q3' && fiscalYear >= 2015) {
                   finalGDPChartData.push({
                     x: fiscalYear,
                     y: total / 4,
@@ -272,12 +268,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     });
   }, []);
 
- 
-
-  useEffect(() => {
-    applyTextScaling();
-  }, [width]);
-
   const breakpoint = {
     desktop: 1015,
     tablet: 600,
@@ -299,6 +289,10 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   };
 
   useEffect(() => {
+    applyTextScaling();
+  }, [width, chartToggleConfig]);
+
+  useEffect(() => {
     if (!selectedChartView) return;
     if (selectedChartView === 'percentageGdp') {
       setChartData(percentageData);
@@ -311,8 +305,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       setChartData(totalData);
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
-
-  
 
   return (
     <>
