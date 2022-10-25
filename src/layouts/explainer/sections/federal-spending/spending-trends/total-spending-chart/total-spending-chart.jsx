@@ -47,6 +47,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [firstRatio, setFirstRatio] = useState('');
   const [lastRatio, setlastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastGDPValue, setlastGDPValue] = useState('');
+  const [lastSpendingValue, setlastSpendingValue] = useState('');
   const totalData = [
     {
       id: 'GDP',
@@ -125,7 +127,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
-  };
+  }; 
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
@@ -169,6 +171,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           finalSpendingChartData[finalSpendingChartData.length - 1].x;
         let lastUpdatedDateGDP = new Date();
         setMinYear(spendingMinYear);
+        
         
 
         
@@ -260,6 +263,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   finalGDPChartData[finalGDPChartData.length - 1].y
               ).format('0%')
             );
+            setlastSpendingValue(finalSpendingChartData[finalSpendingChartData.length - 1].y)
+            setlastGDPValue(finalGDPChartData[finalGDPChartData.length - 1].y)
             applyChartScaling();
           }
         });
@@ -306,6 +311,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       setChartData(totalData);
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
+
+  
 
   return (
     <>
@@ -381,7 +388,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   crosshairType={'x'}
                   animate={false}
                   tooltip={() => null}
-                  markers={getMarkers(width, selectedChartView)}
+                  markers={getMarkers(width, selectedChartView, lastGDPValue, lastSpendingValue)}
                 ></Line>
               </div>
             </ChartContainer>
