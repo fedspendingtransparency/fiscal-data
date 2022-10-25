@@ -10,7 +10,7 @@ import {
   toggle,
   content,
 } from "./accordion.module.scss";
-import analytics from "../../utils/analytics/analytics";
+import Analytics from "../../utils/analytics/analytics";
 import useGAEventTracking from "../../hooks/useGAEventTracking";
 
 const Accordion = ({
@@ -25,30 +25,26 @@ const Accordion = ({
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
   const [gaEventHandler, setgaEventHandler] = useState(null);
-  const gaEvent = useGAEventTracking(
-    open ? openEventNumber : closeEventNumber,
-    "Debt"
-  );
 
-   useEffect(() => {
-    if (gaEvent) {
-      const onClickEventHandler = () => {
-        analytics.event({
-          category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
-          action: gaEvent.eventAction,
-          label: gaEvent.eventLabel,
-        });
-      };
-
-      setgaEventHandler(onClickEventHandler)
+  const gaEventOpen = useGAEventTracking(openEventNumber,"Debt");
+  const gaEventClose = useGAEventTracking(closeEventNumber,"Debt");
+  
+  const triggerGAEvent = (isOpen) => {
+    if(gaEventOpen || gaEventClose){
+      const gaEvent =  isOpen ? gaEventOpen : gaEventClose;
+      Analytics.event({
+        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
+        action: gaEvent.eventAction,
+        label: gaEvent.eventLabel,
+      });
     }
-  }, [gaEvent]);
-
+  }
+    
   const onToggle = e => {
     if (e.key === undefined || e.key === "Enter") {
       e.stopPropagation();
       setOpen(prevState => !prevState);
-      gaEventHandler;
+      triggerGAEvent(!open);
     }
   };
 
