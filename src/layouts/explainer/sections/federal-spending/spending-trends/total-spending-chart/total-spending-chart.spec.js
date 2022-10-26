@@ -94,7 +94,7 @@ describe("Total Spending Chart", () => {
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
-    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 22% to 33%.", { exact: false })).toBeInTheDocument();
+    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 20% to 30%.", { exact: false })).toBeInTheDocument();
   });
 
   it("renders the chart", async () => {
