@@ -344,10 +344,10 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   }}
                   colors={d => d.color}
                   width={550}
-                  height={490}
+                  height={446}
                   margin={
                     width < pxToNumber(breakpointLg)
-                      ? { top: 25, right: 25, bottom: 35, left: 65 }
+                      ? { top: 25, right: 25, bottom: 35, left: 55 }
                       : { top: 25, right: 15, bottom: 45, left: 50 }
                   }
                   enablePoints={true}
