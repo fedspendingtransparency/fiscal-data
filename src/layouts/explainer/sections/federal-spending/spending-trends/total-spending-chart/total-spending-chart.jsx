@@ -123,7 +123,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 550 490');
+      svgChart.setAttribute('viewBox', '0 0 550 400');
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
@@ -344,11 +344,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   }}
                   colors={d => d.color}
                   width={550}
-                  height={446}
+                  height={400}
                   margin={
                     width < pxToNumber(breakpointLg)
-                      ? { top: 25, right: 25, bottom: 35, left: 55 }
-                      : { top: 25, right: 15, bottom: 45, left: 50 }
+                      ? { top: 25, right: 25, bottom: 30, left: 55 }
+                      : { top: 20, right: 15, bottom: 35, left: 50 }
                   }
                   enablePoints={true}
                   pointSize={0}
