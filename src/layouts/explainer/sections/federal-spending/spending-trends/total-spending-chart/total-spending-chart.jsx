@@ -144,33 +144,26 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         let spendingMaxYear;
         let maxAmount;
         let finalSpendingChartData = [];
-        let lastUpdatedDateSpending;
 
-        res.data = adjustDataForInflation(
-          res.data,
-          'current_fytd_net_outly_amt',
-          'record_date',
-          cpiDataByYear
-        );
+        
         res.data.map(t => {
           finalSpendingChartData.push({
             x: parseInt(t.record_fiscal_year),
-            y: parseFloat(
-              simplifyNumber(t.current_fytd_net_outly_amt, false).slice(0, -2)
-            ),
+            
             actual: t.current_fytd_net_outly_amt,
+            fiscalYear: t.record_fiscal_year,
+            record_date: t.record_date
           });
         });
 
-        lastUpdatedDateSpending = new Date(
-          res.data[res.data.length - 1].record_date + ' 00:00:00'
-        );
-        setLastUpdatedDate(lastUpdatedDateSpending);
+        
         spendingMinYear = finalSpendingChartData[0].x;
         spendingMaxYear =
           finalSpendingChartData[finalSpendingChartData.length - 1].x;
-        let lastUpdatedDateGDP = new Date();
+
         setMinYear(spendingMinYear);
+        let lastUpdatedDateGDP = new Date();
+        
 
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
@@ -231,6 +224,24 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
 
             finalSpendingChartData = finalSpendingChartData.filter((s)=>s.x<=gdpMaxYear);
 
+            const lastUpdatedDateSpending = new Date(
+              finalSpendingChartData[finalSpendingChartData.length - 1].record_date + ' 00:00:00'
+            );
+            setLastUpdatedDate(lastUpdatedDateSpending);
+
+            finalSpendingChartData = adjustDataForInflation(
+              finalSpendingChartData,
+              'actual',
+              'fiscalYear',
+              cpiDataByYear
+            );
+            
+            finalSpendingChartData.map(spending=>{
+              spending.y = parseFloat(
+                simplifyNumber(spending.actual, false).slice(0, -2)
+              );
+            });
+
             setSpendingChartData(finalSpendingChartData);
 
             const gdpMaxAmount = finalGDPChartData.reduce((max, gdp) =>
@@ -262,6 +273,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             setlastSpendingValue(finalSpendingChartData[finalSpendingChartData.length - 1].y)
             setlastGDPValue(finalGDPChartData[finalGDPChartData.length - 1].y)
             applyChartScaling();
+
           }
         });
       }
@@ -297,7 +309,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     if (selectedChartView === 'percentageGdp') {
       setChartData(percentageData);
     }
-    if (
+    if ( 
       selectedChartView === "totalSpending" &&
       gdpChartData.length &&
       spendingChartData.length
