@@ -36,10 +36,11 @@ export const Index = () => {
   return (
     <>
       <AnnouncementBanner>
-        We are excited to announce that Fiscal Data
-        is realigning with our sister website Data Lab
-        to better serve you beginning this Fall 2022!
-        Moving forward, you can find new content here at Fiscal Data.
+        Have you heard the great news?
+        Fiscal Data has realigned with our sister website Data Lab
+        to provide an even better user experience!
+        New content using federal financial data is now available here,
+        along with your favorite datasets.
       </AnnouncementBanner>
       <SiteLayout isPreProd={ENV_ID === "preprod"}>
         <div data-testid="site-home" className={styles.siteHome} data-environment={ENV_ID}>
