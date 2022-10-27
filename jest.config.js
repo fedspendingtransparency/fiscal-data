@@ -24,5 +24,9 @@ module.exports = {
   setupFiles: [`<rootDir>/loadershim.js`],
   verbose: true,
   setupFilesAfterEnv: [`<rootDir>/jest.setup.js`],
-  coveragePathIgnorePatterns: ["src/pages/about-us"],
+  coveragePathIgnorePatterns: [
+    "src/pages/about-us/",
+    "src/components/about-us/helpers",
+    "src/components/about-us/faq-section",
+  ],
 };
