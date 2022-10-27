@@ -58,7 +58,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [isMobile, setIsMobile] = useState(true);
 
   const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
-  const [chartData, setChartData] = useState(totalData);
+  
 
 
   const totalData = [
@@ -82,6 +82,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       data: gdpRatioChartData
     }
   ];
+
+  const [chartData, setChartData] = useState(totalData);
 
   const applyTextScaling = () => {
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
