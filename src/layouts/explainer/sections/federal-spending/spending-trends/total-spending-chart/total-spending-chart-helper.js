@@ -5,7 +5,6 @@ import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
-  fontSize_24,
   semiBoldWeight,
 } from "../../../../../../variables.module.scss";
 import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
@@ -39,13 +38,15 @@ const getFirstElPadding = (chartView, isMobile) => {
   return "32px";
 };
 
-export const dataHeader = chartToggleConfig => {
+export const dataHeader = (chartToggleConfig, headingValues) => {
   if (!chartToggleConfig) return;
   const {
     setSelectedChartView,
     selectedChartView,
     isMobile,
   } = chartToggleConfig;
+
+  const {fiscalYear, totalSpending, gdp, gdpRatio} = headingValues;
 
   return (
     <div
@@ -125,27 +126,27 @@ export const dataHeader = chartToggleConfig => {
               paddingLeft: getFirstElPadding(selectedChartView, isMobile),
             }}
           >
-            <div className={styles.dataValue}>2020</div>
+            <div className={styles.dataValue}>{fiscalYear}</div>
             <span className={styles.dataLabel}>Fiscal Year</span>
           </div>
 
           {selectedChartView !== "percentageGdp" && (
             <div className={styles.dataElement}>
-              <div className={styles.dataValue}>$7.6 T</div>
+              <div className={styles.dataValue}>${totalSpending}</div>
               <span className={styles.dataLabel}>Total Spending</span>
             </div>
           )}
 
           {selectedChartView !== "percentageGdp" && (
             <div className={styles.dataElement}>
-              <div className={styles.dataValue}>$22.1 T</div>
+              <div className={styles.dataValue}>${gdp}</div>
               <span className={styles.dataLabel}>GDP</span>
             </div>
           )}
 
           {selectedChartView === "percentageGdp" && (
             <div className={styles.dataElement}>
-              <div className={styles.dataValue}>32%</div>
+              <div className={styles.dataValue}>{gdpRatio}</div>
               <span className={styles.dataLabel}>GDP Ratio</span>
             </div>
           )}
@@ -232,6 +233,7 @@ export const chartConfigs = {
 export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) => {
   const markerStyle = {
     axis: "y",
+    background: "#666666",
     lineStyle: { strokeWidth: 0 },
     textStyle: {
       fontWeight: semiBoldWeight,
@@ -240,13 +242,15 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
     },
   };
 
+
+
   return selectedChartView === "percentageGdp"
     ? []
     : [
         {
           ...markerStyle,
           legend: "GDP",
-          value: gdpValue+1,
+          value: gdpValue-1,
         },
         {
           ...markerStyle,

@@ -24,6 +24,8 @@ import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNu
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import lineChartCustomSlices from '../../../../explainer-components/line-chart-custom-slices/line-chart-custom-slices';
+import { useTooltip } from '@nivo/tooltip';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -39,6 +41,7 @@ const gdpEndPoint =
 const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
   const [gdpChartData, setGdpChartData] = useState([]);
+  const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [minYear, setMinYear] = useState(2015);
   const [maxYear, setMaxYear] = useState(0);
@@ -49,6 +52,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [lastGDPValue, setlastGDPValue] = useState('');
   const [lastSpendingValue, setlastSpendingValue] = useState('');
+  const [maxSpendingValue, setMaxSpendingValue] = useState(0);
+  const [minGDPValue, setMinGDPValue] = useState(0);
+  const [selectedChartView, setSelectedChartView] = useState('totalSpending');
+  const [isMobile, setIsMobile] = useState(true);
+
+  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
+  const [chartData, setChartData] = useState(totalData);
+
+
   const totalData = [
     {
       id: 'GDP',
@@ -61,43 +73,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       data: spendingChartData,
     },
   ];
-  const [chartData, setChartData] = useState(totalData);
+  
 
   const percentageData = [
     {
       id: 'GDP Percentage',
       color: '#666666',
-      data: [
-        {
-          x: 2015,
-          y: 20,
-        },
-        {
-          x: 2016,
-          y: 21,
-        },
-        {
-          x: 2017,
-          y: 25,
-        },
-        {
-          x: 2018,
-          y: 20,
-        },
-        {
-          x: 2019,
-          y: 21,
-        },
-        {
-          x: 2020,
-          y: 35,
-        },
-        {
-          x: 2021,
-          y: 33,
-        },
-      ],
-    },
+      data: gdpRatioChartData
+    }
   ];
 
   const applyTextScaling = () => {
@@ -145,25 +128,25 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         let maxAmount;
         let finalSpendingChartData = [];
 
-        
+
         res.data.map(t => {
           finalSpendingChartData.push({
             x: parseInt(t.record_fiscal_year),
-            
+
             actual: t.current_fytd_net_outly_amt,
             fiscalYear: t.record_fiscal_year,
             record_date: t.record_date
           });
         });
 
-        
+
         spendingMinYear = finalSpendingChartData[0].x;
         spendingMaxYear =
           finalSpendingChartData[finalSpendingChartData.length - 1].x;
 
         setMinYear(spendingMinYear);
         let lastUpdatedDateGDP = new Date();
-        
+
 
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
@@ -222,7 +205,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             const gdpMaxYear = finalGDPChartData[finalGDPChartData.length - 1].x;
             setMaxYear(Math.min(gdpMaxYear, spendingMaxYear));
 
-            finalSpendingChartData = finalSpendingChartData.filter((s)=>s.x<=gdpMaxYear);
+            finalSpendingChartData = finalSpendingChartData.filter((s) => s.x <= gdpMaxYear);
 
             const lastUpdatedDateSpending = new Date(
               finalSpendingChartData[finalSpendingChartData.length - 1].record_date + ' 00:00:00'
@@ -235,8 +218,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               'fiscalYear',
               cpiDataByYear
             );
-            
-            finalSpendingChartData.map(spending=>{
+
+            finalSpendingChartData.map(spending => {
               spending.y = parseFloat(
                 simplifyNumber(spending.actual, false).slice(0, -2)
               );
@@ -247,10 +230,36 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             const gdpMaxAmount = finalGDPChartData.reduce((max, gdp) =>
               max > gdp.y ? max : gdp.y
             );
+            const gdpMinAmount = finalGDPChartData.reduce((min, gdp) =>
+              min < gdp.y ? min : gdp.y
+            );
             const spendingMaxAmount = finalSpendingChartData.reduce(
               (max, spending) => (max > spending.y ? max : spending.y)
             );
+            const spendingMinAmount = finalSpendingChartData.reduce(
+              (min, spending) => (min < spending.y ? min : spending.y)
+            );
+
+            setMaxSpendingValue(spendingMaxAmount);
+            setMinGDPValue(gdpMinAmount);
+
             setGdpChartData(finalGDPChartData);
+
+            let finalGdpRatioChartData = [];
+            finalSpendingChartData.map((spending, idx) => {
+              const spendingYear = spending.fiscalYear;
+              const spendingAmount = spending.y;
+              const gdpAmount = finalGDPChartData[idx].y;
+              const gdpRatio = numeral(spendingAmount / gdpAmount).format('0%');
+              finalGdpRatioChartData.push({
+                x: spendingYear,
+                y: gdpRatio
+              })
+
+            });
+
+            setRatioGdpChartData(finalGdpRatioChartData);
+
             maxAmount =
               Math.ceil(
                 (spendingMaxAmount > gdpMaxAmount
@@ -264,14 +273,26 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                 finalSpendingChartData[0].y / finalGDPChartData[0].y
               ).format('0%')
             );
-            setlastRatio(
-              numeral(
-                finalSpendingChartData[finalSpendingChartData.length - 1].y /
-                  finalGDPChartData[finalGDPChartData.length - 1].y
-              ).format('0%')
-            );
-            setlastSpendingValue(finalSpendingChartData[finalSpendingChartData.length - 1].y)
-            setlastGDPValue(finalGDPChartData[finalGDPChartData.length - 1].y)
+
+            const chartLastRatio = numeral(
+              finalSpendingChartData[finalSpendingChartData.length - 1].y /
+              finalGDPChartData[finalGDPChartData.length - 1].y
+            ).format('0%');
+
+            const chartLastSpendingValue = finalSpendingChartData[finalSpendingChartData.length - 1].actual;
+            const chartLastGDPValue = finalGDPChartData[finalGDPChartData.length - 1].actual
+
+            setlastRatio(chartLastRatio);
+            setlastSpendingValue(chartLastSpendingValue);
+            setlastGDPValue(chartLastGDPValue);
+            setTotalSpendingHeadingValues({
+              fiscalYear: spendingMaxYear,
+              totalSpending: simplifyNumber(chartLastSpendingValue, false),
+              gdp: simplifyNumber(chartLastGDPValue, false),
+              gdpRatio: chartLastRatio
+            }
+
+            )
             applyChartScaling();
 
           }
@@ -284,8 +305,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     desktop: 1015,
     tablet: 600,
   };
-  const [selectedChartView, setSelectedChartView] = useState('totalSpending');
-  const [isMobile, setIsMobile] = useState(true);
+  
   useEffect(() => {
     if (window.innerWidth < breakpoint.desktop) {
       setIsMobile(true);
@@ -309,7 +329,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     if (selectedChartView === 'percentageGdp') {
       setChartData(percentageData);
     }
-    if ( 
+    if (
       selectedChartView === "totalSpending" &&
       gdpChartData.length &&
       spendingChartData.length
@@ -317,6 +337,122 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       setChartData(totalData);
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
+
+
+  const CustomPoint = props => {
+    const { currentSlice, borderWidth, borderColor, points} = props;
+
+    
+    if (!isLoading) {
+      const lastGdpPoints = points.filter(g=>g.serieId == 'GDP').pop();
+
+      const currentSpendingPoint = currentSlice?.points?.length
+        ? currentSlice.points[0]
+        : points[points.length - 1];;
+
+      const currentGdpPoint = currentSlice?.points?.length
+        ? currentSlice.points[1]
+        : lastGdpPoints;
+
+      return (
+        <g className="chartPoints">
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={currentSpendingPoint.x}
+            cy={currentSpendingPoint.y}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={currentSpendingPoint.x}
+            cy={currentSpendingPoint.y}
+          />
+          {(selectedChartView == 'totalSpending' && currentGdpPoint) && (
+            <>
+              <circle
+                fill={"#D8D8D8"}
+                r={8}
+                strokeWidth={borderWidth}
+                stroke={borderColor}
+                fillOpacity={0.35}
+                cx={currentGdpPoint.x}
+                cy={currentGdpPoint.y}
+              />
+              <circle
+                r={2}
+                strokeWidth={"4"}
+                stroke={"#000000"}
+                fill={"#000000"}
+                fillOpacity={0.85}
+                cx={currentGdpPoint.x}
+                cy={currentGdpPoint.y}
+              />
+            </>
+          )}
+        </g>
+      );
+    }
+  };
+  
+
+  const CustomSlices = props => {
+    if (!isLoading) {
+      return (
+        <g onMouseLeave={() => {
+          setTotalSpendingHeadingValues({
+            fiscalYear: maxYear,
+            totalSpending: simplifyNumber(lastSpendingValue, false),
+            gdp: simplifyNumber(lastGDPValue, false),
+            gdpRatio: lastRatio
+          });
+        }}>
+          {props.slices.map(slice => (
+            <rect
+              x={slice.x0}
+              y={slice.y0}
+              tabIndex={0}
+              width={slice.width}
+              height={slice.height}
+              strokeWidth={0}
+              strokeOpacity={0.25}
+              fillOpacity={0}
+              onMouseEnter={() => props.setCurrentSlice(slice)}
+              onMouseMove={event => {
+                if (selectedChartView == 'totalSpending') {
+                  const spendingData = slice.points[0].data;
+                  const gdpData = slice.points[1].data;
+                  if (spendingData && gdpData) {
+                    setTotalSpendingHeadingValues({
+                      ...totalSpendingHeadingValues,
+                      totalSpending: simplifyNumber(spendingData.actual, false),
+                      fiscalYear: spendingData.fiscalYear,
+                      gdp: simplifyNumber(gdpData.actual, false),
+                    });
+                  }
+                } else if (selectedChartView == 'percentageGdp') {
+                  const percentData = slice.points[0].data;
+                  if (percentData) {
+                    setTotalSpendingHeadingValues({ ...totalSpendingHeadingValues, fiscalYear: percentData.x, gdpRatio: percentData.y + "%" });
+                  }
+                }
+
+              }}
+              onMouseLeave={() => {
+                props.setCurrentSlice(null)
+              }}
+            />
+          ))}
+        </g>
+      )
+    }
+  }
 
   return (
     <>
@@ -333,14 +469,27 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               subTitle={chartCopy.subtitle}
               footer={chartCopy.footer}
               date={lastUpdatedDate}
-              header={dataHeader(chartToggleConfig)}
+              header={dataHeader(chartToggleConfig, totalSpendingHeadingValues)}
               altText={chartCopy.altText}
               customHeaderStyles={{ marginTop: "0.5rem", marginBottom: "0" }}
             >
               <div className={lineChart} data-testid={'chartParent'}>
                 <Line
                   data={chartData}
-                  layers={chartConfigs.layers}
+                  layers={[
+                    'grid',
+                    'crosshair',
+                    'markers',
+                    'axes',
+                    'areas',
+                    'lines',
+                    'points',
+                    // 'slices',
+                    CustomPoint,
+                    CustomSlices,                    
+                    'mesh',
+                    'legends',
+                  ]}
                   theme={{
                     ...chartConfigs.theme,
                     fontSize:
@@ -353,6 +502,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                           ? fontSize_10
                           : fontSize_14,
                     },
+                    crosshair: {
+                      line: {
+                        stroke: '#555555',
+                        strokeWidth: 2,
+                      }
+                    }
                   }}
                   colors={d => d.color}
                   width={550}
@@ -388,11 +543,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   }
                   useMesh={true}
                   isInteractive={true}
-                  enableCrosshair={false}
+                  enableCrosshair={true}
                   crosshairType={'x'}
                   animate={false}
+                  sliceTooltip={() => null}
                   tooltip={() => null}
-                  markers={getMarkers(width, selectedChartView, lastGDPValue, lastSpendingValue)}
+                  enableSlices={'x'}
+                  markers={getMarkers(width, selectedChartView, minGDPValue, maxSpendingValue)}
                 ></Line>
               </div>
             </ChartContainer>
