@@ -95,7 +95,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
       <div className={flapWrapper}>
         <SplitFlapDisplay
           value={currentRevenue}
-          mobilePrecision={2}
+          mobilePrecision={parseInt(currentRevenue) > 999999999999 ? 2 : 0}
           minLength={17}
           valueType="currency"
         />
