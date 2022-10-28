@@ -260,7 +260,7 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
 export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
   return (
     <g data-testid="customSlices"
-      onMouseLeave={groupMouseLeave}
+      //onMouseLeave={groupMouseLeave}
     >
       {props.slices.map(slice => (
         <rect
@@ -273,7 +273,7 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
           strokeOpacity={0.25}
           fillOpacity={0}
           onMouseEnter={() => props.setCurrentSlice(slice)}
-          onMouseMove={() => mouseMove(slice)}
+          //onMouseMove={() => mouseMove(slice)}
           onMouseLeave={() => props.setCurrentSlice(null)}
         />
       ))}

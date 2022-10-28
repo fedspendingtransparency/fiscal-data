@@ -23,13 +23,15 @@ import {
   applyChartScaling,
   applyTextScaling
 } from "../../../../../explainer-helpers/explainer-charting-helper";
+import {lineChartCustomPoints, lineChartCustomSlices} from "../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper"
+import { ConnectableObservable } from "rxjs";
 
 const TotalRevenueChart = ({width}) => {
 
   const chartParent = "totalRevenueChartParent";
   const chartWidth = 550;
   const chartHeight = 490;
-  const data = [
+  const chartData = [
     {
       "id": "GDP",
       "color": "#666666",
@@ -65,7 +67,7 @@ const TotalRevenueChart = ({width}) => {
       ]
     },
     {
-      "id": "Total Spending",
+      "id": "Total Revenue",
       "color": "#666666",
       "data": [
         {
@@ -109,6 +111,14 @@ const TotalRevenueChart = ({width}) => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width])
 
+  const handleGroupOnMouseLeave = () => {
+    console.log("set headers");
+  }
+  const handleMouseLeave = (slice) => {
+    
+    console.log(slice);
+  }
+
   return (
     <>
       <div className={visWithCallout}>
@@ -122,52 +132,84 @@ const TotalRevenueChart = ({width}) => {
             altText={chartCopy.altText}
           >
             <div className={lineChart} data-testid={chartParent}>
-              <Line
-                data={data}
-                layers={chartConfigs.layers}
-                theme={{
-                  ...chartConfigs.theme,
-                  fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-                  marker: {
-                    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+            <Line
+                  data={chartData}
+                  layers={[
+                    'grid',
+                    'crosshair',
+                    'markers',
+                    'axes',
+                    'areas',
+                    'lines',
+                    'points',
+                    lineChartCustomPoints,
+                    (props) => lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                    'mesh',
+                    'legends',
+                  ]}
+                  theme={{
+                    ...chartConfigs.theme,
+                    fontSize:
+                      width < pxToNumber(breakpointLg)
+                        ? fontSize_10
+                        : fontSize_14,
+                    marker: {
+                      fontSize:
+                        width < pxToNumber(breakpointLg)
+                          ? fontSize_10
+                          : fontSize_14,
+                    },
+                    crosshair: {
+                      line: {
+                        stroke: '#555555',
+                        strokeWidth: 2,
+                      },
+                    },
+                  }}
+                  colors={d => d.color}
+                  width={550}
+                  height={400}
+                  margin={
+                    width < pxToNumber(breakpointLg)
+                      ? { top: 25, right: 25, bottom: 30, left: 55 }
+                      : { top: 20, right: 15, bottom: 35, left: 50 }
                   }
-                }}
-                colors={d => d.color}
-                width={ chartWidth }
-                height={ chartHeight}
-                margin={width < pxToNumber(breakpointLg) ?
-                  {top: 25, right: 25, bottom: 35, left: 65} :
-                  {top: 25, right: 15, bottom: 45, left: 50}
-                }
-                enablePoints={true}
-                pointSize={0}
-                enableGridX={false}
-                enableGridY={false}
-                xScale={{
-                  type: "linear",
-                  min: 2015,
-                  max: 2021
-                }}
-                yScale={{
-                  type: "linear",
-                  min: 0,
-                  max: 25,
-                  stacked: false,
-                  reverse: false
-                }}
-                axisTop={null}
-                axisRight={null}
-                axisBottom={chartConfigs.axisBottom}
-                axisLeft={chartConfigs.axisLeft}
-                useMesh={true}
-                isInteractive={true}
-                enableCrosshair={false}
-                crosshairType={'x'}
-                animate={false}
-                tooltip={() => null}
-                markers={getMarkers(width)}
-              >
-              </Line>
+                  enablePoints={true}
+                  pointSize={0}
+                  enableGridX={false}
+                  enableGridY={false}
+                  xScale={{
+                    type: 'linear',
+                    min: 2015,
+                    max: 2022,
+                  }}
+                  yScale={{
+                    type: 'linear',
+                    min: 0,
+                    max: selectedChartView === 'percentageGdp' ? 50 : maxAmount,
+                    stacked: false,
+                    reverse: false,
+                  }}
+                  axisTop={null}
+                  axisRight={null}
+                  axisBottom={chartConfigs.axisBottom}
+                  axisLeft={
+                    selectedChartView === 'percentageGdp'
+                      ? chartConfigs.axisLeftPercent
+                      : chartConfigs.axisLeftSpending
+                  }
+                  useMesh={true}
+                  isInteractive={true}
+                  enableCrosshair={true}
+                  crosshairType={'x'}
+                  animate={false}
+                  sliceTooltip={() => null}
+                  tooltip={() => null}
+                  enableSlices={'x'}
+                  markers={getMarkers(
+                    width
+                  )}
+                ></Line>
             </div>
           </ChartContainer>
         </div>
