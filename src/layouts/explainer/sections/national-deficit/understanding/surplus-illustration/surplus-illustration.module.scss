@@ -15,6 +15,15 @@
   z-index: -1;
 }
 
+:global(.bounce2) {
+  animation: bounce2 2s ease infinite;
+}
+@keyframes bounce2 {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-20px);}
+  //60% {transform: translateY(-15px);}
+}
+
 [aria-selected="true"] .tabEdgeLeft, [aria-selected="true"] .tabEdgeRight {
   z-index: 1;
 }
@@ -40,6 +49,7 @@
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
+  //animation: bounce2 2s ease infinite;
 
   .title{
     display: flex;

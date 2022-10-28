@@ -69,6 +69,7 @@ export const deficitExplainerLightSecondary: string;
 export const deficitAccordion: string;
 export const tabEdgeLeft: string;
 export const tabEdgeRight: string;
+export const bounce2: string;
 export const tabBaselineWhiteout: string;
 export const folderVisContainer: string;
 export const title: string;
