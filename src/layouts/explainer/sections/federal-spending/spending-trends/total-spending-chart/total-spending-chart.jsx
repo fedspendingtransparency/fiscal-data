@@ -57,9 +57,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
 
-  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
-  
-
+  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState(
+    {}
+  );
 
   const totalData = [
     {
@@ -73,14 +73,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       data: spendingChartData,
     },
   ];
-  
 
   const percentageData = [
     {
       id: 'GDP Percentage',
       color: '#666666',
-      data: gdpRatioChartData
-    }
+      data: gdpRatioChartData,
+    },
   ];
 
   const [chartData, setChartData] = useState(totalData);
@@ -97,7 +96,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           '[data-testid="chartParent"] text'
         );
         [...textElements].forEach(text => {
-          text.style.fontSize = `${(parseFloat(fontSize_10) * ratio) - 0.06}rem`;
+          text.style.fontSize = `${parseFloat(fontSize_10) * ratio - 0.06}rem`;
         });
       }
     }
@@ -130,17 +129,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         let maxAmount;
         let finalSpendingChartData = [];
 
-
         res.data.map(t => {
           finalSpendingChartData.push({
             x: parseInt(t.record_fiscal_year),
 
             actual: t.current_fytd_net_outly_amt,
             fiscalYear: t.record_fiscal_year,
-            record_date: t.record_date
+            record_date: t.record_date,
           });
         });
-
 
         spendingMinYear = finalSpendingChartData[0].x;
         spendingMaxYear =
@@ -148,7 +145,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
 
         setMinYear(spendingMinYear);
         let lastUpdatedDateGDP = new Date();
-
 
         //ToDo: This can be moved to a custom Hook, and since GDP data is updated monthly we can think about consuming a flat file via Gatsby
         basicFetch(gdpEndPoint).then(bea_res => {
@@ -204,13 +200,17 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               );
             });
 
-            const gdpMaxYear = finalGDPChartData[finalGDPChartData.length - 1].x;
+            const gdpMaxYear =
+              finalGDPChartData[finalGDPChartData.length - 1].x;
             setMaxYear(Math.min(gdpMaxYear, spendingMaxYear));
 
-            finalSpendingChartData = finalSpendingChartData.filter((s) => s.x <= gdpMaxYear);
+            finalSpendingChartData = finalSpendingChartData.filter(
+              s => s.x <= gdpMaxYear
+            );
 
             const lastUpdatedDateSpending = new Date(
-              finalSpendingChartData[finalSpendingChartData.length - 1].record_date + ' 00:00:00'
+              finalSpendingChartData[finalSpendingChartData.length - 1]
+                .record_date + ' 00:00:00'
             );
             setLastUpdatedDate(lastUpdatedDateSpending);
 
@@ -255,9 +255,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               const gdpRatio = numeral(spendingAmount / gdpAmount).format('0%');
               finalGdpRatioChartData.push({
                 x: spendingYear,
-                y: gdpRatio
-              })
-
+                y: gdpRatio,
+              });
             });
 
             setRatioGdpChartData(finalGdpRatioChartData);
@@ -278,11 +277,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
 
             const chartLastRatio = numeral(
               finalSpendingChartData[finalSpendingChartData.length - 1].y /
-              finalGDPChartData[finalGDPChartData.length - 1].y
+                finalGDPChartData[finalGDPChartData.length - 1].y
             ).format('0%');
 
-            const chartLastSpendingValue = finalSpendingChartData[finalSpendingChartData.length - 1].actual;
-            const chartLastGDPValue = finalGDPChartData[finalGDPChartData.length - 1].actual
+            const chartLastSpendingValue =
+              finalSpendingChartData[finalSpendingChartData.length - 1].actual;
+            const chartLastGDPValue =
+              finalGDPChartData[finalGDPChartData.length - 1].actual;
 
             setlastRatio(chartLastRatio);
             setlastSpendingValue(chartLastSpendingValue);
@@ -291,12 +292,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               fiscalYear: spendingMaxYear,
               totalSpending: simplifyNumber(chartLastSpendingValue, false),
               gdp: simplifyNumber(chartLastGDPValue, false),
-              gdpRatio: chartLastRatio
-            }
-
-            )
+              gdpRatio: chartLastRatio,
+            });
             applyChartScaling();
-
           }
         });
       }
@@ -307,7 +305,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     desktop: 1015,
     tablet: 600,
   };
-  
+
   useEffect(() => {
     if (window.innerWidth < breakpoint.desktop) {
       setIsMobile(true);
@@ -332,7 +330,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       setChartData(percentageData);
     }
     if (
-      selectedChartView === "totalSpending" &&
+      selectedChartView === 'totalSpending' &&
       gdpChartData.length &&
       spendingChartData.length
     ) {
@@ -340,26 +338,24 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
 
+  const CustomPoints = props => {
+    const { currentSlice, borderWidth, borderColor, points } = props;
 
-  const CustomPoint = props => {
-    const { currentSlice, borderWidth, borderColor, points} = props;
-
-    
     if (!isLoading) {
-      const lastGdpPoints = points.filter(g=>g.serieId == 'GDP').pop();
+      const lastGdpPoints = points.filter(g => g.serieId == 'GDP').pop();
 
       const currentSpendingPoint = currentSlice?.points?.length
         ? currentSlice.points[0]
-        : points[points.length - 1];;
+        : points[points.length - 1];
 
       const currentGdpPoint = currentSlice?.points?.length
         ? currentSlice.points[1]
         : lastGdpPoints;
 
       return (
-        <g className="chartPoints">
+        <g data-testid="customPoints">
           <circle
-            fill={"#D8D8D8"}
+            fill={'#D8D8D8'}
             r={8}
             strokeWidth={borderWidth}
             stroke={borderColor}
@@ -369,17 +365,17 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           />
           <circle
             r={2}
-            strokeWidth={"4"}
-            stroke={"#000000"}
-            fill={"#000000"}
+            strokeWidth={'4'}
+            stroke={'#000000'}
+            fill={'#000000'}
             fillOpacity={0.85}
             cx={currentSpendingPoint.x}
             cy={currentSpendingPoint.y}
           />
-          {(selectedChartView == 'totalSpending' && currentGdpPoint) && (
+          {selectedChartView == 'totalSpending' && currentGdpPoint && (
             <>
               <circle
-                fill={"#D8D8D8"}
+                fill={'#D8D8D8'}
                 r={8}
                 strokeWidth={borderWidth}
                 stroke={borderColor}
@@ -389,9 +385,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               />
               <circle
                 r={2}
-                strokeWidth={"4"}
-                stroke={"#000000"}
-                fill={"#000000"}
+                strokeWidth={'4'}
+                stroke={'#000000'}
+                fill={'#000000'}
                 fillOpacity={0.85}
                 cx={currentGdpPoint.x}
                 cy={currentGdpPoint.y}
@@ -402,19 +398,21 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       );
     }
   };
-  
 
   const CustomSlices = props => {
     if (!isLoading) {
       return (
-        <g onMouseLeave={() => {
-          setTotalSpendingHeadingValues({
-            fiscalYear: maxYear,
-            totalSpending: simplifyNumber(lastSpendingValue, false),
-            gdp: simplifyNumber(lastGDPValue, false),
-            gdpRatio: lastRatio
-          });
-        }}>
+        <g
+          data-testid="customSlices"
+          onMouseLeave={() => {
+            setTotalSpendingHeadingValues({
+              fiscalYear: maxYear,
+              totalSpending: simplifyNumber(lastSpendingValue, false),
+              gdp: simplifyNumber(lastGDPValue, false),
+              gdpRatio: lastRatio,
+            });
+          }}
+        >
           {props.slices.map(slice => (
             <rect
               x={slice.x0}
@@ -441,20 +439,23 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                 } else if (selectedChartView == 'percentageGdp') {
                   const percentData = slice.points[0].data;
                   if (percentData) {
-                    setTotalSpendingHeadingValues({ ...totalSpendingHeadingValues, fiscalYear: percentData.x, gdpRatio: percentData.y + "%" });
+                    setTotalSpendingHeadingValues({
+                      ...totalSpendingHeadingValues,
+                      fiscalYear: percentData.x,
+                      gdpRatio: percentData.y + '%',
+                    });
                   }
                 }
-
               }}
               onMouseLeave={() => {
-                props.setCurrentSlice(null)
+                props.setCurrentSlice(null);
               }}
             />
           ))}
         </g>
-      )
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -473,7 +474,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               date={lastUpdatedDate}
               header={dataHeader(chartToggleConfig, totalSpendingHeadingValues)}
               altText={chartCopy.altText}
-              customHeaderStyles={{ marginTop: "0.5rem", marginBottom: "0" }}
+              customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
             >
               <div className={lineChart} data-testid={'chartParent'}>
                 <Line
@@ -486,9 +487,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                     'areas',
                     'lines',
                     'points',
-                    // 'slices',
-                    CustomPoint,
-                    CustomSlices,                    
+                    CustomPoints,
+                    CustomSlices,
                     'mesh',
                     'legends',
                   ]}
@@ -508,8 +508,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                       line: {
                         stroke: '#555555',
                         strokeWidth: 2,
-                      }
-                    }
+                      },
+                    },
                   }}
                   colors={d => d.color}
                   width={550}
@@ -551,7 +551,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   sliceTooltip={() => null}
                   tooltip={() => null}
                   enableSlices={'x'}
-                  markers={getMarkers(width, selectedChartView, minGDPValue, maxSpendingValue)}
+                  markers={getMarkers(
+                    width,
+                    selectedChartView,
+                    minGDPValue,
+                    maxSpendingValue
+                  )}
                 ></Line>
               </div>
             </ChartContainer>
