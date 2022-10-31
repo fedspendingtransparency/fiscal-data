@@ -18,12 +18,16 @@ const footer = (
   </p>
 );
 
-export const chartCopy = {
-  title: "Government Spending and the U.S. Economy (GDP), FY 2015 – 2021",
-  subtitle: "Inflation Adjusted - 2021 Dollars",
+
+
+export const getChartCopy = (minYear, maxYear) => {
+  return {
+  title: `Government Spending and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
+  subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
   footer: footer,
   altText:
     "Line graph comparing the total federal spending to the total GDP dollar amount.",
+  }
 };
 
 const getFirstElPadding = (chartView, isMobile) => {

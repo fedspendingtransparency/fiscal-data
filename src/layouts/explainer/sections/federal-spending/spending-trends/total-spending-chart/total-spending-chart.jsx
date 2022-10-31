@@ -9,7 +9,7 @@ import {
 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import {
-  chartCopy,
+  getChartCopy,
   dataHeader,
   chartConfigs,
   getMarkers,
@@ -44,7 +44,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [minYear, setMinYear] = useState(2015);
-  const [maxYear, setMaxYear] = useState(0);
+  const [maxYear, setMaxYear] = useState(2022);
   const [maxAmount, setMaxAmount] = useState(0);
   const [callOutYear, setCallOutYear] = useState('');
   const [firstRatio, setFirstRatio] = useState('');
@@ -268,7 +268,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   : gdpMaxAmount) / 5
               ) * 5;
             setMaxAmount(maxAmount);
-            setIsLoading(false);
+            
             setFirstRatio(
               numeral(
                 finalSpendingChartData[0].y / finalGDPChartData[0].y
@@ -294,7 +294,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
               gdp: simplifyNumber(chartLastGDPValue, false),
               gdpRatio: chartLastRatio,
             });
+            setIsLoading(false);
             applyChartScaling();
+            
           }
         });
       }
@@ -372,6 +374,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     }
   }
 
+  const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altTex: chartAltText} = getChartCopy(minYear, maxYear);
 
   return (
     <>
@@ -385,12 +388,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
           <div className={container}>
             
             <ChartContainer
-              title={chartCopy.title}
-              subTitle={chartCopy.subtitle}
-              footer={chartCopy.footer}
+              title={chartTitle}
+              subTitle={chartSubtitle}
+              footer={chartFooter}
               date={lastUpdatedDate}
               header={dataHeader(chartToggleConfig, totalSpendingHeadingValues)}
-              altText={chartCopy.altText}
+              altText={chartAltText}
               customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
             >
               <div className={lineChart} data-testid={'chartParent'}>
