@@ -21,7 +21,11 @@ import GlossaryTerm from "../../../../../../components/glossary-term/glossary-te
 import FolderTabEdgeRight from "./folder-illustration-svgs/folder-tab-edge-right";
 import FolderTabEdgeRightLast from "./folder-illustration-svgs/folder-tab-edge-right-last";
 import FolderTabEdgeLeft from "./folder-illustration-svgs/folder-tab-edge-left";
-
+import FolderTabEdgeLeftMobile from "./folder-illustration-svgs/mobile/folder-tab-edge-left-mobile";
+import FolderTabEdgeRightMobile
+  from "./folder-illustration-svgs/mobile/folder-tab-edge-right-mobile";
+import FolderTabEdgeRightLastMobile
+  from "./folder-illustration-svgs/mobile/folder-tab-edge-right-last-mobile";
 
 const SurplusIllustration = ({glossary, width}) => {
   const tabListStyle = {
@@ -93,27 +97,27 @@ const SurplusIllustration = ({glossary, width}) => {
         <TabList style={tabListStyle}>
           <Tab style={tabStyle} data-testid={'surplus-tab'}>
             <div className={tabBaselineWhiteout} />
-            <FolderTabEdgeLeft />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Surplus
             </div>
-            <FolderTabEdgeRight />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
           <Tab style={tabStyle} data-testid={'budget-tab'}>
             <div className={tabBaselineWhiteout} />
-            <FolderTabEdgeLeft />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Balanced Budget
             </div>
-            <FolderTabEdgeRight />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
           <Tab style={tabStyle} data-testid={'deficit-tab'}>
             <div className={tabBaselineWhiteout} />
-            <FolderTabEdgeLeft />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Deficit
             </div>
-            <FolderTabEdgeRightLast />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightLastMobile /> : <FolderTabEdgeRightLastMobile /> }
           </Tab>
         </TabList>
         <TabPanel>
