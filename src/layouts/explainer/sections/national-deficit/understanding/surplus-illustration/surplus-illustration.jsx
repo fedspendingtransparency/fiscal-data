@@ -5,7 +5,7 @@ import {
   title,
   folderContent,
   tabBaselineWhiteout,
-  bounce2
+  folderWhiteOutLine
 }
 from "./surplus-illustration.module.scss";
 import surplus from "../../../../../../images/explainer/national-deficit/surplus.png";
@@ -19,6 +19,7 @@ import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper"
 import {breakpointLg} from "../../../../../../variables.module.scss";
 import GlossaryTerm from "../../../../../../components/glossary-term/glossary-term";
 import FolderTabEdgeRight from "./folder-illustration-svgs/folder-tab-edge-right";
+import FolderTabEdgeRightLast from "./folder-illustration-svgs/folder-tab-edge-right-last";
 import FolderTabEdgeLeft from "./folder-illustration-svgs/folder-tab-edge-left";
 
 
@@ -57,18 +58,25 @@ const SurplusIllustration = ({glossary, width}) => {
     paddingLeft: '8px',
   };
 
-
+  let renderCounter = 0;
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        console.log('class added');
-        entry.target.classList.add('bounce2');
+        if (entry.target.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
+          entry.target.classList.add('bounce');
+          renderCounter += 1;
+        }
+        else if (entry.target.innerHTML.includes('Deficit') && renderCounter < 2) {
+          entry.target.classList.add('bounceDeficit');
+          renderCounter += 1;
+        }
       }
     })
   });
 
   setTimeout(() => observer.observe(document.querySelector('[data-testid="budget-tab"]')), 1000);
+  setTimeout(() => observer.observe(document.querySelector('[data-testid="deficit-tab"]')), 1000);
 
 
   const tabStyle = width < pxToNumber(breakpointLg) ? tabStyleMobile : tabStyleDesktop;
@@ -80,6 +88,7 @@ const SurplusIllustration = ({glossary, width}) => {
 
   return (
     <div className={folderVisContainer} data-testid={'surplus-illustration'}>
+      <div className={folderWhiteOutLine} />
       <Tabs>
         <TabList style={tabListStyle}>
           <Tab style={tabStyle} data-testid={'surplus-tab'}>
@@ -104,7 +113,7 @@ const SurplusIllustration = ({glossary, width}) => {
             <div className={title}>
               Deficit
             </div>
-            <FolderTabEdgeRight />
+            <FolderTabEdgeRightLast />
           </Tab>
         </TabList>
         <TabPanel>
