@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { Line } from "@nivo/line";
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../../helpers/styles-helper/styles-helper";
@@ -27,6 +27,13 @@ import {lineChartCustomPoints, lineChartCustomSlices} from "../../../../federal-
 import { ConnectableObservable } from "rxjs";
 
 const TotalRevenueChart = ({width}) => {
+
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({
+    fiscalYear: 2022,
+    totalRevenue: 25,
+    gdp: 8.5,
+    gdpRatio: 39,
+  });
 
   const chartParent = "totalRevenueChartParent";
   const chartWidth = 550;
@@ -63,6 +70,10 @@ const TotalRevenueChart = ({width}) => {
         {
           "x": 2021,
           "y": 22
+        },
+        {
+          "x": 2022,
+          "y": 25
         }
       ]
     },
@@ -97,10 +108,23 @@ const TotalRevenueChart = ({width}) => {
         {
           "x": 2021,
           "y": 8
+        },
+        {
+          "x": 2022,
+          "y": 8.5
         }
       ]
     }
   ];
+  
+  const handleGroupOnMouseLeave = () => {
+    setTotalRevenueHeadingValues({
+      fiscalYear: 2022,
+      totalRevenue: 25,
+      gdp: 8.5,
+      gdpRatio: 39,
+    });
+  }
 
 
   useEffect(() => {
@@ -111,12 +135,17 @@ const TotalRevenueChart = ({width}) => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width])
 
-  const handleGroupOnMouseLeave = () => {
-    console.log("set headers");
-  }
   const handleMouseLeave = (slice) => {
-    
-    console.log(slice);
+    const spendingData = slice.points[0].data;
+    const gdpData = slice.points[1].data;
+    if (spendingData && gdpData) {
+      setTotalRevenueHeadingValues({
+        ...totalRevenueHeadingValues,
+        totalRevenue: spendingData.y,
+        fiscalYear: spendingData.x,
+        gdp: gdpData.y,
+      });
+    }
   }
 
   return (
@@ -128,7 +157,7 @@ const TotalRevenueChart = ({width}) => {
             subTitle={chartCopy.subtitle}
             footer={chartCopy.footer}
             date={new Date()}
-            header={dataHeader()}
+            header={dataHeader(totalRevenueHeadingValues)}
             altText={chartCopy.altText}
           >
             <div className={lineChart} data-testid={chartParent}>
@@ -186,18 +215,14 @@ const TotalRevenueChart = ({width}) => {
                   yScale={{
                     type: 'linear',
                     min: 0,
-                    max: selectedChartView === 'percentageGdp' ? 50 : maxAmount,
+                    max: 30,
                     stacked: false,
                     reverse: false,
                   }}
                   axisTop={null}
                   axisRight={null}
                   axisBottom={chartConfigs.axisBottom}
-                  axisLeft={
-                    selectedChartView === 'percentageGdp'
-                      ? chartConfigs.axisLeftPercent
-                      : chartConfigs.axisLeftSpending
-                  }
+                  axisLeft={chartConfigs.axisLeft}
                   useMesh={true}
                   isInteractive={true}
                   enableCrosshair={true}

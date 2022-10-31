@@ -372,7 +372,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     }
   }
 
-  //const CustomSlices = (props) => lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave );
 
   return (
     <>
