@@ -12,7 +12,7 @@ import surplus from "../../../../../../images/explainer/national-deficit/surplus
 import balancedBudget
   from "../../../../../../images/explainer/national-deficit/balanced-budget.png";
 import deficit from "../../../../../../images/explainer/national-deficit/deficit.png";
-import React, {useEffect} from "react";
+import React from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
@@ -117,7 +117,7 @@ const SurplusIllustration = ({glossary, width}) => {
             <div className={title}>
               Deficit
             </div>
-            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightLastMobile /> : <FolderTabEdgeRightLastMobile /> }
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightLastMobile /> : <FolderTabEdgeRightLast /> }
           </Tab>
         </TabList>
         <TabPanel>

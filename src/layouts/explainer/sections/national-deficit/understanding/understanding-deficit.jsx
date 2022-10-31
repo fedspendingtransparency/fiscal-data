@@ -1,7 +1,6 @@
 import {
   understandingDeficitContainer,
-  textContent,
-  bounce2
+  textContent
 } from "./understanding-deficit.module.scss";
 import {deficitExplainerPrimary} from "../national-deficit.module.scss";
 import {visWithCallout} from "../../../explainer.module.scss";
