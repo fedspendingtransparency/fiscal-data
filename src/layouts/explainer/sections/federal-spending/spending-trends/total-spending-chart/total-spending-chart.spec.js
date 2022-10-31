@@ -136,4 +136,14 @@ describe("Total Spending Chart", () => {
     expect(await getByTestId("customSlices")).toBeInTheDocument();
     expect(await getByTestId("customSlices").querySelector('rect').length == 8 );
   });
+
+  it("renders the chart headers", async () => {
+    const fetchSpy = jest.spyOn(global, "fetch");
+    const { getAllByText, getByText } = render(
+      <TotalSpendingChart cpiDataByYear={mockCpiDataset} />
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await getByText("Government Spending and the U.S. Economy (GDP), FY 2015 – 2021", { exact: false })).toBeInTheDocument();
+    expect(await getByText("Inflation Adjusted - 2021 Dollars", { exact: false })).toBeInTheDocument();
+  });
 });
