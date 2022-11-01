@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { Line } from "@nivo/line";
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../../helpers/styles-helper/styles-helper";
@@ -23,13 +23,22 @@ import {
   applyChartScaling,
   applyTextScaling
 } from "../../../../../explainer-helpers/explainer-charting-helper";
+import {lineChartCustomPoints, lineChartCustomSlices} from "../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper"
+import { ConnectableObservable } from "rxjs";
 
 const TotalRevenueChart = ({width}) => {
+
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({
+    fiscalYear: 2022,
+    totalRevenue: 25,
+    gdp: 8.5,
+    gdpRatio: 39,
+  });
 
   const chartParent = "totalRevenueChartParent";
   const chartWidth = 550;
   const chartHeight = 490;
-  const data = [
+  const chartData = [
     {
       "id": "GDP",
       "color": "#666666",
@@ -61,11 +70,15 @@ const TotalRevenueChart = ({width}) => {
         {
           "x": 2021,
           "y": 22
+        },
+        {
+          "x": 2022,
+          "y": 25
         }
       ]
     },
     {
-      "id": "Total Spending",
+      "id": "Total Revenue",
       "color": "#666666",
       "data": [
         {
@@ -95,10 +108,23 @@ const TotalRevenueChart = ({width}) => {
         {
           "x": 2021,
           "y": 8
+        },
+        {
+          "x": 2022,
+          "y": 8.5
         }
       ]
     }
   ];
+  
+  const handleGroupOnMouseLeave = () => {
+    setTotalRevenueHeadingValues({
+      fiscalYear: 2022,
+      totalRevenue: 25,
+      gdp: 8.5,
+      gdpRatio: 39,
+    });
+  }
 
 
   useEffect(() => {
@@ -109,6 +135,19 @@ const TotalRevenueChart = ({width}) => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width])
 
+  const handleMouseLeave = (slice) => {
+    const spendingData = slice.points[0].data;
+    const gdpData = slice.points[1].data;
+    if (spendingData && gdpData) {
+      setTotalRevenueHeadingValues({
+        ...totalRevenueHeadingValues,
+        totalRevenue: spendingData.y,
+        fiscalYear: spendingData.x,
+        gdp: gdpData.y,
+      });
+    }
+  }
+
   return (
     <>
       <div className={visWithCallout}>
@@ -118,56 +157,84 @@ const TotalRevenueChart = ({width}) => {
             subTitle={chartCopy.subtitle}
             footer={chartCopy.footer}
             date={new Date()}
-            header={dataHeader()}
+            header={dataHeader(totalRevenueHeadingValues)}
             altText={chartCopy.altText}
           >
             <div className={lineChart} data-testid={chartParent}>
-              <Line
-                data={data}
-                layers={chartConfigs.layers}
-                theme={{
-                  ...chartConfigs.theme,
-                  fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-                  marker: {
-                    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+            <Line
+                  data={chartData}
+                  layers={[
+                    'grid',
+                    'crosshair',
+                    'markers',
+                    'axes',
+                    'areas',
+                    'lines',
+                    'points',
+                    lineChartCustomPoints,
+                    (props) => lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                    'mesh',
+                    'legends',
+                  ]}
+                  theme={{
+                    ...chartConfigs.theme,
+                    fontSize:
+                      width < pxToNumber(breakpointLg)
+                        ? fontSize_10
+                        : fontSize_14,
+                    marker: {
+                      fontSize:
+                        width < pxToNumber(breakpointLg)
+                          ? fontSize_10
+                          : fontSize_14,
+                    },
+                    crosshair: {
+                      line: {
+                        stroke: '#555555',
+                        strokeWidth: 2,
+                      },
+                    },
+                  }}
+                  colors={d => d.color}
+                  width={550}
+                  height={400}
+                  margin={
+                    width < pxToNumber(breakpointLg)
+                      ? { top: 25, right: 25, bottom: 30, left: 55 }
+                      : { top: 20, right: 15, bottom: 35, left: 50 }
                   }
-                }}
-                colors={d => d.color}
-                width={ chartWidth }
-                height={ chartHeight}
-                margin={width < pxToNumber(breakpointLg) ?
-                  {top: 25, right: 25, bottom: 35, left: 65} :
-                  {top: 25, right: 15, bottom: 45, left: 50}
-                }
-                enablePoints={true}
-                pointSize={0}
-                enableGridX={false}
-                enableGridY={false}
-                xScale={{
-                  type: "linear",
-                  min: 2015,
-                  max: 2021
-                }}
-                yScale={{
-                  type: "linear",
-                  min: 0,
-                  max: 25,
-                  stacked: false,
-                  reverse: false
-                }}
-                axisTop={null}
-                axisRight={null}
-                axisBottom={chartConfigs.axisBottom}
-                axisLeft={chartConfigs.axisLeft}
-                useMesh={true}
-                isInteractive={true}
-                enableCrosshair={false}
-                crosshairType={'x'}
-                animate={false}
-                tooltip={() => null}
-                markers={getMarkers(width)}
-              >
-              </Line>
+                  enablePoints={true}
+                  pointSize={0}
+                  enableGridX={false}
+                  enableGridY={false}
+                  xScale={{
+                    type: 'linear',
+                    min: 2015,
+                    max: 2022,
+                  }}
+                  yScale={{
+                    type: 'linear',
+                    min: 0,
+                    max: 30,
+                    stacked: false,
+                    reverse: false,
+                  }}
+                  axisTop={null}
+                  axisRight={null}
+                  axisBottom={chartConfigs.axisBottom}
+                  axisLeft={chartConfigs.axisLeft}
+                  useMesh={true}
+                  isInteractive={true}
+                  enableCrosshair={true}
+                  crosshairType={'x'}
+                  animate={false}
+                  sliceTooltip={() => null}
+                  tooltip={() => null}
+                  enableSlices={'x'}
+                  markers={getMarkers(
+                    width
+                  )}
+                ></Line>
             </div>
           </ChartContainer>
         </div>
