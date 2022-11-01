@@ -46,7 +46,7 @@ describe('Federal Spending Overview', () => {
     expect(await getByText("resulting in a surplus", {exact: false})).toBeInTheDocument();
   });
 
-  it('loads the evergreen data correctly for a deficit', async () => {
+  it.skip('loads the evergreen data correctly for a deficit', async () => {
   const mockData = {
     "data": [{
       "current_fytd_net_outly_amt": "-2515067070149.23",
