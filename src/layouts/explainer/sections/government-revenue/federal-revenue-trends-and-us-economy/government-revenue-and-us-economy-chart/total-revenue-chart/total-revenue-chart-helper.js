@@ -9,7 +9,7 @@ import {
 } from '../../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import { formatCurrency } from '../../../../../explainer-helpers/explainer-charting-helper';
-
+import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 const mts = (
   <CustomLink
     url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`}
@@ -67,15 +67,19 @@ export const dataHeader = chartToggleConfig => {
             borderBottomLeftRadius: '4px',
             borderTopLeftRadius: '4px',
             color:
-              selectedChartView === 'totalSpending' ? '#f1f1f1' : '#00766C',
+              selectedChartView === 'totalRevenue'
+                ? '#f1f1f1'
+                : revenueExplainerPrimary,
             background:
-              selectedChartView === 'totalSpending' ? '#00766C' : '#f1f1f1',
+              selectedChartView === 'totalRevenue'
+                ? revenueExplainerPrimary
+                : '#f1f1f1',
             borderRight: 'none',
             width: isMobile ? '144px' : '224px',
             height: isMobile ? '1.5rem' : '2rem',
           }}
           onClick={() => {
-            setSelectedChartView('totalSpending');
+            setSelectedChartView('totalRevenue');
           }}
         >
           <span
@@ -86,7 +90,7 @@ export const dataHeader = chartToggleConfig => {
               fontWeight: '600',
             }}
           >
-            Total Spending
+            Total Revenue
           </span>
         </button>
         <button
@@ -95,9 +99,13 @@ export const dataHeader = chartToggleConfig => {
             borderBottomRightRadius: '4px',
             borderTopRightRadius: '4px',
             color:
-              selectedChartView === 'percentageGdp' ? '#f1f1f1' : '#00766C',
+              selectedChartView === 'percentageGdp'
+                ? '#f1f1f1'
+                : revenueExplainerPrimary,
             background:
-              selectedChartView === 'percentageGdp' ? '#00766C' : '#f1f1f1',
+              selectedChartView === 'percentageGdp'
+                ? revenueExplainerPrimary
+                : '#f1f1f1',
             width: isMobile ? '144px' : '224px',
             height: isMobile ? '1.5rem' : '2rem',
           }}
@@ -189,7 +197,7 @@ export const chartConfigs = {
   },
 };
 
-export const getMarkers = width => {
+export const getMarkers = (width, selectedChartView) => {
   const markerStyle = {
     axis: 'y',
     lineStyle: { strokeWidth: 0 },
@@ -200,16 +208,18 @@ export const getMarkers = width => {
     },
   };
 
-  return [
-    {
-      ...markerStyle,
-      legend: 'GDP',
-      value: '22.5',
-    },
-    {
-      ...markerStyle,
-      legend: 'Total Revenue',
-      value: '8.5',
-    },
-  ];
+  return selectedChartView === 'percentageGdp'
+    ? []
+    : [
+        {
+          ...markerStyle,
+          legend: 'GDP',
+          value: '22.5',
+        },
+        {
+          ...markerStyle,
+          legend: 'Total Revenue',
+          value: '8.5',
+        },
+      ];
 };

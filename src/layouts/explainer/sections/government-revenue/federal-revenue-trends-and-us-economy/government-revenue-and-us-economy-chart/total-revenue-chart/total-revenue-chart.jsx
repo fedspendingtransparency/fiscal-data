@@ -24,12 +24,49 @@ import {
 } from '../../../../../explainer-helpers/explainer-charting-helper';
 
 const TotalRevenueChart = ({ width }) => {
-  const [selectedChartView, setSelectedChartView] = useState('totalSpending');
-  const [isMobile, setIsMobile] = useState(true);
-  const chartParent = 'totalRevenueChartParent';
-  const chartWidth = 550;
-  const chartHeight = 490;
-  const data = [
+  // const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
+
+  const mockPercentageData = [
+    {
+      id: 'GDP Percentage',
+      color: '#666666',
+      data: [
+        {
+          x: '2015',
+          y: '20%',
+        },
+        {
+          x: '2016',
+          y: '21%',
+        },
+        {
+          x: '2017',
+          y: '21%',
+        },
+        {
+          x: '2018',
+          y: '20%',
+        },
+        {
+          x: '2019',
+          y: '21%',
+        },
+        {
+          x: '2020',
+          y: '31%',
+        },
+        {
+          x: '2021',
+          y: '30%',
+        },
+        {
+          x: '2022',
+          y: '25%',
+        },
+      ],
+    },
+  ];
+  const totalData = [
     {
       id: 'GDP',
       color: '#666666',
@@ -65,7 +102,7 @@ const TotalRevenueChart = ({ width }) => {
       ],
     },
     {
-      id: 'Total Spending',
+      id: 'Total Revenue',
       color: '#666666',
       data: [
         {
@@ -99,6 +136,13 @@ const TotalRevenueChart = ({ width }) => {
       ],
     },
   ];
+  const [selectedChartView, setSelectedChartView] = useState('totalRevenue');
+  const [chartData, setChartData] = useState(totalData);
+
+  const [isMobile, setIsMobile] = useState(true);
+  const chartParent = 'totalRevenueChartParent';
+  const chartWidth = 550;
+  const chartHeight = 490;
 
   useEffect(() => {
     applyChartScaling(
@@ -131,6 +175,16 @@ const TotalRevenueChart = ({ width }) => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width, chartToggleConfig]);
 
+  useEffect(() => {
+    if (!selectedChartView) return;
+    if (selectedChartView === 'percentageGdp') {
+      setChartData(mockPercentageData);
+    }
+    if (selectedChartView === 'totalRevenue' && chartData.length) {
+      setChartData(totalData);
+    }
+  }, [selectedChartView]);
+
   return (
     <>
       <div className={visWithCallout}>
@@ -145,7 +199,7 @@ const TotalRevenueChart = ({ width }) => {
           >
             <div className={lineChart} data-testid={chartParent}>
               <Line
-                data={data}
+                data={chartData}
                 layers={chartConfigs.layers}
                 theme={{
                   ...chartConfigs.theme,
@@ -180,7 +234,7 @@ const TotalRevenueChart = ({ width }) => {
                 yScale={{
                   type: 'linear',
                   min: 0,
-                  max: 25,
+                  max: selectedChartView === 'percentageGdp' ? 50 : 25,
                   stacked: false,
                   reverse: false,
                 }}
@@ -194,7 +248,7 @@ const TotalRevenueChart = ({ width }) => {
                 crosshairType={'x'}
                 animate={false}
                 tooltip={() => null}
-                markers={getMarkers(width)}
+                markers={getMarkers(width, selectedChartView)}
               ></Line>
             </div>
           </ChartContainer>

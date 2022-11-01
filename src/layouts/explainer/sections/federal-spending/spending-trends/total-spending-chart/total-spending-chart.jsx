@@ -14,7 +14,7 @@ import {
   chartConfigs,
   getMarkers,
   lineChartCustomSlices,
-  lineChartCustomPoints
+  lineChartCustomPoints,
 } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
@@ -268,7 +268,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   : gdpMaxAmount) / 5
               ) * 5;
             setMaxAmount(maxAmount);
-            
+
             setFirstRatio(
               numeral(
                 finalSpendingChartData[0].y / finalGDPChartData[0].y
@@ -296,7 +296,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             });
             setIsLoading(false);
             applyChartScaling();
-            
           }
         });
       }
@@ -340,8 +339,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
 
-  
-
   const handleGroupOnMouseLeave = () => {
     setTotalSpendingHeadingValues({
       fiscalYear: maxYear,
@@ -349,8 +346,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       gdp: simplifyNumber(lastGDPValue, false),
       gdpRatio: lastRatio,
     });
-  }
-  const handleMouseLeave = (slice) => {
+  };
+  const handleMouseLeave = slice => {
     if (selectedChartView == 'totalSpending') {
       const spendingData = slice.points[0].data;
       const gdpData = slice.points[1].data;
@@ -372,9 +369,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
         });
       }
     }
-  }
+  };
 
-  const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altTex: chartAltText} = getChartCopy(minYear, maxYear);
+  const {
+    title: chartTitle,
+    subtitle: chartSubtitle,
+    footer: chartFooter,
+    altTex: chartAltText,
+  } = getChartCopy(minYear, maxYear);
 
   return (
     <>
@@ -386,7 +388,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
           <div className={container}>
-            
             <ChartContainer
               title={chartTitle}
               subTitle={chartSubtitle}
@@ -408,7 +409,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                     'lines',
                     'points',
                     lineChartCustomPoints,
-                    (props) => lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                    props =>
+                      lineChartCustomSlices(
+                        props,
+                        handleGroupOnMouseLeave,
+                        handleMouseLeave
+                      ),
                     'mesh',
                     'legends',
                   ]}
