@@ -40,7 +40,6 @@ export const chartCopy = {
 };
 
 export const dataHeader = chartToggleConfig => {
-  console.log(chartToggleConfig, 'chartToggleConfig');
   if (!chartToggleConfig) return;
   const {
     setSelectedChartView,
