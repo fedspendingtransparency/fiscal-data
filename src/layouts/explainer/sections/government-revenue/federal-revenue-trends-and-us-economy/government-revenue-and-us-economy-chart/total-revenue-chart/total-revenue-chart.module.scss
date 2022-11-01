@@ -8,6 +8,14 @@
 .container {
   overflow: hidden;
 
+  .chartToggle {
+    display: flex;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+
   .toggleButton {
     width: 50%;
     margin-bottom: 2%;
