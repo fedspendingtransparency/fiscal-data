@@ -1,38 +1,40 @@
-import React, { useEffect, useRef, useState } from "react"
-import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
+import React, { useEffect, useRef, useState } from 'react';
+import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { CirclePacking } from '@nivo/circle-packing';
 import {
   totalRevenueDataPill,
   dataContent,
   chartSize,
-} from "./sources-of-revenue-circle-chart.module.scss";
-import { withWindowSize } from "react-fns";
-import {breakpointLg, fontSize_12} from "../../../../../../variables.module.scss";
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
-import {getShortForm} from "../../../../heros/hero-helper";
-import {visWithCallout} from "../../../../explainer.module.scss";
-import VisualizationCallout
-  from "../../../../../../components/visualization-callout/visualization-callout";
-import {revenueExplainerPrimary} from "../../revenue.module.scss";
+} from './sources-of-revenue-circle-chart.module.scss';
+import { withWindowSize } from 'react-fns';
+import {
+  breakpointLg,
+  fontSize_12,
+} from '../../../../../../variables.module.scss';
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
+import { getShortForm } from '../../../../heros/hero-helper';
+import { visWithCallout } from '../../../../explainer.module.scss';
+import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
+import { revenueExplainerPrimary } from '../../revenue.module.scss';
 import {
   title,
   subTitle,
   footer,
-  dataHeader
-} from "./sources-of-revenue-circle-chart-helper";
+  dataHeader,
+} from './sources-of-revenue-circle-chart-helper';
 
-import LabelComponent from "./circle-chart-label";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import LabelComponent from './circle-chart-label';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 
 const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
   const defaultCategory = {
-    name: "Individual Income Taxes",
-    color: "rgb(10, 47, 90)",
-    location: 0
+    name: 'Individual Income Taxes',
+    color: 'rgb(10, 47, 90)',
+    location: 0,
   };
 
   const [totalRevenue, setTotalRevenue] = useState(0);
@@ -49,151 +51,152 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [chartData, setChartData] = useState({});
   const [categoryData, setCategoryData] = useState(null);
 
-  const [chartAltText, setChartAltText] = useState("");
+  const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
   useEffect(() => {
     const url =
       'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
-    basicFetch(`${apiPrefix}${url}`)
-      .then((res) => {
-        if(res.data[0]) {
-          setFiscalYear(res.data[0].record_fiscal_year);
-          setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
-        }
+    basicFetch(`${apiPrefix}${url}`).then(res => {
+      if (res.data[0]) {
+        setFiscalYear(res.data[0].record_fiscal_year);
+        setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
+      }
     });
-    const categoryUrl= 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&'+
+    const categoryUrl =
+      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&' +
       'sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
-    basicFetch(`${apiPrefix}${categoryUrl}`)
-      .then((res) => {
-        if (res.data[0]) {
-          setCategoryData(res.data)
-        }
-      });
+    basicFetch(`${apiPrefix}${categoryUrl}`).then(res => {
+      if (res.data[0]) {
+        setCategoryData(res.data);
+      }
+    });
   }, []);
 
   useEffect(() => {
     const url =
-      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)'+
+      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)' +
       '&sort=-record_date&page[size]=2';
-    basicFetch(`${apiPrefix}${url}`)
-      .then((res) => {
-        if(res.data[0] && res.data[1]) {
-          const income = Number(res.data[0]?.current_fytd_rcpt_outly_amt) +
-            Number(res.data[1].current_fytd_rcpt_outly_amt);
-          setCombinedIncomeAmount(income);
-          setCombinedIncomePercent(combinedIncomeAmount / totalRevenue * 100);
-        }
-      })
-  }, [
-    totalRevenue,
-    combinedIncomeAmount
-  ]);
+    basicFetch(`${apiPrefix}${url}`).then(res => {
+      if (res.data[0] && res.data[1]) {
+        const income =
+          Number(res.data[0]?.current_fytd_rcpt_outly_amt) +
+          Number(res.data[1].current_fytd_rcpt_outly_amt);
+        setCombinedIncomeAmount(income);
+        setCombinedIncomePercent((combinedIncomeAmount / totalRevenue) * 100);
+      }
+    });
+  }, [totalRevenue, combinedIncomeAmount]);
 
   useEffect(() => {
     if (categoryData) {
-
-      setRecordDate(getDateWithoutTimeZoneAdjust(new Date(categoryData[0].record_date)));
+      setRecordDate(
+        getDateWithoutTimeZoneAdjust(new Date(categoryData[0].record_date))
+      );
 
       const data = [];
       let totalRev = 0;
-      const getDataValue = (lineNbr) =>
-        categoryData.filter((record) => {return record.line_code_nbr === lineNbr});
-      let nodeValue = getDataValue("20")[0]?.current_fytd_rcpt_outly_amt;
+      const getDataValue = lineNbr =>
+        categoryData.filter(record => {
+          return record.line_code_nbr === lineNbr;
+        });
+      let nodeValue = getDataValue('20')[0]?.current_fytd_rcpt_outly_amt;
       totalRev += Number(nodeValue);
       const incomeTax = {
-        "id": "Individual Income Taxes",
-        "color": defaultCategory.color,
-        "value": nodeValue,
-      }
+        id: 'Individual Income Taxes',
+        color: defaultCategory.color,
+        value: nodeValue,
+      };
 
-      nodeValue = (Number(getDataValue("50")[0]?.current_fytd_rcpt_outly_amt) +
-                  Number(getDataValue("60")[0]?.current_fytd_rcpt_outly_amt) +
-                  Number(getDataValue("70")[0]?.current_fytd_rcpt_outly_amt)).toString();
+      nodeValue = (
+        Number(getDataValue('50')[0]?.current_fytd_rcpt_outly_amt) +
+        Number(getDataValue('60')[0]?.current_fytd_rcpt_outly_amt) +
+        Number(getDataValue('70')[0]?.current_fytd_rcpt_outly_amt)
+      ).toString();
       totalRev += Number(nodeValue);
       const socialSecurityMedicare = {
-        "id": "Social Security and Medicare Taxes",
-        "color": "rgb(235, 81, 96)",
-        "value": nodeValue,
+        id: 'Social Security and Medicare Taxes',
+        color: 'rgb(235, 81, 96)',
+        value: nodeValue,
       };
 
-      nodeValue = getDataValue("30")[0]?.current_fytd_rcpt_outly_amt;
+      nodeValue = getDataValue('30')[0]?.current_fytd_rcpt_outly_amt;
       totalRev += Number(nodeValue);
       const corporateIncome = {
-        "id": "Corporate Income Taxes",
-        "color": "rgb(193, 63, 119)",
-        "value": nodeValue,
+        id: 'Corporate Income Taxes',
+        color: 'rgb(193, 63, 119)',
+        value: nodeValue,
       };
 
-      nodeValue = getDataValue("110")[0]?.current_fytd_rcpt_outly_amt;
+      nodeValue = getDataValue('110')[0]?.current_fytd_rcpt_outly_amt;
       totalRev += Number(nodeValue);
       const misc = {
-        "id": "Miscellaneous Income",
-        "color": "rgb(255, 119, 62)",
-        "value": nodeValue,
+        id: 'Miscellaneous Income',
+        color: 'rgb(255, 119, 62)',
+        value: nodeValue,
       };
 
-      nodeValue = getDataValue("100")[0]?.current_fytd_rcpt_outly_amt;
+      nodeValue = getDataValue('100')[0]?.current_fytd_rcpt_outly_amt;
       totalRev += Number(nodeValue);
       const customsDuties = {
-        "id": "Customs Duties",
-        "color": "rgb(255, 166, 0)",
-        "value": nodeValue,
+        id: 'Customs Duties',
+        color: 'rgb(255, 166, 0)',
+        value: nodeValue,
       };
 
-      nodeValue = getDataValue("90")[0]?.current_fytd_rcpt_outly_amt;
+      nodeValue = getDataValue('90')[0]?.current_fytd_rcpt_outly_amt;
       totalRev += Number(nodeValue);
-      const estateTax =  {
-        "id": "Estate & Gift Taxes",
-        "color": "rgb(75, 57, 116)",
-        "value": nodeValue,
+      const estateTax = {
+        id: 'Estate & Gift Taxes',
+        color: 'rgb(75, 57, 116)',
+        value: nodeValue,
       };
 
-      nodeValue = getDataValue("80")[0]?.current_fytd_rcpt_outly_amt;
+      nodeValue = getDataValue('80')[0]?.current_fytd_rcpt_outly_amt;
       totalRev += Number(nodeValue);
       const exciseTax = {
-        "id": "Excise Taxes",
-        "value": nodeValue,
-        "color": "rgb(136, 60, 127)"
+        id: 'Excise Taxes',
+        value: nodeValue,
+        color: 'rgb(136, 60, 127)',
       };
 
-      if(categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
-        setCategoryRevenuePercent(Number(incomeTax.value) / totalRev * 100);
+      if (categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
+        setCategoryRevenuePercent((Number(incomeTax.value) / totalRev) * 100);
         setCategoryRevenueAmount(Number(incomeTax.value));
       }
 
       data.push({
         ...incomeTax,
-        "percent": Number(incomeTax.value) / totalRev,
+        percent: Number(incomeTax.value) / totalRev,
       });
 
       data.push({
         ...corporateIncome,
-        "percent": Number(corporateIncome.value) / totalRev,
+        percent: Number(corporateIncome.value) / totalRev,
       });
       data.push({
         ...socialSecurityMedicare,
-        "percent": Number(socialSecurityMedicare.value) / totalRev,
+        percent: Number(socialSecurityMedicare.value) / totalRev,
       });
       data.push({
         ...misc,
-        "percent": Number(misc.value) / totalRev,
+        percent: Number(misc.value) / totalRev,
       });
       data.push({
         ...customsDuties,
-        "percent": Number(customsDuties.value) / totalRev,
+        percent: Number(customsDuties.value) / totalRev,
       });
       data.push({
         ...estateTax,
-        "percent": Number(estateTax.value) / totalRev,
+        percent: Number(estateTax.value) / totalRev,
       });
       data.push({
         ...exciseTax,
-        "percent": Number(exciseTax.value) / totalRev,
+        percent: Number(exciseTax.value) / totalRev,
       });
-      setChartData({children: data});
+      setChartData({ children: data });
 
-      if(chartAltText === ""){
-        const altTextData = data.slice().sort((a,b) => b.value - a.value);
+      if (chartAltText === '') {
+        const altTextData = data.slice().sort((a, b) => b.value - a.value);
         const altText = `A cluster of seven different colored and sized circles representing
         the different U.S. government revenue source categories and how much each source
         contributes to the overall revenue respectively. ${altTextData[0].id} is the largest
@@ -205,11 +208,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
     // allow time for chart to render following data load
     setTimeout(highlightDefaultCircle, 1000);
-  }, [
-    categoryData
-  ]);
-
-
+  }, [categoryData]);
 
   useEffect(() => {
     if (elementToFocus) {
@@ -218,12 +217,14 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         element?.focus();
       }, focusDelay);
     }
-  }, [elementToFocus])
+  }, [elementToFocus]);
 
-  const increaseOpacity = (node) => {
-    const circleElem = document.querySelector(`[cx="${node.x}"][cy="${node.y}"]`);
+  const increaseOpacity = node => {
+    const circleElem = document.querySelector(
+      `[cx="${node.x}"][cy="${node.y}"]`
+    );
     circleElem?.classList.add('selected');
-  }
+  };
 
   const decreaseOpacity = () => {
     const selectElems = document.querySelectorAll('circle.selected');
@@ -232,17 +233,19 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         elem.classList.remove('selected');
       });
     }
-  }
+  };
 
   const HandleLabelClick = (node, e) => {
     if (e) {
       e.stopPropagation();
       e.preventDefault();
 
-      const circleElem = document.querySelector(`[cx="${node.x}"][cy="${node.y}"]`);
-      HandleMouseEnter(node, {target: circleElem});
+      const circleElem = document.querySelector(
+        `[cx="${node.x}"][cy="${node.y}"]`
+      );
+      HandleMouseEnter(node, { target: circleElem });
     }
-  }
+  };
   const HandleMouseEnter = (node, e, elementId) => {
     if (e.preventDefault) {
       e.preventDefault();
@@ -257,96 +260,110 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
       setCategoryRevenueAmount(node.value);
       setCategoryRevenuePercent(node.percentage);
       // set focus on next element after this series of re-renders
-      setElementToFocus(elementId)
+      setElementToFocus(elementId);
     }
   };
 
   const highlightDefaultCircle = () => {
     if (document) {
-      document.querySelector(`[fill="${defaultCategory.color}"]`)
-        .classList.add('selected');
+      document
+        .querySelector(`[fill="${defaultCategory.color}"]`)
+        ?.classList.add('selected');
     }
   };
 
   const HandleChartMouseLeave = () => {
-    if(chartData !== {}) {
+    if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();
       setCategoryName(defaultCategory.name);
 
       if (chartData && chartData.children) {
-        setCategoryRevenueAmount(chartData.children[defaultCategory.location].value);
-        setCategoryRevenuePercent(chartData.children[defaultCategory.location].percent * 100);
+        setCategoryRevenueAmount(
+          chartData.children[defaultCategory.location].value
+        );
+        setCategoryRevenuePercent(
+          chartData.children[defaultCategory.location].percent * 100
+        );
       }
     }
-  }
+  };
   return (
     <>
       <div className={visWithCallout}>
         <ChartContainer
-          title={title +  fiscalYear}
+          title={title + fiscalYear}
           subTitle={subTitle}
-          header={dataHeader(categoryName, categoryRevenueAmount, categoryRevenuePercent)}
+          header={dataHeader(
+            categoryName,
+            categoryRevenueAmount,
+            categoryRevenuePercent
+          )}
           footer={footer}
           altText={chartAltText}
           date={recordDate}
-          customTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
-          customSubTitleStyles={width < pxToNumber(breakpointLg) ? {fontSize: fontSize_12}: {}}
+          customTitleStyles={
+            width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}
+          }
+          customSubTitleStyles={
+            width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}
+          }
         >
-      {chartData !== {} ? (
-          <div className={dataContent} >
-            <div
-              role="presentation"
-              className={chartSize}
-              onMouseLeave={HandleChartMouseLeave}
-              onClick={HandleChartMouseLeave}
-            >
-              <CirclePacking
-                data={chartData}
-                colors={{datum: "data.color"}}
-                margin={{top: 25, right: 10, bottom:25, left:10}}
-                height={ width < pxToNumber(breakpointLg) ? 350 : 500 }
-                width={ width < pxToNumber(breakpointLg) ? 350 : 500 }
-                colorBy={'id'}
-                leavesOnly
-                enableLabels={true}
-                labelsSkipRadius={0}
-                labelComponent={({node, label}) =>
-                  <LabelComponent
-                    node={node}
-                    label={label}
-                    width={width}
-                    HandleMouseEnter={HandleMouseEnter}
-                    HandleClick={HandleLabelClick}
-                    HandleMouseLeave={HandleChartMouseLeave}
-                  />}
-                animate={false}
-                onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
+          {chartData !== {} ? (
+            <div className={dataContent}>
+              <div
+                role="presentation"
+                className={chartSize}
                 onMouseLeave={HandleChartMouseLeave}
-                onClick={(node, e) => HandleMouseEnter(node, e)}
-              />
+                onClick={HandleChartMouseLeave}
+              >
+                <CirclePacking
+                  data={chartData}
+                  colors={{ datum: 'data.color' }}
+                  margin={{ top: 25, right: 10, bottom: 25, left: 10 }}
+                  height={width < pxToNumber(breakpointLg) ? 350 : 500}
+                  width={width < pxToNumber(breakpointLg) ? 350 : 500}
+                  colorBy={'id'}
+                  leavesOnly
+                  enableLabels={true}
+                  labelsSkipRadius={0}
+                  labelComponent={({ node, label }) => (
+                    <LabelComponent
+                      node={node}
+                      label={label}
+                      width={width}
+                      HandleMouseEnter={HandleMouseEnter}
+                      HandleClick={HandleLabelClick}
+                      HandleMouseLeave={HandleChartMouseLeave}
+                    />
+                  )}
+                  animate={false}
+                  onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
+                  onMouseLeave={HandleChartMouseLeave}
+                  onClick={(node, e) => HandleMouseEnter(node, e)}
+                />
+              </div>
+              <div className={totalRevenueDataPill}>
+                Total Revenue: ${getShortForm(totalRevenue.toString(), 2, true)}
+              </div>
             </div>
-            <div className={totalRevenueDataPill}>
-              Total Revenue: ${getShortForm(totalRevenue.toString(), 2, true)}
+          ) : (
+            <div>
+              <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
             </div>
-          </div>
-      ) : (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+          )}
         </ChartContainer>
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
-            In FY {fiscalYear}, the combined contribution
-            of individual and corporate income taxes is
-            ${getShortForm(combinedIncomeAmount.toString(), 0, true, true)},
+            In FY {fiscalYear}, the combined contribution of individual and
+            corporate income taxes is $
+            {getShortForm(combinedIncomeAmount.toString(), 0, true, true)},
             making up {combinedIncomePercent.toFixed()}% of total revenue.
           </p>
         </VisualizationCallout>
       </div>
     </>
   );
-}
+};
 
 export default withWindowSize(SourcesOfRevenueCircleChart);

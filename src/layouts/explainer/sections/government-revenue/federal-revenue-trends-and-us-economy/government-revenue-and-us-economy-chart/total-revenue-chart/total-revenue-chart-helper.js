@@ -41,23 +41,98 @@ export const chartCopy = {
 
 export const dataHeader = chartToggleConfig => {
   console.log(chartToggleConfig, 'chartToggleConfig');
+  if (!chartToggleConfig) return;
+  const {
+    setSelectedChartView,
+    selectedChartView,
+    isMobile,
+  } = chartToggleConfig;
   return (
-    <div className={styles.headerContainer}>
-      <div className={styles.toggle}>Toggle Placeholder</div>
-      <div className={styles.headerData}>
-        <div className={styles.dataElement}>
-          <div className={styles.dataValue}>2020</div>
-          <span className={styles.dataLabel}>Fiscal Year</span>
-        </div>
-        <div className={styles.dataElement}>
-          <div className={styles.dataValue}>$7.6 T</div>
-          <span className={styles.dataLabel}>Total Revenue</span>
-        </div>
-        <div className={styles.dataElement}>
-          <div className={styles.dataValue}>$22.1 T</div>
-          <span className={styles.dataLabel}>GDP</span>
-        </div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        className={styles.chartToggle}
+        style={{
+          marginBottom: isMobile ? '0.75rem' : '1rem',
+        }}
+      >
+        <button
+          className={styles.toggleButton}
+          style={{
+            borderBottomLeftRadius: '4px',
+            borderTopLeftRadius: '4px',
+            color:
+              selectedChartView === 'totalSpending' ? '#f1f1f1' : '#00766C',
+            background:
+              selectedChartView === 'totalSpending' ? '#00766C' : '#f1f1f1',
+            borderRight: 'none',
+            width: isMobile ? '144px' : '224px',
+            height: isMobile ? '1.5rem' : '2rem',
+          }}
+          onClick={() => {
+            setSelectedChartView('totalSpending');
+          }}
+        >
+          <span
+            style={{
+              fontSize: isMobile ? '14px' : '16px',
+              color:
+                selectedChartView === 'percentageGdp' ? 'inherit' : '#FFFFFF',
+              fontWeight: '600',
+            }}
+          >
+            Total Spending
+          </span>
+        </button>
+        <button
+          className={styles.toggleButton}
+          style={{
+            borderBottomRightRadius: '4px',
+            borderTopRightRadius: '4px',
+            color:
+              selectedChartView === 'percentageGdp' ? '#f1f1f1' : '#00766C',
+            background:
+              selectedChartView === 'percentageGdp' ? '#00766C' : '#f1f1f1',
+            width: isMobile ? '144px' : '224px',
+            height: isMobile ? '1.5rem' : '2rem',
+          }}
+          onClick={() => {
+            setSelectedChartView('percentageGdp');
+          }}
+        >
+          <span
+            style={{
+              fontSize: isMobile ? '14px' : '16px',
+              color:
+                selectedChartView === 'percentageGdp' ? '#FFFFFF' : 'inherit',
+              fontWeight: '600',
+            }}
+          >
+            Percentage of GDP
+          </span>
+        </button>
       </div>
+      <div className={styles.headerContainer}>
+        <div className={styles.headerData}>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>2020</div>
+            <span className={styles.dataLabel}>Fiscal Year</span>
+          </div>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>$7.6 T</div>
+            <span className={styles.dataLabel}>Total Revenue</span>
+          </div>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>$22.1 T</div>
+            <span className={styles.dataLabel}>GDP</span>
+          </div>
+        </div>
+      </div>{' '}
     </div>
   );
 };
