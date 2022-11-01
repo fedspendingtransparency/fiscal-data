@@ -64,24 +64,26 @@ const SurplusIllustration = ({glossary, width}) => {
 
   let renderCounter = 0;
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        if (entry.target.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
-          entry.target.classList.add('bounce');
-          renderCounter += 1;
-        }
-        else if (entry.target.innerHTML.includes('Deficit') && renderCounter < 2) {
-          entry.target.classList.add('bounceDeficit');
-          renderCounter += 1;
-        }
-      }
-    })
-  });
+  let observer;
 
-  setTimeout(() => observer.observe(document.querySelector('[data-testid="budget-tab"]')), 1000);
-  setTimeout(() => observer.observe(document.querySelector('[data-testid="deficit-tab"]')), 1000);
-
+  if(typeof window !== "undefined") {
+    observer = new IntersectionObserver(entries => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
+            entry.target.classList.add('bounce');
+            renderCounter += 1;
+          }
+          else if (entry.target.innerHTML.includes('Deficit') && renderCounter < 2) {
+            entry.target.classList.add('bounceDeficit');
+            renderCounter += 1;
+          }
+        }
+      })
+    });
+    setTimeout(() => observer.observe(document.querySelector('[data-testid="budget-tab"]')), 1000);
+    setTimeout(() => observer.observe(document.querySelector('[data-testid="deficit-tab"]')), 1000);
+  }
 
   const tabStyle = width < pxToNumber(breakpointLg) ? tabStyleMobile : tabStyleDesktop;
 
