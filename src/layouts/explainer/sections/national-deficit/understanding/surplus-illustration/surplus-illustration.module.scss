@@ -48,14 +48,14 @@
 }
 
 .folderWhiteOutLine {
-  left: 2px;
   top: 2.25rem;
-  right: 5px;
   position: absolute;
+  max-width: 542px;
   background-color: #FFFFFF;
   z-index: 100;
   min-height: 1.5rem;
-  min-width: 2rem;
+  min-width: 1rem;
+  width: calc(100% - 10px);
 }
 
 .folderVisContainer {
