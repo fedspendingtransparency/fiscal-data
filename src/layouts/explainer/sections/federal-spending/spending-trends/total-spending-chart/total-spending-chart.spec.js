@@ -134,7 +134,7 @@ describe("Total Spending Chart", () => {
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId("customSlices")).toBeInTheDocument();
-    expect(await getByTestId("customSlices").querySelector('rect').length == 8 );
+    expect(await getByTestId("customSlices")?.querySelector('rect')?.length == 8 );
   });
 
   it("renders the chart headers", async () => {
