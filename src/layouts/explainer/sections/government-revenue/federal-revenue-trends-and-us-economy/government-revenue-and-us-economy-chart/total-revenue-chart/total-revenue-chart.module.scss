@@ -8,14 +8,30 @@
 .container {
   overflow: hidden;
 
-  .lineChart{
+  .chartToggle {
+    display: flex;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+
+  .toggleButton {
+    width: 50%;
+    margin-bottom: 2%;
+    cursor: pointer;
+    height: 32px;
+    border: 2px solid #0a2f5a;
+  }
+
+  .lineChart {
     width: 100%;
     margin-top: .625rem;
   }
 
   .headerContainer {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
     .toggle {
       border-style: solid;
@@ -32,11 +48,13 @@
       flex-direction: row;
       justify-content: center;
 
-        .dataElement:not(:last-child) {
-          padding-right: 1.5rem;
-        }
-      .dataElement{
+      .dataElement:not(:last-child) {
+        padding-right: 1.5rem;
+      }
+
+      .dataElement {
         color: #666666;
+
         .dataValue {
           font-weight: bold;
           font-size: $font-size-36;
@@ -66,6 +84,7 @@
   :global(.chartContainerSubTitle) {
     font-size: $font-size-14 !important;
   }
+
   :global(.chartContainerFooter) {
     p {
       margin-top: .75rem;
@@ -90,11 +109,13 @@
         .dataElement:not(:last-child) {
           padding-right: 1.25rem;
         }
-        .dataElement{
+
+        .dataElement {
           .dataValue {
             font-size: $font-size-24;
             line-height: $font-size-24;
           }
+
           .dataLabel {
             font-size: $font-size-10;
             margin: 0 1rem;

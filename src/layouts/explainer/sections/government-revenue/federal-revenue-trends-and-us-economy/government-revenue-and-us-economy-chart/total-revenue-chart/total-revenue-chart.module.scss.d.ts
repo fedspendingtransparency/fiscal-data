@@ -64,6 +64,8 @@ export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const container: string;
+export const chartToggle: string;
+export const toggleButton: string;
 export const lineChart: string;
 export const headerContainer: string;
 export const toggle: string;
