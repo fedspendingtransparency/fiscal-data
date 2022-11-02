@@ -53,6 +53,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
   const [lastGDPValue, setlastGDPValue] = useState('');
   const [lastSpendingValue, setlastSpendingValue] = useState('');
   const [maxSpendingValue, setMaxSpendingValue] = useState(0);
+  const [minSpendingValue, setMinSpendingValue] = useState(0);
   const [minGDPValue, setMinGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
@@ -243,6 +244,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             );
 
             setMaxSpendingValue(spendingMaxAmount);
+            setMinSpendingValue(spendingMinAmount);
             setMinGDPValue(gdpMinAmount);
 
             setGdpChartData(finalGDPChartData);
@@ -475,7 +477,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                     width,
                     selectedChartView,
                     minGDPValue,
-                    maxSpendingValue
+                    minSpendingValue
                   )}
                 ></Line>
               </div>

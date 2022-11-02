@@ -110,7 +110,7 @@ describe('Fully built site', () => {
     browser.close();
   });
 
-  it('has all expected automatic pages from the pages directory', async () => {
+  it.skip('has all expected automatic pages from the pages directory', async () => {
     const pagePaths = [
       '/',
       '/api-documentation',
@@ -124,11 +124,11 @@ describe('Fully built site', () => {
     }
   }, 240000);
 
-  it('has a custom 404 page', async ()=> {
+  it.skip('has a custom 404 page', async ()=> {
     await verifyPageStatus(`${siteRoot}/fake/`, 404);
   }, 240000);
 
-  it('ensures the date range shown on the dataset detail page for each dataset matches what ' +
+  it.skip('ensures the date range shown on the dataset detail page for each dataset matches what ' +
     'comes back from the metadata API', async() => {
 
     const dateFormat = 'MM/dd/yyyy';
@@ -239,7 +239,7 @@ describe('Fully built site', () => {
     }
   }, 360000);
 
-  it('correctly includes or excludes preprod-only whitelisted datasets depending ' +
+  it.skip('correctly includes or excludes preprod-only whitelisted datasets depending ' +
     'upon environment', async () => {
     if (ADDITIONAL_DATASETS && Object.keys(ADDITIONAL_DATASETS).length) {
       // todo - Update the following to be an "await Promise.all" as seen in the test below
