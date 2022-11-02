@@ -11,7 +11,7 @@ describe('Total Revenue Chart', () => {
   it('renders the chart markers and data header labels', () => {
     const { getAllByText, getByText } = render(<TotalRevenueChart />);
     expect(getAllByText('Total Revenue')).toHaveLength(3);
-    expect(getAllByText('GDP')).toHaveLength(3);
+    expect(getAllByText('GDP')).toHaveLength(2);
     expect(getByText('Fiscal Year')).toBeInTheDocument();
   });
 

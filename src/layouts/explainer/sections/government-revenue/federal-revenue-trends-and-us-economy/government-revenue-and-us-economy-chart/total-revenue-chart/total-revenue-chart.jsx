@@ -29,7 +29,6 @@ import {
 import { ConnectableObservable } from 'rxjs';
 
 const TotalRevenueChart = ({ width }) => {
-  console.log('HERE???');
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({
     fiscalYear: 2022,
     totalRevenue: 25,
