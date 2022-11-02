@@ -22,9 +22,19 @@ import {
   applyChartScaling,
   applyTextScaling,
 } from '../../../../../explainer-helpers/explainer-charting-helper';
+import {
+  lineChartCustomPoints,
+  lineChartCustomSlices,
+} from '../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
+import { ConnectableObservable } from 'rxjs';
 
 const TotalRevenueChart = ({ width }) => {
-  // const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({
+    fiscalYear: 2022,
+    totalRevenue: 25,
+    gdp: 8.5,
+    gdpRatio: 39,
+  });
 
   const mockPercentageData = [
     {
@@ -144,6 +154,15 @@ const TotalRevenueChart = ({ width }) => {
   const chartWidth = 550;
   const chartHeight = 490;
 
+  const handleGroupOnMouseLeave = () => {
+    setTotalRevenueHeadingValues({
+      fiscalYear: 2022,
+      totalRevenue: 25,
+      gdp: 8.5,
+      gdpRatio: 39,
+    });
+  };
+
   useEffect(() => {
     applyChartScaling(
       chartParent,
@@ -185,6 +204,19 @@ const TotalRevenueChart = ({ width }) => {
     }
   }, [selectedChartView]);
 
+  const handleMouseLeave = slice => {
+    const spendingData = slice.points[0].data;
+    const gdpData = slice.points[1].data;
+    if (spendingData && gdpData) {
+      setTotalRevenueHeadingValues({
+        ...totalRevenueHeadingValues,
+        totalRevenue: spendingData.y,
+        fiscalYear: spendingData.x,
+        gdp: gdpData.y,
+      });
+    }
+  };
+
   return (
     <>
       <div className={visWithCallout}>
@@ -194,13 +226,30 @@ const TotalRevenueChart = ({ width }) => {
             subTitle={chartCopy.subtitle}
             footer={chartCopy.footer}
             date={new Date()}
-            header={dataHeader(chartToggleConfig)}
+            header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
             altText={chartCopy.altText}
           >
             <div className={lineChart} data-testid={chartParent}>
               <Line
                 data={chartData}
-                layers={chartConfigs.layers}
+                layers={[
+                  'grid',
+                  'crosshair',
+                  'markers',
+                  'axes',
+                  'areas',
+                  'lines',
+                  'points',
+                  lineChartCustomPoints,
+                  props =>
+                    lineChartCustomSlices(
+                      props,
+                      handleGroupOnMouseLeave,
+                      handleMouseLeave
+                    ),
+                  'mesh',
+                  'legends',
+                ]}
                 theme={{
                   ...chartConfigs.theme,
                   fontSize:

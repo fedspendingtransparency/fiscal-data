@@ -39,7 +39,7 @@ export const chartCopy = {
     'Line graph comparing the total federal revenue to the total GDP dollar amount.',
 };
 
-export const dataHeader = chartToggleConfig => {
+export const dataHeader = (chartToggleConfig, headingValues) => {
   if (!chartToggleConfig) return;
   const {
     setSelectedChartView,
@@ -127,19 +127,21 @@ export const dataHeader = chartToggleConfig => {
       <div className={styles.headerContainer}>
         <div className={styles.headerData}>
           <div className={styles.dataElement}>
-            <div className={styles.dataValue}>2020</div>
+            <div className={styles.dataValue}>{headingValues.fiscalYear}</div>
             <span className={styles.dataLabel}>Fiscal Year</span>
           </div>
           <div className={styles.dataElement}>
-            <div className={styles.dataValue}>$7.6 T</div>
+            <div
+              className={styles.dataValue}
+            >{`${headingValues.totalRevenue} T`}</div>
             <span className={styles.dataLabel}>Total Revenue</span>
           </div>
           <div className={styles.dataElement}>
-            <div className={styles.dataValue}>$22.1 T</div>
+            <div className={styles.dataValue}>{`${headingValues.gdp} T`}</div>
             <span className={styles.dataLabel}>GDP</span>
           </div>
         </div>
-      </div>{' '}
+      </div>
     </div>
   );
 };
