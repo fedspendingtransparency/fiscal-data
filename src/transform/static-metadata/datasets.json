@@ -490,5 +490,22 @@
     ],
     "slug": "/slgs-daily-rate-table/",
     "currentDateButton": "byDay"
+  },
+  "015-BFS-2014Q3-039": {
+    "seoConfig": {
+      "pageTitle": "Federal Credit Similar Maturity Rates",
+      "description": "Interest rates for time deposit securities with a maturity of one month up to 40 years and a daily rate for demand deposits.",
+      "keywords": "Debt, Interest and Exchange Rates"
+    },
+    "topics": [
+      "debt",
+      "interest-exchange-rates"
+    ],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-093",
+      "015-BFS-2014Q3-056"
+    ],
+    "slug": "/fed-credit-similar-maturity-rates/",
+    "currentDateButton": "byMonth"
   }
 }
