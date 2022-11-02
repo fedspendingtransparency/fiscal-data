@@ -85,7 +85,7 @@ const SurplusIllustration = ({glossary, width}) => {
     setTimeout(() => observer.observe(document.querySelector('[data-testid="deficit-tab"]')), 1000);
   }
 
-  const tabStyle = width < pxToNumber(breakpointLg) ? tabStyleMobile : tabStyleDesktop;
+  const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
   const balancedBudgetGlossary =
     <GlossaryTerm term={'balanced budget'} page={'Deficit Explainer'} glossary={glossary}>
@@ -99,27 +99,27 @@ const SurplusIllustration = ({glossary, width}) => {
         <TabList style={tabListStyle}>
           <Tab style={tabStyle} data-testid={'surplus-tab'}>
             <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
+            {width < pxToNumber(1188) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Surplus
             </div>
-            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
+            {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
           <Tab style={tabStyle} data-testid={'budget-tab'}>
             <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
+            {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Balanced Budget
             </div>
-            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
+            {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
           <Tab style={tabStyle} data-testid={'deficit-tab'}>
             <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
+            {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Deficit
             </div>
-            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightLastMobile /> : <FolderTabEdgeRightLast /> }
+            {width < pxToNumber(1188) ? <FolderTabEdgeRightLastMobile /> :  <FolderTabEdgeRightLast />  }
           </Tab>
         </TabList>
         <TabPanel>
