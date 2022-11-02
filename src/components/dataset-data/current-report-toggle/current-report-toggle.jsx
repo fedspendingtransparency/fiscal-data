@@ -30,7 +30,7 @@ const CurrentReportToggle = ({ onChange, reports, filteredByDateSelection }) => 
       null,
       {
         value: latestReport,
-        label: getDateLabelForReport(latestReport)
+        label: getDateLabelForReport(latestReport, reports.daily)
       },
       {
         value: false,

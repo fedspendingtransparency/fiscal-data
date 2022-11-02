@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import FilterSection from './filter-section';
-import {reports} from "../test-helper";
+import { dailyReports, reports } from "../test-helper"
 import SelectControl from "../../select-control/select-control";
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
 import * as styles from './filter-section.module.scss';
@@ -41,6 +41,10 @@ describe('Filter Section', () => {
     currentReportToggle = instance.findByType(CurrentReportToggle);
     reportSelectControl = instance.findAllByType(SelectControl)[0];
     yearSelectControl = instance.findAllByType(SelectControl)[1];
+  });
+
+  afterEach(() => {
+    selectedFileMock.mockClear();
   });
 
   it('shows a Report dropdown if the reports array contains more than one filetype', () => {
@@ -92,7 +96,11 @@ describe('Filter Section', () => {
     const monthSelector = instance.findByProps({'data-testid': 'month-wrapper'});
     const monthSelect = monthSelector.findByType(SelectControl);
 
-    expect(monthSelect.props.options.length).toBe(3)
+    expect(monthSelect.props.options.length).toBe(3);
+
+    // does not include day selector for monthly reports
+    const daySelector = instance.findAllByProps({'data-testid': 'day-wrapper'});
+    expect(daySelector.length).toBe(0);
   });
 
   it('updates the selectedReport and informs the toggle control', () => {
@@ -169,4 +177,55 @@ describe('Filter Section', () => {
     expect(comboCaseInstance.findByType(ComboSelect)).toBeDefined();
   });
 
+  // test case with daily reports renders distinct component from the one in beforeEach
+  it('utilizes the day selector when the month selector is engaged', () => {
+
+    const mockFileSetter = jest.fn();
+
+    const dayComponent = renderer.create(
+      <FilterSection reports={dailyReports} setSelectedFile={mockFileSetter} />
+    );
+    const dayInstance = dayComponent.root;
+    jest.runAllTimers();
+    const yearSelector = dayInstance.findAllByType(SelectControl)[0];
+
+    renderer.act(() => yearSelector.props.changeHandler(yearSelector.props.options[1]));
+
+    // no day selector is present before a month is chosen
+    let daySelectorWrapper = dayInstance.findAllByProps({'data-testid': 'day-wrapper'});
+    expect(daySelectorWrapper.length).toBe(0);
+
+    const monthSelectorWrapper = dayInstance.findByProps({'data-testid': 'month-wrapper'});
+    const monthSelector = monthSelectorWrapper.findByType(SelectControl);
+    expect(monthSelector.props.options.length).toBe(2);
+
+    // renders day control when month is selected
+    renderer.act(() => monthSelector.props.changeHandler(monthSelector.props.options[1]));
+
+    daySelectorWrapper = dayInstance.findByProps({'data-testid': 'day-wrapper'});
+
+    expect(daySelectorWrapper.findByType(SelectControl).props.label).toBeDefined();
+    const daySelector = daySelectorWrapper.findByType(SelectControl);
+    expect(daySelector.props.options.length).toBe(5);
+
+    // sets the selected report file when a valid day is chosen
+    expect(dailyReports[0].daily).toBeFalsy();
+    renderer.act(() => {
+      daySelector.props.changeHandler(daySelector.props.options[1]);
+    });
+    expect(mockFileSetter).toHaveBeenLastCalledWith(dailyReports[0]);
+    expect(dailyReports[0].daily).toBeTruthy();
+
+    // deselects report file when no valid day is selected
+    renderer.act(() => {
+      daySelector.props.changeHandler(daySelector.props.options[0]);
+    });
+    expect(mockFileSetter).toHaveBeenLastCalledWith(null);
+
+    // hides day selector when no valid month is selected
+    renderer.act(() => monthSelector.props.changeHandler(monthSelector.props.options[0]));
+    daySelectorWrapper = dayInstance.findAllByProps({'data-testid': 'day-wrapper'})
+    expect(daySelectorWrapper.length).toBe(0);
+
+  });
 });
