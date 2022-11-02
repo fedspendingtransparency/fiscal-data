@@ -5,6 +5,7 @@ import {
   title,
   folderContent,
   tabBaselineWhiteout,
+  folderWhiteOutLine
 }
 from "./surplus-illustration.module.scss";
 import surplus from "../../../../../../images/explainer/national-deficit/surplus.png";
@@ -18,8 +19,13 @@ import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper"
 import {breakpointLg} from "../../../../../../variables.module.scss";
 import GlossaryTerm from "../../../../../../components/glossary-term/glossary-term";
 import FolderTabEdgeRight from "./folder-illustration-svgs/folder-tab-edge-right";
+import FolderTabEdgeRightLast from "./folder-illustration-svgs/folder-tab-edge-right-last";
 import FolderTabEdgeLeft from "./folder-illustration-svgs/folder-tab-edge-left";
-
+import FolderTabEdgeLeftMobile from "./folder-illustration-svgs/mobile/folder-tab-edge-left-mobile";
+import FolderTabEdgeRightMobile
+  from "./folder-illustration-svgs/mobile/folder-tab-edge-right-mobile";
+import FolderTabEdgeRightLastMobile
+  from "./folder-illustration-svgs/mobile/folder-tab-edge-right-last-mobile";
 
 const SurplusIllustration = ({glossary, width}) => {
   const tabListStyle = {
@@ -56,6 +62,29 @@ const SurplusIllustration = ({glossary, width}) => {
     paddingLeft: '8px',
   };
 
+  let renderCounter = 0;
+
+  let observer;
+
+  if(typeof window !== "undefined") {
+    observer = new IntersectionObserver(entries => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
+            entry.target.classList.add('bounce');
+            renderCounter += 1;
+          }
+          else if (entry.target.innerHTML.includes('Deficit') && renderCounter < 2) {
+            entry.target.classList.add('bounceDeficit');
+            renderCounter += 1;
+          }
+        }
+      })
+    });
+    setTimeout(() => observer.observe(document.querySelector('[data-testid="budget-tab"]')), 1000);
+    setTimeout(() => observer.observe(document.querySelector('[data-testid="deficit-tab"]')), 1000);
+  }
+
   const tabStyle = width < pxToNumber(breakpointLg) ? tabStyleMobile : tabStyleDesktop;
 
   const balancedBudgetGlossary =
@@ -65,31 +94,32 @@ const SurplusIllustration = ({glossary, width}) => {
 
   return (
     <div className={folderVisContainer} data-testid={'surplus-illustration'}>
+      <div className={folderWhiteOutLine} />
       <Tabs>
         <TabList style={tabListStyle}>
-          <Tab style={tabStyle}>
+          <Tab style={tabStyle} data-testid={'surplus-tab'}>
             <div className={tabBaselineWhiteout} />
-            <FolderTabEdgeLeft />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Surplus
             </div>
-            <FolderTabEdgeRight />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <Tab style={tabStyle}>
+          <Tab style={tabStyle} data-testid={'budget-tab'}>
             <div className={tabBaselineWhiteout} />
-            <FolderTabEdgeLeft />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Balanced Budget
             </div>
-            <FolderTabEdgeRight />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <Tab style={tabStyle}>
+          <Tab style={tabStyle} data-testid={'deficit-tab'}>
             <div className={tabBaselineWhiteout} />
-            <FolderTabEdgeLeft />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
               Deficit
             </div>
-            <FolderTabEdgeRight />
+            {width < pxToNumber(breakpointLg) ? <FolderTabEdgeRightLastMobile /> : <FolderTabEdgeRightLast /> }
           </Tab>
         </TabList>
         <TabPanel>
@@ -107,7 +137,7 @@ const SurplusIllustration = ({glossary, width}) => {
             </div>
           </div>
         </TabPanel>
-        <TabPanel>
+        <TabPanel data-testid={"budget-panel"}>
           <div className={folderVis}>
             <div className={folderContent}>
               <img src={balancedBudget} alt="" data-testid={"balanced-budget-image"} />

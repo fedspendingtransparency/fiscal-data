@@ -217,6 +217,19 @@ const TotalRevenueChart = ({ width }) => {
     }
   };
 
+  const handleMouseLeave = (slice) => {
+    const spendingData = slice.points[0].data;
+    const gdpData = slice.points[1].data;
+    if (spendingData && gdpData) {
+      setTotalRevenueHeadingValues({
+        ...totalRevenueHeadingValues,
+        totalRevenue: spendingData.y,
+        fiscalYear: spendingData.x,
+        gdp: gdpData.y,
+      });
+    }
+  }
+
   return (
     <>
       <div className={visWithCallout}>
