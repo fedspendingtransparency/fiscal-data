@@ -1,5 +1,3 @@
-import { select } from "d3";
-
 export const getYearReportOptions = (reports) => {
   const yearsFound = [];
 
@@ -57,6 +55,17 @@ export const filterYearOptions = (yearOptions, filterDigits) => {
   return filteredList;
 };
 
+export const getDayOptions = (reports) => {
+  const options = reports.map(report => {
+    return { label: report.report_date.getDate(), value: report };
+  });
+  options.unshift({
+    label: 'Select A Day',
+    value: null
+  })
+  return options;
+};
+
 export const getMonthOptions = (reports) => {
   const shortMonths = [
     'Jan',
@@ -77,11 +86,13 @@ export const getMonthOptions = (reports) => {
 
   reports.forEach(r => {
     const i = r.report_date.getMonth();
-    options.push({
-      label: shortMonths[i],
-      value: i
-    })
-  })
+    if (!options.some(option => option.value === i)) {
+      options.push({
+        label: shortMonths[i],
+        value: i
+      });
+    }
+  });
 
   options.sort((a, b) => {
     if (!a.value) {

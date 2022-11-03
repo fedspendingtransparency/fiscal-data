@@ -25,7 +25,7 @@ const DownloadReport = ({ reportFile, isPublishedReport }) => {
     setReportLocation(location || null);
     setFileName(location ? location.split('/').slice(-1)[0] : 'report');
     setGroupName(curReportFile.report_group_desc || '');
-    setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile) : 'N/A');
+    setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, curReportFile.daily) : 'N/A');
     if (location) {
       getFileSize(location).then((size) => {
         setFileSize(size);

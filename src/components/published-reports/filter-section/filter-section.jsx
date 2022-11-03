@@ -7,10 +7,11 @@ import {
   hiddenFilters,
   publishReportTip,
   infoIcon,
-  iconContainer
+  iconContainer,
+  dailyReport
 } from "./filter-section.module.scss";
 import SelectControl from "../../select-control/select-control";
-import { getYearReportOptions, getMonthOptions } from "../util/util";
+import { getYearReportOptions, getMonthOptions, getDayOptions } from "../util/util"
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
 import { getLatestReport } from '../../../helpers/dataset-detail/report-helpers';
 import ComboSelect from '../combo-select/combo-select';
@@ -20,8 +21,10 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
 export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   const [reportsByYear, setReportsByYear] = useState(getYearReportOptions(reports));
   const [reportsByMonth, setReportsByMonth] = useState([]);
+  const [reportsByDay, setReportsByDay] = useState([]);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(null);
   const [filtered, setFiltered] = useState(reports);
   const [showFilters, setShowFilters] = useState(false);
   const [filteredReport, setFilteredReport] = useState(null);
@@ -40,6 +43,10 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       <span data-testid="monthLabel">
         Month <span className="required">*</span>
       </span>;
+  const dayLabel =
+    <span data-testid="dayLabel">
+        Day <span className="required">*</span>
+      </span>;
   const reportLabel =
       <span data-testid="reportLabel">
         Report <span className="required">*</span>
@@ -49,6 +56,21 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     const availableYears = getYearReportOptions(reportVal);
     setReportsByYear(availableYears);
     return availableYears;
+  };
+
+  const populateDays = () => {
+    if (selectedReportGroup?.value) {
+      const filteredReports = selectedReportGroup.value
+        .filter(r => r.report_date.getFullYear() === selectedYear.value &&
+          (r.report_date.getMonth()) === selectedMonth.value);
+      const availableDays = getDayOptions(filteredReports);
+      setReportsByDay(availableDays);
+
+      return {
+        filteredReports,
+        availableDays
+      };
+    }
   };
 
   const populateMonths = () => {
@@ -75,6 +97,13 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
   };
 
+  const setFileSelection = (reportFile) => {
+    if (reportFile?.report_date && selectedReportGroup?.daily) {
+      reportFile.daily = true;
+    }
+    setSelectedFile(reportFile);
+  }
+
   const toggleCurrentReport = (currentReport) => {
     if (currentReport === false) {
       setShowFilters(true);
@@ -82,7 +111,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
 
     setCurrentReport(currentReport);
-    setSelectedFile(currentReport ? currentReport : filteredReport);
+    setFileSelection(currentReport ? currentReport : filteredReport);
     setShowFilters(!currentReport);
   };
 
@@ -100,10 +129,31 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
         label: key,
         id: val[0].report_group_id,
         value: val,
-        sortOrderNumber: val[0].report_group_sort_order_nbr
+        sortOrderNumber: val[0].report_group_sort_order_nbr,
+        daily: isReportGroupDailyFrequency(val)
       })
     });
     return groups.sort((a, b) => {return a.sortOrderNumber - b.sortOrderNumber});
+  };
+
+  // assumes reports are sorted for date and check to see whether any month has more than one report
+  const isReportGroupDailyFrequency = reports => {
+    let yearRepresented = 0;
+    let monthRepresented = 0;
+
+    let isDaily = false;
+    for (let i = 0; i < reports.length; i++ ) {
+      const reportYear = reports[i].report_date.getFullYear();
+      const reportMonth = reports[i].report_date.getMonth();
+      if (yearRepresented === reportYear && monthRepresented === reportMonth) {
+        isDaily = true;
+        break;
+      } else {
+        yearRepresented = reportYear;
+        monthRepresented = reportMonth;
+      }
+    }
+    return isDaily;
   };
 
   const getFileForSelectedMonth = () => {
@@ -114,6 +164,14 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       setFiltered(filteredReports)
     } else {
       handleYearSelection(selectedYear);
+    }
+  };
+
+  const getFileForSelectedDay = () => {
+    if (selectedDay && selectedDay.value !== null) {
+      setFiltered([selectedDay.value]);
+    } else {
+      getFileForSelectedMonth();
     }
   };
 
@@ -154,8 +212,10 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
 
   const smartLoadFile = (newSelectedGroup, _resetIfNoMatch) => {
 
-    if (selectedYear && selectedMonth && showFilters) {
+    if (!selectedReportGroup?.daily && selectedYear && selectedMonth && showFilters) {
       getFileForSelectedMonth();
+    } else if (selectedReportGroup?.daily && selectedYear && selectedMonth && selectedDay && showFilters) {
+      getFileForSelectedDay();
     } else {
 
       if (selectedReportGroup && (!showFilters || newSelectedGroup)) {
@@ -163,11 +223,11 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
           const latestReportInNewlySelectedGroup = getLatestReport(selectedReportGroup.value);
           toggleCurrentReport(latestReportInNewlySelectedGroup);
         } else {
-          setSelectedFile(currentReport);
+          setFileSelection(currentReport);
         }
 
       } else if (_resetIfNoMatch){
-        setSelectedFile(null);
+        setFileSelection(null);
       }
     }
   };
@@ -180,7 +240,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
         const latestReport =
           getLatestReport(reportGroups[currentlySelectedGroupIndex.current].value);
         setCurrentReport(latestReport);
-        setSelectedFile(latestReport);
+        setFileSelection(latestReport);
       }
       setReportsByYear(
         getYearReportOptions(reportGroups[currentlySelectedGroupIndex.current].value)
@@ -218,23 +278,40 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   }, [selectedYear]);
 
   useEffect(() => {
-    getFileForSelectedMonth();
+    if (selectedReportGroup?.daily) {
+      if (selectedMonth?.value !== null) {
+        const result = populateDays();
+        setSelectedDay(null);
+        if (result?.filteredReports) {
+          setFiltered(result.filteredReports);
+        }
+      } else {
+        setReportsByDay([]);
+      }
+    } else {
+      getFileForSelectedMonth();
+    }
   }, [selectedMonth]);
 
   useEffect(() => {
-    if (filtered.length === 1 && (!showFilters || (selectedYear && selectedMonth))) {
+    getFileForSelectedDay();
+  }, [selectedDay]);
+
+  useEffect(() => {
+    if (filtered.length === 1 && (!showFilters ||
+      (selectedYear && selectedMonth && (selectedDay || !selectedReportGroup?.daily)))) {
       if (!showFilters) {
         if (selectedReportGroup) {
-          setSelectedFile(currentReport);
+          setFileSelection(currentReport);
         } else {
-          setSelectedFile(null);
+          setFileSelection(null);
         }
       } else {
-        setSelectedFile(filtered[0]);
+        setFileSelection(filtered[0]);
       }
       setFilteredReport(filtered[0]);
     } else {
-      setSelectedFile(null);
+      setFileSelection(null);
       setFilteredReport(null);
     }
   }, [filtered]);
@@ -267,7 +344,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       />
 
       <div className={showFilters ? '' : hiddenFilters} data-testid="filterCollapsible">
-        <div className={filterContainer}>
+        <div className={`${filterContainer} ${selectedReportGroup?.daily ? dailyReport : ''}`}>
           <div className={selectWrapper}>
 
             {reportsByYear.length > 11 ? (
@@ -295,8 +372,17 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
                              selectedOption={selectedMonth}
               />
             </div>
-          )
-          }
+          )}
+          {reportsByDay.length > 0 && (
+            <div data-testid="day-wrapper" className={selectWrapper}>
+              <SelectControl changeHandler={setSelectedDay}
+                             label={dayLabel}
+                             optionLabelKey="label"
+                             options={reportsByDay}
+                             selectedOption={selectedDay}
+              />
+            </div>
+          )}
         </div>
         {reportsTip && (
           <div data-testid="reports-tip" className={publishReportTip}>

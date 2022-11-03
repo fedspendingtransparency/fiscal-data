@@ -1,30 +1,36 @@
 import React from 'react';
 import CurrentReportToggle from './current-report-toggle';
 import {fireEvent, render} from '@testing-library/react';
+import { getDateWithoutTimeZoneAdjust } from "../../../utils/date-utils"
 
 describe('CurrentReportToggle component', () => {
   const mockReportGroup = [
     {
       "path": "/downloads/mts_reports/mts0720.pdf",
       "report_group_desc": "Monthly Treasury Statement",
-      "report_date": new Date(2020, 6, 31),
+      "report_date": getDateWithoutTimeZoneAdjust('2020-07-31'),
       "filesize": "1921283"
     },
     {
       "path": "/downloads/mts_reports/mts0620.pdf",
       "report_group_desc": "Monthly Treasury Statement",
-      "report_date": new Date(2020, 5, 30),
+      "report_date": getDateWithoutTimeZoneAdjust('2020-06-30'),
       "filesize": "3475040"
     },
     {
       "path": "/downloads/mts_reports/mts0520.pdf",
       "report_group_desc": "Monthly Treasury Statement",
-      "report_date": new Date(2020, 4, 31),
+      "report_date": getDateWithoutTimeZoneAdjust('2020-05-31'),
       "filesize": "3259273"
     }];
   const mockReports = {
     id: 100,
     value: mockReportGroup
+  };
+  const mockDailyReports = {
+    id: 100,
+    value: mockReportGroup,
+    daily: true
   };
   const toggleFn = jest.fn();
 
@@ -112,6 +118,14 @@ describe('CurrentReportToggle component', () => {
       = render(<CurrentReportToggle reports={mockReports} onChange={toggleFn} />);
 
     expect(getByLabelText('Jul 2020')).toBeInTheDocument();
+  });
+
+  it(`labels its first button with the latest report's date formatted like "Jul 31, 2020"
+  when the reportGroup has daily reports`, () => {
+    const { getByLabelText }
+      = render(<CurrentReportToggle reports={mockDailyReports} onChange={toggleFn} />);
+
+    expect(getByLabelText('Jul 31, 2020')).toBeInTheDocument();
   });
 
   it(`latest report button is updated when the user is not viewing latest`, async () => {
