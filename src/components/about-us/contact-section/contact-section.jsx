@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React from 'react';
 import * as aboutUsStyles from '../../../pages/about-us/about-us.module.scss';
 import * as styles from './contact-section.module.scss';
