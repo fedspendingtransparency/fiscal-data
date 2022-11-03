@@ -5,18 +5,18 @@ import {
   title,
   folderContent,
   tabBaselineWhiteout,
-  folderWhiteOutLine
+  folderWhiteOutLine,
+  selectedTab
 }
 from "./surplus-illustration.module.scss";
 import surplus from "../../../../../../images/explainer/national-deficit/surplus.png";
 import balancedBudget
   from "../../../../../../images/explainer/national-deficit/balanced-budget.png";
 import deficit from "../../../../../../images/explainer/national-deficit/deficit.png";
-import React from "react";
+import React, {useState} from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {breakpointLg} from "../../../../../../variables.module.scss";
 import GlossaryTerm from "../../../../../../components/glossary-term/glossary-term";
 import FolderTabEdgeRight from "./folder-illustration-svgs/folder-tab-edge-right";
 import FolderTabEdgeRightLast from "./folder-illustration-svgs/folder-tab-edge-right-last";
@@ -97,7 +97,7 @@ const SurplusIllustration = ({glossary, width}) => {
       <div className={folderWhiteOutLine} />
       <Tabs>
         <TabList style={tabListStyle}>
-          <Tab style={tabStyle} data-testid={'surplus-tab'}>
+          <Tab style={tabStyle} data-testid={'surplus-tab'} selectedClassName={selectedTab}>
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1188) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
@@ -105,7 +105,7 @@ const SurplusIllustration = ({glossary, width}) => {
             </div>
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <Tab style={tabStyle} data-testid={'budget-tab'}>
+          <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}>
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
@@ -113,7 +113,7 @@ const SurplusIllustration = ({glossary, width}) => {
             </div>
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <Tab style={tabStyle} data-testid={'deficit-tab'}>
+          <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}>
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
