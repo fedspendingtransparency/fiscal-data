@@ -1,3 +1,8 @@
+/* istanbul ignore file */
+
+/* TODO: When MDX POC is no longer useful, remove experimental aspects and
+   dependencies, remove above istanbul ignore header above
+ */
 import React, { FunctionComponent } from "react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react"

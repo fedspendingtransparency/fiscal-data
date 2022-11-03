@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React, { useEffect, useState } from "react"
 import '../../../styles.scss';
 import * as styles from '../../../pages/about-us/about-us.module.scss';
