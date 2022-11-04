@@ -11,7 +11,7 @@ const FederalRevenueTrendsAndUSEconomy = () => {
           Coming Soon: A section exploring how revenue trends relate to the U.S.
           economy.
         </p>
-      <Experimental featureId={'revenue-trends-section'} exclude={true}>
+      <Experimental featureId={'revenue-trends-section'} >
         <TotalRevenueChart />
       </Experimental>
     </div>

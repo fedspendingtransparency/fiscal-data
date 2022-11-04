@@ -298,7 +298,7 @@ const TotalRevenueChart = ({ width }) => {
                 animate={false}
                 tooltip={() => null}
                 markers={getMarkers(width, selectedChartView)}
-              ></Line>
+              />
             </div>
           </ChartContainer>
         </div>
