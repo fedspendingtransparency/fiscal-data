@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
 import {
-  mockExplainerPageResponse, mockSpendingHeroData,
+  mockExplainerPageResponse, mockSpendingHeroData, mockUseStaticBeaGDP
 } from './explainer-test-helper';
 import {
   determineBEAFetchResponse,
@@ -17,6 +17,7 @@ import {
   circleChartMockChartData,
   governmentRevenueMatchers
 } from "./explainer-helpers/government-revenue/government-revenue-test-helper";
+import { useStaticQuery } from "gatsby";
 
 describe('Explainer Page Layout', () => {
   const pageName = 'national-debt';
@@ -38,6 +39,10 @@ describe('Explainer Page Layout', () => {
     heroImage,
     glossary
   }
+ 
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(mockUseStaticBeaGDP);
+  });
 
   beforeEach(() => {
     setGlobalFetchResponse(

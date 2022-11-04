@@ -9,13 +9,14 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
   const beaGDPData = useBeaGDP(cpiDataByYear);
+  console.log(beaGDPData)
   return (
     <div>
       <p className={comingSoon}>
         Coming Soon: A section exploring how revenue trends relate to the U.S.
         economy.
       </p>
-      <Experimental featureId={'revenue-trends-section'} >
+      <Experimental featureId={'revenue-trends-section'}>
         {beaGDPData.isGDPLoading && (
           <div>
             <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...

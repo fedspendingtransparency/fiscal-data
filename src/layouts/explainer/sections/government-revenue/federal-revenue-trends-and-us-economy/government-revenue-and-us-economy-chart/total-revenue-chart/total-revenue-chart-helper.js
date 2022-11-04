@@ -48,6 +48,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
     selectedChartView,
     isMobile,
   } = chartToggleConfig;
+  const {fiscalYear, totalRevenue, gdp, gdpRatio} = headingValues;
   return (
     <div
       style={{
@@ -133,19 +134,29 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
       <div className={styles.headerContainer}>
         <div className={styles.headerData}>
           <div className={styles.dataElement}>
-            <div className={styles.dataValue}>{headingValues.fiscalYear}</div>
+            <div className={styles.dataValue}>{fiscalYear}</div>
             <span className={styles.dataLabel}>Fiscal Year</span>
           </div>
-          <div className={styles.dataElement}>
-            <div
-              className={styles.dataValue}
-            >${headingValues.totalRevenue}</div>
-            <span className={styles.dataLabel}>Total Revenue</span>
-          </div>
-          <div className={styles.dataElement}>
-            <div className={styles.dataValue}>${headingValues.gdp}</div>
-            <span className={styles.dataLabel}>GDP</span>
-          </div>
+          {selectedChartView !== "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>${totalRevenue}</div>
+              <span className={styles.dataLabel}>Total Revenue</span>
+            </div>
+          )}
+
+          {selectedChartView !== "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>${gdp}</div>
+              <span className={styles.dataLabel}>GDP</span>
+            </div>
+          )}
+
+          {selectedChartView === "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>{gdpRatio}</div>
+              <span className={styles.dataLabel}>GDP Ratio</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -204,7 +215,7 @@ export const chartConfigs = {
   },
 };
 
-export const getMarkers = (width, selectedChartView, gdpValue, spendingValue, selectedChartView) => {
+export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) => {
   const markerStyle = {
     axis: "y",
     background: "#666666",

@@ -9,7 +9,7 @@ const useBeaGDP = (cpiData) => {
   const [gdpMaxYear, setGdpMaxYear] = useState(0);
   const [gdpMinAmount, setGdpMinAmount] = useState(0);
   const [gdpMaxAmount, setGdpMaxAmount] = useState(0);
-  const [gdpMaxAmountActual, setGdpMaxAmountActual] = useState(0);
+  const [gdpLastAmountActual, setgdpLastAmountActual] = useState(0);
   const [isGDPLoading, setIsGDPLoading] = useState(true);
 
   const queryData = useStaticQuery(
@@ -30,8 +30,8 @@ const useBeaGDP = (cpiData) => {
   useEffect(() => {
     let GDPYearlyData = [];
     let total = 0;
-    const beaData = queryData.allBeaGdp.nodes;
-    beaData.forEach(gpd => {
+    const beaData = queryData?.allBeaGdp?.nodes;
+    beaData?.forEach(gpd => {
       const quarter = gpd.timePeriod.slice(4);
       const year = parseInt(gpd.timePeriod.slice(0, -2));
       const fiscalYear = quarter === 'Q4' ? year + 1 : year;
@@ -67,17 +67,25 @@ const useBeaGDP = (cpiData) => {
     });
 
     setFinalGDPData(GDPYearlyData);
+
+    const gdpMaxAmount = GDPYearlyData.reduce((max, gdp) =>
+      max.x > gdp.x ? max : gdp
+    );
+
+    const gdpMinAmount = GDPYearlyData.reduce((min, gdp) =>
+      min.x < gdp.x ? min : gdp
+    );
     
     setGdpMaxYear(GDPYearlyData[GDPYearlyData.length - 1].x);
     setGdpMinYear(GDPYearlyData[0].x);
-    setGdpMaxAmount(GDPYearlyData[GDPYearlyData.length - 1].y);
-    setGdpMinAmount(GDPYearlyData[0].y);
-    setGdpMaxAmountActual(GDPYearlyData[0].actual);
+    setGdpMaxAmount(gdpMaxAmount.y);
+    setGdpMinAmount(gdpMinAmount.y);
+    setgdpLastAmountActual(GDPYearlyData[GDPYearlyData.length - 1].actual);
     setIsGDPLoading(false);
 
   }, []);
 
-  return {finalGDPData, gdpMinYear, gdpMaxYear, gdpMinAmount, gdpMaxAmount, gdpMaxAmountActual};
+  return {finalGDPData, gdpMinYear, gdpMaxYear, gdpMinAmount, gdpMaxAmount, gdpLastAmountActual, isGDPLoading};
 };
 
 export default useBeaGDP;

@@ -36,26 +36,26 @@ const governmentRevenueSections = [
       />
     ),
   },
-  // {
-  //   index: 1,
-  //   id: governmentRevenueSectionIds[1],
-  //   title: "Federal Revenue Overview",
-  //   component: (glossary, cpiDataByYear) => <FederalRevenueOverview />
-  // },
-  // {
-  //   index: 2,
-  //   id: governmentRevenueSectionIds[2],
-  //   title: "Sources of Federal Revenue",
-  //   component: (glossary, cpiDataByYear) => <SourcesOfFederalRevenue glossary={glossary}/>
-  // },
-  // {
-  //   index: 3,
-  //   id: governmentRevenueSectionIds[3],
-  //   title: "Federal Revenue Trends Over Time",
-  //   component: (glossary, cpiDataByYear) => <FederalRevenueTrendsOverTime cpiDataByYear={cpiDataByYear} />
-  // },
   {
     index: 1,
+    id: governmentRevenueSectionIds[1],
+    title: "Federal Revenue Overview",
+    component: (glossary, cpiDataByYear) => <FederalRevenueOverview />
+  },
+  {
+    index: 2,
+    id: governmentRevenueSectionIds[2],
+    title: "Sources of Federal Revenue",
+    component: (glossary, cpiDataByYear) => <SourcesOfFederalRevenue glossary={glossary}/>
+  },
+  {
+    index: 3,
+    id: governmentRevenueSectionIds[3],
+    title: "Federal Revenue Trends Over Time",
+    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsOverTime cpiDataByYear={cpiDataByYear} />
+  },
+  {
+    index: 0,
     id: governmentRevenueSectionIds[4],
     title: "Federal Revenue Trends and the U.S. Economy",
     comingSoon: true,

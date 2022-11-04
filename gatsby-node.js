@@ -286,7 +286,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   .catch(error => {
     throw error
   });
-  console.log(beaResults);
   beaResults.BEAAPI.Results.Data.forEach((bea) =>{
 
     if(bea.LineDescription == 'Gross domestic product'){
