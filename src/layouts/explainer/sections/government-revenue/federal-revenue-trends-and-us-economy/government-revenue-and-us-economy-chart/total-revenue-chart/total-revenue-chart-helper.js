@@ -26,14 +26,20 @@ const footer =
     this data. The inflation data is sourced from the {bls}.
   </p>;
 
-export const chartCopy = {
-    title: 'Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2021',
-    subtitle: 'Inflation Adjusted - 2021 Dollars',
+export const getChartCopy = (minYear, maxYear) => {
+  return {
+    title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
+    subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
     footer: footer,
     altText: 'Line graph comparing the total federal revenue to the total GDP dollar amount.'
+  }
 }
 
 export const dataHeader = (headingValues) => (
+
+  
+
+
   <div className={styles.headerContainer}>
     <div className={styles.toggle}>
       Toggle Placeholder
@@ -44,11 +50,11 @@ export const dataHeader = (headingValues) => (
         <span className={styles.dataLabel}>Fiscal Year</span>
       </div>
       <div className={styles.dataElement}>
-        <div className={styles.dataValue}>{`${headingValues.totalRevenue} T`}</div>
+        <div className={styles.dataValue}>${headingValues.totalRevenue}</div>
         <span className={styles.dataLabel}>Total Revenue</span>
       </div>
       <div className={styles.dataElement}>
-        <div className={styles.dataValue}>{`${headingValues.gdp} T`}</div>
+        <div className={styles.dataValue}>${headingValues.gdp}</div>
         <span className={styles.dataLabel}>GDP</span>
       </div>
     </div>
@@ -107,30 +113,30 @@ export const chartConfigs = {
   },
 }
 
-export const getMarkers = (width) => {
+export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) => {
   const markerStyle = {
-      axis: 'y',
-      lineStyle: {strokeWidth: 0},
-      textStyle: {
-        fontWeight: semiBoldWeight,
-        fill: '#666666',
-        fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      },
-    };
+    axis: "y",
+    background: "#666666",
+    lineStyle: { strokeWidth: 0 },
+    textStyle: {
+      fontWeight: semiBoldWeight,
+      fill: "#666666",
+      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    },
+  };
+  return selectedChartView === "percentageGdp"
+    ? []
+    : [
+        {
+          ...markerStyle,
+          legend: "GDP",
+          value: gdpValue-1.5,
+        },
+        {
+          ...markerStyle,
+          legend: "Total Revenue",
+          value: spendingValue-1.5,
+        },
+      ];
+};
 
-
-  return (
-    [
-      {
-        ...markerStyle,
-        legend: 'GDP',
-        value: '22.5',
-      },
-      {
-        ...markerStyle,
-        legend: 'Total Revenue',
-        value: '8.5',
-      }
-    ]
-  )
-}

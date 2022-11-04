@@ -263,7 +263,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
 
   const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=2014-2015-2016-2017-2018-2019-2020-2021-2022-2023&ResultFormat=JSON`;
-  //const fetchBEA = (...args) => import(`node-fetch`).then(({ default: fetch }) => fetch(...args));
 
   const fetchBEA = async () => {
     return new Promise((resolve, reject) => {
@@ -503,14 +502,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           periodName
           latest
         }
-      }
-      allBeaGDP {
-        BeaGDP: nodes {
-          lineDescription,
-          timePeriod,
-          dataValue
-        }
-      }
+      }      
       allGlossaryCsv {
         glossaryCsv: nodes {
           term

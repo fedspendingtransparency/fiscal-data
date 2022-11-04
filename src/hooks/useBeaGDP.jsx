@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
-import { graphql, useStaticQuery } from "gatsby";
+import { useState, useEffect } from 'react';
+import { graphql, useStaticQuery } from 'gatsby';
+import simplifyNumber from '../helpers/simplify-number/simplifyNumber';
+import { adjustDataForInflation }  from '../helpers/inflation-adjust/inflation-adjust';
 
-const setDynamicValue = (gaEvent, dynamicValue) => {
-  if (!gaEvent) return null;
-  gaEvent.Trigger = gaEvent.Trigger.replace("$XX", `$${dynamicValue}`);
-  gaEvent.eventLabel = gaEvent.eventLabel.replace("$XX", `$${dynamicValue}`);
-  return gaEvent;
-};
+const useBeaGDP = (cpiData) => {
+  const [finalGDPData, setFinalGDPData] = useState(null);
+  const [gdpMinYear, setGdpMinYear] = useState(0);
+  const [gdpMaxYear, setGdpMaxYear] = useState(0);
+  const [gdpMinAmount, setGdpMinAmount] = useState(0);
+  const [gdpMaxAmount, setGdpMaxAmount] = useState(0);
+  const [gdpMaxAmountActual, setGdpMaxAmountActual] = useState(0);
+  const [isGDPLoading, setIsGDPLoading] = useState(true);
 
-// type: 'Debt', 'Deficit', etc. must be capitalized + match whats in the query name and node query
-const useGAEventTracking = (evNumber, type, dynamicValue) => {
-  const [gaEvent, setGaEvent] = useState(null);
-  const allBeaGdp = useStaticQuery(
+  const queryData = useStaticQuery(
     graphql`
       query {
         allBeaGdp {
@@ -21,40 +22,62 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
             timePeriod
             id
           }
-        }
+        }        
       }
     `
   );
 
-  let GDPYearlyData = [];
-  allBeaGdp.data.allBeaGdp.nodes.forEach((gpd)=>{
-    const quarter = gpd.timePeriod.slice(4);
-    const year = parseInt(gpd.timePeriod.slice(0, -2));
-    const fiscalYear = quarter === 'Q4' ? year + 1 : year;
-    const amount = parseInt(
-      String(entry.DataValue.replace(/,/g, '') + '000000')
-    );
-    if (fiscalYear === year) {
-      total += amount;
-    } else {
-      total = amount;
-    }
-
-    if (quarter === 'Q3' && fiscalYear >= 2015) {
-      GDPYearlyData.push({
-        x: fiscalYear,
-        y: total / 4,
-        actual: total / 4,
-        fiscalYear: String(fiscalYear),
-      });
-    }
-
-  })
-
   useEffect(() => {
+    let GDPYearlyData = [];
+    let total = 0;
+    const beaData = queryData.allBeaGdp.nodes;
+    beaData.forEach(gpd => {
+      const quarter = gpd.timePeriod.slice(4);
+      const year = parseInt(gpd.timePeriod.slice(0, -2));
+      const fiscalYear = quarter === 'Q4' ? year + 1 : year;
+      const amount = parseInt(
+        String(gpd.dataValue.replace(/,/g, '') + '000000')
+      );
+      if (fiscalYear === year) {
+        total += amount;
+      } else {
+        total = amount;
+      }
+      if (quarter === 'Q3' && fiscalYear >= 2015) {
+        GDPYearlyData.push({
+          x: fiscalYear,
+          actual: total / 4,
+          fiscalYear: String(fiscalYear),
+        });
+      }
+      
+    });
+
+    GDPYearlyData = adjustDataForInflation(
+      GDPYearlyData,
+      'actual',
+      'fiscalYear',
+      cpiData 
+    ); 
+
+    GDPYearlyData.map(gdp => {
+      gdp.y = parseFloat(
+        simplifyNumber(gdp.actual, false).slice(0, -2)
+      );
+    });
+
+    setFinalGDPData(GDPYearlyData);
     
-  }, [evNumber, type, eventTrackingCsvs, dynamicValue]);
-  return gaEvent;
+    setGdpMaxYear(GDPYearlyData[GDPYearlyData.length - 1].x);
+    setGdpMinYear(GDPYearlyData[0].x);
+    setGdpMaxAmount(GDPYearlyData[GDPYearlyData.length - 1].y);
+    setGdpMinAmount(GDPYearlyData[0].y);
+    setGdpMaxAmountActual(GDPYearlyData[0].actual);
+    setIsGDPLoading(false);
+
+  }, []);
+
+  return {finalGDPData, gdpMinYear, gdpMaxYear, gdpMinAmount, gdpMaxAmount, gdpMaxAmountActual};
 };
 
-export default useGAEventTracking;
+export default useBeaGDP;
