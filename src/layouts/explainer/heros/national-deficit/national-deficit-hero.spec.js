@@ -5,7 +5,7 @@ import {
 } from "@testing-library/react";
 import fetchMock from 'fetch-mock';
 import NationalDeficitHero from "./national-deficit-hero";
-import {mockDeficitHeroData, mockDeficitHeroDataOct} from "../../explainer-test-helper";
+import {mockDeficitHeroData} from "../../explainer-test-helper";
 
 
 describe('National Deficit Hero', () => {
@@ -27,18 +27,19 @@ describe('National Deficit Hero', () => {
 
     global.console = {warn: jest.fn()}
 
-    const {getByText} = render(<NationalDeficitHero glossary={glossary}/>);
+    const {getByText, queryByText} = render(<NationalDeficitHero glossary={glossary} />);
     expect(fetchSpy).toBeCalled();
     await waitFor(() => getByText("$2,237,949,464,925", {exact: false}));
     expect(await getByText("$2,237,949,464,925", {exact: false})).toBeInTheDocument();
+    expect(await queryByText("$2,237,949,464,925.", {exact: false})).not.toBeInTheDocument();
     expect(await getByText("decreased", {exact: false})).toBeInTheDocument();
     expect(await getByText("down arrow", {exact: false})).toBeInTheDocument();
     expect(await getByText("fiscal year (FY)", {exact: false})).toBeInTheDocument();
     expect(await getByText("2022", {exact: false})).toBeInTheDocument();
-    expect(await getByText("government has spent $515.07 billion", {exact: false})).toBeInTheDocument();
+    expect(await getByText("government has spent $515.07 billion", {exact: false}))
+      .toBeInTheDocument();
     expect(await getByText("period last year (Oct 2020 - Jun 2021)", {exact: false}))
       .toBeInTheDocument();
-
   });
 });
 
