@@ -46,6 +46,11 @@ describe('report-group helpers library', () => {
     expect(getDateLabelForReport(reports[0])).toStrictEqual('Jul 2020');
   });
 
+  it(`exposes a function that returns an "Mmm dd, YYYY" formatted date
+  for a report that is classified as daily`, async () => {
+    expect(getDateLabelForReport(reports[0], true)).toStrictEqual('Jul 31, 2020');
+  });
+
   it(`exposes a function that returns the most recent report from an array of
   report objects`, async () => {
     expect(getLatestReport(reports).path).toStrictEqual('/penny-report-02.pdf');

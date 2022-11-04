@@ -74,3 +74,4 @@ export const publishReportTip: string;
 export const iconContainer: string;
 export const extraMarginBottom: string;
 export const filterContainer: string;
+export const dailyReport: string;

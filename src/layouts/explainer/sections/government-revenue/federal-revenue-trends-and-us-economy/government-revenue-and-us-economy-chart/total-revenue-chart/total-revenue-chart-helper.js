@@ -1,65 +1,156 @@
-import React from "react";
-import CustomLink from "../../../../../../../components/links/custom-link/custom-link";
-import * as styles from "./total-revenue-chart.module.scss";
+import React from 'react';
+import CustomLink from '../../../../../../../components/links/custom-link/custom-link';
+import * as styles from './total-revenue-chart.module.scss';
 import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
-  semiBoldWeight
-} from "../../../../../../../variables.module.scss";
-import {pxToNumber} from "../../../../../../../helpers/styles-helper/styles-helper";
-import {formatCurrency} from "../../../../../explainer-helpers/explainer-charting-helper";
-
-const mts =
-  <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`}>
+  semiBoldWeight,
+} from '../../../../../../../variables.module.scss';
+import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
+import { formatCurrency } from '../../../../../explainer-helpers/explainer-charting-helper';
+import { revenueExplainerPrimary } from '../../../revenue.module.scss';
+const mts = (
+  <CustomLink
+    url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`}
+  >
     Monthly Treasury Statement (MTS)
-  </CustomLink>;
+  </CustomLink>
+);
 
-const bls =
+const bls = (
   <CustomLink url={'https://www.bls.gov/'}>
     Bureau of Labor Statistics
-  </CustomLink>;
+  </CustomLink>
+);
 
-const footer =
+const footer = (
   <p>
-    Visit the {mts} dataset to further explore and download
-    this data. The inflation data is sourced from the {bls}.
-  </p>;
+    Visit the {mts} dataset to further explore and download this data. The
+    inflation data is sourced from the {bls}.
+  </p>
+);
 
 export const getChartCopy = (minYear, maxYear) => {
   return {
-    title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
-    subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
-    footer: footer,
-    altText: 'Line graph comparing the total federal revenue to the total GDP dollar amount.'
+  title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
+  subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
+  footer: footer,
+  altText:
+    'Line graph comparing the total federal revenue to the total GDP dollar amount.',
   }
-}
+};
 
-export const dataHeader = (headingValues) => (
+export const dataHeader = (chartToggleConfig, headingValues) => {
+  if (!chartToggleConfig) return;
+  const {
+    setSelectedChartView,
+    selectedChartView,
+    isMobile,
+  } = chartToggleConfig;
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        className={styles.chartToggle}
+        style={{
+          marginBottom: isMobile ? '0.75rem' : '1rem',
+        }}
+      >
+        <button
+          className={styles.toggleButton}
+          style={{
+            borderBottomLeftRadius: '4px',
+            borderTopLeftRadius: '4px',
+            color:
+              selectedChartView === 'totalRevenue'
+                ? '#f1f1f1'
+                : revenueExplainerPrimary,
+            background:
+              selectedChartView === 'totalRevenue'
+                ? revenueExplainerPrimary
+                : '#f1f1f1',
+            borderRight: 'none',
+            width: isMobile ? '144px' : '224px',
+            height: isMobile ? '1.5rem' : '2rem',
+          }}
+          onClick={() => {
+            setSelectedChartView('totalRevenue');
+          }}
+        >
+          <span
+            style={{
+              fontSize: isMobile ? '14px' : '16px',
+              color:
+                selectedChartView === 'percentageGdp' ? 'inherit' : '#FFFFFF',
+              fontWeight: '600',
+            }}
+          >
+            Total Revenue
+          </span>
+        </button>
+        <button
+          className={styles.toggleButton}
+          style={{
+            borderBottomRightRadius: '4px',
+            borderTopRightRadius: '4px',
+            color:
+              selectedChartView === 'percentageGdp'
+                ? '#f1f1f1'
+                : revenueExplainerPrimary,
+            background:
+              selectedChartView === 'percentageGdp'
+                ? revenueExplainerPrimary
+                : '#f1f1f1',
+            width: isMobile ? '144px' : '224px',
+            height: isMobile ? '1.5rem' : '2rem',
+          }}
+          onClick={() => {
+            setSelectedChartView('percentageGdp');
+          }}
+        >
+          <span
+            style={{
+              fontSize: isMobile ? '14px' : '16px',
+              color:
+                selectedChartView === 'percentageGdp' ? '#FFFFFF' : 'inherit',
+              fontWeight: '600',
+            }}
+          >
+            Percentage of GDP
+          </span>
+        </button>
+      </div>
 
   
 
 
-  <div className={styles.headerContainer}>
-    <div className={styles.toggle}>
-      Toggle Placeholder
+      <div className={styles.headerContainer}>
+        <div className={styles.headerData}>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>{headingValues.fiscalYear}</div>
+            <span className={styles.dataLabel}>Fiscal Year</span>
+          </div>
+          <div className={styles.dataElement}>
+            <div
+              className={styles.dataValue}
+            >${headingValues.totalRevenue}</div>
+            <span className={styles.dataLabel}>Total Revenue</span>
+          </div>
+          <div className={styles.dataElement}>
+            <div className={styles.dataValue}>${headingValues.gdp}</div>
+            <span className={styles.dataLabel}>GDP</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div className={styles.headerData}>
-      <div className={styles.dataElement}>
-        <div className={styles.dataValue}>{headingValues.fiscalYear}</div>
-        <span className={styles.dataLabel}>Fiscal Year</span>
-      </div>
-      <div className={styles.dataElement}>
-        <div className={styles.dataValue}>${headingValues.totalRevenue}</div>
-        <span className={styles.dataLabel}>Total Revenue</span>
-      </div>
-      <div className={styles.dataElement}>
-        <div className={styles.dataValue}>${headingValues.gdp}</div>
-        <span className={styles.dataLabel}>GDP</span>
-      </div>
-    </div>
-  </div>
-)
+  );
+};
 
 const chartTheme = {
   textColor: '#666666',
@@ -67,20 +158,20 @@ const chartTheme = {
     domain: {
       line: {
         strokeWidth: 1,
-        stroke: '#666666'
-      }
-    }
+        stroke: '#666666',
+      },
+    },
   },
   crosshair: {
     line: {
       stroke: '#555555',
       strokeWidth: 2,
-      strokeDasharray: '2,2'
-    }
+      strokeDasharray: '2,2',
+    },
   },
   marker: {
-    fill: '#666666'
-  }
+    fill: '#666666',
+  },
 };
 
 const layers = [
@@ -91,29 +182,29 @@ const layers = [
   'markers',
   'points',
   'mesh',
-]
+];
 
 export const chartConfigs = {
   theme: chartTheme,
   layers: layers,
   axisLeft: {
     format: formatCurrency,
-    orient: "left",
+    orient: 'left',
     tickSize: 5,
     tickPadding: 5,
     tickRotation: 0,
     tickValues: 6,
   },
   axisBottom: {
-    orient: "bottom",
+    orient: 'bottom',
     tickSize: 5,
     tickPadding: 5,
     tickRotation: 0,
     tickValues: 7,
   },
-}
+};
 
-export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) => {
+export const getMarkers = (width, selectedChartView, gdpValue, spendingValue, selectedChartView) => {
   const markerStyle = {
     axis: "y",
     background: "#666666",

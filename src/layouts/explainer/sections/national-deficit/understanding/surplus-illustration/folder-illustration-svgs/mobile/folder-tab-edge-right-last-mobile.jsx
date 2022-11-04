@@ -25,7 +25,7 @@ const FolderTabEdgeRightLastMobile = () => {
         </g>
         <g strokeLinejoin="miter" transform="scale(-1,1)">
           <path
-            d="M -12 48 C -12 32 -12 32 -8 32 L 2 32 C 2.9654 31.561 5 32 6 30 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+            d="M -5 48 C -5 32 -5 32 -1 32 L 2 32 C 2.9654 31.561 5 32 6 30 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
             fill="none"
             strokeLinecap="square"
             stroke="#e0baab"

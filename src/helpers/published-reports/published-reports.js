@@ -6,6 +6,8 @@
 
 //const whitelistDatasetIds = globalConstants.config.publishedReports.datasets;
 // TODO - Update Node/Gatsby-Node to ES6 vs CommonJS
+const { getDateWithoutTimeZoneAdjust } = require ("../../utils/date-utils");
+
 /**
  * **********************************************************
  * If the following list of dataset ids needs to be updated, you will need to also
@@ -36,10 +38,8 @@ const getPublishedReports = async (datasetId, baseUrl, requestUtil) => {
           );
         }
         reports.forEach(report => {
-          const curDate = report.report_date;
-          if (curDate && typeof curDate === 'string') {
-            const [year,month,day] = curDate.split('-')
-            report.report_date = new Date(year,month-1,day,0,0,0);
+          if (report.report_date && typeof report.report_date === 'string') {
+            report.report_date = getDateWithoutTimeZoneAdjust(report.report_date);
           }
         });
         return reports

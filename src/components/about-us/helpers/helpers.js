@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React from "react";
 import * as sectionStyles
   from "../../api-documentation/section-content/section-content.module.scss";

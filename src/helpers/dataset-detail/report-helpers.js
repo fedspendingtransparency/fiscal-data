@@ -16,11 +16,13 @@ export const getPublishedDates = (reports) => {
   return reports;
 };
 
-export const getDateLabelForReport = (_report) => {
+export const getDateLabelForReport = (_report, isDailyReport) => {
   const report = _report || {};
   const publishedDate = report.report_date;
   if (publishedDate instanceof Date) {
-    return `${monthNames[publishedDate.getMonth()]} ${publishedDate.getFullYear()}`;
+    const monthName = monthNames[publishedDate.getMonth()];
+    const dayInclusion = isDailyReport ? (' ' + publishedDate.getDate() + ',') : '';
+    return `${monthName}${dayInclusion} ${publishedDate.getFullYear()}`;
   } else {
     return '';
   }

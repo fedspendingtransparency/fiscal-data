@@ -1,38 +1,78 @@
+import { getDateWithoutTimeZoneAdjust } from "../../utils/date-utils"
+
 export const reports = [
   {
     "path": "/downloads/mspd_reports/opdm072020.pdf",
     "report_group_desc": "Entire (.pdf)",
-    "report_date": new Date("2020-07-31"),
+    "report_date": getDateWithoutTimeZoneAdjust("2020-07-31"),
     "filesize": "190932",
     "report_group_sort_order_nbr": 0
   },
   {
     "path": "/downloads/mspd_reports/opdm062020.pdf",
     "report_group_desc": "Entire (.pdf)",
-    "report_date": new Date("2020-06-30"),
+    "report_date": getDateWithoutTimeZoneAdjust("2020-06-30"),
     "filesize": "293887",
     "report_group_sort_order_nbr": 0
   },
   {
     "path": "/downloads/mspd_reports/opdm052020.pdf",
     "report_group_desc": "Entire (.pdf)",
-    "report_date": new Date("2019-05-31"),
+    "report_date": getDateWithoutTimeZoneAdjust("2019-05-31"),
     "filesize": "190396",
     "report_group_sort_order_nbr": 0
   },
   {
     "path": "/downloads/mspd_reports/opdx092020.xls",
     "report_group_desc": "Entire (.xls)",
-    "report_date": new Date("2020-09-30"),
+    "report_date": getDateWithoutTimeZoneAdjust("2020-09-30"),
     "filesize": "810496",
     "report_group_sort_order_nbr": 1
   },
   {
     "path": "/downloads/mspd_reports/opdx082020.xls",
     "report_group_desc": "Entire (.xls)",
-    "report_date": new Date("2020-08-31"),
+    "report_date": getDateWithoutTimeZoneAdjust("2020-08-31"),
     "filesize": "808960",
     "report_group_sort_order_nbr": 1
+  },
+];
+
+export const dailyReports = [
+  {
+    "path": "/downloads/mspd_reports/opdm072020.pdf",
+    "report_group_desc": "Entire (.pdf)",
+    "report_date": getDateWithoutTimeZoneAdjust("2020-07-14"),
+    "filesize": "190932",
+    "report_group_sort_order_nbr": 0
+  },
+  {
+    "path": "/downloads/mspd_reports/opdm062020.pdf",
+    "report_group_desc": "Entire (.pdf)",
+    "report_date": getDateWithoutTimeZoneAdjust("2020-07-13"),
+    "filesize": "293887",
+    "report_group_sort_order_nbr": 0
+  },
+  {
+    "path": "/downloads/mspd_reports/opdm052020.pdf",
+    "report_group_desc": "Entire (.pdf)",
+    "report_date": getDateWithoutTimeZoneAdjust("2020-07-12"),
+    "filesize": "190396",
+    "report_group_sort_order_nbr": 0
+  },
+  {
+    "path": "/downloads/mspd_reports/opdx092020.pdf",
+    "report_group_desc": "Entire (.pdf)",
+    "report_date": getDateWithoutTimeZoneAdjust("2020-07-11"),
+    "filesize": "810496",
+    "report_group_sort_order_nbr": 0
+  },
+  {
+    "path": "/downloads/mspd_reports/opdx082020.pdf",
+    "report_group_desc": "Entire (.pdf)",
+    "report_date": getDateWithoutTimeZoneAdjust("2019-02-14"),
+    "filesize": "808960",
+    "report_group_sort_order_nbr": 0
   },
 ];
 

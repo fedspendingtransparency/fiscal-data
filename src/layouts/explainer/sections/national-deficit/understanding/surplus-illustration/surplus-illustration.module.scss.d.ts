@@ -69,6 +69,7 @@ export const deficitExplainerLightSecondary: string;
 export const deficitAccordion: string;
 export const tabEdgeLeft: string;
 export const tabEdgeRight: string;
+export const selectedTab: string;
 export const bounce: string;
 export const tabBaselineWhiteout: string;
 export const folderWhiteOutLine: string;

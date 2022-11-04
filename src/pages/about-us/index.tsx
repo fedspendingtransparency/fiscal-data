@@ -1,3 +1,9 @@
+/* istanbul ignore file */
+
+/* TODO: When MDX POC is no longer useful, remove experimental aspects and
+   dependencies, remove above istanbul ignore header above
+ */
+
 import React, { FunctionComponent, useEffect, useState} from "react";
 import {graphql} from "gatsby";
 import PageHelmet from "../../components/page-helmet/page-helmet";
@@ -22,7 +28,6 @@ import {
   content,
   linkClass
 } from './about-us.module.scss';
-import Examples from "../../components/api-documentation/examples/examples";
 const tocSections = ['about-section','faq','contact-section'];
 
 export const scrollOptions = {
