@@ -4,7 +4,7 @@ datePublished: 2017-07-12T17:12:33.962Z
 description: "Fiscal Data - Quick Hits Feature"
 heroImagePath: "/images/feature_placeholder.png"
 mainHeader: "Header 2, Headline. Keep from 1 to 2 lines"
-path: "/features/quick-hits/"
+path: "/insights-template/"
 shareCopy: "Check out this page on FDG's Quick Hit Features!"
 subtitle: "Header 4, Sub Headline, keep from 1 to 2 lines"
 title: "Quick Hits"
