@@ -608,3 +608,346 @@ export const mockTotalDebtResponse = {
     count: mockTotalDebtData.length,
   }
 };
+export const mockBeaGDPData = 
+{
+  "finalGDPData": [
+      {
+          "x": 2015,
+          "actual": 22560300363991.676,
+          "fiscalYear": "2015",
+          "y": 22.56
+      },
+      {
+          "x": 2016,
+          "actual": 22788024981037.824,
+          "fiscalYear": "2016",
+          "y": 22.79
+      },
+      {
+          "x": 2017,
+          "actual": 23143540937585.84,
+          "fiscalYear": "2017",
+          "y": 23.14
+      },
+      {
+          "x": 2018,
+          "actual": 23870220416108.445,
+          "fiscalYear": "2018",
+          "y": 23.87
+      },
+      {
+          "x": 2019,
+          "actual": 24459543912704.13,
+          "fiscalYear": "2019",
+          "y": 24.46
+      },
+      {
+          "x": 2020,
+          "actual": 24016646434785.617,
+          "fiscalYear": "2020",
+          "y": 24.02
+      },
+      {
+          "x": 2021,
+          "actual": 24511981895738.4,
+          "fiscalYear": "2021",
+          "y": 24.51
+      },
+      {
+          "x": 2022,
+          "actual": 25000341500000,
+          "fiscalYear": "2022",
+          "y": 25
+      }
+  ],
+  "gdpMinYear": 2015,
+  "gdpMaxYear": 2022,
+  "gdpMinAmount": 22.56,
+  "gdpMaxAmount": 25,
+  "gdpLastAmountActual": 25000341500000,
+  "isGDPLoading": false
+}
+
+export const mockCpiDataset = {
+  "2015": "237.945",
+  "2016": "241.428",
+  "2017": "246.819",
+  "2018": "252.439",
+  "2019": "256.759",
+  "2020": "260.280",
+  "2021": "274.310",
+  "2022": "296.808",
+};
+
+
+export const mockCallOutData = {
+  data: [
+    {
+      current_fytd_net_outly_amt: "3687622059038.44",
+      record_date: "2015-09-30",
+      record_fiscal_year: "2015",
+    },
+  ],
+};
+
+export const mockRevenueData = {
+  data: [
+    {
+      current_fytd_net_rcpt_amt: 3248723200915.73,
+      record_fiscal_year: "2015",
+      record_date: "2015-09-30",
+    },
+    {
+      current_fytd_net_rcpt_amt: 3266688370973.35,
+      record_fiscal_year: "2016",
+      record_date: "2016-09-30",
+    },
+    {
+      current_fytd_net_rcpt_amt: 3314893904524.18,
+      record_fiscal_year: "2017",
+      record_date: "2017-09-30",
+    },
+    {
+      current_fytd_net_rcpt_amt: 3328745244718.20,
+      record_fiscal_year: "2018",
+      record_date: "2018-09-30",
+    },
+    {
+      current_fytd_net_rcpt_amt: 3462195610149.20,
+      record_fiscal_year: "2019",
+      record_date: "2019-09-30",
+    },
+    {
+      current_fytd_net_rcpt_amt: 3419955005765.34,
+      record_fiscal_year: "2020",
+      record_date: "2020-09-30",
+    },
+    {
+      current_fytd_net_rcpt_amt: 4045978858727.41,
+      record_fiscal_year: "2021",
+      record_date: "2021-09-30",
+    },
+    {
+      current_fytd_net_rcpt_amt: 4896119043921.00,
+      record_fiscal_year: "2022",
+      record_date: "2022-09-30",
+    },
+  ],
+};
+
+export const mockUseStaticBeaGDP = {
+  "allBeaGdp": {
+    "nodes": [
+      {
+        "dataValue": "17,144,281",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2014Q1",
+        "id": "T101052014Q1"
+      },
+      {
+        "dataValue": "17,462,703",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2014Q2",
+        "id": "T101052014Q2"
+      },
+      {
+        "dataValue": "17,743,227",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2014Q3",
+        "id": "T101052014Q3"
+      },
+      {
+        "dataValue": "17,852,540",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2014Q4",
+        "id": "T101052014Q4"
+      },
+      {
+        "dataValue": "17,991,348",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2015Q1",
+        "id": "T101052015Q1"
+      },
+      {
+        "dataValue": "18,193,707",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2015Q2",
+        "id": "T101052015Q2"
+      },
+      {
+        "dataValue": "18,306,960",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2015Q3",
+        "id": "T101052015Q3"
+      },
+      {
+        "dataValue": "18,332,079",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2015Q4",
+        "id": "T101052015Q4"
+      },
+      {
+        "dataValue": "18,425,306",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2016Q1",
+        "id": "T101052016Q1"
+      },
+      {
+        "dataValue": "18,611,617",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2016Q2",
+        "id": "T101052016Q2"
+      },
+      {
+        "dataValue": "18,775,459",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2016Q3",
+        "id": "T101052016Q3"
+      },
+      {
+        "dataValue": "18,968,041",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2016Q4",
+        "id": "T101052016Q4"
+      },
+      {
+        "dataValue": "19,148,194",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2017Q1",
+        "id": "T101052017Q1"
+      },
+      {
+        "dataValue": "19,304,506",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2017Q2",
+        "id": "T101052017Q2"
+      },
+      {
+        "dataValue": "19,561,896",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2017Q3",
+        "id": "T101052017Q3"
+      },
+      {
+        "dataValue": "19,894,750",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2017Q4",
+        "id": "T101052017Q4"
+      },
+      {
+        "dataValue": "20,155,486",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2018Q1",
+        "id": "T101052018Q1"
+      },
+      {
+        "dataValue": "20,470,197",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2018Q2",
+        "id": "T101052018Q2"
+      },
+      {
+        "dataValue": "20,687,278",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2018Q3",
+        "id": "T101052018Q3"
+      },
+      {
+        "dataValue": "20,819,269",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2018Q4",
+        "id": "T101052018Q4"
+      },
+      {
+        "dataValue": "21,013,085",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2019Q1",
+        "id": "T101052019Q1"
+      },
+      {
+        "dataValue": "21,272,448",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2019Q2",
+        "id": "T101052019Q2"
+      },
+      {
+        "dataValue": "21,531,839",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2019Q3",
+        "id": "T101052019Q3"
+      },
+      {
+        "dataValue": "21,706,532",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2019Q4",
+        "id": "T101052019Q4"
+      },
+      {
+        "dataValue": "21,538,032",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2020Q1",
+        "id": "T101052020Q1"
+      },
+      {
+        "dataValue": "19,636,731",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2020Q2",
+        "id": "T101052020Q2"
+      },
+      {
+        "dataValue": "21,362,428",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2020Q3",
+        "id": "T101052020Q3"
+      },
+      {
+        "dataValue": "21,704,706",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2020Q4",
+        "id": "T101052020Q4"
+      },
+      {
+        "dataValue": "22,313,850",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2021Q1",
+        "id": "T101052021Q1"
+      },
+      {
+        "dataValue": "23,046,934",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2021Q2",
+        "id": "T101052021Q2"
+      },
+      {
+        "dataValue": "23,550,420",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2021Q3",
+        "id": "T101052021Q3"
+      },
+      {
+        "dataValue": "24,349,121",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2021Q4",
+        "id": "T101052021Q4"
+      },
+      {
+        "dataValue": "24,740,480",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2022Q1",
+        "id": "T101052022Q1"
+      },
+      {
+        "dataValue": "25,248,476",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2022Q2",
+        "id": "T101052022Q2"
+      },
+      {
+        "dataValue": "25,663,289",
+        "lineDescription": "Gross domestic product",
+        "timePeriod": "2022Q3",
+        "id": "T101052022Q3"
+      }
+    ]
+  }
+}

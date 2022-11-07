@@ -277,7 +277,14 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
           strokeOpacity={0.25}
           fillOpacity={0}
           onMouseEnter={() => props.setCurrentSlice(slice)}
-          onMouseMove={() => mouseMove(slice)}
+          onFocus={() =>{
+            mouseMove(slice)
+            props.setCurrentSlice(slice)}
+           }
+          onMouseMove={() =>{
+           mouseMove(slice)
+           props.setCurrentSlice(slice)}
+          }
           onMouseLeave={() => props.setCurrentSlice(null)}
         />
       ))}

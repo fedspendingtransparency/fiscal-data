@@ -55,11 +55,11 @@ const governmentRevenueSections = [
     component: (glossary, cpiDataByYear) => <FederalRevenueTrendsOverTime cpiDataByYear={cpiDataByYear} />
   },
   {
-    index: 4,
+    index: 0,
     id: governmentRevenueSectionIds[4],
     title: "Federal Revenue Trends and the U.S. Economy",
     comingSoon: true,
-    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsAndUSEconomy />
+    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear}/>
   },
 ]
 

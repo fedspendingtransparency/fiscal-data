@@ -31,12 +31,14 @@ const footer = (
   </p>
 );
 
-export const chartCopy = {
-  title: 'Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2021',
-  subtitle: 'Inflation Adjusted - 2021 Dollars',
+export const getChartCopy = (minYear, maxYear) => {
+  return {
+  title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
+  subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
   footer: footer,
   altText:
     'Line graph comparing the total federal revenue to the total GDP dollar amount.',
+  }
 };
 
 export const dataHeader = (chartToggleConfig, headingValues) => {
@@ -46,6 +48,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
     selectedChartView,
     isMobile,
   } = chartToggleConfig;
+  const {fiscalYear, totalRevenue, gdp, gdpRatio} = headingValues;
   return (
     <div
       style={{
@@ -124,22 +127,36 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
           </span>
         </button>
       </div>
+
+  
+
+
       <div className={styles.headerContainer}>
         <div className={styles.headerData}>
           <div className={styles.dataElement}>
-            <div className={styles.dataValue}>{headingValues.fiscalYear}</div>
+            <div className={styles.dataValue}>{fiscalYear}</div>
             <span className={styles.dataLabel}>Fiscal Year</span>
           </div>
-          <div className={styles.dataElement}>
-            <div
-              className={styles.dataValue}
-            >{`${headingValues.totalRevenue} T`}</div>
-            <span className={styles.dataLabel}>Total Revenue</span>
-          </div>
-          <div className={styles.dataElement}>
-            <div className={styles.dataValue}>{`${headingValues.gdp} T`}</div>
-            <span className={styles.dataLabel}>GDP</span>
-          </div>
+          {selectedChartView !== "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>${totalRevenue}</div>
+              <span className={styles.dataLabel}>Total Revenue</span>
+            </div>
+          )}
+
+          {selectedChartView !== "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>${gdp}</div>
+              <span className={styles.dataLabel}>GDP</span>
+            </div>
+          )}
+
+          {selectedChartView === "percentageGdp" && (
+            <div className={styles.dataElement}>
+              <div className={styles.dataValue}>{gdpRatio}</div>
+              <span className={styles.dataLabel}>GDP Ratio</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -198,29 +215,30 @@ export const chartConfigs = {
   },
 };
 
-export const getMarkers = (width, selectedChartView) => {
+export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) => {
   const markerStyle = {
-    axis: 'y',
+    axis: "y",
+    background: "#666666",
     lineStyle: { strokeWidth: 0 },
     textStyle: {
       fontWeight: semiBoldWeight,
-      fill: '#666666',
+      fill: "#666666",
       fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
     },
   };
-
-  return selectedChartView === 'percentageGdp'
+  return selectedChartView === "percentageGdp"
     ? []
     : [
         {
           ...markerStyle,
-          legend: 'GDP',
-          value: '22.5',
+          legend: "GDP",
+          value: gdpValue-1.5,
         },
         {
           ...markerStyle,
-          legend: 'Total Revenue',
-          value: '8.5',
+          legend: "Total Revenue",
+          value: spendingValue-1.5,
         },
       ];
 };
+

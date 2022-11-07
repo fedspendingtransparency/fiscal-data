@@ -68,6 +68,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   let numMetaDataCalls = 0;
   let numRelCalendarCalls = 0;
   let numBLSAPICalls = 0;
+  let numBEAAPICalls = 0;
 
   const getReleaseCalendarData = async () => {
 
@@ -258,8 +259,57 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     };
     node.internal.contentDigest = createContentDigest(node);
     createNode(node);
+  });
+
+
+  const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=2014-2015-2016-2017-2018-2019-2020-2021-2022-2023&ResultFormat=JSON`;
+
+  const fetchBEA = async () => {
+    return new Promise((resolve, reject) => {
+      fetch(beaURL)
+        .then(res => {
+          resolve(res.json());
+        })
+        .catch(error => {
+          console.error(`failed to get metadata ${++numBEAAPICalls} time(s), error:${error}`);
+          if (numBEAAPICalls < 3) {
+            getBLSData();
+          } else {
+            reject(error);
+          }
+          console.error(error);
+        });
+    });
+  }
+
+  const beaResults = await fetchBEA().then(res => res)
+  .catch(error => {
+    throw error
+  });
+  beaResults.BEAAPI.Results.Data.forEach((bea) =>{
+
+    if(bea.LineDescription == 'Gross domestic product'){
+      const node = {
+        id: bea.TableName + bea.TimePeriod,
+        lineDescription: bea.LineDescription,
+        timePeriod: bea.TimePeriod,
+        dataValue: bea.DataValue,      
+        parent: null,
+        children: [],
+        internal: {
+          type: `BeaGDP`,
+        },
+      }
+      node.internal.contentDigest = createContentDigest(node);
+      createNode(node);
+    }
+    
   })
+  
+
 };
+
+
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -304,6 +354,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       periodName: String,
       latest: String,
       value: String
+    }
+    type BeaGDP implements Node{
+      lineDescription: String,
+      timePeriod: String,
+      dataValue: String
     }
   `;
 
@@ -446,7 +501,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           periodName
           latest
         }
-      }
+      }      
       allGlossaryCsv {
         glossaryCsv: nodes {
           term
