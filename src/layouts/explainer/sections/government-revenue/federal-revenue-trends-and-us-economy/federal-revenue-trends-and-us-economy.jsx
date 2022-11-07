@@ -9,7 +9,6 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
   const beaGDPData = useBeaGDP(cpiDataByYear);
-  console.log(beaGDPData)
   return (
     <div>
       <p className={comingSoon}>
