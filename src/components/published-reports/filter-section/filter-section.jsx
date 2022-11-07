@@ -59,7 +59,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   };
 
   const populateDays = () => {
-    if (selectedReportGroup?.value) {
+    if (selectedReportGroup?.value && selectedYear?.value && selectedMonth?.value) {
       const filteredReports = selectedReportGroup.value
         .filter(r => r.report_date.getFullYear() === selectedYear.value &&
           (r.report_date.getMonth()) === selectedMonth.value);
@@ -180,12 +180,14 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
    * months in the dropdowns and assess if we can use the same selected year/month with the
    *  newest selected report group.
    */
-  const recalibrateYM = (reportVal) => {
+  const recalibrateYMD = (reportVal) => {
     const availableYears = populateYears(reportVal);
     const selectedYearValue = selectedYear ? selectedYear.value : null;
     const selectedMonthValue = selectedMonth ? selectedMonth.value : null;
+    const selectedDayValue = selectedDay ? selectedDay.value : null;
     let isSelectedYearValid = false;
     let isSelectedMonthValid = false;
+    let isSelectedDayValid = false;
 
     // Check to see if a year is selected in the dropdown
     if (selectedYearValue) {
@@ -199,6 +201,12 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
         if (selectedMonthValue) {
           // Check to see if the selected month matches an available month in the new report group
           isSelectedMonthValid = availableMonths.some(r => r.value === selectedMonthValue);
+
+          if (isSelectedMonthValid && selectedReportGroup.daily) {
+            const availableDays = populateDays();
+            isSelectedDayValid = availableDays?.length &&
+              availableDays.some(r => r.value === selectedDayValue);
+          }
         }
       }
     }
@@ -207,6 +215,9 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
     if (!isSelectedMonthValid) {
       setSelectedMonth(null);
+    }
+    if (!isSelectedDayValid) {
+      setSelectedDay(null);
     }
   };
 
@@ -267,7 +278,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
             reportGroup.id === selectedReportGroup.id
         );
       previousSelectedGroupId.current = selectedReportGroup.id;
-      recalibrateYM(selectedReportGroup.value);
+      recalibrateYMD(selectedReportGroup.value);
       smartLoadFile(newSelectedGroup);
     }
   }, [selectedReportGroup]);
@@ -373,7 +384,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
               />
             </div>
           )}
-          {reportsByDay.length > 0 && (
+          {(reportsByDay.length > 0 && selectedReportGroup.daily) && (
             <div data-testid="day-wrapper" className={selectWrapper}>
               <SelectControl changeHandler={setSelectedDay}
                              label={dayLabel}
