@@ -25,13 +25,12 @@ import CompareSection from
 import DeskTopSubNav from
     "../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
-import { basicFetch } from "../../utils/api-utils";
+import {apiPrefix, basicFetch} from "../../utils/api-utils";
 import { getShortForm } from "../../layouts/explainer/heros/hero-helper";
 import AfgTopicSection from "../../layouts/explainer/explainer-components/afg-components/afg-topic-section/afg-topic-section";
 import AfgHero from "../../layouts/explainer/explainer-components/afg-components/afg-hero/afg-hero";
 import ApiRequest from "../../helpers/api-request";
 import {
-  debtRequest,
   deficitRequest,
   revenueRequest,
   spendingRequest,
@@ -64,6 +63,12 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const [yearToDateSpending, setYearToDateSpending] = useState("");
   const [yearToDateDeficit, setYearToDateDeficit] = useState("");
   const [debt, setDebt] = useState("");
+  const [revenueHas, setRevenueHas] = useState('has collected');
+  const [spendingHas, setSpendingHas] = useState('has spent');
+  const [midPageHas, setMidPageHas] = useState('has');
+  const [midPageAffect, setMidPageAffect] = useState('affected');
+  const [deficitExceeds, setDeficitExceeds] = useState('exceeds');
+  const [debtContributed, setDebtContributed] = useState('has contributed');
 
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
@@ -73,6 +78,9 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           getShortForm(data.current_fytd_net_rcpt_amt.toString(), 2, false)
         );
         setFiscalYear(data.record_fiscal_year);
+        if (data.record_calendar_month === '09') {
+          setRevenueHas('collected');
+        }
       }
     });
     basicFetch(new ApiRequest(spendingRequest).getUrl()).then(res => {
@@ -81,6 +89,11 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         setYearToDateSpending(
           getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false)
         );
+        if (data.record_calendar_month === '09') {
+          setSpendingHas('spent');
+          setMidPageHas('did');
+          setMidPageAffect('affect');
+        }
       }
     });
     basicFetch(new ApiRequest(deficitRequest).getUrl()).then(res => {
@@ -92,19 +105,33 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             ? getShortForm(deficitAmount.toString(), 2, false)
             : getShortForm(deficitAmount.toString(), 0, false);
         setYearToDateDeficit(formattedAmount);
+        if (data.record_calendar_month === '09') {
+          setDeficitExceeds('exceeded');
+        }
       }
     });
-    basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
+    const mtsDebtEndpoint = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date&page[size]=1';
+    basicFetch(`${apiPrefix}${mtsDebtEndpoint}`).then(res => {
       if (res.data) {
-        const data = res.data[0];
-        setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), 2, false));
+        console.log(res.data);
+        const mtsData = res.data[0];
+        const mtsMonth = mtsData.record_calendar_month;
+        const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
+        basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
+          if (res.data) {
+            console.log(res.data);
+            const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
+            console.log(mspdData);
+            console.log(mtsData);
+          }
+        })
       }
     });
   }, []);
 
   const revenueHeading = (
     <>
-      In fiscal year {fiscalYear}, the federal government collected $
+      In fiscal year {fiscalYear}, the federal government {revenueHas} $
       {yearToDateRevenue} in{" "}
       <span style={{ fontStyle: "italic" }}>revenue.</span>
     </>
@@ -113,13 +140,13 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const spendingHeading = (
     <>
       In fiscal year {fiscalYear}, the federal government {" "}
-      <span style={{ fontStyle: "italic" }}>spent</span> ${yearToDateSpending}.
+      <span style={{ fontStyle: "italic" }}>{spendingHas}</span> ${yearToDateSpending}.
     </>
   );
 
   const deficitHeading = (
     <>
-      The amount by which spending exceeds revenue, ${yearToDateDeficit} in{" "}
+      The amount by which spending {deficitExceeds} revenue, ${yearToDateDeficit} in{" "}
       {fiscalYear}, is referred to as{" "}
       <span style={{ fontStyle: "italic" }}>deficit</span>
       {" "}spending.
@@ -127,8 +154,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   );
   const debtHeading = (
     <>
-      Currently, the federal government has ${debt} in federal{" "}
-      <span style={{ fontStyle: "italic" }}>debt.</span>
+      The deficit this year {debtContributed} to a national{" "}
+      <span style={{ fontStyle: "italic" }}>debt</span> of {debt} through month.
     </>
   );
   const exciseTaxes =
@@ -240,7 +267,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
                 classes={{ root: styles.middleHeaderHeadingContainer }}
               >
                 <h3 className={styles.middleHeaderHeading}>
-                  How did federal revenue and spending affect the{" "}
+                  How {midPageHas} federal revenue and spending {midPageAffect} the{" "}
                   <span className={styles.deficitText}>deficit</span> and {" "}
                   <span className={styles.debtText}>debt</span> in fiscal
                   year {fiscalYear}?

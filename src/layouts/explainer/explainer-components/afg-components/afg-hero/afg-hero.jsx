@@ -15,6 +15,9 @@ export default function AfgHero() {
   const [fiscalYear, setFiscalYear] = useState(0);
   const [width, height] = useWindowSize()
   const [containerHeight, setContainerHeight] = useState(765)
+  const [headingTense, setHeadingTense] = useState('has');
+  const [headingTenseCollect, setHeadingTenseCollect] = useState('collected');
+  const [headingTenseSpend, setHeadingTenseSpend] = useState('spent');
   const pageName = "americas-finance-guide"
   const breakpoint = {
     desktop: 1015,
@@ -23,11 +26,17 @@ export default function AfgHero() {
 
   const refSocialShare = useRef(0);
 
+
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
       if (res.data) {
         const data = res.data[0];
         setFiscalYear(data.record_fiscal_year);
+        if (data.record_calendar_month === '09') {
+          setHeadingTense('did');
+          setHeadingTenseCollect('collect');
+          setHeadingTenseSpend('spend');
+        }
       }
     });
   }, []);
@@ -45,7 +54,8 @@ export default function AfgHero() {
 
   return (
     <div className={styles.heroContainer} style={{height: `${containerHeight}px`}}
-         data-testid="afg-hero">
+         data-testid="afg-hero"
+    >
       <div className={styles.heroGrayBox}></div>
       <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky.">
         <h3 className={styles.heroQuote}>
@@ -56,8 +66,9 @@ export default function AfgHero() {
       </div>
       <div className={styles.heroWhiteBox}>
         <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
-        <h1 className={styles.heroHeading}>How much money did the federal government collect and
-          spend in fiscal year {fiscalYear}?</h1>
+        <h1 className={styles.heroHeading}>How much money {headingTense} the federal
+          government {headingTenseCollect} and {headingTenseSpend} in fiscal year {fiscalYear}?
+        </h1>
         <div className={styles.heroSocialShare} ref={refSocialShare}>
           <SocialShare
             title={explainerSocialShareMap[pageName].title}
