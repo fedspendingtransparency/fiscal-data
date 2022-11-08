@@ -121,7 +121,6 @@ describe('Americas Finance Guide regular language', () => {
     const { getByText } = component;
     await waitFor(() => {
       getByText("The federal government has collected", { exact: false });
-      getByText("has spent", { exact: false });
       getByText("how has federal revenue and spending affected", { exact: false });
       getByText("the amount by which spending exceeds", { exact: false });
       getByText("the deficit this year has contributed", { exact: false });
