@@ -20,13 +20,13 @@ const footer = (
 
 
 
-export const getChartCopy = (minYear, maxYear) => {
+export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   return {
   title: `Government Spending and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
   subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
   footer: footer,
-  altText:
-    "Line graph comparing the total federal spending to the total GDP dollar amount.",
+  altText: (selectedChartView === "percentageGdp" ? "A line graph showing the percentage of GDP." :
+    "Line graph comparing the total federal spending to the total GDP dollar amount."),
   }
 };
 
