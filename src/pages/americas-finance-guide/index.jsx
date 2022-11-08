@@ -66,7 +66,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const [debt, setDebt] = useState("");
   const [latestDebt, setLatestDebt] = useState("");
   const [revenueHas, setRevenueHas] = useState('has collected');
-  const [spendingHas, setSpendingHas] = useState('has spent');
+  const [spendingHas, setSpendingHas] = useState('has');
   const [midPageHas, setMidPageHas] = useState('has');
   const [midPageAffect, setMidPageAffect] = useState('affected');
   const [deficitExceeds, setDeficitExceeds] = useState('exceeds');
@@ -94,7 +94,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false)
         );
         if (data.record_calendar_month === '09') {
-          setSpendingHas('spent');
+          setSpendingHas('');
           setMidPageHas('did');
           setMidPageAffect('affect');
         }
@@ -158,8 +158,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
   const spendingHeading = (
     <>
-      In fiscal year {fiscalYear}, the federal government {" "}
-      <span style={{ fontStyle: "italic" }}>{spendingHas}</span> ${yearToDateSpending}.
+      In fiscal year {fiscalYear}, the federal government {spendingHas} {" "}
+      <span style={{ fontStyle: "italic" }}>spent</span> ${yearToDateSpending}.
     </>
   );
 
