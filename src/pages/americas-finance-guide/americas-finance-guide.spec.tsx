@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, RenderResult, waitFor, act } from "@testing-library/react"
 import { AmericasFinanceGuidePage } from "./index"
-import { mockEndpointResponseMap } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers"
+import { mockEndpointResponseMap, mockEndpointResponseMapAltDates } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers"
 import { setGlobalFetchMatchingResponse } from "../../utils/mock-utils"
 import { useStaticQuery } from "gatsby";
 
@@ -53,7 +53,7 @@ describe('Americas Finance Guide', () => {
     expect(container.querySelector('[data-testid="afg-icon"]')).toBeInTheDocument();
   });
 
-  it('correctly populates values from API data', async () => {
+  it('correctly populates values from API data / alt september language', async () => {
 
     let component: RenderResult;
     await act( async () => {
@@ -61,10 +61,12 @@ describe('Americas Finance Guide', () => {
     });
     const { getByText, getAllByText } = component;
     await waitFor(() => {
-      getByText("the federal government collected $4.41 trillion", { exact: false });
+      getByText("the federal government has collected $4.41 trillion", { exact: false });
       getByText("$5.35 trillion", { exact: false });
-      getByText("by which spending exceeds revenue, $946 billion in", { exact: false });
-      getByText("the federal government has $30.90 trillion", { exact: false });
+      getByText("by which spending exceeded revenue, $946 billion in", { exact: false });
+      getByText("contributed", { exact: false });
+      getByText("$30.93T", { exact: false });
+      getByText("September, 2022", { exact: false });
       getByText("How did these totals compare to", { exact: false });
       getByText("$4.05 trillion", { exact: false });
       getByText("$6.82 trillion", { exact: false });
@@ -78,4 +80,52 @@ describe('Americas Finance Guide', () => {
     });
 
   });
+});
+
+describe('Americas Finance Guide regular language', () => {
+  const glossaryMock =
+    {
+      "allGlossaryCsv": {
+        "glossaryCsv": [
+          {
+            "term": "Excise",
+            "definition": "A tax collected on certain goods and commodities produced or sold within the country (i.e. alcohol and tobacco, gasoline) and on licenses granted for certain activities (i.e. import/export license).",
+            "site_page": "Revenue Explainer & AFG Overview Page",
+            "id": "12",
+            "url_display": "",
+            "url_path": ""
+          }
+        ]
+      },
+      "extensions": {}
+    };
+
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
+  beforeEach(() => {
+    // mock all data endpoints for inline evergreen values
+    setGlobalFetchMatchingResponse(jest, mockEndpointResponseMapAltDates);
+  })
+
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  it('correctly uses language when not in september', async () => {
+
+    let component: RenderResult;
+    await act( async () => {
+      component = render(<AmericasFinanceGuidePage width={1200} />);
+    });
+    const { getByText } = component;
+    await waitFor(() => {
+      getByText("The federal government has collected", { exact: false });
+      getByText("how has federal revenue and spending affected", { exact: false });
+      getByText("the amount by which spending exceeds", { exact: false });
+      getByText("the deficit this year has contributed", { exact: false });
+    });
+
+  });
+
 });
