@@ -31,6 +31,7 @@ import AfgTopicSection from "../../layouts/explainer/explainer-components/afg-co
 import AfgHero from "../../layouts/explainer/explainer-components/afg-components/afg-hero/afg-hero";
 import ApiRequest from "../../helpers/api-request";
 import {
+  debtRequest,
   deficitRequest,
   revenueRequest,
   spendingRequest,
@@ -63,12 +64,15 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const [yearToDateSpending, setYearToDateSpending] = useState("");
   const [yearToDateDeficit, setYearToDateDeficit] = useState("");
   const [debt, setDebt] = useState("");
+  const [latestDebt, setLatestDebt] = useState("");
   const [revenueHas, setRevenueHas] = useState('has collected');
   const [spendingHas, setSpendingHas] = useState('has spent');
   const [midPageHas, setMidPageHas] = useState('has');
   const [midPageAffect, setMidPageAffect] = useState('affected');
   const [deficitExceeds, setDeficitExceeds] = useState('exceeds');
   const [debtContributed, setDebtContributed] = useState('has contributed');
+  const [debtDate, setDebtDate] = useState('month, year');
+  const [debtToPennyDate, setDebtToPennyDate] = useState('month DD, year');
 
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
@@ -113,18 +117,33 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     const mtsDebtEndpoint = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date&page[size]=1';
     basicFetch(`${apiPrefix}${mtsDebtEndpoint}`).then(res => {
       if (res.data) {
-        console.log(res.data);
         const mtsData = res.data[0];
         const mtsMonth = mtsData.record_calendar_month;
-        const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
+        const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
         basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
           if (res.data) {
-            console.log(res.data);
             const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
-            console.log(mspdData);
-            console.log(mtsData);
+            if (mspdData.record_calendar_month === '09') {
+              setDebtContributed('contributed');
+            }
+            const latestDebt = (parseFloat(mspdData.total_mil_amt) / 1000000).toFixed(2);
+            setLatestDebt(`$${latestDebt}T`);
+            const date = new Date(mtsData.record_date);
+            const monthName = date.toLocaleString('default', {month: 'long'});
+            const year = mtsData.record_calendar_year;
+            setDebtDate(`${monthName}, ${year}`)
           }
         })
+      }
+    });
+    basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), 2, false));
+        const date = new Date(data.record_date);
+        const monthName = date.toLocaleString('default', {month: 'long'});
+        const debtToThePennyDay = data.record_calendar_day;
+        setDebtToPennyDate(`${monthName} ${debtToThePennyDay}, ${data.record_calendar_year}`)
       }
     });
   }, []);
@@ -155,7 +174,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const debtHeading = (
     <>
       The deficit this year {debtContributed} to a national{" "}
-      <span style={{ fontStyle: "italic" }}>debt</span> of {debt} through month.
+      <span style={{ fontStyle: "italic" }}>debt</span> of {latestDebt} through {debtDate}.
     </>
   );
   const exciseTaxes =
@@ -191,11 +210,10 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </>
   const debtBody =
     <>
-      The national debt is the money the federal government has borrowed to cover the outstanding
-      balance of expenses incurred over time. To pay for a deficit, the federal government borrows
-      additional funds, which increases the debt. Other activities contribute to the change in
-      federal debt, such as changes in the Treasury's operating cash account and federal student
-      loans.
+      The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time.
+      To pay for a deficit, the federal government borrows additional funds, which increases the debt.
+      Other activities contribute to the change in federal debt, such as changes in the Treasury’s operating cash account and federal student loans.
+      The total debt for the US through {debtToPennyDate} is {debt}.
       <br />
       <br />
       Are federal debt and deficit the same thing? No, but they do affect one another
