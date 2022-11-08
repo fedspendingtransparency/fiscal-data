@@ -131,7 +131,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             const date = new Date(mtsData.record_date);
             const monthName = date.toLocaleString('default', {month: 'long'});
             const year = mtsData.record_calendar_year;
-            setDebtDate(`${monthName}, ${year}`)
+            setDebtDate(`${monthName}, ${year}`);
           }
         })
       }
