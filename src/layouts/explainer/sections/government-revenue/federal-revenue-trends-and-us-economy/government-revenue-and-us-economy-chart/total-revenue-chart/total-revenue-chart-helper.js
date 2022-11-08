@@ -31,15 +31,14 @@ const footer = (
   </p>
 );
 
-export const getChartCopy = (minYear, maxYear, selectedChartView) => {
+export const getChartCopy = (minYear, maxYear) => {
   return {
   title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
   subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
   footer: footer,
-  altText: (selectedChartView === "percentageGdp" ? "Line graph showing revenue as a percentage of GDP." :
-    'Line graph comparing the total federal revenue to the total GDP dollar amount.'),
+  altText:
+    'Line graph comparing the total federal revenue to the total GDP dollar amount.',
   }
-  
 };
 
 export const dataHeader = (chartToggleConfig, headingValues) => {

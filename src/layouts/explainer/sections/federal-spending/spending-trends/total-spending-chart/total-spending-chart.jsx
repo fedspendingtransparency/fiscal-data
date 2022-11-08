@@ -376,7 +376,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     }
   }
 
-  const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText} = getChartCopy(minYear, maxYear, selectedChartView);
+  const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altTex: chartAltText} = getChartCopy(minYear, maxYear);
+
   return (
     <>
       {isLoading && (

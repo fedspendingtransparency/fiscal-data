@@ -307,8 +307,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData }) => {
     title: chartTitle,
     subtitle: chartSubtitle,
     footer: chartFooter,
-    altText: chartAltText,
-  } = getChartCopy(minYear, maxYear, selectedChartView);
+    altTex: chartAltText,
+  } = getChartCopy(minYear, maxYear);
 
   return (
     <>
