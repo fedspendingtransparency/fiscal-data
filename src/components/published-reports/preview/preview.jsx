@@ -64,6 +64,11 @@ const Preview = ({ selectedFile }) => {
         let newFileType = null;
         if (fileTypeIdx !== -1) {
           newFileType = groupName.substring(fileTypeIdx + 1, groupName.indexOf(')'));
+        } else {
+          const matched = selectedFile.path.match(/\.[A-Za-z0-1]{2,6}$/);
+          if (matched?.length === 1) { // checking for char grouping
+            newFileType = matched[0];
+          }
         }
         setFileType(newFileType);
       }
@@ -103,8 +108,10 @@ const Preview = ({ selectedFile }) => {
                   </pre>
                 </div>
                 :
-                <NotShownMessage heading="Preview cannot be displayed for this file type."
-                                 bodyText={`The selected file type is ${fileType}`}
+                <NotShownMessage
+                  heading="Preview cannot be displayed for this file type."
+                    bodyText={`The selected file type is ${fileType !== null ?
+                      fileType : 'unknown'}`}
                 />
           : <NotShownMessage heading="Select a Report Above To Generate A Preview" />
         }

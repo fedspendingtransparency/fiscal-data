@@ -59,10 +59,10 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   };
 
   const populateDays = () => {
-    if (selectedReportGroup?.value && selectedYear?.value && selectedMonth?.value) {
+    if (selectedReportGroup?.value && selectedYear?.value && selectedMonth?.value !== null) {
       const filteredReports = selectedReportGroup.value
         .filter(r => r.report_date.getFullYear() === selectedYear.value &&
-          (r.report_date.getMonth()) === selectedMonth.value);
+          (r.report_date.getMonth()) === selectedMonth?.value);
       const availableDays = getDayOptions(filteredReports);
       setReportsByDay(availableDays);
 
@@ -93,6 +93,9 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       } else {
         setFiltered(selectedReportGroup.value);
         setReportsByMonth([]);
+        if (selectedReportGroup.daily) {
+          setReportsByDay([]);
+        }
       }
     }
   };
@@ -104,20 +107,21 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     setSelectedFile(reportFile);
   }
 
-  const toggleCurrentReport = (currentReport) => {
-    if (currentReport === false) {
+  const toggleCurrentReport = (currentReportSelection) => {
+    if (currentReportSelection === false) {
       setShowFilters(true);
       return;
     }
 
-    setCurrentReport(currentReport);
-    setFileSelection(currentReport ? currentReport : filteredReport);
-    setShowFilters(!currentReport);
+    setCurrentReport(currentReportSelection);
+    setFileSelection(currentReportSelection ? currentReportSelection : filteredReport);
+    setShowFilters(!currentReportSelection);
   };
 
   const makeReportGroups = (reports) => {
     const tempObj = {};
-    reports.forEach((report) => {
+    reports.filter(rep => rep.report_group_id !== undefined && Number(rep.report_group_id) > -1)
+      .forEach((report) => {
       if (!tempObj[report.report_group_desc]) {
         tempObj[report.report_group_desc] = [];
       }
@@ -223,9 +227,10 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
 
   const smartLoadFile = (newSelectedGroup, _resetIfNoMatch) => {
 
-    if (!selectedReportGroup?.daily && selectedYear && selectedMonth && showFilters) {
+    if ((!selectedReportGroup?.daily) && selectedYear && selectedMonth && showFilters) {
       getFileForSelectedMonth();
-    } else if (selectedReportGroup?.daily && selectedYear && selectedMonth && selectedDay && showFilters) {
+    } else if (selectedReportGroup?.daily && selectedYear &&
+      selectedMonth && selectedDay && showFilters) {
       getFileForSelectedDay();
     } else {
 
@@ -375,24 +380,27 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
 
           </div>
           {reportsByMonth.length > 0 && (
-            <div data-testid="month-wrapper" className={selectWrapper}>
-              <SelectControl changeHandler={setSelectedMonth}
-                             label={monthLabel}
-                             optionLabelKey="label"
-                             options={reportsByMonth}
-                             selectedOption={selectedMonth}
-              />
-            </div>
-          )}
-          {(reportsByDay.length > 0 && selectedReportGroup.daily) && (
-            <div data-testid="day-wrapper" className={selectWrapper}>
-              <SelectControl changeHandler={setSelectedDay}
-                             label={dayLabel}
-                             optionLabelKey="label"
-                             options={reportsByDay}
-                             selectedOption={selectedDay}
-              />
-            </div>
+            <>
+              <div data-testid="month-wrapper" className={selectWrapper}>
+                <SelectControl changeHandler={setSelectedMonth}
+                               label={monthLabel}
+                               optionLabelKey="label"
+                               options={reportsByMonth}
+                               selectedOption={selectedMonth}
+                />
+              </div>
+              {(selectedMonth?.value !== null && reportsByDay?.length > 0 &&
+                selectedReportGroup.daily) && (
+                <div data-testid="day-wrapper" className={selectWrapper}>
+                <SelectControl changeHandler={setSelectedDay}
+                label={dayLabel}
+                optionLabelKey="label"
+                options={reportsByDay}
+                selectedOption={selectedDay}
+                />
+                </div>
+              )}
+            </>
           )}
         </div>
         {reportsTip && (

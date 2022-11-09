@@ -178,25 +178,36 @@ describe('Filter Section', () => {
   });
 
   // test case with daily reports renders distinct component from the one in beforeEach
-  it('utilizes the day selector when the month selector is engaged', () => {
-
+  it(`utilizes the day selector when the month selector is engaged and
+  correctly handles switching between daily and non-daily report groups`, () => {
     const mockFileSetter = jest.fn();
-
     const dayComponent = renderer.create(
       <FilterSection reports={dailyReports} setSelectedFile={mockFileSetter} />
     );
     const dayInstance = dayComponent.root;
     jest.runAllTimers();
-    const yearSelector = dayInstance.findAllByType(SelectControl)[0];
 
+    // ensure reportGroups with report_group_id < 0 are filtered out
+    const reportGroupSelector = dayInstance.findAllByType(SelectControl)[0];
+    expect(reportGroupSelector.props.options.length).toBe(2);
+
+    // select report group with daily reports
+    renderer.act(() =>
+      reportGroupSelector.props.changeHandler(reportGroupSelector.props.options[1]));
+    const currentReportToggler = dayInstance.findByType(CurrentReportToggle);
+    renderer.act(() => {
+      currentReportToggler.props.onChange(false); // select "Previous"
+    });
+
+    let yearSelector = dayInstance.findAllByType(SelectControl)[1];
     renderer.act(() => yearSelector.props.changeHandler(yearSelector.props.options[1]));
 
     // no day selector is present before a month is chosen
     let daySelectorWrapper = dayInstance.findAllByProps({'data-testid': 'day-wrapper'});
     expect(daySelectorWrapper.length).toBe(0);
 
-    const monthSelectorWrapper = dayInstance.findByProps({'data-testid': 'month-wrapper'});
-    const monthSelector = monthSelectorWrapper.findByType(SelectControl);
+    let monthSelectorWrapper = dayInstance.findByProps({'data-testid': 'month-wrapper'});
+    let monthSelector = monthSelectorWrapper.findByType(SelectControl);
     expect(monthSelector.props.options.length).toBe(2);
 
     // renders day control when month is selected
@@ -205,7 +216,7 @@ describe('Filter Section', () => {
     daySelectorWrapper = dayInstance.findByProps({'data-testid': 'day-wrapper'});
 
     expect(daySelectorWrapper.findByType(SelectControl).props.label).toBeDefined();
-    const daySelector = daySelectorWrapper.findByType(SelectControl);
+    let daySelector = daySelectorWrapper.findByType(SelectControl);
     expect(daySelector.props.options.length).toBe(5);
 
     // sets the selected report file when a valid day is chosen
@@ -213,8 +224,25 @@ describe('Filter Section', () => {
     renderer.act(() => {
       daySelector.props.changeHandler(daySelector.props.options[1]);
     });
-    expect(mockFileSetter).toHaveBeenLastCalledWith(dailyReports[0]);
-    expect(dailyReports[0].daily).toBeTruthy();
+    expect(mockFileSetter).toHaveBeenLastCalledWith(dailyReports[2]);
+    expect(dailyReports[2].daily).toBeTruthy();
+
+    // hides the day selector when a non-daily report group is selected
+    renderer.act(() =>
+      reportGroupSelector.props.changeHandler(reportGroupSelector.props.options[0]));
+    daySelectorWrapper = dayInstance.findAllByProps({'data-testid': 'day-wrapper'});
+    expect(daySelectorWrapper.length).toBe(0);
+
+    // retains the month selector with the proper month displayed when it's available
+    monthSelectorWrapper = dayInstance.findByProps({'data-testid': 'month-wrapper'});
+    expect(monthSelectorWrapper).toBeDefined();
+
+    // re-displays the day selector when a daily report group is re-selected
+    renderer.act(() =>
+      reportGroupSelector.props.changeHandler(reportGroupSelector.props.options[1]));
+    daySelectorWrapper = dayInstance.findByProps({'data-testid': 'day-wrapper'});
+    daySelector = daySelectorWrapper.findByType(SelectControl);
+    expect(daySelector.props.options.length).toBe(5);
 
     // deselects report file when no valid day is selected
     renderer.act(() => {
@@ -222,10 +250,22 @@ describe('Filter Section', () => {
     });
     expect(mockFileSetter).toHaveBeenLastCalledWith(null);
 
+    // switching to non-daily reportGroup, select year unique to it
+    renderer.act(() =>
+      reportGroupSelector.props.changeHandler(reportGroupSelector.props.options[1]));
+    renderer.act(() => yearSelector.props.changeHandler(yearSelector.props.options[0]));
+
+    // switch back to daily report group with unavailable year last selected
+    renderer.act(() =>
+      reportGroupSelector.props.changeHandler(reportGroupSelector.props.options[1]));
+    yearSelector = dayInstance.findAllByType(SelectControl)[1];
+    renderer.act(() => yearSelector.props.changeHandler(yearSelector.props.options[1]));
+
     // hides day selector when no valid month is selected
+    monthSelectorWrapper = dayInstance.findByProps({'data-testid': 'month-wrapper'});
+    monthSelector = monthSelectorWrapper.findByType(SelectControl);
     renderer.act(() => monthSelector.props.changeHandler(monthSelector.props.options[0]));
     daySelectorWrapper = dayInstance.findAllByProps({'data-testid': 'day-wrapper'})
     expect(daySelectorWrapper.length).toBe(0);
-
   });
 });
