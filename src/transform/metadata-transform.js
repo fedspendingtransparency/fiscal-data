@@ -283,7 +283,7 @@ const datasetPublishedReportsCustomSelectionTips = {
   '015-BFS-2014Q1-13': 'Monthly Treasury Statement reports dated before 1998 are grouped ' +
     'by year. Once inside the desired year, scroll to the specific month.',
   '015-BFS-2014Q1-03': 'Daily Treasury Statement reports dated before FY 1998 are grouped ' +
-    'by year. Once inside the desired year, scroll to the specific month and day.'
+    'by fiscal year. Once inside the desired year, scroll to the specific month and day.'
 };
 
 const determineSEO = (dataset, mappedDataset) => {
