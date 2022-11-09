@@ -210,10 +210,11 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </>
   const debtBody =
     <>
-      The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time.
-      To pay for a deficit, the federal government borrows additional funds, which increases the debt.
-      Other activities contribute to the change in federal debt, such as changes in the Treasury’s operating cash account and federal student loans.
-      The total debt for the US through {debtToPennyDate} is {debt}.
+      The national debt is the money the federal government has borrowed to cover the outstanding
+      balance of expenses incurred over time. To pay for a deficit, the federal government borrows
+      additional funds, which increases the debt. Other activities contribute to the change in
+      federal debt, such as changes in the Treasury’s operating cash account and federal student
+      loans. The total debt for the US through {debtToPennyDate} is ${debt}.
       <br />
       <br />
       Are federal debt and deficit the same thing? No, but they do affect one another
