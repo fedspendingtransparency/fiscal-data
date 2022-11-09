@@ -71,7 +71,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const [midPageAffect, setMidPageAffect] = useState('affected');
   const [deficitExceeds, setDeficitExceeds] = useState('exceeds');
   const [debtContributed, setDebtContributed] = useState('has contributed');
-  const [debtDate, setDebtDate] = useState('month, year');
+  const [debtDate, setDebtDate] = useState('month year');
   const [debtToPennyDate, setDebtToPennyDate] = useState('month DD, year');
 
   useEffect(() => {
@@ -131,7 +131,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             const date = new Date(mtsData.record_date);
             const monthName = date.toLocaleString('default', {month: 'long'});
             const year = mtsData.record_calendar_year;
-            setDebtDate(`${monthName}, ${year}`);
+            setDebtDate(`${monthName} ${year}`);
           }
         })
       }
