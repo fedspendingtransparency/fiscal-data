@@ -178,6 +178,42 @@ describe('Preview component', () => {
     expect(message.props.bodyText).toStrictEqual('The selected file type is .pdf.zip');
   });
 
+  it(`reads the filetype extension from the path if it is unavailable in the
+  group description`, () => {
+
+    renderer.act(() => {
+      component.update(
+        <Preview selectedFile={{
+          path: 'hello.xls',
+          report_group_desc: 'Announcements'
+        }}
+        />);
+    });
+
+    const message = instance.findByType(NotShownMessage);
+    expect(message.props.heading)
+      .toStrictEqual('Preview cannot be displayed for this file type.');
+    expect(message.props.bodyText).toStrictEqual('The selected file type is .xls');
+  });
+
+  it(`indicates "unknown" for the filetype extension if it cannot be
+  parsed from the filename OR from the report group description`, () => {
+
+    renderer.act(() => {
+      component.update(
+        <Preview selectedFile={{
+          path: 'ReadMe',
+          report_group_desc: 'Documentation'
+        }}
+        />);
+    });
+
+    const message = instance.findByType(NotShownMessage);
+    expect(message.props.heading)
+      .toStrictEqual('Preview cannot be displayed for this file type.');
+    expect(message.props.bodyText).toStrictEqual('The selected file type is unknown');
+  });
+
   it('sets the alt text to the correct string depending on if the dataset is MSPD or MTS', () => {
     const altTextMSPD = 'Preview the downloadable PDF report of the MSPD ' +
       'for the selected month and year for the previous five years.';
