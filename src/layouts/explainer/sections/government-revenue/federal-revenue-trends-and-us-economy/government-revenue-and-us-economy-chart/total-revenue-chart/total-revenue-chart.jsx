@@ -369,8 +369,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData }) => {
                   },
                 }}
                 colors={d => d.color}
-                width={550}
-                height={400}
+                width={chartWidth}
+                height={chartHeight}
                 margin={
                   width < pxToNumber(breakpointLg)
                     ? { top: 25, right: 25, bottom: 30, left: 55 }
