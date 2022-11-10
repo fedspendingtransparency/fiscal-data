@@ -8,32 +8,32 @@
 .templateContent {
 
   position: relative;
-  margin: 2.5rem auto;
+  margin: 0 auto 2.5rem;
 
   h1, h2 {
     font-size: 3rem;
     font-weight: bold;
     color: $info-header-focal;
     line-height: 1.25;
-    margin: 2.5rem 0 1rem;
+    margin: .75rem 0 1rem;
   }
 
   h3 {
     font-size: 2.25rem;
     font-weight: $semi-bold-weight;
     color: $info-header;
-    margin: 3.75rem 0 1rem;
+    margin: 4rem 0 1rem;
   }
 
   h4 {
     font-size: 1.75rem;
     font-weight: $semi-bold-weight;
     color: $info-header;
-    margin: 1rem 0 1.5rem;
+    margin: 1rem 0;
   }
 
   h5 {
-    margin: 2rem 0 1.25rem;
+    margin: 2rem 0 1rem;
     font-size: 1.5rem;
     font-weight: $semi-bold-weight;
     line-height: 1.5;
@@ -76,9 +76,9 @@
   .byLine {
     font-size: 1rem;
     line-height: 1.5;
-    margin: 1.5rem 0 3rem;
+    margin: 1rem 0;
     font-weight: $semi-bold-weight;
-
+    padding: 1rem 0;
     .by {
       display: inline-block;
       color: $info-header-focal;
@@ -103,7 +103,7 @@
     background-repeat: no-repeat;
     background-size: cover;
 
-    margin: 3rem -2rem 2.5rem -2rem;
+    margin: 1rem -2rem 2.5rem -2rem;
     height: 27rem;
   }
 
@@ -113,7 +113,7 @@
 
   hr {
     border-top: 1px solid #eaeaea;
-    margin: 3.75rem 0;
+    margin: 4rem 0;
   }
 
   font {
