@@ -162,7 +162,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       <div>
         <SplitFlapDisplay value={desktopDeficit}
                           mobilePrecision={parseInt(desktopDeficit) > 999999999999 ? 2 : 0}
-                          minLength={15} // number of characters to initially display
+                          minLength={desktopDeficit?.toString().length} // number of characters to initially display
                           valueType="currency"
         />
       </div>
