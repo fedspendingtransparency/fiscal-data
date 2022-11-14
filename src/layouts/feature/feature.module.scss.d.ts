@@ -71,3 +71,4 @@ export const dateStamp: string;
 export const dateValue: string;
 export const share: string;
 export const mainVis: string;
+export const vis: string;

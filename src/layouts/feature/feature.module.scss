@@ -119,8 +119,29 @@
   }
 }
 
+@media screen and (min-width: $breakpoint-md) {
 
-@media screen and (max-width: $breakpoint-lg - 1px) {
+  .templateContainer .templateContent {
+    width: 83%;
+
+    h1, h2, h3, h4, h5, h6, p, .vis, blockquote, .byLine {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    blockquote p {
+      width: 100%;
+    }
+
+    .mainVis {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-md - 1px) {
 
   .templateContainer .templateContent {
     width: 100%;
