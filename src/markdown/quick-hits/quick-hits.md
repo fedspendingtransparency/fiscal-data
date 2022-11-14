@@ -102,7 +102,7 @@ exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ---
 
-###### Header 6, Data Sources and Methodologies
+###### Header 6, Footnotes
 
 <DSM>
 

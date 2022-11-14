@@ -20,37 +20,34 @@
 
   h3 {
     font-size: 2.25rem;
-    font-weight: $semi-bold-weight;
-    color: $info-header;
     margin: 4rem 0 1rem;
   }
 
   h4 {
     font-size: 1.75rem;
-    font-weight: $semi-bold-weight;
-    color: $info-header;
     margin: 1rem 0;
   }
 
   h5 {
     margin: 2rem 0 1rem;
     font-size: 1.5rem;
-    font-weight: $semi-bold-weight;
     line-height: 1.5;
-    color: $info-header;
   }
 
   h6 {
     margin: 2.5rem 0 0.75rem;
     font-size: 1.25rem;
-    font-weight: $semi-bold-weight;
     line-height: 1.5;
     letter-spacing: normal;
-    color: $info-header;
+  }
+
+  h3, h4, h5, h6 {
+    font-weight: $semi-bold-weight;
+    color: #555555;
   }
 
   p {
-    color: $font-title;
+    color: #666666;
     font-size: 1rem;
     line-height: 1.5;
     margin: 1.5rem auto 1.5rem;
@@ -113,7 +110,7 @@
 
   hr {
     border-top: 1px solid #eaeaea;
-    margin: 4rem 0;
+    margin: 4rem 0 2rem;
   }
 
   font {
@@ -122,38 +119,25 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-md) {
 
-  .templateContainer .templateContent {
-    width: 83%;
-
-    h1, h2, h3, h4, h5, h6, p, .vis, blockquote, .byLine {
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    blockquote p {
-      width: 100%;
-    }
-
-    .mainVis {
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm - 1px) {
+@media screen and (max-width: $breakpoint-lg - 1px) {
 
   .templateContainer .templateContent {
     width: 100%;
+    h1, h2 {
+      margin: 2rem 0 1rem;
+    }
+    h6 {
+      font-size: $font-size-18;
+      margin: 2rem 0;
+    }
     .mainVis {
       height: 21.25rem;
       margin-left: -0.75rem;
       margin-right: -0.75rem;
     }
     .byLine {
+      padding: 0;
       .by {
         display: block;
         padding-right: 0;
@@ -168,7 +152,7 @@
     }
 
     hr {
-      margin: 2.5rem 0;
+      margin: 4rem 0 2rem;
     }
   }
 }
