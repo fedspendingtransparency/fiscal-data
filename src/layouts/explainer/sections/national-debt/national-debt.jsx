@@ -461,6 +461,7 @@ export const FundingProgramsSection = () => {
           containerClass={fundingProgramAccordion}
           openEventNumber={"11"}
           closeEventNumber={"12"}
+          explainerGAEvent="Debt"
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
@@ -643,6 +644,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         openEventNumber={"20"}
         closeEventNumber={"21"}
         dynamicGaEventValue={dynamicGaEventValue}
+        explainerGAEvent="Debt"
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>
@@ -2035,6 +2037,7 @@ export const DebtBreakdownSection = withWindowSize(
                 title="Why can't the government just print more money?"
                 openEventNumber={"26"}
                 closeEventNumber={"27"}
+                explainerGAEvent="Debt"
               >
                 While the Treasury prints actual dollar bills, “printing money”
                 is also a term that is sometimes used to describe a means of{" "}
@@ -2088,6 +2091,7 @@ export const DebtCeilingSection = () => (
         containerClass={debtCeilingAccordion}
         openEventNumber="28"
         closeEventNumber="29"
+        explainerGAEvent="Debt"
       >
         Government shutdowns occur when annual funding for ongoing federal
         government operations expires, and Congress does not renew it in time.
