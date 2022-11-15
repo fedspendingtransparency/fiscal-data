@@ -13,8 +13,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
+import Analytics from '../../../../../../utils/analytics/analytics';
+
+let gaTimerChart;
 
 const DeficitTrendsBarChart = ({ width }) => {
+  const {getGAEvent} = useGAEventTracking(null, "Deficit");
 
   const desktop = width >= pxToNumber(breakpointLg);
   const [date, setDate] = useState(new Date ());
@@ -27,6 +32,7 @@ const DeficitTrendsBarChart = ({ width }) => {
   const [minValue, setMinValue] = useState('');
   const [headerYear, setHeaderYear] = useState('');
   const [headerDeficit, setHeaderDeficit] = useState('');
+  const [gaChartTime, setGaChartTime] = useState(0);
 
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
@@ -108,6 +114,22 @@ const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
+  
+  const handleMouseChartEnter = () =>{
+    const gaEvent = getGAEvent("30");
+    gaTimerChart = setTimeout(() =>{
+      gaEvent && Analytics.event({
+        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
+        action: gaEvent.eventAction,
+        label: gaEvent.eventLabel,
+      });
+    }, 3000);
+  }
+
+  const handleMouseChartLeave = () =>{
+    clearTimeout(gaTimerChart);
+  }
+
   const name = 'Monthly Treasury Statement (MTS)';
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
@@ -140,7 +162,9 @@ const DeficitTrendsBarChart = ({ width }) => {
   return (
     <>
       { chartData !== [] ? (
-        <div data-testid={'deficitTrendsBarChart'} className={container}>
+        <div data-testid={'deficitTrendsBarChart'} className={container}
+        onMouseEnter={handleMouseChartEnter}
+        onMouseLeave={handleMouseChartLeave}>
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY 2001-${mostRecentFiscalYear}`}
             altText={'Bar graph that shows the federal deficit trend from 2001 to '
@@ -149,6 +173,7 @@ const DeficitTrendsBarChart = ({ width }) => {
             header={header}
             footer={footer}
             date={date}
+            
           >
             <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'}>
               <Bar
