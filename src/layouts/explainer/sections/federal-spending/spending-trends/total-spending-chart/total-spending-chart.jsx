@@ -26,6 +26,7 @@ import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNu
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {getShortForm} from "../../../../heros/hero-helper";
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -38,7 +39,7 @@ const chartDataEndPoint =
 const gdpEndPoint =
   'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
 
-const TotalSpendingChart = ({ width, cpiDataByYear }) => {
+const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
@@ -249,7 +250,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
 
             setGdpChartData(finalGDPChartData);
 
-            let finalGdpRatioChartData = [];
+            const finalGdpRatioChartData = [];
             finalSpendingChartData.map((spending, idx) => {
               const spendingYear = spending.fiscalYear;
               const spendingAmount = spending.y;
@@ -270,7 +271,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                   : gdpMaxAmount) / 5
               ) * 5;
             setMaxAmount(maxAmount);
-            
+
             setFirstRatio(
               numeral(
                 finalSpendingChartData[0].y / finalGDPChartData[0].y
@@ -298,7 +299,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
             });
             setIsLoading(false);
             applyChartScaling();
-            
+
+            copyPageData({
+              fiscalYear: maxYear,
+              totalSpending: getShortForm(chartLastSpendingValue, 2, true),
+              percentOfGDP: chartLastRatio,
+              numOfYearsInChart: maxYear - minYear
+            })
           }
         });
       }
@@ -342,7 +349,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
 
-  
+  // useEffect(() => {
+  //   copyPageData({
+  //     fiscalYear: maxYear,
+  //     totalSpending: getShortForm(lastSpendingValue, 2, true)
+  //   })
+  // }, [])
+
+
 
   const handleGroupOnMouseLeave = () => {
     setTotalSpendingHeadingValues({
@@ -376,6 +390,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
     }
   }
 
+
   const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText} = getChartCopy(minYear, maxYear, selectedChartView);
   return (
     <>
@@ -387,7 +402,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
           <div className={container}>
-            
+
             <ChartContainer
               title={chartTitle}
               subTitle={chartSubtitle}
@@ -478,7 +493,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear }) => {
                     minGDPValue,
                     minSpendingValue
                   )}
-                ></Line>
+                >
+                </Line>
               </div>
             </ChartContainer>
           </div>
