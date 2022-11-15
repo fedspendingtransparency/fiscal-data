@@ -349,15 +349,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
 
-  // useEffect(() => {
-  //   copyPageData({
-  //     fiscalYear: maxYear,
-  //     totalSpending: getShortForm(lastSpendingValue, 2, true)
-  //   })
-  // }, [])
-
-
-
   const handleGroupOnMouseLeave = () => {
     setTotalSpendingHeadingValues({
       fiscalYear: maxYear,
