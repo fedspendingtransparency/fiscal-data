@@ -12,7 +12,7 @@ const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
   return (
     <div>
       <p>
-        In fiscal year YYYY (latest complete fiscal year), federal revenue was
+        In fiscal year YYYY, federal revenue was
         equal to XX% of total gross domestic product (GDP), or economic
         activity, of the United States that year $X.XX trillion.
       </p>
