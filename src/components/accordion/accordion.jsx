@@ -28,8 +28,7 @@ const Accordion = ({
   const [open, setOpen] = useState(defaultOpen || false);
   const [gaEventHandler, setgaEventHandler] = useState(null);
 
-  const gaEventOpen = useGAEventTracking(openEventNumber,explainerGAEvent);
-  const gaEventClose = useGAEventTracking(closeEventNumber,explainerGAEvent);
+  const {getGAEvent} = useGAEventTracking(null,explainerGAEvent); 
   
   const triggerGAEvent = (isOpen) => {    
       const gaEvent =  isOpen ? getGAEvent(openEventNumber) : getGAEvent(closeEventNumber);
