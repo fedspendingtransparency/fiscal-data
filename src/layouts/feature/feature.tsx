@@ -2,12 +2,10 @@ import React, { FunctionComponent } from "react"
 import { graphql } from "gatsby"
 import PageHelmet from "../../components/page-helmet/page-helmet"
 import SiteLayout from "../../components/siteLayout/siteLayout"
-import { formatDate } from "../../components/download-wrapper/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
 import {
   byLine,
-  by,
   dateStamp,
   dateValue,
   mainVis,
@@ -19,6 +17,8 @@ import FDGMdxProvider from "../../components/mdx/FDGMdxProvider";
 import {MDXRenderer} from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
+import {format} from "date-fns";
+
 
 export type FeaturePageProps = {
   data: {
@@ -47,11 +47,11 @@ const featuresComponents = {
 const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps) => {
   const { mdx: post } = data;
   const frontMatter = post.frontmatter;
-  const date = formatDate(new Date(frontMatter.datePublished));
+  const date = format(new Date(frontMatter.datePublished), "MMMM d, yyyy");
+
 
   return (
     <SiteLayout isPreProd={false}>
-
       <PageHelmet
         pageTitle={`Fiscal Data - ${frontMatter.title}`}
         description={frontMatter.description}
@@ -65,11 +65,10 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps
           <h1 data-testid="mainHeader">{frontMatter.mainHeader}</h1>
           <h4 data-testid="subtitle">{frontMatter.subtitle}</h4>
           <div className={byLine} data-testid="byLine">
-            <div className={by}>{frontMatter.by}</div>
             <div className={dateStamp}>
-              Date: <span className={dateValue}>{date}</span>
+              <span className={dateValue}>{date}</span>
             </div>
-            <FontAwesomeIcon icon={faShareAlt} className={share} title={frontMatter.shareCopy}/>
+            <FontAwesomeIcon icon={faShareAlt} className={share} title={frontMatter.shareCopy} />
           </div>
           <div
             className={mainVis}
