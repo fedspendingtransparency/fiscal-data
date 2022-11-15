@@ -17,8 +17,8 @@ const analyticsEventMap: Record<
     explainerGAEvent: "Debt"
   },
   "national-deficit": {
-    openEventNumber: "27",
-    closeEventNumber: "28",
+    openEventNumber: "26",
+    closeEventNumber: "27",
     explainerGAEvent: "Deficit"
   },
 };
