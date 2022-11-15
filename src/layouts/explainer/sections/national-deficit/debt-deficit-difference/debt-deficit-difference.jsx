@@ -55,8 +55,11 @@ export const DebtDeficitDifference = ({width}) => {
             title="How else does the federal government finance a deficit?"
             altStyleAccordion={{
               borderColor: deficitExplainerPrimary,
-              borderWidth: '1px'
+              borderWidth: '1px'          
             }}
+            openEventNumber={"15"}
+            closeEventNumber={"16"}
+            explainerGAEvent="Deficit"
           >
             The government also uses operating cash available from an account at the Federal
             Reserve to pay for the deficit. This would be similar to a business using a line of
