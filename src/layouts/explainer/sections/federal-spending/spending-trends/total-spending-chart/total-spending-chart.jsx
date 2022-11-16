@@ -302,7 +302,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
 
             copyPageData({
               fiscalYear: maxYear,
-              totalSpending: getShortForm(chartLastSpendingValue, 2, true),
+              totalSpending: getShortForm(chartLastSpendingValue, 2, false),
               percentOfGDP: chartLastRatio,
               numOfYearsInChart: maxYear - minYear
             })
