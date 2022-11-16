@@ -85,11 +85,18 @@
             bottom: 0;
             right: 0;
             height: 2rem;
-            padding-left: 39px;
-            padding-right: 39px;
         }
     }
 
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .heroWhiteBox {
+    .heroSocialShare{
+      padding-left: 39px;
+      padding-right: 39px;
+    }
+  }
 }
 
 @media (min-width:997px) and (max-width:1035px) {
@@ -173,7 +180,5 @@
                 margin-top: 2rem;
             }
         }
-
     }
-
 }
