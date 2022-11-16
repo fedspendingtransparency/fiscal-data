@@ -19,6 +19,9 @@ import {
   shareButton,
   shareButtonText,
   shareButtonContainer,
+  horizontalShareButton,
+  horizontalShareButtonContainer,
+  horizontalSocialShareContent,
 } from "./social-share.module.scss"
 import { withWindowSize } from "react-fns"
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper"
@@ -33,6 +36,7 @@ import {
 } from "react-share"
 import globalConstants from "../../../helpers/constants"
 import Analytics from "../../../utils/analytics/analytics"
+import {content} from "../../../components/accordion/accordion.module.scss";
 
 const baseUrl = globalConstants.BASE_SITE_URL
 
@@ -72,7 +76,7 @@ const analyticsClickHandler = (page, social) => {
   })
 }
 
-export const ShareButtonContent = ({ name, width, orientation }) => {
+export const ShareButtonContent = ({ name, width, horizontal }) => {
   const [hovered, setHovered] = useState(false)
 
   const handleMouseEnter = () => {
@@ -100,7 +104,7 @@ export const ShareButtonContent = ({ name, width, orientation }) => {
           icon={shareButtonContentMap[name].icon}
           style={style}
         />
-        {!orientation && (
+        {!horizontal && (
           <span className={shareButtonText} style={style}>
             {text}
           </span>
@@ -138,48 +142,10 @@ export const SocialShareComponent = ({
   image,
   pageName,
   width,
-  orientation,
+  horizontal,
 }) => {
-  // if the orientation is horizontal, we only use the mobile styles
-  // an alternative would be forcing a media query, but that would be risky https://stackoverflow.com/a/37271031
-  const mobileOrientationStyles = {
-    horizontal: {
-      socialShareContent: {
-        display: "flex",
-        maxWidth: "360px",
-        maxHeight: "48px",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingLeft: "0",
-        paddingRight: "0",
-        margin: "0",
-        paddingBottom: "0",
-        paddingLeft: "39px",
-        paddingRight: "39px",
-      },
-      shareButton: {
-        display: "flex",
-        textAlign: "justify",
-        paddingTop: "1rem",
-        paddingBottom: "1rem",
-        justifyContent: "center",
-        height: "1rem",
-        marginTop: "0",
-      },
-      shareButtonContainer: {
-        display: "flex",
-        alignItems: "center",
-        textAlign: "justify",
-        justifyContent: "center",
-        width: "16px",
-        height: "16px",
-        marginRight: "48px",
-      },
-    },
-  }
-  const [orientationStyles] = useState(mobileOrientationStyles)
 
-  const orientationStyle = orientationStyles[orientation] || {}
+  const orientation = true;
 
   return (
     <>
@@ -190,69 +156,49 @@ export const SocialShareComponent = ({
         url={url}
       />
       <div
-        className={socialShareContent}
-        style={{
-          ...orientationStyle.socialShareContent,
-        }}
+        className=
+          {horizontal ? horizontalSocialShareContent : `${socialShareContent} socialShareContent`}
       >
-        {!orientation && (
-          <h3>{width >= pxToNumber(breakpointLg) ? "Share this page:" : ""}</h3>
+        {(!horizontal && width >= pxToNumber(breakpointLg)) && (
+          <h3>Share this page:</h3>
         )}
         <div
-          className={shareButtonContainer}
-          style={{
-            ...orientationStyle.shareButtonContainer,
-          }}
+          className={horizontal ? horizontalShareButtonContainer : shareButtonContainer}
         >
           <FacebookShareButton
-            className={shareButton}
-            style={{
-              ...orientationStyle.shareButton,
-            }}
+            className={horizontal ? horizontalShareButton : shareButton}
             url={url}
             quote={body}
             beforeOnClick={() => analyticsClickHandler(pageName, "Facebook")}
           >
             <ShareButtonContent
-              orientation={orientation}
+              horizontal={horizontal}
               name={"facebook"}
               width={width}
             />
           </FacebookShareButton>
         </div>
         <div
-          className={shareButtonContainer}
-          style={{
-            ...orientationStyle.shareButtonContainer,
-          }}
+          className={horizontal ? horizontalShareButtonContainer : shareButtonContainer}
         >
           <TwitterShareButton
-            className={shareButton}
-            style={{
-              ...orientationStyle.shareButton,
-            }}
+            className={horizontal ? horizontalShareButton : shareButton}
             url={url}
             title={body}
             beforeOnClick={() => analyticsClickHandler(pageName, "Twitter")}
           >
             <ShareButtonContent
-              orientation={orientation}
+              horizontal={horizontal}
               name={"twitter"}
               width={width}
             />
           </TwitterShareButton>
         </div>
         <div
-          className={shareButtonContainer}
-          style={{
-            ...orientationStyle.shareButtonContainer,
-          }}
+          className={horizontal ? horizontalShareButtonContainer : shareButtonContainer}
         >
           <LinkedinShareButton
-            className={shareButton}
-            style={{
-              ...orientationStyle.shareButton,
-            }}
+            className={horizontal ? horizontalShareButton : shareButton}
             url={url}
             title={title}
             summary={body}
@@ -260,50 +206,31 @@ export const SocialShareComponent = ({
             beforeOnClick={() => analyticsClickHandler(pageName, "LinkedIn")}
           >
             <ShareButtonContent
-              orientation={orientation}
+              horizontal={horizontal}
               name={"linkedin"}
               width={width}
             />
           </LinkedinShareButton>
         </div>
         <div
-          className={shareButtonContainer}
-          style={{
-            ...orientationStyle.shareButtonContainer,
-          }}
+          className={horizontal ? horizontalShareButtonContainer : shareButtonContainer}
         >
           <RedditShareButton
-            className={shareButton}
-            style={{
-              ...orientationStyle.shareButton,
-            }}
+            className={horizontal ? horizontalShareButton : shareButton}
             url={url}
             title={title}
             beforeOnClick={() => analyticsClickHandler(pageName, "Reddit")}
           >
             <ShareButtonContent
-              orientation={orientation}
+              horizontal={horizontal}
               name={"reddit"}
               width={width}
             />
           </RedditShareButton>
         </div>
-        <div
-          className={shareButtonContainer}
-          style={
-            orientation === "horizontal"
-              ? {
-                  ...orientationStyle.shareButtonContainer,
-                  marginRight: "unset",
-                }
-              : {}
-          }
-        >
+        <div className={horizontal ? horizontalShareButtonContainer : shareButtonContainer}>
           <EmailShareButton
-            className={shareButton}
-            style={{
-              ...orientationStyle.shareButton,
-            }}
+            className={horizontal ? horizontalShareButton : shareButton}
             url={url}
             subject={emailSubject}
             body={emailBody}
@@ -311,7 +238,7 @@ export const SocialShareComponent = ({
             beforeOnClick={() => analyticsClickHandler(pageName, "Email")}
           >
             <ShareButtonContent
-              orientation={orientation}
+              horizontal={horizontal}
               name={"email"}
               width={width}
             />

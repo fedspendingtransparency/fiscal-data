@@ -71,6 +71,8 @@
   }
 
   .byLine {
+    display: flex;
+    justify-content: space-between;
     font-size: 1rem;
     line-height: 1.5;
     margin: 1rem 0;
@@ -83,16 +85,19 @@
     }
     .dateStamp {
       display: inline-block;
-      color: $font-title;
+      color: #666666;
 
       .dateValue {
         font-weight: normal;
       }
     }
-    .share {
-      float:right;
-      cursor:pointer;
+    .heroSocialShare{
+      //display: flex;
+      //align-items: center;
+      height: 2rem;
     }
+
+
   }
 
   .mainVis {
@@ -119,6 +124,12 @@
   }
 }
 
+@media screen and (min-width: $breakpoint-lg) {
+  :global(.socialShareContent) {
+    padding-right: 0 !important;
+  }
+}
+
 @media screen and (min-width: $breakpoint-md) {
 
   .templateContainer .templateContent {
@@ -137,6 +148,22 @@
     .mainVis {
       margin-left: auto;
       margin-right: auto;
+    }
+  }
+}
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .templateContent {
+    .byLine {
+      flex-direction: column;
+      justify-content: normal;
+      .heroSocialShare {
+        display: flex;
+        align-items: center;
+        height: 3rem;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1rem;
+      }
     }
   }
 }

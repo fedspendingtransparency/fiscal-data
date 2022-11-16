@@ -79,7 +79,7 @@ export default function AfgHero() {
             url={explainerSocialShareMap[pageName].url}
             image={explainerSocialShareMap[pageName].image}
             pageName={explainerAnalyticsLabelMap[pageName]}
-            orientation={"horizontal"}
+            horizontal={true}
           />
         </div>
       </div>
