@@ -13,7 +13,6 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
-import Analytics from "../../../../utils/analytics/analytics";
 import {numberWithCommas} from "../../../../helpers/simplify-number/simplifyNumber";
 import {pxToNumber} from "../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../variables.module.scss";
@@ -47,6 +46,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   const [previousFiscalStartYear, setPreviousFiscalStartYear] = useState<string>('');
 
   const [deficitStatus, setDeficitStatus] = useState<string>('');
+  const [deficitDif, setDeficitDif] = useState<string>('');
   const [deficitDifPercent, setDeficitDifPercent] = useState<string>('');
 
 
@@ -57,7 +57,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
 
         // create local variable to immediately find last complete year record
-        const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 1).toString();
+        const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 2).toString();
         setCurrentFiscalYear(res.data[0].record_fiscal_year);
 
         setPreviousFiscalYear(lastFiscalYear);
@@ -70,9 +70,9 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
 
         setDesktopDeficit(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed());
-        setMobilePriorDeficit(getShortForm(res.data[0].prior_fytd_net_outly_amt, 2));
-        setDesktopPriorDeficit(numberWithCommas(
-          parseFloat(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed())));
+        setMobilePriorDeficit(getShortForm(res.data[0].prior_fytd_net_outly_amt, 0));
+        setDesktopPriorDeficit(getShortForm(
+          Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), 0, true));
         const date = new Date();
         date.setDate(15);
         date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
@@ -81,6 +81,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         }));
         const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
         const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
+        setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), 0, true));
         setDeficitDifPercent((
           ((currentDeficit - priorYearDeficit) / priorYearDeficit)*100).toFixed())
         if(currentDeficit > priorYearDeficit) {
@@ -131,7 +132,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         "/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays" +
         "-of-the-u-s-government"
       }
-      eventNumber='2'
+      eventNumber="2"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -142,15 +143,11 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       fiscal year (FY)
     </GlossaryTerm>
 
-  const changeNationaDeficitFooter = (currentRecordMonth === 'Oct') ?
-    <p>Compared to the same period last year
-      (Oct {previousFiscalStartYear}),
-      our national deficit has {deficitStatus}.
-    </p>:
-    <p>Compared to the same period last year
+  const changeNationaDeficitFooter =
+    <p>Compared to the national deficit of ${desktopPriorDeficit} for the same period last year
       (Oct {previousFiscalStartYear} - {currentRecordMonth} {previousCalendarYear}),
-      our national deficit has {deficitStatus}.
-    </p> ;
+      our national deficit has {deficitStatus} by ${deficitDif}.
+    </p>
 
   return (
     <>
