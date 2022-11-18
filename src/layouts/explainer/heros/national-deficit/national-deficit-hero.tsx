@@ -57,7 +57,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
 
         // create local variable to immediately find last complete year record
-        const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 2).toString();
+        const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 1).toString();
         setCurrentFiscalYear(res.data[0].record_fiscal_year);
 
         setPreviousFiscalYear(lastFiscalYear);
@@ -71,8 +71,14 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
         setDesktopDeficit(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed());
         setMobilePriorDeficit(getShortForm(res.data[0].prior_fytd_net_outly_amt, 0));
-        setDesktopPriorDeficit(getShortForm(
-          Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), 0, true));
+        if (Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)) < 1000000000000) {
+          setDesktopPriorDeficit(getShortForm(
+            Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), 0, false));
+        }
+        else if (Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)) >= 1000000000000) {
+          setDesktopPriorDeficit(getShortForm(
+            Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), 2, false));
+        }
         const date = new Date();
         date.setDate(15);
         date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
@@ -81,7 +87,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         }));
         const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
         const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
-        setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), 0, true));
+        setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), 0, false));
         setDeficitDifPercent((
           ((currentDeficit - priorYearDeficit) / priorYearDeficit)*100).toFixed())
         if(currentDeficit > priorYearDeficit) {
@@ -95,13 +101,8 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   };
 
   const formatDeficit = () => {
-    if(typeof(window) !== 'undefined') {
-      if (window.innerWidth < pxToNumber(breakpointLg)) {
-        setDisplayedPriorDeficitValue(mobilePriorDeficit);
-      }
-      else {
-        setDisplayedPriorDeficitValue(desktopPriorDeficit);
-      }
+    if (typeof (window) !== 'undefined') {
+      setDisplayedPriorDeficitValue(mobilePriorDeficit);
     }
   }
 
