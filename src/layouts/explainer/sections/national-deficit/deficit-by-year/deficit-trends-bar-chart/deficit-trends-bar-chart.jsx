@@ -74,18 +74,31 @@ const DeficitTrendsBarChart = ({ width }) => {
     });
   }
 
-  const chartChangeOnMouseEnter = (data, event) => {
-    event.target.style.fill = '#555555';
-    setHeaderYear(data.data.year);
-    setHeaderDeficit(data.data.deficit);
+  const chartChangeOnMouseEnter = (data, event, chartData) => {
+    if(data.data.decoy === "true") {
+      const realBar = chartData.find(element => element.decoy === "false" && element.year === data.data.year);
+      event.target.parentNode.previousSibling.firstChild.style.fill = '#555555';
+      setHeaderYear(realBar.year);
+      setHeaderDeficit(realBar.deficit);
+    }
+    if(data.data.decoy === "false") {
+      event.target.style.fill = '#555555';
+      setHeaderYear(data.data.year);
+      setHeaderDeficit(data.data.deficit);
+    }
   }
 
   const chartChangeOnMouseLeave = (data, event, chartData) => {
-    if (data.formattedValue === chartData[chartData.length -1].deficit) {
-      event.target.style.fill = '#666666';
+    if(data.data.decoy === "true") {
+      event.target.parentNode.previousSibling.firstChild.style.fill = deficitExplainerPrimary;
     }
-    else {
-      event.target.style.fill = deficitExplainerPrimary;
+    if(data.data.decoy === "false") {
+      if (data.formattedValue === chartData[chartData.length -1].deficit) {
+        event.target.style.fill = '#666666';
+      }
+      else {
+        event.target.style.fill = deficitExplainerPrimary;
+      }
     }
   }
 
@@ -165,10 +178,10 @@ const DeficitTrendsBarChart = ({ width }) => {
                   {top: 15, right: 0, bottom: 20, left: 50} :
                   {top: 10, right: 0, bottom: 20, left: 50}
                 }
-                padding={desktop ? 0.47 : 0.35}
+                padding={desktop ? 0.35 : 0.35}
                 valueScale={{type: 'linear'}}
                 indexScale={{type: 'band', round: true}}
-                colors={(bar) => bar.data.year === mostRecentFiscalYear ? '#666666' : deficitExplainerPrimary}
+                colors={(bar) => bar.data.decoy === "false" && bar.data.year === mostRecentFiscalYear ? '#666666' : bar.data.decoy === "true" ? bar.data.color : deficitExplainerPrimary}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -192,7 +205,8 @@ const DeficitTrendsBarChart = ({ width }) => {
                 gridYValues={tickValuesY}
                 enableLabel={false}
                 isInteractive={true}
-                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event)}}
+                groupMode={"stacked"}
+                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
                 onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event, chartData)}}
                 tooltip={() => (
                   <></>

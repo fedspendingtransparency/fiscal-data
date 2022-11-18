@@ -16,7 +16,14 @@ export const preAPIData = [
   },
   {
     "year": "2001",
-    "deficit": "-0.13"
+    "deficit": "-0.13",
+    "decoy": "false"
+  },
+  {
+    "year": "2001",
+    "deficit": "3.5",
+    "color": "hsl(0,0%,100%, 0.0)",
+    "decoy": "true"
   },
   {
     "year": "2002",
