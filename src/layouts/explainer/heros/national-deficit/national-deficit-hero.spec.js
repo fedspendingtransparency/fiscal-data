@@ -29,8 +29,8 @@ describe('National Deficit Hero', () => {
 
     const {getByText, queryByText} = render(<NationalDeficitHero glossary={glossary} />);
     expect(fetchSpy).toBeCalled();
-    await waitFor(() => getByText("$2,237,949,464,925", {exact: false}));
-    expect(await getByText("$2,237,949,464,925", {exact: false})).toBeInTheDocument();
+    await waitFor(() => getByText("$2.24 trillion", {exact: false}));
+    expect(await getByText("$2.24 trillion", {exact: false})).toBeInTheDocument();
     expect(await queryByText("$2,237,949,464,925.", {exact: false})).not.toBeInTheDocument();
     expect(await getByText("decreased", {exact: false})).toBeInTheDocument();
     expect(await getByText("down arrow", {exact: false})).toBeInTheDocument();
