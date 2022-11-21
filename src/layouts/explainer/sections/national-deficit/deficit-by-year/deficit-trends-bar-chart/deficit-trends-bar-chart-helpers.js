@@ -17,66 +17,59 @@ export const preAPIData = [
   {
     "year": "2001",
     "deficit": "-0.13",
-    "decoy": "false"
-  },
-  {
-    "year": "2001",
-    "deficit": "3.5",
-    "color": "hsl(0,0%,100%, 0.0)",
-    "decoy": "true"
   },
   {
     "year": "2002",
-    "deficit": "0.16"
+    "deficit": "0.16",
   },
   {
     "year": "2003",
-    "deficit": "0.37"
+    "deficit": "0.37",
   },
   {
     "year": "2004",
-    "deficit": "0.41"
+    "deficit": "0.41",
   },
   {
     "year": "2005",
-    "deficit": "0.32"
+    "deficit": "0.32",
   },
   {
     "year": "2006",
-    "deficit": "0.25"
+    "deficit": "0.25",
   },
   {
     "year": "2007",
-    "deficit": "0.16"
+    "deficit": "0.16",
   },
   {
     "year": "2008",
-    "deficit": "0.45"
+    "deficit": "0.45",
   },
   {
     "year": "2009",
-    "deficit": "1.42"
+    "deficit": "1.42",
   },
   {
     "year": "2010",
-    "deficit": "1.29"
+    "deficit": "1.29",
   },
   {
     "year": "2011",
-    "deficit": "1.30"
+    "deficit": "1.30",
   },
   {
     "year": "2012",
-    "deficit": "1.09"
+    "deficit": "1.09",
   },
   {
     "year": "2013",
-    "deficit": "0.68"
+    "deficit": "0.68",
   },
   {
     "year": "2014",
-    "deficit": "0.48"
-  }
+    "deficit": "0.48",
+  },
 ];
 
 export const deficit2001Full = 127165000000;
@@ -104,7 +97,8 @@ export const generateTickValues = (chartData) => {
       yValues.push(i.toFixed());
     }
   }
-  tickValues.push(xValues);
+  const uniqueXValues = [...new Set(xValues)];
+  tickValues.push(uniqueXValues);
   tickValues.push(yValues);
   return tickValues;
 }
