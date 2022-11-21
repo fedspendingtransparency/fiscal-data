@@ -113,6 +113,7 @@ import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import { adjustDataForInflation } from "../../../../helpers/inflation-adjust/inflation-adjust";
 import Analytics from "../../../../utils/analytics/analytics";
 import QuoteBox from "../../quote-box/quote-box";
+import DebtOverLast100y from "./debt-over-last-100y-linechart/debt-over-last-100y-linechart"
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -230,7 +231,7 @@ const KeyTakeawaysSection = ({ glossary }) => {
   );
 };
 
-export const NationalDebtExplainedSection = ({ glossary }) => {
+export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
   const glossaryTerms = {
     fiscalYear: (
       <GlossaryTerm
@@ -318,7 +319,8 @@ export const NationalDebtExplainedSection = ({ glossary }) => {
             overall debt.
           </p>
         </div>
-        <VisualizationCallout color={debtExplainerPrimary}>
+        
+        <VisualizationCallout color={debtExplainerPrimary} >
           <p>
             The U.S. Treasury uses the terms “national debt,” “federal debt,”
             and “public debt” interchangeably.
@@ -816,6 +818,7 @@ export const GrowingNationalDebtSection = withWindowSize(
             dateField,
             cpiDataByYear
           );
+          console.log(dataset.data)
           const latestEntry = dataset.data[0];
           const earliestEntry = dataset.data[dataset.data.length - 1];
           // Use window.innerWidth instead of width prop because this doesn't trigger on mount
@@ -833,6 +836,7 @@ export const GrowingNationalDebtSection = withWindowSize(
             xAxisTickValues.push(tickValue);
           }
           chartOptions.xAxisTickValues = xAxisTickValues;
+          console.log(xAxisTickValues, step)
 
           setData(dataset.data);
           setDate(latestEntry[dateField]);
@@ -1106,6 +1110,9 @@ const handleMouseEnterLineChart = () => {
           widespread unemployment generally account for sharp rises in the
           national debt.
         </p>
+        <DebtOverLast100y cpiDataByYear={cpiDataByYear} />
+
+
         {!isLoading ? (
           <div className={visWithCallout}>
             <div>
@@ -2306,7 +2313,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
     component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplainedSection glossary={glossary} />
+      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear}/>
     ),
   },
   {
