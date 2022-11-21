@@ -28,18 +28,15 @@ const Accordion = ({
   const [open, setOpen] = useState(defaultOpen || false);
   const [gaEventHandler, setgaEventHandler] = useState(null);
 
-  const gaEventOpen = useGAEventTracking(openEventNumber,explainerGAEvent);
-  const gaEventClose = useGAEventTracking(closeEventNumber,explainerGAEvent);
+  const {getGAEvent} = useGAEventTracking(null,explainerGAEvent); 
   
-  const triggerGAEvent = (isOpen) => {
-    if(gaEventOpen || gaEventClose){
-      const gaEvent =  isOpen ? gaEventOpen : gaEventClose;
-      Analytics.event({
+  const triggerGAEvent = (isOpen) => {    
+      const gaEvent =  isOpen ? getGAEvent(openEventNumber) : getGAEvent(closeEventNumber);
+      gaEvent && Analytics.event({
         category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
       });
-    }
   }
     
   const onToggle = e => {
