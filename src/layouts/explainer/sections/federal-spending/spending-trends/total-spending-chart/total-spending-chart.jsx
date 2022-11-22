@@ -304,7 +304,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
               fiscalYear: maxYear,
               totalSpending: getShortForm(chartLastSpendingValue, 2, false),
               percentOfGDP: chartLastRatio,
-              numOfYearsInChart: maxYear - minYear
+              numOfYearsInChart: (maxYear - minYear) + 1
             })
           }
         });
