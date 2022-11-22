@@ -60,17 +60,17 @@ const DeficitTrendsBarChart = ({ width }) => {
         apiData.push({
           "year": entry.record_fiscal_year,
           "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2),
-          "deficitColor": deficitExplainerPrimary,
-          "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
-          "decoyDeficitColor": "hsl(0,0%,100%)",
-          // "decoy": "false",
+          "color": deficitExplainerPrimary,
+          // "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
+          // "decoyDeficitColor": "hsl(0,0%,100%)",
+          "decoy": "false",
         });
-        // apiData.push({
-        //   "year": entry.record_fiscal_year,
-        //   "deficit": "3.5",
-        //   "color": "hsl(0,0%,100%, 0.0)",
-        //   "decoy": "true"
-        // })
+        apiData.push({
+          "year": entry.record_fiscal_year,
+          "deficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
+          "color": "hsl(0,0%,100%, 0.0)",
+          "decoy": "true",
+        });
       })
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
       const newData = preAPIData.concat(apiData);
@@ -86,11 +86,13 @@ const DeficitTrendsBarChart = ({ width }) => {
   }
 
   const chartChangeOnMouseEnter = (data, event, chartData) => {
-    console.log(data);
-    // const realBar = chartData.find(element => element.decoy === "false" && element.year === data.data.year);
+    const realBar = chartData.find(element => element.decoy === "false" && element.year === data.data.year);
+    console.log(realBar);
     event.target.parentNode.previousSibling.firstChild.style.fill = '#555555';
-    setHeaderYear(data.data.year);
-    setHeaderDeficit(data.data.deficit);
+    // setHeaderYear(data.data.year);
+    // setHeaderDeficit(data.data.deficit);
+    setHeaderYear(realBar.year);
+    setHeaderDeficit(realBar.deficit);
     console.log(data, event);
   }
 
@@ -177,8 +179,7 @@ const DeficitTrendsBarChart = ({ width }) => {
                 width={ 495 }
                 height={ 388 }
                 keys={[
-                  'deficit',
-                  'decoyDeficit'
+                  'deficit'
                 ]}
                 indexBy="year"
                 margin={desktop ?
@@ -188,7 +189,8 @@ const DeficitTrendsBarChart = ({ width }) => {
                 padding={desktop ? 0.47 : 0.35}
                 valueScale={{type: 'linear'}}
                 indexScale={{type: 'band', round: true}}
-                colors={({id, data}) =>  String(data[`${id}Color`]) }
+                // colors={({id, data}) =>  String(data[`${id}Color`]) }
+                colors={bar => bar.data.color}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{

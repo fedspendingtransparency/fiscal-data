@@ -5,70 +5,86 @@
 // The initial deficit values were divided by 1 trillion, then rounded to the nearest tenth value
 // The empty entry for 2000 is to provide needed left margin on the chart
 
- const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
+ import {deficitExplainerPrimary} from "../../national-deficit.module.scss";
+
+const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
  const sort = 'sort=record_date';
  export const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
 
 export const preAPIData = [
   {
     "year": "2000",
-    "deficit": ""
+    "deficit": "",
   },
   {
     "year": "2001",
     "deficit": "-0.13",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2002",
     "deficit": "0.16",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2003",
     "deficit": "0.37",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2004",
     "deficit": "0.41",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2005",
     "deficit": "0.32",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2006",
     "deficit": "0.25",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2007",
     "deficit": "0.16",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2008",
     "deficit": "0.45",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2009",
     "deficit": "1.42",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2010",
     "deficit": "1.29",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2011",
     "deficit": "1.30",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2012",
     "deficit": "1.09",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2013",
     "deficit": "0.68",
+    "color": deficitExplainerPrimary,
   },
   {
     "year": "2014",
     "deficit": "0.48",
+    "color": deficitExplainerPrimary,
   },
 ];
 
