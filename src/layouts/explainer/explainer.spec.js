@@ -39,7 +39,7 @@ describe('Explainer Page Layout', () => {
     heroImage,
     glossary
   }
- 
+
   beforeAll(() => {
     useStaticQuery.mockReturnValue(mockUseStaticBeaGDP);
   });
@@ -166,19 +166,30 @@ describe('Spending explainer', () => {
     heading: 'mock heading',
     subHeading: 'mock subheading'
   }
+  const cpiDataByYear = {
+    "2015": "237.945",
+    "2016": "241.428",
+    "2017": "246.819",
+    "2018": "252.439",
+    "2019": "256.759",
+    "2020": "260.280",
+    "2021": "274.310",
+    "2022": "296.808",
+  };
   const glossary = [];
   const mockPageContext = {
     breadCrumbLinkName,
     seoConfig,
     heroImage,
-    glossary
+    glossary,
+    cpiDataByYear
   }
 
   it('renders the spending explainer page', async () => {
     const pageName = 'federal-spending';
     const spendingPageContext = {
       pageName,
-      ...mockPageContext
+      ...mockPageContext,
     }
 
     const { findAllByTestId, findByText } = render(

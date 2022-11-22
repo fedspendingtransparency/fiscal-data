@@ -11,9 +11,18 @@ const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
   const beaGDPData = useBeaGDP(cpiDataByYear);
   return (
     <div>
-      <p className={comingSoon}>
-        Coming Soon: A section exploring how revenue trends relate to the U.S.
-        economy.
+      <p>
+        In fiscal year YYYY, federal revenue was
+        equal to XX% of total gross domestic product (GDP), or economic
+        activity, of the United States that year $X.XX trillion.
+      </p>
+      <p>
+        Why do we compare federal revenue to gross domestic product? The
+        comparison serves as a rough gauge of the size of the federal
+        government's footprint related to size of the country's economic
+        activity. Since federal taxes are based on a percentage of income for
+        people and businesses, as people and businesses earn more the federal
+        revenue from taxes increases.
       </p>
       <Experimental featureId={'revenue-trends-section'}>
         {beaGDPData.isGDPLoading && (
