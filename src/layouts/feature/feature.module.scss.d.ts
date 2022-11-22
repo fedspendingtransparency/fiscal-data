@@ -69,6 +69,6 @@ export const byLine: string;
 export const by: string;
 export const dateStamp: string;
 export const dateValue: string;
-export const share: string;
+export const heroSocialShare: string;
 export const mainVis: string;
 export const vis: string;

@@ -49,14 +49,14 @@ export default function AfgHero() {
       setIsMobile(false)
     }
 
-    setContainerHeight(refSocialShare.current.offsetTop + 450)
+    setContainerHeight(refSocialShare.current.offsetTop + 466)
   }, [width, height, containerHeight])
 
   return (
     <div className={styles.heroContainer} style={{height: `${containerHeight}px`}}
          data-testid="afg-hero"
     >
-      <div className={styles.heroGrayBox}></div>
+      <div className={styles.heroGrayBox} />
       <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky.">
         <h3 className={styles.heroQuote}>
           “A regular Statement and Account of the Receipts and Expenditures of all public Money
@@ -79,7 +79,7 @@ export default function AfgHero() {
             url={explainerSocialShareMap[pageName].url}
             image={explainerSocialShareMap[pageName].image}
             pageName={explainerAnalyticsLabelMap[pageName]}
-            orientation={"horizontal"}
+            horizontal={true}
           />
         </div>
       </div>

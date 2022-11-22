@@ -85,10 +85,18 @@
             bottom: 0;
             right: 0;
             height: 2rem;
-
         }
     }
 
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .heroWhiteBox {
+    .heroSocialShare{
+      padding-left: 39px;
+      padding-right: 39px;
+    }
+  }
 }
 
 @media (min-width:997px) and (max-width:1035px) {
@@ -110,7 +118,7 @@
 }
 
 
-@media screen and (max-width: $breakpoint-lg) {
+@media screen and (max-width: $breakpoint-lg - 1) {
     .heroContainer {
         margin: 0;
         width: 100%;
@@ -164,7 +172,7 @@
 
             .heroSocialShare {
                 position: relative;
-                bottom: -2rem;
+                bottom: -1rem;
                 left: 0;
                 right: 0;
                 margin-left: auto;
@@ -172,7 +180,5 @@
                 margin-top: 2rem;
             }
         }
-
     }
-
 }
