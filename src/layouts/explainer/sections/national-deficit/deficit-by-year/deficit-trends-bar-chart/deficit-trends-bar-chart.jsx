@@ -15,7 +15,6 @@ import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import {last} from "rxjs";
 
 let gaTimerChart;
 
