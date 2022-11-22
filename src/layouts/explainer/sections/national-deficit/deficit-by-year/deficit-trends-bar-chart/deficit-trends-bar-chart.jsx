@@ -39,7 +39,7 @@ const DeficitTrendsBarChart = ({ width }) => {
     // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 495 388');
+      svgChart.setAttribute('viewBox', '0 0 495 550');
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
@@ -58,18 +58,26 @@ const DeficitTrendsBarChart = ({ width }) => {
     if(value.toString().split(".")[1].length < 2) {}
   }
 
-  // const CustomBarComponent = ({ bar: { x, y, width, height, color } }) => (
-  //   <rect x={x} y={y} width={width} height={height} fill={color} />
-  // )
-
   const getChartData = () => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       result.data.forEach((entry) => {
+        if(entry.record_fiscal_year === '2022') {
+          apiData.push({
+            "year": entry.record_fiscal_year,
+            "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2),
+            "deficitColor": '#555555',
+            "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
+            "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+          })
+        }
         apiData.push({
           "year": entry.record_fiscal_year,
-          "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2)
+          "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2),
+          "deficitColor": deficitExplainerPrimary,
+          "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
+          "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
         })
       })
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
@@ -84,18 +92,34 @@ const DeficitTrendsBarChart = ({ width }) => {
     });
   }
 
-  const chartChangeOnMouseEnter = (data, event) => {
-    event.target.style.fill = '#555555';
-    setHeaderYear(data.data.year);
-    setHeaderDeficit(data.data.deficit);
+  const chartChangeOnMouseEnter = (data, event, chartData) => {
+    if (data.id !== 'decoyDeficit') {
+      event.target.style.fill = '#555555';
+      setHeaderYear(data.data.year);
+      setHeaderDeficit(data.data.deficit);
+    }
+    else if (data.id === 'decoyDeficit') {
+      const parentG = event.target.parentNode;
+      const barSVGs = Array.from(event.target.parentNode.parentNode.children);
+      const foundYou = barSVGs.find((element) => element === parentG);
+      const indexOfRealBar = barSVGs.indexOf(foundYou) - 22;
+      event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = '#555555';
+      const matchedBar = chartData.find((element) => element.year === data.data.year);
+      setHeaderYear(matchedBar.year);
+      setHeaderDeficit(matchedBar.deficit);
+    }
   }
 
-  const chartChangeOnMouseLeave = (data, event, chartData) => {
-    if (data.formattedValue === chartData[chartData.length -1].deficit) {
-      event.target.style.fill = '#666666';
+  const chartChangeOnMouseLeave = (data, event) => {
+    if (data.id !== 'decoyDeficit') {
+        event.target.style.fill = deficitExplainerPrimary;
     }
-    else {
-      event.target.style.fill = deficitExplainerPrimary;
+    else if (data.id === 'decoyDeficit') {
+      const parentG = event.target.parentNode;
+      const barSVGs = Array.from(event.target.parentNode.parentNode.children);
+      const foundYou = barSVGs.find((element) => element === parentG);
+      const indexOfRealBar = barSVGs.indexOf(foundYou) - 22;
+      event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = deficitExplainerPrimary;
     }
   }
 
@@ -187,19 +211,20 @@ const DeficitTrendsBarChart = ({ width }) => {
                 theme={chartTheme}
                 layers={['grid', 'axes', 'bars']}
                 width={ 495 }
-                height={ 388 }
+                height={ 550 }
                 keys={[
-                  'deficit'
+                  'deficit',
+                  'decoyDeficit'
                 ]}
                 indexBy="year"
                 margin={desktop ?
                   {top: 15, right: 0, bottom: 20, left: 50} :
                   {top: 10, right: 0, bottom: 20, left: 50}
                 }
-                padding={desktop ? 0.47 : 0.35}
+                padding={desktop ? 0.25 : 0.35}
                 valueScale={{type: 'linear'}}
                 indexScale={{type: 'band', round: true}}
-                colors={(bar) => bar.data.year === mostRecentFiscalYear ? '#666666' : deficitExplainerPrimary}
+                colors={({id, data}) =>  String(data[`${id}Color`])}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -223,9 +248,8 @@ const DeficitTrendsBarChart = ({ width }) => {
                 gridYValues={tickValuesY}
                 enableLabel={false}
                 isInteractive={true}
-                // barComponent={CustomBarComponent}
-                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event)}}
-                onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event, chartData)}}
+                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
+                onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event)}}
                 tooltip={() => (
                   <></>
                 )}
