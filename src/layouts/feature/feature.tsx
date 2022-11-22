@@ -9,15 +9,16 @@ import {
   dateStamp,
   dateValue,
   mainVis,
-  share,
   templateContainer,
   templateContent,
+  heroSocialShare,
 } from "./feature.module.scss"
 import FDGMdxProvider from "../../components/mdx/FDGMdxProvider";
 import {MDXRenderer} from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
 import {format} from "date-fns";
+import SocialShare from "../explainer/social-share/social-share";
 
 
 export type FeaturePageProps = {
@@ -68,7 +69,19 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps
             <div className={dateStamp}>
               <span className={dateValue}>{date}</span>
             </div>
-            <FontAwesomeIcon icon={faShareAlt} className={share} title={frontMatter.shareCopy} />
+            <div className={heroSocialShare}>
+              <SocialShare
+                title={''}
+                description={''}
+                body={''}
+                emailSubject={''}
+                emailBody={''}
+                url={''}
+                image={''}
+                pageName={''}
+                horizontal={true}
+              />
+            </div>
           </div>
           <div
             className={mainVis}

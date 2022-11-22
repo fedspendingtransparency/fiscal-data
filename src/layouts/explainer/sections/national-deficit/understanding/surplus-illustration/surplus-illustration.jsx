@@ -26,8 +26,21 @@ import FolderTabEdgeRightMobile
   from "./folder-illustration-svgs/mobile/folder-tab-edge-right-mobile";
 import FolderTabEdgeRightLastMobile
   from "./folder-illustration-svgs/mobile/folder-tab-edge-right-last-mobile";
+import useGAEventTracking from "../../../../../../hooks/useGAEventTracking";
+import Analytics from "../../../../../../utils/analytics/analytics";
 
 const SurplusIllustration = ({glossary, width}) => {
+  const {getGAEvent} = useGAEventTracking(null, "Deficit");
+  
+  const handleClick = (eventNumber) =>{
+    const gaEvent = getGAEvent(eventNumber);
+    Analytics.event({
+      category: gaEvent?.eventCategory?.replace("Fiscal Data - ", ""),
+      action: gaEvent?.eventAction,
+      label: gaEvent?.eventLabel,
+    }); 
+  }
+  
   const tabListStyle = {
     margin:'0',
     borderColor:deficitExplainerLightSecondary,
@@ -92,12 +105,14 @@ const SurplusIllustration = ({glossary, width}) => {
       balanced budget
     </GlossaryTerm>
 
+
   return (
     <div className={folderVisContainer} data-testid={'surplus-illustration'}>
       <div className={folderWhiteOutLine} />
       <Tabs>
         <TabList style={tabListStyle}>
-          <Tab style={tabStyle} data-testid={'surplus-tab'} selectedClassName={selectedTab}>
+          <Tab style={tabStyle} data-testid={'surplus-tab'} selectedClassName={selectedTab}
+            onClick={()=>handleClick("10")}>
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1188) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
@@ -105,7 +120,8 @@ const SurplusIllustration = ({glossary, width}) => {
             </div>
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}>
+          <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}
+            onClick={()=>handleClick("11")}>
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
@@ -113,7 +129,8 @@ const SurplusIllustration = ({glossary, width}) => {
             </div>
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}>
+          <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}
+            onClick={()=>handleClick("12")}>
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
