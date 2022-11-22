@@ -10,19 +10,40 @@ import {
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import simplifyNumber from '../../../../../helpers/simplify-number/simplifyNumber';
 import numeral from "numeral";
-import BigNumber from "bignumber.js";
+import Analytics from '../../../../../utils/analytics/analytics';
 
-//import { revenueExplainerPrimary } from '../../../revenue.module.scss';
+const analyticsClickHandler = (action, section) => {
+  Analytics.event({
+    category: "Explainers",
+    action: action,
+    label: `Debt - ${section}`,
+  });
+};
+
 const hdoLink = (
   <CustomLink
     url={'/datasets/historical-debt-outstanding/'}
+    onClick={() =>
+      analyticsClickHandler(
+        "Citation Click",
+        "U.S. Federal Debt Trends Over the Last 100 Years"
+      )
+    }
   >
     Historical Debt Outstanding
   </CustomLink>
 );
 
 const bls = (
-  <CustomLink url={'https://www.bls.gov/'}>
+  <CustomLink
+    url={'https://www.bls.gov/'}
+    onClick={() =>
+      analyticsClickHandler(
+        "Citation Click",
+        "U.S. Federal Debt Trends Over the Last 100 Years"
+      )
+    }
+  >
     Bureau of Labor Statistics
   </CustomLink>
 );
@@ -48,14 +69,7 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
 export const dataHeader = (headingValues) => {
   const {fiscalYear, totalDebt} = headingValues;
   return (
-    <div
-      // style={{
-      //   display: 'flex',
-      //   flexDirection: 'column',
-      //   justifyContent: 'center',
-      //   border: '1px black solid'
-      // }}
-    >
+    <div>
       <div className={styles.headerContainer}>
         <div className={styles.headerData}>
           <div className={styles.dataElement}>
@@ -109,7 +123,6 @@ export const chartConfigs = {
   theme: chartTheme,
   layers: layers,
   axisLeft: {
-    //format: formatCurrency,
     format: (value) => { 
       const newValue = numeral(value).format('0 a').toUpperCase();
       return `$${newValue}`
@@ -143,8 +156,6 @@ export const getMarkers = (width) => {
   return [
     {
       ...markerStyle,
-      //legend: 'Total Revenue',
-      //value: revenueValue - 2.5,
     },
   ];
 };

@@ -57,7 +57,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const chartParent = 'totalDebtChartParent';
   const chartWidth = 550;
   const chartHeight = 490;
-  
+ 
   useEffect(() => {
     basicFetch(chartDataEndPoint).then(res => {
       if (res.data) {
@@ -143,7 +143,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   }, []);
 
   useEffect(() => {
-    applyTextScaling(chartParent, chartWidth, width, fontSize_14);
+    applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width]);
 
   useEffect(() => {
@@ -162,7 +162,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   };
 
   const handleMouseLeave = slice => {
-    console.log("ChartSliceMouseLeave");
     const debtData = slice.points[0].data;
     if (debtData) {
       setTotalDebtHeadingValues({
@@ -200,7 +199,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         </div>
       )}
       {!isLoading && (
-        <div className={visWithCallout}>
+        <div className={visWithCallout}>          
           <div className={container}>
             <ChartContainer
               title={chartTitle}
