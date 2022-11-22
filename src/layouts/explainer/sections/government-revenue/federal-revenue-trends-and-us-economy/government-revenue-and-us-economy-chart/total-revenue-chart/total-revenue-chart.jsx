@@ -32,6 +32,7 @@ import simplifyNumber from '../../../../../../../helpers/simplify-number/simplif
 import numeral from 'numeral';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { getShortForm } from '../../../../../heros/hero-helper';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -41,7 +42,7 @@ const chartDataEndPoint =
   apiPrefix +
   'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date';
 
-const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData }) => {
+const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) => {
   const [revenueChartData, setRevenueChartData] = useState([]);
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
@@ -248,6 +249,12 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData }) => {
           chartWidth.toString(),
           chartHeight.toString()
         );
+
+        copyPageData({
+          fiscalYear: maxYear,
+          revenueTotal: getShortForm(revenueLastAmountActual, 2, false),
+          revenueRatio: chartLastRatio
+        });
       }
     });
   }, []);

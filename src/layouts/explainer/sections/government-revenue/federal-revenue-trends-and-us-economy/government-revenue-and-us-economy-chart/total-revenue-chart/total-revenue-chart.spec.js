@@ -22,10 +22,14 @@ describe('Total Revenue Chart', () => {
     determineBEAFetchResponse(jest, mockRevenueData);
   });
 
+  const mockPageFunction = () => {
+    return null;
+  }
+
   it("renders the calloutText", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByText } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} />
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction}/>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
@@ -35,7 +39,7 @@ describe('Total Revenue Chart', () => {
   it("renders the chart", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByTestId } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} />
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction}/>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId("totalRevenueChartParent")).toBeInTheDocument();
@@ -44,7 +48,7 @@ describe('Total Revenue Chart', () => {
   it("renders the chart markers and data header labels", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getAllByText, getByText } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} />
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction}/>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getAllByText("Total Revenue")).toHaveLength(3);
@@ -54,8 +58,8 @@ describe('Total Revenue Chart', () => {
 
   it('renders the CustomPoints layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId, getElementsByClassName } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} />
+    const { getByTestId } = render(
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction}/>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId('customPoints')).toBeInTheDocument();
@@ -67,7 +71,7 @@ describe('Total Revenue Chart', () => {
   it('renders the CustomSlices layer', async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByTestId,  } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} />
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction}/>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId('customSlices')).toBeInTheDocument();
@@ -79,7 +83,7 @@ describe('Total Revenue Chart', () => {
   it("renders the chart headers", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByText } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} />
+      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction}/>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByText("Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2022", { exact: false })).toBeInTheDocument();
