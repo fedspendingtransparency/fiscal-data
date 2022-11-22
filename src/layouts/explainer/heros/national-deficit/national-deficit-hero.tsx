@@ -47,6 +47,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
   const [deficitStatus, setDeficitStatus] = useState<string>('');
   const [deficitDif, setDeficitDif] = useState<string>('');
+  const [deficitDifPill, setDeficitDifPill] = useState<string>('');
   const [deficitDifPercent, setDeficitDifPercent] = useState<string>('');
 
 
@@ -88,6 +89,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
         const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
         setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), 0, false));
+        setDeficitDifPill(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), 0, true))
         setDeficitDifPercent((
           ((currentDeficit - priorYearDeficit) / priorYearDeficit)*100).toFixed())
         if(currentDeficit > priorYearDeficit) {
@@ -175,7 +177,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       </div>
       <div className={deficitBoxContainer}>
         <div className={deficitBox}>
-          ${displayedPriorDeficitValue}
+          ${deficitDifPill}
         </div>
           {
             deficitStatus === 'increased' ? (
