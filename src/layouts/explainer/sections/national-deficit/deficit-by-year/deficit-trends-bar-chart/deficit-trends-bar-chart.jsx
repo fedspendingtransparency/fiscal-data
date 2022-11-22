@@ -91,11 +91,12 @@ const DeficitTrendsBarChart = ({ width }) => {
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
       const newData = preAPIData.concat(apiData);
       const latestYear = newData[newData.length - 1].year;
-      const latestDeficit = newData[newData.length - 1].deficit;
+      const latestDeficit = newData[newData.length - 2].deficit;
       setMostRecentFiscalYear(latestYear);
       setHeaderYear(latestYear);
       setMostRecentDeficit(latestDeficit);
       setHeaderDeficit(latestDeficit);
+      console.log(newData);
       setChartData(newData);
     });
   }
@@ -283,6 +284,7 @@ const DeficitTrendsBarChart = ({ width }) => {
                 isInteractive={true}
                 onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
                 onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event)}}
+                groupMode={"stacked"}
                 tooltip={() => (
                   <></>
                 )}

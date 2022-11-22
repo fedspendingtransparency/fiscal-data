@@ -22,6 +22,7 @@ export const preAPIData = [
     "deficitColor": deficitExplainerPrimary,
     "decoyDeficit": "3.5",
     "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+
   },
   {
     "year": "2002",
@@ -29,6 +30,7 @@ export const preAPIData = [
     "deficitColor": deficitExplainerPrimary,
     "decoyDeficit": "3.34",
     "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+
   },
   {
     "year": "2003",
@@ -141,7 +143,8 @@ export const generateTickValues = (chartData) => {
       yValues.push(i.toFixed());
     }
   }
-  tickValues.push(xValues);
+  const uniqueXValues = [...new Set(xValues)];
+  tickValues.push(uniqueXValues);
   tickValues.push(yValues);
   return tickValues;
 }
