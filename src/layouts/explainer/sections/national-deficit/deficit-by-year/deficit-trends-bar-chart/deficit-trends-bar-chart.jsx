@@ -18,7 +18,7 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 
 let gaTimerChart;
 
-const DeficitTrendsBarChart = ({ width }) => {
+export const DeficitTrendsBarChart = ({ width }) => {
   const {getGAEvent} = useGAEventTracking(null, "Deficit");
 
   const desktop = width >= pxToNumber(breakpointLg);
@@ -91,12 +91,11 @@ const DeficitTrendsBarChart = ({ width }) => {
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
       const newData = preAPIData.concat(apiData);
       const latestYear = newData[newData.length - 1].year;
-      const latestDeficit = newData[newData.length - 2].deficit;
+      const latestDeficit = newData[newData.length - 1].deficit;
       setMostRecentFiscalYear(latestYear);
       setHeaderYear(latestYear);
       setMostRecentDeficit(latestDeficit);
       setHeaderDeficit(latestDeficit);
-      console.log(newData);
       setChartData(newData);
     });
   }
