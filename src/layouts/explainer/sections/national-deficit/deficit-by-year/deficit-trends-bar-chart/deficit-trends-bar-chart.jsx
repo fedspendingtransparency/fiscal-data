@@ -15,6 +15,7 @@ import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import {last} from "rxjs";
 
 let gaTimerChart;
 
@@ -33,13 +34,15 @@ const DeficitTrendsBarChart = ({ width }) => {
   const [headerYear, setHeaderYear] = useState('');
   const [headerDeficit, setHeaderDeficit] = useState('');
   const [gaChartTime, setGaChartTime] = useState(0);
+  const [lastBar, setLastBar] = useState();
+  const [numOfBars, setNumOfBars] = useState(0);
 
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
     // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 495 550');
+      svgChart.setAttribute('viewBox', '0 0 495 388');
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
@@ -60,6 +63,8 @@ const DeficitTrendsBarChart = ({ width }) => {
 
   const getChartData = () => {
     const apiData = [];
+    // Counts pre api data bars
+    let barCounter = 14;
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       result.data.forEach((entry) => {
@@ -79,7 +84,9 @@ const DeficitTrendsBarChart = ({ width }) => {
           "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
           "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
         })
+        barCounter += 1;
       })
+      setNumOfBars(barCounter);
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
       const newData = preAPIData.concat(apiData);
       const latestYear = newData[newData.length - 1].year;
@@ -93,20 +100,43 @@ const DeficitTrendsBarChart = ({ width }) => {
   }
 
   const chartChangeOnMouseEnter = (data, event, chartData) => {
+    const barSVGs = Array.from(event.target.parentNode.parentNode.children);
     if (data.id !== 'decoyDeficit') {
-      event.target.style.fill = '#555555';
-      setHeaderYear(data.data.year);
-      setHeaderDeficit(data.data.deficit);
+      if (data.data.year === chartData[chartData.length - 1].year) {
+        event.target.style.fill = '#555555';
+        setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
+        setHeaderYear(data.data.year);
+        setHeaderDeficit(data.data.deficit);
+      }
+      else {
+        event.target.style.fill = '#555555';
+        event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild.style.fill = deficitExplainerPrimary;
+        setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
+        setHeaderYear(data.data.year);
+        setHeaderDeficit(data.data.deficit);
+      }
     }
     else if (data.id === 'decoyDeficit') {
-      const parentG = event.target.parentNode;
-      const barSVGs = Array.from(event.target.parentNode.parentNode.children);
-      const foundYou = barSVGs.find((element) => element === parentG);
-      const indexOfRealBar = barSVGs.indexOf(foundYou) - 22;
-      event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = '#555555';
-      const matchedBar = chartData.find((element) => element.year === data.data.year);
-      setHeaderYear(matchedBar.year);
-      setHeaderDeficit(matchedBar.deficit);
+      if (data.data.year === chartData[chartData.length - 1].year) {
+        const parentG = event.target.parentNode;
+        const foundYou = barSVGs.find((element) => element === parentG);
+        const indexOfRealBar = barSVGs.indexOf(foundYou) - numOfBars;
+        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = '#555555';
+        setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
+        const matchedBar = chartData.find((element) => element.year === data.data.year);
+        setHeaderYear(matchedBar.year);
+        setHeaderDeficit(matchedBar.deficit);
+      }
+      else {
+        const parentG = event.target.parentNode;
+        const foundYou = barSVGs.find((element) => element === parentG);
+        const indexOfRealBar = barSVGs.indexOf(foundYou) - 22;
+        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = '#555555';
+        event.target.parentNode.parentNode.children[(barSVGs.length - 1) - 22].firstChild.style.fill = deficitExplainerPrimary;
+        const matchedBar = chartData.find((element) => element.year === data.data.year);
+        setHeaderYear(matchedBar.year);
+        setHeaderDeficit(matchedBar.deficit);
+      }
     }
   }
 
@@ -126,6 +156,7 @@ const DeficitTrendsBarChart = ({ width }) => {
   const resetHeaderValues = () => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
+    lastBar.style.fill = '#555555';
   }
 
   useEffect(() => {
@@ -211,7 +242,7 @@ const DeficitTrendsBarChart = ({ width }) => {
                 theme={chartTheme}
                 layers={['grid', 'axes', 'bars']}
                 width={ 495 }
-                height={ 550 }
+                height={ 388 }
                 keys={[
                   'deficit',
                   'decoyDeficit'
@@ -221,7 +252,7 @@ const DeficitTrendsBarChart = ({ width }) => {
                   {top: 15, right: 0, bottom: 20, left: 50} :
                   {top: 10, right: 0, bottom: 20, left: 50}
                 }
-                padding={desktop ? 0.25 : 0.35}
+                padding={desktop ? 0.30 : 0.35}
                 valueScale={{type: 'linear'}}
                 indexScale={{type: 'band', round: true}}
                 colors={({id, data}) =>  String(data[`${id}Color`])}
@@ -246,6 +277,7 @@ const DeficitTrendsBarChart = ({ width }) => {
                 gridXValues={tickValuesX}
                 enableGridY={true}
                 gridYValues={tickValuesY}
+                animate={false}
                 enableLabel={false}
                 isInteractive={true}
                 onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
