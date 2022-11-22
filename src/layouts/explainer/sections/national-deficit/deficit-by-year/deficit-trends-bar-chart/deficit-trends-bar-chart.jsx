@@ -58,6 +58,10 @@ const DeficitTrendsBarChart = ({ width }) => {
     if(value.toString().split(".")[1].length < 2) {}
   }
 
+  // const CustomBarComponent = ({ bar: { x, y, width, height, color } }) => (
+  //   <rect x={x} y={y} width={width} height={height} fill={color} />
+  // )
+
   const getChartData = () => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
@@ -114,7 +118,7 @@ const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
-  
+
   const handleMouseChartEnter = () =>{
     const gaEvent = getGAEvent("30");
     gaTimerChart = setTimeout(() =>{
@@ -129,6 +133,8 @@ const DeficitTrendsBarChart = ({ width }) => {
   const handleMouseChartLeave = () =>{
     clearTimeout(gaTimerChart);
   }
+
+
 
   const name = 'Monthly Treasury Statement (MTS)';
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
@@ -173,7 +179,7 @@ const DeficitTrendsBarChart = ({ width }) => {
             header={header}
             footer={footer}
             date={date}
-            
+
           >
             <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'}>
               <Bar
@@ -217,6 +223,7 @@ const DeficitTrendsBarChart = ({ width }) => {
                 gridYValues={tickValuesY}
                 enableLabel={false}
                 isInteractive={true}
+                // barComponent={CustomBarComponent}
                 onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event)}}
                 onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event, chartData)}}
                 tooltip={() => (
