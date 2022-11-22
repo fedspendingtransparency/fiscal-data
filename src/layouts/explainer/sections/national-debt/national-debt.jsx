@@ -106,6 +106,7 @@ import {
   subTitle,
   titleBreakdown,
   postGraphAccordionContainer,
+  DebtOverLast100yContainer,
 } from "./national-debt.module.scss";
 import { Bar } from "@nivo/bar";
 import Multichart from "../../multichart/multichart";
@@ -810,58 +811,6 @@ export const GrowingNationalDebtSection = withWindowSize(
   };
 
     useEffect(() => {
-      basicFetch(`${apiPrefix}${endpoint}`)
-        .then(dataset => {
-          dataset.data = adjustDataForInflation(
-            dataset.data,
-            valueField,
-            dateField,
-            cpiDataByYear
-          );
-          console.log(dataset.data)
-          const latestEntry = dataset.data[0];
-          const earliestEntry = dataset.data[dataset.data.length - 1];
-          // Use window.innerWidth instead of width prop because this doesn't trigger on mount
-          chartOptions.forceHeight =
-            window.innerWidth < pxToNumber(breakpointLg) ? 200 : 400;
-          chartOptions.forceLabelFontSize =
-            window.innerWidth < pxToNumber(breakpointLg)
-              ? fontSize_10
-              : fontSize_14;
-
-          const xAxisTickValues = [];
-          const step = Math.floor(dataset.data.length / 5);
-          for (let i = 0, il = dataset.data.length; i < il; i += step) {
-            const tickValue = new Date(dataset.data[i][dateField]);
-            xAxisTickValues.push(tickValue);
-          }
-          chartOptions.xAxisTickValues = xAxisTickValues;
-          console.log(xAxisTickValues, step)
-
-          setData(dataset.data);
-          setDate(latestEntry[dateField]);
-          setValue(latestEntry[valueField]);
-          setYear(latestEntry.record_fiscal_year);
-          setStartYear(earliestEntry.record_fiscal_year);
-          setStartValue(earliestEntry[valueField]);
-          setLabels(dataset.meta.labels);
-          setIsLoading(false);
-
-          drawChart(
-            dataset.data,
-            chartRef.current,
-            dateField,
-            [valueField],
-            dataset.meta.labels,
-            chartOptions
-          );
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    }, []);
-
-    useEffect(() => {
       chartOptions.forceHeight = width < pxToNumber(breakpointLg) ? 200 : 400;
       const xAxisTickValues = [];
       const step = Math.floor(data.length / 5);
@@ -1110,74 +1059,9 @@ const handleMouseEnterLineChart = () => {
           widespread unemployment generally account for sharp rises in the
           national debt.
         </p>
-        <DebtOverLast100y cpiDataByYear={cpiDataByYear} />
 
+        <DebtOverLast100y cpiDataByYear={cpiDataByYear}/>
 
-        {!isLoading ? (
-          <div className={visWithCallout}>
-            <div>
-              <div
-                className={`${growingNationalDebtSectionGraphContainer} ${chartBackdrop}`}
-                role={"img"}
-                aria-label={`Line graph displaying the amount of debt in trillions from ${startYear} to ${year}.
-              The graph shows a steady trend with an increase beginning around 1940 continuing through today.`}
-              >
-                <p className={title}>
-                  U.S. National Debt Over the Last 100 Years
-                </p>
-                <p className={subTitle}>
-                  {" "}
-                  (Inflation Adjusted - {year} Dollars){" "}
-                </p>
-                <div className={headerContainer}>
-                  <div>
-                    <div className={header}>{displayDate}</div>
-                    <span className={subHeader}>Fiscal Year</span>
-                  </div>
-                  <div>
-                    <div className={header}>{displayValue}</div>
-                    <span className={subHeader}>Total Debt</span>
-                  </div>
-                </div>
-                <div
-                  id={`${sectionId}-chart`}
-                  className={growingNationalDebtSectionGraph}
-                  ref={chartRef}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  data-testid="chart"
-                >
-                  {isLoading && (
-                    <div>
-                      <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-                    </div>
-                  )}
-                </div>
-                <div className={footerContainer}>
-                  <p>
-                    Visit the {historicalDebtOutstanding_Last100Years} dataset
-                    to explore and download this data. The inflation data is
-                    sourced from the {blsLink}.
-                  </p>
-                  <p>
-                    Last Updated: {format(dateWithoutOffset, "MMMM d, yyyy")}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <VisualizationCallout color={debtExplainerPrimary}>
-              <p>
-                Over the past 100 years, the U.S. federal debt has increased
-                from {simplifyNumber(startValue, true)} in {startYear} to{" "}
-                {simplifyNumber(value, true)} in {year}.
-              </p>
-            </VisualizationCallout>
-          </div>
-        ) : (
-          <div>
-            <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-          </div>
-        )}
         <p>
           Comparing a country’s debt to its {gdp} reveals the country’s ability
           to pay down its debt. This ratio is considered a better indicator of a

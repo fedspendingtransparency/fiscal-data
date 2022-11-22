@@ -49,11 +49,12 @@ export const dataHeader = (headingValues) => {
   const {fiscalYear, totalDebt} = headingValues;
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
+      // style={{
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   justifyContent: 'center',
+      //   border: '1px black solid'
+      // }}
     >
       <div className={styles.headerContainer}>
         <div className={styles.headerData}>
@@ -63,7 +64,7 @@ export const dataHeader = (headingValues) => {
           </div>
           
           <div className={styles.dataElement}>
-            <div className={styles.dataValue}>${totalDebt}</div>
+            <div className={styles.dataValue}>{totalDebt}</div>
             <span className={styles.dataLabel}>Total Debt</span>
           </div>
         </div>
@@ -114,17 +115,17 @@ export const chartConfigs = {
       return `$${newValue}`
     },
     orient: 'left',
-    tickSize: 5,
+    tickSize: 10,
     tickPadding: 5,
     tickRotation: 0,
-    tickValues: 6,
+    tickValues: 7,
   },
   axisBottom: {
     orient: 'bottom',
     tickSize: 10,
     tickPadding: 5,
     tickRotation: 0,
-    tickValues: 6,      
+    tickValues: ['1922', '1942', '1962', '1982', '2002', '2022'],      
   },
 };
 

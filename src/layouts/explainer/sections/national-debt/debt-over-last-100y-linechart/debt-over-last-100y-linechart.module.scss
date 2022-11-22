@@ -8,23 +8,7 @@
 
 .container {
   overflow: hidden;
-
-  .chartToggle {
-    display: flex;
-    width: 100%;
-    border-radius: 8px;
-    margin-top: 16px;
-    justify-content: center;
-  }
-
-  .toggleButton {
-    width: 50%;
-    margin-bottom: 2%;
-    cursor: pointer;
-    height: 32px;
-    border: 2px solid #0a2f5a;
-  }
-
+  
   .lineChart {
     width: 100%;
     margin-top: .625rem;
@@ -33,16 +17,7 @@
   .headerContainer {
     display: flex;
     flex-direction: column;
-
-    .toggle {
-      border-style: solid;
-      height: 2rem;
-      width: 450px;
-      justify-content: center;
-      margin-bottom: 2rem;
-      margin-top: .25rem;
-    }
-
+    
     .headerData {
       margin-bottom: .75rem;
       display: flex;
@@ -98,13 +73,7 @@
 
   .container {
     .headerContainer {
-      .toggle {
-        height: 1.5rem;
-        width: 300px;
-        margin-bottom: 1rem;
-        margin-top: 0;
-      }
-
+      
       .headerData {
         margin-bottom: .75rem;
         display: flex;
