@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, waitFor, screen} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
 import {setGlobalFetchResponse} from "../../../../../../utils/mock-utils";
 import {mockDeficitTrendsData} from "../../../../explainer-test-helper";
 import {DeficitTrendsBarChart} from "./deficit-trends-bar-chart";
