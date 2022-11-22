@@ -20,7 +20,7 @@ export const footer =
   <div className={footerContainer}>
     <p>
       <i>
-        To explore this visual, hover or tap over any category bubble to discover its data.
+        To explore this visual, hover over or tap on any category bubble to discover its data.
       </i>
     </p>
     <p>
