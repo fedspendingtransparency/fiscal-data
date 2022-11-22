@@ -47,6 +47,8 @@ const DeficitTrendsBarChart = ({ width }) => {
     }
   };
 
+  const barHighlightColor = '#555555';
+
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
       return `-$${Math.abs(v)} T`;
@@ -71,7 +73,7 @@ const DeficitTrendsBarChart = ({ width }) => {
           apiData.push({
             "year": entry.record_fiscal_year,
             "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2),
-            "deficitColor": '#555555',
+            "deficitColor": barHighlightColor,
             "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
             "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
           })
@@ -102,13 +104,13 @@ const DeficitTrendsBarChart = ({ width }) => {
     const barSVGs = Array.from(event.target.parentNode.parentNode.children);
     if (data.id !== 'decoyDeficit') {
       if (data.data.year === chartData[chartData.length - 1].year) {
-        event.target.style.fill = '#555555';
+        event.target.style.fill = barHighlightColor;
         setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
         setHeaderYear(data.data.year);
         setHeaderDeficit(data.data.deficit);
       }
       else {
-        event.target.style.fill = '#555555';
+        event.target.style.fill = barHighlightColor;
         event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild.style.fill = deficitExplainerPrimary;
         setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
         setHeaderYear(data.data.year);
@@ -118,9 +120,9 @@ const DeficitTrendsBarChart = ({ width }) => {
     else if (data.id === 'decoyDeficit') {
       if (data.data.year === chartData[chartData.length - 1].year) {
         const parentG = event.target.parentNode;
-        const foundYou = barSVGs.find((element) => element === parentG);
-        const indexOfRealBar = barSVGs.indexOf(foundYou) - numOfBars;
-        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = '#555555';
+        const realBar = barSVGs.find((element) => element === parentG);
+        const indexOfRealBar = barSVGs.indexOf(realBar) - numOfBars;
+        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = barHighlightColor;
         setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
         const matchedBar = chartData.find((element) => element.year === data.data.year);
         setHeaderYear(matchedBar.year);
@@ -128,9 +130,9 @@ const DeficitTrendsBarChart = ({ width }) => {
       }
       else {
         const parentG = event.target.parentNode;
-        const foundYou = barSVGs.find((element) => element === parentG);
-        const indexOfRealBar = barSVGs.indexOf(foundYou) - 22;
-        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = '#555555';
+        const realBar = barSVGs.find((element) => element === parentG);
+        const indexOfRealBar = barSVGs.indexOf(realBar) - 22;
+        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = barHighlightColor;
         event.target.parentNode.parentNode.children[(barSVGs.length - 1) - 22].firstChild.style.fill = deficitExplainerPrimary;
         const matchedBar = chartData.find((element) => element.year === data.data.year);
         setHeaderYear(matchedBar.year);
@@ -146,8 +148,8 @@ const DeficitTrendsBarChart = ({ width }) => {
     else if (data.id === 'decoyDeficit') {
       const parentG = event.target.parentNode;
       const barSVGs = Array.from(event.target.parentNode.parentNode.children);
-      const foundYou = barSVGs.find((element) => element === parentG);
-      const indexOfRealBar = barSVGs.indexOf(foundYou) - 22;
+      const realBar = barSVGs.find((element) => element === parentG);
+      const indexOfRealBar = barSVGs.indexOf(realBar) - 22;
       event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = deficitExplainerPrimary;
     }
   }
@@ -155,7 +157,7 @@ const DeficitTrendsBarChart = ({ width }) => {
   const resetHeaderValues = () => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
-    lastBar.style.fill = '#555555';
+    lastBar.style.fill = barHighlightColor;
   }
 
   useEffect(() => {
