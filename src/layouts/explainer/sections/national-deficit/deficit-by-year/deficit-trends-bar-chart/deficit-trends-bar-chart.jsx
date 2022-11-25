@@ -18,7 +18,7 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 
 let gaTimerChart;
 
-const DeficitTrendsBarChart = ({ width }) => {
+export const DeficitTrendsBarChart = ({ width }) => {
   const {getGAEvent} = useGAEventTracking(null, "Deficit");
 
   const desktop = width >= pxToNumber(breakpointLg);
@@ -33,6 +33,8 @@ const DeficitTrendsBarChart = ({ width }) => {
   const [headerYear, setHeaderYear] = useState('');
   const [headerDeficit, setHeaderDeficit] = useState('');
   const [gaChartTime, setGaChartTime] = useState(0);
+  const [lastBar, setLastBar] = useState();
+  const [numOfBars, setNumOfBars] = useState(0);
 
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
@@ -44,6 +46,8 @@ const DeficitTrendsBarChart = ({ width }) => {
       svgChart.setAttribute('width', '100%');
     }
   };
+
+  const barHighlightColor = '#555555';
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -60,14 +64,30 @@ const DeficitTrendsBarChart = ({ width }) => {
 
   const getChartData = () => {
     const apiData = [];
+    // Counts pre api data bars
+    let barCounter = 14;
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       result.data.forEach((entry) => {
+        if(entry.record_fiscal_year === '2022') {
+          apiData.push({
+            "year": entry.record_fiscal_year,
+            "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2),
+            "deficitColor": barHighlightColor,
+            "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
+            "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+          })
+        }
         apiData.push({
           "year": entry.record_fiscal_year,
-          "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2)
+          "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2),
+          "deficitColor": deficitExplainerPrimary,
+          "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000)).toFixed(2),
+          "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
         })
+        barCounter += 1;
       })
+      setNumOfBars(barCounter);
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
       const newData = preAPIData.concat(apiData);
       const latestYear = newData[newData.length - 1].year;
@@ -80,24 +100,64 @@ const DeficitTrendsBarChart = ({ width }) => {
     });
   }
 
-  const chartChangeOnMouseEnter = (data, event) => {
-    event.target.style.fill = '#555555';
-    setHeaderYear(data.data.year);
-    setHeaderDeficit(data.data.deficit);
+  const chartChangeOnMouseEnter = (data, event, chartData) => {
+    const barSVGs = Array.from(event.target.parentNode.parentNode.children);
+    if (data.id !== 'decoyDeficit') {
+      if (data.data.year === chartData[chartData.length - 1].year) {
+        event.target.style.fill = barHighlightColor;
+        setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
+        setHeaderYear(data.data.year);
+        setHeaderDeficit(data.data.deficit);
+      }
+      else {
+        event.target.style.fill = barHighlightColor;
+        event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild.style.fill = deficitExplainerPrimary;
+        setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
+        setHeaderYear(data.data.year);
+        setHeaderDeficit(data.data.deficit);
+      }
+    }
+    else if (data.id === 'decoyDeficit') {
+      if (data.data.year === chartData[chartData.length - 1].year) {
+        const parentG = event.target.parentNode;
+        const realBar = barSVGs.find((element) => element === parentG);
+        const indexOfRealBar = barSVGs.indexOf(realBar) - numOfBars;
+        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = barHighlightColor;
+        setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild);
+        const matchedBar = chartData.find((element) => element.year === data.data.year);
+        setHeaderYear(matchedBar.year);
+        setHeaderDeficit(matchedBar.deficit);
+      }
+      else {
+        const parentG = event.target.parentNode;
+        const realBar = barSVGs.find((element) => element === parentG);
+        const indexOfRealBar = barSVGs.indexOf(realBar) - 22;
+        event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = barHighlightColor;
+        event.target.parentNode.parentNode.children[(barSVGs.length - 1) - 22].firstChild.style.fill = deficitExplainerPrimary;
+        const matchedBar = chartData.find((element) => element.year === data.data.year);
+        setHeaderYear(matchedBar.year);
+        setHeaderDeficit(matchedBar.deficit);
+      }
+    }
   }
 
-  const chartChangeOnMouseLeave = (data, event, chartData) => {
-    if (data.formattedValue === chartData[chartData.length -1].deficit) {
-      event.target.style.fill = '#666666';
+  const chartChangeOnMouseLeave = (data, event) => {
+    if (data.id !== 'decoyDeficit') {
+        event.target.style.fill = deficitExplainerPrimary;
     }
-    else {
-      event.target.style.fill = deficitExplainerPrimary;
+    else if (data.id === 'decoyDeficit') {
+      const parentG = event.target.parentNode;
+      const barSVGs = Array.from(event.target.parentNode.parentNode.children);
+      const realBar = barSVGs.find((element) => element === parentG);
+      const indexOfRealBar = barSVGs.indexOf(realBar) - 22;
+      event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = deficitExplainerPrimary;
     }
   }
 
   const resetHeaderValues = () => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
+    lastBar.style.fill = barHighlightColor;
   }
 
   useEffect(() => {
@@ -114,7 +174,7 @@ const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
-  
+
   const handleMouseChartEnter = () =>{
     const gaEvent = getGAEvent("30");
     gaTimerChart = setTimeout(() =>{
@@ -129,6 +189,8 @@ const DeficitTrendsBarChart = ({ width }) => {
   const handleMouseChartLeave = () =>{
     clearTimeout(gaTimerChart);
   }
+
+
 
   const name = 'Monthly Treasury Statement (MTS)';
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
@@ -173,7 +235,7 @@ const DeficitTrendsBarChart = ({ width }) => {
             header={header}
             footer={footer}
             date={date}
-            
+
           >
             <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'}>
               <Bar
@@ -183,17 +245,18 @@ const DeficitTrendsBarChart = ({ width }) => {
                 width={ 495 }
                 height={ 388 }
                 keys={[
-                  'deficit'
+                  'deficit',
+                  'decoyDeficit'
                 ]}
                 indexBy="year"
                 margin={desktop ?
                   {top: 15, right: 0, bottom: 20, left: 50} :
                   {top: 10, right: 0, bottom: 20, left: 50}
                 }
-                padding={desktop ? 0.47 : 0.35}
+                padding={desktop ? 0.30 : 0.35}
                 valueScale={{type: 'linear'}}
                 indexScale={{type: 'band', round: true}}
-                colors={(bar) => bar.data.year === mostRecentFiscalYear ? '#666666' : deficitExplainerPrimary}
+                colors={({id, data}) =>  String(data[`${id}Color`])}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -215,10 +278,12 @@ const DeficitTrendsBarChart = ({ width }) => {
                 gridXValues={tickValuesX}
                 enableGridY={true}
                 gridYValues={tickValuesY}
+                animate={false}
                 enableLabel={false}
                 isInteractive={true}
-                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event)}}
-                onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event, chartData)}}
+                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
+                onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event)}}
+                groupMode={"stacked"}
                 tooltip={() => (
                   <></>
                 )}
