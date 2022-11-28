@@ -316,8 +316,8 @@ export const lineChartCustomPoints = props => {
           strokeWidth={borderWidth}
           stroke={borderColor}
           fillOpacity={0.35}
-          cx={currentSpendingPoint.x}
-          cy={currentSpendingPoint.y}
+          cx={currentSpendingPoint?.x}
+          cy={currentSpendingPoint?.y}
         />
         <circle
           r={2}
@@ -325,8 +325,8 @@ export const lineChartCustomPoints = props => {
           stroke={'#000000'}
           fill={'#000000'}
           fillOpacity={0.85}
-          cx={currentSpendingPoint.x}
-          cy={currentSpendingPoint.y}
+          cx={currentSpendingPoint?.x}
+          cy={currentSpendingPoint?.y}
         />
         {currentGdpPoint && (
           <>
