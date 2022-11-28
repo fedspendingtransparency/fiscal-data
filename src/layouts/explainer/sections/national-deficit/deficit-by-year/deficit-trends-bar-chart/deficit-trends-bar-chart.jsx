@@ -157,7 +157,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const resetHeaderValues = () => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
-    lastBar.style.fill = barHighlightColor;
+
+    if(lastBar)
+      lastBar.style.fill = barHighlightColor;
   }
 
   useEffect(() => {
@@ -207,11 +209,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const header =
     <>
       <div>
-        <div className={headerTitle}>{headerYear}</div>
+        <div className={headerTitle} data-testid={'deficitFiscalYearHeader'}>{headerYear}</div>
         <span className={subHeader}>Fiscal Year</span>
       </div>
     <div>
-      <div className={headerTitle}>${headerDeficit} T</div>
+      <div className={headerTitle} data-testid={'deficitTotalHeader'}>${headerDeficit} T</div>
       <span className={subHeader}>Total Deficit</span>
     </div>
     </>
