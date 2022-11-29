@@ -1,6 +1,6 @@
 @import '../../../variables.module.scss';
 
-$menuWidth: 320px;
+$menuWidth: 318px;
 
 @keyframes fadeIn {
   0%   {opacity: 0;}
@@ -34,13 +34,38 @@ $menuWidth: 320px;
   &.open {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    //padding-right: 1rem;
     top: 0;
     position: fixed;
-    width: 90%;
+    //width: 90%;
     overflow-y: scroll;
     border-left: 4px solid #0071bc;
   }
 }
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 8px;
+  border: 2px solid #ffffff;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
 
 .overlay {
   position: fixed;
