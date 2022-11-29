@@ -312,145 +312,145 @@ const getAPI130Data = () => {
 const getAPI129Data = () => {
   const responseArray = [
     {
-      "close_today_bal": "1414465",
+      "open_today_bal": "1414465",
       "record_calendar_day": "26",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-02-26"
     },
     {
-      "close_today_bal": "1013861",
+      "open_today_bal": "1013861",
       "record_calendar_day": "26",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-03-26"
     },
     {
-      "close_today_bal": "1019013",
+      "open_today_bal": "1019013",
       "record_calendar_day": "29",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-03-29"
     },
     {
-      "close_today_bal": "1003516",
+      "open_today_bal": "1003516",
       "record_calendar_day": "30",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-03-30"
     },
     {
-      "close_today_bal": "1121951",
+      "open_today_bal": "1121951",
       "record_calendar_day": "31",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-03-31"
     },
     {
-      "close_today_bal": "982206",
+      "open_today_bal": "982206",
       "record_calendar_day": "26",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-04-26"
     },
     {
-      "close_today_bal": "958871",
+      "open_today_bal": "958871",
       "record_calendar_day": "27",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-04-27"
     },
     {
-      "close_today_bal": "932287",
+      "open_today_bal": "932287",
       "record_calendar_day": "28",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-04-28"
     },
     {
-      "close_today_bal": "903015",
+      "open_today_bal": "903015",
       "record_calendar_day": "29",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-04-29"
     },
     {
-      "close_today_bal": "970716",
+      "open_today_bal": "970716",
       "record_calendar_day": "30",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-04-30"
     },
     {
-      "close_today_bal": "778912",
+      "open_today_bal": "778912",
       "record_calendar_day": "26",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-05-26"
     },
     {
-      "close_today_bal": "745973",
+      "open_today_bal": "745973",
       "record_calendar_day": "27",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-05-27"
     },
     {
-      "close_today_bal": "776700",
+      "open_today_bal": "776700",
       "record_calendar_day": "28",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-05-28"
     },
     {
-      "close_today_bal": "734915",
+      "open_today_bal": "734915",
       "record_calendar_day": "28",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-06-28"
     },
     {
-      "close_today_bal": "711267",
+      "open_today_bal": "711267",
       "record_calendar_day": "29",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-06-29"
     },
     {
-      "close_today_bal": "851929",
+      "open_today_bal": "851929",
       "record_calendar_day": "30",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-06-30"
     },
     {
-      "close_today_bal": "591368",
+      "open_today_bal": "591368",
       "record_calendar_day": "26",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-07-26"
     },
     {
-      "close_today_bal": "564799",
+      "open_today_bal": "564799",
       "record_calendar_day": "27",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-07-27"
     },
     {
-      "close_today_bal": "536966",
+      "open_today_bal": "536966",
       "record_calendar_day": "28",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-07-28"
     },
     {
-      "close_today_bal": "501179",
+      "open_today_bal": "501179",
       "record_calendar_day": "29",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-07-29"
     },
     {
-      "close_today_bal": "459402",
+      "open_today_bal": "459402",
       "record_calendar_day": "30",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-07-30"
     },
     {
-      "close_today_bal": "239304",
+      "open_today_bal": "239304",
       "record_calendar_day": "26",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-08-26"
     },
     {
-      "close_today_bal": "262811",
+      "open_today_bal": "262811",
       "record_calendar_day": "27",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-08-27"
     },
     {
-      "close_today_bal": "262895",
+      "open_today_bal": "262895",
       "record_calendar_day": "30",
       "account_type": "Federal Reserve Account",
       "record_date": "2021-08-30"
@@ -461,37 +461,37 @@ const getAPI129Data = () => {
       "record_date": "2021-02-28",
       "record_calendar_year": "2021",
       "record_calendar_month": "02",
-      "close_today_bal": "1414465000000"
+      "open_today_bal": "1414465000000"
     },
     {
       "record_date": "2021-03-31",
       "record_calendar_year": "2021",
       "record_calendar_month": "03",
-      "close_today_bal": "1121951000000"
+      "open_today_bal": "1121951000000"
     },
     {
       "record_date": "2021-04-30",
       "record_calendar_year": "2021",
       "record_calendar_month": "04",
-      "close_today_bal": "970716000000"
+      "open_today_bal": "970716000000"
     },
     {
       "record_date": "2021-05-31",
       "record_calendar_year": "2021",
       "record_calendar_month": "05",
-      "close_today_bal": "776700000000"
+      "open_today_bal": "776700000000"
     },
     {
       "record_date": "2021-06-30",
       "record_calendar_year": "2021",
       "record_calendar_month": "06",
-      "close_today_bal": "851929000000"
+      "open_today_bal": "851929000000"
     },
     {
       "record_date": "2021-07-31",
       "record_calendar_year": "2021",
       "record_calendar_month": "07",
-      "close_today_bal": "459402000000"
+      "open_today_bal": "459402000000"
     }
   ];
 
