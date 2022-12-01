@@ -446,19 +446,56 @@ export const mockInterestExpenseResponse = {
 }
 
 export const mockDeficitTrendsData = {
-  "data": [{
-    "current_fytd_net_outly_amt": "-438898858122.71",
-    "record_calendar_month": "09",
-    "record_date": "2015-09-30",
-    "record_fiscal_year": "2015",
-  },
+  "data":[
     {
-      "current_fytd_net_outly_amt": "-587411769636.30",
-      "record_calendar_month": "09",
-      "record_date": "2016-09-30",
-      "record_fiscal_year": "2016"
+       "current_fytd_net_outly_amt":"-438898858122.71",
+       "record_date":"2015-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2015"
+    },
+    {
+       "current_fytd_net_outly_amt":"-587411769636.30",
+       "record_date":"2016-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2016"
+    },
+    {
+       "current_fytd_net_outly_amt":"-665711513062.26",
+       "record_date":"2017-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2017"
+    },
+    {
+       "current_fytd_net_outly_amt":"-778996251866.11",
+       "record_date":"2018-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2018"
+    },
+    {
+       "current_fytd_net_outly_amt":"-984388026331.38",
+       "record_date":"2019-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2019"
+    },
+    {
+       "current_fytd_net_outly_amt":"-3131917248888.30",
+       "record_date":"2020-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2020"
+    },
+    {
+       "current_fytd_net_outly_amt":"-2772178788289.42",
+       "record_date":"2021-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2021"
+    },
+    {
+       "current_fytd_net_outly_amt":"-1375388552955.00",
+       "record_date":"2022-09-30",
+       "record_calendar_month":"09",
+       "record_fiscal_year":"2022"
     }
-  ]
+ ],
 }
 
 export const mockDeficitHeroData = {
