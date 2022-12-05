@@ -2,11 +2,14 @@ import {
   datatableRequest,
   fetchAllPages,
   pagedDatatableRequest,
-  buildSortParams, buildFields
+  buildSortParams,
+  buildFields,
+  incorporateChartDates
 } from "./api-utils"
 import * as helpers from './api-utils-helper';
 import { TableCache } from '../components/dataset-data/table-cache/table-cache';
 import { mockFetchApi } from './mock-utils';
+import { mockPivotView, mockDataToPivot, mockPivotedData } from './api-utils-test-data';
 
 describe('Api Utils function library', () => {
   const unitTestObjects = helpers.unitTestObjects;
@@ -196,5 +199,10 @@ describe('Api Utils function library', () => {
 
     expect(buildFields(mockTable, mockPivotValue, mockPivotValueField, mockAggregateOn).sort())
       .toStrictEqual(['column1', 'column2', 'column3', 'column4'].sort());
+  });
+
+  it('builds correct pivot data using incorporateChartDates', () => {
+    expect(incorporateChartDates(mockDataToPivot, mockPivotView))
+      .toStrictEqual(mockPivotedData);
   });
 });
