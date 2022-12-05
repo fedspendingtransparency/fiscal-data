@@ -192,6 +192,9 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const customHeaderStyles={
     marginTop: "1rem",
   }
+  const customFooterSpacing={
+    marginTop: "2rem",
+  }
 
   return (
     <>
@@ -211,6 +214,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
               header={dataHeader(totalDebtHeadingValues)}
               altText={chartAltText}
               customHeaderStyles={customHeaderStyles}
+              customFooterSpacing={customFooterSpacing}
             >
               <div
                 className={lineChart}
