@@ -62,7 +62,7 @@ const ExperimentalPage = () => {
       <h2>
         Bar Graph with Negative Values, no axes
       </h2>
-      <InsightsDownload downloadLink={'https://people.sc.fsu.edu/~jburkardt/data/csv/example.csv'} />
+      <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
       <div className={barDiv}>
         <BarGraph
           graphData={graph2Data}

@@ -3,8 +3,15 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {downloadContainer, downloadIcon, downloadButton} from "./insights-download.module.scss";
 import React from "react";
 
+type InsightsDownloadProps = {
+  downloadLink: string,
+  dataDate: string
+}
 
-const InsightsDownload = ({downloadLink}: {downloadLink: string}, {dataDate}: {dataDate: string}): JSX.Element => {
+
+const InsightsDownload = ({downloadLink, dataDate}: InsightsDownloadProps): JSX.Element => {
+
+    const fileName = downloadLink.split('/').pop();
 
     const getFile = (downloadLink) => {
       fetch(downloadLink, {
@@ -22,7 +29,7 @@ const InsightsDownload = ({downloadLink}: {downloadLink: string}, {dataDate}: {d
         link.href = url;
         link.setAttribute(
           'download',
-          `data.csv`,
+          fileName,
         );
 
         document.body.appendChild(link);
