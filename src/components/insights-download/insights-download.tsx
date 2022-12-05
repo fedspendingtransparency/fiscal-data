@@ -40,8 +40,8 @@ const InsightsDownload = ({downloadLink, dataDate}: InsightsDownloadProps): JSX.
     }
 
     return (
-      <div className={downloadContainer}>
-        <button onClick={() => getFile(downloadLink)} className={downloadButton} onKeyPress={() => getFile(downloadLink)}>
+      <div className={downloadContainer} data-testid={'insights-download'}>
+        <button onClick={() => getFile(downloadLink)} className={downloadButton} data-testid={'download-button'}>
           <div className={downloadIcon}>
             <FontAwesomeIcon icon={faFileDownload} title={'download'} />
           </div>
