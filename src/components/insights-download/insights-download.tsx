@@ -9,6 +9,7 @@ type InsightsDownloadProps = {
 }
 
 
+
 const InsightsDownload = ({downloadLink, dataDate}: InsightsDownloadProps): JSX.Element => {
 
     const fileName = downloadLink.split('/').pop();
