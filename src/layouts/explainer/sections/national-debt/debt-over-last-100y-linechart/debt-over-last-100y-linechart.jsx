@@ -12,13 +12,12 @@ import {
   getChartCopy,
   dataHeader,
   chartConfigs,
-  getMarkers,
 } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import {
   lineChart,
-  container,
+  container
 } from './debt-over-last-100y-linechart.module.scss';
 import {
   applyChartScaling,
@@ -31,7 +30,6 @@ import {
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../helpers/simplify-number/simplifyNumber';
-import numeral from 'numeral';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Analytics from '../../../../../utils/analytics/analytics';
@@ -191,6 +189,10 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     clearTimeout(gaTimerDebt100Yrs);
   };
 
+  const customHeaderStyles={
+    marginTop: "1rem",
+  }
+
   return (
     <>
       {isLoading && (
@@ -208,6 +210,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
               date={lastUpdatedDate}
               header={dataHeader(totalDebtHeadingValues)}
               altText={chartAltText}
+              customHeaderStyles={customHeaderStyles}
             >
               <div
                 className={lineChart}
@@ -258,12 +261,12 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                   height={chartHeight}
                   margin={
                     width < pxToNumber(breakpointLg)
-                      ? { top: 25, right: 25, bottom: 30, left: 55 }
+                      ? { top: 25, right: 25, bottom: 30, left: 65 }
                       : { top: 20, right: 15, bottom: 35, left: 50 }
                   }
                   enablePoints={false}
                   enableGridX={false}
-                  enableGridY={true}
+                  enableGridY={false}
                   xScale={{
                     type: 'linear',
                     min: minYear,
