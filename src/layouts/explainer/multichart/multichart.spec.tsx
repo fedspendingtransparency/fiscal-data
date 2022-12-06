@@ -1,8 +1,9 @@
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react"
 import React from "react";
 import Multichart from "./multichart";
 import { percentageFormatter, trillionsFormatter } from "../sections/national-debt/national-debt";
 import { mockInterestRatesData, mockTotalDebtData } from "../explainer-test-helper";
+import { fireEvent, waitFor } from "@testing-library/dom"
 
 export const mockChartConfigs = [
   {
@@ -99,7 +100,7 @@ export const mockChartConfigs = [
   }
 ];
 
-
+jest.useFakeTimers();
 describe('Multichart', () => {
 
   it('renders expected chart container element', async () => {
@@ -148,5 +149,29 @@ describe('Multichart', () => {
     );
     expect(getByTestId('debt-marker')).toBeInTheDocument();
     expect(getByTestId('interest-marker')).toBeInTheDocument();
+  });
+
+  it(`renders a mouseTracking element on mouseEnter event and
+  removes it on mouseOut`, async () => {
+    await act(async () => {
+      const { queryAllByTestId, getByTestId } = await render(
+        <Multichart
+          chartId="testy"
+          chartConfigs={mockChartConfigs}
+          hoverEffectHandler={jest.fn()}
+        />
+      );
+      jest.runAllTimers();
+      const chartContainer = getByTestId('multichart');
+      expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(0);
+      await fireEvent.mouseOver(chartContainer);
+      await waitFor(() => getByTestId('testy-line-chart-hover-effects'));
+      expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(1);
+      await fireEvent.mouseOut(chartContainer);
+      jest.advanceTimersByTime(500);
+      expect(queryAllByTestId('testy-line-chart-hover-effects').length).toStrictEqual(0);
+    });
+
+    jest.runAllTimers();
   });
 })

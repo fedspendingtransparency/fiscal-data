@@ -20,7 +20,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Accordion from "../../../../components/accordion/accordion";
-import VisualizationCallout from "../../../../components/visualization-callout/visualization-callout";
+import VisualizationCallout
+  from "../../../../components/visualization-callout/visualization-callout";
 import { visWithCallout, chartBackdrop } from "../../explainer.module.scss";
 import drawChart, {
   addHoverEffects,
@@ -1962,7 +1963,7 @@ export const DebtBreakdownSection = withWindowSize(
                       <span className={subHeader}>Total Debt</span>
                     </div>
                   </div>
-                  <div className={multichartContainer}>
+                  <div className={`${multichartContainer} multichart-scaled`}>
                     <Multichart
                       chartId={multichartId}
                       chartConfigs={multichartConfigs}
