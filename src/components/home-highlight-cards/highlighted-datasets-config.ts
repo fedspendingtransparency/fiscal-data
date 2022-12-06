@@ -225,8 +225,8 @@ export const transformAPI129 =
           valuesPerMonth[monthKey].total = 0;
         }
         if (valuesPerMonth[monthKey][row['account_type']] === undefined) {
-          valuesPerMonth[monthKey][row.account_type] = row.close_today_bal;
-          valuesPerMonth[monthKey].total += Number(row.close_today_bal);
+          valuesPerMonth[monthKey][row['account_type']] = row.account_type;
+          valuesPerMonth[monthKey].total += Number(row.open_today_bal);
           valuesPerMonth[monthKey].record_calendar_year = year;
           valuesPerMonth[monthKey].record_calendar_month = month;
         }
@@ -237,7 +237,7 @@ export const transformAPI129 =
         record_date: dateKey,
         record_calendar_year: valObj['record_calendar_year'],
         record_calendar_month: valObj['record_calendar_month'],
-        close_today_bal: `${valObj['total']}000000`
+        open_today_bal: `${valObj['total']}000000`
       }
     });
     const sorted = data.sort((a, b) => a.record_date.localeCompare(b.record_date));
@@ -463,27 +463,22 @@ const datasets: IDatasetChartConfigs = [
     "data": {
       "api_id": 129,
       "chartType": "LINE",
-      "fields": ['close_today_bal', 'record_calendar_day', 'account_type'],
-      "filters": [
-        {
-          "key": "close_today_bal",
-          "operator": "gt",
-          "value": 0
-        },
+      "fields": ['open_today_bal', 'record_calendar_day', 'account_type', 'record_date'],
+      "filters": [        
         {
           "key": "record_calendar_day",
           "operator": "gte",
           "value": "26"
         },
         {
-          "key": "record_date",
-          "operator": 'mostRecentDatePeriod',
-          "unit": 'MONTH',
-          "amount": 7
+          "key": "account_type",
+          "operator": 'eq',
+          "value": 'Treasury General Account (TGA) Closing Balance',
         }
       ],
+      "sorts":["-record_date"],
       "format": "CURRENCY",
-      "limit": 100,
+      "limit": 30,
       "transform": transformAPI129
     }
   },

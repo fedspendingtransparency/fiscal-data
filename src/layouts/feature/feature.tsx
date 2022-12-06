@@ -14,6 +14,7 @@ import {
   heroSocialShare,
 } from "./feature.module.scss"
 import FDGMdxProvider from "../../components/mdx/FDGMdxProvider";
+import InsightsDownload from "../../components/insights-download/insights-download";
 import {MDXRenderer} from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
@@ -42,7 +43,8 @@ export type FeaturePageProps = {
 
 const featuresComponents = {
   DSM: dsmComponents.DSM,
-  ExtIcon: dsmComponents.ExtIcon
+  ExtIcon: dsmComponents.ExtIcon,
+  InsightsDownload: InsightsDownload
 }
 
 const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps) => {

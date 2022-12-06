@@ -1,0 +1,22 @@
+
+
+.downloadContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin-right: 5.5rem;
+}
+
+.downloadIcon {
+  margin-right: 0.5rem;
+}
+
+.downloadButton {
+  font-size: 1rem;
+  color: #0071BC;
+  border: none;
+  background-color: #FFFFFF;
+  cursor:pointer;
+  display: flex;
+  flex-direction: row;
+}

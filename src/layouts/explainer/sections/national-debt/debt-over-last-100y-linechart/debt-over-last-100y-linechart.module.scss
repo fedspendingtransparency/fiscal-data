@@ -1,0 +1,101 @@
+@import "src/variables.module";
+
+:global(.chartContainerHeader) {
+  font-size: $font-size-14 !important;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.container {
+  overflow: hidden;
+  
+  .lineChart {
+    width: 100%;
+    margin-top: .625rem;
+  }
+
+  .headerContainer {
+    display: flex;
+    flex-direction: column;
+    
+    .headerData {
+      margin-bottom: .75rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      .dataElement:not(:last-child) {
+        padding-right: 1.5rem;
+      }
+
+      .dataElement {
+        color: #666666;
+
+        .dataValue {
+          font-weight: bold;
+          font-size: $font-size-36;
+        }
+
+        .dataLabel {
+          font-size: $font-size-14;
+          font-weight: $semi-bold-weight;
+          margin: 0 1.25rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg - 1) {
+  :global(.chartContainerChart) {
+    max-width: 484px !important;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  :global(.chartContainerHeader) {
+    margin-top: .125rem;
+  }
+
+  :global(.chartContainerFooter) {
+    font-size: $font-size-14 !important;
+  }
+
+  :global(.chartContainerSubTitle) {
+    font-size: $font-size-14 !important;
+  }
+
+  :global(.chartContainerFooter) {
+    p {
+      margin-top: .75rem;
+    }
+  }
+
+  .container {
+    .headerContainer {
+      
+      .headerData {
+        margin-bottom: .75rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .dataElement:not(:last-child) {
+          padding-right: 1.25rem;
+        }
+
+        .dataElement {
+          .dataValue {
+            font-size: $font-size-24;
+            line-height: $font-size-24;
+          }
+
+          .dataLabel {
+            font-size: $font-size-10;
+            margin: 0 1rem;
+          }
+        }
+      }
+    }
+  }
+}

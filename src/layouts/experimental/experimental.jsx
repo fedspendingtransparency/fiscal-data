@@ -9,6 +9,7 @@ import VisualizationCallout from "../../components/visualization-callout/visuali
 import Footnote from '../../components/footnote/footnote';
 import { ConnectableObservable } from 'rxjs';
 import AnchorText from '../../components/anchor-text/anchor-text';
+import InsightsDownload from "../../components/insights-download/insights-download";
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -87,6 +88,7 @@ const ExperimentalPage = () => {
       <h2>
         Bar Graph with Negative Values, no axes
       </h2>
+      <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
       <div className={barDiv}>
         <BarGraph
           graphData={graph2Data}

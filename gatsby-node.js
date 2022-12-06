@@ -293,7 +293,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         id: bea.TableName + bea.TimePeriod,
         lineDescription: bea.LineDescription,
         timePeriod: bea.TimePeriod,
-        dataValue: bea.DataValue,      
+        dataValue: bea.DataValue,
         parent: null,
         children: [],
         internal: {
@@ -303,9 +303,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       node.internal.contentDigest = createContentDigest(node);
       createNode(node);
     }
-    
+
   })
-  
+
 
 };
 
@@ -501,7 +501,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           periodName
           latest
         }
-      }      
+      }
       allGlossaryCsv {
         glossaryCsv: nodes {
           term
@@ -599,7 +599,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
     const features = await graphql(`
 		{
-			allMarkdownRemark(
+			allMdx(
 				sort: { order: DESC, fields: [frontmatter___datePublished] }
 				limit: 1000
 			) {
@@ -618,7 +618,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       return;
     }
 
-    features.data.allMarkdownRemark.edges.forEach(({ node }) => {
+    features.data.allMdx.edges.forEach(({ node }) => {
       if (node.frontmatter.path) {
         createPage({
           path: node.frontmatter.path,
