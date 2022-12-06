@@ -57,15 +57,15 @@ export type MultichartProperties = {
 const Multichart: FunctionComponent<MultichartProperties> =
   ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
 
-  const [chartRenderer, setChartRenderer] = useState(null);
+    const [chartRenderer, setChartRenderer] = useState(null);
+    const [animateChart, setAnimateChart] = useState(false);
 
-  const itemRef = useRef();
+    const itemRef = useRef();
   // you can access the elements with itemsRef.current[n]
 
   const handleMouseEnter = (event) => {
 
-    console.log('event.target[\'id\']', event.target['id']);
-    if (event.target['id'] === chartId) {
+    if (event.target['id'] === chartId && chartRenderer) {
       chartRenderer.addHoverEffects(hoverEffectHandler);
     }
   };
@@ -76,14 +76,36 @@ const Multichart: FunctionComponent<MultichartProperties> =
     }, 500)
   };
 
-    useEffect(() => {
-      if (chartRenderer && chartRenderer.rendered) {
-        chartRenderer.generateChart();
-      }
-    }, [window.innerWidth]);
+  useEffect(() => {
+    if (animateChart) {
+      chartRenderer.animateChart(hoverEffectHandler);
+    }
+  }, [animateChart]);
+
+  useEffect(() => {
+    if (chartRenderer && chartRenderer.rendered) {
+      chartRenderer.generateChart();
+    }
+  }, [window.innerWidth]);
 
   useEffect(() => {
     setChartRenderer(new MultichartRenderer(chartConfigs, itemRef.current, chartId));
+    let observer;
+
+    if(typeof window !== "undefined") {
+      observer = new IntersectionObserver(entries => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // animate data series display on chart upon initial scroll
+            document.querySelector('.multichart-scaled .area').classList.add('fill-right');
+            document.querySelector('.multichart-scaled .dataviz-line').classList.add('fill-right');
+            setAnimateChart(true);
+          }
+        });
+      });
+      setTimeout(() =>
+        observer.observe(document.querySelector('[data-testid="multichart"]')), 1000);
+    }
   }, []);
 
   return (
