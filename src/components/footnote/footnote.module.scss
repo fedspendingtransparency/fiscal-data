@@ -1,0 +1,19 @@
+@import '../../variables.module.scss';
+
+.footnoteContainer{
+    width: 100%;
+
+    .footnoteHeading{
+        @include headingStyle6;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footnoteBody{
+        font-size: $font-size-14;
+    }
+    sup a{
+        font-size: $font-size-14;
+        color: #0071BC;
+    }
+}

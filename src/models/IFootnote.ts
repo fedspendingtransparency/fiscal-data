@@ -1,4 +1,4 @@
-export interface InsightsFootnote {
+export interface IFootnote {
     link: string,
     body: string,
 }
