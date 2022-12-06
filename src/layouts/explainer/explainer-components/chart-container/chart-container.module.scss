@@ -35,8 +35,8 @@
 .headerContainer {
   display: flex;
   justify-content: center;
-  gap: 7.25rem;
-  margin-top: 2rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
 
   div {
     text-align: center;
@@ -50,6 +50,8 @@
     }
   }
 }
+
+
 
 
 @media screen and (max-width: $breakpoint-lg - 1) {

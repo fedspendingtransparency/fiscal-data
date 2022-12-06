@@ -66,22 +66,17 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   };
 };
 
-export const dataHeader = (headingValues) => {
-  const {fiscalYear, totalDebt} = headingValues;
+export const dataHeader = headingValues => {
+  const { fiscalYear, totalDebt } = headingValues;
   return (
-    <div>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerData}>
-          <div className={styles.dataElement}>
-            <div className={styles.dataValue}>{fiscalYear}</div>
-            <span className={styles.dataLabel}>Fiscal Year</span>
-          </div>
-          
-          <div className={styles.dataElement}>
-            <div className={styles.dataValue}>{totalDebt}</div>
-            <span className={styles.dataLabel}>Total Debt</span>
-          </div>
-        </div>
+    <div className={styles.headerContainer}>
+      <div>
+        <div className={styles.header}>{fiscalYear}</div>
+        <span className={styles.subHeader}>Fiscal Year</span>
+      </div>
+      <div>
+        <div className={styles.header}>{totalDebt}</div>
+        <span className={styles.subHeader}>Total Debt</span>
       </div>
     </div>
   );

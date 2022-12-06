@@ -16,34 +16,25 @@
 
   .headerContainer {
     display: flex;
-    flex-direction: column;
-    
-    .headerData {
-      margin-bottom: .75rem;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
+    justify-content: center;
+    gap: 1rem;
 
-      .dataElement:not(:last-child) {
-        padding-right: 1.5rem;
+    div {
+      text-align: center;
+
+      .header {
+        font-weight: bold;
+        font-size: $font-size-36;
+        min-width: 140px;
       }
 
-      .dataElement {
-        color: #666666;
-
-        .dataValue {
-          font-weight: bold;
-          font-size: $font-size-36;
-        }
-
-        .dataLabel {
-          font-size: $font-size-14;
-          font-weight: $semi-bold-weight;
-          margin: 0 1.25rem;
-        }
+      .subHeader {
+        font-weight: $semi-bold-weight;
+        font-size: $font-size-14;
       }
     }
   }
+  
 }
 
 @media screen and (min-width: $breakpoint-lg - 1) {
@@ -55,6 +46,7 @@
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerHeader) {
     margin-top: .125rem;
+    margin-bottom: 0 !important;
   }
 
   :global(.chartContainerFooter) {
@@ -70,31 +62,26 @@
       margin-top: .75rem;
     }
   }
-
   .container {
     .headerContainer {
-      
-      .headerData {
-        margin-bottom: .75rem;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: .75rem !important;
 
-        .dataElement:not(:last-child) {
-          padding-right: 1.25rem;
-        }
-
-        .dataElement {
-          .dataValue {
+      div {
+        text-align: center;
+        
+          .header {
             font-size: $font-size-24;
             line-height: $font-size-24;
           }
 
-          .dataLabel {
+          .subHeader {
             font-size: $font-size-10;
             margin: 0 1rem;
           }
-        }
+        
       }
     }
   }
