@@ -15,6 +15,8 @@ import {
 } from "./feature.module.scss"
 import FDGMdxProvider from "../../components/mdx/FDGMdxProvider";
 import InsightsDownload from "../../components/insights-download/insights-download";
+import Footnote from "../../components/footnote/footnote";
+import AnchorText from "../../components/anchor-text/anchor-text";
 import {MDXRenderer} from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
@@ -44,7 +46,9 @@ export type FeaturePageProps = {
 const featuresComponents = {
   DSM: dsmComponents.DSM,
   ExtIcon: dsmComponents.ExtIcon,
-  InsightsDownload: InsightsDownload
+  InsightsDownload: InsightsDownload,
+  Footnote: Footnote,
+  AnchorText: AnchorText
 }
 
 const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps) => {
