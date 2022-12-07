@@ -265,7 +265,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                   height={chartHeight}
                   margin={
                     width < pxToNumber(breakpointLg)
-                      ? { top: 25, right: 25, bottom: 30, left: 65 }
+                      ? { top: 25, right: 25, bottom: 35, left: 65 }
                       : { top: 20, right: 15, bottom: 35, left: 50 }
                   }
                   enablePoints={false}
