@@ -63,7 +63,7 @@ describe('Social Share component', () => {
   });
 
   it('renders only the icons in mobile view, and not the header or button text', () => {
-    const { getByRole, queryByText } = render(
+    const { getByRole, queryByRole, queryByText } = render(
       <SocialShareComponent
                   title={title}
                   description={description}
@@ -74,11 +74,11 @@ describe('Social Share component', () => {
       />
     );
 
-    const header = getByRole('heading');
+    const header = queryByRole('heading');
     const facebook = getByRole('button', {name: 'facebook'});
     const facebookText = queryByText('Facebook');
 
-    expect(header).toBeEmptyDOMElement();
+    expect(header).toBeNull();
     expect(facebook).toBeInTheDocument();
     expect(facebookText).toBeNull();
   });

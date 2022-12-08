@@ -9,12 +9,14 @@ import {
 } from "../../../../../../variables.module.scss";
 import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
 
-const name = "MTS - Summary of Receipts and Outlays of the U.S. Government";
+const name = "Monthly Treasury Statement (MTS)";
 const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`;
+const beaLink = 'https://www.bea.gov/';
 const footer = (
   <p>
-    Visit the <CustomLink url={slug}>{name}</CustomLink> to explore and download
+    Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and download
     this data.
+    The GDP data is sourced from the <CustomLink url={beaLink}>Bureau of Economic Analysis</CustomLink>.
   </p>
 );
 
@@ -294,7 +296,6 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
 
 export const lineChartCustomPoints = props => {
   const { currentSlice, borderWidth, borderColor, points } = props;
-
   
     const lastGdpPoints = points.filter(g => g.serieId == 'GDP').pop();
 
@@ -314,8 +315,8 @@ export const lineChartCustomPoints = props => {
           strokeWidth={borderWidth}
           stroke={borderColor}
           fillOpacity={0.35}
-          cx={currentSpendingPoint.x}
-          cy={currentSpendingPoint.y}
+          cx={currentSpendingPoint?.x}
+          cy={currentSpendingPoint?.y}
         />
         <circle
           r={2}
@@ -323,8 +324,8 @@ export const lineChartCustomPoints = props => {
           stroke={'#000000'}
           fill={'#000000'}
           fillOpacity={0.85}
-          cx={currentSpendingPoint.x}
-          cy={currentSpendingPoint.y}
+          cx={currentSpendingPoint?.x}
+          cy={currentSpendingPoint?.y}
         />
         {currentGdpPoint && (
           <>
@@ -350,5 +351,5 @@ export const lineChartCustomPoints = props => {
         )}
       </g>
     );
-  
+
 };

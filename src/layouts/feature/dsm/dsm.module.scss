@@ -1,5 +1,16 @@
+@import '../../../variables.module.scss';
+
 .container {
+  width: 80%;
+  margin: 4rem auto 0 auto;
   p {
-    font-size: 0.75rem;
+    font-size: $font-size-14;
+    width: 100% !important;
+  }
+}
+@media screen and (max-width: $breakpoint-lg - 1px) {
+  .container {
+    width: 100%;
+    margin: 4rem auto;
   }
 }

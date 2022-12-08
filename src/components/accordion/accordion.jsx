@@ -22,23 +22,21 @@ const Accordion = ({
   children,
   openEventNumber,
   closeEventNumber,
+  explainerGAEvent,
   dynamicGaEventValue,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
   const [gaEventHandler, setgaEventHandler] = useState(null);
 
-  const gaEventOpen = useGAEventTracking(openEventNumber,"Debt");
-  const gaEventClose = useGAEventTracking(closeEventNumber,"Debt");
+  const {getGAEvent} = useGAEventTracking(null,explainerGAEvent); 
   
-  const triggerGAEvent = (isOpen) => {
-    if(gaEventOpen || gaEventClose){
-      const gaEvent =  isOpen ? gaEventOpen : gaEventClose;
-      Analytics.event({
+  const triggerGAEvent = (isOpen) => {    
+      const gaEvent =  isOpen ? getGAEvent(openEventNumber) : getGAEvent(closeEventNumber);
+      gaEvent && Analytics.event({
         category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
       });
-    }
   }
     
   const onToggle = e => {

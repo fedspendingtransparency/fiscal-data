@@ -335,6 +335,28 @@ export class MultichartRenderer {
     }, 500);
   };
 
+  animateChart = (callback): void => {
+
+    let selectedData;
+
+    this.chartConfigs[0].data.forEach((dataRow, index) => {
+      setTimeout(() => {
+        this.chartConfigs.forEach((config) => {
+
+          selectedData = config.data[index];
+          this.placeMarker(config, index);
+          d3.selectAll(`.${this.chartId}-surface`).lower();
+        });
+
+        this.connectMarkers(index);
+        if (selectedData) {
+          callback(selectedData[this.chartConfigs[0].dateField]);
+        }
+        // wait for the .9s transition then add timeout values for reverse order
+      }, 900 + ((this.chartConfigs[0].data.length - index) * 220));
+    });
+  };
+
   mousemove = (): void => {
 
     const trackingElem = d3.select(`#${this.hoverEffectsId}`);

@@ -1,0 +1,27 @@
+@import '../../variables.module.scss';
+
+.footnoteContainer{
+    width: 100%;
+
+    .footnoteHeading{
+        @include headingStyle6;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footnoteBody{
+        font-size: $font-size-14;
+        width: 80%;
+        margin: 0 auto;
+    }
+    sup a{
+        font-size: $font-size-14;
+        color: #0071BC;
+    }
+}
+
+@media screen and (max-width: $breakpoint-md - 1px) {
+    .footnoteBody{
+        width: 100% !important;
+    }
+}

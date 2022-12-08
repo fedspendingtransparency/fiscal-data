@@ -20,7 +20,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Accordion from "../../../../components/accordion/accordion";
-import VisualizationCallout from "../../../../components/visualization-callout/visualization-callout";
+import VisualizationCallout
+  from "../../../../components/visualization-callout/visualization-callout";
 import { visWithCallout, chartBackdrop } from "../../explainer.module.scss";
 import drawChart, {
   addHoverEffects,
@@ -106,6 +107,7 @@ import {
   subTitle,
   titleBreakdown,
   postGraphAccordionContainer,
+  DebtOverLast100yContainer,
 } from "./national-debt.module.scss";
 import { Bar } from "@nivo/bar";
 import Multichart from "../../multichart/multichart";
@@ -113,6 +115,7 @@ import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import { adjustDataForInflation } from "../../../../helpers/inflation-adjust/inflation-adjust";
 import Analytics from "../../../../utils/analytics/analytics";
 import QuoteBox from "../../quote-box/quote-box";
+import DebtOverLast100y from "./debt-over-last-100y-linechart/debt-over-last-100y-linechart"
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -230,7 +233,7 @@ const KeyTakeawaysSection = ({ glossary }) => {
   );
 };
 
-export const NationalDebtExplainedSection = ({ glossary }) => {
+export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
   const glossaryTerms = {
     fiscalYear: (
       <GlossaryTerm
@@ -318,7 +321,8 @@ export const NationalDebtExplainedSection = ({ glossary }) => {
             overall debt.
           </p>
         </div>
-        <VisualizationCallout color={debtExplainerPrimary}>
+        
+        <VisualizationCallout color={debtExplainerPrimary} >
           <p>
             The U.S. Treasury uses the terms “national debt,” “federal debt,”
             and “public debt” interchangeably.
@@ -461,6 +465,7 @@ export const FundingProgramsSection = () => {
           containerClass={fundingProgramAccordion}
           openEventNumber={"11"}
           closeEventNumber={"12"}
+          explainerGAEvent="Debt"
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
@@ -643,6 +648,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         openEventNumber={"20"}
         closeEventNumber={"21"}
         dynamicGaEventValue={dynamicGaEventValue}
+        explainerGAEvent="Debt"
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>
@@ -804,56 +810,6 @@ export const GrowingNationalDebtSection = withWindowSize(
       }, 500);
 
   };
-
-    useEffect(() => {
-      basicFetch(`${apiPrefix}${endpoint}`)
-        .then(dataset => {
-          dataset.data = adjustDataForInflation(
-            dataset.data,
-            valueField,
-            dateField,
-            cpiDataByYear
-          );
-          const latestEntry = dataset.data[0];
-          const earliestEntry = dataset.data[dataset.data.length - 1];
-          // Use window.innerWidth instead of width prop because this doesn't trigger on mount
-          chartOptions.forceHeight =
-            window.innerWidth < pxToNumber(breakpointLg) ? 200 : 400;
-          chartOptions.forceLabelFontSize =
-            window.innerWidth < pxToNumber(breakpointLg)
-              ? fontSize_10
-              : fontSize_14;
-
-          const xAxisTickValues = [];
-          const step = Math.floor(dataset.data.length / 5);
-          for (let i = 0, il = dataset.data.length; i < il; i += step) {
-            const tickValue = new Date(dataset.data[i][dateField]);
-            xAxisTickValues.push(tickValue);
-          }
-          chartOptions.xAxisTickValues = xAxisTickValues;
-
-          setData(dataset.data);
-          setDate(latestEntry[dateField]);
-          setValue(latestEntry[valueField]);
-          setYear(latestEntry.record_fiscal_year);
-          setStartYear(earliestEntry.record_fiscal_year);
-          setStartValue(earliestEntry[valueField]);
-          setLabels(dataset.meta.labels);
-          setIsLoading(false);
-
-          drawChart(
-            dataset.data,
-            chartRef.current,
-            dateField,
-            [valueField],
-            dataset.meta.labels,
-            chartOptions
-          );
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    }, []);
 
     useEffect(() => {
       chartOptions.forceHeight = width < pxToNumber(breakpointLg) ? 200 : 400;
@@ -1104,71 +1060,9 @@ const handleMouseEnterLineChart = () => {
           widespread unemployment generally account for sharp rises in the
           national debt.
         </p>
-        {!isLoading ? (
-          <div className={visWithCallout}>
-            <div>
-              <div
-                className={`${growingNationalDebtSectionGraphContainer} ${chartBackdrop}`}
-                role={"img"}
-                aria-label={`Line graph displaying the amount of debt in trillions from ${startYear} to ${year}.
-              The graph shows a steady trend with an increase beginning around 1940 continuing through today.`}
-              >
-                <p className={title}>
-                  U.S. National Debt Over the Last 100 Years
-                </p>
-                <p className={subTitle}>
-                  {" "}
-                  (Inflation Adjusted - {year} Dollars){" "}
-                </p>
-                <div className={headerContainer}>
-                  <div>
-                    <div className={header}>{displayDate}</div>
-                    <span className={subHeader}>Fiscal Year</span>
-                  </div>
-                  <div>
-                    <div className={header}>{displayValue}</div>
-                    <span className={subHeader}>Total Debt</span>
-                  </div>
-                </div>
-                <div
-                  id={`${sectionId}-chart`}
-                  className={growingNationalDebtSectionGraph}
-                  ref={chartRef}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  data-testid="chart"
-                >
-                  {isLoading && (
-                    <div>
-                      <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-                    </div>
-                  )}
-                </div>
-                <div className={footerContainer}>
-                  <p>
-                    Visit the {historicalDebtOutstanding_Last100Years} dataset
-                    to explore and download this data. The inflation data is
-                    sourced from the {blsLink}.
-                  </p>
-                  <p>
-                    Last Updated: {format(dateWithoutOffset, "MMMM d, yyyy")}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <VisualizationCallout color={debtExplainerPrimary}>
-              <p>
-                Over the past 100 years, the U.S. federal debt has increased
-                from {simplifyNumber(startValue, true)} in {startYear} to{" "}
-                {simplifyNumber(value, true)} in {year}.
-              </p>
-            </VisualizationCallout>
-          </div>
-        ) : (
-          <div>
-            <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-          </div>
-        )}
+
+        <DebtOverLast100y cpiDataByYear={cpiDataByYear}/>
+
         <p>
           Comparing a country’s debt to its {gdp} reveals the country’s ability
           to pay down its debt. This ratio is considered a better indicator of a
@@ -1960,7 +1854,7 @@ export const DebtBreakdownSection = withWindowSize(
                       <span className={subHeader}>Total Debt</span>
                     </div>
                   </div>
-                  <div className={multichartContainer}>
+                  <div className={`${multichartContainer} multichart-scaled`}>
                     <Multichart
                       chartId={multichartId}
                       chartConfigs={multichartConfigs}
@@ -2035,6 +1929,7 @@ export const DebtBreakdownSection = withWindowSize(
                 title="Why can't the government just print more money?"
                 openEventNumber={"26"}
                 closeEventNumber={"27"}
+                explainerGAEvent="Debt"
               >
                 While the Treasury prints actual dollar bills, “printing money”
                 is also a term that is sometimes used to describe a means of{" "}
@@ -2088,6 +1983,7 @@ export const DebtCeilingSection = () => (
         containerClass={debtCeilingAccordion}
         openEventNumber="28"
         closeEventNumber="29"
+        explainerGAEvent="Debt"
       >
         Government shutdowns occur when annual funding for ongoing federal
         government operations expires, and Congress does not renew it in time.
@@ -2302,7 +2198,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
     component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplainedSection glossary={glossary} />
+      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear}/>
     ),
   },
   {

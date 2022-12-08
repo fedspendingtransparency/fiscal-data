@@ -1,0 +1,89 @@
+@import "src/variables.module";
+
+:global(.chartContainerHeader) {
+  font-size: $font-size-14 !important;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.container {
+  overflow: hidden;
+  
+  .lineChart {
+    width: 100%;
+    margin-top: .625rem;
+  }
+
+  .headerContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    div {
+      text-align: center;
+
+      .header {
+        font-weight: bold;
+        font-size: $font-size-36;
+        min-width: 140px;
+      }
+
+      .subHeader {
+        font-weight: $semi-bold-weight;
+        font-size: $font-size-14;
+      }
+    }
+  }
+  
+}
+
+@media screen and (min-width: $breakpoint-lg - 1) {
+  :global(.chartContainerChart) {
+    max-width: 484px !important;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  :global(.chartContainerHeader) {
+    margin-top: .125rem;
+    margin-bottom: 0 !important;
+  }
+
+  :global(.chartContainerFooter) {
+    font-size: $font-size-14 !important;
+  }
+
+  :global(.chartContainerSubTitle) {
+    font-size: $font-size-14 !important;
+  }
+
+  :global(.chartContainerFooter) {
+    p {
+      margin-top: .75rem;
+    }
+  }
+  .container {
+    .headerContainer {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: .75rem !important;
+
+      div {
+        text-align: center;
+        min-width: 110px !important;
+        
+          .header {
+            font-size: $font-size-24;
+            line-height: $font-size-24;
+          }
+
+          .subHeader {
+            font-size: $font-size-10;
+            margin: 0 1rem;
+          }
+        
+      }
+    }
+  }
+}

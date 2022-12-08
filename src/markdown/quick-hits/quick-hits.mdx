@@ -10,10 +10,28 @@ subtitle: "Header 4, Sub Headline, keep from 1 to 2 lines"
 title: "Quick Hits"
 ---
 
+import InsightsDownload from "../../components/insights-download/insights-download";
+import Footnote from "../../components/footnote/footnote";
+import AnchorText from "../../components/anchor-text/anchor-text"
+
+export const footnotes = [
+    {
+      "text": 'Test Footnote Text',
+      "link": 'testFootnote',
+      "body": 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate odio a enim hendrerit interdum. Duis volutpat, nibh porttitor pellentesque mattis, mi justo'
+    },
+    {
+      "text": 'Test Footnote Text2',
+      "link": 'testFootnote2',
+      "body": 'Lorem ipsum dolor sit amadipiodio autpat, nibh porttitor pellentesque mattis, mi justo'
+    }
+  ]
+
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
 veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+commodo consequat. Duis <AnchorText link={footnotes[0].link} text={footnotes[0].text} /> irure dolor in reprehenderit in voluptate
 velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
 occaecat cupidatat non proident, sunt in culpa qui officia deserunt
 mollit anim id est laborum.
@@ -23,6 +41,28 @@ officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
 consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
 et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+### Header 3, Section Headline, keep to 1 line
+
+> Lorem ipsum dolor sit amet consectetur qui nostrud adipiscing, Callout copy.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. <AnchorText link={footnotes[1].link} text={footnotes[1].text} /> Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
+
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
+consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+##### Header 5, Visual Headline, keep to 1 line
+
+![alt text](/images/feature_placeholder.png "Visualization")
 
 ### Header 3, Section Headline, keep to 1 line
 
@@ -46,10 +86,6 @@ exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ![alt text](/images/feature_placeholder.png "Visualization")
 
-### Header 3, Section Headline, keep to 1 line
-
-> Lorem ipsum dolor sit amet consectetur qui nostrud adipiscing, Callout copy.
-
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
 veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -67,24 +103,7 @@ exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 ##### Header 5, Visual Headline, keep to 1 line
 
 ![alt text](/images/feature_placeholder.png "Visualization")
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-mollit anim id est laborum.
-
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
-consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-##### Header 5, Visual Headline, keep to 1 line
-
-![alt text](/images/feature_placeholder.png "Visualization")
+<InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -102,7 +121,7 @@ exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ---
 
-###### Header 6, Data Sources and Methodologies
+<Footnote footnotes={footnotes} />
 
 <DSM>
 

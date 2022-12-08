@@ -8,49 +8,46 @@
 .templateContent {
 
   position: relative;
-  margin: 2.5rem auto;
+  margin: 0 auto 2.5rem;
 
   h1, h2 {
     font-size: 3rem;
     font-weight: bold;
     color: $info-header-focal;
     line-height: 1.25;
-    margin: 2.5rem 0 1rem;
+    margin: .75rem 0 1rem;
   }
 
   h3 {
     font-size: 2.25rem;
-    font-weight: $semi-bold-weight;
-    color: $info-header;
-    margin: 3.75rem 0 1rem;
+    margin: 4rem 0 1rem;
   }
 
   h4 {
     font-size: 1.75rem;
-    font-weight: $semi-bold-weight;
-    color: $info-header;
-    margin: 1rem 0 1.5rem;
+    margin: 1rem 0;
   }
 
   h5 {
-    margin: 2rem 0 1.25rem;
+    margin: 2rem 0 1rem;
     font-size: 1.5rem;
-    font-weight: $semi-bold-weight;
     line-height: 1.5;
-    color: $info-header;
   }
 
   h6 {
     margin: 2.5rem 0 0.75rem;
     font-size: 1.25rem;
-    font-weight: $semi-bold-weight;
     line-height: 1.5;
     letter-spacing: normal;
-    color: $info-header;
+  }
+
+  h3, h4, h5, h6 {
+    font-weight: $semi-bold-weight;
+    color: #555555;
   }
 
   p {
-    color: $font-title;
+    color: #666666;
     font-size: 1rem;
     line-height: 1.5;
     margin: 1.5rem auto 1.5rem;
@@ -74,11 +71,13 @@
   }
 
   .byLine {
+    display: flex;
+    justify-content: space-between;
     font-size: 1rem;
     line-height: 1.5;
-    margin: 1.5rem 0 3rem;
+    margin: 1rem 0;
     font-weight: $semi-bold-weight;
-
+    padding: 1rem 0;
     .by {
       display: inline-block;
       color: $info-header-focal;
@@ -86,15 +85,14 @@
     }
     .dateStamp {
       display: inline-block;
-      color: $font-title;
+      color: #666666;
 
       .dateValue {
         font-weight: normal;
       }
     }
-    .share {
-      float:right;
-      cursor:pointer;
+    .heroSocialShare{
+      height: 2rem;
     }
   }
 
@@ -103,7 +101,7 @@
     background-repeat: no-repeat;
     background-size: cover;
 
-    margin: 3rem -2rem 2.5rem -2rem;
+    margin: 1rem -2rem 2.5rem -2rem;
     height: 27rem;
   }
 
@@ -113,12 +111,18 @@
 
   hr {
     border-top: 1px solid #eaeaea;
-    margin: 3.75rem 0;
+    margin: 4rem 0 2rem;
   }
 
   font {
     font-size: 0.75rem;
     line-height: 1.5;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  :global(.socialShareContent) {
+    padding-right: 0 !important;
   }
 }
 
@@ -143,17 +147,41 @@
     }
   }
 }
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .templateContent {
+    .byLine {
+      flex-direction: column;
+      justify-content: normal;
+      .heroSocialShare {
+        display: flex;
+        align-items: center;
+        height: 3rem;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1rem;
+      }
+    }
+  }
+}
 
-@media screen and (max-width: $breakpoint-sm - 1px) {
+@media screen and (max-width: $breakpoint-md - 1px) {
 
   .templateContainer .templateContent {
     width: 100%;
+    h1, h2 {
+      margin: 2rem 0 1rem;
+    }
+    h6 {
+      font-size: $font-size-18;
+      margin: 2rem 0;
+    }
     .mainVis {
       height: 21.25rem;
       margin-left: -0.75rem;
       margin-right: -0.75rem;
     }
     .byLine {
+      padding: 0;
       .by {
         display: block;
         padding-right: 0;
@@ -168,7 +196,7 @@
     }
 
     hr {
-      margin: 2.5rem 0;
+      margin: 4rem 0 2rem;
     }
   }
 }

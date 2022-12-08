@@ -31,6 +31,16 @@
   }
 }
 
+:global(.multichart-scaled) :global(.area),
+:global(.multichart-scaled) :global(.dataviz-line) {
+  transform: scaleX(0);
+
+  transition: transform 0.6s 0.3s;
+  &:global(.fill-right) {
+    transform: scaleX(1);
+  }
+}
+
 .fundingProgramAccordion {
   margin-bottom:0;
   margin-top: 2rem;
@@ -149,6 +159,10 @@
   .header {
     min-width: 90px;
   }
+}
+
+.DebtOverLast100yContainer{
+  margin-bottom: 1rem;
 }
 
 .growingNationalDebtSectionGraphContainer, .debtBreakdownSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {

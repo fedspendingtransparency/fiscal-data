@@ -6,6 +6,10 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import { barDiv, linkDiv } from './experimental.module.scss';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import VisualizationCallout from "../../components/visualization-callout/visualization-callout";
+import Footnote from '../../components/footnote/footnote';
+import { ConnectableObservable } from 'rxjs';
+import AnchorText from '../../components/anchor-text/anchor-text';
+import InsightsDownload from "../../components/insights-download/insights-download";
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -28,8 +32,31 @@ const ExperimentalPage = () => {
     setGraph2Data(reducedData);
   }, []);
 
+  const footnotes = [
+    {
+      "text": 'Test Footnote Text',
+      "link": 'testFootnote',
+      "body": 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate odio a enim hendrerit interdum. Duis volutpat, nibh porttitor pellentesque mattis, mi justo'
+    },
+    {
+      "text": 'Test Footnote Text2',
+      "link": 'testFootnote2',
+      "body": 'Lorem ipsum dolor sit amadipiodio autpat, nibh porttitor pellentesque mattis, mi justo'
+    }
+  ]
+  console.log(footnotes[0]);
+  footnotes.map(footnote=>console.log(footnote))
   return (
     <SiteLayout>
+      <h2>
+        FootNote Paragraph
+      </h2>
+      <p>empus purus ac <AnchorText link={footnotes[0].link} text={footnotes[0].text} />Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut. Nulla facilisi. Ut tempus orci nibh, vitae tristique erat finibus egestas. Nullam ut nisl fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque quam.</p>
+      
+      <h2>
+        FootNote Section
+      </h2>
+      <Footnote footnotes={footnotes}/>
       <h2>
         Basic Bar Graph, with labels visible on bars
       </h2>
@@ -61,6 +88,7 @@ const ExperimentalPage = () => {
       <h2>
         Bar Graph with Negative Values, no axes
       </h2>
+      <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
       <div className={barDiv}>
         <BarGraph
           graphData={graph2Data}

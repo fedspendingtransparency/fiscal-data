@@ -15,6 +15,15 @@ type CustomLinkProps = {
   eventNumber?: string;
 };
 
+const analyticsEventMap: Record<
+  string, string
+> = {
+  "national-debt": "Debt",
+  "national-deficit": "Deficit",
+  "federal-spending": "Spedning",
+  "government-revenue": "Revenue"
+};
+
 const CustomLink: FunctionComponent<CustomLinkProps> = ({
   url,
   external,
@@ -26,8 +35,14 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
+  
+  const thisurl = typeof window !== 'undefined' ? window.location.href : '';
+  const urlSplit = thisurl.split('/');
+  const pageName = urlSplit[urlSplit.length-2];
+  const explainerPageName = analyticsEventMap[pageName];
+  
 
-  const gaEvent = useGAEventTracking(eventNumber, "Deficit");
+  const {gaEvent} = useGAEventTracking(eventNumber, explainerPageName);
 
   const onClickEventHandler = () => {
     if (onClick) {

@@ -1,5 +1,37 @@
 @import '../../../variables.module.scss';
 
+.horizontalSocialShareContent {
+  display: flex;
+  max-width: 360px;
+  max-height: 48px;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.horizontalShareButton {
+  display: flex;
+  text-align: justify;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 0;
+  justify-content: center;
+  height: 1rem;
+}
+
+.horizontalShareButtonContainer {
+  display: flex;
+  align-items: center;
+  text-align: justify;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 48px;
+}
+
 .socialShareContent {
   h3 {
     color: #666666;
@@ -66,6 +98,10 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
+  .horizontalShareButtonContainer {
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+  }
   .socialShareContent {
     padding-bottom: 1.875rem;
     height: 1.125rem;

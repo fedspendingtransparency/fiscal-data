@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import React from "react";
 import PageHelmet from "../../components/page-helmet/page-helmet";
+import {format} from "date-fns";
 
 jest.mock("gatsby-plugin-mdx", () => {
   return { MDXRenderer: ({children}) => {
@@ -56,9 +57,7 @@ describe ('Feature page template', () => {
 
      const byLine = component.getByTestId('byLine');
      expect(byLine)
-       .toHaveTextContent(
-         `${post.frontmatter.by}` +
-       `Date: ${post.frontmatter.datePublished}`);
+       .toHaveTextContent(`${format(new Date(post.frontmatter.datePublished), "MMMM d, yyyy")}`);
 
      component.getByTestId('heroImage');
 
