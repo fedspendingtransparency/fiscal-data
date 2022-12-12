@@ -190,8 +190,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         setMinRevenueValue(revenueMinAmount.y);
 
-        const lastUpdatedDateDebt = new Date(finalDebtChartData[finalDebtChartData.length - 1].record_date);
-        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateDebt));
+        const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
+        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
         
         let finalGdpRatioChartData = [];
         finalRevenueChartData.map((revenue, idx) => {
