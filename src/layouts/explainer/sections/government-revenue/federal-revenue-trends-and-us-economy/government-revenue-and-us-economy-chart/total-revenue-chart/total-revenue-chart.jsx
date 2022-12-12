@@ -33,6 +33,7 @@ import numeral from 'numeral';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getShortForm } from '../../../../../heros/hero-helper';
+import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-utils';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -60,6 +61,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [minRevenueValue, setMinRevenueValue] = useState(0);
   const [minGDPValue, setMinGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalRevenue');
+  
 
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState(
     {}
@@ -188,12 +190,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         setMinRevenueValue(revenueMinAmount.y);
 
-        const lastUpdatedDateRevenue = new Date(
-          finalRevenueChartData[finalRevenueChartData.length - 1].record_date +
-            ' 00:00:00'
-        );
-        setLastUpdatedDate(lastUpdatedDateRevenue);
-
+        const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
+        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
+        
         let finalGdpRatioChartData = [];
         finalRevenueChartData.map((revenue, idx) => {
           const revenueYear = revenue.fiscalYear;
