@@ -33,6 +33,7 @@ import simplifyNumber from '../../../../../helpers/simplify-number/simplifyNumbe
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Analytics from '../../../../../utils/analytics/analytics';
+import {getDateWithoutTimeZoneAdjust} from "../../../../../utils/date-utils";
 
 const chartDataEndPoint =
   apiPrefix + 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101';
@@ -110,11 +111,8 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         setlastDebtValue(simplifyNumber(debtLastAmountActual, true));
         setFirstDebtValue(simplifyNumber(debtFirstAmountActual, true));
 
-        const lastUpdatedDateDebt = new Date(
-          finalDebtChartData[finalDebtChartData.length - 1].record_date +
-            ' 00:00:00'
-        );
-        setLastUpdatedDate(lastUpdatedDateDebt);
+        const lastUpdatedDateDebt = new Date(finalDebtChartData[finalDebtChartData.length - 1].record_date);
+        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateDebt));
 
         setTotalDebtHeadingValues({
           fiscalYear: debtMaxYear.x,
