@@ -55,6 +55,8 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
     basicFetch(`${url}`)
     .then((res) => {
       if (res.data) {
+
+
         // create local variable to immediately find last complete year record
         const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 1).toString();
         setCurrentFiscalYear(res.data[0].record_fiscal_year);
@@ -67,6 +69,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         )
 
         setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
+
         setDesktopDeficit(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed());
         setMobilePriorDeficit(getShortForm(res.data[0].prior_fytd_net_outly_amt, 0));
         if (Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)) < 1000000000000) {
