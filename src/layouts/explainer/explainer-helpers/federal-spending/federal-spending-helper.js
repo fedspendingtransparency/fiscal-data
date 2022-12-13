@@ -62,13 +62,16 @@ const mts = (
       "/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-" +
       "the-u-s-government"
     }
+    eventNumber="23"
   >
     Monthly Treasury Statement
   </CustomLink>
 )
 
 const bls = (
-  <CustomLink url={"https://data.bls.gov/timeseries/CUUR0000SA0"}>
+  <CustomLink url={"https://data.bls.gov/timeseries/CUUR0000SA0"}
+              eventNumber="25"
+  >
     Bureau of Labor Statistics
   </CustomLink>
 )
@@ -79,6 +82,7 @@ const bea = (
       "https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&" +
       "categories=survey"
     }
+    eventNumber="26"
   >
     Bureau of Economic Analysis
   </CustomLink>
@@ -89,6 +93,7 @@ const github = (
     url={
       "https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
     }
+    eventNumber="27"
   >
     GitHub repository
   </CustomLink>

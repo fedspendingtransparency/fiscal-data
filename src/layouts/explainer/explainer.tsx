@@ -170,7 +170,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
         <div className={relatedDatasetsStyle}>
           <ExplainerRelatedDatasets
             datasets={relatedDatasets}
-            referrer={"example"}
+            referrer={explainerAnalyticsLabelMap[pageName]}
             header={explainerRelatedDatasetMap[pageName]}
           />
         </div>

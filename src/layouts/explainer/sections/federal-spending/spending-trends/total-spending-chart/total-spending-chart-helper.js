@@ -9,14 +9,19 @@ import {
 } from "../../../../../../variables.module.scss";
 import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
 
-const name = "Monthly Treasury Statement (MTS)";
-const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`;
-const beaLink = 'https://www.bea.gov/';
+const mts = <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`}
+                        eventNumber="21"
+            >
+              Monthly Treasury Statement (MTS)
+            </CustomLink>;
+const bea = <CustomLink url={'https://www.bea.gov/'} eventNumber="34">
+              Bureau of Economic Analysis
+            </CustomLink>;
 const footer = (
   <p>
-    Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and download
+    Visit the {mts} dataset to explore and download
     this data.
-    The GDP data is sourced from the <CustomLink url={beaLink}>Bureau of Economic Analysis</CustomLink>.
+    The GDP data is sourced from the {bea}.
   </p>
 );
 
@@ -296,7 +301,7 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
 
 export const lineChartCustomPoints = props => {
   const { currentSlice, borderWidth, borderColor, points } = props;
-  
+
     const lastGdpPoints = points.filter(g => g.serieId == 'GDP').pop();
 
     const currentSpendingPoint = currentSlice?.points?.length

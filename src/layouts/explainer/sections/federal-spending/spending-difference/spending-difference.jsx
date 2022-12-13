@@ -123,6 +123,7 @@ export const SpendingDifference = ({ width, glossary }) => {
         {
           <CustomLink
             href={"https://www.usaspending.gov/disaster/covid-19?publicLaw=all"}
+            eventNumber="17"
           >
             COVID-19 Spending Profile
           </CustomLink>

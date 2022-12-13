@@ -23,7 +23,12 @@ export const SpendingOverview = ({ glossary }) => {
     <CustomLink url={"/americas-finance-guide/national-deficit/"}>national deficit</CustomLink>
   )
   const usaSpending =
-    <CustomLink url={'https://www.usaspending.gov/explorer'}>USAspending.gov</CustomLink>;
+    <CustomLink
+      url={'https://www.usaspending.gov/explorer'}
+      eventNumber="11"
+    >
+      USAspending.gov
+    </CustomLink>;
 
   const objectClass = (
     <GlossaryTerm
