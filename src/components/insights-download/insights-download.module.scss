@@ -1,5 +1,5 @@
 
-
+// When inside the chart proper, element may have to be absolutely positioned
 .downloadContainer {
   display: flex;
   flex-direction: row;
@@ -13,7 +13,7 @@
 
 .downloadButton {
   font-size: 14px;
-  text-align-last: left;
+  text-align: left;
   color: #0071BC;
   border: none;
   background-color: #FFFFFF;
