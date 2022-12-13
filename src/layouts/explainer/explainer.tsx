@@ -79,7 +79,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
-        descriptionGenerator={false}//{explainerDescriptionGenerators[pageName] || false}
+        descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
         keywords=""
         image=""
         canonical=""

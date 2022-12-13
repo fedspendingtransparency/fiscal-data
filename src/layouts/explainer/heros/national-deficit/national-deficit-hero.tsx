@@ -30,13 +30,13 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
     = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
   const deficitUrl: string = `${apiPrefix}${endpointUrl}`;
 
-  // const [displayedPriorDeficitValue, setDisplayedPriorDeficitValue] =
-  //   useState<string | null>(null);
+  const [displayedPriorDeficitValue, setDisplayedPriorDeficitValue] =
+    useState<string | null>(null);
 
   const [textCurrentDeficit, setTextCurrentDeficit] = useState<string | null>(null);
   const [desktopDeficit, setDesktopDeficit] = useState<string | null>(null);
   const [desktopPriorDeficit, setDesktopPriorDeficit] = useState<string | null>(null);
-  // const [mobilePriorDeficit, setMobilePriorDeficit] = useState<string | null>(null);
+  const [mobilePriorDeficit, setMobilePriorDeficit] = useState<string | null>(null);
   const [currentRecordMonth, setCurrentRecordMonth] = useState<string>('');
   const [previousCalendarYear, setPreviousCalendarYear] = useState<string>('');
   const [previousFiscalYear, setPreviousFiscalYear] = useState<string>('');
@@ -67,12 +67,8 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         )
 
         setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
-        console.log(res.data[0].current_fytd_net_outly_amt);
-        console.log(typeof res.data[0].current_fytd_net_outly_amt);
         setDesktopDeficit(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed());
-        const test = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed();
-        console.log(test === '668266821115');
-        // setMobilePriorDeficit(getShortForm(res.data[0].prior_fytd_net_outly_amt, 0));
+        setMobilePriorDeficit(getShortForm(res.data[0].prior_fytd_net_outly_amt, 0));
         if (Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)) < 1000000000000) {
           setDesktopPriorDeficit(getShortForm(
             Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), 0, false));
@@ -103,32 +99,32 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
     });
   };
 
-  // const formatDeficit = () => {
-  //   if (typeof (window) !== 'undefined') {
-  //     setDisplayedPriorDeficitValue(mobilePriorDeficit);
-  //   }
-  // }
+  const formatDeficit = () => {
+    if (typeof (window) !== 'undefined') {
+      setDisplayedPriorDeficitValue(mobilePriorDeficit);
+    }
+  }
 
-  // const useWindowSize = () => {
-  //   const [size, setSize] = useState([0, 0]);
-  //   useLayoutEffect(() => {
-  //     const updateSize = () => {
-  //       setSize([window.innerWidth, window.innerHeight]);
-  //     }
-  //     window.addEventListener('resize', updateSize);
-  //     updateSize();
-  //     return () => window.removeEventListener('resize', updateSize);
-  //   }, []);
-  //   return size;
-  // }
+  const useWindowSize = () => {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      const updateSize = () => {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+  }
 
   useEffect(() => {
     getCurrentNationalDeficitData(deficitUrl);
   }, []);
 
-  // useEffect(() => {
-  //   formatDeficit();
-  // }, [useWindowSize(), []])
+  useEffect(() => {
+    formatDeficit();
+  }, [useWindowSize(), []])
 
   const mtsLink = (
     <CustomLink

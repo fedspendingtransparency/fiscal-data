@@ -44,8 +44,8 @@ const NationalDebtHero = (): JSX.Element => {
       (
         <div className={counterContainer}>
           <SplitFlapDisplay value={nationalDebtValue}
-                            mobilePrecision={parseInt(nationalDebtValue) > 999999999999 ? 2 : 0}
                             minLength={18} // number of characters to initially display
+                            mobilePrecision={parseInt(nationalDebtValue) > 999999999999 ? 2 : 0}
                             valueType="currency"
           />
           <div className={counterSourceInfo}>
