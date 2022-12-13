@@ -184,7 +184,7 @@ export const SocialShareComponent = ({
           <TwitterShareButton
             className={horizontal ? horizontalShareButton : shareButton}
             url={url}
-            title={body}
+            title={body}            
             beforeOnClick={() => analyticsClickHandler(pageName, "Twitter")}
           >
             <ShareButtonContent
@@ -203,6 +203,7 @@ export const SocialShareComponent = ({
             title={title}
             summary={body}
             source={baseUrl}
+            windowHeight={650}
             beforeOnClick={() => analyticsClickHandler(pageName, "LinkedIn")}
           >
             <ShareButtonContent

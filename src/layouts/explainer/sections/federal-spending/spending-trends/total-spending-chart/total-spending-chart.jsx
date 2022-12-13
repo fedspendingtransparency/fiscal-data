@@ -27,6 +27,7 @@ import { adjustDataForInflation } from '../../../../../../helpers/inflation-adju
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {getShortForm} from "../../../../heros/hero-helper";
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -210,11 +211,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
               s => s.x <= gdpMaxYear
             );
 
-            const lastUpdatedDateSpending = new Date(
-              finalSpendingChartData[finalSpendingChartData.length - 1]
-                .record_date + ' 00:00:00'
-            );
-            setLastUpdatedDate(lastUpdatedDateSpending);
+            const lastUpdatedDateSpending = new Date(finalSpendingChartData[finalSpendingChartData.length - 1].record_date);
+            setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateSpending));
 
             finalSpendingChartData = adjustDataForInflation(
               finalSpendingChartData,

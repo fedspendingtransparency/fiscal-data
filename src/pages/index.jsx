@@ -35,13 +35,6 @@ export const Index = () => {
 
   return (
     <>
-      <AnnouncementBanner>
-        Have you heard the great news?
-        Fiscal Data has realigned with our sister website Data Lab
-        to provide an even better user experience!
-        New content using federal financial data is now available here,
-        along with your favorite datasets.
-      </AnnouncementBanner>
       <SiteLayout isPreProd={ENV_ID === "preprod"}>
         <div data-testid="site-home" className={styles.siteHome} data-environment={ENV_ID}>
           <PageHelmet

@@ -16,9 +16,9 @@ const { getDateWithoutTimeZoneAdjust } = require ("../../utils/date-utils");
  * **********************************************************
   * @type {string[]}
  */
-const whitelistDatasetIds = ["015-BFS-2014Q1-13", "015-BFS-2014Q3-076", "015-BFS-2014Q1-11",
-  "015-BFS-2014Q1-07", "015-BFS-2014Q3-077", "015-BFS-2014Q1-18", "015-BFS-2014Q3-038",
-  "015-BFS-2014Q1-03", "015-BFS-2014Q3-037"];
+const whitelistDatasetIds = ['015-BFS-2014Q1-13', '015-BFS-2014Q3-076', '015-BFS-2014Q1-11',
+  '015-BFS-2014Q1-07', '015-BFS-2014Q3-077', '015-BFS-2014Q1-18', '015-BFS-2014Q3-038',
+  '015-BFS-2014Q1-03", "015-BFS-2014Q3-037', '015-BFS-2014Q3-098'];
 exports.whiteListIds = whitelistDatasetIds;
 
 const whitelistedGroupsByDataset = {};
