@@ -19,14 +19,9 @@ const NationalDebtHero = (): JSX.Element => {
     basicFetch(`${url}`)
       .then((res) => {
         if (res.data) {
-          // const totalPublicDebtOutstanding: string =
-          //   Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toFixed();
-          console.log(res.data[0].tot_pub_debt_out_amt);
-          console.log(typeof res.data[0].tot_pub_debt_out_amt);
-            setNationalDebtValue(Math.abs(parseFloat(res.data[0].tot_pub_debt_out_amt)).toFixed());
-
-          // console.log(Math.abs(parseFloat(res.data[0].tot_pub_debt_out_amt)).toFixed());
-          // console.log(typeof (Math.abs(parseFloat(res.data[0].tot_pub_debt_out_amt)).toFixed()));
+          const totalPublicDebtOutstanding: string =
+            Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toFixed();
+            setNationalDebtValue(totalPublicDebtOutstanding);
         }
     });
   };
