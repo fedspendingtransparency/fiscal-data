@@ -79,27 +79,27 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
-        descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
+        descriptionGenerator={false}//{explainerDescriptionGenerators[pageName] || false}
         keywords=""
         image=""
         canonical=""
         datasetDetails=""
       />
 
-      {isAFGPage ? (
-        <>
-          <div className={mobileSubNav}>
-            <MobileSubNav hidePosition={160} />
-          </div>
-          <div className={desktopSubNav}>
-            <DeskTopSubNav hidePosition={160} />
-          </div>
-        </>
-      ) : (
-        <div className={breadCrumbsContainer}>
-          <BreadCrumbs links={breadCrumbLinks} />
-        </div>
-      )}
+      {/*{isAFGPage ? (*/}
+      {/*  <>*/}
+      {/*    <div className={mobileSubNav}>*/}
+      {/*      <MobileSubNav hidePosition={160} />*/}
+      {/*    </div>*/}
+      {/*    <div className={desktopSubNav}>*/}
+      {/*      <DeskTopSubNav hidePosition={160} />*/}
+      {/*    </div>*/}
+      {/*  </>*/}
+      {/*) : (*/}
+      {/*  <div className={breadCrumbsContainer}>*/}
+      {/*    <BreadCrumbs links={breadCrumbLinks} />*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
       <div className={mainContainer}>
         <HeroImage

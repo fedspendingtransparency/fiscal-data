@@ -13,16 +13,20 @@ const NationalDebtHero = (): JSX.Element => {
     = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
   const debtUrl: string = `${apiPrefix}${endpointUrl}`;
 
-  const [nationalDebtValue, setNationalDebtValue]
-    = useState<string | null>(null);
+  const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
 
   const getCurrentNationalDebt = (url) => {
     basicFetch(`${url}`)
       .then((res) => {
         if (res.data) {
-          const totalPublicDebtOutstanding: string =
-            Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toString();
-          setNationalDebtValue(totalPublicDebtOutstanding);
+          // const totalPublicDebtOutstanding: string =
+          //   Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toFixed();
+          console.log(res.data[0].tot_pub_debt_out_amt);
+          console.log(typeof res.data[0].tot_pub_debt_out_amt);
+            setNationalDebtValue(Math.abs(parseFloat(res.data[0].tot_pub_debt_out_amt)).toFixed());
+
+          // console.log(Math.abs(parseFloat(res.data[0].tot_pub_debt_out_amt)).toFixed());
+          // console.log(typeof (Math.abs(parseFloat(res.data[0].tot_pub_debt_out_amt)).toFixed()));
         }
     });
   };
@@ -45,8 +49,8 @@ const NationalDebtHero = (): JSX.Element => {
       (
         <div className={counterContainer}>
           <SplitFlapDisplay value={nationalDebtValue}
-                            minLength={18} // number of characters to initially display
                             mobilePrecision={parseInt(nationalDebtValue) > 999999999999 ? 2 : 0}
+                            minLength={18} // number of characters to initially display
                             valueType="currency"
           />
           <div className={counterSourceInfo}>
