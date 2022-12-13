@@ -82,7 +82,7 @@ const FederalSpendingHero = (): JSX.Element => {
       </p>
       <div className={counterContainerSpending}>
         <SplitFlapDisplay value={totalSpending}
-                          minLength={17} // number of characters to initially display
+                          minLength={totalSpending?.toString().length} // number of characters to initially display
                           mobilePrecision={parseInt(totalSpending) > 999999999999 ? 2 : 0}
                           valueType="currency"
         />

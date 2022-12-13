@@ -277,7 +277,8 @@ const SplitFlapDisplay = (
     workingPrevValue.current = null;
 
     if (shortenDisplay) {
-      setMinimumDisplayLength(3);
+      const shortenedMinLength = Math.round(parseFloat(shortenedValue))?.toString().length;
+      setMinimumDisplayLength(shortenedMinLength);
       setDisplayValue(formatNumberForDisplay(shortenedValue));
     } else {
       setMinimumDisplayLength(minLength);
