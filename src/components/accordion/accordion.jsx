@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -23,14 +23,12 @@ const Accordion = ({
   openEventNumber,
   closeEventNumber,
   explainerGAEvent,
-  dynamicGaEventValue,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
-  const [gaEventHandler, setgaEventHandler] = useState(null);
 
-  const {getGAEvent} = useGAEventTracking(null,explainerGAEvent); 
-  
-  const triggerGAEvent = (isOpen) => {    
+  const {getGAEvent} = useGAEventTracking(null,explainerGAEvent);
+
+  const triggerGAEvent = (isOpen) => {
       const gaEvent =  isOpen ? getGAEvent(openEventNumber) : getGAEvent(closeEventNumber);
       gaEvent && Analytics.event({
         category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
@@ -38,7 +36,7 @@ const Accordion = ({
         label: gaEvent.eventLabel,
       });
   }
-    
+
   const onToggle = e => {
     if (e.key === undefined || e.key === "Enter") {
       e.stopPropagation();
