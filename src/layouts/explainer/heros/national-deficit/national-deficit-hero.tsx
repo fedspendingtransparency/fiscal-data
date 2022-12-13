@@ -161,7 +161,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         {currentFiscalYear}, resulting in a national deficit.
       </p>
       <div>
-        <SplitFlapDisplay value={desktopDeficit}
+        <SplitFlapDisplay value={'668266821115'}
                           mobilePrecision={parseInt(desktopDeficit) > 999999999999 ? 2 : 0}
                           minLength={15} // number of characters to initially display
                           valueType="currency"
