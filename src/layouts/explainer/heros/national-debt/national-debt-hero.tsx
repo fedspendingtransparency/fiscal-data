@@ -13,8 +13,7 @@ const NationalDebtHero = (): JSX.Element => {
     = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
   const debtUrl: string = `${apiPrefix}${endpointUrl}`;
 
-  const [nationalDebtValue, setNationalDebtValue]
-    = useState<string | null>(null);
+  const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
 
   const getCurrentNationalDebt = (url) => {
     basicFetch(`${url}`)
@@ -22,7 +21,7 @@ const NationalDebtHero = (): JSX.Element => {
         if (res.data) {
           const totalPublicDebtOutstanding: string =
             Math.trunc(res.data[0]['tot_pub_debt_out_amt']).toString();
-          setNationalDebtValue(totalPublicDebtOutstanding);
+            setNationalDebtValue(totalPublicDebtOutstanding);
         }
     });
   };
