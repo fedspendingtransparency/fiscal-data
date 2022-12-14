@@ -70,7 +70,9 @@ export const SpendingCategories = () => {
           Each year, the Social Security and Medicare Boards of Trustees publish
           their{" "}
           {
-            <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}>
+            <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}
+                        eventNumber="24"
+            >
               Annual Reports on the Financial Status of Social Security and
               Medicare.
             </CustomLink>

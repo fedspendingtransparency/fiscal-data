@@ -5,6 +5,7 @@ import * as Gatsby from 'gatsby';
 
 import DatasetCard from './dataset-card';
 import * as datasetStyles from './dataset-card.module.scss';
+import {render} from "@testing-library/react";
 
 describe('DatasetCard', () => {
 
@@ -99,5 +100,25 @@ describe('DatasetCard', () => {
       'action': `from ${referrer}`,
       'value': mockConfig.name
     });
+  });
+
+  it('tracks when dataset card is clicked from explainer page', () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(
+      <DatasetCard
+        dataset={mockConfig}
+        context={'Related Datasets'}
+        referrer={'Spending'}
+        explainer={true}
+      />);
+    const datasetCard = getByText('Debt to the Penny');
+
+    datasetCard.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: `Citation Click`,
+      label: 'Spending - Related Datasets'
+    });
+    spy.mockClear();
   });
 });

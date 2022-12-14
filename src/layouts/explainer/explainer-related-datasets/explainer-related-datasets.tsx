@@ -8,7 +8,7 @@ import {
 } from './explainer-related-datasets.module.scss';
 
 export const title = 'Related Datasets';
-export const context = 'Related Dataset';
+export const context = 'Related Datasets';
 
 const ExplainerRelatedDatasets:
   FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer, header }) => {
@@ -26,6 +26,7 @@ const ExplainerRelatedDatasets:
               dataset={dataset}
               context={context}
               referrer={referrer}
+              explainer={true}
             />
           </div>
         ))

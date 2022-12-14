@@ -38,7 +38,10 @@ const FederalSpendingHero = (): JSX.Element => {
   const [spendingPercentChange, setSpendingPercentChange] = useState(0);
 
     const mts =
-    <CustomLink url={'/datasets/monthly-treasury-statement/outlays-of-the-u-s-government'}>
+    <CustomLink
+      url={'/datasets/monthly-treasury-statement/outlays-of-the-u-s-government'}
+      eventNumber="2"
+    >
       Monthly Treasury Statement (MTS)
     </CustomLink>
 
