@@ -174,7 +174,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const deficitHeading = (
     <>
       The amount by which spending {deficitExceeds} revenue, ${yearToDateDeficit} in{" "}
-      {fiscalYear}{anchorTextLatestFY(fiscalYear,1)}, is referred to as{" "}
+      {fiscalYear}{anchorTextLatestFY(fiscalYear,0)}, is referred to as{" "}
       <span style={{ fontStyle: "italic" }}>deficit</span>
       {" "}spending.
     </>

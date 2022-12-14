@@ -7,13 +7,8 @@ export const getAFGFootnotes = currentFiscalYear => {
       },
       {
         text: '2',
-        link: 'LatestFiscalYear',
-        body: `The latest complete fiscal year began on October 1, ${currentFiscalYear-2} and ended September 30, ${currentFiscalYear-1}.`,
-      },
-      {
-        text: '3',
         link: 'PreviousFiscalYear',
-        body: `The previous fiscal year began on October 1, ${currentFiscalYear-3} and ended September 30, ${currentFiscalYear-2}.`,
+        body: `The previous fiscal year began on October 1, ${currentFiscalYear-2} and ended September 30, ${currentFiscalYear-1}.`,
       },
     ];
   };

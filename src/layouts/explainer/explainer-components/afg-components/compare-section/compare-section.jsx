@@ -208,7 +208,7 @@ export default function CompareSection({currentFiscalYear}) {
     return (
         <div className={styles.compareSection} data-testid="compare-section">
             <h3 className={styles.heading}>
-              How did these totals compare to {priorFiscalYear}{anchorTextPriorFY(priorFiscalYear,2)} year-end?
+              How did these totals compare to {priorFiscalYear}{anchorTextPriorFY(priorFiscalYear,1)} year-end?
             </h3>
             <Grid container spacing={4}>
                 {subSections.map((s) => (
