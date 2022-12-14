@@ -100,9 +100,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
-    margin: 1rem -2rem 2.5rem -2rem;
-    height: 27rem;
+    margin-bottom: 2rem;
+    height: 28rem;
   }
 
   img {
@@ -176,9 +175,10 @@
       margin: 2rem 0;
     }
     .mainVis {
-      height: 21.25rem;
+      height: 12rem;
       margin-left: -0.75rem;
       margin-right: -0.75rem;
+      background-size: contain;
     }
     .byLine {
       padding: 0;
