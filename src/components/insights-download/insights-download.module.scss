@@ -1,4 +1,4 @@
-
+@import 'src/variables.module';
 // When inside the chart proper, element may have to be absolutely positioned
 .downloadContainer {
   display: flex;
@@ -20,4 +20,10 @@
   cursor:pointer;
   display: flex;
   flex-direction: row;
+}
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .downloadContainer {
+    margin-right: 0;
+  }
 }
