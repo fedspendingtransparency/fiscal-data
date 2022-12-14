@@ -117,7 +117,7 @@ describe('DatasetCard', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      value: 'Spending - Related Datasets'
+      label: 'Spending - Related Datasets'
     });
     spy.mockClear();
   });

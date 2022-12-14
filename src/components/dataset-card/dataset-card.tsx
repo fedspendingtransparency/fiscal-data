@@ -37,7 +37,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
         Analytics.event({
           category: `Explainers`,
           action: 'Citation Click',
-          value: `${referrer} - ${context}`
+          label: `${referrer} - ${context}`
         }) :
         Analytics.event({
           category: `${context} Click`,
