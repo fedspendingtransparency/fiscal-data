@@ -147,7 +147,10 @@ export const SpendingDifference = ({ width, glossary }) => {
         />
       </div>{" "}
       <div className={spendingAccordion}>
-        <Accordion title=" What is the process for determining discretionary spending?">
+        <Accordion title="What is the process for determining discretionary spending?"
+                    openEventNumber="18"
+                   explainerGAEvent="Spending"
+        >
           Discretionary spending is determined by the president and Congress
           each year in the budget and appropriations process. First, the
           president creates a budget proposal and sends it to Congress. Then,

@@ -66,7 +66,10 @@ export const SpendingCategories = () => {
         </VisualizationCallout>
       </div>
       <div className={spendingAccordion}>
-        <Accordion title="What does the future of Social Security and Medicare look like?">
+        <Accordion title="What does the future of Social Security and Medicare look like?"
+                   openEventNumber="16"
+                   explainerGAEvent="Spending"
+        >
           Each year, the Social Security and Medicare Boards of Trustees publish
           their{" "}
           {
