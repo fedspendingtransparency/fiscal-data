@@ -778,21 +778,28 @@ const endpointConfig = {
       'net_cnt'
     ]
   },
-  '129': {
-    'endpoint': 'v1/accounting/dts/dts_table_1',
-    'dateField': 'record_date',
-    'downloadName': 'DTS_OpCashBal',
-    'dataDisplays': [
+  "129": {
+    "endpoint": "v1/accounting/dts/dts_table_1",
+    "dateField": "record_date",
+    "downloadName": "DTS_OpCashBal",
+    "dataDisplays": [
       {
-        'dimensionField': 'account_type',
-        'lastRowSnapshot': true
+        "title": "By Type of Account",
+        "dimensionField": "account_type",
+        "lastRowSnapshot": true,
+        "filters": [
+          {
+            "key": "account_type",
+            "operator": "eq",
+            "value": "Treasury General Account (TGA) Opening Balance"
+          }
+        ]
       }
     ],
-    'valueFieldOptions': [
-      'close_today_bal',
-      'open_today_bal',
-      'open_month_bal',
-      'open_fiscal_year_bal'
+    "valueFieldOptions": [
+      "open_today_bal",
+      "open_month_bal",
+      "open_fiscal_year_bal"
     ]
   },
   '130': {
