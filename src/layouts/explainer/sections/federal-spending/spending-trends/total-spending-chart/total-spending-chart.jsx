@@ -363,7 +363,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
   }, [selectedChartView, gdpChartData, spendingChartData]);
 
   const handleMouseEnter = () => {
-    setTimeout(() => {
+    gaTimer = setTimeout(() => {
       handleClick("20");
     }, 3000);
   }
@@ -426,7 +426,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
             >
               <div className={lineChart} data-testid={'chartParent'}
                    onMouseEnter={handleMouseEnter}
-                   onMouseLeave={clearTimeout()}
+                   onMouseLeave={() => clearTimeout(gaTimer)}
               >
                 <Line
                   data={chartData}
