@@ -42,6 +42,8 @@ const chartDataEndPoint =
 const gdpEndPoint =
   'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
 
+let gaTimer;
+
 const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
   const [gdpChartData, setGdpChartData] = useState([]);
@@ -62,11 +64,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
 
+
   const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState(
     {}
   );
 
-  let gaTimer;
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 

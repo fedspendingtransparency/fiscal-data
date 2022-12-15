@@ -29,12 +29,16 @@ export const SpendingCategories = () => {
   }, [])
 
   const spendingExplorer = (
-    <CustomLink url={"https://www.usaspending.gov/explorer"}>
+    <CustomLink url={"https://www.usaspending.gov/explorer"}
+                eventNumber="14"
+    >
       Spending Explorer
     </CustomLink>
   )
   const agencyProfile = (
-    <CustomLink url={"https://www.usaspending.gov/agency"}>
+    <CustomLink url={"https://www.usaspending.gov/agency"}
+                eventNumber="34"
+    >
       Agency Profile
     </CustomLink>
   )
