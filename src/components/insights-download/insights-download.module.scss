@@ -3,8 +3,7 @@
 .downloadContainer {
   display: flex;
   flex-direction: row;
-  justify-content: end;
-  margin-right: 5.5rem;
+  margin-left: 5.5rem;
 }
 
 .downloadIcon {
@@ -24,6 +23,8 @@
 
 @media screen and (max-width: $breakpoint-md - 1) {
   .downloadContainer {
-    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 2rem;
+    margin-top: -1rem;
   }
 }
