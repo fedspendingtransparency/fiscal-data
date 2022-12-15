@@ -1,0 +1,48 @@
+@import '../../../variables.module.scss';
+
+.paddingAdjust {
+  margin-bottom: -1em;
+  padding-bottom: 2.375em;
+  max-width: calc(1140px + 4rem);
+  width: 60%;
+}
+
+.cardWrapper {
+  margin-bottom: 1em;
+}
+
+.titleStyle {
+  font-size: 32px;
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .paddingAdjust {
+    width: 100%;
+  }
+  .cardWrapper {
+    display: inline-flex;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  .titleStyle {
+    padding-left: 0.75rem;
+  }
+}
+
+@media screen and (min-width: $breakpoint-md) and (max-width: $breakpoint-lg - 1) {
+  .cardWrapper {
+    display: inline-flex;
+    width: 48.5%;
+    margin-right: 2%;
+    &:nth-child(2n+1){margin-right: 0}
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .cardWrapper {
+    display: inline-flex;
+    width: 23.5%;
+    margin-right: 2%;
+    &:nth-child(4n+1){margin-right: 0}
+  }
+}
