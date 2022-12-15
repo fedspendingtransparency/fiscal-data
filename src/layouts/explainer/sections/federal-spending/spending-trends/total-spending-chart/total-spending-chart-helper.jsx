@@ -49,7 +49,7 @@ const getFirstElPadding = (chartView, isMobile) => {
   return "32px";
 };
 
-export const dataHeader = (chartToggleConfig, headingValues) => {
+export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
   if (!chartToggleConfig) return;
   const {
     setSelectedChartView,
@@ -88,6 +88,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
           }}
           onClick={() => {
             setSelectedChartView("totalSpending");
+            gaEvent("19");
           }}
         >
           <span
@@ -115,6 +116,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
           }}
           onClick={() => {
             setSelectedChartView("percentageGdp");
+            gaEvent("19");
           }}
         >
           <span

@@ -28,6 +28,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {getShortForm} from "../../../../heros/hero-helper";
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import useGAEventTracking from "../../../../../../hooks/useGAEventTracking";
+import Analytics from "../../../../../../utils/analytics/analytics";
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -39,6 +41,8 @@ const chartDataEndPoint =
 
 const gdpEndPoint =
   'https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON';
+
+let gaTimer;
 
 const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
@@ -60,9 +64,22 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
 
+
   const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState(
     {}
   );
+
+
+  const {getGAEvent} = useGAEventTracking(null, "Spending");
+
+  const handleClick = (eventNumber) =>{
+    const gaEvent = getGAEvent(eventNumber);
+    Analytics.event({
+      category: gaEvent?.eventCategory?.replace("Fiscal Data - ", ""),
+      action: gaEvent?.eventAction,
+      label: gaEvent?.eventLabel,
+    });
+  }
 
   const totalData = [
     {
@@ -347,6 +364,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
     }
   }, [selectedChartView, gdpChartData, spendingChartData]);
 
+  const handleMouseEnter = () => {
+    gaTimer = setTimeout(() => {
+      handleClick("20");
+    }, 3000);
+  }
+
   const handleGroupOnMouseLeave = () => {
     setTotalSpendingHeadingValues({
       fiscalYear: maxYear,
@@ -355,8 +378,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
       gdpRatio: lastRatio,
     });
   }
+
   const handleMouseLeave = (slice) => {
-    if (selectedChartView == 'totalSpending') {
+    if (selectedChartView === 'totalSpending') {
       const spendingData = slice.points[0].data;
       const gdpData = slice.points[1].data;
       if (spendingData && gdpData) {
@@ -367,7 +391,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
           gdp: simplifyNumber(gdpData.actual, false),
         });
       }
-    } else if (selectedChartView == 'percentageGdp') {
+    } else if (selectedChartView === 'percentageGdp') {
       const percentData = slice.points[0].data;
       if (percentData) {
         setTotalSpendingHeadingValues({
@@ -379,8 +403,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
     }
   }
 
+  const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText} =
+    getChartCopy(minYear, maxYear, selectedChartView);
 
-  const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText} = getChartCopy(minYear, maxYear, selectedChartView);
   return (
     <>
       {isLoading && (
@@ -397,11 +422,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear, copyPageData }) => {
               subTitle={chartSubtitle}
               footer={chartFooter}
               date={lastUpdatedDate}
-              header={dataHeader(chartToggleConfig, totalSpendingHeadingValues)}
+              header={dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
               altText={chartAltText}
               customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
             >
-              <div className={lineChart} data-testid={'chartParent'}>
+              <div className={lineChart} data-testid={'chartParent'}
+                   onMouseEnter={handleMouseEnter}
+                   onMouseLeave={() => clearTimeout(gaTimer)}
+              >
                 <Line
                   data={chartData}
                   layers={[
