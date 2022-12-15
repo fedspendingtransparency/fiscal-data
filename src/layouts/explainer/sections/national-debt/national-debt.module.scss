@@ -281,6 +281,11 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     height: 440px;
+
+    .dataSlice:focus {
+      outline: none;
+    }
+
   }
 }
 

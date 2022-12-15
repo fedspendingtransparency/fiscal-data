@@ -102,6 +102,7 @@ export const aveInterestLegend: string;
 export const multichartLegend: string;
 export const debtLegend: string;
 export const lineChartContainer: string;
+export const dataSlice: string;
 export const postGraphContent: string;
 export const postGraphAccordionContainer: string;
 export const diveDeeperQuoteRight: string;

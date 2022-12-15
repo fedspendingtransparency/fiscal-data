@@ -91,6 +91,7 @@ import {
   aveInterestLegend,
   debtLegend,
   lineChartContainer,
+  dataSlice,
   postGraphContent,
   // Dive Deeper Section
   diveDeeperQuoteRight,
@@ -107,7 +108,7 @@ import {
   subTitle,
   titleBreakdown,
   postGraphAccordionContainer,
-  DebtOverLast100yContainer,
+  DebtOverLast100yContainer
 } from "./national-debt.module.scss";
 import { Bar } from "@nivo/bar";
 import Multichart from "../../multichart/multichart";
@@ -321,7 +322,7 @@ export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
             overall debt.
           </p>
         </div>
-        
+
         <VisualizationCallout color={debtExplainerPrimary} >
           <p>
             The U.S. Treasury uses the terms “national debt,” “federal debt,”
@@ -974,6 +975,7 @@ export const GrowingNationalDebtSection = withWindowSize(
               strokeWidth={1}
               strokeOpacity={0}
               fillOpacity={0}
+              className={dataSlice}
               onMouseEnter={() => setCurrentSlice(slice)}
               onMouseLeave={() => {
                 setCurrentSlice(null);
@@ -988,16 +990,22 @@ export const GrowingNationalDebtSection = withWindowSize(
       const { currentSlice, borderWidth, borderColor, points } = props;
 
       if (!isLoadingDebtTrends) {
-        const currentPoint = currentSlice?.points?.length
-          ? currentSlice.points[0]
-          : points[points.length - 1];
+        // default to last data point and 1x sizing
+        let currentPoint = points[points.length - 1];
+        let sizeMultiplier = 1;
+
+        // when a slice is hovered, use that location and double the size
+        if (currentSlice?.points?.length) {
+          currentPoint = currentSlice.points[0];
+          sizeMultiplier = 2;
+        }
         setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
         setLinechartHoveredYear(currentPoint.data.x);
         return (
           <g>
             <circle
               fill={"#D8D8D8"}
-              r={8}
+              r={8 * sizeMultiplier}
               strokeWidth={borderWidth}
               stroke={borderColor}
               fillOpacity={0.35}
@@ -1005,8 +1013,8 @@ export const GrowingNationalDebtSection = withWindowSize(
               cy={currentPoint.y}
             />
             <circle
-              r={2}
-              strokeWidth={"4"}
+              r={2 * sizeMultiplier}
+              strokeWidth={4 * sizeMultiplier}
               stroke={"#000000"}
               fill={"#000000"}
               fillOpacity={0.85}
