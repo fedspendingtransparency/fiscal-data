@@ -12,7 +12,8 @@
 }
 
 .titleStyle {
-  font-size: 32px;
+  font-size: $font-size-36;
+  margin: 3.125rem 0 1.563rem;
 }
 
 @media screen and (max-width: $breakpoint-sm) {

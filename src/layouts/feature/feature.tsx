@@ -10,6 +10,7 @@ import {
   templateContainer,
   templateContent,
   heroSocialShare,
+  relatedDatasetsStyle,
 } from "./feature.module.scss"
 import FDGMdxProvider from "../../components/mdx/FDGMdxProvider";
 import InsightsDownload from "../../components/insights-download/insights-download";
@@ -21,7 +22,6 @@ import dsmComponents from "./dsm/dsm";
 import {format} from "date-fns";
 import SocialShare from "../explainer/social-share/social-share";
 import InsightRelatedDatasets from "./relatedDatasets/insight-related-datasets";
-import {relatedDatasetsStyle} from "../explainer/explainer.module.scss";
 import {IDataset} from "../../models/IDataset";
 
 
@@ -108,13 +108,13 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
               <MDXRenderer children={post.body} />
             </MDXProvider>
           </FDGMdxProvider>
-          <div className={relatedDatasetsStyle}>
-            <InsightRelatedDatasets
-              datasets={pageContext.relatedDatasets}
-              referrer={"Insight"}
-            />
-          </div>
         </div>
+      </div>
+      <div className={relatedDatasetsStyle}>
+        <InsightRelatedDatasets
+          datasets={pageContext.relatedDatasets}
+          referrer={"Insight"}
+        />
       </div>
     </SiteLayout>
   )

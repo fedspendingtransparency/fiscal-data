@@ -5,6 +5,15 @@
   margin: 0 auto;
 }
 
+.relatedDatasetsStyle {
+  background-color: $body-background;
+  min-height: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .templateContent {
 
   position: relative;

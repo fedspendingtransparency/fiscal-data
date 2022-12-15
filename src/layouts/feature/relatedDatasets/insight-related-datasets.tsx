@@ -17,8 +17,6 @@ export const context = 'Related Datasets';
 const InsightRelatedDatasets:
   FunctionComponent<IInsightRelatedDatasets> = ({ datasets, referrer }) => {
 
-  console.log(datasets);
-
   return (
     <div className={paddingAdjust}>
       <h1 className={titleStyle}>See the datasets that relate to this Insight</h1>
