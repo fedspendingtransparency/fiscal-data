@@ -30,18 +30,25 @@ describe ('Feature page template', () => {
           path: '/features/quick-hits',
           shareCopy: 'Check out our site here',
           subtitle: 'Header 4, Sub Headline, keep from 1 to 2 lines',
-          title: 'Mock Hits'
+          title: 'Mock Hits',
+          relatedDatasets: ''
         }
       }
+    },
+    pageContext: {
+      relatedDatasets: []
     }
   };
 
   let component;
   const post = mockMarkdownData.data.mdx;
+  const mockPageContext = {
+    relatedDatasets: []
+  }
 
    beforeEach(() => {
      component = render(
-       <Feature data={mockMarkdownData.data} />
+       <Feature data={mockMarkdownData.data} pageContext={mockPageContext} />
        );
    });
 
@@ -74,7 +81,8 @@ describe ('Feature page template', () => {
    });
 
    it('supplies page title and description to the PageHelmet component', () => {
-     const featureComp = renderer.create(<Feature data={mockMarkdownData.data} />);
+     const featureComp = renderer.create(
+       <Feature data={mockMarkdownData.data} pageContext={mockPageContext} />);
      const instance = featureComp.root;
      const helmet = instance.findByType(PageHelmet);
      expect(helmet.props.pageTitle).toBe('Fiscal Data - Mock Hits');

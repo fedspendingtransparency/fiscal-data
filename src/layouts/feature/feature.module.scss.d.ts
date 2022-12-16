@@ -64,6 +64,7 @@ export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const templateContainer: string;
+export const relatedDatasetsStyle: string;
 export const templateContent: string;
 export const byLine: string;
 export const by: string;

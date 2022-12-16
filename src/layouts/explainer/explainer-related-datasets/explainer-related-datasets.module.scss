@@ -12,7 +12,7 @@
 }
 
 .titleStyle {
-  font-size: 32px;
+  font-size: $font-size-32;
 }
 
 @media screen and (max-width: $breakpoint-sm) {

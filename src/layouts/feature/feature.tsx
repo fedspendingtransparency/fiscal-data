@@ -2,8 +2,6 @@ import React, { FunctionComponent } from "react"
 import { graphql } from "gatsby"
 import PageHelmet from "../../components/page-helmet/page-helmet"
 import SiteLayout from "../../components/siteLayout/siteLayout"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShareAlt } from "@fortawesome/free-solid-svg-icons";
 import {
   byLine,
   dateStamp,
@@ -12,6 +10,7 @@ import {
   templateContainer,
   templateContent,
   heroSocialShare,
+  relatedDatasetsStyle,
 } from "./feature.module.scss"
 import FDGMdxProvider from "../../components/mdx/FDGMdxProvider";
 import InsightsDownload from "../../components/insights-download/insights-download";
@@ -23,6 +22,9 @@ import dsmComponents from "./dsm/dsm";
 import {format} from "date-fns";
 import SocialShare from "../explainer/social-share/social-share";
 import InsightsImage from "../../components/insights-image/insights-image";
+import {IDataset} from "../../models/IDataset";
+import ExplainerRelatedDatasets from
+    "../explainer/explainer-related-datasets/explainer-related-datasets";
 
 
 export type FeaturePageProps = {
@@ -38,9 +40,13 @@ export type FeaturePageProps = {
         path: string,
         shareCopy: string,
         subtitle: string,
-        title: string
+        title: string,
+        relatedDatasets: string
       }
     }
+  },
+  pageContext: {
+    relatedDatasets: IDataset[],
   }
 }
 
@@ -53,7 +59,10 @@ const featuresComponents = {
   InsightsImage: InsightsImage
 }
 
-const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps) => {
+const Feature: FunctionComponent<FeaturePageProps> = ({
+  data,
+  pageContext
+}) => {
   const { mdx: post } = data;
   const frontMatter = post.frontmatter;
   const date = format(new Date(frontMatter.datePublished), "MMMM d, yyyy");
@@ -104,6 +113,13 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps
           </FDGMdxProvider>
         </div>
       </div>
+      <div className={relatedDatasetsStyle}>
+        <ExplainerRelatedDatasets
+          datasets={pageContext.relatedDatasets}
+          referrer={"Insight"}
+          header={"See the datasets that relate to this Insight"}
+        />
+      </div>
     </SiteLayout>
   )
 };
@@ -121,6 +137,7 @@ export const pageQuery = graphql`
 				shareCopy
 				subtitle
 				title
+				relatedDatasets
 			}
 		}
 	}

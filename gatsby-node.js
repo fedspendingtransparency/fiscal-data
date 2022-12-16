@@ -606,6 +606,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 					node {
 						frontmatter {
 							path
+							relatedDatasets
 						}
 					}
 				}
@@ -619,10 +620,19 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     features.data.allMdx.edges.forEach(({ node }) => {
       if (node.frontmatter.path) {
+        let insightRelatedDatasets = [];
+        if(node.frontmatter.relatedDatasets) {
+          node.frontmatter.relatedDatasets.forEach((dataset) => {
+            insightRelatedDatasets.push(
+              result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+          });
+        }
         createPage({
           path: node.frontmatter.path,
           component: featurePageTemplate,
-          context: {}
+          context: {
+            relatedDatasets: insightRelatedDatasets,
+          }
         });
       }
     });
