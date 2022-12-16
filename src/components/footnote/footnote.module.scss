@@ -14,9 +14,12 @@
         width: 80%;
         margin: 0 auto;
     }
-    sup a{
+    sup{
+        margin-right: 5px;
+        a{
         font-size: $font-size-14;
         color: #0071BC;
+        }
     }
 }
 

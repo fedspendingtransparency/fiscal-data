@@ -9,10 +9,8 @@ const Footnote = ({footnotes, width="80%"}) : JSX.Element => {
         {footnotes && footnotes.map((footnote, idx) => {
             return(
               <div className={styles.footnoteBody} style={{width: width}} key={idx} data-testid="footnote-item">
-                  <sup>
-                    <a href={`#${footnote.link}`}>{footnote.text}</a>
-                  </sup>
-                  {footnote.body}
+                  {footnote.anchors.map(anchor => <sup><a href={`#${anchor.link}`}>{anchor.text}</a></sup>)}
+                  {footnote.definition}
               </div>
             )
         })}
