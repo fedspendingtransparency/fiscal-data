@@ -1,11 +1,13 @@
 @import '../../variables.module.scss';
 
 .footnoteContainer{
+    padding-top: 2rem;
+    border-top: #f1f1f1 4px solid;
     width: 100%;
 
     .footnoteHeading{
         @include headingStyle6;
-        margin-top: 2rem;
+        margin-top: 0;
         margin-bottom: 2rem;
     }
 
