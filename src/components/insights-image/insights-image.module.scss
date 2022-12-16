@@ -1,0 +1,18 @@
+@import 'src/variables.module';
+
+.image {
+  max-width: 41rem;
+  margin-left: 4rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .image {
+    max-width: 28rem;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .image {
+    margin-left: 0;
+  }
+}

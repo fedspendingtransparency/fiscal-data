@@ -12,7 +12,7 @@
 11,Click on the link to USAspending.gov,Fiscal Data - Explainers,Citation Click,Spending - Federal Spending Overview,
 12,"Click on the button labeled ""Agency"" within the chart",Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
 13,"Click on the toggle to ""Dollars""",Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
-14,Click on the link to USAspending.gov,Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
+14,Click on the link to USAspending.gov Spending Explorer,Fiscal Data - Explainers,Citation Click,Spending - Spending Categories,
 15,Click on the link to Monthly Treasury Statement,Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
 16,"Expand the accordion labeled ""What does the future of Social Security and Medicare look like?""",Fiscal Data - Explainers,Accordion Expand Click,Spending - Spending Categories,
 17,Click on the link to the USAspending Covid page,Fiscal Data - Explainers,Citation Click,"Spending - Difference Between Mandatory, Discretionary, and Supplemental Spending",
@@ -33,3 +33,4 @@
 32,"Click on the button labeled ""Category"" within the chart",Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
 33,"Click on the toggle to ""Percentage""",Fiscal Data - Explainers,Chart Toggle,Spending - Spending Categories,
 34,Click on the Link to the Bureau of Economic Analysis,Fiscal Data - Explainers,Citation Click,Spending - Spending Trends Over Time and the U.S. Economy,
+35,Click on the link to USAspending.gov Agency Profiles,Fiscal Data - Explainers,Citation Click,Spending - Spending Categories,

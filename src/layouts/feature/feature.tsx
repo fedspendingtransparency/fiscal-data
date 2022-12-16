@@ -21,6 +21,7 @@ import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
 import {format} from "date-fns";
 import SocialShare from "../explainer/social-share/social-share";
+import InsightsImage from "../../components/insights-image/insights-image";
 import {IDataset} from "../../models/IDataset";
 import ExplainerRelatedDatasets from
     "../explainer/explainer-related-datasets/explainer-related-datasets";
@@ -54,7 +55,8 @@ const featuresComponents = {
   ExtIcon: dsmComponents.ExtIcon,
   InsightsDownload: InsightsDownload,
   Footnote: Footnote,
-  AnchorText: AnchorText
+  AnchorText: AnchorText,
+  InsightsImage: InsightsImage
 }
 
 const Feature: FunctionComponent<FeaturePageProps> = ({
