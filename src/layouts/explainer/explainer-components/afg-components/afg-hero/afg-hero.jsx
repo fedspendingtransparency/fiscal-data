@@ -54,9 +54,9 @@ export default function AfgHero() {
     setContainerHeight(refSocialShare.current.offsetTop + 466)
   }, [width, height, containerHeight])
 
-  const anchorTextCurrentFY = (FY,idx) =>{
-    const footnote = getAFGFootnotes(FY)[idx]
-    return <AnchorText link={footnote.link} text={footnote.text} />
+  const anchorTextCurrentFY = (FY, idx, anchorIdx) =>{
+    const anchor = getAFGFootnotes(FY+1)[idx];
+    return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />
   }
 
   return (
@@ -74,7 +74,7 @@ export default function AfgHero() {
       <div className={styles.heroWhiteBox}>
         <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
         <h1 className={styles.heroHeading}>How much money {headingTense} the federal
-          government {headingTenseCollect} and {headingTenseSpend} in fiscal year {fiscalYear}{anchorTextCurrentFY(fiscalYear,0)}?
+          government {headingTenseCollect} and {headingTenseSpend} in fiscal year {fiscalYear}{anchorTextCurrentFY(fiscalYear,0,0)}?
         </h1>
         <div className={styles.heroSocialShare} ref={refSocialShare}>
           <SocialShare

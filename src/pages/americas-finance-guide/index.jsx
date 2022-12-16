@@ -166,15 +166,15 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </>
   );
 
-  const anchorTextLatestFY = (FY, idx) =>{
-    const footnote = getAFGFootnotes(FY+1)[idx]
-    return <AnchorText link={footnote.link} text={footnote.text} />
+  const anchorTextLatestFY = (FY, idx, anchorIdx) =>{
+    const anchor = getAFGFootnotes(FY+1)[idx]
+    return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />
   }
 
   const deficitHeading = (
     <>
       The amount by which spending {deficitExceeds} revenue, ${yearToDateDeficit} in{" "}
-      {fiscalYear}{anchorTextLatestFY(fiscalYear,0)}, is referred to as{" "}
+      {fiscalYear}{anchorTextLatestFY(fiscalYear,0,1)}, is referred to as{" "}
       <span style={{ fontStyle: "italic" }}>deficit</span>
       {" "}spending.
     </>

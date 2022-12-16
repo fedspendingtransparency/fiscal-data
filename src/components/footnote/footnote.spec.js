@@ -4,18 +4,20 @@ import Footnote from './footnote';
 
 const mockFootnotes = [
   {
-    text: 'Test Footnote Text',
-    link: 'testFootnote',
-    body:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate odio a enim hendrerit interdum. Duis volutpat, nibh porttitor pellentesque mattis, mi justo',
+    anchors: [
+      { text: ['1'], link: ['mock-link1'] },
+      { text: ['2'], link: ['mock-link2'] },
+    ],
+    definition: 'Mock Definition',
   },
-  {
-    text: 'Test Footnote Text2',
-    link: 'testFootnote2',
-    body:
-      'Lorem ipsum dolor sit amadipiodio autpat, nibh porttitor pellentesque mattis, mi justo',
+  {       
+    anchors: [          
+      { text: ['3'], link: ['mock-link3'] },
+    ],
+    definition: 'Mock Definition2',
   },
 ];
+
 describe('Footnote Section', () => {
   it('it renders the footnote section and items', () => {
     const { getByTestId, getAllByTestId } = render(
