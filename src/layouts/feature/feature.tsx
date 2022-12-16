@@ -22,6 +22,7 @@ import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
 import {format} from "date-fns";
 import SocialShare from "../explainer/social-share/social-share";
+import InsightsImage from "../../components/insights-image/insights-image";
 
 
 export type FeaturePageProps = {
@@ -48,7 +49,8 @@ const featuresComponents = {
   ExtIcon: dsmComponents.ExtIcon,
   InsightsDownload: InsightsDownload,
   Footnote: Footnote,
-  AnchorText: AnchorText
+  AnchorText: AnchorText,
+  InsightsImage: InsightsImage
 }
 
 const Feature: FunctionComponent<FeaturePageProps> = ({ data }: FeaturePageProps) => {
