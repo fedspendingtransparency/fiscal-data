@@ -16,14 +16,16 @@ import Footnote from "../../components/footnote/footnote";
 
 export const footnotes = [
   {
-    "text": 'Footnote Text',
-    "link": 'footnote1',
-    "body": <span> A full history of the U.S. Savings Bond is available on <a href={'https://www.treasurydirect.gov/timeline.htm'}>TreasuryDirect.gov</a>.</span>,
+    anchors: [
+      { text: ['1'], link: ['savings-bonds-history'], anchorHTML: <AnchorText link={'savings-bonds-history'} text={'1'} />},
+    ],
+    "definition": <span> A full history of the U.S. Savings Bond is available on <a href={'https://www.treasurydirect.gov/timeline.htm'}>TreasuryDirect.gov</a>.</span>,
   },
   {
-    "text": 'Footnote Text2',
-    "link": 'footnote2',
-    "body": <span> The breakdown between short-term and long-term securities by country and region is available through the <a href={'https://ticdata.treasury.gov/resource-center/data-chart-center/tic/Documents/slt3d.txt'}>Treasury International Capital System</a>.</span>,
+    anchors: [
+      { text: ['2'], link: ['treasury-international-capital-system'] },
+    ],
+    "definition": <span> The breakdown between short-term and long-term securities by country and region is available through the <a href={'https://ticdata.treasury.gov/resource-center/data-chart-center/tic/Documents/slt3d.txt'}>Treasury International Capital System</a>.</span>,
   }
 ]
 
@@ -46,7 +48,7 @@ It includes individual investors, the Federal Reserve, federal trust funds and g
 <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Aug 2022'} />
 
 The sale of securities to finance the U.S. government dates back to the late 1700s when private citizens purchased over
-$27 million in bonds to support the American Revolution<AnchorText link={footnotes[0].link} text={'1'} />. Throughout U.S. history, there have been other efforts to fund
+$27 million in bonds to support the American Revolution<AnchorText link={footnotes[0].anchors[0].link} text={footnotes[0].anchors[0].text} />. Throughout U.S. history, there have been other efforts to fund
 specific government activities such as the Louisiana Purchase, the building of the Panama Canal, and many of the nation’s wars.
 In addition to individual or corporate investors, the Federal Reserve buys and sells U.S. securities as tools for macroeconomic policy,
 collateral for U.S. currency, and to manage reserve balances as authorized by the Federal Reserve Act. At the end of August 2022,
@@ -62,7 +64,7 @@ can be divided into short and long-term securities, and investors in various cou
 one over the other. In Japan (the country holding the largest foreign percentage of U.S. securities),
 94% of its U.S. holdings are in long-term securities. This is typical for Asian countries; however,
 other countries tend to hold a more even split between long- and short-term, such as countries in
-the Caribbean (53% U.S. holdings in long-term)<AnchorText link={footnotes[1].link} text={'2'} />.
+the Caribbean (53% U.S. holdings in long-term)<AnchorText link={footnotes[1].anchors[0].link} text={footnotes[1].anchors[0].text} />.
 
 ### What are Intragovernmental Holdings?
 
@@ -85,7 +87,6 @@ Like all borrowers, the government relies on this good faith and its creditworth
 investors have had high confidence that U.S. securities are a safe, sound investment. This confidence provides stability for the
 government to finance deficits when needed.
 
----
 
 <Footnote footnotes={footnotes} />
 

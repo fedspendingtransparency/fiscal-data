@@ -27,6 +27,8 @@ import {
   spendingRequest,
   debtRequest
 } from "../../../explainer-helpers/afg-overview-helpers"
+import { getAFGFootnotes } from "../../../../../helpers/footnotes-helper/footnotes-helper";
+import AnchorText from "../../../../../components/anchor-text/anchor-text";
 
 
 export default function CompareSection({currentFiscalYear}) {
@@ -124,6 +126,11 @@ export default function CompareSection({currentFiscalYear}) {
 
   }, []);
 
+  const anchorTextPriorFY = (FY, idx, anchorIdx) =>{
+    const anchor = getAFGFootnotes(FY+1)[idx]
+    return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />
+  }
+
   const subSections = [{
         heading:
           <>
@@ -201,7 +208,7 @@ export default function CompareSection({currentFiscalYear}) {
     return (
         <div className={styles.compareSection} data-testid="compare-section">
             <h3 className={styles.heading}>
-              How did these totals compare to {priorFiscalYear} year-end?
+              How did these totals compare to {priorFiscalYear}{anchorTextPriorFY(priorFiscalYear,1,0)} year-end?
             </h3>
             <Grid container spacing={4}>
                 {subSections.map((s) => (

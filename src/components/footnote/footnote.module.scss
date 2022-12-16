@@ -1,22 +1,28 @@
 @import '../../variables.module.scss';
 
 .footnoteContainer{
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: #f1f1f1 4px solid;
     width: 100%;
 
     .footnoteHeading{
         @include headingStyle6;
-        margin-top: 2rem;
+        margin-top: 0;
         margin-bottom: 2rem;
     }
 
     .footnoteBody{
         font-size: $font-size-14;
         width: 80%;
-        margin: 0 auto;
+        margin: 0 auto 1rem auto;
     }
-    sup a{
+    sup a {
         font-size: $font-size-14;
         color: #0071BC;
+    }
+    sup:not(:first-child){
+        margin-left: 5px;
     }
 }
 

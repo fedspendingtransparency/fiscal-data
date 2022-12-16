@@ -39,6 +39,9 @@ import {
 import CustomLink from "../../components/links/custom-link/custom-link";
 import GlossaryTerm from "../../components/glossary-term/glossary-term";
 import {graphql, useStaticQuery} from "gatsby";
+import Footnote from "../../components/footnote/footnote";
+import AnchorText from "../../components/anchor-text/anchor-text";
+import { getAFGFootnotes } from "../../helpers/footnotes-helper/footnotes-helper";
 
 export const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -163,10 +166,15 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </>
   );
 
+  const anchorTextLatestFY = (FY, idx, anchorIdx) =>{
+    const anchor = getAFGFootnotes(FY+1)[idx]
+    return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />
+  }
+
   const deficitHeading = (
     <>
       The amount by which spending {deficitExceeds} revenue, ${yearToDateDeficit} in{" "}
-      {fiscalYear}, is referred to as{" "}
+      {fiscalYear}{anchorTextLatestFY(fiscalYear,0,1)}, is referred to as{" "}
       <span style={{ fontStyle: "italic" }}>deficit</span>
       {" "}spending.
     </>
@@ -320,6 +328,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           />
 
           {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
+
+          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%"/>}
           <DataSourcesMethodologies>
 
             Current and prior fiscal year values for federal revenue, spending,

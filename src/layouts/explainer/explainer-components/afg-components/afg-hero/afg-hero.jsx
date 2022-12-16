@@ -9,6 +9,8 @@ import SocialShare from "../../../social-share/social-share"
 import ApiRequest from "../../../../../helpers/api-request";
 import {revenueRequest} from "../../../explainer-helpers/afg-overview-helpers";
 import {basicFetch} from "../../../../../utils/api-utils";
+import { getAFGFootnotes } from "../../../../../helpers/footnotes-helper/footnotes-helper";
+import AnchorText from "../../../../../components/anchor-text/anchor-text";
 
 export default function AfgHero() {
   const [isMobile, setIsMobile] = useState(false)
@@ -52,6 +54,11 @@ export default function AfgHero() {
     setContainerHeight(refSocialShare.current.offsetTop + 466)
   }, [width, height, containerHeight])
 
+  const anchorTextCurrentFY = (FY, idx, anchorIdx) =>{
+    const anchor = getAFGFootnotes(FY+1)[idx];
+    return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />
+  }
+
   return (
     <div className={styles.heroContainer} style={{height: `${containerHeight}px`}}
          data-testid="afg-hero"
@@ -67,7 +74,7 @@ export default function AfgHero() {
       <div className={styles.heroWhiteBox}>
         <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
         <h1 className={styles.heroHeading}>How much money {headingTense} the federal
-          government {headingTenseCollect} and {headingTenseSpend} in fiscal year {fiscalYear}?
+          government {headingTenseCollect} and {headingTenseSpend} in fiscal year {fiscalYear}{anchorTextCurrentFY(fiscalYear,0,0)}?
         </h1>
         <div className={styles.heroSocialShare} ref={refSocialShare}>
           <SocialShare
