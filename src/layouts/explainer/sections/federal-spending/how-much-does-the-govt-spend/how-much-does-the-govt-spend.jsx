@@ -15,12 +15,13 @@ import {
   chartToggle,
   toggleButton,
   loadingIcon,
-  toggleText,
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { useWindowSize } from "../../../../../hooks/windowResize"
 import moment from "moment"
+import useGAEventTracking from "../../../../../hooks/useGAEventTracking";
+import Analytics from "../../../../../utils/analytics/analytics";
 
 
 export const capitalizeLastLetter = word => {
@@ -74,6 +75,17 @@ const HowMuchDoesTheGovtSpend = () => {
   const [width, height] = useWindowSize()
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
   const [fiscalYear, setFiscalYear] = useState('');
+
+  const {getGAEvent} = useGAEventTracking(null, "Spending");
+
+  const handleClick = (eventNumber) =>{
+    const gaEvent = getGAEvent(eventNumber);
+    Analytics.event({
+      category: gaEvent?.eventCategory?.replace("Fiscal Data - ", ""),
+      action: gaEvent?.eventAction,
+      label: gaEvent?.eventLabel,
+    });
+  }
 
   const styleSwitch = () => {
     const switchHandle = document.querySelector("div.react-switch-handle")
@@ -129,12 +141,18 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   }, [selectedChartView, chartData])
 
-  const name = "Monthly Treasury Statement (MTS)"
-  const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`
+  const mts =
+    <CustomLink
+      url={`https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
+  receipts-and-outlays-of-the-u-s-government`}
+      eventNumber="15"
+    >
+      Monthly Treasury Statement (MTS)
+    </CustomLink>;
+
   const footer = (
     <div className={footerStyle}>
-      Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore
+      Visit the {mts} dataset to explore
       and download this data.
     </div>
   )
@@ -226,6 +244,7 @@ const HowMuchDoesTheGovtSpend = () => {
               }}
               onClick={() => {
                 setSelectedChartView("category")
+                handleClick("12");
               }}
             >
               <span
@@ -249,6 +268,7 @@ const HowMuchDoesTheGovtSpend = () => {
               }}
               onClick={() => {
                 setSelectedChartView("agency")
+                handleClick("32");
               }}
             >
               <span
@@ -283,6 +303,7 @@ const HowMuchDoesTheGovtSpend = () => {
               checked={percentDollarToggleChecked}
               handleChange={e => {
                 setPercentDollarToggleChecked(e)
+                handleClick(e ? "33" : "13");
               }}
               customStyles={{
                 onColor: "#00766C",
@@ -290,7 +311,7 @@ const HowMuchDoesTheGovtSpend = () => {
               }}
               percentDollarToggleChecked={percentDollarToggleChecked}
               setPercentDollarToggleChecked={setPercentDollarToggleChecked}
-            ></ToggleSwitch>
+            />
             <span
               style={{
                 fontWeight: percentDollarToggleChecked ? "600" : "inherit",

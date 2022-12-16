@@ -32,6 +32,15 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
             eventLabel
           }
         }
+        allSpendingExplainerEventTrackingCsv {
+          spendingExplainerEventTrackingCsv: nodes {
+            Number
+            Trigger
+            eventAction
+            eventCategory
+            eventLabel
+          }
+        }
       }
     `
   );
@@ -45,7 +54,7 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
         eventTrackingCsvs[lookupTypeQuery] &&
         eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
       const gaEvent = lookup
-        ?.filter(eventTrack => eventTrack.Number == eventNumber)
+        ?.filter(eventTrack => eventTrack.Number === eventNumber)
         ?.map(eventInfo => {
           if (dynamicValue) {
             eventInfo = setDynamicValue(eventInfo, dynamicValue);
@@ -58,7 +67,7 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
         }
     }
     return null;
-   
+
   }
 
   useEffect(() => {
@@ -70,7 +79,7 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
         eventTrackingCsvs[lookupTypeQuery] &&
         eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
       const gaEvent = lookup
-        ?.filter(eventTrack => eventTrack.Number == evNumber)
+        ?.filter(eventTrack => eventTrack.Number === evNumber)
         ?.map(eventInfo => {
           if (dynamicValue) {
             eventInfo = setDynamicValue(eventInfo, dynamicValue);

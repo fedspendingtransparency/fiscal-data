@@ -9,7 +9,7 @@ type DsmProps = {
 
 const analyticsEventMap: Record<
   string,
-  { openEventNumber: string; closeEventNumber: string; explainerGAEvent: string }
+  { openEventNumber: string; closeEventNumber?: string; explainerGAEvent: string }
 > = {
   "national-debt": {
     openEventNumber: "40",
@@ -20,6 +20,10 @@ const analyticsEventMap: Record<
     openEventNumber: "26",
     closeEventNumber: "27",
     explainerGAEvent: "Deficit"
+  },
+  "federal-spending": {
+    openEventNumber: "22",
+    explainerGAEvent: "Spending"
   },
 };
 

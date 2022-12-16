@@ -19,23 +19,31 @@ import DatasetTopicsSummary from './dataset-topics-summary/dataset-topics-summar
 type DatasetCardProps = {
   dataset: IDataset,
   context: string,
-  referrer: string
+  referrer: string,
+  explainer?: boolean
 }
 
 const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   dataset,
   context,
-  referrer
+  referrer,
+  explainer
 }) => {
   const cardLink = `/datasets${dataset.slug}`;
 
   const clickHandler: () => void = () => {
     if (context && referrer) {
-      Analytics.event({
-        category: `${context} Click`,
-        action: `from ${referrer}`,
-        value: dataset.name
-      });
+      explainer ?
+        Analytics.event({
+          category: `Explainers`,
+          action: 'Citation Click',
+          label: `${referrer} - ${context}`
+        }) :
+        Analytics.event({
+          category: `${context} Click`,
+          action: `from ${referrer}`,
+          value: dataset.name
+        })
     }
 
     navigate(cardLink);
