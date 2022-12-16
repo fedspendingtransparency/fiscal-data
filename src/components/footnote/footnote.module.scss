@@ -12,14 +12,14 @@
     .footnoteBody{
         font-size: $font-size-14;
         width: 80%;
-        margin: 0 auto;
+        margin: 0 auto 1rem auto;
     }
-    sup{
-        margin-right: 5px;
-        a{
+    sup a {
         font-size: $font-size-14;
         color: #0071BC;
-        }
+    }
+    sup:not(:first-child){
+        margin-left: 5px;
     }
 }
 
