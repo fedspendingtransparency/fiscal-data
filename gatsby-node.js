@@ -627,7 +627,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
           });
         }
-        console.log(insightRelatedDatasets);
         createPage({
           path: node.frontmatter.path,
           component: featurePageTemplate,
