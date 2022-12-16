@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {pxToNumber} from "../../helpers/styles-helper/styles-helper";
-import {breakpointLg, breakpointMd} from "../../variables.module.scss";
 import {withWindowSize} from "react-fns";
 import {image} from './insights-image.module.scss';
+import {useWindowSize} from "../../hooks/windowResize";
+
 
 type InsightsImageProps = {
   imageRefDesktop: string,
@@ -10,33 +10,15 @@ type InsightsImageProps = {
   altText: string
 }
 
-const InsightsImage = ({imageRefDesktop, imageRefMobile, altText}: InsightsImageProps): JSX.Element => {
+const breakpointLarge = 992;
 
-  const useWindowSize = () => {
-    const [windowSize, setWindowSize] = useState({
-      width: undefined,
-      height: undefined,
-    });
-    useEffect(() => {
-      const handleResize = () => {
-        setWindowSize({
-          width: window.innerWidth,
-          height: window.innerHeight,
-        });
-      }
-      // Add event listener
-      window.addEventListener("resize", handleResize);
-      handleResize();
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-    return windowSize;
-  }
+const InsightsImage = ({imageRefDesktop, imageRefMobile, altText}: InsightsImageProps): JSX.Element => {
 
   const [imageRef, setImageRef] = useState('');
 
   useEffect(() => {
     if(window.screen) {
-      if(window.screen.width < pxToNumber(breakpointLg)) {
+      if(window.innerWidth < breakpointLarge) {
         setImageRef(imageRefMobile);
       }
       else {
@@ -46,7 +28,7 @@ const InsightsImage = ({imageRefDesktop, imageRefMobile, altText}: InsightsImage
   }, [useWindowSize()])
 
   return (
-    <img src={imageRef} alt={altText} className={image} />
+    <img src={imageRef} alt={altText} className={image} data-testid={'Image'} />
   )
 }
 
