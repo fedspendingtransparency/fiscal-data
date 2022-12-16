@@ -11,6 +11,7 @@ title: "Who Owns The Debt"
 ---
 
 import InsightsDownload from "../../components/insights-download/insights-download";
+import InsightsImage from "../../components/insights-image/insights-image";
 import Footnote from "../../components/footnote/footnote";
 
 export const footnotes = [
@@ -37,14 +38,12 @@ purchased by individuals, corporations, Federal Reserve Banks, federal agencies,
 The chart below shows the top 10 owners of U.S. debt, who control a combined $25.60 Trillion (83%) of the total debt (as of August 2022).
 It includes individual investors, the Federal Reserve, federal trust funds and government agencies, and foreign entities.
 
-![alt text](/images/feature_placeholder.png "Horizontal blue bar graph that displays the top 10 owners of the U.S.
-debt in order of greatest to least dollar amount: U.S. Investors ($11.16T), Federal Reserve ($5.59T), Social Security ($2.85T),
-Department of Defense ($1.53T), Japan ($1.20T), China ($0.97T), Civil Service Retirement ($0.96 T), United Kingdom ($0.64T),
-Medicare ($0.38T), and Cayman Islands ($0.31T). Data is updated as of August 2022. ")
+<InsightsImage imageRefDesktop={'/images/Top-10-Owners-US-Debt-desktop.svg'} imageRefMobile={'/images/Top-10-Owners-US-Debt-mobile.svg'}
+               altText={'Horizontal blue bar graph that displays the top 10 owners '
+               + 'of the U.S.debt in order of greatest to least dollar amount: U.S. Investors ($11.16T), Federal Reserve ($5.59T), Social '
+               + 'Security ($2.85T),Department of Defense ($1.53T), Japan ($1.20T), China ($0.97T), Civil Service Retirement ($0.96 T), '
+               + 'United Kingdom ($0.64T),Medicare ($0.38T), and Cayman Islands ($0.31T). Data is updated as of August 2022.'} />
 <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Aug 2022'} />
-
-<br />
-<br />
 
 The sale of securities to finance the U.S. government dates back to the late 1700s when private citizens purchased over
 $27 million in bonds to support the American Revolution<AnchorText link={footnotes[0].link} text={'1'} />. Throughout U.S. history, there have been other efforts to fund
