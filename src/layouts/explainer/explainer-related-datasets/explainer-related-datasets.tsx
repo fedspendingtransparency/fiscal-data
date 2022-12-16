@@ -11,11 +11,11 @@ export const title = 'Related Datasets';
 export const context = 'Related Datasets';
 
 const ExplainerRelatedDatasets:
-  FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer, header }) => {
+  FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer, header, explainer  }) => {
 
   return (
       <div className={paddingAdjust}>
-        <h1 className={titleStyle}> {header} </h1>
+        <h1 className={`${titleStyle} relatedDatasetTitle`}> {header} </h1>
         { datasets ? datasets.map((dataset, i) => (
           <div
             data-testid="cardWrapper"
@@ -26,7 +26,7 @@ const ExplainerRelatedDatasets:
               dataset={dataset}
               context={context}
               referrer={referrer}
-              explainer={true}
+              explainer={explainer}
             />
           </div>
         ))

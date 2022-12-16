@@ -21,8 +21,9 @@ import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
 import {format} from "date-fns";
 import SocialShare from "../explainer/social-share/social-share";
-import InsightRelatedDatasets from "./relatedDatasets/insight-related-datasets";
 import {IDataset} from "../../models/IDataset";
+import ExplainerRelatedDatasets from
+    "../explainer/explainer-related-datasets/explainer-related-datasets";
 
 
 export type FeaturePageProps = {
@@ -111,9 +112,10 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
         </div>
       </div>
       <div className={relatedDatasetsStyle}>
-        <InsightRelatedDatasets
+        <ExplainerRelatedDatasets
           datasets={pageContext.relatedDatasets}
           referrer={"Insight"}
+          header={"See the datasets that relate to this Insight"}
         />
       </div>
     </SiteLayout>
