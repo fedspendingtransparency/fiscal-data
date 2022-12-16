@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from "@testing-library/react";
-import ExplainerRelatedDatasets from "./explainer-related-datasets";
+import InsightRelatedDatasets from "./insight-related-datasets";
 
-describe('Explainer Related Datasets', () => {
+describe('Insight Related Datasets', () => {
   const mockDatasets = [
     {
       datasetId: 'Test1',
@@ -20,7 +20,7 @@ describe('Explainer Related Datasets', () => {
 
   it('renders related datasets with the proper datasets', () => {
     const { getAllByTestId, getByText } = render(
-      <ExplainerRelatedDatasets datasets={mockDatasets} referrer={testReferrer} />
+      <InsightRelatedDatasets datasets={mockDatasets} referrer={testReferrer} />
     );
 
     const renderedDatasets = getAllByTestId('cardWrapper');
