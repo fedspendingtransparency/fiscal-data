@@ -85,7 +85,7 @@ describe ('Feature page template', () => {
        <Feature data={mockMarkdownData.data} pageContext={mockPageContext} />);
      const instance = featureComp.root;
      const helmet = instance.findByType(PageHelmet);
-     expect(helmet.props.pageTitle).toBe('Fiscal Data - Mock Hits');
+     expect(helmet.props.pageTitle).toBe('Mock Hits');
      expect(helmet.props.description).toBe('Fiscal Data - Mock Hits Feature');
    });
 });
