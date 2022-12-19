@@ -3,6 +3,7 @@
 .image {
   max-width: 41rem;
   margin-left: 4rem;
+  margin-top: -1rem;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -13,6 +14,6 @@
 
 @media screen and (max-width: $breakpoint-md - 1) {
   .image {
-    margin-left: 0;
+    margin-left: -0.5rem;
   }
 }
