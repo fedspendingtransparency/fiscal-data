@@ -1,4 +1,4 @@
 "Debt.Owner","Allocation.of.Held.Debt","Source"
-"Domestic (US + Federal Reserve)",51.8,"https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/detail-of-non-marketable-treasury-securities-outstanding; https://www.newyorkfed.org/markets/soma-holdings"
-"Intragovernmental Holdings",21.6,"https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/detail-of-non-marketable-treasury-securities-outstanding"
-"Foreign Investors",26.6,"https://home.treasury.gov/data/treasury-international-capital-tic-system-home-page/tic-forms-instructions/securities-b-portfolio-holdings-of-us-and-foreign-securities"
+"Domestic (US + Federal Reserve)",54,"https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/detail-of-non-marketable-treasury-securities-outstanding; https://www.newyorkfed.org/markets/soma-holdings"
+"Intragovernmental Holdings",22,"https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/detail-of-non-marketable-treasury-securities-outstanding"
+"Foreign Investors",24,"https://home.treasury.gov/data/treasury-international-capital-tic-system-home-page/tic-forms-instructions/securities-b-portfolio-holdings-of-us-and-foreign-securities"
