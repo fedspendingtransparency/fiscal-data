@@ -13,6 +13,7 @@ export default function ExplainerSubNav({hidePosition}) {
     let position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
+    console.log(scrollPosition, position)
 
 
     if (position > hidePosition) {
@@ -36,10 +37,10 @@ export default function ExplainerSubNav({hidePosition}) {
     };
 
   }, [scrollPosition]);
-
+  console.log(scrollPosition, previousScrollPosition)
   return (
     <div id={styles.navContainer} data-testid="explainerSubNav">
-      <ul className={navBlockStyle}>
+      <ul className={navBlockStyle} data-testid="explainerSubNavList">
         <li className={[styles.navItem, styles.noverview, styles.nactive].join(' ')}>
           <Link to='/americas-finance-guide/' className={styles.navLink} activeClassName={styles.active}>
             <FontAwesomeIcon icon={faHouseChimney} className={styles.navIcon}/>
