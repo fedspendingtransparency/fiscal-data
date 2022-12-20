@@ -6,6 +6,7 @@
   p {
     font-size: $font-size-14;
     width: 100% !important;
+    margin: 0;
   }
 }
 @media screen and (max-width: $breakpoint-lg - 1px) {
