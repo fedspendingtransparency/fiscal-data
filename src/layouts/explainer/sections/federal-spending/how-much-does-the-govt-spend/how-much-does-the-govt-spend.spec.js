@@ -46,7 +46,112 @@ describe("Federal spending explainer page sections", () => {
       record_calendar_quarter:"3",
       record_calendar_month:"09",
       record_calendar_day:"30"
-    }],
+    },
+      {
+        record_date:"2022-09-30",
+        classification_desc:"National Defense",
+        current_month_rcpt_outly_amt:"81115980202.79",
+        current_fytd_rcpt_outly_amt:"766657430794.22",
+        prior_fytd_rcpt_outly_amt:"754848780278.63",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+      {
+        record_date:"2022-09-30",
+        classification_desc:"Medicare",
+        current_month_rcpt_outly_amt:"103981548674.77",
+        current_fytd_rcpt_outly_amt:"755094428009.37",
+        prior_fytd_rcpt_outly_amt:"696460520815.17",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+      {
+        record_date:"2022-09-30",
+        classification_desc:"Education, Training, Employment, and Social Services",
+        current_month_rcpt_outly_amt:"449292232670.91",
+        current_fytd_rcpt_outly_amt:"676593222021.53",
+        prior_fytd_rcpt_outly_amt:"296663226900.02",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+      {
+        record_date:"2022-09-30",
+        classification_desc:"Net Interest",
+        current_month_rcpt_outly_amt:"3624726938.72",
+        current_fytd_rcpt_outly_amt:"475120812162.87",
+        prior_fytd_rcpt_outly_amt:"352264012863.77",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+      {
+        record_date:"2022-09-30",
+        classification_desc:"Veterans Benefits and Services",
+        current_month_rcpt_outly_amt:"35672934427.54",
+        current_fytd_rcpt_outly_amt:"274409836598.50",
+        prior_fytd_rcpt_outly_amt:"234277678862.47",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+      {
+        record_date:"2022-09-30",
+        classification_desc:"Transportation",
+        current_month_rcpt_outly_amt:"14194446193.29",
+        current_fytd_rcpt_outly_amt:"131573173362.58",
+        prior_fytd_rcpt_outly_amt:"154792242419.20",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+      {
+        record_date:"2022-09-30",
+        classification_desc:"General Government",
+        current_month_rcpt_outly_amt:"2562294037.53",
+        current_fytd_rcpt_outly_amt:"128653970841.24",
+        prior_fytd_rcpt_outly_amt:"269590999883.52",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+      {
+        record_date:"2022-09-30",
+        classification_desc: "Administration of Justice",
+        current_month_rcpt_outly_amt:"6821374599.13",
+        current_fytd_rcpt_outly_amt:"72090892981.50",
+        prior_fytd_rcpt_outly_amt:"72151912146.55",
+        record_fiscal_year:"2022",
+        record_fiscal_quarter:"4",
+        record_calendar_year:"2022",
+        record_calendar_quarter:"3",
+        record_calendar_month:"09",
+        record_calendar_day:"30"
+      },
+    ],
   }
 
   const mockAgencyData = {
@@ -143,6 +248,40 @@ describe("Federal spending explainer page sections", () => {
     });
     expect(getByText("U.S. Government Spending, FY 2022")).toBeDefined();
     expect(getByText("Top 10 Spending by Category and Agency")).toBeDefined();
+  });
+
+  it("renders the mobile chart", async() => {
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 360,
+    });
+
+    window.dispatchEvent(new Event('resize'));
+
+    const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+
+    await waitFor(() => {
+      expect(getByTestId('toggle-button-agency')).toBeInTheDocument();
+      expect(getByTestId('toggle-button-category')).toBeInTheDocument();
+      fireEvent.click(getByTestId('toggle-button-agency'));
+      expect(getByText('Social Security Administration')).toBeInTheDocument();
+      fireEvent.click(getByTestId('toggle-button-category'));
+      expect(getByText('Social Security')).toBeInTheDocument();
+    });
+  })
+
+  it("dollar / percent toggle renders and is functional", async() => {
+    const { getByText, getByTestId} = render(<HowMuchDoesTheGovtSpend />);
+    await waitFor(() => {
+      expect(getByText('Dollars')).toBeInTheDocument();
+      expect(getByTestId('switch')).toBeInTheDocument();
+    });
+    fireEvent.click(getByTestId('switch'));
+    expect(getByText('$1.22 T')).toBeInTheDocument();
+    fireEvent.click(getByTestId('switch'));
+    expect(getByText('19 %')).toBeInTheDocument();
   });
 
 })
