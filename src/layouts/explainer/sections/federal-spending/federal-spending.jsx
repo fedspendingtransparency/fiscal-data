@@ -6,20 +6,19 @@ import SpendingDifference from "./spending-difference/spending-difference";
 import {SpendingTrends} from "./spending-trends/spending-trends";
 
 
-export const nationalDeficitSectionIds = [
+export const federalSpendingSectionIds = [
   "key-takeaways",
-  "understanding",
-  "causes-and-surpluses",
-  "deficit-vs-debt",
-  "deficit-by-year",
-  "learn-more",
+  "federal-spending-overview",
+  "spending-categories",
+  "difference-between-mandatory-discretionary-and-supplemental-spending",
+  "spending-trends-over-time-and-the-us-economy",
 ]
 
 
 const federalSpendingSection = [
   {
     index: 0,
-    id: nationalDeficitSectionIds[0],
+    id: federalSpendingSectionIds[0],
     title: "Key Takeaways",
     component: (glossary, cpiDataByYear) => (
       <SpendingKeyTakeaways
@@ -29,7 +28,7 @@ const federalSpendingSection = [
   },
   {
     index: 1,
-    id: nationalDeficitSectionIds[1],
+    id: federalSpendingSectionIds[1],
     title: "Federal Spending Overview",
     component: (glossary, cpiDataByYear) => (
       <SpendingOverview glossary={glossary} />
@@ -37,7 +36,7 @@ const federalSpendingSection = [
   },
   {
     index: 2,
-    id: nationalDeficitSectionIds[2],
+    id: federalSpendingSectionIds[2],
     title: "Spending Categories",
     component: (glossary, cpiDataByYear) => (
       <SpendingCategories />
@@ -45,7 +44,7 @@ const federalSpendingSection = [
   },
   {
     index: 3,
-    id: nationalDeficitSectionIds[3],
+    id: federalSpendingSectionIds[3],
     title:
       "The Difference Between Mandatory, Discretionary, and Supplemental Spending",
     component: (glossary, cpiDataByYear) => (
@@ -54,7 +53,7 @@ const federalSpendingSection = [
   },
   {
     index: 4,
-    id: nationalDeficitSectionIds[4],
+    id: federalSpendingSectionIds[4],
     title: "Spending Trends Over Time and the U.S. Economy",
     component: (glossary, cpiDataByYear) => (
       <SpendingTrends cpiDataByYear={cpiDataByYear} />

@@ -21,7 +21,7 @@ const governmentRevenueSectionIds = [
   "federal-revenue-overview",
   "sources-of-federal-revenue",
   "federal-revenue-trends-over-time",
-  "federal-revenue-trends-and-us-economy"
+  "federal-revenue-trends-and-the-us-economy"
 ]
 
 
