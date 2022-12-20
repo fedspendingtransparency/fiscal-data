@@ -209,6 +209,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("category")
                 handleClick("12");
               }}
+              data-testid={'toggle-button-category'}
             >
               <span
                 style={{
@@ -233,6 +234,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("agency")
                 handleClick("32");
               }}
+              data-testid={'toggle-button-agency'}
             >
               <span
                 style={{

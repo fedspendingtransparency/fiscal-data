@@ -129,10 +129,20 @@ describe("Federal spending explainer page sections", () => {
   it("renders", () => {
     const instance = render(<HowMuchDoesTheGovtSpend />);
     expect(instance).toBeTruthy();
-  })
-  it("has the right sections", () => {
-    const { getByText } = render(<HowMuchDoesTheGovtSpend />);
-    expect(getByText("U.S. Government Spending, FY")).toBeDefined();
+  });
+
+  it("has the right sections, toggle view", async() => {
+    const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+    await waitFor(() => {
+      expect(getByTestId('toggle-button-agency')).toBeInTheDocument();
+      expect(getByTestId('toggle-button-category')).toBeInTheDocument();
+      fireEvent.click(getByTestId('toggle-button-agency'));
+      expect(getByText('Social Security Administration')).toBeInTheDocument();
+      fireEvent.click(getByTestId('toggle-button-category'));
+      expect(getByText('Social Security')).toBeInTheDocument();
+    });
+    expect(getByText("U.S. Government Spending, FY 2022")).toBeDefined();
     expect(getByText("Top 10 Spending by Category and Agency")).toBeDefined();
-  })
+  });
+
 })
