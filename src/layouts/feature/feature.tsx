@@ -25,6 +25,7 @@ import InsightsImage from "../../components/insights-image/insights-image";
 import {IDataset} from "../../models/IDataset";
 import ExplainerRelatedDatasets from
     "../explainer/explainer-related-datasets/explainer-related-datasets";
+import globalConstants from "../../helpers/constants"
 
 
 export type FeaturePageProps = {
@@ -38,7 +39,12 @@ export type FeaturePageProps = {
         heroImagePath: string,
         mainHeader: string,
         path: string,
-        shareCopy: string,
+        shareTitle: string,
+        shareDescription: string,
+        shareBody: string,
+        emailSubject: string,
+        emailBody: string,
+        shareImagePath: string,
         subtitle: string,
         title: string,
         relatedDatasets: string
@@ -49,6 +55,8 @@ export type FeaturePageProps = {
     relatedDatasets: IDataset[],
   }
 }
+
+const baseUrl = globalConstants.BASE_SITE_URL;
 
 const featuresComponents = {
   DSM: dsmComponents.DSM,
@@ -88,14 +96,14 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
             </div>
             <div className={heroSocialShare}>
               <SocialShare
-                title={''}
-                description={''}
-                body={''}
-                emailSubject={''}
-                emailBody={''}
-                url={''}
-                image={''}
-                pageName={''}
+                title={frontMatter.shareTitle}
+                description={frontMatter.shareDescription}
+                body={frontMatter.shareBody}
+                emailSubject={frontMatter.emailSubject}
+                emailBody={frontMatter.emailBody}
+                url={baseUrl + frontMatter.path}
+                image={baseUrl + frontMatter.shareImagePath}
+                pageName={frontMatter.title}
                 horizontal={true}
               />
             </div>
@@ -137,7 +145,12 @@ export const pageQuery = graphql`
 				heroImagePath
 				mainHeader
 				path
-				shareCopy
+				shareTitle
+        shareDescription
+        shareBody
+        emailSubject
+        emailBody
+        shareImagePath
 				subtitle
 				title
 				relatedDatasets

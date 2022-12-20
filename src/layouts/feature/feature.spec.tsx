@@ -28,7 +28,12 @@ describe ('Feature page template', () => {
           heroImagePath: "/images/feature_placeholder.png",
           mainHeader: 'Header 2, Headline. Keep from 1 to 2 lines',
           path: '/features/quick-hits',
-          shareCopy: 'Check out our site here',
+          shareTitle: 'Who Owns the Debt?',
+          shareDescription: 'Learn who owns the U.S. national debt with the new insight page.',
+          shareBody: 'Do you know how much of the #NationalDebt is owned by U.S. investors?',
+          emailSubject: 'Who Owns the U.S. National Debt? Find out today!',
+          emailBody: 'Check out Fiscal Data’s new Who Owns the Debt insight page now.',
+          shareImagePath: '/images/insights-images/who-owns-share/who-owns-the-debt-1200x630.png',
           subtitle: 'Header 4, Sub Headline, keep from 1 to 2 lines',
           title: 'Mock Hits',
           relatedDatasets: ''
