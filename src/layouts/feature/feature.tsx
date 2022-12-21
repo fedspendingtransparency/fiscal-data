@@ -71,7 +71,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
-        pageTitle={`Fiscal Data - ${frontMatter.title}`}
+        pageTitle={frontMatter.title}
         description={frontMatter.description}
         keywords=""
         image=""
@@ -103,6 +103,9 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
           <div
             className={mainVis}
             data-testid="heroImage"
+            aria-label={"Five vertical bars increasing in height with four stacks " +
+            "of coins in front of the bars. Two women sit on different coin stacks, " +
+            "each browsing on laptop computers."}
             style={{backgroundImage: `url(${frontMatter.heroImagePath})`}}
           >
           </div>

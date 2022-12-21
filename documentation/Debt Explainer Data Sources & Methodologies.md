@@ -70,7 +70,7 @@ Before using the API, users must obtain a unique 36-character UserID.  This User
 We use calendar year-end `debt_held_public_mil_amt` and `intragov_hold_mil_amt` values where `security_class_desc` equals "Total Public Debt Outstanding".
 
 
-## Interest Expense and Total Debt
+## Interest Rate and Total Debt
 
 ### Interest rate values 
 

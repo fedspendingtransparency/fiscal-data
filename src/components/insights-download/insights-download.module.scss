@@ -1,11 +1,11 @@
 @import 'src/variables.module';
 // When inside the chart proper, element may have to be absolutely positioned
 .downloadContainer {
-  display: flex;
-  flex-direction: row;
-  margin-left: 5.65rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: -1rem;
-  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
 }
 
 .downloadIcon {
@@ -23,14 +23,11 @@
   flex-direction: row;
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
+@media screen and (max-width: $breakpoint-md - 1) {
   .downloadContainer {
-    margin-left: 4.65rem;
+    margin-bottom: 1.25rem;
+    width: 100%;
+    padding-bottom: 1.5rem;
   }
 }
 
-@media screen and (max-width: $breakpoint-md - 1) {
-  .downloadContainer {
-    margin-left: -0.3rem;
-  }
-}
