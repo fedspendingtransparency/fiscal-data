@@ -9,18 +9,18 @@ The [Spending Explainer page](https://fiscaldata.treasury.gov/federal-spending/)
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5691&sort=-record_date&page[size]=1
 
-The flipcard shows 'current_fytd_net_outly_amt', rounded to the nearest dollar. 
+The flipcard shows `current_fytd_net_outly_amt`, rounded to the nearest dollar. 
 
 
-## Federal Spending by Category and Agency
+## U.S. Government Spending
 
-### Spending by Category
+### Category
 
 **Source:** [Monthly Treasury Statements](https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government) (Fiscal Data)
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19
 
-Bar chart shows 'current_fytd_rcpt_outly_amt' by 'classification_desc' in dollars or percentage of spending.
+Bar chart shows `current_fytd_rcpt_outly_amt` by `classification_desc` in dollars or percentage of spending.
 
 ### Agency
 
@@ -28,18 +28,19 @@ Bar chart shows 'current_fytd_rcpt_outly_amt' by 'classification_desc' in dollar
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=record_calendar_month:eq:09,data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30
 
-Bar chart shows 'current_fytd_net_outly_amt' by 'classification_desc' in dollars or percentage of spending.
+Bar chart shows `current_fytd_net_outly_amt` by `classification_desc` in dollars or percentage of spending.
 
-
-## Total Spending and GDP
-
+## Government Spending and the U.S. Economy
 ### Total Spending values
 
 **Source:** [Monthly Treasury Statements](https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/outlays-of-the-u-s-government) (Fiscal Data)
 
-**API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date	**This is only 2015-2021
+**API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date	
 
-Total Spending (FY) is a line of 'current_fytd_net_outly_amt' by 'record_fiscal_year'.
+Total Spending (FY) is the last entry in a given fiscal year (i.e., end of September) for `current_fytd_net_outly_amt`, with year represented by `record_fiscal_year`.
+
+## Values Common Across the Spending Explainer
+Two kinds of data are needed for many of the visualizations on this page. These are: Gross Domestic Product, and Consumer Price Index.
 
 ### Gross Domestic Product (GDP) values	
 
@@ -54,7 +55,7 @@ Before using the API, users must obtain a unique 36-character UserID.  This User
 
 \* Prior to 1977, the fiscal year ran from July to June. The Congressional Budget Act of 1974 (Section 501 of P.L. 93-344, currently codified at 31 U.S.C. 1102) took effect and shifted the fiscal year cycle between FY 1976 and 1977. Starting with FY 1977, the fiscal year starts on October 1 and ends on September 30.
 
-GDP (FY) is a line of average('DataValue') for a particular FY by 'record_fiscal_year'.
+GDP (FY) is a line of average(`DataValue`) for a particular FY by `record_fiscal_year`.
 
 ### Consumer Price Index (CPI) values
 
@@ -65,14 +66,8 @@ GDP (FY) is a line of average('DataValue') for a particular FY by 'record_fiscal
 Users can replace "YYYY" with the years they would like to view.
 
 ### Calculations
-We adjust spending and GDP values for inflation using the following:
+We adjust spending and GDP values for inflation, and calculate percentage of GDP using the following:
 
-*'current_fytd_net_outly_amt' x (Current Dollar CPI / CPI from month and year of 'record_fiscal_year')
-*average('DataValue') x (Current Dollar CPI / CPI from month and year of 'record_fiscal_year')	
-
-### Percentage of GDP
-
-### Calculations
-Formula for percentage is:
-
-*'current_fytd_net_outly_amt' / average('DataValue')
+*Adjusted spending = `current_fytd_net_outly_amt` x (Current Dollar CPI / CPI from month and year of `record_fiscal_year`)* <br>
+*Adjusted GDP = average(`DataValue`) x (Current Dollar CPI / CPI from month and year of `record_fiscal_year`)*	<br>
+*Percentage of GDP = `current_fytd_net_outly_amt` / average(`DataValue`)*
