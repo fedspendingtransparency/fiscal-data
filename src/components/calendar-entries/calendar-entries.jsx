@@ -56,8 +56,6 @@ const CalendarEntriesList = () => {
             else if (aKey < bKey) return -1;
             else return 0;
           });
-
-          rcEntries.push("fake data");
           setReleaseData(rcEntries);
         });
     } catch (e) {
