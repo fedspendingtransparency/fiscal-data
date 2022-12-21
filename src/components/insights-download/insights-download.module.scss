@@ -3,7 +3,7 @@
 .downloadContainer {
   display: flex;
   flex-direction: row;
-  margin-left: 5.65rem;
+  margin-left: 6rem;
   margin-top: -1rem;
   padding-bottom: 0.5rem;
 }
@@ -25,13 +25,13 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .downloadContainer {
-    margin-left: 4.65rem;
+    margin-left: 4.75rem;
   }
 }
 
 @media screen and (max-width: $breakpoint-md - 1) {
   .downloadContainer {
-    margin-left: -0.3rem;
+    margin-left: 0.25rem;
     padding-bottom: 1.5rem;
   }
 }
