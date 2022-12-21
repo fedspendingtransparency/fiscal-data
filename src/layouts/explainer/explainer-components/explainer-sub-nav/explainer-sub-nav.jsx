@@ -6,18 +6,16 @@ import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
 
 export default function ExplainerSubNav({hidePosition}) {
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(styles.navBlock);
 
   const handleScroll = () => {
-    let position = window.pageYOffset;
-    setPreviousScrollPosition(scrollPosition);
-    setScrollPosition(position);
+    const prevScrollPosition = scrollPosition
+    const currPosition = window.pageYOffset;
+    setScrollPosition(currPosition);
 
-
-    if (position > hidePosition) {
+    if (currPosition > hidePosition) {
       //Scrolling Down
-      if (previousScrollPosition < scrollPosition) {
+      if (prevScrollPosition < currPosition) {
         setNavBlockStyle(styles.navBlockHidden)
       } else {
         setNavBlockStyle(styles.navBlockSticky)
@@ -36,10 +34,9 @@ export default function ExplainerSubNav({hidePosition}) {
     };
 
   }, [scrollPosition]);
-
   return (
     <div id={styles.navContainer} data-testid="explainerSubNav">
-      <ul className={navBlockStyle}>
+      <ul className={navBlockStyle} data-testid="explainerSubNavList">
         <li className={[styles.navItem, styles.noverview, styles.nactive].join(' ')}>
           <Link to='/americas-finance-guide/' className={styles.navLink} activeClassName={styles.active}>
             <FontAwesomeIcon icon={faHouseChimney} className={styles.navIcon}/>
