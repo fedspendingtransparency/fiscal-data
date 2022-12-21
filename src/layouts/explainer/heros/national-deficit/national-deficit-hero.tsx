@@ -65,7 +65,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         setPreviousFiscalStartYear((Number(lastFiscalYear) - 1).toString())
 
         setTextCurrentDeficit(
-          getShortForm(res.data[0].current_fytd_net_outly_amt, 2, false)
+          getShortForm(res.data[0].current_fytd_net_outly_amt, 2,  false, true)
         )
 
         setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
