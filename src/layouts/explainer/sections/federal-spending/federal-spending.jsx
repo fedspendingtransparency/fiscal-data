@@ -10,7 +10,7 @@ export const federalSpendingSectionIds = [
   "key-takeaways",
   "federal-spending-overview",
   "spending-categories",
-  "difference-between-mandatory-discretionary-and-supplemental-spending",
+  "the-difference-between-mandatory-discretionary-and-supplemental-spending",
   "spending-trends-over-time-and-the-us-economy",
 ]
 
