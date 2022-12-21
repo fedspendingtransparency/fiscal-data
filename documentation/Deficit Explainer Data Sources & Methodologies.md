@@ -11,7 +11,7 @@ The [Deficit Explainer page](https://fiscaldata.treasury.gov/national-deficit/) 
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year&filter=line_code_nbr:eq:5694&sort=-record_date&page[size]=1
 
-The flipcard shows the most recent 'current_fytd_net_outly_amt' value. For simplicity, we use the absolute value of the deficit throughout the analysis.
+The flipcard shows the most recent `current_fytd_net_outly_amt` value. For simplicity, we use the absolute value of the deficit throughout the analysis.
 
 
 ## U.S. Deficit Compared to Revenue and Spending
@@ -22,7 +22,7 @@ The flipcard shows the most recent 'current_fytd_net_outly_amt' value. For simpl
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_calendar_month&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&sort=-record_date&page[size]=1
 
-We use the absolute value of 'current_fytd_net_outly_amt' to show the fiscal year total deficit.
+We use the absolute value of `current_fytd_net_outly_amt` to show the fiscal year total deficit.
 
 ### Revenue
 
@@ -30,7 +30,7 @@ We use the absolute value of 'current_fytd_net_outly_amt' to show the fiscal yea
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,record_date&filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page[size]=1
 
-We use 'current_fytd_net_rcpt_amt' to show the fiscal year total revenue.
+We use `current_fytd_net_rcpt_amt` to show the fiscal year total revenue.
 
 ### Spending
 
@@ -38,7 +38,7 @@ We use 'current_fytd_net_rcpt_amt' to show the fiscal year total revenue.
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_calendar_month&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page[size]=1
 
-We use 'current_fytd_net_outly_amt' to show the fiscal year total spending.
+We use `current_fytd_net_outly_amt` to show the fiscal year total spending.
 
 
 ## Federal Deficit Trends Over Time
