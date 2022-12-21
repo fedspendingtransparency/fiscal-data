@@ -38,15 +38,21 @@ describe("ExplainerSubNav Component", () => {
     })
   })
 
-  it('sets className depending on scroll', () => {
+  it('sets className depending on scroll', async() =>  {
     const { getByTestId, container } = render(
       <div style={{ height: '100px', display: 'block' }} data-testid="mockDiv">
-        <ExplainerSubNav hidePosition={1} />
+        <ExplainerSubNav hidePosition={5} />
       </div>
     );
-    const scrollContainer = getByTestId('mockDiv');
-    fireEvent.scroll(scrollContainer, { target: { scrollY: 10 } });
-    expect(getByTestId('explainerSubNavList')).toHaveClass('navBlockHidden');
+    
+    fireEvent.scroll(window, { target: { pageYOffset: 4 } });
+    expect(await getByTestId('explainerSubNavList')).toHaveClass('navBlock');
+
+    fireEvent.scroll(window, { target: { pageYOffset: 10 } });
+    expect(await getByTestId('explainerSubNavList')).toHaveClass('navBlockHidden');
+
+    fireEvent.scroll(window, { target: { pageYOffset: 8 } });
+    expect(await getByTestId('explainerSubNavList')).toHaveClass('navBlockSticky');
   });
 
 
