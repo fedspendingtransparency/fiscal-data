@@ -1,7 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react"
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils"
-import Switch from "react-switch"
-import numeral from "numeral"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import ChartContainer from "../../../explainer-components/chart-container/chart-container"
 import {
@@ -22,44 +20,9 @@ import { useWindowSize } from "../../../../../hooks/windowResize"
 import moment from "moment"
 import useGAEventTracking from "../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../utils/analytics/analytics";
+import {getShortForm} from "../../../heros/hero-helper";
+import {ToggleSwitch} from "./chart-toggle-switch";
 
-
-export const capitalizeLastLetter = word => {
-  const parts = word.split("")
-  const last = word[parts.length - 1].toUpperCase()
-  parts[parts.length - 1] = last
-  return parts.join("")
-}
-
-export const ToggleSwitch = ({
-  checked,
-  handleChange,
-  customStyles,
-  setPercentDollarToggleChecked,
-  percentDollarToggleChecked,
-}) => {
-  return (
-    <label htmlFor="material-switch">
-      <Switch
-        checked={checked}
-        onChange={handleChange}
-        onColor={customStyles.onColor}
-        offColor={customStyles.offColor}
-        handleDiameter={15}
-        uncheckedIcon={false}
-        checkedIcon={false}
-        height={20}
-        width={48}
-        id="material-switch"
-        onKeyDown={e => {
-          if (e.key === "Enter") {
-            setPercentDollarToggleChecked(!percentDollarToggleChecked)
-          }
-        }}
-      />
-    </label>
-  )
-}
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
@@ -246,6 +209,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("category")
                 handleClick("12");
               }}
+              data-testid={'toggle-button-category'}
             >
               <span
                 style={{
@@ -270,6 +234,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 setSelectedChartView("agency")
                 handleClick("32");
               }}
+              data-testid={'toggle-button-agency'}
             >
               <span
                 style={{
@@ -343,11 +308,8 @@ const HowMuchDoesTheGovtSpend = () => {
                   }}
                 >
                   {percentDollarToggleChecked
-                    ? `${capitalizeLastLetter(
-                        Math.abs(item.dollarAmount) > 999999999999
-                          ? numeral(item.dollarAmount).format("($ 0.00 a)")
-                          : numeral(item.dollarAmount).format("($ 0 a)")
-                      )}`
+                    ? item.dollarAmount >= 1000000000000 ?
+                    `$${getShortForm(item.dollarAmount, 2, true)}` : `$${getShortForm(item.dollarAmount, 0, true)}`
                     : `${item.percentage} %`}
                 </div>
                 <div className={descContainer}>
@@ -367,11 +329,8 @@ const HowMuchDoesTheGovtSpend = () => {
             ></div>
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
-                ? `${capitalizeLastLetter(
-                    Math.abs(otherTotal) > 999999999999
-                      ? numeral(otherTotal).format("($ 0.0 a)")
-                      : numeral(otherTotal).format("($ 0 a)")
-                  )}`
+                ? otherTotal >= 1000000000000 ?
+                  `$${getShortForm(otherTotal, 2, true)}` : `$${getShortForm(otherTotal, 0, true)}`
                 : `${otherPercentage} %`}
             </div>
             <div className={descContainer}>Other </div>
