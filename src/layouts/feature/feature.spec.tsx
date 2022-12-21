@@ -10,10 +10,13 @@ jest.mock("gatsby-plugin-mdx", () => {
       // MDXRenderer won't actually run dangerouslySetInnerHTML.
       // Jest needs additional configurations to have MDXRenderer work as intended.
       return <div
-        dangerouslySetInnerHTML={{ __html: children }}
-      />
+               dangerouslySetInnerHTML={{ __html: children }}
+             />
     } }
 });
+
+const SocialShare = jest.requireActual('../explainer/social-share/social-share');
+const socialShareSpy = jest.spyOn(SocialShare, "default");
 
 describe ('Feature page template', () => {
 
@@ -32,7 +35,8 @@ describe ('Feature page template', () => {
           shareDescription: 'Learn who owns the U.S. national debt with the new insight page.',
           shareBody: 'Do you know how much of the #NationalDebt is owned by U.S. investors?',
           emailSubject: 'Who Owns the U.S. National Debt? Find out today!',
-          emailBody: 'Check out Fiscal Data’s new Who Owns the Debt insight page now.',
+          emailBody: 'Check out Fiscal Data’s new Who Owns the Debt insight page now:',
+          emailSeparator: ' ',
           shareImagePath: '/images/insights-images/who-owns-share/who-owns-the-debt-1200x630.png',
           subtitle: 'Header 4, Sub Headline, keep from 1 to 2 lines',
           title: 'Mock Hits',
@@ -55,6 +59,10 @@ describe ('Feature page template', () => {
      component = render(
        <Feature data={mockMarkdownData.data} pageContext={mockPageContext} />
        );
+   });
+
+   afterEach(() => {
+     socialShareSpy.mockClear();
    });
 
    it(`contains header text, a subheading, a byline and date text as provided
@@ -92,5 +100,22 @@ describe ('Feature page template', () => {
      const helmet = instance.findByType(PageHelmet);
      expect(helmet.props.pageTitle).toBe('Mock Hits');
      expect(helmet.props.description).toBe('Fiscal Data - Mock Hits Feature');
+   });
+
+   it('correctly passes values from frontMatter into socialShare', () => {
+     const mockFrontmatter = mockMarkdownData.data.mdx.frontmatter;
+     const socialShareProps = socialShareSpy.mock.calls[0][0];
+     expect(socialShareProps['title']).toStrictEqual(mockFrontmatter.shareTitle);
+     expect(socialShareProps['description']).toStrictEqual(mockFrontmatter.shareDescription);
+     expect(socialShareProps['body']).toStrictEqual(mockFrontmatter.shareBody);
+     expect(socialShareProps['emailSubject']).toStrictEqual(mockFrontmatter.emailSubject);
+     expect(socialShareProps['emailBody']).toStrictEqual(mockFrontmatter.emailBody);
+     expect(socialShareProps['emailSeparator']).toStrictEqual(mockFrontmatter.emailSeparator);
+     expect(socialShareProps['url']).not.toStrictEqual(mockFrontmatter.path);
+     expect(socialShareProps['url']).toContain(mockFrontmatter.path);
+     expect(socialShareProps['image']).not.toStrictEqual(mockFrontmatter.shareImagePath);
+     expect(socialShareProps['image']).toContain(mockFrontmatter.shareImagePath);
+     expect(socialShareProps['pageName']).toStrictEqual(mockFrontmatter.title);
+     expect(socialShareProps['horizontal']).toStrictEqual(true);
    });
 });

@@ -27,34 +27,36 @@ import ExplainerRelatedDatasets from
     "../explainer/explainer-related-datasets/explainer-related-datasets";
 import globalConstants from "../../helpers/constants"
 
+export type FeatureFrontmatter = {
+  by: string,
+  datePublished: string,
+  description: string,
+  heroImagePath: string,
+  mainHeader: string,
+  path: string,
+  shareTitle: string,
+  shareDescription: string,
+  shareBody: string,
+  emailSubject: string,
+  emailBody: string,
+  emailSeparator?: string,
+  shareImagePath: string,
+  subtitle: string,
+  title: string,
+  relatedDatasets: string
+};
 
 export type FeaturePageProps = {
   data: {
     mdx: {
       body: string,
-      frontmatter: {
-        by: string,
-        datePublished: string,
-        description: string,
-        heroImagePath: string,
-        mainHeader: string,
-        path: string,
-        shareTitle: string,
-        shareDescription: string,
-        shareBody: string,
-        emailSubject: string,
-        emailBody: string,
-        shareImagePath: string,
-        subtitle: string,
-        title: string,
-        relatedDatasets: string
-      }
+      frontmatter: FeatureFrontmatter
     }
   },
   pageContext: {
     relatedDatasets: IDataset[],
   }
-}
+};
 
 const baseUrl = globalConstants.BASE_SITE_URL;
 
@@ -74,7 +76,8 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
   const { mdx: post } = data;
   const frontMatter = post.frontmatter;
   const date = format(new Date(frontMatter.datePublished), "MMMM d, yyyy");
-
+  const betweenEmailBodyAndUrl = frontMatter.emailSeparator === undefined ?
+    '\n' : frontMatter.emailSeparator;
 
   return (
     <SiteLayout isPreProd={false}>
@@ -101,6 +104,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
                 body={frontMatter.shareBody}
                 emailSubject={frontMatter.emailSubject}
                 emailBody={frontMatter.emailBody}
+                emailSeparator={betweenEmailBodyAndUrl}
                 url={baseUrl + frontMatter.path}
                 image={baseUrl + frontMatter.shareImagePath}
                 pageName={frontMatter.title}
@@ -150,6 +154,7 @@ export const pageQuery = graphql`
         shareBody
         emailSubject
         emailBody
+        emailSeparator
         shareImagePath
 				subtitle
 				title
