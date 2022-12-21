@@ -20,7 +20,7 @@ export const nationalDeficitSectionIds = [
   'key-takeaways',
   'understanding-the-national-deficit',
   'the-causes-of-deficits-and-surpluses',
-  'deficit-vs-debt',
+  'the-difference-between-the-national-deficit-and-the-national-debt',
   'us-deficit-by-year',
   'learn-more-about-the-deficit'
 ];
