@@ -69,7 +69,7 @@ const mts = (
 )
 
 const bls = (
-  <CustomLink url={"https://data.bls.gov/timeseries/CUUR0000SA0"}
+  <CustomLink url={"https://www.bls.gov/developers/"}
               eventNumber="25"
   >
     Bureau of Labor Statistics
