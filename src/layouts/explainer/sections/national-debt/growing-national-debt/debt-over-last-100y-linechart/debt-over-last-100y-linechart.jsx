@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from '@nivo/line';
 import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
-import ChartContainer from '../../../explainer-components/chart-container/chart-container';
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
-} from '../../../../../variables.module.scss';
+} from '../../../../../../variables.module.scss';
 import {
   getChartCopy,
   dataHeader,
   chartConfigs,
 } from './debt-over-last-100y-linechart-helper';
-import { visWithCallout } from '../../../explainer.module.scss';
-import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
+import { visWithCallout } from '../../../../explainer.module.scss';
+import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import {
   lineChart,
   container
@@ -22,18 +22,18 @@ import {
 import {
   applyChartScaling,
   applyTextScaling,
-} from '../../../explainer-helpers/explainer-charting-helper';
+} from '../../../../explainer-helpers/explainer-charting-helper';
 import {
   lineChartCustomPoints,
   lineChartCustomSlices,
-} from '../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
-import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
-import simplifyNumber from '../../../../../helpers/simplify-number/simplifyNumber';
+} from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
+import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
+import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
+import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import Analytics from '../../../../../utils/analytics/analytics';
-import {getDateWithoutTimeZoneAdjust} from "../../../../../utils/date-utils";
+import Analytics from '../../../../../../utils/analytics/analytics';
+import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 
 const chartDataEndPoint =
   apiPrefix + 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101';
@@ -56,7 +56,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const chartParent = 'totalDebtChartParent';
   const chartWidth = 550;
   const chartHeight = 490;
- 
+
   useEffect(() => {
     basicFetch(chartDataEndPoint).then(res => {
       if (res.data) {
@@ -202,7 +202,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         </div>
       )}
       {!isLoading && (
-        <div className={visWithCallout}>          
+        <div className={visWithCallout}>
           <div className={container}>
             <ChartContainer
               title={chartTitle}
