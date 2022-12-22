@@ -25,30 +25,40 @@ import InsightsImage from "../../components/insights-image/insights-image";
 import {IDataset} from "../../models/IDataset";
 import ExplainerRelatedDatasets from
     "../explainer/explainer-related-datasets/explainer-related-datasets";
+import globalConstants from "../../helpers/constants"
 
+export type FeatureFrontmatter = {
+  by: string,
+  datePublished: string,
+  description: string,
+  heroImagePath: string,
+  mainHeader: string,
+  path: string,
+  shareTitle: string,
+  shareDescription: string,
+  shareBody: string,
+  emailSubject: string,
+  emailBody: string,
+  emailSeparator?: string,
+  shareImagePath: string,
+  subtitle: string,
+  title: string,
+  relatedDatasets: string
+};
 
 export type FeaturePageProps = {
   data: {
     mdx: {
       body: string,
-      frontmatter: {
-        by: string,
-        datePublished: string,
-        description: string,
-        heroImagePath: string,
-        mainHeader: string,
-        path: string,
-        shareCopy: string,
-        subtitle: string,
-        title: string,
-        relatedDatasets: string
-      }
+      frontmatter: FeatureFrontmatter
     }
   },
   pageContext: {
     relatedDatasets: IDataset[],
   }
-}
+};
+
+const baseUrl = globalConstants.BASE_SITE_URL;
 
 const featuresComponents = {
   DSM: dsmComponents.DSM,
@@ -66,7 +76,8 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
   const { mdx: post } = data;
   const frontMatter = post.frontmatter;
   const date = format(new Date(frontMatter.datePublished), "MMMM d, yyyy");
-
+  const betweenEmailBodyAndUrl = frontMatter.emailSeparator === undefined ?
+    '\n' : frontMatter.emailSeparator;
 
   return (
     <SiteLayout isPreProd={false}>
@@ -88,14 +99,15 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
             </div>
             <div className={heroSocialShare}>
               <SocialShare
-                title={''}
-                description={''}
-                body={''}
-                emailSubject={''}
-                emailBody={''}
-                url={''}
-                image={''}
-                pageName={''}
+                title={frontMatter.shareTitle}
+                description={frontMatter.shareDescription}
+                body={frontMatter.shareBody}
+                emailSubject={frontMatter.emailSubject}
+                emailBody={frontMatter.emailBody}
+                emailSeparator={betweenEmailBodyAndUrl}
+                url={baseUrl + frontMatter.path}
+                image={baseUrl + frontMatter.shareImagePath}
+                pageName={frontMatter.title}
                 horizontal={true}
               />
             </div>
@@ -137,7 +149,13 @@ export const pageQuery = graphql`
 				heroImagePath
 				mainHeader
 				path
-				shareCopy
+				shareTitle
+        shareDescription
+        shareBody
+        emailSubject
+        emailBody
+        emailSeparator
+        shareImagePath
 				subtitle
 				title
 				relatedDatasets

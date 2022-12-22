@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import {
@@ -138,6 +138,7 @@ export const SocialShareComponent = ({
   body,
   emailSubject,
   emailBody,
+  emailSeparator = '\n',
   url,
   image,
   pageName,
@@ -184,7 +185,7 @@ export const SocialShareComponent = ({
           <TwitterShareButton
             className={horizontal ? horizontalShareButton : shareButton}
             url={url}
-            title={body}            
+            title={body}
             beforeOnClick={() => analyticsClickHandler(pageName, "Twitter")}
           >
             <ShareButtonContent
@@ -235,7 +236,7 @@ export const SocialShareComponent = ({
             url={url}
             subject={emailSubject}
             body={emailBody}
-            separator={"\n"}
+            separator={emailSeparator}
             beforeOnClick={() => analyticsClickHandler(pageName, "Email")}
           >
             <ShareButtonContent
