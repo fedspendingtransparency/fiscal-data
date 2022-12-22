@@ -18,11 +18,11 @@ import {datasetSectionConfig} from "../../explainer-helpers/explainer-helpers";
 
 export const nationalDeficitSectionIds = [
   'key-takeaways',
-  'understanding',
-  'causes-and-surpluses',
-  'deficit-vs-debt',
-  'deficit-by-year',
-  'learn-more'
+  'understanding-the-national-deficit',
+  'the-causes-of-deficits-and-surpluses',
+  'the-difference-between-the-national-deficit-and-the-national-debt',
+  'us-deficit-by-year',
+  'learn-more-about-the-deficit'
 ];
 
 export const nationalDeficitSectionConfigs = datasetSectionConfig['national-deficit'];

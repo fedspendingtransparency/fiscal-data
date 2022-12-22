@@ -179,14 +179,14 @@ export const explainerRelatedDatasetMap = {
 
 export const datasetSectionConfig = {
   'national-debt': {
-    'growing-national-debt': {
+    'the-growing-national-debt': {
       name: 'Historical Debt Outstanding',
       slug: '/datasets/historical-debt-outstanding/',
       endpoint: 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101',
       dateField: 'record_date',
       valueField: 'debt_outstanding_amt'
     },
-    'breakdown': {
+    'breaking-down-the-debt': {
       name: 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)',
       slug: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding/',
       endpoint: 'v1/debt/mspd/mspd_table_1?',
@@ -250,7 +250,7 @@ export const datasetSectionConfig = {
     }
   },
   'national-deficit': {
-    'understanding': {
+    'understanding-the-national-deficit': {
       name: 'Monthly Treasury Statement (MTS)',
       slug: '/datasets/monthly-treasury-statement/' +
         'summary-of-receipts-and-outlays-of-the-u-s-government',

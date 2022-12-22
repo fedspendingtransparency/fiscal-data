@@ -74,8 +74,6 @@ import {
   secondColumn,
   // Growing National Debt
   growingNationalDebt,
-  growingNationalDebtSectionGraphContainer,
-  growingNationalDebtSectionGraph,
   growingNationalDebtSectionAccordion,
   title,
   simple,
@@ -107,12 +105,10 @@ import {
   subTitle,
   titleBreakdown,
   postGraphAccordionContainer,
-  DebtOverLast100yContainer,
 } from "./national-debt.module.scss";
 import { Bar } from "@nivo/bar";
 import Multichart from "../../multichart/multichart";
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
-import { adjustDataForInflation } from "../../../../helpers/inflation-adjust/inflation-adjust";
 import Analytics from "../../../../utils/analytics/analytics";
 import QuoteBox from "../../quote-box/quote-box";
 import DebtOverLast100y from "./debt-over-last-100y-linechart/debt-over-last-100y-linechart"
@@ -121,13 +117,13 @@ export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
 export const nationalDebtSectionIds = [
   "key-takeaways",
-  "national-debt-explained",
-  "funding-programs",
-  "growing-national-debt",
-  "breakdown",
-  "debt-ceiling",
-  "debt-tracking",
-  "dive-deeper",
+  "the-national-debt-explained",
+  "funding-programs-and-services",
+  "the-growing-national-debt",
+  "breaking-down-the-debt",
+  "the-debt-ceiling",
+  "tracking-the-debt",
+  "dive-deeper-into-the-debt",
 ];
 let gaTimerDebt100Yrs;
 let gaTimerDebtTrends;
@@ -321,7 +317,7 @@ export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
             overall debt.
           </p>
         </div>
-        
+
         <VisualizationCallout color={debtExplainerPrimary} >
           <p>
             The U.S. Treasury uses the terms “national debt,” “federal debt,”
