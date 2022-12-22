@@ -16,6 +16,7 @@ jest.mock(
 );
 
 describe('Calendar Entries List', () => {
+
   let component = renderer.create();
   let instance;
 

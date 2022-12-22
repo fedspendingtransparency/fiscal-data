@@ -9,6 +9,8 @@ import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
 import { useReleaseCalendarEntriesUpdater } from "./use-release-calendar-entries-updater-hook"
 import { sortOptions } from "./calendar-helpers";
 import Analytics from "../../utils/analytics/analytics"
+import {basicFetch} from "../../utils/api-utils";
+import { API_BASE_URL } from "gatsby-env-variables";
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
@@ -36,9 +38,33 @@ const CalendarEntriesList = () => {
       }
     }`);
 
-  const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
-  const earliestDate = releases[0].date;
+  const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
+  const [releaseData, setReleaseData] = useState(allReleases.releases);
+  const generateSortKey = (entry) => `${entry.date}_${entry.time}`;
 
+  useEffect(() => {
+    try {
+      basicFetch(`${releaseCalendarUrl}`)
+        .then(async (res) => {
+          const rcEntries = await res;
+
+          rcEntries.sort((a, b) => {
+            const aKey = generateSortKey(a);
+            const bKey = generateSortKey(b);
+
+            if (aKey > bKey) return 1;
+            else if (aKey < bKey) return -1;
+            else return 0;
+          });
+          setReleaseData(rcEntries);
+        });
+    } catch (e) {
+      setReleaseData(allReleases.releases);
+    }
+  }, []);
+
+  const releases = useReleaseCalendarEntriesUpdater(releaseData).filter(d => d.dataset);
+  const earliestDate = releases[0].date;
   const [loading, setLoading] = useState(true);
   const [entries, setEntries] = useState(releases);
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
