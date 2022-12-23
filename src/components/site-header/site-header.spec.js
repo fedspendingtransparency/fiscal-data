@@ -75,6 +75,7 @@ describe('SiteHeader', () => {
     expect(getByText('Spending')).toBeDefined();
     expect(getByText('Revenue')).toBeDefined();
     expect(getByText('Overview')).toBeDefined();
+    expect(getByText('Who Owns the Debt?')).toBeDefined();
   })
 
   it('expects that all of the header links are not active/highlighted by default', () => {
