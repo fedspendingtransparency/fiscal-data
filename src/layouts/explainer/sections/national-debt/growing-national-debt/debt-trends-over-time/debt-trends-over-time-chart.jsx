@@ -43,31 +43,31 @@ const analyticsClickHandler = (action, section) => {
 };
 
 export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
-    const chartId = `${sectionId}-chart`;
-    const chartOptions = {
-      forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
-      forceLabelFontSize:
-        width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      format: true,
-      yAxisTickNumber: 5,
-      showOuterXAxisTicks: true,
-      placeInitialMarker: true,
-      noTooltip: true,
-      noShaders: true,
-      noInnerXAxisTicks: true,
-      shading: {
-        side: "under",
-        color: chartPatternBackground,
-      },
-    };
+    // const chartId = `${sectionId}-chart`;
+    // const chartOptions = {
+    //   forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
+    //   forceLabelFontSize:
+    //     width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    //   format: true,
+    //   yAxisTickNumber: 5,
+    //   showOuterXAxisTicks: true,
+    //   placeInitialMarker: true,
+    //   noTooltip: true,
+    //   noShaders: true,
+    //   noInnerXAxisTicks: true,
+    //   shading: {
+    //     side: "under",
+    //     color: chartPatternBackground,
+    //   },
+    // };
 
-    const [data, setData] = useState({});
-    const [labels, setLabels] = useState(0);
+    // const [data, setData] = useState({});
+    // const [labels, setLabels] = useState(0);
     const [lineChartHoveredYear, setLinechartHoveredYear] = useState("");
     const [lineChartHoveredValue, setLinechartHoveredValue] = useState("");
+    const [chartSlices, setChartSlices] = useState([]);
 
-
-    const chartRef = useRef();
+    // const chartRef = useRef();
 
     const {
       name,
@@ -128,6 +128,13 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
     //     );
     //   }
     // }, [width]);
+
+    useEffect(() => {
+      const allSlices = document.querySelectorAll(
+        '[data-testid="slice"]'
+      );
+      console.log(allSlices);
+    }, [chartSlices]);
 
 
     // Below are the configs for custom properties for the debt trends over time line chart
@@ -249,7 +256,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
     const formatPercentage = v => `${v}%`;
 
     const CustomSlices = ({ slices, setCurrentSlice }) => {
-      return (
+      const allSlices =
         <g>
           {slices.map(slice => (
             <rect
@@ -265,11 +272,21 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
               onMouseLeave={() => {
                 setCurrentSlice(null);
               }}
+              data-testid={"slice"}
             />
           ))}
-        </g>
+        </g>;
+
+      if(chartSlices.length === 0) {
+        setChartSlices(allSlices);
+      }
+      return (
+        <>
+          {allSlices}
+        </>
       );
     };
+
 
     const CustomPoint = props => {
       const { currentSlice, borderWidth, borderColor, points } = props;
@@ -325,134 +342,134 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
 
     return (
       <div className={visWithCallout}>
-          {isLoadingDebtTrends && (
+        {isLoadingDebtTrends && (
+          <div>
+            <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+          </div>
+        )}
+        {!isLoadingDebtTrends && (
+          <>
             <div>
-              <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-            </div>
-          )}
-          {!isLoadingDebtTrends && (
-            <>
-              <div>
-                <div className={debtTrendsOverTimeSectionGraphContainer}>
-                  <p className={title}>
-                    {" "}
-                    Federal Debt Trends Over Time, FY 1948 – {lastDebtValue.x}
-                  </p>
-                  <p className={subTitle}>
-                    {" "}
-                    Debt to Gross Domestic Product (GDP){" "}
-                  </p>
-                  <div className={headerContainer}>
-                    <div>
-                      <div className={header}>
-                        {lineChartHoveredYear === ""
-                          ? lastDebtValue.x
-                          : lineChartHoveredYear}
-                      </div>
-                      <span className={subHeader}>Fiscal Year</span>
+              <div className={debtTrendsOverTimeSectionGraphContainer}>
+                <p className={title}>
+                  {" "}
+                  Federal Debt Trends Over Time, FY 1948 – {lastDebtValue.x}
+                </p>
+                <p className={subTitle}>
+                  {" "}
+                  Debt to Gross Domestic Product (GDP){" "}
+                </p>
+                <div className={headerContainer}>
+                  <div>
+                    <div className={header}>
+                      {lineChartHoveredYear === ""
+                        ? lastDebtValue.x
+                        : lineChartHoveredYear}
                     </div>
-                    <div>
-                      <div className={header}>
-                        {lineChartHoveredValue === ""
-                          ? lastDebtValue.y + "%"
-                          : lineChartHoveredValue}
-                      </div>
-                      <span className={subHeader}>Debt to GDP</span>
+                    <span className={subHeader}>Fiscal Year</span>
+                  </div>
+                  <div>
+                    <div className={header}>
+                      {lineChartHoveredValue === ""
+                        ? lastDebtValue.y + "%"
+                        : lineChartHoveredValue}
                     </div>
-                  </div>
-                  <div
-                    className={`${lineChartContainer} ${chartBackdrop}`}
-                    data-testid={"debtTrendsChart"}
-                    onMouseEnter={handleMouseEnterLineChart}
-                    onMouseLeave={handleMouseLeaveLineChart}
-                    role={"img"}
-                    aria-label={`Line graph displaying the federal debt to GDP trend over time
-                  from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
-                  >
-                    <ResponsiveLine
-                      data={debtTrendsData}
-                      theme={chartBorderTheme}
-                      layers={[
-                        "grid",
-                        "lines",
-                        "axes",
-                        CustomPoint,
-                        CustomSlices,
-                      ]}
-                      margin={
-                        width < pxToNumber(breakpointLg)
-                          ? { top: 8, right: 25, bottom: 30, left: 35 }
-                          : { top: 8, right: 25, bottom: 30, left: 50 }
-                      }
-                      xScale={{
-                        type: "linear",
-                        min: 1940,
-                        max: 2030,
-                      }}
-                      yScale={{
-                        type: "linear",
-                        min: 0,
-                        max: 140,
-                        stacked: true,
-                        reverse: false,
-                      }}
-                      yFormat=" >-.2f"
-                      axisTop={null}
-                      axisRight={null}
-                      axisBottom={{
-                        orient: "bottom",
-                        tickSize: 5,
-                        tickPadding: 5,
-                        tickRotation: 0,
-                        tickValues: 9,
-                      }}
-                      axisLeft={{
-                        format: formatPercentage,
-                        orient: "left",
-                        tickSize: 5,
-                        tickValues: 8,
-                      }}
-                      enablePoints={false}
-                      enableSlices={"x"}
-                      pointSize={0}
-                      pointColor={debtExplainerPrimary}
-                      pointBorderWidth={2}
-                      pointBorderColor={debtExplainerPrimary}
-                      pointLabelYOffset={-12}
-                      colors={debtExplainerPrimary}
-                      useMesh={false}
-                      enableGridY={false}
-                      enableGridX={false}
-                      sliceTooltip={() => <></>}
-                      enableCrosshair={false}
-                      animate={true}
-                      isInteractive={true}
-                      onMouseLeave={lineChartOnMouseLeave}
-                    />
-                  </div>
-                  <div className={footerContainer}>
-                    <p>
-                      {" "}
-                      Visit the {historicalDebtOutstanding_DebtTrends} dataset
-                      to explore and download this data. The GDP data is sourced
-                      from the {beaLink}.
-                    </p>
-                    <p>Last Updated: September 30, {lastDebtValue.x}</p>
+                    <span className={subHeader}>Debt to GDP</span>
                   </div>
                 </div>
+                <div
+                  className={`${lineChartContainer} ${chartBackdrop}`}
+                  data-testid={"debtTrendsChart"}
+                  onMouseEnter={handleMouseEnterLineChart}
+                  onMouseLeave={handleMouseLeaveLineChart}
+                  role={"img"}
+                  aria-label={`Line graph displaying the federal debt to GDP trend over time
+                  from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
+                >
+                  <ResponsiveLine
+                    data={debtTrendsData}
+                    theme={chartBorderTheme}
+                    layers={[
+                      "grid",
+                      "lines",
+                      "axes",
+                      CustomPoint,
+                      CustomSlices,
+                    ]}
+                    margin={
+                      width < pxToNumber(breakpointLg)
+                        ? { top: 8, right: 25, bottom: 30, left: 35 }
+                        : { top: 8, right: 25, bottom: 30, left: 50 }
+                    }
+                    xScale={{
+                      type: "linear",
+                      min: 1940,
+                      max: 2030,
+                    }}
+                    yScale={{
+                      type: "linear",
+                      min: 0,
+                      max: 140,
+                      stacked: true,
+                      reverse: false,
+                    }}
+                    yFormat=" >-.2f"
+                    axisTop={null}
+                    axisRight={null}
+                    axisBottom={{
+                      orient: "bottom",
+                      tickSize: 5,
+                      tickPadding: 5,
+                      tickRotation: 0,
+                      tickValues: 9,
+                    }}
+                    axisLeft={{
+                      format: formatPercentage,
+                      orient: "left",
+                      tickSize: 5,
+                      tickValues: 8,
+                    }}
+                    enablePoints={false}
+                    enableSlices={"x"}
+                    pointSize={0}
+                    pointColor={debtExplainerPrimary}
+                    pointBorderWidth={2}
+                    pointBorderColor={debtExplainerPrimary}
+                    pointLabelYOffset={-12}
+                    colors={debtExplainerPrimary}
+                    useMesh={false}
+                    enableGridY={false}
+                    enableGridX={false}
+                    sliceTooltip={() => <></>}
+                    enableCrosshair={false}
+                    animate={true}
+                    isInteractive={true}
+                    onMouseLeave={lineChartOnMouseLeave}
+                  />
+                </div>
+                <div className={footerContainer}>
+                  <p>
+                    {" "}
+                    Visit the {historicalDebtOutstanding_DebtTrends} dataset
+                    to explore and download this data. The GDP data is sourced
+                    from the {beaLink}.
+                  </p>
+                  <p>Last Updated: September 30, {lastDebtValue.x}</p>
+                </div>
               </div>
-              <VisualizationCallout color={debtExplainerPrimary}>
-                <p>
-                  When adjusted for inflation, the U.S. federal debt has
-                  steadily increased since 2001. Without adjusting for
-                  inflation, the U.S. federal debt has steadily increased since
-                  1957. Another way to view the federal debt over time is to
-                  look at the ratio of federal debt related to GDP. This ratio
-                  has generally increased since 1981.
-                </p>
-              </VisualizationCallout>
-            </>
-          )}
-        </div>
+            </div>
+            <VisualizationCallout color={debtExplainerPrimary}>
+              <p>
+                When adjusted for inflation, the U.S. federal debt has
+                steadily increased since 2001. Without adjusting for
+                inflation, the U.S. federal debt has steadily increased since
+                1957. Another way to view the federal debt over time is to
+                look at the ratio of federal debt related to GDP. This ratio
+                has generally increased since 1981.
+              </p>
+            </VisualizationCallout>
+          </>
+        )}
+      </div>
     );
   };

@@ -111,7 +111,7 @@ import QuoteBox from "../../quote-box/quote-box";
 import DebtOverLast100y
   from "./growing-national-debt/debt-over-last-100y-linechart/debt-over-last-100y-linechart"
 import {DebtTrendsOverTimeChart}
-from "./growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart";
+  from "./growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
