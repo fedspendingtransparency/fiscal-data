@@ -97,6 +97,18 @@ describe('SiteHeader', () => {
     expect(getByTestId('ieDetected')).toBeDefined();
   });
 
+  it('hides the menu on mouse leave', async () => {    
+    const { getByTestId } = render(<SiteLayout />);
+    fireEvent.mouseEnter(getByTestId('topicsButton'));
+    const dropDownMenu = getByTestId('dropdownContent');
+    fireEvent.mouseLeave(dropDownMenu);
+   setTimeout(() => {
+      expect(dropDownMenu).toHaveClass('dropdownHidden')
+    }, 501);
+    
+  });
+
+
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const pageTitle = 'test page title'
