@@ -417,7 +417,8 @@
   }
 
   .nationalDebtExplainedTable {
-    padding: 1.25rem 2rem 0;
+
+    padding: 1rem 2rem 0;
 
     th {
       font-size: $font-size-48;
@@ -425,6 +426,7 @@
     }
 
     td {
+      white-space: nowrap;
       width: 80px;
       padding: 12px 20px;
     }
