@@ -5,7 +5,8 @@ import {
   secondaryTitle,
   comingSoon,
   breakpointSm,
-} from "./explainer-tile.module.scss";
+  afgBookIcon,
+} from "./homepage-tile.module.scss";
 import { breakpointLg } from "../../../variables.module.scss";
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
 
@@ -13,13 +14,13 @@ import Link from "gatsby-link";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Grid } from "@material-ui/core";
 
-const ExplainerTile = ({
+const HomePageTile = ({
   content,
   images,
   width,
   customStyles,
   layout,
-  hasMobileImage,
+  hasMobileImage,  
 }) => {
   let desktopImage, mobileImage;
   if (images) {
@@ -30,6 +31,10 @@ const ExplainerTile = ({
       image => image.name === content.mobileImage
     );
   }
+
+  const afgBookIconSource = '/images/AFG-icon.svg';
+  
+
   const isDesktop = width >= pxToNumber(breakpointLg);
   // over write desktop-first styles with mobile-first styles, if we actually have a mobile imgage
   const isMobile = hasMobileImage
@@ -59,12 +64,12 @@ const ExplainerTile = ({
   );
 
   const card =
-    layout === "two-col" && isDesktop ? (
+    layout === 'two-col' && isDesktop ? (
       <Grid container spacing={0}>
         <div
           className={mainContent}
           data-testid="tile"
-          style={{ display: "flex" }}
+          style={{ display: 'flex' }}
         >
           <Grid
             item
@@ -73,8 +78,8 @@ const ExplainerTile = ({
               isMobile
                 ? {}
                 : {
-                    maxWidth: "260px",
-                    maxHeight: "160px",
+                    maxWidth: '260px',
+                    maxHeight: '160px',
                   }
             }
           >
@@ -84,13 +89,13 @@ const ExplainerTile = ({
             <div
               className={content.path ? undefined : comingSoon}
               style={{
-                paddingBottom: "0.5rem",
-                paddingLeft: "33px",
+                paddingBottom: '0.5rem',
+                paddingLeft: '33px',
               }}
             >
               <h5
                 className={content.mainFeature ? mainTitle : secondaryTitle}
-                style={{ paddingTop: "0" }}
+                style={{ paddingTop: '0' }}
               >
                 {content.title}
               </h5>
@@ -105,9 +110,24 @@ const ExplainerTile = ({
       <div className={mainContent} data-testid="tile">
         <div style={imageContainerStyle}>{isMobile ? mobile : desktop}</div>
         <div className={content.path ? undefined : comingSoon}>
-          <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
-            {content.title}
-          </h5>
+          <Grid container spacing={2}
+            alignItems="center">
+            {content.mainFeature && (
+              <Grid item xs={isMobile ? 2 : 1}>
+                <img
+                  src={afgBookIconSource}
+                  alt="An open book with a coin above the pages"
+                  className={afgBookIcon}
+                />
+              </Grid>
+            )}
+            <Grid item xs={isMobile ? 10 : 11}>
+              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
+                <span>{content.title}</span>
+              </h5>
+            </Grid>
+          </Grid>
+
           <div style={{ ...(customStyles?.body || {}) }}>
             {content.bodyGenerator ? content.bodyGenerator() : content.body}
           </div>
@@ -127,4 +147,4 @@ const ExplainerTile = ({
   );
 };
 
-export default ExplainerTile;
+export default HomePageTile;
