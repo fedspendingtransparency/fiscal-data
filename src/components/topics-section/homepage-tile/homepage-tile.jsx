@@ -118,6 +118,7 @@ const HomePageTile = ({
                   src={afgBookIconSource}
                   alt="An open book with a coin above the pages"
                   className={afgBookIcon}
+                  data-testid={'afgBookIcon'}
                 />
               </Grid>
             )}
