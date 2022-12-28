@@ -44,10 +44,6 @@ export const TopicsSection = ({ images, width }) => {
 
   return (
     <div className={topicsSectionContainer}>
-      {/* <h5 className={topicsSectionHeader}>
-        <FontAwesomeIcon icon={faBookOpen} />
-        <div>Your Guide to America’s Finances</div>
-      </h5> */}
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4}>
