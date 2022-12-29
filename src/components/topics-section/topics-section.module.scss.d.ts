@@ -67,4 +67,6 @@ export const topicsSectionContainer: string;
 export const sectionHeader: string;
 export const tileContainer: string;
 export const topicsSectionHeader: string;
+export const firstOrder: string;
+export const secondOrder: string;
 export const line: string;

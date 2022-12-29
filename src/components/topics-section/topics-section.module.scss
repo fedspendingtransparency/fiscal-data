@@ -28,6 +28,13 @@ $max-img-width-desktop: 771.5px;
       margin-right: 0.5rem;
     }
   }
+
+  .firstOrder{
+    order: 0;
+  }
+  .secondOrder{
+    order: 1;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {

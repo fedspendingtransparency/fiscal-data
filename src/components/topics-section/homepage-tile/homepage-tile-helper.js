@@ -123,11 +123,11 @@ export const pageTileMap = {
   "who-owns-the-debt": {
     title: "Who Owns the Debt?",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
+      "Learn about the top 10 owners of U.S. debt, how much of the debt is owned by foreign investors, and how that debt is allocated.",
     altText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
-    desktopImage: "feature_placeholder",
-    mobileImage: "feature_placeholder",
+      "Five vertical bars increasing in height with four stacks of coins in front of the bars. Two women sit on different coin stacks, each browsing on laptop computers.",
+    desktopImage: "WOTD_Hero-Illustration_1200x630",
+    mobileImage: "WOTD_Hero-Illustration_1200x630",
     path: "/who-owns-the-debt/",
   },
 };

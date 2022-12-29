@@ -9,7 +9,9 @@ import {
   topicsSectionHeader,
   topicsSectionContainer,
   line,
-  afgBookIcon
+  afgBookIcon,
+  firstOrder,
+  secondOrder
 } from "./topics-section.module.scss";
 import { withWindowSize } from "react-fns";
 import { breakpointLg } from "../../variables.module.scss";
@@ -47,7 +49,7 @@ export const TopicsSection = ({ images, width }) => {
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4}>
-            <Grid item lg={mainWidth} spacing={0}>
+            <Grid item lg={mainWidth} spacing={0} classes={ isMobile && {root: secondOrder }}>
               <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
               <HomePageTile
                 content={pageTileMap['americas-finance-guide']}
@@ -92,6 +94,7 @@ export const TopicsSection = ({ images, width }) => {
                 width={width}
                 layout={'two-col'}
                 customStyles={leftTileStyle}
+                
               />
             </Grid>
             {isMobile ? (
@@ -99,12 +102,13 @@ export const TopicsSection = ({ images, width }) => {
             ) : (
               undefined
             )}
-            <Grid item lg={secondaryWidth} spacing={0}>
+            <Grid item lg={secondaryWidth} spacing={0} classes={ isMobile && {root: firstOrder }} >
               <div className={sectionHeader}>INSIGHTS</div>
               <HomePageTile
                 content={pageTileMap['who-owns-the-debt']}
                 images={images}
                 width={width}
+                
               />
             </Grid>
           </Grid>
