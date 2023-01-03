@@ -43,32 +43,12 @@ const analyticsClickHandler = (action, section) => {
 };
 
 export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
-    // const chartId = `${sectionId}-chart`;
-    // const chartOptions = {
-    //   forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
-    //   forceLabelFontSize:
-    //     width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    //   format: true,
-    //   yAxisTickNumber: 5,
-    //   showOuterXAxisTicks: true,
-    //   placeInitialMarker: true,
-    //   noTooltip: true,
-    //   noShaders: true,
-    //   noInnerXAxisTicks: true,
-    //   shading: {
-    //     side: "under",
-    //     color: chartPatternBackground,
-    //   },
-    // };
 
-    // const [data, setData] = useState({});
-    // const [labels, setLabels] = useState(0);
     const [lineChartHoveredYear, setLinechartHoveredYear] = useState("");
     const [lineChartHoveredValue, setLinechartHoveredValue] = useState("");
-    const [chartSlices, setChartSlices] = useState([]);
-
-    // const chartRef = useRef();
-
+    const [startAnimation, setStartAnimation] = useState(false);
+    const [animationComplete, setAnimationComplete] = useState(false);
+    const [animationPoint, setAnimationPoint] = useState(0);
     const {
       name,
       slug,
@@ -106,35 +86,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
       </CustomLink>
     );
 
-
-    // useEffect(() => {
-    //   chartOptions.forceHeight = width < pxToNumber(breakpointLg) ? 200 : 400;
-    //   const xAxisTickValues = [];
-    //   const step = Math.floor(data.length / 5);
-    //   for (let i = 0, il = data.length; i < il; i += step) {
-    //     const tickValue = new Date(data[i][dateField]);
-    //     xAxisTickValues.push(tickValue);
-    //   }
-    //   chartOptions.xAxisTickValues = xAxisTickValues;
-    //
-    //   if (document.getElementById(chartId)) {
-    //     drawChart(
-    //       data,
-    //       chartRef.current,
-    //       dateField,
-    //       [valueField],
-    //       labels,
-    //       chartOptions
-    //     );
-    //   }
-    // }, [width]);
-
-    useEffect(() => {
-      const allSlices = document.querySelectorAll(
-        '[data-testid="slice"]'
-      );
-      console.log(allSlices);
-    }, [chartSlices]);
 
 
     // Below are the configs for custom properties for the debt trends over time line chart
@@ -277,9 +228,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
           ))}
         </g>;
 
-      if(chartSlices.length === 0) {
-        setChartSlices(allSlices);
-      }
       return (
         <>
           {allSlices}
@@ -287,38 +235,71 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
       );
     };
 
+    const Point = ({currentPoint, borderColor, borderWidth}) => {
+      return (
+        <g>
+          <circle
+            fill={"#D8D8D8"}
+            r={8}
+            strokeWidth={borderWidth}
+            stroke={borderColor}
+            fillOpacity={0.35}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+          <circle
+            r={2}
+            strokeWidth={"4"}
+            stroke={"#000000"}
+            fill={"#000000"}
+            fillOpacity={0.85}
+            cx={currentPoint.x}
+            cy={currentPoint.y}
+          />
+        </g>
+      );
+    }
+
+  useEffect(() => {
+    if(startAnimation && debtTrendsData && !animationComplete) {
+      if(animationPoint < debtTrendsData[0].data.length -1) {
+        const i = animationPoint + 1;
+        setTimeout(() => {
+          console.log(i);
+          setAnimationPoint(i);
+        }, 25)
+      } else {
+        console.log("stop");
+        clearTimeout();
+        setAnimationComplete(true);
+      }
+    }
+  }, [animationPoint, startAnimation])
 
     const CustomPoint = props => {
       const { currentSlice, borderWidth, borderColor, points } = props;
-
+      let currentPoint;
       if (!isLoadingDebtTrends) {
-        const currentPoint = currentSlice?.points?.length
-          ? currentSlice.points[0]
-          : points[points.length - 1];
-        setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
-        setLinechartHoveredYear(currentPoint.data.x);
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-          </g>
-        );
+        if(!animationComplete) {
+          setStartAnimation(true);
+          currentPoint = points[animationPoint];
+        }
+        else {
+          currentPoint = currentSlice?.points?.length
+              ? currentSlice.points[0]
+              : points[points.length - 1];
+        }
+              setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
+              setLinechartHoveredYear(currentPoint.data.x);
+              return (
+                <>
+                  <Point
+                    currentPoint={currentPoint}
+                    borderColor={borderColor}
+                    borderWidth={borderWidth}
+                  />
+                </>
+              );
       }
     };
 
