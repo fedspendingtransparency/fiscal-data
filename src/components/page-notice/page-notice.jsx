@@ -21,7 +21,7 @@ const PageNotice = ({ children, warningLevel }) => {
   return (
     <div
       className={`${styles.pageNotice} ${warningClass} ${(pageReady && !warningClass) ? styles.active : ''}`}
-      data-testid="pageNoticeContent"
+      data-testid='pageNoticeContent'
     >
       {children}
     </div>

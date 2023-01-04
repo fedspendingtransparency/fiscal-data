@@ -15,7 +15,7 @@ const VisualizationCallout: React.FunctionComponent = ({color, children, customT
   // plain text class .vis-callout is a handle for styling the container from an external component
   return (
     <div className={`${container} vis-callout`} style={{borderColor: color, marginTop: customTopMargin}}>
-      <div className={description} data-testid="description">
+      <div className={description} data-testid='description'>
         {children}
       </div>
     </div>

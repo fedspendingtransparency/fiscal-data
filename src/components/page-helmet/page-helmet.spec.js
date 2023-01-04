@@ -159,7 +159,7 @@ const staticDescription = 'mock static description';
 const dynamicDescription = 'Mock Dynamic SEO Description';
 
 describe('page helmet with canonical tag', ()=> {
-  renderIntoDocument(<PageHelmet canonical="/datasets/test-canonical"/>)
+  renderIntoDocument(<PageHelmet canonical='/datasets/test-canonical' />)
   const helmet=Helmet.peek();
 
   it('includes canonical with the prod url when the canonical prop is present', ()=> {

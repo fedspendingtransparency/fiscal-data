@@ -168,11 +168,12 @@ const DownloadSticky = () => {
       return <DownloadPercentageStatus sticky percentage={pctg} minimized={mini} />;
     } else if (showWorking && !complete) {
       return <div className={[`${styles.complete}`, `${styles.resumedSpinner}`, (minimized ? `${styles.minimized}`: '')].join(' ')}>
-        <FontAwesomeIcon data-testid="spinner-icon" icon={faSpinner} spin pulse/>
-      </div>;
+        <FontAwesomeIcon data-testid='spinner-icon' icon={faSpinner} spin pulse />
+             </div>;
     } else if (complete) {
       return <FontAwesomeIcon className={[`${styles.complete}`, (minimized ? `${styles.minimized}`: '')].join(' ')}
-                              icon={faCheckCircle} />;
+                              icon={faCheckCircle}
+             />;
     }
   }
 
@@ -189,14 +190,14 @@ const DownloadSticky = () => {
   };
 
   const toggleDetailsEvent = () => {
-    let gaEventLabel = expanded ? dsTextContent.gaHideDetails : dsTextContent.gaShowDetails;
+    const gaEventLabel = expanded ? dsTextContent.gaHideDetails : dsTextContent.gaShowDetails;
 
     generateAnalyticsEvent(gaEventLabel);
     setExpanded(!expanded);
   };
 
   const toggleMinimizeEvent = () => {
-    let gaEventLabel = minimized ? dsTextContent.gaMaximizeSticky : dsTextContent.gaMinimizeSticky;
+    const gaEventLabel = minimized ? dsTextContent.gaMaximizeSticky : dsTextContent.gaMinimizeSticky;
 
     generateAnalyticsEvent(gaEventLabel);
     setMinimized(!minimized);
@@ -205,23 +206,29 @@ const DownloadSticky = () => {
   const renderExpandDetailsButton = () => {
     return <button className={styles.collapseToggle}
                    onClick={toggleDetailsEvent}
-                   data-testid="collapse-toggle">
+                   data-testid='collapse-toggle'
+           >
       {expanded ? (
-        <span>{dsTextContent.hideLabel} <FontAwesomeIcon icon={faMinus} size="sm"
-                                                         className={styles.toggleIcon}/></span>
+        <span>{dsTextContent.hideLabel} <FontAwesomeIcon icon={faMinus} size='sm'
+                                                         className={styles.toggleIcon}
+                                        />
+        </span>
       ) : (
-        <span>{dsTextContent.showLabel} <FontAwesomeIcon icon={faPlus} size="sm"
-                                                         className={styles.toggleIcon}/></span>
+        <span>{dsTextContent.showLabel} <FontAwesomeIcon icon={faPlus} size='sm'
+                                                         className={styles.toggleIcon}
+                                        />
+        </span>
       )}
-    </button>;
+           </button>;
   };
 
   const renderDownloadLink = (download) => {
     return <>
       <a href={download.fullFileUrl}
-         className={styles.downloadLink}>{dsTextContent.finishedNoteLinkLabel}
+         className={styles.downloadLink}
+      >{dsTextContent.finishedNoteLinkLabel}
       </a>{dsTextContent.finishedNoteEnding}
-    </>;
+           </>;
   };
 
   // once the onClose trigger is set, keep triggering it until each completed file is removed
@@ -243,19 +250,21 @@ const DownloadSticky = () => {
   if (!notificationVisible || downloadModalIsOpen || resumeDownloadModalIsOpen || resumedDownloadInitTimeout) return null;
   return (
     <StickyFooter hideAfterTime={closing ? closingTimeout : null}
-                  onClosed={closing ? () => setTriggerCleanupAfterClose(1) : false}>
+                  onClosed={closing ? () => setTriggerCleanupAfterClose(1) : false}
+    >
       <button className={styles.toggleTab}
               onClick={toggleMinimizeEvent}
               data-testid={'minimize-toggle'}
-              aria-label="Toggle minimized state for download notification."
+              aria-label='Toggle minimized state for download notification.'
       >{minimized ? (
-        <FontAwesomeIcon icon={faAngleDoubleUp} data-testid={'maximize-symbol'}/>
+        <FontAwesomeIcon icon={faAngleDoubleUp} data-testid={'maximize-symbol'} />
       ) : (
-        <FontAwesomeIcon icon={faAngleDoubleDown} data-testid={'minimize-symbol'}/>
+        <FontAwesomeIcon icon={faAngleDoubleDown} data-testid={'minimize-symbol'} />
       )}
       </button>
       <div className={[`${styles.downloadContent}`, (minimized ? `${styles.minimized}`: '')].join(' ')}
-           data-testid="download-sticky-content">
+           data-testid='download-sticky-content'
+      >
         <div className={styles.mainRow}>
           <div className={styles.downloadStatusContainer}>
             <div className={[`${styles.progressIndicatorContainer}`, allDownloadsCompleted ? `${styles.completed}` : ''].join(' ')}>
@@ -285,14 +294,18 @@ const DownloadSticky = () => {
                             {(allPrepared && allPrepared[0]) && (
                               <div>
                                 <span
-                                  data-testid={'finished-downloading-notice-single'}>{dsTextContent.finishedNote}</span>
+                                  data-testid={'finished-downloading-notice-single'}
+                                >{dsTextContent.finishedNote}
+                                </span>
                                 {renderDownloadLink(allPrepared[0])}
                               </div>
                             )}
                             {(resumedDownloads && resumedDownloads[0]) && (
                               <div>
                                 <span
-                                  data-testid={'finished-downloading-notice-single'}>{dsTextContent.finishedNote}</span>
+                                  data-testid={'finished-downloading-notice-single'}
+                                >{dsTextContent.finishedNote}
+                                </span>
                                 {renderDownloadLink(resumedDownloads[0])}
                               </div>
                             )}
@@ -321,7 +334,9 @@ const DownloadSticky = () => {
                             { allPrepared.map((download, index) =>
                               <li key={index}>
                                 <a href={download.fullFileUrl}
-                                   className={styles.downloadLink}>{download.filename}</a>
+                                   className={styles.downloadLink}
+                                >{download.filename}
+                                </a>
                               </li> ) }
                           </ul>
                         </div>
@@ -353,13 +368,15 @@ const DownloadSticky = () => {
         {!minimized && !allDownloadsCompleted && (
           <>
             {multipleDownloads && (
-              <div className={`${styles.expandedSection} ${expanded ? '' : styles.collapsed}`} data-testid="downloads-list">
+              <div className={`${styles.expandedSection} ${expanded ? '' : styles.collapsed}`} data-testid='downloads-list'>
 
                 {allPrepared.map((download, index) => (
                   <div className={styles.queueRow} key={index}>
                     <div className={styles.progress}>{dsTextContent.doneStatus}<> </>
                       <FontAwesomeIcon
-                        icon={faCheckCircle} size="sm"/></div>
+                        icon={faCheckCircle} size='sm'
+                      />
+                    </div>
                     <div className={styles.rightSegment}>
                       <div className={styles.filename}>{fileFromPath(download)}</div>
                       <a
@@ -375,7 +392,7 @@ const DownloadSticky = () => {
                {resumedInProgress && (resumedInProgress.map((resumedDownload, index) => (
                   <div className={styles.queueRow} key={index}>
                     <div className={styles.progress}>
-                      <FontAwesomeIcon data-testid="spinner-icon" icon={faSpinner} spin pulse/>
+                      <FontAwesomeIcon data-testid='spinner-icon' icon={faSpinner} spin pulse />
                     </div>
                     <div className={styles.rightSegment}>
                       <div className={styles.filename}>{resumedDownload.filename}</div>

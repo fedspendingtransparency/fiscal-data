@@ -10,49 +10,49 @@ const DownloadToggle = ({onChange}) => {
   };
 
   return (
-    <div className={styles.buttonGroup} data-toggle="buttons">
+    <div className={styles.buttonGroup} data-toggle='buttons'>
       <input
-        type="radio"
+        type='radio'
         checked={activeState === 'csv' ? 'checked' : ''}
         className={styles.radio}
-        value="csv"
-        id="csv"
-        name="downloadToggle"
+        value='csv'
+        id='csv'
+        name='downloadToggle'
         onChange={() => changeState('csv')}
       />
       <label
         className={`${styles.toggleButton} ${activeState === 'csv' ? styles.selected : ''}`}
-        htmlFor="csv"
+        htmlFor='csv'
       >
         CSV
       </label>
       <input 
-        type="radio"
+        type='radio'
         checked={activeState === 'json' ? 'checked' : ''}
         className={styles.radio}
-        value="json"
-        id="json"
-        name="downloadToggle"
+        value='json'
+        id='json'
+        name='downloadToggle'
         onChange={() => changeState('json')}
       />
       <label
         className={`${styles.toggleButton} ${activeState === 'json' ? styles.selected : ''}`}
-        htmlFor="json"
+        htmlFor='json'
       >
         JSON
       </label>
       <input 
-        type="radio"
+        type='radio'
         checked={activeState === 'xml' ? 'checked' : ''}
         className={styles.radio}
-        value="xml"
-        id="xml"
-        name="downloadToggle"
+        value='xml'
+        id='xml'
+        name='downloadToggle'
         onChange={() => changeState('xml')}
       />
       <label
         className={`${styles.toggleButton} ${activeState === 'xml' ? styles.selected : ''}`}
-        htmlFor="xml"
+        htmlFor='xml'
       >
         XML
       </label>

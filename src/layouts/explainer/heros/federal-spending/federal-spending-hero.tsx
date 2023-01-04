@@ -40,7 +40,7 @@ const FederalSpendingHero = (): JSX.Element => {
     const mts =
     <CustomLink
       url={'/datasets/monthly-treasury-statement/outlays-of-the-u-s-government'}
-      eventNumber="2"
+      eventNumber='2'
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -87,7 +87,7 @@ const FederalSpendingHero = (): JSX.Element => {
         <SplitFlapDisplay value={totalSpending}
                           minLength={totalSpending?.toString().length} // number of characters to initially display
                           mobilePrecision={parseInt(totalSpending) > 999999999999 ? 2 : 0}
-                          valueType="currency"
+                          valueType='currency'
         />
       </div>
       <div className={footNotes}>

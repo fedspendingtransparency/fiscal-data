@@ -5,9 +5,9 @@ import * as apiStyles from '../../../pages/api-documentation/api.module.scss';
 const Methods = () => (
   <div className={apiStyles.sectionBreak}>
     <SectionContent
-      id="methods"
+      id='methods'
       headingLevel={2}
-      title="Methods"
+      title='Methods'
     >
       <p>
         <strong>All requests will be HTTP GET requests</strong>. Our APIs accept the GET method,

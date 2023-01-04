@@ -104,7 +104,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
               clearTimeout(loadTimer);
               setEmptyDataMessage(
                 <NotShownMessage
-                  heading="Change selections in order to preview data"
+                  heading='Change selections in order to preview data'
                   bodyText={`With the current Date Range selected we are unable to render a
                     preview at this time.`}
                 />
@@ -166,7 +166,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     const tableRows = [];
     tableData.forEach((row, index) => {
       tableRows.push(
-        <DtgTableRow columns={columns} data={row} key={index}/>
+        <DtgTableRow columns={columns} data={row} key={index} />
       )
     });
     setRows(tableRows);
@@ -245,23 +245,23 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
       {/* Loading Indicator */}
       {isLoading && (
         <>
-          <div data-test-id="loading-overlay" className={styles.overlay}  />
+          <div data-test-id='loading-overlay' className={styles.overlay}  />
           <div className={styles.loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
+            <FontAwesomeIcon data-test-id='loading-icon' icon={faSpinner} spin pulse /> Loading...
           </div>
         </>
       )}
 
-      <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+      <div data-test-id='table-content' className={styles.overlayContainerNoFooter}>
         {/* API Error Message */}
         {(apiError || tableProps.apiError) && !emptyDataMessage && (
           <>
-            <div data-test-id="error-overlay" className={styles.overlay} />
-            <div data-test-id="api-error" className={styles.apiError}>
+            <div data-test-id='error-overlay' className={styles.overlay} />
+            <div data-test-id='api-error' className={styles.apiError}>
               <p><strong>Table failed to load.</strong></p>
               <p>
                 There was an error with our API and we are unable to load this table. Please try
-                your request again or <Link to="/about-us/#contact-us">contact us</Link> for
+                your request again or <Link to='/about-us/#contact-us'>contact us</Link> for
                 assistance.
               </p>
             </div>
@@ -276,7 +276,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
           {/* Table */}
           {!emptyDataMessage &&
             <table {...tableProps.aria} style={{width: tableWidth}}>
-              {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+              {caption !== undefined && <caption className='sr-only'>{caption}</caption>}
               <DtgTableHeading columns={columns} />
               <tbody>
                 {rows}
@@ -288,8 +288,8 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
 
       {/* Table Footer */}
       {shouldPage &&
-        <div data-test-id="table-footer" className={styles.tableFooter}>
-          <div data-test-id="rows-showing" className={styles.rowsShowing}>
+        <div data-test-id='table-footer' className={styles.tableFooter}>
+          <div data-test-id='rows-showing' className={styles.rowsShowing}>
             {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
           </div>
           {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}

@@ -25,7 +25,8 @@ describe('filter group', () => {
           ninetyDays: 2,
           total: 11
         }}
-        groupId="lastUpdated"/>));
+        groupId='lastUpdated'
+      />));
     rows = instance.findAllByType(FilterRow);
   })
 

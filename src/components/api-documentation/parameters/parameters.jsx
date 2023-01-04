@@ -11,9 +11,9 @@ import Pagination from './pagination/pagination';
 const Parameters = () => (
   <>
     <SectionContent
-      id="parameters"
+      id='parameters'
       headingLevel={2}
-      title="Parameters"
+      title='Parameters'
     >
       <p>
         <strong>Parameters</strong> can be included in an API request by modifying the URL. This

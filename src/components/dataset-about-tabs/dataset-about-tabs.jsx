@@ -17,8 +17,8 @@ import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 const DatasetAboutTabs = ({ config, test, width }) => {
   const TabPanel = ({children, value, index, ...other}) => (
     <Typography
-      component="div"
-      role="tabpanel"
+      component='div'
+      role='tabpanel'
       id={`filter-tabpanel-${index}`}
       aria-labelledby={`filter-tab-${index}`}
       className={value !== index ? 'hidden': ''}
@@ -88,7 +88,7 @@ const DatasetAboutTabs = ({ config, test, width }) => {
   }, [width])
 
   return (
-    <div data-testid="tabsContainer">
+    <div data-testid='tabsContainer'>
       <MuiThemeProvider theme={theme}>
         <div style={{ marginBottom: '0.875rem' }}>
         <Tabs
@@ -96,7 +96,7 @@ const DatasetAboutTabs = ({ config, test, width }) => {
           onChange={handleChange}
           variant={test ? "standard" : "scrollable"}
           scrollButtons={scrollButton}
-          aria-label="About This Dataset tabs"
+          aria-label='About This Dataset tabs'
         >
           {tabs.map((tab, index) => (
             <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} />

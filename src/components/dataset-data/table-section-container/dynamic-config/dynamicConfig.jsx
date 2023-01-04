@@ -198,13 +198,13 @@ const DynamicConfig = ({
           {' '} | {fieldInEditMode === field ? (
             <>
               <input
-                defaultValue={field.title} data-testid="titleInput"
+                defaultValue={field.title} data-testid='titleInput'
                 onChange={(event) => editPivotViewTitle(field, event.target.value)}
               />
             </>
           ) : (
             <>
-              <span data-testid="pivotViewTitle">{field.title}</span>
+              <span data-testid='pivotViewTitle'>{field.title}</span>
               <button
                 className={styles.editButton}
                 data-testid={`editButton-${field.title}`}
@@ -220,13 +220,13 @@ const DynamicConfig = ({
             <span className={styles.snapshotToggler}>
               Use last row snapshot for values?
               <input
-                type="checkbox"
+                type='checkbox'
                 onChange={() => updateLastSavedSnapshot(field)}
                 defaultChecked={field.lastRowSnapshot}
               />
             </span>
 
-              <div className={styles.filtersContainer} data-testid="filterEditor">
+              <div className={styles.filtersContainer} data-testid='filterEditor'>
                 <FilterEditor
                   filters={filtersInEdit}
                   columnNames={selectedTable.fields.map(f => f.columnName)}
@@ -236,13 +236,13 @@ const DynamicConfig = ({
             <hr />
             <button
               onClick={() => savePivotViewTitle(field)}
-              data-testid="saveButton"
+              data-testid='saveButton'
             >
               <FontAwesomeIcon icon={faCheck} /> Save Changes
             </button>
             <button
               onClick={() => cancelPivotViewChanges(field)}
-              data-testid="cancelButton"
+              data-testid='cancelButton'
             >
               <FontAwesomeIcon icon={faTimes} /> Cancel
             </button>
@@ -365,28 +365,28 @@ const DynamicConfig = ({
   return (
     <>
       <button
-        data-testid="launchConfigModal"
-        aria-label="Configure Chart"
+        data-testid='launchConfigModal'
+        aria-label='Configure Chart'
         className={styles.configButton}
         onClick={launchConfig}
       >
         Configure Chart
       </button>
       <label>
-        <input type="checkbox" onClick={togglePivots} />
+        <input type='checkbox' onClick={togglePivots} />
         <span>Chart Without Pivots</span>
       </label>
       <Modal
         open={configOpen}
         onClose={closeConfig}
-        aria-labelledby="Charting Configuration Modal"
+        aria-labelledby='Charting Configuration Modal'
         aria-describedby="Real-time config updates to current datatable's charts"
       >
         {
           // TODO - Move the children of Modal into a new component along with any resulting logic
           // and unit test this separately from the modal
           <div
-            data-testid="configModal"
+            data-testid='configModal'
             id={styles.modal}
             style={modalStyle}
             className={classes.paper}
@@ -438,7 +438,7 @@ const DynamicConfig = ({
                 Copy JSON to Clipboard
               </button>
               <button
-                data-test-id="closeConfigModal"
+                data-test-id='closeConfigModal'
                 className={styles.configButton}
                 onClick={closeConfig}
               >

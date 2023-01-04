@@ -36,16 +36,16 @@ export const Index = () => {
   return (
     <>
       <SiteLayout isPreProd={ENV_ID === "preprod"}>
-        <div data-testid="site-home" className={styles.siteHome} data-environment={ENV_ID}>
+        <div data-testid='site-home' className={styles.siteHome} data-environment={ENV_ID}>
           <PageHelmet
-            data-testid="helmet"
-            pageTitle=""
-            description="With historical and current data, Fiscal Data is your hub for fiscal data.
-          Download datasets on topics such as debt, interest rates, and more."
-            keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
-          financial data, debt, Treasury, US government"
+            data-testid='helmet'
+            pageTitle=''
+            description='With historical and current data, Fiscal Data is your hub for fiscal data.
+          Download datasets on topics such as debt, interest rates, and more.'
+            keywords='U.S. Treasury, Fiscal Data, machine readable data, API, government, government
+          financial data, debt, Treasury, US government'
           />
-          <TopicsSection images={topicsImages} data-testid="topics-section"/>
+          <TopicsSection images={topicsImages} data-testid='topics-section' />
           <HomeMainContent />
           <HomeFeatures />
         </div>

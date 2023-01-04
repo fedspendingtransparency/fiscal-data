@@ -58,8 +58,8 @@ const DownloadModal = ({ open,
       onClose={onClose}
       contentClass={styles.container}
     >
-      <div className={styles.title} data-testid="download-modal-title">{downloadCount >  1 ? downloadModalTitleMulti : downloadModalTitle}</div>
-      <div className={styles.downloadItemsContainer} data-testid="download-items-container">
+      <div className={styles.title} data-testid='download-modal-title'>{downloadCount >  1 ? downloadModalTitleMulti : downloadModalTitle}</div>
+      <div className={styles.downloadItemsContainer} data-testid='download-items-container'>
         {resumedPrepared && resumedPrepared.map((download, index) => (
           <DownloadModalItem key={index}
                              download={download}
@@ -70,7 +70,8 @@ const DownloadModal = ({ open,
         {downloadsInProgress && downloadsInProgress.map((download, index) =>
           <DownloadModalItem download={download}
                              key={index}
-                             cancelDownloadRequest={setCancelDownloadRequest} />)}
+                             cancelDownloadRequest={setCancelDownloadRequest}
+          />)}
         {resumedInProgress && resumedInProgress.map((download, index) => (
           <DownloadModalItem key={index}
                              download={download}
@@ -81,17 +82,18 @@ const DownloadModal = ({ open,
         {downloadQueue && downloadQueue.map((download, index) =>
           <DownloadModalItem download={download}
                              key={index}
-                             cancelDownloadRequest={setCancelDownloadRequest} />)}
+                             cancelDownloadRequest={setCancelDownloadRequest}
+          />)}
       </div>
       <button
         onClick={onClose}
         className={styles.closeButton}
-        data-testid="download-modal-close-button"
-        aria-label="Close"
+        data-testid='download-modal-close-button'
+        aria-label='Close'
       >
         Close
       </button>
-      <div className={styles.subText} data-testid="download-modal-subtext">{downloadModalSubText}</div>
+      <div className={styles.subText} data-testid='download-modal-subtext'>{downloadModalSubText}</div>
     </Modal>
   )
 };

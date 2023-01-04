@@ -94,23 +94,23 @@ const PageButtons = ({ pageButtonProps }) => {
   return(
     <div className={styles.pagingButtons}>
       <button
-        id="page-prev"
+        id='page-prev'
         onClick={() => handlePrev()}
         disabled={currentPage-1 <= 0}
         className={styles.arrow}
       >
-        <ChevronLeftIcon variant="outlined" size="small" />
+        <ChevronLeftIcon variant='outlined' size='small' />
       </button>
       <span className={styles.pageButtons}>
         {renderPageButtons()}
       </span>
       <button
-        id="page-next"
+        id='page-next'
         onClick={() => handleNext()}
         disabled={currentPage + 1 > maxPage}
         className={styles.arrow}
       >
-        <ChevronRightIcon variant="outlined" size="small" />
+        <ChevronRightIcon variant='outlined' size='small' />
       </button>
     </div>
   );

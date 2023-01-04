@@ -5,15 +5,15 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const NotShownMessage = ({heading, bodyText}) => {
   return (
-    <div className={styles.container} data-testid="container">
+    <div className={styles.container} data-testid='container'>
       <div className={styles.info}>
         <div className={styles.icon}>
           <FontAwesomeIcon icon={faInfoCircle} />
         </div>
         <div>
-          <div className={styles.heading} data-testid="heading">{heading}
+          <div className={styles.heading} data-testid='heading'>{heading}
           </div>
-          <div className={styles.bodyText} data-testid="bodyText">{bodyText}
+          <div className={styles.bodyText} data-testid='bodyText'>{bodyText}
           </div>
         </div>
       </div>

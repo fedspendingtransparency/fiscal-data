@@ -93,7 +93,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         return (
           <a
             href={urlOrHref}
-            className="primary"
+            className='primary'
             download
             data-testid={dataTestId || "download-link"}
           >
@@ -104,7 +104,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         return (
           <Link
             to={urlOrHref}
-            className="primary"
+            className='primary'
             download={urlOrHref.endsWith(".pdf")}
             data-testid={dataTestId || "internal-link"}
             onClick={onClickEventHandler}
@@ -117,8 +117,8 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       return (
         <ScrollLink
           to={urlOrHref.substr(1)}
-          data-testid="scroll-link"
-          className="primary"
+          data-testid='scroll-link'
+          className='primary'
           smooth={true}
           duration={600}
           delay={200}

@@ -36,7 +36,7 @@ const ReportDataToggle = ({ onChange, reports }) => {
       value: 1,
       icon: <FontAwesomeIcon classes={faStyles.rawData}
                              icon={faTable}
-                             data-test-id="table-icon"
+                             data-test-id='table-icon'
             />
     },
     {
@@ -44,7 +44,7 @@ const ReportDataToggle = ({ onChange, reports }) => {
       value: 2,
       icon: <FontAwesomeIcon classes={faStyles.publishedReport}
                              icon={faFileDownload}
-                             data-test-id="report-icon"
+                             data-test-id='report-icon'
             />
     }
   ]
@@ -60,19 +60,20 @@ const ReportDataToggle = ({ onChange, reports }) => {
 
   return (
     <div className={buttonGroup}
-         data-toggle="buttons"
+         data-toggle='buttons'
          style={{ display: display }}
     >
       {buttons.map( radioBtn => (
         <label key={`report-toggle-${radioBtn.value}`}
-               className={`${toggleButton} ${activeState === radioBtn.value ? selected : ''}`}>
+               className={`${toggleButton} ${activeState === radioBtn.value ? selected : ''}`}
+        >
           {radioBtn.icon}
           <div className={buttonDescription}>{radioBtn.description}</div>
-          <input type="radio"
+          <input type='radio'
                  checked={activeState === radioBtn.value ? 'checked' : ''}
                  className={radio}
                  value={radioBtn.value}
-                 name="reportData"
+                 name='reportData'
                  onChange={() => toggleState(radioBtn.value)}
           />
         </label>

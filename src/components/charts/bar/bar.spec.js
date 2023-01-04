@@ -9,12 +9,12 @@ import helpers from './helpers/helpers';
 describe('BarGraph component', () => {
 
   it('does not render anything if invalid params are detected', () => {
-    const {queryByTestId} = render(<BarGraph/>);
+    const {queryByTestId} = render(<BarGraph />);
     expect(queryByTestId('barGraph')).toBeNull();
   });
 
   it('renders a bar graph if valid params are detected', () => {
-    const {queryByTestId} = render(<BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']}/>);
+    const {queryByTestId} = render(<BarGraph graphData={staggeredData} graphIndex='year' valueKeys={['value']} />);
     expect(queryByTestId('barGraph')).toBeDefined();
   });
 
@@ -23,7 +23,7 @@ describe('BarGraph component', () => {
     let instance = null;
     await renderer.act(async () => {
       component = await renderer.create(
-        <BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']}/>);
+        <BarGraph graphData={staggeredData} graphIndex='year' valueKeys={['value']} />);
       instance = component.root;
     });
 
@@ -34,7 +34,7 @@ describe('BarGraph component', () => {
 });
 
 describe('BarGraph component - Custom bar graph', () => {
-  const barGraph = <BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']} useCustomBarComponent/>;
+  const barGraph = <BarGraph graphData={staggeredData} graphIndex='year' valueKeys={['value']} useCustomBarComponent />;
   const mouseEnterSpy = jest.spyOn(helpers, 'mouseEnterEvent');
   const mouseLeaveSpy = jest.spyOn(helpers, 'mouseLeaveEvent');
 

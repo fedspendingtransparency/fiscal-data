@@ -185,11 +185,11 @@ export const DatasetDataComponent = ({
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
 
   return (
-    <DatasetSectionContainer id="preview-and-download" title={title}>
+    <DatasetSectionContainer id='preview-and-download' title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
       <div className={activeTab === 1 ? '' : 'hidden'}>
         <FilterAndDownload
-          data-testid="filterAndDownload"
+          data-testid='filterAndDownload'
           dateRange={dateRange}
           isFiltered={isFiltered}
           selectedTable={selectedTable}

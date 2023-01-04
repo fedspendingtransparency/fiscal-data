@@ -306,7 +306,7 @@ const SplitFlapDisplay = (
               </React.Fragment>
             ))}
             {(displayValue && displayValue.length) && (
-              <div className={selectableDigits} data-testid="selectable-digits">$
+              <div className={selectableDigits} data-testid='selectable-digits'>$
                 {displayValue.split('').map((valChar: string, index: number) => (
                   <span
                     className={

@@ -9,10 +9,10 @@ const AnchorText = ({ link, text }: IAnchorText): JSX.Element => {
   return (
     <sup>
       <a
-        href="#footnote"
+        href='#footnote'
         id={link}
-        data-testid="anchor-text"
-        className="primary"
+        data-testid='anchor-text'
+        className='primary'
       >
         {text}
       </a>

@@ -44,15 +44,15 @@ const PagingOptionsMenu = ({ menuProps }) => {
     <div className={styles.pageOptions}>
       <span className={styles.perPageLabel}>{label}</span>
       <Button
-        aria-controls="rows-per-page-menu"
+        aria-controls='rows-per-page-menu'
         onClick={handleOpen}
-        variant="outlined"
+        variant='outlined'
         endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}
       >
         {selectedOption}
       </Button>
       <Menu
-        id="rows-per-page"
+        id='rows-per-page'
         anchorEl={anchorElement}
         keepMounted
         disablePortal

@@ -106,9 +106,9 @@ const ExperimentalPage = () => {
         Custom Link Component
       </h2>
       <div className={linkDiv}>
-        <CustomLink url="/">This should open the homepage in the same tab</CustomLink>
-        <CustomLink url="/" external>This should open the homepage in a new tab (since the "external" prop is passed in)</CustomLink>
-        <CustomLink url="https://example.com">
+        <CustomLink url='/'>This should open the homepage in the same tab</CustomLink>
+        <CustomLink url='/' external>This should open the homepage in a new tab (since the "external" prop is passed in)</CustomLink>
+        <CustomLink url='https://example.com'>
           This link should open https://example.com/ in a new tab even without the "external" prop since the url starts with http(s)
         </CustomLink>
       </div>
@@ -126,7 +126,7 @@ const ExperimentalPage = () => {
         >
           A smaller graph
         </div>
-        <VisualizationCallout children={'Example Text.'}/>
+        <VisualizationCallout children={'Example Text.'} />
       </div>
     </SiteLayout>
   )

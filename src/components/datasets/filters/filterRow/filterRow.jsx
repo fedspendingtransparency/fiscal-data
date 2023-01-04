@@ -49,14 +49,14 @@ const FilterRow = ({
       <label>
         <div className={styles.checkbox_wrapper}>
           <input
-            type="checkbox"
+            type='checkbox'
             title={title}
             checked={checked}
             onChange={handleClick}
           />
           <span className={styles.labelCheckmarkContainer}>
             <span className={styles.labelCheckmarkText}>
-              <FontAwesomeIcon icon={faCheck} size="sm" />
+              <FontAwesomeIcon icon={faCheck} size='sm' />
             </span>
           </span>
         </div>

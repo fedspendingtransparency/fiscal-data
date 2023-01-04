@@ -39,23 +39,23 @@ const CalendarEntry = ({ dataset, earliestDate }) => {
     <button
       onClick={handleClick}
       className={styles.calendarEntry}
-      data-testid="calendar-entry"
+      data-testid='calendar-entry'
     >
       <div className={styles.titleAndIcon}>
         <CalendarEntryStatus isReleased={released} />
         <Link
           to={`/datasets${url}`}
           className={styles.title}
-          data-testid="title"
+          data-testid='title'
         >
           {name}
         </Link>
       </div>
-      <div className={styles.date} data-testid="date">
+      <div className={styles.date} data-testid='date'>
         <FontAwesomeIcon icon={faCalendar} className={styles.dateIcon} />
         {formattedDate}
       </div>
-      <div className={styles.time} data-testid="time">
+      <div className={styles.time} data-testid='time'>
         <FontAwesomeIcon icon={faClock} className={styles.timeIcon} />
         <CalendarEntryTime dateString={date} timeInUTC={time} />
       </div>

@@ -53,17 +53,17 @@ const SelectAll = ({ fields, onUpdateFields,isVisible }) => {
       <div className={styles.row}>
         <label>
           <input
-            name="selectAll"
+            name='selectAll'
             onChange={() => handleToggleSelectAll(!allSelected)}
-            id="selectAll"
+            id='selectAll'
             value={allSelected}
-            type="checkbox"
+            type='checkbox'
             ref={inputRef}
             checked={allSelected && allFieldsChecked}
           />
           <span className={styles.labelCheckmarkContainer}>
             <span className={styles.checkmarkText}>
-              <FontAwesomeIcon icon={indeterminate ? faMinus : faCheck} size="sm" />
+              <FontAwesomeIcon icon={indeterminate ? faMinus : faCheck} size='sm' />
             </span>
           </span>
           Select All

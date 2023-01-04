@@ -80,10 +80,10 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
         descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
-        keywords=""
-        image=""
-        canonical=""
-        datasetDetails=""
+        keywords=''
+        image=''
+        canonical=''
+        datasetDetails=''
       />
 
       {isAFGPage ? (
@@ -141,7 +141,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
                       <h2
                         className={sectionHeading}
                         style={{ color: explainerColorMap[pageName].primary }}
-                        data-testid="section-heading"
+                        data-testid='section-heading'
                       >
                         {s.title}
                       </h2>

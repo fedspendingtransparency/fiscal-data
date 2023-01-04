@@ -9,7 +9,7 @@ export const ToggleSwitch = ({
   percentDollarToggleChecked,
 }) => {
   return (
-    <label htmlFor="material-switch">
+    <label htmlFor='material-switch'>
       <Switch
         checked={checked}
         onChange={handleChange}
@@ -20,7 +20,7 @@ export const ToggleSwitch = ({
         checkedIcon={false}
         height={20}
         width={48}
-        id="material-switch"
+        id='material-switch'
         onKeyDown={e => {
           if (e.key === "Enter") {
             setPercentDollarToggleChecked(!percentDollarToggleChecked)

@@ -9,17 +9,17 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 const Fields = () => (
   <>
     <SectionContent
-      id="fields"
+      id='fields'
       headingLevel={3}
-      title="Fields"
+      title='Fields'
     >
-      <p><strong>Parameter:</strong> <code className="inline">fields=</code></p>
+      <p><strong>Parameter:</strong> <code className='inline'>fields=</code></p>
       <p>
         <strong>Definition:</strong> The fields parameter allows you to select which
         field(s) should be included in the response.
       </p>
       <p>
-        <strong>Accepts:</strong> The <code className="inline">fields=</code> parameter accepts
+        <strong>Accepts:</strong> The <code className='inline'>fields=</code> parameter accepts
         a comma-separated list of field names.
       </p>
       <p>
@@ -32,20 +32,20 @@ const Fields = () => (
         <strong>Notes:</strong> When a file name passed to the fields parameter is not available for
         the endpoint accessed, an error will occur. Note that omitting fields can result in
         automatically aggregated and summed data results. For more information, view the{' '}
-        <CustomLink url="/api-documentation/#aggregation-sums">
+        <CustomLink url='/api-documentation/#aggregation-sums'>
           full documentation on Aggregation and Sums.
         </CustomLink>
       </p>
       <p><strong>Examples:</strong></p>
       <p>
         Only return the following fields from a dataset:{' '}
-        <code className="inline">country_currency_desc, exchange_rate, and record_date.</code>
+        <code className='inline'>country_currency_desc, exchange_rate, and record_date.</code>
       </p>
       <code className={`${apiStyles.code} ${apiStyles.marginBottom}`}>
         ?fields=country_currency_desc,exchange_rate,record_date
       </code>
       <p>Return the following fields from the Treasury Reporting Rates of Exchange dataset:{' '}
-        <code className="inline">
+        <code className='inline'>
           country_currency_desc, exchange_rate, and record_date.
         </code>
       </p>
@@ -55,9 +55,9 @@ const Fields = () => (
       </code>
     </SectionContent>
     <SectionContent
-      id="data-types"
+      id='data-types'
       headingLevel={4}
-      title="Data Types"
+      title='Data Types'
     >
       <p>
         All fields in a response will be <strong>treated as strings</strong> and enclosed in
@@ -72,9 +72,9 @@ const Fields = () => (
       </p>
     </SectionContent>
     <SectionContent
-      id="fields-fields-by-endpoint"
+      id='fields-fields-by-endpoint'
       headingLevel={4}
-      title="Fields by Endpoint"
+      title='Fields by Endpoint'
     >
       <p>
         To discover what <strong>fields are available within each endpoint,</strong> check out the
@@ -83,14 +83,14 @@ const Fields = () => (
       </p>
       <p>
         <strong>Looking for field names for a specific dataset?</strong> Jump to the{' '}
-        <CustomLink url="/api-documentation/#list-of-endpoints-table">
+        <CustomLink url='/api-documentation/#list-of-endpoints-table'>
           Endpoints by Dataset
         </CustomLink> section to find your dataset of interest. Select any dataset name to view that
         dataset's details, including metadata, data dictionary, a preview table, graphs, and more!
       </p>
       <p>
         <strong>Not sure which dataset you need?</strong> Head over to our{' '}
-        <CustomLink url="/datasets/">Datasets</CustomLink> page to search and filter for datasets by
+        <CustomLink url='/datasets/'>Datasets</CustomLink> page to search and filter for datasets by
         topic, dates available, file type, and more.
       </p>
     </SectionContent>

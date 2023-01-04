@@ -5,9 +5,9 @@ import * as apiStyles from '../../../../pages/api-documentation/api.module.scss'
 
 const ErrorObject = () => (
   <SectionContent
-    id="responses-error-object"
+    id='responses-error-object'
     headingLevel={3}
-    title="Error Object"
+    title='Error Object'
   >
     <p>
       If something goes wrong while creating the API response, an error object will be returned to
@@ -15,12 +15,12 @@ const ErrorObject = () => (
     </p>
     <ul>
       <li>
-        <code className="inline">Error:</code> The error name.
+        <code className='inline'>Error:</code> The error name.
       </li>
     </ul>
     <ul>
       <li>
-        <code className="inline">Message:</code> A detailed explanation of why the error occurred
+        <code className='inline'>Message:</code> A detailed explanation of why the error occurred
         and how to resolve it.
       </li>
     </ul>

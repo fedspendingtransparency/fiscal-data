@@ -11,9 +11,9 @@ const AboutUs = () => {
   return (
     <>
       <div className={styles.section}>
-        <SectionContent id="about-fiscal-data"
+        <SectionContent id='about-fiscal-data'
                         headingLevel={2}
-                        title="About Fiscal Data"
+                        title='About Fiscal Data'
         >
           <p>
             Fiscal Data is your one-stop shop for federal financial data. The Department
@@ -23,23 +23,23 @@ const AboutUs = () => {
             file downloads and application programming interfaces (APIs).
           </p>
         </SectionContent>
-        <SectionContent id="mission"
+        <SectionContent id='mission'
                         headingLevel={3}
-                        title="Mission"
+                        title='Mission'
         >
           <p>
             Our mission is to inspire trust in the government by providing access to federal
             financial data in one easy-to-use platform.
           </p>
         </SectionContent>
-        <SectionContent id="who-we-are"
+        <SectionContent id='who-we-are'
                         headingLevel={3}
-                        title="Who We Are"
+                        title='Who We Are'
         >
           <p>
             This site was created by the Office of the Chief Data Officer at the{' '}
             <CustomLink url={`${globalConstants.FISCAL_TREASURY_URL}/about.html`}
-                        data-testid="fsLink"
+                        data-testid='fsLink'
             >
               Bureau of the Fiscal Service (Fiscal Service)
             </CustomLink>, which is part of the Department of the Treasury. Fiscal Service
@@ -48,9 +48,9 @@ const AboutUs = () => {
             who are passionate about putting trusted data in the hands of the people.
           </p>
         </SectionContent>
-        <SectionContent id="what-makes-fiscal-data-different"
+        <SectionContent id='what-makes-fiscal-data-different'
                         headingLevel={3}
-                        title="What Makes Fiscal Data Different"
+                        title='What Makes Fiscal Data Different'
         >
           <ul className={styles.list}>
             <li>
@@ -70,17 +70,17 @@ const AboutUs = () => {
               <strong>Easily Accessible APIs</strong><br />
               With complete documentation and APIs for each dataset, accessing data has never
               been easier. New to APIs? Visit our{' '}
-              <CustomLink url="/api-documentation/#getting-started"
-                          data-testid="getting-started"
+              <CustomLink url='/api-documentation/#getting-started'
+                          data-testid='getting-started'
               >
                 getting started section
               </CustomLink> to learn more!
             </li>
           </ul>
         </SectionContent>
-        <SectionContent id="background"
+        <SectionContent id='background'
                         headingLevel={3}
-                        title="Background"
+                        title='Background'
         >
           <p>
             Fiscal Service is a leader in the open data community within the federal
@@ -92,24 +92,25 @@ const AboutUs = () => {
             data transparency work by modernizing how we provide data to the public.
           </p>
         </SectionContent>
-        <SectionContent id="open-data-policy"
+        <SectionContent id='open-data-policy'
                         headingLevel={3}
-                        title="Open Data Policy"
+                        title='Open Data Policy'
         >
           <p>
             Fiscal Service recognizes the importance of providing accurate data on the financial
             operations of the federal government to the public. This information is critical for
             the proper functioning of markets, the efficient management of the federal
             government, and ensuring the trust of the American people. The OCDO developed an{' '}
-            <CustomLink className="primary" href="/data/about-us/901-1 Open Data Policy.pdf">Open
-             Data Policy</CustomLink> which outlines policies and procedures governing Fiscal
+            <CustomLink className='primary' href='/data/about-us/901-1 Open Data Policy.pdf'>Open
+             Data Policy
+            </CustomLink> which outlines policies and procedures governing Fiscal
             Service’s open data. Fiscal Service’s publicly available data will be made accessible
             on Fiscal Data. Please visit us regularly for updates to the Open Data Policy.
           </p>
         </SectionContent>
-        <SectionContent id="data-sources"
+        <SectionContent id='data-sources'
                         headingLevel={3}
-                        title="Data Sources"
+                        title='Data Sources'
         >
           <p>
             The mission of Fiscal Service is to promote the financial integrity and
@@ -121,9 +122,9 @@ const AboutUs = () => {
             indicates the area within Fiscal Service from which the data originated.
           </p>
         </SectionContent>
-        <SectionContent id="understanding-the-data"
+        <SectionContent id='understanding-the-data'
                         headingLevel={3}
-                        title="Understanding the Data"
+                        title='Understanding the Data'
         >
           <p>
             As a first step in improving the usability of our data, we have focused on
@@ -133,24 +134,24 @@ const AboutUs = () => {
             represents, and descriptions for each dataset and data table.
           </p>
         </SectionContent>
-        <SectionContent id="development-and-releases"
+        <SectionContent id='development-and-releases'
                         headingLevel={3}
-                        title="Development and Releases"
+                        title='Development and Releases'
         >
           <p>
             Fiscal Data is being developed using the Agile Scrum method. We release updates to
             the site about every two weeks. If you would like to receive our release notes,
             please{' '}
             <CustomLink url={"mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov?subject=Yes," +
-            " I'd like to receive updates from Fiscal Data!"} className="primary"
+            " I'd like to receive updates from Fiscal Data!"} className='primary'
             >
               sign up for our emails
             </CustomLink>.
           </p>
         </SectionContent>
-        <SectionContent id="licensing"
+        <SectionContent id='licensing'
                         headingLevel={3}
-                        title="Licensing"
+                        title='Licensing'
         >
           <p>
             The U.S. Department of the Treasury’s Bureau of the Fiscal Service is committed to
@@ -158,24 +159,24 @@ const AboutUs = () => {
             redistribute, or otherwise use for non-commercial and commercial purposes.
           </p>
         </SectionContent>
-        <SectionContent id="more-information"
+        <SectionContent id='more-information'
                         headingLevel={3}
-                        title="More Information"
+                        title='More Information'
         >
           <p>
             For more information, see the{' '}
-            <ScrollLink to="faq"
-                        data-test-id="faq"
-                        className="primary"
+            <ScrollLink to='faq'
+                        data-test-id='faq'
+                        className='primary'
                         smooth={true}
                         duration={600}
                         delay={200}
             >
               FAQs
             </ScrollLink> or{' '}
-            <ScrollLink to="contact-us"
-                        data-test-id="contact"
-                        className="primary"
+            <ScrollLink to='contact-us'
+                        data-test-id='contact'
+                        className='primary'
                         smooth={true}
                         duration={600}
                         delay={200}

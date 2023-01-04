@@ -28,7 +28,7 @@ describe('Checkbox component', () => {
   let component = renderer.create();
   renderer.act(() => {
       component = renderer.create(
-        <Checkbox checkboxData={mockCheckboxData} changeHandler={mockChangeHandler}/>
+        <Checkbox checkboxData={mockCheckboxData} changeHandler={mockChangeHandler} />
       )
     }
   );

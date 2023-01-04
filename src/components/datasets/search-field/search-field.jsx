@@ -103,19 +103,19 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
     <>
       <div className={styles.searchInput}>
         <input
-          type="text"
+          type='text'
           value={localText}
-          name="components.search"
-          placeholder="Search for Datasets by Keyword..."
+          name='components.search'
+          placeholder='Search for Datasets by Keyword...'
           onChange={processInput}
           className={classNames([styles.searchInput_textField, styles.noButton])}
-          data-testid="keyword-search"
+          data-testid='keyword-search'
           ref={searchField}
-          aria-label="Enter search terms"
-          title="Enter Search Terms"
+          aria-label='Enter search terms'
+          title='Enter Search Terms'
         />
         <button
-          data-test-id="search-button"
+          data-test-id='search-button'
           className={styles.searchInput_iconButton}
           onClick={clear}
           disabled={searchIsEmpty}
@@ -123,8 +123,8 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
           aria-label={!searchIsEmpty ? 'clear' : ''}
         >
           {searchIsEmpty
-            ? <FontAwesomeIcon icon={faSearch} data-test-id="search-icon" />
-            : <FontAwesomeIcon icon={faTimesCircle} data-test-id="clear-search-icon" />
+            ? <FontAwesomeIcon icon={faSearch} data-test-id='search-icon' />
+            : <FontAwesomeIcon icon={faTimesCircle} data-test-id='clear-search-icon' />
           }
         </button>
         <InfoTip

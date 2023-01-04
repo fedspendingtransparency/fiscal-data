@@ -57,14 +57,14 @@ const CustomBarComponent: FunctionComponent<CustomBarComponentProps> = ({
       onClick={setValue}
       onMouseEnter={setValue}
       className={bar}
-      data-testid="container"
+      data-testid='container'
     >
       <rect
         width={width}
         height={height}
         fill={color}
         opacity={isActive ? 1 : .25}
-        data-testid="rect"
+        data-testid='rect'
       />
     </g>
   )

@@ -113,7 +113,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
       <>
         Limit results to datasets spanning entire time range
         <InfoTip
-          title="Time Range"
+          title='Time Range'
           clickEvent={handleInfoTipClick}
         >
           <p>
@@ -133,25 +133,25 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <div className={styles.time_range_filter} data-testid="time-range-filter">
+      <div className={styles.time_range_filter} data-testid='time-range-filter'>
         <div
           className={styles.time_range_filter_label}
-          data-testid="time_range_filter_label"
+          data-testid='time_range_filter_label'
         >
           <p className={styles.time_range_filter_label_text}>From</p>
           <div className={styles.time_range_filter_datePicker}>
             <KeyboardDatePicker
               value={beginDate}
               onChange={handleBeginDate}
-              variant="inline"
-              inputVariant="outlined"
-              placeholder="MM / DD / YYYY"
+              variant='inline'
+              inputVariant='outlined'
+              placeholder='MM / DD / YYYY'
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
-              format="MM/dd/yyyy"
+              format='MM/dd/yyyy'
               minDate={minAllowedDate}
               maxDate={maxAllowedDate}
-              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
+              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size='xs' />}
               KeyboardButtonProps={{
                 "aria-label": "Open calendar view to pick date",
               }}
@@ -175,15 +175,15 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
             <KeyboardDatePicker
               value={endDate}
               onChange={handleEndDate}
-              variant="inline"
-              inputVariant="outlined"
-              placeholder="MM / DD / YYYY"
-              format="MM/dd/yyyy"
+              variant='inline'
+              inputVariant='outlined'
+              placeholder='MM / DD / YYYY'
+              format='MM/dd/yyyy'
               minDate={minAllowedDate}
               maxDate={maxAllowedDate}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
-              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
+              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size='xs' />}
               KeyboardButtonProps={{
                 "aria-label": "Open calendar view to pick date",
               }}

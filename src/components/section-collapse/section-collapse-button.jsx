@@ -20,13 +20,13 @@ const SectionCollapseButton = ({ handleToggle, sectionName }) => {
         onClick={toggleState}
         id={`${sectionName}-collapse-button`}
         className={styles.toggleButton}
-        data-testid="collapse-button"
+        data-testid='collapse-button'
       >
-        <span data-testid="collapse-span" className={styles.buttonText}>{isCollapsed ? 'Show More' : 'Show Less'}</span>
+        <span data-testid='collapse-span' className={styles.buttonText}>{isCollapsed ? 'Show More' : 'Show Less'}</span>
         <div className={`${DownloadButtonStyles.icon} ${isCollapsed
           ? '' : DownloadButtonStyles.flipped}`}
         >
-          <FontAwesomeIcon icon={faChevronDown} data-test-id="faChevronDown" />
+          <FontAwesomeIcon icon={faChevronDown} data-test-id='faChevronDown' />
         </div>
       </button>
     </div>

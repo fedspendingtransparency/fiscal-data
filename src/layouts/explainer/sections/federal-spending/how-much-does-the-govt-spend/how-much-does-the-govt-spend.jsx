@@ -108,7 +108,7 @@ const HowMuchDoesTheGovtSpend = () => {
     <CustomLink
       url={`https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`}
-      eventNumber="15"
+      eventNumber='15'
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>;
@@ -300,7 +300,8 @@ const HowMuchDoesTheGovtSpend = () => {
                     marginRight: "10px",
                     height: "40px",
                   }}
-                ></div>
+                >
+                </div>
                 <div
                   className={percentOrDollarContainer}
                   style={{
@@ -326,7 +327,8 @@ const HowMuchDoesTheGovtSpend = () => {
                 marginRight: "10px",
                 height: "40px",
               }}
-            ></div>
+            >
+            </div>
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
                 ? otherTotal >= 1000000000000 ?

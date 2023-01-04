@@ -25,7 +25,7 @@ const HighlightCard = ({ classes, dataset }) => {
       <Card
         className={datasetStyles.card}
         onClick={() => clickHandler()}
-        data-test-id="highlight-card"
+        data-test-id='highlight-card'
       >
         <CardActionArea classes={{ root: classes.root }}>
           <p className={datasetStyles.card_headerLink}>

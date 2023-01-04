@@ -17,7 +17,8 @@ describe('The ComboSelect Component', () => {
       <ComboSelect changeHandler={changeHandlerSpy}
                    optionLabelKey={'label'}
                    options={mockYearOptions}
-                   selectedOption={null}/>
+                   selectedOption={null}
+      />
     );
     instance = component.root;
   });
@@ -34,7 +35,7 @@ describe('The ComboSelect Component', () => {
     renderer.act(() => {
       inputField.props.onFocus();
     });
-    let optionButtons = instance.findByType('ul').findAllByType('button');
+    const optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(10);
     expect(optionButtons[0].children).toEqual(['2020']);
     expect(optionButtons[9].children).toEqual(['2011']);
@@ -112,7 +113,7 @@ describe('The ComboSelect Component', () => {
     renderer.act(() => {
       inputField.props.onFocus();
     });
-    let optionButtons = instance.findByType('ul').findAllByType('button');
+    const optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons[5].children).toEqual(['2015']);
 
     renderer.act(() => {

@@ -73,7 +73,7 @@ export default function SearchFilterSummary({
                     .filter(obj => obj.active)
                     .map((option, index) => (
                       <button
-                        type="button"
+                        type='button'
                         className={styles.filter_summary_button}
                         key={index}
                         onClick={clickHandler(option, filterConfig)}
@@ -116,7 +116,7 @@ export default function SearchFilterSummary({
                 text here
               </p>
               <button
-                type="button"
+                type='button'
                 className={styles.filter_summary_button}
                 onClick={() => handleClearAll()}
               >

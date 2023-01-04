@@ -17,7 +17,7 @@ const Accordions = ({ selectedTable }) => {
     title: 'Parameters',
     desc: <>
             Refer to{' '}
-            <a href="#about-this-dataset"
+            <a href='#about-this-dataset'
                className={sectionLink}
             >
               About This Dataset

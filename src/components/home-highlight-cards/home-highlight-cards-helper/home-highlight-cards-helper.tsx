@@ -25,7 +25,7 @@ export const formatCardValue = (
         <span
           className={styles.labelPrefix}
           style={{ color: colorCoding.primaryColor }}
-          data-testid="prefix"
+          data-testid='prefix'
         >
           {prefix}
         </span>
@@ -33,7 +33,7 @@ export const formatCardValue = (
       <span
         className={`${styles.value} ${valueClassName}`}
         style={{ color: colorCoding.secondaryColor }}
-        data-testid="label"
+        data-testid='label'
       >
         {label}
       </span>

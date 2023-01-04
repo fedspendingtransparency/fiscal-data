@@ -93,25 +93,25 @@ export const DownloadsPage = ({ location }) => {
 
   return (
     <div>
-      <PageHelmet data-testid="helmet"
-                  pageTitle="Downloads"
-                  description="Check the status of a download request and download that data."
-                  keywords=""
+      <PageHelmet data-testid='helmet'
+                  pageTitle='Downloads'
+                  description='Check the status of a download request and download that data.'
+                  keywords=''
       />
       <div className={styles.content}>
-        <Link role="img"
-              title="Return to home page"
-              alt="Fiscal Data Homepage"
-              to="/"
-              data-testid="logo"
+        <Link role='img'
+              title='Return to home page'
+              alt='Fiscal Data Homepage'
+              to='/'
+              data-testid='logo'
               className={styles.logo}
-              aria-label="Fiscal Data logo - return to home page"
+              aria-label='Fiscal Data logo - return to home page'
         />
-        <div data-testid="image-container"
+        <div data-testid='image-container'
              className={[
           `${styles.graphic}`,
           `${downloadError ? styles.errorGraphic : ''}`].join(' ')}
-             aria-label="Image"
+             aria-label='Image'
         >&nbsp;
         </div>
         <div className={styles.textContent}>
@@ -119,7 +119,7 @@ export const DownloadsPage = ({ location }) => {
             `${styles.header}`,
             `${downloadError ? styles.error : ''}`].join(' ')}
           >
-            <h1 data-testid="header">
+            <h1 data-testid='header'>
               {downloadError ? downloadPageTextContent.dlErrorHeader :
                 checking ? downloadPageTextContent.checking :
                   downloadIsBeingPrepared ?
@@ -127,7 +127,7 @@ export const DownloadsPage = ({ location }) => {
                     downloadPageTextContent.dlReadyHeader }
             </h1>
           </div>
-          <div className={styles.text} data-testid="full-message">
+          <div className={styles.text} data-testid='full-message'>
             {downloadError ? downloadPageTextContent.dlErrorText :
               checking ? downloadPageTextContent.checking :
                 downloadIsBeingPrepared ?

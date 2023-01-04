@@ -66,10 +66,10 @@ const DatasetDetailFields = ({ apis }) => {
 
   const children = (
     <>
-      <div className={sectionBody} id="fields-table">
+      <div className={sectionBody} id='fields-table'>
         <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
       </div>
-      <div className={sectionBody} id="fields-datatypes">
+      <div className={sectionBody} id='fields-datatypes'>
         <div className={dataTypesHeader}>
           Data Types
         </div>
@@ -84,7 +84,7 @@ const DatasetDetailFields = ({ apis }) => {
     desc: (
       <>
         Refer to{' '}
-        <a href="#about-this-dataset" className={sectionLink}>
+        <a href='#about-this-dataset' className={sectionLink}>
           About This Dataset
         </a>{' '}
         above for a data dictionary with field names and descriptions, as well as notes and
@@ -95,7 +95,7 @@ const DatasetDetailFields = ({ apis }) => {
 
   return (
     <ApiQuickGuideSection
-      id="fields-section"
+      id='fields-section'
       title={header.title}
       description={header.desc}
       children={children}

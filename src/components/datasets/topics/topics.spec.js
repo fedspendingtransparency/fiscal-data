@@ -26,7 +26,7 @@ describe('Topics component', () => {
         onChange={mockChangeHandler}
         currentFilters={filters}
         availableFilters={filters}
-        groupId="topics"
+        groupId='topics'
         onGroupReset={onGroupReset}
         topicIcons={[]}
       />));

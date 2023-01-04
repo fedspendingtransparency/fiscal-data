@@ -30,14 +30,14 @@ export const SpendingCategories = () => {
 
   const spendingExplorer = (
     <CustomLink url={"https://www.usaspending.gov/explorer"}
-                eventNumber="14"
+                eventNumber='14'
     >
       Spending Explorer
     </CustomLink>
   )
   const agencyProfile = (
     <CustomLink url={"https://www.usaspending.gov/agency"}
-                eventNumber="34"
+                eventNumber='34'
     >
       Agency Profile
     </CustomLink>
@@ -70,15 +70,15 @@ export const SpendingCategories = () => {
         </VisualizationCallout>
       </div>
       <div className={spendingAccordion}>
-        <Accordion title="What does the future of Social Security and Medicare look like?"
-                   openEventNumber="16"
-                   explainerGAEvent="Spending"
+        <Accordion title='What does the future of Social Security and Medicare look like?'
+                   openEventNumber='16'
+                   explainerGAEvent='Spending'
         >
           Each year, the Social Security and Medicare Boards of Trustees publish
           their{" "}
           {
             <CustomLink href={"https://www.ssa.gov/oact/TRSUM/"}
-                        eventNumber="24"
+                        eventNumber='24'
             >
               Annual Reports on the Financial Status of Social Security and
               Medicare.

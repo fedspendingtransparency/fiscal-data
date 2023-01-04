@@ -60,7 +60,7 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
 
   return (
     <>
-      <div className={mainContainer} data-testid="main-container">
+      <div className={mainContainer} data-testid='main-container'>
         <h1 className={heroImageHeading} style={{ color: primaryColor }}>
           {heading}
         </h1>
@@ -69,23 +69,23 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
         )}
         {children}
       </div>
-      <div className={heroBorder} data-testid="hero-border">
+      <div className={heroBorder} data-testid='hero-border'>
         <svg
-          height="28"
-          width="100%"
-          preserveAspectRatio="xMidYMid slice"
+          height='28'
+          width='100%'
+          preserveAspectRatio='xMidYMid slice'
           viewBox={`0 0 ${width} 28`}
         >
           <defs>
-            <linearGradient id="Gradient">
-              <stop offset="38%" stopColor={primaryColor} />
-              <stop offset="50%" stopColor={secondaryColor} />
-              <stop offset="62%" stopColor={primaryColor} />
+            <linearGradient id='Gradient'>
+              <stop offset='38%' stopColor={primaryColor} />
+              <stop offset='50%' stopColor={secondaryColor} />
+              <stop offset='62%' stopColor={primaryColor} />
             </linearGradient>
           </defs>
           <path
             d={"M0 0 " + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + " Z"}
-            fill="url(#Gradient)"
+            fill='url(#Gradient)'
           />
         </svg>
       </div>

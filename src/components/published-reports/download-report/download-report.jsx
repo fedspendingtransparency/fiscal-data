@@ -11,7 +11,7 @@ import {faFileDownload} from '@fortawesome/free-solid-svg-icons';
 import {getFileSize} from "./download-helpers";
 
 const DownloadReport = ({ reportFile, isPublishedReport }) => {
-  const icon = <FontAwesomeIcon icon={faFileDownload} data-test-id="report-icon" />;
+  const icon = <FontAwesomeIcon icon={faFileDownload} data-test-id='report-icon' />;
   const [fileSize, setFileSize] = useState(null);
   const [reportLocation, setReportLocation] = useState(null);
   const [fileName, setFileName] = useState(null);
@@ -46,13 +46,13 @@ const DownloadReport = ({ reportFile, isPublishedReport }) => {
       <div className={reportDownloadDesc}>
         <div>
           <span className={propLabel}>Report: </span>
-          <span data-testid="reportGroupName">
+          <span data-testid='reportGroupName'>
             {groupName}
           </span>
         </div>
         <div>
           <span className={propLabel}>File: </span>
-          <span data-testid="reportFileDate">
+          <span data-testid='reportFileDate'>
             {publishedDate}
           </span>
         </div>
@@ -61,23 +61,23 @@ const DownloadReport = ({ reportFile, isPublishedReport }) => {
           <>
             <DownloadItemButton
               icon={icon}
-              label="Download"
+              label='Download'
               href={reportLocation}
               download={fileName}
               fileSize={isPublishedReport ? fileSize : null}
             />
-            <div className={helpText} data-testid="helpText" />
+            <div className={helpText} data-testid='helpText' />
           </>
         )
         : (
           <>
             <DownloadItemButton
               icon={icon}
-              label="Download"
+              label='Download'
               disabled
             />
             <div className={helpText}
-                 data-testid="helpText"
+                 data-testid='helpText'
             >
               Please select a report to download
             </div>

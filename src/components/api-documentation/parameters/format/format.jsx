@@ -7,19 +7,19 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 
 const Format = () => (
   <SectionContent
-    title="Format"
-    id="parameters-format"
+    title='Format'
+    id='parameters-format'
     headingLevel={3}
   >
-    <p><strong>Parameter:</strong> <code className="inline">format=</code></p>
+    <p><strong>Parameter:</strong> <code className='inline'>format=</code></p>
     <p>
       <strong>Definition:</strong> The format parameter allows a user to define the output method
       of the response (CSV, JSON, XML).
     </p>
     <p>
-      <strong>Accepts:</strong> The <code className="inline">format=</code> parameter accepts{' '}
-      <code className="inline">xml</code>, <code className="inline">json</code>, or{' '}
-      <code className="inline">csv</code> as an input.
+      <strong>Accepts:</strong> The <code className='inline'>format=</code> parameter accepts{' '}
+      <code className='inline'>xml</code>, <code className='inline'>json</code>, or{' '}
+      <code className='inline'>csv</code> as an input.
     </p>
     <p>
       <strong>Required:</strong> No, format is not required to make an API request.

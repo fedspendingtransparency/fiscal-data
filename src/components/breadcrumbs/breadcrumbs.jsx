@@ -18,7 +18,7 @@ const BreadCrumbs = ({ links }) => {
       {currentPage && (
         <div
           className={`${styles.linkDiv} ${styles.currentPage}`}
-          data-test-id="breadCrumbCurrentPage"
+          data-test-id='breadCrumbCurrentPage'
           title={currentPage.name}
         >
           {currentPage.name}

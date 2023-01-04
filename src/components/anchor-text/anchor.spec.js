@@ -11,7 +11,7 @@ const mockFootnote = {
   
 describe('Anchor Text', () => {
   it('it renders the Anchor Text component', () => {
-    const {getByTestId} = render(<AnchorText link={mockFootnote.link} text={mockFootnote.text}/>);
+    const {getByTestId} = render(<AnchorText link={mockFootnote.link} text={mockFootnote.text} />);
     expect(getByTestId('anchor-text')).toBeInTheDocument();
   });
 })

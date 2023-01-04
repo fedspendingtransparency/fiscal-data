@@ -8,16 +8,16 @@ import Analytics from "../../../utils/analytics/analytics";
 
 jest.useFakeTimers();
 describe('DownloadItemButton for static file', () => {
-  const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id="table-icon" size="1x" />;
+  const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id='table-icon' size='1x' />;
   const hrefStr = 'dummyHref';
   const downloadStr = 'dummyDownload';
   let component = {};
   renderer.act(() => {
     component = renderer.create(
       <DownloadItemButton
-        fileSize="200B"
+        fileSize='200B'
         icon={csvIcon}
-        label="CSV"
+        label='CSV'
         href={hrefStr}
         download={downloadStr}
       />
@@ -50,14 +50,14 @@ describe('DownloadItemButton for static file', () => {
 });
 
 describe('DownloadItemButton for asyncAction', () => {
-  const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id="table-icon" size="1x" />;
+  const csvIcon = <FontAwesomeIcon icon={faTable} data-test-id='table-icon' size='1x' />;
   const asyncActionMock = jest.fn();
   let component = {};
   renderer.act(() => {
     component = renderer.create(
       <DownloadItemButton
-        label="CSV"
-        fileSize="123MB"
+        label='CSV'
+        fileSize='123MB'
         icon={csvIcon}
         asyncAction={asyncActionMock}
       />
@@ -124,7 +124,7 @@ describe('DownloadItemButton for asyncAction', () => {
     () => {
     renderer.act(() => {
       component = renderer.create(
-        <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />);
+        <DownloadItemButton label='CSV' fileSize='123MB' icon={csvIcon} />);
     });
     let instance = component.root;
     expect(instance.findByType('a')).toBeDefined()

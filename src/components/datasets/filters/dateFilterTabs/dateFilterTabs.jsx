@@ -44,10 +44,10 @@ const DateFilterTabs = ({
       <Tabs
         value={selectedTab}
         onChange={handleSelectTab}
-        indicatorColor="primary"
+        indicatorColor='primary'
       >
-        <Tab label="Start Date" {...a11yProps(0)} />
-        <Tab label="Time Range"  {...a11yProps(1)} />
+        <Tab label='Start Date' {...a11yProps(0)} />
+        <Tab label='Time Range'  {...a11yProps(1)} />
       </Tabs>
       {selectedTab === 1 ? timeRangeComponent : startDateComponent}
     </>

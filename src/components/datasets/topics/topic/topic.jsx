@@ -47,11 +47,11 @@ const Topic = ({ active, filterKey, label, onChange, image }) => {
       <div className={styles.button_contents}>
         <div
           className={classNames([styles.oval, selected ? styles.active : ''])}
-          data-testid="topic-selector-button"
+          data-testid='topic-selector-button'
         >
           <GatsbyImage image={icon} alt={image?.name} />
         </div>
-        <label className={styles.label} data-testid="topic-selector-label">{label}</label>
+        <label className={styles.label} data-testid='topic-selector-label'>{label}</label>
       </div>
     </button>
   )

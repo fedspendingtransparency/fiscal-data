@@ -18,7 +18,7 @@ const Topics = ({pageContext}) => {
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
       <PageHelmet pageTitle={config.label} />
-      <MastHead title={config.label}/>
+      <MastHead title={config.label} />
       <DatasetSectionContainer id={'highlights'} title={'Debt Highlights'}>
         {
           mockDatasets.map((dataset, i) => (
@@ -30,7 +30,7 @@ const Topics = ({pageContext}) => {
       </DatasetSectionContainer>
       <RelatedDatasets datasets={mockDatasets} referrer={pageContext.config.name} />
       <DatasetSectionContainer id={'related-analyses'} title={'Related Analyses'}>
-        <img alt="" src={RelatedAnalysesCards} className={styles.relatedAnalysesCards} />
+        <img alt='' src={RelatedAnalysesCards} className={styles.relatedAnalysesCards} />
       </DatasetSectionContainer>
     </SiteLayout>
   )

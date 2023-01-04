@@ -9,7 +9,7 @@ const HideLegendToggle = ({legend, showToggle, onToggleLegend, selectedTab}) => 
             {(selectedTab === 1 && showToggle) && (
                 <button className={styles.toggleButton} onClick={onToggleLegend} onKeyPress={onToggleLegend}>
                     <span className={styles.buttonLabel}>
-                        <FontAwesomeIcon icon={faSlidersH} className={styles.icon} size="1x"/>
+                        <FontAwesomeIcon icon={faSlidersH} className={styles.icon} size='1x' />
                         {legend ? "Hide Legend" : "Show Legend"}
                     </span>
                 </button>

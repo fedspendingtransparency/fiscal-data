@@ -6,9 +6,9 @@ import * as styles from './links-object.module.scss';
 
 const LinksObject = () => (
   <SectionContent
-    id="responses-links-object"
+    id='responses-links-object'
     headingLevel={3}
-    title="Links Object"
+    title='Links Object'
   >
     <p>
       The links object is an API argument to access the current (self), first, previous, next, and

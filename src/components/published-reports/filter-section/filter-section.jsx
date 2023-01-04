@@ -36,20 +36,20 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   const currentlySelectedGroupIndex = useRef(0);
 
   const label =
-      <span data-testid="yearLabel">
-        Year <span className="required">*</span>
+      <span data-testid='yearLabel'>
+        Year <span className='required'>*</span>
       </span>;
   const monthLabel =
-      <span data-testid="monthLabel">
-        Month <span className="required">*</span>
+      <span data-testid='monthLabel'>
+        Month <span className='required'>*</span>
       </span>;
   const dayLabel =
-    <span data-testid="dayLabel">
-        Day <span className="required">*</span>
-      </span>;
+    <span data-testid='dayLabel'>
+        Day <span className='required'>*</span>
+    </span>;
   const reportLabel =
-      <span data-testid="reportLabel">
-        Report <span className="required">*</span>
+      <span data-testid='reportLabel'>
+        Report <span className='required'>*</span>
       </span>;
 
   const populateYears = (reportVal) => {
@@ -338,41 +338,41 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       <>
         {reportGroups.length > 1 && (
           <>
-          <h3 data-testid="filterReportHeader" className={filterHeader}>Choose Report:</h3>
+          <h3 data-testid='filterReportHeader' className={filterHeader}>Choose Report:</h3>
           <div className={filterContainer}>
             <div className={selectWrapper}>
               <SelectControl changeHandler={setSelectedReportGroup}
                              label={reportLabel}
-                             optionLabelKey="label"
+                             optionLabelKey='label'
                              options={reportGroups}
                              selectedOption={selectedReportGroup}
-                             data-testid="reportSelectControl"
+                             data-testid='reportSelectControl'
               />
             </div>
           </div>
             <div className={extraMarginBottom}> </div>
           </>
           )}
-      <h3 data-testid="filterHeader" className={filterHeader}>Select Report Date:</h3>
+      <h3 data-testid='filterHeader' className={filterHeader}>Select Report Date:</h3>
       <CurrentReportToggle reports={selectedReportGroup}
                            onChange={toggleCurrentReport}
                            filteredByDateSelection={filtered}
       />
 
-      <div className={showFilters ? '' : hiddenFilters} data-testid="filterCollapsible">
+      <div className={showFilters ? '' : hiddenFilters} data-testid='filterCollapsible'>
         <div className={`${filterContainer} ${selectedReportGroup?.daily ? dailyReport : ''}`}>
           <div className={selectWrapper}>
 
             {reportsByYear.length > 11 ? (
                 <ComboSelect changeHandler={setSelectedYear}
-                               optionLabelKey="label"
+                               optionLabelKey='label'
                                options={reportsByYear.slice(1)}
                                selectedOption={selectedYear}
                 />
             ) : (
               <SelectControl changeHandler={setSelectedYear}
                              label={label}
-                             optionLabelKey="label"
+                             optionLabelKey='label'
                              options={reportsByYear}
                              selectedOption={selectedYear}
               />
@@ -381,20 +381,20 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
           </div>
           {reportsByMonth.length > 0 && (
             <>
-              <div data-testid="month-wrapper" className={selectWrapper}>
+              <div data-testid='month-wrapper' className={selectWrapper}>
                 <SelectControl changeHandler={setSelectedMonth}
                                label={monthLabel}
-                               optionLabelKey="label"
+                               optionLabelKey='label'
                                options={reportsByMonth}
                                selectedOption={selectedMonth}
                 />
               </div>
               {(selectedMonth?.value !== null && reportsByDay?.length > 0 &&
                 selectedReportGroup.daily) && (
-                <div data-testid="day-wrapper" className={selectWrapper}>
+                <div data-testid='day-wrapper' className={selectWrapper}>
                 <SelectControl changeHandler={setSelectedDay}
                 label={dayLabel}
-                optionLabelKey="label"
+                optionLabelKey='label'
                 options={reportsByDay}
                 selectedOption={selectedDay}
                 />
@@ -404,11 +404,11 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
           )}
         </div>
         {reportsTip && (
-          <div data-testid="reports-tip" className={publishReportTip}>
+          <div data-testid='reports-tip' className={publishReportTip}>
             <div className={iconContainer}>
               <FontAwesomeIcon icon={faInfoCircle}
                                className={infoIcon}
-                               alt="info icon"
+                               alt='info icon'
               />
             </div>
             <span>{reportsTip}</span>

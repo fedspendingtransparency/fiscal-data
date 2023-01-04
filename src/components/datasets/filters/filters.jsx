@@ -329,28 +329,28 @@ const FilterSection = ({
                 <div className={styles.filterSectionHeader}>
                   <h2
                     className={styles.filterSectionTitle}
-                    data-testid="last-updated-title"
+                    data-testid='last-updated-title'
                   >
                     Last Updated
                   </h2>
                   <InfoTip
-                    data-testid="last-updated-tip"
+                    data-testid='last-updated-tip'
                     title={tips.lastUpdated.title}
                     clickEvent={() => handleInfoTipClick(tips.lastUpdated.title)}
                   >
                     {tips.lastUpdated.body}
                   </InfoTip>
                   <FilterGroupReset
-                    data-testid="last-updated-reset"
-                    groupId="lastUpdated"
+                    data-testid='last-updated-reset'
+                    groupId='lastUpdated'
                     activeFilters={activeFilters}
                     filters={availableFilters}
                     onGroupReset={onGroupReset}
                   />
                 </div>
                 <FilterGroup
-                  data-testid="last-updated-group"
-                  groupId="lastUpdated"
+                  data-testid='last-updated-group'
+                  groupId='lastUpdated'
                   onChange={onChange}
                   currentFilters={filterList}
                   filterTally={filterTally}
@@ -362,19 +362,19 @@ const FilterSection = ({
                 <div className={styles.filterSectionHeader}>
                   <h2
                     className={styles.filterSectionTitle}
-                    data-testid="date-range-title"
+                    data-testid='date-range-title'
                   >
                     Date Range
                   </h2>
                   <InfoTip
-                    data-testid="date-range-tip"
+                    data-testid='date-range-tip'
                     title={tips.dateRange.title}
                     clickEvent={() => handleInfoTipClick(tips.dateRange.title)}
                   >
                     {tips.dateRange.body}
                   </InfoTip>
                   <FilterGroupReset
-                    data-testid="start-date-reset"
+                    data-testid='start-date-reset'
                     groupId={selectedTab === 1 ? "dateRange" : "startDate"}
                     activeFilters={activeFilters}
                     filters={availableFilters}
@@ -387,8 +387,8 @@ const FilterSection = ({
                   onGroupReset={onGroupReset}
                   startDateComponent={
                     <FilterGroup
-                      data-testid="start-date-group"
-                      groupId="startDate"
+                      data-testid='start-date-group'
+                      groupId='startDate'
                       onChange={onChange}
                       currentFilters={filterList}
                       filterTally={filterTally}
@@ -409,20 +409,20 @@ const FilterSection = ({
                 <div className={styles.filterSectionHeader}>
                   <h2
                     className={styles.filterSectionTitle}
-                    data-testid="publisher-title"
+                    data-testid='publisher-title'
                   >
                     Dataset Publisher
                   </h2>
                   <InfoTip
-                    data-testid="publisher-tip"
+                    data-testid='publisher-tip'
                     title={tips.publisher.title}
                     clickEvent={() => handleInfoTipClick(tips.publisher.title)}
                   >
                     {tips.publisher.body}
                   </InfoTip>
                   <FilterGroupReset
-                    data-testid="publisher-reset"
-                    groupId="publisher"
+                    data-testid='publisher-reset'
+                    groupId='publisher'
                     activeFilters={activeFilters}
                     filters={availableFilters}
                     onGroupReset={onGroupReset}
@@ -430,8 +430,8 @@ const FilterSection = ({
                 </div>
                 <FilterPublisher filterList={filterList}>
                   <FilterGroup
-                    data-testid="publisher-group"
-                    groupId="publisher"
+                    data-testid='publisher-group'
+                    groupId='publisher'
                     onChange={onChange}
                     currentFilters={filterList}
                     filterTally={filterTally}
@@ -444,28 +444,28 @@ const FilterSection = ({
                 <div className={styles.filterSectionHeader}>
                   <h2
                     className={styles.filterSectionTitle}
-                    data-testid="data-format-title"
+                    data-testid='data-format-title'
                   >
                     Data Format
                   </h2>
                   <InfoTip
-                    data-testid="data-format-tip"
+                    data-testid='data-format-tip'
                     title={tips.dataFormat.title}
                     clickEvent={() => handleInfoTipClick(tips.dataFormat.title)}
                   >
                     {tips.dataFormat.body}
                   </InfoTip>
                   <FilterGroupReset
-                    data-testid="data-format-reset"
-                    groupId="dataFormat"
+                    data-testid='data-format-reset'
+                    groupId='dataFormat'
                     activeFilters={activeFilters}
                     filters={availableFilters}
                     onGroupReset={onGroupReset}
                   />
                 </div>
                 <FilterGroup
-                  data-testid="data-format-group"
-                  groupId="dataFormat"
+                  data-testid='data-format-group'
+                  groupId='dataFormat'
                   onChange={onChange}
                   currentFilters={filterList}
                   filterTally={filterTally}
@@ -478,17 +478,17 @@ const FilterSection = ({
         {(!isHandheld || (isHandheld && datasetsView)) && (
           <div className={`${layoutStyles.searchLayoutSection} ${layoutStyles.searchLayoutMain}`}>
             <Topics
-              data-testid="topics-group"
+              data-testid='topics-group'
               activeFilters={activeFilters}
               availableFilters={availableFilters}
-              groupId="topics"
+              groupId='topics'
               onChange={onChange}
               onGroupReset={onGroupReset}
               topicIcons={topicIcons}
             />
             {filteredDatasets && (
               <SearchResults
-                data-testid="search-results"
+                data-testid='search-results'
                 filteredDatasets={filteredDatasets}
                 allDatasets={updatedDatasets}
                 searchIsActive={searchIsActive}
@@ -499,7 +499,7 @@ const FilterSection = ({
       </div>
       {isHandheld && (
         <MobileFilterToggle
-          data-testid="mobile-filter-toggle"
+          data-testid='mobile-filter-toggle'
           datasetsCount={filteredDatasets ? filteredDatasets.length : 0}
           datasetsView={datasetsView}
           filterCnt={activeFilters.length}

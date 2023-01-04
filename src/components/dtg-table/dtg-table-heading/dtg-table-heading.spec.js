@@ -5,7 +5,8 @@ import {ColumnConfig, ColumnConfig2} from '../test-data';
 
 describe('Data Table Heading component', () => {
     const component = renderer.create(<DtgTableHeading
-        columns={ColumnConfig} />);
+        columns={ColumnConfig}
+                                      />);
     const instance = component.root;
 
     it('places a heading for each item in the config', () => {
@@ -25,7 +26,8 @@ describe('Data Table Heading component', () => {
 
     it('sets the text-align property to right if the datatype is "DATE", "CURRENCY", "PERCENTAGE", or "NUMBER"', () => {
       const component = renderer.create(<DtgTableHeading
-        columns={ColumnConfig2} />);
+        columns={ColumnConfig2}
+                                        />);
       const instance = component.root;
       expect(instance.findAllByType('th')[0].props.style.textAlign).not.toBeDefined();
       expect(instance.findAllByType('th')[1].props.style.textAlign).toBe('right');

@@ -11,8 +11,8 @@ describe('smooth scroll', () => {
   renderer.act(() => {
     component = renderer.create(
       <>
-        <div id="scrollHere" />
-        <a href="#scrollHere" onClick={scrollInstance.onLinkClick}>
+        <div id='scrollHere' />
+        <a href='#scrollHere' onClick={scrollInstance.onLinkClick}>
           Jump to scroll section
         </a>
       </>

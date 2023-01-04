@@ -15,12 +15,12 @@ describe('DDNav', () => {
   };
 
   it('writes out the expected title', () => {
-    const { getByTestId } = render(<DDNav title={datasetTitle}/>)
+    const { getByTestId } = render(<DDNav title={datasetTitle} />)
     expect(getByTestId('DDNavTitle').title).toBe(datasetTitle);
   });
 
   it('creates desktop anchor tags within the menu', () => {
-    const { getByTestId } = render(<DDNav/>)
+    const { getByTestId } = render(<DDNav />)
     const menu = getByTestId('DDNavMenu');
     let links = menu.getElementsByTagName('a');
     links = Array.from(links);
@@ -44,7 +44,7 @@ describe('DDNav', () => {
       jest.runAllTimers();
     });
 
-    const { getByTestId } = render(<DDNav title={datasetTitle}/>)
+    const { getByTestId } = render(<DDNav title={datasetTitle} />)
 
     const menu = getByTestId('DDNavMenu');
     let links = menu.getElementsByTagName('a');

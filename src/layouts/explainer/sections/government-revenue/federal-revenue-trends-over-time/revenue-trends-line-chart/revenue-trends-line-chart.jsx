@@ -300,7 +300,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           </div>
         </div>
       </div>
-    </div>;
+           </div>;
   }
 
   useEffect(() => {
@@ -358,7 +358,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 areaOpacity={1}
                 enableGridY={false}
                 enableGridX={false}
-                yFormat=" >-.2f"
+                yFormat=' >-.2f'
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{

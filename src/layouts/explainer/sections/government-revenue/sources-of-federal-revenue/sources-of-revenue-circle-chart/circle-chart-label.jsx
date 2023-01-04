@@ -124,7 +124,7 @@ const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, Hand
   return (
     <>
       <text
-        dominantBaseline="central"
+        dominantBaseline='central'
         style={textElementStyle}
         onClick={handlers.onClick}
         onMouseEnter={handlers.onMouseEnter}

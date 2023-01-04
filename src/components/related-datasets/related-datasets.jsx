@@ -20,11 +20,11 @@ const RelatedDatasets = ({ datasets, referrer }) => {
   }
 
   return (
-    <DatasetSectionContainer id="related-datasets" data-testid="section-container" title={title}>
+    <DatasetSectionContainer id='related-datasets' data-testid='section-container' title={title}>
       <div className={styles.paddingAdjust}>
       {sortedDatasets.map((dataset, i) => (
         <div
-          data-testid="cardWrapper"
+          data-testid='cardWrapper'
           className={styles.cardWrapper}
           key={i}
         >

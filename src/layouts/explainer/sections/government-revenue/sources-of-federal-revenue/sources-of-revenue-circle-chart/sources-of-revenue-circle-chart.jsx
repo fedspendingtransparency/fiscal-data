@@ -312,7 +312,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           {chartData !== {} ? (
             <div className={dataContent}>
               <div
-                role="presentation"
+                role='presentation'
                 className={chartSize}
                 onMouseLeave={HandleChartMouseLeave}
                 onClick={HandleChartMouseLeave}

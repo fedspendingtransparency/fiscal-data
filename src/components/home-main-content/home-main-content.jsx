@@ -13,7 +13,7 @@ const HomeMainContent = () => {
   const datasetSearchPage = <CustomLink url={'/datasets/'}>Dataset Search page</CustomLink>
   return (
     <>
-      <div data-testid="home-main-content" className={mainContent}>
+      <div data-testid='home-main-content' className={mainContent}>
         <div className={sectionHeader}>
           DATASET SEARCH
         </div>

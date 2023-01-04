@@ -230,14 +230,14 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
-        pageTitle="America’s Finance Guide"
+        pageTitle='America’s Finance Guide'
         description={"Your Guide to America’s Finances makes federal financial information open " +
         "and accessible to all. Explore U.S. revenue, spending, deficit, and debt with this " +
         "open-source guide to federal finance data."}
-        keywords=""
-        image=""
-        canonical=""
-        datasetDetails=""
+        keywords=''
+        image=''
+        canonical=''
+        datasetDetails=''
       />
       <AfgHero />
 
@@ -245,7 +245,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         <Container
           classes={{ root: styles.topContainer }}
           maxWidth={false}
-          data-testid="topContainer"
+          data-testid='topContainer'
         >
 
           {width < pxToNumber(breakpointLg) ?
@@ -256,26 +256,26 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           <AfgTopicSection
             heading={revenueHeading}
             body={revenueBody}
-            linkUrl="/americas-finance-guide/government-revenue/"
+            linkUrl='/americas-finance-guide/government-revenue/'
 
-            linkText="Learn more about government revenue"
+            linkText='Learn more about government revenue'
             linkColor={styles.revenueExplainerPrimary}
-            image="/topics-section-images/homepage_revenue_1200x630.png"
-            imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
+            image='/topics-section-images/homepage_revenue_1200x630.png'
+            imageAltText='U.S. Capitol dome surrounded in circle by hand holding plant, hand
           holding money, hand holding gold coin, woman looking at check, and man looking
-          at building."
+          at building.'
           />
 
           <AfgTopicSection
             heading={spendingHeading}
-            body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
-            linkUrl="/americas-finance-guide/federal-spending/"
+            body='The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
+            linkUrl='/americas-finance-guide/federal-spending/'
 
-            linkText="Learn more about federal spending"
+            linkText='Learn more about federal spending'
             linkColor={spendingExplainerPrimary}
-            image="/topics-section-images/homepage_spending_1200x630.png"
-            imageAltText="The US Treasury building is placed next to a row of homes. A pair
-          of hands exchange money in the foreground. "
+            image='/topics-section-images/homepage_spending_1200x630.png'
+            imageAltText='The US Treasury building is placed next to a row of homes. A pair
+          of hands exchange money in the foreground. '
           />
 
           <div className={styles.middleHeader}>
@@ -306,30 +306,30 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
           <AfgTopicSection
             heading={deficitHeading}
-            body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-            linkUrl="/americas-finance-guide/national-deficit/"
+            body='A budget deficit occurs when the money spent exceeds the money collected for a given period.'
+            linkUrl='/americas-finance-guide/national-deficit/'
 
-            linkText="Learn more about national deficit"
+            linkText='Learn more about national deficit'
             linkColor={deficitExplainerPrimary}
-            image="/topics-section-images/homepage_deficit_1200x630.png"
-            imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
-          of the hand, including a pie chart, bar graph, and lit lightbulb."
+            image='/topics-section-images/homepage_deficit_1200x630.png'
+            imageAltText='A hand reaches up to grab a $ coin. Other objects appear to the left
+          of the hand, including a pie chart, bar graph, and lit lightbulb.'
           />
 
           <AfgTopicSection
             heading={debtHeading}
             body={debtBody}
-            linkUrl="/americas-finance-guide/national-debt/"
-            linkText="Learn more about national debt"
+            linkUrl='/americas-finance-guide/national-debt/'
+            linkText='Learn more about national debt'
             linkColor={debtExplainerPrimary}
-            image="/topics-section-images/homepage_debt_1200x630.png"
-            imageAltText="A variety of hands reach up with objects, including a magnifying
-          glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
+            image='/topics-section-images/homepage_debt_1200x630.png'
+            imageAltText='A variety of hands reach up with objects, including a magnifying
+          glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone.'
           />
 
           {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
 
-          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%"/>}
+          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width='100%' />}
           <DataSourcesMethodologies>
 
             Current and prior fiscal year values for federal revenue, spending,
@@ -340,13 +340,13 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       </div>
       <Container
         classes={{ root: styles.quoteContainer }}
-        data-testid="quoteContainer"
+        data-testid='quoteContainer'
       >
         <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
           <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
             <img
-              src="../images/thomas-jefferson_background.png"
-              alt="A sketched portrait of Thomas Jefferson, from the torso up."
+              src='../images/thomas-jefferson_background.png'
+              alt='A sketched portrait of Thomas Jefferson, from the torso up.'
             />
           </Grid>
           <Grid item md={8}>
@@ -371,7 +371,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
       <Container
         classes={{ root: styles.bottomContainer }}
-        data-testid="bottomContainer"
+        data-testid='bottomContainer'
       >
         <p className={styles.bottomHeading}>Americans asked. We listened.</p>
         <p className={styles.bottomBody}>
@@ -393,8 +393,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           Department of the Treasury
         </p>
         <img
-          src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg"
-          alt="U.S. Treasury Logo"
+          src='../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg'
+          alt='U.S. Treasury Logo'
         />
       </Container>
     </SiteLayout>

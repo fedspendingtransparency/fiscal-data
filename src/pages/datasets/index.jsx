@@ -151,7 +151,7 @@ const DatasetsPage = ({ pageContext }) => {
   return (
     <SiteLayout>
       <PageHelmet
-        pageTitle="Dataset Search"
+        pageTitle='Dataset Search'
         description={
           `Explore federal financial datasets on topics such as debt, interest rates,
           and more at Fiscal Data!`
@@ -162,10 +162,10 @@ const DatasetsPage = ({ pageContext }) => {
         }
       />
       <MuiThemeProvider theme={dsTheme}>
-        <div className="bodyBackground">
+        <div className='bodyBackground'>
           <div className={styles.searchContainer}>
             <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={styles.page_title}>Datasets</h1>
+            <h1 data-testid='page-title' className={styles.page_title}>Datasets</h1>
             <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />
             <FilterSection
               searchIsActive={searchQuery.length > 0}

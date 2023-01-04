@@ -23,7 +23,7 @@ const ModalComponent = ({
     open={open}
     onClose={onClose}
     className={styles.modal}
-    data-testid="modal"
+    data-testid='modal'
     disableBackdropClick={disableBackdropClick}
     disableEscapeKeyDown={disableEscapeKey}
     BackdropComponent={Backdrop}
@@ -36,7 +36,7 @@ const ModalComponent = ({
     <Fade in={open} timeout={500}>
       <div
         className={`${styles.content} ${contentClass} ${open ? styles.slideIn : styles.slideOut}`}
-        data-testid="content"
+        data-testid='content'
       >
         {children}
       </div>

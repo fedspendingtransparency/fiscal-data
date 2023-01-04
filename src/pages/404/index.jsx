@@ -15,14 +15,14 @@ const NotFound = ({ pageContext, data }) => {
     <SiteLayout>
       <div className={styles.siteNotFound}>
         <PageHelmet
-          data-testid="helmet"
+          data-testid='helmet'
           pageTitle={pageTitle}
         />
-        <div data-testid="notFoundWrapper" className={styles.notFoundWrapper}>
-          <Experimental featureId="not-found-md" exclude>
+        <div data-testid='notFoundWrapper' className={styles.notFoundWrapper}>
+          <Experimental featureId='not-found-md' exclude>
             <NotFoundText />
           </Experimental>
-          <Experimental featureId="not-found-md">
+          <Experimental featureId='not-found-md'>
             <NotFoundMd mdx={data['mdx']} />
           </Experimental>
         </div>

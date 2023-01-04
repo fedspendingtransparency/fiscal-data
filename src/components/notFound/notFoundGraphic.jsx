@@ -26,8 +26,8 @@ const NotFoundGraphic = () => {
         <img
             className={styles.notFoundGraphic}
             src={src}
-            alt="404: Page Not Found"
-            role="presentation"
+            alt='404: Page Not Found'
+            role='presentation'
         />
     );
 };

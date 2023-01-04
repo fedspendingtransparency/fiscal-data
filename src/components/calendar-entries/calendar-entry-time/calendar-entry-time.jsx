@@ -28,7 +28,7 @@ const CalendarEntryTime = ({ dateString, timeInUTC }) => {
   }, []);
 
   return (
-    <span data-testid="time-display">{timeDisplay}</span>
+    <span data-testid='time-display'>{timeDisplay}</span>
   );
 
 };

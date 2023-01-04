@@ -115,36 +115,37 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
   return (
     <header>
-      <OfficialBanner data-testid="officialBanner" />
+      <OfficialBanner data-testid='officialBanner' />
       <div className={styles.container}>
         <div className={styles.content}>
           <Link
-            role="img"
-            title="Return to home page"
-            alt="Fiscal Data Homepage"
-            data-testid="logo"
+            role='img'
+            title='Return to home page'
+            alt='Fiscal Data Homepage'
+            data-testid='logo'
             className={styles.logo}
-            aria-label="Fiscal Data logo - return to home page"
-            to="/"
+            aria-label='Fiscal Data logo - return to home page'
+            to='/'
             onClick={() => clickHandler('Logo')}
           >
             <StaticImage
-              src="../../images/logos/fd-logo.svg"
-              loading="eager"
-              placeholder="none"
-              alt="Fiscal Data logo"
+              src='../../images/logos/fd-logo.svg'
+              loading='eager'
+              placeholder='none'
+              alt='Fiscal Data logo'
               height={55}
               width={192}
             />
           </Link>
-          <div className={styles.pageLinks} data-testid="pageLinks">
+          <div className={styles.pageLinks} data-testid='pageLinks'>
             {pageLinks.map((pageLink) => {
               if (pageLink.isExperimental) {
                 return (
                   <Experimental featureId={pageLink.featureId} key={pageLink.title}>
                     <div className={styles.pageLinkButtonContainer}>
                       <div className={styles.pageLinkButtonContent}
-                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                      >
                         <button className={styles.pageLinkButton} >
                           <Link
                             to={pageLink.to}
@@ -227,7 +228,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               return (
                 <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
-                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                  >
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
                               disabled
@@ -259,7 +261,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       </div>
       {lowerEnvMsg && (
         <PageNotice>
-          <span data-testid="lowerEnvMessage">
+          <span data-testid='lowerEnvMessage'>
             <strong>NOTICE: </strong>
             {lowerEnvMsg}
           </span>
@@ -268,7 +270,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       {
         isIE && (
           <PageNotice warningLevel={1}>
-            <strong data-testid="ieDetected">You seem to be using an unsupported browser</strong>
+            <strong data-testid='ieDetected'>You seem to be using an unsupported browser</strong>
             <div>
               To get the best experience with Fiscal Data please use Chrome, Firefox, Edge, or Safari.
             </div>

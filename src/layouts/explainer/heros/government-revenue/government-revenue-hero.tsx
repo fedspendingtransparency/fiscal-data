@@ -97,7 +97,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
           value={currentRevenue}
           mobilePrecision={parseInt(currentRevenue) > 999999999999 ? 2 : 0}
           minLength={currentRevenue?.toString().length}
-          valueType="currency"
+          valueType='currency'
         />
       </div>
       <div className={footNotes}>
