@@ -15,7 +15,7 @@ const InsightsDownload = ({downloadLink, dataDate}: InsightsDownloadProps): JSX.
             <div className={downloadIcon}>
             <FontAwesomeIcon icon={faFileDownload} title={'download'} />
             </div>
-            Download the data (.csv) as of {dataDate}
+            Download the data (.CSV) as of {dataDate}
           </a>
       </div>
   )

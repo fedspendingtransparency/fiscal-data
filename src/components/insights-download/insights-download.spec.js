@@ -10,7 +10,7 @@ describe('Insights Download', () => {
     const { getByTestId, getByText } = render(<InsightsDownload downloadLink={'sampleLink'} dataDate={'Dec 2022'} />);
     expect(getByTestId('insights-download')).toBeInTheDocument();
     expect(getByTestId('download-button')).toBeInTheDocument();
-    expect(getByText('Download the data (.csv) as of Dec 2022')).toBeDefined();
+    expect(getByText('Download the data (.CSV) as of Dec 2022')).toBeDefined();
   });
 
 });
