@@ -72,6 +72,7 @@ describe('MobileMenu actions', () => {
     expect(getByText('Spending')).toBeDefined();
     expect(getByText('Revenue')).toBeDefined();
     expect(getByText('Overview')).toBeDefined();
+    expect(getByText('Who Owns the Debt?')).toBeDefined();
   });
 
   it('triggers a click', async()=>{
