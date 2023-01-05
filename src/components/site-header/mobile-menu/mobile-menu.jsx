@@ -38,9 +38,6 @@ const MobileMenu = () => {
        * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
        * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
        */}
-       * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
-       * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
-       */}
       <div
         className={styles.overlay}
         data-testid="overlay"
