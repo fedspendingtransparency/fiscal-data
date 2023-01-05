@@ -38,6 +38,9 @@ const MobileMenu = () => {
        * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
        * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
        */}
+       * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
+       * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
+       */}
       <div
         className={styles.overlay}
         data-testid="overlay"
@@ -67,6 +70,7 @@ const MobileMenu = () => {
                 onClick={() => {
                   setIsExpanded(!isExpanded);
                 }}
+                data-testid="topicsButton"
               >
                 Topics
                 {isExpanded ? (
@@ -114,20 +118,15 @@ const MobileMenu = () => {
                     <Link
                       to="/americas-finance-guide/national-debt/"
                       className={styles.explainerLink}
+                      data-testid="debtLink"
                       onClick={() => topicsClickHandler('Debt')}
                     >
                       Debt
                     </Link>
                   </div>
                   <div className={styles.AFGHeader}>INSIGHTS</div>
-                  <div className={styles.explainerLinkContainer}>
-                    <Link
-                      to="/who-owns-the-debt/"
-                      className={styles.explainerLink}
-                      onClick={() => topicsClickHandler('WOtD')}
-                    >
-                      Who Owns the Debt? 
-                    </Link>
+                  <div className={styles.dropdownTempText}>
+                    <em>{dropdownTempText}</em>
                   </div>
                 </div>
               )}

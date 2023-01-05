@@ -74,4 +74,10 @@ describe('MobileMenu actions', () => {
     expect(getByText('Overview')).toBeDefined();
     expect(getByText('Who Owns the Debt?')).toBeDefined();
   });
+
+  it('triggers a click', async()=>{
+    fireEvent.click(theButton);
+    fireEvent.click(getByTestId('debtLink'));
+    fireEvent.click(getByTestId('topicsButton'));
+  });
 });
