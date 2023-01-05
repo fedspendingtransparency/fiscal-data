@@ -86,8 +86,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
       </CustomLink>
     );
 
-
-
     // Below are the configs for custom properties for the debt trends over time line chart
 
     const [debtTrendsData, setDebtTrendsData] = useState([]);
@@ -223,7 +221,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
               onMouseLeave={() => {
                 setCurrentSlice(null);
               }}
-              data-testid={"slice"}
             />
           ))}
         </g>;
@@ -260,48 +257,60 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
       );
     }
 
-  useEffect(() => {
-    if(startAnimation && debtTrendsData && !animationComplete) {
-      if(animationPoint < debtTrendsData[0].data.length -1) {
-        const i = animationPoint + 1;
-        setTimeout(() => {
-          console.log(i);
-          setAnimationPoint(i);
-        }, 25)
-      } else {
-        console.log("stop");
-        clearTimeout();
-        setAnimationComplete(true);
+    useEffect(() => {
+      if(startAnimation && debtTrendsData && !animationComplete) {
+        if(animationPoint < debtTrendsData[0].data.length -1) {
+          const i = animationPoint + 1;
+          setTimeout(() => {
+            console.log(i);
+            setAnimationPoint(i);
+          }, 50)
+        } else {
+          console.log("stop");
+          clearTimeout();
+          setAnimationComplete(true);
+        }
       }
-    }
-  }, [animationPoint, startAnimation])
+    }, [animationPoint, startAnimation])
 
-    const CustomPoint = props => {
-      const { currentSlice, borderWidth, borderColor, points } = props;
-      let currentPoint;
-      if (!isLoadingDebtTrends) {
-        if(!animationComplete) {
-          setStartAnimation(true);
-          currentPoint = points[animationPoint];
+  const CustomPoint = props => {
+    const { currentSlice, borderWidth, borderColor, points } = props;
+    let currentPoint;
+    let observer;
+    if (!isLoadingDebtTrends) {
+      if(!animationComplete) {
+        if(typeof window !== "undefined") {
+          observer = new IntersectionObserver(entries => {
+            entries.forEach((entry) => {
+              if(!startAnimation && entry.isIntersecting) {
+                console.log("start");
+                setTimeout(() =>
+                  setStartAnimation(true), 1000)
+              }
+            })
+          })
         }
-        else {
-          currentPoint = currentSlice?.points?.length
-              ? currentSlice.points[0]
-              : points[points.length - 1];
-        }
-              setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
-              setLinechartHoveredYear(currentPoint.data.x);
-              return (
-                <>
-                  <Point
-                    currentPoint={currentPoint}
-                    borderColor={borderColor}
-                    borderWidth={borderWidth}
-                  />
-                </>
-              );
+        observer.observe(document.querySelector('[data-testid="debtTrendsChart"]'))
+        currentPoint = points[animationPoint];
       }
-    };
+      else {
+        currentPoint = currentSlice?.points?.length
+          ? currentSlice.points[0]
+          : points[points.length - 1];
+      }
+      setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
+      setLinechartHoveredYear(currentPoint.data.x);
+      return (
+        <>
+          <Point
+            currentPoint={currentPoint}
+            borderColor={borderColor}
+            borderWidth={borderWidth}
+          />
+        </>
+      );
+    }
+  };
 
     const handleMouseEnterLineChart = () => {
       gaTimerDebtTrends = setTimeout(() =>{
@@ -312,6 +321,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
         });
       }, 3000);
     }
+
     const handleMouseLeaveLineChart = () => {
       clearTimeout(gaTimerDebtTrends);
     };
