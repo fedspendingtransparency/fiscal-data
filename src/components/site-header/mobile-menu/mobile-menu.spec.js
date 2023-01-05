@@ -73,4 +73,10 @@ describe('MobileMenu actions', () => {
     expect(getByText('Revenue')).toBeDefined();
     expect(getByText('Overview')).toBeDefined();
   });
+
+  it('triggers a click', async()=>{
+    fireEvent.click(theButton);
+    fireEvent.click(getByTestId('debtLink'));
+    fireEvent.click(getByTestId('topicsButton'));
+  });
 });
