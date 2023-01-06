@@ -1727,7 +1727,7 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/schedules_fed_debt_daily_activity',
     'dateField': 'record_date',
     'downloadName': 'SFD_SchedFedDebtDailyActivity',
-    'alwaysSortWith': ['-record_date', '-src-line-nbr'],
+    'alwaysSortWith': ['-record_date', '-src_line_nbr'],
     'dataDisplays': [
       {
         'title': 'Type',
