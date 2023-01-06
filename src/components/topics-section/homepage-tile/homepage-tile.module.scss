@@ -12,6 +12,7 @@ $secondary-feature-body: $font-size-16;
     color: #555555;
     font-weight: $semi-bold-weight;
     margin: 0;
+    //display: inline;
 
     &.mainTitle {
       font-size: $main-feature-title;
@@ -33,5 +34,12 @@ $secondary-feature-body: $font-size-16;
 
   .tileContainer {
     padding-top: .5rem;
+  }
+
+  .afgBookIcon{
+    width: 3rem;
+    height: 2rem;
+    padding: 0 .5rem 0 0; 
+    vertical-align: text-bottom;
   }
 }

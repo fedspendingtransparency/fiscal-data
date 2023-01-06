@@ -35,9 +35,9 @@ const MobileMenu = () => {
       data-testid="menuContainer"
     >
       {/*
-        * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
-        * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
-        */}
+       * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
+       * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
+       */}
       <div
         className={styles.overlay}
         data-testid="overlay"
@@ -47,77 +47,106 @@ const MobileMenu = () => {
         {!activeState && (
           <MenuButton clickHandler={toggleState} isOpen={activeState} />
         )}
-          {activeState && (
-            <>
-              <div className={styles.linkHeaderContainer}>
-                <Link to="/" data-testid="logo">
-                  <img
-                    src="/logos/fd-logo-mobile.svg"
-                    alt="Fiscal Data logo"
-                    className={styles.logo}
+        {activeState && (
+          <>
+            <div className={styles.linkHeaderContainer}>
+              <Link to="/" data-testid="logo">
+                <img
+                  src="/logos/fd-logo-mobile.svg"
+                  alt="Fiscal Data logo"
+                  className={styles.logo}
+                />
+              </Link>
+              <MenuButton clickHandler={toggleState} isOpen={activeState} />
+            </div>
+            <div>
+              <div
+                className={
+                  isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader
+                }
+                onClick={() => {
+                  setIsExpanded(!isExpanded);
+                }}
+                data-testid="topicsButton"
+              >
+                Topics
+                {isExpanded ? (
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    className={styles.caret}
                   />
-                </Link>
-                <MenuButton clickHandler={toggleState} isOpen={activeState} />
-              </div>
-              <div>
-                <div className={isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader}
-                     onClick={() => {setIsExpanded(!isExpanded)}}
-                >
-                  Topics
-                  {isExpanded
-                    ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                    : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                  }
-                </div>
-                {isExpanded && (
-                  <div data-testid={'expandedContent'}>
-                    <div className={styles.AFGHeader}>
-                      AMERICA'S FINANCE GUIDE
-                    </div>
-                    <div className={styles.explainerLinkContainer}>
-                      <Link to="/americas-finance-guide/"
-                        className={styles.explainerLink}
-                      >
-                        Overview
-                      </Link>
-                      <Link to="/americas-finance-guide/government-revenue/"
-                        className={styles.explainerLink}
-                      >
-                        Revenue
-                      </Link>
-                      <Link to="/americas-finance-guide/federal-spending/"
-                        className={styles.explainerLink}
-                      >
-                        Spending
-                      </Link>
-                      <Link to="/americas-finance-guide/national-deficit/"
-                        className={styles.explainerLink}
-                      >
-                        Deficit
-                      </Link>
-                      <Link to="/americas-finance-guide/national-debt/"
-                        className={styles.explainerLink}
-                        onClick={() => topicsClickHandler('Debt')}
-                      >
-                        Debt
-                      </Link>
-                    </div>
-                    <div className={styles.AFGHeader}>
-                      INSIGHTS
-                    </div>
-                    <div className={styles.dropdownTempText}>
-                      <em>{dropdownTempText}</em>
-                    </div>
-                  </div>
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faCaretRight}
+                    className={styles.caret}
+                  />
                 )}
               </div>
-              <div className={styles.pageLinks}>
-                <Link to="/datasets/" data-testid="datasets">Dataset Search</Link>
-                <Link to="/api-documentation/" data-testid="apiDocs">API Documentation</Link>
-                <Link to="/about-us/" data-testid="about">About Us</Link>
-              </div>
-            </>
-          )}
+              {isExpanded && (
+                <div data-testid={'expandedContent'}>
+                  <div className={styles.AFGHeader}>
+                    AMERICA'S FINANCE GUIDE
+                  </div>
+                  <div className={styles.explainerLinkContainer}>
+                    <Link
+                      to="/americas-finance-guide/"
+                      className={styles.explainerLink}
+                    >
+                      Overview
+                    </Link>
+                    <Link
+                      to="/americas-finance-guide/government-revenue/"
+                      className={styles.explainerLink}
+                    >
+                      Revenue
+                    </Link>
+                    <Link
+                      to="/americas-finance-guide/federal-spending/"
+                      className={styles.explainerLink}
+                    >
+                      Spending
+                    </Link>
+                    <Link
+                      to="/americas-finance-guide/national-deficit/"
+                      className={styles.explainerLink}
+                    >
+                      Deficit
+                    </Link>
+                    <Link
+                      to="/americas-finance-guide/national-debt/"
+                      className={styles.explainerLink}
+                      data-testid="debtLink"
+                      onClick={() => topicsClickHandler('Debt')}
+                    >
+                      Debt
+                    </Link>
+                  </div>
+                  <div className={styles.AFGHeader}>INSIGHTS</div>
+                  <div className={styles.explainerLinkContainer}>
+                    <Link
+                      to="/who-owns-the-debt/"
+                      className={styles.explainerLink}
+                      onClick={() => topicsClickHandler('WOtD')}
+                    >
+                      Who Owns the Debt? 
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className={styles.pageLinks}>
+              <Link to="/datasets/" data-testid="datasets">
+                Dataset Search
+              </Link>
+              <Link to="/api-documentation/" data-testid="apiDocs">
+                API Documentation
+              </Link>
+              <Link to="/about-us/" data-testid="about">
+                About Us
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

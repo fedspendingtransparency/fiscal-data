@@ -68,3 +68,4 @@ export const mainTitle: string;
 export const secondaryTitle: string;
 export const comingSoon: string;
 export const tileContainer: string;
+export const afgBookIcon: string;

@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "cross-env BUILD_ENV=prod gatsby build",
-    "develop": "cross-env BUILD_ENV=prod gatsby develop",
+    "develop-prod": "cross-env BUILD_ENV=prod gatsby develop",
     "develop-dev": "cross-env BUILD_ENV=dev gatsby develop",
     "develop-qat": "cross-env BUILD_ENV=qat gatsby develop",
     "develop-stg": "cross-env BUILD_ENV=stg gatsby develop",

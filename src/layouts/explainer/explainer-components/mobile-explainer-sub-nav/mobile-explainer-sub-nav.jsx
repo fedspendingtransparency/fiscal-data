@@ -61,37 +61,33 @@ const StyledMenuItem = withStyles(theme => ({
   },
 }))(MenuItem);
 
-export default function MobileExplainerSubNav({ hidePosition }) {
+export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(mainContainerShow);
-  const [navBlockList, setNavBlockList] = useState(mainContainerShow);
   const [isRevenue, setIsRevenue] = useState(false);
   const [isSpending, setIsSpending] = useState(false);
   const [isDeficit, setIsDeficit] = useState(false);
   const [isDebt, setIsDebt] = useState(false);
   const [isOverview, setIsOverview] = useState(false);
   const [defaultOpen, setDefaultOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleScroll = () => {
-    const position = window.pageYOffset;
-    setPreviousScrollPosition(scrollPosition);
-    setScrollPosition(position);
+    const prevScrollPosition = scrollPosition
+    const currPosition = window.pageYOffset;
+    setScrollPosition(currPosition);
 
-    if (position > hidePosition) {
+    if (currPosition > hidePosition) {
 
-      if (previousScrollPosition < scrollPosition) {
+      if (prevScrollPosition < currPosition) {
         setNavBlockStyle(mainContainerHidden);
-        setNavBlockList(mainContainerHidden);
         handleClose();
       } else {
         setNavBlockStyle(mainContainerSticky);
-        setNavBlockList(mainListSticky);
         handleClose();
       }
     } else {
       setNavBlockStyle(mainContainerShow);
-      setNavBlockList(mainContainerHidden);
       handleClose();
     }
   };
@@ -104,7 +100,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
     };
   }, [scrollPosition]);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  
 
   const handleClick = event => {
     setDefaultOpen(false);
@@ -117,27 +113,22 @@ export default function MobileExplainerSubNav({ hidePosition }) {
   };
 
   useEffect(() => {
-    const isBrowser = () => typeof window !== "undefined";
-    let thisHref = "";
-    if (isBrowser()) {
-      thisHref = window.location.href;
-      if (thisHref.includes("government-revenue")) {
-        setIsRevenue(true);
-      } else if (thisHref.includes("federal-spending")) {
-        setIsSpending(true);
-      } else if (thisHref.includes("national-deficit")) {
-        setIsDeficit(true);
-      } else if (thisHref.includes("national-debt")) {
-        setIsDebt(true);
-      } else {
-        setIsOverview(true);
-      }
+    if (pageName.includes('government-revenue')) {
+      setIsRevenue(true);
+    } else if (pageName.includes('federal-spending')) {
+      setIsSpending(true);
+    } else if (pageName.includes('national-deficit')) {
+      setIsDeficit(true);
+    } else if (pageName.includes('national-debt')) {
+      setIsDebt(true);
+    } else {
+      setIsOverview(true);
     }
   }, []);
 
   return (
     <div className={mainContainer} data-testid="mobileSubNav">
-      <div className={navBlockStyle}>
+      <div className={navBlockStyle} data-testid="mobileSubNavBlock">
         <button
           aria-controls="customized-menu"
           aria-haspopup="true"
@@ -146,6 +137,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           onClick={handleClick}
           onKeyPress={handleClick}
           className={`${isOverview ? [buttonOverview, activeMenu].join(" ") : buttonOverview}`}
+          data-testid="mobileSubNavBlockButton"
         >
           <span
             onClick={() => navigate('/americas-finance-guide/')}
@@ -153,6 +145,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
             className={overviewStyle} id="home"
             role={'button'}
             tabIndex={0}
+            data-testid="afgSpan"
           >
             <FontAwesomeIcon className={faHouse} icon={faHouseChimney} />
             Overview
@@ -175,6 +168,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
                 navigate("/americas-finance-guide/government-revenue/")
               }
               primary=" Revenue"
+              data-testid="revenueButton"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
@@ -184,6 +178,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
                 navigate("/americas-finance-guide/federal-spending/")
               }
               primary="Spending"
+              data-testid="spendingButton"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
@@ -193,6 +188,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
                 navigate("/americas-finance-guide/national-deficit/")
               }
               primary="Deficit"
+              data-testid="deficitButton"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
@@ -200,6 +196,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
               className={`${isDebt ? [debt, activeMenu].join(" ") : debt}`}
               onClick={() => navigate("/americas-finance-guide/national-debt/")}
               primary="Debt"
+              data-testid="debtButton"
             />
           </StyledMenuItem>
         </StyledMenu>

@@ -9,7 +9,7 @@ import {
 } from "./sources-of-revenue-circle-chart.module.scss";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import React from "react";
-import {getShortForm} from "../../../../heros/hero-helper";
+import {getShortForm} from "../../../../../../utils/rounding-utils";
 
 export const title = `Sources of Revenue for the U.S. Federal Government, FYTD `;
 export const subTitle = 'Revenue by Source Categories';

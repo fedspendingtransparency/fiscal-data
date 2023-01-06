@@ -3,8 +3,8 @@ import {
   render,
   waitFor
 } from "@testing-library/react";
-import ExplainerTile from "./explainer-tile";
-import {SpendingBodyGenerator} from './explainer-tile-helper';
+import ExplainerTile from "./homepage-tile";
+import {SpendingBodyGenerator} from './homepage-tile-helper';
 import fetchMock from 'fetch-mock';
 import {mockSpendingHeroData} from "../../../layouts/explainer/explainer-test-helper";
 
