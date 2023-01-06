@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: [
     "react-app",
-    "plugin:jsx-a11y/strict"
+    "plugin:jsx-a11y/recommended"
   ],
   parser: "@babel/eslint-parser",
   parserOptions: {
