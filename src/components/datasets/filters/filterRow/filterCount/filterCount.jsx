@@ -16,10 +16,13 @@ function FilterCount({ count }) {
             <div
                 data-testid="filter-count-bar"
                 className={styles.bar}
-                style={{ width: width, minWidth: minWidth }}/>
+                style={{ width: width, minWidth: minWidth }}
+            />
             <div
                 data-testid="filter-count"
-                className={styles.count}>{count.count}</div>
+                className={styles.count}
+            >{count.count}
+            </div>
         </div>
     )
 }

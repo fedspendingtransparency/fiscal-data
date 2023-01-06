@@ -165,7 +165,7 @@ export const explainerHeroMap = {
     component: (glossary) => <FederalSpendingHero />
   },
   'government-revenue': {
-    component: (glossary) => <GovernmentRevenueHero glossary={glossary}/>
+    component: (glossary) => <GovernmentRevenueHero glossary={glossary} />
   }
 }
 

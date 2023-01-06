@@ -59,7 +59,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const handleScroll = () => {
-    let position = window.pageYOffset;
+    const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 
@@ -93,7 +93,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   };
 
   const handleGlossaryClick = (e) => {
-    let anchor = e.currentTarget;
+    const anchor = e.currentTarget;
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       if (e.type === 'mouseenter') {
@@ -172,7 +172,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           >
             {width < pxToNumber(breakpointLg) ?
               <span>
-                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose}/>
+                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose} />
                 <h6 className={styles.header}>{title}</h6>
               </span>
               :

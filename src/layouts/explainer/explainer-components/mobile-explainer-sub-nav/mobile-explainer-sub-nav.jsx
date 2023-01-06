@@ -74,7 +74,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
   const [defaultOpen, setDefaultOpen] = useState(false);
 
   const handleScroll = () => {
-    let position = window.pageYOffset;
+    const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 

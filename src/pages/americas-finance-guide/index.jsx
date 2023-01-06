@@ -329,7 +329,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
           {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
 
-          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%"/>}
+          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
           <DataSourcesMethodologies>
 
             Current and prior fiscal year values for federal revenue, spending,

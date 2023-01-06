@@ -220,7 +220,7 @@ export default function CompareSection({currentFiscalYear}) {
                       classes={{ root: styles.compareGridItem }}
                     >
                         <Grid item xs={2} classes={{ root: styles.compareIcon }}>
-                            <AfgIcon faIcon={s.faIcon} iconColor={s.mainColor} altText={s.altText}/>
+                            <AfgIcon faIcon={s.faIcon} iconColor={s.mainColor} altText={s.altText} />
                         </Grid>
                         <Grid item xs={10} classes={{ root: styles.compareText }}>
                             <h5 className={styles.subHeading}>{s.heading}</h5>

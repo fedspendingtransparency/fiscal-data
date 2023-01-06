@@ -102,7 +102,8 @@ const AboutUs = () => {
             the proper functioning of markets, the efficient management of the federal
             government, and ensuring the trust of the American people. The OCDO developed an{' '}
             <CustomLink className="primary" href="/data/about-us/901-1 Open Data Policy.pdf">Open
-             Data Policy</CustomLink> which outlines policies and procedures governing Fiscal
+             Data Policy
+            </CustomLink> which outlines policies and procedures governing Fiscal
             Service’s open data. Fiscal Service’s publicly available data will be made accessible
             on Fiscal Data. Please visit us regularly for updates to the Open Data Policy.
           </p>

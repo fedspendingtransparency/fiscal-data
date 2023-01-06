@@ -93,7 +93,9 @@ const ResumeDownloadModal = () => {
                     <div className={styles.buttonRow}>
                       <a href={resumedPrepared[0].fullFileUrl} data-testid="direct-download-button"
                           className={styles.downloadButton}
-                          onClick={() => setResumeDownloadModalIsOpen(false)}>Download File</a>
+                          onClick={() => setResumeDownloadModalIsOpen(false)}
+                      >Download File
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -166,7 +168,7 @@ const ResumeDownloadModal = () => {
             </>
           )}
         </Modal>
-      </>
+        </>
     )}
     </>
   )

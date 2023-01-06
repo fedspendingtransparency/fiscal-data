@@ -22,7 +22,7 @@ export default function AfgTopicSection({
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>
                 <a href={linkUrl} style={{ color: linkColor, marginTop: '2rem' }} className={styles.link}>{linkText}
-                    <FontAwesomeIcon icon={faArrowRightLong} title={"right arrow"} className={styles.arrow}/>
+                    <FontAwesomeIcon icon={faArrowRightLong} title={"right arrow"} className={styles.arrow} />
                 </a>
             </Grid>
             <Grid item md classes={{ root: styles.imageContainer }}>

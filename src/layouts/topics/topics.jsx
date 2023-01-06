@@ -18,7 +18,7 @@ const Topics = ({pageContext}) => {
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
       <PageHelmet pageTitle={config.label} />
-      <MastHead title={config.label}/>
+      <MastHead title={config.label} />
       <DatasetSectionContainer id={'highlights'} title={'Debt Highlights'}>
         {
           mockDatasets.map((dataset, i) => (

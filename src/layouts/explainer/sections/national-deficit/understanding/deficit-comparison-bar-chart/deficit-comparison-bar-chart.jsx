@@ -49,9 +49,8 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
 
 
   const mst =
-    <CustomLink url={slug} eventNumber='13'
-
-    >{name}</CustomLink>
+    <CustomLink url={slug} eventNumber='13'>{name}
+    </CustomLink>
 
   const footer =
     <div>

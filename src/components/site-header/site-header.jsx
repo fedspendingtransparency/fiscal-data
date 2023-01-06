@@ -144,7 +144,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                   <Experimental featureId={pageLink.featureId} key={pageLink.title}>
                     <div className={styles.pageLinkButtonContainer}>
                       <div className={styles.pageLinkButtonContent}
-                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                      >
                         <button className={styles.pageLinkButton} >
                           <Link
                             to={pageLink.to}
@@ -227,7 +228,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               return (
                 <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
-                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                  >
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
                               disabled

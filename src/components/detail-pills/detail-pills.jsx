@@ -31,12 +31,14 @@ const DetailPills = ({techSpecs, dictionary}) => {
                    className={styles.futureDateIcon}
                    data-test-id="futureDateIcon"
                    alt="future date icon"
-                   aria-hidden="true"/>
+                   aria-hidden="true"
+              />
             : <FontAwesomeIcon
               icon={faCalendarWeek} size="1x"
               className={styles.icon}
               data-test-id="calendar-week-icon"
-              alt="Date Range:"/>
+              alt="Date Range:"
+              />
           }
           <span data-test-id="dateRangePill" className="pillText">{dateRange}</span>
         </span>
@@ -44,7 +46,8 @@ const DetailPills = ({techSpecs, dictionary}) => {
       <span className={styles.pill}><FontAwesomeIcon
         icon={faSyncAlt} size="1x"
         className={styles.icon}
-        data-test-id="sync-alt-icon"/>
+        data-test-id="sync-alt-icon"
+                                    />
         <span className="pillText">{frequency}</span>
       </span>
       {lastUpdated && (
@@ -61,7 +64,8 @@ const DetailPills = ({techSpecs, dictionary}) => {
       <span className={styles.pill}><FontAwesomeIcon
         icon={faFileCode} size="1x"
          className={styles.icon}
-        data-test-id="page-icon"/>
+        data-test-id="page-icon"
+                                    />
         <span className="pillText">CSV, JSON, XML</span>
       </span>
       <span className={styles.pill}>
@@ -69,7 +73,8 @@ const DetailPills = ({techSpecs, dictionary}) => {
           icon={dictionary ? faCheckCircle : faTimesCircle} size="1x"
           className={styles.icon}
           alt={dataDictionaryText}
-          data-test-id="dictionary-icon"/>
+          data-test-id="dictionary-icon"
+        />
         <span className="pillText">Data Dictionary</span>
       </span>
     </div>

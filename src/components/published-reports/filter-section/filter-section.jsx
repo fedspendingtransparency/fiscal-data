@@ -46,7 +46,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   const dayLabel =
     <span data-testid="dayLabel">
         Day <span className="required">*</span>
-      </span>;
+    </span>;
   const reportLabel =
       <span data-testid="reportLabel">
         Report <span className="required">*</span>

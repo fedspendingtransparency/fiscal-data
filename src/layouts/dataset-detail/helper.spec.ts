@@ -43,7 +43,7 @@ describe('Dataset Detail Helper - generateAnalyticsEvent', () => {
     action: string;
     category: string;
     label: string;
-  };
+  }();
 
   beforeEach(() => {
     eventsSpy.mockClear();

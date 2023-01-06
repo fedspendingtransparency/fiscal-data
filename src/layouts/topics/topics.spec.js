@@ -12,11 +12,11 @@ describe('Topics Layout', () => {
   let component;
   let instance;
 
-  let preProdInd = true;
+  const preProdInd = true;
 
   beforeEach(() => {
     component = renderer.create(
-      <Topics pageContext={{config: config, isPreProd: preProdInd}}/>
+      <Topics pageContext={{config: config, isPreProd: preProdInd}} />
     );
     instance = component.root;
   });

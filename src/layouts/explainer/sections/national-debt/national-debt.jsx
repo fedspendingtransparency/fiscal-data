@@ -1057,7 +1057,7 @@ const handleMouseEnterLineChart = () => {
           national debt.
         </p>
 
-        <DebtOverLast100y cpiDataByYear={cpiDataByYear}/>
+        <DebtOverLast100y cpiDataByYear={cpiDataByYear} />
 
         <p>
           Comparing a country’s debt to its {gdp} reveals the country’s ability
@@ -1622,7 +1622,7 @@ export const DebtBreakdownSection = withWindowSize(
           debt used to pay state-funded programs; nor does it include debts
           carried by individuals, such as personal credit card debt or
           mortgages.
-        </p>
+      </p>
         <p>
           The visual below comparing {glossaryTerms.calendarYear} {startYear}{" "}
           and {endYear} displays the difference in growth between debt held by
@@ -1945,7 +1945,7 @@ export const DebtBreakdownSection = withWindowSize(
             </div>
           </div>
         </div>
-      </>
+    </>
     );
   }
 );
@@ -2194,7 +2194,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
     component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear}/>
+      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear} />
     ),
   },
   {
