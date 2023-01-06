@@ -116,7 +116,7 @@ const Multichart: FunctionComponent<MultichartProperties> =
              display: 'block',
              backgroundColor: '#f1f1f1'
            }}
-           data-testid='multichart'
+           data-testid="multichart"
            onMouseEnter={handleMouseEnter}
            onMouseLeave={handleMouseLeave}
       />

@@ -48,42 +48,41 @@ const Accordion = ({
   return (
     <div className={containerClass ? containerClass : container}>
       <section
-        data-testid='section'
+        data-testid="section"
         className={`${accordion} ${
           open ? `${openStyle} accordionOpen` : `${closed} accordionClosed`
         }`}
       >
         <div
-          data-testid='heading'
+          data-testid="heading"
           onClick={onToggle}
           onKeyPress={onToggle}
-          role='button'
+          role="button"
           tabIndex={0}
           className={`${heading} accordionHeading`}
           style={altStyleAccordion}
         >
           {title}
-          <div data-testid='button' className={`${toggle} accordionToggle`}>
+          <div data-testid="button" className={`${toggle} accordionToggle`}>
             {open ? (
               <FontAwesomeIcon icon={faMinus} style={altStyleIcon} />
             ) : (
               <FontAwesomeIcon icon={faPlus} style={altStyleIcon} />
             )}
-            <span data-testid='sr-desc' className='sr-only'>
+            <span data-testid="sr-desc" className="sr-only">
               toggle contents
             </span>
           </div>
         </div>
         {open ? (
-          <div data-testid='content' className={`${content} accordionContent`}>
+          <div data-testid="content" className={`${content} accordionContent`}>
             {children}
           </div>
         ) : (
           <div
-            data-testid='content'
+            data-testid="content"
             className={`${content} accordionContent`}
-          >
-          </div>
+          ></div>
         )}
       </section>
     </div>

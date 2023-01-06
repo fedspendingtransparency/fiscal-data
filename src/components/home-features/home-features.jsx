@@ -67,7 +67,7 @@ const HomeFeatures = () => {
         {featuresSrc.map((f) => {
           return (
             <div key={f.key} className={feature}>
-              <img src={f.graphicSrc} aria-hidden='true' alt={f.alt} height={143} width={143} />
+              <img src={f.graphicSrc} aria-hidden="true" alt={f.alt} height={143} width={143} />
               <div className={label}>
                 {f.label}
               </div>

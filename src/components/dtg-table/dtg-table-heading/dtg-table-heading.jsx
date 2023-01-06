@@ -17,7 +17,7 @@ export default function DtgTableHeading(props) {
         <thead>
             <tr>
                 {props.columns.map((column, index) => (
-                    <th key={index} scope='col'  style={setStyle(column)}>{column.name}</th>
+                    <th key={index} scope="col"  style={setStyle(column)}>{column.name}</th>
                 ))}
             </tr>
         </thead>

@@ -94,7 +94,7 @@ const NotesAndLimitations = ({apis, bodyText}) => {
         const key = `N&KL-${api.apiId}`;
         return <Accordion containerClass={accordion} key={key} title={api.tableName}>
           <ReactMarkdown source={api.apiNotesAndLimitations} />
-               </Accordion>
+        </Accordion>
       }));
     }
   }, []);

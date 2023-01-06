@@ -63,7 +63,7 @@ describe('resume download modal (with react testing-library)', () => {
   it('when a single download is present and prepared, renders appropriate title and subtitle and buttons', () => {
     const { queryByText, getByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValuePrepared}>
-        <ResumeDownloadModal />
+        <ResumeDownloadModal/>
       </downloadsContext.Provider>
     );
     expect(queryByText(resumeCompletedDownloadTitle)).toBeTruthy();
@@ -80,7 +80,7 @@ describe('resume download modal (with react testing-library)', () => {
 
     const { getByText, queryAllByText } = render(
       <downloadsContext.Provider value={mockSiteProviderValuePrepared}>
-        <ResumeDownloadModal />
+        <ResumeDownloadModal/>
       </downloadsContext.Provider>
     );
     expect(queryAllByText(resumeCompletedDownloadTitle).length).toBeTruthy();
@@ -96,7 +96,7 @@ describe('resume download modal (with react testing-library)', () => {
   it('when a single download is present and still preparing, renders appropriate title and subtitle', () => {
     const { queryByText, queryByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
-        <ResumeDownloadModal />
+        <ResumeDownloadModal/>
       </downloadsContext.Provider>
     );
     expect(queryByText(resumeDownloadTitle)).toBeTruthy();
@@ -110,7 +110,7 @@ describe('resume download modal (with react testing-library)', () => {
   it('when a single download is present and still preparing, renders a DownloadModalItems container ', () => {
     const { queryByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
-        <ResumeDownloadModal />
+        <ResumeDownloadModal/>
       </downloadsContext.Provider>
     );
     expect(queryByTestId('download-items-container')).toBeDefined();

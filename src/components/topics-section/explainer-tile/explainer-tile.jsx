@@ -43,8 +43,8 @@ const ExplainerTile = ({
     <GatsbyImage
       image={getImage(desktopImage)}
       alt={content.altText}
-      loading='eager'
-      role='presentation'
+      loading="eager"
+      role="presentation"
       style={imageStyle}
     />
   );
@@ -53,8 +53,8 @@ const ExplainerTile = ({
     <GatsbyImage
       image={getImage(mobileImage)}
       alt={content.altText}
-      loading='eager'
-      role='presentation'
+      loading="eager"
+      role="presentation"
     />
   );
 
@@ -63,7 +63,7 @@ const ExplainerTile = ({
       <Grid container spacing={0}>
         <div
           className={mainContent}
-          data-testid='tile'
+          data-testid="tile"
           style={{ display: "flex" }}
         >
           <Grid
@@ -102,7 +102,7 @@ const ExplainerTile = ({
         </div>
       </Grid>
     ) : (
-      <div className={mainContent} data-testid='tile'>
+      <div className={mainContent} data-testid="tile">
         <div style={imageContainerStyle}>{isMobile ? mobile : desktop}</div>
         <div className={content.path ? undefined : comingSoon}>
           <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>

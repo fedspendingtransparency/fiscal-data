@@ -5,11 +5,11 @@ import FilterGroupReset from "../filters/filterGroupReset/filterGroupReset";
 
 const Topics = ({ activeFilters, groupId, onChange, onGroupReset, availableFilters, topicIcons }) => (
   <>
-    <h2 className={styles.topicTitle} data-testid='topics-title'>
+    <h2 className={styles.topicTitle} data-testid="topics-title">
       Topics
     </h2>
     <FilterGroupReset
-      data-testid='topics-reset'
+      data-testid="topics-reset"
       groupId={groupId}
       activeFilters={activeFilters}
       filters={availableFilters}

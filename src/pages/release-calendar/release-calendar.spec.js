@@ -2,15 +2,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { useStaticQuery } from "gatsby";
 
+jest.mock(
+  '../../components/calendar-entries/use-release-calendar-entries-updater-hook',
+  () => ({ useReleaseCalendarEntriesUpdater: (i) => { return i;} }));
+
 import ReleaseCalendar, { tagLineText } from './index';
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import internalData from '../../testData/__dataConfig_for_tests.json';
-
-jest.mock(
-  '../../components/calendar-entries/use-release-calendar-entries-updater-hook',
-  () => ({ useReleaseCalendarEntriesUpdater: (i) => { return i;} }));
 
 jest.useFakeTimers();
 describe('Release Calendar', () => {
@@ -31,7 +31,7 @@ describe('Release Calendar', () => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
     renderer.act(() => {
       component = renderer.create(
-        <ReleaseCalendar />
+        <ReleaseCalendar/>
       )
     });
     instance = component.root;

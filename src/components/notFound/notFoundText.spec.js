@@ -8,7 +8,7 @@ describe("404 Not Found Text", ()=> {
     let component=renderer.create()
     renderer.act(()=> {
         component=renderer.create(
-            <NotFoundText />
+            <NotFoundText/>
         )
     })
     instance=component.root

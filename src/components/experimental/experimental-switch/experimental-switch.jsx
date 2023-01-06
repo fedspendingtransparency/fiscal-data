@@ -17,19 +17,19 @@ const ExperimentalSwitch = () => {
 
   const switchComponent = (
     <Switch
-      size='small'
+      size="small"
       checked={showExperimentalFeatures}
       onChange={handleChange}
-      data-testid='switch'
+      data-testid="switch"
     />
   );
 
   return isLowerEnvironment ? (
-    <div data-testid='experimental-switch' className={styles.switchContainer}>
+    <div data-testid="experimental-switch" className={styles.switchContainer}>
       <FormControlLabel
         className={styles.label}
         control={switchComponent}
-        label='Toggle experimental features'
+        label="Toggle experimental features"
       />
     </div>
   ) : (

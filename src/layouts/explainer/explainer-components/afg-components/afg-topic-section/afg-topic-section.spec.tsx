@@ -14,7 +14,7 @@ describe("Topic Section Component", () => {
         linkColor='#B3532D'
         image='/topics-section-images/homepage_deficit_1200x630.png'
         imageAltText=''
-        />
+      />
     
     )
     expect(getByTestId("topic-section")).toBeInTheDocument()

@@ -17,10 +17,10 @@ const FormatAccordion = ({ selectedTable }) => {
   }
 
   return(
-    <Accordion title='Format'>
+    <Accordion title="Format">
       <ul className={list}>
         <li>
-          <strong>Parameter: </strong><code className='inline'>format=</code>
+          <strong>Parameter: </strong><code className="inline">format=</code>
         </li>
         <li>
           <strong>Definition: </strong>
@@ -32,9 +32,9 @@ const FormatAccordion = ({ selectedTable }) => {
         <li>
           <strong>Accepts: </strong>
           <span>
-            The <code className='inline'>format=</code> parameter accepts{' '}
-            <code className='inline'>xml</code>, <code className='inline'>json</code>,
-            or <code className='inline'>csv</code> as an input.
+            The <code className="inline">format=</code> parameter accepts{' '}
+            <code className="inline">xml</code>, <code className="inline">json</code>,
+            or <code className="inline">csv</code> as an input.
           </span>
         </li>
         <li>
@@ -53,7 +53,7 @@ const FormatAccordion = ({ selectedTable }) => {
         <div className={exampleParameters}>
           {formatExample}
         </div>
-        <div data-testid='fullUrl'>
+        <div data-testid="fullUrl">
           {fullUrl}
         </div>
       </code>

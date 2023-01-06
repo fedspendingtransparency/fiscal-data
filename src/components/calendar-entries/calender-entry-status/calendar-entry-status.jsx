@@ -24,7 +24,7 @@ const CalendarEntryStatus = ({ isReleased }) => {
         ? <FontAwesomeIcon icon={faCheckCircle} className={updateStatusIcon} />
         : <div className={notYetUpdated} />
       }
-      <span data-testid='updated-text'>{updatedText}</span>
+      <span data-testid="updated-text">{updatedText}</span>
     </div>
   );
 };

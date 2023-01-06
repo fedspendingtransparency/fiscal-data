@@ -99,7 +99,7 @@ const CurrentReportToggle = ({ onChange, reports, filteredByDateSelection }) => 
   }, []);
 
   return (
-    <div className={buttonGroup} data-toggle='buttons'>
+    <div className={buttonGroup} data-toggle="buttons">
       { reportOptions && reportOptions.length > 0 && (
         reportOptions.map((option, index) => {
 
@@ -113,11 +113,11 @@ const CurrentReportToggle = ({ onChange, reports, filteredByDateSelection }) => 
                    key={`${key}_label`}
             >
               {option.label}
-              <input type='radio'
+              <input type="radio"
                      checked={activeState === index ? 'checked' : ''}
                      className={radio}
                      id={id}
-                     name='published-report-toggle'
+                     name="published-report-toggle"
                      onChange={() => toggleState(index, option.value)}
                      key={key}
               />

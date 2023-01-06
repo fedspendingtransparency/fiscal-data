@@ -5,7 +5,7 @@ import { faUndo } from "@fortawesome/free-solid-svg-icons";
 import * as styles from './filterGroupReset.module.scss';
 
 function FilterGroupReset({ groupId, activeFilters, onGroupReset, filters }) {
-    const count = filtersByGroupId(groupId, filters)
+    let count = filtersByGroupId(groupId, filters)
       .filter(filter => activeFilters.indexOf(filter.id) !== -1).length;
 
     const handleClick = () => {
@@ -16,7 +16,7 @@ function FilterGroupReset({ groupId, activeFilters, onGroupReset, filters }) {
         <>
             {count > 0 &&
                 <button className={styles.filterReset} onClick={handleClick}>
-                    <span data-testid='count'>{count}</span>
+                    <span data-testid="count">{count}</span>
                     <FontAwesomeIcon icon={faUndo} className={styles.icon} />
                 </button>
             }

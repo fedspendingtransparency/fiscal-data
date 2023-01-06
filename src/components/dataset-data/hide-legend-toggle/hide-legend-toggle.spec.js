@@ -8,8 +8,8 @@ describe('Legend Show/Hide Toggle', ()=> {
     beforeEach(()=> {
         renderer.act(()=> {
             component = renderer.create(<HideLegendToggle
-                legend={showLegend} showToggle={true} onToggleLegend={jest.fn()} selectedTab={1}
-                                        />);
+                legend={showLegend} showToggle={true} onToggleLegend={jest.fn()} selectedTab={1} 
+            />);
         });
         instance=component.root;
     });
@@ -28,7 +28,7 @@ describe('Legend Show/Hide Toggle', ()=> {
       renderer.act(() => {
         component.update(<HideLegendToggle
           legend={showLegend} showToggle={true} onToggleLegend={jest.fn()} selectedTab={1}
-                         />)
+        />)
       });
 
       expect(instance.findByType(HideLegendToggle)

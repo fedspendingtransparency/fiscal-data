@@ -16,7 +16,7 @@ const Truncator = ({
     <button
       className={moreLessClass}
       onClick={toggleTruncation}
-      data-test-id='showMoreLessButton'
+      data-test-id="showMoreLessButton"
     >
       {innerText}
     </button>
@@ -36,7 +36,7 @@ const Truncator = ({
       <div
         className={`${styles.truncateWrapper} ${expanded ? styles.expanded : ''}`}
         style={{WebkitLineClamp: (!expanded && numberOfLines) ? numberOfLines : 'none'}}
-        data-test-id='truncateDiv'
+        data-test-id="truncateDiv"
       >
         {children}
       </div>

@@ -12,7 +12,7 @@ describe('Detail-Pills component', () => {
     const component = renderer.create(<DetailPills
       techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs}
       dictionary={false}
-                                      />);
+    />);
     const instance = component.root;
     pills = instance.findAllByProps({className: styles.pill});
   });
@@ -49,7 +49,7 @@ describe('Detail-Pills component', () => {
     const pills = renderer.create(<DetailPills
       techSpecs={profilerConfigMockData.dataJson.datasets[0].techSpecs}
       dictionary={true}
-                                  />);
+    />);
     const pillsInstance = pills.root;
     const dictionaryPill = pillsInstance.findAllByProps({className: styles.pill})[4];
     const icon = dictionaryPill.findByProps({'data-test-id': 'dictionary-icon'});
@@ -77,7 +77,7 @@ describe('DetailPills component with a dataset with a latestDate in the future',
     const component2 = renderer.create(<DetailPills
       techSpecs={mockData.techSpecs}
       dictionary={false}
-                                       />);
+    />);
     const instance2 = component2.root;
     pills = instance2.findAllByProps({className: styles.pill});
   });

@@ -86,17 +86,17 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
     : `${style.sectionWrapper} ${style.collapsed}`;
 
   return (
-    <DatasetSectionContainer id='api-quick-guide' title={title}>
+    <DatasetSectionContainer id="api-quick-guide" title={title}>
       <div className={expandStyles}>
-        <div id='quick-guide-content-container'>
-          <DocumentationLinkSection type='HEADER' />
-          <div id='api-quick-guide-expandable' aria-hidden={isCollapsed}>
+        <div id="quick-guide-content-container">
+          <DocumentationLinkSection type="HEADER" />
+          <div id="api-quick-guide-expandable" aria-hidden={isCollapsed}>
             <DatasetDetailEndpoints selectedTable={selectedTable} apis={config.apis} />
-            <div id='collapse-scroll-target' />
+            <div id="collapse-scroll-target" />
             <DatasetDetailFields apis={config.apis} />
             <Accordions selectedTable={selectedTable} />
             <ApiQuickGuideSection
-              id='method-section'
+              id="method-section"
               title={methods.title}
               description={methods.desc}
             />
@@ -104,12 +104,12 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
               isAccordionOpen={!isCollapsed}
               selectedTable={selectedTable}
             />
-            <DocumentationLinkSection type='FOOTER' />
+            <DocumentationLinkSection type="FOOTER" />
           </div>
         </div>
       </div>
       <div className={style.toggleButtonContainer}>
-        <SectionCollapseButton sectionName='api-quick-guide' handleToggle={handleCollapse} />
+        <SectionCollapseButton sectionName="api-quick-guide" handleToggle={handleCollapse} />
       </div>
     </DatasetSectionContainer>
   )

@@ -23,7 +23,7 @@ describe('DataTablesTab', () => {
   beforeAll(() => {
     renderer.act(() => {
       component = renderer.create(
-        <DataTablesTab apis={mockData} />);
+        <DataTablesTab apis={mockData}/>);
     });
     instance = component.root;
   });
@@ -36,7 +36,7 @@ describe('DataTablesTab', () => {
     const name='test-dataset'
     const newComponent=renderer.create()
     renderer.act(()=> {
-      newComponent.update(<DataTablesTab apis={mockData} datasetName={name} />)
+      newComponent.update(<DataTablesTab apis={mockData} datasetName={name}/>)
     })
     const updated=newComponent.root
     const table=updated.findByType("table")

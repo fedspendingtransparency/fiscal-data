@@ -82,24 +82,24 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   return (
     <MuiThemeProvider theme={theme}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <div className={styles.time_range_filter} data-testid='time-range-filter'>
+        <div className={styles.time_range_filter} data-testid="time-range-filter">
           <div className={styles.time_range_filter_datePicker}>
-            <label htmlFor='date-picker-from'>
+            <label htmlFor="date-picker-from">
               From:
               <KeyboardDatePicker
-                id='date-picker-from'
+                id="date-picker-from"
                 value={beginDate}
                 onChange={(dateVal) => handleSelectingDates(dateVal, setBeginDate)}
                 autoOk={true}
-                variant='inline'
-                inputVariant='outlined'
-                placeholder='MM / DD / YYYY'
+                variant="inline"
+                inputVariant="outlined"
+                placeholder="MM / DD / YYYY"
                 onOpen={() => setSelecting(true)}
                 onClose={() => setSelecting(false)}
-                format='MM/dd/yyyy'
+                format="MM/dd/yyyy"
                 minDate={earliestDate}
                 maxDate={latestDate}
-                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size='xs' />}
+                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
                 KeyboardButtonProps={{
                   "aria-label": "Open calendar view to pick date",
                 }}
@@ -118,22 +118,22 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
             </label>
           </div>
           <div className={styles.time_range_filter_datePicker}>
-            <label htmlFor='date-picker-to'>
+            <label htmlFor="date-picker-to">
               To:
               <KeyboardDatePicker
-                id='date-picker-to'
+                id="date-picker-to"
                 autoOk={true}
                 value={endDate}
                 onChange={(dateVal) => handleSelectingDates(dateVal, setEndDate)}
-                variant='inline'
-                inputVariant='outlined'
-                placeholder='MM / DD / YYYY'
+                variant="inline"
+                inputVariant="outlined"
+                placeholder="MM / DD / YYYY"
                 onOpen={() => setSelecting(true)}
                 onClose={() => setSelecting(false)}
-                format='MM/dd/yyyy'
+                format="MM/dd/yyyy"
                 minDate={earliestDate}
                 maxDate={latestDate}
-                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size='xs' />}
+                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
                 KeyboardButtonProps={{
                   "aria-label": "Open calendar view to pick date",
                 }}

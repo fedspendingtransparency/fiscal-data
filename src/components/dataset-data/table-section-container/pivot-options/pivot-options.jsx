@@ -8,7 +8,7 @@ const PivotOptions = ({table, pivotSelection, setSelectedPivot, pivotsUpdated}) 
 
   const setAppropriatePivotValue = (pivotOptions) => {
     let valueField = pivotOptions[0];
-    const curSelectedPivotValue = pivotSelection.pivotValue;
+    let curSelectedPivotValue = pivotSelection.pivotValue;
     if (curSelectedPivotValue) {
       if (pivotOptions.some(pivot => pivot.columnName === curSelectedPivotValue.columnName)) {
         valueField = curSelectedPivotValue;
@@ -63,31 +63,27 @@ const PivotOptions = ({table, pivotSelection, setSelectedPivot, pivotsUpdated}) 
     <>
     {table && table.dataDisplays && table.dataDisplays.length > 1
     && pivotSelection && pivotOptions && (
-      <div className={styles.containerBar} data-testid='pivotOptionsBar'>
+      <div className={styles.containerBar} data-testid="pivotOptionsBar">
         <span className={styles.formControl}>
-          <span className={styles.selectLabel} data-testid='pivotSelectLabel'>Pivot View:</span>
+          <span className={styles.selectLabel} data-testid="pivotSelectLabel">Pivot View:</span>
           <span className={styles.dropdownContainer}>
-            <SelectControl data-testid='pivot-options-view'
+            <SelectControl data-testid="pivot-options-view"
                            options={table.dataDisplays}
-                           optionLabelKey='title'
-                           ariaLabel='pivot view'
+                           optionLabelKey="title"
+                           ariaLabel="pivot view"
                            selectedOption={pivotSelection.pivotView}
-                           changeHandler={pivotViewChangeHandler}
-            />
+                           changeHandler={pivotViewChangeHandler}/>
           </span>
         </span>
         <span className={styles.formControl}>
           <span className={styles.selectLabel}
-                data-testid='pivotSelectLabel'
-          >Pivot Value:
-          </span>
+                data-testid="pivotSelectLabel">Pivot Value:</span>
           <span className={styles.dropdownContainer}>
             <SelectControl options={pivotOptions}
-                           optionLabelKey='prettyName'
-                           ariaLabel='pivot value'
+                           optionLabelKey="prettyName"
+                           ariaLabel="pivot value"
                            selectedOption={pivotSelection.pivotValue}
-                           changeHandler={pivotValueChangeHandler}
-            />
+                           changeHandler={pivotValueChangeHandler}/>
           </span>
         </span>
       </div>

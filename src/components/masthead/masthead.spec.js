@@ -7,7 +7,7 @@ describe('Masthead component', () => {
   let instance;
 
   beforeAll(() => {
-    const component = renderer.create(<Masthead title='Debt to the Nickel' techSpecs={{}} tagLine='All the debt, to the nickel.' />);
+    const component = renderer.create(<Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel."/>);
     instance = component.root;
   });
 

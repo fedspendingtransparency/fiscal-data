@@ -48,19 +48,18 @@ export const DebtDeficitDifference = ({width}) => {
           <img src={width < pxToNumber(breakpointLg) ? DeficitMobile : DeficitDesktop}
                alt={'A visualization depicting deficit vs. debt that adds ' +
                'previous years deficits to the current year’s deficit equaling the total debt.'}
-               data-testid={'deficitDifferenceChart'} className={deficitDebtdifferenceImg}
-          />
+               data-testid={'deficitDifferenceChart'} className={deficitDebtdifferenceImg}/>
         </div>
         <div className={deficitAccordion}>
           <Accordion
-            title='How else does the federal government finance a deficit?'
+            title="How else does the federal government finance a deficit?"
             altStyleAccordion={{
               borderColor: deficitExplainerPrimary,
               borderWidth: '1px'          
             }}
             openEventNumber={"15"}
             closeEventNumber={"16"}
-            explainerGAEvent='Deficit'
+            explainerGAEvent="Deficit"
           >
             The government also uses operating cash available from an account at the Federal
             Reserve to pay for the deficit. This would be similar to a business using a line of

@@ -9,15 +9,15 @@ const DownloadPercentageStatus = ({ percentage, sticky, minimized }) => minimize
     <CircularProgress
       value={100}
       className={styles.backgroundCircle}
-      variant='determinate'
+      variant="determinate"
     />
     <CircularProgress
       value={percentage}
       className={styles.progressBar}
-      variant='determinate'
-      data-testid='progress-bar'
+      variant="determinate"
+      data-testid="progress-bar"
     />
-    <div className={`${styles.percentage} ${sticky ? styles.stickyPercentage : ''}`} data-testid='percentage'>{percentage}%</div>
+    <div className={`${styles.percentage} ${sticky ? styles.stickyPercentage : ''}`} data-testid="percentage">{percentage}%</div>
   </div>
 );
  

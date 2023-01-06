@@ -150,7 +150,7 @@ const CalendarEntriesList = () => {
       <div className={styles.dropdownContainer}>
         <div className={styles.dropdown}>
           <SelectControl
-            label='Sort By:'
+            label="Sort By:"
             options={sortOptions}
             selectedOption={selectedOption}
             changeHandler={handleSelectedOptionChange}

@@ -19,7 +19,7 @@ const AdditionalContacts = () => {
       {addlContacts && addlContacts.mdx && addlContacts.mdx.body &&
         <FDGMdxProvider>
           <MDXProvider components={Object.assign({},aboutUsComponents, additionalContactsComponents)}>
-            <MDXRenderer children={addlContacts.mdx.body} />
+            <MDXRenderer children={addlContacts.mdx.body}/>
           </MDXProvider>
         </FDGMdxProvider>
       }

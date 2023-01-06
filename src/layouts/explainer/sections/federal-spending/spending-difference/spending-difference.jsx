@@ -123,7 +123,7 @@ export const SpendingDifference = ({ width, glossary }) => {
         {
           <CustomLink
             href={"https://www.usaspending.gov/disaster/covid-19?publicLaw=all"}
-            eventNumber='17'
+            eventNumber="17"
           >
             COVID-19 Spending Profile
           </CustomLink>
@@ -147,9 +147,9 @@ export const SpendingDifference = ({ width, glossary }) => {
         />
       </div>{" "}
       <div className={spendingAccordion}>
-        <Accordion title='What is the process for determining discretionary spending?'
-                    openEventNumber='18'
-                   explainerGAEvent='Spending'
+        <Accordion title="What is the process for determining discretionary spending?"
+                    openEventNumber="18"
+                   explainerGAEvent="Spending"
         >
           Discretionary spending is determined by the president and Congress
           each year in the budget and appropriations process. First, the

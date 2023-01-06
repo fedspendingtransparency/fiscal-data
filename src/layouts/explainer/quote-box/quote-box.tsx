@@ -20,7 +20,7 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = (
   {icon, primaryColor, secondaryColor, customTopMargin, children}) => {
   return (
     <>
-      <div className={iconContainer} style={{marginTop: customTopMargin}} data-testid='quote-box'>
+      <div className={iconContainer} style={{marginTop: customTopMargin}} data-testid="quote-box">
         <div
           className={iconBackground}
           style={{

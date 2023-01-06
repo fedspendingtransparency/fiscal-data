@@ -150,7 +150,7 @@ export const nationalDebtExplainedTableContent = {
     ["Year 2", "$600", "$800", "-$200", null],
     [null, null, null, "-$300", "Debt"],
   ],
-  footer: [null, null, null, <img src={curvedArrow} alt='' />],
+  footer: [null, null, null, <img src={curvedArrow} alt="" />],
 };
 
 export const visualizingTheDebtTableContent = {
@@ -170,8 +170,8 @@ const alternateBarColor = "#b699c6";
 const KeyTakeawaysSection = ({ glossary }) => {
   const nonMarketableSecurities = (
     <GlossaryTerm
-      term='Non-Marketable Securities'
-      page='Debt explainer'
+      term="Non-Marketable Securities"
+      page="Debt explainer"
       glossary={glossary}
     >
       non-marketable
@@ -179,8 +179,8 @@ const KeyTakeawaysSection = ({ glossary }) => {
   );
   const marketableSecurities = (
     <GlossaryTerm
-      term='Marketable Securities'
-      page='Debt explainer'
+      term="Marketable Securities"
+      page="Debt explainer"
       glossary={glossary}
     >
       marketable
@@ -233,47 +233,47 @@ export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
   const glossaryTerms = {
     fiscalYear: (
       <GlossaryTerm
-        term='Fiscal Year'
-        page='Debt explainer'
+        term="Fiscal Year"
+        page="Debt explainer"
         glossary={glossary}
       >
         fiscal year (FY)
       </GlossaryTerm>
     ),
     spending: (
-      <GlossaryTerm term='Spending' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term="Spending" page="Debt explainer" glossary={glossary}>
         spending
       </GlossaryTerm>
     ),
     revenue: (
-      <GlossaryTerm term='Revenue' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term="Revenue" page="Debt explainer" glossary={glossary}>
         revenue
       </GlossaryTerm>
     ),
     deficit: (
-      <GlossaryTerm term='Deficit' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term="Deficit" page="Debt explainer" glossary={glossary}>
         deficit
       </GlossaryTerm>
     ),
     bonds: (
-      <GlossaryTerm term='Bonds' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term="Bonds" page="Debt explainer" glossary={glossary}>
         bonds
       </GlossaryTerm>
     ),
     bills: (
-      <GlossaryTerm term='Bills' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term="Bills" page="Debt explainer" glossary={glossary}>
         bills
       </GlossaryTerm>
     ),
     notes: (
-      <GlossaryTerm term='Notes' page='Debt explainer' glossary={glossary}>
+      <GlossaryTerm term="Notes" page="Debt explainer" glossary={glossary}>
         notes
       </GlossaryTerm>
     ),
     floatingRateNotes: (
       <GlossaryTerm
-        term='Floating Rate Notes'
-        page='Debt explainer'
+        term="Floating Rate Notes"
+        page="Debt explainer"
         glossary={glossary}
       >
         floating rate notes
@@ -281,8 +281,8 @@ export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
     ),
     tips: (
       <GlossaryTerm
-        term='Treasury Inflation Protected Securities (TIPS)'
-        page='Debt explainer'
+        term="Treasury Inflation Protected Securities (TIPS)"
+        page="Debt explainer"
         glossary={glossary}
       >
         Treasury inflation-protected securities (TIPS)
@@ -327,8 +327,8 @@ export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
       </div>
       <div
         className={nationalDebtExplainedTable}
-        role='img'
-        aria-label='Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years.'
+        role="img"
+        aria-label="Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years."
       >
         <table>
           <thead>
@@ -456,12 +456,12 @@ export const FundingProgramsSection = () => {
       </p>
       <div className={debtAccordion}>
         <Accordion
-          title='What are some of the major spending categories?'
+          title="What are some of the major spending categories?"
           altStyleAccordion={{ padding: "9px 16px" }}
           containerClass={fundingProgramAccordion}
           openEventNumber={"11"}
           closeEventNumber={"12"}
-          explainerGAEvent='Debt'
+          explainerGAEvent="Debt"
         >
           <div className={spendingCategoriesAccordionContent}>
             <p>
@@ -603,7 +603,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
       }
 
       table.push(
-        <tr key={i} data-testid='accordion-table-row'>
+        <tr key={i} data-testid="accordion-table-row">
           {row.map(index => (
             <td key={index} className={rectangle} />
           ))}
@@ -644,7 +644,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         openEventNumber={"20"}
         closeEventNumber={"21"}
         dynamicGaEventValue={dynamicGaEventValue}
-        explainerGAEvent='Debt'
+        explainerGAEvent="Debt"
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>
@@ -765,8 +765,8 @@ export const GrowingNationalDebtSection = withWindowSize(
 
     const gdp = (
       <GlossaryTerm
-        term='Gross Domestic Product (GDP)'
-        page='Debt explainer'
+        term="Gross Domestic Product (GDP)"
+        page="Debt explainer"
         glossary={glossary}
       >
         gross domestic product (GDP)
@@ -1057,7 +1057,7 @@ const handleMouseEnterLineChart = () => {
           national debt.
         </p>
 
-        <DebtOverLast100y cpiDataByYear={cpiDataByYear} />
+        <DebtOverLast100y cpiDataByYear={cpiDataByYear}/>
 
         <p>
           Comparing a country’s debt to its {gdp} reveals the country’s ability
@@ -1140,7 +1140,7 @@ const handleMouseEnterLineChart = () => {
                         stacked: true,
                         reverse: false,
                       }}
-                      yFormat=' >-.2f'
+                      yFormat=" >-.2f"
                       axisTop={null}
                       axisRight={null}
                       axisBottom={{
@@ -1239,8 +1239,8 @@ export const DebtBreakdownSection = withWindowSize(
     const glossaryTerms = {
       debtHeldByThePublic: (
         <GlossaryTerm
-          term='Debt Held by the Public'
-          page='Debt explainer'
+          term="Debt Held by the Public"
+          page="Debt explainer"
           glossary={glossary}
         >
           debt held by the public
@@ -1248,8 +1248,8 @@ export const DebtBreakdownSection = withWindowSize(
       ),
       intragovernmental: (
         <GlossaryTerm
-          term='Intragovernmental Holdings'
-          page='Debt explainer'
+          term="Intragovernmental Holdings"
+          page="Debt explainer"
           glossary={glossary}
         >
           intragovernmental
@@ -1257,8 +1257,8 @@ export const DebtBreakdownSection = withWindowSize(
       ),
       calendarYear: (
         <GlossaryTerm
-          term='Calendar Year'
-          page='Debt explainer'
+          term="Calendar Year"
+          page="Debt explainer"
           glossary={glossary}
         >
           calendar year
@@ -1266,8 +1266,8 @@ export const DebtBreakdownSection = withWindowSize(
       ),
       interestRates: (
         <GlossaryTerm
-          term='Interest Rates'
-          page='Debt explainer'
+          term="Interest Rates"
+          page="Debt explainer"
           glossary={glossary}
         >
           interest rates
@@ -1622,7 +1622,7 @@ export const DebtBreakdownSection = withWindowSize(
           debt used to pay state-funded programs; nor does it include debts
           carried by individuals, such as personal credit card debt or
           mortgages.
-      </p>
+        </p>
         <p>
           The visual below comparing {glossaryTerms.calendarYear} {startYear}{" "}
           and {endYear} displays the difference in growth between debt held by
@@ -1660,7 +1660,7 @@ export const DebtBreakdownSection = withWindowSize(
                     {data[1].record_calendar_year}
                   </p>
                   <div
-                    data-testid='breakdownChart'
+                    data-testid="breakdownChart"
                     className={barChartContainer}
                   >
                     <Bar
@@ -1671,7 +1671,7 @@ export const DebtBreakdownSection = withWindowSize(
                         "Intragovernmental Holdings",
                         "Debt Held by the Public",
                       ]}
-                      indexBy='record_calendar_year'
+                      indexBy="record_calendar_year"
                       margin={{ top: 30, right: 144, bottom: 50, left: 144 }}
                       padding={0.24}
                       valueScale={{ type: "linear" }}
@@ -1751,7 +1751,7 @@ export const DebtBreakdownSection = withWindowSize(
                           return <></>;
                         },
                       ]}
-                      ariaLabel='Chart of Debt Breakdown'
+                      ariaLabel="Chart of Debt Breakdown"
                       theme={fiveTheme}
                     />
                   </div>
@@ -1835,7 +1835,7 @@ export const DebtBreakdownSection = withWindowSize(
                   </p>
                   <div
                     className={headerContainer}
-                    data-testid='interest-and-debt-chart-header'
+                    data-testid="interest-and-debt-chart-header"
                   >
                     <div>
                       <div className={header}>{focalYear}</div>
@@ -1859,7 +1859,7 @@ export const DebtBreakdownSection = withWindowSize(
                   </div>
                   <div
                     className={multichartLegend}
-                    data-testid='interest-and-debt-chart-legend'
+                    data-testid="interest-and-debt-chart-legend"
                   >
                     <div>
                       <div className={aveInterestLegend} />
@@ -1925,7 +1925,7 @@ export const DebtBreakdownSection = withWindowSize(
                 title="Why can't the government just print more money?"
                 openEventNumber={"26"}
                 closeEventNumber={"27"}
-                explainerGAEvent='Debt'
+                explainerGAEvent="Debt"
               >
                 While the Treasury prints actual dollar bills, “printing money”
                 is also a term that is sometimes used to describe a means of{" "}
@@ -1945,7 +1945,7 @@ export const DebtBreakdownSection = withWindowSize(
             </div>
           </div>
         </div>
-    </>
+      </>
     );
   }
 );
@@ -1977,9 +1977,9 @@ export const DebtCeilingSection = () => (
       <Accordion
         title={debtCeilingSectionAccordionTitle}
         containerClass={debtCeilingAccordion}
-        openEventNumber='28'
-        closeEventNumber='29'
-        explainerGAEvent='Debt'
+        openEventNumber="28"
+        closeEventNumber="29"
+        explainerGAEvent="Debt"
       >
         Government shutdowns occur when annual funding for ongoing federal
         government operations expires, and Congress does not renew it in time.
@@ -2153,7 +2153,7 @@ export const DiveDeeperSection = () => (
     </div>
 
     <div className={diveDeeperQuoteRight}>
-      <img src={benFranklin} alt='' />
+      <img src={benFranklin} alt="" />
       <div>
         <div className={diveDeeperQuote}>
           “Rather go to bed without dinner than to rise in debt.”
@@ -2175,7 +2175,7 @@ export const DiveDeeperSection = () => (
           Alexander Hamilton, 1st U.S. Treasury Secretary
         </div>
       </div>
-      <img src={alexanderHamilton} alt='' />
+      <img src={alexanderHamilton} alt="" />
     </div>
   </>
 );
@@ -2194,7 +2194,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
     component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear} />
+      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear}/>
     ),
   },
   {

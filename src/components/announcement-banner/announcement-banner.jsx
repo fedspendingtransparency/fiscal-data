@@ -22,7 +22,7 @@ const AnnouncementBanner = ({
     return (
       <div className={`${container} bannerContainer`}
            style={altStyle}
-           data-testid='bannerContainer'
+           data-testid="bannerContainer"
       >
         <div className={`${content} bannerContent`}>
           <FontAwesomeIcon className={infoIcon} icon={faInfoCircle} />
@@ -32,7 +32,7 @@ const AnnouncementBanner = ({
           onClick={hideBanner}
           onKeyPress={hideBanner}
           tabIndex={0}
-          role='button'
+          role="button"
         >
           <FontAwesomeIcon className={xMarkIcon} icon={faXmark} />
         </div>

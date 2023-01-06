@@ -26,16 +26,16 @@ const ReleaseCalendar = () => {
   return (
     <SiteLayout>
       <PageHelmet
-        pageTitle='Fiscal Data Release Calendar'
+        pageTitle="Fiscal Data Release Calendar"
         description={tagLineText}
-        keywords=''
+        keywords=""
       />
       <MuiThemeProvider theme={theme}>
-        <div className='pageHeader'>
-          <div className='content'>
+        <div className="pageHeader">
+          <div className="content">
             <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid='page-title' className={styles.pageTitle}>Release Calendar</h1>
-            <p className={styles.tagLine} data-testid='tag-line'>
+            <h1 data-testid="page-title" className={styles.pageTitle}>Release Calendar</h1>
+            <p className={styles.tagLine} data-testid="tag-line">
               {tagLineText}
             </p>
           </div>

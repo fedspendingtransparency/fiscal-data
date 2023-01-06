@@ -5,9 +5,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 
 const MenuButton = ({ isOpen, clickHandler }) => (
-  <button className={isOpen ? styles.buttonActivated : styles.button} onClick={clickHandler} data-testid='button'>
-    <div className={styles.menuText} data-testid='menuText'>Menu</div>
-    <div data-testid='menuIcon'>
+  <button className={isOpen ? styles.buttonActivated : styles.button} onClick={clickHandler} data-testid="button">
+    <div className={styles.menuText} data-testid="menuText">Menu</div>
+    <div data-testid="menuIcon">
       {isOpen
         ? <CloseIcon />
         : <MenuIcon />

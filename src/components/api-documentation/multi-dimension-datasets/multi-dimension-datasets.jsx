@@ -3,8 +3,8 @@ import SectionContent from '../section-content/section-content';
 
 const MultiDimensionDatasets = () => (
   <SectionContent
-    title='Multi-Dimension Datasets'
-    id='multidimension-datasets'
+    title="Multi-Dimension Datasets"
+    id="multidimension-datasets"
     headingLevel={2}
   >
     <p>

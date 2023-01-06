@@ -36,7 +36,7 @@ describe('glossary term',() => {
     const testPage = 'Test Page';
 
     const { getByRole } = render(
-      <GlossaryTerm term='hello' page={testPage} glossary={testGlossary}>
+      <GlossaryTerm term="hello" page={testPage} glossary={testGlossary}>
         {termText}
       </GlossaryTerm>
     );

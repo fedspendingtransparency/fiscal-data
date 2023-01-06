@@ -135,7 +135,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         "/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays" +
         "-of-the-u-s-government"
       }
-      eventNumber='2'
+      eventNumber="2"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -163,7 +163,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         <SplitFlapDisplay value={desktopDeficit}
                           mobilePrecision={parseInt(desktopDeficit) > 999999999999 ? 2 : 0}
                           minLength={desktopDeficit?.toString().length} // number of characters to initially display
-                          valueType='currency'
+                          valueType="currency"
         />
       </div>
       <div className={`${counterSourceInfo} ${deficit}`}>

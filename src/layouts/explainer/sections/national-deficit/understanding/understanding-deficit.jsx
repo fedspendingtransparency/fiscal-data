@@ -106,12 +106,12 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
           </p>
         </VisualizationCallout>
       </div>
-      <SurplusIllustration glossary={glossary} />
+      <SurplusIllustration glossary={glossary}/>
       <p>
         The chart below shows a breakdown of how the U.S. deficit compares to the corresponding
         revenue and spending.
       </p>
-      <DeficitComparisonBarChart sectionId={sectionId} />
+      <DeficitComparisonBarChart sectionId={sectionId}/>
     </div>
   )
 };

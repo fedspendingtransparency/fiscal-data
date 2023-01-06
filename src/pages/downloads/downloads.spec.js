@@ -58,7 +58,7 @@ describe('downloads page', () => {
     window.location = { assign: locationMock };
 
     const mockToken = '';
-    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
+    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }}/>);
 
     expect(getByTestId('header')).toHaveTextContent(downloadPageTextContent.dlErrorHeader);
     expect(getByTestId('full-message')).toHaveTextContent(downloadPageTextContent.dlErrorText);
@@ -70,7 +70,7 @@ describe('downloads page', () => {
     window.location = { assign: locationMock };
 
     const mockToken = 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789';
-    render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
+    render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }}/>);
     expect(statusPollingSpy).toHaveBeenCalledWith(mockToken);
     expect(locationMock).toHaveBeenCalledWith(`${globalConstants.DATA_DOWNLOAD_STATUS_PREFIX}/mockDownloadFilePath.zip`);
   });

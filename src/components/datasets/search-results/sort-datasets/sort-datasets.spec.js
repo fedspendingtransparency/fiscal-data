@@ -12,8 +12,7 @@ describe('Sort Datasets', () => {
         <SortDatasets 
             setSort={onSort} 
             searchIsActive={searchIsActive} 
-            sortOptions={SortOptions}
-        />
+            sortOptions={SortOptions} />
     );
     const instance = component.root;
 

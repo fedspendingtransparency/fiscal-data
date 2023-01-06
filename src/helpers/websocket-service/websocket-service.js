@@ -2,7 +2,7 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, timeout } from "rxjs/operators"
 import { TimeoutError, throwError } from 'rxjs';
 
-const currentConnections = {};
+let currentConnections = {};
 
   /**
    * Establishes a websocket connection. Allows for multiple connections to the same url.

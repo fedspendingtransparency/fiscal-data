@@ -46,7 +46,7 @@ const governmentRevenueSections = [
     index: 2,
     id: governmentRevenueSectionIds[2],
     title: "Sources of Federal Revenue",
-    component: (glossary, cpiDataByYear) => <SourcesOfFederalRevenue glossary={glossary} />
+    component: (glossary, cpiDataByYear) => <SourcesOfFederalRevenue glossary={glossary}/>
   },
   {
     index: 3,
@@ -58,7 +58,7 @@ const governmentRevenueSections = [
     index: 4,
     id: governmentRevenueSectionIds[4],
     title: "Federal Revenue Trends and the U.S. Economy ",
-    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear} />
+    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear}/>
   },
 ]
 

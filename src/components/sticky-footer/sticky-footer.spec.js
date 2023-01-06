@@ -11,8 +11,8 @@ describe('StickyFooter component', () => {
   it('renders its children in an appropriately styled container', () => {
     const { getByTestId } = render(
       <StickyFooterComponent>
-        <span data-testid='footer-childSpan'>Some footer body text</span>
-        <div data-testid='footer-childDiv'>Some footer block</div>
+        <span data-testid="footer-childSpan">Some footer body text</span>
+        <div data-testid="footer-childDiv">Some footer block</div>
       </StickyFooterComponent>
     );
     expect(getByTestId('sticky-footer-container')).toBeInTheDocument();
@@ -47,8 +47,8 @@ describe('StickyFooter component', () => {
     act(() => {
       comp = render(
         <StickyFooterComponent hideAfterTime={4500}>
-          <span data-testid='footer-childSpan'>Some footer body text</span>
-          <div data-testid='footer-childDiv'>Some footer block</div>
+          <span data-testid="footer-childSpan">Some footer body text</span>
+          <div data-testid="footer-childDiv">Some footer block</div>
         </StickyFooterComponent>
       );
       jest.advanceTimersByTime(100); // complete some initial render ticks
@@ -64,8 +64,8 @@ describe('StickyFooter component', () => {
     act(() => {
       render(
         <StickyFooterComponent hideAfterTime={4500} onClosed={mockOnClosedFn}>
-          <span data-testid='footer-childSpan'>Some footer body text</span>
-          <div data-testid='footer-childDiv'>Some footer block</div>
+          <span data-testid="footer-childSpan">Some footer body text</span>
+          <div data-testid="footer-childDiv">Some footer block</div>
         </StickyFooterComponent>
       );
       jest.advanceTimersByTime(4500 + 2900); // almost enough time to reach total closure
@@ -82,8 +82,8 @@ describe('StickyFooter component', () => {
 
     const { unmount } = render(
       <StickyFooterComponent hideAfterTime={4500} onClosed={mockOnClosedFn}>
-        <span data-testid='footer-childSpan'>Some footer body text</span>
-        <div data-testid='footer-childDiv'>Some footer block</div>
+        <span data-testid="footer-childSpan">Some footer body text</span>
+        <div data-testid="footer-childDiv">Some footer block</div>
       </StickyFooterComponent>
     );
 
@@ -101,8 +101,8 @@ describe('StickyFooter component', () => {
     act(() => {
       component = render(
         <StickyFooterComponent hideAfterTime={4500}>
-          <span data-testid='footer-childSpan'>Some footer body text</span>
-          <div data-testid='footer-childDiv'>Some footer block</div>
+          <span data-testid="footer-childSpan">Some footer body text</span>
+          <div data-testid="footer-childDiv">Some footer block</div>
         </StickyFooterComponent>);
         jest.advanceTimersByTime(100); // complete some initial render ticks
     });

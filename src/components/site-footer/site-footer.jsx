@@ -84,18 +84,18 @@ const SiteFooter = () => {
       <div className={styles.footerMain}>
         <div className={styles.content}>
           <Link
-            data-testid='logo'
+            data-testid="logo"
             className={styles.logo}
-            to='/'
+            to="/"
             onClick={() => clickHandler('Logo')}
           >
             <StaticImage
-              src='../../images/logos/fd-logo-ko.svg'
-              alt='Fiscal Data logo'
+              src="../../images/logos/fd-logo-ko.svg"
+              alt="Fiscal Data logo"
               height={49}
               width={171}
-              placeholder='tracedSVG'
-              layout='fixed'
+              placeholder="tracedSVG"
+              layout="fixed"
             />
           </Link>
           <div className={styles.pageLinks}>

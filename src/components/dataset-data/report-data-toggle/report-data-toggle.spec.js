@@ -8,7 +8,7 @@ describe('Report Data Toggle', () => {
   let instance, radioButtons, toggleSpy;
   beforeEach(() => {
     component = renderer.create(
-      <ReportDataToggle onChange={toggleFn} reports={['item']} />
+      <ReportDataToggle onChange={toggleFn} reports={['item']}/>
     );
     instance = component.root;
     toggleSpy = jest.spyOn(instance.props, 'onChange');
@@ -43,7 +43,7 @@ describe('Report Data Toggle', () => {
     expect(instance.children[0].props.style).toStrictEqual({display: 'block'});
 
     renderer.act(() => {
-      component.update(<ReportDataToggle onChange={toggleFn} reports={[]} />)
+      component.update(<ReportDataToggle onChange={toggleFn} reports={[]}/>)
     });
 
     expect(instance.children[0].props.style).toStrictEqual({display: 'none'});

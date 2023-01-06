@@ -74,7 +74,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
   const [defaultOpen, setDefaultOpen] = useState(false);
 
   const handleScroll = () => {
-    const position = window.pageYOffset;
+    let position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 
@@ -136,13 +136,13 @@ export default function MobileExplainerSubNav({ hidePosition }) {
   }, []);
 
   return (
-    <div className={mainContainer} data-testid='mobileSubNav'>
+    <div className={mainContainer} data-testid="mobileSubNav">
       <div className={navBlockStyle}>
         <button
-          aria-controls='customized-menu'
-          aria-haspopup='true'
-          variant='contained'
-          color='#0a2f5a'
+          aria-controls="customized-menu"
+          aria-haspopup="true"
+          variant="contained"
+          color="#0a2f5a"
           onClick={handleClick}
           onKeyPress={handleClick}
           className={`${isOverview ? [buttonOverview, activeMenu].join(" ") : buttonOverview}`}
@@ -150,7 +150,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           <span
             onClick={() => navigate('/americas-finance-guide/')}
             onKeyPress={() => navigate('/americas-finance-guide/')}
-            className={overviewStyle} id='home'
+            className={overviewStyle} id="home"
             role={'button'}
             tabIndex={0}
           >
@@ -166,7 +166,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
           open={defaultOpen || Boolean(anchorEl)}
           onClose={handleClose}
           className={[mainListSticky, stylingStyledMenu].join(" ")}
-          id='styled-menu'
+          id="styled-menu"
         >
           <StyledMenuItem className={MenuList}>
             <ListItemText
@@ -174,7 +174,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
               onClick={() =>
                 navigate("/americas-finance-guide/government-revenue/")
               }
-              primary=' Revenue'
+              primary=" Revenue"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
@@ -183,7 +183,7 @@ export default function MobileExplainerSubNav({ hidePosition }) {
               onClick={() =>
                 navigate("/americas-finance-guide/federal-spending/")
               }
-              primary='Spending'
+              primary="Spending"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
@@ -192,14 +192,14 @@ export default function MobileExplainerSubNav({ hidePosition }) {
               onClick={() =>
                 navigate("/americas-finance-guide/national-deficit/")
               }
-              primary='Deficit'
+              primary="Deficit"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
               className={`${isDebt ? [debt, activeMenu].join(" ") : debt}`}
               onClick={() => navigate("/americas-finance-guide/national-debt/")}
-              primary='Debt'
+              primary="Debt"
             />
           </StyledMenuItem>
         </StyledMenu>

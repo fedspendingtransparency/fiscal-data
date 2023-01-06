@@ -63,7 +63,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         dictionary={pageContext.config.dictionary}
       />
       <DDNav title={pageContext.config.name} />
-      <div className='bodyBackground'>
+      <div className="bodyBackground">
         <DatasetAbout config={pageContext.config} test={test} />
         <DatasetData setSelectedTableProp={setSelectedTable}
                      finalDatesNotFound={finalDatesNotFound}

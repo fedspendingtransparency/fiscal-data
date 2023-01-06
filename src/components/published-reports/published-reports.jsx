@@ -33,7 +33,7 @@ const PublishedReports = ({ reports, dataset }) => {
 
   return (
     <>
-      <div className={container} data-testid='filterDownloadContainer'>
+      <div className={container} data-testid="filterDownloadContainer">
         <div className={leftContent}>
           <FilterSection reports={selectedReportGroup}
                          setSelectedFile={setSelectedFile}
@@ -41,7 +41,7 @@ const PublishedReports = ({ reports, dataset }) => {
           />
         </div>
         <div className={rightContent}>
-          <div data-testid='downloadSection' className={downloadWrapper}>
+          <div data-testid="downloadSection" className={downloadWrapper}>
             <DownloadReport reportFile={reportToShow} isPublishedReport />
           </div>
         </div>

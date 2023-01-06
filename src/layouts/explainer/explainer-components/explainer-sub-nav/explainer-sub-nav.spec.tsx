@@ -26,12 +26,12 @@ const urls = [{
 
 describe("ExplainerSubNav Component", () => {
   it("renders the component", () => {
-    const { getByTestId } = render(<ExplainerSubNav hidePosition={160} />)
+    const { getByTestId } = render(<ExplainerSubNav hidePosition={160}/>)
     expect(getByTestId("explainerSubNav")).toBeInTheDocument()
   })
 
   it("renders all the correct links", () => {
-    const { getByText  } = render(<ExplainerSubNav hidePosition={160} />)
+    const { getByText  } = render(<ExplainerSubNav hidePosition={160}/>)
     
     urls.forEach(url => {
       expect(getByText(url.text).closest('a')).toHaveAttribute('href', url.url)
@@ -40,7 +40,7 @@ describe("ExplainerSubNav Component", () => {
 
   it('sets className depending on scroll', async() =>  {
     const { getByTestId, container } = render(
-      <div style={{ height: '100px', display: 'block' }} data-testid='mockDiv'>
+      <div style={{ height: '100px', display: 'block' }} data-testid="mockDiv">
         <ExplainerSubNav hidePosition={5} />
       </div>
     );

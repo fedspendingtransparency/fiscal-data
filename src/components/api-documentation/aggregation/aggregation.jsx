@@ -3,8 +3,8 @@ import SectionContent from '../section-content/section-content';
 
 const Aggregation = () => (
   <SectionContent
-    title='Aggregation & Sums'
-    id='aggregation-sums'
+    title="Aggregation & Sums"
+    id="aggregation-sums"
     headingLevel={2}
   >
     <p>

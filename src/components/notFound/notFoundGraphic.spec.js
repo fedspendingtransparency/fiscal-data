@@ -7,7 +7,7 @@ describe('Not Found Graphic', ()=> {
     let component =renderer.create()
     renderer.act(()=> {
         component=renderer.create(
-            <NotFoundGraphic />
+            <NotFoundGraphic/>
         )
     })
     instance=component.root

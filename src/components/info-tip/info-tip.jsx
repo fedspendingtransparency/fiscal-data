@@ -59,7 +59,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const handleScroll = () => {
-    const position = window.pageYOffset;
+    let position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 
@@ -93,7 +93,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   };
 
   const handleGlossaryClick = (e) => {
-    const anchor = e.currentTarget;
+    let anchor = e.currentTarget;
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       if (e.type === 'mouseenter') {
@@ -119,7 +119,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   const label = `More information about ${title}.`;
 
   return (
-    <span data-testid='infoTipContainer'>
+    <span data-testid="infoTipContainer">
       {glossaryText ? (
         <span
           className={styles.glossaryButton}
@@ -127,7 +127,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           onMouseLeave={handleMouseLeave}
           onClick={handleGlossaryClick}
           onKeyPress={handleGlossaryClick}
-          role='button'
+          role="button"
           tabIndex={0}
         >
           {glossaryText}
@@ -136,8 +136,8 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
         <Button
           aria-describedby={id}
           aria-label={label}
-          data-testid='infoTipButton'
-          variant='contained'
+          data-testid="infoTipButton"
+          variant="contained"
           className={`${button} ${styles.infoIcon}`}
           onClick={handleClick}
           onMouseLeave={handleClose}
@@ -167,12 +167,12 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
 
           <div
             className={`${popupContainer} ${styles.popupContainer}`}
-            data-testid='popupContainer'
+            data-testid="popupContainer"
             onMouseLeave={handleClose}
           >
             {width < pxToNumber(breakpointLg) ?
               <span>
-                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose} />
+                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose}/>
                 <h6 className={styles.header}>{title}</h6>
               </span>
               :

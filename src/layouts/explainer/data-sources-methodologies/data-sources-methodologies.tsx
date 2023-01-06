@@ -34,7 +34,7 @@ const DataSourcesMethodologies: FunctionComponent<DsmProps> = ({
   const analyticsProps = analyticsEventMap[pageName];
   return (
     <section className={`${section} dataSourceAccordion`}>
-      <Accordion {...analyticsProps} title='Data Sources & Methodologies'>
+      <Accordion {...analyticsProps} title="Data Sources & Methodologies">
         {children}
       </Accordion>
     </section>

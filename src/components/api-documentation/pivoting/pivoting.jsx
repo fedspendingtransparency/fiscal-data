@@ -3,8 +3,8 @@ import SectionContent from '../section-content/section-content';
 
 const Pivoting = () => (
   <SectionContent
-    title='Pivoting'
-    id='pivoting'
+    title="Pivoting"
+    id="pivoting"
     headingLevel={2}
   >
     <p>

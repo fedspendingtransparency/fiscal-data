@@ -106,7 +106,7 @@ describe('Multichart', () => {
   it('renders expected chart container element', async () => {
     const { getByTestId } = render(
       <Multichart
-        chartId='test-multichart'
+        chartId="test-multichart"
         chartConfigs={mockChartConfigs}
         hoverEffectHandler={jest.fn()}
       />
@@ -118,7 +118,7 @@ describe('Multichart', () => {
   it('renders the expected margin labels with string formatting applied', () => {
     const { getByText } = render(
       <Multichart
-        chartId='test-multichart'
+        chartId="test-multichart"
         chartConfigs={mockChartConfigs}
         hoverEffectHandler={jest.fn()}
       />
@@ -132,7 +132,7 @@ describe('Multichart', () => {
   it('renders a chart for each config', () => {
     const { getAllByTestId } = render(
       <Multichart
-        chartId='test-multichart'
+        chartId="test-multichart"
         chartConfigs={mockChartConfigs}
         hoverEffectHandler={jest.fn()}
       />
@@ -142,7 +142,7 @@ describe('Multichart', () => {
   it('renders initial circle markers for each chart', () => {
     const { getByTestId } = render(
       <Multichart
-        chartId='test-multichart'
+        chartId="test-multichart"
         chartConfigs={mockChartConfigs}
         hoverEffectHandler={jest.fn()}
       />
@@ -156,7 +156,7 @@ describe('Multichart', () => {
     await act(async () => {
       const { queryAllByTestId, getByTestId } = await render(
         <Multichart
-          chartId='testy'
+          chartId="testy"
           chartConfigs={mockChartConfigs}
           hoverEffectHandler={jest.fn()}
         />

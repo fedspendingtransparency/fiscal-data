@@ -8,9 +8,9 @@ export const title = 'About This Dataset';
 const DatasetAbout = ({ config, test }) => {
 
   return (
-    <DatasetSectionContainer title={title} id='about-this-dataset'>
+    <DatasetSectionContainer title={title} id="about-this-dataset">
       <h3 className={styles.heading}>Description:</h3>
-      <p className={styles.description} data-testid='description'>
+      <p className={styles.description} data-testid="description">
         {config.summaryText}
       </p>
       <DatasetAboutTabs config={config} test={test} />

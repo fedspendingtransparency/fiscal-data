@@ -8,7 +8,7 @@ describe('DatasetTopicsSummary', () => {
   const mockRelatedTopics = ['topic1', 'topic2'];
   const mockRelatedTopics2 = [];
   const tree = renderer.create(
-    <DatasetTopicsSummary relatedTopics={mockRelatedTopics} />
+    <DatasetTopicsSummary relatedTopics={mockRelatedTopics}/>
   );
   const instance = tree.root;
 
@@ -26,7 +26,7 @@ describe('DatasetTopicsSummary', () => {
 
   it('does not show a heading or a list if given an empty array', () => {
     const tree2 = renderer.create(
-      <DatasetTopicsSummary relatedTopics={mockRelatedTopics2} />
+      <DatasetTopicsSummary relatedTopics={mockRelatedTopics2}/>
     );
     const instance2 = tree2.root;
     const headingElement2 = instance2.findByProps({'data-test-id': 'topics-empty-div'});

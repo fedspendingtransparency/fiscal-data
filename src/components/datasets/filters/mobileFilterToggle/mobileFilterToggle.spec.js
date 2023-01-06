@@ -16,7 +16,7 @@ describe('Mobile Filter Toggle', ()=> {
         renderer.act(()=> {
             component=renderer.create(<MobileFilterToggle filterCnt={3} datasetsView={true}
             toggleDatasetView={mobileToggleFn} datasetsCount={13} filterReset={filterResetFn}
-                                      />)
+            />)
         })
 
         instance=component.root
@@ -47,7 +47,7 @@ describe('Mobile Filter Toggle', ()=> {
         renderer.act(()=> {
             component=renderer.create(<MobileFilterToggle filterCnt={3} datasetsView={false}
                 toggleDatasetView={mobileToggleFn} datasetsCount={13} filterReset={filterResetFn}
-                                      />)
+                />)
         })
         instance=component.root
         const resetFiltersButton=instance.findByProps({"className": styles.resetButton})

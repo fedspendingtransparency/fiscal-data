@@ -78,9 +78,9 @@ export default function ComboSelect({options, changeHandler, optionLabelKey, sel
     <div className={styles.selector_container} onFocus={onFocusHandler}
          onBlur={onBlurHandler}
     >
-      <div className={styles.selector_label}>{labelText} <span className='required'>*</span></div>
+      <div className={styles.selector_label}>{labelText} <span className="required">*</span></div>
         <div>
-          <input type='number'
+          <input type="number"
                  className={styles.comboSelectField}
                  onChange={onFilterChange}
                  value={filterDigits}
@@ -108,8 +108,7 @@ export default function ComboSelect({options, changeHandler, optionLabelKey, sel
                           styles.selector_optionSelected : ''
                       ])
                     }
-                    onClick={() => {updateSelection(option);}} disabled={!option.value}
-                  >
+                    onClick={() => {updateSelection(option);}} disabled={!option.value}>
                     {option[labelKey]}
                   </button>
                 </li>

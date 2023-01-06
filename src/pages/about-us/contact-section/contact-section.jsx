@@ -179,23 +179,23 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
 
   return (
     <div className={aboutUsStyles.section}>
-      <SectionContent id='contact-us'
+      <SectionContent id="contact-us"
                       headingLevel={2}
-                      title='Contact Us'
+                      title="Contact Us"
                       className={styles.mainSection}
       >
         <p>
           Have a question about Fiscal Data? The{' '}
-          <Link to='about-fiscal-data'
-                className='primary'
+          <Link to="about-fiscal-data"
+                className="primary"
                 smooth={true}
                 duration={600}
                 delay={200}
           >
             About Us
           </Link> and{' '}
-          <Link to='faq'
-                className='primary'
+          <Link to="faq"
+                className="primary"
                 smooth={true}
                 duration={600}
                 delay={200}
@@ -214,28 +214,28 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
         <div className={styles.contactUsForm}>
           <div className={styles.formElement}>
             <SelectControl options={dropdownOptions}
-                           label='Subject'
-                           optionLabelKey='label'
+                           label="Subject"
+                           optionLabelKey="label"
                            selectedOption={subjectType}
                            changeHandler={subjectValueChange}
             />
           </div>
           <div className={styles.formElement}>
-            <label htmlFor='contactUsName' className={styles.label}>
+            <label htmlFor="contactUsName" className={styles.label}>
               Name
             </label>
-            <input id='contactUsName'
-                   type='text'
-                   placeholder='Name'
+            <input id="contactUsName"
+                   type="text"
+                   placeholder="Name"
                    className={styles.textInput}
                    disabled={(disabled) ? 'disabled': ''}
             />
           </div>
-          <form name='contactUsForm'
+          <form name="contactUsForm"
                 noValidate
           >
             <div className={styles.commentBoxSpacing}>
-              <label htmlFor='contactUsEmail'
+              <label htmlFor="contactUsEmail"
                      className={styles.label}
               >
                 Email <span className={styles.required}>*</span>
@@ -248,9 +248,9 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
               }
               <input onBlur={checkForErrors}
                      onChange={setIsDirty}
-                     required id='contactUsEmail'
-                     type='email'
-                     placeholder='Email'
+                     required id="contactUsEmail"
+                     type="email"
+                     placeholder="Email"
                      disabled={(disabled) ? 'disabled': ''}
                      className={`${styles.textInput} ${emailError ? styles.error : ''}`}
               />
@@ -263,7 +263,7 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
               }
             </div>
             <div className={styles.commentBoxSpacing}>
-              <label htmlFor='contactUsComment' className={styles.label}>
+              <label htmlFor="contactUsComment" className={styles.label}>
                 Comment <span className={styles.required}>*</span>
               </label>
               {
@@ -275,7 +275,7 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
               <textarea onBlur={checkForErrors}
                         onChange={setIsDirty}
                         required
-                        id='contactUsComment'
+                        id="contactUsComment"
                         disabled={(disabled) ? 'disabled': ''}
                         className={
                           `${styles.textInput} ${styles.comment} ${commentError ?
@@ -288,14 +288,14 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
                 </div>
               }
             </div>
-            <ReCAPTCHA sitekey='6LdyvrEZAAAAAPtSTHjmXgJ2oU8tVhBfpuMzHqa4'
+            <ReCAPTCHA sitekey="6LdyvrEZAAAAAPtSTHjmXgJ2oU8tVhBfpuMzHqa4"
                        className={styles.recaptcha}
                        ref={recaptchaRef}
                        onChange={onChange}
             />
             {
               (!isCallingAPI && showResponseMessage) && (isResponseSuccessful ?
-              <div data-test-id='successfulResponse'
+              <div data-test-id="successfulResponse"
                    className={`${styles.responseMessage} ${styles.success}`}
               >
                 <div>
@@ -309,7 +309,7 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
                 </div>
               </div>
                 :
-              <div data-test-id='failedResponse'
+              <div data-test-id="failedResponse"
                    className={`${styles.responseMessage} ${styles.error}`}
               >
                 <div>
@@ -340,9 +340,9 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
           </form>
         </div>
       </SectionContent>
-      <SectionContent id='subscribe'
+      <SectionContent id="subscribe"
                       headingLevel={3}
-                      title='Sign Up for Email Updates'
+                      title="Sign Up for Email Updates"
       >
         <p>
           Want to stay up to date about new features and datasets? Sign up for email

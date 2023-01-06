@@ -89,7 +89,7 @@ const FilterEditor: FunctionComponent<FilterEditorProps> = (
           <button
             className={addFilterBtn}
             onClick={() => addFilter()}
-            data-testid='add-filter'
+            data-testid="add-filter"
           >
             <FontAwesomeIcon icon={faPlus} className={icon} />
             Add {filters.length ? 'another' : 'a'} filter
@@ -101,7 +101,7 @@ const FilterEditor: FunctionComponent<FilterEditorProps> = (
         <div key={idx}>
           <select
             defaultValue={filter.key}
-            data-part='key'
+            data-part="key"
             onBlur={e => updateFilter(e, idx)}
             data-testid={`select-key-${idx}`}
           >
@@ -116,7 +116,7 @@ const FilterEditor: FunctionComponent<FilterEditorProps> = (
           </select>
           <select
             defaultValue={filter.operator}
-            data-part='operator'
+            data-part="operator"
             onBlur={e => updateFilter(e, idx)}
             data-testid={`select-operator-${idx}`}
           >
@@ -131,7 +131,7 @@ const FilterEditor: FunctionComponent<FilterEditorProps> = (
           </select>
           <input
             defaultValue={filter.value} size={100}
-            data-part='value'
+            data-part="value"
             onBlur={(e) => updateFilter(e, idx)}
             data-testid={`input-value-${idx}`}
           />

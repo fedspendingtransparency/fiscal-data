@@ -19,8 +19,8 @@ const TabPanel = ({ children, value, index, ...other }) => {
 
   return (
     <Typography
-      component='div'
-      role='tabpanel'
+      component="div"
+      role="tabpanel"
       id={`preview-tabpanel-${index}`}
       aria-labelledby={`preview-tab-${index}`}
       className={value !== index ? 'hidden' : ''}
@@ -113,7 +113,7 @@ const ChartTableToggle = ({
   } else if (emptyData) {
     emptyDataMessage =
       <NotShownMessage
-      heading='Change selections in order to preview data'
+      heading="Change selections in order to preview data"
       bodyText={emptyDataMessageBody}
       />
   }
@@ -123,17 +123,17 @@ const ChartTableToggle = ({
   return (
     <div className={tabState || emptyData || allTablesSelected ? chartBorder : ''}>
       <div className={tabState || emptyData || allTablesSelected ? '' : tabBorder}>
-        <AntTabs value={tabState} onChange={handleChange} aria-label='Data preview tab set'>
+        <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
           <AntTab
-            label='Table'
-            data-testid='tableTab'
-            icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size='1x' />}
+            label="Table"
+            data-testid="tableTab"
+            icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />}
             {...a11yProps(0)} disableRipple
           />
           <AntTab
-            label='Chart'
-            data-testid='chartTab'
-            icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size='1x' />}
+            label="Chart"
+            data-testid="chartTab"
+            icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
             {...a11yProps(1)} disableRipple
           />
           <HideLegendToggle

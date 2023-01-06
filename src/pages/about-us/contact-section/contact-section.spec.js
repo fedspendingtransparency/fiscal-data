@@ -19,7 +19,7 @@ describe('Contact Us section', () => {
   let component = renderer.create();
 
   renderer.act(() => {
-    component = renderer.create(<Contact />)
+    component = renderer.create(<Contact/>)
   });
   const instance = component.root;
 
@@ -197,7 +197,7 @@ describe('recaptcha component', () => {
   let component = renderer.create();
 
   renderer.act(() => {
-    component = renderer.create(<Contact />)
+    component = renderer.create(<Contact/>)
   });
   const instance = component.root;
 

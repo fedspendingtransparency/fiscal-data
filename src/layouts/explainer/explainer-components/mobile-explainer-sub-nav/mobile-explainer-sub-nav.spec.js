@@ -26,7 +26,7 @@ const urls = [{
 
 describe("ExplainerSubNav Component", () => {
   it("renders the component", () => {
-    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} />)
+    const { getByTestId } = render(<MobileExplainerSubNav isShown={true}/>)
     expect(getByTestId("mobileSubNav")).toBeInTheDocument()
   })
 })

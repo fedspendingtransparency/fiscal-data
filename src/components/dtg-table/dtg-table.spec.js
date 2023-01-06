@@ -23,7 +23,7 @@ describe('DTG table component', () => {
         component = renderer.create(
             <DtgTable
             tableProps={{ data: TestData }}
-            />);
+        />);
       });
     const instance = component.root;
 
@@ -82,7 +82,7 @@ describe('DTG table component', () => {
             component.update(
                 <DtgTable
                 tableProps={{ data: TestData, width }}
-                />);
+            />);
         })
 
         expect(instance.findByType('table').props.style.width).toBe(`${width}px`);
@@ -121,7 +121,7 @@ describe('DTG table component', () => {
                 <DtgTable
                 tableProps={{ data: TestData}}
                 perPage={perPage}
-                />);
+            />);
         });
 
         const updated = newComponent.root;
@@ -134,7 +134,7 @@ describe('DTG table component', () => {
             newComponent.update(
                 <DtgTable
                 tableProps={{ data: TestData, shouldPage: true }}
-                />);
+            />);
         });
 
         const updated = newComponent.root;
@@ -240,7 +240,7 @@ describe('DtgTable component - API Error', () => {
         component = renderer.create(
             <DtgTable
             tableProps={{ data: TestData, apiError: 'Error', shouldPage: true }}
-            />);
+        />);
       });
     const componentJSON = component.toJSON();
     const footer = componentJSON.children.find(e => e.props['data-test-id'] === 'table-footer');

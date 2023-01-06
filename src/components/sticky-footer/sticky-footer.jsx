@@ -101,8 +101,8 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
         <div
           className={`${styles.stickyFooterContainer} ${closing ? styles.closing : ''}`}
           style={closing && !hovered ? closingTransition : {}}
-          data-testid='sticky-footer-container'
-          role='button'
+          data-testid="sticky-footer-container"
+          role="button"
           tabIndex={0}
           onFocus={reactivate}
           onClick={reactivate}
@@ -112,7 +112,7 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
           onMouseLeave={() => { setHovered(false); }}
         >
           <div className={styles.stickyFooterContent}
-               data-testid='sticky-footer-content'
+               data-testid="sticky-footer-content"
           >
             {children}
           </div>
@@ -122,10 +122,10 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
       :
       (
         <div className={styles.stickyFooterContainer}
-             data-testid='sticky-footer-container'
+             data-testid="sticky-footer-container"
         >
           <div className={styles.stickyFooterContent}
-               data-testid='sticky-footer-content'
+               data-testid="sticky-footer-content"
           >
             {children}
           </div>

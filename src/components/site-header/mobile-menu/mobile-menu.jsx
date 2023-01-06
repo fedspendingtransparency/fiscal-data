@@ -32,7 +32,7 @@ const MobileMenu = () => {
   return (
     <div
       className={`${styles.menuContainer} ${activeState ? styles.open : ''}`}
-      data-testid='menuContainer'
+      data-testid="menuContainer"
     >
       {/*
         * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
@@ -40,7 +40,7 @@ const MobileMenu = () => {
         */}
       <div
         className={styles.overlay}
-        data-testid='overlay'
+        data-testid="overlay"
         onClick={toggleState}
       />
       <div className={`${styles.tray} ${activeState ? styles.open : ''}`}>
@@ -50,10 +50,10 @@ const MobileMenu = () => {
           {activeState && (
             <>
               <div className={styles.linkHeaderContainer}>
-                <Link to='/' data-testid='logo'>
+                <Link to="/" data-testid="logo">
                   <img
-                    src='/logos/fd-logo-mobile.svg'
-                    alt='Fiscal Data logo'
+                    src="/logos/fd-logo-mobile.svg"
+                    alt="Fiscal Data logo"
                     className={styles.logo}
                   />
                 </Link>
@@ -75,27 +75,27 @@ const MobileMenu = () => {
                       AMERICA'S FINANCE GUIDE
                     </div>
                     <div className={styles.explainerLinkContainer}>
-                      <Link to='/americas-finance-guide/'
+                      <Link to="/americas-finance-guide/"
                         className={styles.explainerLink}
                       >
                         Overview
                       </Link>
-                      <Link to='/americas-finance-guide/government-revenue/'
+                      <Link to="/americas-finance-guide/government-revenue/"
                         className={styles.explainerLink}
                       >
                         Revenue
                       </Link>
-                      <Link to='/americas-finance-guide/federal-spending/'
+                      <Link to="/americas-finance-guide/federal-spending/"
                         className={styles.explainerLink}
                       >
                         Spending
                       </Link>
-                      <Link to='/americas-finance-guide/national-deficit/'
+                      <Link to="/americas-finance-guide/national-deficit/"
                         className={styles.explainerLink}
                       >
                         Deficit
                       </Link>
-                      <Link to='/americas-finance-guide/national-debt/'
+                      <Link to="/americas-finance-guide/national-debt/"
                         className={styles.explainerLink}
                         onClick={() => topicsClickHandler('Debt')}
                       >
@@ -112,9 +112,9 @@ const MobileMenu = () => {
                 )}
               </div>
               <div className={styles.pageLinks}>
-                <Link to='/datasets/' data-testid='datasets'>Dataset Search</Link>
-                <Link to='/api-documentation/' data-testid='apiDocs'>API Documentation</Link>
-                <Link to='/about-us/' data-testid='about'>About Us</Link>
+                <Link to="/datasets/" data-testid="datasets">Dataset Search</Link>
+                <Link to="/api-documentation/" data-testid="apiDocs">API Documentation</Link>
+                <Link to="/about-us/" data-testid="about">About Us</Link>
               </div>
             </>
           )}

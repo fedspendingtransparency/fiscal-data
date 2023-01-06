@@ -55,7 +55,7 @@ export class DatasetSearch {
        };
     };
 
-    const searchIndex = elasticlunr(function () {
+    let searchIndex = elasticlunr(function () {
       this.addField('name');
       this.addField('summaryText');
       this.addField('tagLine');

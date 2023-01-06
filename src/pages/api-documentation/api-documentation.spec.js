@@ -44,7 +44,7 @@ describe('ApiDocumentationPage', () => {
   beforeAll(() => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
     renderer.act(() => {
-      component = renderer.create(<ApiDocumentationPage />)
+      component = renderer.create(<ApiDocumentationPage/>)
     });
 
     instance = component.root;

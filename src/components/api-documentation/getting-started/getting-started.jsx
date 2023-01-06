@@ -11,9 +11,9 @@ const GettingStarted = () => {
 
   return (
     <div className={apiStyles.sectionBreak}>
-      <SectionContent id='getting-started'
+      <SectionContent id="getting-started"
                       headingLevel={2}
-                      title='Getting Started'
+                      title="Getting Started"
       >
         <p>
           The U.S. Department of the Treasury is building a suite of open-source tools to
@@ -30,9 +30,9 @@ const GettingStarted = () => {
         </p>
       </SectionContent>
 
-      <SectionContent id='what-is-an-api'
+      <SectionContent id="what-is-an-api"
                       headingLevel={3}
-                      title='What is an API?'
+                      title="What is an API?"
       >
         <p>
           API stands for <strong>Application Programming Interface</strong>. APIs make it easy for
@@ -40,15 +40,15 @@ const GettingStarted = () => {
         </p>
         <p className={styles.paragraphList}>
           If you're looking for federal financial data that's designed to be read by humans rather
-          than computers, head to <Link className='primary' to='/'>our website</Link> to search
+          than computers, head to <Link className="primary" to="/">our website</Link> to search
           for data (available in CSV, JSON, and XML formats) or visit one of our partner sites:
         </p>
         <ul>
           <li>
-            <a className='primary'
-               href='https://www.usaspending.gov/'
-               target='_blank'
-               rel='noopener noreferrer'
+            <a className="primary"
+               href="https://www.usaspending.gov/"
+               target="_blank"
+               rel="noopener noreferrer"
             >
               USAspending
             </a> – the
@@ -57,29 +57,29 @@ const GettingStarted = () => {
             communities and businesses.
           </li>
           <li>
-            <a className='primary'
-               href='https://datalab.usaspending.gov/'
-               target='_blank'
-               rel='noopener noreferrer'
+            <a className="primary"
+               href="https://datalab.usaspending.gov/"
+               target="_blank"
+               rel="noopener noreferrer"
             >
               Data Lab
             </a> – where data visualizations, quantitative analysis, and storytelling with data
             come to life. Data Lab digs deeper into federal government spending data on topics
             such as homelessness and higher education. Additionally, Data Lab breaks down complex
             government finances into easy-to-understand terms with{' '}
-            <a className='primary'
-               href='https://datalab.usaspending.gov/americas-finance-guide/'
-               target='_blank'
-               rel='noopener noreferrer'
+            <a className="primary"
+               href="https://datalab.usaspending.gov/americas-finance-guide/"
+               target="_blank"
+               rel="noopener noreferrer"
             >
               Your Guide to America’s Finances.
             </a>
           </li>
         </ul>
       </SectionContent>
-      <SectionContent id='what-is-a-dataset'
+      <SectionContent id="what-is-a-dataset"
                       headingLevel={3}
-                      title='What is a dataset?'
+                      title="What is a dataset?"
       >
         <p>
           We present data to you in collections called datasets. We define a dataset as a group
@@ -90,12 +90,12 @@ const GettingStarted = () => {
           on federal government spending, revenue, debt, and more.
         </p>
         <p>
-          <Link to='/datasets/'>Search and filter</Link> our datasets to explore more.
+          <Link to="/datasets/">Search and filter</Link> our datasets to explore more.
         </p>
       </SectionContent>
-      <SectionContent id='api-endpoint-url-structure'
+      <SectionContent id="api-endpoint-url-structure"
                       headingLevel={3}
-                      title='API Endpoint URL structure'
+                      title="API Endpoint URL structure"
       >
         <p className={styles.apiEndpointFirstParagraph}>
           For simplicity and consistency, endpoint URLs are formatted with all lower-case
@@ -148,9 +148,9 @@ const GettingStarted = () => {
           record_date&filter=record_date:gte:2015-01-01
         </code>
       </SectionContent>
-      <SectionContent id='how-to-access-our-api'
+      <SectionContent id="how-to-access-our-api"
                       headingLevel={3}
-                      title='How to Access our API'
+                      title="How to Access our API"
       >
         <p>
           Our API is open, meaning that it does not require a user account or registration for a
@@ -208,9 +208,9 @@ const GettingStarted = () => {
           {`"next":null,"last":"&page%5Bnumber%5D=1&page%5Bsize%5D=100"}}`}<br />
         </code>
       </SectionContent>
-      <SectionContent id='license-and-authorization'
+      <SectionContent id="license-and-authorization"
                       headingLevel={3}
-                      title='License & Authorization'
+                      title="License & Authorization"
       >
         <p>
           The U.S. Department of the Treasury, Bureau of the Fiscal Service is committed to
@@ -220,9 +220,9 @@ const GettingStarted = () => {
           non-commercial or commercial purposes.
         </p>
       </SectionContent>
-      <SectionContent id='change-log'
+      <SectionContent id="change-log"
                       headingLevel={3}
-                      title='Change Log'
+                      title="Change Log"
       >
         <p>
           Our APIs are currently in v1.0.0 or v2.0.0. To determine which version the API is in,

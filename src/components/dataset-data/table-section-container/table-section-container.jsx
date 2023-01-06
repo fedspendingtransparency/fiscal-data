@@ -125,14 +125,14 @@ const TableSectionContainer = ({
     <div>
       <div className={styles.titleContainer}>
         <div className={styles.headerWrapper}>
-          <FontAwesomeIcon icon={faTable} data-testid='table-icon' size='1x' />
-          <h3 className={styles.header} data-testid='tableName' id='main-data-table-title'>
+          <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
+          <h3 className={styles.header} data-testid="tableName" id="main-data-table-title">
             {tableName}
           </h3>
           {!!hasPivotOptions &&
             <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />
           }
-          <Experimental featureId='chartingConfigurationTool'>
+          <Experimental featureId="chartingConfigurationTool">
             <DynamicConfig
               selectedTable={selectedTable}
               handleIgnorePivots={handleIgnorePivots}
@@ -147,7 +147,7 @@ const TableSectionContainer = ({
           <div className={styles.barContainer}>
             <div
               className={`${styles.barExpander} ${showPivotBar ? styles.active : ''}`}
-              data-testid='pivotOptionsDrawer'
+              data-testid="pivotOptionsDrawer"
             >
               <PivotOptions table={selectedTable}
                             pivotSelection={selectedPivot}
@@ -159,10 +159,10 @@ const TableSectionContainer = ({
       </div>
       <div className={styles.tableContainer}>
         {(isLoading) &&
-          <div data-testid='loadingSection'>
+          <div data-testid="loadingSection">
             <div className={styles.loadingSection} />
             <div className={styles.loadingIcon}>
-              <FontAwesomeIcon data-testid='loadingIcon' icon={faSpinner} spin pulse /> Loading...
+              <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
             </div>
           </div>
         }

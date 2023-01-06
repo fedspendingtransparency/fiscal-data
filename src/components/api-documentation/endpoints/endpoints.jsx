@@ -119,16 +119,16 @@ const Endpoints = () => {
   return (
     <div className={apiStyles.sectionBreak}>
       <SectionContent
-        id='endpoints'
+        id="endpoints"
         headingLevel={2}
-        title='Endpoints'
+        title="Endpoints"
       >
         <p>
           Many datasets are associated with only one data table, and thus, one API endpoint.
           There are some datasets comprised of more than one data table, and therefore have more
           than one endpoint. Find more details on{' '}
           <ScrollLink
-            to='list-of-endpoints-table'
+            to="list-of-endpoints-table"
             className={`primary`}
             smooth={true}
             duration={600}
@@ -139,11 +139,11 @@ const Endpoints = () => {
         </p>
       </SectionContent>
       <SectionContent
-        id='list-of-endpoints'
+        id="list-of-endpoints"
         headingLevel={3}
-        title='List of Endpoints'
+        title="List of Endpoints"
       >
-        <p id='list-of-endpoints-id'>
+        <p id="list-of-endpoints-id">
           The table below{' '}
           <strong>
             lists the available endpoints by dataset and data table, along with a brief description
@@ -163,14 +163,14 @@ const Endpoints = () => {
             {apiBaseUrl}/v2/accounting/od/avg_interest_rates
           </code>
         </p>
-        <div className={styles.listOfEndpointsTable} id='list-of-endpoints-table'>
+        <div className={styles.listOfEndpointsTable} id="list-of-endpoints-table">
           <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
         </div>
       </SectionContent>
       <SectionContent
-        id='fields-by-endpoint'
+        id="fields-by-endpoint"
         headingLevel={3}
-        title='Fields by Endpoint'
+        title="Fields by Endpoint"
       >
         <p>
           To discover what <strong>fields are available within each endpoint,</strong> check out the
@@ -179,7 +179,7 @@ const Endpoints = () => {
         </p>
         <p>
           <strong>Not sure which dataset you need?</strong> Head over to our{' '}
-          <CustomLink href='/datasets/'>
+          <CustomLink href="/datasets/">
             Datasets
           </CustomLink> page to search and filter for datasets by topic, dates available, file type,
           and more.

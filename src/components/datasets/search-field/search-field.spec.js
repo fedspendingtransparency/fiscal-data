@@ -25,7 +25,7 @@ describe('Search Field', () => {
 
   beforeEach(() => {
     component = renderer.create(
-      <SearchField changeHandler={mockChangeHandler} searchTerm='debt program' />
+      <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
     );
 
     instance = component.root;
@@ -90,7 +90,7 @@ describe('Search Field', () => {
     'displays a search icon within a disabled button when no characters are present in the field',
     () => {
       const staticComponent = renderer.create(
-        <SearchField changeHandler={mockChangeHandler} searchTerm='' infoIcon={mockInfoIcon} />
+        <SearchField changeHandler={mockChangeHandler} searchTerm="" infoIcon={mockInfoIcon} />
       );
       const inst = staticComponent.root;
       const button = inst.findAllByType('button')[0];
@@ -140,7 +140,7 @@ describe('search field persistence', () => {
           setKeywords: setKeywordsSpy
         }}
       >
-        <SearchField changeHandler={mockChangeHandler} searchTerm='debt program' />
+        <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
       </siteContext.Provider>
     );
 

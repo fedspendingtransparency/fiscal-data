@@ -197,7 +197,7 @@ const DatasetChart = ({
                 selectedPivot.pivotView ? ` | ${selectedPivot.pivotView.title}` : ''
               }
             </h4>
-            <div id='viz' ref={viz} />
+            <div id="viz" ref={viz} />
             <ChartCitation slug={slug} currentTableName={currentTable.tableName} />
           </div>
           <div className={legendClass}>

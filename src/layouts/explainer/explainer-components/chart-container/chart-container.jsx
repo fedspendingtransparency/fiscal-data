@@ -39,7 +39,7 @@ const ChartContainer = ({
         {header}
       </div>
       <div
-        data-testid='chart'
+        data-testid="chart"
         className={`${chart} chartContainerChart`}
         style={{ ...customContainerStyles }}
       >

@@ -193,8 +193,8 @@ const RangePresets = ({
             {preset.key === 'custom' ? (
               <>
                 <input
-                  type='radio'
-                  name='range-toggle'
+                  type="radio"
+                  name="range-toggle"
                   className={styles.radio}
                   checked={customPreset.key === activePresetKey}
                   id={`radio-${customPreset.key}`}
@@ -217,8 +217,8 @@ const RangePresets = ({
             ) : (
               <>
                 <input
-                  type='radio'
-                  name='range-toggle'
+                  type="radio"
+                  name="range-toggle"
                   className={styles.radio}
                   checked={preset.key === activePresetKey}
                   id={`radio-${preset.key}`}

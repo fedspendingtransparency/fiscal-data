@@ -7,19 +7,19 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 
 const Sorting = () => (
   <SectionContent
-    title='Sorting'
-    id='parameters-sorting'
+    title="Sorting"
+    id="parameters-sorting"
     headingLevel={3}
   >
     <p>
-      <strong>Parameter:</strong> <code className='inline'>sort=</code>
+      <strong>Parameter:</strong> <code className="inline">sort=</code>
     </p>
     <p>
       <strong>Definition:</strong> The sort parameter allows a user to sort a field in ascending
       (least to greatest) or descending (greatest to least) order.
     </p>
     <p>
-      <strong>Accepts:</strong> The sort parameter <code className='inline'>sort=</code> accepts a
+      <strong>Accepts:</strong> The sort parameter <code className="inline">sort=</code> accepts a
       comma-separated list of field names.
     </p>
     <p>
@@ -32,13 +32,13 @@ const Sorting = () => (
     </p>
     <p>
       <strong>Notes:</strong> You can nest sorting by passing the{' '}
-      <code className='inline'>sort=</code> parameter a comma-separated list.
+      <code className="inline">sort=</code> parameter a comma-separated list.
     </p>
 
     <p><strong>Examples:</strong></p>
     <p>
       Sort the records returned by date in descending order, i.e. starting with the most recent
-      date. <code className='inline'>?sort=-record_date</code>
+      date. <code className="inline">?sort=-record_date</code>
     </p>
     <p>
       Sort the Treasury Report on Receivables dataset by the Funding Type ID field in ascending

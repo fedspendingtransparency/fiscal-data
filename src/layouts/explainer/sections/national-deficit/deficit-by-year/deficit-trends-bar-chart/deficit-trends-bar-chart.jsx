@@ -228,8 +228,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
       { chartData !== [] ? (
         <div data-testid={'deficitTrendsBarChart'} className={container}
         onMouseEnter={handleMouseChartEnter}
-        onMouseLeave={handleMouseChartLeave}
-        >
+        onMouseLeave={handleMouseChartLeave}>
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY 2001-${mostRecentFiscalYear}`}
             altText={'Bar graph that shows the federal deficit trend from 2001 to '
@@ -251,7 +250,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                   'deficit',
                   'decoyDeficit'
                 ]}
-                indexBy='year'
+                indexBy="year"
                 margin={desktop ?
                   {top: 15, right: 0, bottom: 20, left: 50} :
                   {top: 10, right: 0, bottom: 20, left: 50}

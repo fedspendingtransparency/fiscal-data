@@ -32,10 +32,10 @@ const FieldsAccordion = ({selectedTable, numberOfFields = 5}) => {
   }, [numberOfFields,selectedTable])
 
   return (
-    <Accordion title='Fields' defaultOpen>
+    <Accordion title="Fields" defaultOpen>
         <ul className={list}>
           <li>
-            <strong>Parameter: </strong><code className='inline'>fields=</code>
+            <strong>Parameter: </strong><code className="inline">fields=</code>
           </li>
           <li>
             <strong>Definition: </strong>
@@ -47,7 +47,7 @@ const FieldsAccordion = ({selectedTable, numberOfFields = 5}) => {
           <li>
             <strong>Accepts: </strong>
             <span>
-              The <code className='inline'>fields=</code> parameter accepts a
+              The <code className="inline">fields=</code> parameter accepts a
               comma-separated list of field names (no parentheses).
             </span>
           </li>
@@ -62,11 +62,11 @@ const FieldsAccordion = ({selectedTable, numberOfFields = 5}) => {
           <li>
             <strong>Notes: </strong>
             <span>
-              When a field named passed to the <code className='inline'>fields=</code>{' '}
+              When a field named passed to the <code className="inline">fields=</code>{' '}
               parameter is not available for the endpoint accessed, an error will occur.
               Note that omitting fields can result in automatically aggregated and summed data
               results. For more information, view the{' '}
-              <CustomLink url='/api-documentation/#aggregation-sums'>
+              <CustomLink url="/api-documentation/#aggregation-sums">
                 full documentation on Aggregation and Sums.
               </CustomLink>
             </span>
@@ -76,10 +76,10 @@ const FieldsAccordion = ({selectedTable, numberOfFields = 5}) => {
           EXAMPLE
         </div>
         <code className={`${codeBlock} large`}>
-          <div className={exampleParameters} data-testid='fields-short'>
+          <div className={exampleParameters} data-testid="fields-short">
             ?fields={fields}
           </div>
-          <div data-testid='fields-long'>
+          <div data-testid="fields-long">
             {url}{fields}
           </div>
         </code>

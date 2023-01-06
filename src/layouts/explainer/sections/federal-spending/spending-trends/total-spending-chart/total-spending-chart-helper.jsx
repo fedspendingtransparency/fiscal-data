@@ -10,11 +10,11 @@ import {
 import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
 
 const mts = <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`}
-                        eventNumber='21'
+                        eventNumber="21"
             >
               Monthly Treasury Statement (MTS)
             </CustomLink>;
-const bea = <CustomLink url={'https://www.bea.gov/'} eventNumber='34'>
+const bea = <CustomLink url={'https://www.bea.gov/'} eventNumber="34">
               Bureau of Economic Analysis
             </CustomLink>;
 const footer = (
@@ -272,7 +272,7 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
 
 export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
   return (
-    <g data-testid='customSlices'
+    <g data-testid="customSlices"
       onMouseLeave={groupMouseLeave}
     >
       {props.slices.map(slice => (
@@ -315,7 +315,7 @@ export const lineChartCustomPoints = props => {
       : lastGdpPoints;
 
     return (
-      <g data-testid='customPoints'>
+      <g data-testid="customPoints">
         <circle
           fill={'#D8D8D8'}
           r={8}

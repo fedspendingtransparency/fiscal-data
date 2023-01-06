@@ -22,7 +22,7 @@ const AggregationNotice = () => {
       <div className={styles.container}>
         <div className={styles.infoBox}>
           <div className={styles.iconContainer}><FontAwesomeIcon icon={faInfoCircle} className={`${styles.infoIcon} ${classes.iconColor}`} /></div>
-          <div className={styles.infoText} data-testid='message-text'>{dataAggregationNotice}</div>
+          <div className={styles.infoText} data-testid="message-text">{dataAggregationNotice}</div>
         </div>
       </div>
     </div>

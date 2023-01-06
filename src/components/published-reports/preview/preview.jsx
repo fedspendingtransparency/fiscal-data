@@ -80,24 +80,24 @@ const Preview = ({ selectedFile }) => {
       <div className={titleContainer}>
         <div className={headerWrapper}>
           <FontAwesomeIcon icon={faTable}
-                           data-testid='tableIcon'
-                           size='1x'
+                           data-testid="tableIcon"
+                           size="1x"
           />
           <h3 className={header}
-              data-testid='title'
-              id='main-data-table-title'
+              data-testid="title"
+              id="main-data-table-title"
           >
             {selectedFile && selectedFile.report_group_desc}
           </h3>
         </div>
       </div>
-      <div data-testid='previewContent' className={previewContent}>
+      <div data-testid="previewContent" className={previewContent}>
         {
           selectedFile ?
             isPdf ?
               <embed src={selectedFile.path}
-                     type='application/pdf'
-                     data-test-id='embedElement'
+                     type="application/pdf"
+                     data-test-id="embedElement"
                      title={altText}
               />
               :
@@ -109,11 +109,11 @@ const Preview = ({ selectedFile }) => {
                 </div>
                 :
                 <NotShownMessage
-                  heading='Preview cannot be displayed for this file type.'
+                  heading="Preview cannot be displayed for this file type."
                     bodyText={`The selected file type is ${fileType !== null ?
                       fileType : 'unknown'}`}
                 />
-          : <NotShownMessage heading='Select a Report Above To Generate A Preview' />
+          : <NotShownMessage heading="Select a Report Above To Generate A Preview" />
         }
       </div>
     </>

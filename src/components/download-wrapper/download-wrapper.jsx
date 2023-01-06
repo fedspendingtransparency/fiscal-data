@@ -139,8 +139,8 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
 
   const setIconComponent = (inProgress) => {
     return inProgress
-      ? <FontAwesomeIcon icon={faSpinner} className='fa-pulse' data-test-id='report-icon' />
-      : <FontAwesomeIcon icon={faFileDownload} data-test-id='report-icon' />;
+      ? <FontAwesomeIcon icon={faSpinner} className="fa-pulse" data-test-id="report-icon" />
+      : <FontAwesomeIcon icon={faFileDownload} data-test-id="report-icon" />;
   }
 
   useEffect(() => {
@@ -179,27 +179,27 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
   }, [datasetDownloadInProgress]);
 
   return (
-    <div className={styles.wrapper} data-test-id='wrapper'>
+    <div className={styles.wrapper} data-test-id="wrapper">
       <DownloadModal
         open={open}
         onClose={onClose}
         downloadsPrepared={downloadsPrepared}
         setCancelDownloadRequest={handleCancelRequest}
       />
-      <div data-test-id='tableName' className={styles.tableName}>
+      <div data-test-id="tableName" className={styles.tableName}>
         <strong>Data Table:</strong>
         <div>
           <Truncator>
-            <span data-test-id='tableNameText'>{tableName}</span>
+            <span data-test-id="tableNameText">{tableName}</span>
           </Truncator>
         </div>
       </div>
       <div className={styles.dateRange}>
         <strong>Date Range:</strong>
         {!isFiltered && (
-          <span data-test-id='allString' className={styles.dateString}> {allString}</span>
+          <span data-test-id="allString" className={styles.dateString}> {allString}</span>
         )}
-        <div data-test-id='dateString' className={styles.dateString}> {dateString}</div>
+        <div data-test-id="dateString" className={styles.dateString}> {dateString}</div>
       </div>
       <DownloadToggle onChange={toggleButtonChange} />
       <div>
@@ -212,7 +212,7 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
       </div>
       <div>
         <DownloadItemButton
-          label='Download Data Dictionary'
+          label="Download Data Dictionary"
           fileSize={ddSize}
           asyncAction={metadataDownloader}
         />

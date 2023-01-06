@@ -10,7 +10,7 @@ export const dataRegistryTitle = 'Fiscal Service Data Registry';
 const DataRegistry = () => (
   <div className={apiStyles.sectionBreak}>
     <SectionContent
-      id='data-registry'
+      id="data-registry"
       headingLevel={2}
       title={dataRegistryTitle}
     >

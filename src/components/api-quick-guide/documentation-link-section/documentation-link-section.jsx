@@ -29,7 +29,7 @@ const DocumentationLinkSection = ({type: typeProp}) => {
   const infoIcon =
     <FontAwesomeIcon icon={faInfoCircle}
                      className={`${infoIconStyle} ${classes.iconColor}`}
-                     alt='info icon'
+                     alt="info icon"
     />;
 
 
@@ -43,7 +43,7 @@ const DocumentationLinkSection = ({type: typeProp}) => {
             {infoIcon}
             <div className={headerText}>Check out our more detailed API Documentation.</div>
           </div>
-          <Link to='/api-documentation/'
+          <Link to="/api-documentation/"
                 className={button}
                 data-testid={"button-link"}
           >
@@ -78,7 +78,7 @@ const DocumentationLinkSection = ({type: typeProp}) => {
                       ...and more!
                     </li>
                   </ul>
-                  <Link to='/api-documentation/'
+                  <Link to="/api-documentation/"
                         className={button}
                         data-testid={"button-link"}
                   >

@@ -45,19 +45,19 @@ const NotFoundText = () => (
     </p>
     <UlTag>
       <li>
-        <CustomLink url='/datasets/' external>Dataset Search</CustomLink>
+        <CustomLink url="/datasets/" external>Dataset Search</CustomLink>
       </li>
       <li>
-        <CustomLink url='/' external>Homepage</CustomLink>
+        <CustomLink url="/" external>Homepage</CustomLink>
       </li>
       <li>
-        <CustomLink url='/api-documentation/' external>API Documentation</CustomLink>
+        <CustomLink url="/api-documentation/" external>API Documentation</CustomLink>
       </li>
     </UlTag>
     <PTag>
       Want to get in touch or send in general comments about the site?{' '}
       Send us a message using the{' '}
-      <CustomLink url='/about-us/#contact-us' external>
+      <CustomLink url="/about-us/#contact-us" external>
         Contact Us
       </CustomLink> form.
     </PTag>

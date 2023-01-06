@@ -51,9 +51,9 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
     setDapAnalytics(
       <script
         async
-        type='text/javascript'
-        src='https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS'
-        id='_fed_an_ua_tag'
+        type="text/javascript"
+        src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
+        id="_fed_an_ua_tag"
       />
     )
   }, []);
@@ -65,7 +65,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
       */}
 
       {(latestCommit && latestCommit.hash) && (
-        <script id='version-info'>
+        <script id="version-info">
           {`/*
             TAG: ${latestTag}
             CURRENT BRANCH: ${currentBranch}
@@ -77,21 +77,21 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
           */`}
         </script>
       )}
-      <meta charSet='utf-8' />
-      <meta name='viewport' content='width=device-width' />
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width" />
       <title>{title}</title>
-      <meta property='og:title' content={title} />
-      <meta name='description' content={finalDescription || description} />
-      <meta property='og:description' content={description} />
-      <meta name='keywords' content={keywords} />
+      <meta property="og:title" content={title} />
+      <meta name="description" content={finalDescription || description} />
+      <meta property="og:description" content={description} />
+      <meta name="keywords" content={keywords} />
       <meta
-        property='og:image'
+        property="og:image"
         content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`}
       />
       {dapAnalytics}
-      {canonical && <link rel='canonical' href={`${baseUrl}${canonical}`} />}
+      {canonical && <link rel="canonical" href={`${baseUrl}${canonical}`} />}
       {datasetDetails && (
-        <script data-test-id='structured-data' type='application/ld+json'>
+        <script data-test-id="structured-data" type="application/ld+json">
           {DatasetStructuredData(datasetDetails)}
         </script>
       )}

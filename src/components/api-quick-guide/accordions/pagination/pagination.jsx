@@ -15,12 +15,12 @@ const PaginationAccordion = ({ selectedTable }) => {
     fullUrl = `${prodUrl}/${selectedTable.endpoint}${exampleParameter}`;
   }
   return (
-    <Accordion title='Pagination'>
+    <Accordion title="Pagination">
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>
-          <code className='inline'>page[size]=</code> and{' '}
-          <code className='inline'>page[number]=</code>
+          <code className="inline">page[size]=</code> and{' '}
+          <code className="inline">page[number]=</code>
         </li>
         <li>
           <strong>Definition: </strong>
@@ -32,8 +32,8 @@ const PaginationAccordion = ({ selectedTable }) => {
         <li>
           <strong>Accepts: </strong>
           <span>
-            The <code className='inline'>page[number]=</code> and{' '}
-            <code className='inline'>page[size]=</code> parameters
+            The <code className="inline">page[number]=</code> and{' '}
+            <code className="inline">page[size]=</code> parameters
             both accept integers.
           </span>
         </li>
@@ -60,7 +60,7 @@ const PaginationAccordion = ({ selectedTable }) => {
         EXAMPLE
       </div>
       <code className={`${codeBlock} large`}>
-        <div data-testid='fullUrl'>
+        <div data-testid="fullUrl">
           {fullUrl}
         </div>
       </code>

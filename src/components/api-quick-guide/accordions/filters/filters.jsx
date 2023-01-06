@@ -29,11 +29,11 @@ const FiltersAccordion = ({ selectedTable }) => {
   const exampleFilterQuery = `?filter=${selectedTable.dateField}:eq:${dateString}`;
 
   return (
-    <Accordion title='Filters'>
+    <Accordion title="Filters">
       <ul className={list}>
         <li>
           <strong>Parameter: </strong>
-          <code className='inline'>filter=</code>
+          <code className="inline">filter=</code>
         </li>
         <li>
           <strong>Definition: </strong>
@@ -43,11 +43,11 @@ const FiltersAccordion = ({ selectedTable }) => {
         </li>
         <li>
           <strong>Accepts: </strong>
-          The filter parameter <code className='inline'>filter=</code> accepts filters from
+          The filter parameter <code className="inline">filter=</code> accepts filters from
           the list below, as well as specified filter criteria. Use a colon at the end of a
           filter parameter to pass a value or list of values. For lists passed as filter
           criteria, use a comma-separated list within parentheses. Filter for specific dates
-          using the format <code className='inline'>YYYY-MM-DD</code>.
+          using the format <code className="inline">YYYY-MM-DD</code>.
         </li>
         <li>
           <strong>Required: </strong>
@@ -63,22 +63,22 @@ const FiltersAccordion = ({ selectedTable }) => {
         The filter parameter <strong>accepts the following filters:</strong>
         <ul className={indentedFilters}>
           <li>
-            <code className='inline'>lt</code> = Less than
+            <code className="inline">lt</code> = Less than
           </li>
           <li>
-            <code className='inline'>lte</code> = Less than or equal to
+            <code className="inline">lte</code> = Less than or equal to
           </li>
           <li>
-            <code className='inline'>gt</code> = Greater than
+            <code className="inline">gt</code> = Greater than
           </li>
           <li>
-            <code className='inline'>gte</code> = Greater than or equal to
+            <code className="inline">gte</code> = Greater than or equal to
           </li>
           <li>
-            <code className='inline'>eq</code> = Equal to
+            <code className="inline">eq</code> = Equal to
           </li>
           <li>
-            <code className='inline'>in</code> = Contained in a given set
+            <code className="inline">in</code> = Contained in a given set
           </li>
         </ul>
       </div>
@@ -86,10 +86,10 @@ const FiltersAccordion = ({ selectedTable }) => {
         EXAMPLE
       </div>
       <code className={`${codeBlock} large`}>
-        <div data-testid='filtersAccordionQuery' className={exampleParameters}>
+        <div data-testid="filtersAccordionQuery" className={exampleParameters}>
           {exampleFilterQuery}
         </div>
-        <div data-testid='fullUrl'>
+        <div data-testid="fullUrl">
           {fullUrl}{exampleFilterQuery}
         </div>
       </code>

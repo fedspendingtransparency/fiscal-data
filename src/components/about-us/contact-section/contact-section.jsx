@@ -30,7 +30,7 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
         {contactMDX && contactMDX.mdx && contactMDX.mdx.body &&
           <FDGMdxProvider>
             <MDXProvider components={Object.assign({},aboutUsComponents,contactComponents)}>
-              <MDXRenderer children={contactMDX.mdx.body} />
+              <MDXRenderer children={contactMDX.mdx.body}/>
             </MDXProvider>
           </FDGMdxProvider>
         }

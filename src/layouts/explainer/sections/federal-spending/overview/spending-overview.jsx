@@ -25,7 +25,7 @@ export const SpendingOverview = ({ glossary }) => {
   const usaSpending =
     <CustomLink
       url={'https://www.usaspending.gov/explorer'}
-      eventNumber='11'
+      eventNumber="11"
     >
       USAspending.gov
     </CustomLink>;

@@ -84,16 +84,16 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
       <PageHelmet
         pageTitle={frontMatter.title}
         description={frontMatter.description}
-        keywords=''
-        image=''
-        canonical=''
-        datasetDetails=''
+        keywords=""
+        image=""
+        canonical=""
+        datasetDetails=""
       />
       <div className={`pageWrapper ${templateContainer}`}>
         <div className={templateContent}>
-          <h1 data-testid='mainHeader'>{frontMatter.mainHeader}</h1>
-          <h4 data-testid='subtitle'>{frontMatter.subtitle}</h4>
-          <div className={byLine} data-testid='byLine'>
+          <h1 data-testid="mainHeader">{frontMatter.mainHeader}</h1>
+          <h4 data-testid="subtitle">{frontMatter.subtitle}</h4>
+          <div className={byLine} data-testid="byLine">
             <div className={dateStamp}>
               <span className={dateValue}>{date}</span>
             </div>
@@ -114,7 +114,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
           </div>
           <div
             className={mainVis}
-            data-testid='heroImage'
+            data-testid="heroImage"
             aria-label={"Five vertical bars increasing in height with four stacks " +
             "of coins in front of the bars. Two women sit on different coin stacks, " +
             "each browsing on laptop computers."}

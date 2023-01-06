@@ -93,7 +93,7 @@ const DatasetDetailExamples = ({isAccordionOpen, selectedTable}) => {
       <div className={styles.exampleTitle}>
         EXAMPLE REQUEST
       </div>
-      <code data-testid='exampleRequest' className={`${styles.codeBlock} large`}>
+      <code data-testid="exampleRequest" className={`${styles.codeBlock} large`}>
         {fullRequestStr}
       </code>
       <div className={styles.exampleTitle}>
@@ -101,7 +101,7 @@ const DatasetDetailExamples = ({isAccordionOpen, selectedTable}) => {
       </div>
       <code className={`${styles.codeBlock} ${componentStyles.responseBlock} large`}>
         {!!response ?
-            <pre data-testid='exampleResponse'>{response}</pre>
+            <pre data-testid="exampleResponse">{response}</pre>
           :
             <div className={componentStyles.loadingIcon} data-testid={'loadingIcon'} >
               <FontAwesomeIcon className={themeStyles.loadingIcon}

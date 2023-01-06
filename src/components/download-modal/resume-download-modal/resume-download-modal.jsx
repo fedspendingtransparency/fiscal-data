@@ -81,21 +81,19 @@ const ResumeDownloadModal = () => {
             <>
               {resumedPrepared.length === 1 ? (
                 <div className={styles.preparedSingleContainer}>
-                  <div className={styles.resumeHeaderMain} data-testid='download-modal-title'>{resumeCompletedDownloadTitle}</div>
+                  <div className={styles.resumeHeaderMain} data-testid="download-modal-title">{resumeCompletedDownloadTitle}</div>
                   <div className={styles.resumeSubtitle}>{resumeCompletedDownloadSubtitle}</div>
                   <div className={styles.buttonSet}>
                     <div
                       className={`${itemStyles.cancelDownloadButton} ${styles.cancelButton} ${styles.buttonRow}`}
-                      data-testid='direct-cancel-button'
+                      data-testid="direct-cancel-button"
                     >
                       {buttons.cancelButton(resumedPrepared[0], cancelAndClose)}
                     </div>
                     <div className={styles.buttonRow}>
-                      <a href={resumedPrepared[0].fullFileUrl} data-testid='direct-download-button'
+                      <a href={resumedPrepared[0].fullFileUrl} data-testid="direct-download-button"
                           className={styles.downloadButton}
-                          onClick={() => setResumeDownloadModalIsOpen(false)}
-                      >Download File
-                      </a>
+                          onClick={() => setResumeDownloadModalIsOpen(false)}>Download File</a>
                     </div>
                   </div>
                 </div>
@@ -103,9 +101,9 @@ const ResumeDownloadModal = () => {
                 <>
                   {resumedInProgress.length === 1 && (
                     <>
-                      <div className={parentStyles.title} data-testid='download-modal-title'>{resumeDownloadTitle}</div>
+                      <div className={parentStyles.title} data-testid="download-modal-title">{resumeDownloadTitle}</div>
                       <div className={`${styles.resumeSubtitle} ${styles.withItems}`}>{resumeDownloadSubtitle}</div>
-                      <div className={parentStyles.downloadItemsContainer} data-testid='download-items-container'>
+                      <div className={parentStyles.downloadItemsContainer} data-testid="download-items-container">
                         <DownloadModalItem
                           download={resumedInProgress[0]}
                           cancelDownloadRequest={setCancelDownloadRequest}
@@ -115,12 +113,12 @@ const ResumeDownloadModal = () => {
                       <button
                         onClick={onClose}
                         className={parentStyles.closeButton}
-                        data-testid='download-modal-close-button'
-                        aria-label='Close'
+                        data-testid="download-modal-close-button"
+                        aria-label="Close"
                       >
                         Close
                       </button>
-                      <div className={parentStyles.subText} data-testid='download-modal-subtext'>{downloadModalSubText}</div>
+                      <div className={parentStyles.subText} data-testid="download-modal-subtext">{downloadModalSubText}</div>
                     </>
                   )}
                 </>
@@ -128,9 +126,9 @@ const ResumeDownloadModal = () => {
             </>
           ) : (
             <>
-              <div className={parentStyles.title} data-testid='download-modal-title'>{resumeDownloadTitleMulti}</div>
+              <div className={parentStyles.title} data-testid="download-modal-title">{resumeDownloadTitleMulti}</div>
               <div className={`${styles.resumeSubtitle} ${styles.withItems}`}>{resumeDownloadSubtitleMulti}</div>
-              <div className={parentStyles.downloadItemsContainer} data-testid='download-items-container'>
+              <div className={parentStyles.downloadItemsContainer} data-testid="download-items-container">
                 {resumedPrepared.map((download, index) => (
                   <DownloadModalItem
                     key={index}
@@ -159,16 +157,16 @@ const ResumeDownloadModal = () => {
               <button
                 onClick={onClose}
                 className={parentStyles.closeButton}
-                data-testid='download-modal-close-button'
-                aria-label='Close'
+                data-testid="download-modal-close-button"
+                aria-label="Close"
               >
                 Close
               </button>
-              <div className={parentStyles.subText} data-testid='download-modal-subtext'>{downloadModalSubText}</div>
+              <div className={parentStyles.subText} data-testid="download-modal-subtext">{downloadModalSubText}</div>
             </>
           )}
         </Modal>
-        </>
+      </>
     )}
     </>
   )

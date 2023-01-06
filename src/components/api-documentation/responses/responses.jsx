@@ -46,34 +46,34 @@ const Responses = () => {
   return (
     <>
       <SectionContent
-        id='responses-response-objects'
+        id="responses-response-objects"
         headingLevel={2}
-        title='Responses & Response Objects'
+        title="Responses & Response Objects"
       >
         <p>
           The response will be formatted according to the format input parameter specified in
-          the <CustomLink url='/api-documentation/#parameters-format'>Format</CustomLink> section
+          the <CustomLink url="/api-documentation/#parameters-format">Format</CustomLink> section
           and will be json, xml or csv. When format is not specified, the default response will
           be JSON. The response will be utf-8 and will have gzip support.
         </p>
       </SectionContent>
       <SectionContent
-        id='responses-response-codes'
+        id="responses-response-codes"
         headingLevel={3}
-        title='Response Codes'
+        title="Response Codes"
       >
-        <p id='response-codes-id'>
+        <p id="response-codes-id">
         The following response codes may be returned:
         </p>
         <div className={styles.wrapper}>
-          <table aria-describedby='response-codes-id'>
-            <caption className='sr-only'>
+          <table aria-describedby="response-codes-id">
+            <caption className="sr-only">
               Table of response codes with two columns: response code and description.
             </caption>
             <tbody>
             <tr>
-              <th scope='col'>Response Code</th>
-              <th scope='col'>Description</th>
+              <th scope="col">Response Code</th>
+              <th scope="col">Description</th>
             </tr>
             {tableData.map(obj => {
               return (

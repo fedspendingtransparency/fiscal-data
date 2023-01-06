@@ -10,22 +10,22 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 const Filters = () => (
   <div className={apiStyles.sectionBreak}>
     <SectionContent
-      id='filters'
+      id="filters"
       headingLevel={3}
-      title='Filters'
+      title="Filters"
     >
-      <p><strong>Parameter:</strong> <code className='inline'>filter=</code></p>
+      <p><strong>Parameter:</strong> <code className="inline">filter=</code></p>
       <p>
         <strong>Definition:</strong> Filters are used to view a subset of the data based on specific
         criteria. For example, you may want to find data that falls within a certain date range, or
         only show records which contain a value larger than a certain threshold.
       </p>
       <p>
-        <strong>Accepts:</strong> The filter parameter <code className='inline'>filter=</code>{' '}
+        <strong>Accepts:</strong> The filter parameter <code className="inline">filter=</code>{' '}
         accepts filters from the list below, as well as specified filter criteria. Use a colon at
         the end of a filter parameter to pass a value or list of values. For lists passed as filter
         criteria, use a comma-separated list within parentheses. Filter for specific dates using the
-        format <code className='inline'>YYYY-MM-DD</code>.
+        format <code className="inline">YYYY-MM-DD</code>.
       </p>
       <p><strong>Required:</strong> No, filters are not required to make an API request.</p>
       <p>
@@ -36,12 +36,12 @@ const Filters = () => (
         The filter parameter <strong>accepts the following filters:</strong>
       </p>
       <ul className={styles.list}>
-        <li><code className='inline'>lt=</code> Less than</li>
-        <li><code className='inline'>lte=</code> Less than or equal to</li>
-        <li><code className='inline'>gt=</code> Greater than</li>
-        <li><code className='inline'>gte=</code> Greater than or equal to</li>
-        <li><code className='inline'>eq=</code> Equal to</li>
-        <li><code className='inline'>in=</code> Contained in a given set</li>
+        <li><code className="inline">lt=</code> Less than</li>
+        <li><code className="inline">lte=</code> Less than or equal to</li>
+        <li><code className="inline">gt=</code> Greater than</li>
+        <li><code className="inline">gte=</code> Greater than or equal to</li>
+        <li><code className="inline">eq=</code> Equal to</li>
+        <li><code className="inline">in=</code> Contained in a given set</li>
       </ul>
       <p><strong>Examples:</strong></p>
       <p>Return data if the fiscal year falls between 2007-2010.</p>

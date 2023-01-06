@@ -227,7 +227,7 @@ describe('Dataset-Detail layout component', () => {
                                                          seoConfig: seoConfig
                                                        }}
                                                        data={mockQueryReturn}
-                                        />);
+      />);
       instance = component.root;
     });
   });
@@ -322,8 +322,8 @@ describe('Dataset detail - helper updateDates', () => {
   });
 
   it('returns true and updates both mockAPIs and mockTechSpecs if updates are found', () => {
-    const newMockAPIs = JSON.parse(JSON.stringify((mockAPIs)));
-    const newMockTechSpecs = JSON.parse(JSON.stringify((mockTechSpecs)));
+    let newMockAPIs = JSON.parse(JSON.stringify((mockAPIs)));
+    let newMockTechSpecs = JSON.parse(JSON.stringify((mockTechSpecs)));
     expect(newMockAPIs).toEqual(mockAPIs);
     expect(newMockTechSpecs).toEqual(mockTechSpecs);
 

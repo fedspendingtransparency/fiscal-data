@@ -60,7 +60,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
         const i = fauxIndex[name] || 0;
 
         const x = (i % cardsPerRow) * (cardWidth + gutter.x);
-        const y = Math.floor(i/cardsPerRow) * (cardHeight + gutter.y);
+        let y = Math.floor(i/cardsPerRow) * (cardHeight + gutter.y);
 
         return {
           left: `${x}%`,
@@ -92,12 +92,12 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
 
     return (
         <div className={styles.cardContainer}
-             data-test-id='wrapper'
+             data-test-id="wrapper"
              style={setContainerHeight(filteredDatasets.length)}
         >
         {
             allDatasets && allDatasets.map((dataset, i) => (
-                <div data-testid='cardPlacement'
+                <div data-testid="cardPlacement"
                      className={
                        `${styles.cardPlacement} ${dataset.hidden ? styles.hiddenCard : ''}`
                      }
@@ -105,8 +105,8 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
                      key={i}
                 >
                     <DatasetCard dataset={dataset}
-                                 context='Dataset Search Page'
-                                 referrer='Dataset'
+                                 context="Dataset Search Page"
+                                 referrer="Dataset"
                     />
                 </div>
             ))

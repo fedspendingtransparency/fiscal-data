@@ -4,9 +4,9 @@ import SelectControl from '../../../select-control/select-control';
 const SortDatasets = ({ sortOptions, activeSort, setSort }) => (
   <SelectControl
     options={sortOptions}
-    label='Sort By:'
+    label="Sort By:"
     selectedOption={activeSort}
-    ariaLabel='sort order'
+    ariaLabel="sort order"
     changeHandler={setSort}
   />
 )

@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: [
     "react-app",
-    "plugin:jsx-a11y/strict"
+    "plugin:jsx-a11y/recommended"
   ],
   parser: "@babel/eslint-parser",
   parserOptions: {
@@ -84,7 +84,7 @@ module.exports = {
     "react/jsx-tag-spacing": [1],
     "react-hooks/rules-of-hooks": [2], // Checks rules of Hooks
     "react-hooks/exhaustive-deps": [0],
-    "jsx-quotes": [1, 'prefer-single'],
+    "jsx-quotes": [1, 'prefer-double'],
     "prefer-const": [1]
   }
 }

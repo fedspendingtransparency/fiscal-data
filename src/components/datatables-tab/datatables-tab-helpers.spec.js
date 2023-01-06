@@ -24,7 +24,7 @@ describe('DataTablesTabHelpers', () => {
   beforeAll(() => {
     renderer.act(() => {
       component = renderer.create(
-        <DataTablesTab apis={mockData} />);
+        <DataTablesTab apis={mockData}/>);
     });
     instance = component.root;
   });

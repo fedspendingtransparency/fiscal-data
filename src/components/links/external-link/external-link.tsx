@@ -15,10 +15,10 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = (
     dataTestId = 'external-link'}
 ) => (
   <a
-    className='primary'
+    className="primary"
     href={url}
-    target='_blank'
-    rel='noreferrer noopener'
+    target="_blank"
+    rel="noreferrer noopener"
     data-testid={dataTestId}
     onClick={() => onClick ? onClick() : null}
   >

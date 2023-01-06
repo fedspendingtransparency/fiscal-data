@@ -15,7 +15,7 @@ describe('filter group reset', () => {
       filters = mockFilters;
         ({ component, instance, renderer } = renderHelper(
             <FilterGroupReset
-                groupId='lastUpdated'
+                groupId="lastUpdated"
                 onGroupReset={groupResetMock}
                 activeFilters={['ninetyDays', 'sevenDays']}
                 filters={filters}
@@ -36,7 +36,7 @@ describe('filter group reset', () => {
         renderer.act(() => {
             component.update(
                 <FilterGroupReset
-                    groupId='lastUpdated'
+                    groupId="lastUpdated"
                     activeFilters={['foo', 'bar']}
                 />
             )
@@ -51,11 +51,11 @@ describe('filter group reset', () => {
 
         act(() => {
             ReactDOM.render(<FilterGroupReset
-                groupId='lastUpdated'
+                groupId="lastUpdated"
                 onGroupReset={groupResetMock}
                 activeFilters={['ninetyDays', 'sevenDays']}
                 filters={filters}
-                            />, container);
+            />, container);
         });
 
         const button = container.querySelector('button');

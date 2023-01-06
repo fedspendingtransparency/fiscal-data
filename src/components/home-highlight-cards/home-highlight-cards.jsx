@@ -165,12 +165,12 @@ const HomeHighlightCards = ({width}) => {
   }, []);
 
   return (
-    <div data-testid='highlight-cards-parent' className={container} ref={containerRef}>
+    <div data-testid="highlight-cards-parent" className={container} ref={containerRef}>
         {highlights.length ?
           <Grid container
                 className={cardsContainer}
                 style={expandedStyle}
-                data-testid='cards-container'
+                data-testid="cards-container"
           >
             {highlights.filter((d, i) => i < visibleCardsNum).map((dataset, i) => (
               <Grid className={cardWrapper} item xs={12} sm={6} xl={3} key={i}>
@@ -184,14 +184,14 @@ const HomeHighlightCards = ({width}) => {
             ))}
           </Grid>
           :
-          <div className={loading} data-testid='highlight-cards-spinner'>
+          <div className={loading} data-testid="highlight-cards-spinner">
             <FontAwesomeIcon icon={faSpinner} spin pulse />
           </div>
         }
       <button
         onClick={handleToggle}
         className={toggleButton}
-        data-testid='collapse-button'
+        data-testid="collapse-button"
       >
         {buttonContent}
       </button>

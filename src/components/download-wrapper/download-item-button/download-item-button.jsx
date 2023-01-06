@@ -41,7 +41,7 @@ const DownloadItemButton = ({
     <button
       disabled
       className={`${downloadItemBtn} ${disabled ? linkDisabled : ''}`}
-      data-testid='download-button'
+      data-testid="download-button"
     >
       {children}
     </button>
@@ -53,7 +53,7 @@ const DownloadItemButton = ({
       target={"_blank"}
       rel={'noreferrer noopener'}
       onClick={clickFunction}
-      data-testid='download-button'
+      data-testid="download-button"
     >
       {children}
     </a>
@@ -64,16 +64,16 @@ const DownloadItemButton = ({
       {
         asyncAction ?
           <button className={dictionary} onClick={asyncAction} disabled={disabled}>
-            <span className='labelText'>{label} </span>
-            {fileSize && <span className='fileSize'> ({fileSize})</span>}
+            <span className="labelText">{label} </span>
+            {fileSize && <span className="fileSize"> ({fileSize})</span>}
           </button>
         :
           <ButtonComponent>
             <span className={optionIcon}>
               {icon}
             </span>
-            <span className='labelText'>{label} </span>
-            {fileSize && <span className='fileSize'> ({fileSize})</span>}
+            <span className="labelText">{label} </span>
+            {fileSize && <span className="fileSize"> ({fileSize})</span>}
           </ButtonComponent>
       }
     </div>

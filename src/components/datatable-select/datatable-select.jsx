@@ -36,12 +36,12 @@ export const DataTableSelect = ({
   return (
     <>
       {showDatasetDropdown &&
-        <div className={styles.dataTableSelectWrapper} data-test-id='dataTableSelectWrapper'>
+        <div className={styles.dataTableSelectWrapper} data-test-id="dataTableSelectWrapper">
           <h3 className={styles.header}>Choose Data Table:</h3>
           <SelectControl
             options={options}
             label={label}
-            optionLabelKey='tableName'
+            optionLabelKey="tableName"
             selectedOption={allTablesSelected ? options[0] : selectedTable}
             changeHandler={setSelectedTable}
           />

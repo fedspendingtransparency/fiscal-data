@@ -29,53 +29,48 @@ const DetailPills = ({techSpecs, dictionary}) => {
           {useFutureIcon
             ? <img src={futureDateIcon}
                    className={styles.futureDateIcon}
-                   data-test-id='futureDateIcon'
-                   alt='future date icon'
-                   aria-hidden='true'
-              />
+                   data-test-id="futureDateIcon"
+                   alt="future date icon"
+                   aria-hidden="true"/>
             : <FontAwesomeIcon
-              icon={faCalendarWeek} size='1x'
+              icon={faCalendarWeek} size="1x"
               className={styles.icon}
-              data-test-id='calendar-week-icon'
-              alt='Date Range:'
-              />
+              data-test-id="calendar-week-icon"
+              alt="Date Range:"/>
           }
-          <span data-test-id='dateRangePill' className='pillText'>{dateRange}</span>
+          <span data-test-id="dateRangePill" className="pillText">{dateRange}</span>
         </span>
       )}
       <span className={styles.pill}><FontAwesomeIcon
-        icon={faSyncAlt} size='1x'
+        icon={faSyncAlt} size="1x"
         className={styles.icon}
-        data-test-id='sync-alt-icon'
-                                    />
-        <span className='pillText'>{frequency}</span>
+        data-test-id="sync-alt-icon"/>
+        <span className="pillText">{frequency}</span>
       </span>
       {lastUpdated && (
       <span className={styles.pill}>
         <FontAwesomeIcon
           icon={faCalendarCheck}
-          size='1x'
+          size="1x"
           className={styles.icon}
-          data-test-id='lastUpdatedIcon'
+          data-test-id="lastUpdatedIcon"
         />
-        <span className='pillText'>Last Updated {lastUpdated}</span>
+        <span className="pillText">Last Updated {lastUpdated}</span>
       </span>
       )}
       <span className={styles.pill}><FontAwesomeIcon
-        icon={faFileCode} size='1x'
+        icon={faFileCode} size="1x"
          className={styles.icon}
-        data-test-id='page-icon'
-                                    />
-        <span className='pillText'>CSV, JSON, XML</span>
+        data-test-id="page-icon"/>
+        <span className="pillText">CSV, JSON, XML</span>
       </span>
       <span className={styles.pill}>
         <FontAwesomeIcon
-          icon={dictionary ? faCheckCircle : faTimesCircle} size='1x'
+          icon={dictionary ? faCheckCircle : faTimesCircle} size="1x"
           className={styles.icon}
           alt={dataDictionaryText}
-          data-test-id='dictionary-icon'
-        />
-        <span className='pillText'>Data Dictionary</span>
+          data-test-id="dictionary-icon"/>
+        <span className="pillText">Data Dictionary</span>
       </span>
     </div>
   )

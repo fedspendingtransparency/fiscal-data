@@ -16,7 +16,7 @@ const DSM = ({children}) => {
 }
 
 const ExtIcon = () => {
-  return <FontAwesomeIcon data-testid='dsmExtIcon' icon={faExternalLinkAlt} />
+  return <FontAwesomeIcon data-testid="dsmExtIcon" icon={faExternalLinkAlt} />
 }
 
 const dsmComponents = {

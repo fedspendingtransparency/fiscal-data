@@ -14,7 +14,7 @@ describe('Partial Sort', () => {
   });
 
   it('sorts group within array a', () => {
-    const arrayUT = partialSort(
+    let arrayUT = partialSort(
       testSortArray,
       'group',
       'a',

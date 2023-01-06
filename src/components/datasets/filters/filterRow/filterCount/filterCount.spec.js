@@ -36,7 +36,7 @@ describe('filter count', () => {
                     count: 0,
                     of: 18
                 }}
-                             />)
+            />)
         })
 
         expect(bar.props.style.minWidth).toBe(0);
@@ -49,7 +49,7 @@ describe('filter count', () => {
                     count: 10,
                     of: 18
                 }}
-                             />)
+            />)
         })
 
         expect(bar.props.style.minWidth).toBe(19);

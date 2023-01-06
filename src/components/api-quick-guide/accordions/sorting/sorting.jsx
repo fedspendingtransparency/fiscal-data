@@ -14,10 +14,10 @@ const SortingAccordion = ({ selectedTable }) => {
   const exampleSortingQuery = `?sort=-${selectedTable.dateField}`;
 
   return (
-    <Accordion title='Sorting'>
+    <Accordion title="Sorting">
       <ul className={list}>
         <li>
-          <strong>Parameter: </strong><code className='inline'>sort=</code>
+          <strong>Parameter: </strong><code className="inline">sort=</code>
         </li>
         <li>
           <strong>Definition: </strong>
@@ -29,7 +29,7 @@ const SortingAccordion = ({ selectedTable }) => {
         <li>
           <strong>Accepts: </strong>
           <span>
-            The sort parameter <code className='inline'>sort=</code> accepts a
+            The sort parameter <code className="inline">sort=</code> accepts a
             comma-separated list of field names.
           </span>
         </li>
@@ -48,7 +48,7 @@ const SortingAccordion = ({ selectedTable }) => {
         <li>
           <strong>Notes: </strong>
           <span>
-            You can nest sorting by passing the <code className='inline'>sort=</code>{' '}
+            You can nest sorting by passing the <code className="inline">sort=</code>{' '}
             parameter a comma-separated list.
           </span>
         </li>
@@ -57,7 +57,7 @@ const SortingAccordion = ({ selectedTable }) => {
         EXAMPLE
       </div>
       <code className={`${codeBlock} large`}>
-        <div data-testid='sortingAccordionQuery' className={exampleParameters}>
+        <div data-testid="sortingAccordionQuery" className={exampleParameters}>
           {exampleSortingQuery}
         </div>
         <div>

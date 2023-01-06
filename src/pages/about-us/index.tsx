@@ -52,7 +52,7 @@ const AboutUsPage: FunctionComponent = ({data}) => {
   const [mdxAST, setMdxAST] = useState([]); // todo - Uncomment for toc cms
 
   const tocHeaderComponent = (
-    <h2 data-test-id='about-page-header' className={tocHeader}>
+    <h2 data-test-id="about-page-header" className={tocHeader}>
       Table of Contents
     </h2>
   );
@@ -82,23 +82,23 @@ const AboutUsPage: FunctionComponent = ({data}) => {
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
-        pageTitle='About Us'
-        description='Fiscal Data inspires trust in government by providing access to open federal
-          financial data in machine-readable formats with one easy-to-use website.'
-        keywords='U.S. Treasury, Fiscal Data, machine readable data, API, government, government
-          financial data, debt, Treasury, US government'
-        image=''
-        canonical=''
-        datasetDetails=''
+        pageTitle="About Us"
+        description="Fiscal Data inspires trust in government by providing access to open federal
+          financial data in machine-readable formats with one easy-to-use website."
+        keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
+          financial data, debt, Treasury, US government"
+        image=""
+        canonical=""
+        datasetDetails=""
       />
-      <div className='pageHeader'>
-        <div className='content'>
+      <div className="pageHeader">
+        <div className="content">
           <BreadCrumbs links={breadCrumbLinks} />
-          <h1 data-test-id='pageTitle' className='title'>About Us</h1>
+          <h1 data-test-id="pageTitle" className="title">About Us</h1>
         </div>
       </div>
-      <div data-test-id='about-page-wrapper' className={`pageWrapper  ${aboutPageWrapper}`}>
-        <Experimental featureId='aboutUsMDX' exclude>
+      <div data-test-id="about-page-wrapper" className={`pageWrapper  ${aboutPageWrapper}`}>
+        <Experimental featureId="aboutUsMDX" exclude>
           <SecondaryNav
             sections={TOCData}
             activeClass={activeLink}
@@ -108,7 +108,7 @@ const AboutUsPage: FunctionComponent = ({data}) => {
             <div
               id={content}
               className={content}
-              data-test-id='about-content'
+              data-test-id="about-content"
             >
               <About />
               <FAQ triggerHighlight={highlight} />
@@ -116,7 +116,7 @@ const AboutUsPage: FunctionComponent = ({data}) => {
             </div>
           </SecondaryNav>
         </Experimental>
-        <Experimental featureId='aboutUsMDX' exclude={false}>
+        <Experimental featureId="aboutUsMDX" exclude={false}>
           <SecondaryNav
             sections={mdxAST}
             activeClass={activeLink}
@@ -127,7 +127,7 @@ const AboutUsPage: FunctionComponent = ({data}) => {
             <div
               id={content}
               className={content}
-              data-test-id='about-content'
+              data-test-id="about-content"
             >
               <AboutMDX />
               <FAQMDX triggerHighlight={highlight} />

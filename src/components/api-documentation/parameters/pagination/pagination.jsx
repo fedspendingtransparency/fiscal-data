@@ -9,13 +9,13 @@ const Pagination = () => {
 
   return (
     <SectionContent
-      title='Pagination'
-      id='parameters-pagination'
+      title="Pagination"
+      id="parameters-pagination"
       headingLevel={3}
     >
       <p>
-        <strong>Parameter:</strong> <code className='inline'>page[size]=</code> and{' '}
-        <code className='inline'>page[number]=</code>
+        <strong>Parameter:</strong> <code className="inline">page[size]=</code> and{' '}
+        <code className="inline">page[number]=</code>
       </p>
       <p>
         <strong>Definition:</strong> The page size will set the number of rows that are returned on
@@ -23,8 +23,8 @@ const Pagination = () => {
         the user to paginate through the records returned from an API request.
       </p>
       <p>
-        <strong>Accepts:</strong> The <code className='inline'>page[number]=</code> and{' '}
-        <code className='inline'>page[size]=</code> parameters both accept integers.
+        <strong>Accepts:</strong> The <code className="inline">page[number]=</code> and{' '}
+        <code className="inline">page[size]=</code> parameters both accept integers.
       </p>
       <p>
         <strong>Required:</strong> No, neither pagination parameters are required to make an API

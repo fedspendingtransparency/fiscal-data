@@ -7,9 +7,9 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 export default function FilterPublisher(props) {
     const publisherCount = `${props.filterList.filter(r=>r.groupId === "publisher").length} Publishers`
   return (
-    <div data-testid='publisher-filter-wrapper'>
-        <div className={styles.outer_container_label} data-testid='publisher-outer-container-label'>
-          <div className={styles.publisher_count} data-testid='publisher-count'>
+    <div data-testid="publisher-filter-wrapper">
+        <div className={styles.outer_container_label} data-testid="publisher-outer-container-label">
+          <div className={styles.publisher_count} data-testid="publisher-count">
             <FontAwesomeIcon
               icon={faChevronDown}
               className={styles.publisher_chevron}
@@ -18,13 +18,13 @@ export default function FilterPublisher(props) {
           </div>
         </div>
         <div className={styles.publisher_outer_container} data-testid='publisher-outer-container'>
-          <div className={styles.treasury_title} data-testid='treasury-label'>
+          <div className={styles.treasury_title} data-testid="treasury-label">
             Treasury Department
           </div>
           <div data-testid='publisher-inner-container-label'
             className={styles.inner_container_label}
           >
-            <div className={styles.publisher_count} data-testid='publisher-count'>
+            <div className={styles.publisher_count} data-testid="publisher-count">
               <FontAwesomeIcon
                 icon={faChevronDown}
                 className={styles.publisher_chevron}

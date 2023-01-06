@@ -42,12 +42,12 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
   const children = (
     <>
       <div> BASE URL: </div>
-      <code id='endpoints-baseURL' className={styles.marginBottomOneRem}>{apiPrefix}</code>
+      <code id="endpoints-baseURL" className={styles.marginBottomOneRem}>{apiPrefix}</code>
       {data.length <= 1 ? (
         <>
           <div> ENDPOINT: </div>
           <code
-            id='endpoints-endpoint'
+            id="endpoints-endpoint"
             className={styles.marginBottomOneRem}
           >
             {selectedTable.endpoint}
@@ -55,7 +55,7 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
         </>
       ) : (
         <>
-          <div className={styles.sectionBody} id='endpoints-table'>
+          <div className={styles.sectionBody} id="endpoints-table">
             <DtgTable
               tableProps={tableProps}
               perPage={rowsPerPage}
@@ -65,7 +65,7 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
       )}
       <div> FULL URL: </div>
       <code
-        id='endpoints-fullURL'
+        id="endpoints-fullURL"
         className={styles.marginBottomOneRem}
       >
         {apiPrefix}{selectedTable.endpoint}
@@ -75,7 +75,7 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
 
   return (
     <ApiQuickGuideSection
-      id='endpoints-section'
+      id="endpoints-section"
       title={data.length > 1 ? 'Endpoints' : 'Endpoint'}
       children={children}
     />

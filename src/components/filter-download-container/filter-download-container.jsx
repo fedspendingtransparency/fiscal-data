@@ -15,7 +15,7 @@ const FilterAndDownload = ({
   allTablesSelected,
   isCustomDateRange
 }) => (
-  <div className={container} data-test-id='filterDownloadContainer'>
+  <div className={container} data-test-id="filterDownloadContainer">
       <div className={leftContent}>
         {children}
       </div>
