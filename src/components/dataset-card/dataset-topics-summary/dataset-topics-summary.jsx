@@ -13,7 +13,7 @@ export default function datasetTopicsSummary(props) {
           </div>
         </>
       ) : (
-        <div className={styles.emptyDiv} data-test-id="topics-empty-div"/>
+        <div className={styles.emptyDiv} data-test-id="topics-empty-div" />
         )
       }
     </>

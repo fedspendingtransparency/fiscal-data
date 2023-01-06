@@ -21,9 +21,9 @@ const Masthead = ({title, tagLine, techSpecs, dictionary}) => {
   return (
     <section className={styles.pageHeader}>
       <div className={styles.mainWidth}>
-        <BreadCrumbs links={breadCrumbLinks}/>
+        <BreadCrumbs links={breadCrumbLinks} />
         <h1 className={styles.pageTitle}>{title}</h1>
-        <DetailPills techSpecs={techSpecs} dictionary={dictionary}/>
+        <DetailPills techSpecs={techSpecs} dictionary={dictionary} />
         <p className={styles.tagLine} data-test-id="tagLine">{tagLine}</p>
       </div>
     </section>

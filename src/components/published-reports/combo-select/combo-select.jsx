@@ -108,7 +108,8 @@ export default function ComboSelect({options, changeHandler, optionLabelKey, sel
                           styles.selector_optionSelected : ''
                       ])
                     }
-                    onClick={() => {updateSelection(option);}} disabled={!option.value}>
+                    onClick={() => {updateSelection(option);}} disabled={!option.value}
+                  >
                     {option[labelKey]}
                   </button>
                 </li>

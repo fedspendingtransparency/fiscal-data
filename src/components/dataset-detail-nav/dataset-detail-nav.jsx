@@ -137,13 +137,16 @@ const DDNav = ({title}) => {
                             key={`DDNavDesktopLink${i}`}
                             data-testid={`DDNavDesktopLink${i}`}
                             aria-label={`Jump to ${d.title} section`}
-                            href={d.href}>{d.title}</a>
+                            href={d.href}
+                         >{d.title}
+                         </a>
                 })
             :
                 links.map((d,i) => {
                   return d.disabled ?
                       <FontAwesomeIcon key={`DDDisabledNavMobileLink${i}`} icon={i === 1 ? faArrowDown : faArrowUp}
-                                       className={`${styles.mobileIcon} ${styles.disabledLink}`}/>
+                                       className={`${styles.mobileIcon} ${styles.disabledLink}`}
+                      />
                     :
                       <a key={`DDNavMobileLink${i}`}
                          data-testid={`DDNavMobileLink${i}`}
@@ -152,8 +155,9 @@ const DDNav = ({title}) => {
                          onClick={() => {
                           updateMobileLinks(i)
                          }}
-                         href={d.href}>
-                            <FontAwesomeIcon className={styles.mobileIcon} icon={i === 1 ? faArrowDown : faArrowUp}/>
+                         href={d.href}
+                      >
+                            <FontAwesomeIcon className={styles.mobileIcon} icon={i === 1 ? faArrowDown : faArrowUp} />
                       </a>
                   })
           }

@@ -26,7 +26,7 @@ describe('Chart Legend', () => {
             fields={mockFieldConfig}
             onHover={jest.fn()}
             onLabelChange={jest.fn()}
-        />)
+                                    />)
     })
 
     instance = component.root;

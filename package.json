@@ -23,6 +23,7 @@
     "test:coverage": "jest --coverage",
     "test:silent": "jest --coverage --silent",
     "tst": "jest --coverage",
+    "eslint-compliance": "eslint \"**/*.{js,jsx,ts,tsx}\" --no-error-on-unmatched-pattern --plugin jsx-a11y",
     "updateSnapshots": "jest --updateSnapshot",
     "lint:js": "eslint \"**/*.{js,jsx}\"",
     "lint": "run-p lint:*",

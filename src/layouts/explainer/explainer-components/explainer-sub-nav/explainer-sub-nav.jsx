@@ -39,7 +39,7 @@ export default function ExplainerSubNav({hidePosition}) {
       <ul className={navBlockStyle} data-testid="explainerSubNavList">
         <li className={[styles.navItem, styles.noverview, styles.nactive].join(' ')}>
           <Link to='/americas-finance-guide/' className={styles.navLink} activeClassName={styles.active}>
-            <FontAwesomeIcon icon={faHouseChimney} className={styles.navIcon}/>
+            <FontAwesomeIcon icon={faHouseChimney} className={styles.navIcon} />
             <span className={styles.navLinkText}>Overview</span>
           </Link>
         </li>
@@ -47,7 +47,8 @@ export default function ExplainerSubNav({hidePosition}) {
         <li className={[styles.backChevron, styles.revenue].join(' ')}></li>
         <li className={[styles.navItem, styles.revenue].join(' ')}>
           <Link to='/americas-finance-guide/government-revenue/' className={styles.navLink}
-                activeClassName={styles.active}>
+                activeClassName={styles.active}
+          >
             <span className={styles.navLinkText}>Revenue</span>
           </Link>
         </li>
@@ -55,7 +56,8 @@ export default function ExplainerSubNav({hidePosition}) {
         <li className={[styles.backChevron, styles.spending].join(' ')}></li>
         <li className={[styles.navItem, styles.spending].join(' ')}>
           <Link to='/americas-finance-guide/federal-spending/' className={styles.navLink}
-                activeClassName={styles.active}>
+                activeClassName={styles.active}
+          >
             <span className={styles.navLinkText}>Spending</span>
           </Link>
         </li>
@@ -63,7 +65,8 @@ export default function ExplainerSubNav({hidePosition}) {
         <li className={[styles.backChevron, styles.deficit].join(' ')}></li>
         <li className={[styles.navItem, styles.deficit].join(' ')}>
           <Link to='/americas-finance-guide/national-deficit/' className={styles.navLink}
-                activeClassName={styles.active}>
+                activeClassName={styles.active}
+          >
             <span className={styles.navLinkText}>Deficit</span>
           </Link>
         </li>

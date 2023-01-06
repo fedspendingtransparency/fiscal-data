@@ -1,5 +1,5 @@
 
-let topicsSource  = {
+const topicsSource  = {
   "debt": {
     label: "Debt",
     title: "Topics",
@@ -55,7 +55,7 @@ const addDatasetToTopic = (topicId, datasetId) => {
  * provides the updated topics array
  */
 const freshTopics = () => {
-  let output = [];
+  const output = [];
 
   Object.entries(topicsSource).forEach(([topicId, topic]) => {
     output[output.length] = {

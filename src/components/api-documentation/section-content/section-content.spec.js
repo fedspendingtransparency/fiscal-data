@@ -17,7 +17,8 @@ describe('Section Content', () => {
     component = renderer.create(
       <SectionContent id={testSectionContent.id}
                       headingLevel={testSectionContent.headingLevel}
-                      title={testSectionContent.title}>
+                      title={testSectionContent.title}
+      >
         <p data-test-id={'testParagraph'}>{testParagraph}</p>
       </SectionContent>
     )
@@ -78,9 +79,10 @@ describe('Section Content', () => {
       renderer.act(() => {
         component = renderer.create(<SectionContent id={section.id}
                                                     headingLevel={section.headingLevel}
-                                                    title={section.title}>
+                                                    title={section.title}
+                                    >
           <p>The Next paragraph's paragraph.</p>
-        </SectionContent>);
+                                    </SectionContent>);
       });
       const instance = component.root;
       const sectionNode = instance.findByProps({'id': section.id});

@@ -26,7 +26,7 @@ describe('DatasetStats', () => {
     }
   };
   const tree = renderer.create(
-    <DatasetStats dataset={mockDataset}/>
+    <DatasetStats dataset={mockDataset} />
   );
   const instance = tree.root;
 
@@ -45,7 +45,7 @@ describe('DatasetStats', () => {
 
   it('should show the futureDateIcon when the latestDate is in the future', () => {
     const tree3 = renderer.create(
-      <DatasetStats dataset={mockDataset3}/>
+      <DatasetStats dataset={mockDataset3} />
     );
     const instance3 = tree3.root;
     const lastUpdatedLi = instance3.findByProps({'data-test-id': 'dateRange-li'});
@@ -80,7 +80,7 @@ describe('DatasetStats', () => {
     expect(dictionaryLi.children[1]).toBe('Data Dictionary');
     // make new instance with the dictionary prop true
     const tree2 = renderer.create(
-      <DatasetStats dataset={mockDataset2}/>
+      <DatasetStats dataset={mockDataset2} />
     );
     const instance2 = tree2.root;
     const dictionary2Li = instance2.findByProps({'data-testid': 'dictionary-li'});

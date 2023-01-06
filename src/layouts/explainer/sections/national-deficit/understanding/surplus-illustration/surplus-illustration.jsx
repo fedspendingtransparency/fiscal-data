@@ -112,7 +112,8 @@ const SurplusIllustration = ({glossary, width}) => {
       <Tabs>
         <TabList style={tabListStyle}>
           <Tab style={tabStyle} data-testid={'surplus-tab'} selectedClassName={selectedTab}
-            onClick={()=>handleClick("10")}>
+            onClick={()=>handleClick("10")}
+          >
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1188) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
@@ -121,7 +122,8 @@ const SurplusIllustration = ({glossary, width}) => {
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
           <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}
-            onClick={()=>handleClick("11")}>
+            onClick={()=>handleClick("11")}
+          >
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>
@@ -130,7 +132,8 @@ const SurplusIllustration = ({glossary, width}) => {
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
           <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}
-            onClick={()=>handleClick("12")}>
+            onClick={()=>handleClick("12")}
+          >
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
             <div className={title}>

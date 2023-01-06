@@ -7,7 +7,9 @@ describe("Filter Dataset Publisher", ()=> {
     renderer.act(()=> {
         component=renderer.create(
             <FilterPublisher filterList={[{groupId: "publisher", id: "FA"}, {groupId: "non-publisher", id: "NP"}, 
-            {groupId: "publisher", id: "RSS"}, ]}>Test Filter Publisher Wrapper</FilterPublisher>
+            {groupId: "publisher", id: "RSS"}, ]}
+            >Test Filter Publisher Wrapper
+            </FilterPublisher>
         )
     })
     const instance=component.root

@@ -300,7 +300,8 @@ const HowMuchDoesTheGovtSpend = () => {
                     marginRight: "10px",
                     height: "40px",
                   }}
-                ></div>
+                >
+                </div>
                 <div
                   className={percentOrDollarContainer}
                   style={{
@@ -326,7 +327,8 @@ const HowMuchDoesTheGovtSpend = () => {
                 marginRight: "10px",
                 height: "40px",
               }}
-            ></div>
+            >
+            </div>
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
                 ? otherTotal >= 1000000000000 ?

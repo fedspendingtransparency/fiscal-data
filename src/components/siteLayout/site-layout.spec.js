@@ -30,7 +30,7 @@ describe('SiteLayout', () => {
   });
 
   it('sets lowerEnvMsg to appropriate text when isPreProd is true', () => {
-    const newInstance = renderer.create(<SiteLayout isPreProd={true}/>).root;
+    const newInstance = renderer.create(<SiteLayout isPreProd={true} />).root;
     const header = newInstance.findByType(SiteHeader);
     const msg = header.props.lowerEnvMsg;
     expect(msg).toBe(preprodMsg);

@@ -93,7 +93,8 @@ const BarGraph = ({
   return isValidChart && (
     <div data-testid="barGraph" className={divClass || styles.barDiv}
          onMouseLeave={() => helpers.mouseLeaveEvent(cardId, resetValue)}
-         onMouseEnter={() => helpers.mouseEnterEvent(cardId)}>
+         onMouseEnter={() => helpers.mouseEnterEvent(cardId)}
+    >
       <ResponsiveBar
         data={data}
         keys={keys}
