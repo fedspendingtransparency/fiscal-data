@@ -19,7 +19,6 @@
     "clean": "gatsby clean",
     "serve": "gatsby serve",
     "test": "jest --logHeapUsage",
-    "test:post-build": "jest --config=jest-postbuild-config.js",
     "test:coverage": "jest --coverage",
     "test:silent": "jest --coverage --silent",
     "tst": "jest --coverage",
