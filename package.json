@@ -165,7 +165,6 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.1.1",
     "jest-config": "^27.1.1",
-    "jest-puppeteer": "^5.0.4",
     "mutationobserver-shim": "^0.3.7",
     "node-fetch": "^1.7.3",
     "node-sass": "^4.14.1",
