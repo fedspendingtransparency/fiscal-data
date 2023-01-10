@@ -1817,9 +1817,9 @@ export const DebtBreakdownSection = withWindowSize(
             in interest rates and inflation are now resulting in an increase in
             interest expense.
           </p>
-          <div className={visWithCallout}>
+          <div className={visWithCallout} id={'interest-rate-and-total-debt-chart'}>
             {multichartDataLoaded && (
-              <div className={multichartWrapper} id={'interest-rate-and-total-debt-chart'}>
+              <div className={multichartWrapper}>
                 <div
                   className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
                   role={"img"}
