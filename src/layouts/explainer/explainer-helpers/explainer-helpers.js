@@ -34,8 +34,9 @@ import {
 } from "../sections/government-revenue/revenue.module.scss";
 import FederalSpendingHero from "../heros/federal-spending/federal-spending-hero";
 import GovernmentRevenueHero from "../heros/government-revenue/government-revenue-hero"
+import { BASE_URL } from "gatsby-env-variables";
 
-const baseUrl = globalConstants.BASE_SITE_URL;
+const envBaseUrl = BASE_URL;
 
 export const getDateWithoutOffset = (date) => {
   const today = new Date(date);
@@ -99,8 +100,8 @@ export const explainerSocialShareMap = {
       '#FiscalData #OpenData #NationalDebt',
     emailSubject: 'Fiscal Data Explains the National Debt',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
-    url: baseUrl+'/americas-finance-guide/national-debt/',
-    image: baseUrl+'/images/nationalDebt-YourGuide.png'
+    url: envBaseUrl+'/americas-finance-guide/national-debt/',
+    image: envBaseUrl+'/images/nationalDebt-YourGuide.png'
   },
   'national-deficit': {
     title: 'Fiscal Data Explains the National Deficit',
@@ -110,8 +111,8 @@ export const explainerSocialShareMap = {
       + '#FiscalData #OpenData #NationalDeficit',
     emailSubject: 'Fiscal Data Explains the National Deficit',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national deficit!',
-    url: baseUrl+'/americas-finance-guide/national-deficit/',
-    image: baseUrl+'/images/nationalDeficit_1200x630.png'
+    url: envBaseUrl+'/americas-finance-guide/national-deficit/',
+    image: envBaseUrl+'/images/nationalDeficit_1200x630.png'
   },
   'federal-spending': {
     title: 'Fiscal Data Explains Federal Spending',
@@ -121,8 +122,8 @@ export const explainerSocialShareMap = {
       + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
     emailSubject: 'Fiscal Data Explains Federal Spending',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
-    url: baseUrl+'/americas-finance-guide/federal-spending/',
-    image: baseUrl+'/images/Spending-1200x630.png'
+    url: envBaseUrl+'/americas-finance-guide/federal-spending/',
+    image: envBaseUrl+'/images/Spending-1200x630.png'
   },
   'government-revenue': {
     title: 'Fiscal Data Explains Federal Revenue',
@@ -132,8 +133,8 @@ export const explainerSocialShareMap = {
     'federal revenue! #FiscalData #OpenData #FederalRevenue  ',
     emailSubject: 'Fiscal Data Explains Federal Revenue',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal revenue!',
-    url: baseUrl+'/americas-finance-guide/government-revenue/',
-    image: baseUrl+'/images/revenue-social-share.png'
+    url: envBaseUrl+'/americas-finance-guide/government-revenue/',
+    image: envBaseUrl+'/images/revenue-social-share.png'
   },
   'americas-finance-guide': {
     title: "Your Guide to America’s Finances",
@@ -149,8 +150,8 @@ export const explainerSocialShareMap = {
       "pillars of America’s finances – Revenue, Spending, Deficit, and Debt. Have you ever " +
       "wondered how a budget deficit occurs? Or how government spending has fluctuated over time? "+
       "Find out the answers to these question and more here!",
-    url: baseUrl + "/americas-finance-guide/",
-    image: baseUrl + "/images/AFG-Overview_1200x630.png",
+    url: envBaseUrl + "/americas-finance-guide/",
+    image: envBaseUrl + "/images/AFG-Overview_1200x630.png",
   },
 }
 
