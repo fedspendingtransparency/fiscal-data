@@ -1795,7 +1795,7 @@ export const DebtBreakdownSection = withWindowSize(
             </>
           )}
         </div>
-        <div className={postGraphContent}>
+        <div className={postGraphContent} id={'maintaining-national-debt'}>
           <h3>Maintaining the National Debt</h3>
           <p>
             The federal government is charged interest for the use of lenders’
@@ -1819,7 +1819,7 @@ export const DebtBreakdownSection = withWindowSize(
           </p>
           <div className={visWithCallout}>
             {multichartDataLoaded && (
-              <div className={multichartWrapper} id={'interest-rate-and-total-debt-chart'}>
+              <div className={multichartWrapper}>
                 <div
                   className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
                   role={"img"}
