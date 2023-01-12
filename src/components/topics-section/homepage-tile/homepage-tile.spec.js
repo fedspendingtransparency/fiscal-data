@@ -114,6 +114,29 @@ describe('Explainer Tile', () => {
     expect(tileLink).not.toBeInTheDocument();
   });
 
+  it('adds an AFG icon if the content is the main feature', () => {
+    const { getByTestId } = render(
+      <ExplainerTile
+        content={testTiles['pageName']}
+        images={''}
+        width={'1200'}
+      />
+    );
+
+    expect(getByTestId('afgBookIcon')).toBeInTheDocument();
+  });
+
+  it('does not add an AFG icon if the content is not the main feature', () => {
+    const { queryByTestId} = render(
+      <ExplainerTile
+        content={testTiles['anotherPage']}
+        images={''}
+        width={'1200'}
+      />
+    );
+    expect(queryByTestId('afgBookIcon')).not.toBeInTheDocument();
+  });
+
   it('renders the tile images with the provided alternate text', () => {
     const { getByRole } = render(
       <ExplainerTile

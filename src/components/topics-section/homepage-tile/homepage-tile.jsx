@@ -20,7 +20,7 @@ const HomePageTile = ({
   width,
   customStyles,
   layout,
-  hasMobileImage,  
+  hasMobileImage
 }) => {
   let desktopImage, mobileImage;
   if (images) {
@@ -33,10 +33,9 @@ const HomePageTile = ({
   }
 
   const afgBookIconSource = '/images/AFG-icon.svg';
-  
 
   const isDesktop = width >= pxToNumber(breakpointLg);
-  // over write desktop-first styles with mobile-first styles, if we actually have a mobile imgage
+  // overwrite desktop-first styles with mobile-first styles, if we actually have a mobile image
   const isMobile = hasMobileImage
     ? width <= pxToNumber(breakpointSm)
     : width <= pxToNumber(breakpointLg);
@@ -110,25 +109,17 @@ const HomePageTile = ({
       <div className={mainContent} data-testid="tile">
         <div style={imageContainerStyle}>{isMobile ? mobile : desktop}</div>
         <div className={content.path ? undefined : comingSoon}>
-          <Grid container spacing={2}
-            alignItems="center">
-            {content.mainFeature && (
-              <Grid item xs={isMobile ? 2 : 1}>
-                <img
-                  src={afgBookIconSource}
-                  alt="An open book with a coin above the pages"
-                  className={afgBookIcon}
-                  data-testid={'afgBookIcon'}
-                />
-              </Grid>
-            )}
-            <Grid item xs={isMobile ? 10 : 11}>
               <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
+                {content.mainFeature && (
+                  <img
+                    src={afgBookIconSource}
+                    alt="An open book with a coin above the pages"
+                    className={afgBookIcon}
+                    data-testid={'afgBookIcon'}
+                  />
+                )}
                 <span>{content.title}</span>
               </h5>
-            </Grid>
-          </Grid>
-
           <div style={{ ...(customStyles?.body || {}) }}>
             {content.bodyGenerator ? content.bodyGenerator() : content.body}
           </div>
