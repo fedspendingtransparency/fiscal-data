@@ -148,7 +148,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           }
 
           return (
-            <>
+            <div key={s.index}>
               {s.comingSoon ? (
               <div className={comingSoonContainer}>
                 <i className={comingSoon}>COMING SOON!</i>
@@ -181,7 +181,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                   {s.title}
                 </Link>
               </div>
-            </>
+            </div>
           )
         })}
       </div>
