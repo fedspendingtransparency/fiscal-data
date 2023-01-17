@@ -7,11 +7,13 @@ const PivotToggle = ({clickHandler, open}) => {
 
   return (
     <button className={styles.headerToggle} data-testid="pivotToggle"
-            onClick={clickHandler} aria-haspopup aria-expanded={open}>
+            onClick={clickHandler} aria-haspopup aria-expanded={open}
+    >
       <FontAwesomeIcon icon={faChartBar}
                        className={styles.toggleIcon}
                        data-testid="bar-chart-icon"
-                       size="1x" />
+                       size="1x"
+      />
       <span data-testid="toggleText">{open ? 'Hide ' : 'Show '} Pivot Options</span>
     </button>
   );

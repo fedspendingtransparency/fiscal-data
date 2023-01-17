@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
-import {getShortForm} from "../../../heros/hero-helper";
+import {getShortForm} from "../../../../../utils/rounding-utils";
 
 const FederalRevenueOverview = () => {
 
@@ -82,7 +82,7 @@ const FederalRevenueOverview = () => {
         In FY {latestCompleteFiscalYear}, the federal government spent $
         {priorSpend}. Since the government spent {spendRevComp} than it
         collected, the {deficitLabel} for {latestCompleteFiscalYear} was $
-        {priorDeficit}.  Visit our {spending} and {deficit} pages for more information on these activities. 
+        {priorDeficit}.  Visit our {spending} and {deficit} pages for more information on these activities.
       </p>
     </div>
   );

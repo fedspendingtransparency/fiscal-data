@@ -14,13 +14,13 @@ export default function MobileFilterToggle({filterCnt, datasetsView, toggleDatas
             <span className={styles.filterCount}>
               <span className={styles.srOnly}>Reset </span>{filterCnt}
               <span className={styles.srOnly}> Selected Filter{ filterCnt === 1 ? '' : 's'}</span>
-            </span> <FontAwesomeIcon className={styles.resetIcon} icon={faUndo} size={'1x'}/>
+            </span> <FontAwesomeIcon className={styles.resetIcon} icon={faUndo} size={'1x'} />
           </button>
         }
         <button  className='toggleButton' onClick={toggleDatasetView}>
           {datasetsView ? 'Filter Your Results' : `View Your Results (${datasetsCount})`}
         </button>
       </div>
-    </section>
+        </section>
     )
 }

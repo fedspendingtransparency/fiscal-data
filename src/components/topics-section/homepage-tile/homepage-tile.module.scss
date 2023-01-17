@@ -5,13 +5,13 @@ $main-feature-body: $font-size-16;
 $secondary-feature-title: $font-size-24;
 $secondary-feature-body: $font-size-16;
 
-
 .mainContent {
   color: #666666;
   h5 {
     color: #555555;
     font-weight: $semi-bold-weight;
     margin: 0;
+    //display: inline;
 
     &.mainTitle {
       font-size: $main-feature-title;
@@ -25,6 +25,10 @@ $secondary-feature-body: $font-size-16;
     }
   }
 
+  p {
+    margin: 0;
+  }
+
   .comingSoon {
     width: 98.75%;
     margin-left: auto;
@@ -33,5 +37,11 @@ $secondary-feature-body: $font-size-16;
 
   .tileContainer {
     padding-top: .5rem;
+  }
+
+  .afgBookIcon{
+    width: 3rem;
+    padding: 0 .5rem 0.2rem 0;
+    vertical-align: text-bottom;
   }
 }

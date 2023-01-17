@@ -4,7 +4,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 
-
 export const getShortForm = (
   value: string,
   fractionDigits: number = 0,

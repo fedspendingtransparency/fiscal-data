@@ -65,7 +65,8 @@ const ReportDataToggle = ({ onChange, reports }) => {
     >
       {buttons.map( radioBtn => (
         <label key={`report-toggle-${radioBtn.value}`}
-               className={`${toggleButton} ${activeState === radioBtn.value ? selected : ''}`}>
+               className={`${toggleButton} ${activeState === radioBtn.value ? selected : ''}`}
+        >
           {radioBtn.icon}
           <div className={buttonDescription}>{radioBtn.description}</div>
           <input type="radio"

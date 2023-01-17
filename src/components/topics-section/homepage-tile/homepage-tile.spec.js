@@ -3,8 +3,8 @@ import {
   render,
   waitFor
 } from "@testing-library/react";
-import ExplainerTile from "./explainer-tile";
-import {SpendingBodyGenerator} from './explainer-tile-helper';
+import ExplainerTile from "./homepage-tile";
+import {SpendingBodyGenerator} from './homepage-tile-helper';
 import fetchMock from 'fetch-mock';
 import {mockSpendingHeroData} from "../../../layouts/explainer/explainer-test-helper";
 
@@ -112,6 +112,29 @@ describe('Explainer Tile', () => {
       );
     const tileLink = queryByRole('link');
     expect(tileLink).not.toBeInTheDocument();
+  });
+
+  it('adds an AFG icon if the content is the main feature', () => {
+    const { getByTestId } = render(
+      <ExplainerTile
+        content={testTiles['pageName']}
+        images={''}
+        width={'1200'}
+      />
+    );
+
+    expect(getByTestId('afgBookIcon')).toBeInTheDocument();
+  });
+
+  it('does not add an AFG icon if the content is not the main feature', () => {
+    const { queryByTestId} = render(
+      <ExplainerTile
+        content={testTiles['anotherPage']}
+        images={''}
+        width={'1200'}
+      />
+    );
+    expect(queryByTestId('afgBookIcon')).not.toBeInTheDocument();
   });
 
   it('renders the tile images with the provided alternate text', () => {

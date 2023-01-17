@@ -9,7 +9,7 @@ describe('Notes and Limitations (N&KL) - Only dataset level N&KL', () => {
   let instance;
   const text = 'Rabble dabble.\r\nWriggle jiggle.';
   beforeAll(() => {
-    const component = renderer.create(<NotesAndLimitations bodyText={text}/>);
+    const component = renderer.create(<NotesAndLimitations bodyText={text} />);
     instance = component.root;
   });
 

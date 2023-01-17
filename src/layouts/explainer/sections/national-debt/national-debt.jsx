@@ -49,14 +49,10 @@ import { pxToNumber } from "../../../../helpers/styles-helper/styles-helper";
 import curvedArrow from "../../../../images/curved-arrow.svg";
 import alexanderHamilton from "../../../../images/alexander-hamilton.png";
 import benFranklin from "../../../../images/ben-franklin.png";
+import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
 
 import {
-  // Key Takeaways
-  keyTakeawaysContent,
   icon,
-  offsetIcon,
-  iconBackground,
-  noMarginBottom,
   // NationalDebtExplained
   nationalDebtExplainedTextContent,
   nationalDebtExplainedTable,
@@ -166,68 +162,6 @@ export const visualizingTheDebtTableContent = {
 
 export const chartPatternBackground = "#4A0072";
 const alternateBarColor = "#b699c6";
-
-const KeyTakeawaysSection = ({ glossary }) => {
-  const nonMarketableSecurities = (
-    <GlossaryTerm
-      term="Non-Marketable Securities"
-      page="Debt explainer"
-      glossary={glossary}
-    >
-      non-marketable
-    </GlossaryTerm>
-  );
-  const marketableSecurities = (
-    <GlossaryTerm
-      term="Marketable Securities"
-      page="Debt explainer"
-      glossary={glossary}
-    >
-      marketable
-    </GlossaryTerm>
-  );
-
-  return (
-    <>
-      <div className={keyTakeawaysContent}>
-        <div className={iconBackground}>
-          <FontAwesomeIcon icon={faMoneyCheckDollar} className={icon} />
-          <FontAwesomeIcon icon={faMoneyCheckDollar} className={offsetIcon} />
-        </div>
-        <p>
-          The national debt is composed of distinct types of debt, similar to an
-          individual whose debt may consist of a mortgage, car loan, and credit
-          cards. The different types of debt include {nonMarketableSecurities}{" "}
-          or {marketableSecurities} securities and whether it is debt held by
-          the public or debt held by the government itself (known as
-          intragovernmental).
-        </p>
-      </div>
-      <div className={keyTakeawaysContent}>
-        <div className={iconBackground}>
-          <FontAwesomeIcon icon={faChartLine} className={icon} />
-          <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
-        </div>
-        <p>
-          The U.S. has carried debt since its inception. Debts incurred during
-          the American Revolutionary War amounted to $75 million, primarily
-          borrowed from domestic investors and the French Government for war
-          materials.
-        </p>
-      </div>
-      <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
-        <div className={iconBackground}>
-          <FontAwesomeIcon icon={faPeopleCarry} className={icon} />
-          <FontAwesomeIcon icon={faPeopleCarry} className={offsetIcon} />
-        </div>
-        <p>
-          The national debt enables the federal government to pay for important
-          programs and services for the American public.
-        </p>
-      </div>
-    </>
-  );
-};
 
 export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
   const glossaryTerms = {
@@ -1057,7 +991,7 @@ const handleMouseEnterLineChart = () => {
           national debt.
         </p>
 
-        <DebtOverLast100y cpiDataByYear={cpiDataByYear}/>
+        <DebtOverLast100y cpiDataByYear={cpiDataByYear} />
 
         <p>
           Comparing a country’s debt to its {gdp} reveals the country’s ability
@@ -1622,7 +1556,7 @@ export const DebtBreakdownSection = withWindowSize(
           debt used to pay state-funded programs; nor does it include debts
           carried by individuals, such as personal credit card debt or
           mortgages.
-        </p>
+      </p>
         <p>
           The visual below comparing {glossaryTerms.calendarYear} {startYear}{" "}
           and {endYear} displays the difference in growth between debt held by
@@ -1945,7 +1879,7 @@ export const DebtBreakdownSection = withWindowSize(
             </div>
           </div>
         </div>
-      </>
+    </>
     );
   }
 );
@@ -2194,7 +2128,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
     component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear}/>
+      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear} />
     ),
   },
   {

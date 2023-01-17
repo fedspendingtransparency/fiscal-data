@@ -620,7 +620,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     features.data.allMdx.edges.forEach(({ node }) => {
       if (node.frontmatter.path) {
-        let insightRelatedDatasets = [];
+        const insightRelatedDatasets = [];
         if(node.frontmatter.relatedDatasets) {
           node.frontmatter.relatedDatasets.forEach((dataset) => {
             insightRelatedDatasets.push(

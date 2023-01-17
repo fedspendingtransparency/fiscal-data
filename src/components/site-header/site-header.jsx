@@ -73,6 +73,14 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   ]
 
+  const insightsPageLinks = [
+    {
+      title: 'Who Owns the Debt?',
+      to: '/who-owns-the-debt/',
+      testId: 'who-owns-the-debt'
+    }
+  ]
+
   const clickHandler = (title) => {
     Analytics.event({
       category: 'Sitewide Navigation',
@@ -144,7 +152,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                   <Experimental featureId={pageLink.featureId} key={pageLink.title}>
                     <div className={styles.pageLinkButtonContainer}>
                       <div className={styles.pageLinkButtonContent}
-                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                      >
                         <button className={styles.pageLinkButton} >
                           <Link
                             to={pageLink.to}
@@ -213,8 +222,22 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                             <div className={styles.dropdownTitle} >
                               INSIGHTS
                             </div>
-                            <div className={styles.dropdownTempText} >
-                              <em>{dropdownTempText}</em>
+                            <div className={styles.dropdownTempText}>
+                            {insightsPageLinks.map((insightPageLink) => {
+                                return (
+                                  <div key={insightPageLink.title}
+                                       className={styles.dropdownListItem}
+                                  >
+                                    <Link
+                                      to={insightPageLink.to}
+                                      activeClassName={styles.activeTopicLink}
+                                      onClick={() => topicsClickHandler(insightPageLink.title)}
+                                    >
+                                      {insightPageLink.title}
+                                    </Link>
+                                  </div>
+                                )
+                              })}
                             </div>
                           </div>
                         </div>
@@ -227,7 +250,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               return (
                 <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
-                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                  >
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
                               disabled

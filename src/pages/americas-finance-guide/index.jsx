@@ -42,6 +42,7 @@ import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
 import { getAFGFootnotes } from "../../helpers/footnotes-helper/footnotes-helper";
+import {isBillionsOrTrillions} from "../../utils/rounding-utils";
 
 export const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -82,7 +83,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       if (res.data) {
         const data = res.data[0];
         setYearToDateRevenue(
-          getShortForm(data.current_fytd_net_rcpt_amt.toString(), 2, false)
+          isBillionsOrTrillions(data.current_fytd_net_rcpt_amt.toString(), false)
         );
         setFiscalYear(data.record_fiscal_year);
         if (data.record_calendar_month === '09') {
@@ -94,7 +95,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       if (res.data) {
         const data = res.data[0];
         setYearToDateSpending(
-          getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false)
+          isBillionsOrTrillions(data.current_fytd_net_outly_amt.toString(), false)
         );
         if (data.record_calendar_month === '09') {
           setSpendingHas('');
@@ -329,7 +330,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
           {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
 
-          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%"/>}
+          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
           <DataSourcesMethodologies>
 
             Current and prior fiscal year values for federal revenue, spending,

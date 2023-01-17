@@ -8,7 +8,7 @@ const PivotOptions = ({table, pivotSelection, setSelectedPivot, pivotsUpdated}) 
 
   const setAppropriatePivotValue = (pivotOptions) => {
     let valueField = pivotOptions[0];
-    let curSelectedPivotValue = pivotSelection.pivotValue;
+    const curSelectedPivotValue = pivotSelection.pivotValue;
     if (curSelectedPivotValue) {
       if (pivotOptions.some(pivot => pivot.columnName === curSelectedPivotValue.columnName)) {
         valueField = curSelectedPivotValue;
@@ -72,18 +72,22 @@ const PivotOptions = ({table, pivotSelection, setSelectedPivot, pivotsUpdated}) 
                            optionLabelKey="title"
                            ariaLabel="pivot view"
                            selectedOption={pivotSelection.pivotView}
-                           changeHandler={pivotViewChangeHandler}/>
+                           changeHandler={pivotViewChangeHandler}
+            />
           </span>
         </span>
         <span className={styles.formControl}>
           <span className={styles.selectLabel}
-                data-testid="pivotSelectLabel">Pivot Value:</span>
+                data-testid="pivotSelectLabel"
+          >Pivot Value:
+          </span>
           <span className={styles.dropdownContainer}>
             <SelectControl options={pivotOptions}
                            optionLabelKey="prettyName"
                            ariaLabel="pivot value"
                            selectedOption={pivotSelection.pivotValue}
-                           changeHandler={pivotValueChangeHandler}/>
+                           changeHandler={pivotValueChangeHandler}
+            />
           </span>
         </span>
       </div>

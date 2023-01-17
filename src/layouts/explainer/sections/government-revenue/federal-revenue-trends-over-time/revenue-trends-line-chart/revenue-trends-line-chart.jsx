@@ -300,7 +300,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           </div>
         </div>
       </div>
-    </div>;
+           </div>;
   }
 
   useEffect(() => {

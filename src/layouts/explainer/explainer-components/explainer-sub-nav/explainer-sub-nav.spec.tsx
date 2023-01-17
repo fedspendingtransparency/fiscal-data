@@ -26,12 +26,12 @@ const urls = [{
 
 describe("ExplainerSubNav Component", () => {
   it("renders the component", () => {
-    const { getByTestId } = render(<ExplainerSubNav hidePosition={160}/>)
+    const { getByTestId } = render(<ExplainerSubNav hidePosition={160} />)
     expect(getByTestId("explainerSubNav")).toBeInTheDocument()
   })
 
   it("renders all the correct links", () => {
-    const { getByText  } = render(<ExplainerSubNav hidePosition={160}/>)
+    const { getByText  } = render(<ExplainerSubNav hidePosition={160} />)
     
     urls.forEach(url => {
       expect(getByText(url.text).closest('a')).toHaveAttribute('href', url.url)

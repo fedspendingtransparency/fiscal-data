@@ -82,7 +82,8 @@ const Accordion = ({
           <div
             data-testid="content"
             className={`${content} accordionContent`}
-          ></div>
+          >
+          </div>
         )}
       </section>
     </div>

@@ -26,7 +26,8 @@ describe("Search Filter Summary", ()=> {
               <SearchFilterSummary searchQuery={searchQuery}
                                    activeFilters={activeFilters}
                                    changeHandler={changeHandlerMock}
-                                   allFilters={filters}/>
+                                   allFilters={filters}
+              />
               );
         });
         instance = component.root;
@@ -57,7 +58,8 @@ describe("Search Filter Summary", ()=> {
           <SearchFilterSummary searchQuery={searchQuery}
                                activeFilters={activeFilters}
                                changeHandler={changeHandlerMock}
-                               allFilters={filters}/>
+                               allFilters={filters}
+          />
         );
       });
 
