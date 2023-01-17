@@ -62,7 +62,7 @@ const HomePageTile = ({
     />
   );
 
-  const style =  isMobile ? {} : {maxWidth: '260px', maxHeight: '160px',}
+  const gridStyle =  isMobile ? {} : {maxWidth: '260px', maxHeight: '160px',}
 
   const card =
     layout === 'two-col' && isDesktop ? (
@@ -75,7 +75,7 @@ const HomePageTile = ({
           <Grid
             item
             lg={4}
-            style={style}
+            style={gridStyle}
           >
             <div style={imageContainerStyle}>{desktop}</div>
           </Grid>

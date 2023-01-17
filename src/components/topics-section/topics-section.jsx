@@ -6,6 +6,7 @@ import {
   sectionHeader,
   topicsSectionContainer,
   line,
+  insightsSectionContainer
 } from "./topics-section.module.scss";
 import { withWindowSize } from "react-fns";
 import { breakpointLg } from "../../variables.module.scss";
@@ -88,18 +89,15 @@ export const TopicsSection = ({ images, width }) => {
                 customStyles={leftTileStyle}
               />
             </Grid>
-            {isMobile ? (
-              <div className={line} style={{ margin: '0' }} />
-            ) : (
-              undefined
-            )}
             <Grid item lg={secondaryWidth} spacing={0}>
-              <div className={sectionHeader}>INSIGHTS</div>
-              <HomePageTile
-                content={pageTileMap['who-owns-the-debt']}
-                images={images}
-                width={width}
-              />
+              <div className={insightsSectionContainer}>
+                <div className={sectionHeader}>INSIGHTS</div>
+                <HomePageTile
+                  content={pageTileMap['who-owns-the-debt']}
+                  images={images}
+                  width={width}
+                />
+              </div>
             </Grid>
           </Grid>
         </ThemeProvider>
