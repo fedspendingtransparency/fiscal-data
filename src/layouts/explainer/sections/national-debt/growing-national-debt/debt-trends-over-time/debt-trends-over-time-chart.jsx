@@ -7,15 +7,14 @@ import {
 } from "../../../../../../variables.module.scss";
 import React, {useEffect, useRef, useState} from "react";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
-import drawChart from "../../../../../../components/charts/chart-primary";
 import Analytics from "../../../../../../utils/analytics/analytics";
 import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {
   debtTrendsOverTimeSectionGraphContainer,
+  lineChartContainer,
   footerContainer,
   header,
   headerContainer,
-  lineChartContainer,
   subHeader,
   subTitle,
   title
@@ -23,14 +22,16 @@ import {
 import {chartBackdrop, visWithCallout} from "../../../../explainer.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import {ResponsiveLine} from "@nivo/line";
+import { Line } from "@nivo/line";
 import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
 import {
-  chartPatternBackground,
   nationalDebtSectionConfigs,
 } from "../../national-debt";
-
+import {
+  applyChartScaling,
+  applyTextScaling,
+} from '../../../../explainer-helpers/explainer-charting-helper';
 let gaTimerDebtTrends;
 
 
@@ -44,234 +45,253 @@ const analyticsClickHandler = (action, section) => {
 
 export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
 
-    const [lineChartHoveredYear, setLinechartHoveredYear] = useState("");
-    const [lineChartHoveredValue, setLinechartHoveredValue] = useState("");
-    const [startAnimation, setStartAnimation] = useState(false);
-    const [animationComplete, setAnimationComplete] = useState(false);
-    const [animationPoint, setAnimationPoint] = useState(0);
-    const {
-      name,
-      slug,
-      dateField,
-      valueField,
-      endpoint,
-    } = nationalDebtSectionConfigs[sectionId];
+  const [lineChartHoveredYear, setLinechartHoveredYear] = useState("");
+  const [lineChartHoveredValue, setLinechartHoveredValue] = useState("");
+  const [debtTrendsData, setDebtTrendsData] = useState([]);
+  const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
+  const [lastDebtValue, setLastDebtValue] = useState({});
+  const [startAnimation, setStartAnimation] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const [animationPoint, setAnimationPoint] = useState(0);
+  const {
+    name,
+    slug,
+    dateField,
+    valueField,
+    endpoint,
+  } = nationalDebtSectionConfigs[sectionId];
+
+  const chartParent = 'debtTrendsChart';
+  const chartWidth = 550;
+  const chartHeight = 490;
 
 
-    const historicalDebtOutstanding_DebtTrends = (
-      <CustomLink
-        url={slug}
-        onClick={() =>
-          analyticsClickHandler(
-            "Citation Click",
-            "Federal Debt Trends Over Time"
-          )
-        }
-      >
-        {name}
-      </CustomLink>
-    );
+  const historicalDebtOutstanding = (
+    <CustomLink
+      url={slug}
+      onClick={() =>
+        analyticsClickHandler(
+          "Citation Click",
+          "Federal Debt Trends Over Time"
+        )
+      }
+    >
+      {name}
+    </CustomLink>
+  );
 
-    const beaLink = (
-      <CustomLink
-        url={"https://www.bea.gov/"}
-        onClick={() =>
-          analyticsClickHandler(
-            "Citation Click",
-            "Federal Debt Trends Over Time"
-          )
-        }
-      >
-        Bureau of Economic Analysis
-      </CustomLink>
-    );
+  const beaLink = (
+    <CustomLink
+      url={"https://www.bea.gov/"}
+      onClick={() =>
+        analyticsClickHandler(
+          "Citation Click",
+          "Federal Debt Trends Over Time"
+        )
+      }
+    >
+      Bureau of Economic Analysis
+    </CustomLink>
+  );
 
-    // Below are the configs for custom properties for the debt trends over time line chart
 
-    const [debtTrendsData, setDebtTrendsData] = useState([]);
-    const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
-    const [lastDebtValue, setLastDebtValue] = useState({});
+  const debtEndpointUrl =
+    "v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948";
 
-    const debtEndpointUrl =
-      "v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948";
-
-    useEffect(() => {
-      basicFetch(`${apiPrefix}${debtEndpointUrl}`).then(res => {
-        if (res.data) {
-          const debtData = res.data;
-          basicFetch(
-            `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`
-          ).then(res => {
-            if (res.BEAAPI.Results.Data) {
-              const gdpData = res.BEAAPI.Results.Data.filter(
-                entry => entry.LineDescription === "Gross domestic product"
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${debtEndpointUrl}`).then(res => {
+      if (res.data) {
+        const debtData = res.data;
+        basicFetch(
+          `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`
+        ).then(res => {
+          if (res.BEAAPI.Results.Data) {
+            const gdpData = res.BEAAPI.Results.Data.filter(
+              entry => entry.LineDescription === "Gross domestic product"
+            );
+            const averagedGDPByYear = [];
+            for (
+              let i = parseInt(
+                debtData[debtData.length - 1].record_fiscal_year
               );
-              const averagedGDPByYear = [];
-              for (
-                let i = parseInt(
-                  debtData[debtData.length - 1].record_fiscal_year
+              i <= parseInt(debtData[0].record_fiscal_year);
+              i++
+            ) {
+              let allQuartersForGivenYear;
+              if (i <= 1976) {
+                allQuartersForGivenYear = gdpData.filter(
+                  entry =>
+                    entry.TimePeriod.includes(i.toString() + "Q1") ||
+                    entry.TimePeriod.includes(i.toString() + "Q2") ||
+                    entry.TimePeriod.includes((i - 1).toString() + "Q3") ||
+                    entry.TimePeriod.includes((i - 1).toString() + "Q4")
                 );
-                i <= parseInt(debtData[0].record_fiscal_year);
-                i++
-              ) {
-                let allQuartersForGivenYear;
-                if (i <= 1976) {
-                  allQuartersForGivenYear = gdpData.filter(
-                    entry =>
-                      entry.TimePeriod.includes(i.toString() + "Q1") ||
-                      entry.TimePeriod.includes(i.toString() + "Q2") ||
-                      entry.TimePeriod.includes((i - 1).toString() + "Q3") ||
-                      entry.TimePeriod.includes((i - 1).toString() + "Q4")
-                  );
-                } else if (i >= 1977) {
-                  allQuartersForGivenYear = gdpData.filter(
-                    entry =>
-                      entry.TimePeriod.includes(i.toString() + "Q1") ||
-                      entry.TimePeriod.includes(i.toString() + "Q2") ||
-                      entry.TimePeriod.includes(i.toString() + "Q3") ||
-                      entry.TimePeriod.includes((i - 1).toString() + "Q4")
-                  );
-                }
-                if (
-                  i >= 1977 &&
-                  allQuartersForGivenYear.find(entry =>
-                    entry.TimePeriod.includes(i.toString() + "Q3")
-                  )
-                ) {
-                  let totalGDP = 0;
-                  allQuartersForGivenYear.forEach(quarter => {
-                    totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
-                  });
-                  averagedGDPByYear.push({
-                    // Correct BEA data to display in trillions
-                    average: parseInt(String(totalGDP) + "000000") / 4,
-                    year: i,
-                  });
-                } else if (i <= 1976) {
-                  let totalGDP = 0;
-                  allQuartersForGivenYear.forEach(quarter => {
-                    totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
-                  });
-                  averagedGDPByYear.push({
-                    // Correct BEA data to display in trillions
-                    average: parseInt(String(totalGDP) + "000000") / 4,
-                    year: i,
-                  });
-                }
+              } else if (i >= 1977) {
+                allQuartersForGivenYear = gdpData.filter(
+                  entry =>
+                    entry.TimePeriod.includes(i.toString() + "Q1") ||
+                    entry.TimePeriod.includes(i.toString() + "Q2") ||
+                    entry.TimePeriod.includes(i.toString() + "Q3") ||
+                    entry.TimePeriod.includes((i - 1).toString() + "Q4")
+                );
               }
-              const debtToGDP = [];
-              averagedGDPByYear.forEach(GDPEntry => {
-                const record = debtData.find(entry =>
-                  entry.record_date.includes(GDPEntry.year)
-                );
-                debtToGDP.push({
-                  x: GDPEntry.year,
-                  y: Math.round(
-                    (parseFloat(record.debt_outstanding_amt) /
-                      GDPEntry.average) *
-                    100
-                  ),
+              if (
+                i >= 1977 &&
+                allQuartersForGivenYear.find(entry =>
+                  entry.TimePeriod.includes(i.toString() + "Q3")
+                )
+              ) {
+                let totalGDP = 0;
+                allQuartersForGivenYear.forEach(quarter => {
+                  totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
                 });
-              });
-              const finalData = [
-                {
-                  id: "us",
-                  color: "hsl(219, 70%, 50%)",
-                  data: debtToGDP,
-                },
-              ];
-              setDebtTrendsData(finalData);
-              setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
-              setIsLoadingDebtTrends(false);
+                averagedGDPByYear.push({
+                  // Correct BEA data to display in trillions
+                  average: parseInt(String(totalGDP) + "000000") / 4,
+                  year: i,
+                });
+              } else if (i <= 1976) {
+                let totalGDP = 0;
+                allQuartersForGivenYear.forEach(quarter => {
+                  totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
+                });
+                averagedGDPByYear.push({
+                  // Correct BEA data to display in trillions
+                  average: parseInt(String(totalGDP) + "000000") / 4,
+                  year: i,
+                });
+              }
             }
-          });
-        }
-      });
-    }, []);
+            const debtToGDP = [];
+            averagedGDPByYear.forEach(GDPEntry => {
+              const record = debtData.find(entry =>
+                entry.record_date.includes(GDPEntry.year)
+              );
+              debtToGDP.push({
+                x: GDPEntry.year,
+                y: Math.round(
+                  (parseFloat(record.debt_outstanding_amt) /
+                    GDPEntry.average) *
+                  100
+                ),
+              });
+            });
+            const finalData = [
+              {
+                id: "us",
+                color: "hsl(219, 70%, 50%)",
+                data: debtToGDP,
+              },
+            ];
+            setDebtTrendsData(finalData);
+            setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
+            setIsLoadingDebtTrends(false);
+            applyChartScaling(
+              chartParent,
+              chartWidth.toString(),
+              chartHeight.toString()
+            );
+          }
+        });
+      }
+    });
+  }, []);
 
-    const chartBorderTheme = {
-      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      textColor: "#666666",
-      axis: {
-        domain: {
-          line: {
-            stroke: "#666666",
-            strokeWidth: 1,
-          },
+  useEffect(() => {
+    applyTextScaling(chartParent, chartWidth, width, fontSize_10);
+  }, [width]);
+
+  useEffect(() => {
+    applyChartScaling(
+      chartParent,
+      chartWidth.toString(),
+      chartHeight.toString()
+    );
+  }, []);
+
+
+  const chartBorderTheme = {
+    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+    textColor: "#666666",
+    axis: {
+      domain: {
+        line: {
+          stroke: "#666666",
+          strokeWidth: 1,
         },
       },
-    };
+    },
+  };
 
-    const formatPercentage = v => `${v}%`;
+  const formatPercentage = v => `${v}%`;
 
-    const CustomSlices = ({ slices, setCurrentSlice }) => {
-      const allSlices =
-        <g>
-          {slices.map(slice => (
-            <rect
-              x={slice.x0}
-              y={slice.y0}
-              tabIndex={0}
-              width={slice.width + 1}
-              height={slice.height}
-              strokeWidth={1}
-              strokeOpacity={0}
-              fillOpacity={0}
-              onMouseEnter={() => setCurrentSlice(slice)}
-              onMouseLeave={() => {
-                setCurrentSlice(null);
-              }}
-            />
-          ))}
-        </g>;
-
-      return (
-        <>
-          {allSlices}
-        </>
-      );
-    };
-
-    const Point = ({currentPoint, borderColor, borderWidth}) => {
-      return (
-        <g>
-          <circle
-            fill={"#D8D8D8"}
-            r={8}
-            strokeWidth={borderWidth}
-            stroke={borderColor}
-            fillOpacity={0.35}
-            cx={currentPoint.x}
-            cy={currentPoint.y}
+  const CustomSlices = ({ slices, setCurrentSlice }) => {
+    const allSlices =
+      <g>
+        {slices.map(slice => (
+          <rect
+            x={slice.x0}
+            y={slice.y0}
+            tabIndex={0}
+            width={slice.width + 1}
+            height={slice.height}
+            strokeWidth={1}
+            strokeOpacity={0}
+            fillOpacity={0}
+            onMouseEnter={() => setCurrentSlice(slice)}
+            onMouseLeave={() => {
+              setCurrentSlice(null);
+            }}
           />
-          <circle
-            r={2}
-            strokeWidth={"4"}
-            stroke={"#000000"}
-            fill={"#000000"}
-            fillOpacity={0.85}
-            cx={currentPoint.x}
-            cy={currentPoint.y}
-          />
-        </g>
-      );
-    }
+        ))}
+      </g>;
 
-    useEffect(() => {
-      if(startAnimation && debtTrendsData && !animationComplete) {
-        if(animationPoint < debtTrendsData[0].data.length -1) {
-          const i = animationPoint + 1;
-          setTimeout(() => {
-            console.log(i);
-            setAnimationPoint(i);
-          }, 50)
-        } else {
-          console.log("stop");
-          clearTimeout();
-          setAnimationComplete(true);
-        }
+    return (
+      <>
+        {allSlices}
+      </>
+    );
+  };
+
+
+  useEffect(() => {
+    if(startAnimation && debtTrendsData && !animationComplete) {
+      if(animationPoint < debtTrendsData[0].data.length -1) {
+        const i = animationPoint + 1;
+        setTimeout(() => {
+          setAnimationPoint(i);
+        }, 50)
+      } else {
+        clearTimeout();
+        setAnimationComplete(true);
       }
-    }, [animationPoint, startAnimation])
+    }
+  }, [animationPoint, startAnimation])
+
+  const Point = ({currentPoint, borderColor, borderWidth}) => {
+    return (
+      <g>
+        <circle
+          fill={"#D8D8D8"}
+          r={8}
+          strokeWidth={borderWidth}
+          stroke={borderColor}
+          fillOpacity={0.35}
+          cx={currentPoint.x}
+          cy={currentPoint.y}
+        />
+        <circle
+          r={2}
+          strokeWidth={"4"}
+          stroke={"#000000"}
+          fill={"#000000"}
+          fillOpacity={0.85}
+          cx={currentPoint.x}
+          cy={currentPoint.y}
+        />
+      </g>
+    );
+  }
 
   const CustomPoint = props => {
     const { currentSlice, borderWidth, borderColor, points } = props;
@@ -283,15 +303,15 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
           observer = new IntersectionObserver(entries => {
             entries.forEach((entry) => {
               if(!startAnimation && entry.isIntersecting) {
-                console.log("start");
-                setTimeout(() =>
-                  setStartAnimation(true), 1000)
+                setStartAnimation(true);
               }
             })
           })
-        }
-        observer.observe(document.querySelector('[data-testid="debtTrendsChart"]'))
+          setTimeout(() =>
+            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]')), 1000)
+
         currentPoint = points[animationPoint];
+        }
       }
       else {
         currentPoint = currentSlice?.points?.length
@@ -368,80 +388,83 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
                     <span className={subHeader}>Debt to GDP</span>
                   </div>
                 </div>
-                <div
-                  className={`${lineChartContainer} ${chartBackdrop}`}
-                  data-testid={"debtTrendsChart"}
-                  onMouseEnter={handleMouseEnterLineChart}
-                  onMouseLeave={handleMouseLeaveLineChart}
-                  role={"img"}
-                  aria-label={`Line graph displaying the federal debt to GDP trend over time
-                  from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
-                >
-                  <ResponsiveLine
-                    data={debtTrendsData}
-                    theme={chartBorderTheme}
-                    layers={[
-                      "grid",
-                      "lines",
-                      "axes",
-                      CustomPoint,
-                      CustomSlices,
-                    ]}
-                    margin={
-                      width < pxToNumber(breakpointLg)
-                        ? { top: 8, right: 25, bottom: 30, left: 35 }
-                        : { top: 8, right: 25, bottom: 30, left: 50 }
-                    }
-                    xScale={{
-                      type: "linear",
-                      min: 1940,
-                      max: 2030,
-                    }}
-                    yScale={{
-                      type: "linear",
-                      min: 0,
-                      max: 140,
-                      stacked: true,
-                      reverse: false,
-                    }}
-                    yFormat=" >-.2f"
-                    axisTop={null}
-                    axisRight={null}
-                    axisBottom={{
-                      orient: "bottom",
-                      tickSize: 5,
-                      tickPadding: 5,
-                      tickRotation: 0,
-                      tickValues: 9,
-                    }}
-                    axisLeft={{
-                      format: formatPercentage,
-                      orient: "left",
-                      tickSize: 5,
-                      tickValues: 8,
-                    }}
-                    enablePoints={false}
-                    enableSlices={"x"}
-                    pointSize={0}
-                    pointColor={debtExplainerPrimary}
-                    pointBorderWidth={2}
-                    pointBorderColor={debtExplainerPrimary}
-                    pointLabelYOffset={-12}
-                    colors={debtExplainerPrimary}
-                    useMesh={false}
-                    enableGridY={false}
-                    enableGridX={false}
-                    sliceTooltip={() => <></>}
-                    enableCrosshair={false}
-                    animate={true}
-                    isInteractive={true}
-                    onMouseLeave={lineChartOnMouseLeave}
-                  />
-                </div>
+                  <div
+                    className={`${lineChartContainer} ${chartBackdrop}`}
+                    data-testid={`${chartParent}`}
+                    onMouseEnter={handleMouseEnterLineChart}
+                    onMouseLeave={handleMouseLeaveLineChart}
+                    role={"img"}
+                    aria-label={`Line graph displaying the federal debt to GDP trend over time
+                    from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
+                  >
+                    <Line
+                      data={debtTrendsData}
+                      width={chartWidth}
+                      height={chartHeight}
+                      theme={chartBorderTheme}
+                      layers={[
+                        "grid",
+                        "lines",
+                        "axes",
+                        CustomPoint,
+                        CustomSlices,
+                      ]}
+                        margin={
+                          width < pxToNumber(breakpointLg)
+                            ? { top: 10, right: 25, bottom: 40, left: 55 }
+                            : { top: 10, right: 25, bottom: 30, left: 50 }
+                        }
+                      xScale={{
+                        type: "linear",
+                        min: 1940,
+                        max: 2030,
+                      }}
+                      yScale={{
+                        type: "linear",
+                        min: 0,
+                        max: 140,
+                        stacked: true,
+                        reverse: false,
+                      }}
+                      yFormat=" >-.2f"
+                      axisTop={null}
+                      axisRight={null}
+                      axisBottom={{
+                        orient: "bottom",
+                        tickSize: 6,
+                        tickPadding: 8,
+                        tickRotation: 0,
+                        tickValues: 9,
+                      }}
+                      axisLeft={{
+                        format: formatPercentage,
+                        orient: "left",
+                        tickSize: 6,
+                        tickPadding: 8,
+                        tickValues: 8,
+                      }}
+                      enablePoints={false}
+                      enableSlices={"x"}
+                      pointSize={0}
+                      pointColor={debtExplainerPrimary}
+                      pointBorderWidth={2}
+                      pointBorderColor={debtExplainerPrimary}
+                      pointLabelYOffset={-12}
+                      colors={debtExplainerPrimary}
+                      useMesh={false}
+                      enableGridY={false}
+                      enableGridX={false}
+                      sliceTooltip={() => <></>}
+                      enableCrosshair={false}
+                      animate={true}
+                      isInteractive={true}
+                      onMouseLeave={lineChartOnMouseLeave}
+                    />
+                  </div>
                 <div className={footerContainer}>
                   <p>
                     {" "}
-                    Visit the {historicalDebtOutstanding_DebtTrends} dataset
+                    Visit the {historicalDebtOutstanding} dataset
                     to explore and download this data. The GDP data is sourced
                     from the {beaLink}.
                   </p>
