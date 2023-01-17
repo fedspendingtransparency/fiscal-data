@@ -1,27 +1,17 @@
-import {render, act} from "@testing-library/react";
-import {fireEvent, getByTestId, waitForElementToBeRemoved, within} from "@testing-library/dom";
-import {
-  nationalDebtSectionConfigs,
-  nationalDebtSectionIds
-} from "../../national-debt";
+import {render} from "@testing-library/react";
+import {fireEvent} from "@testing-library/dom";
+import {nationalDebtSectionIds} from "../../national-debt";
 import React from "react";
 import {determineBEAFetchResponse} from "../../../../../../utils/mock-utils";
 import {mockExplainerPageResponse} from "../../../../explainer-test-helper";
 import Analytics from "../../../../../../utils/analytics/analytics";
-import {waitFor} from "@testing-library/dom";
 import {DebtTrendsOverTimeChart} from "./debt-trends-over-time-chart";
-import { getYear } from 'date-fns';
-import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
-// import * as console from "console";
-import userEvent from "@testing-library/user-event";
-import * as nivoCore from "@nivo/core"
+
 
 jest.useFakeTimers();
 
-
 describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
-  const config = nationalDebtSectionConfigs[sectionId]
 
   beforeEach(() => {
     determineBEAFetchResponse(jest, mockExplainerPageResponse);
@@ -39,7 +29,6 @@ describe('The Growing National Debt', () => {
       <DebtTrendsOverTimeChart sectionId={sectionId} />
     );
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
-    console.log(await findByTestId('debtTrendsChart').outerHTML);
   })
 
   it('Renders the chart point', async () => {
@@ -79,10 +68,12 @@ describe('The Growing National Debt', () => {
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { findByText } = render(<DebtTrendsOverTimeChart sectionId={sectionId} />);
+    const { findByText, findByTestId } = render(<DebtTrendsOverTimeChart sectionId={sectionId} />);
 
-    const historicalDebt = await waitFor(() => findByText('Historical Debt Outstanding'));
-    const bea = await waitFor(() => findByText('Bureau of Economic Analysis'));
+    expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
+
+    const historicalDebt = await findByText('Historical Debt Outstanding');
+    const bea = await findByText('Bureau of Economic Analysis');
 
     historicalDebt.click();
     expect(spy).toHaveBeenCalledWith({
