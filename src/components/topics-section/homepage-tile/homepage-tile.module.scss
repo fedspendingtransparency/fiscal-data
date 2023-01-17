@@ -16,7 +16,8 @@ $secondary-feature-body: $font-size-16;
     &.mainTitle {
       font-size: $main-feature-title;
       padding: 1rem 0 .5rem;
-
+      display: flex;
+      align-items: flex-start;
     }
 
     &.secondaryTitle {
@@ -41,7 +42,7 @@ $secondary-feature-body: $font-size-16;
 
   .afgBookIcon{
     width: 3rem;
-    padding: 0 .5rem 0.2rem 0;
+    padding: .25rem .5rem 0.2rem 0;
     vertical-align: text-bottom;
   }
 }

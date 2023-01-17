@@ -1,15 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { createTheme, Grid, ThemeProvider, Divider } from "@material-ui/core";
 import HomePageTile from "./homepage-tile/homepage-tile";
 import {
   tileContainer,
   sectionHeader,
-  topicsSectionHeader,
   topicsSectionContainer,
   line,
-  afgBookIcon
 } from "./topics-section.module.scss";
 import { withWindowSize } from "react-fns";
 import { breakpointLg } from "../../variables.module.scss";
@@ -28,8 +24,6 @@ export const TopicsSection = ({ images, width }) => {
     },
   });
 
-  
-
   const isMobile = width < pxToNumber(breakpointLg);
   const leftTileStyle = {
     imageContainer: isMobile
@@ -45,8 +39,8 @@ export const TopicsSection = ({ images, width }) => {
   return (
     <div className={topicsSectionContainer}>
       <div className={tileContainer}>
-        <ThemeProvider theme={theme}>
-          <Grid container spacing={4}>
+        <ThemeProvider theme={theme} >
+          <Grid container spacing={4} direction={isMobile ? "column-reverse" : ""}>
             <Grid item lg={mainWidth} spacing={0}>
               <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
               <HomePageTile
@@ -57,7 +51,7 @@ export const TopicsSection = ({ images, width }) => {
                   imageContainer: { marginBottom: '0.5rem' },
                   body: { marginBottom: '1rem' },
                 }}
-                hasMobileImage                
+                hasMobileImage
               />
               <div className={line} />
 
