@@ -2,11 +2,11 @@ import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import DebtOverLast100y from './debt-over-last-100y-linechart';
 import fetchMock from 'fetch-mock';
-import { determineBEAFetchResponse } from '../../../../../utils/mock-utils';
+import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import {
   mockTotalDebt100YData,
   mockCpiDataset,
-} from '../../../explainer-test-helper';
+} from '../../../../explainer-test-helper';
 
 describe('National Debt Over the Last 100 Years Chart', () => {
   beforeAll(() => {

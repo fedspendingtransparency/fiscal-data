@@ -28,7 +28,7 @@ const InsightsImage = ({imageRefDesktop, imageRefMobile, altText}: InsightsImage
   }, [useWindowSize()])
 
   return (
-    <img src={imageRef} alt={altText} className={image} data-testid={'Image'} />
+      <img src={imageRef} alt={altText} className={image} data-testid={'Image'} />
   )
 }
 
