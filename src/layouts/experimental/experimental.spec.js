@@ -8,7 +8,7 @@ import ExperimentalPage from './experimental';
  */
 describe('Experimental layout page', () => {
   it('launches the component without any issue', () => {
-    render(<ExperimentalPage/>);
+    render(<ExperimentalPage />);
     expect(true).toBe(true);
   });
 });

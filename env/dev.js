@@ -1,8 +1,10 @@
 module.exports = {
   ENV_ID: 'dev',
-  API_BASE_URL: 'https://api.fiscaldata.treasury.gov',
-  DATA_DOWNLOAD_BASE_URL: 'https://fiscaldata.treasury.gov',
-  WEB_SOCKET_BASE_URL: 'wss://downloads.fiscaldata.treasury.gov/main',
+  BASE_URL: 'https://dev.fiscaldata.treasury.gov',
+  API_BASE_URL: 'https://api.dev.fiscaldata.treasury.gov',
+  AUTHENTICATE_API: true,
+  DATA_DOWNLOAD_BASE_URL: 'https://dev.fiscaldata.treasury.gov',
+  WEB_SOCKET_BASE_URL: 'wss://downloads.dev.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'not-found-md', 'apiNKL', 'aboutUsMDX',
     'spending-trends-chart', 'revenue-trends-section'],
   ADDITIONAL_DATASETS: {},

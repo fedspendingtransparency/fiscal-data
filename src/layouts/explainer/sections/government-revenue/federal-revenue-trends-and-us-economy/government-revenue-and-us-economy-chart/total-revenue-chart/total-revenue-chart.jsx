@@ -193,7 +193,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
         setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
         
-        let finalGdpRatioChartData = [];
+        const finalGdpRatioChartData = [];
         finalRevenueChartData.map((revenue, idx) => {
           const revenueYear = revenue.fiscalYear;
           const revenueAmount = revenue.y;

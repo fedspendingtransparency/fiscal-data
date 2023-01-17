@@ -7,11 +7,12 @@ import {
   flapWrapper
 } from "../../hero-image/hero-image.module.scss"
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
-import { getFootNotesDateRange, getPillData, getShortForm } from "../hero-helper"
+import { getFootNotesDateRange, getPillData } from "../hero-helper"
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
+import {isBillionsOrTrillions, getShortForm} from "../../../../utils/rounding-utils";
 
 const GovernmentRevenueHero = ({glossary}): JSX.Element => {
 
@@ -89,7 +90,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
       <p className={heroImageSubHeading}>
         Government revenue is income received from taxes and other sources to
         pay for government {expenditures}. The U.S. government has collected $
-        {getShortForm(currentRevenue, 2, false)} in fiscal year{" "}
+        {isBillionsOrTrillions(currentRevenue, false)} in fiscal year{" "}
         {recordFiscalYear}.
       </p>
       <div className={flapWrapper}>
@@ -108,7 +109,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
         <div className={footNotesPillData}>
           <p>
             Compared to the federal revenue of $
-            {getShortForm(priorYearRevenue.toString(), 2, false)} for the same
+            {isBillionsOrTrillions(priorYearRevenue.toString(), false)} for the same
             period last year (
             {getFootNotesDateRange(
               priorFiscalYear,

@@ -13,7 +13,8 @@ export default function HTML(props) {
           content="width=device-width, initial-scale=1"
         />
         <script src={`//gateway.foresee.com/sites/fiscaldata/${(ENV_ID !== 'production') ? 'staging' : 'production'}/gateway.min.js`}
-                type="text/javascript" async data-vendor="fs" data-role="gateway"/>
+                type="text/javascript" async data-vendor="fs" data-role="gateway"
+        />
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>

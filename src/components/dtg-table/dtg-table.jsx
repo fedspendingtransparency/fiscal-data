@@ -166,7 +166,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     const tableRows = [];
     tableData.forEach((row, index) => {
       tableRows.push(
-        <DtgTableRow columns={columns} data={row} key={index}/>
+        <DtgTableRow columns={columns} data={row} key={index} />
       )
     });
     setRows(tableRows);

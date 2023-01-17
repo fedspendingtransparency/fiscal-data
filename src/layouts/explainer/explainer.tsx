@@ -89,7 +89,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
       {isAFGPage ? (
         <>
           <div className={mobileSubNav}>
-            <MobileSubNav hidePosition={160} />
+            <MobileSubNav hidePosition={160} pageName={pageName}/>
           </div>
           <div className={desktopSubNav}>
             <DeskTopSubNav hidePosition={160} />

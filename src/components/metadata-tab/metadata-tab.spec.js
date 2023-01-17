@@ -22,7 +22,7 @@ describe('MetadataTab', () => {
   beforeAll(() => {
     renderer.act(() => {
       component = renderer.create(
-        <MetadataTab config={mockConfig}/>);
+        <MetadataTab config={mockConfig} />);
     });
     instance = component.root;
   });

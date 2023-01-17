@@ -23,7 +23,7 @@ const AboutUs = () => {
         <section className={styles.section}>
           <FDGMdxProvider>
             <MDXProvider components={aboutUsComponents}>
-              <MDXRenderer children={aboutSection.mdx.body}/>
+              <MDXRenderer children={aboutSection.mdx.body} />
             </MDXProvider>
           </FDGMdxProvider>
         </section>

@@ -67,7 +67,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
           cpiDataByYear
         );
 
-        let finalDebtChartData = [];
+        const finalDebtChartData = [];
 
         res.data.map(debt => {
           finalDebtChartData.push({

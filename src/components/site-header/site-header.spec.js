@@ -75,6 +75,7 @@ describe('SiteHeader', () => {
     expect(getByText('Spending')).toBeDefined();
     expect(getByText('Revenue')).toBeDefined();
     expect(getByText('Overview')).toBeDefined();
+    expect(getByText('Who Owns the Debt?')).toBeDefined();
   })
 
   it('expects that all of the header links are not active/highlighted by default', () => {
@@ -95,6 +96,18 @@ describe('SiteHeader', () => {
     const { getByTestId } = render(<SiteLayout />);
     expect(getByTestId('ieDetected')).toBeDefined();
   });
+
+  it('hides the menu on mouse leave', async () => {    
+    const { getByTestId } = render(<SiteLayout />);
+    fireEvent.mouseEnter(getByTestId('topicsButton'));
+    const dropDownMenu = getByTestId('dropdownContent');
+    fireEvent.mouseLeave(dropDownMenu);
+   setTimeout(() => {
+      expect(dropDownMenu).toHaveClass('dropdownHidden')
+    }, 501);
+    
+  });
+
 
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');

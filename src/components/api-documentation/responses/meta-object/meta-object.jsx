@@ -6,7 +6,8 @@ import * as apiStyles from '../../../../pages/api-documentation/api.module.scss'
 const MetaObject = () => (
   <SectionContent id="responses-meta-object"
                   headingLevel={3}
-                  title="Meta Object">
+                  title="Meta Object"
+  >
     <p>
       The meta object provides metadata about the resulting payload from your API request. The
       object will contain the following:

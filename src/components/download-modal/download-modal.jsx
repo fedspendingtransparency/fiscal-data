@@ -70,7 +70,8 @@ const DownloadModal = ({ open,
         {downloadsInProgress && downloadsInProgress.map((download, index) =>
           <DownloadModalItem download={download}
                              key={index}
-                             cancelDownloadRequest={setCancelDownloadRequest} />)}
+                             cancelDownloadRequest={setCancelDownloadRequest}
+          />)}
         {resumedInProgress && resumedInProgress.map((download, index) => (
           <DownloadModalItem key={index}
                              download={download}
@@ -81,7 +82,8 @@ const DownloadModal = ({ open,
         {downloadQueue && downloadQueue.map((download, index) =>
           <DownloadModalItem download={download}
                              key={index}
-                             cancelDownloadRequest={setCancelDownloadRequest} />)}
+                             cancelDownloadRequest={setCancelDownloadRequest}
+          />)}
       </div>
       <button
         onClick={onClose}

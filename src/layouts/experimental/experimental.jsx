@@ -126,7 +126,7 @@ const ExperimentalPage = () => {
         >
           A smaller graph
         </div>
-        <VisualizationCallout children={'Example Text.'}/>
+        <VisualizationCallout children={'Example Text.'} />
       </div>
     </SiteLayout>
   )

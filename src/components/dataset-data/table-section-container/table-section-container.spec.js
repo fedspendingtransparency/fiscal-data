@@ -33,7 +33,7 @@ describe('TableSectionContainer initial state', () => {
       apiData={mockApiData}
       setSelectedPivot={mockSetSelectedPivot}
       config={mockConfig}
-    />);
+                                />);
 
     instance = component.root;
   });
@@ -56,7 +56,7 @@ describe('TableSectionContainer while loading', () => {
       apiError={false}
       setSelectedPivot={mockSetSelectedPivot}
       selectedPivot={selectedPivot}
-    />);
+                                   />);
     queryTestId = queryByTestId;
   })
 
@@ -84,7 +84,7 @@ describe('TableSectionContainer with data', () => {
       apiError={false}
       selectedPivot={selectedPivot}
       setSelectedPivot={mockSetSelectedPivot}
-    />);
+                                />);
   });
 
   instance = component.root;
@@ -137,7 +137,7 @@ describe('TableSectionContainer with Pivot Options', () => {
       isLoading={false}
       apiError={false}
       setSelectedPivot={mockSetSelectedPivot}
-    />);
+                                />);
   });
 
   instance = component.root;

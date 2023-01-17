@@ -13,7 +13,6 @@ import {
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
-import { getShortForm } from '../../../../heros/hero-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { revenueExplainerPrimary } from '../../revenue.module.scss';
@@ -28,6 +27,7 @@ import LabelComponent from './circle-chart-label';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import {getShortForm, isBillionsOrTrillions} from "../../../../../../utils/rounding-utils";
 
 const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
@@ -344,7 +344,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                 />
               </div>
               <div className={totalRevenueDataPill}>
-                Total Revenue: ${getShortForm(totalRevenue.toString(), 2, true)}
+                Total Revenue: ${isBillionsOrTrillions(totalRevenue.toString(), true)}
               </div>
             </div>
           ) : (
