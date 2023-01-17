@@ -300,13 +300,17 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
     if (!isLoadingDebtTrends) {
       if(!animationComplete) {
         if(typeof window !== "undefined") {
+          const config = {
+            rootMargin: '-50% 0% -50% 0%',
+            threshold: 0
+          }
           observer = new IntersectionObserver(entries => {
             entries.forEach((entry) => {
               if(!startAnimation && entry.isIntersecting) {
                 setStartAnimation(true);
               }
             })
-          })
+          }, config)
           setTimeout(() =>
             observer.observe(document.querySelector('[data-testid="debtTrendsChart"]')), 1000)
 
