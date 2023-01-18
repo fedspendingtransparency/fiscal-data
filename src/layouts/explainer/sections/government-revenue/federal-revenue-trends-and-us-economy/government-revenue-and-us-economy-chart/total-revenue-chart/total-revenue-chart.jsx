@@ -61,7 +61,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [minRevenueValue, setMinRevenueValue] = useState(0);
   const [minGDPValue, setMinGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalRevenue');
-  
+
 
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState(
     {}
@@ -192,7 +192,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
         setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
-        
+
         const finalGdpRatioChartData = [];
         finalRevenueChartData.map((revenue, idx) => {
           const revenueYear = revenue.fiscalYear;
@@ -286,7 +286,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   };
 
   const handleMouseLeave = slice => {
-    if (selectedChartView == 'totalRevenue') {
+    if (selectedChartView === 'totalRevenue') {
       const revenueData = slice.points[0].data;
       const gdpData = slice.points[1].data;
       if (revenueData && gdpData) {
@@ -297,7 +297,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
           gdp: simplifyNumber(gdpData.actual, false),
         });
       }
-    } else if (selectedChartView == 'percentageGdp') {
+    } else if (selectedChartView === 'percentageGdp') {
       const percentData = slice.points[0].data;
       if (percentData) {
         setTotalRevenueHeadingValues({
@@ -401,7 +401,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                 axisTop={null}
                 axisRight={null}
                 axisBottom={chartConfigs.axisBottom}
-                axisLeft={chartConfigs.axisLeft}
+                axisLeft={selectedChartView === 'totalRevenue' ? chartConfigs.axisLeftTotalRevenue : chartConfigs.axisLeftPercentageGDP}
                 useMesh={true}
                 isInteractive={true}
                 enableCrosshair={true}
