@@ -25,7 +25,9 @@ import InsightsImage from "../../components/insights-image/insights-image";
 import {IDataset} from "../../models/IDataset";
 import ExplainerRelatedDatasets from
     "../explainer/explainer-related-datasets/explainer-related-datasets";
-import globalConstants from "../../helpers/constants"
+import { BASE_URL } from "gatsby-env-variables";
+
+const envBaseURl = BASE_URL;
 
 export type FeatureFrontmatter = {
   by: string,
@@ -57,8 +59,6 @@ export type FeaturePageProps = {
     relatedDatasets: IDataset[],
   }
 };
-
-const baseUrl = globalConstants.BASE_SITE_URL;
 
 const featuresComponents = {
   DSM: dsmComponents.DSM,
@@ -105,8 +105,8 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
                 emailSubject={frontMatter.emailSubject}
                 emailBody={frontMatter.emailBody}
                 emailSeparator={betweenEmailBodyAndUrl}
-                url={baseUrl + frontMatter.path}
-                image={baseUrl + frontMatter.shareImagePath}
+                url={envBaseURl + frontMatter.path}
+                image={envBaseURl + frontMatter.shareImagePath}
                 pageName={frontMatter.title}
                 horizontal={true}
               />
