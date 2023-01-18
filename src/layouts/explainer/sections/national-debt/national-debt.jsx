@@ -130,6 +130,18 @@ const analyticsClickHandler = (action, section) => {
   });
 };
 
+const deficitLink = (
+  <CustomLink url={'/americas-finance-guide/national-deficit/'} >
+    deficit
+  </CustomLink>
+);
+
+const spendingLink = (copy) => (
+  <CustomLink url={'/americas-finance-guide/federal-spending/'} >
+    {copy}
+  </CustomLink>
+);
+
 export const nationalDebtExplainedTableContent = {
   header: [
     null,
@@ -244,8 +256,8 @@ export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
           <p>
             Simply put, the national debt is similar to a person using a credit
             card for purchases and not paying off the full balance each month.
-            The cost of purchases exceeding the amount paid off represents a
-            deficit, while accumulated deficits over time represents a person’s
+            The cost of purchases exceeding the amount paid off represents a {deficitLink},
+            while accumulated deficits over time represents a person’s
             overall debt.
           </p>
         </div>
@@ -363,18 +375,23 @@ export const FundingProgramsSection = () => {
     </CustomLink>
   );
 
+  const revenueLink = (
+    <CustomLink url={'/americas-finance-guide/government-revenue/'} >
+      federal revenues
+    </CustomLink>
+  )
+
   return (
     <>
       <p>
         The federal government needs to borrow money to pay its bills when its
-        ongoing spending activities and investments cannot be funded by federal
-        revenues alone. Decreases in federal revenue are largely due to either a
+        ongoing {spendingLink('spending')} activities and investments cannot be funded
+        by {revenueLink} alone. Decreases in federal revenue are largely due to either a
         decrease in tax rates or individuals or corporations making less money.
         The national debt enables the federal government to pay for important
         programs and services even if it does not have funds immediately
         available, often due to a decrease in revenue. Decreases in federal
-        revenue coupled with increased government spending further increases the
-        deficit.
+        revenue coupled with increased government spending further increases the {deficitLink}.
       </p>
       <p>
         Consistent with the purpose of the federal government established by the
@@ -626,7 +643,7 @@ export const GrowingNationalDebtSection = withWindowSize(
         <p>
           Notable recent events triggering large spikes in the debt include the
           Afghanistan and Iraq Wars, the 2008 Great Recession, and the COVID-19
-          pandemic. From FY 2019 to FY 2021, spending increased by about 50%,
+          pandemic. From FY 2019 to FY 2021, {spendingLink('spending')} increased by about 50%,
           largely due to the COVID-19 pandemic. Tax cuts, stimulus programs,
           increased government spending, and decreased tax revenue caused by
           widespread unemployment generally account for sharp rises in the
@@ -1252,7 +1269,7 @@ export const DebtBreakdownSection = withWindowSize(
           <p>
             As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs $
             {shortenedDebtExpense} billion to maintain the debt, which is{" "}
-            {debtExpensePercent} of the total federal spending.
+            {debtExpensePercent} of the total {spendingLink('federal spending')}.
           </p>
           <p>
             The national debt has increased every year over the past ten years.
@@ -1357,10 +1374,9 @@ export const DebtBreakdownSection = withWindowSize(
             )}
             <VisualizationCallout color={debtExplainerPrimary}>
               <p>
-                Interest rates have fallen over the past decade. Due to lower
-                interest rates, interest expenses on the debt paid by the
-                federal government have remained stable even as the federal debt
-                has increased.
+                When interest rates remain low over time, interest expense on the debt paid by
+                the federal government will remain stable, even as the federal debt increases. As
+                interest rates increase, the cost of maintaining the national debt also increases.
               </p>
             </VisualizationCallout>
           </div>
@@ -1379,13 +1395,12 @@ export const DebtBreakdownSection = withWindowSize(
                 >
                   monetary policy
                 </CustomLink>{" "}
-                which is conducted by the Federal Reserve. Monetary policy
-                involves controlling the supply of money and the cost of
-                borrowing. The Federal Reserve uses monetary policy to promote
-                maximum employment, stable prices, and moderate long-term
-                interest rates on the behalf of Congress. The federal government
-                uses fiscal policy, or the control of taxation and government
-                spending, to promote economic activity.
+                which is conducted by the Federal Reserve. Monetary policy involves controlling the
+                supply of money and the cost of borrowing. The Federal Reserve uses monetary policy
+                to promote maximum employment, stable prices, and moderate long-term interest rates
+                on the behalf of Congress. The federal government uses fiscal policy, or the control
+                of taxation and {spendingLink('government spending')}, to promote economic
+                activity.
               </Accordion>
             </div>
           </div>

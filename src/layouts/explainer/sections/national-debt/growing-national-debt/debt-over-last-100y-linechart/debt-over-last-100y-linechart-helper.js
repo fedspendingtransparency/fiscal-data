@@ -36,7 +36,7 @@ const hdoLink = (
 
 const bls = (
   <CustomLink
-    url={'https://www.bls.gov/'}
+    url={'https://www.bls.gov/developers/'}
     onClick={() =>
       analyticsClickHandler(
         "Citation Click",
