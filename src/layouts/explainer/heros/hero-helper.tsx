@@ -2,7 +2,9 @@ import {pillDataContainer, pillDataValue, pillDataPercent, explainerArrow}
   from "../hero-image/hero-image.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
+import Tooltip from '@mui/material/Tooltip';
 import React from "react";
+import {left} from "../../../components/home-highlight-cards/home-highlight-card/home-highlight-card.module.scss";
 
 export const getShortForm = (
   value: string,
@@ -45,7 +47,9 @@ export const getPillData = (
   percent: number,
   changeLabel: string,
   desktop: boolean,
-  color: string): JSX.Element => {
+  color: string,
+  leftPillTooltipText: string,
+  rightPillTooltipText: string,): JSX.Element => {
   const displayValue = getShortForm(value.toString(), 0);
   const displayPercent = percent.toFixed();
   const valueLength = displayValue.length + 1;
@@ -55,11 +59,13 @@ export const getPillData = (
 
   return (
     <div className={pillDataContainer}>
-      <div className={pillDataValue}
-           style={{background:color, width:`${getPillWidth(valueLength)}rem`}}
-      >
-        ${displayValue}
-      </div>
+      <Tooltip title={leftPillTooltipText}>
+        <div className={pillDataValue}
+             style={{background:color, width:`${getPillWidth(valueLength)}rem`}}
+        >
+          ${displayValue}
+        </div>
+      </Tooltip>
       {
         changeLabel === 'increased' ? (
             <div className={explainerArrow}>
@@ -72,11 +78,13 @@ export const getPillData = (
             </div>
           )
       }
-      <div className={pillDataPercent}
-           style={{background:color, width:`${getPillWidth(percentLength)}rem`}}
-      >
-        {displayPercent}%
-      </div>
+      <Tooltip title={rightPillTooltipText}>
+        <div className={pillDataPercent}
+             style={{background:color, width:`${getPillWidth(percentLength)}rem`}}
+        >
+          {displayPercent}%
+        </div>
+      </Tooltip>
     </div>
   )
 };
