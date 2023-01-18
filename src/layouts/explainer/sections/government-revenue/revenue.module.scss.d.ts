@@ -66,4 +66,4 @@ export const debtExplainerLightSecondary: string;
 export const revenueExplainerPrimary: string;
 export const revenueExplainerSecondary: string;
 export const revenueExplainerLightSecondary: string;
-export const spendingAccordion: string;
+export const revenueAccordion: string;

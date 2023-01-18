@@ -74,6 +74,7 @@ export const revenueExplainerSecondary: string;
 export const revenueExplainerLightSecondary: string;
 export const deficitAccordion: string;
 export const spendingAccordion: string;
+export const revenueAccordion: string;
 export const nationalDebtActive: string;
 export const nationalDebtHover: string;
 export const nationalDeficitActive: string;

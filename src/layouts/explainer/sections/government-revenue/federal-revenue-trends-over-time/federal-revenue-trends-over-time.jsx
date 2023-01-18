@@ -87,8 +87,9 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
             individuals and corporations because more income is collected in
             taxes. Revenue also increases during periods with higher tax rates.
             Alternatively, when individuals or corporations make less money or
-            the tax rate is lowered, the government earns less revenue. The year
-            with the highest revenue collected was {highestCollectionYear}.
+            the tax rate is lowered, the government earns less revenue.
+            In {highestCollectionYear}, the U.S. government collected the highest
+            total revenue in its history.
           </p>
           If the U.S. government increases tariffs on imports from a particular
           country or countries, it could increase revenues, depending on the
