@@ -2,9 +2,7 @@ import {pillDataContainer, pillDataValue, pillDataPercent, explainerArrow}
   from "../hero-image/hero-image.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
-import Tooltip from '@mui/material/Tooltip';
 import React from "react";
-import {left} from "../../../components/home-highlight-cards/home-highlight-card/home-highlight-card.module.scss";
 
 export const getShortForm = (
   value: string,
@@ -59,13 +57,11 @@ export const getPillData = (
 
   return (
     <div className={pillDataContainer}>
-      <Tooltip title={leftPillTooltipText}>
-        <div className={pillDataValue}
+        <div className={pillDataValue} title={leftPillTooltipText}
              style={{background:color, width:`${getPillWidth(valueLength)}rem`}}
         >
           ${displayValue}
         </div>
-      </Tooltip>
       {
         changeLabel === 'increased' ? (
             <div className={explainerArrow}>
@@ -78,13 +74,11 @@ export const getPillData = (
             </div>
           )
       }
-      <Tooltip title={rightPillTooltipText}>
-        <div className={pillDataPercent}
+        <div className={pillDataPercent} title={rightPillTooltipText}
              style={{background:color, width:`${getPillWidth(percentLength)}rem`}}
         >
           {displayPercent}%
         </div>
-      </Tooltip>
     </div>
   )
 };
