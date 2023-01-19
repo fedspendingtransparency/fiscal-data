@@ -5,7 +5,6 @@ import {
   secondaryTitle,
   comingSoon,
   breakpointSm,
-  afgBookIcon,
 } from "./homepage-tile.module.scss";
 import { breakpointLg } from "../../../variables.module.scss";
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
@@ -14,7 +13,7 @@ import Link from "gatsby-link";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Grid } from "@material-ui/core";
 
-const HomePageTile = ({
+const ExplainerTile = ({
   content,
   images,
   width,
@@ -31,8 +30,6 @@ const HomePageTile = ({
       image => image.name === content.mobileImage
     );
   }
-
-  const afgBookIconSource = '/images/AFG-icon.svg';
 
   const isDesktop = width >= pxToNumber(breakpointLg);
   // overwrite desktop-first styles with mobile-first styles, if we actually have a mobile image
@@ -109,17 +106,9 @@ const HomePageTile = ({
       <div className={mainContent} data-testid="tile">
         <div style={imageContainerStyle}>{isMobile ? mobile : desktop}</div>
         <div className={content.path ? undefined : comingSoon}>
-              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
-                {content.mainFeature && (
-                  <img
-                    src={afgBookIconSource}
-                    alt="An open book with a coin above the pages"
-                    className={afgBookIcon}
-                    data-testid={'afgBookIcon'}
-                  />
-                )}
-                <span>{content.title}</span>
-              </h5>
+          <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
+            {content.title}
+          </h5>
           <div style={{ ...(customStyles?.body || {}) }}>
             {content.bodyGenerator ? content.bodyGenerator() : content.body}
           </div>
@@ -139,4 +128,4 @@ const HomePageTile = ({
   );
 };
 
-export default HomePageTile;
+export default ExplainerTile;

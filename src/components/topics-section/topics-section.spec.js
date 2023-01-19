@@ -9,17 +9,18 @@ global.___loader = {
 describe("Topics section", () => {
   it("displays section headers", () => {
     const { getByText } = render(<TopicsSection />);
-    expect(getByText("INSIGHTS")).toBeInTheDocument();
-    expect(getByText("AMERICA’S FINANCE GUIDE")).toBeInTheDocument();    
+    expect(getByText("TOPICS")).toBeInTheDocument();
   });
 
-  it("displays the afg book icon", () => {
-    const { getByTestId } = render(<TopicsSection />);
-    expect(getByTestId("afgBookIcon")).toBeInTheDocument();
+  it("displays the title with the book icon", () => {
+    const { getByRole } = render(<TopicsSection />);
+    expect(
+      getByRole("img", { hidden: true }, { name: "book-open" })
+    ).toBeInTheDocument();
   });
 
   it("has the AFG Header and AFG Tile Subheader", () => {
     const { getAllByText } = render(<TopicsSection />);
-    expect(getAllByText("Your Guide to America’s Finances")).toHaveLength(1);
+    expect(getAllByText("Your Guide to America’s Finances")).toHaveLength(2);
   });
 });
