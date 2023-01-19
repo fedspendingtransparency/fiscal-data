@@ -115,8 +115,14 @@ const HowMuchDoesTheGovtSpend = () => {
 
   const footer = (
     <div className={footerStyle}>
-      Visit the {mts} dataset to explore
-      and download this data.
+      Please note: Values displayed are outlays, which is money that is
+      actually paid out by the government. Other sources, such as
+      <CustomLink url={'https://www.usaspending.gov/'}> USAspending</CustomLink>, may display spending as obligations, which is
+      money that is promised to be paid, but may not yet be delivered.
+      <p>
+        Visit the {mts} dataset to explore
+        and download this data.
+      </p>
     </div>
   )
 
