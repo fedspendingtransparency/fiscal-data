@@ -17,11 +17,15 @@ const mts = <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-t
 const bea = <CustomLink url={'https://www.bea.gov/'} eventNumber="34">
               Bureau of Economic Analysis
             </CustomLink>;
+
+const bls = <CustomLink url={'https://www.bls.gov/developers/'}>  Bureau of Labor Statistics</CustomLink>
+
 const footer = (
   <p>
     Visit the {mts} dataset to explore and download
     this data.
     The GDP data is sourced from the {bea}.
+    The inflation data is sourced from the {bls}.
   </p>
 );
 
