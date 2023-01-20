@@ -5,9 +5,8 @@ import useBeaGDP from "../../../../../hooks/useBeaGDP";
 import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import Accordion from "../../../../../components/accordion/accordion";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
-import {revenueAccordion} from "../revenue.module.scss";
 import QuoteBox from "../../../quote-box/quote-box";
-import {revenueExplainerPrimary, revenueExplainerLightSecondary}
+import {revenueExplainerPrimary, revenueExplainerLightSecondary, revenueAccordion}
   from "../revenue.module.scss";
 import {quoteBoxContent} from "../../../explainer.module.scss";
 
