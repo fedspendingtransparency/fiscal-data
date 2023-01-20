@@ -24,7 +24,6 @@ describe("Sources of Federal Revenue", () => {
 
 
   it("render the quote box", () => {
-    // jest.spyOn(hooks, 'useBeaGDP').mockImplementation( () => mockBeaGDPData);
     const { getByTestId, getByRole } = render(
       <FederalRevenueTrendsAndUSEconomy cpiDataByYear={mockCpiDataset} />);
     expect(getByRole("link", { name: "GPS.gov" })).toBeInTheDocument();
