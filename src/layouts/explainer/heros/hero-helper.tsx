@@ -45,7 +45,9 @@ export const getPillData = (
   percent: number,
   changeLabel: string,
   desktop: boolean,
-  color: string): JSX.Element => {
+  color: string,
+  leftPillTooltipText: string,
+  rightPillTooltipText: string,): JSX.Element => {
   const displayValue = getShortForm(value.toString(), 0);
   const displayPercent = percent.toFixed();
   const valueLength = displayValue.length + 1;
@@ -55,11 +57,11 @@ export const getPillData = (
 
   return (
     <div className={pillDataContainer}>
-      <div className={pillDataValue}
-           style={{background:color, width:`${getPillWidth(valueLength)}rem`}}
-      >
-        ${displayValue}
-      </div>
+        <div className={pillDataValue} title={leftPillTooltipText}
+             style={{background:color, width:`${getPillWidth(valueLength)}rem`}}
+        >
+          ${displayValue}
+        </div>
       {
         changeLabel === 'increased' ? (
             <div className={explainerArrow}>
@@ -72,11 +74,11 @@ export const getPillData = (
             </div>
           )
       }
-      <div className={pillDataPercent}
-           style={{background:color, width:`${getPillWidth(percentLength)}rem`}}
-      >
-        {displayPercent}%
-      </div>
+        <div className={pillDataPercent} title={rightPillTooltipText}
+             style={{background:color, width:`${getPillWidth(percentLength)}rem`}}
+        >
+          {displayPercent}%
+        </div>
     </div>
   )
 };

@@ -8,7 +8,7 @@ import {
   semiBoldWeight,
 } from '../../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
-import { formatCurrency } from '../../../../../explainer-helpers/explainer-charting-helper';
+import { formatCurrency, formatPercentage } from '../../../../../explainer-helpers/explainer-charting-helper';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 const mts = (
   <CustomLink
@@ -205,8 +205,16 @@ const layers = [
 export const chartConfigs = {
   theme: chartTheme,
   layers: layers,
-  axisLeft: {
+  axisLeftTotalRevenue: {
     format: formatCurrency,
+    orient: 'left',
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    tickValues: 6,
+  },
+  axisLeftPercentageGDP: {
+    format: formatPercentage,
     orient: 'left',
     tickSize: 5,
     tickPadding: 5,

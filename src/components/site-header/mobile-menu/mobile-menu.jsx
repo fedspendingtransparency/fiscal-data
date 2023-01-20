@@ -122,14 +122,8 @@ const MobileMenu = () => {
                     </Link>
                   </div>
                   <div className={styles.AFGHeader}>INSIGHTS</div>
-                  <div className={styles.explainerLinkContainer}>
-                    <Link
-                      to="/who-owns-the-debt/"
-                      className={styles.explainerLink}
-                      onClick={() => topicsClickHandler('WOtD')}
-                    >
-                      Who Owns the Debt? 
-                    </Link>
+                  <div className={styles.dropdownTempText}>
+                    <em>{dropdownTempText}</em>
                   </div>
                 </div>
               )}

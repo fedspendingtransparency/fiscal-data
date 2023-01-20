@@ -120,14 +120,4 @@ export const pageTileMap = {
     path: "/americas-finance-guide/",
     mainFeature: true,
   },
-  "who-owns-the-debt": {
-    title: "Who Owns the Debt?",
-    body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
-    altText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
-    desktopImage: "feature_placeholder",
-    mobileImage: "feature_placeholder",
-    path: "/who-owns-the-debt/",
-  },
 };
