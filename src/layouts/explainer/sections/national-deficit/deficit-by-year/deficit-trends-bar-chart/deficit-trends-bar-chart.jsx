@@ -15,11 +15,16 @@ import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import {useRecoilValue} from "recoil";
+import {currentMTSDataState} from "../../../../explainer-recoil/mts-data";
 
 let gaTimerChart;
 
 export const DeficitTrendsBarChart = ({ width }) => {
   const {getGAEvent} = useGAEventTracking(null, "Deficit");
+
+  // const MTSData = useRecoilValue(currentMTSDataState);
+  // console.log(MTSData);
 
   const desktop = width >= pxToNumber(breakpointLg);
   const [date, setDate] = useState(new Date ());

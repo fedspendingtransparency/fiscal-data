@@ -119,6 +119,7 @@
     "react-string-replace": "^1.1.0",
     "react-switch": "^7.0.0",
     "react-tabs": "^4.2.1",
+    "recoil": "^0.7.6",
     "rxjs": "^7.2.0",
     "smoothscroll-polyfill": "^0.4.4",
     "stream": "0.0.2",

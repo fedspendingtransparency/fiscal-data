@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import BreadCrumbs from "../../components/breadcrumbs/breadcrumbs";
 import PageHelmet from "../../components/page-helmet/page-helmet";
 import SiteLayout from "../../components/siteLayout/siteLayout";
@@ -39,6 +39,7 @@ import ComingSoon from "./explainer-components/hightlighted-text/highlighted-tex
 import DeskTopSubNav from "./explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "./explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
 import { breakpointLg } from "../../../src/variables.module.scss";
+import {RecoilRoot} from "recoil";
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
   path,
@@ -75,108 +76,110 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
   };
 
   return (
-    <SiteLayout isPreProd={false}>
-      <PageHelmet
-        pageTitle={seoConfig.pageTitle}
-        description={seoConfig.description}
-        descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
-        keywords=""
-        image=""
-        canonical=""
-        datasetDetails=""
-      />
-
-      {isAFGPage ? (
-        <>
-          <div className={mobileSubNav}>
-            <MobileSubNav hidePosition={160} pageName={pageName}/>
-          </div>
-          <div className={desktopSubNav}>
-            <DeskTopSubNav hidePosition={160} />
-          </div>
-        </>
-      ) : (
-        <div className={breadCrumbsContainer}>
-          <BreadCrumbs links={breadCrumbLinks} />
-        </div>
-      )}
-
-      <div className={mainContainer}>
-        <HeroImage
-          heading={heroImage.heading}
-          subHeading={heroImage.subHeading}
-          primaryColor={explainerColorMap[pageName].primary}
-          secondaryColor={explainerColorMap[pageName].secondaryLight}
-          pageName={pageName}
-        >
-          {explainerHeroMap[pageName].component(glossary)}
-        </HeroImage>
-        <div className={contentContainer}>
-          <SecondaryNav
-            sections={explainerSections[pageName]}
-            activeClass={explainerClassMap[pageName].active}
-            hoverClass={explainerClassMap[pageName].hover}
-            analytics={true}
-            analyticsCategory={"Explainers"}
-            analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
-          >
-            <div className={socialShareContainer}>
-              <div className={socialShare}>
-                <SocialShare
-                  title={explainerSocialShareMap[pageName].title}
-                  description={explainerSocialShareMap[pageName].description}
-                  body={explainerSocialShareMap[pageName].body}
-                  emailSubject={explainerSocialShareMap[pageName].emailSubject}
-                  emailBody={explainerSocialShareMap[pageName].emailBody}
-                  url={explainerSocialShareMap[pageName].url}
-                  image={explainerSocialShareMap[pageName].image}
-                  pageName={explainerAnalyticsLabelMap[pageName]}
-                />
-              </div>
-              <div className={mainContent}>
-                {explainerSections[pageName].map(s => (
-                  <React.Fragment key={s.index}>
-                    <section id={s.id} className={section}>
-                      {s.comingSoon && <ComingSoon />}
-                      <h2
-                        className={sectionHeading}
-                        style={{ color: explainerColorMap[pageName].primary }}
-                        data-testid="section-heading"
-                      >
-                        {s.title}
-                      </h2>
-                      {s.component(glossary, cpiDataByYear)}
-                      {s.index !== explainerSections[pageName].length - 1 && (
-                        <div
-                          className={sectionBorder}
-                          style={{
-                            backgroundColor:
-                              explainerColorMap[pageName].secondary,
-                          }}
-                        />
-                      )}
-                    </section>
-                  </React.Fragment>
-                ))}
-                <section className={section}>
-                  <DataSourcesMethodologies pageName={pageName}>
-                    {explainerDataSources[pageName]}
-                  </DataSourcesMethodologies>
-                </section>
-              </div>
-            </div>
-          </SecondaryNav>
-        </div>
-        <div className={relatedDatasetsStyle}>
-          <ExplainerRelatedDatasets
-            datasets={relatedDatasets}
-            referrer={explainerAnalyticsLabelMap[pageName]}
-            header={explainerRelatedDatasetMap[pageName]}
-            explainer={true}
+    <RecoilRoot>
+        <SiteLayout isPreProd={false}>
+          <PageHelmet
+            pageTitle={seoConfig.pageTitle}
+            description={seoConfig.description}
+            descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
+            keywords=""
+            image=""
+            canonical=""
+            datasetDetails=""
           />
-        </div>
-      </div>
-    </SiteLayout>
+
+          {isAFGPage ? (
+            <>
+              <div className={mobileSubNav}>
+                <MobileSubNav hidePosition={160} pageName={pageName}/>
+              </div>
+              <div className={desktopSubNav}>
+                <DeskTopSubNav hidePosition={160} />
+              </div>
+            </>
+          ) : (
+            <div className={breadCrumbsContainer}>
+              <BreadCrumbs links={breadCrumbLinks} />
+            </div>
+          )}
+
+          <div className={mainContainer}>
+            <HeroImage
+              heading={heroImage.heading}
+              subHeading={heroImage.subHeading}
+              primaryColor={explainerColorMap[pageName].primary}
+              secondaryColor={explainerColorMap[pageName].secondaryLight}
+              pageName={pageName}
+            >
+              {explainerHeroMap[pageName].component(glossary)}
+            </HeroImage>
+            <div className={contentContainer}>
+              <SecondaryNav
+                sections={explainerSections[pageName]}
+                activeClass={explainerClassMap[pageName].active}
+                hoverClass={explainerClassMap[pageName].hover}
+                analytics={true}
+                analyticsCategory={"Explainers"}
+                analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
+              >
+                <div className={socialShareContainer}>
+                  <div className={socialShare}>
+                    <SocialShare
+                      title={explainerSocialShareMap[pageName].title}
+                      description={explainerSocialShareMap[pageName].description}
+                      body={explainerSocialShareMap[pageName].body}
+                      emailSubject={explainerSocialShareMap[pageName].emailSubject}
+                      emailBody={explainerSocialShareMap[pageName].emailBody}
+                      url={explainerSocialShareMap[pageName].url}
+                      image={explainerSocialShareMap[pageName].image}
+                      pageName={explainerAnalyticsLabelMap[pageName]}
+                    />
+                  </div>
+                  <div className={mainContent}>
+                    {explainerSections[pageName].map(s => (
+                      <React.Fragment key={s.index}>
+                        <section id={s.id} className={section}>
+                          {s.comingSoon && <ComingSoon />}
+                          <h2
+                            className={sectionHeading}
+                            style={{ color: explainerColorMap[pageName].primary }}
+                            data-testid="section-heading"
+                          >
+                            {s.title}
+                          </h2>
+                          {s.component(glossary, cpiDataByYear)}
+                          {s.index !== explainerSections[pageName].length - 1 && (
+                            <div
+                              className={sectionBorder}
+                              style={{
+                                backgroundColor:
+                                  explainerColorMap[pageName].secondary,
+                              }}
+                            />
+                          )}
+                        </section>
+                      </React.Fragment>
+                    ))}
+                    <section className={section}>
+                      <DataSourcesMethodologies pageName={pageName}>
+                        {explainerDataSources[pageName]}
+                      </DataSourcesMethodologies>
+                    </section>
+                  </div>
+                </div>
+              </SecondaryNav>
+            </div>
+            <div className={relatedDatasetsStyle}>
+              <ExplainerRelatedDatasets
+                datasets={relatedDatasets}
+                referrer={explainerAnalyticsLabelMap[pageName]}
+                header={explainerRelatedDatasetMap[pageName]}
+                explainer={true}
+              />
+            </div>
+          </div>
+        </SiteLayout>
+    </RecoilRoot>
   );
 };
 

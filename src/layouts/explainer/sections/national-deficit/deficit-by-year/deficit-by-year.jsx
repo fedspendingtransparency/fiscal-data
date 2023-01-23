@@ -1,5 +1,5 @@
 import {deficitExplainerPrimary} from "../national-deficit.module.scss";
-import React from "react";
+import React, {Suspense} from "react";
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
@@ -26,7 +26,9 @@ const DeficitByYear = () => {
         </p>
       </div>
       <div className={visWithCallout} >
-        <DeficitTrendsBarChart />
+        <Suspense fallback={<div> </div>}>
+          <DeficitTrendsBarChart />
+        </Suspense>
         <VisualizationCallout color={deficitExplainerPrimary}>
           <p>
             The last surplus for the federal government was in 2001.
