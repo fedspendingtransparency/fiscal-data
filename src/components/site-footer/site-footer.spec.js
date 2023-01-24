@@ -64,13 +64,6 @@ describe('SiteFooter', () => {
     expect(dataLabLink).toBeDefined();
   });
 
-  //usaspending
-  it('contains the link to the usaSpending page', () => {
-    const { getByText } = render(<SiteFooter />);
-    const usaSpendLink = getByText(siteFooterColumns[2].links[1].title);
-    expect(usaSpendLink).toBeDefined();
-  });
-
   //a11y
   it('contains the link to the accessibility page', () => {
     const { getByText } = render(<SiteFooter />);
@@ -115,7 +108,6 @@ describe('SiteFooter', () => {
     const releaseCalendarButton = getByText(siteFooterColumns[1].links[1].title);
     const subscribeButton = getByText(siteFooterColumns[1].links[2].title);
     const dataLabButton = getByText(siteFooterColumns[2].links[0].title);
-    const usaSpendingButton = getByText(siteFooterColumns[2].links[1].title);
 
     logo.click();
     expect(spy).toHaveBeenCalledWith({
@@ -148,7 +140,7 @@ describe('SiteFooter', () => {
       label: pageTitle
     });
     spy.mockClear();
-    
+
     releaseCalendarButton.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
@@ -168,14 +160,6 @@ describe('SiteFooter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom ${siteFooterColumns[2].links[0].title} Click`,
-      label: pageTitle
-    });
-    spy.mockClear();
-
-    usaSpendingButton.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Sitewide Navigation',
-      action: `Bottom ${siteFooterColumns[2].links[1].title} Click`,
       label: pageTitle
     });
     spy.mockClear();
