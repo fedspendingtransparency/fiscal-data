@@ -41,6 +41,15 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
             eventLabel
           }
         }
+        allRevenueExplainerEventTrackingCsv {
+          revenueExplainerEventTrackingCsv: nodes {
+            Number
+            Trigger
+            eventAction
+            eventCategory
+            eventLabel
+          }
+        }
       }
     `
   );

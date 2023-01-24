@@ -63,4 +63,4 @@ export const paleBg: string;
 export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
-export const comingSoon: string;
+export const section: string;

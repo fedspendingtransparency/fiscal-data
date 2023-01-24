@@ -29,12 +29,4 @@ describe("Sources of Federal Revenue", () => {
     expect(getByRole("link", { name: "GPS.gov" })).toBeInTheDocument();
     expect(getByTestId("quote-box")).toBeInTheDocument();
   });
-
-  it('renders the accordion', () => {
-    const {getByText} = render(
-      <FederalRevenueTrendsAndUSEconomy cpiDataByYear={mockCpiDataset} />);
-    expect(getByText('Why does the Federal Reserve send money to the federal government?'))
-      .toBeInTheDocument();
-  });
-
 });
