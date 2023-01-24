@@ -19,15 +19,21 @@ const mts = (
 );
 
 const bls = (
-  <CustomLink url={'https://www.bls.gov/'}>
+  <CustomLink url={'https://www.bls.gov/developers/'}>
     Bureau of Labor Statistics
+  </CustomLink>
+);
+
+const bea = (
+  <CustomLink url={'https://www.bea.gov/'}>
+      Bureau of Economic Analysis
   </CustomLink>
 );
 
 const footer = (
   <p>
-    Visit the {mts} dataset to further explore and download this data. The
-    inflation data is sourced from the {bls}.
+    Visit the {mts} dataset to further explore and download this data. The GDP data is sourced
+    from the {bea}. The inflation data is sourced from the {bls}.
   </p>
 );
 
