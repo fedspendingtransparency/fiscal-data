@@ -10,7 +10,7 @@ import {
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
-import {getPillData, getShortForm} from "../hero-helper";
+import {getFootNotesDateRange, getPillData, getShortForm} from "../hero-helper";
 
 const NationalDeficitHero = ({glossary}): JSX.Element => {
   const fields: string = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' +
@@ -51,7 +51,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
 
         // create local variable to immediately find last complete year record
-        const lastFiscalYear = (parseInt(res.data[0].record_fiscal_year) - 1).toString();
+        const lastFiscalYear = (Number(res.data[0].record_fiscal_year) - 1).toString();
         setCurrentFiscalYear(res.data[0].record_fiscal_year);
 
         setPreviousFiscalYear(lastFiscalYear);
@@ -75,9 +75,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         const date = new Date();
         date.setDate(15);
         date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
-        setCurrentRecordMonth(date.toLocaleString('en-US', {
-          month: 'short',
-        }));
+        setCurrentRecordMonth(res.data[0].record_calendar_month);
         const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
         const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
         setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), 0, false));
@@ -116,7 +114,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
   const changeNationaDeficitFooter =
     <p>Compared to the national deficit of ${desktopPriorDeficit} for the same period last year
-      ({previousFiscalStartYear} - {currentRecordMonth} {previousCalendarYear}),
+      ({getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}),
       our national deficit has {deficitStatus} by ${deficitDif}.
     </p>
 
