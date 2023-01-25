@@ -1,11 +1,4 @@
-import KeyTakeawaysSection from "../../explainer-components/key-takeaways/key-takeaways-section";
-import {
-  revenueExplainerLightSecondary,
-  revenueExplainerPrimary
-} from "./revenue.module.scss";
 import React from "react";
-import {revenueKeyTakeaways} from
-    "../../explainer-helpers/government-revenue/government-revenue-helper";
 import FederalRevenueOverview from "./overview/federal-revenue-overview";
 import SourcesOfFederalRevenue from "./sources-of-federal-revenue/sources-of-federal-revenue";
 import FederalRevenueTrendsAndUSEconomy

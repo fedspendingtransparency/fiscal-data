@@ -71,9 +71,13 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-lg - 1) {
+@media screen and (min-width: $breakpoint-lg) {
   :global(.chartContainerChart) {
     max-width: 484px !important;
+  }
+
+  .container {
+    margin-bottom: 2rem;
   }
 }
 

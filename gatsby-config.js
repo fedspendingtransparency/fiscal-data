@@ -200,6 +200,14 @@ module.exports = {
     },
     `gatsby-transformer-csv`,
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `revenueExplainerEventTracking`,
+        path: `${__dirname}/static/data/ga-event-tracking/`,
+      },
+    },
+    `gatsby-transformer-csv`,
+    {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: [`.mdx`, `.md`],
