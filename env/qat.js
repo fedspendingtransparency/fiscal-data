@@ -2,7 +2,6 @@ module.exports = {
   ENV_ID: 'qat',
   BASE_URL: 'https://qat.fiscaldata.treasury.gov',
   API_BASE_URL: 'https://api.fiscaldata.treasury.gov',
-  AUTHENTICATE_API: true,
   DATA_DOWNLOAD_BASE_URL: 'https://fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
