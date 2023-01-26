@@ -34,10 +34,6 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   const [previousCalendarYear, setPreviousCalendarYear] = useState<string>('');
   const [previousFiscalYear, setPreviousFiscalYear] = useState<string>('');
   const [currentFiscalYear, setCurrentFiscalYear] = useState<string>('')
-
-  // calendar year in which prior fiscal year began (PreviousFiscalYear - 1);
-  const [previousFiscalStartYear, setPreviousFiscalStartYear] = useState<string>('');
-
   const [deficitStatus, setDeficitStatus] = useState<string>('');
   const [deficitDif, setDeficitDif] = useState<string>('');
   const [deficitDifPill, setDeficitDifPill] = useState<number>(0);
@@ -55,7 +51,6 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         setCurrentFiscalYear(res.data[0].record_fiscal_year);
 
         setPreviousFiscalYear(lastFiscalYear);
-        setPreviousFiscalStartYear((Number(lastFiscalYear) - 1).toString())
 
         setTextCurrentDeficit(
           getShortForm(res.data[0].current_fytd_net_outly_amt, 2,  false, true)
