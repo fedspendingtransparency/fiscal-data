@@ -129,7 +129,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const header = (
     <div className={headerContainer}>
       <div className={headerStyle} style={{ fontWeight: "600" }}>
-        U.S. Government Spending, FYTD {fiscalYear}
+        U.S. Government Spending, FY {fiscalYear}
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
