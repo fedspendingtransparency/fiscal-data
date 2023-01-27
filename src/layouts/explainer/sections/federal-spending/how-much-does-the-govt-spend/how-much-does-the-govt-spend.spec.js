@@ -246,7 +246,7 @@ describe("Federal spending explainer page sections", () => {
       fireEvent.click(getByTestId('toggle-button-category'));
       expect(getByText('Social Security')).toBeInTheDocument();
     });
-    expect(getByText("U.S. Government Spending, FYTD 2022")).toBeDefined();
+    expect(getByText("U.S. Government Spending, FY 2022")).toBeDefined();
     expect(getByText("Top 10 Spending by Category and Agency")).toBeDefined();
   });
 
