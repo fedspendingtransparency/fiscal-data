@@ -9,20 +9,31 @@ import {
 } from "./debt-deficit-difference.module.scss";
 import Accordion from "../../../../../components/accordion/accordion";
 import React from "react";
-import {ChartPlaceholder} from "../../../explainer-helpers/national-deficit/national-deficit-helper";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import DeficitMobile from "../../../../../../static/images/deficit-vs-debt_mobile.svg";
 import DeficitDesktop from "../../../../../../static/images/deficit-vs-debt_desktop.svg";
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../variables.module.scss";
+import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
 
-export const DebtDeficitDifference = ({width}) => {
+export const DebtDeficitDifference = ({width, glossary}) => {
 
   const nationalDebtLink =
     <CustomLink url={'/americas-finance-guide/national-debt/'}>
       National Debt Explainer
     </CustomLink>
+
+  const bonds =
+    <GlossaryTerm term={'Bonds'} page={'Deficit Explainer'} glossary={glossary}>
+      bonds
+    </GlossaryTerm>
+
+  const bills =
+    <GlossaryTerm term={'Bills'} page={'Deficit Explainer'} glossary={glossary}>
+      bills
+    </GlossaryTerm>
+
   return (
     <>
       <div className={deficitDebtDifferenceContent} data-testid={'textContent'}>
@@ -31,11 +42,12 @@ export const DebtDeficitDifference = ({width}) => {
           are often confused with one another.
         </p>
         <p>
-          To pay for a deficit, the federal government borrows money by selling Treasury bonds,
-          bills, and other securities. The national debt is the accumulation of this borrowing
-          along with associated interest owed to the investors who purchased these securities.
-          As the federal government experiences reoccurring deficits, which are common, the
-          national debt grows. To learn more about the national debt, visit the {nationalDebtLink}.
+          To pay for a deficit, the federal government borrows money by selling
+          Treasury {bonds}, {bills}, and other securities. The national debt is
+          the accumulation of this borrowing along with associated interest owed
+          to the investors who purchased these securities. As the federal government
+          experiences reoccurring deficits, which are common, the national debt grows.
+          To learn more about the national debt, visit the {nationalDebtLink}.
         </p>
         <p>
           The visualization below shows how deficits from previous years are added to the current
@@ -56,7 +68,7 @@ export const DebtDeficitDifference = ({width}) => {
             title="How else does the federal government finance a deficit?"
             altStyleAccordion={{
               borderColor: deficitExplainerPrimary,
-              borderWidth: '1px'          
+              borderWidth: '1px'
             }}
             openEventNumber={"15"}
             closeEventNumber={"16"}
