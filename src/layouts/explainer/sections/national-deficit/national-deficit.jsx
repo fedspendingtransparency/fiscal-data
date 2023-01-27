@@ -55,7 +55,7 @@ const nationalDeficitSections = [
     index: 3,
     id: nationalDeficitSectionIds[3],
     title: 'The Difference Between the National Deficit and the National Debt',
-    component: (glossary, cpiDataByYear) => <DebtDeficitDifference />
+    component: (glossary, cpiDataByYear) => <DebtDeficitDifference glossary={glossary} />
   },
   {
     index: 4,
