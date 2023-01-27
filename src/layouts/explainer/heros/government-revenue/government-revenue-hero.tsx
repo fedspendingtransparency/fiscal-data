@@ -86,9 +86,9 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   );
 
   const rightTooltip =
-    'The percentage change in revenue compared to the last fiscal year, in trillions $USD';
+    'The percentage change in revenue compared to the same period last year, in trillions $USD';
   const leftTooltip = (change) =>
-    `The total amount revenue has ${change} compared to the last fiscal year, in trillions $USD.`;
+    `The total amount revenue has ${change} compared to the same period last year, in trillions $USD.`;
 
   return (
     <>
