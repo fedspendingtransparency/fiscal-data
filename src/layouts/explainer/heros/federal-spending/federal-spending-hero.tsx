@@ -74,7 +74,7 @@ const FederalSpendingHero = (): JSX.Element => {
       });
   };
 
-  const rightTooltipText = 'The percentage change in spending compared to the last fiscal year in trillions $USD';
+  const rightTooltipText = 'The percentage change in spending compared to the same period last year in trillions $USD';
 
   useEffect(() => {
     getHeroData(spendingUrl);
@@ -109,7 +109,7 @@ const FederalSpendingHero = (): JSX.Element => {
           </p>
           {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel,
             true, spendingExplainerPrimary+"25",
-            `The total amount spending has ${spendingChangeLabel} compared to the last fiscal year, in trillions $USD`,
+            `The total amount spending has ${spendingChangeLabel} compared to the same period last year, in trillions $USD`,
             rightTooltipText)}
         </div>
       </div>
