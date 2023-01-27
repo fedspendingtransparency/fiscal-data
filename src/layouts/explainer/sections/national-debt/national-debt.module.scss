@@ -276,19 +276,10 @@
 }
 
 .debtTrendsOverTimeSectionGraphContainer {
-
+  overflow: hidden;
   .lineChartContainer {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    height: 440px;
-  }
-}
-
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .debtTrendsOverTimeSectionGraphContainer {
-    .lineChartContainer {
-      height: 300px;
-    }
+    margin: 0 auto;
   }
 }
 
@@ -584,6 +575,10 @@
     font-size: $font-size-10;
     padding: 14px;
     margin-top: 2rem;
+
+    .lineChartContainer {
+      max-width: 464px;
+    }
 
     .headerContainer {
       margin-bottom: 1.25rem;

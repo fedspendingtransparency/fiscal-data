@@ -1,16 +1,16 @@
 import React from 'react';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
+import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import * as styles from './debt-over-last-100y-linechart.module.scss';
 import {
   breakpointLg,
   fontSize_10,
   fontSize_14,
   semiBoldWeight,
-} from '../../../../../variables.module.scss';
-import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
-import simplifyNumber from '../../../../../helpers/simplify-number/simplifyNumber';
+} from '../../../../../../variables.module.scss';
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import numeral from "numeral";
-import Analytics from '../../../../../utils/analytics/analytics';
+import Analytics from '../../../../../../utils/analytics/analytics';
 
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
@@ -36,7 +36,7 @@ const hdoLink = (
 
 const bls = (
   <CustomLink
-    url={'https://www.bls.gov/'}
+    url={'https://www.bls.gov/developers/'}
     onClick={() =>
       analyticsClickHandler(
         "Citation Click",
@@ -118,7 +118,7 @@ export const chartConfigs = {
   theme: chartTheme,
   layers: layers,
   axisLeft: {
-    format: (value) => { 
+    format: (value) => {
       const newValue = numeral(value).format('0 a').toUpperCase();
       return `$${newValue}`
     },
@@ -133,7 +133,7 @@ export const chartConfigs = {
     tickSize: 10,
     tickPadding: 5,
     tickRotation: 0,
-    tickValues: ['1922', '1942', '1962', '1982', '2002', '2022'],      
+    tickValues: ['1922', '1942', '1962', '1982', '2002', '2022'],
   },
 };
 

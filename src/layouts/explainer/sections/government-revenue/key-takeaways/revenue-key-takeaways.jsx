@@ -58,7 +58,12 @@ const RevenueKeyTakeaways = ({ glossary }) => {
       }
     });
   }, []);
-  const firstTakeawayText = `The primary sources of revenue for the U.S. government are individual and corporate taxes, and taxes that are dedicated to funding Social Security, and Medicare. This revenue is used to fund a variety of goods, programs, and services to support the American public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`;
+  const firstTakeawayText = `The primary sources of revenue for the U.S. government are individual
+  and corporate taxes, and taxes that are dedicated to funding Social Security, and Medicare.
+  This revenue is used to fund a variety of goods, programs, and services to support the American
+  public and pay interest incurred from borrowing. Revenue is typically measured by fiscal
+  year (FY).`;
+
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(
     firstTakeawayText,
     "fiscal year (FY)",
@@ -81,16 +86,18 @@ const RevenueKeyTakeaways = ({ glossary }) => {
       icon: faHandHoldingDollar,
     },
     {
-      text: `In addition to taxes, government revenue also comes from customs duties, leases of government-owned land and buildings, the sale of natural resources, various usage and licensing fees, and payments to federal agencies like the U.S. Department of the Interior.`,
+      text: `In addition to taxes, government revenue also comes from customs duties, leases of
+      government-owned land and buildings, the sale of natural resources, various usage and
+      licensing fees, and payments to federal agencies like the U.S. Department of the Interior.`,
       icon: faCommentDollar,
     },
     {
       text: `Federal revenue is commonly compared to gross domestic product (GDP).
-    This comparison provides a sense of the size of the federal government's earnings
-    in relation to the total amount of the entire country's economic output. In fiscal
-    year ${latestCompleteFiscalYear}, federal revenue was equal to ${revenuePercentGDP}%
-    of total gross domestic product (GDP), or economic activity, of the United States that year
-    $${totalGDP} trillion. `,
+      This comparison provides a sense of the size of the federal government's earnings
+      in relation to the total amount of the entire country's economic output. In fiscal
+      year ${latestCompleteFiscalYear}, federal revenue was equal to ${revenuePercentGDP}%
+      of total gross domestic product (GDP), or economic activity, of the United States that year
+      $${totalGDP} trillion. `,
       icon: faPiggyBank,
     },
   ];

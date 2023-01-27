@@ -154,10 +154,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                 <i className={comingSoon}>COMING SOON!</i>
               </div>
               ) : undefined}
-
-
               <div
-                key={s.index}
                 onMouseEnter={() => handleMouseEnter(s.index)}
                 onMouseLeave={handleMouseLeave}
                 className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}

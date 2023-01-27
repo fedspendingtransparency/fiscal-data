@@ -8,7 +8,7 @@ import {
   semiBoldWeight,
 } from '../../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
-import { formatCurrency } from '../../../../../explainer-helpers/explainer-charting-helper';
+import { formatCurrency, formatPercentage } from '../../../../../explainer-helpers/explainer-charting-helper';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 const mts = (
   <CustomLink
@@ -19,15 +19,21 @@ const mts = (
 );
 
 const bls = (
-  <CustomLink url={'https://www.bls.gov/'}>
+  <CustomLink url={'https://www.bls.gov/developers/'}>
     Bureau of Labor Statistics
+  </CustomLink>
+);
+
+const bea = (
+  <CustomLink url={'https://www.bea.gov/'}>
+      Bureau of Economic Analysis
   </CustomLink>
 );
 
 const footer = (
   <p>
-    Visit the {mts} dataset to further explore and download this data. The
-    inflation data is sourced from the {bls}.
+    Visit the {mts} dataset to further explore and download this data. The GDP data is sourced
+    from the {bea}. The inflation data is sourced from the {bls}.
   </p>
 );
 
@@ -39,7 +45,7 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   altText: (selectedChartView === "percentageGdp" ? "Line graph showing revenue as a percentage of GDP." :
     'Line graph comparing the total federal revenue to the total GDP dollar amount.'),
   }
-  
+
 };
 
 export const dataHeader = (chartToggleConfig, headingValues) => {
@@ -129,7 +135,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
         </button>
       </div>
 
-  
+
 
 
       <div className={styles.headerContainer}>
@@ -199,8 +205,16 @@ const layers = [
 export const chartConfigs = {
   theme: chartTheme,
   layers: layers,
-  axisLeft: {
+  axisLeftTotalRevenue: {
     format: formatCurrency,
+    orient: 'left',
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    tickValues: 6,
+  },
+  axisLeftPercentageGDP: {
+    format: formatPercentage,
     orient: 'left',
     tickSize: 5,
     tickPadding: 5,

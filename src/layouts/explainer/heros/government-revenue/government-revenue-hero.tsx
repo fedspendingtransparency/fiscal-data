@@ -85,6 +85,11 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
     </GlossaryTerm>
   );
 
+  const rightTooltip =
+    'The percentage change in revenue compared to the last fiscal year, in trillions $USD';
+  const leftTooltip = (change) =>
+    `The total amount revenue has ${change} compared to the last fiscal year, in trillions $USD.`;
+
   return (
     <>
       <p className={heroImageSubHeading}>
@@ -124,7 +129,9 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
             revenuePercentChange,
             revenueChangeLabel,
             true,
-            pillColorWithTransparency
+            pillColorWithTransparency,
+            leftTooltip(revenueChangeLabel),
+            rightTooltip
           )}
         </div>
       </div>

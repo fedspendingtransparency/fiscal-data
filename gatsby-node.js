@@ -247,7 +247,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       throw error
     });
   resultData.Results.series[0].data.forEach((blsRow) => {
-    blsRow.id = createNodeId(blsRow.year + blsRow.periodName);
+    blsRow.id = createNodeId(blsRow.year + blsRow.period);
     const node = {
       ...blsRow,
       parent: null,
@@ -350,7 +350,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type BLSPublicAPIData implements Node{
       year: String,
-      periodName: String,
+      period: String,
       latest: String,
       value: String
     }
@@ -497,7 +497,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         blsPublicApiData: nodes {
           year
           value
-          periodName
+          period
           latest
         }
       }

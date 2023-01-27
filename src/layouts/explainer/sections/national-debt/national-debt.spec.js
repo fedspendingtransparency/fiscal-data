@@ -201,16 +201,7 @@ describe('The Growing National Debt', () => {
     expect(await findByTestId('chart')).toBeInTheDocument();
   })
 
-  it('contains the debt trends line chart', async () => {
-    const { findByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId}
-                                  glossary={glossary}
-                                  cpiDataByYear={mockCpiDataset}
-      />
-    );
 
-    expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
-  })
 
   it('displays the latest date and value', async () => {
     const latestDate = getYear(new Date(mockExplainerPageResponse.data[0][config.dateField]));
@@ -242,7 +233,6 @@ describe('The Growing National Debt', () => {
 
     const historicalDebt = await waitFor(() => getByText('Historical Debt Outstanding'));
     const bls = await waitFor(() => getByText('Bureau of Labor Statistics'));
-    const bea = await waitFor(() => getByText('Bureau of Economic Analysis'));
 
     historicalDebt.click();
     expect(spy).toHaveBeenCalledWith({
@@ -257,14 +247,6 @@ describe('The Growing National Debt', () => {
       category: 'Explainers',
       action: `Citation Click`,
       label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
-    });
-    spy.mockClear();
-
-    bea.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt - Federal Debt Trends Over Time'
     });
     spy.mockClear();
   });

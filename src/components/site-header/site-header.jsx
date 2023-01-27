@@ -73,14 +73,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   ]
 
-  const insightsPageLinks = [
-    {
-      title: 'Who Owns the Debt?',
-      to: '/who-owns-the-debt/',
-      testId: 'who-owns-the-debt'
-    }
-  ]
-
   const clickHandler = (title) => {
     Analytics.event({
       category: 'Sitewide Navigation',
@@ -222,22 +214,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                             <div className={styles.dropdownTitle} >
                               INSIGHTS
                             </div>
-                            <div className={styles.dropdownTempText}>
-                            {insightsPageLinks.map((insightPageLink) => {
-                                return (
-                                  <div key={insightPageLink.title}
-                                       className={styles.dropdownListItem}
-                                  >
-                                    <Link
-                                      to={insightPageLink.to}
-                                      activeClassName={styles.activeTopicLink}
-                                      onClick={() => topicsClickHandler(insightPageLink.title)}
-                                    >
-                                      {insightPageLink.title}
-                                    </Link>
-                                  </div>
-                                )
-                              })}
+                            <div className={styles.dropdownTempText} >
+                              <em>{dropdownTempText}</em>
                             </div>
                           </div>
                         </div>

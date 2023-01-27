@@ -118,7 +118,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   const blsLink =
     <CustomLink
-      url={"https://www.bls.gov/"}
+      url={"https://www.bls.gov/developers/"}
     >
       Bureau of Labor Statistics
     </CustomLink>;

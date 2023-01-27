@@ -25,6 +25,10 @@ const analyticsEventMap: Record<
     openEventNumber: "22",
     explainerGAEvent: "Spending"
   },
+  "government-revenue": {
+    openEventNumber: "23",
+    explainerGAEvent: "Revenue"
+  },
 };
 
 const DataSourcesMethodologies: FunctionComponent<DsmProps> = ({

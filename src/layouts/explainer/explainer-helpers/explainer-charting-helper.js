@@ -38,3 +38,7 @@ export const formatCurrency = v => {
     return `$${v}`;
   }
 };
+
+export const formatPercentage = v => {
+  return `${v}%`
+}
