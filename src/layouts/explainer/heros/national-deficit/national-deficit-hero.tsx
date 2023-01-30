@@ -24,7 +24,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
 
   const deficitPillColor = '#b3532d1a';
 
-  const rightPillTooltipHoverText = 'The percentage change in the deficit compared to the same period last year, in trillions $USD.';
+  const rightPillTooltipHoverText = 'The percentage change in the deficit compared to the same period last year.';
 
 
   const [textCurrentDeficit, setTextCurrentDeficit] = useState<string | null>(null);
@@ -139,7 +139,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       <div className={deficitBoxContainer}>
         {
           getPillData(deficitDifPill, deficitDifPercent, deficitStatus, true, deficitPillColor,
-          `The total amount the deficit has ${deficitStatus} compared to the same period last year, in trillions $USD.`,
+          `The total amount the deficit has ${deficitStatus} compared to the same period last year.`,
             rightPillTooltipHoverText)
         }
       </div>
