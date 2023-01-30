@@ -39,7 +39,10 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
   const mts =
-    <CustomLink url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}>
+    <CustomLink
+      url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}
+      eventNumber={'4'}
+    >
       Monthly Treasury Statement (MTS)
     </CustomLink>
 

@@ -26,7 +26,10 @@ const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
 
 
   const gps = (
-    <CustomLink url={'https://www.gps.gov/policy/funding/'} >
+    <CustomLink
+      url={'https://www.gps.gov/policy/funding/'}
+      eventNumber={'22'}
+    >
       GPS.gov
     </CustomLink>
   );

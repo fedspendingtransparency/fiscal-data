@@ -89,8 +89,24 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     });
   }
 
+  const analyticsEventMap = {
+    "national-debt": "Debt",
+    "national-deficit": "Deficit",
+    "federal-spending": "Spending",
+    "government-revenue": "Revenue"
+  };
+
   const handleMouseOver = () => {
     if(!isExpanded) {
+      const thisurl = typeof window !== 'undefined' ? window.location.href : '';
+      const urlSplit = thisurl.split('/');
+      const pageName = urlSplit[urlSplit.length-2];
+      const explainerPageName = analyticsEventMap[pageName];
+      Analytics.event({
+        category: 'Sitewide Navigation',
+        action: `Topics Click`,
+        label: explainerPageName
+      })
       setMenuExpanding(true);
       setToggled(true);
       setIsExpanded(true);

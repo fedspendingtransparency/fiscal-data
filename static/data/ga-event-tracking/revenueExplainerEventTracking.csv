@@ -1,5 +1,5 @@
 ﻿Number,Trigger,eventCategory,eventAction,eventLabel
-1,Click on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
+1,Hover on the Explainers drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
 2,Click on a page within the navigation drop down,Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
 3,Click on a page within the subnavigation,Fiscal Data - Sitewide Navigation,Left Nav Click,<title of explainer / insight page selected>
 4,Click on the link to the MTS,Fiscal Data - Explainers,Citation Click,Revenue - How much has the U.S. government collected this year?
