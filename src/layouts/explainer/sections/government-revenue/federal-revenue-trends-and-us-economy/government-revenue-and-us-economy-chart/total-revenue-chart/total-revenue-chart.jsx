@@ -133,7 +133,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
       gdpMaxYear,
       gdpMinAmount,
       gdpMaxAmount,
-      gdpLastAmountActual,
     } = beaGDPData;
 
     basicFetch(chartDataEndPoint).then(res => {
@@ -192,7 +191,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
           new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
         setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
 
-        const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= revenueMaxYear.x);
+        const filteredGDPData = finalGDPData.filter(
+          g => g.fiscalYear <= revenueMaxYear.x && g.fiscalYear >= revenueMinYear.x
+        );
 
         const finalGdpRatioChartData = [];
         finalRevenueChartData.map((revenue) => {
@@ -224,15 +225,15 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
           filteredGDPData[filteredGDPData.length - 1].actual;
         setlastGDPValue(chartLastGDPValue);
 
+        setGdpChartData(filteredGDPData);
+
+        setMinGDPValue(gdpMinAmount);
         setTotalRevenueHeadingValues({
           fiscalYear: revenueMaxYear.x,
           totalRevenue: simplifyNumber(revenueLastAmountActual, false),
           gdp: simplifyNumber(chartLastGDPValue, false),
           gdpRatio: chartLastRatio,
         });
-
-        setGdpChartData(filteredGDPData);
-        setMinGDPValue(gdpMinAmount);
 
         setIsLoading(false);
 

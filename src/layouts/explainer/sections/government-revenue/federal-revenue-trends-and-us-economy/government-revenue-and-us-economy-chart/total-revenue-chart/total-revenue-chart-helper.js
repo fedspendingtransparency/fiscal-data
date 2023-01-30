@@ -42,7 +42,8 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
   subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
   footer: footer,
-  altText: (selectedChartView === "percentageGdp" ? "Line graph showing revenue as a percentage of GDP." :
+  altText: (selectedChartView === 'percentageGdp' ?
+    'Line graph showing revenue as a percentage of GDP.' :
     'Line graph comparing the total federal revenue to the total GDP dollar amount.'),
   }
 
@@ -231,6 +232,8 @@ export const chartConfigs = {
 };
 
 export const getMarkers = (width, selectedChartView, gdpValue, revenueValue) => {
+  console.log(gdpValue);
+  console.log(revenueValue);
   const markerStyle = {
     axis: "y",
     background: "#666666",

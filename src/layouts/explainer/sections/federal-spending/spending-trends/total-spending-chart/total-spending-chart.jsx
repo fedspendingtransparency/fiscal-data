@@ -146,7 +146,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
       gdpMaxYear,
       gdpMinAmount,
       gdpMaxAmount,
-      gdpLastAmountActual,
     } = beaGDPData;
 
     basicFetch(chartDataEndPoint).then(res => {
@@ -199,7 +198,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         );
         setMinSpendingValue(spendingMinAmount);
 
-        const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= spendingMaxYear);
+        const filteredGDPData = finalGDPData.filter(
+          g => g.fiscalYear <= spendingMaxYear && g.fiscalYear >= spendingMinYear
+        );
+
+        console.log(filteredGDPData);
 
         const finalGdpRatioChartData = [];
         finalSpendingChartData.map((spending) => {
@@ -242,6 +245,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         const chartLastGDPValue =
           filteredGDPData[filteredGDPData.length - 1].actual;
         setLastGDPValue(chartLastGDPValue);
+        console.log(chartLastGDPValue);
 
         setTotalSpendingHeadingValues({
           fiscalYear: spendingMaxYear,
