@@ -224,7 +224,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) =>
           max.x > gdp.x ? max.y : gdp.y
         );
-console.log(chartMaxGDPValue);
         const chartLastGDPValue =
           filteredGDPData[filteredGDPData.length - 1].actual;
         setlastGDPValue(chartLastGDPValue);

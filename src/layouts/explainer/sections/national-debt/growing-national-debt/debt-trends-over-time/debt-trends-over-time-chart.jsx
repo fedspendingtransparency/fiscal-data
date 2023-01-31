@@ -107,7 +107,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
       gdpMaxAmount,
       gdpLastAmountActual,
     } = beaGDPData;
-    console.log(finalGDPData);
     basicFetch(`${apiPrefix}${debtEndpointUrl}`).then(res => {
       if (res.data) {
         const debtData = res.data;

@@ -200,8 +200,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           g => g.fiscalYear <= spendingMaxYear && g.fiscalYear >= spendingMinYear
         );
 
-        console.log(filteredGDPData);
-
         const finalGdpRatioChartData = [];
         finalSpendingChartData.map((spending) => {
           const spendingYear = spending.fiscalYear;
@@ -243,7 +241,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         const chartLastGDPValue =
           filteredGDPData[filteredGDPData.length - 1].actual;
         setLastGDPValue(chartLastGDPValue);
-        console.log(chartLastGDPValue);
 
         setTotalSpendingHeadingValues({
           fiscalYear: spendingMaxYear,

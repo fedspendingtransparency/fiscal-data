@@ -30,7 +30,6 @@ const useBeaGDP = (cpiData, inflationAdjust) => {
     let GDPYearlyData = [];
     let curYear = 1948;
     const beaData = queryData?.allBeaGdp?.nodes;
-    console.log(beaData);
     beaData?.forEach(gpd => {
       const year = parseInt(gpd.timePeriod.slice(0, -2));
       let allQuartersForGivenYear;
@@ -97,7 +96,6 @@ const useBeaGDP = (cpiData, inflationAdjust) => {
       gdp.y = parseFloat(
         simplifyNumber(gdp.actual, false).slice(0, -2)
       ));
-    console.log(GDPYearlyData);
 
     setFinalGDPData(GDPYearlyData);
 
@@ -108,7 +106,6 @@ const useBeaGDP = (cpiData, inflationAdjust) => {
     const gdpMinAmount = GDPYearlyData.reduce((min, gdp) =>
       min.x < gdp.x ? min : gdp
     );
-  console.log(gdpMinAmount);
     setGDPMaxYear(GDPYearlyData[GDPYearlyData.length - 1].x);
     setGDPMinYear(GDPYearlyData[0].x);
     setGDPMaxAmount(gdpMaxAmount.y);
