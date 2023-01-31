@@ -113,16 +113,18 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
             const debtToGDP = [];
             finalGDPData.forEach(GDPEntry => {
               const record = debtData.find(entry =>
-                entry.record_date.includes(GDPEntry.x)
+                entry.record_date.includes(GDPEntry.fiscalYear)
               );
-              debtToGDP.push({
-                x: GDPEntry.x,
-                y: Math.round(
-                  (parseFloat(record.debt_outstanding_amt) /
-                    GDPEntry.actual) *
-                  100
-                ),
-              });
+              if (record) {
+                debtToGDP.push({
+                  x: GDPEntry.x,
+                  y: Math.round(
+                    (parseFloat(record.debt_outstanding_amt) /
+                      GDPEntry.actual) *
+                    100
+                  ),
+                });
+              }
             });
             const finalData = [
               {

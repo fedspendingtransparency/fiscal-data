@@ -645,57 +645,81 @@ export const mockTotalDebtResponse = {
     count: mockTotalDebtData.length,
   }
 };
-export const mockBeaGDPData = 
+export const mockBeaGDPData =
 {
   "finalGDPData": [
-      {
-          "x": 2015,
-          "actual": 22560300363991.676,
-          "fiscalYear": "2015",
-          "y": 22.56
-      },
-      {
-          "x": 2016,
-          "actual": 22788024981037.824,
-          "fiscalYear": "2016",
-          "y": 22.79
-      },
-      {
-          "x": 2017,
-          "actual": 23143540937585.84,
-          "fiscalYear": "2017",
-          "y": 23.14
-      },
-      {
-          "x": 2018,
-          "actual": 23870220416108.445,
-          "fiscalYear": "2018",
-          "y": 23.87
-      },
-      {
-          "x": 2019,
-          "actual": 24459543912704.13,
-          "fiscalYear": "2019",
-          "y": 24.46
-      },
-      {
-          "x": 2020,
-          "actual": 24016646434785.617,
-          "fiscalYear": "2020",
-          "y": 24.02
-      },
-      {
-          "x": 2021,
-          "actual": 24511981895738.4,
-          "fiscalYear": "2021",
-          "y": 24.51
-      },
-      {
-          "x": 2022,
-          "actual": 25000341500000,
-          "fiscalYear": "2022",
-          "y": 25
-      }
+    {
+      "x": 2011,
+      "actual": 22560300363991.676,
+      "fiscalYear": "2015",
+      "y": 22.56
+    },
+    {
+      "x": 2012,
+      "actual": 22560300363991.676,
+      "fiscalYear": "2015",
+      "y": 22.56
+    },
+    {
+      "x": 2013,
+      "actual": 22560300363991.676,
+      "fiscalYear": "2015",
+      "y": 22.56
+    },
+    {
+      "x": 2014,
+      "actual": 22560300363991.676,
+      "fiscalYear": "2015",
+      "y": 22.56
+    },
+    {
+      "x": 2015,
+      "actual": 22560300363991.676,
+      "fiscalYear": "2015",
+      "y": 22.56
+    },
+    {
+      "x": 2016,
+      "actual": 22788024981037.824,
+      "fiscalYear": "2016",
+      "y": 22.79
+    },
+    {
+      "x": 2017,
+      "actual": 23143540937585.84,
+      "fiscalYear": "2017",
+      "y": 23.14
+    },
+    {
+      "x": 2018,
+      "actual": 23870220416108.445,
+      "fiscalYear": "2018",
+      "y": 23.87
+    },
+    {
+      "x": 2019,
+      "actual": 24459543912704.13,
+      "fiscalYear": "2019",
+      "y": 24.46
+    },
+    {
+      "x": 2020,
+      "actual": 24016646434785.617,
+      "fiscalYear": "2020",
+      "y": 24.02
+    },
+    {
+      "x": 2021,
+      "actual": 24511981895738.4,
+      "fiscalYear": "2021",
+      "y": 24.51
+    },
+    {
+      "x": 2022,
+      "actual": 25000341500000,
+      "fiscalYear": "2022",
+      "y": 25
+    }
   ],
   "gdpMinYear": 2015,
   "gdpMaxYear": 2022,
