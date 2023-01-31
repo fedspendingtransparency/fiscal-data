@@ -264,12 +264,12 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
         {
           ...markerStyle,
           legend: "GDP",
-          value: gdpValue-4,
+          value: gdpValue-3,
         },
         {
           ...markerStyle,
           legend: "Total Spending",
-          value: spendingValue-4,
+          value: spendingValue-3,
         },
       ];
 };
