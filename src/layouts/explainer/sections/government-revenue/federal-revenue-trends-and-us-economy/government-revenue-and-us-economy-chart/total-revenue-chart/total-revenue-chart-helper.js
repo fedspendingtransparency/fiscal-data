@@ -232,8 +232,6 @@ export const chartConfigs = {
 };
 
 export const getMarkers = (width, selectedChartView, gdpValue, revenueValue) => {
-  console.log(gdpValue);
-  console.log(revenueValue);
   const markerStyle = {
     axis: "y",
     background: "#666666",
@@ -250,12 +248,12 @@ export const getMarkers = (width, selectedChartView, gdpValue, revenueValue) => 
         {
           ...markerStyle,
           legend: "GDP",
-          value: gdpValue-1,
+          value: gdpValue-3,
         },
         {
           ...markerStyle,
           legend: "Total Revenue",
-          value: revenueValue-2.5,
+          value: revenueValue-3,
         },
       ];
 };

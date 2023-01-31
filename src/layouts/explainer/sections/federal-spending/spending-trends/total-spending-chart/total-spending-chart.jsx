@@ -57,8 +57,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastSpendingValue, setLastSpendingValue] = useState('');
-  const [minSpendingValue, setMinSpendingValue] = useState(0);
-  const [minGDPValue, setMinGDPValue] = useState(0);
+  const [maxSpendingValue, setMaxSpendingValue] = useState(0);
+  const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
 
@@ -125,7 +125,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     // which doesn't seem to happen naturally when nivo has a flex container
     const svgChart = document.querySelector('[data-testid="chartParent"] svg');
     if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 550 400');
+      svgChart.setAttribute('viewBox', '0 0 550 490');
       svgChart.setAttribute('height', '100%');
       svgChart.setAttribute('width', '100%');
     }
@@ -193,10 +193,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         const spendingMaxAmount = finalSpendingChartData.reduce(
           (max, spending) => (max > spending.y ? max : spending.y)
         );
-        const spendingMinAmount = finalSpendingChartData.reduce(
-          (min, spending) => (min < spending.y ? min : spending.y)
-        );
-        setMinSpendingValue(spendingMinAmount);
+
+        setMaxSpendingValue(spendingMaxAmount);
 
         const filteredGDPData = finalGDPData.filter(
           g => g.fiscalYear <= spendingMaxYear && g.fiscalYear >= spendingMinYear
@@ -253,7 +251,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           gdp: simplifyNumber(chartLastGDPValue, false),
           gdpRatio: chartLastRatio,
         });
-        setMinGDPValue(gdpMinAmount);
+
+        const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) =>
+          max.x > gdp.x ? max.y : gdp.y
+        );
+
+        setMaxGDPValue(chartMaxGDPValue);
         setGdpChartData(filteredGDPData);
 
         setIsLoading(false);
@@ -384,7 +387,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     'lines',
                     'points',
                     lineChartCustomPoints,
-                    (props) => lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                    (props) =>
+                      lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
                     'mesh',
                     'legends',
                   ]}
@@ -409,7 +413,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   }}
                   colors={d => d.color}
                   width={550}
-                  height={400}
+                  height={490}
                   margin={
                     width < pxToNumber(breakpointLg)
                       ? { top: 25, right: 25, bottom: 30, left: 55 }
@@ -450,8 +454,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   markers={getMarkers(
                     width,
                     selectedChartView,
-                    minGDPValue,
-                    minSpendingValue
+                    maxGDPValue,
+                    maxSpendingValue
                   )}
                 >
                 </Line>

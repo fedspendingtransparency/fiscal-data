@@ -56,8 +56,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [lastGDPValue, setlastGDPValue] = useState('');
   const [lastRevenueValue, setlastRevenueValue] = useState('');
-  const [minRevenueValue, setMinRevenueValue] = useState(0);
-  const [minGDPValue, setMinGDPValue] = useState(0);
+  const [maxRevenueValue, setMaxRevenueValue] = useState(0);
+  const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalRevenue');
 
 
@@ -176,8 +176,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         );
         setMinYear(revenueMinYear.x);
 
-        const revenueMinAmount = finalRevenueChartData.reduce((min, revenue) =>
-          min.y < revenue.y ? min : revenue
+        const revenueMaxAmount = finalRevenueChartData.reduce((min, revenue) =>
+          min.y > revenue.y ? min : revenue
         );
 
         const revenueLastAmountActual =
@@ -185,7 +185,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         setlastRevenueValue(revenueLastAmountActual);
 
-        setMinRevenueValue(revenueMinAmount.y);
+        setMaxRevenueValue(revenueMaxAmount.y);
 
         const lastUpdatedDateRevenue =
           new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
@@ -221,13 +221,16 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         ).format('0%');
         setlastRatio(chartLastRatio);
 
+        const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) =>
+          max.x > gdp.x ? max.y : gdp.y
+        );
+console.log(chartMaxGDPValue);
         const chartLastGDPValue =
           filteredGDPData[filteredGDPData.length - 1].actual;
         setlastGDPValue(chartLastGDPValue);
-
         setGdpChartData(filteredGDPData);
 
-        setMinGDPValue(gdpMinAmount);
+        setMaxGDPValue(chartMaxGDPValue);
         setTotalRevenueHeadingValues({
           fiscalYear: revenueMaxYear.x,
           totalRevenue: simplifyNumber(revenueLastAmountActual, false),
@@ -410,8 +413,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                 markers={getMarkers(
                   width,
                   selectedChartView,
-                  minGDPValue,
-                  minRevenueValue
+                  maxGDPValue,
+                  maxRevenueValue
                 )}
               />
             </div>
