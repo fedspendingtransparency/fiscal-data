@@ -3,6 +3,7 @@ import React from "react";
 import TotalSpendingChart from "./total-spending-chart";
 import fetchMock from "fetch-mock";
 import { determineBEAFetchResponse } from "../../../../../../utils/mock-utils";
+import {mockBeaGDPData} from "../../../../explainer-test-helper";
 
 describe("Total Spending Chart", () => {
   const mockCpiDataset = {
@@ -94,17 +95,26 @@ describe("Total Spending Chart", () => {
   it("renders the calloutText", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByText } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} copyPageData={mockPageFunction} />
+      <TotalSpendingChart
+        cpiDataByYear={mockCpiDataset}
+        beaGDPData={mockBeaGDPData}
+        copyPageData={mockPageFunction}
+      />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    //If this is set, that means all 3 API calls were sucessful.
-    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 20% to 30%.", { exact: false })).toBeInTheDocument();
+    //If this is set, that means all 3 API calls were successful.
+    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 20% to 25%",
+      { exact: false })).toBeInTheDocument();
   });
 
   it("renders the chart", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByTestId } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} copyPageData={mockPageFunction} />
+      <TotalSpendingChart
+        cpiDataByYear={mockCpiDataset}
+        beaGDPData={mockBeaGDPData}
+        copyPageData={mockPageFunction}
+      />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId("chartParent")).toBeInTheDocument();
@@ -113,18 +123,26 @@ describe("Total Spending Chart", () => {
   it("renders the chart markers and data header labels", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getAllByText, getByText } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} copyPageData={mockPageFunction} />
+      <TotalSpendingChart
+        cpiDataByYear={mockCpiDataset}
+        beaGDPData={mockBeaGDPData}
+        copyPageData={mockPageFunction}
+      />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByText("Total Spending")).toHaveLength(3);
-    expect(await getAllByText("GDP")).toHaveLength(2);
+    expect(getAllByText("Total Spending")).toHaveLength(3);
+    expect(getAllByText("GDP")).toHaveLength(2);
     expect(await getByText("Fiscal Year")).toBeInTheDocument();
   });
 
   it("renders the CustomPoints layer", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByTestId } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} copyPageData={mockPageFunction} />
+      <TotalSpendingChart
+        cpiDataByYear={mockCpiDataset}
+        beaGDPData={mockBeaGDPData}
+        copyPageData={mockPageFunction}
+      />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId("customPoints")).toBeInTheDocument();
@@ -134,7 +152,11 @@ describe("Total Spending Chart", () => {
   it("renders the CustomSlices layer", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByTestId } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} copyPageData={mockPageFunction} />
+      <TotalSpendingChart
+        cpiDataByYear={mockCpiDataset}
+        beaGDPData={mockBeaGDPData}
+        copyPageData={mockPageFunction}
+      />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId("customSlices")).toBeInTheDocument();
@@ -144,10 +166,16 @@ describe("Total Spending Chart", () => {
   it("renders the chart headers", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { getByText } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} copyPageData={mockPageFunction} />
+      <TotalSpendingChart
+        cpiDataByYear={mockCpiDataset}
+        beaGDPData={mockBeaGDPData}
+        copyPageData={mockPageFunction}
+      />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getByText("Government Spending and the U.S. Economy (GDP), FY 2015 – 2021", { exact: false })).toBeInTheDocument();
-    expect(await getByText("Inflation Adjusted - 2021 Dollars", { exact: false })).toBeInTheDocument();
+    expect(await getByText("Government Spending and the U.S. Economy (GDP), FY 2015 – 2022",
+      { exact: false })).toBeInTheDocument();
+    expect(await getByText("Inflation Adjusted - 2022 Dollars",
+      { exact: false })).toBeInTheDocument();
   });
 });

@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
 import {
+  mockBeaGDPData,
   mockExplainerPageResponse, mockSpendingHeroData, mockUseStaticBeaGDP
 } from './explainer-test-helper';
 import {
@@ -18,7 +19,9 @@ import {
   governmentRevenueMatchers
 } from "./explainer-helpers/government-revenue/government-revenue-test-helper";
 import { useStaticQuery } from "gatsby";
-
+jest.mock('../../hooks/useBeaGDP', () => {
+  return () => mockBeaGDPData;
+});
 describe('Explainer Page Layout', () => {
   const pageName = 'national-debt';
   const breadCrumbLinkName = 'mock link';
