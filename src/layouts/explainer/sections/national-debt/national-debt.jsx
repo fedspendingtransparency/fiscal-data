@@ -108,6 +108,7 @@ import DebtOverLast100y
   from "./growing-national-debt/debt-over-last-100y-linechart/debt-over-last-100y-linechart"
 import {DebtTrendsOverTimeChart}
   from "./growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart";
+import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -130,7 +131,7 @@ const analyticsClickHandler = (action, section) => {
   });
 };
 
-const deficitLink = (
+export const deficitLink = (
   <CustomLink url={'/americas-finance-guide/national-deficit/'} >
     deficit
   </CustomLink>
@@ -142,22 +143,7 @@ const spendingLink = (copy) => (
   </CustomLink>
 );
 
-export const nationalDebtExplainedTableContent = {
-  header: [
-    null,
-    <FontAwesomeIcon icon={faCoins} className={tableIcon} />,
-    <FontAwesomeIcon icon={faFunnelDollar} className={tableIcon} />,
-    <FontAwesomeIcon icon={faFileInvoiceDollar} className={tableIcon} />,
-    null,
-  ],
-  body: [
-    [null, "Revenue", "Spending", "Deficit", null],
-    ["Year 1", "$400", "$500", "-$100", null],
-    ["Year 2", "$600", "$800", "-$200", null],
-    [null, null, null, "-$300", "Debt"],
-  ],
-  footer: [null, null, null, <img src={curvedArrow} alt="" />],
-};
+
 
 export const visualizingTheDebtTableContent = {
   desktop: {
@@ -173,153 +159,7 @@ export const visualizingTheDebtTableContent = {
 export const chartPatternBackground = "#4A0072";
 const alternateBarColor = "#b699c6";
 
-export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
-  const glossaryTerms = {
-    fiscalYear: (
-      <GlossaryTerm
-        term="Fiscal Year"
-        page="Debt explainer"
-        glossary={glossary}
-      >
-        fiscal year (FY)
-      </GlossaryTerm>
-    ),
-    spending: (
-      <GlossaryTerm term="Spending" page="Debt explainer" glossary={glossary}>
-        spending
-      </GlossaryTerm>
-    ),
-    revenue: (
-      <GlossaryTerm term="Revenue" page="Debt explainer" glossary={glossary}>
-        revenue
-      </GlossaryTerm>
-    ),
-    deficit: (
-      <GlossaryTerm term="Deficit" page="Debt explainer" glossary={glossary}>
-        deficit
-      </GlossaryTerm>
-    ),
-    bonds: (
-      <GlossaryTerm term="Bonds" page="Debt explainer" glossary={glossary}>
-        bonds
-      </GlossaryTerm>
-    ),
-    bills: (
-      <GlossaryTerm term="Bills" page="Debt explainer" glossary={glossary}>
-        bills
-      </GlossaryTerm>
-    ),
-    notes: (
-      <GlossaryTerm term="Notes" page="Debt explainer" glossary={glossary}>
-        notes
-      </GlossaryTerm>
-    ),
-    floatingRateNotes: (
-      <GlossaryTerm
-        term="Floating Rate Notes"
-        page="Debt explainer"
-        glossary={glossary}
-      >
-        floating rate notes
-      </GlossaryTerm>
-    ),
-    tips: (
-      <GlossaryTerm
-        term="Treasury Inflation Protected Securities (TIPS)"
-        page="Debt explainer"
-        glossary={glossary}
-      >
-        Treasury inflation-protected securities (TIPS)
-      </GlossaryTerm>
-    ),
-  };
 
-  return (
-    <>
-      <div className={visWithCallout}>
-        <div className={nationalDebtExplainedTextContent}>
-          <p>
-            The national debt is the amount of money the federal government has
-            borrowed to cover the outstanding balance of expenses incurred over
-            time. In a given {glossaryTerms.fiscalYear}, when{" "}
-            {glossaryTerms.spending} (ex. money for roadways) exceeds{" "}
-            {glossaryTerms.revenue} (ex. money from federal income tax), a
-            budget {glossaryTerms.deficit} results. To pay for this deficit, the
-            federal government borrows money by selling marketable securities
-            such as Treasury {glossaryTerms.bonds}, {glossaryTerms.bills},{" "}
-            {glossaryTerms.notes}, {glossaryTerms.floatingRateNotes}, and{" "}
-            {glossaryTerms.tips}. The national debt is the accumulation of this
-            borrowing along with associated interest owed to the investors who
-            purchased these securities. As the federal government experiences
-            reoccurring deficits, which is common, the national debt grows.
-          </p>
-          <p>
-            Simply put, the national debt is similar to a person using a credit
-            card for purchases and not paying off the full balance each month.
-            The cost of purchases exceeding the amount paid off represents a {deficitLink},
-            while accumulated deficits over time represents a person’s
-            overall debt.
-          </p>
-        </div>
-
-        <VisualizationCallout color={debtExplainerPrimary} >
-          <p>
-            The U.S. Treasury uses the terms “national debt,” “federal debt,”
-            and “public debt” interchangeably.
-          </p>
-        </VisualizationCallout>
-      </div>
-      <div
-        className={nationalDebtExplainedTable}
-        role="img"
-        aria-label="Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years."
-      >
-        <table>
-          <thead>
-            <tr>
-              {nationalDebtExplainedTableContent.header.map((th, i) => (
-                <th key={i}>{th}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {nationalDebtExplainedTableContent.body.map((tb, i) => (
-              <tr key={i}>
-                {tb.map((t, j) => {
-                  // second-to-last element in second-to-last row before footer
-                  const borderBottomEl =
-                    i === nationalDebtExplainedTableContent.body.length - 2 &&
-                    j === tb.length - 2;
-
-                  // last element in last row before footer
-                  const boldEl =
-                    i === 0 ||
-                    (i === nationalDebtExplainedTableContent.body.length - 1 &&
-                      j === tb.length - 1);
-
-                  return (
-                    <td className={borderBottomEl ? borderBottom : ""} key={j}>
-                      {boldEl ? <strong>{t}</strong> : t}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              {nationalDebtExplainedTableContent.footer.map((tf, i) => (
-                <td colSpan={tf !== null ? 2 : 1} key={i}>
-                  {tf}
-                </td>
-              ))}
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </>
-  );
-};
 
 export const FundingProgramsSection = () => {
   const usaSpending = (
@@ -1654,7 +1494,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
     component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear} />
+      <NationalDebtExplained glossary={glossary} />
     ),
   },
   {
