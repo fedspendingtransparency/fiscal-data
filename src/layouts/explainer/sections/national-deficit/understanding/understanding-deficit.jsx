@@ -31,6 +31,11 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
       surplus
     </GlossaryTerm>
 
+  const balanced =
+    <GlossaryTerm term={'Balanced Budget'} page={'Deficit Explainer'} glossary={glossary}>
+      balanced
+    </GlossaryTerm>
+
   const [lastFiscalYear, setLastFiscalYear] = useState(0);
   const [deficitLabel, setDeficitLabel] = useState("");
   const [revenueLabel, setRevenueLabel] = useState("");
@@ -96,7 +101,7 @@ const UnderstandingDeficit = ({sectionId, glossary}) => {
           </p>
           <p>
             When there is no deficit or surplus due to spending and revenue being equal,
-            the budget is considered balanced.
+            the budget is considered {balanced}.
           </p>
         </div>
         <VisualizationCallout color={deficitExplainerPrimary} textWithCallout={true}>

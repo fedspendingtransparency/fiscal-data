@@ -42,12 +42,12 @@ const GettingStarted = () => {
         <p className={styles.paragraphList}>
           If you're looking for federal financial data that's designed to be read by humans rather
           than computers, head to <Link className="primary" to="/">our website</Link> to search
-          for data (available in CSV, JSON, and XML formats) or visit one of our partner site,
-          <CustomLink url={'https://www.usaspending.gov/'}> USAspending </CustomLink> – the
+          for data (available in CSV, JSON, and XML formats) or visit one of our partner
+          site, <CustomLink url={'https://www.usaspending.gov/'}>USAspending</CustomLink> ‒ the
           official source for spending data for the U.S. Government. There, you can follow
           the money from congressional appropriations to federal agencies down to local
-          communities and businesses. For more general information, visit
-          <CustomLink url={'/americas-finance-guide/'} external={false}> Your Guide to America's Finances </CustomLink>,
+          communities and businesses. For more general information,
+          visit <CustomLink url={'/americas-finance-guide/'} external={false}>Your Guide to America's Finances</CustomLink>,
           where Fiscal Data breaks down complex government finance concepts
           into easy-to-understand terms.
         </p>

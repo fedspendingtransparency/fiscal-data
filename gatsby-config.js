@@ -217,5 +217,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-client-side-redirect`,
+    `gatsby-plugin-axe-core-react`,
   ],
 };

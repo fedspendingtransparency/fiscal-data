@@ -24,7 +24,7 @@ export const footer =
       </i>
     </p>
     <p>
-      Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and
+      Visit the <CustomLink url={slug} eventNumber={'12'}>{name}</CustomLink> dataset to explore and
       download this data.
     </p>
   </div>

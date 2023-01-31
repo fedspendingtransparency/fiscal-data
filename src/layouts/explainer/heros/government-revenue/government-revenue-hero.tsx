@@ -39,7 +39,10 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
   const mts =
-    <CustomLink url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}>
+    <CustomLink
+      url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}
+      eventNumber={'4'}
+    >
       Monthly Treasury Statement (MTS)
     </CustomLink>
 
@@ -86,9 +89,9 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   );
 
   const rightTooltip =
-    'The percentage change in revenue compared to the last fiscal year, in trillions $USD';
+    'The percentage change in revenue compared to the same period last year.';
   const leftTooltip = (change) =>
-    `The total amount revenue has ${change} compared to the last fiscal year, in trillions $USD.`;
+    `The total amount revenue has ${change} compared to the same period last year.`;
 
   return (
     <>

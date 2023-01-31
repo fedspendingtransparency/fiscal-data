@@ -119,6 +119,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const blsLink =
     <CustomLink
       url={"https://www.bls.gov/developers/"}
+      eventNumber={'17'}
     >
       Bureau of Labor Statistics
     </CustomLink>;
@@ -196,7 +197,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const footer =
     <div>
       <p>
-      Visit the <CustomLink url={slug}>{name}</CustomLink> dataset to explore and
+      Visit the <CustomLink url={slug} eventNumber={'16'}>{name}</CustomLink> dataset to explore and
       download this data. The inflation data is sourced from the {blsLink}.
       </p>
       <p></p>

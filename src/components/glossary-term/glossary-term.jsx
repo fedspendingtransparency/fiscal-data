@@ -45,4 +45,4 @@ const GlossaryTerm = ({ term, page, glossary, children }) => {
   )
 }
 
-export default GlossaryTerm
+export default GlossaryTerm;
