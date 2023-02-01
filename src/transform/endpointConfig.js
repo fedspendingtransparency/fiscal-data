@@ -905,7 +905,7 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/rates_of_exchange',
     'dateField': 'record_date',
     'downloadName': 'RprtRateXchg',
-    'alwaysSortWith': ['-record_date', 'country'],
+    'alwaysSortWith': ['-effective_date', 'country'],
     'dataDisplays': [
       {
         title: 'Exchange Rate Trend'

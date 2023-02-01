@@ -1,5 +1,6 @@
 import { datatableRequest, pivotData } from "../../../utils/api-utils";
 import { addDays } from "date-fns";
+import {customTableSorts} from "../../custom-table-sorts";
 
 export const loadTimerDelay = 500;
 
@@ -9,6 +10,9 @@ const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot,
                         setApiData, setApiError, canceledObj, tableCache) => {
   if (res.data && (res.data.length || selectedTable.apiId !== 149)) {
     // if data [] exists (and it has records, or if it's empty but not for API 149, set the value)
+    if (customTableSorts[selectedTable.apiId]) {
+      res.data = res.data.sort(customTableSorts[selectedTable.apiId]);
+    }
     setApiData(res);
   } else if (!runOnce && selectedTable.apiId === 149) {
     // if no data comes back from the API for id:149, see if there is data for tomorrow
