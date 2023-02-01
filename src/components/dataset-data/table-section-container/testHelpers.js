@@ -135,6 +135,24 @@ export const mockApiData = {
     valueFieldOptions: ['book_value_amt']
   };
 
+export const mockTableWithUserFilterAvailable = {
+  apiId: 4,
+  tableName: 'Exchange Rates',
+  dataDisplays: [
+    { dimensionField: null, title: 'Complete Table' }
+  ],
+  fields: [
+    { columnName: 'facility_desc', 'prettyName': 'Facility Description', 'dataType': 'string' },
+    { columnName: 'book_value_amt', 'prettyName': 'Book Value', 'dataType': 'string' }
+  ],
+  valueFieldOptions: ['book_value_amt'],
+  userFilter: {
+    label: 'Currency',
+    field: 'facility_desc',
+    notice: 'hello'
+  }
+};
+
   export const mockConfig = {
     name: 'my name',
     slug: 'mock/slug/here',

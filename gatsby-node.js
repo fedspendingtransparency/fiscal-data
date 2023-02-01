@@ -324,6 +324,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       columnName: String,
       prettyName: String
     }
+    type UserFilter {
+      field: String,
+      label: String,
+      notice: String
+    }
     type SEOConfig {
       title: String,
       description: String,
@@ -337,6 +342,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
+      userFilter: UserFilter,
       apiNotesAndLimitations: String
     }
     type DatasetsApisDataDisplays implements Node {
@@ -436,6 +442,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             dateField
             alwaysSortWith
+            userFilter {
+              field
+              label
+              notice
+            }
             downloadName
             earliestDate
             endpoint

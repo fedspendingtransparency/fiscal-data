@@ -2,7 +2,7 @@ import renderer from 'react-test-renderer';
 import React from 'react';
 import ComboSelect from './combo-select';
 
-describe('The ComboSelect Component', () => {
+describe('The ComboSelect Component for Published Report year filtering', () => {
   let component = renderer.create();
   let instance;
   const mockYearOptions = [];
@@ -18,6 +18,8 @@ describe('The ComboSelect Component', () => {
                    optionLabelKey={'label'}
                    options={mockYearOptions}
                    selectedOption={null}
+                   yearFilter={true}
+                   required={true}
       />
     );
     instance = component.root;
@@ -124,4 +126,136 @@ describe('The ComboSelect Component', () => {
 
   });
 
+});
+
+describe('The ComboSelect Component for general text use', () => {
+  let component = renderer.create();
+  let instance;
+
+  const changeHandlerSpy = jest.fn();
+  const mockOptions = [
+    {
+      label: '[None selected]',
+      value: null,
+    },
+    {
+      label: 'Abcd-money',
+      value: 'Abcd-money',
+    },
+    {
+      label: 'Blah-bucks',
+      value: 'Blah-bucks',
+    },
+    {
+      label: 'Blue-greenstuff',
+      value: 'Blue-greenstuff',
+    },
+    {
+      label: 'Herb-cash',
+      value: 'Herb-cash',
+    },
+    {
+      label: 'Nice-lettuce',
+      value: 'Nice-lettuce',
+    },
+    {
+      label: 'Abcd2-money',
+      value: 'Abcd2-money',
+    },
+    {
+      label: 'Blah2-bucks',
+      value: 'Blah2-bucks',
+    },
+    {
+      label: 'Blue2-greenstuff',
+      value: 'Blue2-greenstuff',
+    },
+    {
+      label: 'Herb2-cash',
+      value: 'Herb2-cash',
+    },
+    {
+      label: 'Nice2-lettuce',
+      value: 'Nice2-lettuce',
+    },
+    {
+      label: 'Abcd3-money',
+      value: 'Abcd3-money',
+    },
+    {
+      label: 'Blah3-bucks',
+      value: 'Blah3-bucks',
+    },
+    {
+      label: 'Blue3-greenstuff',
+      value: 'Blue3-greenstuff',
+    },
+    {
+      label: 'Herb3-cash',
+      value: 'Herb3-cash',
+    },
+    {
+      label: 'Nice3-lettuce',
+      value: 'Nice3-lettuce',
+    },
+  ]
+
+  beforeEach(() => {
+    component = renderer.create(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+      />
+    );
+    instance = component.root;
+  });
+
+  it('renders an input field that opens a dropdown list of all options on focus', () => {
+    const inputField = instance.findByType('input');
+
+    expect(inputField.props.type).toEqual('text');
+
+    // no option list rendered initially
+    expect(instance.findAllByType('button')).toEqual([]);
+
+    // focus
+    renderer.act(() => {
+      inputField.props.onFocus();
+    });
+    const optionButtons = instance.findByType('ul').findAllByType('button');
+    expect(optionButtons.length).toEqual(16);
+    // spot check options/ordering
+    expect(optionButtons[0].children).toEqual(['[None selected]']);
+    expect(optionButtons[15].children).toEqual(['Nice3-lettuce']);
+  });
+
+  it('shows up to options in the dropdown list that match input characters', () => {
+
+    changeHandlerSpy.mockClear();
+    const inputField = instance.findByType('input');
+
+    renderer.act(() => {
+      inputField.props.onChange({target: {value: 'Blue'}});
+    });
+    let optionButtons = instance.findByType('ul').findAllByType('button');
+    expect(optionButtons.length).toEqual(3);
+    expect(optionButtons[0].children).toEqual(['Blue-greenstuff']);
+    expect(optionButtons[2].children).toEqual(['Blue3-greenstuff']);
+    renderer.act(() => {
+      inputField.props.onChange({target: {value: '2-'}});
+    });
+    optionButtons = instance.findByType('ul').findAllByType('button');
+    expect(optionButtons.length).toEqual(5);
+    expect(optionButtons[0].children).toEqual(['Abcd2-money']);
+    expect(optionButtons[4].children).toEqual(['Nice2-lettuce']);
+
+    // not case sensitive, can limit to a single matching result
+    renderer.act(() => {
+      inputField.props.onChange({target: {value: 'nice2-Let'}});
+    });
+    optionButtons = instance.findByType('ul').findAllByType('button');
+    expect(optionButtons.length).toEqual(1);
+    expect(optionButtons[0].children).toEqual(['Nice2-lettuce']);
+  });
 });

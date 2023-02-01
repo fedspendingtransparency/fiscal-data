@@ -171,7 +171,8 @@ describe('Downloads Persist', () => {
       {"apiId": "100100"},
       mockDateRange,
       "csv",
-      downloadRequest.requestTime
+      downloadRequest.requestTime,
+      undefined
     ];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);
     expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
@@ -345,7 +346,8 @@ describe('Downloads Persist', () => {
       {"apiId": "100100"},
       mockDateRange,
       "csv",
-      downloadRequest.requestTime
+      downloadRequest.requestTime,
+      undefined
     ];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);
     expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');

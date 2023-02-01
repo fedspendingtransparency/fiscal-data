@@ -167,7 +167,7 @@ describe('DownloadWrapper', () => {
     expect(tableName.children).toContain('All Data Tables (2)');
     expect(downloadDataButton.props.label).toEqual('Download 2 CSV Files');
   });
-
+  /* TODO: rearrange the following code that's confusingly situated between it() blocks */
   // without only one table selected
   const mockDownloadQueue = []; // so that it can accumulate
   const mockSetDownloadRequest = jest.fn();
@@ -224,7 +224,7 @@ describe('DownloadWrapper', () => {
     mockSetDownloadRequest.mockClear();
   });
 
-  it(`adds a well-formed download request to the downloadsContext downloadQueue when the 
+  it(`adds a well-formed download request to the downloadsContext downloadQueue when the
     allTablesSelected prop is true`, () => {
 
     const expectedArgs =  {
@@ -260,5 +260,76 @@ describe('DownloadWrapper', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({'label': cancelEventLabelStr}));
+  });
+
+  it('displays userFilter selection when applied', () => {
+    const curTableName = 'Table 1';
+    const selectedTable = {
+      tableName: curTableName,
+      userFilter: {
+        label: 'Country-Currency',
+        field: 'country_currency_desc'
+      }
+    };
+    renderer.act(() => {
+      component.update(
+        <DownloadWrapper
+          selectedTable={selectedTable}
+          dataset={{name: 'Mock Dataset'}}
+          selectedUserFilter={{
+            label: 'Atlantasia-Woodchuckbuck',
+            value: 'Atlantasia-Woodchuckbuck'
+          }}
+        />
+      )
+    });
+
+    const filterName = instance.findByProps({'data-testid': 'userFilterLabel'});
+    expect(filterName.props.children).toEqual(["Country-Currency", ":"]);
+    const filterValue = instance.findByProps({'data-testid': 'userFilterValue'});
+    expect(filterValue.props.children).toEqual('Atlantasia-Woodchuckbuck');
+  });
+
+  it('creates the expected download configuration when a userFilter is applied', () => {
+    mockSetDownloadRequest.mockClear();
+    const curTableName = 'Table 1';
+    const selectedTable = {
+      tableName: curTableName,
+      userFilter: {
+        label: 'Country-Currency',
+        field: 'country_currency_desc'
+      }
+    };
+
+    const mockSelectedUserFilter = {
+      label: 'Atlantasia-Woodchuckbuck',
+      value: 'Atlantasia-Woodchuckbuck'
+    };
+
+    const expectedArgs =  {
+      apis: selectedTable,
+      datasetId: mockDataset.datasetId,
+      dateRange: mockDateRange,
+      selectedFileType: 'csv',
+      selectedUserFilter: mockSelectedUserFilter
+    };
+
+    let component = null;
+    act(() => {
+      component = render(
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadWrapper
+            allTablesSelected={false}
+            selectedTable={selectedTable}
+            dataset={mockDataset}
+            dateRange={mockDateRange}
+            selectedUserFilter={mockSelectedUserFilter}
+          />
+        </downloadsContext.Provider>);
+      component.getByTestId('download-button').click();
+    });
+    console.log('mockSetDownloadRequest.mock.calls', mockSetDownloadRequest.mock.calls);
+    expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
+    mockSetDownloadRequest.mockClear();
   });
 });

@@ -13,7 +13,8 @@ const FilterAndDownload = ({
   selectedTable,
   dataset,
   allTablesSelected,
-  isCustomDateRange
+  isCustomDateRange,
+  selectedUserFilter
 }) => (
   <div className={container} data-test-id="filterDownloadContainer">
       <div className={leftContent}>
@@ -27,6 +28,7 @@ const FilterAndDownload = ({
           dataset={dataset}
           allTablesSelected={allTablesSelected}
           isCustomDateRange={isCustomDateRange}
+          selectedUserFilter={selectedUserFilter}
         />
       </div>
   </div>
