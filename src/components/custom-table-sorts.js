@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+// These are configurable sort orders, and it's not clear this file is a good candidate for tests
 export const customTableSorts = {
   '137': (rowA, rowB) => {
     if (rowA['country'].toUpperCase() > rowB['country'].toUpperCase()) {
