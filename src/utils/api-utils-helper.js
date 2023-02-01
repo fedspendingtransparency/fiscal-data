@@ -7,10 +7,11 @@ import GLOBALS from '../helpers/constants';
  * @param api {object}       - The data table/API object.
  * @param dateRange {object} - From and To are the only fields with an API format of YYYY-MM-DD.
  * @param fileType {String}  - Accepted values are 'csv', 'xml', 'json'.
+ * @param userFilter {null|object}  - Object to describe the user selected filter object
  * @returns {null|Object}    - Returns null if params are invalid, else returns object with desired
  * fields "apiId" and "params"
  */
-const buildDownloadObject = (api, dateRange, fileType) => {
+const buildDownloadObject = (api, dateRange, fileType, userFilter) => {
   if(!api || !dateRange || !fileType){
     console.warn('Invalid params passed to buildDownloadObject');
     return null;
@@ -26,11 +27,16 @@ const buildDownloadObject = (api, dateRange, fileType) => {
     dateRange.to = dateRange.to.slice(0, -3);
     dateRange.from = dateRange.from.slice(0, -3);
   }
+  let filterAddendum = '';
+  if (userFilter?.value) {
+    filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
+  }
 
   return {
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
-      `${apiDateField}:lte:${dateRange.to}&sort=${apiSortParams}&format=${fileType}`
+      `${apiDateField}:lte:${dateRange.to}${filterAddendum}` +
+      `&sort=${apiSortParams}&format=${fileType}`
   }
 };
 
@@ -62,10 +68,11 @@ const dataTables = [
  * data table/API.
  * @param dateRange {object}  - From and To are fields on this object that are both jsDates.
  * @param fileType {String}   - Accepted values are 'csv', 'xml', 'json'.
+ * @param userFilter {object}   - option selected from userFilter dropdown
  * @returns {null|Object}     - Returns null if params are invalid, else returns object with
  * collection of APIs as built from buildDownloadObject above.
  */
-export const buildDownloadRequestArray = (apis, dateRange, fileType) => {
+export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter) => {
   if(!apis || !dateRange || !fileType){
     console.warn('Invalid params passed to buildDownloadRequestArray');
     return null;
@@ -83,8 +90,8 @@ export const buildDownloadRequestArray = (apis, dateRange, fileType) => {
   }
 
   for(let i = requestAPIs.length; i--;){
-    curDownloadObject = buildDownloadObject(requestAPIs[i], apiDateRange, fileType);
-    if(curDownloadObject){
+    curDownloadObject = buildDownloadObject(requestAPIs[i], apiDateRange, fileType, userFilter);
+    if (curDownloadObject) {
       requestArr.push(curDownloadObject);
     }
   }

@@ -132,7 +132,7 @@ const transformMapper = (datasetIdMap,
             console.info(`DatasetId:${dataset.datasetId} "${dataset.name}", API: ${api.apiId} has
             ${Number(api.rowCount)} rows`);
           }
-          if (Number(api.rowCount) > largeDatasetThreshold) {
+          if ((Number(api.rowCount) > largeDatasetThreshold) && (!api.userFilter)) {
             api.isLargeDataset = true;
             const aggregateLargeDatasetPivot = true; // TODO: set by environmental variable
 

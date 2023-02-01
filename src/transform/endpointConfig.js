@@ -905,7 +905,22 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/rates_of_exchange',
     'dateField': 'record_date',
     'downloadName': 'RprtRateXchg',
-    'alwaysSortWith': ['-record_date', 'country']
+    'alwaysSortWith': ['-record_date', 'country'],
+    'dataDisplays': [
+      {
+        title: 'Exchange Rate Trend'
+      }
+    ],
+    showChartForCompleteTable: true,
+    'userFilter':
+    {
+      'field': 'country_currency_desc',
+      'label': 'Country-Currency',
+      'notice': `If current rates deviate from the published rates by 10% or more, Treasury
+       will issue amendments to this quarterly report. An amendment to a currency exchange
+       rate for the quarter will appear on the report as a separate line with a new effective
+       date. The latest available data will display first.`
+    },
   },
   '138': {
     'endpoint': 'v1/accounting/od/schedules_fed_debt',
@@ -1835,7 +1850,7 @@ const setCompleteTableDisplayItem = (response) => {
   }
 
   response.dataDisplays = response.dataDisplays || [];
-  if (response.dataDisplays.every(dd => dd.title !== strCompleteTable)) {
+  if (!response.userFilter && response.dataDisplays.every(dd => dd.title !== strCompleteTable)) {
     response.dataDisplays.unshift(completeItem);
   }
 };

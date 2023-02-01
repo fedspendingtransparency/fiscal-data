@@ -5,7 +5,7 @@ import { dailyReports, reports } from "../test-helper"
 import SelectControl from "../../select-control/select-control";
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
 import * as styles from './filter-section.module.scss';
-import ComboSelect from '../combo-select/combo-select';
+import ComboSelect from '../../combo-select/combo-select';
 
 jest.useFakeTimers();
 

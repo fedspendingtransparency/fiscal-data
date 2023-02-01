@@ -14,6 +14,7 @@ import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from "./dynamic-config/dynamicConfig";
 import Experimental from "../../experimental/experimental";
+import {differenceInMonths} from "date-fns";
 
 const TableSectionContainer = ({
   config,
@@ -22,6 +23,7 @@ const TableSectionContainer = ({
   apiData,
   apiError,
   perPage,
+  userFilterSelection,
   selectedPivot,
   setPerPage,
   setSelectedPivot,
@@ -41,14 +43,24 @@ const TableSectionContainer = ({
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
+  const [userFilteredData, setUserFilteredData] = useState(null);
 
   const refreshTable = () => {
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
 
+    let displayData = apiData ? apiData.data : null;
+    if (userFilterSelection?.value && apiData?.data) {
+      displayData = apiData.data.filter(rr =>
+        rr[selectedTable.userFilter.field] === userFilterSelection.value);
+      setUserFilteredData({...apiData, data: displayData});
+    } else {
+      setUserFilteredData(null);
+    }
+
     setTableProps({
-      data: apiData ? apiData.data : null, //null for server-side pagination
+      data: displayData, //null for server-side pagination
       columnConfig,
       width,
       noBorder: true,
@@ -78,7 +90,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     // refresh the table anytime apiData or apiError update
       refreshTable();
-  }, [apiData, apiError]);
+  }, [apiData, userFilterSelection, apiError]);
 
   useEffect(() => {
     // only refresh the table on date range changes if server side pagination is in effect
@@ -118,7 +130,8 @@ const TableSectionContainer = ({
     selectedTable,
     selectedPivot,
     dateRange,
-    allTablesSelected
+    allTablesSelected,
+    userFilterSelection
   );
 
   return (
@@ -191,12 +204,12 @@ const TableSectionContainer = ({
                 ''
             }
             chart={
-              (noChartMessage && !ignorePivots) ?
+              (noChartMessage && !ignorePivots)  ?
                 noChartMessage :
                 <DatasetChart
                   legend={legend}
                   dateRange={dateRange}
-                  data={apiData}
+                  data={userFilteredData ? userFilteredData : apiData}
                   slug={config.slug}
                   currentTable={selectedTable}
                   dateField={dateFieldForChart}
