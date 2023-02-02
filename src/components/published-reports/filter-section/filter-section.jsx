@@ -14,7 +14,7 @@ import SelectControl from "../../select-control/select-control";
 import { getYearReportOptions, getMonthOptions, getDayOptions } from "../util/util"
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
 import { getLatestReport } from '../../../helpers/dataset-detail/report-helpers';
-import ComboSelect from '../combo-select/combo-select';
+import ComboSelect from '../../combo-select/combo-select';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
 
@@ -368,6 +368,8 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
                                optionLabelKey="label"
                                options={reportsByYear.slice(1)}
                                selectedOption={selectedYear}
+                               yearFilter={true}
+                               required={true}
                 />
             ) : (
               <SelectControl changeHandler={setSelectedYear}

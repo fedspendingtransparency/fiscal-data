@@ -5,7 +5,7 @@ import {
   fontSize_10,
   fontSize_14
 } from "../../../../../../variables.module.scss";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import Analytics from "../../../../../../utils/analytics/analytics";
 import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
@@ -43,7 +43,7 @@ const analyticsClickHandler = (action, section) => {
   });
 };
 
-export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
+export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   const [lineChartHoveredYear, setLinechartHoveredYear] = useState("");
   const [lineChartHoveredValue, setLinechartHoveredValue] = useState("");
@@ -99,82 +99,32 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
     "v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948";
 
   useEffect(() => {
+    const {
+      finalGDPData,
+      gdpMinYear,
+      gdpMaxYear,
+      gdpMinAmount,
+      gdpMaxAmount,
+      gdpLastAmountActual,
+    } = beaGDPData;
     basicFetch(`${apiPrefix}${debtEndpointUrl}`).then(res => {
       if (res.data) {
         const debtData = res.data;
-        basicFetch(
-          `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`
-        ).then(res => {
-          if (res.BEAAPI.Results.Data) {
-            const gdpData = res.BEAAPI.Results.Data.filter(
-              entry => entry.LineDescription === "Gross domestic product"
-            );
-            const averagedGDPByYear = [];
-            for (
-              let i = parseInt(
-                debtData[debtData.length - 1].record_fiscal_year
-              );
-              i <= parseInt(debtData[0].record_fiscal_year);
-              i++
-            ) {
-              let allQuartersForGivenYear;
-              if (i <= 1976) {
-                allQuartersForGivenYear = gdpData.filter(
-                  entry =>
-                    entry.TimePeriod.includes(i.toString() + "Q1") ||
-                    entry.TimePeriod.includes(i.toString() + "Q2") ||
-                    entry.TimePeriod.includes((i - 1).toString() + "Q3") ||
-                    entry.TimePeriod.includes((i - 1).toString() + "Q4")
-                );
-              } else if (i >= 1977) {
-                allQuartersForGivenYear = gdpData.filter(
-                  entry =>
-                    entry.TimePeriod.includes(i.toString() + "Q1") ||
-                    entry.TimePeriod.includes(i.toString() + "Q2") ||
-                    entry.TimePeriod.includes(i.toString() + "Q3") ||
-                    entry.TimePeriod.includes((i - 1).toString() + "Q4")
-                );
-              }
-              if (
-                i >= 1977 &&
-                allQuartersForGivenYear.find(entry =>
-                  entry.TimePeriod.includes(i.toString() + "Q3")
-                )
-              ) {
-                let totalGDP = 0;
-                allQuartersForGivenYear.forEach(quarter => {
-                  totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
-                });
-                averagedGDPByYear.push({
-                  // Correct BEA data to display in trillions
-                  average: parseInt(String(totalGDP) + "000000") / 4,
-                  year: i,
-                });
-              } else if (i <= 1976) {
-                let totalGDP = 0;
-                allQuartersForGivenYear.forEach(quarter => {
-                  totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
-                });
-                averagedGDPByYear.push({
-                  // Correct BEA data to display in trillions
-                  average: parseInt(String(totalGDP) + "000000") / 4,
-                  year: i,
-                });
-              }
-            }
             const debtToGDP = [];
-            averagedGDPByYear.forEach(GDPEntry => {
+            finalGDPData.forEach(GDPEntry => {
               const record = debtData.find(entry =>
-                entry.record_date.includes(GDPEntry.year)
+                entry.record_date.includes(GDPEntry.fiscalYear)
               );
-              debtToGDP.push({
-                x: GDPEntry.year,
-                y: Math.round(
-                  (parseFloat(record.debt_outstanding_amt) /
-                    GDPEntry.average) *
-                  100
-                ),
-              });
+              if (record) {
+                debtToGDP.push({
+                  x: GDPEntry.x,
+                  y: Math.round(
+                    (parseFloat(record.debt_outstanding_amt) /
+                      GDPEntry.actual) *
+                    100
+                  ),
+                });
+              }
             });
             const finalData = [
               {
@@ -191,8 +141,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, width }) => {
               chartWidth.toString(),
               chartHeight.toString()
             );
-          }
-        });
       }
     });
   }, []);

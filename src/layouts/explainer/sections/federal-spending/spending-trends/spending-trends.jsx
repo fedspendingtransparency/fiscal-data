@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import TotalSpendingChart from "./total-spending-chart/total-spending-chart";
+import useBeaGDP from "../../../../../hooks/useBeaGDP";
 export const SpendingTrends = ({cpiDataByYear}) => {
+  const beaGDPData = useBeaGDP(cpiDataByYear, true);
 
   const [spendingTotal, setSpendingTotal] = useState(null);
   const [fiscalYear, setFiscalYear] = useState(null);
@@ -28,7 +30,13 @@ export const SpendingTrends = ({cpiDataByYear}) => {
         How has spending changed over time? The chart below shows you how spending has
         changed over the last {numYears} years and presents total spending compared to GDP.
       </p>
-        <TotalSpendingChart cpiDataByYear={cpiDataByYear} copyPageData={callBackDataToPage} />
+      {!beaGDPData.isGDPLoading && (
+        <TotalSpendingChart
+          cpiDataByYear={cpiDataByYear}
+          beaGDPData={beaGDPData}
+          copyPageData={callBackDataToPage}
+        />
+      )}
     </div>
   );
 }

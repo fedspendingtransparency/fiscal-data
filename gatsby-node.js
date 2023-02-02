@@ -261,7 +261,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   });
 
 
-  const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=2014-2015-2016-2017-2018-2019-2020-2021-2022-2023&ResultFormat=JSON`;
+  const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
 
   const fetchBEA = async () => {
     return new Promise((resolve, reject) => {
@@ -272,7 +272,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         .catch(error => {
           console.error(`failed to get metadata ${++numBEAAPICalls} time(s), error:${error}`);
           if (numBEAAPICalls < 3) {
-            getBLSData();
+            fetchBEA();
           } else {
             reject(error);
           }
@@ -285,9 +285,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   .catch(error => {
     throw error
   });
-  beaResults.BEAAPI.Results.Data.forEach((bea) =>{
+  beaResults.BEAAPI.Results.Data.forEach((bea) => {
 
-    if(bea.LineDescription == 'Gross domestic product'){
+    if(bea.LineDescription === 'Gross domestic product') {
       const node = {
         id: bea.TableName + bea.TimePeriod,
         lineDescription: bea.LineDescription,
@@ -324,6 +324,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       columnName: String,
       prettyName: String
     }
+    type UserFilter {
+      field: String,
+      label: String,
+      notice: String
+    }
     type SEOConfig {
       title: String,
       description: String,
@@ -337,6 +342,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
+      userFilter: UserFilter,
       apiNotesAndLimitations: String
     }
     type DatasetsApisDataDisplays implements Node {
@@ -436,6 +442,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             dateField
             alwaysSortWith
+            userFilter {
+              field
+              label
+              notice
+            }
             downloadName
             earliestDate
             endpoint

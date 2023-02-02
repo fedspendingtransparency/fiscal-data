@@ -41,6 +41,11 @@
   background-color: $content-section-background;
   white-space: normal;
   z-index: 10000;
+  &.scrollable {
+    max-height: 315px;
+    overflow-y: scroll;
+    box-shadow: 5px 5px 10px 0 #777777;
+  }
 
   .selector_option {
     font-weight: normal;

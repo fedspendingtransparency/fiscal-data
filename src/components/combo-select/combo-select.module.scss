@@ -1,0 +1,22 @@
+@import '../../variables.module.scss';
+
+.inputContainer {
+  position: relative;
+}
+
+.iconButton {
+  font-size: 15px;
+  border: none;
+  background: none;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 0.5rem 0.2rem;
+  margin: 0.3rem 0;
+  position: absolute;
+  right: 0.5rem;
+  top: -3px;
+  @include focus-outline;
+
+  &:enabled {
+    cursor: pointer;
+  }
+}

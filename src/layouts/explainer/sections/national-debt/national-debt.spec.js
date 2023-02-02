@@ -31,7 +31,7 @@ import {
   mockDebtBreakdownResponse,
   mockInterestToDebtChartHeaderSummary,
   mockInterestExpenseResponse,
-  mockDebtExpenseResponse
+  mockDebtExpenseResponse, mockBeaGDPData
 } from "../../explainer-test-helper"
 import {
   determineBEAFetchResponse, setGlobalFetchMatchingResponse,
@@ -119,6 +119,9 @@ describe('Funding Programs & Services', () => {
   });
 });
 
+jest.mock('../../../../hooks/useBeaGDP', () => {
+  return () => mockBeaGDPData;
+});
 describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
   const config = nationalDebtSectionConfigs[sectionId]
@@ -204,14 +207,14 @@ describe('The Growing National Debt', () => {
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText } = render(
+    const { getByText, getAllByText } = render(
       <GrowingNationalDebtSection sectionId={sectionId}
                                   glossary={glossary}
                                   cpiDataByYear={mockCpiDataset}
       />
     );
 
-    const historicalDebt = await waitFor(() => getByText('Historical Debt Outstanding'));
+    const historicalDebt = await waitFor(() => getAllByText('Historical Debt Outstanding')[0]);
     const bls = await waitFor(() => getByText('Bureau of Labor Statistics'));
 
     historicalDebt.click();

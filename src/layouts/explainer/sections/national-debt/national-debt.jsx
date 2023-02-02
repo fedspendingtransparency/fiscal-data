@@ -109,6 +109,7 @@ import DebtOverLast100y
 import {DebtTrendsOverTimeChart}
   from "./growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart";
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
+import useBeaGDP from "../../../../hooks/useBeaGDP";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -454,7 +455,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
 
 export const GrowingNationalDebtSection = withWindowSize(
   ({ sectionId, glossary, cpiDataByYear, width }) => {
-
+    const beaGDPData = useBeaGDP(cpiDataByYear);
     const gdp = (
       <GlossaryTerm
         term="Gross Domestic Product (GDP)"
@@ -489,7 +490,12 @@ export const GrowingNationalDebtSection = withWindowSize(
           widespread unemployment generally account for sharp rises in the
           national debt.
         </p>
-        <DebtOverLast100y cpiDataByYear={cpiDataByYear} />
+        {!beaGDPData.isGDPLoading && (
+          <DebtOverLast100y
+            cpiDataByYear={cpiDataByYear}
+            beaGDPData={beaGDPData}
+          />
+        )}
         <p>
           Comparing a country’s debt to its {gdp} reveals the country’s ability
           to pay down its debt. This ratio is considered a better indicator of a
@@ -499,7 +505,9 @@ export const GrowingNationalDebtSection = withWindowSize(
           ratio surpassed 100% in 2013 when both debt and GDP were approximately
           16.7 trillion.
         </p>
-        <DebtTrendsOverTimeChart sectionId={sectionId} width={width} />
+        {!beaGDPData.isGDPLoading && (
+        <DebtTrendsOverTimeChart sectionId={sectionId} beaGDPData={beaGDPData} width={width} />
+        )}
         <div className={postGraphAccordionContainer}>
           <VisualizingTheDebtAccordion width={width} />
         </div>

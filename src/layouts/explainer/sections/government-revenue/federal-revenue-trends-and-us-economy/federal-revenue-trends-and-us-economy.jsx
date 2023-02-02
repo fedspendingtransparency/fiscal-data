@@ -12,7 +12,7 @@ import {section} from "./federal-revenue-trends-and-us-economy.module.scss";
 
 
 const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
-  const beaGDPData = useBeaGDP(cpiDataByYear);
+  const beaGDPData = useBeaGDP(cpiDataByYear, true);
 
   const [fiscalYear, setFiscalYear] = useState(2022);
   const [revenueRatio, setRevenueRatio] = useState('');

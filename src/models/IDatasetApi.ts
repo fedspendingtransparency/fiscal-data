@@ -17,5 +17,10 @@ export interface IDatasetApi {
   tableDescription: string,
   tableName: string,
   updateFrequency: string,
+  userFilter: {
+    label: string,
+    field: string,
+    notice: string
+  },
   valueFieldOptions: unknown | null
 }
