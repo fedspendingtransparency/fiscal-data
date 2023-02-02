@@ -1,7 +1,8 @@
 import React, {FunctionComponent, useEffect, useState} from "react";
 import {
   userFilterWrapper,
-  filterLabel
+  filterLabel,
+  infoContainer
 } from './user-filter.module.scss';
 import ComboSelect from "../../combo-select/combo-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -62,9 +63,11 @@ const UserFilter: FunctionComponent<UserFilterProps> = (
         </div>
       )}
       {(selectedTable?.userFilter?.notice) && (
-        <div className={info} data-testid="userFilterNotice">
-          <FontAwesomeIcon className={icon} icon={infoCirclePropIcon} />
-          {selectedTable.userFilter.notice}
+        <div className={infoContainer}>
+          <div className={info} data-testid="userFilterNotice">
+            <FontAwesomeIcon className={icon} icon={infoCirclePropIcon} />
+            {selectedTable.userFilter.notice}
+          </div>
         </div>
       )}
     </>

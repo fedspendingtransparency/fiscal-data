@@ -65,3 +65,4 @@ export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const userFilterWrapper: string;
 export const filterLabel: string;
+export const infoContainer: string;

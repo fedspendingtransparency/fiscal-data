@@ -26,13 +26,14 @@
   white-space: nowrap;
 }
 
-.tableName {
+.describer {
   margin-bottom: 0.5rem;
 }
 
-.dateRange {
-  margin-bottom: 1rem;
+.downloadDescription {
+  margin-bottom: 0.5rem
 }
+
 @media (min-width: $breakpoint-sm){
   .wrapper {
     box-shadow: -10px 0 13px -8px rgba(0, 0, 0, 0.2);

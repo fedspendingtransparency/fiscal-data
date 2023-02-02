@@ -1,6 +1,7 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
 import ComboSelect from './combo-select';
+import {mockOptions} from "./combo-select-test-helper";
 
 describe('The ComboSelect Component for Published Report year filtering', () => {
   let component = renderer.create();
@@ -123,82 +124,15 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     });
 
     expect(changeHandlerSpy).toHaveBeenNthCalledWith(1, {label: 2015, value: 2015});
-
   });
-
 });
 
 describe('The ComboSelect Component for general text use', () => {
+  jest.useFakeTimers();
   let component = renderer.create();
   let instance;
 
   const changeHandlerSpy = jest.fn();
-  const mockOptions = [
-    {
-      label: '[None selected]',
-      value: null,
-    },
-    {
-      label: 'Abcd-money',
-      value: 'Abcd-money',
-    },
-    {
-      label: 'Blah-bucks',
-      value: 'Blah-bucks',
-    },
-    {
-      label: 'Blue-greenstuff',
-      value: 'Blue-greenstuff',
-    },
-    {
-      label: 'Herb-cash',
-      value: 'Herb-cash',
-    },
-    {
-      label: 'Nice-lettuce',
-      value: 'Nice-lettuce',
-    },
-    {
-      label: 'Abcd2-money',
-      value: 'Abcd2-money',
-    },
-    {
-      label: 'Blah2-bucks',
-      value: 'Blah2-bucks',
-    },
-    {
-      label: 'Blue2-greenstuff',
-      value: 'Blue2-greenstuff',
-    },
-    {
-      label: 'Herb2-cash',
-      value: 'Herb2-cash',
-    },
-    {
-      label: 'Nice2-lettuce',
-      value: 'Nice2-lettuce',
-    },
-    {
-      label: 'Abcd3-money',
-      value: 'Abcd3-money',
-    },
-    {
-      label: 'Blah3-bucks',
-      value: 'Blah3-bucks',
-    },
-    {
-      label: 'Blue3-greenstuff',
-      value: 'Blue3-greenstuff',
-    },
-    {
-      label: 'Herb3-cash',
-      value: 'Herb3-cash',
-    },
-    {
-      label: 'Nice3-lettuce',
-      value: 'Nice3-lettuce',
-    },
-  ]
 
   beforeEach(() => {
     component = renderer.create(
@@ -213,11 +147,10 @@ describe('The ComboSelect Component for general text use', () => {
 
   it('renders an input field that opens a dropdown list of all options on focus', () => {
     const inputField = instance.findByType('input');
-
     expect(inputField.props.type).toEqual('text');
 
-    // no option list rendered initially
-    expect(instance.findAllByType('button')).toEqual([]);
+    // the option list is initially not in view
+    expect(instance.findAllByProps({ 'data-testid': 'selectorList' }).length).toStrictEqual(0);
 
     // focus
     renderer.act(() => {
@@ -230,8 +163,72 @@ describe('The ComboSelect Component for general text use', () => {
     expect(optionButtons[15].children).toEqual(['Nice3-lettuce']);
   });
 
-  it('shows up to options in the dropdown list that match input characters', () => {
+  it('changes from a chevron icon to a circleX icon when en entry is made', () => {
+    const inputField = instance.findByType('input');
 
+    renderer.act(() => {
+      inputField.props.onChange({target: {value: ''}});
+    });
+
+    // with no entry value, there should be no circle-X (clear-entry) icon
+    expect(instance.findAllByProps({ 'data-testid': 'clear-button' }).length).toStrictEqual(0);
+
+    // and there should be a chevron icon
+    expect(instance.findByProps({ 'data-testid': 'dropdown-button' })).toBeDefined();
+
+    renderer.act(() => {
+      inputField.props.onChange({target: {value: 'guess'}});
+    });
+
+    // with an entry value present, there should be no chevron icon (clear-entry) icon
+    expect(instance.findAllByProps({ 'data-testid': 'dropdown-button' }).length).toStrictEqual(0);
+
+    // and there should be a circle-X (clear-entry) icon
+    expect(instance.findByProps({ 'data-testid': 'clear-button' })).toBeDefined();
+
+  });
+
+  it('clears any existing entry when the clear-entry/circle-x icon is clicked', () => {
+    const inputField = instance.findByType('input');
+    renderer.act(() => {
+      inputField.props.onChange({target: {value: 'guess'}});
+    });
+    expect(inputField.props.value).toStrictEqual('guess');
+
+    const button = instance.findByProps({ 'data-testid': 'clear-button' });
+    renderer.act(() => {
+      button.props.onClick();
+    });
+
+    expect(inputField.props.value).toStrictEqual('');
+  });
+
+  it('toggles the dropdown when the chevron icon is clicked', () => {
+
+    // the option list is initially not in view
+    expect(instance.findAllByProps({ 'data-testid': 'selectorList' }).length).toStrictEqual(0);
+
+    // click the chevron dropdown button
+    const dropDownButton = instance.findByProps({ 'data-testid': 'dropdown-button' });
+    renderer.act(() => {
+      dropDownButton.props.onClick();
+    });
+
+    // the list should be visible/dropped down
+    const optionList = instance.findByProps({ 'data-testid': 'selectorList' });
+    expect(optionList).toBeDefined();
+
+    // again click the chevron dropdown button
+    renderer.act(() => {
+      dropDownButton.props.onClick();
+      jest.runAllTimers();
+    });
+
+    // now the list should be gone
+    expect(instance.findAllByProps({ 'data-testid': 'selectorList' }).length).toStrictEqual(0);
+  });
+
+  it('shows options in the dropdown list that match input characters', () => {
     changeHandlerSpy.mockClear();
     const inputField = instance.findByType('input');
 
@@ -250,7 +247,7 @@ describe('The ComboSelect Component for general text use', () => {
     expect(optionButtons[0].children).toEqual(['Abcd2-money']);
     expect(optionButtons[4].children).toEqual(['Nice2-lettuce']);
 
-    // not case sensitive, can limit to a single matching result
+    // not case-sensitive, and can limit to a single matching result
     renderer.act(() => {
       inputField.props.onChange({target: {value: 'nice2-Let'}});
     });
