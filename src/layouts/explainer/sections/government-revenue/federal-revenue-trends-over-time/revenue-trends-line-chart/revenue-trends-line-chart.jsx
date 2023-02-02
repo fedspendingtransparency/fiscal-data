@@ -14,6 +14,7 @@ import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust
 import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import { useTooltip } from '@nivo/tooltip';
+import Analytics from "../../../../../../utils/analytics/analytics";
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
@@ -116,6 +117,14 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       });
   }, [])
 
+  const hoverEvent = () => {
+   return Analytics.event(
+     { category: 'Fiscal Data - Explainers',
+       action: 'Chart Hover',
+       label: 'Revenue - Federal Revenue Trends Over Time' }
+   );
+  };
+
   const blsLink =
     <CustomLink
       url={"https://www.bls.gov/developers/"}
@@ -150,7 +159,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             strokeWidth={0}
             strokeOpacity={0.75}
             fillOpacity={0}
-            onMouseEnter={() => props.setCurrentSlice(slice)}
+            onMouseEnter={() => {props.setCurrentSlice(slice); hoverEvent()}}
             onFocus={event => {
               showTooltipFromEvent(
                 React.createElement(props.sliceTooltip, {

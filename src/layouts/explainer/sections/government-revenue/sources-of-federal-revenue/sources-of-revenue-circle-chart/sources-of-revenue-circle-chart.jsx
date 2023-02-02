@@ -28,6 +28,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import {getShortForm, isBillionsOrTrillions} from "../../../../../../utils/rounding-utils";
+import Analytics from "../../../../../../utils/analytics/analytics";
 
 const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
@@ -247,6 +248,11 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
   const HandleMouseEnter = (node, e, elementId) => {
+    Analytics.event({
+      category: 'Fiscal Data - Explainers',
+      action: 'Chart Hover',
+      label: 'Revenue - Sources of Federal Revenue'
+    });
     if (e.preventDefault) {
       e.preventDefault();
       e.stopPropagation();

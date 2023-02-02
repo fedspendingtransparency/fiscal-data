@@ -8,6 +8,7 @@ import {
   semiBoldWeight,
 } from "../../../../../../variables.module.scss";
 import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
+import Analytics from "../../../../../../utils/analytics/analytics";
 
 const mts = <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`}
                         eventNumber="21"
@@ -28,6 +29,14 @@ const footer = (
     The inflation data is sourced from the {bls}.
   </p>
 );
+
+const chartHoverEvent = () => {
+  return Analytics.event({
+    category: 'Fiscal Data - Explainers',
+    action: 'Chart Hover',
+    label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
+  });
+}
 
 
 
@@ -289,7 +298,7 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
           strokeWidth={0}
           strokeOpacity={0.25}
           fillOpacity={0}
-          onMouseEnter={() => props.setCurrentSlice(slice)}
+          onMouseEnter={() => {props.setCurrentSlice(slice); chartHoverEvent()}}
           onFocus={() =>{
             mouseMove(slice)
             props.setCurrentSlice(slice)}
