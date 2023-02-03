@@ -39,7 +39,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = (
     if (apiData?.data && userFilterOptions === null) {
       const values = [...new Set(apiData.data.map(row => row[selectedTable.userFilter.field]))];
       options = values.map(val => ({label: val, value: val}));
-      options.unshift({label: '[None selected]', value: null});
+      options.unshift({label: '(None selected)', value: null});
       setUserFilterOptions(options);
     }
   };

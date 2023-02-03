@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 export   const mockOptions = [
   {
-    label: '[None selected]',
+    label: '(None selected)',
     value: null,
   },
   {

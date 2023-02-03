@@ -23,7 +23,7 @@ describe('UserFilter Component', () => {
     const optionsFromData = mockData.data.map(row => ({label: row.ccd, value: row.ccd}));
     expect(comboSelectProps['options']).toEqual([
       {
-        label: "[None selected]",
+        label: "(None selected)",
         value: null
       }
     ].concat(optionsFromData.slice(0,4)));

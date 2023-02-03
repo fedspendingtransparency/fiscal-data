@@ -206,11 +206,13 @@ const DownloadWrapper = ({
           )}
           <div data-test-id="dateString" className={styles.dateString}> {dateString}</div>
         </div>
-        {(selectedUserFilter && selectedUserFilter.value) && (
+        {(selectedTable?.userFilter) && (
           <div className={styles.describer}>
             <strong data-testid="userFilterLabel">{selectedTable.userFilter.label}:</strong>
             <div data-testid="userFilterValue" className={styles.dateString}>
-              {selectedUserFilter.value}
+              {(selectedUserFilter && selectedUserFilter.value) ?
+                  selectedUserFilter.label :
+                  '(None selected)'}
             </div>
           </div>
         )}
