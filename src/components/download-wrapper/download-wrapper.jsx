@@ -190,29 +190,33 @@ const DownloadWrapper = ({
         downloadsPrepared={downloadsPrepared}
         setCancelDownloadRequest={handleCancelRequest}
       />
-      <div data-test-id="tableName" className={styles.tableName}>
-        <strong>Data Table:</strong>
-        <div>
-          <Truncator>
-            <span data-test-id="tableNameText">{tableName}</span>
-          </Truncator>
-        </div>
-      </div>
-      <div className={styles.dateRange}>
-        <strong>Date Range:</strong>
-        {!isFiltered && (
-          <span data-test-id="allString" className={styles.dateString}> {allString}</span>
-        )}
-        <div data-test-id="dateString" className={styles.dateString}> {dateString}</div>
-      </div>
-      {(selectedUserFilter && selectedUserFilter.value) && (
-        <div className={styles.dateRange}>
-          <strong data-testid="userFilterLabel">{selectedTable.userFilter.label}:</strong>
-          <div data-testid="userFilterValue" className={styles.dateString}>
-            {selectedUserFilter.value}
+      <div className={styles.downloadDescription}>
+        <div data-test-id="tableName" className={styles.describer}>
+          <strong>Data Table:</strong>
+          <div>
+            <Truncator>
+              <span data-test-id="tableNameText">{tableName}</span>
+            </Truncator>
           </div>
         </div>
-      )}
+        <div className={styles.describer}>
+          <strong>Date Range:</strong>
+          {!isFiltered && (
+            <span data-test-id="allString" className={styles.dateString}> {allString}</span>
+          )}
+          <div data-test-id="dateString" className={styles.dateString}> {dateString}</div>
+        </div>
+        {(selectedTable?.userFilter) && (
+          <div className={styles.describer}>
+            <strong data-testid="userFilterLabel">{selectedTable.userFilter.label}:</strong>
+            <div data-testid="userFilterValue" className={styles.dateString}>
+              {(selectedUserFilter && selectedUserFilter.value) ?
+                  selectedUserFilter.label :
+                  '(None selected)'}
+            </div>
+          </div>
+        )}
+      </div>
 
       <DownloadToggle onChange={toggleButtonChange} />
       <div>

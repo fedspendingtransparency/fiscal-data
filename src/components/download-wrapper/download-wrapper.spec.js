@@ -21,6 +21,19 @@ describe('DownloadWrapper', () => {
   enableFetchMocks();
   let createObjectURL;
 
+  const mockSelectedTableWithUserFilter = {
+    tableName: 'Table 1',
+    userFilter: {
+      label: 'Country-Currency',
+      field: 'country_currency_desc'
+    }
+  };
+
+  const mockSelectedUserFilter = {
+    label: 'Atlantis-Aquabuck',
+    value: 'Atlantis-Aquabuck'
+  };
+
   beforeAll(() => {
     createObjectURL = global.URL.createObjectURL;
     global.URL.createObjectURL = jest.fn();
@@ -263,23 +276,31 @@ describe('DownloadWrapper', () => {
   });
 
   it('displays userFilter selection when applied', () => {
-    const curTableName = 'Table 1';
-    const selectedTable = {
-      tableName: curTableName,
-      userFilter: {
-        label: 'Country-Currency',
-        field: 'country_currency_desc'
-      }
-    };
     renderer.act(() => {
       component.update(
         <DownloadWrapper
-          selectedTable={selectedTable}
+          selectedTable={mockSelectedTableWithUserFilter}
           dataset={{name: 'Mock Dataset'}}
-          selectedUserFilter={{
-            label: 'Atlantasia-Woodchuckbuck',
-            value: 'Atlantasia-Woodchuckbuck'
-          }}
+          selectedUserFilter={mockSelectedUserFilter}
+        />
+      );
+    });
+
+    const filterName = instance.findByProps({'data-testid': 'userFilterLabel'});
+    expect(filterName.props.children).toEqual(["Country-Currency", ":"]);
+    const filterValue = instance.findByProps({'data-testid': 'userFilterValue'});
+    expect(filterValue.props.children).toEqual('Atlantis-Aquabuck');
+  });
+
+  it('displays (None Selected) when userFilter is available but not selected', () => {
+
+    // with no selection at all
+    renderer.act(() => {
+      component.update(
+        <DownloadWrapper
+          selectedTable={mockSelectedTableWithUserFilter}
+          dataset={{name: 'Mock Dataset'}}
+          selectedUserFilter={null}
         />
       )
     });
@@ -287,27 +308,14 @@ describe('DownloadWrapper', () => {
     const filterName = instance.findByProps({'data-testid': 'userFilterLabel'});
     expect(filterName.props.children).toEqual(["Country-Currency", ":"]);
     const filterValue = instance.findByProps({'data-testid': 'userFilterValue'});
-    expect(filterValue.props.children).toEqual('Atlantasia-Woodchuckbuck');
+    expect(filterValue.props.children).toEqual('(None selected)');
   });
 
   it('creates the expected download configuration when a userFilter is applied', () => {
     mockSetDownloadRequest.mockClear();
-    const curTableName = 'Table 1';
-    const selectedTable = {
-      tableName: curTableName,
-      userFilter: {
-        label: 'Country-Currency',
-        field: 'country_currency_desc'
-      }
-    };
-
-    const mockSelectedUserFilter = {
-      label: 'Atlantasia-Woodchuckbuck',
-      value: 'Atlantasia-Woodchuckbuck'
-    };
 
     const expectedArgs =  {
-      apis: selectedTable,
+      apis: mockSelectedTableWithUserFilter,
       datasetId: mockDataset.datasetId,
       dateRange: mockDateRange,
       selectedFileType: 'csv',
@@ -320,7 +328,7 @@ describe('DownloadWrapper', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadWrapper
             allTablesSelected={false}
-            selectedTable={selectedTable}
+            selectedTable={mockSelectedTableWithUserFilter}
             dataset={mockDataset}
             dateRange={mockDateRange}
             selectedUserFilter={mockSelectedUserFilter}
@@ -328,7 +336,6 @@ describe('DownloadWrapper', () => {
         </downloadsContext.Provider>);
       component.getByTestId('download-button').click();
     });
-    console.log('mockSetDownloadRequest.mock.calls', mockSetDownloadRequest.mock.calls);
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
     mockSetDownloadRequest.mockClear();
   });

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { inputContainer, iconButton } from './combo-select.module.scss';
 import * as styles from '../select-control/select-control.module.scss';
 import { filterYearOptions } from '../published-reports/util/util';
 import useOnClickOutside from 'use-onclickoutside';
 import classNames from 'classnames';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function ComboSelect(
   {
@@ -20,9 +20,9 @@ export default function ComboSelect(
     required = false
   }) {
   const [filterCharacters, setFilterCharacters] = useState('');
-  const [filteredOptions, setFilteredOptions] = useState();
+  const [filteredOptions, setFilteredOptions] = useState([]);
   const [droppedDown, setDroppedDown] = useState(false);
-
+  const [inputRef, setInputFocus] = useFocus();
 
   const updateSelection = (selection) => {
     changeHandler(selection);
@@ -54,9 +54,18 @@ export default function ComboSelect(
     }
   };
 
+  const toggleDropdown = () => {
+    if (droppedDown) {
+      onBlurHandler();
+    } else {
+      clearTimeout(timeOutId);
+      setDroppedDown(true);
+      setInputFocus();
+    }
+  }
   /* accessibility-enabling event handlers for interpreting focus state on control */
   const onBlurHandler = (event) => {
-    if (event && !(event.target.parentElement.contains(event.relatedTarget))) {
+    if (!event || !(event.target.parentElement.contains(event.relatedTarget))) {
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
           setFilterCharacters(selectedOption.value);
@@ -72,7 +81,6 @@ export default function ComboSelect(
 
   const ref = React.useRef(null)
   useOnClickOutside(ref, onBlurHandler)
-
 
   useEffect(() => {
     if (selectedOption && selectedOption.value) {
@@ -123,13 +131,12 @@ export default function ComboSelect(
     `Year (${options[options.length -1].label} - ${options[0].label})` :
     label;
   return (
-    <div ref={ref}
-         className={styles.selector_container} onFocus={onFocusHandler}
-    >
-      <div className={`${styles.selector_label} ${labelClass}`}>
+    <div className={styles.selector_container}>
+      <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
         {labelText}
         {required && (<span className="required">*</span>)}
       </div>
+      <div ref={ref} onFocus={onFocusHandler}>
         <div>
           {yearFilter ? (
             <input type="number"
@@ -157,25 +164,38 @@ export default function ComboSelect(
                      min={options[options.length -1].label}
                      placeholder={'Enter or select option'}
                      autoComplete={'off'}
+                     ref={inputRef}
               />
-              {(filterCharacters && (filterCharacters.length > 0)) && (
-                  <button
-                    data-test-id="search-button"
-                    className={iconButton}
-                    onClick={clear}
-                    aria-label={'clear'}
-                  >
-                    <FontAwesomeIcon icon={faTimesCircle} data-test-id="clear-search-icon" />
-                  </button>
-                )}
+                  {(!filterCharacters || !(filterCharacters.length > 0))
+                  ? (
+                      <button
+                        data-testid="dropdown-button"
+                        className={iconButton}
+                        onClick={toggleDropdown}
+                        aria-label={droppedDown ? 'Collapse options' : 'Show options'}
+                      >
+                        <FontAwesomeIcon icon={faChevronDown} data-testid="down-arrow" />
+                      </button>
+                    )
+                  : (
+                      <button
+                        data-testid="clear-button"
+                        className={iconButton}
+                        onClick={clear}
+                        aria-label={filterCharacters.length > 0 ? 'clear filter' : ''}
+                      >
+                        <FontAwesomeIcon icon={faTimesCircle} data-testid="clear-filter-icon" />
+                      </button>
+                    )
+                  }
             </div>
           )}
         </div>
 
       {droppedDown && (
         <ul className={`${styles.selector_list} ${scrollable ? styles.scrollable : ''}`}
-            data-test-id={'selectorList'}
-            aria-hidden>
+            data-testid="selectorList"
+        >
           {filteredOptions.map((option, index) => (
             <React.Fragment key={index}>
                 <li className={styles.selector_option}>
@@ -196,6 +216,16 @@ export default function ComboSelect(
           ))}
         </ul>
       )}
+      </div>
     </div>
   );
+}
+
+const useFocus = () => {
+  const htmlElRef = useRef(null);
+  const setFocus = () => {
+    htmlElRef.current &&  htmlElRef.current.focus();
+  }
+
+  return [ htmlElRef, setFocus ];
 }
