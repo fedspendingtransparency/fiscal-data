@@ -34,6 +34,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getShortForm } from '../../../../../heros/hero-helper';
 import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-utils';
+import Analytics from "../../../../../../../utils/analytics/analytics";
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -64,6 +65,14 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState(
     {}
   );
+
+  const chartHoverEvent = () => {
+    return Analytics.event({
+      category: 'Fiscal Data - Explainers',
+      action: 'Chart Hover',
+      label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
+    });
+  }
 
   const percentageData = [
     {

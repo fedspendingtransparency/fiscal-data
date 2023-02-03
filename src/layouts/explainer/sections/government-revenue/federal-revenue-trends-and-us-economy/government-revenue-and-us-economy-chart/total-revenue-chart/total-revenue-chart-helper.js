@@ -10,6 +10,7 @@ import {
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import { formatCurrency, formatPercentage } from '../../../../../explainer-helpers/explainer-charting-helper';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
+import Analytics from "../../../../../../../utils/analytics/analytics";
 const mts = (
   <CustomLink
     url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`}
@@ -30,6 +31,14 @@ const bea = (
       Bureau of Economic Analysis
   </CustomLink>
 );
+
+const toggleButtonEvent = () => {
+  return Analytics.event({
+    category: 'Fiscal Data - Explainers',
+    action: 'Chart Click',
+    label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
+  });
+}
 
 const footer = (
   <p>
@@ -90,7 +99,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
             height: isMobile ? '1.5rem' : '2rem',
           }}
           onClick={() => {
-            setSelectedChartView('totalRevenue');
+            setSelectedChartView('totalRevenue'); toggleButtonEvent();
           }}
         >
           <span
@@ -121,7 +130,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
             height: isMobile ? '1.5rem' : '2rem',
           }}
           onClick={() => {
-            setSelectedChartView('percentageGdp');
+            setSelectedChartView('percentageGdp'); toggleButtonEvent();
           }}
         >
           <span
