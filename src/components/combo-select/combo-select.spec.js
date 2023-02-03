@@ -159,7 +159,7 @@ describe('The ComboSelect Component for general text use', () => {
     const optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(16);
     // spot check options/ordering
-    expect(optionButtons[0].children).toEqual(['[None selected]']);
+    expect(optionButtons[0].children).toEqual(['(None selected)']);
     expect(optionButtons[15].children).toEqual(['Nice3-lettuce']);
   });
 
