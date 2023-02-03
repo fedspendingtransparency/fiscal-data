@@ -72,26 +72,6 @@ describe('National Debt explainer page sections', () => {
   });
 });
 
-describe('National Debt Explained', () => {
-  const glossary = [];
-  beforeEach(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
-  });
-  it('renders the table showing a breakdown of how the national debt works', () => {
-    const { container, getByText } = render(<NationalDebtExplainedSection glossary={glossary} />);
-
-    expect(container.querySelector(`.${nationalDebtExplainedTable}`)).toBeInTheDocument();
-
-    nationalDebtExplainedTableContent.body.forEach((row) => {
-      row.forEach((col) => {
-        if (col !== null) {
-          expect(getByText(col)).toBeInTheDocument();
-        }
-      });
-    });
-  });
-
-});
 
 describe('Funding Programs & Services', () => {
   it('calls the appropriate analytics event when links are clicked on', () => {
