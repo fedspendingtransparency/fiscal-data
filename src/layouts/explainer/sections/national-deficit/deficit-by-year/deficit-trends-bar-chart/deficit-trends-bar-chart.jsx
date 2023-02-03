@@ -68,8 +68,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
     let barCounter = 14;
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
+      const lastEntry = result.data[result.data.length - 1];
       result.data.forEach((entry) => {
-        if(entry.record_fiscal_year === '2022') {
+        if(entry.record_fiscal_year === lastEntry.record_fiscal_year) {
           apiData.push({
             "year": entry.record_fiscal_year,
             "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000).toFixed(2),
@@ -131,9 +132,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
       else {
         const parentG = event.target.parentNode;
         const realBar = barSVGs.find((element) => element === parentG);
-        const indexOfRealBar = barSVGs.indexOf(realBar) - 22;
+        const indexOfRealBar = barSVGs.indexOf(realBar) - numOfBars;
         event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = barHighlightColor;
-        event.target.parentNode.parentNode.children[(barSVGs.length - 1) - 22].firstChild.style.fill = deficitExplainerPrimary;
+        event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars].firstChild.style.fill = deficitExplainerPrimary;
         const matchedBar = chartData.find((element) => element.year === data.data.year);
         setHeaderYear(matchedBar.year);
         setHeaderDeficit(matchedBar.deficit);
@@ -149,7 +150,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
       const parentG = event.target.parentNode;
       const barSVGs = Array.from(event.target.parentNode.parentNode.children);
       const realBar = barSVGs.find((element) => element === parentG);
-      const indexOfRealBar = barSVGs.indexOf(realBar) - 22;
+      const indexOfRealBar = barSVGs.indexOf(realBar) - numOfBars;
       event.target.parentNode.parentNode.children[indexOfRealBar].firstChild.style.fill = deficitExplainerPrimary;
     }
   }
