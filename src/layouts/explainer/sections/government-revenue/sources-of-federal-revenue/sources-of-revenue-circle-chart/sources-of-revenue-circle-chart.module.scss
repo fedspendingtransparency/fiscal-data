@@ -1,12 +1,9 @@
 @import "src/variables.module";
 
-:global(.chartContainerHeader) {
-  margin-top: 1.625rem;
-}
-
 .dataHeaderContainer {
   display: flex;
   flex-direction: column;
+  margin-top: 0.625rem;
 
   .header {
     font-size: $font-size-24;
