@@ -12,6 +12,8 @@
   }
 }
 
-.infoContainer {
-  margin-right: 2.5rem;
+@media (min-width: $breakpoint-sm){
+  .infoContainer {
+    margin-right: 2.5rem;
+  }
 }
