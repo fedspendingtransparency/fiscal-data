@@ -43,6 +43,7 @@ import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
 import { getAFGFootnotes } from "../../helpers/footnotes-helper/footnotes-helper";
 import {isBillionsOrTrillions} from "../../utils/rounding-utils";
+import Analytics from "../../utils/analytics/analytics";
 
 export const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -77,6 +78,14 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const [debtContributed, setDebtContributed] = useState('has contributed');
   const [debtDate, setDebtDate] = useState('month year');
   const [debtToPennyDate, setDebtToPennyDate] = useState('month DD, year');
+
+  const handleCitizensGuideClick = () => {
+    return Analytics.event({
+      category: 'Explainers',
+      action: 'Citation Click',
+      label: 'AFG Overview - DS&M'
+    });
+  }
 
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
@@ -197,6 +206,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const mts = (
     <CustomLink
       url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
+      eventNumber={"9"}
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -206,6 +216,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       url={
         "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny"
       }
+      eventNumber={"10"}
     >
       Debt to the Penny
     </CustomLink>
@@ -383,7 +394,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           Your Guide to America's Finances is a re-invention of the{" "}
           <span className={styles.blueText}>
             {" "}
-            <a href={'https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
+            <a href={'https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'} onClick={handleCitizensGuideClick}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
           </span>{" "}
           This site was created in response to the public's desire to learn more
           about the financial picture of the United States. Where does the money

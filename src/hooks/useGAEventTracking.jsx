@@ -92,7 +92,7 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
     if (type && eventTrackingCsvs) {
       const lookupTypeQuery = `all${type}EventTrackingCsv`;
       const typeToLower = type[0].toLowerCase() + type.slice(1);
-      const lookupTypeNode = `${typeToLower}ExplainerEventTrackingCsv`;
+      const lookupTypeNode = `${typeToLower}EventTrackingCsv`;
       const lookup =
         eventTrackingCsvs[lookupTypeQuery] &&
         eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
@@ -104,6 +104,7 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
           }
           return eventInfo;
         });
+
 
       if (gaEvent) {
         setGaEvent(gaEvent[0] ? gaEvent[0] : null);
