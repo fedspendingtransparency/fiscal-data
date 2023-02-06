@@ -50,15 +50,24 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
             eventLabel
           }
         }
+        allAfgOverviewEventTrackingCsv {
+          afgOverviewEventTrackingCsv: nodes {
+            Number
+            Trigger
+            eventAction
+            eventCategory
+            eventLabel
+          }
+        }
       }
     `
   );
 
   const getGAEvent = (eventNumber) => {
     if(eventNumber && eventTrackingCsvs){
-      const lookupTypeQuery = `all${type}ExplainerEventTrackingCsv`;
+      const lookupTypeQuery = `all${type}EventTrackingCsv`;
       const typeToLower = type[0].toLowerCase() + type.slice(1);
-      const lookupTypeNode = `${typeToLower}ExplainerEventTrackingCsv`;
+      const lookupTypeNode = `${typeToLower}EventTrackingCsv`;
       const lookup =
         eventTrackingCsvs[lookupTypeQuery] &&
         eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
@@ -81,7 +90,7 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
 
   useEffect(() => {
     if (type && eventTrackingCsvs) {
-      const lookupTypeQuery = `all${type}ExplainerEventTrackingCsv`;
+      const lookupTypeQuery = `all${type}EventTrackingCsv`;
       const typeToLower = type[0].toLowerCase() + type.slice(1);
       const lookupTypeNode = `${typeToLower}ExplainerEventTrackingCsv`;
       const lookup =

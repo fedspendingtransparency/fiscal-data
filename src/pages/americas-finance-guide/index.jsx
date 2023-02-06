@@ -258,7 +258,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             heading={revenueHeading}
             body={revenueBody}
             linkUrl="/americas-finance-guide/government-revenue/"
-
+            eventNumber={'4'}
+            pageName={'Revenue'}
             linkText="Learn more about government revenue"
             linkColor={styles.revenueExplainerPrimary}
             image="/topics-section-images/homepage_revenue_1200x630.png"
@@ -271,9 +272,10 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             heading={spendingHeading}
             body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
             linkUrl="/americas-finance-guide/federal-spending/"
-
             linkText="Learn more about federal spending"
             linkColor={spendingExplainerPrimary}
+            eventNumber={'5'}
+            pageName={'Spending'}
             image="/topics-section-images/homepage_spending_1200x630.png"
             imageAltText="The US Treasury building is placed next to a row of homes. A pair
           of hands exchange money in the foreground. "
@@ -309,9 +311,10 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             heading={deficitHeading}
             body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
             linkUrl="/americas-finance-guide/national-deficit/"
-
             linkText="Learn more about national deficit"
             linkColor={deficitExplainerPrimary}
+            eventNumber={'6'}
+            pageName={'Deficit'}
             image="/topics-section-images/homepage_deficit_1200x630.png"
             imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
           of the hand, including a pie chart, bar graph, and lit lightbulb."
@@ -323,6 +326,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkUrl="/americas-finance-guide/national-debt/"
             linkText="Learn more about national debt"
             linkColor={debtExplainerPrimary}
+            eventNumber={'7'}
+            pageName={'Debt'}
             image="/topics-section-images/homepage_debt_1200x630.png"
             imageAltText="A variety of hands reach up with objects, including a magnifying
           glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
@@ -331,8 +336,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
           {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
 
           {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
-          <DataSourcesMethodologies>
-
+          <DataSourcesMethodologies pageName={'afg-overview'}>
             Current and prior fiscal year values for federal revenue, spending,
             and deficit are sourced from the {mts}. The {debtToThePenny} dataset is the
             data source for federal debt.

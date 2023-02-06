@@ -47,7 +47,9 @@ export default function ExplainerSubNav({hidePosition}) {
     <div id={styles.navContainer} data-testid="explainerSubNav">
       <ul className={navBlockStyle} data-testid="explainerSubNavList">
         <li className={[styles.navItem, styles.noverview, styles.nactive].join(' ')}>
-          <Link to='/americas-finance-guide/' className={styles.navLink} activeClassName={styles.active}>
+          <Link to='/americas-finance-guide/' className={styles.navLink}
+                activeClassName={styles.active} onClick={() => analyticsEvent('Overview')}
+          >
             <FontAwesomeIcon icon={faHouseChimney} className={styles.navIcon} />
             <span className={styles.navLinkText}>Overview</span>
           </Link>
