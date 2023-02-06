@@ -26,6 +26,8 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [chartYears, setChartYears] = useState([]);
   const [totalRevByYear, setTotalRevByYear] = useState([]);
 
+  let gaTimerRevenueTrends;
+
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
       + 'record_calendar_month:eq:09&sort=-record_date';
@@ -117,13 +119,21 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       });
   }, [])
 
-  const hoverEvent = () => {
-   return Analytics.event(
-     { category: 'Fiscal Data - Explainers',
-       action: 'Chart Hover',
-       label: 'Revenue - Federal Revenue Trends Over Time' }
-   );
+  const handleChartMouseEnter = () => {
+     gaTimerRevenueTrends = setTimeout(() => {
+       Analytics.event(
+         {
+           category: 'Explainers',
+           action: 'Chart Hover',
+           label: 'Revenue - Federal Revenue Trends Over Time'
+         }
+       );
+     }, 3000);
   };
+
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimerRevenueTrends);
+  }
 
   const blsLink =
     <CustomLink
@@ -159,7 +169,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             strokeWidth={0}
             strokeOpacity={0.75}
             fillOpacity={0}
-            onMouseEnter={() => {props.setCurrentSlice(slice); hoverEvent()}}
+            onMouseEnter={() => props.setCurrentSlice(slice)}
             onFocus={event => {
               showTooltipFromEvent(
                 React.createElement(props.sliceTooltip, {
@@ -331,7 +341,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             customTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_16, color: '#666666'}: {} }
             customSubTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
           >
-            <div className={styles.lineChart} data-testid={'chartParent'}>
+            <div className={styles.lineChart} data-testid={'chartParent'} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
               <Line
                 data={chartData}
                 layers={[

@@ -66,12 +66,20 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     {}
   );
 
-  const chartHoverEvent = () => {
-    return Analytics.event({
-      category: 'Fiscal Data - Explainers',
-      action: 'Chart Hover',
-      label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
-    });
+  let gaTimerTotalRevenue;
+
+  const handleMouseEnterChart = () => {
+    gaTimerTotalRevenue = setTimeout(() => {
+      Analytics.event({
+        category: 'Explainers',
+        action: 'Chart Hover',
+        label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
+      });
+    },3000);
+  }
+
+  const handleMouseLeaveChart = () => {
+    clearTimeout(gaTimerTotalRevenue);
   }
 
   const percentageData = [
@@ -330,7 +338,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
       )}
       {!isLoading && chartToggleConfig && (
       <div className={visWithCallout}>
-        <div className={container}>
+        <div className={container} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
           <ChartContainer
             title={chartTitle}
             subTitle={chartSubtitle}
