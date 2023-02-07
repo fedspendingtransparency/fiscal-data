@@ -41,7 +41,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   const pageName = urlSplit[urlSplit.length-2];
   const explainerPageName = analyticsEventMap[pageName];
 
-
   const {gaEvent} = useGAEventTracking(eventNumber, explainerPageName);
 
   const onClickEventHandler = () => {

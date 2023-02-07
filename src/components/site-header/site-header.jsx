@@ -201,6 +201,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         onMouseOver={handleMouseOver}
                         onMouseLeave={handleMouseLeave}
                         onFocus={handleMouseOver}
+                        role={'button'}
+                        tabIndex={'0'}
                         data-testid={'dropdownContent'}
                       >
                         <div className={styles.dropdownRow}>

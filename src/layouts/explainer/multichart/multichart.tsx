@@ -119,6 +119,7 @@ const Multichart: FunctionComponent<MultichartProperties> =
            data-testid="multichart"
            onMouseEnter={handleMouseEnter}
            onMouseLeave={handleMouseLeave}
+           role={'presentation'}
       />
     </>
   );

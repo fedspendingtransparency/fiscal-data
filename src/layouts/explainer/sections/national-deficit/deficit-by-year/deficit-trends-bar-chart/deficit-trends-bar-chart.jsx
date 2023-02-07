@@ -227,8 +227,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
     <>
       { chartData !== [] ? (
         <div data-testid={'deficitTrendsBarChart'} className={container}
-        onMouseEnter={handleMouseChartEnter}
-        onMouseLeave={handleMouseChartLeave}
+          onMouseEnter={handleMouseChartEnter}
+          onMouseLeave={handleMouseChartLeave}
+          role={'presentation'}
         >
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY 2001-${mostRecentFiscalYear}`}
@@ -240,7 +241,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
             date={date}
 
           >
-            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'}>
+            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'} role={'presentation'}>
               <Bar
                 data={chartData}
                 theme={chartTheme}

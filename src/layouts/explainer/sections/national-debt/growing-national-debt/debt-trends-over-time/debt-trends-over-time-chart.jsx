@@ -313,7 +313,12 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         {!isLoadingDebtTrends && (
           <>
             <div>
-              <div className={debtTrendsOverTimeSectionGraphContainer}>
+              <div
+                className={debtTrendsOverTimeSectionGraphContainer}
+                role={"img"}
+                aria-label={`Line graph displaying the federal debt to GDP trend over time
+                    from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
+              >
                 <p className={title}>
                   {" "}
                   Federal Debt Trends Over Time, FY 1948 – {lastDebtValue.x}
@@ -345,9 +350,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                     data-testid={`${chartParent}`}
                     onMouseEnter={handleMouseEnterLineChart}
                     onMouseLeave={handleMouseLeaveLineChart}
-                    role={"img"}
-                    aria-label={`Line graph displaying the federal debt to GDP trend over time
-                    from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
+                    role={'presentation'}
                   >
                     <Line
                       data={debtTrendsData}

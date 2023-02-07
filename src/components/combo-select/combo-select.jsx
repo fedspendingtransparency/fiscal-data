@@ -136,7 +136,7 @@ export default function ComboSelect(
         {labelText}
         {required && (<span className="required">*</span>)}
       </div>
-      <div ref={ref} onFocus={onFocusHandler}>
+      <div ref={ref} onFocus={onFocusHandler} role={'presentation'}>
         <div>
           {yearFilter ? (
             <input type="number"

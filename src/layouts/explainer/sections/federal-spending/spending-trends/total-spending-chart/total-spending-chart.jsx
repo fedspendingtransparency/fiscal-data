@@ -372,6 +372,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               <div className={lineChart} data-testid={'chartParent'}
                    onMouseEnter={handleMouseEnter}
                    onMouseLeave={() => clearTimeout(gaTimer)}
+                   role={'presentation'}
               >
                 <Line
                   data={chartData}

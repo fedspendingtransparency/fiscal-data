@@ -219,6 +219,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                 data-testid={'totalDebtChartParent'}
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
+                role={'presentation'}
               >
                 <Line
                   data={chartData}
