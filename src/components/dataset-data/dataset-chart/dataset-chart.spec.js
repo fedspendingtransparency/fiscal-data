@@ -6,7 +6,7 @@ import DatasetChart, {
   chartHooks
 } from './dataset-chart';
 import globalConstants from '../../../helpers/constants';
-import { chartCitationText } from './chart-citation/chart-citation.jsx';
+import { chartCitationText } from './chart-citation/chart-citation';
 import * as Helpers from '../dataset-data-helper/dataset-data-helper';
 import { fireEvent, render } from '@testing-library/react';
 
