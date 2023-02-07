@@ -30,6 +30,8 @@ import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils
 import {getShortForm, isBillionsOrTrillions} from "../../../../../../utils/rounding-utils";
 import Analytics from "../../../../../../utils/analytics/analytics";
 
+let gaTimerRevenueCircle;
+
 const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
   const defaultCategory = {
@@ -54,8 +56,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
-
-  let gaTimerRevenueCircle;
 
   useEffect(() => {
     const url =
@@ -245,8 +245,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         category: 'Explainers',
         action: 'Chart Hover',
         label: 'Revenue - Sources of Federal Revenue'
-      }, 3000);
-    });
+      });
+    }, 3000);
   }
 
   const HandleLabelClick = (node, e) => {
@@ -286,8 +286,8 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   };
 
   const HandleChartMouseLeave = () => {
+    clearTimeout(gaTimerRevenueCircle);
     if (chartData !== {}) {
-      clearTimeout(gaTimerRevenueCircle);
       decreaseOpacity();
       highlightDefaultCircle();
       setCategoryName(defaultCategory.name);
