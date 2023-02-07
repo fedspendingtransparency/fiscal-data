@@ -36,6 +36,8 @@ import { getShortForm } from '../../../../../heros/hero-helper';
 import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-utils';
 import Analytics from "../../../../../../../utils/analytics/analytics";
 
+let gaTimerTotalRevenue;
+
 const callOutDataEndPoint =
   apiPrefix +
   'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date&page[size]=1';
@@ -65,8 +67,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState(
     {}
   );
-
-  let gaTimerTotalRevenue;
 
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {

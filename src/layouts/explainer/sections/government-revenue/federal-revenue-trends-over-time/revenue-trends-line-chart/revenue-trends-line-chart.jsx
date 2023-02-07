@@ -16,6 +16,8 @@ import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import { useTooltip } from '@nivo/tooltip';
 import Analytics from "../../../../../../utils/analytics/analytics";
 
+let gaTimerRevenueTrends;
+
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
 
@@ -25,8 +27,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [chartYears, setChartYears] = useState([]);
   const [totalRevByYear, setTotalRevByYear] = useState([]);
-
-  let gaTimerRevenueTrends;
 
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
