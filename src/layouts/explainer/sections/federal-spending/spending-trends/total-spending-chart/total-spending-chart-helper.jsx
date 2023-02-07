@@ -30,16 +30,6 @@ const footer = (
   </p>
 );
 
-const chartHoverEvent = () => {
-  return Analytics.event({
-    category: 'Fiscal Data - Explainers',
-    action: 'Chart Hover',
-    label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
-  });
-}
-
-
-
 export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   return {
   title: `Government Spending and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
@@ -298,7 +288,7 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
           strokeWidth={0}
           strokeOpacity={0.25}
           fillOpacity={0}
-          onMouseEnter={() => {props.setCurrentSlice(slice); chartHoverEvent()}}
+          onMouseEnter={() => props.setCurrentSlice(slice)}
           onFocus={() =>{
             mouseMove(slice)
             props.setCurrentSlice(slice)}
