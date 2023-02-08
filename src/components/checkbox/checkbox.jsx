@@ -19,11 +19,12 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
     <div className={styles.checkbox_container}>
       {checkboxData.map((obj, index) => (
         <React.Fragment key={index}>
-          <label 
-            className={styles.checkbox_label} 
+          <label
+            className={styles.checkbox_label}
             data-testid="checkbox-label-element"
             onMouseEnter={() => handleHover(true, obj)}
             onMouseLeave={() => handleHover(false, obj)}
+            role={'presentation'}
           >
             <div className={styles.checkbox_wrapper}>
               <input

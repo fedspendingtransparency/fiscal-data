@@ -22,7 +22,7 @@ describe('Go to Page PagingOptionsMenu component', () => {
   it('renders visible and with correct label and number of options by default', () => {
     expect(instance.findByType(PagingOptionsMenu)).toBeDefined();
     expect(instance.findAllByType(MenuItem).length).toEqual(options.length);
-    expect(instance.findByProps({'className':'perPageLabel'}).text()).toContain(label);
+    expect(instance.findByProps({'className':'perPageLabel'}).text()).toContain(menuProps.label);
   });
 
   it('renders hidden if hideOnSm', () => {
@@ -51,7 +51,7 @@ describe('Rows Per Page PagingOptionsMenu component', () => {
   it('renders visible and with correct label and number of options by default', () => {
     expect(instance.findByType(PagingOptionsMenu)).toBeDefined();
     expect(instance.findAllByType(MenuItem).length).toEqual(options.length);
-    expect(instance.findByProps({'className':'perPageLabel'}).text()).toContain(label);
+    expect(instance.findByProps({'className':'perPageLabel'}).text()).toContain(menuProps.label);
   });
 
 });

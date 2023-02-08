@@ -1,4 +1,4 @@
-import simplifyNumber, {numberWithCommas} from './simplifyNumber.js' ;
+import simplifyNumber, {numberWithCommas} from './simplifyNumber' ;
 
 describe('simplify number', () => {
     it('handles trillions', () => {

@@ -19,7 +19,7 @@ const Sparkler = ({coordinates}: SparklerProps) => {
     const startingSpot = Math.floor(Math.random() * coordinates.length);
 
     return (
-      <div className={sparkleBox} onMouseLeave={() => setSparkles(scintillate())}>
+      <div className={sparkleBox} onMouseLeave={() => setSparkles(scintillate())} role={'presentation'}>
         <svg aria-hidden="true" style={{display: 'none'}}>
         <symbol id="glimmer" viewBox="155 78 68 9">
           <g fill="none" transform="scale(1 -1)">

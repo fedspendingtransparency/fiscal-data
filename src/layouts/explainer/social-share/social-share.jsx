@@ -98,6 +98,8 @@ export const ShareButtonContent = ({ name, width, horizontal }) => {
         className={shareButtonContent}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        role={'button'}
+        tabIndex={'0'}
       >
         <FontAwesomeIcon
           className={shareButtonContentMap[name].className}

@@ -315,6 +315,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 data-testid="image-container"
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
+                role={'presentation'}
               >
                 {isLoading ?
                   <div data-testid="loadingSection">
@@ -340,6 +341,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 className={sparkLine}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
+                role={'presentation'}
               >
                 {apiError && <p>API Error</p>}
                 {isLoading &&
@@ -357,6 +359,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 className={sparkLine}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
+                role={'presentation'}
               >
                 <BarGraph
                   cardId={cardId}

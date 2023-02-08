@@ -1129,15 +1129,18 @@ export const DebtBreakdownSection = withWindowSize(
           </p>
           <div className={visWithCallout}>
             {multichartDataLoaded && (
-              <div className={multichartWrapper}>
+              <div
+                className={multichartWrapper}
+                aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
+                "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin
+                }
+                role={'img'}
+              >
                 <div
                   className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
-                  role={"img"}
                   onMouseEnter={handleMouseEnterInterestChart}
-                 onMouseLeave={handleMouseLeaveInterestChart}
-                 aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
-                 "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin
-                  }
+                  onMouseLeave={handleMouseLeaveInterestChart}
+                  role={'presentation'}
                 >
                   <p className={`${title} ${simple}`}>
                     Interest Rate and Total Debt, {multichartStartYear} –{" "}

@@ -126,6 +126,7 @@ const DynamicConfig = ({
       onDragEnter={highlightDropzone}
       onDragLeave={removeDropzoneHighlight}
       onDrop={(e) => dropContent(e, type)}
+      role={'presentation'}
     >
       {createPivotOptions(sourceList)}
     </div>
@@ -187,68 +188,70 @@ const DynamicConfig = ({
 
   const createPivotOptions = (list) => (
     list.map((field, i) => (
-      <div
-        key={`configField-${i}`}
-        className={`${styles.fieldOption} ${fieldInEditMode === field ? styles.edit : ''}`}
-        draggable
-        onDragStart={() => initiateDragStart(field, i)}
-      >
-        {field.columnName}
-        <span className={styles.pivotViewOnly}>
-          {' '} | {fieldInEditMode === field ? (
+        <div
+          role={'button'}
+          tabIndex={0}
+          key={`configField-${i}`}
+          className={`${styles.fieldOption} ${fieldInEditMode === field ? styles.edit : ''}`}
+          draggable
+          onDragStart={() => initiateDragStart(field, i)}
+        >
+          {field.columnName}
+          <span className={styles.pivotViewOnly}>
+            {' '} | {fieldInEditMode === field ? (
+              <>
+                <input
+                  defaultValue={field.title} data-testid="titleInput"
+                  onChange={(event) => editPivotViewTitle(field, event.target.value)}
+                />
+              </>
+            ) : (
+              <>
+                <span data-testid="pivotViewTitle">{field.title}</span>
+                <button
+                  className={styles.editButton}
+                  data-testid={`editButton-${field.title}`}
+                  onClick={() => setFieldInEditMode(field)}
+                >
+                  <FontAwesomeIcon icon={faEdit} />
+                </button>
+              </>
+            )}
+          </span>
+          {fieldInEditMode === field && (
             <>
-              <input
-                defaultValue={field.title} data-testid="titleInput"
-                onChange={(event) => editPivotViewTitle(field, event.target.value)}
-              />
-            </>
-          ) : (
-            <>
-              <span data-testid="pivotViewTitle">{field.title}</span>
+              <span className={styles.snapshotToggler}>
+                Use last row snapshot for values?
+                <input
+                  type="checkbox"
+                  onChange={() => updateLastSavedSnapshot(field)}
+                  defaultChecked={field.lastRowSnapshot}
+                />
+              </span>
+
+                <div className={styles.filtersContainer} data-testid="filterEditor">
+                  <FilterEditor
+                    filters={filtersInEdit}
+                    columnNames={selectedTable.fields.map(f => f.columnName)}
+                    onUpdate={setFiltersInEdit}
+                  />
+                </div>
+              <hr />
               <button
-                className={styles.editButton}
-                data-testid={`editButton-${field.title}`}
-                onClick={() => setFieldInEditMode(field)}
+                onClick={() => savePivotViewTitle(field)}
+                data-testid="saveButton"
               >
-                <FontAwesomeIcon icon={faEdit} />
+                <FontAwesomeIcon icon={faCheck} /> Save Changes
+              </button>
+              <button
+                onClick={() => cancelPivotViewChanges(field)}
+                data-testid="cancelButton"
+              >
+                <FontAwesomeIcon icon={faTimes} /> Cancel
               </button>
             </>
           )}
-        </span>
-        {fieldInEditMode === field && (
-          <>
-            <span className={styles.snapshotToggler}>
-              Use last row snapshot for values?
-              <input
-                type="checkbox"
-                onChange={() => updateLastSavedSnapshot(field)}
-                defaultChecked={field.lastRowSnapshot}
-              />
-            </span>
-
-              <div className={styles.filtersContainer} data-testid="filterEditor">
-                <FilterEditor
-                  filters={filtersInEdit}
-                  columnNames={selectedTable.fields.map(f => f.columnName)}
-                  onUpdate={setFiltersInEdit}
-                />
-              </div>
-            <hr />
-            <button
-              onClick={() => savePivotViewTitle(field)}
-              data-testid="saveButton"
-            >
-              <FontAwesomeIcon icon={faCheck} /> Save Changes
-            </button>
-            <button
-              onClick={() => cancelPivotViewChanges(field)}
-              data-testid="cancelButton"
-            >
-              <FontAwesomeIcon icon={faTimes} /> Cancel
-            </button>
-          </>
-        )}
-      </div>
+        </div>
     ))
   );
 

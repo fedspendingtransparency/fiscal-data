@@ -169,6 +169,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
             onMouseLeave={handleClose}
+            role={'presentation'}
           >
             {width < pxToNumber(breakpointLg) ?
               <span>
