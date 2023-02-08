@@ -19,6 +19,7 @@ import UserFilter from "../user-filter/user-filter";
 const RangePresets = (
   {
     currentDateButton,
+    datePreset,
     selectedTable,
     apiData,
     onUserFilter,
@@ -56,6 +57,7 @@ const RangePresets = (
   /**
    * DATE RANGE
    */
+  console.log(datePreset);
   const applyPreset = (preset) => {
     let isFiltered = true;
 
@@ -83,6 +85,7 @@ const RangePresets = (
 
   const prepUpdateDateRange = (preset) => {
     const curDateRange = determineDateRange(availableDateRange, preset);
+    console.log(curDateRange);
     updateDateRange(curDateRange);
   };
 
@@ -191,7 +194,7 @@ const RangePresets = (
         curPresets.unshift({ label: buttonLabel, key: 'current', years: null });
       }
       curPresets.push(customPreset);
-
+console.log(curPresets);
       setPresets(curPresets);
     }
   }, [selectedTable, allTablesSelected, finalDatesNotFound]);

@@ -393,6 +393,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          datePreset
           relatedTopics
           filterTopics
           publisher
