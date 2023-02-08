@@ -183,6 +183,8 @@ const transformMapper = (datasetIdMap,
         ? mappedDataset.relatedDatasets : [];
       dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton
         ? mappedDataset.currentDateButton : null;
+      dataset.datePreset = mappedDataset && mappedDataset.datePreset
+        ? mappedDataset.datePreset : null;
       dataset.dataStartYear = dataset.techSpecs.earliestDate ?
         dataset.techSpecs.earliestDate.substr(-4) : '1000';
 

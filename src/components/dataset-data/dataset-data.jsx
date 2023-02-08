@@ -215,6 +215,7 @@ export const DatasetDataComponent = ({
             onUserFilter={setUserFilterSelection}
             setIsFiltered={setIsFiltered}
             currentDateButton={config.currentDateButton}
+            datePreset={config.datePreset}
             setIsCustomDateRange={setIsCustomDateRange}
             allTablesSelected={allTablesSelected}
             datasetDateRange={{
