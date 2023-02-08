@@ -156,7 +156,7 @@ export default function ComboSelect(
           ):(
             <div className={inputContainer}>
               <input type="text"
-                     className={styles.comboSelectField}
+                     className={`${styles.comboSelectField} ${styles.textField}`}
                      onChange={onFilterChange}
                      value={filterCharacters}
                      onFocus={onFilterChange}
