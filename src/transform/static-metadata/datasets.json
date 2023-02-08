@@ -490,7 +490,7 @@
     ],
     "slug": "/slgs-daily-rate-table/",
     "currentDateButton": "byDay",
-    "datePreset": "latest"
+    "datePreset": "current"
   },
   "015-BFS-2014Q3-039": {
     "seoConfig": {

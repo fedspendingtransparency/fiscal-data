@@ -160,6 +160,41 @@ describe('Range Presets Component, without the current report radio option', () 
     expect(radioBtn.length).toBe(0);
   });
 
+  it('initially selects the current date option when datePreset is set to "current', () => {
+    const mockTable = Object.assign({}, selectedTable, { earliestDate: '2017-01-01' });
+
+    renderer.act(() => {
+      component = renderer.create(
+        <RangePresets
+          selectedTable={mockTable}
+          setIsFiltered={setIsFilteredMock}
+          setDateRange={setDateRangeMock}
+          setIsCustomDateRange={setIsCustomDateRangeMock}
+          currentDateButton={true}
+          datePreset={"current"}
+        />
+      );
+    });
+    instance = component.root;
+    jest.runAllTimers();
+
+
+    let radioBtn = instance.findByProps({ 'data-test-id': 'preset-radio-current' });
+    expect(radioBtn.props.checked).toBeTruthy();
+
+    // 1 year button will exist, but will not be checked
+    radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-1yr' });
+    expect(radioBtn[0].props.checked).toBeFalsy();
+
+    // 5 year button will not exist
+    radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-5yr' });
+    expect(radioBtn.length).toBe(0);
+
+    // 10 year button will also not exist
+    radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-10yr' });
+    expect(radioBtn.length).toBe(0);
+  });
+
   it('provides a custom date range button', () => {
     const customRangeButton = instance.findByProps({'id': 'radio-custom'});
     expect(customRangeButton).toBeDefined();

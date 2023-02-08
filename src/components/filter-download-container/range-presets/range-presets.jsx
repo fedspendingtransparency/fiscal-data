@@ -47,7 +47,7 @@ const RangePresets = (
   ];
   const customPreset = {label: 'Custom', key: 'custom', years: null};
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
-  const idealDefaultPreset = {key: '5yr', years: 5};
+  let idealDefaultPreset = {key: '5yr', years: 5};
   // If a data table has less than 5 years of data, we need to find the next best option to select
   // by default.
   const fallbackPresets = ['1yr', 'current', 'all'];
@@ -57,7 +57,6 @@ const RangePresets = (
   /**
    * DATE RANGE
    */
-  console.log(datePreset);
   const applyPreset = (preset) => {
     let isFiltered = true;
 
@@ -85,7 +84,6 @@ const RangePresets = (
 
   const prepUpdateDateRange = (preset) => {
     const curDateRange = determineDateRange(availableDateRange, preset);
-    console.log(curDateRange);
     updateDateRange(curDateRange);
   };
 
@@ -131,7 +129,9 @@ const RangePresets = (
         }
         return;
       }
-
+      if(datePreset === 'current' && presets[0].key === 'current') {
+        idealDefaultPreset = presets[0];
+      }
       // Check if the default date option is available in the preset list. If so, select the default
       // preset, else select the next available option.
       const defaultPresetIsFound = presets.some(preset => preset.key === idealDefaultPreset.key);
@@ -194,7 +194,6 @@ const RangePresets = (
         curPresets.unshift({ label: buttonLabel, key: 'current', years: null });
       }
       curPresets.push(customPreset);
-console.log(curPresets);
       setPresets(curPresets);
     }
   }, [selectedTable, allTablesSelected, finalDatesNotFound]);
