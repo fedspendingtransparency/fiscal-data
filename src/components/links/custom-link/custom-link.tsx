@@ -18,10 +18,11 @@ type CustomLinkProps = {
 const analyticsEventMap: Record<
   string, string
 > = {
-  "national-debt": "Debt",
-  "national-deficit": "Deficit",
-  "federal-spending": "Spending",
-  "government-revenue": "Revenue"
+  "national-debt": "DebtExplainer",
+  "national-deficit": "DeficitExplainer",
+  "federal-spending": "SpendingExplainer",
+  "government-revenue": "RevenueExplainer",
+  "americas-finance-guide": "AfgOverview"
 };
 
 const CustomLink: FunctionComponent<CustomLinkProps> = ({
@@ -41,12 +42,15 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   const pageName = urlSplit[urlSplit.length-2];
   const explainerPageName = analyticsEventMap[pageName];
 
-  const {gaEvent} = useGAEventTracking(eventNumber, explainerPageName);
+
+  const {getGAEvent} = useGAEventTracking(null,explainerPageName);
+
 
   const onClickEventHandler = () => {
     if (onClick) {
       return onClick();
     } else if (eventNumber) {
+      const gaEvent = getGAEvent(eventNumber);
       Analytics.event({
         //Until we generalize this use of useGAEventTracking, then we have to remove the "Fiscal Data - "that is added in analytics.js as _prefix
         category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),

@@ -30,6 +30,8 @@ import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils
 import {getShortForm, isBillionsOrTrillions} from "../../../../../../utils/rounding-utils";
 import Analytics from "../../../../../../utils/analytics/analytics";
 
+let gaTimerRevenueCircle;
+
 const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
   const defaultCategory = {
@@ -54,6 +56,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
+
   useEffect(() => {
     const url =
       'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
@@ -236,6 +239,16 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
 
+  const handleMouseEnterChart = () => {
+    gaTimerRevenueCircle = setTimeout(() => {
+      Analytics.event({
+        category: 'Explainers',
+        action: 'Chart Hover',
+        label: 'Revenue - Sources of Federal Revenue'
+      });
+    }, 3000);
+  }
+
   const HandleLabelClick = (node, e) => {
     if (e) {
       e.stopPropagation();
@@ -248,11 +261,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
   const HandleMouseEnter = (node, e, elementId) => {
-    Analytics.event({
-      category: 'Fiscal Data - Explainers',
-      action: 'Chart Hover',
-      label: 'Revenue - Sources of Federal Revenue'
-    });
     if (e.preventDefault) {
       e.preventDefault();
       e.stopPropagation();
@@ -260,7 +268,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
     if (node.id !== categoryName) {
       decreaseOpacity();
-
       increaseOpacity(node);
       setCategoryName(node.id);
       setCategoryRevenueAmount(node.value);
@@ -279,6 +286,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   };
 
   const HandleChartMouseLeave = () => {
+    clearTimeout(gaTimerRevenueCircle);
     if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();
@@ -320,6 +328,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               <div
                 role="presentation"
                 className={chartSize}
+                onMouseEnter={handleMouseEnterChart}
                 onMouseLeave={HandleChartMouseLeave}
                 onClick={HandleChartMouseLeave}
               >
