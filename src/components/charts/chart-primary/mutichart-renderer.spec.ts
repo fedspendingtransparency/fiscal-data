@@ -16,17 +16,19 @@ describe('MultichartRenderer class', () => {
 
     multichart.animateChart(mockAnimationCallback);
 
+    // timeout ms delay values based on calculating 500ms intervals starting with 1600
+    // in reverse order as ordered in the animation loop
     expect(timeoutDelays).toStrictEqual([
+      6100,
+      5600,
+      5100,
+      4600,
+      4100,
+      3600,
       3100,
-      2880,
-      2660,
-      2440,
-      2220,
-      2000,
-      1780,
-      1560,
-      1340,
-      1120,]);
+      2600,
+      2100,
+      1600]);
 
     expect(mockAnimationCallback.mock.calls).toEqual([
       [ '2021-12-31' ],
