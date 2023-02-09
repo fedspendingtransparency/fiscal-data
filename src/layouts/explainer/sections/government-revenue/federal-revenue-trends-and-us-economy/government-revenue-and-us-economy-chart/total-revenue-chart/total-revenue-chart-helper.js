@@ -34,7 +34,7 @@ const bea = (
 
 const toggleButtonEvent = () => {
   return Analytics.event({
-    category: 'Fiscal Data - Explainers',
+    category: 'Explainers',
     action: 'Chart Click',
     label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
   });
