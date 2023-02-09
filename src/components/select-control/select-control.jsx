@@ -54,6 +54,9 @@ const SelectControl = ({
       {label && <label className={styles.selector_label}>{label}</label>}
       <div
         className={`${styles.selector_container} ${className ? className : ''}`}
+        onBlur={onBlurHandler}
+        onFocus={onFocusHandler}
+        role={'presentation'}
       >
       <button
         name="dropdownToggle"
@@ -62,8 +65,6 @@ const SelectControl = ({
         aria-expanded={droppedDown}
         aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
         onClick={toggleDropdown}
-        onBlur={onBlurHandler}
-        onFocus={onFocusHandler}
       >
         <div className={styles.label} title={optionSelected[labelKey]}>
           {optionSelected[labelKey]}
