@@ -2,6 +2,7 @@
 
 .inputContainer {
   position: relative;
+  padding-right: 0.75rem;
 }
 
 .iconButton {
@@ -13,7 +14,7 @@
   margin: 0.3rem 0;
   position: absolute;
   right: 0.5rem;
-  top: -3px;
+  top: -4px;
   outline: 0;
 
   &:enabled {

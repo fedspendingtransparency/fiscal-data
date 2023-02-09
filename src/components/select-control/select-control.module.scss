@@ -103,4 +103,13 @@
   line-height: 2.125rem;
   color: $font-body-copy;
   margin-right: 1rem;
+
+  &.textField { // prevents inconsistencies with iOS
+    box-sizing: content-box;
+    height: 29.81px; // to match mui input height
+    line-height: unset;
+    padding-bottom: 1px;
+    padding-top: 1px;
+    -webkit-appearance: none;
+  }
 }

@@ -74,3 +74,4 @@ export const selector_optionButton: string;
 export const selector_optionSelected: string;
 export const label: string;
 export const comboSelectField: string;
+export const textField: string;
