@@ -51,7 +51,7 @@ export type ChartConfig = {
 export type MultichartProperties = {
   chartConfigs: ChartConfig[],
   chartId: string,
-  hoverEffectHandler: any
+  hoverEffectHandler: (recordDate: string | null) => void
 }
 
 const Multichart: FunctionComponent<MultichartProperties> =

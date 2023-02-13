@@ -35,7 +35,7 @@
 :global(.multichart-scaled) :global(.dataviz-line) {
   transform: scaleX(0);
 
-  transition: transform 0.6s 0.3s;
+  transition: transform 0.6s 0.5s;
   &:global(.fill-right) {
     transform: scaleX(1);
   }
