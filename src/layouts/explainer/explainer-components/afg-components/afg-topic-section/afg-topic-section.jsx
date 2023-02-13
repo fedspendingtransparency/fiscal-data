@@ -17,10 +17,11 @@ export default function AfgTopicSection({
     image,
     imageAltText,
     eventNumber,
-    pageName
+    pageName,
+    citationClickPage
 }) {
 
-  const {gaEvent} = useGAEventTracking(eventNumber, pageName);
+  const {gaEvent} = useGAEventTracking(eventNumber, citationClickPage);
 
   const onClickEventHandler = () => {
      if (eventNumber) {
