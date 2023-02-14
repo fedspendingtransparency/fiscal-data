@@ -3,26 +3,7 @@ import {pillDataContainer, pillDataValue, pillDataPercent, explainerArrow}
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownLong, faUpLong} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-
-export const getShortForm = (
-  value: string,
-  fractionDigits: number = 0,
-  abbreviate: boolean = true,
-  defaultDigits: boolean = false,
-): string => {
-
-  const trimmed = Math.abs(Number(value)).toFixed();
-  const inTrillions = trimmed.length > 12;
-  const divisor = inTrillions ? 1000000000000 : 1000000000;
-  const trillionLabel = abbreviate ? ' T' : ' trillion';
-  const billionLabel = abbreviate ? ' B' : ' billion';
-  const appendix = inTrillions ? trillionLabel : billionLabel;
-  const digits = defaultDigits ?
-    (inTrillions ? 2 : 0) : fractionDigits;
-
-  return Math.abs(
-    (parseFloat(value) / divisor)).toFixed(digits) + appendix;
-};
+import { getShortForm } from "../../../utils/rounding-utils";
 
 export const getFootNotesDateRange = (
   priorFY: string,
@@ -48,7 +29,7 @@ export const getPillData = (
   color: string,
   leftPillTooltipText: string,
   rightPillTooltipText: string,): JSX.Element => {
-  const displayValue = getShortForm(value.toString(), 0);
+  const displayValue = getShortForm(value.toString());
   const displayPercent = percent.toFixed();
   const valueLength = displayValue.length + 1;
   const percentLength = displayPercent.length + 1;

@@ -26,7 +26,7 @@ import DeskTopSubNav from
     "../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
-import { getShortForm } from "../../layouts/explainer/heros/hero-helper";
+import { getShortForm } from "../../utils/rounding-utils";
 import AfgTopicSection from "../../layouts/explainer/explainer-components/afg-components/afg-topic-section/afg-topic-section";
 import AfgHero from "../../layouts/explainer/explainer-components/afg-components/afg-hero/afg-hero";
 import ApiRequest from "../../helpers/api-request";
@@ -42,7 +42,6 @@ import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
 import { getAFGFootnotes } from "../../helpers/footnotes-helper/footnotes-helper";
-import {isBillionsOrTrillions} from "../../utils/rounding-utils";
 import Analytics from "../../utils/analytics/analytics";
 
 export const AmericasFinanceGuidePage = ({ width }) => {
@@ -92,7 +91,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       if (res.data) {
         const data = res.data[0];
         setYearToDateRevenue(
-          isBillionsOrTrillions(data.current_fytd_net_rcpt_amt.toString(), false)
+          getShortForm(data.current_fytd_net_rcpt_amt.toString(), false)
         );
         setFiscalYear(data.record_fiscal_year);
         if (data.record_calendar_month === '09') {
@@ -104,7 +103,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       if (res.data) {
         const data = res.data[0];
         setYearToDateSpending(
-          isBillionsOrTrillions(data.current_fytd_net_outly_amt.toString(), false)
+          getShortForm(data.current_fytd_net_outly_amt.toString(), false)
         );
         if (data.record_calendar_month === '09') {
           setSpendingHas('');
@@ -117,10 +116,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       if (res.data) {
         const data = res.data[0];
         const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
-        const formattedAmount =
-          deficitAmount >= 1000000000000
-            ? getShortForm(deficitAmount.toString(), 2, false)
-            : getShortForm(deficitAmount.toString(), 0, false);
+        const formattedAmount = getShortForm(deficitAmount.toString(), false);
         setYearToDateDeficit(formattedAmount);
         if (data.record_calendar_month === '09') {
           setDeficitExceeds('exceeded');
@@ -152,7 +148,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
       if (res.data) {
         const data = res.data[0];
-        setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), 2, false));
+        setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
         const date = new Date(data.record_date);
         const monthName = date.toLocaleString('default', {month: 'long'});
         const debtToThePennyDay = data.record_calendar_day;
