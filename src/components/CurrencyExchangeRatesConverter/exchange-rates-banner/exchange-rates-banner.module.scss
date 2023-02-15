@@ -1,0 +1,34 @@
+@import '../../../variables.module';
+
+.bannerBackground {
+  height: 48px;
+  background-color: #122e51;
+  margin: 20px 0 2rem;
+  box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.5);
+
+  .bannerText {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 73.25rem;
+    padding-left: 2rem;
+    margin: 0 auto;
+
+    h1 {
+      font-size: $font-size-18;
+      font-weight: $semi-bold-weight;
+      color: white;
+    }
+  }
+}
+
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .bannerBackground {
+    margin-top: 0;
+    .bannerText {
+      padding-left: 13px;
+    }
+  }
+}
