@@ -15,11 +15,11 @@ import Experimental from "../../components/experimental/experimental";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import ExchangeRatesBanner
-  from "../../components/CurrencyExchangeRatesConverter/exchange-rates-banner/exchange-rates-banner";
+  from "../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner";
 import QuarterSelectionBox
-  from "../../components/CurrencyExchangeRatesConverter/quater-selection-box/quarter-selection-box";
+  from "../../components/exchange-rates-converter/quater-selection-box/quarter-selection-box";
 import CurrencyEntryBox
-  from "../../components/CurrencyExchangeRatesConverter/currency-box/currency-entry-box";
+  from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const breadCrumbLinks = [

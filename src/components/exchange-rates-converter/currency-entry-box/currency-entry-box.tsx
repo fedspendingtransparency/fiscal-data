@@ -20,7 +20,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
         <div className={currencyHeader}>
           <span>{defaultCurrency}</span>
           { dropdown ?
-            <FontAwesomeIcon icon={faAngleDown} className={icon} /> : null
+            <FontAwesomeIcon icon={faAngleDown} className={icon} name={'angle-down'}/> : null
           }
         </div>
         <div className={currencyBody}>
