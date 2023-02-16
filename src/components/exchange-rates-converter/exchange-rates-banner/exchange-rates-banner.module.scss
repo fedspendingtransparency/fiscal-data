@@ -1,9 +1,9 @@
 @import 'src/variables.module';
 
 .bannerBackground {
-  height: 48px;
+  height: 3rem;
   background-color: #122e51;
-  margin: 20px 0 2rem;
+  margin: 1.25rem 0 2rem;
   box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.5);
 
   .bannerText {
@@ -28,7 +28,7 @@
   .bannerBackground {
     margin-top: 0;
     .bannerText {
-      padding-left: 13px;
+      padding-left: 0.8125rem;
     }
   }
 }

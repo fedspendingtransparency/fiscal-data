@@ -19,7 +19,7 @@
     text-align: center;
 
     .icon {
-      height: 14px;
+      height: 0.875rem;
     }
   }
 
@@ -39,7 +39,7 @@
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
     .title {
-      margin: 0 48px 1rem;
+      margin: 0 3rem 1rem;
     }
 
     .currencyBoxContainer {
