@@ -7,6 +7,7 @@ import {
 } from './currency-entry-box.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 interface ICurrencyEntryBox  {
   defaultCurrency: string,
@@ -20,7 +21,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
         <div className={currencyHeader}>
           <span>{defaultCurrency}</span>
           { dropdown ?
-            <FontAwesomeIcon icon={faAngleDown} className={icon} name={'angle-down'}/> : null
+            <FontAwesomeIcon icon={faAngleDown as IconProp} className={icon} name={'angle-down'}/> : null
           }
         </div>
         <div className={currencyBody}>

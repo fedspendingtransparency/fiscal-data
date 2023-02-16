@@ -14,10 +14,11 @@ import {
 import Experimental from "../../components/experimental/experimental";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import ExchangeRatesBanner
   from "../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner";
 import QuarterSelectionBox
-  from "../../components/exchange-rates-converter/quater-selection-box/quarter-selection-box";
+  from "../../components/exchange-rates-converter/quarter-selection-box/quarter-selection-box";
 import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 
@@ -61,7 +62,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a country-currency and then enter a value for US Dollars or for the foreign
               currency to see the conversion. {" "}
             </span>
-            <FontAwesomeIcon icon={faCircleInfo} className={icon} />
+            <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} />
           </div>
           <div className={currencyBoxContainer}>
             <CurrencyEntryBox defaultCurrency={'US Dollar'}  />
