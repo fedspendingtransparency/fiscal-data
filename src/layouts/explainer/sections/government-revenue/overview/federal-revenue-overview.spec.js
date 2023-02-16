@@ -54,10 +54,10 @@ describe('Spending Key Takeaways evergreen values', () => {
     const {getByText} = render(<FederalRevenueOverview />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getByText("in FY 2021", {exact:false})).toBeInTheDocument();
-    expect(await getByText("2.00 billion", {exact:false})).toBeInTheDocument();
+    expect(await getByText("2 billion", {exact:false})).toBeInTheDocument();
     expect(await getByText("spent less", {exact:false})).toBeInTheDocument();
     expect(await getByText("surplus", {exact:false})).toBeInTheDocument();
-    expect(await getByText("22.38 billion", {exact:false})).toBeInTheDocument();
+    expect(await getByText("22 billion", {exact:false})).toBeInTheDocument();
   });
 
 });
