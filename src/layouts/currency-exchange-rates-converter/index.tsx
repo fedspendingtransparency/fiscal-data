@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import {breadCrumbsContainer} from '../../layouts/explainer/explainer.module.scss';
+import {breadCrumbsContainer} from '../explainer/explainer.module.scss';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import {
   title,
@@ -34,7 +34,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   ];
 
   return (
-    <Experimental featureId={"exchange-rates-converter"} exclude={true}>
+    // <Experimental featureId={"exchange-rates-converter"} exclude={true}>
       <SiteLayout isPreProd={false}>
         <PageHelmet
           pageTitle= "Currency Exchange Rates Convertor Tool "
@@ -79,7 +79,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           </span>
         </div>
       </SiteLayout>
-    </Experimental>
+    // </Experimental>
   )
 };
 
