@@ -266,6 +266,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             body={revenueBody}
             linkUrl="/americas-finance-guide/government-revenue/"
             eventNumber={'4'}
+            citationClickPage={'AfgOverview'}
             pageName={'RevenueExplainer'}
             linkText="Learn more about government revenue"
             linkColor={styles.revenueExplainerPrimary}
@@ -282,6 +283,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkText="Learn more about federal spending"
             linkColor={spendingExplainerPrimary}
             eventNumber={'5'}
+            citationClickPage={'AfgOverview'}
             pageName={'SpendingExplainer'}
             image="/topics-section-images/homepage_spending_1200x630.png"
             imageAltText="The US Treasury building is placed next to a row of homes. A pair
@@ -321,6 +323,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkText="Learn more about national deficit"
             linkColor={deficitExplainerPrimary}
             eventNumber={'6'}
+            citationClickPage={'AfgOverview'}
             pageName={'DeficitExplainer'}
             image="/topics-section-images/homepage_deficit_1200x630.png"
             imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
@@ -334,6 +337,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkText="Learn more about national debt"
             linkColor={debtExplainerPrimary}
             eventNumber={'7'}
+            citationClickPage={'AfgOverview'}
             pageName={'DebtExplainer'}
             image="/topics-section-images/homepage_debt_1200x630.png"
             imageAltText="A variety of hands reach up with objects, including a magnifying
