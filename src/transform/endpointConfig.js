@@ -1838,7 +1838,22 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/federal_maturity_rates',
       'dateField': 'record_date',
       'downloadName': 'FederalCreditSimilarMaturityRates'
-  }
+  },
+  '181': {
+    'endpoint': '/v1/accounting/od/tma_contract_disputes',
+    'dateField': 'record_date',
+    'downloadName': 'TMA_ContractDisputes'
+  },
+  '182': {
+    'endpoint': 'v1/accounting/od/tma_no_fear',
+    'dateField': 'record_date',
+    'downloadName': 'TMA_NoFear'
+  },
+  '183': {
+    'endpoint': '/v1/accounting/od/tma_unclaimed_money',
+    'dateField': 'record_date',
+    'downloadName': 'TMA_UnclaimedMoney'
+  },
 };
 
 const setCompleteTableDisplayItem = (response) => {
