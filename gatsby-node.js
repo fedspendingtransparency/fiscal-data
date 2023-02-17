@@ -607,6 +607,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
     });
 
+    createPage({
+      path: `/currency-exchange-rates-converter/`,
+      matchPath: '/currency-exchange-rates-converter/',
+      component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
+    });
+
     const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
     const features = await graphql(`
 		{

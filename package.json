@@ -21,6 +21,7 @@
     "test": "jest --logHeapUsage",
     "test:coverage": "jest --coverage",
     "test:silent": "jest --coverage --silent",
+    "test:branch": "jest --coverage --changedSince master",
     "tst": "jest --coverage",
     "eslint-compliance": "eslint \"**/*.{js,jsx,ts,tsx}\" --no-error-on-unmatched-pattern --plugin jsx-a11y",
     "updateSnapshots": "jest --updateSnapshot",
