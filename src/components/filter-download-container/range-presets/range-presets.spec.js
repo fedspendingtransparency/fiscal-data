@@ -5,6 +5,8 @@ import { monthNames } from '../../../utils/api-utils';
 import Analytics from '../../../utils/analytics/analytics';
 import DatePickers from '../datepickers/datepickers';
 import { testReformatter } from './helpers/test-helper';
+import { subQuarters } from 'date-fns';
+
 
 jest.useFakeTimers();
 
@@ -193,6 +195,42 @@ describe('Range Presets Component, without the current report radio option', () 
     // 10 year button will also not exist
     radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-10yr' });
     expect(radioBtn.length).toBe(0);
+  });
+
+  it('initially selects the most recent quarter in the custom date range when ...', () => {
+    const quarterDatesMock = {
+      from: subQuarters(selectedTable.latestDate, 1),
+      to: selectedTable.latestDate
+    };
+
+    renderer.act(() => {
+      component = renderer.create(
+        <RangePresets
+          selectedTable={selectedTable}
+          setIsFiltered={setIsFilteredMock}
+          setDateRange={setDateRangeMock}
+          setIsCustomDateRange={setIsCustomDateRangeMock}
+        />
+      );
+    });
+    instance = component.root;
+    jest.runAllTimers();
+
+    const customRangeButton = instance.findByProps({'data-test-id': 'preset-radio-custom'});
+    expect(customRangeButton.props.checked).toBeTruthy();
+
+    datePickers = instance.findAllByType(DatePickers);
+    expect(datePickers.length).toBeGreaterThan(0);
+
+    // remove console.log 
+    console.log("Check DatePicker Length: " + datePickers.length);
+    console.log("Check DatePicker From: " + datePickers[0].props.selectedDateRange.from);
+    console.log("Check DatePicker To: " + datePickers[0].props.selectedDateRange.to);
+    console.log("Check Mock From: " + quarterDatesMock.from);
+    console.log("Check Mock To: " + quarterDatesMock.to);
+  
+    expect(datePickers[0].props.selectedDateRange.from).toEqual(quarterDatesMock.from);
+    expect(datePickers[0].props.selectedDateRange.to).toEqual(quarterDatesMock.to);
   });
 
   it('provides a custom date range button', () => {
