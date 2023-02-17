@@ -7,7 +7,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import * as styles from './info-tip.module.scss';
 import { withWindowSize } from "react-fns";
-import { pxToNumber } from '../../../src/helpers/styles-helper/styles-helper';
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 
 const useStyles = makeStyles(theme => ({
@@ -63,7 +63,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 
-    if (scrollPosition != previousScrollPosition) {
+    if (scrollPosition !== previousScrollPosition) {
       handleClose();
     };
   };
@@ -140,7 +140,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           variant="contained"
           className={`${button} ${styles.infoIcon}`}
           onClick={handleClick}
-          onMouseLeave={handleClose}
+          onMouseLeave={handleMouseLeave}
         >
           <FontAwesomeIcon
             icon={faInfoCircle}
