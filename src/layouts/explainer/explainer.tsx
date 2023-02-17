@@ -32,13 +32,12 @@ import {
   desktopSubNav,
 } from "./explainer.module.scss";
 import SecondaryNav from "../../components/secondary-nav/secondary-nav";
-import SocialShare from "./social-share/social-share";
+import SocialShare from "../../components/social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies";
 import ComingSoon from "./explainer-components/hightlighted-text/highlighted-text";
 import DeskTopSubNav from "./explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "./explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
-import { breakpointLg } from "../../../src/variables.module.scss";
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
   path,
@@ -89,7 +88,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
       {isAFGPage ? (
         <>
           <div className={mobileSubNav}>
-            <MobileSubNav hidePosition={160} pageName={pageName}/>
+            <MobileSubNav hidePosition={160} pageName={pageName} />
           </div>
           <div className={desktopSubNav}>
             <DeskTopSubNav hidePosition={160} />
@@ -123,14 +122,9 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
             <div className={socialShareContainer}>
               <div className={socialShare}>
                 <SocialShare
-                  title={explainerSocialShareMap[pageName].title}
-                  description={explainerSocialShareMap[pageName].description}
-                  body={explainerSocialShareMap[pageName].body}
-                  emailSubject={explainerSocialShareMap[pageName].emailSubject}
-                  emailBody={explainerSocialShareMap[pageName].emailBody}
-                  url={explainerSocialShareMap[pageName].url}
-                  image={explainerSocialShareMap[pageName].image}
+                  copy={explainerSocialShareMap[pageName]}
                   pageName={explainerAnalyticsLabelMap[pageName]}
+                  displayStyle={'responsive'}
                 />
               </div>
               <div className={mainContent}>

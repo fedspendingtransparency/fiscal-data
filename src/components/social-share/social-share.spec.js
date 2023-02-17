@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from "@testing-library/react";
 import { SocialShareComponent } from "./social-share";
 import { breakpointLg, breakpointSm } from '../../../../variables.module.scss';
-import Analytics from "../../../utils/analytics/analytics";
+import Analytics from "../../utils/analytics/analytics";
 
 jest.mock('./variables.module.scss', (content) => ({
   ...content,

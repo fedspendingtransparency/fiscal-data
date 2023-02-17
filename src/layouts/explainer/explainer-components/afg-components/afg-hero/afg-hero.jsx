@@ -5,7 +5,7 @@ import {
   explainerAnalyticsLabelMap,
   explainerSocialShareMap,
 } from "../../../explainer-helpers/explainer-helpers"
-import SocialShare from "../../../social-share/social-share"
+import SocialShare from "../../../../../components/social-share/social-share"
 import ApiRequest from "../../../../../helpers/api-request";
 import {revenueRequest} from "../../../explainer-helpers/afg-overview-helpers";
 import {basicFetch} from "../../../../../utils/api-utils";
@@ -13,7 +13,6 @@ import { getAFGFootnotes } from "../../../../../helpers/footnotes-helper/footnot
 import AnchorText from "../../../../../components/anchor-text/anchor-text";
 
 export default function AfgHero() {
-  const [isMobile, setIsMobile] = useState(false)
   const [fiscalYear, setFiscalYear] = useState(0);
   const [width, height] = useWindowSize()
   const [containerHeight, setContainerHeight] = useState(765)
@@ -21,10 +20,6 @@ export default function AfgHero() {
   const [headingTenseCollect, setHeadingTenseCollect] = useState('collected');
   const [headingTenseSpend, setHeadingTenseSpend] = useState('spent');
   const pageName = "americas-finance-guide"
-  const breakpoint = {
-    desktop: 1015,
-    tablet: 600,
-  }
 
   const refSocialShare = useRef(0);
 
@@ -44,13 +39,6 @@ export default function AfgHero() {
   }, []);
 
   useEffect(() => {
-    const isMobile = window.innerWidth < breakpoint.desktop
-    if (isMobile) {
-      setIsMobile(true)
-    } else {
-      setIsMobile(false)
-    }
-
     setContainerHeight(refSocialShare.current.offsetTop + 466)
   }, [width, height, containerHeight])
 
@@ -78,15 +66,9 @@ export default function AfgHero() {
         </h1>
         <div className={styles.heroSocialShare} ref={refSocialShare}>
           <SocialShare
-            title={explainerSocialShareMap[pageName].title}
-            description={explainerSocialShareMap[pageName].description}
-            body={explainerSocialShareMap[pageName].body}
-            emailSubject={explainerSocialShareMap[pageName].emailSubject}
-            emailBody={explainerSocialShareMap[pageName].emailBody}
-            url={explainerSocialShareMap[pageName].url}
-            image={explainerSocialShareMap[pageName].image}
+            copy={explainerSocialShareMap[pageName]}
             pageName={explainerAnalyticsLabelMap[pageName]}
-            horizontal={true}
+            displayStyle={'horizontal'}
           />
         </div>
       </div>

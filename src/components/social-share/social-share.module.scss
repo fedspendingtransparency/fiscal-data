@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@import 'src/variables.module';
 
 .horizontalSocialShareContent {
   display: flex;
@@ -32,7 +32,7 @@
   margin-left: 48px;
 }
 
-.socialShareContent {
+.socialShareContent, .listSocialShareContent {
   h3 {
     color: #666666;
     font-weight: $semi-bold-weight;
@@ -42,14 +42,14 @@
   }
 }
 
-.shareButton {
+.shareButton, .listShareButton {
   display: flex;
   align-items: center;
   margin-top: 1rem;
   margin-bottom:0;
 }
 
-.shareButtonContent {
+.shareButtonContent, .listShareButtonContent {
   display: flex;
   align-items: center;
   font-size: $font-size-16;

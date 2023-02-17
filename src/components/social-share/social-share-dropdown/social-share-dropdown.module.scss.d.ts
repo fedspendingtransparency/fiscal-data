@@ -65,3 +65,4 @@ export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const shareButton: string;
 export const icon: string;
+export const dropdown: string;

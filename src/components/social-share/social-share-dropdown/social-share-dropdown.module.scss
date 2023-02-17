@@ -5,7 +5,8 @@
   align-items: center;
   font-size: $font-size-14;
   color: white;
-  padding-right: 2rem;
+  margin-right: 2rem;
+  cursor: pointer;
 
   .icon {
     color: white;
@@ -14,11 +15,20 @@
     width: 1rem;
   }
 }
+.dropdown {
+  width: 144px;
+  height: 208px;
+  border-radius: 2px;
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.5);
+  border: solid 1px var(--d-6-d-7-d-9-background-grey-lighter);
+  background-color: white;
+  position: absolute;
+}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .shareButton {
     flex-direction: column;
-    padding-right: 1.25rem;
+    margin-right: 1.25rem;
     .icon {
       margin-right: 0;
     }

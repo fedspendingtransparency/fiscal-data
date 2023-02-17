@@ -15,7 +15,7 @@ jest.mock("gatsby-plugin-mdx", () => {
     } }
 });
 
-const SocialShare = jest.requireActual('../explainer/social-share/social-share');
+const SocialShare = jest.requireActual('./src/components/social-share/social-share');
 const socialShareSpy = jest.spyOn(SocialShare, "default");
 
 describe ('Feature page template', () => {
