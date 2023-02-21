@@ -197,7 +197,7 @@ describe('Range Presets Component, without the current report radio option', () 
     expect(radioBtn.length).toBe(0);
   });
 
-  it('initially selects the most recent quarter in the custom date range when ...', () => {
+  it('initially selects custom most recent quarter when set in customRangePreset', () => {
     const quarterDatesMock = {
       from: subQuarters(selectedTable.latestDate, 1),
       to: selectedTable.latestDate
@@ -210,6 +210,8 @@ describe('Range Presets Component, without the current report radio option', () 
           setIsFiltered={setIsFilteredMock}
           setDateRange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
+          datePreset={"custom"}
+          customRangePreset={"latestQuarter"}
         />
       );
     });
@@ -222,7 +224,7 @@ describe('Range Presets Component, without the current report radio option', () 
     datePickers = instance.findAllByType(DatePickers);
     expect(datePickers.length).toBeGreaterThan(0);
 
-    // remove console.log 
+    // remove console.log here
     console.log("Check DatePicker Length: " + datePickers.length);
     console.log("Check DatePicker From: " + datePickers[0].props.selectedDateRange.from);
     console.log("Check DatePicker To: " + datePickers[0].props.selectedDateRange.to);
