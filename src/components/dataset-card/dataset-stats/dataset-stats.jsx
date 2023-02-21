@@ -2,7 +2,6 @@ import React from "react";
 import * as styles from './dataset-stats.module.scss';
 import {isAfter} from 'date-fns';
 import futureDateIcon from '../../../images/futureDateIcon.svg';
-
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   faFileCode,
