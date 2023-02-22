@@ -133,19 +133,17 @@ const RangePresets = (
       if(datePreset === 'current' && presets[0].key === 'current') {
         idealDefaultPreset = presets[0];
       }
-      if(datePreset === 'custom' && customRangePreset === 'latestQuarter' && presets[5].key === 'custom') {
-        idealDefaultPreset = presets[5];
+      if(datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+        idealDefaultPreset = presets.find(({key}) => key === 'custom');
 
         const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
-        const userSelected = {
-          from: subQuarters(addDays(dateObj, 1), 1),
-          to: dateObj
-        };
-
         const quarterRange = {
-          userSelected
+          userSelected: {
+            from: subQuarters(addDays(dateObj, 1), 1),
+            to: dateObj
+          }
         };
-
+        
         const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
         updateDateRange(adjRange);
       }

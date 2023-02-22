@@ -5,7 +5,7 @@ import { monthNames } from '../../../utils/api-utils';
 import Analytics from '../../../utils/analytics/analytics';
 import DatePickers from '../datepickers/datepickers';
 import { testReformatter } from './helpers/test-helper';
-import { subQuarters } from 'date-fns';
+import { subQuarters, addDays } from 'date-fns';
 
 
 jest.useFakeTimers();
@@ -198,10 +198,6 @@ describe('Range Presets Component, without the current report radio option', () 
   });
 
   it('initially selects custom most recent quarter when set in customRangePreset', () => {
-    const quarterDatesMock = {
-      from: subQuarters(selectedTable.latestDate, 1),
-      to: selectedTable.latestDate
-    };
 
     renderer.act(() => {
       component = renderer.create(
@@ -210,6 +206,7 @@ describe('Range Presets Component, without the current report radio option', () 
           setIsFiltered={setIsFilteredMock}
           setDateRange={setDateRangeMock}
           setIsCustomDateRange={setIsCustomDateRangeMock}
+          datasetDateRange={{ earliestDate: selectedTable.earliestDate, latestDate: selectedTable.latestDate }}
           datePreset={"custom"}
           customRangePreset={"latestQuarter"}
         />
@@ -218,18 +215,17 @@ describe('Range Presets Component, without the current report radio option', () 
     instance = component.root;
     jest.runAllTimers();
 
+    const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+    const quarterDatesMock = {
+      from: subQuarters(addDays(dateObj, 1), 1),
+      to: dateObj
+    };
+
     const customRangeButton = instance.findByProps({'data-test-id': 'preset-radio-custom'});
     expect(customRangeButton.props.checked).toBeTruthy();
 
-    datePickers = instance.findAllByType(DatePickers);
+    const datePickers = instance.findAllByType(DatePickers);
     expect(datePickers.length).toBeGreaterThan(0);
-
-    // remove console.log here
-    console.log("Check DatePicker Length: " + datePickers.length);
-    console.log("Check DatePicker From: " + datePickers[0].props.selectedDateRange.from);
-    console.log("Check DatePicker To: " + datePickers[0].props.selectedDateRange.to);
-    console.log("Check Mock From: " + quarterDatesMock.from);
-    console.log("Check Mock To: " + quarterDatesMock.to);
   
     expect(datePickers[0].props.selectedDateRange.from).toEqual(quarterDatesMock.from);
     expect(datePickers[0].props.selectedDateRange.to).toEqual(quarterDatesMock.to);
