@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import {breadCrumbsContainer} from '../explainer/explainer.module.scss';
@@ -10,6 +10,10 @@ import {
   footer,
   icon,
   selectText,
+  selectorContainer,
+  effectiveDateContainer,
+  selector,
+  box
 } from './currency-exchange-rates-converter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
@@ -20,8 +24,19 @@ import QuarterSelectionBox
   from "../../components/exchange-rates-converter/quarter-selection-box/quarter-selection-box";
 import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
+import SelectControl from "../../components/select-control/select-control";
+import {apiPrefix, basicFetch} from "../../utils/api-utils";
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
+
+  const [data, setData] = useState(null);
+  const [defaultSelectedYear, setDefaultSelectedYear] = useState(null);
+  const [defaultSelectedQuarter, setDefaultSelectedQuarter] = useState(null);
+  const [defaultCurrency, setDefaultCurrency] = useState(null);
+  const [effectiveDate, setEffectiveDate] = useState(null);
+  const [quarters, setQuarters] = useState([]);
+  const [years, setYears] = useState([]);
+
   const breadCrumbLinks = [
     {
       name: 'Currency Exchange Rates Convertor'
@@ -32,6 +47,33 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   ];
 
+  const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date';
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
+      const recordYears = res.data.map(entry => parseInt(entry.record_calendar_year));
+      const recordYearsSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_year)))];
+      setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
+      setData(res.data);
+      setDefaultSelectedYear({label: Math.max(...recordYears).toString(), value: Math.max(...recordYears)});
+      setDefaultSelectedQuarter({label: '4', value: 4});
+      const recordQuartersSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_quarter)))]
+      setQuarters(recordQuartersSet.map((quarter) => ({ label: quarter.toString(), value: quarter })))
+      setEffectiveDate(res.data[0].effective_date);
+    });
+  }, [])
+
+  const handleChangeQuarters = (option) => {
+    console.log('hi');
+  }
+
+  const handleChangeYears = (option) => {
+    console.log(option.value);
+    const filteredDataForYear = data.filter(record => record.record_calendar_year === option.value.toString());
+    console.log(filteredDataForYear);
+  }
+
+  // @ts-ignore
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -54,7 +96,22 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           <span className={title}>
             Check foreign currency rates against the US Dollar.
           </span>
-        <QuarterSelectionBox />
+        {
+          data && (
+            <div className={selectorContainer}>
+              <div className={selector}>
+                <SelectControl label={'Year'} className={box} options={years} selectedOption={defaultSelectedYear} changeHandler={handleChangeYears} />
+              </div>
+              <div className={selector}>
+                <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={defaultSelectedQuarter} changeHandler={handleChangeQuarters} />
+              </div>
+              <div className={effectiveDateContainer}>
+                <div>Effective Date <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} /> </div>
+                <span> {effectiveDate} </span>
+              </div>
+            </div>
+          )
+        }
         <div className={selectText}>
             <span>
               Select a country-currency and then enter a value for US Dollars or for the foreign

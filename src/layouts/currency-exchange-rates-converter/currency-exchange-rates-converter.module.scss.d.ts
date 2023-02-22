@@ -69,4 +69,8 @@ export const selectText: string;
 export const icon: string;
 export const currencyBoxContainer: string;
 export const footer: string;
+export const selectorContainer: string;
+export const selector: string;
+export const box: string;
+export const effectiveDateContainer: string;
 export const currencyBox: string;
