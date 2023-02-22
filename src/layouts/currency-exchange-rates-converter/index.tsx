@@ -53,13 +53,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
       const recordYears = res.data.map(entry => parseInt(entry.record_calendar_year));
       const recordYearsSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_year)))];
-      setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
-      setData(res.data);
+      const recordQuartersSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_quarter)))];
+      setDefaultCurrency(res.data.find(entry => entry.currency === 'Euro Zone-Euro'));
+      console.log(res.data);
+      console.log(res.data.find(entry => entry.currency === 'Euro Zone-Euro'));
       setDefaultSelectedYear({label: Math.max(...recordYears).toString(), value: Math.max(...recordYears)});
       setDefaultSelectedQuarter({label: '4', value: 4});
-      const recordQuartersSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_quarter)))]
-      setQuarters(recordQuartersSet.map((quarter) => ({ label: quarter.toString(), value: quarter })))
+      setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
+      setQuarters(recordQuartersSet.map((quarter) => ({ label: quarter.toString(), value: quarter })));
       setEffectiveDate(res.data[0].effective_date);
+      setData(res.data);
     });
   }, [])
 
@@ -73,7 +76,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     console.log(filteredDataForYear);
   }
 
-  // @ts-ignore
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
