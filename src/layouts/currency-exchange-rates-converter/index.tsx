@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import {breadCrumbsContainer} from '../explainer/explainer.module.scss';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import {
   title,
@@ -10,6 +9,7 @@ import {
   footer,
   icon,
   selectText,
+  breadCrumbsContainer
 } from './currency-exchange-rates-converter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
@@ -68,13 +68,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         </div>
         <span>
             1.00 US Dollar = 0.92 Euro Zone-Euro
-          </span>
+        </span>
         <span className={footer}>
             The Currency Exchange Rates Converter tool is driven by the Treasury Reporting Rates of
             Exchange dataset. This dataset is updated quarterly and covers the period from
             December 31, 2022 to Month, DD, YYYY. For more information and to see the full dataset,
             please visit the Treasury Reporting Rates of Exchange dataset page.
-          </span>
+        </span>
       </div>
     </SiteLayout>
   )
