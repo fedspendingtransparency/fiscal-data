@@ -13,13 +13,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {withWindowSize} from "react-fns";
 import {breakpointLg} from "../../../variables.module.scss";
 import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
-import {ISocialShareCopy} from "../../../models/ISocialShareCopy";
-
-interface ISocialShareDropdown {
-  copy: ISocialShareCopy;
-  pageName: string;
-  width?: number;
-}
+import {ISocialShareDropdown} from "../../../models/ISocialShareDropdown";
 
 const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({copy, pageName, width}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);

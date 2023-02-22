@@ -19,7 +19,8 @@ import {
   emailIcon,
   shareButtonText,
   listShareButtonText,
-} from "../social-share.module.scss"
+} from "./share-button-content.module.scss"
+import {IShareButtonContent} from "../../../models/IShareButtonContent";
 
 const shareButtonContentMap = {
   facebook: {
@@ -49,11 +50,6 @@ const shareButtonContentMap = {
   },
 }
 
-interface IShareButtonContent {
-  name: string,
-  width: number,
-  displayStyle?: string,
-}
 
 const ShareButtonContent:FunctionComponent<IShareButtonContent> = ({name, width, displayStyle}) => {
   const [hovered, setHovered] = useState(false)
@@ -88,7 +84,10 @@ const ShareButtonContent:FunctionComponent<IShareButtonContent> = ({name, width,
           style={style}
         />
         {displayText && (
-          <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style}>
+          <span
+            className={displayStyle === 'list' ? listShareButtonText : shareButtonText}
+            style={style}
+          >
             {text}
           </span>
         )}

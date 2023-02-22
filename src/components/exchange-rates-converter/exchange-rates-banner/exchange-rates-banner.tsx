@@ -4,11 +4,8 @@ import {
 } from './exchange-rates-banner.module.scss';
 import React, {FunctionComponent} from "react";
 import SocialShareDropdown from "../../social-share/social-share-dropdown/social-share-dropdown";
-import {ISocialShareCopy} from "../../../models/ISocialShareCopy";
-interface IExchangeRatesBanner {
-  text: string;
-  copy: ISocialShareCopy;
-}
+import {IExchangeRatesBanner} from "../../../models/IExchangeRatesBanner";
+
 const ExchangeRatesBanner: FunctionComponent<IExchangeRatesBanner> = ({text, copy}) => {
 
   return (
