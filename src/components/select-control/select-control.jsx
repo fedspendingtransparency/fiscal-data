@@ -23,8 +23,6 @@ const SelectControl = ({
 
   const labelKey = optionLabelKey ? optionLabelKey : 'label';
 
-  console.log(labelKey);
-  console.log(options);
 
 
 
@@ -36,7 +34,7 @@ const SelectControl = ({
   };
 
   const optionSelected = selectedOption || options[0];
-  console.log(optionSelected);
+
   let timeOutId;
 
   /* accessibility enabling event handlers for interpreting focus state on control */

@@ -20,8 +20,6 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import ExchangeRatesBanner
   from "../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner";
-import QuarterSelectionBox
-  from "../../components/exchange-rates-converter/quarter-selection-box/quarter-selection-box";
 import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 import SelectControl from "../../components/select-control/select-control";
@@ -30,13 +28,14 @@ import {apiPrefix, basicFetch} from "../../utils/api-utils";
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const [data, setData] = useState(null);
-  const [defaultSelectedYear, setDefaultSelectedYear] = useState(null);
-  const [defaultSelectedQuarter, setDefaultSelectedQuarter] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedQuarter, setSelectedQuarter] = useState(null);
   const [nonUSCurrency, setNonUSCurrency] = useState(null);
   const [effectiveDate, setEffectiveDate] = useState(null);
   const [quarters, setQuarters] = useState([]);
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
+  const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
 
   const breadCrumbLinks = [
     {
@@ -65,12 +64,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
-      const recordYears = res.data.map(entry => parseInt(entry.record_calendar_year));
+
+      // Setting default values based on default non US currency (Euro)
+
       const recordYearsSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_year)))];
       const recordQuartersSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_quarter)))];
+      const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
       setNonUSCurrency(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro'));
-      setDefaultSelectedYear({label: Math.max(...recordYears).toString(), value: Math.max(...recordYears)});
-      setDefaultSelectedQuarter({label: '4th', value: 4});
+      setNonUSCurrencyExchangeValue(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro').exchange_rate);
+      setSelectedYear({label: euro.record_calendar_year, value: parseInt(euro.record_calendar_year)});
+      setSelectedQuarter({label: quarterNumToTerm(parseInt(euro.record_calendar_quarter)), value: parseInt(euro.record_calendar_quarter)});
       setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
       setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
       setEffectiveDate(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro').effective_date);
@@ -79,13 +82,19 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [])
 
   const handleChangeQuarters = (option) => {
-    console.log('hi');
+    setSelectedQuarter(option);
+    const matchedRecord = data.find((entry) => entry.record_calendar_year === selectedYear.value.toString()
+      && entry.record_calendar_quarter === option.value.toString() && entry.country_currency_desc === nonUSCurrency.country_currency_desc);
+    setNonUSCurrency(matchedRecord);
+    setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+    setEffectiveDate(matchedRecord.effective_date);
   }
 
   const handleChangeYears = (option) => {
-    console.log(option.value);
+    setSelectedYear(option);
     const filteredDataForYear = data.filter(record => record.record_calendar_year === option.value.toString());
-    console.log(filteredDataForYear);
+    const recordQuartersSet = [...new Set(filteredDataForYear.map(entry => parseInt(entry.record_calendar_quarter)))];
+    setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
   }
 
   return (
@@ -114,10 +123,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           data && (
             <div className={selectorContainer}>
               <div className={selector}>
-                <SelectControl label={'Year'} className={box} options={years} selectedOption={defaultSelectedYear} changeHandler={handleChangeYears} />
+                <SelectControl label={'Year'} className={box} options={years} selectedOption={selectedYear} changeHandler={handleChangeYears} />
               </div>
               <div className={selector}>
-                <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={defaultSelectedQuarter} changeHandler={handleChangeQuarters} />
+                <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={handleChangeQuarters} />
               </div>
               <div className={effectiveDateContainer}>
                 <div>Effective Date <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} /> </div>
@@ -134,17 +143,17 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} />
         </div>
         {
-          (
+          nonUSCurrency !== null && (
             <div className={currencyBoxContainer}>
               <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} />
-              <CurrencyEntryBox defaultCurrency={'Euro Zone-Euro'} currencyValue={nonUSCurrency.exchange_rate} dropdown={true} />
+              <CurrencyEntryBox defaultCurrency={'Euro Zone-Euro'} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} />
             </div>
           )
         }
         {
-          (
+          nonUSCurrency !== null && (
             <span>
-              {usDollarValue} US Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
+              {usDollarValue} US Dollar = {nonUSCurrencyExchangeValue} {nonUSCurrency.country_currency_desc}
             </span>
           )
         }
