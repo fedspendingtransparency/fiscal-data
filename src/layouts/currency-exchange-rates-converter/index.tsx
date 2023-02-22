@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import {breadCrumbsContainer} from '../explainer/explainer.module.scss';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import {
   title,
@@ -10,6 +9,7 @@ import {
   footer,
   icon,
   selectText,
+  breadCrumbsContainer
   selectorContainer,
   effectiveDateContainer,
   selector,
@@ -165,7 +165,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             Exchange dataset. This dataset is updated quarterly and covers the period from
             December 31, 2022 to Month, DD, YYYY. For more information and to see the full dataset,
             please visit the Treasury Reporting Rates of Exchange dataset page.
-          </span>
+        </span>
       </div>
     </SiteLayout>
   )

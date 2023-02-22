@@ -1,5 +1,11 @@
 @import 'src/variables.module';
 
+.breadCrumbsContainer {
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .container {
   display: flex;
   align-items: center;
@@ -33,6 +39,13 @@
     max-width: 34.563rem;
     margin: 2rem 0 5rem;
     font-size: $font-size-14;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .breadCrumbsContainer {
+    max-width: calc(#{$site-content-width} + 2rem);
+    padding-left: 2rem;
   }
 }
 
@@ -87,5 +100,12 @@
     .footer {
       margin-bottom: 4rem;
     }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .breadCrumbsContainer {
+    width: calc(100% - 13px);
+    padding-left: 13px;
   }
 }
