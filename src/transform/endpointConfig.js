@@ -1840,7 +1840,7 @@ const endpointConfig = {
       'downloadName': 'FederalCreditSimilarMaturityRates'
   },
   '181': {
-    'endpoint': '/v1/accounting/od/tma_contract_disputes',
+    'endpoint': 'v1/accounting/od/tma_contract_disputes',
     'dateField': 'record_date',
     'downloadName': 'TMA_ContractDisputes'
   },
@@ -1850,7 +1850,7 @@ const endpointConfig = {
     'downloadName': 'TMA_NoFear'
   },
   '183': {
-    'endpoint': '/v1/accounting/od/tma_unclaimed_money',
+    'endpoint': 'v1/accounting/od/tma_unclaimed_money',
     'dateField': 'record_date',
     'downloadName': 'TMA_UnclaimedMoney'
   },
