@@ -66,12 +66,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
 
       // Setting default values based on default non US currency (Euro)
+      const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
 
       const recordYearsSet = [...new Set(res.data.filter((entry => entry.country_currency_desc === 'Euro Zone-Euro'))
       .map(entry => parseInt(entry.record_calendar_year)))];
-      const recordQuartersSet = [...new Set(res.data.filter((entry => entry.country_currency_desc === 'Euro Zone-Euro'))
+      const recordQuartersSet = [...new Set(res.data
+      .filter((entry => entry.country_currency_desc === 'Euro Zone-Euro' && entry.record_calendar_year === euro.record_calendar_year))
       .map(entry => parseInt(entry.record_calendar_quarter)))];
-      const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
       setSelectedYear({label: euro.record_calendar_year, value: parseInt(euro.record_calendar_year)});
