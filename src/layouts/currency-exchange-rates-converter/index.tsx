@@ -61,6 +61,15 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }
 
+  const dateStringConverter = (date) => {
+    const timeZoneOffset = date.getTimezoneOffset() * 60000;
+    const offSetDate = new Date(date.getTime() + timeZoneOffset);
+    const monthName = offSetDate.toLocaleString('default', { month: 'long' });
+    const day = offSetDate.getDate();
+    const year = offSetDate.getFullYear();
+    return `${monthName} ${day}, ${year}`;
+  }
+
   const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date';
 
   useEffect(() => {
@@ -80,7 +89,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setSelectedQuarter({label: quarterNumToTerm(parseInt(euro.record_calendar_quarter)), value: parseInt(euro.record_calendar_quarter)});
       setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
       setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
-      setEffectiveDate(euro.effective_date);
+      const date = new Date(euro.effective_date);
+      setEffectiveDate(dateStringConverter(date));
       setData(res.data);
     });
   }, [])
@@ -91,7 +101,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       && entry.record_calendar_quarter === option.value.toString() && entry.country_currency_desc === nonUSCurrency.country_currency_desc);
     setNonUSCurrency(matchedRecord);
     setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
-    setEffectiveDate(matchedRecord.effective_date);
+    const date = new Date(matchedRecord.effective_date);
+    setEffectiveDate(dateStringConverter(date));
   }
 
   const handleChangeYears = (option) => {
