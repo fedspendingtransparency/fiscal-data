@@ -70,13 +70,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const recordYearsSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_year)))];
       const recordQuartersSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_quarter)))];
       const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
-      setNonUSCurrency(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro'));
-      setNonUSCurrencyExchangeValue(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro').exchange_rate);
+      setNonUSCurrency(euro);
+      setNonUSCurrencyExchangeValue(euro.exchange_rate);
       setSelectedYear({label: euro.record_calendar_year, value: parseInt(euro.record_calendar_year)});
       setSelectedQuarter({label: quarterNumToTerm(parseInt(euro.record_calendar_quarter)), value: parseInt(euro.record_calendar_quarter)});
       setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
       setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
-      setEffectiveDate(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro').effective_date);
+      setEffectiveDate(euro.effective_date);
       setData(res.data);
     });
   }, [])
@@ -146,7 +146,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           nonUSCurrency !== null && (
             <div className={currencyBoxContainer}>
               <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} />
-              <CurrencyEntryBox defaultCurrency={'Euro Zone-Euro'} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} />
+              <CurrencyEntryBox defaultCurrency={nonUSCurrency.country_currency_desc} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} />
             </div>
           )
         }
