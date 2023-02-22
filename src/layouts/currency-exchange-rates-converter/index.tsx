@@ -9,9 +9,10 @@ import {
   footer,
   icon,
   selectText,
-  breadCrumbsContainer
+  breadCrumbsContainer,
   selectorContainer,
   effectiveDateContainer,
+  effectiveDateText,
   selector,
   box
 } from './currency-exchange-rates-converter.module.scss';
@@ -133,7 +134,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               </div>
               <div className={effectiveDateContainer}>
                 <div>Effective Date <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} /> </div>
-                <span> {effectiveDate} </span>
+                <span className={effectiveDateText}> {effectiveDate} </span>
               </div>
             </div>
           )

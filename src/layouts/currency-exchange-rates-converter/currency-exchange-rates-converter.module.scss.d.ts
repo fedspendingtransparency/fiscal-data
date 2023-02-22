@@ -74,4 +74,5 @@ export const selectorContainer: string;
 export const selector: string;
 export const box: string;
 export const effectiveDateContainer: string;
+export const effectiveDateText: string;
 export const currencyBox: string;
