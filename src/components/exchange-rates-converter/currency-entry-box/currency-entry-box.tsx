@@ -3,7 +3,8 @@ import {
   currencyBody,
   currencyBox,
   currencyHeader,
-  icon
+  icon,
+  currencyText
 } from './currency-entry-box.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
@@ -11,10 +12,11 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 interface ICurrencyEntryBox  {
   defaultCurrency: string,
+  currencyValue: string,
   dropdown ? : boolean,
 }
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
-  {defaultCurrency, dropdown=false}) => {
+  {defaultCurrency, dropdown=false, currencyValue}) => {
   return (
     <>
       <div className={currencyBox} >
@@ -25,7 +27,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           }
         </div>
         <div className={currencyBody}>
-
+          <div className={currencyText}>{currencyValue}</div>
         </div>
       </div>
     </>

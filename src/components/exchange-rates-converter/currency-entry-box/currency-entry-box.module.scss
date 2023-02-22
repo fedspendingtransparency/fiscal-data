@@ -30,6 +30,12 @@
   .currencyBody {
     height: 2.5rem;
   }
+
+  .currencyText {
+    margin-left: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {

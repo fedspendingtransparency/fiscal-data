@@ -32,10 +32,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [data, setData] = useState(null);
   const [defaultSelectedYear, setDefaultSelectedYear] = useState(null);
   const [defaultSelectedQuarter, setDefaultSelectedQuarter] = useState(null);
-  const [defaultCurrency, setDefaultCurrency] = useState(null);
+  const [nonUSCurrency, setNonUSCurrency] = useState(null);
   const [effectiveDate, setEffectiveDate] = useState(null);
   const [quarters, setQuarters] = useState([]);
   const [years, setYears] = useState([]);
+  const [usDollarValue, setUSDollarValue] = useState('1.00');
 
   const breadCrumbLinks = [
     {
@@ -47,6 +48,19 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   ];
 
+  const quarterNumToTerm = (num) => {
+    switch (num) {
+      case 1:
+        return '1st';
+      case 2:
+        return '2nd';
+      case 3:
+        return '3rd';
+      case 4:
+        return '4th';
+    }
+  }
+
   const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date';
 
   useEffect(() => {
@@ -54,14 +68,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const recordYears = res.data.map(entry => parseInt(entry.record_calendar_year));
       const recordYearsSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_year)))];
       const recordQuartersSet = [...new Set(res.data.map(entry => parseInt(entry.record_calendar_quarter)))];
-      setDefaultCurrency(res.data.find(entry => entry.currency === 'Euro Zone-Euro'));
-      console.log(res.data);
-      console.log(res.data.find(entry => entry.currency === 'Euro Zone-Euro'));
+      setNonUSCurrency(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro'));
       setDefaultSelectedYear({label: Math.max(...recordYears).toString(), value: Math.max(...recordYears)});
-      setDefaultSelectedQuarter({label: '4', value: 4});
+      setDefaultSelectedQuarter({label: '4th', value: 4});
       setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
-      setQuarters(recordQuartersSet.map((quarter) => ({ label: quarter.toString(), value: quarter })));
-      setEffectiveDate(res.data[0].effective_date);
+      setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
+      setEffectiveDate(res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro').effective_date);
       setData(res.data);
     });
   }, [])
@@ -121,13 +133,21 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             </span>
           <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} />
         </div>
-        <div className={currencyBoxContainer}>
-          <CurrencyEntryBox defaultCurrency={'US Dollar'}  />
-          <CurrencyEntryBox defaultCurrency={'Euro Zone-Euro'} dropdown={true} />
-        </div>
-        <span>
-            1.00 US Dollar = 0.92 Euro Zone-Euro
-          </span>
+        {
+          (
+            <div className={currencyBoxContainer}>
+              <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} />
+              <CurrencyEntryBox defaultCurrency={'Euro Zone-Euro'} currencyValue={nonUSCurrency.exchange_rate} dropdown={true} />
+            </div>
+          )
+        }
+        {
+          (
+            <span>
+              {usDollarValue} US Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
+            </span>
+          )
+        }
         <span className={footer}>
             The Currency Exchange Rates Converter tool is driven by the Treasury Reporting Rates of
             Exchange dataset. This dataset is updated quarterly and covers the period from
