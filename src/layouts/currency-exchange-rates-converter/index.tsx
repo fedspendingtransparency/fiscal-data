@@ -32,6 +32,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   ];
 
+  const socialCopy = {
+    title: 'test',
+    description: 'test',
+    body: 'test',
+    emailSubject: 'test',
+    emailBody: 'test',
+    url: 'test',
+    image: 'test',
+  }
+
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -49,7 +59,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <div className={breadCrumbsContainer}>
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
-      <ExchangeRatesBanner text={'Currency Exchange Rates Converter'} />
+      <ExchangeRatesBanner text={'Currency Exchange Rates Converter'} copy={socialCopy} />
       <div className={container}>
           <span className={title}>
             Check foreign currency rates against the US Dollar.

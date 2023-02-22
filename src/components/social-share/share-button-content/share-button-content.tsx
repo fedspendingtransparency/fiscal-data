@@ -18,6 +18,7 @@ import {
   redditIcon,
   emailIcon,
   shareButtonText,
+  listShareButtonText,
 } from "../social-share.module.scss"
 
 const shareButtonContentMap = {
@@ -87,7 +88,7 @@ const ShareButtonContent:FunctionComponent<IShareButtonContent> = ({name, width,
           style={style}
         />
         {displayText && (
-          <span className={shareButtonText} style={style}>
+          <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style}>
             {text}
           </span>
         )}

@@ -73,6 +73,7 @@ export const listShareButton: string;
 export const shareButtonContent: string;
 export const listShareButtonContent: string;
 export const shareButtonText: string;
+export const listShareButtonText: string;
 export const facebookIcon: string;
 export const twitterIcon: string;
 export const linkedInIcon: string;

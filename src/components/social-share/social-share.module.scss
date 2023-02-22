@@ -61,6 +61,12 @@
     height: 1.25rem;
   }
 
+  .listShareButtonText {
+    color: #666;
+    margin: 0;
+    height: 1.25rem;
+  }
+
   .facebookIcon {
     color: #3a5997;
     width: 1.125rem;
@@ -124,9 +130,12 @@
     width: 20%;
   }
   .shareButtonContent {
-    .shareButtonText, .facebookIcon, .twitterIcon,
+    .facebookIcon, .twitterIcon,
     .linkedInIcon, .redditIcon, .emailIcon {
       margin: 0;
+    }
+    .listShareButtonText {
+      margin-left: .5rem;
     }
   }
 }
