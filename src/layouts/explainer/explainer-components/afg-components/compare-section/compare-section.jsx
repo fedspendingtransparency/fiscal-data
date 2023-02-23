@@ -17,7 +17,7 @@ import {
   faMagnifyingGlassDollar
 } from "@fortawesome/free-solid-svg-icons";
 import { basicFetch } from "../../../../../utils/api-utils"
-import { getShortForm } from "../../../heros/hero-helper"
+import { getShortForm } from "../../../../../utils/rounding-utils"
 import ApiRequest from "../../../../../helpers/api-request"
 import {
   deficitRequest,
@@ -62,7 +62,7 @@ export default function CompareSection({currentFiscalYear}) {
       .then((res) => {
         if (res.data) {
           const data = res.data[0];
-          setRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), 2, false));
+          setRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), false));
         }
       });
     basicFetch(priorRevenueCategoryRequest.getUrl())
@@ -76,7 +76,7 @@ export default function CompareSection({currentFiscalYear}) {
       .then((res) => {
         if (res.data) {
           const data = res.data[0];
-          setSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false));
+          setSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
         }
       });
     basicFetch(priorSpendingCategoryRequest.getUrl())
@@ -92,15 +92,11 @@ export default function CompareSection({currentFiscalYear}) {
           const data = res.data[0];
           const deficitAmount = Number(data.current_fytd_net_outly_amt);
           const priorDeficitAmount = Number(data.prior_fytd_net_outly_amt);
-          const formattedAmount = Math.abs(deficitAmount) >= 1000000000000 ?
-            getShortForm(Math.abs(deficitAmount).toString(), 2, false) :
-            getShortForm(Math.abs(deficitAmount).toString(), 0, false);
+          const formattedAmount = getShortForm(Math.abs(deficitAmount).toString(), false);
           setDeficit(formattedAmount);
           const difference = deficitAmount - priorDeficitAmount;
           setDeficitDirection(difference < 0 ? 'increased' : 'decreased');
-          const formattedChange = Math.abs(difference) >= 1000000000000 ?
-            getShortForm(Math.abs(difference).toString(), 2, false) :
-            getShortForm(Math.abs(difference).toString(), 0, false);
+          const formattedChange = getShortForm(Math.abs(difference).toString(), false);
           setDeficitChange(formattedChange);
         }
       });
@@ -108,7 +104,7 @@ export default function CompareSection({currentFiscalYear}) {
       .then((res) => {
         if (res.data) {
           const data = res.data[0];
-          setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), 2, false));
+          setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
           basicFetch(priorPriorDebtRequest.getUrl())
             .then((priorRes) => {
               if (priorRes.data) {
@@ -118,7 +114,7 @@ export default function CompareSection({currentFiscalYear}) {
                   Number(priorData.tot_pub_debt_out_amt);
 
                 setDebtDirection(difference > 0 ? 'increased' : 'decreased');
-                setDebtChange(getShortForm(Math.abs(difference).toString(), 2, false));
+                setDebtChange(getShortForm(Math.abs(difference).toString(), false));
               }
             })
         }

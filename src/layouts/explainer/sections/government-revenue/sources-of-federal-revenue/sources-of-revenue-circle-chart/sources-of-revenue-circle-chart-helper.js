@@ -35,7 +35,7 @@ export const dataHeader = (categoryName, revenueAmount, revenuePercent) => (
     <div className={category}>Category</div>
     <div className={dataLabels}>
       <div>
-        <div className={headerTitle}>${getShortForm(revenueAmount, 0, true, true)}</div>
+        <div className={headerTitle}>${getShortForm(revenueAmount)}</div>
         <span className={subHeader}>Revenue Amount</span>
       </div>
       <div>

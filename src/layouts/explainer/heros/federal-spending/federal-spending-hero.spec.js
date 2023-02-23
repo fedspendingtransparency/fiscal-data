@@ -28,7 +28,7 @@ describe('Federal spending Hero', () => {
     expect(await getByText("Compared to the federal spending of $2.24 trillion", {exact: false}))
       .toBeInTheDocument();
     expect(await getByText("(Oct 2020 - Jun 2021)", {exact: false})).toBeInTheDocument();
-    expect(await getByText("federal spending has increased by $2 trillion", {exact: false}))
+    expect(await getByText("federal spending has increased by $2.28 trillion", {exact: false}))
       .toBeInTheDocument();
 
     global.fetch.mockRestore();

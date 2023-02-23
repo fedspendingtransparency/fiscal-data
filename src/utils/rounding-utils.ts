@@ -1,8 +1,8 @@
 export const getShortForm = (
   value: string,
-  fractionDigits: number = 0,
   abbreviate: boolean = true,
-  defaultDigits: boolean = false,
+  round: boolean = true,
+  fractionDigits: number = 0
 ): string => {
 
   const trimmed = Math.abs(Number(value)).toFixed();
@@ -11,18 +11,10 @@ export const getShortForm = (
   const trillionLabel = abbreviate ? ' T' : ' trillion';
   const billionLabel = abbreviate ? ' B' : ' billion';
   const appendix = inTrillions ? trillionLabel : billionLabel;
-  const digits = defaultDigits ?
+  const digits = round ?
     (inTrillions ? 2 : 0) : fractionDigits;
 
   return Math.abs(
     (parseFloat(value) / divisor)).toFixed(digits) + appendix;
 };
 
-export const isBillionsOrTrillions = (num: string, abbr: boolean): string => {
-  if (parseFloat(num) < 1000000000000) {
-    return getShortForm(num, 0, abbr);
-  }
-  else if (parseFloat(num) >= 1000000000000) {
-    return getShortForm(num, 2, abbr);
-  }
-}

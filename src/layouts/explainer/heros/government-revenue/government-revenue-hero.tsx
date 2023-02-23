@@ -12,7 +12,7 @@ import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
-import {isBillionsOrTrillions, getShortForm} from "../../../../utils/rounding-utils";
+import {getShortForm} from "../../../../utils/rounding-utils";
 
 const GovernmentRevenueHero = ({glossary}): JSX.Element => {
 
@@ -98,7 +98,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
       <p className={heroImageSubHeading}>
         Government revenue is income received from taxes and other sources to
         pay for government {expenditures}. The U.S. government has collected $
-        {isBillionsOrTrillions(currentRevenue, false)} in fiscal year{" "}
+        {getShortForm(currentRevenue, false)} in fiscal year{" "}
         {recordFiscalYear}.
       </p>
       <div className={flapWrapper}>
@@ -117,7 +117,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
         <div className={footNotesPillData}>
           <p>
             Compared to the federal revenue of $
-            {isBillionsOrTrillions(priorYearRevenue.toString(), false)} for the same
+            {getShortForm(priorYearRevenue.toString(), false)} for the same
             period last year (
             {getFootNotesDateRange(
               priorFiscalYear,
@@ -125,7 +125,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
               recordCalendarMonth
             )}
             ) federal revenue has {revenueChangeLabel} by $
-            {getShortForm(revenueChange.toString(), 0, false)}.
+            {getShortForm(revenueChange.toString(), false)}.
           </p>
           {getPillData(
             revenueChange,
