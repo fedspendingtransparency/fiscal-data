@@ -79,6 +79,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       record.country_currency_desc === nonUSCurrency.country_currency_desc);
     const newestQuarter = Math.max(...filteredDataForYear.map(value => parseInt(value.record_calendar_quarter)));
     setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
+    const matchedRecord = data.find((entry) => entry.record_calendar_year === option.value.toString()
+      && entry.record_calendar_quarter === newestQuarter.toString() && entry.country_currency_desc === nonUSCurrency.country_currency_desc);
+    setNonUSCurrency(matchedRecord);
+    setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+    const date = new Date(matchedRecord.effective_date);
+    setEffectiveDate(dateStringConverter(date));
     const recordQuartersSet = [...new Set(filteredDataForYear.map(entry => parseInt(entry.record_calendar_quarter)))];
     recordQuartersSet.sort((a:number, b:number) => {return a-b});
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));

@@ -11,6 +11,21 @@ describe('exchange rates converter', () => {
   const mockData = {
     "data": [
       {
+        "record_date":"2023-12-31",
+        "country":"Euro Zone",
+        "currency":"Euro",
+        "country_currency_desc":"Euro Zone-Euro",
+        "exchange_rate":"4360.0",
+        "effective_date":"2023-12-31",
+        "src_line_nbr":"94",
+        "record_fiscal_year":"2023",
+        "record_fiscal_quarter":"1",
+        "record_calendar_year":"2023",
+        "record_calendar_quarter":"2",
+        "record_calendar_month":"12",
+        "record_calendar_day":"31"
+      },
+      {
         "record_date":"2022-12-31",
         "country":"Euro Zone",
         "currency":"Euro",
@@ -31,27 +46,12 @@ describe('exchange rates converter', () => {
         "currency":"Euro",
         "country_currency_desc":"Euro Zone-Euro",
         "exchange_rate":"99.11",
-        "effective_date":"2022-12-31",
+        "effective_date":"2022-01-31",
         "src_line_nbr":"1",
         "record_fiscal_year":"2023",
         "record_fiscal_quarter":"1",
         "record_calendar_year":"2022",
         "record_calendar_quarter":"1",
-        "record_calendar_month":"12",
-        "record_calendar_day":"31"
-      },
-      {
-        "record_date":"2023-12-31",
-        "country":"Euro Zone",
-        "currency":"Euro",
-        "country_currency_desc":"Euro Zone-Euro",
-        "exchange_rate":"4360.0",
-        "effective_date":"2022-12-31",
-        "src_line_nbr":"94",
-        "record_fiscal_year":"2023",
-        "record_fiscal_quarter":"1",
-        "record_calendar_year":"2023",
-        "record_calendar_quarter":"2",
         "record_calendar_month":"12",
         "record_calendar_day":"31"
       },
@@ -88,9 +88,6 @@ describe('exchange rates converter', () => {
     )
     await waitFor(() => getByText('Year'));
 
-    expect(getByText('Year')).toBeInTheDocument();
-    expect(getByText('Quarter')).toBeInTheDocument();
-
     const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
     expect(yearSelector).toBeDefined();
 
@@ -101,7 +98,7 @@ describe('exchange rates converter', () => {
     expect(yearSelectorOptions[0]).toBeDefined();
 
     // Click on '2022'
-    fireEvent.click(yearSelectorOptions[0]);
+    fireEvent.click(yearSelectorOptions[1]);
 
     // Make sure that quarters have changed to '4th' and '1st'
     const quarterSelector2022 = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
@@ -131,8 +128,8 @@ describe('exchange rates converter', () => {
     const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
     expect(yearSelectorOptions[0]).toBeDefined();
 
-    // Click on '2023
-    fireEvent.click(yearSelectorOptions[1]);
+    // Click on 2023
+    fireEvent.click(yearSelectorOptions[0]);
 
     // Make sure that quarters have changed to '2nd'
     const quarterSelector2023 = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
@@ -146,7 +143,41 @@ describe('exchange rates converter', () => {
 
   });
 
-  it('quarter selector changes relevant values', async()=> {
+  it('quarter selector changes exchange rate and effective date values, changing year value also updates to latest quarter', async() => {
+
+    const {getByTestId, getByText} = render(
+      <CurrencyExchangeRatesConverter />
+    )
+    await waitFor(() => getByText('Quarter'));
+
+    const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+
+    fireEvent.click(yearSelector);
+
+    const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+
+    // Checking displayed exchange rate
+    expect(getByText('4360.0')).toBeInTheDocument();
+    // Checking displayed effective date
+    expect(getByText('December 31, 2023')).toBeInTheDocument();
+
+    // Click on 2022
+    fireEvent.click(yearSelectorOptions[1]);
+
+    expect(getByText('89.11')).toBeInTheDocument();
+    expect(getByText('December 31, 2022')).toBeInTheDocument();
+
+    const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
+    expect(quarterSelector).toBeDefined();
+    expect(quarterSelector.innerHTML).toContain('4th');
+    fireEvent.click(quarterSelector);
+    const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
+    fireEvent.click(quarterSelectorOptions[0]);
+    expect(getByText('99.11')).toBeInTheDocument();
+    expect(getByText('January 31, 2022')).toBeInTheDocument();
+
+
+
 
   });
 
