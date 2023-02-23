@@ -25,6 +25,7 @@ import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
+import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks } from "./currency-exchange-rates-converter-helper";
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -37,40 +38,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
-
-  const breadCrumbLinks = [
-    {
-      name: 'Currency Exchange Rates Convertor'
-    },
-    {
-      name: 'Home',
-      link: '/'
-    }
-  ];
-
-  const quarterNumToTerm = (num) => {
-    switch (num) {
-      case 1:
-        return '1st';
-      case 2:
-        return '2nd';
-      case 3:
-        return '3rd';
-      case 4:
-        return '4th';
-    }
-  }
-
-  const dateStringConverter = (date) => {
-    const timeZoneOffset = date.getTimezoneOffset() * 60000;
-    const offSetDate = new Date(date.getTime() + timeZoneOffset);
-    const monthName = offSetDate.toLocaleString('default', { month: 'long' });
-    const day = offSetDate.getDate();
-    const year = offSetDate.getFullYear();
-    return `${monthName} ${day}, ${year}`;
-  }
-
-  const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date';
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
