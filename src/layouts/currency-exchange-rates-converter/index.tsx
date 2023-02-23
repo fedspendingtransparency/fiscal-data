@@ -33,13 +33,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   ];
 
   const socialCopy = {
-    title: 'test',
-    description: 'test',
-    body: 'test',
-    emailSubject: 'test',
-    emailBody: 'test',
-    url: 'test',
-    image: 'test',
+    title: '',
+    description: '',
+    body: '',
+    emailSubject: '',
+    emailBody: '',
+    url: '',
+    image: '',
   }
 
   return (
