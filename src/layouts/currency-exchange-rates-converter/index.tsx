@@ -77,10 +77,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setSelectedYear(option);
     const filteredDataForYear = data.filter(record => record.record_calendar_year === option.value.toString() &&
       record.country_currency_desc === nonUSCurrency.country_currency_desc);
+    // Set quarter to most recent for that year
     const newestQuarter = Math.max(...filteredDataForYear.map(value => parseInt(value.record_calendar_quarter)));
     setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
     const matchedRecord = data.find((entry) => entry.record_calendar_year === option.value.toString()
       && entry.record_calendar_quarter === newestQuarter.toString() && entry.country_currency_desc === nonUSCurrency.country_currency_desc);
+    // Update currency, exchange rate, and effective date entry to match quarter entry
     setNonUSCurrency(matchedRecord);
     setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
     const date = new Date(matchedRecord.effective_date);
