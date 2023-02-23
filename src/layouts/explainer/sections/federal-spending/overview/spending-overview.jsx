@@ -12,7 +12,7 @@ import {
 import QuoteBox from "../../../quote-box/quote-box"
 import { faFlagUsa } from "@fortawesome/free-solid-svg-icons"
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
-import {getShortForm} from "../../../heros/hero-helper";
+import {getShortForm} from "../../../../../utils/rounding-utils";
 export const SpendingOverview = ({ glossary }) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(null);
@@ -92,7 +92,7 @@ export const SpendingOverview = ({ glossary }) => {
         if (res.data) {
           const data = res.data[0];
           setLatestCompleteFiscalYear(data.record_fiscal_year);
-          setPriorYearSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), 2, false));
+          setPriorYearSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
         }
       });
   }, [])

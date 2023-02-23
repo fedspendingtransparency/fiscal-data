@@ -20,7 +20,7 @@ import { useWindowSize } from "../../../../../hooks/windowResize"
 import moment from "moment"
 import useGAEventTracking from "../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../utils/analytics/analytics";
-import {getShortForm} from "../../../heros/hero-helper";
+import {getShortForm} from "../../../../../utils/rounding-utils";
 import {ToggleSwitch} from "./chart-toggle-switch";
 
 const breakpoint = {
@@ -314,10 +314,8 @@ const HowMuchDoesTheGovtSpend = () => {
                     marginRight: item.percentage > 20 ? "0px" : "8px",
                   }}
                 >
-                  {percentDollarToggleChecked
-                    ? item.dollarAmount >= 1000000000000 ?
-                    `$${getShortForm(item.dollarAmount, 2, true)}` : `$${getShortForm(item.dollarAmount, 0, true)}`
-                    : `${item.percentage} %`}
+                  {percentDollarToggleChecked ? 
+                    `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
                 </div>
                 <div className={descContainer}>
                   {item.classification_desc?.replace("Total--", "")}
@@ -337,8 +335,7 @@ const HowMuchDoesTheGovtSpend = () => {
             </div>
             <div className={percentOrDollarContainer}>
               {percentDollarToggleChecked
-                ? otherTotal >= 1000000000000 ?
-                  `$${getShortForm(otherTotal, 2, true)}` : `$${getShortForm(otherTotal, 0, true)}`
+                ? `$${getShortForm(otherTotal)}`
                 : `${otherPercentage} %`}
             </div>
             <div className={descContainer}>Other </div>
