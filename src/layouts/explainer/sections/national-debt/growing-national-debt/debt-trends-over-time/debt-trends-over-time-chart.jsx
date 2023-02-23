@@ -371,7 +371,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                         }
                       xScale={{
                         type: "linear",
-                        min: 1947,
+                        min: 1948,
                         max: lastDebtValue.x,
                       }}
                       yScale={{
