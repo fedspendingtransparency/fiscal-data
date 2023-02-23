@@ -63,6 +63,7 @@ const SelectControl = ({
       >
       <button
         name="dropdownToggle"
+        data-testid={'toggle-button'}
         className={styles.selector_button}
         aria-haspopup="true"
         aria-expanded={droppedDown}

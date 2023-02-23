@@ -50,6 +50,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const recordQuartersSet = [...new Set(res.data
       .filter((entry => entry.country_currency_desc === euro.country_currency_desc && entry.record_calendar_year === euro.record_calendar_year))
       .map(entry => parseInt(entry.record_calendar_quarter)))];
+      recordQuartersSet.sort((a:number, b:number) => {return a-b});
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
       setSelectedYear({label: euro.record_calendar_year, value: parseInt(euro.record_calendar_year)});
@@ -79,6 +80,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     const newestQuarter = Math.max(...filteredDataForYear.map(value => parseInt(value.record_calendar_quarter)));
     setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
     const recordQuartersSet = [...new Set(filteredDataForYear.map(entry => parseInt(entry.record_calendar_quarter)))];
+    recordQuartersSet.sort((a:number, b:number) => {return a-b});
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
   }
 
@@ -107,10 +109,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           data && (
             <div className={selectorContainer}>
-              <div className={selector}>
+              <div className={selector} data-testid={'year-selector'}>
                 <SelectControl label={'Year'} className={box} options={years} selectedOption={selectedYear} changeHandler={handleChangeYears} />
               </div>
-              <div className={selector}>
+              <div className={selector} data-testid={'quarter-selector'}>
                 <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={handleChangeQuarters} />
               </div>
               <div className={effectiveDateContainer}>
