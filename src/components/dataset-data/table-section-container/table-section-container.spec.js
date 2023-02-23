@@ -13,7 +13,9 @@ import {
   selectedTableLessFields,
   selectedPivot,
   pivotFields,
-  selectedPivotWithAggregation
+  selectedPivotWithAggregation,
+  mockTableWithUserFilterAvailable,
+  mockApiDataUserFilterable
 } from './testHelpers';
 import * as setNoChartMessageMod from './set-no-chart-message';
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
@@ -21,6 +23,7 @@ import DatasetChart from '../dataset-chart/dataset-chart';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
 import { render, fireEvent } from "@testing-library/react"
+import NotShownMessage from "./not-shown-message/not-shown-message";
 
 describe('TableSectionContainer initial state', () => {
   let component, instance;
@@ -119,6 +122,37 @@ describe('TableSectionContainer with data', () => {
     });
     instance = component.root;
     expect(instance.findAllByType(PivotToggle).length).toEqual(0);
+  });
+});
+
+describe('TableSectionContainer with userFilter Options', () => {
+  it('displays the NotShownMessage when a user filter is engaged that matches no rows', () => {
+    let tableSectionContainer = {};
+    renderer.act(() => {
+      tableSectionContainer = renderer.create(
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithUserFilterAvailable}
+          userFilterSelection={{label: 'Auditorium', value: 'Auditorium'}}
+          apiData={mockApiDataUserFilterable}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={jest.fn()}
+        />
+      );
+    });
+
+    const notShownMessages = tableSectionContainer.root.findAllByType(NotShownMessage);
+    expect(notShownMessages.length).toStrictEqual(2);
+    notShownMessages.forEach(notShownMessage => {
+      expect(notShownMessage.props.heading)
+        .toContain('The Facility Description specified does not have');
+      expect(notShownMessage.props.heading)
+        .toContain('available data within the date range selected.');
+      expect(notShownMessage.props.bodyText)
+        .toStrictEqual(mockTableWithUserFilterAvailable.userFilter.dataUnmatchedMessage);
+    });
   });
 });
 

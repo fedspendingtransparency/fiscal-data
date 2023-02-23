@@ -917,9 +917,13 @@ const endpointConfig = {
       'field': 'country_currency_desc',
       'label': 'Country-Currency',
       'notice': `If current rates deviate from the published rates by 10% or more, Treasury
-       will issue amendments to this quarterly report. An amendment to a currency exchange
-       rate for the quarter will appear on the report as a separate line with a new effective
-       date. The latest available data will display first.`
+         will issue amendments to this quarterly report. An amendment to a currency exchange
+         rate for the quarter will appear on the report as a separate line with a new effective
+         date. The latest available data will display first.`,
+      'dataUnmatchedMessage': `This may be because the currency existed under a different
+          name for that time period. Please check to see if the currency you are
+          looking for appears under a different name, or change the date
+          selected for available results.`
     },
   },
   '138': {

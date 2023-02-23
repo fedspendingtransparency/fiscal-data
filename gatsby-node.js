@@ -327,7 +327,9 @@ exports.createSchemaCustomization = ({ actions }) => {
     type UserFilter {
       field: String,
       label: String,
-      notice: String
+      notice: String,
+      optionValues: [String!],
+      dataUnmatchedMessage: String
     }
     type SEOConfig {
       title: String,
@@ -447,6 +449,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               field
               label
               notice
+              optionValues
+              dataUnmatchedMessage
             }
             downloadName
             earliestDate

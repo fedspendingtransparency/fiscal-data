@@ -45,7 +45,12 @@ const metadataSEOApprovedDS = [
 ];
 
 const transformMapper = (datasetIdMap,
-                         endpointConfigIdMap, topics, filters, releaseCalendarEntries) => {
+                         endpointConfigIdMap,
+                         topics,
+                         filters,
+                         releaseCalendarEntries,
+                         API_BASE_URL,
+                         fetch) => {
   return {
     item: {
       datasetId: 'datasetId',
@@ -88,7 +93,7 @@ const transformMapper = (datasetIdMap,
         on: 'publisher'
       }
     ],
-    each: (dataset) => {
+    each: async (dataset) => {
       const mappedDataset = datasetIdMap[dataset.datasetId];
       if (dataset.apis === []) {
         console.warn(`Dataset without endpoints IN METADATA found.
@@ -127,7 +132,7 @@ const transformMapper = (datasetIdMap,
           "${dataset.name}"`);
         }
       } else {
-        dataset.apis.forEach(api => {
+        for (const api of dataset.apis) {
           if (Number(api.rowCount) > 5000 && Number(api.rowCount) < 8500) {
             console.info(`DatasetId:${dataset.datasetId} "${dataset.name}", API: ${api.apiId} has
             ${Number(api.rowCount)} rows`);
@@ -154,13 +159,23 @@ const transformMapper = (datasetIdMap,
               });
             }
           }
-        });
+          if (api.userFilter) {
+            let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+            filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
+            filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
+
+            const options = await fetch(filterOptionsUrl)
+              .then(res => res.json()
+                .then(body => body.data.map(row => row[api.userFilter.field])
+                  .sort((a,b)=>a.localeCompare(b))));
+            api.userFilter.optionValues = [...new Set(options)]; // uniquify results
+          }
+        }
 
         const apiDateRange = getDateRange(dataset.apis);
         dataset.techSpecs.latestDate = apiDateRange.latestDate;
         dataset.techSpecs.earliestDate = apiDateRange.earliestDate;
         dataset.techSpecs.lastUpdated = apiDateRange.lastUpdated;
-
       }
 
       dataset.apis.sort(sortApisByOrder);
@@ -395,7 +410,7 @@ exports.metadataTransform = async function(metadataObjectsFromApi,
 
   const transformer = DataTransform(thinnedDatasets,
     transformMapper(datasetIdMap, endpointConfigIdMap,
-      freshTopics(), filters, releaseCalendarEntries));
+      freshTopics(), filters, releaseCalendarEntries, API_BASE_URL, fetch));
   const transformed = await transformer.transform();
 
   Object.keys(endpointConfigIdMap).forEach(staticId => {

@@ -8,11 +8,20 @@ import ComboSelect from "../../combo-select/combo-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
-import {IDatasetApi} from "../../../models/IDatasetApi";
 import { info, icon } from '../../dataset-data/dataset-chart/dataset-chart.module.scss';
+import NotShownMessage from
+    "../../dataset-data/table-section-container/not-shown-message/not-shown-message";
 
 type UserFilterProps = {
-  selectedTable: IDatasetApi,
+  selectedTable?: {
+    userFilter?: {
+      label: string,
+      field: string,
+      notice: string,
+      optionValues: string[],
+      dataUnmatchedMessage: string
+    }
+  },
   onUserFilter: (selection: any) => void,
   apiData: any
 }
@@ -36,9 +45,8 @@ const UserFilter: FunctionComponent<UserFilterProps> = (
 
   const establishOptions = () => {
     let options = null;
-    if (apiData?.data && userFilterOptions === null) {
-      const values = [...new Set(apiData.data.map(row => row[selectedTable.userFilter.field]))];
-      options = values.map(val => ({label: val, value: val}));
+    if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
+      options = selectedTable.userFilter.optionValues.map(val => ({label: val, value: val}));
       options.unshift({label: '(None selected)', value: null});
       setUserFilterOptions(options);
     }
@@ -75,3 +83,36 @@ const UserFilter: FunctionComponent<UserFilterProps> = (
 }
 
 export default UserFilter;
+
+export const determineUserFilterUnmatchedForDateRange = (
+                                                           selectedTable: {
+                                                             userFilter?: { [key: string]: unknown }
+                                                           },
+                                                           userFilterSelection?: {
+                                                             label: string,
+                                                             value: string
+                                                           },
+                                                           userFilteredData?: {
+                                                             data?: [{ [key: string]: string }] | []
+                                                           }
+                                                        ): boolean =>
+  selectedTable?.userFilter?.label && userFilterSelection?.value && userFilteredData?.data &&
+  userFilteredData?.data.length === 0;
+
+export const getMessageForUnmatchedUserFilter =
+  (selectedTable: { userFilter?: { [key: string]: unknown }}): JSX.Element =>
+  (
+    <>
+      {
+        (selectedTable.userFilter && selectedTable.userFilter.label &&
+        selectedTable.userFilter.dataUnmatchedMessage) &&
+          (
+            <NotShownMessage
+              heading={`The ${selectedTable.userFilter.label} specified does not have
+                available data within the date range selected.`}
+              bodyText={selectedTable.userFilter.dataUnmatchedMessage}
+            />
+          )
+      }
+    </>
+  );
