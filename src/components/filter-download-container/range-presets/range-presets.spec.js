@@ -215,7 +215,7 @@ describe('Range Presets Component, without the current report radio option', () 
     instance = component.root;
     jest.runAllTimers();
 
-    const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+    const dateObj = new Date(Date.parse(selectedTable.latestDate));
     const quarterDatesMock = {
       from: subQuarters(addDays(dateObj, 1), 1),
       to: dateObj
