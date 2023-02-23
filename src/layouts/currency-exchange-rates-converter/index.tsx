@@ -78,10 +78,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       // Setting default values based on default non US currency (Euro)
       const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
 
-      const recordYearsSet = [...new Set(res.data.filter((entry => entry.country_currency_desc === 'Euro Zone-Euro'))
+      const recordYearsSet = [...new Set(res.data.filter((entry => entry.country_currency_desc === euro.country_currency_desc))
       .map(entry => parseInt(entry.record_calendar_year)))];
       const recordQuartersSet = [...new Set(res.data
-      .filter((entry => entry.country_currency_desc === 'Euro Zone-Euro' && entry.record_calendar_year === euro.record_calendar_year))
+      .filter((entry => entry.country_currency_desc === euro.country_currency_desc && entry.record_calendar_year === euro.record_calendar_year))
       .map(entry => parseInt(entry.record_calendar_quarter)))];
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
@@ -107,7 +107,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleChangeYears = (option) => {
     setSelectedYear(option);
-    const filteredDataForYear = data.filter(record => record.record_calendar_year === option.value.toString());
+    const filteredDataForYear = data.filter(record => record.record_calendar_year === option.value.toString() &&
+      record.country_currency_desc === nonUSCurrency.country_currency_desc);
+    const newestQuarter = Math.max(...filteredDataForYear.map(value => parseInt(value.record_calendar_quarter)));
+    setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
     const recordQuartersSet = [...new Set(filteredDataForYear.map(entry => parseInt(entry.record_calendar_quarter)))];
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
   }
