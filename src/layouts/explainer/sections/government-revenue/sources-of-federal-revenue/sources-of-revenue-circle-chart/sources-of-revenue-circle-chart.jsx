@@ -27,7 +27,7 @@ import LabelComponent from './circle-chart-label';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
-import {getShortForm, isBillionsOrTrillions} from "../../../../../../utils/rounding-utils";
+import {getShortForm} from "../../../../../../utils/rounding-utils";
 import Analytics from "../../../../../../utils/analytics/analytics";
 
 let gaTimerRevenueCircle;
@@ -359,7 +359,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                 />
               </div>
               <div className={totalRevenueDataPill}>
-                Total Revenue: ${isBillionsOrTrillions(totalRevenue.toString(), true)}
+                Total Revenue: ${getShortForm(totalRevenue.toString())}
               </div>
             </div>
           ) : (
@@ -372,7 +372,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           <p>
             In FY {fiscalYear}, the combined contribution of individual and
             corporate income taxes is $
-            {getShortForm(combinedIncomeAmount.toString(), 0, true, true)},
+            {getShortForm(combinedIncomeAmount.toString())},
             making up {combinedIncomePercent.toFixed()}% of total revenue.
           </p>
         </VisualizationCallout>

@@ -7,7 +7,7 @@ import {
   selected
 } from './range-presets.module.scss';
 import { monthNames } from '../../../utils/api-utils';
-import {differenceInYears} from 'date-fns';
+import {addDays, subQuarters, differenceInYears} from 'date-fns';
 import determineDateRange, {
   generateAnalyticsEvent,
   generateFormattedDate,
@@ -20,6 +20,7 @@ const RangePresets = (
   {
     currentDateButton,
     datePreset,
+    customRangePreset,
     selectedTable,
     apiData,
     onUserFilter,
@@ -131,6 +132,20 @@ const RangePresets = (
       }
       if(datePreset === 'current' && presets[0].key === 'current') {
         idealDefaultPreset = presets[0];
+      }
+      if(datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+        idealDefaultPreset = presets.find(({key}) => key === 'custom');
+
+        const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+        const quarterRange = {
+          userSelected: {
+            from: subQuarters(addDays(dateObj, 1), 1),
+            to: dateObj
+          }
+        };
+        
+        const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
+        updateDateRange(adjRange);
       }
       // Check if the default date option is available in the preset list. If so, select the default
       // preset, else select the next available option.

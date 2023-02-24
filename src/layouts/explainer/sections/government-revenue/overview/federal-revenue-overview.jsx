@@ -19,7 +19,7 @@ const FederalRevenueOverview = () => {
         .then((res) => {
           if (res.data[0]) {
             setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
-            setPriorRevenue(getShortForm(res.data[0].current_fytd_net_rcpt_amt, 2, false));
+            setPriorRevenue(getShortForm(res.data[0].current_fytd_net_rcpt_amt, false));
           }
         })
   }, []);
@@ -30,7 +30,7 @@ const FederalRevenueOverview = () => {
     basicFetch(`${apiPrefix}${endpointURL}`)
       .then((res) => {
         if (res.data[0]) {
-          setPriorSpend(getShortForm(res.data[0].current_fytd_net_outly_amt, 2, false));
+          setPriorSpend(getShortForm(res.data[0].current_fytd_net_outly_amt, false));
         }
       })
   }, []);
@@ -41,7 +41,7 @@ const FederalRevenueOverview = () => {
     basicFetch(`${apiPrefix}${endpointURL}`)
     .then((res) => {
       if (res.data[0]) {
-        setPriorDeficit(getShortForm(res.data[0].current_fytd_net_outly_amt, 2, false))
+        setPriorDeficit(getShortForm(res.data[0].current_fytd_net_outly_amt, false))
         if (res.data[0].current_fytd_net_outly_amt < 0) {
           setSpendRevComp('more');
           setDeficitLabel('deficit');

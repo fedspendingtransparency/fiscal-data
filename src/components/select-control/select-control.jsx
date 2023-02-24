@@ -25,6 +25,8 @@ const SelectControl = ({
 
 
 
+
+
   const [droppedDown, setDroppedDown] = useState(false);
   const updateSelection = (selection) => () => {
     setDroppedDown(false);
@@ -32,6 +34,7 @@ const SelectControl = ({
   };
 
   const optionSelected = selectedOption || options[0];
+
   let timeOutId;
 
   /* accessibility enabling event handlers for interpreting focus state on control */
@@ -60,6 +63,7 @@ const SelectControl = ({
       >
       <button
         name="dropdownToggle"
+        data-testid={'toggle-button'}
         className={styles.selector_button}
         aria-haspopup="true"
         aria-expanded={droppedDown}

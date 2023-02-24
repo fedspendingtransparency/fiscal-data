@@ -6,7 +6,7 @@ import { revenueExplainerPrimary } from "../revenue.module.scss";
 import RevenueTrendsLineChart from "./revenue-trends-line-chart/revenue-trends-line-chart";
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils";
 import { adjustDataForInflation } from "../../../../../helpers/inflation-adjust/inflation-adjust";
-import { getShortForm } from "../../../heros/hero-helper";
+import { getShortForm } from "../../../../../utils/rounding-utils";
 
 const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
   const [firstChartYear, setFirstChartYear] = useState(0);
@@ -35,11 +35,11 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
             );
             setFirstChartYear(concatData[0].record_fiscal_year);
             setFirstRevenue(
-              getShortForm(concatData[0].current_fytd_net_rcpt_amt, 2, true)
+              getShortForm(concatData[0].current_fytd_net_rcpt_amt)
             );
             setLastChartYear(concatData[1].record_fiscal_year);
             setLastRevenue(
-              getShortForm(concatData[1].current_fytd_net_rcpt_amt, 2, true)
+              getShortForm(concatData[1].current_fytd_net_rcpt_amt)
             );
             if (
               parseFloat(concatData[1].current_fytd_net_rcpt_amt) >

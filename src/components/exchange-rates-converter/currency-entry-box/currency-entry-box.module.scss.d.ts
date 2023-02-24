@@ -67,3 +67,4 @@ export const currencyBox: string;
 export const currencyHeader: string;
 export const icon: string;
 export const currencyBody: string;
+export const currencyText: string;

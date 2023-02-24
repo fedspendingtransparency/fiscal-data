@@ -32,7 +32,7 @@ import simplifyNumber from '../../../../../../../helpers/simplify-number/simplif
 import numeral from 'numeral';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { getShortForm } from '../../../../../heros/hero-helper';
+import { getShortForm } from '../../../../../../../utils/rounding-utils';
 import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-utils';
 import Analytics from "../../../../../../../utils/analytics/analytics";
 
@@ -264,7 +264,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         copyPageData({
           fiscalYear: maxYear,
-          revenueTotal: getShortForm(revenueLastAmountActual, 2, false),
+          revenueTotal: getShortForm(revenueLastAmountActual, false),
           revenueRatio: chartLastRatio
         });
       }
