@@ -135,8 +135,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             if (mspdData.record_calendar_month === '09') {
               setDebtContributed('contributed');
             }
-            const latestDebt = (parseFloat(mspdData.total_mil_amt) / 1000000).toFixed(2);
-            setLatestDebt(`$${latestDebt}T`);
+            setLatestDebt(getShortForm((mspdData.total_mil_amt * 1000000).toString(), false));
             const date = new Date(mtsData.record_date);
             const monthName = date.toLocaleString('default', {month: 'long'});
             const year = mtsData.record_calendar_year;
@@ -188,7 +187,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const debtHeading = (
     <>
       The deficit this year {debtContributed} to a national{" "}
-      <span style={{ fontStyle: "italic" }}>debt</span> of {latestDebt} through {debtDate}.
+      <span style={{ fontStyle: "italic" }}>debt</span> of ${latestDebt} through {debtDate}.
     </>
   );
   const exciseTaxes =
