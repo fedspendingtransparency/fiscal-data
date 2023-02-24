@@ -58,9 +58,8 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
   emailSeparator  = '\n',
   pageName,
   width,
-  buttonClick,
   displayStyle,
-  customHandleButtonClick,
+  clickEvent,
 }) => {
 
 
@@ -90,8 +89,8 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
 
   const handleClick = (socialName) => {
     analyticsClickHandler(pageName, socialName);
-    if(customHandleButtonClick) {
-      customHandleButtonClick();
+    if(clickEvent) {
+      clickEvent();
     }
   }
 

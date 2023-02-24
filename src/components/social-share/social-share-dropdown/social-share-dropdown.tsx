@@ -5,7 +5,7 @@ import {
 } from './social-share-dropdown.module.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShareNodes} from '@fortawesome/free-solid-svg-icons';
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {SocialShareComponent} from "../social-share";
 import Popover from "@material-ui/core/Popover";
@@ -19,6 +19,18 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
   ({copy, pageName, width}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [socialButtonClick, setSocialButtonClick] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
+
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setPreviousScrollPosition(scrollPosition);
+    setScrollPosition(position);
+
+    if (scrollPosition !== previousScrollPosition) {
+      handleClose();
+    }
+  };
 
   const useStyles = makeStyles(theme => ({
     popOver : {
@@ -53,6 +65,14 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
   const open = Boolean(anchorEl) && !socialButtonClick;
   const id = open ? 'simple-popover' : undefined;
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollPosition]);
+
 
   return (
     <>
@@ -68,6 +88,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
       <Popover
         id={id}
         open={open}
+        disableScrollLock={true}
         anchorEl={anchorEl}
         onClose={handleClose}
         className={popOver}
@@ -85,7 +106,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
             copy={copy}
             pageName={pageName}
             displayStyle={'list'}
-            customHandleButtonClick={handleSocialButtonClick}
+            clickEvent={handleSocialButtonClick}
           />
         </div>
       </Popover>
