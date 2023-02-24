@@ -71,6 +71,8 @@
 
 .box {
   width: 9rem;
+  margin-top: -1.8px;
+  margin-bottom: 15px;
 }
 
 .effectiveDateContainer {
@@ -80,10 +82,32 @@
   margin-left: 0.5rem;
   display: flex;
   flex-direction: column;
+
+  .icon {
+    height: 0.875rem;
+  }
+
 }
 
 .effectiveDateText {
   font-weight: normal;
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .selectorContainer {
+    height: 9rem;
+    flex-wrap: wrap;
+  }
+
+  .box {
+    width: 8rem;
+  }
+
+  .effectiveDateContainer {
+    margin-top: -30px;
+    margin-right: 9rem;
+    gap: 2px;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -105,23 +129,6 @@
       margin-bottom: 4rem;
     }
   }
-
-  .selectorContainer {
-    height: 9rem;
-    flex-wrap: wrap;
-  }
-
-  .box {
-    width: 8rem;
-  }
-
-  .effectiveDateContainer {
-    margin-top: 0;
-    margin-bottom: 15px;
-    margin-right: 10rem;
-    gap: 0;
-  }
-
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
