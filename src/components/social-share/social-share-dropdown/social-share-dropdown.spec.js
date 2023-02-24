@@ -1,6 +1,9 @@
 import {render} from "@testing-library/react";
 import React from "react";
 import SocialShareDropdown from "./social-share-dropdown";
+
+jest.useFakeTimers();
+
 describe('exchange rates banner', () => {
   const testCopy = {
     title: 'test',
@@ -30,4 +33,17 @@ describe('exchange rates banner', () => {
     shareButton.click();
     expect(getByText('Facebook')).toBeInTheDocument();
   });
+
+  it('closes the dropdown when a social button is clicked', () => {
+    const {getByRole, queryByText} = render(
+      <SocialShareDropdown copy={testCopy} pageName={''} />
+    );
+    const shareButton = getByRole('button');
+    shareButton.click();
+    const facebookButton = getByRole('button', {name: 'facebook'})
+    facebookButton.click();
+    jest.advanceTimersByTime(1000);
+    expect(queryByText('Facebook')).not.toBeInTheDocument();
+
+  })
 })
