@@ -4,6 +4,7 @@ import FederalRevenueTrendsOverTime from "./federal-revenue-trends-over-time";
 import fetchMock from "fetch-mock";
 
 describe("revenue trends over time section", () => {
+
   const mockCpiDataset = {
     "2011": "10",
     "2012": "5",
