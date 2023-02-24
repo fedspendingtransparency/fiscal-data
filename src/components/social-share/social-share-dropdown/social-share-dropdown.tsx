@@ -5,7 +5,7 @@ import {
 } from './social-share-dropdown.module.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShareNodes} from '@fortawesome/free-solid-svg-icons';
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {SocialShareComponent} from "../social-share";
 import Popover from "@material-ui/core/Popover";
@@ -15,8 +15,10 @@ import {breakpointLg} from "../../../variables.module.scss";
 import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
 import {ISocialShareDropdown} from "../../../models/ISocialShareDropdown";
 
-const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({copy, pageName, width}) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
+  ({copy, pageName, width}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [socialButtonClick, setSocialButtonClick] = useState(false);
 
   const useStyles = makeStyles(theme => ({
     popOver : {
@@ -39,9 +41,16 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({copy, pag
 
   const handleClose = () => {
     setAnchorEl(null);
+    setSocialButtonClick(false);
+
   };
 
-  const open = Boolean(anchorEl);
+  const handleSocialButtonClick = () => {
+    setSocialButtonClick(true);
+    handleClose();
+  }
+
+  const open = Boolean(anchorEl) && !socialButtonClick;
   const id = open ? 'simple-popover' : undefined;
 
 
@@ -76,6 +85,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({copy, pag
             copy={copy}
             pageName={pageName}
             displayStyle={'list'}
+            customHandleButtonClick={handleSocialButtonClick}
           />
         </div>
       </Popover>

@@ -20,6 +20,9 @@ import QuarterSelectionBox
   from "../../components/exchange-rates-converter/quarter-selection-box/quarter-selection-box";
 import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
+import { BASE_URL } from "gatsby-env-variables";
+
+const envBaseUrl = BASE_URL;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const breadCrumbLinks = [
@@ -33,12 +36,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   ];
 
   const socialCopy = {
-    title: '',
-    description: '',
-    body: '',
-    emailSubject: '',
-    emailBody: '',
-    url: '',
+    title: 'Test title',
+    description: 'Test description',
+    body: 'Test body',
+    emailSubject: 'Test email subject',
+    emailBody: 'test email body',
+    url: envBaseUrl+'/currency-exchange-rates-converter/',
     image: '',
   }
 

@@ -57,9 +57,7 @@ const ShareButtonContent:FunctionComponent<IShareButtonContent> = ({name, width,
   const displayText = displayStyle === 'list' ||
     (displayStyle === 'responsive' && width >= pxToNumber(breakpointLg));
   const handleMouseEnter = () => {
-    if (width >= pxToNumber(breakpointLg)) {
-      setHovered(true)
-    }
+    setHovered(true)
   }
 
   const handleMouseLeave = () => {

@@ -7,5 +7,7 @@ export interface ISocialShareComponent {
   pageName: string,
   width?: number,
   horizontal?: boolean,
+  buttonClick?: boolean,
   displayStyle?: string,
+  customHandleButtonClick?: any,
 }

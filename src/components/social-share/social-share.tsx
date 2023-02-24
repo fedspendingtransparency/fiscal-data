@@ -53,14 +53,16 @@ const analyticsClickHandler = (page, social) => {
   })
 }
 
-
 export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
   copy,
   emailSeparator  = '\n',
   pageName,
   width,
+  buttonClick,
   displayStyle,
+  customHandleButtonClick,
 }) => {
+
 
   const {
     title,
@@ -86,6 +88,13 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
     buttonStyle = listShareButton;
   }
 
+  const handleClick = (socialName) => {
+    analyticsClickHandler(pageName, socialName);
+    if(customHandleButtonClick) {
+      customHandleButtonClick();
+    }
+  }
+
   return (
     <>
       <SocialMetaData
@@ -107,7 +116,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
             className={buttonStyle}
             url={url}
             quote={body}
-            beforeOnClick={() => analyticsClickHandler(pageName, "Facebook")}
+            beforeOnClick={() => handleClick('Facebook')}
           >
             <ShareButtonContent
               name={"facebook"}
@@ -123,7 +132,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
             className={buttonStyle}
             url={url}
             title={body}
-            beforeOnClick={() => analyticsClickHandler(pageName, "Twitter")}
+            beforeOnClick={() => handleClick('Twitter')}
           >
             <ShareButtonContent
               name={"twitter"}
@@ -142,7 +151,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
             summary={body}
             source={baseUrl}
             windowHeight={650}
-            beforeOnClick={() => analyticsClickHandler(pageName, "LinkedIn")}
+            beforeOnClick={() => handleClick('LinkedIn')}
           >
             <ShareButtonContent
               name={"linkedin"}
@@ -158,7 +167,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
             className={buttonStyle}
             url={url}
             title={title}
-            beforeOnClick={() => analyticsClickHandler(pageName, "Reddit")}
+            beforeOnClick={() => handleClick('Reddit')}
           >
             <ShareButtonContent
               name={"reddit"}
@@ -174,7 +183,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
             subject={emailSubject}
             body={emailBody}
             separator={emailSeparator}
-            beforeOnClick={() => analyticsClickHandler(pageName, "Email")}
+            beforeOnClick={() => handleClick('Email')}
           >
             <ShareButtonContent
               name={"email"}
