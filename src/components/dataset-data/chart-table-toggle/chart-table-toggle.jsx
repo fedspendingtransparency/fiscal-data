@@ -10,6 +10,8 @@ import NotShownMessage from '../table-section-container/not-shown-message/not-sh
 import Analytics from "../../../utils/analytics/analytics";
 import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
 import { chartBorder, tabBorder, tabIcon } from './chart-table-toggle.module.scss';
+import {getMessageForUnmatchedUserFilter} from
+    "../../filter-download-container/user-filter/user-filter";
 
 export const allTablesSelectedBody = 'With the current "All Data Tables" selection, we are' +
       ' unable to render a Table or Chart at this time.';
@@ -81,13 +83,15 @@ const ChartTableToggle = ({
                             onTabChange,
                             table,
                             allTablesSelected,
+                            selectedTable,
                             emptyData,
                             unchartable,
                             legend,
                             showToggle,
                             onToggleLegend,
                             selectedTab,
-                            chart
+                            chart,
+                            userFilterUnmatchedForDateRange
                           }) => {
   const [tabState, setTabState] = React.useState(currentTab);
 
@@ -110,6 +114,8 @@ const ChartTableToggle = ({
       <NotShownMessage
       heading={allTablesSelectedBody}
       />
+  } else if (userFilterUnmatchedForDateRange) {
+    emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
   } else if (emptyData) {
     emptyDataMessage =
       <NotShownMessage

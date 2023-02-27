@@ -1,4 +1,9 @@
-import { TestData, TestData2, TestPivotDataWithVaryingColSets } from '../../dtg-table/test-data';
+import {
+  TestData,
+  TestData2,
+  testDataForUserFiltering,
+  TestPivotDataWithVaryingColSets
+} from '../../dtg-table/test-data';
 
 export const mockApiData = {
     data: TestData,
@@ -13,6 +18,19 @@ export const mockApiData = {
       }
     }
   };
+
+export const mockApiDataUserFilterable = {
+  data: [],
+  meta: {
+    labels: {
+      facility_desc: 'Facility Description',
+      book_value_amt: 'Book Value Amount'
+    },
+    dataTypes: {
+      facility_desc: 'string'
+    }
+  }
+};
 
  export const mockApiPivotData = {
     data: TestPivotDataWithVaryingColSets,
@@ -147,9 +165,11 @@ export const mockTableWithUserFilterAvailable = {
   ],
   valueFieldOptions: ['book_value_amt'],
   userFilter: {
-    label: 'Currency',
+    label: 'Facility Description',
     field: 'facility_desc',
-    notice: 'hello'
+    notice: 'hello',
+    optionValues: ['Building', 'Room', 'Venue', 'Campus', 'Auditorium'],
+    dataUnmatchedMessage: 'Sorry, no facilities of that type for the date range.'
   }
 };
 

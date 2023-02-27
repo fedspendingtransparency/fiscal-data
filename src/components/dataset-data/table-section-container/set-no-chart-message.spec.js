@@ -4,7 +4,6 @@ import {
   mockTableWithPivot, mockTableWithUserFilterAvailable,
   selectedPivot
 } from './testHelpers';
-import React from 'react';
 import { SetNoChartMessage } from './set-no-chart-message';
 
 describe('setNoChartMessage helper', () => {
@@ -50,6 +49,8 @@ describe('setNoChartMessage helper', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithUserFilterAvailable, null,
       { to: toDateMock, from: fromDateMock });
     expect(notShownMessage.props.heading)
-      .toEqual('Select from Currency options above to display the chart.');
+      .toContain('Select');
+    expect(notShownMessage.props.heading)
+      .toContain('from Facility Description options above to display the chart.');
   });
 });

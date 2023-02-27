@@ -1,9 +1,10 @@
 import NotShownMessage from './not-shown-message/not-shown-message';
 import { differenceInHours } from "date-fns";
 import React from 'react';
+import {getMessageForUnmatchedUserFilter} from "../../filter-download-container/user-filter/user-filter";
 
 export const SetNoChartMessage = (selectedTable, selectedPivot, dateRange, allTablesSelected,
-                                  userFilterSelection) => {
+                                  userFilterSelection, userFilterUnmatchedForDateRange) => {
   if (allTablesSelected) {
     return (<NotShownMessage
       heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.'
@@ -24,8 +25,11 @@ export const SetNoChartMessage = (selectedTable, selectedPivot, dateRange, allTa
   } else if (selectedTable.userFilter && !userFilterSelection?.value) {
     return (
       <NotShownMessage
-        heading={`Select from ${selectedTable.userFilter.label} options above to display the chart.`}
+        heading={`Select
+                  from ${selectedTable.userFilter.label} options above to display the chart.`}
       />);
+  } else if (userFilterUnmatchedForDateRange) {
+    return getMessageForUnmatchedUserFilter(selectedTable);
   } else if (dateRange && dateRange.to && dateRange.from &&
     differenceInHours(dateRange.to, dateRange.from) < 24) {
     return (

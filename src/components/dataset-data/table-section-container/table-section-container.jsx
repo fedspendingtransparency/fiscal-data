@@ -14,7 +14,8 @@ import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from "./dynamic-config/dynamicConfig";
 import Experimental from "../../experimental/experimental";
-import {differenceInMonths} from "date-fns";
+import {determineUserFilterUnmatchedForDateRange} from
+    "../../filter-download-container/user-filter/user-filter";
 
 const TableSectionContainer = ({
   config,
@@ -44,6 +45,8 @@ const TableSectionContainer = ({
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
+  const [noChartMessage, setNoChartMessage] = useState(null);
+  const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
 
   const refreshTable = () => {
     if (allTablesSelected) return;
@@ -94,7 +97,7 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     // only refresh the table on date range changes if server side pagination is in effect
-    if (serverSidePagination) {
+    if (serverSidePagination || userFilterSelection) {
       refreshTable();
     }
   }, [dateRange]);
@@ -126,13 +129,29 @@ const TableSectionContainer = ({
   };
 
   const dateFieldForChart = getDateFieldForChart();
-  const noChartMessage = SetNoChartMessage(
+
+  useEffect(() => {
+    const userFilterUnmatched =
+      determineUserFilterUnmatchedForDateRange(selectedTable,
+        userFilterSelection, userFilteredData);
+    setUserFilterUnmatchedForDateRange(userFilterUnmatched);
+
+    setNoChartMessage(SetNoChartMessage(
+      selectedTable,
+      selectedPivot,
+      dateRange,
+      allTablesSelected,
+      userFilterSelection,
+      userFilterUnmatched
+    ));
+  }, [
     selectedTable,
     selectedPivot,
     dateRange,
     allTablesSelected,
-    userFilterSelection
-  );
+    userFilterSelection,
+    userFilteredData
+  ]);
 
   return (
     <div>
@@ -184,6 +203,7 @@ const TableSectionContainer = ({
             legend={legend}
             selectedTab={selectedTab}
             showToggle={!noChartMessage}
+            userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
             onToggleLegend={legendToggler}
             emptyData={
               !isLoading
@@ -194,6 +214,7 @@ const TableSectionContainer = ({
             unchartable={noChartMessage !== undefined}
             currentTab={selectedTab}
             onTabChange={tabChangeHandler}
+            selectedTable={selectedTable}
             table={
               tableProps ?
                 <DtgTable

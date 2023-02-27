@@ -1,6 +1,6 @@
 import {render} from "@testing-library/react";
 import React from "react";
-import UserFilter from "./user-filter";
+import UserFilter, {determineUserFilterUnmatchedForDateRange} from "./user-filter";
 
 describe('UserFilter Component', () => {
 
@@ -20,21 +20,48 @@ describe('UserFilter Component', () => {
     const comboSelectProps = comboSelectSpy.mock.calls[0][0];
 
     expect(comboSelectProps['label']).toEqual(`${mockTable.userFilter.label}:`);
-    const optionsFromData = mockData.data.map(row => ({label: row.ccd, value: row.ccd}));
+    const optionsFromBuildTimeData = mockTable.userFilter.optionValues
+      .map(optionValue => ({label: optionValue, value: optionValue}));
     expect(comboSelectProps['options']).toEqual([
       {
         label: "(None selected)",
         value: null
       }
-    ].concat(optionsFromData.slice(0,4)));
+    ].concat(optionsFromBuildTimeData.slice(0, 4)));
     expect(comboSelectProps['selectedOption']).toEqual(null);
   });
 
+  it(`supplies a utility function that determines if the userFilter selection is
+  unmatched for a given date range`, () => {
+
+    // conditions are met for true
+    let result = determineUserFilterUnmatchedForDateRange(mockTable,
+      {label: 'Estonia', value: 'Estonia'},
+      {data: []});
+    expect(result).toStrictEqual(true);
+
+    // selected table doesn't have defined userFilter, so false
+    result = determineUserFilterUnmatchedForDateRange({},
+      {label: 'Estonia', value: 'Estonia'},
+      {data: []});
+    expect(result).toBeFalsy();
+
+    // data rows are present after filtering, so false
+    result = determineUserFilterUnmatchedForDateRange(mockTable,
+      {label: 'Denmark', value: 'Denmark'},
+      {data: [mockData.data[5]]});
+    expect(result).toBeFalsy();
+
+  });
+
   const mockTable = {
+    apiId: '1137',
     userFilter: {
       label: 'Country-Currency',
       field: 'ccd',
-      notice: 'this is some info related to the user-filterable data'
+      notice: 'this is some info related to the user-filterable data',
+      optionValues: ['Albania', 'Belgium', 'Croatia'],
+      dataUnmatchedMessage: 'Cannot find a currency match for these dates.'
     }
   };
 
@@ -43,42 +70,42 @@ describe('UserFilter Component', () => {
       {
         record_date: '2023-01-01',
         rate: '1.1',
-        ccd: 'red'
+        ccd: 'Albania'
       },
       {
         record_date: '2023-01-01',
         rate: '1.2',
-        ccd: 'blue'
+        ccd: 'Albania'
       },
       {
         record_date: '2023-01-01',
         rate: '1.3',
-        ccd: 'green'
+        ccd: 'Belgium'
       },
       {
         record_date: '2022-01-01',
         rate: '1.4',
-        ccd: 'gold'
+        ccd: 'Croatia'
       },
       {
         record_date: '2022-01-01',
         rate: '1.0',
-        ccd: 'red'
+        ccd: 'Albania'
       },
       {
         record_date: '2022-01-01',
         rate: '1.3',
-        ccd: 'blue'
+        ccd: 'Denmark'
       },
       {
         record_date: '2022-01-01',
         rate: '1.3',
-        ccd: 'green'
+        ccd: 'Belgium'
       },
       {
         record_date: '2022-01-01',
         rate: '2.4',
-        ccd: 'gold'
+        ccd: 'Croatia'
       },
     ]
   };
