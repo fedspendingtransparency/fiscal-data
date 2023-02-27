@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from "@testing-library/react";
 import { SocialShareComponent } from "./social-share";
 import { breakpointLg, breakpointSm } from '../../../../variables.module.scss';
-import Analytics from "../../../utils/analytics/analytics";
+import Analytics from "../../utils/analytics/analytics";
 
 jest.mock('./variables.module.scss', (content) => ({
   ...content,
@@ -10,22 +10,21 @@ jest.mock('./variables.module.scss', (content) => ({
   breakpointLg: 992
 }));
 
+const testCopy = {
+  title: 'test',
+  description: 'test',
+  body: 'test',
+  emailSubject: 'test',
+  emailBody: 'test',
+  url: 'test',
+  image: 'test',
+}
+
 describe('Social Share component', () => {
-  const title = 'Title';
-  const description = 'Description';
-  const body = 'Body';
-  const url = 'testUrl';
-  const image = 'testImage';
 
   it('renders all five social share buttons ', () => {
     const { getByRole } = render(
-      <SocialShareComponent
-                   title={title}
-                   description={description}
-                   body={body}
-                   url={url}
-                   image={image}
-      />
+      <SocialShareComponent copy={testCopy} />
     );
 
     const facebook = getByRole('button', {name: 'facebook'});
@@ -44,12 +43,9 @@ describe('Social Share component', () => {
   it('renders the heading and button text in desktop view',() => {
     const { getByRole, getByText } = render(
       <SocialShareComponent
-                  title={title}
-                  description={description}
-                  body={body}
-                  url={url}
-                  image={image}
-                  width={ breakpointLg }
+        copy={testCopy}
+        width={ breakpointLg }
+        displayStyle={'responsive'}
       />
     );
 
@@ -62,14 +58,38 @@ describe('Social Share component', () => {
     expect(twitterText).toBeInTheDocument();
   });
 
+  it('When displayStyle is horizontal, no text is rendered',() => {
+    const { queryByText } = render(
+      <SocialShareComponent
+        copy={testCopy}
+        width={ breakpointLg }
+        displayStyle={'horizontal'}
+      />
+    );
+
+
+    expect(queryByText('Facebook')).not.toBeInTheDocument();
+    expect(queryByText('Twitter')).not.toBeInTheDocument();
+  });
+
+  it('When displayStyle is list, text labels are render for both desktop and mobile',() => {
+    const { getByText, queryByRole } = render(
+      <SocialShareComponent
+        copy={testCopy}
+        width={ breakpointSm }
+        displayStyle={'list'}
+      />
+    );
+
+    expect(queryByRole('heading', {name: "Share this page:"})).not.toBeInTheDocument();
+    expect(getByText('Facebook')).toBeInTheDocument();
+    expect(getByText('Twitter')).toBeInTheDocument();
+  });
+
   it('renders only the icons in mobile view, and not the header or button text', () => {
     const { getByRole, queryByRole, queryByText } = render(
       <SocialShareComponent
-                  title={title}
-                  description={description}
-                  body={body}
-                  url={url}
-                  image={image}
+        copy={testCopy}
                   width={ breakpointSm }
       />
     );
@@ -88,11 +108,7 @@ describe('Social Share component', () => {
     window.open = jest.fn();
     const { getByRole } = render(
       <SocialShareComponent
-        title={title}
-        description={description}
-        body={body}
-        url={url}
-        image={image}
+        copy={testCopy}
         pageName={'Debt'}
         width={ breakpointSm }
       />

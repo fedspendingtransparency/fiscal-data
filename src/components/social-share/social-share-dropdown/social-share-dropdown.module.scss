@@ -5,7 +5,10 @@
   align-items: center;
   font-size: $font-size-14;
   color: white;
-  padding-right: 2rem;
+  margin-right: 2rem;
+  cursor: pointer;
+  background-color: transparent;
+  border-width: 0;
 
   .icon {
     color: white;
@@ -15,10 +18,14 @@
   }
 }
 
+.listContainer {
+  padding: 0.125rem 0.875rem 1.375rem;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .shareButton {
     flex-direction: column;
-    padding-right: 1.25rem;
+    margin-right: 1.25rem;
     .icon {
       margin-right: 0;
     }

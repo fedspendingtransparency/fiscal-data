@@ -26,6 +26,9 @@ import CurrencyEntryBox
 import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
 import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks } from "./currency-exchange-rates-converter-helper";
+import { BASE_URL } from "gatsby-env-variables";
+
+const envBaseUrl = BASE_URL;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -92,6 +95,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
   }
 
+  const socialCopy = {
+    title: 'Test title',
+    description: 'Test description',
+    body: 'Test body',
+    emailSubject: 'Test email subject',
+    emailBody: 'test email body',
+    url: envBaseUrl+'/currency-exchange-rates-converter/',
+    image: '',
+  }
+
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -109,7 +122,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <div className={breadCrumbsContainer}>
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
-      <ExchangeRatesBanner text={'Currency Exchange Rates Converter'} />
+      <ExchangeRatesBanner text={'Currency Exchange Rates Converter'} copy={socialCopy} />
       <div className={container}>
           <span className={title}>
             Check foreign currency rates against the US Dollar.

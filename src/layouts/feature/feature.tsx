@@ -20,7 +20,7 @@ import {MDXRenderer} from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react"
 import dsmComponents from "./dsm/dsm";
 import {format} from "date-fns";
-import SocialShare from "../explainer/social-share/social-share";
+import SocialShare from "../../components/social-share/social-share";
 import InsightsImage from "../../components/insights-image/insights-image";
 import {IDataset} from "../../models/IDataset";
 import ExplainerRelatedDatasets from
@@ -78,6 +78,16 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
   const date = format(new Date(frontMatter.datePublished), "MMMM d, yyyy");
   const betweenEmailBodyAndUrl = frontMatter.emailSeparator === undefined ?
     '\n' : frontMatter.emailSeparator;
+  const socialCopy = {
+    title: frontMatter.shareTitle,
+    description: frontMatter.shareDescription,
+    body: frontMatter.shareBody,
+    emailSubject: frontMatter.emailSubject,
+    emailBody: frontMatter.emailBody,
+    emailSeparator: betweenEmailBodyAndUrl,
+    url: envBaseURl + frontMatter.path,
+    image: envBaseURl + frontMatter.shareImagePath,
+  };
 
   return (
     <SiteLayout isPreProd={false}>
@@ -99,14 +109,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({
             </div>
             <div className={heroSocialShare}>
               <SocialShare
-                title={frontMatter.shareTitle}
-                description={frontMatter.shareDescription}
-                body={frontMatter.shareBody}
-                emailSubject={frontMatter.emailSubject}
-                emailBody={frontMatter.emailBody}
-                emailSeparator={betweenEmailBodyAndUrl}
-                url={envBaseURl + frontMatter.path}
-                image={envBaseURl + frontMatter.shareImagePath}
+                copy={socialCopy}
                 pageName={frontMatter.title}
                 horizontal={true}
               />
