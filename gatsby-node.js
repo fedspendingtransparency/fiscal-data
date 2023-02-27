@@ -164,7 +164,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
 
-  await datasets.forEach(async dataset => {
+  for (const dataset of datasets) {
     dataset.id = createNodeId(dataset.datasetId);
     const node = {
       ...dataset,
@@ -176,7 +176,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     };
     node.internal.contentDigest = createContentDigest(node);
     createNode(node);
-  });
+  }
 
   topics.forEach(topic => {
     topic.id = createNodeId(topic.slug);
@@ -340,7 +340,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       publishedReports: [PublishedReport!],
       dataFormats: [String!],
       filters: [String!],
-      seoConfig: SEOConfig
+      seoConfig: SEOConfig,
+      customRangePreset: String
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
