@@ -112,6 +112,15 @@ const transformMapper = (datasetIdMap,
       });
 
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
+      dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets
+        ? mappedDataset.relatedDatasets : [];
+      dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton
+        ? mappedDataset.currentDateButton : null;
+      dataset.datePreset = mappedDataset && mappedDataset.datePreset
+        ? mappedDataset.datePreset : null;
+      dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset
+        ? mappedDataset.customRangePreset : null;
+
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {
           mappedDataset.apiIds.forEach(id => {
@@ -177,6 +186,8 @@ const transformMapper = (datasetIdMap,
         dataset.techSpecs.earliestDate = apiDateRange.earliestDate;
         dataset.techSpecs.lastUpdated = apiDateRange.lastUpdated;
       }
+      dataset.dataStartYear = dataset.techSpecs.earliestDate ?
+        dataset.techSpecs.earliestDate.substr(-4) : '1000';
 
       dataset.apis.sort(sortApisByOrder);
 
@@ -193,17 +204,6 @@ const transformMapper = (datasetIdMap,
         api.pathName = api.tableName.toLocaleLowerCase().replace(/[^a-z0-9]+/g, '-')
           .replace(/-$/, ''); // remove any trailing hyphen
       });
-
-      dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets
-        ? mappedDataset.relatedDatasets : [];
-      dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton
-        ? mappedDataset.currentDateButton : null;
-      dataset.datePreset = mappedDataset && mappedDataset.datePreset
-        ? mappedDataset.datePreset : null;
-      dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset
-        ? mappedDataset.customRangePreset : null;
-      dataset.dataStartYear = dataset.techSpecs.earliestDate ?
-        dataset.techSpecs.earliestDate.substr(-4) : '1000';
 
       const seoConfig = determineSEO(dataset, mappedDataset);
       dataset.seoConfig = {
