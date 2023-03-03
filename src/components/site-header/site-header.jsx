@@ -142,6 +142,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             className={styles.logo}
             aria-label="Fiscal Data logo - return to home page"
             to="/"
+            onFocus={handleMouseLeave}
             onClick={() => clickHandler('Logo')}
           >
             <StaticImage
@@ -256,7 +257,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                           {pageLink.title}
                         </span>
                       </button> : (
-                        <button className={styles.pageLinkButton}>
+                        <button className={styles.pageLinkButton}
+                          onFocus={handleMouseLeave}
+                        >
                           <Link
                             key={pageLink.title}
                             to={pageLink.to}
