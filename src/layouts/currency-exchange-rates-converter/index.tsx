@@ -106,7 +106,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }
 
-  const handleChangeForeignCurrency = (event) => {
+  const handleChangeNonUSCurrency = (event) => {
     let quotient;
     setNonUSCurrencyExchangeValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
@@ -176,7 +176,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           nonUSCurrency !== null && (
             <div className={currencyBoxContainer}>
               <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} onCurrencyChange={handleChangeUSDollar} />
-              <CurrencyEntryBox defaultCurrency={nonUSCurrency.country_currency_desc} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} onCurrencyChange={handleChangeForeignCurrency} />
+              <CurrencyEntryBox defaultCurrency={nonUSCurrency.country_currency_desc} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} onCurrencyChange={handleChangeNonUSCurrency} />
             </div>
           )
         }
