@@ -126,6 +126,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   }
 
+  const handleBlur = (e) => {
+    const currentTarget = e.currentTarget;
+
+    requestAnimationFrame(() => {
+      if(!currentTarget.contains(document.activeElement)) {
+        handleMouseLeave();
+      }
+    });
+  }
+
   const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
 
 
@@ -142,7 +152,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             className={styles.logo}
             aria-label="Fiscal Data logo - return to home page"
             to="/"
-            onFocus={handleMouseLeave}
             onClick={() => clickHandler('Logo')}
           >
             <StaticImage
@@ -202,6 +211,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         onMouseOver={handleMouseOver}
                         onMouseLeave={handleMouseLeave}
                         onFocus={handleMouseOver}
+                        onBlur={handleBlur}
                         role={'button'}
                         tabIndex={'0'}
                         data-testid={'dropdownContent'}
@@ -258,7 +268,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         </span>
                       </button> : (
                         <button className={styles.pageLinkButton}
-                          onFocus={handleMouseLeave}
                         >
                           <Link
                             key={pageLink.title}
