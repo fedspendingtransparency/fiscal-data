@@ -42,11 +42,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
 
+  const fastRound = (number) => {
+    return (number + (number>0?0.50:-0.50)) << 0;
+  }
+
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
 
       // Setting default values based on default non US currency (Euro)
       const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
+      // const euro = res.data[0];
 
       const recordYearsSet = [...new Set(res.data.filter((entry => entry.country_currency_desc === euro.country_currency_desc))
       .map(entry => parseInt(entry.record_calendar_year)))];
@@ -66,7 +71,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     });
   }, []);
 
-  const handleChangeQuarters = (option) => {
+  const useHandleChangeQuarters = useCallback((option) => {
     setSelectedQuarter(option);
     const matchedRecord = data.find((entry) => entry.record_calendar_year === selectedYear.value.toString()
       && entry.record_calendar_quarter === option.value.toString() && entry.country_currency_desc === nonUSCurrency.country_currency_desc);
@@ -74,9 +79,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
     const date = new Date(matchedRecord.effective_date);
     setEffectiveDate(dateStringConverter(date));
-  }
+  }, [selectedQuarter, data]);
 
-  const handleChangeYears = (option) => {
+
+  const handleChangeYears = useCallback((option) => {
     setSelectedYear(option);
     const filteredDataForYear = data.filter(record => record.record_calendar_year === option.value.toString() &&
       record.country_currency_desc === nonUSCurrency.country_currency_desc);
@@ -93,29 +99,29 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     const recordQuartersSet = [...new Set(filteredDataForYear.map(entry => parseInt(entry.record_calendar_quarter)))];
     recordQuartersSet.sort((a:number, b:number) => {return a-b});
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
-  }
+  }, [selectedYear, data]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      product = Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+      product = fastRound((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
     }
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product.toString());
     }
-  }, [usDollarValue]);
+  }, [usDollarValue, nonUSCurrency]);
 
   const handleChangeNonUSCurrency = useCallback((event) => {
     let quotient;
     setNonUSCurrencyExchangeValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      quotient = Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+      quotient = fastRound((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
     }
     if (!isNaN(quotient)) {
       setUSDollarValue(quotient.toString());
     }
-  }, [nonUSCurrencyExchangeValue]);
+  }, [nonUSCurrencyExchangeValue, nonUSCurrency]);
 
 
   const socialCopy = {
@@ -157,7 +163,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 <SelectControl label={'Year'} className={box} options={years} selectedOption={selectedYear} changeHandler={handleChangeYears} />
               </div>
               <div className={selector} data-testid={'quarter-selector'}>
-                <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={handleChangeQuarters} />
+                <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={useHandleChangeQuarters} />
               </div>
               <div className={effectiveDateContainer}>
                 <div>Effective Date <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} /> </div>
@@ -183,7 +189,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         {
           nonUSCurrency !== null && (
-            <span>
+            <span data-testid={'exchange-values'}>
               {usDollarValue} US Dollar = {nonUSCurrencyExchangeValue} {nonUSCurrency.country_currency_desc}
             </span>
           )

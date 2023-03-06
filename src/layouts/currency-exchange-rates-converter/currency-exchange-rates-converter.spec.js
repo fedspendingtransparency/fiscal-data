@@ -15,7 +15,7 @@ describe('exchange rates converter', () => {
         "country":"Euro Zone",
         "currency":"Euro",
         "country_currency_desc":"Euro Zone-Euro",
-        "exchange_rate":"4360.0",
+        "exchange_rate":"43.60",
         "effective_date":"2023-12-31",
         "src_line_nbr":"94",
         "record_fiscal_year":"2023",
@@ -157,14 +157,14 @@ describe('exchange rates converter', () => {
     const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
 
     // Checking displayed exchange rate
-    expect(getByText('4360.0')).toBeInTheDocument();
+    expect(getByTestId('exchange-values').innerHTML).toContain('43.60');
     // Checking displayed effective date
     expect(getByText('December 31, 2023')).toBeInTheDocument();
 
     // Click on 2022
     fireEvent.click(yearSelectorOptions[1]);
 
-    expect(getByText('89.11')).toBeInTheDocument();
+    expect(getByTestId('exchange-values').innerHTML).toContain('89.11');
     expect(getByText('December 31, 2022')).toBeInTheDocument();
 
     const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
@@ -173,7 +173,7 @@ describe('exchange rates converter', () => {
     fireEvent.click(quarterSelector);
     const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
     fireEvent.click(quarterSelectorOptions[0]);
-    expect(getByText('99.11')).toBeInTheDocument();
+    expect(getByTestId('exchange-values').innerHTML).toContain('99.11');
     expect(getByText('January 31, 2022')).toBeInTheDocument();
 
 
