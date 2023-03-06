@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useState} from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
@@ -95,7 +95,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
   }
 
-  const handleChangeUSDollar = (event) => {
+  const useHandleChangeUSDollar = useCallback((event) => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
@@ -104,9 +104,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product.toString());
     }
-  }
+  }, [usDollarValue]);
 
-  const handleChangeNonUSCurrency = (event) => {
+  const handleChangeNonUSCurrency = useCallback((event) => {
     let quotient;
     setNonUSCurrencyExchangeValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
@@ -115,7 +115,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (!isNaN(quotient)) {
       setUSDollarValue(quotient.toString());
     }
-  }
+  }, [nonUSCurrencyExchangeValue]);
+
 
   const socialCopy = {
     title: 'Test title',
@@ -175,7 +176,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           nonUSCurrency !== null && (
             <div className={currencyBoxContainer}>
-              <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} onCurrencyChange={handleChangeUSDollar} />
+              <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} onCurrencyChange={useHandleChangeUSDollar} />
               <CurrencyEntryBox defaultCurrency={nonUSCurrency.country_currency_desc} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} onCurrencyChange={handleChangeNonUSCurrency} />
             </div>
           )
