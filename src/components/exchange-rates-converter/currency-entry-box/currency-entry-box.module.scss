@@ -38,6 +38,22 @@
 
 }
 
+input[type=number]
+{
+  border:none;
+  font-size: 1rem;
+  color: #666;
+  width: 95%;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {
     margin: 1rem 0 0;

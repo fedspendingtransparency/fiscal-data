@@ -64,7 +64,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setEffectiveDate(dateStringConverter(date));
       setData(res.data);
     });
-  }, [])
+  }, []);
 
   const handleChangeQuarters = (option) => {
     setSelectedQuarter(option);
@@ -93,6 +93,28 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     const recordQuartersSet = [...new Set(filteredDataForYear.map(entry => parseInt(entry.record_calendar_quarter)))];
     recordQuartersSet.sort((a:number, b:number) => {return a-b});
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
+  }
+
+  const handleChangeUSDollar = (event) => {
+    let product;
+    setUSDollarValue(event.target.value);
+    if (!isNaN(parseFloat(event.target.value))) {
+      product = Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+    }
+    if (!isNaN(product)) {
+      setNonUSCurrencyExchangeValue(product.toString());
+    }
+  }
+
+  const handleChangeForeignCurrency = (event) => {
+    let quotient;
+    setNonUSCurrencyExchangeValue(event.target.value);
+    if (!isNaN(parseFloat(event.target.value))) {
+      quotient = Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+    }
+    if (!isNaN(quotient)) {
+      setUSDollarValue(quotient.toString());
+    }
   }
 
   const socialCopy = {
@@ -153,8 +175,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           nonUSCurrency !== null && (
             <div className={currencyBoxContainer}>
-              <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} />
-              <CurrencyEntryBox defaultCurrency={nonUSCurrency.country_currency_desc} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} />
+              <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} onCurrencyChange={handleChangeUSDollar} />
+              <CurrencyEntryBox defaultCurrency={nonUSCurrency.country_currency_desc} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} onCurrencyChange={handleChangeForeignCurrency} />
             </div>
           )
         }

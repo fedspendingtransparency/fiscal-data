@@ -14,20 +14,23 @@ interface ICurrencyEntryBox  {
   defaultCurrency: string,
   currencyValue: string,
   dropdown ? : boolean,
+  onCurrencyChange
 }
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
-  {defaultCurrency, dropdown=false, currencyValue}) => {
+  {defaultCurrency, dropdown=false, currencyValue, onCurrencyChange}) => {
   return (
     <>
       <div className={currencyBox} >
         <div className={currencyHeader}>
           <span>{defaultCurrency}</span>
           { dropdown ?
-            <FontAwesomeIcon icon={faAngleDown as IconProp} className={icon} name={'angle-down'}/> : null
+            <FontAwesomeIcon icon={faAngleDown as IconProp} className={icon} name={'angle-down'} /> : null
           }
         </div>
         <div className={currencyBody}>
-          <div className={currencyText}>{currencyValue}</div>
+          <div className={currencyText}>
+            <input type='number' inputMode="numeric" onChange={onCurrencyChange} value={currencyValue} />
+          </div>
         </div>
       </div>
     </>
