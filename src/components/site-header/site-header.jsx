@@ -267,8 +267,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                           {pageLink.title}
                         </span>
                       </button> : (
-                        <button className={styles.pageLinkButton}
-                        >
+                        <button className={styles.pageLinkButton}>
                           <Link
                             key={pageLink.title}
                             to={pageLink.to}
