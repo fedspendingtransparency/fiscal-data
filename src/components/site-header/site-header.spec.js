@@ -73,18 +73,18 @@ describe('SiteHeader', () => {
     getByTestId('topicsButton').focus();
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
-    })
+    });
 
     getByText('Overview').focus();
     getByText('Spending').focus();
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
-    })
+    });
 
     getByTestId('logo').focus();
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeFalsy();
-    })
+    });
   });
 
   it('displays the explainer buttons when the topics dropdown menu is open', () => {

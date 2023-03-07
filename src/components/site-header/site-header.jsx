@@ -172,7 +172,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                       <div className={styles.pageLinkButtonContent}
                            style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
                       >
-                        <button className={styles.pageLinkButton} >
+                        <button className={styles.pageLinkButton}>
                           <Link
                             to={pageLink.to}
                             activeClassName={styles.activeLink}
