@@ -72,10 +72,14 @@ describe('SiteHeader', () => {
 
     getByTestId('topicsButton').focus();
     await waitFor(() => {
-      expect(getByTestId('dropdownContent')).toBeInTheDocument()
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
     })
 
     getByText('Overview').focus();
+    getByText('Spending').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    })
 
     getByTestId('logo').focus();
     await waitFor(() => {
