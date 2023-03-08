@@ -28,7 +28,7 @@ const mockData =
   ];
 
 jest.useFakeTimers();
-describe('', () => {
+describe('Intragovernmental Holdings Chart', () => {
   const sectionId = nationalDebtSectionIds[4];
 
   it('renders the legend', () => {
