@@ -72,7 +72,7 @@ module.exports = {
     ],
     "linebreak-style": [1, "unix"], // require *nix linebreaks
     "prefer-template": [0],
-    "max-len": [1, 100], // max line length
+    "max-len": [1, 150], // max line length
     "comma-dangle": [0], // no trailing commas
     "semi-style": [2, "last"], // require trailing semi-colons
     "func-style": [1, "expression"], // arrow funcs
