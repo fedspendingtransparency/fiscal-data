@@ -22,16 +22,15 @@ const SelectControl = ({
   buttonClassName,
   iconClassName,
   labelClassName,
-  styledText
+  styledText,
+  getKey,
+  setSearchTerm
 }) => {
 
   const labelKey = optionLabelKey ? optionLabelKey : 'label';
 
-
-
-
-
   const [droppedDown, setDroppedDown] = useState(false);
+
   const updateSelection = (selection) => () => {
     setDroppedDown(false);
     changeHandler(selection);
@@ -45,6 +44,7 @@ const SelectControl = ({
   const onBlurHandler = () => {
     timeOutId = setTimeout(() => {
       setDroppedDown(false);
+      setSearchTerm('');
     });
   };
 
@@ -52,9 +52,14 @@ const SelectControl = ({
     clearTimeout(timeOutId);
   };
 
+
   const toggleDropdown = () => {
+    if (droppedDown === true) {
+      setSearchTerm('');
+    }
     setDroppedDown(!droppedDown);
   };
+
 
   return (
     <>
@@ -73,6 +78,7 @@ const SelectControl = ({
         aria-expanded={droppedDown}
         aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
         onClick={toggleDropdown}
+        onKeyDown={getKey}
       >
         {styledText ?
           <div className={labelClassName ? labelClassName : styles.label} title={optionSelected[labelKey]}>

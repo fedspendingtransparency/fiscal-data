@@ -27,12 +27,14 @@ import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
 import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
 import { BASE_URL } from "gatsby-env-variables";
+import {isAlphabetLetter} from "../../utils/isAlphabetLetter";
 
 const envBaseUrl = BASE_URL;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const [data, setData] = useState(null);
+  const [dropdownOptions, setDropdownOptions] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedQuarter, setSelectedQuarter] = useState(null);
   const [nonUSCurrency, setNonUSCurrency] = useState(null);
@@ -41,9 +43,17 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
+
+      const options = res.data.map((entry) => ({
+          label: entry.country_currency_desc, value: entry
+        })
+      );
+
+      setDropdownOptions(options);
 
       // Setting default values based on default non US currency (Euro)
       const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
@@ -119,9 +129,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [nonUSCurrencyExchangeValue, nonUSCurrency]);
 
-  const currencySearch = useCallback(() => {
-    console.log('hi');
-  }, [])
+
+  const getKey = useCallback((e) => {
+    if (isAlphabetLetter(e.key)) {
+      setSearchTerm(searchTerm + e.key);
+      const newOptions = dropdownOptions.filter((entry) => entry.label.toLowerCase().includes(searchTerm));
+      console.log(newOptions);
+    }
+  }, [searchTerm, dropdownOptions]);
 
 
   const socialCopy = {
@@ -191,8 +206,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 defaultCurrency={nonUSCurrency.country_currency_desc}
                 currencyValue={nonUSCurrencyExchangeValue}
                 dropdown={true}
+                getKey={getKey}
+                setSearchTerm={setSearchTerm}
+                options={dropdownOptions}
                 onCurrencyChange={handleChangeNonUSCurrency}
-                clickFunction={currencySearch}
               />
             </div>
           )

@@ -19,10 +19,12 @@ interface ICurrencyEntryBox  {
   currencyValue: string,
   dropdown ? : boolean,
   onCurrencyChange,
-  clickFunction ?,
+  options ? : [],
+  getKey ?,
+  setSearchTerm ?
 }
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
-  {defaultCurrency, dropdown=false, currencyValue, onCurrencyChange, clickFunction}) => {
+  {defaultCurrency, dropdown=false, currencyValue, onCurrencyChange, options, getKey, setSearchTerm}) => {
   return (
     <>
       {dropdown ?
@@ -37,7 +39,9 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
             labelClassName={dropdownLabel}
             styledText={true}
             label={''}
-            options={[]}
+            getKey={getKey}
+            setSearchTerm={setSearchTerm}
+            options={options}
             selectedOption={{label: 'Euro Zone-Euro', value: ''}}
           />
           <div className={currencyBody}>
