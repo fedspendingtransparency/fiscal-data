@@ -25,7 +25,7 @@ import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
-import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks } from "./currency-exchange-rates-converter-helper";
+import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
 import { BASE_URL } from "gatsby-env-variables";
 
 const envBaseUrl = BASE_URL;
@@ -41,10 +41,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
-
-  const fastRound = (number) => {
-    return (number + (number>0?0.50:-0.50)) << 0;
-  }
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
@@ -123,6 +119,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [nonUSCurrencyExchangeValue, nonUSCurrency]);
 
+  const currencySearch = useCallback(() => {
+    console.log('hi');
+  }, [])
+
 
   const socialCopy = {
     title: 'Test title',
@@ -182,8 +182,18 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           nonUSCurrency !== null && (
             <div className={currencyBoxContainer}>
-              <CurrencyEntryBox defaultCurrency={'US Dollar'}  currencyValue={usDollarValue} onCurrencyChange={useHandleChangeUSDollar} />
-              <CurrencyEntryBox defaultCurrency={nonUSCurrency.country_currency_desc} currencyValue={nonUSCurrencyExchangeValue} dropdown={true} onCurrencyChange={handleChangeNonUSCurrency} />
+              <CurrencyEntryBox
+                defaultCurrency={'US Dollar'}
+                currencyValue={usDollarValue}
+                onCurrencyChange={useHandleChangeUSDollar}
+              />
+              <CurrencyEntryBox
+                defaultCurrency={nonUSCurrency.country_currency_desc}
+                currencyValue={nonUSCurrencyExchangeValue}
+                dropdown={true}
+                onCurrencyChange={handleChangeNonUSCurrency}
+                clickFunction={currencySearch}
+              />
             </div>
           )
         }

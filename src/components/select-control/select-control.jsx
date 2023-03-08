@@ -18,7 +18,11 @@ const SelectControl = ({
   changeHandler,
   showAll,
   optionLabelKey,
-  className
+  className,
+  buttonClassName,
+  iconClassName,
+  labelClassName,
+  styledText
 }) => {
 
   const labelKey = optionLabelKey ? optionLabelKey : 'label';
@@ -64,16 +68,21 @@ const SelectControl = ({
       <button
         name="dropdownToggle"
         data-testid={'toggle-button'}
-        className={styles.selector_button}
+        className={buttonClassName ? buttonClassName: styles.selector_button}
         aria-haspopup="true"
         aria-expanded={droppedDown}
         aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
         onClick={toggleDropdown}
       >
-        <div className={styles.label} title={optionSelected[labelKey]}>
-          {optionSelected[labelKey]}
-        </div>
-        <FontAwesomeIcon icon={faChevronDown} size="sm" className={styles.icon} />
+        {styledText ?
+          <div className={labelClassName ? labelClassName : styles.label} title={optionSelected[labelKey]}>
+            <span>{optionSelected[labelKey]}</span>
+          </div> :
+          <div className={labelClassName ? labelClassName : styles.label} title={optionSelected[labelKey]}>
+            {optionSelected[labelKey]}
+          </div>
+        }
+        <FontAwesomeIcon icon={faChevronDown} size="sm" className={iconClassName ? iconClassName : styles.icon} />
       </button>
       {droppedDown && (
         <ul className={styles.selector_list} data-testid="selectorList">

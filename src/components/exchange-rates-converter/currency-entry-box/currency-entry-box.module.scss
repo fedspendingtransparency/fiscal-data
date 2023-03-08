@@ -6,6 +6,44 @@
   border-radius: 2px;
   border: solid 1px #d6d7d9;
 
+  .currencyHeaderDropdown {
+    position: relative;
+    display: flex;
+    font-size: 0.9375rem;
+    width: 100%;
+    background-color: #f1f1f1;
+    border: 1px solid #f1f1f1;
+    border-bottom: solid 1px #d6d7d9;
+    border-radius: 0.2rem;
+    padding: 0.1875rem 2rem 0.4rem 0;
+    text-align: left;
+    line-height: 2;
+    color: #666666;
+    cursor: pointer;
+    white-space: nowrap;
+
+    .dropdownIcon {
+      display: block;
+      position: absolute;
+      right: 0.6rem;
+      top: 0.7875rem;
+    }
+
+    .dropdownLabel {
+      width: 100%;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+
+      span {
+        font-weight: $semi-bold-weight;
+        margin-left: .75rem
+      }
+
+    }
+
+  }
+
   .currencyHeader {
     background-color: #f1f1f1;
     border-bottom: solid 1px #d6d7d9;

@@ -23,6 +23,10 @@ export const dateStringConverter = (date) => {
   return `${monthName} ${day}, ${year}`;
 }
 
+export const fastRound = (number) => {
+  return (number + (number>0?0.50:-0.50)) << 0;
+}
+
 export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date';
 
 export const breadCrumbLinks = [
