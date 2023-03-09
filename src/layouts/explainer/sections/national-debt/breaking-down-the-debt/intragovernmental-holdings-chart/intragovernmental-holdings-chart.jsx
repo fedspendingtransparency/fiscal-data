@@ -93,62 +93,10 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   const layers = [
     "bars",
     "grid",
-    "markers",
     "legends",
     "annotations",
     "axes",
   ];
-
-  const markerPos = {
-    axis: "y",
-    legendOffsetY: -22,
-  };
-
-  const markerText = {
-    fontSize: fontSize_36,
-    fill: fontBodyCopy,
-    fontWeight: "bold",
-    transition: "opacity .25s ease-in"
-  };
-
-
-  const rightDebtMarker = {
-    ...markerPos,
-    legendOffsetX: 8,
-    textStyle: {
-      ...markerText,
-      textAnchor: "start",
-      opacity: debtOpacity,
-    },
-  }
-
-  const leftDebtMarker = {
-    ...markerPos,
-    legendOffsetX: 228,
-    textStyle: {
-      ...markerText,
-      opacity: debtOpacity
-    },
-  }
-
-  const rightHoldingsMarker = {
-    ...markerPos,
-    legendOffsetX: 8,
-    textStyle: {
-      ...markerText,
-      textAnchor: "start",
-      opacity: holdingsOpacity
-    },
-  }
-
-  const leftHoldingsMarker = {
-    ...markerPos,
-    legendOffsetX: 228,
-    textStyle: {
-      ...markerText,
-      opacity: holdingsOpacity
-    },
-  }
 
 
   const calcPercentIncrease = (key, rows) =>
@@ -246,28 +194,6 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
                     }}
                     enableGridY={true}
                     gridYValues={[0]}
-                    markers={[
-                      {
-                        ...leftHoldingsMarker,
-                        value: data[0]["Intragovernmental Holdings"],
-                        legend: `$${data[0]["Intragovernmental Holdings"].toFixed(2)} T`,
-                      },
-                      {
-                        ...leftDebtMarker,
-                        value: data[0].total,
-                        legend: `$${data[0]["Debt Held by the Public"].toFixed(2)} T`,
-                      },
-                      {
-                        ...rightHoldingsMarker,
-                        value: data[1]["Intragovernmental Holdings"],
-                        legend: `$${data[1]["Intragovernmental Holdings"].toFixed(2)} T`,
-                      },
-                      {
-                        ...rightDebtMarker,
-                        value: data[1].total,
-                        legend: `$${data[1]["Debt Held by the Public"].toFixed(2)} T`,
-                      },
-                    ]}
                     enableLabel={false}
                     legends={[
                       {

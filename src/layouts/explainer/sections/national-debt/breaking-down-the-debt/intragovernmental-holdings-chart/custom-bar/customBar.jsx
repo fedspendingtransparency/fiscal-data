@@ -1,6 +1,17 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {animated, useSpring} from "@react-spring/web";
+import {
+  boldWeight,
+  fontBodyCopy,
+  fontSize_36,
+  semiBoldWeight
+} from "../../../national-debt.module.scss";
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
+
+  console.log(data);
+  const [pauseAnimation, setPauseAnimation] = useState(true);
+  const [opacity, setOpacity] = useState(0);
+
   const config = {
     mass: 10,
     friction: 10,
@@ -17,6 +28,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
       y: 0,
       height: height
     },
+    pause: pauseAnimation
   }
 
   const springs_Holdings = useSpring({
@@ -38,6 +50,53 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
 
   const springs = key.includes("Debt Held by the Public") ? springs_Debt : springs_Holdings;
 
+  const xPos = data.index ? x + width + 17 : x - 18;
+  const yPos = y + 35;
+
+  const getTextDelay = () => {
+    let delay;
+    if(key.includes("Debt Held by the Public")) {
+      delay = data.data["holdings_animation_duration"] + data.data["debt_animation_duration"] + 1000;
+    } else {
+      delay = data.data["holdings_animation_duration"];
+    }
+    return delay;
+  }
+
+  const textStyle = {
+    fontSize: fontSize_36,
+    fontWeight: boldWeight,
+    fill: fontBodyCopy,
+    textAnchor: data.index ? "start" : "end",
+    opacity: opacity,
+    transition: "opacity .25s ease-in"
+  }
+
+  useEffect(() => {
+    let observer;
+    if(typeof window !== "undefined") {
+      const config = {
+        rootMargin: '-50% 0% -50% 0%',
+        threshold: 0
+      }
+      observer = new IntersectionObserver(entries => {
+        console.log(entries);
+        entries.forEach((entry) => {
+          if(entry.isIntersecting) {
+            setPauseAnimation(false);
+            setTimeout(() => {
+              setOpacity(1);
+            }, [getTextDelay()])
+          }
+        })
+      }, config)
+      setTimeout(() =>
+        observer.observe(document.querySelector('[data-testid="breakdownChart"]')), 1000)
+    }
+
+  }, [])
+
+
   return(
     <>
       <animated.rect
@@ -48,6 +107,13 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
         fill={color}
         style={{...springs}}
       />
+      <text
+        x={xPos}
+        y={yPos}
+        style={{...textStyle}}
+      >
+        {`$${data.value.toFixed(2)} T`}
+      </text>
     </>
   )
 };
