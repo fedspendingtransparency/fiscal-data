@@ -108,6 +108,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [selectedYear, data]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
+    console.log('hi');
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
@@ -129,14 +130,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [nonUSCurrencyExchangeValue, nonUSCurrency]);
 
-
-  const getKey = useCallback((e) => {
-    if (isAlphabetLetter(e.key)) {
-      setSearchTerm(searchTerm + e.key);
-      const newOptions = dropdownOptions.filter((entry) => entry.label.toLowerCase().includes(searchTerm));
-      console.log(newOptions);
+  const handleCurrencyChange = useCallback((event) => {
+    if (event !== null) {
+      console.log(event);
+      setNonUSCurrency(event.value);
+      setNonUSCurrencyExchangeValue(event.value.exchange_rate);
+      setUSDollarValue('1.00');
     }
-  }, [searchTerm, dropdownOptions]);
+  }, []);
 
 
   const socialCopy = {
@@ -200,16 +201,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <CurrencyEntryBox
                 defaultCurrency={'US Dollar'}
                 currencyValue={usDollarValue}
-                onCurrencyChange={useHandleChangeUSDollar}
+                onCurrencyValueChange={useHandleChangeUSDollar}
               />
               <CurrencyEntryBox
+                selectedCurrency={nonUSCurrency}
                 defaultCurrency={nonUSCurrency.country_currency_desc}
                 currencyValue={nonUSCurrencyExchangeValue}
                 dropdown={true}
-                getKey={getKey}
-                setSearchTerm={setSearchTerm}
                 options={dropdownOptions}
-                onCurrencyChange={handleChangeNonUSCurrency}
+                onCurrencyChange={handleCurrencyChange}
+                onCurrencyValueChange={handleChangeNonUSCurrency}
               />
             </div>
           )

@@ -3,50 +3,42 @@ import {
   currencyBody,
   currencyBox,
   currencyHeader,
-  currencyHeaderDropdown,
-  icon,
   dropdownIcon,
-  dropdownLabel,
-  currencyText
+  currencyText,
+  dropdownInput,
+  dropdownInputContainer
 } from './currency-entry-box.module.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import SelectControl from "../../select-control/select-control";
+import ComboSelect from "../../combo-select/combo-select";
 
 interface ICurrencyEntryBox  {
   defaultCurrency: string,
   currencyValue: string,
   dropdown ? : boolean,
-  onCurrencyChange,
+  selectedCurrency ?,
+  onCurrencyChange ?,
+  onCurrencyValueChange,
   options ? : [],
-  getKey ?,
-  setSearchTerm ?
 }
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
-  {defaultCurrency, dropdown=false, currencyValue, onCurrencyChange, options, getKey, setSearchTerm}) => {
+  {defaultCurrency, dropdown=false, currencyValue, onCurrencyValueChange, onCurrencyChange, options, selectedCurrency}) => {
   return (
     <>
       {dropdown ?
         <div className={currencyBox} >
-          {/*<div className={currencyHeaderDropdown} onClick={clickFunction} role={'button'} onKeyPress={clickFunction} tabIndex={0}>*/}
-          {/*  <span>{defaultCurrency}</span>*/}
-          {/*  <FontAwesomeIcon icon={faAngleDown as IconProp} className={icon} name={'angle-down'} />*/}
-          {/*</div>*/}
-          <SelectControl
-            buttonClassName={currencyHeaderDropdown}
-            iconClassName={dropdownIcon}
-            labelClassName={dropdownLabel}
-            styledText={true}
+          <ComboSelect
+            selectedOption={selectedCurrency}
             label={''}
-            getKey={getKey}
-            setSearchTerm={setSearchTerm}
             options={options}
-            selectedOption={{label: 'Euro Zone-Euro', value: ''}}
+            iconStyle={dropdownIcon}
+            inputStyle={dropdownInput}
+            scrollable={true}
+            inputContainerStyle={dropdownInputContainer}
+            labelDisplay={true}
+            changeHandler={onCurrencyChange}
           />
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyChange} value={currencyValue} />
+              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} />
             </div>
           </div>
         </div> :
@@ -56,7 +48,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           </div>
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyChange} value={currencyValue} />
+              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} />
             </div>
           </div>
         </div>

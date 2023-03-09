@@ -17,7 +17,11 @@ export default function ComboSelect(
     scrollable,
     label,
     labelClass = '',
-    required = false
+    labelDisplay,
+    required = false,
+    inputStyle,
+    iconStyle,
+    inputContainerStyle,
   }) {
   const [filterCharacters, setFilterCharacters] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -26,6 +30,9 @@ export default function ComboSelect(
 
   const updateSelection = (selection) => {
     changeHandler(selection);
+    if (labelDisplay) {
+      setFilterCharacters(selection.label);
+    }
     setTimeout(() => {setDroppedDown(false);});
   };
 
@@ -101,6 +108,7 @@ export default function ComboSelect(
   };
 
   const clear = () => {
+    console.log('hi');
     changeHandler(null);
     // fire artificial event to reset field
     onFilterChange({
@@ -132,10 +140,12 @@ export default function ComboSelect(
     label;
   return (
     <div className={styles.selector_container}>
-      <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
-        {labelText}
-        {required && (<span className="required">*</span>)}
-      </div>
+      {labelText !== '' ?
+        <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
+          {labelText}
+          {required && (<span className="required">*</span>)}
+        </div> : null
+      }
       <div ref={ref} onFocus={onFocusHandler} role={'presentation'}>
         <div>
           {yearFilter ? (
@@ -154,9 +164,9 @@ export default function ComboSelect(
                    autoComplete={'off'}
             />
           ):(
-            <div className={inputContainer}>
+            <div className={inputContainerStyle ? inputContainerStyle : inputContainer}>
               <input type="text"
-                     className={`${styles.comboSelectField} ${styles.textField}`}
+                     className={inputStyle ? inputStyle: `${styles.comboSelectField} ${styles.textField}`}
                      onChange={onFilterChange}
                      value={filterCharacters}
                      onFocus={onFilterChange}
@@ -170,7 +180,7 @@ export default function ComboSelect(
                   ? (
                       <button
                         data-testid="dropdown-button"
-                        className={iconButton}
+                        className={iconStyle ? iconStyle: iconButton}
                         onClick={toggleDropdown}
                         aria-label={droppedDown ? 'Collapse options' : 'Show options'}
                       >
@@ -180,7 +190,7 @@ export default function ComboSelect(
                   : (
                       <button
                         data-testid="clear-button"
-                        className={iconButton}
+                        className={iconStyle ? iconStyle : iconButton}
                         onClick={clear}
                         aria-label={filterCharacters.length > 0 ? 'clear filter' : ''}
                       >

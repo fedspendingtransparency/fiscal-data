@@ -18,19 +18,16 @@ const SelectControl = ({
   changeHandler,
   showAll,
   optionLabelKey,
-  className,
-  buttonClassName,
-  iconClassName,
-  labelClassName,
-  styledText,
-  getKey,
-  setSearchTerm
+  className
 }) => {
 
   const labelKey = optionLabelKey ? optionLabelKey : 'label';
 
-  const [droppedDown, setDroppedDown] = useState(false);
 
+
+
+
+  const [droppedDown, setDroppedDown] = useState(false);
   const updateSelection = (selection) => () => {
     setDroppedDown(false);
     changeHandler(selection);
@@ -44,7 +41,6 @@ const SelectControl = ({
   const onBlurHandler = () => {
     timeOutId = setTimeout(() => {
       setDroppedDown(false);
-      setSearchTerm('');
     });
   };
 
@@ -52,14 +48,9 @@ const SelectControl = ({
     clearTimeout(timeOutId);
   };
 
-
   const toggleDropdown = () => {
-    if (droppedDown === true) {
-      setSearchTerm('');
-    }
     setDroppedDown(!droppedDown);
   };
-
 
   return (
     <>
@@ -70,56 +61,50 @@ const SelectControl = ({
         onFocus={onFocusHandler}
         role={'presentation'}
       >
-      <button
-        name="dropdownToggle"
-        data-testid={'toggle-button'}
-        className={buttonClassName ? buttonClassName: styles.selector_button}
-        aria-haspopup="true"
-        aria-expanded={droppedDown}
-        aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
-        onClick={toggleDropdown}
-        onKeyDown={getKey}
-      >
-        {styledText ?
-          <div className={labelClassName ? labelClassName : styles.label} title={optionSelected[labelKey]}>
-            <span>{optionSelected[labelKey]}</span>
-          </div> :
-          <div className={labelClassName ? labelClassName : styles.label} title={optionSelected[labelKey]}>
+        <button
+          name="dropdownToggle"
+          data-testid={'toggle-button'}
+          className={styles.selector_button}
+          aria-haspopup="true"
+          aria-expanded={droppedDown}
+          aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
+          onClick={toggleDropdown}
+        >
+          <div className={styles.label} title={optionSelected[labelKey]}>
             {optionSelected[labelKey]}
           </div>
-        }
-        <FontAwesomeIcon icon={faChevronDown} size="sm" className={iconClassName ? iconClassName : styles.icon} />
-      </button>
-      {droppedDown && (
-        <ul className={styles.selector_list} data-testid="selectorList">
-          {options.map((option, index) => {
-            const colName = option.columnName;
-            const isSelectedOption = option === optionSelected || (
-              colName &&
+          <FontAwesomeIcon icon={faChevronDown} size="sm" className={styles.icon} />
+        </button>
+        {droppedDown && (
+          <ul className={styles.selector_list} data-testid="selectorList">
+            {options.map((option, index) => {
+              const colName = option.columnName;
+              const isSelectedOption = option === optionSelected || (
+                colName &&
                 optionSelected.columnName &&
                 colName === optionSelected.columnName
-            );
+              );
 
-            return (
-              <React.Fragment key={`${colName}-${index}`}>
-                {(!option.hideable || showAll) && (
-                  <li className={styles.selector_option}>
-                    <button
-                      data-testid="selector-option"
-                      className={classNames([
-                        styles.selector_optionButton,
-                        isSelectedOption ? styles.selector_optionSelected : ''
-                      ])}
-                      onClick={updateSelection(option)}
-                    >
-                      {option[labelKey]}
-                    </button>
-                  </li>)}
-              </React.Fragment>
-            )
-          })}
-        </ul>
-      )}
+              return (
+                <React.Fragment key={`${colName}-${index}`}>
+                  {(!option.hideable || showAll) && (
+                    <li className={styles.selector_option}>
+                      <button
+                        data-testid="selector-option"
+                        className={classNames([
+                          styles.selector_optionButton,
+                          isSelectedOption ? styles.selector_optionSelected : ''
+                        ])}
+                        onClick={updateSelection(option)}
+                      >
+                        {option[labelKey]}
+                      </button>
+                    </li>)}
+                </React.Fragment>
+              )
+            })}
+          </ul>
+        )}
       </div>
     </>
   )
