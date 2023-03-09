@@ -4,7 +4,6 @@ import {
   boldWeight,
   fontBodyCopy,
   fontSize_36,
-  semiBoldWeight
 } from "../../../national-debt.module.scss";
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
 
@@ -56,9 +55,9 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
   const getTextDelay = () => {
     let delay;
     if(key.includes("Debt Held by the Public")) {
-      delay = data.data["holdings_animation_duration"] + data.data["debt_animation_duration"] + 1000;
+      delay = data.data["holdings_animation_duration"] + data.data["debt_animation_duration"] + 1250;
     } else {
-      delay = data.data["holdings_animation_duration"];
+      delay = data.data["holdings_animation_duration"] + 250;
     }
     return delay;
   }
