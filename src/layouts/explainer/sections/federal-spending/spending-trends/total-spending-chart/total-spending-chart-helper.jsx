@@ -296,9 +296,6 @@ export const LineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
             mouseMove(slice)
             props.setCurrentSlice(slice)
           }}
-          onBlur={() => {
-            props.setCurrentSlice(null)
-          }}
           onMouseMove={() =>{
             setStyle({outline: "none"})
             mouseMove(slice)
