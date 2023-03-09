@@ -108,7 +108,6 @@ export default function ComboSelect(
   };
 
   const clear = () => {
-    console.log('hi');
     changeHandler(null);
     // fire artificial event to reset field
     onFilterChange({

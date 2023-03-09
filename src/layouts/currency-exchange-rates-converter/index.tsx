@@ -132,7 +132,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleCurrencyChange = useCallback((event) => {
     if (event !== null) {
-      console.log(event);
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
       setUSDollarValue('1.00');
