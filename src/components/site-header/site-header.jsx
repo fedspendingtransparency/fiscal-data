@@ -126,6 +126,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   }
 
+  const handleBlur = (e) => {
+    const currentTarget = e.currentTarget;
+
+    requestAnimationFrame(() => {
+      if(!currentTarget.contains(document.activeElement)) {
+        handleMouseLeave();
+      }
+    });
+  }
+
   const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
 
 
@@ -162,7 +172,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                       <div className={styles.pageLinkButtonContent}
                            style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
                       >
-                        <button className={styles.pageLinkButton} >
+                        <button className={styles.pageLinkButton}>
                           <Link
                             to={pageLink.to}
                             activeClassName={styles.activeLink}
@@ -201,6 +211,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         onMouseOver={handleMouseOver}
                         onMouseLeave={handleMouseLeave}
                         onFocus={handleMouseOver}
+                        onBlur={handleBlur}
                         role={'button'}
                         tabIndex={'0'}
                         data-testid={'dropdownContent'}
