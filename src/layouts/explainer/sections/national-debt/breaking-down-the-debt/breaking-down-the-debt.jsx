@@ -101,8 +101,6 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
   };
 
   const {
-    name,
-    slug,
     endpoint,
     getQueryString,
     transformer,
@@ -198,23 +196,22 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
 
 
   useEffect(() => {
-    // if (isChartRendered) {
-    //   applyChartScaling();
-
       const fetchers = [];
       localMultichartConfigs.forEach(chartConfig => {
         fetchers.push(
           basicFetch(chartConfig.dataSourceUrl)
             .then(response => {
-              const xAxisTickValues = [];
-              for (let i = 0, il = response.data.length; i < il; i += 1) {
-                const tickValue = new Date(
-                  response.data[i][chartConfig.dateField]
-                );
-                xAxisTickValues.push(tickValue);
+              if(response.data) {
+                const xAxisTickValues = [];
+                for (let i = 0, il = response.data.length; i < il; i += 1) {
+                  const tickValue = new Date(
+                    response.data[i][chartConfig.dateField]
+                  );
+                  xAxisTickValues.push(tickValue);
+                }
+                chartConfig.options.xAxisTickValues = xAxisTickValues;
+                chartConfig.data = response.data;
               }
-              chartConfig.options.xAxisTickValues = xAxisTickValues;
-              chartConfig.data = response.data;
             })
             .catch(err => {
               console.error(err);
@@ -229,37 +226,29 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
           dataPopulatedConfigs.push(Object.assign({}, config));
         });
         setMultichartConfigs(dataPopulatedConfigs);
-        setMultichartStartYear(
-          dataPopulatedConfigs[0].data[
-          dataPopulatedConfigs[0].data.length - 1
-            ].record_calendar_year
-        );
-        setMultichartEndYear(
-          dataPopulatedConfigs[0].data[0].record_calendar_year
-        );
-        sortedInterestRates = [...dataPopulatedConfigs[0].data].sort(
-          (a, b) => {
-            return a.avg_interest_rate_amt - b.avg_interest_rate_amt;
-          }
-        );
-        setMultichartInterestRateMin(
-          percentageFormatter(sortedInterestRates[0].avg_interest_rate_amt)
-        );
-        setMultichartInterestRateMax(
-          percentageFormatter(
-            sortedInterestRates[sortedInterestRates.length - 1]
-              .avg_interest_rate_amt
-          )
-        );
+        if(dataPopulatedConfigs[0].data) {
+          setMultichartStartYear(
+            dataPopulatedConfigs[0].data[dataPopulatedConfigs[0].data.length - 1].record_calendar_year
+          );
+          setMultichartEndYear(dataPopulatedConfigs[0].data[0].record_calendar_year);
+          sortedInterestRates = [...dataPopulatedConfigs[0].data].sort((a, b) => {
+              return a.avg_interest_rate_amt - b.avg_interest_rate_amt;
+            }
+          );
+          setMultichartInterestRateMin(
+            percentageFormatter(sortedInterestRates[0].avg_interest_rate_amt)
+          );
+          setMultichartInterestRateMax(
+            percentageFormatter(sortedInterestRates[sortedInterestRates.length - 1].avg_interest_rate_amt)
+          );
+        }
       });
-    // }
-  }, [isChartRendered]);
+
+  }, [] );
 
   useEffect(() => {
     if (multichartConfigs && multichartConfigs.length > 1) {
-      if (
-        multichartConfigs.every(config => config.data && config.data.length)
-      ) {
+      if (multichartConfigs.every(config => config.data && config.data.length)) {
         setMultichartDataLoaded(true);
       }
     }
