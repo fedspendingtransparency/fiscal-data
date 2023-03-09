@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import * as styles from "./total-spending-chart.module.scss";
 import {
@@ -273,7 +273,8 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
       ];
 };
 
-export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
+export const LineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
+  const [style, setStyle] = useState({});
   return (
     <g data-testid="customSlices"
       onMouseLeave={groupMouseLeave}
@@ -288,16 +289,24 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
           strokeWidth={0}
           strokeOpacity={0.25}
           fillOpacity={0}
+          style={style}
           onMouseEnter={() => props.setCurrentSlice(slice)}
-          onFocus={() =>{
+          onFocus={() => {
+            setStyle({})
+            mouseMove(slice)
+            props.setCurrentSlice(slice)
+          }}
+          onBlur={() => {
+            props.setCurrentSlice(null)
+          }}
+          onMouseMove={() =>{
+            setStyle({outline: "none"})
             mouseMove(slice)
             props.setCurrentSlice(slice)}
-           }
-          onMouseMove={() =>{
-           mouseMove(slice)
-           props.setCurrentSlice(slice)}
           }
-          onMouseLeave={() => props.setCurrentSlice(null)}
+          onMouseLeave={() => {
+            props.setCurrentSlice(null)
+          }}
         />
       ))}
     </g>
@@ -307,7 +316,7 @@ export const lineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
 export const lineChartCustomPoints = props => {
   const { currentSlice, borderWidth, borderColor, points } = props;
 
-    const lastGdpPoints = points.filter(g => g.serieId == 'GDP').pop();
+    const lastGdpPoints = points.filter(g => g.serieId === 'GDP').pop();
 
     const currentSpendingPoint = currentSlice?.points?.length
       ? currentSlice.points[0]
