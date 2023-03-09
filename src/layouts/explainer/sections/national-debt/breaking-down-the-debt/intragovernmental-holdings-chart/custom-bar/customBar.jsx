@@ -6,8 +6,6 @@ import {
   fontSize_36,
 } from "../../../national-debt.module.scss";
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
-
-  console.log(data);
   const [pauseAnimation, setPauseAnimation] = useState(true);
   const [opacity, setOpacity] = useState(0);
 
@@ -79,7 +77,6 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
         threshold: 0
       }
       observer = new IntersectionObserver(entries => {
-        console.log(entries);
         entries.forEach((entry) => {
           if(entry.isIntersecting) {
             setPauseAnimation(false);

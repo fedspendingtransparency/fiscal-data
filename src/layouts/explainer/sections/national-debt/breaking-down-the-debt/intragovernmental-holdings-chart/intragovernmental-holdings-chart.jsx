@@ -13,7 +13,6 @@ import VisualizationCallout
 import {
   fontBodyCopy,
   fontSize_16,
-  fontSize_36,
   debtExplainerPrimary,
   debtExplainerLightSecondary,
 } from "../../../../../../variables.module.scss";
@@ -26,8 +25,6 @@ import {chartBackdrop, visWithCallout} from "../../../../explainer.module.scss";
 import CustomBar from './custom-bar/customBar'
 const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
-  const [debtOpacity, setDebtOpacity] = useState(0);
-  const [holdingsOpacity, setHoldingsOpacity] = useState(0);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
   const [holdingsMarkerDelay, setHoldingsMarkerDelay] = useState(null);
 
@@ -52,19 +49,6 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
 
   const chartData = setAnimationDurations(data);
 
-
-  useEffect(() => {
-    if(debtMarkerDelay) {
-      setTimeout(() => {
-        setDebtOpacity(1);
-      }, (debtMarkerDelay))
-    }
-    if(holdingsMarkerDelay) {
-      setTimeout(() => {
-        setHoldingsOpacity(1);
-      }, (holdingsMarkerDelay))
-    }
-  }, [debtMarkerDelay])
 
   const {
     name,
@@ -107,9 +91,7 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
     // which doesn't seem to happen naturally when nivo has a flex container
-    const svgChart = document.querySelector(
-      '[data-testid="breakdownChart"] svg'
-    );
+    const svgChart = document.querySelector('[data-testid="breakdownChart"] svg');
     if (svgChart) {
       svgChart.setAttribute("viewBox", "0 0 524 500");
       svgChart.setAttribute("height", "100%");
