@@ -27,7 +27,6 @@ import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
 import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
 import { BASE_URL } from "gatsby-env-variables";
-import {isAlphabetLetter} from "../../utils/isAlphabetLetter";
 
 const envBaseUrl = BASE_URL;
 
@@ -43,13 +42,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
 
       const options = res.data.map((entry) => ({
-          label: entry.country_currency_desc, value: entry
+          label: entry.country_currency_desc,
+          value: entry,
+          isGreyed: false
         })
       );
 
@@ -203,7 +203,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 onCurrencyValueChange={useHandleChangeUSDollar}
               />
               <CurrencyEntryBox
-                selectedCurrency={nonUSCurrency}
+                selectedCurrency={{label: nonUSCurrency.country_currency_desc, value: nonUSCurrency}}
                 defaultCurrency={nonUSCurrency.country_currency_desc}
                 currencyValue={nonUSCurrencyExchangeValue}
                 dropdown={true}

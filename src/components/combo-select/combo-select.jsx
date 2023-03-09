@@ -22,6 +22,7 @@ export default function ComboSelect(
     inputStyle,
     iconStyle,
     inputContainerStyle,
+    isExchangeTool,
   }) {
   const [filterCharacters, setFilterCharacters] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -75,7 +76,9 @@ export default function ComboSelect(
     if (!event || !(event.target.parentElement.contains(event.relatedTarget))) {
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
-          setFilterCharacters(selectedOption.value);
+          if (!isExchangeTool) {
+            setFilterCharacters(selectedOption.value);
+          }
         }
         setDroppedDown(false);
       });
@@ -91,7 +94,12 @@ export default function ComboSelect(
 
   useEffect(() => {
     if (selectedOption && selectedOption.value) {
-      setFilterCharacters(selectedOption.value);
+      if (isExchangeTool) {
+        setFilterCharacters(selectedOption.label)
+      }
+      else {
+        setFilterCharacters(selectedOption.value);
+      }
     }
   }, [selectedOption]);
 

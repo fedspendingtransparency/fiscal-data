@@ -35,6 +35,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
             inputContainerStyle={dropdownInputContainer}
             labelDisplay={true}
             changeHandler={onCurrencyChange}
+            isExchangeTool={true}
           />
           <div className={currencyBody}>
             <div className={currencyText}>
