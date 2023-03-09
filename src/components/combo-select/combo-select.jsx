@@ -76,7 +76,10 @@ export default function ComboSelect(
     if (!event || !(event.target.parentElement.contains(event.relatedTarget))) {
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
-          if (!isExchangeTool) {
+          if (isExchangeTool) {
+            setFilterCharacters(selectedOption.label)
+          }
+          else {
             setFilterCharacters(selectedOption.value);
           }
         }
