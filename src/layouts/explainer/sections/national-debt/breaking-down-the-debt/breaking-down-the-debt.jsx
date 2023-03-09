@@ -19,8 +19,7 @@ import {
   fontSize_10,
   fontSize_14,
   debtExplainerPrimary,
-  title,
-  simple,
+
 } from "../../../../../variables.module.scss";
 import {chartBackdrop, visWithCallout} from "../../../explainer.module.scss";
 import {
@@ -29,7 +28,8 @@ import {
   footerContainer, header,
   headerContainer, multichartContainer, multichartLegend,
   multichartWrapper, postGraphAccordionContainer,
-  postGraphContent, subHeader,
+  postGraphContent, subHeader,  title,
+  simple,
 } from "../national-debt.module.scss";
 import IntragovernmentalHoldingsChart
   from "./intragovernmental-holdings-chart/intragovernmental-holdings-chart";
@@ -44,7 +44,6 @@ let gaTimerDualChart;
 const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date());
-  const [isChartRendered, setIsChartRendered] = useState(false);
   const [startYear, setStartYear] = useState("");
   const [endYear, setEndYear] = useState("");
   const [multichartConfigs, setMultichartConfigs] = useState([]);
