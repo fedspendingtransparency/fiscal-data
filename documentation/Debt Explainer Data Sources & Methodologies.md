@@ -8,13 +8,92 @@ The [National Debt Explainer page](https://fiscaldata.treasury.gov/national-debt
 **Source:** [Debt to the Penny](https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny) (Fiscal Data)
 
 **API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date&page[size]=1
+https://api.fiscaldata.treasury.gov/services/api/fiscal_service
+https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates
+{"data":[{"country_currency_desc":"Canada-Dollar",
+
+"exchange_rate":"1.426","record_date":"2020-03-31"},
+
+{"country_currency_desc":"Canada-Dollar",
+
+"exchange_rate":"1.26","record_date":"2021-03-31"},
+
+{"country_currency_desc":"Canada-Dollar",
+
+"exchange_rate":"1.275","record_date":"2020-12-31"},
+
+{"country_currency_desc":"Canada-Dollar",
+
+"exchange_rate":"1.368","record_date":"2020-06-30"},
+
+{"country_currency_desc":"Canada-Dollar",
+
+"exchange_rate":"1.239","record_date":"2021-06-30"},
+
+{"country_currency_desc":"Canada-Dollar",
+
+"exchange_rate":"1.338","record_date":"2020-09-30"},
+
+{"country_currency_desc":"Mexico-Peso",
+
+"exchange_rate":"19.913","record_date":"2020-12-31"},
+
+{"country_currency_desc":"Mexico-Peso",
+
+"exchange_rate":"23.791","record_date":"2020-03-31"},
+
+{"country_currency_desc":"Mexico-Peso",
+
+"exchange_rate":"23.164","record_date":"2020-06-30"},
+
+{"country_currency_desc":"Mexico-Peso",
+
+"exchange_rate":"20.067","record_date":"2020-09-30"},
+
+{"country_currency_desc":"Mexico-Peso",
+
+"exchange_rate":"20.518","record_date":"2021-03-31"},
+
+{"country_currency_desc":"Mexico-Peso",
+
+"exchange_rate":"19.838","record_date":"2021-06-30"}],
+
+"meta":{"count":12,"labels":{
+
+"country_currency_desc":"Country-CurrencyDescription",
+
+"exchange_rate":"ExchangeRate","record_date":"RecordDate"},
+
+"dataTypes":{"country_currency_desc":"STRING","exchange_rate":"NUMBER", "record_date":"DATE"},
+
+"dataFormats":{"country_currency_desc":"String","exchange_rate":"10.2", "record_date":"YYYY-MM-DD"},
+
+"total-count":12,"total-pages":1},
+
+"links":{"self":"&page%5Bnumber%5D=1&page%5Bsize%5D=100",
+
+"first":"&page%5Bnumber%5D=1&page%5Bsize%5D=100","prev":null,
+
+"next":null,"last":"&page%5Bnumber%5D=1&page%5Bsize%5D=100"}}
 
 The flipcard shows `tot_pub_debt_out_amt`, rounded to the nearest dollar.
 
+https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?fields=country_currency_desc, exchange_rate,record_date&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso), record_date:gte:2020-01-01
+
+https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate, record_date&filter=record_date:gte:2015-01-01
+
+/v1/accounting/od/rates_of_exchange
+https://api.fiscaldata.treasury.gov/services/api/fiscal_service
+
+fields=country_currency_desc,exchange_rate,record_date&filter=record_date:gte:2015-01-01
+https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/reference/data_registry/fmr_data_elements
+https://www.fiscal.treasury.gov/files/g-invoice/g-invoicing-rules-of-engagement.pdf
+https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/reference/data_registry/fmr_situational_metadata
 
 ## U.S. National Debt Over the Last 100 Years
 
-### Debt values
+### Deb
+t values
 
 **Source:** [Historical Debt Outstanding](https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding) (Fiscal Data)
 
