@@ -13,7 +13,6 @@ import VisualizationCallout
 import {
   fontBodyCopy,
   fontSize_16,
-  fontSize_36,
   debtExplainerPrimary,
   debtExplainerLightSecondary,
 } from "../../../../../../variables.module.scss";
@@ -26,8 +25,6 @@ import {chartBackdrop, visWithCallout} from "../../../../explainer.module.scss";
 import CustomBar from './custom-bar/customBar'
 const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
-  const [debtOpacity, setDebtOpacity] = useState(0);
-  const [holdingsOpacity, setHoldingsOpacity] = useState(0);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
   const [holdingsMarkerDelay, setHoldingsMarkerDelay] = useState(null);
 
@@ -52,19 +49,6 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
 
   const chartData = setAnimationDurations(data);
 
-
-  useEffect(() => {
-    if(debtMarkerDelay) {
-      setTimeout(() => {
-        setDebtOpacity(1);
-      }, (debtMarkerDelay))
-    }
-    if(holdingsMarkerDelay) {
-      setTimeout(() => {
-        setHoldingsOpacity(1);
-      }, (holdingsMarkerDelay))
-    }
-  }, [debtMarkerDelay])
 
   const {
     name,
@@ -93,62 +77,10 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   const layers = [
     "bars",
     "grid",
-    "markers",
     "legends",
     "annotations",
     "axes",
   ];
-
-  const markerPos = {
-    axis: "y",
-    legendOffsetY: -22,
-  };
-
-  const markerText = {
-    fontSize: fontSize_36,
-    fill: fontBodyCopy,
-    fontWeight: "bold",
-    transition: "opacity .25s ease-in"
-  };
-
-
-  const rightDebtMarker = {
-    ...markerPos,
-    legendOffsetX: 8,
-    textStyle: {
-      ...markerText,
-      textAnchor: "start",
-      opacity: debtOpacity,
-    },
-  }
-
-  const leftDebtMarker = {
-    ...markerPos,
-    legendOffsetX: 228,
-    textStyle: {
-      ...markerText,
-      opacity: debtOpacity
-    },
-  }
-
-  const rightHoldingsMarker = {
-    ...markerPos,
-    legendOffsetX: 8,
-    textStyle: {
-      ...markerText,
-      textAnchor: "start",
-      opacity: holdingsOpacity
-    },
-  }
-
-  const leftHoldingsMarker = {
-    ...markerPos,
-    legendOffsetX: 228,
-    textStyle: {
-      ...markerText,
-      opacity: holdingsOpacity
-    },
-  }
 
 
   const calcPercentIncrease = (key, rows) =>
@@ -159,9 +91,7 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   const applyChartScaling = () => {
     // rewrite some element attribs after render to ensure Chart scales with container
     // which doesn't seem to happen naturally when nivo has a flex container
-    const svgChart = document.querySelector(
-      '[data-testid="breakdownChart"] svg'
-    );
+    const svgChart = document.querySelector('[data-testid="breakdownChart"] svg');
     if (svgChart) {
       svgChart.setAttribute("viewBox", "0 0 524 500");
       svgChart.setAttribute("height", "100%");
@@ -246,28 +176,6 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
                     }}
                     enableGridY={true}
                     gridYValues={[0]}
-                    markers={[
-                      {
-                        ...leftHoldingsMarker,
-                        value: data[0]["Intragovernmental Holdings"],
-                        legend: `$${data[0]["Intragovernmental Holdings"].toFixed(2)} T`,
-                      },
-                      {
-                        ...leftDebtMarker,
-                        value: data[0].total,
-                        legend: `$${data[0]["Debt Held by the Public"].toFixed(2)} T`,
-                      },
-                      {
-                        ...rightHoldingsMarker,
-                        value: data[1]["Intragovernmental Holdings"],
-                        legend: `$${data[1]["Intragovernmental Holdings"].toFixed(2)} T`,
-                      },
-                      {
-                        ...rightDebtMarker,
-                        value: data[1].total,
-                        legend: `$${data[1]["Debt Held by the Public"].toFixed(2)} T`,
-                      },
-                    ]}
                     enableLabel={false}
                     legends={[
                       {

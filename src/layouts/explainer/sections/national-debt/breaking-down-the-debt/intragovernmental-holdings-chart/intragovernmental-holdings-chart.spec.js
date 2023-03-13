@@ -52,25 +52,14 @@ describe('Intragovernmental Holdings Chart', () => {
   })
 
   it('markers start with opacity 0', () => {
-    const { getByText } = render(
-      <IntragovernmentalHoldingsChart sectionId={sectionId} data={mockData} date={new Date()} />
+    const {getByText} = render(
+      <IntragovernmentalHoldingsChart sectionId={sectionId} data={mockData} date={new Date()}/>
     );
 
     expect(getByText('$10.26 T')).toHaveStyle({opacity: 0});
     expect(getByText('$4.74 T')).toHaveStyle({opacity: 0});
     expect(getByText('$10.39 T')).toHaveStyle({opacity: 0});
     expect(getByText('$4.72 T')).toHaveStyle({opacity: 0});
-
-    jest.advanceTimersByTime(3000);
-    expect(getByText('$4.74 T')).toHaveStyle({opacity: 1});
-    expect(getByText('$4.72 T')).toHaveStyle({opacity: 1});
-    expect(getByText('$10.26 T')).toHaveStyle({opacity: 0});
-    expect(getByText('$10.39 T')).toHaveStyle({opacity: 0});
-
-    jest.advanceTimersByTime(6000);
-    expect(getByText('$4.74 T')).toHaveStyle({opacity: 1});
-    expect(getByText('$4.72 T')).toHaveStyle({opacity: 1});
-    expect(getByText('$10.26 T')).toHaveStyle({opacity: 1});
-    expect(getByText('$10.39 T')).toHaveStyle({opacity: 1});
   })
+
 })
