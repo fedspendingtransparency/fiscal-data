@@ -1859,12 +1859,12 @@ const endpointConfig = {
     'downloadName': 'TMA_UnclaimedMoney'
   },
   '184': {
-    'endpoint': 'v1/accounting/od/tcir_annual_table_1 ',
+    'endpoint': 'v1/accounting/od/tcir_annual_table_1',
     'dateField': 'record_date',
     'downloadName': 'TCIR_Annual_RangeOfMaturities'
   },
   '185': {
-    'endpoint': 'v1/accounting/od/tcir_annual_table_2 ',
+    'endpoint': 'v1/accounting/od/tcir_annual_table_2',
     'dateField': 'record_date',
     'downloadName': 'TCIR_Annual_SmallReclamationProj'
   },
