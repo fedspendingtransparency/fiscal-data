@@ -1858,6 +1858,51 @@ const endpointConfig = {
     'dateField': 'record_date',
     'downloadName': 'TMA_UnclaimedMoney'
   },
+  '184': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_1 ',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_RangeOfMaturities'
+  },
+  '185': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_2 ',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_SmallReclamationProj'
+  },
+  '186': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_3',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_USArmyCorpsOfEng'
+  },
+  '187': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_4',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_BureauOfReclamation'
+  },
+  '188': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_5',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_MidDakotaRuralWater'
+  },
+  '189': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_6',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_MerchantMarine'
+  },
+  '190': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_7',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_OtherLegislationCY'
+  },
+  '191': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_8',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_OtherLegislationFY'
+  },
+  '192': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_9',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_PowerMarketingAdmin'
+  },
 };
 
 const setCompleteTableDisplayItem = (response) => {

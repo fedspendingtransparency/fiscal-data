@@ -10,15 +10,12 @@ module.exports = {
       "seoConfig": {
         "pageTitle": "Annual Interest Rate Certification ",
         "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
-        "keywords": ""
+        "keywords": "Interest and Exchange Rates"
       },
       "topics": [
         "interest-exchange-rates"
       ],
       "relatedDatasets": [
-        "015-BFS-2014Q3-042",
-        "015-BFS-2014Q3-043",
-        "015-BFS-2014Q3-044"
       ],
       "slug": "/treasury-certified-interest-rates-annual/",
       "currentDateButton": "byMonth"
