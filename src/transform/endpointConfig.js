@@ -1858,6 +1858,11 @@ const endpointConfig = {
     'dateField': 'record_date',
     'downloadName': 'TMA_UnclaimedMoney'
   },
+  '193': {
+    'endpoint': '/v1/accounting/od/tcir_semi_annual',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_SemiAnnual'
+  },
 };
 
 const setCompleteTableDisplayItem = (response) => {
