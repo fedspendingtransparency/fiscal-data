@@ -91,9 +91,9 @@ export const TopicsSection = ({ images, width }) => {
             </Grid>
             <Grid item lg={secondaryWidth} spacing={0}>
               <div className={insightsSectionContainer}>
-                <div className={sectionHeader}>INSIGHTS</div>
+                <div className={sectionHeader}>TOOLS</div>
                 <HomePageTile
-                  content={pageTileMap['who-owns-the-debt']}
+                  content={pageTileMap['currency-exchange-rates']}
                   images={images}
                   width={width}
                 />
