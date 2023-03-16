@@ -55,7 +55,7 @@ describe('filter group reset', () => {
                 onGroupReset={groupResetMock}
                 activeFilters={['ninetyDays', 'sevenDays']}
                 filters={filters}
-            />, container);
+                            />, container);
         });
 
         const button = container.querySelector('button');

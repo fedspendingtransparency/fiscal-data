@@ -4,7 +4,9 @@ $revenue-explainer-primary: #0a2f5a;
 $revenue-explainer-secondary: #0a2f5a;
 $revenue-explainer-light-secondary: #9dabbd;
 
-.spendingAccordion {
+.revenueAccordion {
+  margin-top: 2rem;
+
   :global(.accordionHeading) {
     font-size: $font-size-18;
     color: $revenue-explainer-primary;
@@ -22,10 +24,6 @@ $revenue-explainer-light-secondary: #9dabbd;
     :global(.accordionToggle) {
       padding-left: 1.5rem;
     }
-  }
-
-  @media screen and (max-width: $breakpoint-lg - 1) {
-    margin-top: 2rem;
   }
 
   :global(.accordionContent) {

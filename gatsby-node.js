@@ -164,7 +164,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
 
-  await datasets.forEach(async dataset => {
+  for (const dataset of datasets) {
     dataset.id = createNodeId(dataset.datasetId);
     const node = {
       ...dataset,
@@ -176,7 +176,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     };
     node.internal.contentDigest = createContentDigest(node);
     createNode(node);
-  });
+  }
 
   topics.forEach(topic => {
     topic.id = createNodeId(topic.slug);
@@ -247,7 +247,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       throw error
     });
   resultData.Results.series[0].data.forEach((blsRow) => {
-    blsRow.id = createNodeId(blsRow.year + blsRow.periodName);
+    blsRow.id = createNodeId(blsRow.year + blsRow.period);
     const node = {
       ...blsRow,
       parent: null,
@@ -261,7 +261,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   });
 
 
-  const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=2014-2015-2016-2017-2018-2019-2020-2021-2022-2023&ResultFormat=JSON`;
+  const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
 
   const fetchBEA = async () => {
     return new Promise((resolve, reject) => {
@@ -272,7 +272,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         .catch(error => {
           console.error(`failed to get metadata ${++numBEAAPICalls} time(s), error:${error}`);
           if (numBEAAPICalls < 3) {
-            getBLSData();
+            fetchBEA();
           } else {
             reject(error);
           }
@@ -285,9 +285,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   .catch(error => {
     throw error
   });
-  beaResults.BEAAPI.Results.Data.forEach((bea) =>{
+  beaResults.BEAAPI.Results.Data.forEach((bea) => {
 
-    if(bea.LineDescription == 'Gross domestic product'){
+    if(bea.LineDescription === 'Gross domestic product') {
       const node = {
         id: bea.TableName + bea.TimePeriod,
         lineDescription: bea.LineDescription,
@@ -324,6 +324,13 @@ exports.createSchemaCustomization = ({ actions }) => {
       columnName: String,
       prettyName: String
     }
+    type UserFilter {
+      field: String,
+      label: String,
+      notice: String,
+      optionValues: [String!],
+      dataUnmatchedMessage: String
+    }
     type SEOConfig {
       title: String,
       description: String,
@@ -333,10 +340,12 @@ exports.createSchemaCustomization = ({ actions }) => {
       publishedReports: [PublishedReport!],
       dataFormats: [String!],
       filters: [String!],
-      seoConfig: SEOConfig
+      seoConfig: SEOConfig,
+      customRangePreset: String
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
+      userFilter: UserFilter,
       apiNotesAndLimitations: String
     }
     type DatasetsApisDataDisplays implements Node {
@@ -350,7 +359,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
     type BLSPublicAPIData implements Node{
       year: String,
-      periodName: String,
+      period: String,
       latest: String,
       value: String
     }
@@ -387,6 +396,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          datePreset
+          customRangePreset
           relatedTopics
           filterTopics
           publisher
@@ -436,6 +447,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             dateField
             alwaysSortWith
+            userFilter {
+              field
+              label
+              notice
+              optionValues
+              dataUnmatchedMessage
+            }
             downloadName
             earliestDate
             endpoint
@@ -497,7 +515,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         blsPublicApiData: nodes {
           year
           value
-          periodName
+          period
           latest
         }
       }
@@ -595,6 +613,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
     });
 
+    createPage({
+      path: `/currency-exchange-rates-converter/`,
+      matchPath: '/currency-exchange-rates-converter/',
+      component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
+    });
+
     const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
     const features = await graphql(`
 		{
@@ -620,7 +644,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     features.data.allMdx.edges.forEach(({ node }) => {
       if (node.frontmatter.path) {
-        let insightRelatedDatasets = [];
+        const insightRelatedDatasets = [];
         if(node.frontmatter.relatedDatasets) {
           node.frontmatter.relatedDatasets.forEach((dataset) => {
             insightRelatedDatasets.push(

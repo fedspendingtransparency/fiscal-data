@@ -75,7 +75,8 @@ describe('download modal', () => {
     const { getByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValue}>
         <DownloadModal open={true}
-                       onClose={onClose} />
+                       onClose={onClose}
+        />
       </downloadsContext.Provider>
     );
     expect(mockSiteProviderValue.setDownloadModalIsOpen.mock.calls[0]).toBeTruthy();
@@ -89,7 +90,8 @@ describe('download modal', () => {
     const { getByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValue}>
         <DownloadModal open={true}
-                       onClose={onClose} />
+                       onClose={onClose}
+        />
       </downloadsContext.Provider>
     );
     getByTestId('download-modal-close-button').click();

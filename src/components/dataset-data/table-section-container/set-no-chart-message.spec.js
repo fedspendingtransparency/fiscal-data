@@ -1,10 +1,9 @@
 import {
   mockDateRange,
   mockTableWithNoChartAvailable,
-  mockTableWithPivot,
+  mockTableWithPivot, mockTableWithUserFilterAvailable,
   selectedPivot
 } from './testHelpers';
-import React from 'react';
 import { SetNoChartMessage } from './set-no-chart-message';
 
 describe('setNoChartMessage helper', () => {
@@ -41,5 +40,17 @@ describe('setNoChartMessage helper', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithPivot, selectedPivot,
       { to: toDateMock, from: fromDateMock });
     expect(notShownMessage).toBeUndefined(); // no message
+  });
+
+  it('Produces no chart message when userFilter is available but unselected ' +
+    'days', async () => {
+    const fromDateMock = new Date(2019, 11, 24);
+    const toDateMock = new Date(2019, 11, 25);
+    const notShownMessage = SetNoChartMessage(mockTableWithUserFilterAvailable, null,
+      { to: toDateMock, from: fromDateMock });
+    expect(notShownMessage.props.heading)
+      .toContain('Select');
+    expect(notShownMessage.props.heading)
+      .toContain('from Facility Description options above to display the chart.');
   });
 });

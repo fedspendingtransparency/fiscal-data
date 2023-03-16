@@ -7,11 +7,12 @@ import {
   flapWrapper
 } from "../../hero-image/hero-image.module.scss"
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
-import { getFootNotesDateRange, getPillData, getShortForm } from "../hero-helper"
+import { getFootNotesDateRange, getPillData } from "../hero-helper"
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
+import {getShortForm} from "../../../../utils/rounding-utils";
 
 const GovernmentRevenueHero = ({glossary}): JSX.Element => {
 
@@ -38,7 +39,10 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
   const mts =
-    <CustomLink url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}>
+    <CustomLink
+      url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}
+      eventNumber={'4'}
+    >
       Monthly Treasury Statement (MTS)
     </CustomLink>
 
@@ -84,12 +88,17 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
     </GlossaryTerm>
   );
 
+  const rightTooltip =
+    'The percentage change in revenue compared to the same period last year.';
+  const leftTooltip = (change) =>
+    `The total amount revenue has ${change} compared to the same period last year.`;
+
   return (
     <>
       <p className={heroImageSubHeading}>
         Government revenue is income received from taxes and other sources to
         pay for government {expenditures}. The U.S. government has collected $
-        {getShortForm(currentRevenue, 2, false)} in fiscal year{" "}
+        {getShortForm(currentRevenue, false)} in fiscal year{" "}
         {recordFiscalYear}.
       </p>
       <div className={flapWrapper}>
@@ -108,7 +117,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
         <div className={footNotesPillData}>
           <p>
             Compared to the federal revenue of $
-            {getShortForm(priorYearRevenue.toString(), 2, false)} for the same
+            {getShortForm(priorYearRevenue.toString(), false)} for the same
             period last year (
             {getFootNotesDateRange(
               priorFiscalYear,
@@ -116,14 +125,16 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
               recordCalendarMonth
             )}
             ) federal revenue has {revenueChangeLabel} by $
-            {getShortForm(revenueChange.toString(), 0, false)}.
+            {getShortForm(revenueChange.toString(), false)}.
           </p>
           {getPillData(
             revenueChange,
             revenuePercentChange,
             revenueChangeLabel,
             true,
-            pillColorWithTransparency
+            pillColorWithTransparency,
+            leftTooltip(revenueChangeLabel),
+            rightTooltip
           )}
         </div>
       </div>

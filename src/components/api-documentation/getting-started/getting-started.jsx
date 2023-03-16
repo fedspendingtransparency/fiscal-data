@@ -4,6 +4,7 @@ import * as apiStyles from '../../../pages/api-documentation/api.module.scss';
 import * as styles from './getting-started.module.scss';
 import {Link} from 'gatsby';
 import GLOBALS from '../../../helpers/constants'
+import CustomLink from "../../links/custom-link/custom-link";
 
 const GettingStarted = () => {
 
@@ -41,41 +42,15 @@ const GettingStarted = () => {
         <p className={styles.paragraphList}>
           If you're looking for federal financial data that's designed to be read by humans rather
           than computers, head to <Link className="primary" to="/">our website</Link> to search
-          for data (available in CSV, JSON, and XML formats) or visit one of our partner sites:
+          for data (available in CSV, JSON, and XML formats) or visit one of our partner
+          site, <CustomLink url={'https://www.usaspending.gov/'}>USAspending</CustomLink> ‒ the
+          official source for spending data for the U.S. Government. There, you can follow
+          the money from congressional appropriations to federal agencies down to local
+          communities and businesses. For more general information,
+          visit <CustomLink url={'/americas-finance-guide/'} external={false}>Your Guide to America's Finances</CustomLink>,
+          where Fiscal Data breaks down complex government finance concepts
+          into easy-to-understand terms.
         </p>
-        <ul>
-          <li>
-            <a className="primary"
-               href="https://www.usaspending.gov/"
-               target="_blank"
-               rel="noopener noreferrer"
-            >
-              USAspending
-            </a> – the
-            official source for spending data for the U.S. Government. On that site, you can
-            follow the money from congressional appropriations to federal agencies down to local
-            communities and businesses.
-          </li>
-          <li>
-            <a className="primary"
-               href="https://datalab.usaspending.gov/"
-               target="_blank"
-               rel="noopener noreferrer"
-            >
-              Data Lab
-            </a> – where data visualizations, quantitative analysis, and storytelling with data
-            come to life. Data Lab digs deeper into federal government spending data on topics
-            such as homelessness and higher education. Additionally, Data Lab breaks down complex
-            government finances into easy-to-understand terms with{' '}
-            <a className="primary"
-               href="https://datalab.usaspending.gov/americas-finance-guide/"
-               target="_blank"
-               rel="noopener noreferrer"
-            >
-              Your Guide to America’s Finances.
-            </a>
-          </li>
-        </ul>
       </SectionContent>
       <SectionContent id="what-is-a-dataset"
                       headingLevel={3}

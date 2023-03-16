@@ -90,14 +90,14 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   if(api && api.pathName) {
     cardSlug += api.pathName;
   }
-  const ANALYTICS_EVENT_DELAY: number = globalConstants.config.
-    homepage.highlightAnalyticsHoverDelay;
-  const ANALYTICS_CARD_ACTION: string = globalConstants.config.
-    homepage.analyticsActions.card;
-  const ANALYTICS_CHART_ACTION: string = globalConstants.config.
-    homepage.analyticsActions.chart;
-  const ANALYTICS_CLICK_ACTION: string = globalConstants.config.
-    homepage.analyticsActions.click;
+  const ANALYTICS_EVENT_DELAY: number = globalConstants.config
+    .homepage.highlightAnalyticsHoverDelay;
+  const ANALYTICS_CARD_ACTION: string = globalConstants.config
+    .homepage.analyticsActions.card;
+  const ANALYTICS_CHART_ACTION: string = globalConstants.config
+    .homepage.analyticsActions.chart;
+  const ANALYTICS_CLICK_ACTION: string = globalConstants.config
+    .homepage.analyticsActions.click;
 
   const getApiData = async () => {
     const dateField = api.dateField;
@@ -315,6 +315,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 data-testid="image-container"
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
+                role={'presentation'}
               >
                 {isLoading ?
                   <div data-testid="loadingSection">
@@ -327,7 +328,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                       alt={data.image.alt}
                     />
                     {data.image.sparklePoints && (
-                      <Sparkler coordinates={data.image.sparklePoints}/>
+                      <Sparkler coordinates={data.image.sparklePoints} />
                     )}
                   </div>
                 }
@@ -340,6 +341,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 className={sparkLine}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
+                role={'presentation'}
               >
                 {apiError && <p>API Error</p>}
                 {isLoading &&
@@ -357,6 +359,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 className={sparkLine}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
+                role={'presentation'}
               >
                 <BarGraph
                   cardId={cardId}

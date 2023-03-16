@@ -1,11 +1,4 @@
-import KeyTakeawaysSection from "../../explainer-components/key-takeaways/key-takeaways-section";
-import {
-  revenueExplainerLightSecondary,
-  revenueExplainerPrimary
-} from "./revenue.module.scss";
 import React from "react";
-import {revenueKeyTakeaways} from
-    "../../explainer-helpers/government-revenue/government-revenue-helper";
 import FederalRevenueOverview from "./overview/federal-revenue-overview";
 import SourcesOfFederalRevenue from "./sources-of-federal-revenue/sources-of-federal-revenue";
 import FederalRevenueTrendsAndUSEconomy
@@ -46,7 +39,7 @@ const governmentRevenueSections = [
     index: 2,
     id: governmentRevenueSectionIds[2],
     title: "Sources of Federal Revenue",
-    component: (glossary, cpiDataByYear) => <SourcesOfFederalRevenue glossary={glossary}/>
+    component: (glossary, cpiDataByYear) => <SourcesOfFederalRevenue glossary={glossary} />
   },
   {
     index: 3,
@@ -58,7 +51,7 @@ const governmentRevenueSections = [
     index: 4,
     id: governmentRevenueSectionIds[4],
     title: "Federal Revenue Trends and the U.S. Economy ",
-    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear}/>
+    component: (glossary, cpiDataByYear) => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear} />
   },
 ]
 

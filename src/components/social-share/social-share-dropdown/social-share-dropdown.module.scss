@@ -1,0 +1,33 @@
+@import '../../../variables.module';
+
+.shareButton {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-14;
+  color: white;
+  margin-right: 2rem;
+  cursor: pointer;
+  background-color: transparent;
+  border-width: 0;
+
+  .icon {
+    color: white;
+    margin-right: .5rem;
+    height: 1.125rem;
+    width: 1rem;
+  }
+}
+
+.listContainer {
+  padding: 0.125rem 0.875rem 1.375rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .shareButton {
+    flex-direction: column;
+    margin-right: 1.25rem;
+    .icon {
+      margin-right: 0;
+    }
+  }
+}

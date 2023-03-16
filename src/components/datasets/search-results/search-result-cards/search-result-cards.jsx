@@ -60,7 +60,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
         const i = fauxIndex[name] || 0;
 
         const x = (i % cardsPerRow) * (cardWidth + gutter.x);
-        let y = Math.floor(i/cardsPerRow) * (cardHeight + gutter.y);
+        const y = Math.floor(i/cardsPerRow) * (cardHeight + gutter.y);
 
         return {
           left: `${x}%`,

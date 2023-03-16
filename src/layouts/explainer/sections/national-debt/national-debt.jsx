@@ -49,14 +49,10 @@ import { pxToNumber } from "../../../../helpers/styles-helper/styles-helper";
 import curvedArrow from "../../../../images/curved-arrow.svg";
 import alexanderHamilton from "../../../../images/alexander-hamilton.png";
 import benFranklin from "../../../../images/ben-franklin.png";
+import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
 
 import {
-  // Key Takeaways
-  keyTakeawaysContent,
   icon,
-  offsetIcon,
-  iconBackground,
-  noMarginBottom,
   // NationalDebtExplained
   nationalDebtExplainedTextContent,
   nationalDebtExplainedTable,
@@ -88,7 +84,6 @@ import {
   multichartLegend,
   aveInterestLegend,
   debtLegend,
-  lineChartContainer,
   postGraphContent,
   // Dive Deeper Section
   diveDeeperQuoteRight,
@@ -101,8 +96,6 @@ import {
   debtAccordion,
   fundingProgramAccordion,
   debtCeilingAccordion,
-  debtTrendsOverTimeSectionGraphContainer,
-  subTitle,
   titleBreakdown,
   postGraphAccordionContainer,
 } from "./national-debt.module.scss";
@@ -111,7 +104,12 @@ import Multichart from "../../multichart/multichart";
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import Analytics from "../../../../utils/analytics/analytics";
 import QuoteBox from "../../quote-box/quote-box";
-import DebtOverLast100y from "./debt-over-last-100y-linechart/debt-over-last-100y-linechart"
+import DebtOverLast100y
+  from "./growing-national-debt/debt-over-last-100y-linechart/debt-over-last-100y-linechart"
+import {DebtTrendsOverTimeChart}
+  from "./growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart";
+import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
+import useBeaGDP from "../../../../hooks/useBeaGDP";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -125,8 +123,6 @@ export const nationalDebtSectionIds = [
   "tracking-the-debt",
   "dive-deeper-into-the-debt",
 ];
-let gaTimerDebt100Yrs;
-let gaTimerDebtTrends;
 let gaTimerDualChart;
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
@@ -136,22 +132,19 @@ const analyticsClickHandler = (action, section) => {
   });
 };
 
-export const nationalDebtExplainedTableContent = {
-  header: [
-    null,
-    <FontAwesomeIcon icon={faCoins} className={tableIcon} />,
-    <FontAwesomeIcon icon={faFunnelDollar} className={tableIcon} />,
-    <FontAwesomeIcon icon={faFileInvoiceDollar} className={tableIcon} />,
-    null,
-  ],
-  body: [
-    [null, "Revenue", "Spending", "Deficit", null],
-    ["Year 1", "$400", "$500", "-$100", null],
-    ["Year 2", "$600", "$800", "-$200", null],
-    [null, null, null, "-$300", "Debt"],
-  ],
-  footer: [null, null, null, <img src={curvedArrow} alt="" />],
-};
+export const deficitLink = (
+  <CustomLink url={'/americas-finance-guide/national-deficit/'} >
+    deficit
+  </CustomLink>
+);
+
+const spendingLink = (copy) => (
+  <CustomLink url={'/americas-finance-guide/federal-spending/'} >
+    {copy}
+  </CustomLink>
+);
+
+
 
 export const visualizingTheDebtTableContent = {
   desktop: {
@@ -167,215 +160,7 @@ export const visualizingTheDebtTableContent = {
 export const chartPatternBackground = "#4A0072";
 const alternateBarColor = "#b699c6";
 
-const KeyTakeawaysSection = ({ glossary }) => {
-  const nonMarketableSecurities = (
-    <GlossaryTerm
-      term="Non-Marketable Securities"
-      page="Debt explainer"
-      glossary={glossary}
-    >
-      non-marketable
-    </GlossaryTerm>
-  );
-  const marketableSecurities = (
-    <GlossaryTerm
-      term="Marketable Securities"
-      page="Debt explainer"
-      glossary={glossary}
-    >
-      marketable
-    </GlossaryTerm>
-  );
 
-  return (
-    <>
-      <div className={keyTakeawaysContent}>
-        <div className={iconBackground}>
-          <FontAwesomeIcon icon={faMoneyCheckDollar} className={icon} />
-          <FontAwesomeIcon icon={faMoneyCheckDollar} className={offsetIcon} />
-        </div>
-        <p>
-          The national debt is composed of distinct types of debt, similar to an
-          individual whose debt may consist of a mortgage, car loan, and credit
-          cards. The different types of debt include {nonMarketableSecurities}{" "}
-          or {marketableSecurities} securities and whether it is debt held by
-          the public or debt held by the government itself (known as
-          intragovernmental).
-        </p>
-      </div>
-      <div className={keyTakeawaysContent}>
-        <div className={iconBackground}>
-          <FontAwesomeIcon icon={faChartLine} className={icon} />
-          <FontAwesomeIcon icon={faChartLine} className={offsetIcon} />
-        </div>
-        <p>
-          The U.S. has carried debt since its inception. Debts incurred during
-          the American Revolutionary War amounted to $75 million, primarily
-          borrowed from domestic investors and the French Government for war
-          materials.
-        </p>
-      </div>
-      <div className={`${keyTakeawaysContent} ${noMarginBottom}`}>
-        <div className={iconBackground}>
-          <FontAwesomeIcon icon={faPeopleCarry} className={icon} />
-          <FontAwesomeIcon icon={faPeopleCarry} className={offsetIcon} />
-        </div>
-        <p>
-          The national debt enables the federal government to pay for important
-          programs and services for the American public.
-        </p>
-      </div>
-    </>
-  );
-};
-
-export const NationalDebtExplainedSection = ({ glossary, cpiDataByYear }) => {
-  const glossaryTerms = {
-    fiscalYear: (
-      <GlossaryTerm
-        term="Fiscal Year"
-        page="Debt explainer"
-        glossary={glossary}
-      >
-        fiscal year (FY)
-      </GlossaryTerm>
-    ),
-    spending: (
-      <GlossaryTerm term="Spending" page="Debt explainer" glossary={glossary}>
-        spending
-      </GlossaryTerm>
-    ),
-    revenue: (
-      <GlossaryTerm term="Revenue" page="Debt explainer" glossary={glossary}>
-        revenue
-      </GlossaryTerm>
-    ),
-    deficit: (
-      <GlossaryTerm term="Deficit" page="Debt explainer" glossary={glossary}>
-        deficit
-      </GlossaryTerm>
-    ),
-    bonds: (
-      <GlossaryTerm term="Bonds" page="Debt explainer" glossary={glossary}>
-        bonds
-      </GlossaryTerm>
-    ),
-    bills: (
-      <GlossaryTerm term="Bills" page="Debt explainer" glossary={glossary}>
-        bills
-      </GlossaryTerm>
-    ),
-    notes: (
-      <GlossaryTerm term="Notes" page="Debt explainer" glossary={glossary}>
-        notes
-      </GlossaryTerm>
-    ),
-    floatingRateNotes: (
-      <GlossaryTerm
-        term="Floating Rate Notes"
-        page="Debt explainer"
-        glossary={glossary}
-      >
-        floating rate notes
-      </GlossaryTerm>
-    ),
-    tips: (
-      <GlossaryTerm
-        term="Treasury Inflation Protected Securities (TIPS)"
-        page="Debt explainer"
-        glossary={glossary}
-      >
-        Treasury inflation-protected securities (TIPS)
-      </GlossaryTerm>
-    ),
-  };
-
-  return (
-    <>
-      <div className={visWithCallout}>
-        <div className={nationalDebtExplainedTextContent}>
-          <p>
-            The national debt is the amount of money the federal government has
-            borrowed to cover the outstanding balance of expenses incurred over
-            time. In a given {glossaryTerms.fiscalYear}, when{" "}
-            {glossaryTerms.spending} (ex. money for roadways) exceeds{" "}
-            {glossaryTerms.revenue} (ex. money from federal income tax), a
-            budget {glossaryTerms.deficit} results. To pay for this deficit, the
-            federal government borrows money by selling marketable securities
-            such as Treasury {glossaryTerms.bonds}, {glossaryTerms.bills},{" "}
-            {glossaryTerms.notes}, {glossaryTerms.floatingRateNotes}, and{" "}
-            {glossaryTerms.tips}. The national debt is the accumulation of this
-            borrowing along with associated interest owed to the investors who
-            purchased these securities. As the federal government experiences
-            reoccurring deficits, which is common, the national debt grows.
-          </p>
-          <p>
-            Simply put, the national debt is similar to a person using a credit
-            card for purchases and not paying off the full balance each month.
-            The cost of purchases exceeding the amount paid off represents a
-            deficit, while accumulated deficits over time represents a person’s
-            overall debt.
-          </p>
-        </div>
-
-        <VisualizationCallout color={debtExplainerPrimary} >
-          <p>
-            The U.S. Treasury uses the terms “national debt,” “federal debt,”
-            and “public debt” interchangeably.
-          </p>
-        </VisualizationCallout>
-      </div>
-      <div
-        className={nationalDebtExplainedTable}
-        role="img"
-        aria-label="Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years."
-      >
-        <table>
-          <thead>
-            <tr>
-              {nationalDebtExplainedTableContent.header.map((th, i) => (
-                <th key={i}>{th}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {nationalDebtExplainedTableContent.body.map((tb, i) => (
-              <tr key={i}>
-                {tb.map((t, j) => {
-                  // second-to-last element in second-to-last row before footer
-                  const borderBottomEl =
-                    i === nationalDebtExplainedTableContent.body.length - 2 &&
-                    j === tb.length - 2;
-
-                  // last element in last row before footer
-                  const boldEl =
-                    i === 0 ||
-                    (i === nationalDebtExplainedTableContent.body.length - 1 &&
-                      j === tb.length - 1);
-
-                  return (
-                    <td className={borderBottomEl ? borderBottom : ""} key={j}>
-                      {boldEl ? <strong>{t}</strong> : t}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              {nationalDebtExplainedTableContent.footer.map((tf, i) => (
-                <td colSpan={tf !== null ? 2 : 1} key={i}>
-                  {tf}
-                </td>
-              ))}
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </>
-  );
-};
 
 export const FundingProgramsSection = () => {
   const usaSpending = (
@@ -431,18 +216,23 @@ export const FundingProgramsSection = () => {
     </CustomLink>
   );
 
+  const revenueLink = (
+    <CustomLink url={'/americas-finance-guide/government-revenue/'} >
+      federal revenues
+    </CustomLink>
+  )
+
   return (
     <>
       <p>
         The federal government needs to borrow money to pay its bills when its
-        ongoing spending activities and investments cannot be funded by federal
-        revenues alone. Decreases in federal revenue are largely due to either a
+        ongoing {spendingLink('spending')} activities and investments cannot be funded
+        by {revenueLink} alone. Decreases in federal revenue are largely due to either a
         decrease in tax rates or individuals or corporations making less money.
         The national debt enables the federal government to pay for important
         programs and services even if it does not have funds immediately
         available, often due to a decrease in revenue. Decreases in federal
-        revenue coupled with increased government spending further increases the
-        deficit.
+        revenue coupled with increased government spending further increases the {deficitLink}.
       </p>
       <p>
         Consistent with the purpose of the federal government established by the
@@ -665,104 +455,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
 
 export const GrowingNationalDebtSection = withWindowSize(
   ({ sectionId, glossary, cpiDataByYear, width }) => {
-    const chartId = `${sectionId}-chart`;
-    const chartOptions = {
-      forceHeight: width < pxToNumber(breakpointLg) ? 200 : 400,
-      forceLabelFontSize:
-        width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      format: true,
-      yAxisTickNumber: 5,
-      showOuterXAxisTicks: true,
-      placeInitialMarker: true,
-      noTooltip: true,
-      noShaders: true,
-      noInnerXAxisTicks: true,
-      shading: {
-        side: "under",
-        color: chartPatternBackground,
-      },
-    };
-
-    const [data, setData] = useState({});
-    const [date, setDate] = useState("");
-    const [value, setValue] = useState(0);
-    const [year, setYear] = useState("");
-    const [startYear, setStartYear] = useState("");
-    const [startValue, setStartValue] = useState("");
-    const [tempDate, setTempDate] = useState(null);
-    const [tempValue, setTempValue] = useState(0);
-    const [labels, setLabels] = useState(0);
-    const [isLoading, setIsLoading] = useState(true);
-    const [lineChartHoveredYear, setLinechartHoveredYear] = useState("");
-    const [lineChartHoveredValue, setLinechartHoveredValue] = useState("");
-
-
-  const chartRef = useRef();
-
-    const {
-      name,
-      slug,
-      dateField,
-      valueField,
-      endpoint,
-    } = nationalDebtSectionConfigs[sectionId];
-
-    const historicalDebtOutstanding_Last100Years = (
-      <CustomLink
-        url={slug}
-        onClick={() =>
-          analyticsClickHandler(
-            "Citation Click",
-            "U.S. Federal Debt Trends Over the Last 100 Years"
-          )
-        }
-      >
-        {name}
-      </CustomLink>
-    );
-
-    const historicalDebtOutstanding_DebtTrends = (
-      <CustomLink
-        url={slug}
-        onClick={() =>
-          analyticsClickHandler(
-            "Citation Click",
-            "Federal Debt Trends Over Time"
-          )
-        }
-      >
-        {name}
-      </CustomLink>
-    );
-
-    const beaLink = (
-      <CustomLink
-        url={"https://www.bea.gov/"}
-        onClick={() =>
-          analyticsClickHandler(
-            "Citation Click",
-            "Federal Debt Trends Over Time"
-          )
-        }
-      >
-        Bureau of Economic Analysis
-      </CustomLink>
-    );
-
-    const blsLink = (
-      <CustomLink
-        url={"https://www.bls.gov/"}
-        onClick={() =>
-          analyticsClickHandler(
-            "Citation Click",
-            "U.S. Federal Debt Trends Over the Last 100 Years"
-          )
-        }
-      >
-        Bureau of Labor Statistics
-      </CustomLink>
-    );
-
+    const beaGDPData = useBeaGDP(cpiDataByYear);
     const gdp = (
       <GlossaryTerm
         term="Gross Domestic Product (GDP)"
@@ -772,265 +465,6 @@ export const GrowingNationalDebtSection = withWindowSize(
         gross domestic product (GDP)
       </GlossaryTerm>
     );
-
-  const handleChange = (newDate, newValue) => {
-    setTempDate(newDate);
-    setTempValue(newValue);
-  }
-
-  const handleMouseEnter = (event) => {
-    if (event.target['id'] === chartId) {
-      addHoverEffects(
-        data,
-        chartId,
-        dateField,
-        [valueField],
-        handleChange,
-      );
-      gaTimerDebt100Yrs = setTimeout(() =>{
-        Analytics.event({
-          category: 'Explainers',
-          action: 'Chart Hover',
-          label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
-        });
-      }, 3000);
-    }
-  };
-
-    const handleMouseLeave = () => {
-      clearTimeout(gaTimerDebt100Yrs);
-    setTimeout(() => {
-      removeHoverEffects();
-      setTempDate(null);
-      setTempValue(0);
-      }, 500);
-
-  };
-
-    useEffect(() => {
-      chartOptions.forceHeight = width < pxToNumber(breakpointLg) ? 200 : 400;
-      const xAxisTickValues = [];
-      const step = Math.floor(data.length / 5);
-      for (let i = 0, il = data.length; i < il; i += step) {
-        const tickValue = new Date(data[i][dateField]);
-        xAxisTickValues.push(tickValue);
-      }
-      chartOptions.xAxisTickValues = xAxisTickValues;
-
-      if (document.getElementById(chartId)) {
-        drawChart(
-          data,
-          chartRef.current,
-          dateField,
-          [valueField],
-          labels,
-          chartOptions
-        );
-      }
-    }, [width]);
-
-    // Account for time zone offset since there is no time stamp in the date field
-    const dateWithoutOffset = getDateWithoutOffset(date);
-
-    const displayDate = tempDate
-      ? getYear(new Date(tempDate))
-      : getYear(dateWithoutOffset);
-    const displayValue = tempDate
-      ? simplifyNumber(tempValue, true)
-      : simplifyNumber(value, true);
-
-    // Below are the configs for custom properties for the debt trends over time line chart
-
-    const [debtTrendsData, setDebtTrendsData] = useState([]);
-    const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
-    const [lastDebtValue, setLastDebtValue] = useState({});
-
-    const debtEndpointUrl =
-      "v2/accounting/od/debt_outstanding?sort=-record_date&filter=record_fiscal_year:gte:1948";
-
-    useEffect(() => {
-      basicFetch(`${apiPrefix}${debtEndpointUrl}`).then(res => {
-        if (res.data) {
-          const debtData = res.data;
-          basicFetch(
-            `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`
-          ).then(res => {
-            if (res.BEAAPI.Results.Data) {
-              const gdpData = res.BEAAPI.Results.Data.filter(
-                entry => entry.LineDescription === "Gross domestic product"
-              );
-              const averagedGDPByYear = [];
-              for (
-                let i = parseInt(
-                  debtData[debtData.length - 1].record_fiscal_year
-                );
-                i <= parseInt(debtData[0].record_fiscal_year);
-                i++
-              ) {
-                let allQuartersForGivenYear;
-                if (i <= 1976) {
-                  allQuartersForGivenYear = gdpData.filter(
-                    entry =>
-                      entry.TimePeriod.includes(i.toString() + "Q1") ||
-                      entry.TimePeriod.includes(i.toString() + "Q2") ||
-                      entry.TimePeriod.includes((i - 1).toString() + "Q3") ||
-                      entry.TimePeriod.includes((i - 1).toString() + "Q4")
-                  );
-                } else if (i >= 1977) {
-                  allQuartersForGivenYear = gdpData.filter(
-                    entry =>
-                      entry.TimePeriod.includes(i.toString() + "Q1") ||
-                      entry.TimePeriod.includes(i.toString() + "Q2") ||
-                      entry.TimePeriod.includes(i.toString() + "Q3") ||
-                      entry.TimePeriod.includes((i - 1).toString() + "Q4")
-                  );
-                }
-                if (
-                  i >= 1977 &&
-                  allQuartersForGivenYear.find(entry =>
-                    entry.TimePeriod.includes(i.toString() + "Q3")
-                  )
-                ) {
-                  let totalGDP = 0;
-                  allQuartersForGivenYear.forEach(quarter => {
-                    totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
-                  });
-                  averagedGDPByYear.push({
-                    // Correct BEA data to display in trillions
-                    average: parseInt(String(totalGDP) + "000000") / 4,
-                    year: i,
-                  });
-                } else if (i <= 1976) {
-                  let totalGDP = 0;
-                  allQuartersForGivenYear.forEach(quarter => {
-                    totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ""));
-                  });
-                  averagedGDPByYear.push({
-                    // Correct BEA data to display in trillions
-                    average: parseInt(String(totalGDP) + "000000") / 4,
-                    year: i,
-                  });
-                }
-              }
-              const debtToGDP = [];
-              averagedGDPByYear.forEach(GDPEntry => {
-                const record = debtData.find(entry =>
-                  entry.record_date.includes(GDPEntry.year)
-                );
-                debtToGDP.push({
-                  x: GDPEntry.year,
-                  y: Math.round(
-                    (parseFloat(record.debt_outstanding_amt) /
-                      GDPEntry.average) *
-                      100
-                  ),
-                });
-              });
-              const finalData = [
-                {
-                  id: "us",
-                  color: "hsl(219, 70%, 50%)",
-                  data: debtToGDP,
-                },
-              ];
-              setDebtTrendsData(finalData);
-              setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
-              setIsLoadingDebtTrends(false);
-            }
-          });
-        }
-      });
-    }, []);
-
-    const chartBorderTheme = {
-      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      textColor: "#666666",
-      axis: {
-        domain: {
-          line: {
-            stroke: "#666666",
-            strokeWidth: 1,
-          },
-        },
-      },
-    };
-
-    const formatPercentage = v => `${v}%`;
-
-    const CustomSlices = ({ slices, setCurrentSlice }) => {
-      return (
-        <g>
-          {slices.map(slice => (
-            <rect
-              x={slice.x0}
-              y={slice.y0}
-              tabIndex={0}
-              width={slice.width + 1}
-              height={slice.height}
-              strokeWidth={1}
-              strokeOpacity={0}
-              fillOpacity={0}
-              onMouseEnter={() => setCurrentSlice(slice)}
-              onMouseLeave={() => {
-                setCurrentSlice(null);
-              }}
-            />
-          ))}
-        </g>
-      );
-    };
-
-    const CustomPoint = props => {
-      const { currentSlice, borderWidth, borderColor, points } = props;
-
-      if (!isLoadingDebtTrends) {
-        const currentPoint = currentSlice?.points?.length
-          ? currentSlice.points[0]
-          : points[points.length - 1];
-        setLinechartHoveredValue(formatPercentage(currentPoint.data.y));
-        setLinechartHoveredYear(currentPoint.data.x);
-        return (
-          <g>
-            <circle
-              fill={"#D8D8D8"}
-              r={8}
-              strokeWidth={borderWidth}
-              stroke={borderColor}
-              fillOpacity={0.35}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-            <circle
-              r={2}
-              strokeWidth={"4"}
-              stroke={"#000000"}
-              fill={"#000000"}
-              fillOpacity={0.85}
-              cx={currentPoint.x}
-              cy={currentPoint.y}
-            />
-          </g>
-        );
-      }
-    };
-
-const handleMouseEnterLineChart = () => {
-  gaTimerDebtTrends = setTimeout(() =>{
-    Analytics.event({
-      category: 'Explainers',
-      action: 'Chart Hover',
-      label: 'Debt - Federal Debt Trends Over Time'
-    });
-  }, 3000);
-}
-  const handleMouseLeaveLineChart = () => {
-    clearTimeout(gaTimerDebtTrends);
-  };
-
-    const lineChartOnMouseLeave = () => {
-      setLinechartHoveredValue(formatPercentage(lastDebtValue.y));
-      setLinechartHoveredYear(lastDebtValue.x);
-    };
 
     return (
       <div className={growingNationalDebt}>
@@ -1050,15 +484,18 @@ const handleMouseEnterLineChart = () => {
         <p>
           Notable recent events triggering large spikes in the debt include the
           Afghanistan and Iraq Wars, the 2008 Great Recession, and the COVID-19
-          pandemic. From FY 2019 to FY 2021, spending increased by about 50%,
+          pandemic. From FY 2019 to FY 2021, {spendingLink('spending')} increased by about 50%,
           largely due to the COVID-19 pandemic. Tax cuts, stimulus programs,
           increased government spending, and decreased tax revenue caused by
           widespread unemployment generally account for sharp rises in the
           national debt.
         </p>
-
-        <DebtOverLast100y cpiDataByYear={cpiDataByYear}/>
-
+        {!beaGDPData.isGDPLoading && (
+          <DebtOverLast100y
+            cpiDataByYear={cpiDataByYear}
+            beaGDPData={beaGDPData}
+          />
+        )}
         <p>
           Comparing a country’s debt to its {gdp} reveals the country’s ability
           to pay down its debt. This ratio is considered a better indicator of a
@@ -1068,136 +505,9 @@ const handleMouseEnterLineChart = () => {
           ratio surpassed 100% in 2013 when both debt and GDP were approximately
           16.7 trillion.
         </p>
-        <div className={visWithCallout}>
-          {isLoadingDebtTrends && (
-            <div>
-              <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-            </div>
-          )}
-          {!isLoadingDebtTrends && (
-            <>
-              <div>
-                <div className={debtTrendsOverTimeSectionGraphContainer}>
-                  <p className={title}>
-                    {" "}
-                    Federal Debt Trends Over Time, FY 1948 – {lastDebtValue.x}
-                  </p>
-                  <p className={subTitle}>
-                    {" "}
-                    Debt to Gross Domestic Product (GDP){" "}
-                  </p>
-                  <div className={headerContainer}>
-                    <div>
-                      <div className={header}>
-                        {lineChartHoveredYear === ""
-                          ? lastDebtValue.x
-                          : lineChartHoveredYear}
-                      </div>
-                      <span className={subHeader}>Fiscal Year</span>
-                    </div>
-                    <div>
-                      <div className={header}>
-                        {lineChartHoveredValue === ""
-                          ? lastDebtValue.y + "%"
-                          : lineChartHoveredValue}
-                      </div>
-                      <span className={subHeader}>Debt to GDP</span>
-                    </div>
-                  </div>
-                  <div
-                    className={`${lineChartContainer} ${chartBackdrop}`}
-                    data-testid={"debtTrendsChart"}
-                    onMouseEnter={handleMouseEnterLineChart}
-                  onMouseLeave={handleMouseLeaveLineChart}
-                  role={"img"}
-                  aria-label={`Line graph displaying the federal debt to GDP trend over time
-                  from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
-                  >
-                    <ResponsiveLine
-                      data={debtTrendsData}
-                      theme={chartBorderTheme}
-                      layers={[
-                        "grid",
-                        "lines",
-                        "axes",
-                        CustomPoint,
-                        CustomSlices,
-                      ]}
-                      margin={
-                        width < pxToNumber(breakpointLg)
-                          ? { top: 8, right: 25, bottom: 30, left: 35 }
-                          : { top: 8, right: 25, bottom: 30, left: 50 }
-                      }
-                      xScale={{
-                        type: "linear",
-                        min: 1940,
-                        max: 2030,
-                      }}
-                      yScale={{
-                        type: "linear",
-                        min: 0,
-                        max: 140,
-                        stacked: true,
-                        reverse: false,
-                      }}
-                      yFormat=" >-.2f"
-                      axisTop={null}
-                      axisRight={null}
-                      axisBottom={{
-                        orient: "bottom",
-                        tickSize: 5,
-                        tickPadding: 5,
-                        tickRotation: 0,
-                        tickValues: 9,
-                      }}
-                      axisLeft={{
-                        format: formatPercentage,
-                        orient: "left",
-                        tickSize: 5,
-                        tickValues: 8,
-                      }}
-                      enablePoints={false}
-                      enableSlices={"x"}
-                      pointSize={0}
-                      pointColor={debtExplainerPrimary}
-                      pointBorderWidth={2}
-                      pointBorderColor={debtExplainerPrimary}
-                      pointLabelYOffset={-12}
-                      colors={debtExplainerPrimary}
-                      useMesh={false}
-                      enableGridY={false}
-                      enableGridX={false}
-                      sliceTooltip={() => <></>}
-                      enableCrosshair={false}
-                      animate={true}
-                      isInteractive={true}
-                      onMouseLeave={lineChartOnMouseLeave}
-                    />
-                  </div>
-                  <div className={footerContainer}>
-                    <p>
-                      {" "}
-                      Visit the {historicalDebtOutstanding_DebtTrends} dataset
-                      to explore and download this data. The GDP data is sourced
-                      from the {beaLink}.
-                    </p>
-                    <p>Last Updated: September 30, {lastDebtValue.x}</p>
-                  </div>
-                </div>
-              </div>
-              <VisualizationCallout color={debtExplainerPrimary}>
-                <p>
-                  When adjusted for inflation, the U.S. federal debt has
-                  steadily increased since 2001. Without adjusting for
-                  inflation, the U.S. federal debt has steadily increased since
-                  1957. Another way to view the federal debt over time is to
-                  look at the ratio of federal debt related to GDP. This ratio
-                  has generally increased since 1981.
-                </p>
-              </VisualizationCallout>
-            </>
-          )}
-        </div>
+        {!beaGDPData.isGDPLoading && (
+        <DebtTrendsOverTimeChart sectionId={sectionId} beaGDPData={beaGDPData} width={width} />
+        )}
         <div className={postGraphAccordionContainer}>
           <VisualizingTheDebtAccordion width={width} />
         </div>
@@ -1622,7 +932,7 @@ export const DebtBreakdownSection = withWindowSize(
           debt used to pay state-funded programs; nor does it include debts
           carried by individuals, such as personal credit card debt or
           mortgages.
-        </p>
+      </p>
         <p>
           The visual below comparing {glossaryTerms.calendarYear} {startYear}{" "}
           and {endYear} displays the difference in growth between debt held by
@@ -1795,7 +1105,7 @@ export const DebtBreakdownSection = withWindowSize(
             </>
           )}
         </div>
-        <div className={postGraphContent}>
+        <div className={postGraphContent} id={'maintaining-national-debt'}>
           <h3>Maintaining the National Debt</h3>
           <p>
             The federal government is charged interest for the use of lenders’
@@ -1807,7 +1117,7 @@ export const DebtBreakdownSection = withWindowSize(
           <p>
             As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs $
             {shortenedDebtExpense} billion to maintain the debt, which is{" "}
-            {debtExpensePercent} of the total federal spending.
+            {debtExpensePercent} of the total {spendingLink('federal spending')}.
           </p>
           <p>
             The national debt has increased every year over the past ten years.
@@ -1819,15 +1129,18 @@ export const DebtBreakdownSection = withWindowSize(
           </p>
           <div className={visWithCallout}>
             {multichartDataLoaded && (
-              <div className={multichartWrapper}>
+              <div
+                className={multichartWrapper}
+                aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
+                "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin
+                }
+                role={'img'}
+              >
                 <div
                   className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
-                  role={"img"}
                   onMouseEnter={handleMouseEnterInterestChart}
-                 onMouseLeave={handleMouseLeaveInterestChart}
-                 aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
-                 "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin
-                  }
+                  onMouseLeave={handleMouseLeaveInterestChart}
+                  role={'presentation'}
                 >
                   <p className={`${title} ${simple}`}>
                     Interest Rate and Total Debt, {multichartStartYear} –{" "}
@@ -1912,10 +1225,9 @@ export const DebtBreakdownSection = withWindowSize(
             )}
             <VisualizationCallout color={debtExplainerPrimary}>
               <p>
-                Interest rates have fallen over the past decade. Due to lower
-                interest rates, interest expenses on the debt paid by the
-                federal government have remained stable even as the federal debt
-                has increased.
+                When interest rates remain low over time, interest expense on the debt paid by
+                the federal government will remain stable, even as the federal debt increases. As
+                interest rates increase, the cost of maintaining the national debt also increases.
               </p>
             </VisualizationCallout>
           </div>
@@ -1934,18 +1246,17 @@ export const DebtBreakdownSection = withWindowSize(
                 >
                   monetary policy
                 </CustomLink>{" "}
-                which is conducted by the Federal Reserve. Monetary policy
-                involves controlling the supply of money and the cost of
-                borrowing. The Federal Reserve uses monetary policy to promote
-                maximum employment, stable prices, and moderate long-term
-                interest rates on the behalf of Congress. The federal government
-                uses fiscal policy, or the control of taxation and government
-                spending, to promote economic activity.
+                which is conducted by the Federal Reserve. Monetary policy involves controlling the
+                supply of money and the cost of borrowing. The Federal Reserve uses monetary policy
+                to promote maximum employment, stable prices, and moderate long-term interest rates
+                on the behalf of Congress. The federal government uses fiscal policy, or the control
+                of taxation and {spendingLink('government spending')}, to promote economic
+                activity.
               </Accordion>
             </div>
           </div>
         </div>
-      </>
+    </>
     );
   }
 );
@@ -2194,7 +1505,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
     component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplainedSection glossary={glossary} cpiDataByYear={cpiDataByYear}/>
+      <NationalDebtExplained glossary={glossary} />
     ),
   },
   {

@@ -57,17 +57,10 @@ describe('SiteFooter', () => {
  * EXTERNAL LINKS (<a> tag uses props.href, not props.to)
  */
 
-  //datalab
-  it('contains the link to the datalab page', () => {
-    const { getByText } = render(<SiteFooter />);
-    const dataLabLink = getByText(siteFooterColumns[2].links[0].title);
-    expect(dataLabLink).toBeDefined();
-  });
-
   //usaspending
   it('contains the link to the usaSpending page', () => {
     const { getByText } = render(<SiteFooter />);
-    const usaSpendLink = getByText(siteFooterColumns[2].links[1].title);
+    const usaSpendLink = getByText(siteFooterColumns[2].links[0].title);
     expect(usaSpendLink).toBeDefined();
   });
 
@@ -114,8 +107,7 @@ describe('SiteFooter', () => {
     const aboutButton = getByText(siteFooterColumns[1].links[0].title);
     const releaseCalendarButton = getByText(siteFooterColumns[1].links[1].title);
     const subscribeButton = getByText(siteFooterColumns[1].links[2].title);
-    const dataLabButton = getByText(siteFooterColumns[2].links[0].title);
-    const usaSpendingButton = getByText(siteFooterColumns[2].links[1].title);
+    const usaSpendingButton = getByText(siteFooterColumns[2].links[0].title);
 
     logo.click();
     expect(spy).toHaveBeenCalledWith({
@@ -148,7 +140,7 @@ describe('SiteFooter', () => {
       label: pageTitle
     });
     spy.mockClear();
-    
+
     releaseCalendarButton.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
@@ -164,18 +156,10 @@ describe('SiteFooter', () => {
     });
     spy.mockClear();
 
-    dataLabButton.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Sitewide Navigation',
-      action: `Bottom ${siteFooterColumns[2].links[0].title} Click`,
-      label: pageTitle
-    });
-    spy.mockClear();
-
     usaSpendingButton.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
-      action: `Bottom ${siteFooterColumns[2].links[1].title} Click`,
+      action: `Bottom ${siteFooterColumns[2].links[0].title} Click`,
       label: pageTitle
     });
     spy.mockClear();

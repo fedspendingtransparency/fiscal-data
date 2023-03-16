@@ -13,7 +13,6 @@ import {
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
-import { getShortForm } from '../../../../heros/hero-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { revenueExplainerPrimary } from '../../revenue.module.scss';
@@ -28,6 +27,10 @@ import LabelComponent from './circle-chart-label';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import {getShortForm} from "../../../../../../utils/rounding-utils";
+import Analytics from "../../../../../../utils/analytics/analytics";
+
+let gaTimerRevenueCircle;
 
 const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
@@ -53,6 +56,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
+
   useEffect(() => {
     const url =
       'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
@@ -235,6 +239,16 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
     }
   };
 
+  const handleMouseEnterChart = () => {
+    gaTimerRevenueCircle = setTimeout(() => {
+      Analytics.event({
+        category: 'Explainers',
+        action: 'Chart Hover',
+        label: 'Revenue - Sources of Federal Revenue'
+      });
+    }, 3000);
+  }
+
   const HandleLabelClick = (node, e) => {
     if (e) {
       e.stopPropagation();
@@ -254,7 +268,6 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
     if (node.id !== categoryName) {
       decreaseOpacity();
-
       increaseOpacity(node);
       setCategoryName(node.id);
       setCategoryRevenueAmount(node.value);
@@ -273,6 +286,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   };
 
   const HandleChartMouseLeave = () => {
+    clearTimeout(gaTimerRevenueCircle);
     if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();
@@ -314,6 +328,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               <div
                 role="presentation"
                 className={chartSize}
+                onMouseEnter={handleMouseEnterChart}
                 onMouseLeave={HandleChartMouseLeave}
                 onClick={HandleChartMouseLeave}
               >
@@ -344,7 +359,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                 />
               </div>
               <div className={totalRevenueDataPill}>
-                Total Revenue: ${getShortForm(totalRevenue.toString(), 2, true)}
+                Total Revenue: ${getShortForm(totalRevenue.toString())}
               </div>
             </div>
           ) : (
@@ -357,7 +372,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           <p>
             In FY {fiscalYear}, the combined contribution of individual and
             corporate income taxes is $
-            {getShortForm(combinedIncomeAmount.toString(), 0, true, true)},
+            {getShortForm(combinedIncomeAmount.toString())},
             making up {combinedIncomePercent.toFixed()}% of total revenue.
           </p>
         </VisualizationCallout>

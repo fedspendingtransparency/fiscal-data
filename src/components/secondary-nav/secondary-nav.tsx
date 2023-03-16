@@ -148,16 +148,15 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           }
 
           return (
-            <>
+            <div key={s.index}>
               {s.comingSoon ? (
               <div className={comingSoonContainer}>
                 <i className={comingSoon}>COMING SOON!</i>
               </div>
               ) : undefined}
-
-
               <div
-                key={s.index}
+                role={'button'}
+                tabIndex={0}
                 onMouseEnter={() => handleMouseEnter(s.index)}
                 onMouseLeave={handleMouseLeave}
                 className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
@@ -181,7 +180,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                   {s.title}
                 </Link>
               </div>
-            </>
+            </div>
           )
         })}
       </div>

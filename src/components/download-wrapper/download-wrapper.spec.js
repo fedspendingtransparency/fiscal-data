@@ -21,6 +21,19 @@ describe('DownloadWrapper', () => {
   enableFetchMocks();
   let createObjectURL;
 
+  const mockSelectedTableWithUserFilter = {
+    tableName: 'Table 1',
+    userFilter: {
+      label: 'Country-Currency',
+      field: 'country_currency_desc'
+    }
+  };
+
+  const mockSelectedUserFilter = {
+    label: 'Atlantis-Aquabuck',
+    value: 'Atlantis-Aquabuck'
+  };
+
   beforeAll(() => {
     createObjectURL = global.URL.createObjectURL;
     global.URL.createObjectURL = jest.fn();
@@ -167,7 +180,7 @@ describe('DownloadWrapper', () => {
     expect(tableName.children).toContain('All Data Tables (2)');
     expect(downloadDataButton.props.label).toEqual('Download 2 CSV Files');
   });
-
+  /* TODO: rearrange the following code that's confusingly situated between it() blocks */
   // without only one table selected
   const mockDownloadQueue = []; // so that it can accumulate
   const mockSetDownloadRequest = jest.fn();
@@ -224,7 +237,7 @@ describe('DownloadWrapper', () => {
     mockSetDownloadRequest.mockClear();
   });
 
-  it(`adds a well-formed download request to the downloadsContext downloadQueue when the 
+  it(`adds a well-formed download request to the downloadsContext downloadQueue when the
     allTablesSelected prop is true`, () => {
 
     const expectedArgs =  {
@@ -260,5 +273,70 @@ describe('DownloadWrapper', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({'label': cancelEventLabelStr}));
+  });
+
+  it('displays userFilter selection when applied', () => {
+    renderer.act(() => {
+      component.update(
+        <DownloadWrapper
+          selectedTable={mockSelectedTableWithUserFilter}
+          dataset={{name: 'Mock Dataset'}}
+          selectedUserFilter={mockSelectedUserFilter}
+        />
+      );
+    });
+
+    const filterName = instance.findByProps({'data-testid': 'userFilterLabel'});
+    expect(filterName.props.children).toEqual(["Country-Currency", ":"]);
+    const filterValue = instance.findByProps({'data-testid': 'userFilterValue'});
+    expect(filterValue.props.children).toEqual('Atlantis-Aquabuck');
+  });
+
+  it('displays (None Selected) when userFilter is available but not selected', () => {
+
+    // with no selection at all
+    renderer.act(() => {
+      component.update(
+        <DownloadWrapper
+          selectedTable={mockSelectedTableWithUserFilter}
+          dataset={{name: 'Mock Dataset'}}
+          selectedUserFilter={null}
+        />
+      )
+    });
+
+    const filterName = instance.findByProps({'data-testid': 'userFilterLabel'});
+    expect(filterName.props.children).toEqual(["Country-Currency", ":"]);
+    const filterValue = instance.findByProps({'data-testid': 'userFilterValue'});
+    expect(filterValue.props.children).toEqual('(None selected)');
+  });
+
+  it('creates the expected download configuration when a userFilter is applied', () => {
+    mockSetDownloadRequest.mockClear();
+
+    const expectedArgs =  {
+      apis: mockSelectedTableWithUserFilter,
+      datasetId: mockDataset.datasetId,
+      dateRange: mockDateRange,
+      selectedFileType: 'csv',
+      selectedUserFilter: mockSelectedUserFilter
+    };
+
+    let component = null;
+    act(() => {
+      component = render(
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadWrapper
+            allTablesSelected={false}
+            selectedTable={mockSelectedTableWithUserFilter}
+            dataset={mockDataset}
+            dateRange={mockDateRange}
+            selectedUserFilter={mockSelectedUserFilter}
+          />
+        </downloadsContext.Provider>);
+      component.getByTestId('download-button').click();
+    });
+    expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
+    mockSetDownloadRequest.mockClear();
   });
 });

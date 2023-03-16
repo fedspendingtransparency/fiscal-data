@@ -65,7 +65,7 @@ describe('Americas Finance Guide', () => {
       getByText("$5.35 trillion", { exact: false });
       getByText("by which spending exceeded revenue, $946 billion in", { exact: false });
       getByText("contributed", { exact: false });
-      getByText("$30.93T", { exact: false });
+      getByText("of $30.93 trillion through", { exact: false });
       getByText("September 2022", { exact: false });
       getByText("How did these totals compare to", { exact: false });
       getByText("$4.05 trillion", { exact: false });

@@ -5,7 +5,7 @@ import { faUndo } from "@fortawesome/free-solid-svg-icons";
 import * as styles from './filterGroupReset.module.scss';
 
 function FilterGroupReset({ groupId, activeFilters, onGroupReset, filters }) {
-    let count = filtersByGroupId(groupId, filters)
+    const count = filtersByGroupId(groupId, filters)
       .filter(filter => activeFilters.indexOf(filter.id) !== -1).length;
 
     const handleClick = () => {

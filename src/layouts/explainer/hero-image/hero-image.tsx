@@ -10,7 +10,7 @@ import {
 import { withWindowSize } from "react-fns";
 import { basicFetch } from "../../../utils/api-utils";
 import reactStringReplace from "react-string-replace";
-import { getShortForm } from "../heros/hero-helper";
+import { getShortForm } from "../../../utils/rounding-utils";
 const HeroImage: FunctionComponent<IHeroImage> = ({
   heading,
   subHeading,
@@ -35,7 +35,7 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
       if (debtAmount) {
         return subHeading?.replace(
           match,
-          `${match} ($${getShortForm(debtAmount, 2, true)})`
+          `${match} ($${getShortForm(debtAmount)})`
         );
       }
       return subHeading;

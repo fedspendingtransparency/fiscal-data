@@ -1,0 +1,45 @@
+@import 'src/variables.module';
+
+.currencyBox {
+  width: 20rem;
+  margin: 0 1rem 0 0;
+  border-radius: 2px;
+  border: solid 1px #d6d7d9;
+
+  .currencyHeader {
+    background-color: #f1f1f1;
+    border-bottom: solid 1px #d6d7d9;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      font-weight: $semi-bold-weight;
+      margin-left: .75rem
+    }
+
+    .icon {
+      color: #666666;
+      height: 1rem;
+      width: 12px;
+      margin-right: 13px;
+    }
+  }
+
+  .currencyBody {
+    height: 2.5rem;
+  }
+
+  .currencyText {
+    margin-left: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .currencyBox {
+    margin: 1rem 0 0;
+  }
+}

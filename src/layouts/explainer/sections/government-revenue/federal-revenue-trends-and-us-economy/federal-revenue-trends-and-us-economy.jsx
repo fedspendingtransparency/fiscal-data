@@ -1,15 +1,18 @@
 import React, {useState} from "react";
-import { comingSoon } from "./federal-revenue-trends-and-us-economy.module.scss";
 import TotalRevenueChart
   from "./government-revenue-and-us-economy-chart/total-revenue-chart/total-revenue-chart";
-import Experimental from "../../../../../components/experimental/experimental";
 import useBeaGDP from "../../../../../hooks/useBeaGDP";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
+import CustomLink from "../../../../../components/links/custom-link/custom-link";
+import QuoteBox from "../../../quote-box/quote-box";
+import {revenueExplainerPrimary, revenueExplainerLightSecondary}
+  from "../revenue.module.scss";
+import {quoteBoxContent} from "../../../explainer.module.scss";
+import {section} from "./federal-revenue-trends-and-us-economy.module.scss";
 
 
 const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
-  const beaGDPData = useBeaGDP(cpiDataByYear);
+  const beaGDPData = useBeaGDP(cpiDataByYear, true);
 
   const [fiscalYear, setFiscalYear] = useState(2022);
   const [revenueRatio, setRevenueRatio] = useState('');
@@ -21,8 +24,18 @@ const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
     setRevenueTotal(data.revenueTotal);
   }
 
+
+  const gps = (
+    <CustomLink
+      url={'https://www.gps.gov/policy/funding/'}
+      eventNumber={'22'}
+    >
+      GPS.gov
+    </CustomLink>
+  );
+
   return (
-    <div>
+    <div className={section}>
       <p>
         In fiscal year {fiscalYear}, federal revenue was
         equal to {revenueRatio} of total gross domestic product (GDP), or economic
@@ -36,13 +49,24 @@ const FederalRevenueTrendsAndUSEconomy = ({cpiDataByYear}) => {
         people and businesses, as people and businesses earn more the federal
         revenue from taxes increases.
       </p>
-        {!beaGDPData.isGDPLoading && (
-          <TotalRevenueChart
-            cpiDataByYear={cpiDataByYear}
-            beaGDPData={beaGDPData}
-            copyPageData={callBackDataToPage}
-          />
-        )}
+      {!beaGDPData.isGDPLoading && (
+        <TotalRevenueChart
+          cpiDataByYear={cpiDataByYear}
+          beaGDPData={beaGDPData}
+          copyPageData={callBackDataToPage}
+        />
+      )}
+      <QuoteBox icon={faMapLocationDot}
+                primaryColor={revenueExplainerPrimary}
+                secondaryColor={revenueExplainerLightSecondary}
+      >
+        <p className={quoteBoxContent}>
+          Free GPS (Global Positioning System) service enjoyed throughout the world is funded
+          by general U.S. tax revenues.
+          <br />
+          <span style={{ fontSize: "16px" }}>Source: {gps}</span>
+        </p>
+      </QuoteBox>
     </div>
   );
 };

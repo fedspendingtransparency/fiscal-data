@@ -45,7 +45,7 @@ export const Index = () => {
             keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
           />
-          <TopicsSection images={topicsImages} data-testid="topics-section"/>
+          <TopicsSection images={topicsImages} data-testid="topics-section" />
           <HomeMainContent />
           <HomeFeatures />
         </div>

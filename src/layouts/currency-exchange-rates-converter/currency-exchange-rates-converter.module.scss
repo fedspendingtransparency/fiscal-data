@@ -1,0 +1,139 @@
+@import 'src/variables.module';
+
+.breadCrumbsContainer {
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 1.25rem;
+
+  .title {
+    margin: 0 0 1rem;
+    font-size: $font-size-18;
+    font-weight: $semi-bold-weight;
+    text-align: center;
+    color: #555555;
+  }
+
+  .selectText {
+    max-width: 34.563rem;
+    text-align: center;
+
+    .icon {
+      height: 0.875rem;
+    }
+  }
+
+  .currencyBoxContainer {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0;
+  }
+
+  .footer {
+    max-width: 34.563rem;
+    margin: 2rem 0 5rem;
+    font-size: $font-size-14;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .breadCrumbsContainer {
+    max-width: calc(#{$site-content-width} + 2rem);
+    padding-left: 2rem;
+  }
+}
+
+.selectorContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 34.563rem;
+  min-width: 20rem;
+  width: 100%;
+  height: 6rem;
+  margin-bottom: 1.5rem;
+  border-radius: .125rem;
+  box-shadow: .25rem .25rem 0 0 rgba(0, 0, 0, 0.5);
+  border: solid 1px #d6d7d9;
+  background-color: #f1f1f1;
+}
+
+.selector {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.box {
+  width: 9rem;
+  margin-top: -1.8px;
+  margin-bottom: 15px;
+}
+
+.effectiveDateContainer {
+  font-weight: 600;
+  margin-top: 1.25rem;
+  gap: 13.4px;
+  margin-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+
+  .icon {
+    height: 0.875rem;
+  }
+
+}
+
+.effectiveDateText {
+  font-weight: normal;
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .selectorContainer {
+    height: 9rem;
+    flex-wrap: wrap;
+  }
+
+  .box {
+    width: 8rem;
+  }
+
+  .effectiveDateContainer {
+    margin-top: -30px;
+    margin-right: 9rem;
+    gap: 2px;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    .title {
+      margin: 0 3rem 1rem;
+    }
+
+    .currencyBoxContainer {
+      flex-direction: column;
+      margin-top: 0;
+
+      .currencyBox {
+        margin: 1rem 0 0;
+      }
+    }
+
+    .footer {
+      margin-bottom: 4rem;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .breadCrumbsContainer {
+    width: calc(100% - 13px);
+    padding-left: 13px;
+  }
+}

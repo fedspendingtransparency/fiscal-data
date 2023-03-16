@@ -8,13 +8,13 @@ import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import {
-  getShortForm,
   getFootNotesDateRange,
   getPillData
 } from "../hero-helper";
 import {spendingExplainerLightSecondary, spendingExplainerPrimary} from
     "../../sections/federal-spending/federal-spending.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
+import {getShortForm} from "../../../../utils/rounding-utils";
 
 
 const FederalSpendingHero = (): JSX.Element => {
@@ -73,6 +73,8 @@ const FederalSpendingHero = (): JSX.Element => {
       });
   };
 
+  const rightTooltipText = 'The percentage change in spending compared to the same period last year.';
+
   useEffect(() => {
     getHeroData(spendingUrl);
   }, []);
@@ -80,7 +82,7 @@ const FederalSpendingHero = (): JSX.Element => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The U.S. government has spent ${getShortForm(totalSpending, 2, false)} in
+        The U.S. government has spent ${getShortForm(totalSpending, false)} in
         fiscal year {recordFiscalYear} to ensure the well-being of the people of the United States.
       </p>
       <div className={counterContainerSpending}>
@@ -98,14 +100,16 @@ const FederalSpendingHero = (): JSX.Element => {
         <div className={footNotesPillData}>
           <p>
             Compared to the federal spending of
-            ${getShortForm(priorYearSpending.toString(), 2, false)} for the same period
+            ${getShortForm(priorYearSpending.toString(), false)} for the same period
             last year
             ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)})
             our federal spending has {spendingChangeLabel} by
-            ${getShortForm(spendingChange.toString(), 0, false)}.
+            ${getShortForm(spendingChange.toString(), false)}.
           </p>
           {getPillData(spendingChange, spendingPercentChange, spendingChangeLabel,
-            true, spendingExplainerPrimary+"25")}
+            true, spendingExplainerPrimary+"25",
+            `The total amount spending has ${spendingChangeLabel} compared to the same period last year.`,
+            rightTooltipText)}
         </div>
       </div>
     </>

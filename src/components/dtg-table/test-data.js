@@ -50,6 +50,28 @@ export const TestData = [
     }
 ];
 
+export const testDataForUserFiltering = [
+  {
+    facility_desc: 'Room',
+    book_value_amt: 14,
+  },
+  {
+    facility_desc: 'Building',
+    book_value_amt: 14,
+  },
+  {
+    facility_desc: 'Venue',
+    book_value_amt: 14,
+  },
+  {
+    facility_desc: 'Campus',
+    book_value_amt: 14,
+  },
+  {
+    facility_desc: 'Building',
+    book_value_amt: 14,
+  }
+];
 export const TestData2 = [
   {
     first: 'Brennah',

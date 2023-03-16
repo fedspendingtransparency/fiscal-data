@@ -1,3 +1,5 @@
+import "mutationobserver-shim";
+
 global.__loader = {
   enqueue: jest.fn()
 };
@@ -8,5 +10,3 @@ jest.mock("gatsby-env-variables", () => ({
   API_BASE_URL: 'https://www.transparency.treasury.gov',
   ADDITIONAL_DATASETS: {}
 }));
-
-import "mutationobserver-shim";

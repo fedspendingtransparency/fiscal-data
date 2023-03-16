@@ -1,0 +1,12 @@
+﻿Number,Trigger,eventCategory,eventAction,eventLabel
+1,Click on a page within the Topics drop-down on the top of page navigation (ribbon),Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
+2,Click on a page within the Topics subnavigation bar,Fiscal Data - Sitewide Navigation,Topics Click,<title of explainer / insight page selected>
+3,"Click on the ""Share this page:"" options (Facebook, Twitter, LinkeIn, Reddit, Email)",Fiscal Data - Explainers,Share Click,AFG Overview - Share on <title of sharing option>
+4,"Click on the link ""Learn more about government revenue""",Fiscal Data - Explainers,Citation Click,AFG Overview - Revenue
+5,"Click on the link ""Learn more about federal spending""",Fiscal Data - Explainers,Citation Click,AFG Overview - Spending
+6,"Click on the link ""Learn more about national deficit""",Fiscal Data - Explainers,Citation Click,AFG Overview - Defitcit
+7,"Click on the link ""Learn more about national debt""",Fiscal Data - Explainers,Citation Click,AFG Overview - Debt
+8,"Click the accordion labeled, ""Data Sources and Methodologies""",Fiscal Data - Explainers,Accordion Expand Click,AFG Overview - DS&M
+9,Click on the link to the Monthly Treasury Statement (MTS) dataset within the DS&M accordion,Fiscal Data - Explainers,Citation Click,AFG Overview - DS&M
+10,Click on the link to the Debt to the Penny dataset within the DS&M accordion,Fiscal Data - Explainers,Citation Click,AFG Overview - DS&M
+11,Click on the link to the Citizen's Guide to the Financial Report of the U.S. Government,Fiscal Data - Explainers,Citation Click,AFG Overview - DS&M

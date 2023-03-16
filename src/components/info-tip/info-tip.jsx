@@ -7,7 +7,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import * as styles from './info-tip.module.scss';
 import { withWindowSize } from "react-fns";
-import { pxToNumber } from '../../../src/helpers/styles-helper/styles-helper';
+import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 
 const useStyles = makeStyles(theme => ({
@@ -59,11 +59,11 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const handleScroll = () => {
-    let position = window.pageYOffset;
+    const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
     setScrollPosition(position);
 
-    if (scrollPosition != previousScrollPosition) {
+    if (scrollPosition !== previousScrollPosition) {
       handleClose();
     };
   };
@@ -93,7 +93,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   };
 
   const handleGlossaryClick = (e) => {
-    let anchor = e.currentTarget;
+    const anchor = e.currentTarget;
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       if (e.type === 'mouseenter') {
@@ -140,7 +140,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           variant="contained"
           className={`${button} ${styles.infoIcon}`}
           onClick={handleClick}
-          onMouseLeave={handleClose}
+          onMouseLeave={handleMouseLeave}
         >
           <FontAwesomeIcon
             icon={faInfoCircle}
@@ -169,10 +169,11 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
             onMouseLeave={handleClose}
+            role={'presentation'}
           >
             {width < pxToNumber(breakpointLg) ?
               <span>
-                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose}/>
+                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose} />
                 <h6 className={styles.header}>{title}</h6>
               </span>
               :

@@ -19,7 +19,7 @@ const container = (
     <Experimental featureId='mock experimental feature'>
        <span>Some EXPERIMENTAL content</span>
        <div>And some more content.</div>
-     </Experimental>
+    </Experimental>
   </>
 );
 

@@ -153,7 +153,9 @@
     },
     "topics": ["interest-exchange-rates"],
     "relatedDatasets": [],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "datePreset": "custom",
+    "customRangePreset": "latestQuarter"
   },
   "015-BFS-2014Q3-071": {
     "slug": "/historical-debt-outstanding/",
@@ -489,7 +491,8 @@
       "015-BFS-2014Q1-11"
     ],
     "slug": "/slgs-daily-rate-table/",
-    "currentDateButton": "byDay"
+    "currentDateButton": "byDay",
+    "datePreset": "current"
   },
   "015-BFS-2014Q3-039": {
     "seoConfig": {
@@ -506,6 +509,23 @@
       "015-BFS-2014Q3-056"
     ],
     "slug": "/fed-credit-similar-maturity-rates/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-040": {
+    "seoConfig": {
+      "pageTitle": "Treasury Managed Accounts",
+      "description": "Balances of Contract Disputes Receivables, No FEAR Act Receivables, and Unclaimed Money for Treasury Managed Accounts.",
+      "keywords": "Financial Summaries"
+    },
+    "topics": [
+      "financial-summaries"
+    ],
+    "relatedDatasets": [
+      "015-BFS-2014Q3-105",
+      "015-BFS-2014Q1-07",
+      "015-BFS-2014Q1-13"
+    ],
+    "slug": "/treasury-managed-accounts/",
     "currentDateButton": "byMonth"
   }
 }

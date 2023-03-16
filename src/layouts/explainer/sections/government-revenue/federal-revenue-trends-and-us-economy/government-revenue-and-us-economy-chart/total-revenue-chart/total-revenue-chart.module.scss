@@ -1,11 +1,5 @@
 @import "src/variables.module";
 
-:global(.chartContainerHeader) {
-  font-size: $font-size-14 !important;
-  align-items: center;
-  margin-top: 1rem;
-}
-
 .container {
   overflow: hidden;
 
@@ -71,9 +65,13 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-lg - 1) {
+@media screen and (min-width: $breakpoint-lg) {
   :global(.chartContainerChart) {
     max-width: 484px !important;
+  }
+
+  .container {
+    margin-bottom: 2rem;
   }
 }
 

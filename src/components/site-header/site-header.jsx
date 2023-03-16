@@ -89,8 +89,24 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     });
   }
 
+  const analyticsEventMap = {
+    "national-debt": "Debt",
+    "national-deficit": "Deficit",
+    "federal-spending": "Spending",
+    "government-revenue": "Revenue"
+  };
+
   const handleMouseOver = () => {
     if(!isExpanded) {
+      const thisurl = typeof window !== 'undefined' ? window.location.href : '';
+      const urlSplit = thisurl.split('/');
+      const pageName = urlSplit[urlSplit.length-2];
+      const explainerPageName = analyticsEventMap[pageName];
+      Analytics.event({
+        category: 'Sitewide Navigation',
+        action: `Topics Click`,
+        label: explainerPageName
+      })
       setMenuExpanding(true);
       setToggled(true);
       setIsExpanded(true);
@@ -108,6 +124,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         setIsExpanded(false);
       }, 500);
     }
+  }
+
+  const handleBlur = (e) => {
+    const currentTarget = e.currentTarget;
+
+    requestAnimationFrame(() => {
+      if(!currentTarget.contains(document.activeElement)) {
+        handleMouseLeave();
+      }
+    });
   }
 
   const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
@@ -144,8 +170,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                   <Experimental featureId={pageLink.featureId} key={pageLink.title}>
                     <div className={styles.pageLinkButtonContainer}>
                       <div className={styles.pageLinkButtonContent}
-                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
-                        <button className={styles.pageLinkButton} >
+                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                      >
+                        <button className={styles.pageLinkButton}>
                           <Link
                             to={pageLink.to}
                             activeClassName={styles.activeLink}
@@ -184,6 +211,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         onMouseOver={handleMouseOver}
                         onMouseLeave={handleMouseLeave}
                         onFocus={handleMouseOver}
+                        onBlur={handleBlur}
+                        role={'button'}
+                        tabIndex={'0'}
                         data-testid={'dropdownContent'}
                       >
                         <div className={styles.dropdownRow}>
@@ -227,7 +257,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               return (
                 <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
-                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}>
+                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                  >
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
                               disabled

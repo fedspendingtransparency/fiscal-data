@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiPrefix, basicFetch } from "../../../utils/api-utils";
-import { getShortForm } from "../../../layouts/explainer/heros/hero-helper";
+import { getShortForm } from "../../../utils/rounding-utils";
 export const SpendingBodyGenerator = () => {
   const fields =
     "fields=current_fytd_net_outly_amt,record_fiscal_year,record_date";
@@ -24,7 +24,7 @@ export const SpendingBodyGenerator = () => {
 
   return (
     <>
-      The U.S. government has spent ${getShortForm(amount, 2, false)} in fiscal
+      The U.S. government has spent ${getShortForm(amount, false)} in fiscal
       year {year} to ensure the well-being of the people of the United States.
       Learn more about spending categories, types of spending, and spending
       trends over time.
@@ -50,7 +50,7 @@ export const RevenueBodyGenerator = () => {
   return (
     <p>
       The U.S. government has collected $
-      {getShortForm(currentRevenue, 2, false)} in fiscal year {recordFiscalYear}{" "}
+      {getShortForm(currentRevenue, false)} in fiscal year {recordFiscalYear}{" "}
       in order to pay for the goods and services provided to United States
       citizens and businesses. Learn more about revenue sources, trends over
       time, and how revenue compares to GDP.
@@ -129,15 +129,5 @@ export const pageTileMap = {
     desktopImage: "feature_placeholder",
     mobileImage: "feature_placeholder",
     path: "/currency-exchange-rates-converter/",
-  },
-  "who-owns-the-debt": {
-    title: "Who Owns the Debt?",
-    body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
-    altText:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
-    desktopImage: "feature_placeholder",
-    mobileImage: "feature_placeholder",
-    path: "/who-owns-the-debt/",
   },
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render} from "@testing-library/react"
+import {fireEvent, waitFor, render} from "@testing-library/react"
 import SiteHeader from "./site-header";
 import * as styles from './site-header.module.scss';
 import * as rdd from 'react-device-detect';
@@ -65,6 +65,26 @@ describe('SiteHeader', () => {
     const { getByTestId } = render(<SiteHeader />);
     fireEvent.mouseEnter(getByTestId('topicsButton'));
     expect(getByTestId('dropdownContent')).toBeInTheDocument();
+  });
+
+  it('collapses the topics drop down when tab is not focused on or within drop down', async () => {
+    const { getByTestId, getByText, queryByTestId } = render(<SiteHeader />);
+
+    getByTestId('topicsButton').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByText('Overview').focus();
+    getByText('Spending').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByTestId('logo').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
   });
 
   it('displays the explainer buttons when the topics dropdown menu is open', () => {

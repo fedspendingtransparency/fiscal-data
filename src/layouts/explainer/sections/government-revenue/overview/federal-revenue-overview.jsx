@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
-import {getShortForm} from "../../../heros/hero-helper";
+import {getShortForm} from "../../../../../utils/rounding-utils";
 
 const FederalRevenueOverview = () => {
 
@@ -19,7 +19,7 @@ const FederalRevenueOverview = () => {
         .then((res) => {
           if (res.data[0]) {
             setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
-            setPriorRevenue(getShortForm(res.data[0].current_fytd_net_rcpt_amt, 2, false));
+            setPriorRevenue(getShortForm(res.data[0].current_fytd_net_rcpt_amt, false));
           }
         })
   }, []);
@@ -30,7 +30,7 @@ const FederalRevenueOverview = () => {
     basicFetch(`${apiPrefix}${endpointURL}`)
       .then((res) => {
         if (res.data[0]) {
-          setPriorSpend(getShortForm(res.data[0].current_fytd_net_outly_amt, 2, false));
+          setPriorSpend(getShortForm(res.data[0].current_fytd_net_outly_amt, false));
         }
       })
   }, []);
@@ -41,7 +41,7 @@ const FederalRevenueOverview = () => {
     basicFetch(`${apiPrefix}${endpointURL}`)
     .then((res) => {
       if (res.data[0]) {
-        setPriorDeficit(getShortForm(res.data[0].current_fytd_net_outly_amt, 2, false))
+        setPriorDeficit(getShortForm(res.data[0].current_fytd_net_outly_amt, false))
         if (res.data[0].current_fytd_net_outly_amt < 0) {
           setSpendRevComp('more');
           setDeficitLabel('deficit');
@@ -55,13 +55,13 @@ const FederalRevenueOverview = () => {
   }, []);
 
   const spending = (
-    <CustomLink url={"/americas-finance-guide/federal-spending/"}>
+    <CustomLink url={"/americas-finance-guide/federal-spending/"} eventNumber={'33'}>
       Spending
     </CustomLink>
   );
 
   const deficit = (
-    <CustomLink url={"/americas-finance-guide/national-deficit/"}>
+    <CustomLink url={"/americas-finance-guide/national-deficit/"} eventNumber={'32'}>
       Deficit
     </CustomLink>
   );
@@ -82,7 +82,7 @@ const FederalRevenueOverview = () => {
         In FY {latestCompleteFiscalYear}, the federal government spent $
         {priorSpend}. Since the government spent {spendRevComp} than it
         collected, the {deficitLabel} for {latestCompleteFiscalYear} was $
-        {priorDeficit}.  Visit our {spending} and {deficit} pages for more information on these activities. 
+        {priorDeficit}.  Visit our {spending} and {deficit} pages for more information on these activities.
       </p>
     </div>
   );

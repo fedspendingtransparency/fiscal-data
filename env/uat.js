@@ -1,10 +1,12 @@
 module.exports = {
   ENV_ID: 'uat',
+  BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
-  ADDITIONAL_DATASETS: {},
+  ADDITIONAL_DATASETS: {
+  },
   ADDITIONAL_ENDPOINTS: {
     '27': {
       'endpoint': 'v1/debt/mspd/mspd_table_1',

@@ -8,7 +8,9 @@ import * as styles from "../../../pages/about-us/about-us.module.scss";
 export const aboutUsComponents = {
   section: ({children, sectionTitle, noList,  ...props}) => <section
     className={`${sectionTitle ? styles.title : sectionStyles.sectionContainer} ${noList === true ? '' : styles.list}`}
-    {...props}>{children}</section>
+    {...props}
+                                                            >{children}
+                                                            </section>
 };
 
 export const additionalContactsComponents = {
@@ -18,7 +20,9 @@ export const additionalContactsComponents = {
 export const subscribeComponents = {
   section: ({children,...props}) => <section
     className={`${sectionStyles.sectionContainer} ${styles.lastChild}`}
-    {...props}>{children}</section>
+    {...props}
+                                    >{children}
+                                    </section>
 };
 
 /*

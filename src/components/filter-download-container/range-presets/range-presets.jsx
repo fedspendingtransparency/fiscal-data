@@ -1,30 +1,44 @@
 import React, {useState, useEffect} from 'react';
-import * as styles from './range-presets.module.scss';
+import {
+  header,
+  presetContainer,
+  radio,
+  toggleButton,
+  selected
+} from './range-presets.module.scss';
 import { monthNames } from '../../../utils/api-utils';
-import {differenceInYears} from 'date-fns';
+import {addDays, subQuarters, differenceInYears} from 'date-fns';
 import determineDateRange, {
   generateAnalyticsEvent,
   generateFormattedDate,
   prepAvailableDates
 } from './helpers/helper';
 import DatePickers from "../datepickers/datepickers";
+import UserFilter from "../user-filter/user-filter";
 
-const RangePresets = ({
-  currentDateButton,
-  selectedTable,
-  setDateRange,
-  setIsFiltered,
-  setIsCustomDateRange,
-  allTablesSelected,
-  datasetDateRange,
-  finalDatesNotFound
-}) => {
+const RangePresets = (
+  {
+    currentDateButton,
+    datePreset,
+    customRangePreset,
+    selectedTable,
+    apiData,
+    onUserFilter,
+    setDateRange,
+    setIsFiltered,
+    setIsCustomDateRange,
+    allTablesSelected,
+    datasetDateRange,
+    finalDatesNotFound
+  }) => {
+
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
   const [pickerDateRange, setPickerDateRange] = useState(null);
   const [dateRange, setCurDateRange] = useState(null);
   const [defaultPresetKey, setDefaultPresetKey] = useState(null);
   const [presets, setPresets] = useState([]);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const basePreset = [{ label: 'All', key: 'all', years: null}];
   const possiblePresets = [
@@ -34,7 +48,7 @@ const RangePresets = ({
   ];
   const customPreset = {label: 'Custom', key: 'custom', years: null};
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
-  const idealDefaultPreset = {key: '5yr', years: 5};
+  let idealDefaultPreset = {key: '5yr', years: 5};
   // If a data table has less than 5 years of data, we need to find the next best option to select
   // by default.
   const fallbackPresets = ['1yr', 'current', 'all'];
@@ -116,7 +130,23 @@ const RangePresets = ({
         }
         return;
       }
+      if(datePreset === 'current' && presets[0].key === 'current') {
+        idealDefaultPreset = presets[0];
+      }
+      if(datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+        idealDefaultPreset = presets.find(({key}) => key === 'custom');
 
+        const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
+        const quarterRange = {
+          userSelected: {
+            from: subQuarters(addDays(dateObj, 1), 1),
+            to: dateObj
+          }
+        };
+        
+        const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
+        updateDateRange(adjRange);
+      }
       // Check if the default date option is available in the preset list. If so, select the default
       // preset, else select the next available option.
       const defaultPresetIsFound = presets.some(preset => preset.key === idealDefaultPreset.key);
@@ -145,6 +175,13 @@ const RangePresets = ({
   }, [presets]);
 
   useEffect(() => {
+    if (selectedTable.userFilter && apiData?.data && initialLoad) {
+      setInitialLoad(false);
+      applyPreset(customPreset);
+    }
+  }, [apiData]);
+
+  useEffect(() => {
     if (!finalDatesNotFound) {
       const availableRangeForSelection = allTablesSelected
         ? allTablesDateRange
@@ -154,7 +191,7 @@ const RangePresets = ({
 
       if (currentDateButton) {
         const latestDate = availableRangeForSelection.to;
-        let buttonLabel = '';
+        let buttonLabel;
 
         const month = latestDate.getMonth();
         const date = latestDate.getDate();
@@ -172,7 +209,6 @@ const RangePresets = ({
         curPresets.unshift({ label: buttonLabel, key: 'current', years: null });
       }
       curPresets.push(customPreset);
-
       setPresets(curPresets);
     }
   }, [selectedTable, allTablesSelected, finalDatesNotFound]);
@@ -184,10 +220,10 @@ const RangePresets = ({
     : null;
   return (
     <>
-      <h3 className={styles.header} data-test-id={'header'}>
+      <h3 className={header} data-test-id={'header'}>
         Date Range<span data-test-id={'label'}>{label}</span>:
       </h3>
-      <div id={styles.presetContainer}>
+      <div id={presetContainer}>
         {presets.map(preset => (
           <React.Fragment key={preset.key}>
             {preset.key === 'custom' ? (
@@ -195,7 +231,7 @@ const RangePresets = ({
                 <input
                   type="radio"
                   name="range-toggle"
-                  className={styles.radio}
+                  className={radio}
                   checked={customPreset.key === activePresetKey}
                   id={`radio-${customPreset.key}`}
                   onChange={() => {applyPreset(customPreset)}}
@@ -204,8 +240,8 @@ const RangePresets = ({
                 />
                 <label
                   className={`
-                    ${styles.toggleButton} ${activePresetKey === customPreset.key
-                      ? styles.selected
+                    ${toggleButton} ${activePresetKey === customPreset.key
+                      ? selected
                       : ''}
                   `}
                   htmlFor={`radio-${customPreset.key}`}
@@ -219,7 +255,7 @@ const RangePresets = ({
                 <input
                   type="radio"
                   name="range-toggle"
-                  className={styles.radio}
+                  className={radio}
                   checked={preset.key === activePresetKey}
                   id={`radio-${preset.key}`}
                   onChange={() => {applyPreset(preset);}}
@@ -228,8 +264,8 @@ const RangePresets = ({
                 />
                 <label
                   className={`
-                    ${styles.toggleButton} ${activePresetKey === preset.key
-                      ? styles.selected
+                    ${toggleButton} ${activePresetKey === preset.key
+                      ? selected
                       : ''}
                   `}
                   htmlFor={`radio-${preset.key}`}
@@ -249,6 +285,14 @@ const RangePresets = ({
           setSelectedDates={updateDateRange}
         />
       )}
+      {(selectedTable.userFilter) && (
+        <UserFilter
+          selectedTable={selectedTable}
+          onUserFilter={onUserFilter}
+          apiData={apiData}
+        />
+      )}
+
     </>
   );
 }

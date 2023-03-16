@@ -52,6 +52,7 @@ export const DatasetDataComponent = ({
   const [perPage, setPerPage] = useState(null);
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
+  const [userFilterSelection, setUserFilterSelection] = useState(null);
   const [tableCaches] = useState({});
 
   let loadByPage;
@@ -196,6 +197,7 @@ export const DatasetDataComponent = ({
           dataset={config}
           allTablesSelected={allTablesSelected}
           isCustomDateRange={isCustomDateRange}
+          selectedUserFilter={userFilterSelection}
         >
           <DataTableSelect
             apis={apis}
@@ -204,13 +206,17 @@ export const DatasetDataComponent = ({
             allTablesSelected={allTablesSelected}
             earliestDate={config.techSpecs.earliestDate}
             latestDate={config.techSpecs.latestDate}
-          />
+            />
           {selectedTable &&
           <RangePresets
             setDateRange={handleDateRangeChange}
             selectedTable={selectedTable}
+            apiData={apiData}
+            onUserFilter={setUserFilterSelection}
             setIsFiltered={setIsFiltered}
             currentDateButton={config.currentDateButton}
+            datePreset={config.datePreset}
+            customRangePreset={config.customRangePreset}
             setIsCustomDateRange={setIsCustomDateRange}
             allTablesSelected={allTablesSelected}
             datasetDateRange={{
@@ -226,6 +232,7 @@ export const DatasetDataComponent = ({
           config={config}
           dateRange={dateRange}
           selectedTable={selectedTable}
+          userFilterSelection={userFilterSelection}
           apiData={apiData}
           isLoading={isLoading}
           apiError={apiError}

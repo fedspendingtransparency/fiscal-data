@@ -14,17 +14,25 @@ const analyticsEventMap: Record<
   "national-debt": {
     openEventNumber: "40",
     closeEventNumber: "41",
-    explainerGAEvent: "Debt"
+    explainerGAEvent: "DebtExplainer"
   },
   "national-deficit": {
     openEventNumber: "26",
     closeEventNumber: "27",
-    explainerGAEvent: "Deficit"
+    explainerGAEvent: "DeficitExplainer"
   },
   "federal-spending": {
     openEventNumber: "22",
-    explainerGAEvent: "Spending"
+    explainerGAEvent: "SpendingExplainer"
   },
+  "government-revenue": {
+    openEventNumber: "23",
+    explainerGAEvent: "RevenueExplainer"
+  },
+  "afg-overview": {
+    openEventNumber: "8",
+    explainerGAEvent: "AfgOverview"
+  }
 };
 
 const DataSourcesMethodologies: FunctionComponent<DsmProps> = ({

@@ -116,4 +116,11 @@ describe("Sources of Federal Revenue", () => {
     expect(await getByText("56", { exact: false })).toBeInTheDocument();
     expect(await getByText("100", { exact: false })).toBeInTheDocument();
   });
+
+  it('renders the accordion', () => {
+    const {getByText} = render(
+      <SourcesOfFederalRevenue />);
+    expect(getByText('Why does the Federal Reserve send money to the federal government?'))
+      .toBeInTheDocument();
+  });
 });

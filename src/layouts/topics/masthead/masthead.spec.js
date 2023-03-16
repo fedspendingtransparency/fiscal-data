@@ -11,7 +11,7 @@ describe('Topics Masthead', () => {
 
   beforeEach(() => {
     component = renderer.create(
-      <MastHead title={title}/>
+      <MastHead title={title} />
     );
     instance = component.root;
   });

@@ -51,12 +51,6 @@ export const siteFooterColumns = [
     title: 'Our Sites',
     links: [
       {
-        title: 'Data Lab',
-        to: globalConstants.DATA_LAB_URL,
-        testId: 'dataLab',
-        isExternal: true
-      },
-      {
         title: 'USAspending',
         to: globalConstants.USA_SPENDING_URL,
         testId: 'usaSpending',

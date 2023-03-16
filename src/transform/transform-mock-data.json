@@ -58,6 +58,7 @@
       {
         "apiId": 143,
         "tableName": "Debt to the Nickel",
+        "endpoint": "v1/accounting/od/rates_of_exchange",
         "tableDescription": "Outstanding U.S. debt on a daily basis.",
         "updateFrequency": "Daily",
         "rowDefinition": "Each row represents a specific day's Total Debt Outstanding as well as",
@@ -65,6 +66,10 @@
         "earliestDate": "2005-10-03",
         "latestDate": "2020-01-01",
         "rowCount": 3716,
+        "userFilter": {
+          "field": "country_currency_desc",
+          "label": "Country-Currency",
+          "notice": "If current rates deviate from the published rates by 10% or more, Treasury will issue."},
         "fields": [
           {
             "columnName": "record_date",
@@ -117,6 +122,31 @@
             "dummyDisplay": "something here"
           }
         ]
+      }
+    ]
+  },
+  "mockFilterableData": {
+    "data": [
+      {
+        "country_currency_desc": "BELGIUM - BELGIUM COIN"
+      },
+      {
+        "country_currency_desc": "Belgium - Belgium Coin"
+      },
+      {
+        "country_currency_desc": "Albania - Albanian Coin"
+      },
+      {
+        "country_currency_desc": "Croatia - Croatian Coin"
+      },
+      {
+        "country_currency_desc": "Denmark - Denmark Coin"
+      },
+      {
+        "country_currency_desc": "Estonia - Estonian Coin"
+      },
+      {
+        "country_currency_desc": "Croatia - Croatian Coin"
       }
     ]
   }

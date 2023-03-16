@@ -35,7 +35,7 @@
 :global(.multichart-scaled) :global(.dataviz-line) {
   transform: scaleX(0);
 
-  transition: transform 0.6s 0.3s;
+  transition: transform 0.6s 0.5s;
   &:global(.fill-right) {
     transform: scaleX(1);
   }
@@ -83,33 +83,6 @@
   }
 }
 
-.nationalDebtExplainedTextContent {
-  p {
-    margin-top: 0;
-  }
-}
-
-.nationalDebtExplainedTable {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  table {
-    border-collapse: collapse;
-
-    .tableIcon {
-      color: $debt-explainer-light-secondary;
-    }
-
-    td {
-      text-align: center;
-
-      &.borderBottom {
-        border-bottom: solid 1px #666666;
-      }
-    }
-  }
-}
 
 .growingNationalDebtSectionAccordion {
   .accordionHeader {
@@ -276,19 +249,10 @@
 }
 
 .debtTrendsOverTimeSectionGraphContainer {
-
+  overflow: hidden;
   .lineChartContainer {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    height: 440px;
-  }
-}
-
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .debtTrendsOverTimeSectionGraphContainer {
-    .lineChartContainer {
-      height: 300px;
-    }
+    margin: 0 auto;
   }
 }
 
@@ -416,22 +380,6 @@
     }
   }
 
-  .nationalDebtExplainedTable {
-
-    padding: 1rem 2rem 0;
-
-    th {
-      font-size: $font-size-48;
-      padding-bottom: 8px;
-    }
-
-    td {
-      white-space: nowrap;
-      width: 80px;
-      padding: 12px 20px;
-    }
-  }
-
   .growingNationalDebt {
     :global(.vis-callout) {
       margin-top: calc(20% + 4rem);
@@ -532,45 +480,6 @@
     }
   }
 
-  .nationalDebtExplainedTable {
-    padding: 15px 15px 0 15px;
-    font-size: $font-size-14;
-
-    th {
-      font-size: $font-size-36;
-    }
-
-    td {
-      padding: 8px 15px;
-
-      &:first-of-type {
-        min-width: 40px;
-        padding-right: 10px;
-      }
-    }
-
-    .paddingTop {
-      td {
-        padding-top: 14px;
-      }
-    }
-
-    tfoot {
-      td {
-        padding-top: 0;
-      }
-
-      img {
-        width: 64px;
-        padding-left: 10px;
-      }
-    }
-    .diveDeeperContent {
-      p {
-        margin-left: 15px;
-      }
-    }
-  }
 
   .postGraphContent {
     h3 {
@@ -584,6 +493,10 @@
     font-size: $font-size-10;
     padding: 14px;
     margin-top: 2rem;
+
+    .lineChartContainer {
+      max-width: 464px;
+    }
 
     .headerContainer {
       margin-bottom: 1.25rem;

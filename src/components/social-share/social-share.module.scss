@@ -1,0 +1,79 @@
+@import 'src/variables.module';
+
+.horizontalSocialShareContent {
+  display: flex;
+  max-width: 360px;
+  max-height: 48px;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.horizontalShareButton {
+  display: flex;
+  text-align: justify;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 0;
+  justify-content: center;
+  height: 1rem;
+}
+
+.horizontalShareButtonContainer {
+  display: flex;
+  align-items: center;
+  text-align: justify;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 48px;
+}
+
+.socialShareContent, .listSocialShareContent {
+  h3 {
+    color: #666666;
+    font-weight: $semi-bold-weight;
+    font-size: $font-size-16;
+    width: 6.875rem;
+    margin: 0 0 1rem;
+  }
+}
+
+.shareButton, .listShareButton {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom:0;
+}
+
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .horizontalShareButtonContainer {
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+  }
+  .socialShareContent {
+    padding-bottom: 1.875rem;
+    height: 1.125rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .shareButton {
+    display: flex;
+    text-align: justify;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+
+  .shareButtonContainer {
+    display: inline-flex;
+    text-align: justify;
+    justify-content: center;
+    width: 20%;
+  }
+}
