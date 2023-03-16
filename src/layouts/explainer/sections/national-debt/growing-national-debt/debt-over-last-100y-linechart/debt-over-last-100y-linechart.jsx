@@ -25,7 +25,7 @@ import {
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import {
   lineChartCustomPoints,
-  lineChartCustomSlices,
+  LineChartCustomSlices,
 } from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
@@ -232,7 +232,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     'lines',
                     lineChartCustomPoints,
                     props =>
-                      lineChartCustomSlices(
+                      LineChartCustomSlices(
                         props,
                         handleGroupOnMouseLeave,
                         handleMouseLeave

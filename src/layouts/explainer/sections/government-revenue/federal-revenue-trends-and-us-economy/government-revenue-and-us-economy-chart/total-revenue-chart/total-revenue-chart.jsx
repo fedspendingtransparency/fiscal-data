@@ -23,7 +23,7 @@ import {
   applyChartScaling,
   applyTextScaling,
 } from '../../../../../explainer-helpers/explainer-charting-helper';
-import {lineChartCustomPoints, lineChartCustomSlices} from
+import {lineChartCustomPoints, LineChartCustomSlices} from
     '../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
 import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation }
@@ -359,7 +359,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   'lines',
                   lineChartCustomPoints,
                   props =>
-                    lineChartCustomSlices(
+                    LineChartCustomSlices(
                       props,
                       handleGroupOnMouseLeave,
                       handleMouseLeave

@@ -1,52 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
-import { ResponsiveLine } from "@nivo/line";
+import React, { useEffect, useState } from "react";
 import { withWindowSize } from "react-fns";
-import { format, getYear } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChartLine,
-  faPeopleCarry,
   faDollarSign,
   faHandHoldingMedical,
   faHeartbeat,
   faShieldAlt,
   faUserFriends,
-  faSpinner,
-  faFunnelDollar,
-  faCoins,
-  faFileInvoiceDollar,
   faFlagUsa,
-  faMoneyCheckDollar,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Accordion from "../../../../components/accordion/accordion";
-import VisualizationCallout
-  from "../../../../components/visualization-callout/visualization-callout";
-import { visWithCallout, chartBackdrop } from "../../explainer.module.scss";
-import drawChart, {
-  addHoverEffects,
-  removeHoverEffects,
-} from "../../../../components/charts/chart-primary";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
-import simplifyNumber from "../../../../helpers/simplify-number/simplifyNumber";
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils";
+import { datasetSectionConfig } from "../../explainer-helpers/explainer-helpers";
 import {
-  datasetSectionConfig,
-  getDateWithoutOffset,
-} from "../../explainer-helpers/explainer-helpers";
-import {
-  breakpointLg,
   breakpointSm,
-  fontBodyCopy,
-  fontSize_10,
-  fontSize_14,
-  fontSize_16,
-  fontSize_36,
   debtExplainerPrimary,
   debtExplainerLightSecondary,
 } from "../../../../variables.module.scss";
 import { pxToNumber } from "../../../../helpers/styles-helper/styles-helper";
-import curvedArrow from "../../../../images/curved-arrow.svg";
 import alexanderHamilton from "../../../../images/alexander-hamilton.png";
 import benFranklin from "../../../../images/ben-franklin.png";
 import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
@@ -54,10 +27,6 @@ import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways
 import {
   icon,
   // NationalDebtExplained
-  nationalDebtExplainedTextContent,
-  nationalDebtExplainedTable,
-  tableIcon,
-  borderBottom,
   rectangle,
   accordionHeader,
   accordionTable,
@@ -71,36 +40,18 @@ import {
   // Growing National Debt
   growingNationalDebt,
   growingNationalDebtSectionAccordion,
-  title,
-  simple,
-  headerContainer,
-  header,
-  subHeader,
-  footerContainer,
-  debtBreakdownSectionGraphContainer,
-  barChartContainer,
-  multichartWrapper,
-  multichartContainer,
-  multichartLegend,
-  aveInterestLegend,
-  debtLegend,
-  postGraphContent,
   // Dive Deeper Section
   diveDeeperQuoteRight,
   diveDeeperQuoteLeft,
   diveDeeperLink,
   diveDeeperQuote,
   diveDeeperCitation,
-
   //Accordion styling
   debtAccordion,
   fundingProgramAccordion,
   debtCeilingAccordion,
-  titleBreakdown,
   postGraphAccordionContainer,
 } from "./national-debt.module.scss";
-import { Bar } from "@nivo/bar";
-import Multichart from "../../multichart/multichart";
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import Analytics from "../../../../utils/analytics/analytics";
 import QuoteBox from "../../quote-box/quote-box";
@@ -110,6 +61,7 @@ import {DebtTrendsOverTimeChart}
   from "./growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart";
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
 import useBeaGDP from "../../../../hooks/useBeaGDP";
+import BreakingDownTheDebt from "./breaking-down-the-debt/breaking-down-the-debt";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -123,8 +75,7 @@ export const nationalDebtSectionIds = [
   "tracking-the-debt",
   "dive-deeper-into-the-debt",
 ];
-let gaTimerDualChart;
-const analyticsClickHandler = (action, section) => {
+export const analyticsClickHandler = (action, section) => {
   Analytics.event({
     category: "Explainers",
     action: action,
@@ -138,7 +89,7 @@ export const deficitLink = (
   </CustomLink>
 );
 
-const spendingLink = (copy) => (
+export const spendingLink = (copy) => (
   <CustomLink url={'/americas-finance-guide/federal-spending/'} >
     {copy}
   </CustomLink>
@@ -158,7 +109,6 @@ export const visualizingTheDebtTableContent = {
 };
 
 export const chartPatternBackground = "#4A0072";
-const alternateBarColor = "#b699c6";
 
 
 
@@ -521,745 +471,7 @@ export const percentageFormatter = value =>
 export const trillionsFormatter = value =>
   `$${(Number(value) / 1000000).toFixed(2)} T`;
 
-export const DebtBreakdownSection = withWindowSize(
-  ({ sectionId, glossary, width }) => {
-    const [data, setData] = useState();
-    const [date, setDate] = useState(new Date());
-    const [isChartRendered, setIsChartRendered] = useState(false);
-    const [startYear, setStartYear] = useState("");
-    const [endYear, setEndYear] = useState("");
-    const [multichartConfigs, setMultichartConfigs] = useState([]);
-    const [multichartDataLoaded, setMultichartDataLoaded] = useState(false);
-    const [debtValue, setDebtValue] = useState("0");
-    const [interestValue, setInterestValue] = useState("0");
-    const [focalYear, setFocalYear] = useState(1900);
-    const [multichartStartYear, setMultichartStartYear] = useState("");
-    const [multichartEndYear, setMultichartEndYear] = useState("");
-    const [multichartInterestRateMax, setMultichartInterestRateMax] = useState(
-      "0"
-    );
-    const [multichartInterestRateMin, setMultichartInterestRateMin] = useState(
-      "0"
-    );
-    const [interestExpenseEndMonth, setInterestExpenseEndMonth] = useState("");
-    const [interestExpenseEndYear, setInterestExpenseEndYear] = useState("");
-    const [shortenedDebtExpense, setShortenedDebtExpense] = useState("0");
-    const [debtExpensePercent, setDebtExpensePercent] = useState("0%");
 
-    const glossaryTerms = {
-      debtHeldByThePublic: (
-        <GlossaryTerm
-          term="Debt Held by the Public"
-          page="Debt explainer"
-          glossary={glossary}
-        >
-          debt held by the public
-        </GlossaryTerm>
-      ),
-      intragovernmental: (
-        <GlossaryTerm
-          term="Intragovernmental Holdings"
-          page="Debt explainer"
-          glossary={glossary}
-        >
-          intragovernmental
-        </GlossaryTerm>
-      ),
-      calendarYear: (
-        <GlossaryTerm
-          term="Calendar Year"
-          page="Debt explainer"
-          glossary={glossary}
-        >
-          calendar year
-        </GlossaryTerm>
-      ),
-      interestRates: (
-        <GlossaryTerm
-          term="Interest Rates"
-          page="Debt explainer"
-          glossary={glossary}
-        >
-          interest rates
-        </GlossaryTerm>
-      ),
-    };
-
-    const {
-      name,
-      slug,
-      endpoint,
-      getQueryString,
-      transformer,
-      multichart,
-    } = nationalDebtSectionConfigs[sectionId];
-
-    const fiveTheme = {
-      fontSize: fontSize_16,
-      textColor: fontBodyCopy,
-      markers: {
-        lineStrokeWidth: 0,
-      },
-      grid: {
-        line: {
-          stroke: fontBodyCopy,
-          strokeWidth: 2,
-        },
-      },
-      legends: {
-        text: {
-          fontSize: fontSize_16,
-        },
-      },
-    };
-
-    const layers = [
-      "grid",
-      "axes",
-      "bars",
-      "markers",
-      "legends",
-      "annotations",
-    ];
-
-    const sideMarkerPos = {
-      axis: "y",
-      legendOffsetY: -22,
-    };
-    const markerText = {
-      fontSize: fontSize_36,
-      fill: fontBodyCopy,
-      fontWeight: "bold",
-    };
-    const sideMarkerLeft = {
-      ...sideMarkerPos,
-      legendOffsetX: 228,
-      textStyle: markerText,
-    };
-    const sideMarkerRight = {
-      ...sideMarkerPos,
-      legendOffsetX: 8,
-      textStyle: {
-        ...markerText,
-        textAnchor: "start",
-      },
-    };
-
-    const calcPercentIncrease = (key, rows) =>
-      Math.round(
-        ((rows[1][key] - rows[0][key]) / rows[0][key]) * 100
-      ).toFixed();
-
-    const applyChartScaling = () => {
-      // rewrite some element attribs after render to ensure Chart scales with container
-      // which doesn't seem to happen naturally when nivo has a flex container
-      const svgChart = document.querySelector(
-        '[data-testid="breakdownChart"] svg'
-      );
-      if (svgChart) {
-        svgChart.setAttribute("viewBox", "0 0 524 500");
-        svgChart.setAttribute("height", "100%");
-        svgChart.setAttribute("width", "100%");
-      }
-    };
-
-    // generate rectangular color swatches in footer legend
-    const CustomSymbolShape = ({
-      x,
-      y,
-      size,
-      fill,
-      borderWidth,
-      borderColor,
-    }) => {
-      return (
-        <rect
-          x={x}
-          y={y}
-          fill={fill}
-          strokeWidth={borderWidth}
-          stroke={borderColor}
-          width={size * 2}
-          height={size}
-          style={{ pointerEvents: "none" }}
-        />
-      );
-    };
-
-    const chartOptions = {
-      forceHeight: 400,
-      forceYAxisWidth: 60,
-      maxHeightToWidthRatio: 0.8,
-      forceLabelFontSize:
-        width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      format: true,
-      showOuterXAxisTicks: true,
-      placeInitialMarker: true,
-      noTooltip: true,
-      noShaders: true,
-      noInnerXAxisTicks: false,
-      placeInnerXAxisTicksBelowLine: true,
-      excludeYAxis: true,
-      marginLabelOptions: {
-        fontSize: 14,
-        fontColor: "#666666",
-        fontWeight: 600,
-      },
-    };
-
-    const interestChartOptions = Object.assign(
-      { inverted: false },
-      chartOptions
-    );
-    const amountChartOptions = Object.assign(
-      {
-        inverted: true,
-        shading: {
-          side: "under",
-          color: chartPatternBackground,
-        },
-      },
-      chartOptions
-    );
-
-    const localMultichartConfigs = [
-      {
-        name: "interest",
-        dataSourceUrl: `${apiPrefix}${multichart.endpoints[0].path}`,
-        dateField: multichart.endpoints[0].dateField,
-        fields: [multichart.endpoints[0].valueField],
-        options: interestChartOptions,
-        marginLabelFormatter: percentageFormatter,
-        marginLabelLeft: true,
-        marginLabelRight: true,
-        zeroMarginLabelLeft: true,
-      },
-      {
-        name: "debt",
-        dataSourceUrl: `${apiPrefix}${multichart.endpoints[1].path}`,
-        dateField: multichart.endpoints[1].dateField,
-        fields: [multichart.endpoints[1].valueField],
-        options: amountChartOptions,
-        marginLabelFormatter: trillionsFormatter,
-        marginLabelLeft: true,
-        marginLabelRight: true,
-      },
-    ];
-
-    const hoverEffectHandler = recordDate => {
-      const year =
-        recordDate === null
-          ? multichartConfigs[0].data[0][
-              multichartConfigs[0].dateField
-            ].substring(0, 4)
-          : recordDate.substring(0, 4);
-      if (multichartConfigs[0].data && multichartConfigs[1].data) {
-        const interestRow = multichartConfigs[0].data.find(
-          row => row[multichartConfigs[0].dateField].indexOf(year) === 0
-        );
-        const interest = percentageFormatter(
-          interestRow[multichartConfigs[0].fields[0]]
-        );
-
-        const debtRow = multichartConfigs[1].data.find(
-          row => row[multichartConfigs[1].dateField].indexOf(year) === 0
-        );
-        const debt = trillionsFormatter(
-          debtRow[multichartConfigs[1].fields[0]]
-        );
-        setInterestValue(interest);
-        setDebtValue(debt);
-        setFocalYear(year);
-      }
-    };
-
-    useEffect(() => {
-      if (isChartRendered) {
-        applyChartScaling();
-
-        const fetchers = [];
-        localMultichartConfigs.forEach(chartConfig => {
-          fetchers.push(
-            basicFetch(chartConfig.dataSourceUrl)
-              .then(response => {
-                const xAxisTickValues = [];
-                for (let i = 0, il = response.data.length; i < il; i += 1) {
-                  const tickValue = new Date(
-                    response.data[i][chartConfig.dateField]
-                  );
-                  xAxisTickValues.push(tickValue);
-                }
-                chartConfig.options.xAxisTickValues = xAxisTickValues;
-                chartConfig.data = response.data;
-              })
-              .catch(err => {
-                console.error(err);
-              })
-          );
-        });
-
-        Promise.all(fetchers).then(() => {
-          const dataPopulatedConfigs = [];
-          let sortedInterestRates = [];
-          localMultichartConfigs.forEach(config => {
-            dataPopulatedConfigs.push(Object.assign({}, config));
-          });
-          setMultichartConfigs(dataPopulatedConfigs);
-          setMultichartStartYear(
-            dataPopulatedConfigs[0].data[
-              dataPopulatedConfigs[0].data.length - 1
-            ].record_calendar_year
-          );
-          setMultichartEndYear(
-            dataPopulatedConfigs[0].data[0].record_calendar_year
-          );
-          sortedInterestRates = [...dataPopulatedConfigs[0].data].sort(
-            (a, b) => {
-              return a.avg_interest_rate_amt - b.avg_interest_rate_amt;
-            }
-          );
-          setMultichartInterestRateMin(
-            percentageFormatter(sortedInterestRates[0].avg_interest_rate_amt)
-          );
-          setMultichartInterestRateMax(
-            percentageFormatter(
-              sortedInterestRates[sortedInterestRates.length - 1]
-                .avg_interest_rate_amt
-            )
-          );
-        });
-      }
-    }, [isChartRendered]);
-
-    useEffect(() => {
-      if (multichartConfigs && multichartConfigs.length > 1) {
-        if (
-          multichartConfigs.every(config => config.data && config.data.length)
-        ) {
-          setMultichartDataLoaded(true);
-        }
-      }
-    }, [multichartConfigs]);
-
-    useEffect(() => {
-      if (multichartDataLoaded) {
-        hoverEffectHandler(
-          multichartConfigs[0].data[0][multichartConfigs[0].dateField]
-        );
-      }
-    }, [multichartDataLoaded]);
-
-    const multichartId = "interestToDebt";
-
-    useEffect(() => {
-      basicFetch(`${apiPrefix}${endpoint}${getQueryString()}`).then(
-        response => {
-          const transformed = transformer(response);
-          if (transformed && transformed.length === 2) {
-            setData(transformed);
-            setDate(getDateWithoutOffset(transformed[1].record_date));
-            setStartYear(transformed[0].record_calendar_year);
-            setEndYear(transformed[1].record_calendar_year);
-          }
-        }
-      );
-    }, []);
-
-    useEffect(() => {
-      basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
-        current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
-        record_date,record_calendar_month,record_calendar_year,record_fiscal_year
-        &filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`).then(
-        response => {
-          if (response && response.data && response.data.length) {
-            const fytdNet = response.data[0].current_fytd_net_outly_amt;
-            basicFetch(
-              `${apiPrefix}v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:4177&sort=-record_date&page[size]=1`
-            ).then(response => {
-              if (response && response.data && response.data.length) {
-                setInterestExpenseEndYear(
-                  response.data[0].record_calendar_year
-                );
-                const date = new Date();
-                date.setMonth(response.data[0].record_calendar_month - 1);
-                setInterestExpenseEndMonth(
-                  date.toLocaleString("en-US", {
-                    month: "long",
-                  })
-                );
-                const maintainDebtExpense = parseFloat(
-                  response.data[0].current_fytd_net_outly_amt
-                );
-                const percent = (
-                  (maintainDebtExpense / parseFloat(fytdNet)) *
-                  100
-                ).toFixed(2);
-                setDebtExpensePercent(`${parseFloat(percent).toFixed()}%`);
-                setShortenedDebtExpense(
-                  (maintainDebtExpense / 1000000000).toFixed().toString()
-                );
-              }
-            });
-          }
-        }
-      );
-    }, []);
-
-
-  const handleMouseEnterInterestChart = () => {
-    gaTimerDualChart = setTimeout(() =>{
-      Analytics.event({
-        category: 'Explainers',
-        action: 'Chart Hover',
-        label: 'Debt - Interest Rate and Total Debt'
-      });
-    }, 3000);
-  }
-  const handleMouseLeaveInterestChart = () => {
-    clearTimeout(gaTimerDualChart);
-  };
-
-
-  return (
-    <>
-      <p>
-        The national debt is composed of distinct types of debt, similar to an individual whose debt consists of a mortgage,
-        car loan, and credit cards. The national debt can be broken down by whether it is non-marketable or marketable and
-        whether it is {" "}
-          {glossaryTerms.debtHeldByThePublic} or debt held by the government
-          itself (known as {glossaryTerms.intragovernmental}). The national debt
-          does not include debts carried by state and local governments, such as
-          debt used to pay state-funded programs; nor does it include debts
-          carried by individuals, such as personal credit card debt or
-          mortgages.
-      </p>
-        <p>
-          The visual below comparing {glossaryTerms.calendarYear} {startYear}{" "}
-          and {endYear} displays the difference in growth between debt held by
-          the public and intragovernmental debt. While both types of debt
-          combine to make up the national debt, they have increased by different
-          amounts in the past several years. One of the main causes of the jump
-          in public debt can be attributed to increased funding of programs and
-          services during the COVID-19 pandemic. Intragovernmental debt has not
-          increased by quite as much since it is primarily composed of debt owed
-          on agencies’ excess revenue invested with the Treasury. The revenue of
-          the largest investor in Treasury securities, the Social Security
-          Administration, has not increased significantly in recent years,
-          resulting in this slower intragovernmental holding increase.
-        </p>
-        <div className={visWithCallout}>
-          {!data && (
-            <div>
-              <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-            </div>
-          )}
-          {data && (
-            <>
-              <div>
-                <div
-                  className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
-                  role={"img"}
-                  aria-label={
-                    "Bar chart showing Intergovernmental Holdings and Debt Held by the Public values; " +
-                    "comparing the latest complete calendar year values to 10 years prior."
-                  }
-                >
-                  <p className={titleBreakdown}>
-                    Intragovernmental Holdings and Debt Held by the Public, CY{" "}
-                    {data[0].record_calendar_year} and CY{" "}
-                    {data[1].record_calendar_year}
-                  </p>
-                  <div
-                    data-testid="breakdownChart"
-                    className={barChartContainer}
-                  >
-                    <Bar
-                      width={524}
-                      height={468}
-                      data={data}
-                      keys={[
-                        "Intragovernmental Holdings",
-                        "Debt Held by the Public",
-                      ]}
-                      indexBy="record_calendar_year"
-                      margin={{ top: 30, right: 144, bottom: 50, left: 144 }}
-                      padding={0.24}
-                      valueScale={{ type: "linear" }}
-                      indexScale={{ type: "band", round: true }}
-                      colors={[alternateBarColor, chartPatternBackground]}
-                      isInteractive={false}
-                      borderColor={fontBodyCopy}
-                      axisTop={null}
-                      axisRight={null}
-                      axisLeft={null}
-                      axisBottom={{
-                        tickSize: 0,
-                        tickPadding: 5,
-                        tickRotation: 0,
-                      }}
-                      enableGridY={true}
-                      gridYValues={[0]}
-                      markers={[
-                        {
-                          ...sideMarkerLeft,
-                          value: data[0]["Intragovernmental Holdings"],
-                          legend: `$${data[0][
-                            "Intragovernmental Holdings"
-                          ].toFixed(2)} T`,
-                        },
-                        {
-                          ...sideMarkerLeft,
-                          value: data[0].total,
-                          legend: `$${data[0][
-                            "Debt Held by the Public"
-                          ].toFixed(2)} T`,
-                        },
-                        {
-                          ...sideMarkerRight,
-                          value: data[1]["Intragovernmental Holdings"],
-                          legend: `$${data[1][
-                            "Intragovernmental Holdings"
-                          ].toFixed(2)} T`,
-                        },
-                        {
-                          ...sideMarkerRight,
-                          value: data[1].total,
-                          legend: `$${data[1][
-                            "Debt Held by the Public"
-                          ].toFixed(2)} T`,
-                        },
-                      ]}
-                      enableLabel={false}
-                      labelSkipWidth={12}
-                      labelSkipHeight={12}
-                      labelTextColor={fontBodyCopy}
-                      legends={[
-                        {
-                          dataFrom: "keys",
-                          anchor: "bottom-left",
-                          direction: "row",
-                          justify: false,
-                          translateX: -125,
-                          translateY: 90,
-                          itemsSpacing: 15,
-                          itemWidth: 250,
-                          itemHeight: 40,
-                          itemDirection: "left-to-right",
-                          itemOpacity: 1,
-                          symbolSize: 20,
-                          symbolShape: CustomSymbolShape,
-                          symbolSpacing: 28,
-                        },
-                      ]}
-                      layers={[
-                        ...layers,
-                        () => {
-                          // this final empty layer fn is called only after everything else is
-                          // rendered, so it serves as a handy postRender hook.
-                          // It's wrapped in a setTimout to avoid triggering a browser warning
-                          setTimeout(() => setIsChartRendered(true));
-                          return <></>;
-                        },
-                      ]}
-                      ariaLabel="Chart of Debt Breakdown"
-                      theme={fiveTheme}
-                    />
-                  </div>
-                  <div className={footerContainer}>
-                    Visit the{" "}
-                    <CustomLink
-                      url={slug}
-                      onClick={() =>
-                        analyticsClickHandler(
-                          "Citation Click",
-                          "Intragovernmental Holdings and Debt Held by the Public"
-                        )
-                      }
-                    >
-                      {name}
-                    </CustomLink>{" "}
-                    to explore and download this data.
-                    <p>Last Updated: {format(date, "MMMM d, yyyy")}</p>
-                  </div>
-                </div>
-              </div>
-              <VisualizationCallout color={debtExplainerPrimary}>
-                <p>
-                  There are two major categories for federal debt: debt held by
-                  the public and intragovernmental holdings.
-                </p>
-
-                <p>
-                  The debt held by the public has increased by{" "}
-                  <span data-testid={"public-debt-increase"}>
-                    {calcPercentIncrease("Debt Held by the Public", data)}%
-                  </span>{" "}
-                  since {data[0].record_calendar_year}. Intragovernmental
-                  holdings increased by{" "}
-                  <span data-testid={"govt-debt-increase"}>
-                    {calcPercentIncrease("Intragovernmental Holdings", data)}%
-                  </span>{" "}
-                  since {data[0].record_calendar_year}.
-                </p>
-              </VisualizationCallout>
-            </>
-          )}
-        </div>
-        <div className={postGraphContent} id={'maintaining-national-debt'}>
-          <h3>Maintaining the National Debt</h3>
-          <p>
-            The federal government is charged interest for the use of lenders’
-            money, in the same way that lenders charge an individual interest
-            for a car loan or mortgage. How much the government pays in interest
-            depends on the total national debt and the various securities’{" "}
-            {glossaryTerms.interestRates}.
-          </p>
-          <p>
-            As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs $
-            {shortenedDebtExpense} billion to maintain the debt, which is{" "}
-            {debtExpensePercent} of the total {spendingLink('federal spending')}.
-          </p>
-          <p>
-            The national debt has increased every year over the past ten years.
-            Interest expenses during this period have remained fairly stable due
-            to low interest rates and investors’ judgement that the U.S.
-            Government has a very low risk of default. However, recent increases
-            in interest rates and inflation are now resulting in an increase in
-            interest expense.
-          </p>
-          <div className={visWithCallout}>
-            {multichartDataLoaded && (
-              <div
-                className={multichartWrapper}
-                aria-label={"Combined line and area chart comparing average interest rate and total debt trends over " +
-                "the last decade, ranging from " + multichartInterestRateMax + " to " + multichartInterestRateMin
-                }
-                role={'img'}
-              >
-                <div
-                  className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
-                  onMouseEnter={handleMouseEnterInterestChart}
-                  onMouseLeave={handleMouseLeaveInterestChart}
-                  role={'presentation'}
-                >
-                  <p className={`${title} ${simple}`}>
-                    Interest Rate and Total Debt, {multichartStartYear} –{" "}
-                    {multichartEndYear}
-                  </p>
-                  <div
-                    className={headerContainer}
-                    data-testid="interest-and-debt-chart-header"
-                  >
-                    <div>
-                      <div className={header}>{focalYear}</div>
-                      <span className={subHeader}>Fiscal Year</span>
-                    </div>
-                    <div>
-                      <div className={header}>{interestValue}</div>
-                      <span className={subHeader}>Average Interest Rate</span>
-                    </div>
-                    <div>
-                      <div className={header}>{debtValue}</div>
-                      <span className={subHeader}>Total Debt</span>
-                    </div>
-                  </div>
-                  <div className={`${multichartContainer} multichart-scaled`}>
-                    <Multichart
-                      chartId={multichartId}
-                      chartConfigs={multichartConfigs}
-                      hoverEffectHandler={hoverEffectHandler}
-                    />
-                  </div>
-                  <div
-                    className={multichartLegend}
-                    data-testid="interest-and-debt-chart-legend"
-                  >
-                    <div>
-                      <div className={aveInterestLegend} />
-                      <div>Average Interest Rate</div>
-                    </div>
-                    <div>
-                      <div className={debtLegend} />
-                      <div>Total Debt</div>
-                    </div>
-                  </div>
-                  <div className={footerContainer}>
-                    <p>
-                      Visit the{" "}
-                      <CustomLink
-                        url={
-                          "https://fiscaldata.treasury.gov/datasets/average-interest-rates-treasury" +
-                          "-securities/average-interest-rates-on-u-s-treasury-securities"
-                        }
-                        onClick={() =>
-                          analyticsClickHandler(
-                            "Citation Click",
-                            "Interest Rate and Total Debt"
-                          )
-                        }
-                      >
-                        Average Interest Rates on U.S. Treasury Securities
-                      </CustomLink>{" "}
-                      and{" "}
-                      <CustomLink
-                        url={
-                          "https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/" +
-                          "summary-of-treasury-securities-outstanding"
-                        }
-                        onClick={() =>
-                          analyticsClickHandler(
-                            "Citation Click",
-                            "Interest Rate and Total Debt"
-                          )
-                        }
-                      >
-                        U.S. Treasury Monthly Statement of the Public Debt
-                        (MSPD)
-                      </CustomLink>{" "}
-                      datasets to explore and download this data.
-                    </p>
-                    <p>Last Updated: September 30, {multichartEndYear}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-            <VisualizationCallout color={debtExplainerPrimary}>
-              <p>
-                When interest rates remain low over time, interest expense on the debt paid by
-                the federal government will remain stable, even as the federal debt increases. As
-                interest rates increase, the cost of maintaining the national debt also increases.
-              </p>
-            </VisualizationCallout>
-          </div>
-          <div className={postGraphAccordionContainer}>
-            <div className={debtAccordion}>
-              <Accordion
-                title="Why can't the government just print more money?"
-                openEventNumber={"26"}
-                closeEventNumber={"27"}
-                explainerGAEvent="Debt"
-              >
-                While the Treasury prints actual dollar bills, “printing money”
-                is also a term that is sometimes used to describe a means of{" "}
-                <CustomLink
-                  url={"https://www.federalreserve.gov/monetarypolicy.htm"}
-                >
-                  monetary policy
-                </CustomLink>{" "}
-                which is conducted by the Federal Reserve. Monetary policy involves controlling the
-                supply of money and the cost of borrowing. The Federal Reserve uses monetary policy
-                to promote maximum employment, stable prices, and moderate long-term interest rates
-                on the behalf of Congress. The federal government uses fiscal policy, or the control
-                of taxation and {spendingLink('government spending')}, to promote economic
-                activity.
-              </Accordion>
-            </div>
-          </div>
-        </div>
-    </>
-    );
-  }
-);
 
 export const debtCeilingSectionAccordionTitle =
   "How is the debt ceiling different from a government shutdown?";
@@ -1533,7 +745,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[4],
     title: "Breaking Down the Debt",
     component: (glossary, cpiDataByYear) => (
-      <DebtBreakdownSection
+      <BreakingDownTheDebt
         sectionId={nationalDebtSectionIds[4]}
         glossary={glossary}
       />
