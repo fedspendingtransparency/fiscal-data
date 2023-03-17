@@ -550,6 +550,18 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   })
 
   for (const config of result.data.allDatasets.datasets) {
+    if (config.apis[0].userFilter) {
+      // console.log('TRIGGERED!!!!!!!!!!!!!!!!!!!!!!!!');
+      let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+      filterOptionsUrl += `${config.apis[0].endpoint}?fields=${config.apis[0].userFilter.field}`;
+      filterOptionsUrl += `&page[size]=10000&sort=${config.apis[0].userFilter.field}`;
+
+      const options = await fetch(filterOptionsUrl)
+      .then(res => res.json()
+      .then(body => body.data.map(row => row[config.apis[0].userFilter.field])
+      .sort((a,b)=>a.localeCompare(b))));
+      config.apis[0].userFilter.optionValues = [...new Set(options)]; // uniquify results
+    }
     createPage({
       path: `/datasets${config.slug}`,
       matchPath: '/datasets' + config.slug + '*',
