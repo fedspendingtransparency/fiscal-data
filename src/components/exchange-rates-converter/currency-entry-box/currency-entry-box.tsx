@@ -18,25 +18,40 @@ interface ICurrencyEntryBox  {
   onCurrencyChange ?,
   onCurrencyValueChange,
   options ? : [],
+  resetFilterCount: number
 }
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
-  {defaultCurrency, dropdown=false, currencyValue, onCurrencyValueChange, onCurrencyChange, options, selectedCurrency}) => {
+  {
+    defaultCurrency,
+    dropdown=false,
+    currencyValue,
+    onCurrencyValueChange,
+    onCurrencyChange,
+    options,
+    selectedCurrency,
+    resetFilterCount
+  }) => {
   return (
     <>
       {dropdown ?
         <div className={currencyBox} >
-          <ComboSelect
-            selectedOption={selectedCurrency}
-            label={''}
-            options={options}
-            iconStyle={dropdownIcon}
-            inputStyle={dropdownInput}
-            scrollable={true}
-            inputContainerStyle={dropdownInputContainer}
-            labelDisplay={true}
-            changeHandler={onCurrencyChange}
-            isExchangeTool={true}
-          />
+          {options && (
+            <ComboSelect
+              selectedOption={selectedCurrency}
+              label={''}
+              options={options}
+              iconStyle={dropdownIcon}
+              inputStyle={dropdownInput}
+              scrollable={true}
+              inputContainerStyle={dropdownInputContainer}
+              labelDisplay={true}
+              changeHandler={onCurrencyChange}
+              isExchangeTool={true}
+              required={true}
+              disabledMessage="This option has no data for the selected quarter."
+              resetFilterCount={resetFilterCount}
+            />
+          )}
           <div className={currencyBody}>
             <div className={currencyText}>
               <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} />

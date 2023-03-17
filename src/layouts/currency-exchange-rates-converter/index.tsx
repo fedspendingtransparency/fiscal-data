@@ -33,6 +33,8 @@ const envBaseUrl = BASE_URL;
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const [data, setData] = useState(null);
+  const [sortedCurrencies, setSortedCurrencies] = useState(null as Currency[]);
+  const [currencyMap, setCurrencyMap] = useState(null as Record<string, Currency>);
   const [dropdownOptions, setDropdownOptions] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedQuarter, setSelectedQuarter] = useState(null);
@@ -42,73 +44,161 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
+  const [yearToQuartersMap, setYearToQuartersMap] = useState(null);
+  const [resetFilterCount, setResetFilterCount] = useState(0);
+
+  type CurrencyYearQuarter = {
+    effectiveDate: string,
+    rate: string,
+    data: Record<string, string>
+  };
+
+  type Currency = {
+    label: string;
+    yearQuarterMap: Record<string, CurrencyYearQuarter>
+  };
+
+  const yearQuarterParse = (dataRecord: Record<string, string>): string =>
+    `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
-
-      const options = res.data.map((entry) => ({
+      const yearToQuartersMapLocal = {} as Record<string, number[]>;
+      const currencyMapLocal: Record<string, Currency> = {};
+      res.data.forEach(record => {
+        if (!currencyMapLocal[record.country_currency_desc]) {
+          currencyMapLocal[record.country_currency_desc] = {
+            label: record.country_currency_desc,
+            yearQuarterMap: {} as Record<string, CurrencyYearQuarter>
+          } as Currency;
+        }
+        currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
+          effectiveDate: record.effective_date,
+          rate: record.exchange_rate,
+          data: record
+        };
+        if (!yearToQuartersMapLocal[record.record_calendar_year]) {
+          yearToQuartersMapLocal[record.record_calendar_year] = [];
+        }
+        if (!yearToQuartersMapLocal[record.record_calendar_year].includes(parseInt(record.record_calendar_quarter))) {
+          yearToQuartersMapLocal[record.record_calendar_year].push(parseInt(record.record_calendar_quarter));
+        }
+      });
+      Object.values(yearToQuartersMapLocal).forEach(quarters => {
+        quarters = quarters.sort((a, b) => a-b);
+      });
+      // setCurrencyMap(currencyMap);
+      setSortedCurrencies(Object.values(currencyMapLocal).sort((a,b)=>a.label.localeCompare(b.label)));
+      console.log('yearToQuartersMapLocal', yearToQuartersMapLocal);
+      setYearToQuartersMap(yearToQuartersMapLocal);
+      setCurrencyMap(currencyMapLocal);
+/*      const options = res.data.map((entry) => ({
           label: entry.country_currency_desc,
           value: entry,
-          isGreyed: false
+          disabled: false
         })
-      );
+      );*/
 
-      setDropdownOptions(options);
+      // setDropdownOptions(options);
 
       // Setting default values based on default non US currency (Euro)
-      const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
+      // const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
+      const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap['2022Q4'].data;
       // const euro = res.data[0];
 
       const recordYearsSet = [...new Set(res.data.filter((entry => entry.country_currency_desc === euro.country_currency_desc))
       .map(entry => parseInt(entry.record_calendar_year)))];
+
       const recordQuartersSet = [...new Set(res.data
       .filter((entry => entry.country_currency_desc === euro.country_currency_desc && entry.record_calendar_year === euro.record_calendar_year))
       .map(entry => parseInt(entry.record_calendar_quarter)))];
       recordQuartersSet.sort((a:number, b:number) => {return a-b});
+      console.log('nonUSCurrency (euro)', JSON.stringify(euro, null, 2));
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
-      setSelectedYear({label: euro.record_calendar_year, value: parseInt(euro.record_calendar_year)});
-      setSelectedQuarter({label: quarterNumToTerm(parseInt(euro.record_calendar_quarter)), value: parseInt(euro.record_calendar_quarter)});
-      setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
+      //setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
+      setYears(Object.keys(yearToQuartersMapLocal).sort((a,b) => b.localeCompare(a))
+        .map((year) => ({ label: year, value: parseInt(year) })));
       setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
+      setSelectedYear({
+        label: '2022',
+        value: 2022
+      });
+      setSelectedQuarter({
+        label: '4th',
+        value: 4
+      });
       const date = new Date(euro.effective_date);
       setEffectiveDate(dateStringConverter(date));
       setData(res.data);
     });
   }, []);
 
-  const useHandleChangeQuarters = useCallback((option) => {
-    setSelectedQuarter(option);
-    const matchedRecord = data.find((entry) => entry.record_calendar_year === selectedYear.value.toString()
-      && entry.record_calendar_quarter === option.value.toString() && entry.country_currency_desc === nonUSCurrency.country_currency_desc);
-    setNonUSCurrency(matchedRecord);
-    setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
-    const date = new Date(matchedRecord.effective_date);
-    setEffectiveDate(dateStringConverter(date));
-  }, [selectedQuarter, data]);
+  const updateCurrencyDropdownOptions = (selQuarter, selYear) => {
+    const selectedYearQuarter = `${selYear.value}Q${selQuarter.value}`;
+    setDropdownOptions(sortedCurrencies.map(currency =>
+      ({
+        label: currency.label,
+        value: currency.yearQuarterMap[selectedYearQuarter] ? currency.yearQuarterMap[selectedYearQuarter].data : null
+      })
+    ));
+/*    if (!nonUSCurrency.yearQuarterMap[selectedYearQuarter]) {
+      setNonUSCurrency(null);
+    }*/
+  }
+  useEffect(() => {
+    console.log('nonUsCurrency just changed to', JSON.stringify(nonUSCurrency, null, 2));
+  }, [nonUSCurrency])
 
+  useEffect(() => {
+    if (selectedQuarter && selectedYear) {
+      updateCurrencyDropdownOptions(selectedQuarter, selectedYear);
+    }
+  }, [selectedQuarter, selectedYear])
+
+  const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
+    const selectedYearQuarter = `${year}Q${quarter}`;
+    console.log('nonUSCurrencyLocal', nonUSCurrencyLocal);
+    if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[year]) {
+      console.log('nonUSCurrency NOW, inside updater', JSON.stringify(nonUSCurrencyLocal, null, 2));
+      setNonUSCurrency({});
+      setNonUSCurrencyExchangeValue('--');
+      setEffectiveDate('');
+      setResetFilterCount(resetFilterCount + 1);
+    } else {
+      // Update currency, exchange rate, and effective date entry to match quarter entry
+      const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.data.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
+      console.log('matchedRecord', JSON.stringify(matchedRecord, null, 2));
+      setNonUSCurrency(matchedRecord);
+      setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+      const date = new Date(matchedRecord.effective_date);
+      setEffectiveDate(dateStringConverter(date));
+    }
+  };
+
+  const useHandleChangeQuarters = useCallback((option) => {
+
+    updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
+    setSelectedQuarter(option);
+  }, [selectedQuarter, data, nonUSCurrency, currencyMap]);
 
   const handleChangeYears = useCallback((option) => {
-    setSelectedYear(option);
-    const filteredDataForYear = data.filter(record => record.record_calendar_year === option.value.toString() &&
-      record.country_currency_desc === nonUSCurrency.country_currency_desc);
+
+    console.log('option.label, selectedQuarter.value', option.label, selectedQuarter.value);
+    updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
+
     // Set quarter to most recent for that year
-    const newestQuarter = Math.max(...filteredDataForYear.map(value => parseInt(value.record_calendar_quarter)));
+    const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
     setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
-    const matchedRecord = data.find((entry) => entry.record_calendar_year === option.value.toString()
-      && entry.record_calendar_quarter === newestQuarter.toString() && entry.country_currency_desc === nonUSCurrency.country_currency_desc);
-    // Update currency, exchange rate, and effective date entry to match quarter entry
-    setNonUSCurrency(matchedRecord);
-    setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
-    const date = new Date(matchedRecord.effective_date);
-    setEffectiveDate(dateStringConverter(date));
-    const recordQuartersSet = [...new Set(filteredDataForYear.map(entry => parseInt(entry.record_calendar_quarter)))];
-    recordQuartersSet.sort((a:number, b:number) => {return a-b});
-    setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
-  }, [selectedYear, data]);
+    setSelectedYear(option);
+    setQuarters(yearToQuartersMap[option.label].map((quarter) => ({
+      label: quarterNumToTerm(quarter),
+      value: quarter
+    })));
+  }, [selectedYear, data, nonUSCurrency, currencyMap]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
-    console.log('hi');
+
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
@@ -131,7 +221,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [nonUSCurrencyExchangeValue, nonUSCurrency]);
 
   const handleCurrencyChange = useCallback((event) => {
-    if (event !== null) {
+    console.log('handleCurrencyChange event', JSON.stringify(event.value, null, 2));
+    if (event?.value !== null) {
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
       setUSDollarValue('1.00');
@@ -203,13 +294,17 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 onCurrencyValueChange={useHandleChangeUSDollar}
               />
               <CurrencyEntryBox
-                selectedCurrency={{label: nonUSCurrency.country_currency_desc, value: nonUSCurrency}}
+                selectedCurrency={{
+                  label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc :
+                  null,
+                  value: nonUSCurrency}}
                 defaultCurrency={nonUSCurrency.country_currency_desc}
                 currencyValue={nonUSCurrencyExchangeValue}
                 dropdown={true}
                 options={dropdownOptions}
                 onCurrencyChange={handleCurrencyChange}
                 onCurrencyValueChange={handleChangeNonUSCurrency}
+                resetFilterCount={resetFilterCount}
               />
             </div>
           )
@@ -217,7 +312,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           nonUSCurrency !== null && (
             <span data-testid={'exchange-values'}>
-              {usDollarValue} US Dollar = {nonUSCurrencyExchangeValue} {nonUSCurrency.country_currency_desc}
+              1.00 US Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
             </span>
           )
         }

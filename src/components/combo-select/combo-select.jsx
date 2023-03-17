@@ -19,10 +19,12 @@ export default function ComboSelect(
     labelClass = '',
     labelDisplay,
     required = false,
+    disabledMessage,
     inputStyle,
     iconStyle,
     inputContainerStyle,
     isExchangeTool,
+    resetFilterCount
   }) {
   const [filterCharacters, setFilterCharacters] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -105,6 +107,11 @@ export default function ComboSelect(
       }
     }
   }, [selectedOption]);
+  useEffect(() => {
+    if (resetFilterCount) {
+      setFilterCharacters('');
+    }
+  }, [resetFilterCount]);
 
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = opts;
@@ -129,7 +136,7 @@ export default function ComboSelect(
   };
 
   const onFilterChange = (event) => {
-    const val = (event && event.target) ? event.target.value : null;
+    const val = (event && event.target) ? event.target.value : '';
     setFilterCharacters(val);
     const localFilteredOptions = yearFilter ?
       filterYearOptions(options, val) :
@@ -228,6 +235,7 @@ export default function ComboSelect(
                     }
                     onClick={() => {updateSelection(option)}}
                     disabled={required && !option.value}
+                    title={(required && !option.value && disabledMessage) && disabledMessage}
                   >
                     {option[optionLabelKey]}
                   </button>
