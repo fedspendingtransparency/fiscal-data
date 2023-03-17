@@ -8,7 +8,7 @@ module.exports = {
   ADDITIONAL_DATASETS: {
     "015-BFS-2014Q3-041": {
       "seoConfig": {
-        "pageTitle": "Annual Interest Rate Certification ",
+        "pageTitle": "Annual Interest Rate Certification",
         "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
         "keywords": "Interest and Exchange Rates"
       },
