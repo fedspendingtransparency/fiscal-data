@@ -32,8 +32,8 @@ export const TopicsSection = ({ images, width }) => {
     <div className={topicsSectionContainer}>
       <div className={tileContainer}>
         <ThemeProvider theme={theme} >
-          <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? "column-reverse" : ""}>
-            <Grid item lg={mainWidth} spacing={0}>
+          <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? "column-reverse" : "row"}>
+            <Grid item lg={mainWidth}>
               <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
               <HomePageTile
                 content={pageTileMap['americas-finance-guide']}
@@ -44,7 +44,7 @@ export const TopicsSection = ({ images, width }) => {
               />
               {explainerTiles.map((tile) => {
                 return (
-                  <>
+                  <React.Fragment key={tile}>
                     <div className={line} />
                     <HomePageTile
                       content={pageTileMap[tile]}
@@ -53,11 +53,11 @@ export const TopicsSection = ({ images, width }) => {
                       layout={'two-col'}
                       explainerTile
                     />
-                  </>
+                  </React.Fragment>
                 )
               })}
             </Grid>
-            <Grid item lg={secondaryWidth} spacing={0}>
+            <Grid item lg={secondaryWidth}>
               <div className={insightsSectionContainer}>
                 <div className={sectionHeader}>TOOLS</div>
                 <HomePageTile
