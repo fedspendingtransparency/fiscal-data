@@ -27,7 +27,6 @@ const ExplainerTile = ({
   width,
   layout,
   hasMobileImage,
-  hasIcon,
   explainerTile,
 }) => {
   let desktopImage, mobileImage;
@@ -98,13 +97,12 @@ const ExplainerTile = ({
           {isMobile ? mobile : desktop}
         </div>
         <div className={content.path ? undefined : comingSoon}>
-          <div className={hasIcon ? iconTitle : null}>
-            {hasIcon &&
+          <div className={content.mainFeature ? iconTitle : null}>
+            {content.mainFeature &&
               <img src={afgIcon}
                    alt="An open book with a coin above the pages"
                    className={afgBookIcon}
               />}
-            {/*<h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile}`}>*/}
             <h5 className={content.mainFeature ? mainTitle : `${secondaryTitle} ${rightTile}`}>
               {content.title}
             </h5>
