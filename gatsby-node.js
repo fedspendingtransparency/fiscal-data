@@ -551,7 +551,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   for (const config of result.data.allDatasets.datasets) {
     if (config.apis[0].userFilter) {
-      // console.log('TRIGGERED!!!!!!!!!!!!!!!!!!!!!!!!');
       let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
       filterOptionsUrl += `${config.apis[0].endpoint}?fields=${config.apis[0].userFilter.field}`;
       filterOptionsUrl += `&page[size]=10000&sort=${config.apis[0].userFilter.field}`;
