@@ -17,6 +17,7 @@ import Masthead from '../../components/masthead/masthead';
 import RelatedDatasets from '../../components/related-datasets/related-datasets';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
+import BannerCallout from '../../components/banner-callout/banner-callout';
 import {useStaticQuery} from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
 import { useMetadataUpdater } from "../../helpers/metadata/use-metadata-updater-hook"
@@ -191,6 +192,8 @@ const seoConfig = {
     'public debt, mspd, us debt, debt limit',
 };
 
+const calloutContent = "Text for Callout Banner"
+
 jest.mock('../../components/filter-download-container/filter-download-container.jsx',
   () => () => 'FilterDownloadContainer');
 jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
@@ -224,7 +227,8 @@ describe('Dataset-Detail layout component', () => {
       component = await renderer.create(<DatasetDetail test={true}
                                                        pageContext={{
                                                          config: datasetPageSampleConfig,
-                                                         seoConfig: seoConfig
+                                                         seoConfig: seoConfig,
+                                                         calloutContent: calloutContent
                                                        }}
                                                        data={mockQueryReturn}
                                         />);
@@ -293,6 +297,23 @@ describe('Dataset-Detail layout component', () => {
   it('passes name of dataset to Related Datasets as a referrer', () => {
     const related = instance.findByType(RelatedDatasets);
     expect(related.props.referrer).toBe(datasetPageSampleConfig.name);
+  });
+
+  // render so callout pops up 
+  it('renders callout when specified in metadata', () => {
+    const callout = instance.findByType(BannerCallout);
+    expect(callout).toBeDefined();
+  });
+
+  // callout does not show up
+  it('does not render callout when not specified in metadata', () => {
+    const callout = instance.queryByType(BannerCallout);
+    expect(callout).toHaveLength(0);
+  });
+
+  it('renders callout with content from metadata', () => {
+    const callout = instance.findByType(BannerCallout);
+    expect(callout.props.calloutContent).toBe(calloutContent);
   });
 
 });

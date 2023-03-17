@@ -10,6 +10,7 @@ import { graphql } from "gatsby";
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import LocationAware from '../../components/location-aware/location-aware';
 import { useMetadataUpdater } from "../../helpers/metadata/use-metadata-updater-hook";
+import BannerCallout from '../../components/banner-callout/banner-callout';
 
 export const query =
   graphql`
@@ -62,6 +63,9 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         techSpecs={pageConfig.techSpecs}
         dictionary={pageContext.config.dictionary}
       />
+
+      <BannerCallout />
+
       <DDNav title={pageContext.config.name} />
       <div className="bodyBackground">
         <DatasetAbout config={pageContext.config} test={test} />
