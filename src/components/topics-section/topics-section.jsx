@@ -1,5 +1,5 @@
 import React from "react";
-import { createTheme, Grid, ThemeProvider, Divider } from "@material-ui/core";
+import { createTheme, Grid, ThemeProvider } from "@material-ui/core";
 import HomePageTile from "./homepage-tile/homepage-tile";
 import {
   tileContainer,
@@ -20,74 +20,41 @@ export const TopicsSection = ({ images, width }) => {
   const theme = createTheme({
     breakpoints: {
       values: {
-        lg: 992,
+        lg: pxToNumber(breakpointLg),
       },
     },
   });
 
-  const isMobile = width < pxToNumber(breakpointLg);
-  const leftTileStyle = {
-    imageContainer: isMobile
-      ? { paddingTop: "0" }
-      : {
-          marginRight: "1rem",
-          width: "260px",
-          height: "160px",
-        },
-    image: { desktop: { width: "260px", height: "160px" } },
-  }
+
+  const explainerTiles = ['revenue', 'spending', 'deficit', 'debt'];
 
   return (
     <div className={topicsSectionContainer}>
       <div className={tileContainer}>
         <ThemeProvider theme={theme} >
-          <Grid container spacing={4} direction={isMobile ? "column-reverse" : ""}>
+          <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? "column-reverse" : ""}>
             <Grid item lg={mainWidth} spacing={0}>
               <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
               <HomePageTile
                 content={pageTileMap['americas-finance-guide']}
                 images={images}
                 width={width}
-                customStyles={{
-                  imageContainer: { marginBottom: '0.5rem' },
-                  body: { marginBottom: '1rem' },
-                }}
                 hasMobileImage
               />
-              <div className={line} />
-
-              <HomePageTile
-                content={pageTileMap['revenue']}
-                images={images}
-                width={width}
-                layout={'two-col'}
-                customStyles={leftTileStyle}
-              />
-              <div className={line} />
-              <HomePageTile
-                content={pageTileMap['spending']}
-                images={images}
-                width={width}
-                layout={'two-col'}
-                customStyles={leftTileStyle}
-              />
-
-              <div className={line} />
-              <HomePageTile
-                content={pageTileMap['deficit']}
-                images={images}
-                width={width}
-                layout={'two-col'}
-                customStyles={leftTileStyle}
-              />
-              <div className={line} />
-              <HomePageTile
-                content={pageTileMap['debt']}
-                images={images}
-                width={width}
-                layout={'two-col'}
-                customStyles={leftTileStyle}
-              />
+              {explainerTiles.map((tile) => {
+                return (
+                  <>
+                    <div className={line} />
+                    <HomePageTile
+                      content={pageTileMap[tile]}
+                      images={images}
+                      width={width}
+                      layout={'two-col'}
+                      explainerTile
+                    />
+                  </>
+                )
+              })}
             </Grid>
             <Grid item lg={secondaryWidth} spacing={0}>
               <div className={insightsSectionContainer}>

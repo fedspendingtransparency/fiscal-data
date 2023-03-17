@@ -48,13 +48,13 @@ export const RevenueBodyGenerator = () => {
   }, []);
 
   return (
-    <p>
+    <>
       The U.S. government has collected $
       {getShortForm(currentRevenue, false)} in fiscal year {recordFiscalYear}{" "}
       in order to pay for the goods and services provided to United States
       citizens and businesses. Learn more about revenue sources, trends over
       time, and how revenue compares to GDP.
-    </p>
+    </>
   );
 };
 export const pageTileMap = {
@@ -102,9 +102,12 @@ export const pageTileMap = {
     title: "How much has the U.S. government collected this year?",
     bodyGenerator: RevenueBodyGenerator,
     body:
-      "The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current fiscal year)} in order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.",
+      "The U.S. government has collected {$XX.X trillion (total revenue)} in fiscal year {YYYY (current fiscal year)} " +
+      "in order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue " +
+      "sources, trends over time, and how revenue compares to GDP.",
     altText:
-      "U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking at check, and man looking at building.",
+      "U.S. Capitol dome surrounded in circle by hand holding plant, hand holding money, hand holding gold coin, woman looking " +
+      "at check, and man looking at building.",
     desktopImage: "Revenue-HomePage-1200x630",
     mobileImage: "Revenue-HomePage-1200x630",
     path: "/americas-finance-guide/government-revenue/",
@@ -112,9 +115,13 @@ export const pageTileMap = {
   "americas-finance-guide": {
     title: "Your Guide to America’s Finances",
     body:
-      "Your Guide to America's Finances is an overview of U.S. government finances where you’ll find information on money coming in (revenue), money going out (spending), the deficit, and debt. Your Guide presents a series of pages exploring each topic through educational content and interactive visualizations, providing a comprehensive overview of the trillions of dollars collected and spent by the federal government each year.",
+      "Your Guide to America's Finances is an overview of U.S. government finances where you’ll find information on money " +
+      "coming in (revenue), money going out (spending), the deficit, and debt. Your Guide presents a series of pages exploring " +
+      "each topic through educational content and interactive visualizations, providing a comprehensive overview of the trillions " +
+      "of dollars collected and spent by the federal government each year.",
     altText:
-      "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal government finance.’ overlaid.",
+      "Illustration of finance icons: dollar bill, bag of money, etc. with the text ‘Answer all your questions about federal " +
+      "government finance.’ overlaid.",
     desktopImage: "AFG-Overview_1200x630",
     mobileImage: "afg-feature-homepage-mobile",
     path: "/americas-finance-guide/",
@@ -126,8 +133,8 @@ export const pageTileMap = {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
     altText:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis fringilla bibendum consectetur.",
-    desktopImage: "feature_placeholder",
-    mobileImage: "feature_placeholder",
+    desktopImage: "currency_exchange_rates_converter_1200x600",
+    mobileImage: "currency_exchange_rates_converter_1200x600",
     path: "/currency-exchange-rates-converter/",
   },
 };

@@ -7,6 +7,16 @@ $secondary-feature-body: $font-size-16;
 
 .mainContent {
   color: #666666;
+
+  .grid {
+    max-width: 16.25rem;
+    max-height: 10rem;
+  }
+
+  .leftTile {
+    padding-left: 2rem;
+  }
+
   h5 {
     color: #555555;
     font-weight: $semi-bold-weight;
@@ -21,7 +31,11 @@ $secondary-feature-body: $font-size-16;
 
     &.secondaryTitle {
       font-size: $secondary-feature-title;
-      padding: .5rem 0 .5rem;
+      padding-bottom: .5rem;
+    }
+
+    &.rightTile {
+      padding-top: .5rem;
     }
   }
 
@@ -39,5 +53,30 @@ $secondary-feature-body: $font-size-16;
     width: 3rem;
     padding: .25rem .5rem 0.2rem 0;
     vertical-align: text-bottom;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .mainContent {
+    .explainerImageContainer {
+      margin-right: 1rem;
+    }
+    .explainerTileImage {
+      width: 16.25rem;
+      height: 10rem;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .mainContent {
+    .explainerImageContainer {
+      padding-top: 0;
+    }
+    h5 {
+      &.secondaryTitle, &.mainTitle {
+        padding-top: .5rem;
+      }
+    }
   }
 }
