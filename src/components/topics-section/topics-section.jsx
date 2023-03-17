@@ -40,6 +40,7 @@ export const TopicsSection = ({ images, width }) => {
                 images={images}
                 width={width}
                 hasMobileImage
+                hasIcon
               />
               {explainerTiles.map((tile) => {
                 return (

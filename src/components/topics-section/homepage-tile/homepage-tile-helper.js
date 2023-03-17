@@ -114,6 +114,7 @@ export const pageTileMap = {
   },
   "americas-finance-guide": {
     title: "Your Guide to America’s Finances",
+    titleIcon: "AFG-icon",
     body:
       "Your Guide to America's Finances is an overview of U.S. government finances where you’ll find information on money " +
       "coming in (revenue), money going out (spending), the deficit, and debt. Your Guide presents a series of pages exploring " +

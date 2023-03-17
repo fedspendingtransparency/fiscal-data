@@ -9,7 +9,9 @@ import {
   explainerImage,
   grid,
   rightTile,
-  leftTile
+  leftTile,
+  afgBookIcon,
+  iconTitle
 } from "./homepage-tile.module.scss";
 import { breakpointLg } from "../../../variables.module.scss";
 import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
@@ -18,12 +20,14 @@ import Link from "gatsby-link";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Grid } from "@material-ui/core";
 
+
 const ExplainerTile = ({
   content,
   images,
   width,
   layout,
   hasMobileImage,
+  hasIcon,
   explainerTile,
 }) => {
   let desktopImage, mobileImage;
@@ -35,6 +39,8 @@ const ExplainerTile = ({
       image => image.name === content.mobileImage
     );
   }
+
+  const afgIcon = '/images/AFG-icon.svg';
 
   const isDesktop = width >= pxToNumber(breakpointLg);
   // overwrite desktop-first styles with mobile-first styles, if we actually have a mobile image
@@ -61,7 +67,6 @@ const ExplainerTile = ({
     />
   );
 
-
   const card = layout === 'two-col' && isDesktop ? (
       <Grid container spacing={0}>
         <div
@@ -75,12 +80,8 @@ const ExplainerTile = ({
             </div>
           </Grid>
           <Grid item lg={8}>
-            <div
-              className={`${content.path ? undefined : comingSoon} ${leftTile}`}
-              // style={{
-              //   paddingLeft: '32px',
-              // }}
-            >
+            <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
+
               <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>
                 {content.title}
               </h5>
@@ -97,9 +98,17 @@ const ExplainerTile = ({
           {isMobile ? mobile : desktop}
         </div>
         <div className={content.path ? undefined : comingSoon}>
-          <h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile}`}>
-            {content.title}
-          </h5>
+          <div className={hasIcon ? iconTitle : null}>
+            {hasIcon &&
+              <img src={afgIcon}
+                   alt="An open book with a coin above the pages"
+                   className={afgBookIcon}
+              />}
+            {/*<h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile}`}>*/}
+            <h5 className={content.mainFeature ? mainTitle : `${secondaryTitle} ${rightTile}`}>
+              {content.title}
+            </h5>
+          </div>
           <div>
             {content.bodyGenerator ? content.bodyGenerator() : content.body}
           </div>
