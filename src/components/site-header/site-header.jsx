@@ -30,7 +30,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     },
     {
       title: 'Tools',
-      to: '/',
+      to: '/currency-exchange-rates-converter/',
       testId: 'tools',
       featureId: 'tools'
     },
@@ -325,8 +325,14 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         tabIndex={'0'}
                         data-testid={'dropdownContent'}
                       >
-                        <div className={styles.dropdownRow}>
-                            Hi
+                        <div className={styles.toolsSingleDropDown}>
+                          <Link
+                            to={pageLink.to}
+                            activeClassName={styles.activeTopicLink}
+                            // onClick={() => topicsClickHandler(topicPageLink.title)}
+                          >
+                            Currency Exchange Rates Converter
+                          </Link>
                         </div>
                       </div>
                     )}

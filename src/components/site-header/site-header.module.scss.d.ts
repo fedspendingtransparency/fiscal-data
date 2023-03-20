@@ -78,6 +78,7 @@ export const caret: string;
 export const dropdownContent: string;
 export const dropdownHidden: string;
 export const dropdownRow: string;
+export const toolsSingleDropDown: string;
 export const dropdownColumnOne: string;
 export const dropdownColumnTwo: string;
 export const dropdownTitle: string;
