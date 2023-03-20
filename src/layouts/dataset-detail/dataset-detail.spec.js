@@ -1,5 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
 import {
   mockAPIs,
   mockSummaryDataset,
@@ -192,8 +193,6 @@ const seoConfig = {
     'public debt, mspd, us debt, debt limit',
 };
 
-const calloutContent = "Text for Callout Banner"
-
 jest.mock('../../components/filter-download-container/filter-download-container.jsx',
   () => () => 'FilterDownloadContainer');
 jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
@@ -227,8 +226,7 @@ describe('Dataset-Detail layout component', () => {
       component = await renderer.create(<DatasetDetail test={true}
                                                        pageContext={{
                                                          config: datasetPageSampleConfig,
-                                                         seoConfig: seoConfig,
-                                                         calloutContent: calloutContent
+                                                         seoConfig: seoConfig
                                                        }}
                                                        data={mockQueryReturn}
                                         />);
@@ -299,23 +297,50 @@ describe('Dataset-Detail layout component', () => {
     expect(related.props.referrer).toBe(datasetPageSampleConfig.name);
   });
 
-  // render so callout pops up 
-  it('renders callout when specified in metadata', () => {
+  it('passes content for the callout if set in config', async() => {
+    await renderer.act(async () => {
+      useStaticQuery.mockReturnValue(
+        {
+          site: {
+            siteMetadata: {
+              siteUrl: `https://fiscalData.treasury.gov`
+            }
+          }
+        });
+      component = await renderer.create(<DatasetDetail test={true}
+                                                       pageContext={{
+                                                         config: {...datasetPageSampleConfig, "calloutContent": "Text for Callout"},
+                                                         seoConfig: seoConfig
+                                                       }}
+                                                       data={mockQueryReturn}
+                                        />);
+      instance = component.root;
+    });
+
     const callout = instance.findByType(BannerCallout);
-    expect(callout).toBeDefined();
+    expect(callout.props.calloutContent).toBe("Text for Callout");
   });
 
-  // callout does not show up
-  it('does not render callout when not specified in metadata', () => {
-    const callout = instance.queryByType(BannerCallout);
-    expect(callout).toHaveLength(0);
+  it('renders callout when specified', () => {
+    const {queryByTestId} = render(
+      <DatasetDetail 
+      test={true} 
+      pageContext={{config: {...datasetPageSampleConfig, "calloutContent": "Text for Callout"}, seoConfig: seoConfig}} 
+      data={mockQueryReturn}/>);
+
+    expect(queryByTestId('callout')).not.toBeNull();
   });
 
-  it('renders callout with content from metadata', () => {
-    const callout = instance.findByType(BannerCallout);
-    expect(callout.props.calloutContent).toBe(calloutContent);
-  });
+  it('does not render callout when not specified', () => {
 
+    const {queryByTestId} = render(
+      <DatasetDetail 
+      test={true} 
+      pageContext={{config: datasetPageSampleConfig, seoConfig: seoConfig}} 
+      data={mockQueryReturn}/>);
+
+    expect(queryByTestId('callout')).toBeNull();
+  });
 });
 
 describe('Dataset detail - helper updateDates', () => {

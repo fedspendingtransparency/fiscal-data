@@ -1,10 +1,10 @@
 import React from 'react';
 
-const BannerCallout = () => {
+const BannerCallout = ({calloutContent}) => {
 
     return (
         <div>
-            Banner Callout
+            {calloutContent}
         </div>
     );
 }

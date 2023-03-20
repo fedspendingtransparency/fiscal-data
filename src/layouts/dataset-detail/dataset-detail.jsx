@@ -64,7 +64,12 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         dictionary={pageContext.config.dictionary}
       />
 
-      <BannerCallout />
+      {pageContext?.config.calloutContent && 
+        <div data-testid="callout">
+          <BannerCallout 
+          calloutContent={pageContext?.config.calloutContent}/>
+        </div>
+      }
 
       <DDNav title={pageContext.config.name} />
       <div className="bodyBackground">
