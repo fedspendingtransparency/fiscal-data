@@ -15,8 +15,11 @@ import LocationAware from "../location-aware/location-aware";
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpandedTools, setIsExpandedTools] = useState(false);
   const [menuExpanding, setMenuExpanding] = useState(false);
+  const [toolsMenuExpanding, setToolsMenuExpanding] = useState(false);
   const [toggled, setToggled] = useState(false);
+  const [toggledTools, setToggledTools] = useState(false);
 
   const pageLinks = [
     {
@@ -24,6 +27,12 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       to: '/',
       testId: 'topics',
       featureId: 'topics'
+    },
+    {
+      title: 'Tools',
+      to: '/',
+      testId: 'tools',
+      featureId: 'tools'
     },
     {
       title: 'Dataset Search',
@@ -107,11 +116,34 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         action: `Topics Click`,
         label: explainerPageName
       })
+
+      setToolsMenuExpanding(false);
+      setToggledTools(false);
+      setIsExpandedTools(false);
+      setToolsMenuExpanding(false);
+
       setMenuExpanding(true);
       setToggled(true);
       setIsExpanded(true);
       setTimeout( () => {
         setMenuExpanding(false);
+      }, 10);
+    }
+  }
+
+  const handleMouseOverTools = () => {
+    if(!isExpandedTools) {
+
+      setMenuExpanding(false);
+      setToggled(false);
+      setIsExpanded(false);
+      setMenuExpanding(false);
+
+      setToolsMenuExpanding(true);
+      setToggledTools(true);
+      setIsExpandedTools(true);
+      setTimeout( () => {
+        setToolsMenuExpanding(false);
       }, 10);
     }
   }
@@ -122,6 +154,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       setToggled(false);
       setTimeout(() => {
         setIsExpanded(false);
+      }, 500);
+    }
+  }
+
+  const handleMouseLeaveTools = () => {
+    if(isExpandedTools) {
+      setToolsMenuExpanding(true);
+      setToggledTools(false);
+      setTimeout(() => {
+        setIsExpandedTools(false);
       }, 500);
     }
   }
@@ -247,6 +289,44 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                               <em>{dropdownTempText}</em>
                             </div>
                           </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              }
+
+              if (pageLink.title === 'Tools') {
+                return (
+                  <div className={styles.dropdown}
+                       style={{transition:'opacity 1s ease'}}
+                       key={pageLink.title}
+                  >
+                    <button
+                      className={toggledTools ? styles.dropdownButtonExpanded : styles.dropdownButton}
+                      onMouseEnter={handleMouseOverTools}
+                      onFocus={handleMouseOverTools}
+                      data-testid={'topicsButton'}
+                    >
+                      {pageLink.title}
+                      {toggledTools
+                        ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                        : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                      }
+                    </button>
+                    {isExpandedTools && (
+                      <div
+                        className={`${styles.dropdownContent} ${toolsMenuExpanding ? styles.dropdownHidden : ''}`}
+                        onMouseOver={handleMouseOverTools}
+                        onMouseLeave={handleMouseLeaveTools}
+                        onFocus={handleMouseOverTools}
+                        onBlur={handleBlur}
+                        role={'button'}
+                        tabIndex={'0'}
+                        data-testid={'dropdownContent'}
+                      >
+                        <div className={styles.dropdownRow}>
+                            Hi
                         </div>
                       </div>
                     )}
