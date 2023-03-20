@@ -160,6 +160,15 @@
     justify-content: center;
   }
 
+  .resourcesDropDown {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    gap: 6rem;
+  }
+
   .dropdownColumnOne {
     flex-flow: column nowrap;
     justify-content: center;

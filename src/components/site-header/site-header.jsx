@@ -16,10 +16,13 @@ import LocationAware from "../location-aware/location-aware";
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpandedTools, setIsExpandedTools] = useState(false);
+  const [isExpandedResources, setIsExpandedResources] = useState(false);
   const [menuExpanding, setMenuExpanding] = useState(false);
   const [toolsMenuExpanding, setToolsMenuExpanding] = useState(false);
+  const [resourcesMenuExpanding, setResourcesMenuExpanding] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [toggledTools, setToggledTools] = useState(false);
+  const [toggledResources, setToggledResources] = useState(false);
 
   const pageLinks = [
     {
@@ -40,9 +43,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       testId: 'search'
     },
     {
-      title: 'API Documentation',
-      to: '/api-documentation/',
-      testId: 'apiDocs'
+      title: 'Resources',
+      to: '/',
+      testId: 'Resources'
     },
     {
       title: 'About Us',
@@ -79,6 +82,19 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       title: 'Debt',
       to: '/americas-finance-guide/national-debt/',
       testId: 'debt'
+    }
+  ]
+
+  const resourcesPageLinks = [
+    {
+      title: 'API Documentation',
+      to: '/api-documentation/',
+      testId: 'apiDocs'
+    },
+    {
+      title: 'Release Calendar',
+      to: '/release-calendar/',
+      testId: 'releaseCalendar'
     }
   ]
 
@@ -122,6 +138,11 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       setIsExpandedTools(false);
       setToolsMenuExpanding(false);
 
+      setResourcesMenuExpanding(false);
+      setToggledResources(false);
+      setIsExpandedResources(false);
+      setResourcesMenuExpanding(false);
+
       setMenuExpanding(true);
       setToggled(true);
       setIsExpanded(true);
@@ -139,11 +160,38 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       setIsExpanded(false);
       setMenuExpanding(false);
 
+      setResourcesMenuExpanding(false);
+      setToggledResources(false);
+      setIsExpandedResources(false);
+      setResourcesMenuExpanding(false);
+
       setToolsMenuExpanding(true);
       setToggledTools(true);
       setIsExpandedTools(true);
       setTimeout( () => {
         setToolsMenuExpanding(false);
+      }, 10);
+    }
+  }
+
+  const handleMouseOverResources = () => {
+    if(!isExpandedResources) {
+
+      setMenuExpanding(false);
+      setToggled(false);
+      setIsExpanded(false);
+      setMenuExpanding(false);
+
+      setToolsMenuExpanding(false);
+      setToggledTools(false);
+      setIsExpandedTools(false);
+      setToolsMenuExpanding(false);
+
+      setResourcesMenuExpanding(true);
+      setToggledResources(true);
+      setIsExpandedResources(true);
+      setTimeout( () => {
+        setResourcesMenuExpanding(false);
       }, 10);
     }
   }
@@ -164,6 +212,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       setToggledTools(false);
       setTimeout(() => {
         setIsExpandedTools(false);
+      }, 500);
+    }
+  }
+
+  const handleMouseLeaveResources = () => {
+    if(isExpandedResources) {
+      setResourcesMenuExpanding(true);
+      setToggledResources(false);
+      setTimeout(() => {
+        setIsExpandedResources(false);
       }, 500);
     }
   }
@@ -333,6 +391,55 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                           >
                             Currency Exchange Rates Converter
                           </Link>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              }
+
+              if (pageLink.title === 'Resources') {
+                return (
+                  <div className={styles.dropdown}
+                       style={{transition:'opacity 1s ease'}}
+                       key={pageLink.title}
+                  >
+                    <button
+                      className={toggledResources ? styles.dropdownButtonExpanded : styles.dropdownButton}
+                      onMouseEnter={handleMouseOverResources}
+                      onFocus={handleMouseOverResources}
+                      data-testid={'topicsButton'}
+                    >
+                      {pageLink.title}
+                      {toggledResources
+                        ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
+                        : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                      }
+                    </button>
+                    {isExpandedResources && (
+                      <div
+                        className={`${styles.dropdownContent} ${resourcesMenuExpanding ? styles.dropdownHidden : ''}`}
+                        onMouseOver={handleMouseOverResources}
+                        onMouseLeave={handleMouseLeaveResources}
+                        onFocus={handleMouseOverResources}
+                        onBlur={handleBlur}
+                        role={'button'}
+                        tabIndex={'0'}
+                        data-testid={'dropdownContent'}
+                      >
+                        <div className={styles.resourcesDropDown}>
+                          {resourcesPageLinks.map((link) => {
+                            return (
+                              <Link
+                                to={link.to}
+                                activeClassName={styles.activeTopicLink}
+                                // onClick={() => topicsClickHandler(topicPageLink.title)}
+                              >
+                                {link.title}
+                              </Link>
+                            )
+                          })
+                          }
                         </div>
                       </div>
                     )}
