@@ -36,7 +36,7 @@ describe('exchange rates converter', () => {
         "record_fiscal_year":"2023",
         "record_fiscal_quarter":"1",
         "record_calendar_year":"2022",
-        "record_calendar_quarter":"4",
+        "record_calendar_quarter":"2",
         "record_calendar_month":"12",
         "record_calendar_day":"31"
       },
@@ -119,13 +119,13 @@ describe('exchange rates converter', () => {
     const quarterSelector2022 = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
     expect(quarterSelector2022).toBeDefined();
     // Make sure it defaults to latest quarter '4th'
-    expect(quarterSelector2022.innerHTML).toContain('4th');
+    expect(quarterSelector2022.innerHTML).toContain('2nd');
     fireEvent.click(quarterSelector2022);
     const quarterSelectorOptions2022 = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
     expect(quarterSelectorOptions2022.length).toEqual(2);
     // Make sure quarters are in ascending order
     expect(quarterSelectorOptions2022[0].innerHTML).toContain('1st');
-    expect(quarterSelectorOptions2022[1].innerHTML).toContain('4th');
+    expect(quarterSelectorOptions2022[1].innerHTML).toContain('2nd');
 
   });
 
@@ -172,19 +172,19 @@ describe('exchange rates converter', () => {
     const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
 
     // Checking displayed exchange rate
-    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 89.11 Euro Zone-Euro');
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 43.60 Euro Zone-Euro');
     // Checking displayed effective date
-    expect(getByText('December 31, 2022')).toBeInTheDocument();
+    expect(getByText('December 31, 2023')).toBeInTheDocument();
 
     // Click on 2022
     fireEvent.click(yearSelectorOptions[1]);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain('89.11');
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 89.11 Euro Zone-Euro');
     expect(getByText('December 31, 2022')).toBeInTheDocument();
 
     const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
     expect(quarterSelector).toBeDefined();
-    expect(quarterSelector.innerHTML).toContain('4th');
+    expect(quarterSelector.innerHTML).toContain('2nd');
     fireEvent.click(quarterSelector);
     const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
     fireEvent.click(quarterSelectorOptions[0]);

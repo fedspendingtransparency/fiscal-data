@@ -98,7 +98,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const listOfYearOptions = Object.keys(yearToQuartersMapLocal).sort((a,b) => b.localeCompare(a))
       .map((year) => ({ label: year, value: parseInt(year) }));
       const mostRecentYear = Math.max(...listOfYearOptions.map(entry => entry.value));
-      const newestQuarter = yearToQuartersMap[mostRecentYear][yearToQuartersMap[mostRecentYear].length - 1];
+      const newestQuarter = yearToQuartersMapLocal[mostRecentYear][yearToQuartersMapLocal[mostRecentYear].length - 1];
       const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap[`${mostRecentYear}Q${newestQuarter}`].data;
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
