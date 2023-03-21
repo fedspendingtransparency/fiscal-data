@@ -100,7 +100,7 @@ const ExplainerTile = ({
           <div className={content.mainFeature ? iconTitle : null}>
             {content.mainFeature &&
               <img src={afgIcon}
-                   alt="An open book with a coin above the pages"
+                   alt="An open book with a coin above the pages."
                    className={afgBookIcon}
               />}
             <h5 className={content.mainFeature ? mainTitle : `${secondaryTitle} ${rightTile}`}>
