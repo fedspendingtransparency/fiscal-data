@@ -129,11 +129,11 @@ export const pageTileMap = {
     mainFeature: true,
   },
   "currency-exchange-rates": {
-    title: "Currency Exchange Rates Convertor Tool",
+    title: "Currency Exchange Rates Converter Tool",
     body: "Fiscal Data’s Currency Exchange Rates Converter tool enables you to get accurate and reliable foreign " +
       "exchange rates based on trusted U.S. Treasury data.",
     altText: "A dollar sign floats above two rotating arrows, implying movement between a Euro coin and Dollar " +
-      "coin. Text reads CURRENCY EXCHANGE RATES CONVERTOR.",
+      "coin. Text reads CURRENCY EXCHANGE RATES CONVERTER.",
     desktopImage: "currency_exchange_rates_converter_1200x600",
     mobileImage: "currency_exchange_rates_converter_1200x600",
     path: "/currency-exchange-rates-converter/",
