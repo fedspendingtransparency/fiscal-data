@@ -106,9 +106,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap['2022Q4'].data;
       // const euro = res.data[0];
 
-      const recordYearsSet = [...new Set(res.data.filter((entry => entry.country_currency_desc === euro.country_currency_desc))
-      .map(entry => parseInt(entry.record_calendar_year)))];
-
       const recordQuartersSet = [...new Set(res.data
       .filter((entry => entry.country_currency_desc === euro.country_currency_desc && entry.record_calendar_year === euro.record_calendar_year))
       .map(entry => parseInt(entry.record_calendar_quarter)))];
@@ -142,10 +139,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         value: currency.yearQuarterMap[selectedYearQuarter] ? currency.yearQuarterMap[selectedYearQuarter].data : null
       })
     ));
-/*    if (!nonUSCurrency.yearQuarterMap[selectedYearQuarter]) {
-      setNonUSCurrency(null);
-    }*/
   }
+
   useEffect(() => {
     console.log('nonUsCurrency just changed to', JSON.stringify(nonUSCurrency, null, 2));
   }, [nonUSCurrency])
@@ -158,8 +153,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
     const selectedYearQuarter = `${year}Q${quarter}`;
+    console.log(year, quarter);
     console.log('nonUSCurrencyLocal', nonUSCurrencyLocal);
-    if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[year]) {
+    if (currencyMapLocal[nonUSCurrencyLocal.country_currency_desc] === undefined) {
+      return;
+    }
+    else if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[`${year}Q${quarter}`]) {
+      console.log(currencyMapLocal);
       console.log('nonUSCurrency NOW, inside updater', JSON.stringify(nonUSCurrencyLocal, null, 2));
       setNonUSCurrency({});
       setNonUSCurrencyExchangeValue('--');
@@ -167,7 +167,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setResetFilterCount(resetFilterCount + 1);
     } else {
       // Update currency, exchange rate, and effective date entry to match quarter entry
-      const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.data.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
+      console.log(currencyMapLocal);
+      const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
       console.log('matchedRecord', JSON.stringify(matchedRecord, null, 2));
       setNonUSCurrency(matchedRecord);
       setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
@@ -187,9 +188,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     console.log('option.label, selectedQuarter.value', option.label, selectedQuarter.value);
     updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
 
-    // Set quarter to most recent for that year
-    const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
-    setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
+    if (yearToQuartersMap[option.label][selectedQuarter.value]) {
+      setSelectedQuarter({label: quarterNumToTerm(selectedQuarter.value), value: selectedQuarter.value});
+    }
+    else if (!yearToQuartersMap[option.label][selectedQuarter.value]) {
+      // Set quarter to most recent for that year
+      const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
+      setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
+    }
     setSelectedYear(option);
     setQuarters(yearToQuartersMap[option.label].map((quarter) => ({
       label: quarterNumToTerm(quarter),
@@ -221,8 +227,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [nonUSCurrencyExchangeValue, nonUSCurrency]);
 
   const handleCurrencyChange = useCallback((event) => {
-    console.log('handleCurrencyChange event', JSON.stringify(event.value, null, 2));
-    if (event?.value !== null) {
+    // console.log('handleCurrencyChange event', JSON.stringify(event.value, null, 2));
+    if (event !== null) {
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
       setUSDollarValue('1.00');
