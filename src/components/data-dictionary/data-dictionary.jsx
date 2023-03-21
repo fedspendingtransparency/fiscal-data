@@ -15,7 +15,7 @@ const DataDictionary = ({ apis, datasetName }) => {
       return flattened;
     }
   }, []);
-  
+
   const rowsPerPage = 5;
 
   const columnConfig = [
