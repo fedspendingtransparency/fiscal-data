@@ -315,11 +315,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           )
         }
         {
-          nonUSCurrency !== null && (
+          nonUSCurrency!== null && nonUSCurrency.exchange_rate ? (
             <span data-testid={'exchange-values'}>
               1.00 US Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
             </span>
-          )
+          ) :
+          <>
+          </>
         }
         <span className={footer}>
             The Currency Exchange Rates Converter tool is driven by the Treasury Reporting Rates of
