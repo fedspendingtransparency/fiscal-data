@@ -55,13 +55,28 @@ describe('exchange rates converter', () => {
         "record_calendar_month":"12",
         "record_calendar_day":"31"
       },
+      {
+        "record_date":"2022-01-31",
+        "country":"Other",
+        "currency":"OtherDollar",
+        "country_currency_desc":"Other OtherDollar",
+        "exchange_rate":"200",
+        "effective_date":"2022-01-31",
+        "src_line_nbr":"1",
+        "record_fiscal_year":"2023",
+        "record_fiscal_quarter":"1",
+        "record_calendar_year":"2022",
+        "record_calendar_quarter":"1",
+        "record_calendar_month":"12",
+        "record_calendar_day":"31"
+      },
     ]
   }
 
   beforeEach(() => {
 
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000`,
       mockData,
       { overwriteRoutes: true },
       { repeat: 1 }
@@ -157,9 +172,9 @@ describe('exchange rates converter', () => {
     const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
 
     // Checking displayed exchange rate
-    expect(getByTestId('exchange-values').innerHTML).toContain('43.60');
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 89.11 Euro Zone-Euro');
     // Checking displayed effective date
-    expect(getByText('December 31, 2023')).toBeInTheDocument();
+    expect(getByText('December 31, 2022')).toBeInTheDocument();
 
     // Click on 2022
     fireEvent.click(yearSelectorOptions[1]);

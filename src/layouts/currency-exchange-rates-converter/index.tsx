@@ -94,8 +94,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
       // Setting default values based on default non US currency (Euro)
       // const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
-      console.log(yearToQuartersMapLocal);
-      const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap['2022Q4'].data;
+
+      const listOfYearOptions = Object.keys(yearToQuartersMapLocal).sort((a,b) => b.localeCompare(a))
+      .map((year) => ({ label: year, value: parseInt(year) }));
+      const mostRecentYear = Math.max(...listOfYearOptions.map(entry => entry.value));
+      const newestQuarter = yearToQuartersMap[mostRecentYear][yearToQuartersMap[mostRecentYear].length - 1];
+      const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap[`${mostRecentYear}Q${newestQuarter}`].data;
+      setNonUSCurrency(euro);
+      setNonUSCurrencyExchangeValue(euro.exchange_rate);
       // const euro = res.data[0];
 
       const recordQuartersSet = [...new Set(res.data
@@ -103,12 +109,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       .map(entry => parseInt(entry.record_calendar_quarter)))];
       recordQuartersSet.sort((a:number, b:number) => {return a-b});
       console.log('nonUSCurrency (euro)', JSON.stringify(euro, null, 2));
-      setNonUSCurrency(euro);
-      setNonUSCurrencyExchangeValue(euro.exchange_rate);
-      const listOfYearOptions = Object.keys(yearToQuartersMapLocal).sort((a,b) => b.localeCompare(a))
-      .map((year) => ({ label: year, value: parseInt(year) }));
       const listOfQuarterOptions = recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter }));
-      const mostRecentYear = Math.max(...listOfYearOptions.map(entry => entry.value));
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // TODO: Fix this TS warning
