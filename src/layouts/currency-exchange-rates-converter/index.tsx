@@ -162,6 +162,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       console.log('nonUSCurrency NOW, inside updater', JSON.stringify(nonUSCurrencyLocal, null, 2));
       setNonUSCurrency({});
       setNonUSCurrencyExchangeValue('--');
+      setUSDollarValue('1.00');
       setEffectiveDate('');
       setResetFilterCount(resetFilterCount + 1);
     } else {
