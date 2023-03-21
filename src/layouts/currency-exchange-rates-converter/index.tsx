@@ -87,22 +87,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       Object.values(yearToQuartersMapLocal).forEach(quarters => {
         quarters = quarters.sort((a, b) => a-b);
       });
-      // setCurrencyMap(currencyMap);
       setSortedCurrencies(Object.values(currencyMapLocal).sort((a,b)=>a.label.localeCompare(b.label)));
       console.log('yearToQuartersMapLocal', yearToQuartersMapLocal);
       setYearToQuartersMap(yearToQuartersMapLocal);
       setCurrencyMap(currencyMapLocal);
-/*      const options = res.data.map((entry) => ({
-          label: entry.country_currency_desc,
-          value: entry,
-          disabled: false
-        })
-      );*/
-
-      // setDropdownOptions(options);
 
       // Setting default values based on default non US currency (Euro)
       // const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
+      console.log(yearToQuartersMapLocal);
       const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap['2022Q4'].data;
       // const euro = res.data[0];
 
@@ -113,17 +105,24 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       console.log('nonUSCurrency (euro)', JSON.stringify(euro, null, 2));
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
-      //setYears(recordYearsSet.map((year) => ({ label: year.toString(), value: year })));
-      setYears(Object.keys(yearToQuartersMapLocal).sort((a,b) => b.localeCompare(a))
-        .map((year) => ({ label: year, value: parseInt(year) })));
-      setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
+      const listOfYearOptions = Object.keys(yearToQuartersMapLocal).sort((a,b) => b.localeCompare(a))
+      .map((year) => ({ label: year, value: parseInt(year) }));
+      const listOfQuarterOptions = recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter }));
+      const mostRecentYear = Math.max(...listOfYearOptions.map(entry => entry.value));
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // TODO: Fix this TS warning
+      const mostRecentQuarter = Math.max(...listOfQuarterOptions.map(entry => entry.value));
+      console.log(listOfQuarterOptions);
+      setYears(listOfYearOptions);
+      setQuarters(listOfQuarterOptions);
       setSelectedYear({
-        label: '2022',
-        value: 2022
+        label: mostRecentYear.toString(),
+        value: mostRecentYear
       });
       setSelectedQuarter({
-        label: '4th',
-        value: 4
+        label: quarterNumToTerm(mostRecentQuarter),
+        value: mostRecentQuarter
       });
       const date = new Date(euro.effective_date);
       setEffectiveDate(dateStringConverter(date));
