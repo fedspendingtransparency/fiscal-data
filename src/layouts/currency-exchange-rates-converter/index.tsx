@@ -234,6 +234,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (event !== null) {
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
+      setEffectiveDate(dateStringConverter(new Date(event.value.effective_date)));
       setUSDollarValue('1.00');
     }
   }, []);
