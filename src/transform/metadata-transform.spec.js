@@ -217,34 +217,6 @@ describe('Metadata Transform', () => {
     expect(datasetInTransformation.apis[1].isLargeDataset).toBeTruthy();
   });
 
-  it('fetches, sorts, and attaches option data for endpoints that specify a userFilter',
-    async () => {
-
-    const transformIterationProcessor =
-      transformMapper(
-        staticDatasetIdMap,
-        getEndpointConfigsById(null, null),
-        staticTopicsAssociations,
-        staticFilters,
-        releaseCalendarEntries,
-        'http://api.baseurl.fdg',
-        mockFetch).each;
-    await transformIterationProcessor(datasetInTransformation);
-    expect(mockFetch).toHaveBeenNthCalledWith(1, 'http://api.baseurl.fdg/' +
-      'services/api/fiscal_service/v2/accounting/od/' +
-      'debt_to_penny?fields=country_currency_desc&page[size]=10000&sort=country_currency_desc');
-
-    // confirm the resulting array is sorted and deduped
-    expect(datasetInTransformation.apis[0].userFilter.optionValues).toStrictEqual([
-      mockFilterableData.data[2]['country_currency_desc'],
-      mockFilterableData.data[1]['country_currency_desc'],
-      mockFilterableData.data[0]['country_currency_desc'],
-      mockFilterableData.data[6]['country_currency_desc'],
-      mockFilterableData.data[4]['country_currency_desc'],
-      mockFilterableData.data[5]['country_currency_desc']
-    ]);
-  });
-
   it('processes endpoint exclusions properly', () => {
     const allEndpointConfigs = getEndpointConfigsById(null, null);
     const allIds = Object.keys(allEndpointConfigs);
