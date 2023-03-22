@@ -18,7 +18,8 @@ interface ICurrencyEntryBox  {
   onCurrencyChange ?,
   onCurrencyValueChange,
   options ? : [],
-  resetFilterCount: number
+  resetFilterCount: number,
+  testId: string,
 }
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
   {
@@ -29,12 +30,13 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
     onCurrencyChange,
     options,
     selectedCurrency,
-    resetFilterCount
+    resetFilterCount,
+    testId
   }) => {
   return (
     <>
       {dropdown ?
-        <div className={currencyBox} >
+        <div className={currencyBox} data-testid={testId}>
           {options && (
             <ComboSelect
               selectedOption={selectedCurrency}
@@ -50,11 +52,12 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
               required={true}
               disabledMessage="This option has no data for the selected quarter."
               resetFilterCount={resetFilterCount}
+              data-testid={'combo-box'}
             />
           )}
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} />
+              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'} />
             </div>
           </div>
         </div> :
@@ -64,7 +67,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           </div>
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} />
+              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input'} />
             </div>
           </div>
         </div>

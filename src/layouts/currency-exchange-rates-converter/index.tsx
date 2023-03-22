@@ -297,11 +297,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         </div>
         {
           nonUSCurrency !== null && (
-            <div className={currencyBoxContainer}>
+            <div className={currencyBoxContainer} data-testid={'box-container'}>
               <CurrencyEntryBox
                 defaultCurrency={'US Dollar'}
                 currencyValue={usDollarValue}
                 onCurrencyValueChange={useHandleChangeUSDollar}
+                testId={'us-box'}
               />
               <CurrencyEntryBox
                 selectedCurrency={{
@@ -315,6 +316,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 onCurrencyChange={handleCurrencyChange}
                 onCurrencyValueChange={handleChangeNonUSCurrency}
                 resetFilterCount={resetFilterCount}
+                testId={'non-us-box'}
               />
             </div>
           )

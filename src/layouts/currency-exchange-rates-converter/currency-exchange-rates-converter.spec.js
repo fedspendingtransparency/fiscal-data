@@ -191,9 +191,48 @@ describe('exchange rates converter', () => {
     expect(getByTestId('exchange-values').innerHTML).toContain('99.11');
     expect(getByText('January 31, 2022')).toBeInTheDocument();
 
+  });
 
+  it('input boxes do not allow letters', async() => {
 
+    const {getByTestId, getByText} = render(
+      <CurrencyExchangeRatesConverter />
+    )
+    await waitFor(() => getByText('US Dollar'));
+
+    const usBox = within(getByTestId('box-container')).getByTestId('input');
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
+
+    expect(usBox.value).toBe('1.00');
+    expect(nonUSBox.value).toBe('43.60');
+
+    fireEvent.change(usBox, {target: { value:'Hi there!'}});
+
+    expect(usBox.value).toBe('');
+
+    fireEvent.change(nonUSBox, {target: { value:'Hi there!'}});
+
+    expect(nonUSBox.value).toBe('');
 
   });
+
+  it('typing in the US Dollar box changes the non US currency exchange value', async() => {
+
+    const {getByTestId, getByText} = render(
+      <CurrencyExchangeRatesConverter />
+    )
+    await waitFor(() => getByText('US Dollar'));
+
+    const usBox = within(getByTestId('box-container')).getByTestId('input');
+
+    fireEvent.change(usBox, {target: { value:'2.00'}});
+
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
+
+    // Prev value was 43.60
+    expect(nonUSBox.value).toBe('87.2');
+
+  });
+
 
 })
