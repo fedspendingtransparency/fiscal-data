@@ -78,14 +78,12 @@
         border-bottom: 2px solid $primary;
       }
     }
-
-
   }
 
   .dropdown .dropdownButton {
     overflow: hidden;
     transform: translateX(2rem);
-    padding-top: 3px;
+    padding: 3px 0 1px;
     margin-right: 2rem;
     border-top-style: none;
     border-right-style: none;
@@ -96,24 +94,12 @@
     font-size: 1rem;
     color: #666666;
     height: 55px;
-    min-width: 81px;
   }
 
-  // todo - make this class nested under dropdownButton
   .dropdownButtonExpanded {
-    overflow: hidden;
-    transform: translateX(2rem);
-    padding-top: 3px;
-    margin-right: 2rem;
-    border-top-style: none;
-    border-right-style: none;
-    border-left-style: none;
-    background-color: inherit;
-    font-size: 1rem;
-    height: 55px;
-    color: $primary;
+    color: $primary !important;
     font-weight: $semi-bold-weight;
-    border-bottom: 2px solid $primary;
+    border-bottom: 2px solid $primary !important;
   }
 
   .caret {
@@ -131,7 +117,7 @@
     width: 100%;
     margin-top: 1px;
     left: 0;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
 
     link {

@@ -9,9 +9,8 @@ import { isIE } from 'react-device-detect';
 import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faCaretRight, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import LocationAware from "../location-aware/location-aware";
+import MenuDropdown from "./menu-dropdown/menu-dropdown";
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -29,13 +28,15 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       title: 'Topics',
       to: '/',
       testId: 'topics',
-      featureId: 'topics'
+      featureId: 'topics',
+      dropdown: true,
     },
     {
       title: 'Tools',
-      to: '/currency-exchange-rates-converter/',
+      to: '/', //'/currency-exchange-rates-converter/',
       testId: 'tools',
-      featureId: 'tools'
+      featureId: 'tools',
+      dropdown: true,
     },
     {
       title: 'Dataset Search',
@@ -45,7 +46,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     {
       title: 'Resources',
       to: '/',
-      testId: 'Resources'
+      testId: 'Resources',
+      dropdown: true,
     },
     {
       title: 'About Us',
@@ -236,8 +238,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     });
   }
 
-  const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
-
 
   return (
     <header>
@@ -289,164 +289,95 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
               if (pageLink.title === 'Topics') {
                 return (
-                  <div className={styles.dropdown}
-                       style={{transition:'opacity 1s ease'}}
-                       key={pageLink.title}
+                  <MenuDropdown
+                    title={pageLink.title}
+                    handleMouseOver={handleMouseOver}
+                    toggled={toggled}
+                    isExpanded={isExpanded}
+                    handleMouseLeave={handleMouseLeave}
+                    handleBlur={handleBlur}
+                    menuExpanding={menuExpanding}
                   >
-                    <button
-                      className={toggled ? styles.dropdownButtonExpanded : styles.dropdownButton}
-                      onMouseEnter={handleMouseOver}
-                      onFocus={handleMouseOver}
-                      data-testid={'topicsButton'}
-                    >
-                      {pageLink.title}
-                      {toggled
-                        ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                        : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                      }
-                    </button>
-                    {isExpanded && (
-                      <div
-                        className={`${styles.dropdownContent} ${menuExpanding ? styles.dropdownHidden : ''}`}
-                        onMouseOver={handleMouseOver}
-                        onMouseLeave={handleMouseLeave}
-                        onFocus={handleMouseOver}
-                        onBlur={handleBlur}
-                        role={'button'}
-                        tabIndex={'0'}
-                        data-testid={'dropdownContent'}
-                      >
-                        <div className={styles.dropdownRow}>
-                          <div className={styles.dropdownColumnOne}>
-                            <div className={styles.dropdownTitle} >
-                              AMERICA'S FINANCE GUIDE
-                            </div>
-                            <div>
-                              {topicsPageLinks.map((topicPageLink) => {
-                                return (
-                                  <div key={topicPageLink.title}
-                                       className={styles.dropdownListItem}
-                                  >
-                                    <Link
-                                      to={topicPageLink.to}
-                                      activeClassName={styles.activeTopicLink}
-                                      onClick={() => topicsClickHandler(topicPageLink.title)}
-                                    >
-                                      {topicPageLink.title}
-                                    </Link>
-                                  </div>
-                                )
-                              })}
-                            </div>
-                          </div>
-                          <div className={styles.dropdownColumnTwo}>
-                            <div className={styles.dropdownTitle} >
-                              INSIGHTS
-                            </div>
-                            <div className={styles.dropdownTempText} >
-                              <em>{dropdownTempText}</em>
-                            </div>
-                          </div>
+                    <div className={styles.dropdownRow}>
+                      <div className={styles.dropdownColumnOne}>
+                        <div className={styles.dropdownTitle} >
+                          AMERICA'S FINANCE GUIDE
+                        </div>
+                        <div>
+                          {topicsPageLinks.map((topicPageLink) => {
+                            return (
+                              <div key={topicPageLink.title}
+                                   className={styles.dropdownListItem}
+                              >
+                                <Link
+                                  to={topicPageLink.to}
+                                  activeClassName={styles.activeTopicLink}
+                                  onClick={() => topicsClickHandler(topicPageLink.title)}
+                                >
+                                  {topicPageLink.title}
+                                </Link>
+                              </div>
+                            )
+                          })}
                         </div>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  </MenuDropdown>
                 )
               }
 
               if (pageLink.title === 'Tools') {
                 return (
-                  <div className={styles.dropdown}
-                       style={{transition:'opacity 1s ease'}}
-                       key={pageLink.title}
+                  <MenuDropdown
+                    title={pageLink.title}
+                    handleMouseOver={handleMouseOverTools}
+                    toggled={toggledTools}
+                    isExpanded={isExpandedTools}
+                    handleMouseLeave={handleMouseLeaveTools}
+                    handleBlur={handleBlur}
+                    menuExpanding={toolsMenuExpanding}
                   >
-                    <button
-                      className={toggledTools ? styles.dropdownButtonExpanded : styles.dropdownButton}
-                      onMouseEnter={handleMouseOverTools}
-                      onFocus={handleMouseOverTools}
-                      data-testid={'topicsButton'}
-                    >
-                      {pageLink.title}
-                      {toggledTools
-                        ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                        : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                      }
-                    </button>
-                    {isExpandedTools && (
-                      <div
-                        className={`${styles.dropdownContent} ${toolsMenuExpanding ? styles.dropdownHidden : ''}`}
-                        onMouseOver={handleMouseOverTools}
-                        onMouseLeave={handleMouseLeaveTools}
-                        onFocus={handleMouseOverTools}
-                        onBlur={handleBlur}
-                        role={'button'}
-                        tabIndex={'0'}
-                        data-testid={'dropdownContent'}
+                    <div className={styles.toolsSingleDropDown}>
+                      <Link
+                        to={pageLink.to}
+                        activeClassName={styles.activeTopicLink}
+                        // onClick={() => topicsClickHandler(topicPageLink.title)}
                       >
-                        <div className={styles.toolsSingleDropDown}>
-                          <Link
-                            to={pageLink.to}
-                            activeClassName={styles.activeTopicLink}
-                            // onClick={() => topicsClickHandler(topicPageLink.title)}
-                          >
-                            Currency Exchange Rates Converter
-                          </Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                        Currency Exchange Rates Converter
+                      </Link>
+                    </div>
+                  </MenuDropdown>
                 )
               }
 
               if (pageLink.title === 'Resources') {
                 return (
-                  <div className={styles.dropdown}
-                       style={{transition:'opacity 1s ease'}}
-                       key={pageLink.title}
+                  <MenuDropdown
+                    title={pageLink.title}
+                    handleMouseOver={handleMouseOverResources}
+                    toggled={toggledResources}
+                    isExpanded={isExpandedResources}
+                    handleMouseLeave={handleMouseLeaveResources}
+                    handleBlur={handleBlur}
+                    menuExpanding={resourcesMenuExpanding}
                   >
-                    <button
-                      className={toggledResources ? styles.dropdownButtonExpanded : styles.dropdownButton}
-                      onMouseEnter={handleMouseOverResources}
-                      onFocus={handleMouseOverResources}
-                      data-testid={'topicsButton'}
-                    >
-                      {pageLink.title}
-                      {toggledResources
-                        ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                        : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
+                    <div className={styles.resourcesDropDown}>
+                      {resourcesPageLinks.map((link) => {
+                        return (
+                          <Link
+                            to={link.to}
+                            activeClassName={styles.activeTopicLink}
+                            // onClick={() => topicsClickHandler(topicPageLink.title)}
+                          >
+                            {link.title}
+                          </Link>
+                        )
+                      })
                       }
-                    </button>
-                    {isExpandedResources && (
-                      <div
-                        className={`${styles.dropdownContent} ${resourcesMenuExpanding ? styles.dropdownHidden : ''}`}
-                        onMouseOver={handleMouseOverResources}
-                        onMouseLeave={handleMouseLeaveResources}
-                        onFocus={handleMouseOverResources}
-                        onBlur={handleBlur}
-                        role={'button'}
-                        tabIndex={'0'}
-                        data-testid={'dropdownContent'}
-                      >
-                        <div className={styles.resourcesDropDown}>
-                          {resourcesPageLinks.map((link) => {
-                            return (
-                              <Link
-                                to={link.to}
-                                activeClassName={styles.activeTopicLink}
-                                // onClick={() => topicsClickHandler(topicPageLink.title)}
-                              >
-                                {link.title}
-                              </Link>
-                            )
-                          })
-                          }
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  </MenuDropdown>
                 )
               }
-
               return (
                 <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
