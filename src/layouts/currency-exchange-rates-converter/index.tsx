@@ -88,33 +88,27 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         quarters = quarters.sort((a, b) => a-b);
       });
       setSortedCurrencies(Object.values(currencyMapLocal).sort((a,b)=>a.label.localeCompare(b.label)));
-      console.log('yearToQuartersMapLocal', yearToQuartersMapLocal);
       setYearToQuartersMap(yearToQuartersMapLocal);
       setCurrencyMap(currencyMapLocal);
-
-      // Setting default values based on default non US currency (Euro)
-      // const euro = res.data.find(entry => entry.country_currency_desc === 'Euro Zone-Euro');
 
       const listOfYearOptions = Object.keys(yearToQuartersMapLocal).sort((a,b) => b.localeCompare(a))
       .map((year) => ({ label: year, value: parseInt(year) }));
       const mostRecentYear = Math.max(...listOfYearOptions.map(entry => entry.value));
       const newestQuarter = yearToQuartersMapLocal[mostRecentYear][yearToQuartersMapLocal[mostRecentYear].length - 1];
+      // Setting default values based on default non US currency (Euro)
       const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap[`${mostRecentYear}Q${newestQuarter}`].data;
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
-      // const euro = res.data[0];
 
       const recordQuartersSet = [...new Set(res.data
       .filter((entry => entry.country_currency_desc === euro.country_currency_desc && entry.record_calendar_year === euro.record_calendar_year))
       .map(entry => parseInt(entry.record_calendar_quarter)))];
       recordQuartersSet.sort((a:number, b:number) => {return a-b});
-      console.log('nonUSCurrency (euro)', JSON.stringify(euro, null, 2));
       const listOfQuarterOptions = recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter }));
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // TODO: Fix this TS warning
       const mostRecentQuarter = Math.max(...listOfQuarterOptions.map(entry => entry.value));
-      console.log(listOfQuarterOptions);
       setYears(listOfYearOptions);
       setQuarters(listOfQuarterOptions);
       setSelectedYear({
@@ -142,10 +136,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }
 
   useEffect(() => {
-    console.log('nonUsCurrency just changed to', JSON.stringify(nonUSCurrency, null, 2));
-  }, [nonUSCurrency])
-
-  useEffect(() => {
     if (selectedQuarter && selectedYear) {
       updateCurrencyDropdownOptions(selectedQuarter, selectedYear);
     }
@@ -153,14 +143,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
     const selectedYearQuarter = `${year}Q${quarter}`;
-    console.log(year, quarter);
-    console.log('nonUSCurrencyLocal', nonUSCurrencyLocal);
     if (currencyMapLocal[nonUSCurrencyLocal.country_currency_desc] === undefined) {
       return;
     }
     else if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[`${year}Q${quarter}`]) {
-      console.log(currencyMapLocal);
-      console.log('nonUSCurrency NOW, inside updater', JSON.stringify(nonUSCurrencyLocal, null, 2));
       setNonUSCurrency({});
       setNonUSCurrencyExchangeValue('--');
       setUSDollarValue('1.00');
@@ -168,9 +154,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setResetFilterCount(resetFilterCount + 1);
     } else {
       // Update currency, exchange rate, and effective date entry to match quarter entry
-      console.log(currencyMapLocal);
       const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
-      console.log('matchedRecord', JSON.stringify(matchedRecord, null, 2));
       setNonUSCurrency(matchedRecord);
       setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
       const date = new Date(matchedRecord.effective_date);
@@ -186,7 +170,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleChangeYears = useCallback((option) => {
 
-    console.log('option.label, selectedQuarter.value', option.label, selectedQuarter.value);
     updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
 
     if (yearToQuartersMap[option.label][selectedQuarter.value]) {
@@ -230,7 +213,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [nonUSCurrencyExchangeValue, nonUSCurrency]);
 
   const handleCurrencyChange = useCallback((event) => {
-    // console.log('handleCurrencyChange event', JSON.stringify(event.value, null, 2));
     if (event !== null) {
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
