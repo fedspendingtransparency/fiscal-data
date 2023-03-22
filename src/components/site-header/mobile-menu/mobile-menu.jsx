@@ -4,13 +4,10 @@ import React, { useState } from 'react';
 import * as styles from './mobile-menu.module.scss';
 import { Link } from "gatsby";
 import MenuButton from "../menu-button/menu-button";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import Analytics from "../../../utils/analytics/analytics";
+import MobileMenuDropdown from "./mobile-menu-dropdown/mobile-menu-dropdown";
 
 const MobileMenu = () => {
   const [activeState, setActiveState] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
@@ -18,17 +15,60 @@ const MobileMenu = () => {
     }
   }
 
-  const topicsClickHandler = (title) => {
-    Analytics.event({
-      category: 'Sitewide Navigation',
-      action: `Topics Click`,
-      label: title
-    });
-  };
+  const topics = [
+    {
+      sectionHeader: 'AMERICA\'S FINANCE GUIDE',
+      analyticsAction: 'Topics Click',
+      children: [
+        {
+          to: '/americas-finance-guide/',
+          name: 'Overview'
+        },
+        {
+          to: '/americas-finance-guide/government-revenue/',
+          name: 'Revenue'
+        },
+        {
+          to: '/americas-finance-guide/federal-spending/',
+          name: 'Spending'
+        },
+        {
+          to: '/americas-finance-guide/national-deficit/',
+          name: 'Deficit'
+        },
+        {
+          to: '/americas-finance-guide/national-debt/',
+          name: 'Debt'
+        }
+      ]
+    }
+  ]
 
-  const dropdownTempText = 'Coming soon! — Short analyses on '
-    + 'federal finance topics';
+  const tools = [
+    {
+      children: [
+        {
+          to: '/currency-exchange-rates-converter/',
+          name: 'Currency Exchange Rates Converter'
+        }
+      ]
+    }
+  ]
 
+  const resources = [
+    {
+      children: [
+        {
+          to: '/api-documentation/',
+          name: 'API Documentation'
+        },
+        {
+          to: '/release-calendar/',
+          name: 'Release Calendar'
+        },
+      ]
+    }
+  ]
   return (
     <div
       className={`${styles.menuContainer} ${activeState ? styles.open : ''}`}
@@ -59,86 +99,15 @@ const MobileMenu = () => {
               </Link>
               <MenuButton clickHandler={toggleState} isOpen={activeState} />
             </div>
-            <div>
-              <div
-                className={
-                  isExpanded ? styles.topicsHeaderExpanded : styles.topicsHeader
-                }
-                onClick={() => {
-                  setIsExpanded(!isExpanded);
-                }}
-                data-testid="topicsButton"
-              >
-                Topics
-                {isExpanded ? (
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    className={styles.caret}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faCaretRight}
-                    className={styles.caret}
-                  />
-                )}
-              </div>
-              {isExpanded && (
-                <div data-testid={'expandedContent'}>
-                  <div className={styles.AFGHeader}>
-                    AMERICA'S FINANCE GUIDE
-                  </div>
-                  <div className={styles.explainerLinkContainer}>
-                    <Link
-                      to="/americas-finance-guide/"
-                      className={styles.explainerLink}
-                    >
-                      Overview
-                    </Link>
-                    <Link
-                      to="/americas-finance-guide/government-revenue/"
-                      className={styles.explainerLink}
-                    >
-                      Revenue
-                    </Link>
-                    <Link
-                      to="/americas-finance-guide/federal-spending/"
-                      className={styles.explainerLink}
-                    >
-                      Spending
-                    </Link>
-                    <Link
-                      to="/americas-finance-guide/national-deficit/"
-                      className={styles.explainerLink}
-                    >
-                      Deficit
-                    </Link>
-                    <Link
-                      to="/americas-finance-guide/national-debt/"
-                      className={styles.explainerLink}
-                      data-testid="debtLink"
-                      onClick={() => topicsClickHandler('Debt')}
-                    >
-                      Debt
-                    </Link>
-                  </div>
-                  <div className={styles.AFGHeader}>INSIGHTS</div>
-                  <div className={styles.dropdownTempText}>
-                    <em>{dropdownTempText}</em>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className={styles.pageLinks}>
-              <Link to="/datasets/" data-testid="datasets">
-                Dataset Search
-              </Link>
-              <Link to="/api-documentation/" data-testid="apiDocs">
-                API Documentation
-              </Link>
-              <Link to="/about-us/" data-testid="about">
-                About Us
-              </Link>
-            </div>
+            <MobileMenuDropdown header={'Topics'} sections={topics} defaultOpen />
+            <MobileMenuDropdown header={'Tools'} sections={tools} />
+            <Link to="/datasets/" className={styles.pageLinks}>
+              Dataset Search
+            </Link>
+            <MobileMenuDropdown header={'Resources'} sections={resources} />
+            <Link to="/about-us/" className={styles.pageLinks}>
+              About Us
+            </Link>
           </>
         )}
       </div>

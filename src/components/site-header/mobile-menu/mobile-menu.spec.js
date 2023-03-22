@@ -10,47 +10,46 @@ const triggerClickEvent = (itemToClick) => {
 };
 
 describe('MobileMenu actions', () => {
-  let getByTestId = jest.fn();
-  let queryByRole = jest.fn();
-  let getByText = jest.fn();
-  let theButton = null;
-  beforeEach(() => {
-    ({getByTestId, queryByRole, getByText} = render(<MobileMenu />));
-    theButton = queryByRole('button');
-  });
-
   afterEach(() => {
     cleanup();
   });
 
   it('contains an overlay div', () => {
+    const { getByTestId } = render(<MobileMenu />);
     expect(getByTestId('overlay')).toBeDefined();
   });
 
   it('applies an open class to the menuContainer when the menu button is clicked', () => {
+    const { getByTestId, getAllByTestId } = render(<MobileMenu />);
     const theContainer = getByTestId('menuContainer');
+    let menuButton = getByTestId('button');
+
     expect(theContainer).not.toHaveClass('open');
 
-    triggerClickEvent(theButton);
+    triggerClickEvent(menuButton);
     expect(theContainer).toHaveClass('open');
 
 
-    const expandedTopicsContent = getByTestId('expandedContent');
-    expect(expandedTopicsContent).toBeInTheDocument();
+    const expandedTopicsContent = getAllByTestId('expandedContent');
+    expect(expandedTopicsContent[0]).toBeInTheDocument();
 
     // Re find button as the new one is now inside the expanded menu
-    theButton = queryByRole('button');
+    menuButton = getByTestId('button');
 
-    triggerClickEvent(theButton);
+    triggerClickEvent(menuButton);
     expect(theContainer).not.toHaveClass('open');
 
   });
 
   it('after the menu is open, closes the menu when the overlay is clicked', () => {
+    const { getByTestId } = render(<MobileMenu />);
+
     const theOverlay = getByTestId('overlay');
     const theContainer = getByTestId('menuContainer');
+    let menuButton = getByTestId('button');
 
-    triggerClickEvent(theButton);
+
+    triggerClickEvent(menuButton);
     expect(theContainer).toHaveClass('open');
 
     triggerClickEvent(theOverlay);
@@ -58,15 +57,21 @@ describe('MobileMenu actions', () => {
   });
 
   it('contains the logo', () => {
-    triggerClickEvent(theButton);
+    const { getByTestId } = render(<MobileMenu />);
+    let menuButton = getByTestId('button');
+    triggerClickEvent(menuButton);
     expect(getByTestId('logo')).toBeDefined();
   });
 
   it('contains expected links when mobile menu is open', () => {
-    triggerClickEvent(theButton);
-    expect(getByTestId('datasets')).toBeDefined();
-    expect(getByTestId('apiDocs')).toBeDefined();
-    expect(getByTestId('about')).toBeDefined();
+    const { getByText, getByTestId } = render(<MobileMenu />);
+    const menuButton = getByTestId('button');
+    triggerClickEvent(menuButton);
+    expect(getByText('Dataset Search')).toBeDefined();
+    expect(getByText('About Us')).toBeDefined();
+    expect(getByText('API Documentation')).toBeDefined();
+    expect(getByText('Release Calendar')).toBeDefined();
+    expect(getByText('Currency Exchange Rates Converter')).toBeDefined();
     expect(getByText('Debt')).toBeDefined();
     expect(getByText('Deficit')).toBeDefined();
     expect(getByText('Spending')).toBeDefined();
@@ -74,9 +79,22 @@ describe('MobileMenu actions', () => {
     expect(getByText('Overview')).toBeDefined();
   });
 
-  it('triggers a click', async()=>{
-    fireEvent.click(theButton);
-    fireEvent.click(getByTestId('debtLink'));
-    fireEvent.click(getByTestId('topicsButton'));
+  it('contains expected section headers', () => {
+    const { getByText, getByTestId } = render(<MobileMenu />);
+    const menuButton = getByTestId('button');
+    triggerClickEvent(menuButton);
+    expect(getByText('Topics')).toBeDefined();
+    expect(getByText('Tools')).toBeDefined();
+    expect(getByText('Resources')).toBeDefined();
+
+  });
+
+  it('only opens topics dropdown by default', () => {
+    const { getByText, getByTestId } = render(<MobileMenu />);
+    const menuButton = getByTestId('button');
+    triggerClickEvent(menuButton);
+    expect(getByText('Topics')).toHaveClass('headerExpanded')
+    expect(getByText('Tools')).not.toHaveClass('headerExpanded')
+    expect(getByText('Resources')).not.toHaveClass('headerExpanded')
   });
 });

@@ -168,17 +168,6 @@ const transformMapper = (datasetIdMap,
               });
             }
           }
-          if (api.userFilter) {
-            let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-            filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
-            filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
-
-            const options = await fetch(filterOptionsUrl)
-              .then(res => res.json()
-                .then(body => body.data.map(row => row[api.userFilter.field])
-                  .sort((a,b)=>a.localeCompare(b))));
-            api.userFilter.optionValues = [...new Set(options)]; // uniquify results
-          }
         }
 
         const apiDateRange = getDateRange(dataset.apis);

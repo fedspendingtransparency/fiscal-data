@@ -68,3 +68,4 @@ export const sectionHeader: string;
 export const tileContainer: string;
 export const topicsSectionHeader: string;
 export const line: string;
+export const insightsSectionContainer: string;
