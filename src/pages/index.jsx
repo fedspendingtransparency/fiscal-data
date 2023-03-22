@@ -8,7 +8,6 @@ import SiteLayout from "../components/siteLayout/siteLayout";
 import HomeMainContent from '../components/home-main-content/home-main-content';
 import HomeFeatures from '../components/home-features/home-features';
 import LocationAware from '../components/location-aware/location-aware';
-import AnnouncementBanner from "../components/announcement-banner/announcement-banner";
 import TopicsSection from "../components/topics-section/topics-section";
 import {graphql, useStaticQuery} from "gatsby";
 
