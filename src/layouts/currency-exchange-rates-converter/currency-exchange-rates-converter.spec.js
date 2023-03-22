@@ -26,6 +26,21 @@ describe('exchange rates converter', () => {
         "record_calendar_day":"31"
       },
       {
+        "record_date":"2023-12-31",
+        "country":"Other",
+        "currency":"OtherDollar2",
+        "country_currency_desc":"Other OtherDollar2",
+        "exchange_rate":"150",
+        "effective_date":"2023-21-31",
+        "src_line_nbr":"1",
+        "record_fiscal_year":"2023",
+        "record_fiscal_quarter":"1",
+        "record_calendar_year":"2023",
+        "record_calendar_quarter":"2",
+        "record_calendar_month":"12",
+        "record_calendar_day":"31"
+      },
+      {
         "record_date":"2022-12-31",
         "country":"Euro Zone",
         "currency":"Euro",
@@ -115,10 +130,10 @@ describe('exchange rates converter', () => {
     // Click on '2022'
     fireEvent.click(yearSelectorOptions[1]);
 
-    // Make sure that quarters have changed to '4th' and '1st'
+    // Make sure that quarters have changed to '2nd' and '1st'
     const quarterSelector2022 = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
     expect(quarterSelector2022).toBeDefined();
-    // Make sure it defaults to latest quarter '4th'
+    // Make sure it defaults to latest quarter '2nd'
     expect(quarterSelector2022.innerHTML).toContain('2nd');
     fireEvent.click(quarterSelector2022);
     const quarterSelectorOptions2022 = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
@@ -216,7 +231,7 @@ describe('exchange rates converter', () => {
 
   });
 
-  it('typing in the US Dollar box changes the non US currency exchange value', async() => {
+  it('typing in the US Dollar box changes the non US currency exchange value appropriately', async() => {
 
     const {getByTestId, getByText} = render(
       <CurrencyExchangeRatesConverter />
@@ -234,5 +249,70 @@ describe('exchange rates converter', () => {
 
   });
 
+  it('typing in the non US currency box changes the US dollar exchange value appropriately', async() => {
+
+    const {getByTestId, getByText} = render(
+      <CurrencyExchangeRatesConverter />
+    )
+    await waitFor(() => getByText('US Dollar'));
+
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
+
+    fireEvent.change(nonUSBox, {target: { value:'2'}});
+
+    const usBox = within(getByTestId('box-container')).getByTestId('input');
+
+    // Prev value was 1.00
+    expect(usBox.value).toBe('0.05');
+
+  });
+
+  it('try to select a currency other than euro that is greyed out', async() => {
+
+    const {getByTestId, getByText} = render(
+      <CurrencyExchangeRatesConverter />
+    )
+    await waitFor(() => getByText('US Dollar'));
+
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
+
+    const currencySelector = within(nonUSBox).getByTestId('combo-box');
+
+    // Search list
+    fireEvent.change(currencySelector, {target: { value:'Other'}});
+
+    const optionList = within(nonUSBox).getByTestId('selectorList');
+
+    const option = within(optionList).getByText('Other OtherDollar');
+
+    fireEvent.click(option);
+
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 43.60 Euro Zone-Euro');
+
+  });
+
+  it('select a currency other than euro that is not greyed out', async() => {
+
+    const {getByTestId, getByText} = render(
+      <CurrencyExchangeRatesConverter />
+    )
+    await waitFor(() => getByText('US Dollar'));
+
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
+
+    const currencySelector = within(nonUSBox).getByTestId('combo-box');
+
+    // Search list
+    fireEvent.change(currencySelector, {target: { value:'Other'}});
+
+    const optionList = within(nonUSBox).getByTestId('selectorList');
+
+    const option = within(optionList).getByText('Other OtherDollar2');
+
+    fireEvent.click(option);
+
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 150 Other OtherDollar2');
+
+  });
 
 })

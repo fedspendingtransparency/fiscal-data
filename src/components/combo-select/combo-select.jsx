@@ -192,6 +192,7 @@ export default function ComboSelect(
                      placeholder={'Enter or select option'}
                      autoComplete={'off'}
                      ref={inputRef}
+                     data-testid={'combo-box'}
               />
                   {(!filterCharacters || !(filterCharacters.length > 0))
                   ? (

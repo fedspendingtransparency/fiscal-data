@@ -52,7 +52,6 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
               required={true}
               disabledMessage="This option has no data for the selected quarter."
               resetFilterCount={resetFilterCount}
-              data-testid={'combo-box'}
             />
           )}
           <div className={currencyBody}>
