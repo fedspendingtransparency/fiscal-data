@@ -221,7 +221,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if(event !== null) {
       setNonUSCurrencyExchangeValue(event.target.value);
       if (!isNaN(parseFloat(event.target.value))) {
-        quotient = fastRound((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+        quotient = (fastRound((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
       }
       if (!isNaN(quotient)) {
         setUSDollarValue(quotient.toString());
