@@ -367,6 +367,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                             to={link.to}
                             activeClassName={styles.activeTopicLink}
                             key={link.title}
+                            onClick={() => clickHandler(link.title)}
                           >
                             {link.title}
                           </Link>
