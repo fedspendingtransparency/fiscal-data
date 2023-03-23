@@ -75,4 +75,5 @@ export const selector: string;
 export const box: string;
 export const effectiveDateContainer: string;
 export const effectiveDateText: string;
+export const legalDisclaimer: string;
 export const currencyBox: string;
