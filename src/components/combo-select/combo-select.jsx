@@ -17,7 +17,14 @@ export default function ComboSelect(
     scrollable,
     label,
     labelClass = '',
-    required = false
+    labelDisplay,
+    required = false,
+    disabledMessage,
+    inputStyle,
+    iconStyle,
+    inputContainerStyle,
+    isExchangeTool,
+    resetFilterCount
   }) {
   const [filterCharacters, setFilterCharacters] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -26,6 +33,9 @@ export default function ComboSelect(
 
   const updateSelection = (selection) => {
     changeHandler(selection);
+    if (labelDisplay) {
+      setFilterCharacters(selection.label);
+    }
     setTimeout(() => {setDroppedDown(false);});
   };
 
@@ -68,7 +78,12 @@ export default function ComboSelect(
     if (!event || !(event.target.parentElement.contains(event.relatedTarget))) {
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
-          setFilterCharacters(selectedOption.value);
+          if (isExchangeTool) {
+            setFilterCharacters(selectedOption.label)
+          }
+          else {
+            setFilterCharacters(selectedOption.value);
+          }
         }
         setDroppedDown(false);
       });
@@ -84,9 +99,19 @@ export default function ComboSelect(
 
   useEffect(() => {
     if (selectedOption && selectedOption.value) {
-      setFilterCharacters(selectedOption.value);
+      if (isExchangeTool) {
+        setFilterCharacters(selectedOption.label)
+      }
+      else {
+        setFilterCharacters(selectedOption.value);
+      }
     }
   }, [selectedOption]);
+  useEffect(() => {
+    if (resetFilterCount) {
+      setFilterCharacters('');
+    }
+  }, [resetFilterCount]);
 
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = opts;
@@ -111,7 +136,7 @@ export default function ComboSelect(
   };
 
   const onFilterChange = (event) => {
-    const val = (event && event.target) ? event.target.value : null;
+    const val = (event && event.target) ? event.target.value : '';
     setFilterCharacters(val);
     const localFilteredOptions = yearFilter ?
       filterYearOptions(options, val) :
@@ -132,10 +157,12 @@ export default function ComboSelect(
     label;
   return (
     <div className={styles.selector_container}>
-      <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
-        {labelText}
-        {required && (<span className="required">*</span>)}
-      </div>
+      {labelText !== '' ?
+        <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
+          {labelText}
+          {required && (<span className="required">*</span>)}
+        </div> : null
+      }
       <div ref={ref} onFocus={onFocusHandler} role={'presentation'}>
         <div>
           {yearFilter ? (
@@ -154,9 +181,9 @@ export default function ComboSelect(
                    autoComplete={'off'}
             />
           ):(
-            <div className={inputContainer}>
+            <div className={inputContainerStyle ? inputContainerStyle : inputContainer}>
               <input type="text"
-                     className={`${styles.comboSelectField} ${styles.textField}`}
+                     className={inputStyle ? inputStyle: `${styles.comboSelectField} ${styles.textField}`}
                      onChange={onFilterChange}
                      value={filterCharacters}
                      onFocus={onFilterChange}
@@ -165,12 +192,13 @@ export default function ComboSelect(
                      placeholder={'Enter or select option'}
                      autoComplete={'off'}
                      ref={inputRef}
+                     data-testid={'combo-box'}
               />
                   {(!filterCharacters || !(filterCharacters.length > 0))
                   ? (
                       <button
                         data-testid="dropdown-button"
-                        className={iconButton}
+                        className={iconStyle ? iconStyle: iconButton}
                         onClick={toggleDropdown}
                         aria-label={droppedDown ? 'Collapse options' : 'Show options'}
                       >
@@ -180,7 +208,7 @@ export default function ComboSelect(
                   : (
                       <button
                         data-testid="clear-button"
-                        className={iconButton}
+                        className={iconStyle ? iconStyle : iconButton}
                         onClick={clear}
                         aria-label={filterCharacters.length > 0 ? 'clear filter' : ''}
                       >
@@ -208,6 +236,7 @@ export default function ComboSelect(
                     }
                     onClick={() => {updateSelection(option)}}
                     disabled={required && !option.value}
+                    title={(required && !option.value && disabledMessage) && disabledMessage}
                   >
                     {option[optionLabelKey]}
                   </button>
