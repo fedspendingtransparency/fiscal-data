@@ -1,0 +1,56 @@
+@import '../../../variables.module.scss';
+
+
+@media screen and (min-width: $breakpoint-lg) {
+  .dropdown .dropdownButton {
+    overflow: hidden;
+    transform: translateX(2rem);
+    padding: 3px 0 1px;
+    margin-right: 2rem;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    outline: none;
+    background-color: inherit;
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    color: #666666;
+    height: 55px;
+  }
+
+  .dropdownButtonExpanded {
+    color: $primary !important;
+    font-weight: $semi-bold-weight;
+    border-bottom: 2px solid $primary !important;
+  }
+
+  .caret {
+    padding-left: 1rem;
+    min-width: 10px;
+  }
+
+  .dropdownContent {
+    overflow: hidden;
+    transition: opacity 500ms ease;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    margin-top: 1px;
+    left: 0;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+
+    link {
+      color: #0071BC;
+      &:hover{
+        font-weight: $semi-bold-weight;
+      }
+    }
+
+    &.dropdownHidden {
+      opacity: 0;
+    }
+  }
+}

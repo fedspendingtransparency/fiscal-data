@@ -33,7 +33,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     },
     {
       title: 'Tools',
-      to: '/', //'/currency-exchange-rates-converter/',
+      to: '/',
       testId: 'tools',
       featureId: 'tools',
       dropdown: true,
@@ -341,7 +341,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                       <Link
                         to={pageLink.to}
                         activeClassName={styles.activeTopicLink}
-                        // onClick={() => topicsClickHandler(topicPageLink.title)}
                       >
                         Currency Exchange Rates Converter
                       </Link>
@@ -367,7 +366,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                           <Link
                             to={link.to}
                             activeClassName={styles.activeTopicLink}
-                            // onClick={() => topicsClickHandler(topicPageLink.title)}
+                            key={link.title}
                           >
                             {link.title}
                           </Link>
@@ -381,7 +380,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               return (
                 <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
-                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                       style={{minWidth:`${(pageLink.title.length * 7.5)+16}px`}}
                   >
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
