@@ -16,7 +16,6 @@ import {
   selector,
   box,
   legalDisclaimer,
-  // disclaimerHeading
 } from './currency-exchange-rates-converter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
