@@ -98,6 +98,37 @@ describe('SiteHeader', () => {
     });
   });
 
+  it('closes each dropdown when another one opens ',  () => {
+    const { getByRole, queryByRole } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
+    expect(getByRole('link', {name: 'Overview'})).toBeInTheDocument();
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Tools'}));
+    expect(getByRole('link', {name: 'Currency Exchange Rates Converter'})).toBeInTheDocument();
+    expect(queryByRole('link', {name: 'Overview'})).not.toBeInTheDocument();
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    expect(getByRole('link', {name: 'API Documentation'})).toBeInTheDocument();
+    expect(queryByRole('link', {name: 'Currency Exchange Rates Converter'})).not.toBeInTheDocument();
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
+    expect(queryByRole('link', {name: 'API Documentation'})).not.toBeInTheDocument();
+  } )
+
+  it('closes a drop down on mouse leave', () => {
+    const { getByRole, queryByRole, getByTestId } = render(<SiteHeader />);
+    const toolsButton = getByRole('button', {name: 'Tools'});
+
+    fireEvent.mouseEnter(toolsButton);
+    expect(getByRole('link', {name: 'Currency Exchange Rates Converter'})).toBeInTheDocument();
+
+    const dropdown = getByTestId('dropdownContent')
+    // fireEvent.mouseLeave(toolsButton);
+    fireEvent.mouseEnter(dropdown);
+    expect(queryByRole('link', {name: 'Currency Exchange Rates Converter'})).toBeInTheDocument();
+
+  })
+
 
   it('expects that all of the header links are not active/highlighted by default', () => {
     const { container } = render(<SiteHeader />);
