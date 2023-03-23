@@ -18,6 +18,10 @@
     height: 55px;
   }
 
+  .dropdown {
+    transition: opacity 1s ease;
+  }
+
   .dropdownButtonExpanded {
     color: $primary !important;
     font-weight: $semi-bold-weight;

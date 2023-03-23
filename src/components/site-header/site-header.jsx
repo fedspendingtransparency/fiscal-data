@@ -204,46 +204,43 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   }
 
-  const handleMouseLeave = () => {
-    if(isExpanded) {
-      setMenuExpanding(true);
-      setToggled(false);
-      setTimeout(() => {
-        setIsExpanded(false);
-      }, 500);
+  const handleMouseLeave = (title) => {
+    if(title === 'Topics') {
+      if(isExpanded) {
+        setMenuExpanding(true);
+        setToggled(false);
+        setTimeout(() => {
+          setIsExpanded(false);
+        }, 500);
+      }
+    } else if(title === 'Tools') {
+      if(isExpandedTools) {
+        setToolsMenuExpanding(true);
+        setToggledTools(false);
+        setTimeout(() => {
+          setIsExpandedTools(false);
+        }, 500);
+      }
+    } else if(title === 'Resources') {
+      if(isExpandedResources) {
+        setResourcesMenuExpanding(true);
+        setToggledResources(false);
+        setTimeout(() => {
+          setIsExpandedResources(false);
+        }, 500);
+      }
     }
   }
 
-  const handleMouseLeaveTools = () => {
-    if(isExpandedTools) {
-      setToolsMenuExpanding(true);
-      setToggledTools(false);
-      setTimeout(() => {
-        setIsExpandedTools(false);
-      }, 500);
-    }
-  }
-
-  const handleMouseLeaveResources = () => {
-    if(isExpandedResources) {
-      setResourcesMenuExpanding(true);
-      setToggledResources(false);
-      setTimeout(() => {
-        setIsExpandedResources(false);
-      }, 500);
-    }
-  }
-
-  const handleBlur = (e) => {
+  const handleBlur = (e, title) => {
     const currentTarget = e.currentTarget;
-
+    console.log(currentTarget);
     requestAnimationFrame(() => {
       if(!currentTarget.contains(document.activeElement)) {
-        handleMouseLeave();
+        handleMouseLeave(title);
       }
     });
   }
-
 
   return (
     <header>
@@ -339,7 +336,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                     handleMouseOver={handleMouseOverTools}
                     toggled={toggledTools}
                     isExpanded={isExpandedTools}
-                    handleMouseLeave={handleMouseLeaveTools}
+                    handleMouseLeave={handleMouseLeave}
                     handleBlur={handleBlur}
                     menuExpanding={toolsMenuExpanding}
                   >
@@ -369,7 +366,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                     handleMouseOver={handleMouseOverResources}
                     toggled={toggledResources}
                     isExpanded={isExpandedResources}
-                    handleMouseLeave={handleMouseLeaveResources}
+                    handleMouseLeave={handleMouseLeave}
                     handleBlur={handleBlur}
                     menuExpanding={resourcesMenuExpanding}
                   >

@@ -87,7 +87,44 @@ describe('SiteHeader', () => {
     });
 
     getByText('Overview').focus();
-    getByText('Spending').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByTestId('logo').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
+  });
+
+  it('collapses the tools drop down when tab is not focused on or within drop down', async () => {
+    const { getByTestId, getByText, queryByTestId, getByRole } = render(<SiteHeader />);
+
+    getByRole('button', {name: 'Tools'}).focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByText('Currency Exchange Rates Converter').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByTestId('logo').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
+  });
+
+  it('collapses the resources drop down when tab is not focused on or within drop down', async () => {
+    const { getByTestId, getByText, queryByTestId, getByRole } = render(<SiteHeader />);
+
+    getByRole('button', {name: 'Resources'}).focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByText('Release Calendar').focus();
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
     });
@@ -114,20 +151,6 @@ describe('SiteHeader', () => {
     fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
     expect(queryByRole('link', {name: 'API Documentation'})).not.toBeInTheDocument();
   } )
-
-  it('closes a drop down on mouse leave', () => {
-    const { getByRole, queryByRole, getByTestId } = render(<SiteHeader />);
-    const toolsButton = getByRole('button', {name: 'Tools'});
-
-    fireEvent.mouseEnter(toolsButton);
-    expect(getByRole('link', {name: 'Currency Exchange Rates Converter'})).toBeInTheDocument();
-
-    const dropdown = getByTestId('dropdownContent')
-    // fireEvent.mouseLeave(toolsButton);
-    fireEvent.mouseEnter(dropdown);
-    expect(queryByRole('link', {name: 'Currency Exchange Rates Converter'})).toBeInTheDocument();
-
-  })
 
 
   it('expects that all of the header links are not active/highlighted by default', () => {

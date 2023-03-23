@@ -13,11 +13,11 @@ import React from "react";
 const MenuDropdown = (
   {title, handleMouseOver, toggled, isExpanded, handleMouseLeave, handleBlur, menuExpanding, children}) => {
 
+
   return(
     <div
       className={dropdown}
-         style={{transition:'opacity 1s ease'}}
-         key={title}
+      key={title}
     >
       <button
         className={`${toggled ? dropdownButtonExpanded : null} ${dropdownButton}`}
@@ -34,9 +34,9 @@ const MenuDropdown = (
         <div
           className={`${dropdownContent} ${menuExpanding ? dropdownHidden : ''}`}
           onMouseOver={handleMouseOver}
-          onMouseLeave={handleMouseLeave}
+          onMouseLeave={() => handleMouseLeave(title)}
           onFocus={handleMouseOver}
-          onBlur={handleBlur}
+          onBlur={(e) => handleBlur(e, title)}
           role={'button'}
           tabIndex={'0'}
           data-testid={'dropdownContent'}
