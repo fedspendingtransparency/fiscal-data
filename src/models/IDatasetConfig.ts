@@ -6,6 +6,7 @@ export interface IDatasetConfig {
   currentDateButton: string | null,
   datePreset: string | null,
   customRangePreset: string | null,
+  calloutContent: string | null,
   dataFormats: string[] | Record<string, unknown>[],
   dataStartYear: string,
   datasetId: string,
