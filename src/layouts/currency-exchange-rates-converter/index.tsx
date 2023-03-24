@@ -25,10 +25,14 @@ import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
-import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks } from "./currency-exchange-rates-converter-helper";
-import { BASE_URL } from "gatsby-env-variables";
-
-const envBaseUrl = BASE_URL;
+import {
+  quarterNumToTerm,
+  dateStringConverter,
+  apiEndpoint,
+  breadCrumbLinks,
+  effectiveDateInfo, socialCopy
+} from "./currency-exchange-rates-converter-helper";
+import CustomLink from "../../components/links/custom-link/custom-link";
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -95,15 +99,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setQuarters(recordQuartersSet.map((quarter) => ({ label: quarterNumToTerm(quarter), value: quarter })));
   }
 
-  const socialCopy = {
-    title: 'Test title',
-    description: 'Test description',
-    body: 'Test body',
-    emailSubject: 'Test email subject',
-    emailBody: 'test email body',
-    url: envBaseUrl+'/currency-exchange-rates-converter/',
-    image: '',
-  }
 
   return (
     <SiteLayout isPreProd={false}>
@@ -137,7 +132,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={handleChangeQuarters} />
               </div>
               <div className={effectiveDateContainer}>
-                <div>Effective Date <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} /> </div>
+                <div>
+                  Effective Date
+                  <div title={effectiveDateInfo} >
+                    <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} />
+                  </div>
+                </div>
                 <span className={effectiveDateText}> {effectiveDate} </span>
               </div>
             </div>
@@ -166,10 +166,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           )
         }
         <span className={footer}>
-            The Currency Exchange Rates Converter tool is driven by the Treasury Reporting Rates of
-            Exchange dataset. This dataset is updated quarterly and covers the period from
-            December 31, 2022 to Month, DD, YYYY. For more information and to see the full dataset,
-            please visit the Treasury Reporting Rates of Exchange dataset page.
+          The Currency Exchange Rates Converter tool is powered by the{' '}
+          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}>
+            Treasury Reporting Rates of Exchange
+          </CustomLink>
+          {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to
+          Month DD, YYYY.
         </span>
       </div>
     </SiteLayout>
