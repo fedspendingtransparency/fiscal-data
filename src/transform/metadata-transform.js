@@ -120,8 +120,8 @@ const transformMapper = (datasetIdMap,
         ? mappedDataset.datePreset : null;
       dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset
         ? mappedDataset.customRangePreset : null;
-      dataset.calloutContent = mappedDataset && mappedDataset.calloutContent
-        ? mappedDataset.calloutContent : null;
+      dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout
+        ? mappedDataset.bannerCallout : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {

@@ -1,1 +1,43 @@
 @import '../../variables.module.scss';
+
+.banner {
+    max-width: $site-content-width;
+    min-height: 3rem;
+    display: flex;
+    align-items: stretch;
+    margin-top: 1rem;
+    //padding: 0 331px 0 0;
+    background-color: #e0f3f8;
+}
+
+.sideTab {
+    width: 0.5rem;
+    height: inherit;
+    margin-right: 2rem;
+    background-color: #00bde3;
+}
+
+.calloutText {
+    width: 100%;
+    margin: 0.875rem .5rem 0.875rem 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+    padding-right: .5rem;
+    padding-top: 0.125rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1){
+    .sideTab {
+        margin-right: 0.875rem;
+    }
+
+    .calloutText {
+        margin: 1.125rem 1.375rem 1.125rem 0;
+
+    }
+}

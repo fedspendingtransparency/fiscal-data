@@ -1,28 +1,25 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 import BannerCallout from './banner-callout';
-import { Link } from "gatsby";
 
-describe('Banner Callout with link', () => {
-    const text = "first text";
-    const linkText = "link text";
-    const link = "https://fiscaldata.treasury.gov/"
-    //const testCalloutContent = `${text}<Link to=${link}data-testid='link'>${linkText}</Link>`;
+describe('Banner Callout with flag', () => {
+    const calloutFlag = 'XRCallout';
+    const fakeCalloutFlag = 'NotACallout';
 
-    const testCalloutContent = <p>{text}<Link to={link} data-testid='link'>{linkText}</Link></p>;
+    it('renders banner for specified dataset', () => {
+        const {getByTestId, getByText} = render(<BannerCallout bannerCallout={calloutFlag} />);
 
-    it('renders banner with text and link', () => {
-        const {getByTestId, getByText} = render(<BannerCallout calloutContent={testCalloutContent} />);
-
-        expect(getByText(text)).toBeInTheDocument();
-        expect(getByText(linkText)).toBeInTheDocument();
-        expect(getByTestId('link')).toBeInTheDocument();
+        expect(getByTestId('internal-link')).toBeInTheDocument();
+        expect(getByText(/calculate foreign currency exchange rates/)).toBeInTheDocument();
     });
 
-    it('renders banner with link embedded in text', () => {
-        const {getByTestId} = render(<BannerCallout calloutContent={testCalloutContent} />);
+    it('renders banner for specified dataset', () => {
+        const {queryByTestId, queryByText} = render(<BannerCallout bannerCallout={fakeCalloutFlag} />);
 
-        expect(getByTestId('link')).toHaveTextContent(linkText);
+        expect(queryByTestId('banner')).not.toBeInTheDocument();
+        expect(queryByTestId('internal-link')).not.toBeInTheDocument();
+        expect(queryByText(/calculate foreign currency exchange rates/)).not.toBeInTheDocument();
     });
-
 });
+
+

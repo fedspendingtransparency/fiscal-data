@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {render} from '@testing-library/react';
 import {
   mockAPIs,
   mockSummaryDataset,
@@ -18,7 +17,6 @@ import Masthead from '../../components/masthead/masthead';
 import RelatedDatasets from '../../components/related-datasets/related-datasets';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import BannerCallout from '../../components/banner-callout/banner-callout';
 import {useStaticQuery} from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
 import { useMetadataUpdater } from "../../helpers/metadata/use-metadata-updater-hook"
@@ -297,7 +295,7 @@ describe('Dataset-Detail layout component', () => {
     expect(related.props.referrer).toBe(datasetPageSampleConfig.name);
   });
 
-  it('passes content for the callout if set in config', async() => {
+  it('passes content for the banner callout if set in config', async() => {
     await renderer.act(async () => {
       useStaticQuery.mockReturnValue(
         {
@@ -309,7 +307,7 @@ describe('Dataset-Detail layout component', () => {
         });
       component = await renderer.create(<DatasetDetail test={true}
                                                        pageContext={{
-                                                         config: {...datasetPageSampleConfig, "calloutContent": "Text for Callout"},
+                                                         config: {...datasetPageSampleConfig, "bannerCallout": "TestCallout"},
                                                          seoConfig: seoConfig
                                                        }}
                                                        data={mockQueryReturn}
@@ -317,29 +315,8 @@ describe('Dataset-Detail layout component', () => {
       instance = component.root;
     });
 
-    const callout = instance.findByType(BannerCallout);
-    expect(callout.props.calloutContent).toBe("Text for Callout");
-  });
-
-  it('renders callout when specified', () => {
-    const {queryByTestId} = render(
-      <DatasetDetail 
-      test={true} 
-      pageContext={{config: {...datasetPageSampleConfig, "calloutContent": "Text for Callout"}, seoConfig: seoConfig}} 
-      data={mockQueryReturn}/>);
-
-    expect(queryByTestId('callout')).not.toBeNull();
-  });
-
-  it('does not render callout when not specified', () => {
-
-    const {queryByTestId} = render(
-      <DatasetDetail 
-      test={true} 
-      pageContext={{config: datasetPageSampleConfig, seoConfig: seoConfig}} 
-      data={mockQueryReturn}/>);
-
-    expect(queryByTestId('callout')).toBeNull();
+    const masthead = instance.findByType(Masthead);
+    expect(masthead.props.bannerCallout).toBe("TestCallout");
   });
 });
 

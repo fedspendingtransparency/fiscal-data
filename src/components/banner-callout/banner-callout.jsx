@@ -1,15 +1,36 @@
 import React from 'react';
-import { Link } from "gatsby";
+import CustomLink  from '../links/custom-link/custom-link';
+import { banner, sideTab, calloutText, icon } from './banner-callout.module.scss';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const BannerCallout = ({calloutContent}) => {
+const BannerCallout = ({bannerCallout}) => {
+    const callouts = {
+        "XRCallout": <>To calculate foreign currency exchange rates for tax reporting, visit the{" "}
+        <CustomLink url={"/currency-exchange-rates-converter/"}>
+            Currency Exchange Rates Converter</CustomLink>
+            {" "}page.</>
+    }
 
-    // TODO: make link dynamic
-    // Change tests for dynamic link
-    return (
-                <div>
-                    {calloutContent}
-                </div>
-    );
+    const currentCallout = callouts[bannerCallout];
+
+    if(currentCallout){
+        return (
+            <div className={banner} data-testid="banner">
+                <div className={sideTab}></div>
+                
+                <span className={calloutText}>
+                    <FontAwesomeIcon className={icon} icon={faCircleInfo}/>
+                    <div>
+                        {currentCallout}
+                    </div>
+                </span>
+                
+            </div>
+        );
+    } else {
+        return null;
+    }
 }
 
 export default BannerCallout;
