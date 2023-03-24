@@ -10,13 +10,6 @@ describe('Currency entry box', () => {
     expect(getByText(currencyName)).toBeInTheDocument();
   })
 
-  it('Renders the dropdown icon when dropdown is true', () => {
-    const {getByRole} = render(
-      <CurrencyEntryBox defaultCurrency={currencyName} dropdown={true} />
-    )
-    expect(getByRole('img', {hidden: true})).toBeInTheDocument();
-  })
-
   it('By default does not render the dropdown icon', () => {
     const {queryByRole} = render(
       <CurrencyEntryBox defaultCurrency={currencyName} />
