@@ -13,7 +13,7 @@ import {
   dataHeader,
   chartConfigs,
   getMarkers,
-  lineChartCustomSlices,
+  LineChartCustomSlices,
   lineChartCustomPoints
 } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
@@ -386,7 +386,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     'points',
                     lineChartCustomPoints,
                     (props) =>
-                      lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                      LineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
                     'mesh',
                     'legends',
                   ]}

@@ -3,33 +3,74 @@ import {
   currencyBody,
   currencyBox,
   currencyHeader,
-  icon,
-  currencyText
+  dropdownIcon,
+  currencyText,
+  dropdownInput,
+  dropdownInputContainer
 } from './currency-entry-box.module.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import ComboSelect from "../../combo-select/combo-select";
 
 interface ICurrencyEntryBox  {
   defaultCurrency: string,
   currencyValue: string,
   dropdown ? : boolean,
+  selectedCurrency ?,
+  onCurrencyChange ?,
+  onCurrencyValueChange,
+  options ? : [],
+  resetFilterCount: number,
+  testId: string,
 }
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
-  {defaultCurrency, dropdown=false, currencyValue}) => {
+  {
+    defaultCurrency,
+    dropdown=false,
+    currencyValue,
+    onCurrencyValueChange,
+    onCurrencyChange,
+    options,
+    selectedCurrency,
+    resetFilterCount,
+    testId
+  }) => {
   return (
     <>
-      <div className={currencyBox} >
-        <div className={currencyHeader}>
-          <span>{defaultCurrency}</span>
-          { dropdown ?
-            <FontAwesomeIcon icon={faAngleDown as IconProp} className={icon} name={'angle-down'}/> : null
-          }
+      {dropdown ?
+        <div className={currencyBox} data-testid={testId}>
+          {options && (
+            <ComboSelect
+              selectedOption={selectedCurrency}
+              label={''}
+              options={options}
+              iconStyle={dropdownIcon}
+              inputStyle={dropdownInput}
+              scrollable={true}
+              inputContainerStyle={dropdownInputContainer}
+              labelDisplay={true}
+              changeHandler={onCurrencyChange}
+              isExchangeTool={true}
+              required={true}
+              disabledMessage="This option has no data for the selected quarter."
+              resetFilterCount={resetFilterCount}
+            />
+          )}
+          <div className={currencyBody}>
+            <div className={currencyText}>
+              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'} />
+            </div>
+          </div>
+        </div> :
+        <div className={currencyBox} >
+          <div className={currencyHeader}>
+            <span>{defaultCurrency}</span>
+          </div>
+          <div className={currencyBody}>
+            <div className={currencyText}>
+              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input'} />
+            </div>
+          </div>
         </div>
-        <div className={currencyBody}>
-          <div className={currencyText}>{currencyValue}</div>
-        </div>
-      </div>
+      }
     </>
   );
 }
