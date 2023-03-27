@@ -205,7 +205,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      product = fastRound((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+      product = Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
     }
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product.toString());
