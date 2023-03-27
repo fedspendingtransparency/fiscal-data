@@ -14,7 +14,8 @@ import {
   effectiveDateContainer,
   effectiveDateText,
   selector,
-  box
+  box,
+  legalDisclaimer,
 } from './currency-exchange-rates-converter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
@@ -27,6 +28,7 @@ import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
 import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
 import { BASE_URL } from "gatsby-env-variables";
+import CustomLink from "../../components/links/custom-link/custom-link";
 
 const envBaseUrl = BASE_URL;
 
@@ -318,6 +320,17 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             December 31, 2022 to Month, DD, YYYY. For more information and to see the full dataset,
             please visit the Treasury Reporting Rates of Exchange dataset page.
         </span>
+      </div>
+      <div className={legalDisclaimer}>
+        <span> Important Legal Disclosures and Information</span>
+        <p>
+          The Treasury Reporting Rates of Exchange dataset provides the U.S. government's authoritative
+          foreign currency exchange rates for federal agencies to consistently report U.S. dollar equivalents.
+          For more information on the calculation of exchange rates used by federal agencies, please see the {' '}
+          <CustomLink url={'https://tfm.fiscal.treasury.gov/v1/p2/c320'}>Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
+          This Exchange Rate Converter Tool is designed to make foreign currency exchange data values
+          easier to access for federal agency reporting purposes.
+        </p>
       </div>
     </SiteLayout>
   )
