@@ -38,12 +38,6 @@ describe('SiteHeader', () => {
     expect(getAllByTestId('search').length).toEqual(1);
   });
 
-  //docs
-  it('contains one link to the api documentation page', () => {
-    const { getAllByTestId } = render(<SiteHeader />);
-    expect(getAllByTestId('apiDocs').length).toEqual(1);
-  });
-
   //about
   it('contains one link to the about us page', () => {
     const { getAllByTestId } = render(<SiteHeader />);
@@ -57,26 +51,42 @@ describe('SiteHeader', () => {
   });
 
   it('displays the topics button', () => {
-    const { getByTestId } = render(<SiteHeader />);
-    expect(getByTestId('topicsButton')).toBeInTheDocument();
+    const { getByRole } = render(<SiteHeader />);
+    expect(getByRole('button', {name: 'Topics'})).toBeInTheDocument();
   });
 
-  it('displays the topics drop down renders when mousing over topics button', () => {
-    const { getByTestId } = render(<SiteHeader />);
-    fireEvent.mouseEnter(getByTestId('topicsButton'));
-    expect(getByTestId('dropdownContent')).toBeInTheDocument();
+  it('displays the topics drop down when mousing over topics button', () => {
+    const { getByRole } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
+    expect(getByRole('link', {name: 'Overview'})).toBeInTheDocument();
+    expect(getByRole('link', {name: 'Debt'})).toBeInTheDocument();
+    expect(getByRole('link', {name: 'Deficit'})).toBeInTheDocument();
+    expect(getByRole('link', {name: 'Spending'})).toBeInTheDocument();
+    expect(getByRole('link', {name: 'Revenue'})).toBeInTheDocument();
+  });
+
+  it('displays the tools drop down when mousing over tool button', () => {
+    const { getByRole } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByRole('button', {name: 'Tools'}));
+    expect(getByRole('link', {name: 'Currency Exchange Rates Converter'})).toBeInTheDocument();
+  });
+
+  it('displays the resources drop down when mousing over resources button', () => {
+    const { getByRole } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    expect(getByRole('link', {name: 'API Documentation'})).toBeInTheDocument();
+    expect(getByRole('link', {name: 'Release Calendar'})).toBeInTheDocument();
   });
 
   it('collapses the topics drop down when tab is not focused on or within drop down', async () => {
-    const { getByTestId, getByText, queryByTestId } = render(<SiteHeader />);
+    const { getByTestId, getByText, queryByTestId, getByRole } = render(<SiteHeader />);
 
-    getByTestId('topicsButton').focus();
+    getByRole('button', {name: 'Topics'}).focus();
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
     });
 
     getByText('Overview').focus();
-    getByText('Spending').focus();
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
     });
@@ -87,15 +97,61 @@ describe('SiteHeader', () => {
     });
   });
 
-  it('displays the explainer buttons when the topics dropdown menu is open', () => {
-    const { getByTestId, getByText } = render(<SiteHeader />);
-    fireEvent.mouseEnter(getByTestId('topicsButton'));
-    expect(getByText('Debt')).toBeDefined();
-    expect(getByText('Deficit')).toBeDefined();
-    expect(getByText('Spending')).toBeDefined();
-    expect(getByText('Revenue')).toBeDefined();
-    expect(getByText('Overview')).toBeDefined();
-  })
+  it('collapses the tools drop down when tab is not focused on or within drop down', async () => {
+    const { getByTestId, getByText, queryByTestId, getByRole } = render(<SiteHeader />);
+
+    getByRole('button', {name: 'Tools'}).focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByText('Currency Exchange Rates Converter').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByTestId('logo').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
+  });
+
+  it('collapses the resources drop down when tab is not focused on or within drop down', async () => {
+    const { getByTestId, getByText, queryByTestId, getByRole } = render(<SiteHeader />);
+
+    getByRole('button', {name: 'Resources'}).focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByText('Release Calendar').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    getByTestId('logo').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
+  });
+
+  it('closes each dropdown when another one opens ',  () => {
+    const { getByRole, queryByRole } = render(<SiteHeader />);
+    fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
+    expect(getByRole('link', {name: 'Overview'})).toBeInTheDocument();
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Tools'}));
+    expect(getByRole('link', {name: 'Currency Exchange Rates Converter'})).toBeInTheDocument();
+    expect(queryByRole('link', {name: 'Overview'})).not.toBeInTheDocument();
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    expect(getByRole('link', {name: 'API Documentation'})).toBeInTheDocument();
+    expect(queryByRole('link', {name: 'Currency Exchange Rates Converter'})).not.toBeInTheDocument();
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
+    expect(queryByRole('link', {name: 'API Documentation'})).not.toBeInTheDocument();
+  } )
+
 
   it('expects that all of the header links are not active/highlighted by default', () => {
     const { container } = render(<SiteHeader />);
@@ -119,14 +175,14 @@ describe('SiteHeader', () => {
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const pageTitle = 'test page title'
-    const { getByTestId, getByText } = render(<SiteHeader />);
+    const { getByTestId, getByText, getByRole } = render(<SiteHeader />);
     document.title = pageTitle;
 
     const logo = getByTestId('logo');
     const searchButton = getByTestId('search');
-    const apiDocsButton = getByTestId('apiDocs');
     const aboutButton = getByTestId('about');
-    const topicsButton = getByTestId('topicsButton');
+    const topicsButton = getByRole('button', {name: 'Topics'});
+    const resourcesButton = getByRole('button', {name: 'Resources'});
 
     logo.click();
     expect(spy).toHaveBeenCalledWith({
@@ -144,13 +200,7 @@ describe('SiteHeader', () => {
     });
     spy.mockClear();
 
-    apiDocsButton.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Sitewide Navigation',
-      action: `Top API Documentation Click`,
-      label: pageTitle
-    });
-    spy.mockClear();
+
 
     aboutButton.click();
     expect(spy).toHaveBeenCalledWith({
@@ -167,6 +217,16 @@ describe('SiteHeader', () => {
       category: 'Sitewide Navigation',
       action: `Topics Click`,
       label: 'Debt'
+    });
+    spy.mockClear();
+
+    fireEvent.mouseEnter(resourcesButton);
+    const apiDocsButton = getByText('API Documentation');
+    apiDocsButton.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Sitewide Navigation',
+      action: `Top API Documentation Click`,
+      label: pageTitle
     });
     spy.mockClear();
   });
