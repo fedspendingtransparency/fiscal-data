@@ -56,7 +56,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           )}
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'} />
+              <input type='number' inputMode="numeric" step="any" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'} />
             </div>
           </div>
         </div> :
@@ -66,7 +66,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           </div>
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input'} />
+              <input type='number' inputMode="numeric" step="any" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input'} />
             </div>
           </div>
         </div>
