@@ -25,18 +25,17 @@ import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
-import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
-import { BASE_URL } from "gatsby-env-variables";
-
-const envBaseUrl = BASE_URL;
 import {
   quarterNumToTerm,
   dateStringConverter,
   apiEndpoint,
   breadCrumbLinks,
-  effectiveDateInfo, socialCopy
+  effectiveDateInfo,
+  socialCopy,
+  fastRound, currencySelectionInfoIcon, effectiveDateInfoIcon
 } from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
+import InfoTip from "../../components/info-tip/info-tip";
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -171,7 +170,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
 
   const useHandleChangeQuarters = useCallback((option) => {
-
     updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
     setSelectedQuarter(option);
   }, [selectedQuarter, data, nonUSCurrency, currencyMap]);
@@ -196,7 +194,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [selectedYear, data, nonUSCurrency, currencyMap]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
-
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
@@ -229,16 +226,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, []);
 
-
-
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
-        pageTitle= "Currency Exchange Rates Convertor Tool "
-        description={"Fiscal Data’s Currency Exchange Rates Convertor Tool provides accurate " +
-          "and reliable currency exchange rates based on trusted U.S. Treasury data that can " +
-          "be used for purposes such as IRS Report of Foreign Bank and Financial Accounts " +
-          "(FBAR) reporting."}
+        pageTitle= "Currency Exchange Rates Converter Tool"
+        description={"Fiscal Data’s Currency Exchange Rates Converter Tool gives accurate and reliable currency " +
+          "exchange rates based on trusted U.S. Treasury data. This tool can be used for the IRS Report of Foreign " +
+          "Bank and Financial Accounts (FBAR) reporting."}
         descriptionGenerator={false}
         keywords=""
         image=""
@@ -251,7 +245,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <ExchangeRatesBanner text={'Currency Exchange Rates Converter'} copy={socialCopy} />
       <div className={container}>
           <span className={title}>
-            Check foreign currency rates against the US Dollar.
+            Check foreign currency rates against the U.S. Dollar.
           </span>
         {
           data && (
@@ -265,9 +259,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <div title={effectiveDateInfo} >
-                    <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} />
-                  </div>
+                  <InfoTip secondary={false} hover iconStyle={ '#666666'}>
+                    {currencySelectionInfoIcon.body}
+                  </InfoTip>
                 </div>
                 <span className={effectiveDateText}> {effectiveDate} </span>
               </div>
@@ -276,16 +270,18 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         <div className={selectText}>
             <span>
-              Select a country-currency and then enter a value for US Dollars or for the foreign
-              currency to see the conversion. {" "}
+              Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
+              to see the conversion. {" "}
             </span>
-          <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} />
+            <InfoTip secondary={false} hover>
+              {effectiveDateInfoIcon.body}
+            </InfoTip>
         </div>
         {
           nonUSCurrency !== null && (
             <div className={currencyBoxContainer} data-testid={'box-container'}>
               <CurrencyEntryBox
-                defaultCurrency={'US Dollar'}
+                defaultCurrency={'U.S. Dollar'}
                 currencyValue={usDollarValue}
                 onCurrencyValueChange={useHandleChangeUSDollar}
                 testId={'us-box'}

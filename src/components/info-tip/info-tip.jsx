@@ -55,7 +55,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }) => {
+const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle, hover, children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const handleScroll = () => {
@@ -65,7 +65,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
 
     if (scrollPosition !== previousScrollPosition) {
       handleClose();
-    };
+    }
   };
 
   useEffect(() => {
@@ -118,6 +118,28 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
   const id = open ? 'simple-popover' : undefined;
   const label = `More information about ${title}.`;
 
+  const getHeader = () => {
+    if(title) {
+      return (
+        <>
+          {
+            width < pxToNumber(breakpointLg) ?
+            <span>
+              <FontAwesomeIcon className={styles.mobileFA} icon={faXmark} onClick={handleClose} />
+              <h6 className={styles.header}>{title}</h6>
+            </span>
+            :
+            <div>
+              <h6 className={styles.header}>{title}</h6>
+            </div>
+          }
+        </>
+      )
+    }
+  }
+
+  console.log(title);
+
   return (
     <span data-testid="infoTipContainer">
       {glossaryText ? (
@@ -141,10 +163,12 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
           className={`${button} ${styles.infoIcon}`}
           onClick={handleClick}
           onMouseLeave={handleMouseLeave}
+          onMouseEnter={hover ? handleClick : null}
         >
           <FontAwesomeIcon
             icon={faInfoCircle}
             className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`}
+            style={{color: iconStyle}}
           />
         </Button>
       )}
@@ -164,24 +188,13 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, children }
             horizontal: 'center',
           }}
         >
-
           <div
             className={`${popupContainer} ${styles.popupContainer}`}
             data-testid="popupContainer"
             onMouseLeave={handleClose}
             role={'presentation'}
           >
-            {width < pxToNumber(breakpointLg) ?
-              <span>
-                <FontAwesomeIcon className={styles.mobileFA}icon={faXmark} onClick={handleClose} />
-                <h6 className={styles.header}>{title}</h6>
-              </span>
-              :
-              <div>
-                <h6 className={styles.header}>{title}</h6>
-              </div>
-            }
-
+            {getHeader()}
             <div className={styles.popoverContents}>
               {children}
             </div>
