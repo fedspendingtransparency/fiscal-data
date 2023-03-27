@@ -74,11 +74,22 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             yearQuarterMap: {} as Record<string, CurrencyYearQuarter>
           } as Currency;
         }
-        currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
-          effectiveDate: record.effective_date,
-          rate: record.exchange_rate,
-          data: record
-        };
+        if (!currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
+          currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
+            effectiveDate: record.effective_date,
+            rate: record.exchange_rate,
+            data: record
+          };
+        }
+        else if (currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
+          if (new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate) < new Date(record.effective_date)) {
+              currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
+                effectiveDate: record.effective_date,
+                rate: record.exchange_rate,
+                data: record
+              };
+          }
+        }
         if (!yearToQuartersMapLocal[record.record_calendar_year]) {
           yearToQuartersMapLocal[record.record_calendar_year] = [];
         }
