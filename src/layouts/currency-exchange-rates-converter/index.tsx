@@ -225,7 +225,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleCurrencyChange = useCallback((event) => {
     if (event !== null) {
-      console.log(event.value);
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
       setEffectiveDate(dateStringConverter(new Date(event.value.effective_date)));
