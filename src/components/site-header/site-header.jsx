@@ -234,7 +234,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
   const handleBlur = (e, title) => {
     const currentTarget = e.currentTarget;
-    console.log(currentTarget);
     requestAnimationFrame(() => {
       if(!currentTarget.contains(document.activeElement)) {
         handleMouseLeave(title);
