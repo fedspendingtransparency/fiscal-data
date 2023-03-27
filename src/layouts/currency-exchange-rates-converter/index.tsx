@@ -65,7 +65,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
       const yearToQuartersMapLocal = {} as Record<string, number[]>;
       const currencyMapLocal: Record<string, Currency> = {};
-      console.log(res.data);
       res.data.forEach(record => {
         if (!currencyMapLocal[record.country_currency_desc]) {
           currencyMapLocal[record.country_currency_desc] = {
@@ -96,7 +95,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           yearToQuartersMapLocal[record.record_calendar_year].push(parseInt(record.record_calendar_quarter));
         }
       });
-      console.log(currencyMapLocal);
       Object.values(yearToQuartersMapLocal).forEach(quarters => {
         quarters = quarters.sort((a, b) => a-b);
       });
