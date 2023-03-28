@@ -295,6 +295,29 @@ describe('Dataset-Detail layout component', () => {
     expect(related.props.referrer).toBe(datasetPageSampleConfig.name);
   });
 
+  it('passes content for the banner callout if set in config', async() => {
+    await renderer.act(async () => {
+      useStaticQuery.mockReturnValue(
+        {
+          site: {
+            siteMetadata: {
+              siteUrl: `https://fiscalData.treasury.gov`
+            }
+          }
+        });
+      component = await renderer.create(<DatasetDetail test={true}
+                                                       pageContext={{
+                                                         config: {...datasetPageSampleConfig, "bannerCallout": "TestCallout"},
+                                                         seoConfig: seoConfig
+                                                       }}
+                                                       data={mockQueryReturn}
+                                        />);
+      instance = component.root;
+    });
+
+    const masthead = instance.findByType(Masthead);
+    expect(masthead.props.bannerCallout).toBe("TestCallout");
+  });
 });
 
 describe('Dataset detail - helper updateDates', () => {
