@@ -286,7 +286,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 <div>
                   Effective Date
                   <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
-                    {currencySelectionInfoIcon.body}
+                    {effectiveDateInfoIcon.body}
                   </InfoTip>
                 </div>
                 <span className={effectiveDateText}> {effectiveDate} </span>
@@ -300,7 +300,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               to see the conversion.{" "}
             </span>
             <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
-              {effectiveDateInfoIcon.body}
+              {currencySelectionInfoIcon.body}
             </InfoTip>
         </div>
         {

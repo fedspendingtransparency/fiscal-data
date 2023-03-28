@@ -61,18 +61,17 @@ export const socialCopy = {
 export const effectiveDateInfoIcon = {
   body: (
     <>
-      Sometimes Treasury issues amendments to published exchange rates. The Effective Date is
-      the most recent exchange rate published for the given quarter. This will either be the
-      original publication date or the date the amendment was published. The tool below shows
-      the latest value published for the year and quarter selected.
+      Sometimes Treasury issues amendments to published exchange rates. The Effective Date is the most recent
+      exchange rate published for the given quarter. This will either be the original publication date or the
+      date the amendment was published. The tool below shows the latest value published for the year and quarter
+      selected.
     </>
   )}
 export const currencySelectionInfoIcon = {
   body: (
     <>
-      Currencies listed in grey do not have available data for the date range selected.
-      Please ensure that the desired currency does not appear by another name, or change the dates
-      selected for available results
+      Currencies listed in grey do not have available data for the date range selected. Please ensure that
+      the desired currency does not appear by another name, or change the dates selected for available results.
     </>
   )
 };
