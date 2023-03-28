@@ -55,7 +55,7 @@ export const socialCopy = {
     'international business, completing tax reporting, or planning your next trip abroad, use the Currency '+
     'Exchange Rates Converter Tool for trusted U.S. Treasury currency information.',
   url: envBaseUrl+'/currency-exchange-rates-converter/',
-  image: '',
+  image: envBaseUrl+'/images/currencyExchangeRatesConverter.png',
 }
 
 export const effectiveDateInfoIcon = {

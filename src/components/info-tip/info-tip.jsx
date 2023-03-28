@@ -59,7 +59,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
       },
       primarySvgColor: {
         "& path": {
-          fill: iconStyle.color ? iconStyle.color : '#aeb0b5'
+          fill: iconStyle?.color ? iconStyle.color : '#aeb0b5'
         }
       },
     }
@@ -161,7 +161,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
       ) : (
         <Button
           aria-describedby={id}
-          aria-label={label}
+          aria-label={title ? label : null}
           data-testid="infoTipButton"
           variant="contained"
           className={`${button} ${styles.infoIcon} infoTipIcon`}

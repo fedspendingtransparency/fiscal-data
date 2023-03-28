@@ -7,7 +7,6 @@ import {
   container,
   currencyBoxContainer,
   footer,
-  icon,
   selectText,
   breadCrumbsContainer,
   selectorContainer,
@@ -37,6 +36,7 @@ import {
 import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
 import {format} from "date-fns";
+import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
 
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
@@ -75,7 +75,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then((res) => {
       if(res.data) {
         const date = new Date(res.data[0].effective_date);
-        setDatasetDate(format(date, "MMMM d, yyyy"));
+        console.log(res.data);
+        console.log(date);
+        setDatasetDate(format(getDateWithoutTimeZoneAdjust(date), "MMMM d, yyyy"));
       }
     })
   }, []);
@@ -336,7 +338,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           <>
           </>
         }
-        <span className={footer}>
+        <span className={footer} data-testid={'test'}>
           The Currency Exchange Rates Converter tool is powered by the{' '}
           <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}>
             Treasury Reporting Rates of Exchange
