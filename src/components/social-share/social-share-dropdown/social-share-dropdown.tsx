@@ -82,7 +82,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
         title={copy.title}
         description={copy.description}
         url={copy.url}
-      >
+      />
         <button
           className={shareButton}
           tabIndex={0}
@@ -117,7 +117,6 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
             />
           </div>
         </Popover>
-      </SocialMetaData>
     </>
   );
 }
