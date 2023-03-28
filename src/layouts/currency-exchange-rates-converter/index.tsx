@@ -7,7 +7,6 @@ import {
   container,
   currencyBoxContainer,
   footer,
-  icon,
   selectText,
   breadCrumbsContainer,
   selectorContainer,
@@ -17,20 +16,28 @@ import {
   box,
   legalDisclaimer
 } from './currency-exchange-rates-converter.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import ExchangeRatesBanner
   from "../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner";
 import CurrencyEntryBox
   from "../../components/exchange-rates-converter/currency-entry-box/currency-entry-box";
 import SelectControl from "../../components/select-control/select-control";
 import {apiPrefix, basicFetch} from "../../utils/api-utils";
-import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
-import { BASE_URL } from "gatsby-env-variables";
+import {
+  quarterNumToTerm,
+  dateStringConverter,
+  apiEndpoint,
+  breadCrumbLinks,
+  socialCopy,
+  fastRound,
+  currencySelectionInfoIcon,
+  effectiveDateInfoIcon,
+  effectiveDateEndpoint
+} from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
+import InfoTip from "../../components/info-tip/info-tip";
+import {format} from "date-fns";
+import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
 
-const envBaseUrl = BASE_URL;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -48,6 +55,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
   const [yearToQuartersMap, setYearToQuartersMap] = useState(null);
   const [resetFilterCount, setResetFilterCount] = useState(0);
+  const [datasetDate, setDatasetDate] = useState(null);
 
   type CurrencyYearQuarter = {
     effectiveDate: string,
@@ -62,6 +70,15 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const yearQuarterParse = (dataRecord: Record<string, string>): string =>
     `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then((res) => {
+      if(res.data) {
+        const date = new Date(res.data[0].effective_date);
+        setDatasetDate(format(getDateWithoutTimeZoneAdjust(date), "MMMM d, yyyy"));
+      }
+    })
+  }, []);
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
@@ -82,7 +99,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           };
         }
         else if (currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
-          if (new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate) < new Date(record.effective_date)) {
+          if (new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate)
+            < new Date(record.effective_date)) {
               currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
                 effectiveDate: record.effective_date,
                 rate: record.exchange_rate,
@@ -176,7 +194,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
 
   const useHandleChangeQuarters = useCallback((option) => {
-
     updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
     setSelectedQuarter(option);
   }, [selectedQuarter, data, nonUSCurrency, currencyMap]);
@@ -201,7 +218,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [selectedYear, data, nonUSCurrency, currencyMap]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
-
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
@@ -234,25 +250,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, []);
 
-
-  const socialCopy = {
-    title: 'Test title',
-    description: 'Test description',
-    body: 'Test body',
-    emailSubject: 'Test email subject',
-    emailBody: 'test email body',
-    url: envBaseUrl+'/currency-exchange-rates-converter/',
-    image: '',
-  }
-
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
-        pageTitle= "Currency Exchange Rates Convertor Tool "
-        description={"Fiscal Data’s Currency Exchange Rates Convertor Tool provides accurate " +
-          "and reliable currency exchange rates based on trusted U.S. Treasury data that can " +
-          "be used for purposes such as IRS Report of Foreign Bank and Financial Accounts " +
-          "(FBAR) reporting."}
+        pageTitle= "Currency Exchange Rates Converter Tool"
+        description={"Fiscal Data’s Currency Exchange Rates Converter Tool gives accurate and reliable currency " +
+          "exchange rates based on trusted U.S. Treasury data. This tool can be used for the IRS Report of Foreign " +
+          "Bank and Financial Accounts (FBAR) reporting."}
         descriptionGenerator={false}
         keywords=""
         image=""
@@ -265,7 +269,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <ExchangeRatesBanner text={'Currency Exchange Rates Converter'} copy={socialCopy} />
       <div className={container}>
           <span className={title}>
-            Check foreign currency rates against the US Dollar.
+            Check foreign currency rates against the U.S. Dollar.
           </span>
         {
           data && (
@@ -277,7 +281,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={useHandleChangeQuarters} />
               </div>
               <div className={effectiveDateContainer}>
-                <div>Effective Date <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} /> </div>
+                <div>
+                  Effective Date
+                  <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
+                    {effectiveDateInfoIcon.body}
+                  </InfoTip>
+                </div>
                 <span className={effectiveDateText}> {effectiveDate} </span>
               </div>
             </div>
@@ -285,16 +294,18 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         <div className={selectText}>
             <span>
-              Select a country-currency and then enter a value for US Dollars or for the foreign
-              currency to see the conversion. {" "}
+              Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
+              to see the conversion.{" "}
             </span>
-          <FontAwesomeIcon icon={faCircleInfo as IconProp} className={icon} />
+            <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
+              {currencySelectionInfoIcon.body}
+            </InfoTip>
         </div>
         {
           nonUSCurrency !== null && (
             <div className={currencyBoxContainer} data-testid={'box-container'}>
               <CurrencyEntryBox
-                defaultCurrency={'US Dollar'}
+                defaultCurrency={'U.S. Dollar'}
                 currencyValue={usDollarValue}
                 onCurrencyValueChange={useHandleChangeUSDollar}
                 testId={'us-box'}
@@ -325,11 +336,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           <>
           </>
         }
-        <span className={footer}>
-            The Currency Exchange Rates Converter tool is driven by the Treasury Reporting Rates of
-            Exchange dataset. This dataset is updated quarterly and covers the period from
-            December 31, 2022 to Month, DD, YYYY. For more information and to see the full dataset,
-            please visit the Treasury Reporting Rates of Exchange dataset page.
+        <span className={footer} data-testid={'test'}>
+          The Currency Exchange Rates Converter tool is powered by the{' '}
+          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}>
+            Treasury Reporting Rates of Exchange
+          </CustomLink>
+          {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
         </span>
       </div>
       <div className={legalDisclaimer}>

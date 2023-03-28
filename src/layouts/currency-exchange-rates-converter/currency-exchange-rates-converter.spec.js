@@ -96,6 +96,12 @@ describe('exchange rates converter', () => {
       { overwriteRoutes: true },
       { repeat: 1 }
     );
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=-effective_date`,
+      mockData,
+      { overwriteRoutes: true },
+      { repeat: 1 }
+    );
 
   });
 
@@ -213,7 +219,7 @@ describe('exchange rates converter', () => {
     const {getByTestId, getByText} = render(
       <CurrencyExchangeRatesConverter />
     )
-    await waitFor(() => getByText('US Dollar'));
+    await waitFor(() => getByText('U.S. Dollar'));
 
     const usBox = within(getByTestId('box-container')).getByTestId('input');
     const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
@@ -236,7 +242,7 @@ describe('exchange rates converter', () => {
     const {getByTestId, getByText} = render(
       <CurrencyExchangeRatesConverter />
     )
-    await waitFor(() => getByText('US Dollar'));
+    await waitFor(() => getByText('U.S. Dollar'));
 
     const usBox = within(getByTestId('box-container')).getByTestId('input');
 
@@ -254,7 +260,7 @@ describe('exchange rates converter', () => {
     const {getByTestId, getByText} = render(
       <CurrencyExchangeRatesConverter />
     )
-    await waitFor(() => getByText('US Dollar'));
+    await waitFor(() => getByText('U.S. Dollar'));
 
     const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
 
@@ -272,7 +278,7 @@ describe('exchange rates converter', () => {
     const {getByTestId, getByText} = render(
       <CurrencyExchangeRatesConverter />
     )
-    await waitFor(() => getByText('US Dollar'));
+    await waitFor(() => getByText('U.S. Dollar'));
 
     const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
 
@@ -296,7 +302,7 @@ describe('exchange rates converter', () => {
     const {getByTestId, getByText} = render(
       <CurrencyExchangeRatesConverter />
     )
-    await waitFor(() => getByText('US Dollar'));
+    await waitFor(() => getByText('U.S. Dollar'));
 
     const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
 
@@ -313,6 +319,15 @@ describe('exchange rates converter', () => {
 
     expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 150 Other OtherDollar2');
 
+  });
+  it('renders the most recent effective date', async() => {
+
+    const { getByText, getByTestId} = render(<CurrencyExchangeRatesConverter />)
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const test = getByTestId('test');
+    console.log(test.innerHTML);
+    expect(getByText('December 31, 2022 to December 31, 2023', {exact: false})).toBeInTheDocument();
   });
 
 })

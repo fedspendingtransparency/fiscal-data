@@ -1,5 +1,9 @@
 @import 'src/variables.module';
 
+:global(.infoTipPopoverContents) {
+  font-size: $font-size-14;
+}
+
 .breadCrumbsContainer {
   margin: 0 auto;
   padding-top: 20px;
