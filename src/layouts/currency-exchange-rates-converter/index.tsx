@@ -14,7 +14,8 @@ import {
   effectiveDateContainer,
   effectiveDateText,
   selector,
-  box
+  box,
+  legalDisclaimer
 } from './currency-exchange-rates-converter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
@@ -36,6 +37,11 @@ import {
 } from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
+import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
+import { BASE_URL } from "gatsby-env-variables";
+import CustomLink from "../../components/links/custom-link/custom-link";
+
+const envBaseUrl = BASE_URL;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -79,11 +85,22 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             yearQuarterMap: {} as Record<string, CurrencyYearQuarter>
           } as Currency;
         }
-        currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
-          effectiveDate: record.effective_date,
-          rate: record.exchange_rate,
-          data: record
-        };
+        if (!currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
+          currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
+            effectiveDate: record.effective_date,
+            rate: record.exchange_rate,
+            data: record
+          };
+        }
+        else if (currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
+          if (new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate) < new Date(record.effective_date)) {
+              currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
+                effectiveDate: record.effective_date,
+                rate: record.exchange_rate,
+                data: record
+              };
+          }
+        }
         if (!yearToQuartersMapLocal[record.record_calendar_year]) {
           yearToQuartersMapLocal[record.record_calendar_year] = [];
         }
@@ -197,7 +214,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      product = fastRound((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+      product = Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
     }
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product.toString());
@@ -320,6 +337,19 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to
           Month DD, YYYY.
         </span>
+      </div>
+      <div className={legalDisclaimer}>
+        <div>
+          <span> Important Legal Disclosures and Information</span>
+          <p>
+            The Treasury Reporting Rates of Exchange dataset provides the U.S. government's authoritative
+            foreign currency exchange rates for federal agencies to consistently report U.S. dollar equivalents.
+            For more information on the calculation of exchange rates used by federal agencies, please see the {' '}
+            <CustomLink url={'https://tfm.fiscal.treasury.gov/v1/p2/c320'}>Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
+            This Exchange Rate Converter Tool is designed to make foreign currency exchange data values
+            easier to access for federal agency reporting purposes.
+          </p>
+        </div>
       </div>
     </SiteLayout>
   )

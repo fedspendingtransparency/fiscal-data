@@ -9,21 +9,34 @@ import { isIE } from 'react-device-detect';
 import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faCaretRight, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import LocationAware from "../location-aware/location-aware";
+import MenuDropdown from "./menu-dropdown/menu-dropdown";
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpandedTools, setIsExpandedTools] = useState(false);
+  const [isExpandedResources, setIsExpandedResources] = useState(false);
   const [menuExpanding, setMenuExpanding] = useState(false);
+  const [toolsMenuExpanding, setToolsMenuExpanding] = useState(false);
+  const [resourcesMenuExpanding, setResourcesMenuExpanding] = useState(false);
   const [toggled, setToggled] = useState(false);
+  const [toggledTools, setToggledTools] = useState(false);
+  const [toggledResources, setToggledResources] = useState(false);
 
   const pageLinks = [
     {
       title: 'Topics',
       to: '/',
       testId: 'topics',
-      featureId: 'topics'
+      featureId: 'topics',
+      dropdown: true,
+    },
+    {
+      title: 'Tools',
+      to: '/',
+      testId: 'tools',
+      featureId: 'tools',
+      dropdown: true,
     },
     {
       title: 'Dataset Search',
@@ -31,9 +44,10 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
       testId: 'search'
     },
     {
-      title: 'API Documentation',
-      to: '/api-documentation/',
-      testId: 'apiDocs'
+      title: 'Resources',
+      to: '/',
+      testId: 'Resources',
+      dropdown: true,
     },
     {
       title: 'About Us',
@@ -73,6 +87,25 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   ]
 
+  const resourcesPageLinks = [
+    {
+      title: 'API Documentation',
+      to: '/api-documentation/',
+      testId: 'apiDocs'
+    },
+    {
+      title: 'Release Calendar',
+      to: '/release-calendar/',
+      testId: 'releaseCalendar'
+    }
+  ]
+  const toolsPageLinks = [
+    {
+      title: 'Currency Exchange Rates Converter',
+      to: '/currency-exchange-rates-converter/',
+    },
+  ]
+
   const clickHandler = (title) => {
     Analytics.event({
       category: 'Sitewide Navigation',
@@ -107,6 +140,17 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
         action: `Topics Click`,
         label: explainerPageName
       })
+
+      setToolsMenuExpanding(false);
+      setToggledTools(false);
+      setIsExpandedTools(false);
+      setToolsMenuExpanding(false);
+
+      setResourcesMenuExpanding(false);
+      setToggledResources(false);
+      setIsExpandedResources(false);
+      setResourcesMenuExpanding(false);
+
       setMenuExpanding(true);
       setToggled(true);
       setIsExpanded(true);
@@ -116,28 +160,86 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   }
 
-  const handleMouseLeave = () => {
-    if(isExpanded) {
-      setMenuExpanding(true);
+  const handleMouseOverTools = () => {
+    if(!isExpandedTools) {
+
+      setMenuExpanding(false);
       setToggled(false);
-      setTimeout(() => {
-        setIsExpanded(false);
-      }, 500);
+      setIsExpanded(false);
+      setMenuExpanding(false);
+
+      setResourcesMenuExpanding(false);
+      setToggledResources(false);
+      setIsExpandedResources(false);
+      setResourcesMenuExpanding(false);
+
+      setToolsMenuExpanding(true);
+      setToggledTools(true);
+      setIsExpandedTools(true);
+      setTimeout( () => {
+        setToolsMenuExpanding(false);
+      }, 10);
     }
   }
 
-  const handleBlur = (e) => {
-    const currentTarget = e.currentTarget;
+  const handleMouseOverResources = () => {
+    if(!isExpandedResources) {
 
+      setMenuExpanding(false);
+      setToggled(false);
+      setIsExpanded(false);
+      setMenuExpanding(false);
+
+      setToolsMenuExpanding(false);
+      setToggledTools(false);
+      setIsExpandedTools(false);
+      setToolsMenuExpanding(false);
+
+      setResourcesMenuExpanding(true);
+      setToggledResources(true);
+      setIsExpandedResources(true);
+      setTimeout( () => {
+        setResourcesMenuExpanding(false);
+      }, 10);
+    }
+  }
+
+  const handleMouseLeave = (title) => {
+    if(title === 'Topics') {
+      if(isExpanded) {
+        setMenuExpanding(true);
+        setToggled(false);
+        setTimeout(() => {
+          setIsExpanded(false);
+        }, 500);
+      }
+    } else if(title === 'Tools') {
+      if(isExpandedTools) {
+        setToolsMenuExpanding(true);
+        setToggledTools(false);
+        setTimeout(() => {
+          setIsExpandedTools(false);
+        }, 500);
+      }
+    } else if(title === 'Resources') {
+      if(isExpandedResources) {
+        setResourcesMenuExpanding(true);
+        setToggledResources(false);
+        setTimeout(() => {
+          setIsExpandedResources(false);
+        }, 500);
+      }
+    }
+  }
+
+  const handleBlur = (e, title) => {
+    const currentTarget = e.currentTarget;
     requestAnimationFrame(() => {
       if(!currentTarget.contains(document.activeElement)) {
-        handleMouseLeave();
+        handleMouseLeave(title);
       }
     });
   }
-
-  const dropdownTempText = 'Coming soon! — Short analyses on federal finance topics';
-
 
   return (
     <header>
@@ -189,75 +291,106 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
               if (pageLink.title === 'Topics') {
                 return (
-                  <div className={styles.dropdown}
-                       style={{transition:'opacity 1s ease'}}
-                       key={pageLink.title}
+                  <MenuDropdown
+                    title={pageLink.title}
+                    handleMouseOver={handleMouseOver}
+                    toggled={toggled}
+                    isExpanded={isExpanded}
+                    handleMouseLeave={handleMouseLeave}
+                    handleBlur={handleBlur}
+                    menuExpanding={menuExpanding}
                   >
-                    <button
-                      className={toggled ? styles.dropdownButtonExpanded : styles.dropdownButton}
-                      onMouseEnter={handleMouseOver}
-                      onFocus={handleMouseOver}
-                      data-testid={'topicsButton'}
-                    >
-                      {pageLink.title}
-                      {toggled
-                        ? <FontAwesomeIcon icon={faCaretDown} className={styles.caret} />
-                        : <FontAwesomeIcon icon={faCaretRight} className={styles.caret} />
-                      }
-                    </button>
-                    {isExpanded && (
-                      <div
-                        className={`${styles.dropdownContent} ${menuExpanding ? styles.dropdownHidden : ''}`}
-                        onMouseOver={handleMouseOver}
-                        onMouseLeave={handleMouseLeave}
-                        onFocus={handleMouseOver}
-                        onBlur={handleBlur}
-                        role={'button'}
-                        tabIndex={'0'}
-                        data-testid={'dropdownContent'}
-                      >
-                        <div className={styles.dropdownRow}>
-                          <div className={styles.dropdownColumnOne}>
-                            <div className={styles.dropdownTitle} >
-                              AMERICA'S FINANCE GUIDE
-                            </div>
-                            <div>
-                              {topicsPageLinks.map((topicPageLink) => {
-                                return (
-                                  <div key={topicPageLink.title}
-                                       className={styles.dropdownListItem}
-                                  >
-                                    <Link
-                                      to={topicPageLink.to}
-                                      activeClassName={styles.activeTopicLink}
-                                      onClick={() => topicsClickHandler(topicPageLink.title)}
-                                    >
-                                      {topicPageLink.title}
-                                    </Link>
-                                  </div>
-                                )
-                              })}
-                            </div>
-                          </div>
-                          <div className={styles.dropdownColumnTwo}>
-                            <div className={styles.dropdownTitle} >
-                              INSIGHTS
-                            </div>
-                            <div className={styles.dropdownTempText} >
-                              <em>{dropdownTempText}</em>
-                            </div>
-                          </div>
+                    <div className={styles.dropdownRow}>
+                      <div className={styles.dropdownColumnOne}>
+                        <div className={styles.dropdownTitle} >
+                          AMERICA'S FINANCE GUIDE
+                        </div>
+                        <div>
+                          {topicsPageLinks.map((topicPageLink) => {
+                            return (
+                              <div key={topicPageLink.title}
+                                   className={styles.dropdownListItem}
+                              >
+                                <Link
+                                  to={topicPageLink.to}
+                                  activeClassName={styles.activeTopicLink}
+                                  onClick={() => topicsClickHandler(topicPageLink.title)}
+                                >
+                                  {topicPageLink.title}
+                                </Link>
+                              </div>
+                            )
+                          })}
                         </div>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  </MenuDropdown>
                 )
               }
 
+              if (pageLink.title === 'Tools') {
+                return (
+                  <MenuDropdown
+                    title={pageLink.title}
+                    handleMouseOver={handleMouseOverTools}
+                    toggled={toggledTools}
+                    isExpanded={isExpandedTools}
+                    handleMouseLeave={handleMouseLeave}
+                    handleBlur={handleBlur}
+                    menuExpanding={toolsMenuExpanding}
+                  >
+                    <div className={styles.toolsSingleDropDown}>
+                      {toolsPageLinks.map((link) => {
+                        return (
+                          <Link
+                            to={link.to}
+                            activeClassName={styles.activeTopicLink}
+                            key={link.title}
+                            onClick={() => clickHandler(link.title)}
+                          >
+                            {link.title}
+                          </Link>
+                        )
+                      })
+                      }
+                    </div>
+                  </MenuDropdown>
+                )
+              }
+
+              if (pageLink.title === 'Resources') {
+                return (
+                  <MenuDropdown
+                    title={pageLink.title}
+                    handleMouseOver={handleMouseOverResources}
+                    toggled={toggledResources}
+                    isExpanded={isExpandedResources}
+                    handleMouseLeave={handleMouseLeave}
+                    handleBlur={handleBlur}
+                    menuExpanding={resourcesMenuExpanding}
+                  >
+                    <div className={styles.resourcesDropDown}>
+                      {resourcesPageLinks.map((link) => {
+                        return (
+                          <Link
+                            to={link.to}
+                            activeClassName={styles.activeTopicLink}
+                            key={link.title}
+                            onClick={() => clickHandler(link.title)}
+                          >
+                            {link.title}
+                          </Link>
+                        )
+                      })
+                      }
+                    </div>
+                  </MenuDropdown>
+                )
+              }
               return (
                 <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
                   <div className={styles.pageLinkButtonContent}
-                       style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                       style={{minWidth:`${(pageLink.title.length * 7.5)+16}px`}}
                   >
                     {pageLink.to === location.pathname ?
                       <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
