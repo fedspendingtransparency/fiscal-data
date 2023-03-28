@@ -155,7 +155,8 @@
     "relatedDatasets": [],
     "currentDateButton": "byMonth",
     "datePreset": "custom",
-    "customRangePreset": "latestQuarter"
+    "customRangePreset": "latestQuarter",
+    "bannerCallout": "XRCallout"
   },
   "015-BFS-2014Q3-071": {
     "slug": "/historical-debt-outstanding/",
