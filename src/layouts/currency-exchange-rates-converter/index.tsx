@@ -75,8 +75,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then((res) => {
       if(res.data) {
         const date = new Date(res.data[0].effective_date);
-        console.log(res.data);
-        console.log(date);
         setDatasetDate(format(getDateWithoutTimeZoneAdjust(date), "MMMM d, yyyy"));
       }
     })
