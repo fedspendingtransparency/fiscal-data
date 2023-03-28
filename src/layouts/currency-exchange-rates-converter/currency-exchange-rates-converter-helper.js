@@ -1,6 +1,5 @@
 import {BASE_URL} from "gatsby-env-variables";
 import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
 
 
 export const quarterNumToTerm = (num) => {
@@ -31,6 +30,7 @@ export const fastRound = (number) => {
 
 export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
 
+export const effectiveDateEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=-effective_date';
 export const breadCrumbLinks = [
   {
     name: 'Currency Exchange Rates Convertor'

@@ -47,7 +47,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconColor, hover, children }) => {
+const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle, hover, children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
@@ -59,7 +59,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconColor,
       },
       primarySvgColor: {
         "& path": {
-          fill: iconColor ? iconColor : '#aeb0b5'
+          fill: iconStyle.color ? iconStyle.color : '#aeb0b5'
         }
       },
     }
@@ -144,9 +144,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconColor,
       )
     }
   }
-
-  console.log(title);
-
   return (
     <span data-testid="infoTipContainer">
       {glossaryText ? (
@@ -167,7 +164,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconColor,
           aria-label={label}
           data-testid="infoTipButton"
           variant="contained"
-          className={`${button} ${styles.infoIcon}`}
+          className={`${button} ${styles.infoIcon} infoTipIcon`}
           onClick={handleClick}
           onMouseLeave={handleMouseLeave}
           onMouseEnter={hover ? handleClick : null}
@@ -175,6 +172,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconColor,
           <FontAwesomeIcon
             icon={faInfoCircle}
             className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`}
+            style={iconStyle}
           />
         </Button>
       )}
@@ -201,9 +199,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconColor,
             role={'presentation'}
           >
             {getHeader()}
-            <div className={styles.popoverContents}
-              style={{fontSize: '14px'}}
-            >
+            <div className={`${styles.popoverContents} infoTipPopoverContents`}>
               {children}
             </div>
           </div>

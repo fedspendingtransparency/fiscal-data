@@ -17,9 +17,6 @@ import {
   box,
   legalDisclaimer
 } from './currency-exchange-rates-converter.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import ExchangeRatesBanner
   from "../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner";
 import CurrencyEntryBox
@@ -31,17 +28,16 @@ import {
   dateStringConverter,
   apiEndpoint,
   breadCrumbLinks,
-  effectiveDateInfo,
   socialCopy,
-  fastRound, currencySelectionInfoIcon, effectiveDateInfoIcon
+  fastRound,
+  currencySelectionInfoIcon,
+  effectiveDateInfoIcon,
+  effectiveDateEndpoint
 } from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
-import { quarterNumToTerm, dateStringConverter, apiEndpoint, breadCrumbLinks, fastRound } from "./currency-exchange-rates-converter-helper";
-import { BASE_URL } from "gatsby-env-variables";
-import CustomLink from "../../components/links/custom-link/custom-link";
+import {format} from "date-fns";
 
-const envBaseUrl = BASE_URL;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -59,6 +55,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
   const [yearToQuartersMap, setYearToQuartersMap] = useState(null);
   const [resetFilterCount, setResetFilterCount] = useState(0);
+  const [datasetDate, setDatasetDate] = useState(null);
 
   type CurrencyYearQuarter = {
     effectiveDate: string,
@@ -73,6 +70,15 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const yearQuarterParse = (dataRecord: Record<string, string>): string =>
     `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then((res) => {
+      if(res.data) {
+        const date = new Date(res.data[0].effective_date);
+        setDatasetDate(format(date, "MMMM d, yyyy"));
+      }
+    })
+  }, []);
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
@@ -93,7 +99,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           };
         }
         else if (currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)]) {
-          if (new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate) < new Date(record.effective_date)) {
+          if (new Date(currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)].effectiveDate)
+            < new Date(record.effective_date)) {
               currencyMapLocal[record.country_currency_desc].yearQuarterMap[yearQuarterParse(record)] = {
                 effectiveDate: record.effective_date,
                 rate: record.exchange_rate,
@@ -276,7 +283,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <InfoTip hover iconColor={'#666666'}>
+                  <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                     {currencySelectionInfoIcon.body}
                   </InfoTip>
                 </div>
@@ -288,9 +295,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         <div className={selectText}>
             <span>
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
-              to see the conversion. {" "}
+              to see the conversion.{" "}
             </span>
-            <InfoTip hover iconColor={ '#666666'}>
+            <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
               {effectiveDateInfoIcon.body}
             </InfoTip>
         </div>
@@ -334,8 +341,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}>
             Treasury Reporting Rates of Exchange
           </CustomLink>
-          {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to
-          Month DD, YYYY.
+          {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
         </span>
       </div>
       <div className={legalDisclaimer}>
