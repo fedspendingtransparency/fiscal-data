@@ -14,6 +14,7 @@ import {withWindowSize} from "react-fns";
 import {breakpointLg} from "../../../variables.module.scss";
 import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
 import {ISocialShareDropdown} from "../../../models/ISocialShareDropdown";
+import SocialMetaData from "../social-metadata/social-metadata";
 
 const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
   ({copy, pageName, width}) => {
@@ -76,40 +77,47 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> =
 
   return (
     <>
-      <button
-        className={shareButton}
-        tabIndex={0}
-        onClick={handleClick}
-        onKeyPress={handleClick}
+      <SocialMetaData
+        image={copy.image}
+        title={copy.title}
+        description={copy.description}
+        url={copy.url}
       >
-        <FontAwesomeIcon icon={faShareNodes as IconProp} className={icon} />
-        <span>Share</span>
-      </button>
-      <Popover
-        id={id}
-        open={open}
-        disableScrollLock={true}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        className={popOver}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <div className={listContainer}>
-          <SocialShareComponent
-            copy={copy}
-            pageName={pageName}
-            displayStyle={'list'}
-            clickEvent={handleSocialButtonClick}
-          />
-        </div>
-      </Popover>
+        <button
+          className={shareButton}
+          tabIndex={0}
+          onClick={handleClick}
+          onKeyPress={handleClick}
+        >
+          <FontAwesomeIcon icon={faShareNodes as IconProp} className={icon} />
+          <span>Share</span>
+        </button>
+        <Popover
+          id={id}
+          open={open}
+          disableScrollLock={true}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          className={popOver}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <div className={listContainer}>
+            <SocialShareComponent
+              copy={copy}
+              pageName={pageName}
+              displayStyle={'list'}
+              clickEvent={handleSocialButtonClick}
+            />
+          </div>
+        </Popover>
+      </SocialMetaData>
     </>
   );
 }
