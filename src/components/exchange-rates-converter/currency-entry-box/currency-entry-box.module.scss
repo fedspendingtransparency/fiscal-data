@@ -98,5 +98,6 @@ input[type=number] {
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {
     margin: 1rem 0 0;
+    width: 100%;
   }
 }
