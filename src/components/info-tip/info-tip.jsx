@@ -10,7 +10,7 @@ import { withWindowSize } from "react-fns";
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 
-const useStyles = makeStyles(theme => ({
+const style = {
   button: {
     backgroundColor: 'transparent',
     border: 'none',
@@ -35,29 +35,35 @@ const useStyles = makeStyles(theme => ({
       width: '17rem'
     }
   },
-  primarySvgColor: {
-    "& path": {
-      fill: '#aeb0b5'
-    }
-  },
   secondarySvgColor: {
     "& path": {
       fill: '#000'
     }
   },
-  popupContainer: {
-    padding: theme.spacing(2),
-  },
-}));
+};
 
 export const infoTipAnalyticsObject = {
   category: 'Dataset Search Page',
   action: 'Info Button Click'
 }
 
-const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle, hover, children }) => {
+const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconColor, hover, children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
+
+  const useStyles = makeStyles(theme => (
+    {
+      ...style,
+      popupContainer: {
+        padding: theme.spacing(2),
+      },
+      primarySvgColor: {
+        "& path": {
+          fill: iconColor ? iconColor : '#aeb0b5'
+        }
+      },
+    }
+  ))
   const handleScroll = () => {
     const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
@@ -75,6 +81,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
       window.removeEventListener("scroll", handleScroll);
     };
   }, [scrollPosition]);
+
   const {
     button,
     primarySvgColor,
@@ -168,7 +175,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
           <FontAwesomeIcon
             icon={faInfoCircle}
             className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`}
-            style={{color: iconStyle}}
           />
         </Button>
       )}
@@ -195,7 +201,9 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
             role={'presentation'}
           >
             {getHeader()}
-            <div className={styles.popoverContents}>
+            <div className={styles.popoverContents}
+              style={{fontSize: '14px'}}
+            >
               {children}
             </div>
           </div>

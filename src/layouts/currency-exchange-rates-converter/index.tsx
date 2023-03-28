@@ -259,7 +259,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <InfoTip secondary={false} hover iconStyle={ '#666666'}>
+                  <InfoTip hover iconColor={'#666666'}>
                     {currencySelectionInfoIcon.body}
                   </InfoTip>
                 </div>
@@ -273,7 +273,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion. {" "}
             </span>
-            <InfoTip secondary={false} hover>
+            <InfoTip hover iconColor={ '#666666'}>
               {effectiveDateInfoIcon.body}
             </InfoTip>
         </div>
