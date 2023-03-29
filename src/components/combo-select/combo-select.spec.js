@@ -1,5 +1,6 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
+import {fireEvent, waitFor, render} from "@testing-library/react";
 import ComboSelect from './combo-select';
 import {mockOptions} from "./combo-select-test-helper";
 
@@ -254,5 +255,26 @@ describe('The ComboSelect Component for general text use', () => {
     optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(1);
     expect(optionButtons[0].children).toEqual(['Nice2-lettuce']);
+  });
+
+  it('collapses dropdown when not focused', async () => {
+    const {getByTestId, queryByTestId} = render(<ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+      />);
+    const dropdownButton = getByTestId('down-arrow');
+    expect(queryByTestId('selectorList')).toBeFalsy();
+
+    fireEvent.click(dropdownButton);
+    const list = getByTestId('selectorList');
+    list.focus();
+    expect(getByTestId('selectorList')).toBeInTheDocument();
+    
+    fireEvent.focusOut(list);
+
+    await waitFor(() => {
+      expect(queryByTestId('selectorList')).toBeFalsy();
+    });
   });
 });

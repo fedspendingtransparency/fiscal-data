@@ -75,7 +75,8 @@ export default function ComboSelect(
   }
   /* accessibility-enabling event handlers for interpreting focus state on control */
   const onBlurHandler = (event) => {
-    if (!event || !(event.target.parentElement.contains(event.relatedTarget))) {
+    if (!event || !(event.target.parentElement.contains(event.relatedTarget)) 
+        || !event.currentTarget.contains(document.activeElement)) {
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
           if (isExchangeTool) {
@@ -163,7 +164,7 @@ export default function ComboSelect(
           {required && (<span className="required">*</span>)}
         </div> : null
       }
-      <div ref={ref} onFocus={onFocusHandler} role={'presentation'}>
+      <div ref={ref} onFocus={onFocusHandler} onBlur={onBlurHandler} role={'presentation'}>
         <div>
           {yearFilter ? (
             <input type="number"
