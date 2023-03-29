@@ -330,7 +330,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           nonUSCurrency!== null && nonUSCurrency.exchange_rate ? (
             <span data-testid={'exchange-values'}>
-              1.00 US Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
+              1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
             </span>
           ) :
           <>

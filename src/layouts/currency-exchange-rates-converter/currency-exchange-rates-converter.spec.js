@@ -193,14 +193,14 @@ describe('exchange rates converter', () => {
     const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
 
     // Checking displayed exchange rate
-    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 43.60 Euro Zone-Euro');
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 43.60 Euro Zone-Euro');
     // Checking displayed effective date
     expect(getByText('December 31, 2023')).toBeInTheDocument();
 
     // Click on 2022
     fireEvent.click(yearSelectorOptions[1]);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 89.11 Euro Zone-Euro');
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 89.11 Euro Zone-Euro');
     expect(getByText('December 31, 2022')).toBeInTheDocument();
 
     const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
@@ -293,7 +293,7 @@ describe('exchange rates converter', () => {
 
     fireEvent.click(option);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 43.60 Euro Zone-Euro');
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 43.60 Euro Zone-Euro');
 
   });
 
@@ -317,7 +317,7 @@ describe('exchange rates converter', () => {
 
     fireEvent.click(option);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 US Dollar = 150 Other OtherDollar2');
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
 
   });
   it('renders the most recent effective date', async() => {
