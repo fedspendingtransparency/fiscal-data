@@ -225,7 +225,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(nonUSCurrencyDecimalPlaces);
+      if (nonUSCurrencyDecimalPlaces <= 2) {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(nonUSCurrencyDecimalPlaces);
+      }
+      else {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 1000) / 1000).toFixed(nonUSCurrencyDecimalPlaces);
+      }
     }
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product.toString());
