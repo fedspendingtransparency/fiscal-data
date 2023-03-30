@@ -29,7 +29,7 @@ export const fastRound = (number) => {
 }
 
 export const countDecimals = (number) => {
-  if (Math.floor(number) === number) {
+  if (number.toString().split('.')[1] === undefined) {
     return 0;
   }
   return number.toString().split('.')[1].length || 0;

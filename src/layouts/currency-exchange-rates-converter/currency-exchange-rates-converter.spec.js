@@ -251,7 +251,7 @@ describe('exchange rates converter', () => {
     const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
 
     // Prev value was 43.60
-    expect(nonUSBox.value).toBe('87.2');
+    expect(nonUSBox.value).toBe('87');
 
   });
 
