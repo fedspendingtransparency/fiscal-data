@@ -33,7 +33,7 @@ export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_dat
 export const effectiveDateEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=-effective_date';
 export const breadCrumbLinks = [
   {
-    name: 'Currency Exchange Rates Convertor'
+    name: 'Currency Exchange Rates Converter'
   },
   {
     name: 'Home',
