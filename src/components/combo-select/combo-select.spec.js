@@ -264,17 +264,17 @@ describe('The ComboSelect Component for general text use', () => {
                    selectedOption={null}
       />);
     const dropdownButton = getByTestId('down-arrow');
-    expect(queryByTestId('selectorList')).toBeFalsy();
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
 
     fireEvent.click(dropdownButton);
     const list = getByTestId('selectorList');
     list.focus();
     expect(getByTestId('selectorList')).toBeInTheDocument();
     
-    fireEvent.focusOut(list);
+    fireEvent.blur(list);
 
     await waitFor(() => {
-      expect(queryByTestId('selectorList')).toBeFalsy();
+      expect(queryByTestId('selectorList')).not.toBeInTheDocument();
     });
   });
 });
