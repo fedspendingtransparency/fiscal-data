@@ -253,6 +253,11 @@ describe('exchange rates converter', () => {
     // Prev value was 43.60
     expect(nonUSBox.value).toBe('87.2');
 
+    // Expect other box to empty when current one emptied
+    fireEvent.change(usBox, {target: { value:''}});
+
+    expect(nonUSBox.value).toBe('');
+
   });
 
   it('typing in the non US currency box changes the US dollar exchange value appropriately', async() => {
@@ -270,6 +275,11 @@ describe('exchange rates converter', () => {
 
     // Prev value was 1.00
     expect(usBox.value).toBe('0.05');
+
+    // Expect other box to empty when current one emptied
+    fireEvent.change(nonUSBox, {target: { value:''}});
+
+    expect(usBox.value).toBe('');
 
   });
 
