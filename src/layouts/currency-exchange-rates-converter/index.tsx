@@ -219,6 +219,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const useHandleChangeUSDollar = useCallback((event) => {
     let product;
+    if (event.target.value === '') {
+      setNonUSCurrencyExchangeValue('');
+    }
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
       product = Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
@@ -231,6 +234,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const handleChangeNonUSCurrency = useCallback((event) => {
     let quotient;
     if(event !== null) {
+      if (event.target.value === '') {
+        setUSDollarValue('');
+      }
       setNonUSCurrencyExchangeValue(event.target.value);
       if (!isNaN(parseFloat(event.target.value))) {
         quotient = (fastRound((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
