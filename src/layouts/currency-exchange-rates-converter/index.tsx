@@ -172,7 +172,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (selectedQuarter && selectedYear) {
       updateCurrencyDropdownOptions(selectedQuarter, selectedYear);
     }
-  }, [selectedQuarter, selectedYear])
+  }, [selectedQuarter, selectedYear]);
+
+  useEffect(() => {
+    console.log(nonUSCurrencyExchangeValue);
+  }, [nonUSCurrencyExchangeValue]);
 
   const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
     const selectedYearQuarter = `${year}Q${quarter}`;
@@ -225,15 +229,18 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      if (nonUSCurrencyDecimalPlaces <= 2) {
-        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(nonUSCurrencyDecimalPlaces);
+      if (nonUSCurrencyDecimalPlaces === 1) {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
+      }
+      else if (nonUSCurrencyDecimalPlaces === 2) {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100);
       }
       else {
-        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 1000) / 1000).toFixed(nonUSCurrencyDecimalPlaces);
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 1000) / 1000);
       }
     }
     if (!isNaN(product)) {
-      setNonUSCurrencyExchangeValue(product.toString());
+      setNonUSCurrencyExchangeValue(product);
     }
   }, [usDollarValue, nonUSCurrency]);
 
