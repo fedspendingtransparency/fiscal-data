@@ -73,10 +73,11 @@ export default function ComboSelect(
       setInputFocus();
     }
   }
+
   /* accessibility-enabling event handlers for interpreting focus state on control */
   const onBlurHandler = (event) => {
-    if (!event || !(event.target.parentElement.contains(event.relatedTarget)) 
-        || !event.currentTarget.contains(document.activeElement)) {
+    if (!event || !(event.target.parentElement.contains(event.relatedTarget)) ) {
+
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
           if (isExchangeTool) {
