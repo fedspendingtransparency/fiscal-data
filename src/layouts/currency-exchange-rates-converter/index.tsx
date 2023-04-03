@@ -31,7 +31,7 @@ import {
   fastRound,
   currencySelectionInfoIcon,
   effectiveDateInfoIcon,
-  effectiveDateEndpoint
+  effectiveDateEndpoint, countDecimals
 } from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
@@ -56,6 +56,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [yearToQuartersMap, setYearToQuartersMap] = useState(null);
   const [resetFilterCount, setResetFilterCount] = useState(0);
   const [datasetDate, setDatasetDate] = useState(null);
+  const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPLaces] = useState(0);
 
   type CurrencyYearQuarter = {
     effectiveDate: string,
@@ -130,6 +131,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const euro = currencyMapLocal['Euro Zone-Euro'].yearQuarterMap[`${mostRecentYear}Q${newestQuarter}`].data;
       setNonUSCurrency(euro);
       setNonUSCurrencyExchangeValue(euro.exchange_rate);
+      setNonUSCurrencyDecimalPLaces(countDecimals(euro.exchange_rate));
 
       const recordQuartersSet = [...new Set(res.data
       .filter((entry => entry.country_currency_desc === euro.country_currency_desc && entry.record_calendar_year === euro.record_calendar_year))
@@ -170,7 +172,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (selectedQuarter && selectedYear) {
       updateCurrencyDropdownOptions(selectedQuarter, selectedYear);
     }
-  }, [selectedQuarter, selectedYear])
+  }, [selectedQuarter, selectedYear]);
+
+  useEffect(() => {
+    console.log(nonUSCurrencyExchangeValue);
+  }, [nonUSCurrencyExchangeValue]);
 
   const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
     const selectedYearQuarter = `${year}Q${quarter}`;
@@ -179,6 +185,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
     else if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[`${year}Q${quarter}`]) {
       setNonUSCurrency({});
+      setNonUSCurrencyDecimalPLaces(0);
       setNonUSCurrencyExchangeValue('--');
       setUSDollarValue('1.00');
       setEffectiveDate('');
@@ -188,6 +195,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
       setNonUSCurrency(matchedRecord);
       setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+      setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
       const date = new Date(matchedRecord.effective_date);
       setEffectiveDate(dateStringConverter(date));
     }
@@ -221,10 +229,18 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      product = Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100;
+      if (nonUSCurrencyDecimalPlaces === 1) {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
+      }
+      else if (nonUSCurrencyDecimalPlaces === 2) {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100);
+      }
+      else {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 1000) / 1000);
+      }
     }
     if (!isNaN(product)) {
-      setNonUSCurrencyExchangeValue(product.toString());
+      setNonUSCurrencyExchangeValue(product);
     }
   }, [usDollarValue, nonUSCurrency]);
 
@@ -245,6 +261,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if (event !== null) {
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
+      setNonUSCurrencyDecimalPLaces(countDecimals(event.value.exchange_rate));
       setEffectiveDate(dateStringConverter(new Date(event.value.effective_date)));
       setUSDollarValue('1.00');
     }

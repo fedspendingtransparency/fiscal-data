@@ -28,6 +28,13 @@ export const fastRound = (number) => {
   return (number + (number>0?0.50:-0.50)) << 0;
 }
 
+export const countDecimals = (number) => {
+  if (number.toString().split('.')[1] === undefined) {
+    return 0;
+  }
+  return number.toString().split('.')[1].length || 0;
+}
+
 export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
 
 export const effectiveDateEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=-effective_date';
