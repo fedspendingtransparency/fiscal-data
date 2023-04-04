@@ -1861,47 +1861,56 @@ const endpointConfig = {
   '184': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_1',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_RangeOfMaturities'
+    'downloadName': 'TCIR_Annual_RangeOfMaturities',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '185': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_2',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_SmallReclamationProj'
+    'downloadName': 'TCIR_Annual_SmallReclamationProj',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '186': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_3',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_USArmyCorpsOfEng'
+    'downloadName': 'TCIR_Annual_USArmyCorpsOfEng',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '187': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_4',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_BureauOfReclamation'
+    'downloadName': 'TCIR_Annual_BureauOfReclamation',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '188': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_5',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_MidDakotaRuralWater'
+    'downloadName': 'TCIR_Annual_MidDakotaRuralWater',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '189': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_6',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_MerchantMarine'
+    'downloadName': 'TCIR_Annual_MerchantMarine',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '190': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_7',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_OtherLegislationCY'
+    'downloadName': 'TCIR_Annual_OtherLegislationCY',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '191': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_8',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_OtherLegislationFY'
+    'downloadName': 'TCIR_Annual_OtherLegislationFY',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '192': {
     'endpoint': 'v1/accounting/od/tcir_annual_table_9',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Annual_PowerMarketingAdmin'
+    'downloadName': 'TCIR_Annual_PowerMarketingAdmin',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '193': {
     'endpoint': 'v1/accounting/od/tcir_semi_annual',
