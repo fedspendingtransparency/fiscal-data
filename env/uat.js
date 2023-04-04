@@ -16,26 +16,11 @@ module.exports = {
         "interest-exchange-rates"
       ],
       "relatedDatasets": [
+        "015-BFS-2014Q3-042"
       ],
       "slug": "/treasury-certified-interest-rates-annual/",
       "currentDateButton": "byMonth"
     },
-    
-    "015-BFS-2014Q3-042": {
-      "seoConfig": {
-        "pageTitle": "Semi-Annual Interest Rate Certification",
-        "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
-        "keywords": "Interest and Exchange Rates"
-      },
-      "topics": [
-        "interest-exchange-rates"
-      ],
-      "relatedDatasets": [
-        "015-BFS-2014Q3-041"
-      ],
-      "slug": "/treasury-certified-interest-rates-semiannual/",
-      "currentDateButton": "byMonth"
-    }
   },
   ADDITIONAL_ENDPOINTS: {
     '27': {
