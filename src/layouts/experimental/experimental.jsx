@@ -6,11 +6,8 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import { barDiv, linkDiv } from './experimental.module.scss';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import VisualizationCallout from "../../components/visualization-callout/visualization-callout";
-import { ConnectableObservable } from 'rxjs';
 import InsightsDownload from "../../components/insights-download/insights-download";
 import ChartJSDoughnut from "./charts/chartjsDoughnut";
-import AfgIcon from "../../layouts/explainer/explainer-components/afg-components/afg-icon/afg-icon";
-import {faCoins} from "@fortawesome/free-solid-svg-icons";
 import ChartJSBar from "./charts/chartjsBar";
 import ChartJSLine from "./charts/chartjsLine";
 import ReChartsLine from "./charts/rechartsLine";
@@ -51,16 +48,13 @@ const ExperimentalPage = () => {
       <br />
       <h3> ReCharts Composed Chart </h3>
       <ReChartsLine />
-      <br />
-      <h3>ChartJS Line Chart</h3>
-      <ChartJSLine />
-      <br />
-      <ChartJSDoughnut />
-      <br />
-      <ChartJSBar />
-
-
-
+      {/*<br />*/}
+      {/*<h3>ChartJS Line Chart</h3>*/}
+      {/*<ChartJSLine />*/}
+      {/*<br />*/}
+      {/*<ChartJSDoughnut />*/}
+      {/*<br />*/}
+      {/*<ChartJSBar />*/}
       <h2>
         Basic Bar Graph, with labels visible on bars
       </h2>
