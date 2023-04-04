@@ -176,7 +176,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   useEffect(() => {
     console.log(nonUSCurrencyExchangeValue);
-  }, [nonUSCurrencyExchangeValue]);
+    console.log(nonUSCurrencyDecimalPlaces);
+  }, [nonUSCurrencyExchangeValue, nonUSCurrencyDecimalPlaces]);
 
   const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
     const selectedYearQuarter = `${year}Q${quarter}`;
@@ -238,6 +239,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       else {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 1000) / 1000);
       }
+      let num = product.toString();
+      if (num.indexOf('.') === -1) num += '.';
+      while (num.length < num.indexOf('.') + (nonUSCurrencyDecimalPlaces + 1)) num += '0';
+      product = num;
     }
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product);
