@@ -12,6 +12,8 @@ import ChartJSDoughnut from "./charts/chartjsDoughnut";
 import AfgIcon from "../../layouts/explainer/explainer-components/afg-components/afg-icon/afg-icon";
 import {faCoins} from "@fortawesome/free-solid-svg-icons";
 import ChartJSBar from "./charts/chartjsBar";
+import ChartJSLine from "./charts/chartjsLine";
+import ReChartsLine from "./charts/rechartsLine";
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -46,103 +48,110 @@ const ExperimentalPage = () => {
         fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque
         quam.
       </p>
+      <br />
+      <h3> ReCharts Composed Chart </h3>
+      <ReChartsLine />
+      <br />
+      <h3>ChartJS Line Chart</h3>
+      <ChartJSLine />
+      <br />
       <ChartJSDoughnut />
       <br />
       <ChartJSBar />
 
 
 
-      {/*<h2>*/}
-      {/*  Basic Bar Graph, with labels visible on bars*/}
-      {/*</h2>*/}
-      {/*  <BarGraph*/}
-      {/*    divClass={barDiv}*/}
-      {/*    graphData={graphData}*/}
-      {/*    graphIndex={graphIndex}*/}
-      {/*    valueKeys={valueKeys}*/}
-      {/*    axisBottom={{*/}
-      {/*      tickSize: 5,*/}
-      {/*      tickPadding: 5,*/}
-      {/*      tickRotation: 0,*/}
-      {/*      legend: 'Year',*/}
-      {/*      legendPosition: 'middle',*/}
-      {/*      legendOffset: 36*/}
-      {/*    }}*/}
-      {/*    axisLeft={{*/}
-      {/*      tickSize: 5,*/}
-      {/*      tickPadding: 5,*/}
-      {/*      tickRotation: 0,*/}
-      {/*      legend: 'Deficit/Surplus (in Billions)',*/}
-      {/*      legendPosition: 'middle',*/}
-      {/*      legendOffset: -50*/}
-      {/*    }}*/}
-      {/*    margin={{left: 60, bottom: 50}}*/}
-      {/*    enableLabel={true}*/}
-      {/*    labelTextColor={'#ffffff'}*/}
-      {/*  />*/}
-      {/*<h2>*/}
-      {/*  Bar Graph with Negative Values, no axes*/}
-      {/*</h2>*/}
-      {/*<InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />*/}
-      {/*<div className={barDiv}>*/}
-      {/*  <BarGraph*/}
-      {/*    graphData={graph2Data}*/}
-      {/*    graphIndex={'year'}*/}
-      {/*    valueKeys={['value']}*/}
-      {/*    colors={(d) => Number(d.value) >= 0 ? 'rgb(1, 118, 198)' : 'rgb(242, 108, 98)'}*/}
-      {/*  />*/}
-      {/*</div>*/}
+      <h2>
+        Basic Bar Graph, with labels visible on bars
+      </h2>
+        <BarGraph
+          divClass={barDiv}
+          graphData={graphData}
+          graphIndex={graphIndex}
+          valueKeys={valueKeys}
+          axisBottom={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'Year',
+            legendPosition: 'middle',
+            legendOffset: 36
+          }}
+          axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'Deficit/Surplus (in Billions)',
+            legendPosition: 'middle',
+            legendOffset: -50
+          }}
+          margin={{left: 60, bottom: 50}}
+          enableLabel={true}
+          labelTextColor={'#ffffff'}
+        />
+      <h2>
+        Bar Graph with Negative Values, no axes
+      </h2>
+      <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
+      <div className={barDiv}>
+        <BarGraph
+          graphData={graph2Data}
+          graphIndex={'year'}
+          valueKeys={['value']}
+          colors={(d) => Number(d.value) >= 0 ? 'rgb(1, 118, 198)' : 'rgb(242, 108, 98)'}
+        />
+      </div>
 
-      {/*<h2>*/}
-      {/*  Two graphs at once, no axes*/}
-      {/*</h2>*/}
-      {/*<div className={barDiv}>*/}
-      {/*  <span> The following graphs are color coded even as they cross the x-axis and stack at the end. </span>*/}
-      {/*    <BarGraph*/}
-      {/*      graphData={graph2Data}*/}
-      {/*      graphIndex={'year'}*/}
-      {/*      valueKeys={['value', 'value2']}*/}
-      {/*      colors={['rgb(1, 118, 198)', 'rgb(242, 108, 98)']}*/}
-      {/*    />*/}
-      {/*</div>*/}
+      <h2>
+        Two graphs at once, no axes
+      </h2>
+      <div className={barDiv}>
+        <span> The following graphs are color coded even as they cross the x-axis and stack at the end. </span>
+          <BarGraph
+            graphData={graph2Data}
+            graphIndex={'year'}
+            valueKeys={['value', 'value2']}
+            colors={['rgb(1, 118, 198)', 'rgb(242, 108, 98)']}
+          />
+      </div>
 
-      {/*<h2>*/}
-      {/*  Graph with incomplete/invalid data*/}
-      {/*</h2>*/}
-      {/*<div className={barDiv}>*/}
-      {/*  <span> The following placeholder avoids a page error by checking the params on deciding not to render a broken chart </span>*/}
-      {/*    <BarGraph*/}
-      {/*      graphData={[]}*/}
-      {/*      graphIndex={17}*/}
-      {/*      valueKeys={{}}*/}
-      {/*    />*/}
-      {/*</div>*/}
-      {/*<h2>*/}
-      {/*  Custom Link Component*/}
-      {/*</h2>*/}
-      {/*<div className={linkDiv}>*/}
-      {/*  <CustomLink url="/">This should open the homepage in the same tab</CustomLink>*/}
-      {/*  <CustomLink url="/" external>This should open the homepage in a new tab (since the "external" prop is passed in)</CustomLink>*/}
-      {/*  <CustomLink url="https://example.com">*/}
-      {/*    This link should open https://example.com/ in a new tab even without the "external" prop since the url starts with http(s)*/}
-      {/*  </CustomLink>*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*  <div*/}
-      {/*    style={{*/}
-      {/*      height: 500,*/}
-      {/*      margin: '32px 0',*/}
-      {/*      display: 'flex',*/}
-      {/*      justifyContent: 'center',*/}
-      {/*      alignItems: 'center',*/}
-      {/*      color: '#fff',*/}
-      {/*      backgroundColor: '#555'*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    A smaller graph*/}
-      {/*  </div>*/}
-      {/*  <VisualizationCallout children={'Example Text.'} />*/}
-      {/*</div>*/}
+      <h2>
+        Graph with incomplete/invalid data
+      </h2>
+      <div className={barDiv}>
+        <span> The following placeholder avoids a page error by checking the params on deciding not to render a broken chart </span>
+          <BarGraph
+            graphData={[]}
+            graphIndex={17}
+            valueKeys={{}}
+          />
+      </div>
+      <h2>
+        Custom Link Component
+      </h2>
+      <div className={linkDiv}>
+        <CustomLink url="/">This should open the homepage in the same tab</CustomLink>
+        <CustomLink url="/" external>This should open the homepage in a new tab (since the "external" prop is passed in)</CustomLink>
+        <CustomLink url="https://example.com">
+          This link should open https://example.com/ in a new tab even without the "external" prop since the url starts with http(s)
+        </CustomLink>
+      </div>
+      <div>
+        <div
+          style={{
+            height: 500,
+            margin: '32px 0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#fff',
+            backgroundColor: '#555'
+          }}
+        >
+          A smaller graph
+        </div>
+        <VisualizationCallout children={'Example Text.'} />
+      </div>
     </SiteLayout>
   )
 };

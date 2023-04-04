@@ -12,15 +12,15 @@ import {
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 // This will register plugins for all charts
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  // ChartDataLabels,
-);
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+//   // ChartDataLabels,
+// );
 const ChartJSBar = () => {
   const options = {
     indexAxis: 'y',
