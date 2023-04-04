@@ -1,13 +1,11 @@
+/* istanbul ignore file */
 import React from 'react';
-import { Doughnut, Line } from "react-chartjs-2";
-import Chart from "chart.js/auto";
+import { Doughnut } from "react-chartjs-2";
 import interestRate from "./interest-exchange-rates.png";
 const ChartJSDoughnut = () => {
   const data = {
-    // labels: ['Red', 'Blue'],
     datasets: [
       {
-        // label: ["test", ""],
         backgroundColor: ["#48699c","#f1f1f1",],
         data: [15, 5],
         borderWidth: 0,
@@ -19,9 +17,6 @@ const ChartJSDoughnut = () => {
 
   const options = {
     plugins: {
-      // tooltip: {
-      //   enabled: false,
-      // },
       legend: {
         display: false,
       },

@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import React from 'react';
 import {Area, ComposedChart, Line, XAxis, YAxis, Tooltip} from "recharts";
 import {

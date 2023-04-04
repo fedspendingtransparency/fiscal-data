@@ -1,26 +1,8 @@
+/* istanbul ignore file */
 import React from 'react';
 import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-// This will register plugins for all charts
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-//   // ChartDataLabels,
-// );
 const ChartJSBar = () => {
   const options = {
     indexAxis: 'y',
@@ -81,10 +63,6 @@ const ChartJSBar = () => {
       align: 'end',
       anchor: 'end',
       color: "#15366a",
-      // formatter: function(value, context) {
-      //   return context.chart.data.labels[context.dataIndex];
-      // }
-
     }
   }];
 

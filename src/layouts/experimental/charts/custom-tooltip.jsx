@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React from 'react';
 
 //Custom tool tip example from chartjs
