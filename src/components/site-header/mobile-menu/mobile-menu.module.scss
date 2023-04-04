@@ -56,8 +56,8 @@ $menuWidth: 318px;
 }
 
 .logo {
-  height: 40px;
-  padding-bottom: 1.5rem;
+  height: 2.5rem;
+  padding-bottom: 0.625rem;
 }
 
 .linkHeaderContainer {
@@ -67,70 +67,13 @@ $menuWidth: 318px;
   padding-left: 1rem;
 }
 
-.AFGHeader {
-  background-color: #f1f1f1;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1rem;
-  font-size: 14px;
-  font-weight: $semi-bold-weight;
-}
-
-.topicsHeader {
-  margin-bottom: 14px;
-  padding-left: 1rem;
-}
-
-.topicsHeaderExpanded {
-  margin-bottom: 14px;
-  padding-left: 1rem;
-  color: $primary;
-  font-weight: $semi-bold-weight;
-}
-
-.caret {
-  padding-left: 1rem;
-  min-width: 10px;
-}
-
-.explainerLinkContainer {
-  a {
-    display: block;
-    text-decoration: none;
-    color: $card-body;
-    white-space: nowrap;
-    font-size: $font-size-16;
-    padding-top: 14px;
-    padding-bottom: 14px;
-  }
-}
-
-.explainerLink {
-  padding-left: 2rem;
-  color: #666666;
-}
-
-.dropdownTempText {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 28px;
-  color: #666666;
-  font-size: $font-size-16;
-  overflow-wrap: break-word;
-  width: 256px;
-}
-
 .pageLinks {
-  a {
-    display: block;
-    text-decoration: none;
-    color: #666666;
-    white-space: nowrap;
-    padding-top: 12px;
-    padding-bottom: 1rem;
-    font-size: 16px;
-    padding-left: 1rem;
-  }
+  display: block;
+  text-decoration: none;
+  color: #666666;
+  white-space: nowrap;
+  padding: .875rem 0 .875rem 1rem;
+  font-size: $font-size-16;
 }
 
 :global(body) {

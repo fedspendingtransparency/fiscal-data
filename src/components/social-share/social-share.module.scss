@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@import 'src/variables.module';
 
 .horizontalSocialShareContent {
   display: flex;
@@ -32,7 +32,7 @@
   margin-left: 48px;
 }
 
-.socialShareContent {
+.socialShareContent, .listSocialShareContent {
   h3 {
     color: #666666;
     font-weight: $semi-bold-weight;
@@ -42,60 +42,13 @@
   }
 }
 
-.shareButton {
+.shareButton, .listShareButton {
   display: flex;
   align-items: center;
   margin-top: 1rem;
   margin-bottom:0;
 }
 
-.shareButtonContent {
-  display: flex;
-  align-items: center;
-  font-size: $font-size-16;
-  height: 1.25rem;
-
-  .shareButtonText {
-    color: #666;
-    margin: 0 0 0 .5rem;
-    height: 1.25rem;
-  }
-
-  .facebookIcon {
-    color: #3a5997;
-    width: 1.125rem;
-    height: 1rem;
-    margin: .125rem .5rem .125rem 0;
-  }
-
-  .twitterIcon {
-    color: #54acee;
-    width: 1.125rem;
-    height: 1rem;
-    margin: .125rem .5rem .125rem 0;
-  }
-
-  .linkedInIcon {
-    color: #057ab5;
-    width: 1.125rem;
-    height: 1rem;
-    margin: .125rem .5rem .125rem 0;
-  }
-
-  .redditIcon {
-    color: #ff4500;
-    width: 1.125rem;
-    height: 1rem;
-    margin: .125rem .5rem .125rem 0;
-  }
-
-  .emailIcon {
-    color: #666;
-    width: 1.125rem;
-    height: 1rem;
-    margin: .125rem .5rem .125rem 0;
-  }
-}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .horizontalShareButtonContainer {
@@ -122,11 +75,5 @@
     text-align: justify;
     justify-content: center;
     width: 20%;
-  }
-  .shareButtonContent {
-    .shareButtonText, .facebookIcon, .twitterIcon,
-    .linkedInIcon, .redditIcon, .emailIcon {
-      margin: 0;
-    }
   }
 }

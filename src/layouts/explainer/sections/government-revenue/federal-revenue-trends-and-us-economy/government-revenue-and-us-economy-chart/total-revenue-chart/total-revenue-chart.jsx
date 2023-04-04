@@ -23,7 +23,7 @@ import {
   applyChartScaling,
   applyTextScaling,
 } from '../../../../../explainer-helpers/explainer-charting-helper';
-import {lineChartCustomPoints, lineChartCustomSlices} from
+import {lineChartCustomPoints, LineChartCustomSlices} from
     '../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
 import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation }
@@ -32,8 +32,11 @@ import simplifyNumber from '../../../../../../../helpers/simplify-number/simplif
 import numeral from 'numeral';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { getShortForm } from '../../../../../heros/hero-helper';
+import { getShortForm } from '../../../../../../../utils/rounding-utils';
 import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-utils';
+import Analytics from "../../../../../../../utils/analytics/analytics";
+
+let gaTimerTotalRevenue;
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -64,6 +67,20 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState(
     {}
   );
+
+  const handleMouseEnterChart = () => {
+    gaTimerTotalRevenue = setTimeout(() => {
+      Analytics.event({
+        category: 'Explainers',
+        action: 'Chart Hover',
+        label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
+      });
+    },3000);
+  }
+
+  const handleMouseLeaveChart = () => {
+    clearTimeout(gaTimerTotalRevenue);
+  }
 
   const percentageData = [
     {
@@ -247,7 +264,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         copyPageData({
           fiscalYear: maxYear,
-          revenueTotal: getShortForm(revenueLastAmountActual, 2, false),
+          revenueTotal: getShortForm(revenueLastAmountActual, false),
           revenueRatio: chartLastRatio
         });
       }
@@ -321,7 +338,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
       )}
       {!isLoading && chartToggleConfig && (
       <div className={visWithCallout}>
-        <div className={container}>
+        <div className={container} role={'presentation'} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
           <ChartContainer
             title={chartTitle}
             subTitle={chartSubtitle}
@@ -342,7 +359,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   'lines',
                   lineChartCustomPoints,
                   props =>
-                    lineChartCustomSlices(
+                    LineChartCustomSlices(
                       props,
                       handleGroupOnMouseLeave,
                       handleMouseLeave

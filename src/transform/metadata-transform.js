@@ -45,7 +45,12 @@ const metadataSEOApprovedDS = [
 ];
 
 const transformMapper = (datasetIdMap,
-                         endpointConfigIdMap, topics, filters, releaseCalendarEntries) => {
+                         endpointConfigIdMap,
+                         topics,
+                         filters,
+                         releaseCalendarEntries,
+                         API_BASE_URL,
+                         fetch) => {
   return {
     item: {
       datasetId: 'datasetId',
@@ -88,7 +93,7 @@ const transformMapper = (datasetIdMap,
         on: 'publisher'
       }
     ],
-    each: (dataset) => {
+    each: async (dataset) => {
       const mappedDataset = datasetIdMap[dataset.datasetId];
       if (dataset.apis === []) {
         console.warn(`Dataset without endpoints IN METADATA found.
@@ -107,6 +112,17 @@ const transformMapper = (datasetIdMap,
       });
 
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
+      dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets
+        ? mappedDataset.relatedDatasets : [];
+      dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton
+        ? mappedDataset.currentDateButton : null;
+      dataset.datePreset = mappedDataset && mappedDataset.datePreset
+        ? mappedDataset.datePreset : null;
+      dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset
+        ? mappedDataset.customRangePreset : null;
+      dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout
+        ? mappedDataset.bannerCallout : null;
+
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {
           mappedDataset.apiIds.forEach(id => {
@@ -127,12 +143,12 @@ const transformMapper = (datasetIdMap,
           "${dataset.name}"`);
         }
       } else {
-        dataset.apis.forEach(api => {
+        for (const api of dataset.apis) {
           if (Number(api.rowCount) > 5000 && Number(api.rowCount) < 8500) {
             console.info(`DatasetId:${dataset.datasetId} "${dataset.name}", API: ${api.apiId} has
             ${Number(api.rowCount)} rows`);
           }
-          if (Number(api.rowCount) > largeDatasetThreshold) {
+          if ((Number(api.rowCount) > largeDatasetThreshold) && (!api.userFilter)) {
             api.isLargeDataset = true;
             const aggregateLargeDatasetPivot = true; // TODO: set by environmental variable
 
@@ -154,14 +170,15 @@ const transformMapper = (datasetIdMap,
               });
             }
           }
-        });
+        }
 
         const apiDateRange = getDateRange(dataset.apis);
         dataset.techSpecs.latestDate = apiDateRange.latestDate;
         dataset.techSpecs.earliestDate = apiDateRange.earliestDate;
         dataset.techSpecs.lastUpdated = apiDateRange.lastUpdated;
-
       }
+      dataset.dataStartYear = dataset.techSpecs.earliestDate ?
+        dataset.techSpecs.earliestDate.substr(-4) : '1000';
 
       dataset.apis.sort(sortApisByOrder);
 
@@ -178,13 +195,6 @@ const transformMapper = (datasetIdMap,
         api.pathName = api.tableName.toLocaleLowerCase().replace(/[^a-z0-9]+/g, '-')
           .replace(/-$/, ''); // remove any trailing hyphen
       });
-
-      dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets
-        ? mappedDataset.relatedDatasets : [];
-      dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton
-        ? mappedDataset.currentDateButton : null;
-      dataset.dataStartYear = dataset.techSpecs.earliestDate ?
-        dataset.techSpecs.earliestDate.substr(-4) : '1000';
 
       const seoConfig = determineSEO(dataset, mappedDataset);
       dataset.seoConfig = {
@@ -393,7 +403,7 @@ exports.metadataTransform = async function(metadataObjectsFromApi,
 
   const transformer = DataTransform(thinnedDatasets,
     transformMapper(datasetIdMap, endpointConfigIdMap,
-      freshTopics(), filters, releaseCalendarEntries));
+      freshTopics(), filters, releaseCalendarEntries, API_BASE_URL, fetch));
   const transformed = await transformer.transform();
 
   Object.keys(endpointConfigIdMap).forEach(staticId => {

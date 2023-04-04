@@ -25,7 +25,7 @@ export default function MetadataTab(props) {
     },
     {
       name: 'Topics',
-      definition: props.config.relatedTopics.join(', ')
+      definition: props.config.relatedTopics ? props.config.relatedTopics.join(', ') : []
     },
     {
       name: 'Publisher',

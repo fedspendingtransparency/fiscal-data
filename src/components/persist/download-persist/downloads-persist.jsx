@@ -98,7 +98,8 @@ export const DownloadsProvider = ({ children }) => {
       downloadRequest.apis,
       downloadRequest.dateRange,
       downloadRequest.selectedFileType,
-      downloadRequest.requestTime);
+      downloadRequest.requestTime,
+      downloadRequest.selectedUserFilter);
 
     return downloadService.downloadStatus(requestId)
       .subscribe({
@@ -177,7 +178,8 @@ export const DownloadsProvider = ({ children }) => {
       dateRange: downloadRequest.dateRange,
       selectedFileType: downloadRequest.selectedFileType,
       datasetId: datasetId,
-      requestTime: downloadRequest.requestTime
+      requestTime: downloadRequest.requestTime,
+      userFilter: downloadRequest.userFilter
     };
     return JSON.stringify(newObj);
   };
@@ -197,7 +199,8 @@ export const DownloadsProvider = ({ children }) => {
           selectedFileType: downloadRequest.selectedFileType,
           filename: downloadRequest.filename,
           requestTime: downloadRequest.requestTime,
-          originalRequestHash: downloadRequest.originalRequestHash
+          originalRequestHash: downloadRequest.originalRequestHash,
+          userFilter: downloadRequest.selectedUserFilter
         };
         downloadsInProgressByDataset[downloadRequest.datasetId] = download;
         setDownloadsInProgress(Object.values(downloadsInProgressByDataset)

@@ -12,7 +12,7 @@
   align-items: center;
   margin: 0 auto;
   min-height: 1000px;
-  overflow: hidden;
+  overflow: clip;
 
   .relatedDatasetsStyle {
     background-color: $body-background;

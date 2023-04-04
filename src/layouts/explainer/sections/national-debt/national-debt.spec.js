@@ -8,8 +8,6 @@ import {
 import nationalDebtSections, {
   nationalDebtSectionIds,
   nationalDebtSectionConfigs,
-  NationalDebtExplainedSection,
-  nationalDebtExplainedTableContent,
   visualizingTheDebtTableContent,
   GrowingNationalDebtSection,
   DebtBreakdownSection,
@@ -42,7 +40,6 @@ import simplifyNumber from '../../../../helpers/simplify-number/simplifyNumber';
 import { breakpointSm } from '../../../../variables.module.scss';
 
 import {
-  nationalDebtExplainedTable,
   growingNationalDebtSectionAccordion
 } from './national-debt.module.scss';
 import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
@@ -72,26 +69,6 @@ describe('National Debt explainer page sections', () => {
   });
 });
 
-describe('National Debt Explained', () => {
-  const glossary = [];
-  beforeEach(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
-  });
-  it('renders the table showing a breakdown of how the national debt works', () => {
-    const { container, getByText } = render(<NationalDebtExplainedSection glossary={glossary} />);
-
-    expect(container.querySelector(`.${nationalDebtExplainedTable}`)).toBeInTheDocument();
-
-    nationalDebtExplainedTableContent.body.forEach((row) => {
-      row.forEach((col) => {
-        if (col !== null) {
-          expect(getByText(col)).toBeInTheDocument();
-        }
-      });
-    });
-  });
-
-});
 
 describe('Funding Programs & Services', () => {
   it('calls the appropriate analytics event when links are clicked on', () => {
@@ -255,185 +232,6 @@ describe('The Growing National Debt', () => {
   });
 });
 
-describe('Breaking Down the Debt', () => {
-  const sectionId = nationalDebtSectionIds[4];
-  const glossary = [];
-  beforeEach(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
-    setGlobalFetchMatchingResponse(jest, [
-      {
-        matcher: (url) => {
-          return url.includes('mspd_table_1?fields');
-          },
-        jsonResponse: mockDebtBreakdownResponse
-      },
-      {
-        matcher: (url) => {
-          return url.includes('mspd_table_1?filter');
-        },
-        jsonResponse: mockTotalDebtResponse
-      },
-      {
-        matcher: (url) => { return url.includes('avg_interest_rates');},
-        jsonResponse: mockInterestRatesResponse
-      },
-      {
-        matcher: (url) => {
-          return url.includes('interest_expense');
-        },
-        jsonResponse: mockInterestExpenseResponse
-      },
-      {
-        matcher: (url) => {
-          return url.includes('mts_table_5?fields');
-        },
-        jsonResponse: mockDebtExpenseResponse
-      }
-    ]);
-  });
-
-  afterEach(() => {
-    jest.resetModules();
-    global.fetch.mockReset();
-  });
-
-  it('contains the chart', async () => {
-    const { findByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-
-    expect(await findByTestId('breakdownChart')).toBeInTheDocument();
-  });
-
-  it('makes the api call with a correctly configured query string', async () => {
-
-    // mock current date because the query string is formulated based on current date
-    jest.spyOn(global.Date, 'now').mockImplementation(() => {
-      return new Date(new Date(2021, 11, 1, 12).valueOf());
-    });
-    render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-
-    const queryString = '?fields=debt_held_public_mil_amt,intragov_hold_mil_amt,' +
-      'record_calendar_year,record_calendar_month,record_date&filter=record_calendar_month' +
-      ':in:(12,11,10),record_calendar_year:in:(2021,2011),security_type_desc:eq:' +
-      'Total%20Public%20Debt%20Outstanding&sort=record_date&limit=12';
-    expect(global.fetch.mock.calls[0][0]).toContain(queryString);
-  });
-
-  it('displays the correct years and values', async () => {
-    const latestYear =
-      mockDebtBreakdownResponse.data[mockDebtBreakdownResponse.data.length - 1]
-        .record_calendar_year;
-    const firstYear = latestYear - 10;
-
-    const { findByText, findAllByText, findByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-
-    // Latest year is in the component
-    const latestYearEntries = await findAllByText(latestYear);
-    expect(latestYearEntries[0]).toBeInTheDocument();
-
-    // First year is in the component
-    const firstYearEntries = await findAllByText(firstYear);
-    expect(firstYearEntries[0]).toBeInTheDocument();
-
-    // value markers are in the component
-    for (const mockVal of mockFifthSectionValueMarkers) {
-      expect(await findByText(mockVal)).toBeInTheDocument();
-    }
-
-    // calculated percentages are in the component
-    expect(await findByTestId('public-debt-increase')).toHaveTextContent(mockPublicDebtIncrease);
-    expect(await findByTestId('govt-debt-increase')).toHaveTextContent(mockGovtDebtIncrease);
-  });
-
-  it('contains a multichart', async () => {
-    const { findByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-
-    expect(await findByTestId('multichart')).toBeInTheDocument();
-  });
-
-  it('contains a title for the multichart with correct date values', async () => {
-    const { findByText } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-
-    expect(await findByText('Interest Rate and Total Debt, 2012 – 2021')).toBeInTheDocument();
-  });
-
-  it('contains a header for the multichart with correct default values', async () => {
-    const { getByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-
-    let elem;
-    await waitFor(() => {
-      elem = getByTestId('interest-and-debt-chart-header');
-      Object.entries(mockInterestToDebtChartHeaderSummary)
-        .forEach(([label, value]) => {
-
-          console.log('label', label);
-            expect(elem).toHaveTextContent(label);
-            expect(elem).toHaveTextContent(value);
-          }
-        )
-    });
-  });
-
-  it('contains a legend for items represented in the multichart', async () => {
-    const { getByTestId } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-    let elem;
-    await waitFor(() => {
-      elem = getByTestId('interest-and-debt-chart-legend')
-      expect(elem).toHaveTextContent('Average Interest Rate');
-      expect(elem).toHaveTextContent('Total Debt');
-    });
-  });
-
-  it('contains a last-updated text string', async () => {
-    const { findByText } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-    expect(await findByText('Last Updated: September 30, 2021')).toBeInTheDocument();
-  });
-
-
-  it('calls the appropriate analytics event when links are clicked on', async () => {
-    const spy = jest.spyOn(Analytics, 'event');
-    const { getByText } = render(
-      <DebtBreakdownSection sectionId={sectionId} glossary={glossary} />
-    );
-
-    const mspd = await waitFor(() => getByText(
-      'U.S. Treasury Monthly Statement of the Public Debt (MSPD)'));
-    const averageInterestRates = await waitFor(() => getByText(
-      'Average Interest Rates on U.S. Treasury Securities'));
-
-    mspd.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt - Intragovernmental Holdings and Debt Held by the Public'
-    });
-    spy.mockClear();
-
-    averageInterestRates.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt - Interest Rate and Total Debt'
-    });
-    spy.mockClear();
-
-  });
-});
 
 describe('The Debt Ceiling', () => {
   it('contains an accordion', () => {

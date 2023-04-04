@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import {mockRevenueHeroData} from "../../explainer-test-helper";
 
 // Sources of Revenue circle chart

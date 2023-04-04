@@ -22,7 +22,14 @@ const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventLabelStr = gaEventLabels.cancelDL;
 export const closeEventLabelStr = gaEventLabels.closeDLDialog;
 
-const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset, isFiltered }) => {
+const DownloadWrapper = ({
+                           selectedTable,
+                           allTablesSelected,
+                           dateRange,
+                           dataset,
+                           isFiltered,
+                           selectedUserFilter }) => {
+
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
     tableName = `All Data Tables (${dataset.apis.length})`;
@@ -112,7 +119,8 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
       selectedFileType,
       filename:
         `${downloadName}_${dateForFilename(dateRange.from)}_${dateForFilename(dateRange.to)}.zip`,
-      requestTime: Date.now()
+      requestTime: Date.now(),
+      selectedUserFilter
     };
     setDownloadRequest(downloadEntry);
     setOpen(true);
@@ -160,10 +168,6 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
     }
   }, [dateRange]);
 
-  // useEffect(() => {
-  //   setCurDate('-' + format(new Date(), 'yyyyMMdd'));
-  // });
-
   useEffect(() => {
     if (downloadsInProgress === undefined) return;
     if (changeMadeToCriteria) return;
@@ -186,21 +190,34 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
         downloadsPrepared={downloadsPrepared}
         setCancelDownloadRequest={handleCancelRequest}
       />
-      <div data-test-id="tableName" className={styles.tableName}>
-        <strong>Data Table:</strong>
-        <div>
-          <Truncator>
-            <span data-test-id="tableNameText">{tableName}</span>
-          </Truncator>
+      <div className={styles.downloadDescription}>
+        <div data-test-id="tableName" className={styles.describer}>
+          <strong>Data Table:</strong>
+          <div>
+            <Truncator>
+              <span data-test-id="tableNameText">{tableName}</span>
+            </Truncator>
+          </div>
         </div>
-      </div>
-      <div className={styles.dateRange}>
-        <strong>Date Range:</strong>
-        {!isFiltered && (
-          <span data-test-id="allString" className={styles.dateString}> {allString}</span>
+        <div className={styles.describer}>
+          <strong>Date Range:</strong>
+          {!isFiltered && (
+            <span data-test-id="allString" className={styles.dateString}> {allString}</span>
+          )}
+          <div data-test-id="dateString" className={styles.dateString}> {dateString}</div>
+        </div>
+        {(selectedTable?.userFilter) && (
+          <div className={styles.describer}>
+            <strong data-testid="userFilterLabel">{selectedTable.userFilter.label}:</strong>
+            <div data-testid="userFilterValue" className={styles.dateString}>
+              {(selectedUserFilter && selectedUserFilter.value) ?
+                  selectedUserFilter.label :
+                  '(None selected)'}
+            </div>
+          </div>
         )}
-        <div data-test-id="dateString" className={styles.dateString}> {dateString}</div>
       </div>
+
       <DownloadToggle onChange={toggleButtonChange} />
       <div>
         <DownloadItemButton

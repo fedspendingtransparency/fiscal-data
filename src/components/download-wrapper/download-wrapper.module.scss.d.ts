@@ -67,5 +67,5 @@ export const wrapper: string;
 export const iconDiv: string;
 export const icon: string;
 export const dateString: string;
-export const tableName: string;
-export const dateRange: string;
+export const describer: string;
+export const downloadDescription: string;

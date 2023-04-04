@@ -15,7 +15,7 @@ jest.mock("gatsby-plugin-mdx", () => {
     } }
 });
 
-const SocialShare = jest.requireActual('../explainer/social-share/social-share');
+const SocialShare = jest.requireActual('../../components/social-share/social-share');
 const socialShareSpy = jest.spyOn(SocialShare, "default");
 
 describe ('Feature page template', () => {
@@ -105,16 +105,16 @@ describe ('Feature page template', () => {
    it('correctly passes values from frontMatter into socialShare', () => {
      const mockFrontmatter = mockMarkdownData.data.mdx.frontmatter;
      const socialShareProps = socialShareSpy.mock.calls[0][0];
-     expect(socialShareProps['title']).toStrictEqual(mockFrontmatter.shareTitle);
-     expect(socialShareProps['description']).toStrictEqual(mockFrontmatter.shareDescription);
-     expect(socialShareProps['body']).toStrictEqual(mockFrontmatter.shareBody);
-     expect(socialShareProps['emailSubject']).toStrictEqual(mockFrontmatter.emailSubject);
-     expect(socialShareProps['emailBody']).toStrictEqual(mockFrontmatter.emailBody);
-     expect(socialShareProps['emailSeparator']).toStrictEqual(mockFrontmatter.emailSeparator);
-     expect(socialShareProps['url']).not.toStrictEqual(mockFrontmatter.path);
-     expect(socialShareProps['url']).toContain(mockFrontmatter.path);
-     expect(socialShareProps['image']).not.toStrictEqual(mockFrontmatter.shareImagePath);
-     expect(socialShareProps['image']).toContain(mockFrontmatter.shareImagePath);
+     expect(socialShareProps['copy'].title).toStrictEqual(mockFrontmatter.shareTitle);
+     expect(socialShareProps['copy'].description).toStrictEqual(mockFrontmatter.shareDescription);
+     expect(socialShareProps['copy'].body).toStrictEqual(mockFrontmatter.shareBody);
+     expect(socialShareProps['copy'].emailSubject).toStrictEqual(mockFrontmatter.emailSubject);
+     expect(socialShareProps['copy'].emailBody).toStrictEqual(mockFrontmatter.emailBody);
+     expect(socialShareProps['copy'].emailSeparator).toStrictEqual(mockFrontmatter.emailSeparator);
+     expect(socialShareProps['copy'].url).not.toStrictEqual(mockFrontmatter.path);
+     expect(socialShareProps['copy'].url).toContain(mockFrontmatter.path);
+     expect(socialShareProps['copy'].image).not.toStrictEqual(mockFrontmatter.shareImagePath);
+     expect(socialShareProps['copy'].image).toContain(mockFrontmatter.shareImagePath);
      expect(socialShareProps['pageName']).toStrictEqual(mockFrontmatter.title);
      expect(socialShareProps['horizontal']).toStrictEqual(true);
    });

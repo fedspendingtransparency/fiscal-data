@@ -164,7 +164,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
 
-  await datasets.forEach(async dataset => {
+  for (const dataset of datasets) {
     dataset.id = createNodeId(dataset.datasetId);
     const node = {
       ...dataset,
@@ -176,7 +176,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     };
     node.internal.contentDigest = createContentDigest(node);
     createNode(node);
-  });
+  }
 
   topics.forEach(topic => {
     topic.id = createNodeId(topic.slug);
@@ -324,6 +324,13 @@ exports.createSchemaCustomization = ({ actions }) => {
       columnName: String,
       prettyName: String
     }
+    type UserFilter {
+      field: String,
+      label: String,
+      notice: String,
+      optionValues: [String!],
+      dataUnmatchedMessage: String
+    }
     type SEOConfig {
       title: String,
       description: String,
@@ -333,10 +340,12 @@ exports.createSchemaCustomization = ({ actions }) => {
       publishedReports: [PublishedReport!],
       dataFormats: [String!],
       filters: [String!],
-      seoConfig: SEOConfig
+      seoConfig: SEOConfig,
+      customRangePreset: String
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
+      userFilter: UserFilter,
       apiNotesAndLimitations: String
     }
     type DatasetsApisDataDisplays implements Node {
@@ -387,6 +396,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          datePreset
+          customRangePreset
+          bannerCallout
           relatedTopics
           filterTopics
           publisher
@@ -436,6 +448,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             dateField
             alwaysSortWith
+            userFilter {
+              field
+              label
+              notice
+              optionValues
+              dataUnmatchedMessage
+            }
             downloadName
             earliestDate
             endpoint
@@ -532,6 +551,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   })
 
   for (const config of result.data.allDatasets.datasets) {
+    if (config.apis[0].userFilter) {
+      let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+      filterOptionsUrl += `${config.apis[0].endpoint}?fields=${config.apis[0].userFilter.field}`;
+      filterOptionsUrl += `&page[size]=10000&sort=${config.apis[0].userFilter.field}`;
+
+      const options = await fetch(filterOptionsUrl)
+      .then(res => res.json()
+      .then(body => body.data.map(row => row[config.apis[0].userFilter.field])
+      .sort((a,b)=>a.localeCompare(b))));
+      config.apis[0].userFilter.optionValues = [...new Set(options)]; // uniquify results
+    }
     createPage({
       path: `/datasets${config.slug}`,
       matchPath: '/datasets' + config.slug + '*',
@@ -586,6 +616,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         }
       });
     }
+  });
+
+  createPage({
+    path: `/currency-exchange-rates-converter/`,
+    matchPath: '/currency-exchange-rates-converter/',
+    component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
   });
 
   if (ENV_ID !== 'production') {

@@ -7,7 +7,7 @@ import FederalRevenueOverview from "./federal-revenue-overview";
 describe('Spending Key Takeaways evergreen values', () => {
   const mockDataDeficit = {
     "data": [{
-      "current_fytd_net_outly_amt": "22379494649.00",
+      "current_fytd_net_outly_amt": "-22379494649.00",
       "record_calendar_month": "06",
       "record_calendar_year": "2021",
       "record_date": "2021-06-30",
@@ -51,13 +51,13 @@ describe('Spending Key Takeaways evergreen values', () => {
 
   it('renders the data correctly in the overview section', async() => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const {getByText} = render(<FederalRevenueOverview />);
+    const {getByText, getAllByText} = render(<FederalRevenueOverview />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getByText("in FY 2021", {exact:false})).toBeInTheDocument();
-    expect(await getByText("2.00 billion", {exact:false})).toBeInTheDocument();
-    expect(await getByText("spent less", {exact:false})).toBeInTheDocument();
-    expect(await getByText("surplus", {exact:false})).toBeInTheDocument();
-    expect(await getByText("22.38 billion", {exact:false})).toBeInTheDocument();
+    expect(await getAllByText("2 billion", {exact:false})[0]).toBeInTheDocument();
+    expect(await getByText("spent more", {exact:false})).toBeInTheDocument();
+    expect(await getAllByText("deficit", {exact:false})[0]).toBeInTheDocument();
+    expect(await getByText("22 billion", {exact:false})).toBeInTheDocument();
   });
 
 });

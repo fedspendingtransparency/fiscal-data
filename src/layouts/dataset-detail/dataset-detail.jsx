@@ -61,7 +61,9 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         tagLine={pageContext.config.tagLine}
         techSpecs={pageConfig.techSpecs}
         dictionary={pageContext.config.dictionary}
+        bannerCallout={pageContext?.config.bannerCallout}
       />
+
       <DDNav title={pageContext.config.name} />
       <div className="bodyBackground">
         <DatasetAbout config={pageContext.config} test={test} />

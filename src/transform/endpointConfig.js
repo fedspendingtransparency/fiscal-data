@@ -905,7 +905,26 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/rates_of_exchange',
     'dateField': 'record_date',
     'downloadName': 'RprtRateXchg',
-    'alwaysSortWith': ['-record_date', 'country']
+    'alwaysSortWith': ['-effective_date', 'country'],
+    'dataDisplays': [
+      {
+        title: 'Exchange Rate Trend'
+      }
+    ],
+    showChartForCompleteTable: true,
+    'userFilter':
+    {
+      'field': 'country_currency_desc',
+      'label': 'Country-Currency',
+      'notice': `If current rates deviate from the published rates by 10% or more, Treasury
+         will issue amendments to this quarterly report. An amendment to a currency exchange
+         rate for the quarter will appear on the report as a separate line with a new effective
+         date. The latest available data will display first.`,
+      'dataUnmatchedMessage': `This may be because the currency existed under a different
+          name for that time period. Please check to see if the currency you are
+          looking for appears under a different name, or change the date
+          selected for available results.`
+    },
   },
   '138': {
     'endpoint': 'v1/accounting/od/schedules_fed_debt',
@@ -1823,7 +1842,72 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/federal_maturity_rates',
       'dateField': 'record_date',
       'downloadName': 'FederalCreditSimilarMaturityRates'
-  }
+  },
+  '181': {
+    'endpoint': 'v1/accounting/od/tma_contract_disputes',
+    'dateField': 'record_date',
+    'downloadName': 'TMA_ContractDisputes'
+  },
+  '182': {
+    'endpoint': 'v1/accounting/od/tma_no_fear',
+    'dateField': 'record_date',
+    'downloadName': 'TMA_NoFear'
+  },
+  '183': {
+    'endpoint': 'v1/accounting/od/tma_unclaimed_money',
+    'dateField': 'record_date',
+    'downloadName': 'TMA_UnclaimedMoney'
+  },
+  '184': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_1',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_RangeOfMaturities'
+  },
+  '185': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_2',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_SmallReclamationProj'
+  },
+  '186': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_3',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_USArmyCorpsOfEng'
+  },
+  '187': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_4',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_BureauOfReclamation'
+  },
+  '188': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_5',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_MidDakotaRuralWater'
+  },
+  '189': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_6',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_MerchantMarine'
+  },
+  '190': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_7',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_OtherLegislationCY'
+  },
+  '191': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_8',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_OtherLegislationFY'
+  },
+  '192': {
+    'endpoint': 'v1/accounting/od/tcir_annual_table_9',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Annual_PowerMarketingAdmin'
+  },
+  '193': {
+    'endpoint': 'v1/accounting/od/tcir_semi_annual',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_SemiAnnual'
+  },
 };
 
 const setCompleteTableDisplayItem = (response) => {
@@ -1835,7 +1919,7 @@ const setCompleteTableDisplayItem = (response) => {
   }
 
   response.dataDisplays = response.dataDisplays || [];
-  if (response.dataDisplays.every(dd => dd.title !== strCompleteTable)) {
+  if (!response.userFilter && response.dataDisplays.every(dd => dd.title !== strCompleteTable)) {
     response.dataDisplays.unshift(completeItem);
   }
 };

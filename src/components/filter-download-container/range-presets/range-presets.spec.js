@@ -5,6 +5,8 @@ import { monthNames } from '../../../utils/api-utils';
 import Analytics from '../../../utils/analytics/analytics';
 import DatePickers from '../datepickers/datepickers';
 import { testReformatter } from './helpers/test-helper';
+import { subQuarters, addDays } from 'date-fns';
+
 
 jest.useFakeTimers();
 
@@ -158,6 +160,75 @@ describe('Range Presets Component, without the current report radio option', () 
     // 10 year button will also not exist
     radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-10yr' });
     expect(radioBtn.length).toBe(0);
+  });
+
+  it('initially selects the current date option when datePreset is set to "current', () => {
+    const mockTable = Object.assign({}, selectedTable, { earliestDate: '2017-01-01' });
+
+    renderer.act(() => {
+      component = renderer.create(
+        <RangePresets
+          selectedTable={mockTable}
+          setIsFiltered={setIsFilteredMock}
+          setDateRange={setDateRangeMock}
+          setIsCustomDateRange={setIsCustomDateRangeMock}
+          currentDateButton={true}
+          datePreset={"current"}
+        />
+      );
+    });
+    instance = component.root;
+    jest.runAllTimers();
+
+
+    let radioBtn = instance.findByProps({ 'data-test-id': 'preset-radio-current' });
+    expect(radioBtn.props.checked).toBeTruthy();
+
+    // 1 year button will exist, but will not be checked
+    radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-1yr' });
+    expect(radioBtn[0].props.checked).toBeFalsy();
+
+    // 5 year button will not exist
+    radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-5yr' });
+    expect(radioBtn.length).toBe(0);
+
+    // 10 year button will also not exist
+    radioBtn = instance.findAllByProps({ 'data-test-id': 'preset-radio-10yr' });
+    expect(radioBtn.length).toBe(0);
+  });
+
+  it('initially selects custom most recent quarter when set in customRangePreset', () => {
+
+    renderer.act(() => {
+      component = renderer.create(
+        <RangePresets
+          selectedTable={selectedTable}
+          setIsFiltered={setIsFilteredMock}
+          setDateRange={setDateRangeMock}
+          setIsCustomDateRange={setIsCustomDateRangeMock}
+          datasetDateRange={{ earliestDate: selectedTable.earliestDate, latestDate: selectedTable.latestDate }}
+          datePreset={"custom"}
+          customRangePreset={"latestQuarter"}
+        />
+      );
+    });
+    instance = component.root;
+    jest.runAllTimers();
+
+    const dateObj = new Date(Date.parse(selectedTable.latestDate));
+    const quarterDatesMock = {
+      from: subQuarters(addDays(dateObj, 1), 1),
+      to: dateObj
+    };
+
+    const customRangeButton = instance.findByProps({'data-test-id': 'preset-radio-custom'});
+    expect(customRangeButton.props.checked).toBeTruthy();
+
+    const datePickers = instance.findAllByType(DatePickers);
+    expect(datePickers.length).toBeGreaterThan(0);
+  
+    expect(datePickers[0].props.selectedDateRange.from).toEqual(quarterDatesMock.from);
+    expect(datePickers[0].props.selectedDateRange.to).toEqual(quarterDatesMock.to);
   });
 
   it('provides a custom date range button', () => {

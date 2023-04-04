@@ -14,6 +14,9 @@ import {adjustDataForInflation} from "../../../../../../helpers/inflation-adjust
 import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import { useTooltip } from '@nivo/tooltip';
+import Analytics from "../../../../../../utils/analytics/analytics";
+
+let gaTimerRevenueTrends;
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
@@ -115,6 +118,22 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
         }
       });
   }, [])
+
+  const handleChartMouseEnter = () => {
+     gaTimerRevenueTrends = setTimeout(() => {
+       Analytics.event(
+         {
+           category: 'Explainers',
+           action: 'Chart Hover',
+           label: 'Revenue - Federal Revenue Trends Over Time'
+         }
+       );
+     }, 3000);
+  };
+
+  const handleChartMouseLeave = () => {
+    clearTimeout(gaTimerRevenueTrends);
+  }
 
   const blsLink =
     <CustomLink
@@ -322,7 +341,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             customTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_16, color: '#666666'}: {} }
             customSubTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
           >
-            <div className={styles.lineChart} data-testid={'chartParent'}>
+            <div className={styles.lineChart} role={'presentation'} data-testid={'chartParent'} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
               <Line
                 data={chartData}
                 layers={[

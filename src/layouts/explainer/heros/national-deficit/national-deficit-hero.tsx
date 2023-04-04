@@ -10,7 +10,8 @@ import {
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display"
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
-import {getFootNotesDateRange, getPillData, getShortForm} from "../hero-helper";
+import {getFootNotesDateRange, getPillData} from "../hero-helper";
+import { getShortForm } from "../../../../utils/rounding-utils";
 
 const NationalDeficitHero = ({glossary}): JSX.Element => {
   const fields: string = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' +
@@ -53,27 +54,20 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
         setPreviousFiscalYear(lastFiscalYear);
 
         setTextCurrentDeficit(
-          getShortForm(res.data[0].current_fytd_net_outly_amt, 2,  false, true)
+          getShortForm(res.data[0].current_fytd_net_outly_amt, false)
         )
 
         setPreviousCalendarYear((parseInt(res.data[0].record_calendar_year) - 1).toString());
 
         setDesktopDeficit(Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt)).toFixed());
-        if (Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)) < 1000000000000) {
-          setDesktopPriorDeficit(getShortForm(
-            Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), 0, false));
-        }
-        else if (Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)) >= 1000000000000) {
-          setDesktopPriorDeficit(getShortForm(
-            Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), 2, false));
-        }
+        setDesktopPriorDeficit(getShortForm(Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt)).toFixed(), false));
         const date = new Date();
         date.setDate(15);
         date.setMonth(parseInt(res.data[0].record_calendar_month) - 1);
         setCurrentRecordMonth(res.data[0].record_calendar_month);
         const currentDeficit = Math.abs(parseFloat(res.data[0].current_fytd_net_outly_amt));
         const priorYearDeficit = Math.abs(parseFloat(res.data[0].prior_fytd_net_outly_amt));
-        setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), 0, false));
+        setDeficitDif(getShortForm(Math.abs(priorYearDeficit - currentDeficit).toString(), false));
         setDeficitDifPill(Math.abs(priorYearDeficit - currentDeficit));
         setDeficitDifPercent(parseFloat((((currentDeficit - priorYearDeficit) / priorYearDeficit)*100).toFixed()))
         if(currentDeficit > priorYearDeficit) {

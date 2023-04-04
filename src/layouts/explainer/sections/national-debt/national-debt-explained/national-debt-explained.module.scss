@@ -1,0 +1,89 @@
+@import '../../../../../variables.module.scss';
+
+.nationalDebtExplainedTextContent {
+  p {
+    margin-top: 0;
+  }
+}
+
+.nationalDebtExplainedTable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  table {
+    border-collapse: collapse;
+
+    .tableIcon {
+      color: $debt-explainer-light-secondary;
+    }
+
+    td {
+      text-align: center;
+
+      &.borderBottom {
+        border-bottom: solid 1px #666666;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .nationalDebtExplainedTable {
+
+    padding: 1rem 2rem 0;
+
+    th {
+      font-size: $font-size-48;
+      padding-bottom: 8px;
+    }
+
+    td {
+      white-space: nowrap;
+      width: 80px;
+      padding: 12px 20px;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .nationalDebtExplainedTable {
+    padding: 15px 15px 0 15px;
+    font-size: $font-size-14;
+
+    th {
+      font-size: $font-size-36;
+    }
+
+    td {
+      padding: 8px 15px;
+
+      &:first-of-type {
+        min-width: 40px;
+        padding-right: 10px;
+      }
+    }
+
+    .paddingTop {
+      td {
+        padding-top: 14px;
+      }
+    }
+
+    tfoot {
+      td {
+        padding-top: 0;
+      }
+
+      img {
+        width: 64px;
+        padding-left: 10px;
+      }
+    }
+    .diveDeeperContent {
+      p {
+        margin-left: 15px;
+      }
+    }
+  }
+}

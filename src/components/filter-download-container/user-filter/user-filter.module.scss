@@ -1,0 +1,19 @@
+@import '../../../variables.module.scss';
+
+.userFilterWrapper {
+  margin: 2rem 0 1rem;
+  max-width: 490px;
+
+  .filterLabel {
+    font-size: $font-size-18;
+    font-weight: $semi-bold-weight;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+}
+
+@media (min-width: $breakpoint-sm){
+  .infoContainer {
+    margin-right: 2.5rem;
+  }
+}

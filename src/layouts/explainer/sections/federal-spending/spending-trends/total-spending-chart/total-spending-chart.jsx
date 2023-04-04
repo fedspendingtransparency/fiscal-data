@@ -13,7 +13,7 @@ import {
   dataHeader,
   chartConfigs,
   getMarkers,
-  lineChartCustomSlices,
+  LineChartCustomSlices,
   lineChartCustomPoints
 } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
@@ -28,7 +28,7 @@ import { adjustDataForInflation }
   from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import {getShortForm} from "../../../../heros/hero-helper";
+import {getShortForm} from "../../../../../../utils/rounding-utils";
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from "../../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../../utils/analytics/analytics";
@@ -262,7 +262,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
         copyPageData({
           fiscalYear: maxYear,
-          totalSpending: getShortForm(chartLastSpendingValue, 2, false),
+          totalSpending: getShortForm(chartLastSpendingValue, false),
           percentOfGDP: chartLastRatio,
           numOfYearsInChart: (maxYear - minYear) + 1
         })
@@ -372,6 +372,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               <div className={lineChart} data-testid={'chartParent'}
                    onMouseEnter={handleMouseEnter}
                    onMouseLeave={() => clearTimeout(gaTimer)}
+                   role={'presentation'}
               >
                 <Line
                   data={chartData}
@@ -385,7 +386,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     'points',
                     lineChartCustomPoints,
                     (props) =>
-                      lineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                      LineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
                     'mesh',
                     'legends',
                   ]}

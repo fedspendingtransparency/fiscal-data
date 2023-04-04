@@ -27,16 +27,16 @@ const parseTime = d3.timeParse('%Y-%m-%d');
 
 export class MultichartRenderer {
   w: number;
-  y: any;
-  container: Selection<BaseType, unknown, HTMLElement, any>;
-  svgDefs: any;
+  y: unknown;
+  container: Selection<BaseType, unknown, HTMLElement, unknown>;
+  svgDefs: Selection<BaseType, unknown, HTMLElement, unknown>;
   chartId: string;
   chartConfigs: ChartConfig[];
   fields: [];
-  markers: any;
-  hoverFunction: any;
+  markers: unknown;
+  hoverFunction: (unknown) => void;
   hoverEffectsId: string;
-  elementRef: any;
+  elementRef: HTMLElement;
   rendered: boolean = false;
   chartDimensions = {
     height: 400,
@@ -48,7 +48,7 @@ export class MultichartRenderer {
     width: null
   }
 
-  constructor (chartConfigs: ChartConfig[], elementRef: any, chartId: string) {
+  constructor (chartConfigs: ChartConfig[], elementRef: HTMLElement, chartId: string) {
     this.chartConfigs = [];
     this.elementRef = elementRef;
     this.chartId = chartId;
@@ -80,14 +80,19 @@ export class MultichartRenderer {
     this.connectMarkers(0);
   }
 
-  setWidth = (selection: Selection<BaseType, unknown, HTMLElement, any>): void => {
+  setWidth = (selection: Selection<BaseType, unknown, HTMLElement, unknown>): void => {
     this.w = (selection.node() as HTMLElement).getBoundingClientRect().width;
     this.chartDimensions.width = this.w - this.chartDimensions.yAxisWidth -
       this.chartDimensions.marginRight;
   };
 
-  setScales = (config: ChartConfig, chartCount:number, chartIndex:number):void => {
-    const scales: any = {};
+  setScales = (
+    config: ChartConfig,
+    chartCount:number,
+    chartIndex:number
+  ): {x: unknown, y: unknown} => {
+
+    const scales = {} as {x: unknown, y: unknown};
 
     const extent = d3.extent(
       config.data.reduce((arr, r) => {
@@ -134,7 +139,7 @@ export class MultichartRenderer {
     return scales;
   };
 
-  static lineFn = (field: string, config: ChartConfig) => {
+  static lineFn = (field: string, config: ChartConfig): string => {
     if (config.data) {
       return d3
         .line()
@@ -170,32 +175,6 @@ export class MultichartRenderer {
         .attr("d", a1)
         .style('fill', config.options.shading.color || 'transparent');
 
-      // Second area needed for a pattern in addition to a fill
-      if (config.options.shading.hatchDirection) {
-        const hatchDirectionUp = 'M6,-2 l4,4 M0,0 l8,8 M-2,6 l4,4';
-        const hatchDirectionDown = 'M2,-2 l4,-4 M0,8 l8,-8 M6,10 l4,-4';
-
-        const a2 = createArea();
-
-        this.svgDefs.append('pattern')
-          .attr('id', 'gradient')
-          .attr('patternUnits', 'userSpaceOnUse')
-          .attr('width', 8)
-          .attr('height', 8)
-          .append('path')
-          .attr('d', config.options.shading.hatchDirection === 'down' ?
-            hatchDirectionDown : hatchDirectionUp)
-          .attr('stroke', '#000000')
-          .attr('stroke-width', 0.5);
-
-        config.lines.enter()
-          .append('path')
-          .data([config.data])
-          .attr("class", "area")
-          .attr("d", a2)
-          .style('fill', 'url(#gradient)')
-      }
-
       config.lines.enter()
         .append("path")
         .attr("d", function(d) {
@@ -206,12 +185,12 @@ export class MultichartRenderer {
         })
         .classed('dataviz-line', true)
         .attr('data-testid', 'dataviz-line')
-        .attr("stroke", function(d, i) {
+        .attr("stroke", function() {
           return config.options.shading?.color || '#4971b7'
         })
         .attr('stroke-width', 1)
         .attr("opacity", 1)
-        .attr("fill", function(d, i) {
+        .attr("fill", function() {
           return "none"
         })
 
@@ -237,12 +216,12 @@ export class MultichartRenderer {
         })
         .classed('dataviz-line', true)
         .attr('data-testid', 'dataviz-line')
-        .attr("stroke", function(d, i) {
+        .attr("stroke", function() {
           return '#555555'
         })
         .attr('stroke-width', 2)
         .attr("opacity", 1)
-        .attr("fill", function(d, i) {
+        .attr("fill", function() {
           return "none"
         });
       if (config.options.placeInitialMarker) {
@@ -288,7 +267,7 @@ export class MultichartRenderer {
     this.svgDefs = parentSelection.select('svg').append('defs');
   }
 
-  addHoverEffects = (hoverFunction: any): void => {
+  addHoverEffects = (hoverFunction: (dateString: string|null) => void): void => {
     this.hoverFunction = hoverFunction;
 
     const parentSelection = d3.select(`#${this.chartId}`);
@@ -335,7 +314,7 @@ export class MultichartRenderer {
     }, 500);
   };
 
-  animateChart = (callback): void => {
+  animateChart = (callback: (recordDate: string) => void): void => {
 
     let selectedData;
 
@@ -352,8 +331,9 @@ export class MultichartRenderer {
         if (selectedData) {
           callback(selectedData[this.chartConfigs[0].dateField]);
         }
-        // wait for the .9s transition then add timeout values for reverse order
-      }, 900 + ((this.chartConfigs[0].data.length - index) * 220));
+        // await the 1.1s (.6s delay + .5s transform) transition,
+        // to calculate timeout values in reverse order
+      }, 1100 + ((this.chartConfigs[0].data.length - index) * 500));
     });
   };
 

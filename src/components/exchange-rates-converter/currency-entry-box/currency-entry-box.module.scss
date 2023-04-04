@@ -1,0 +1,103 @@
+@import 'src/variables.module';
+
+
+.dropdownIcon {
+  font-size: 14px;
+  border: none;
+  background: none;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 0.5rem 0.2rem;
+  margin-top: 0.45rem;
+  position: absolute;
+  right: 0.5rem;
+  top: -4px;
+  outline: 0;
+}
+
+.dropdownInputContainer {
+  position: relative;
+  padding-right: 0.95rem;
+}
+
+.dropdownInput {
+  box-sizing: content-box;
+  width: 100%;
+  height: 2.30rem;
+  background-color: #f1f1f1;
+  color: #555555;
+  border: 1px solid #f1f1f1;
+  border-bottom: solid 1px #d6d7d9;
+  font-size: 16px;
+  padding-left: 0.6875rem;
+  font-weight: 600;
+  line-height: unset;
+  padding-bottom: 1px;
+  padding-top: 1px;
+  -webkit-appearance: none;
+}
+
+.currencyBox {
+  width: 20rem;
+  margin: 0 1rem 0 0;
+  border-radius: 2px;
+  border: solid 1px #d6d7d9;
+
+  button:disabled {
+    opacity: 0.5;
+  }
+
+  .currencyHeader {
+    background-color: #f1f1f1;
+    border-bottom: solid 1px #d6d7d9;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      font-weight: $semi-bold-weight;
+      color: #555555;
+      margin-left: .75rem
+    }
+
+    .icon {
+      color: #666666;
+      height: 1rem;
+      width: 12px;
+      margin-right: 13px;
+    }
+  }
+
+  .currencyBody {
+    height: 2.5rem;
+  }
+
+  .currencyText {
+    margin-left: 0.625rem;
+    padding-top: 0.5rem;
+  }
+
+}
+
+input[type=number]
+{
+  border:none;
+  font-size: 1rem;
+  color: #666;
+  width: 95%;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .currencyBox {
+    margin: 1rem 0 0;
+    width: 100%;
+  }
+}

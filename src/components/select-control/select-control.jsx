@@ -25,6 +25,8 @@ const SelectControl = ({
 
 
 
+
+
   const [droppedDown, setDroppedDown] = useState(false);
   const updateSelection = (selection) => () => {
     setDroppedDown(false);
@@ -32,6 +34,7 @@ const SelectControl = ({
   };
 
   const optionSelected = selectedOption || options[0];
+
   let timeOutId;
 
   /* accessibility enabling event handlers for interpreting focus state on control */
@@ -56,50 +59,52 @@ const SelectControl = ({
         className={`${styles.selector_container} ${className ? className : ''}`}
         onBlur={onBlurHandler}
         onFocus={onFocusHandler}
+        role={'presentation'}
       >
-      <button
-        name="dropdownToggle"
-        className={styles.selector_button}
-        aria-haspopup="true"
-        aria-expanded={droppedDown}
-        aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
-        onClick={toggleDropdown}
-      >
-        <div className={styles.label} title={optionSelected[labelKey]}>
-          {optionSelected[labelKey]}
-        </div>
-        <FontAwesomeIcon icon={faChevronDown} size="sm" className={styles.icon} />
-      </button>
-      {droppedDown && (
-        <ul className={styles.selector_list} data-testid="selectorList">
-          {options.map((option, index) => {
-            const colName = option.columnName;
-            const isSelectedOption = option === optionSelected || (
-              colName &&
+        <button
+          name="dropdownToggle"
+          data-testid={'toggle-button'}
+          className={styles.selector_button}
+          aria-haspopup="true"
+          aria-expanded={droppedDown}
+          aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
+          onClick={toggleDropdown}
+        >
+          <div className={styles.label} title={optionSelected[labelKey]}>
+            {optionSelected[labelKey]}
+          </div>
+          <FontAwesomeIcon icon={faChevronDown} size="sm" className={styles.icon} />
+        </button>
+        {droppedDown && (
+          <ul className={styles.selector_list} data-testid="selectorList">
+            {options.map((option, index) => {
+              const colName = option.columnName;
+              const isSelectedOption = option === optionSelected || (
+                colName &&
                 optionSelected.columnName &&
                 colName === optionSelected.columnName
-            );
+              );
 
-            return (
-              <React.Fragment key={`${colName}-${index}`}>
-                {(!option.hideable || showAll) && (
-                  <li className={styles.selector_option}>
-                    <button
-                      data-testid="selector-option"
-                      className={classNames([
-                        styles.selector_optionButton,
-                        isSelectedOption ? styles.selector_optionSelected : ''
-                      ])}
-                      onClick={updateSelection(option)}
-                    >
-                      {option[labelKey]}
-                    </button>
-                  </li>)}
-              </React.Fragment>
-            )
-          })}
-        </ul>
-      )}
+              return (
+                <React.Fragment key={`${colName}-${index}`}>
+                  {(!option.hideable || showAll) && (
+                    <li className={styles.selector_option}>
+                      <button
+                        data-testid="selector-option"
+                        className={classNames([
+                          styles.selector_optionButton,
+                          isSelectedOption ? styles.selector_optionSelected : ''
+                        ])}
+                        onClick={updateSelection(option)}
+                      >
+                        {option[labelKey]}
+                      </button>
+                    </li>)}
+                </React.Fragment>
+              )
+            })}
+          </ul>
+        )}
       </div>
     </>
   )

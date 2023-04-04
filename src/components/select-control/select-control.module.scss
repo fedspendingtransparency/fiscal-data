@@ -21,6 +21,7 @@
     top: 0.7875rem;
   }
 }
+
 .selector_label {
   display: inline-block;
   padding: 0.3rem 0;
@@ -41,6 +42,11 @@
   background-color: $content-section-background;
   white-space: normal;
   z-index: 10000;
+  &.scrollable {
+    max-height: 315px;
+    overflow-y: scroll;
+    box-shadow: 5px 5px 10px 0 #777777;
+  }
 
   .selector_option {
     font-weight: normal;
@@ -98,4 +104,13 @@
   line-height: 2.125rem;
   color: $font-body-copy;
   margin-right: 1rem;
+
+  &.textField { // prevents inconsistencies with iOS
+    box-sizing: content-box;
+    height: 29.81px; // to match mui input height
+    line-height: unset;
+    padding-bottom: 1px;
+    padding-top: 1px;
+    -webkit-appearance: none;
+  }
 }

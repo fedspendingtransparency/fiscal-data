@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import  userEvent from '@testing-library/user-event'
 import InfoTip from "./info-tip";
 
@@ -32,6 +32,19 @@ describe('InfoTip', () => {
     expect(getByTestId('popupContainer')).toBeInTheDocument();
     expect(clickEvent).toHaveBeenCalled();
   })
+
+  it('shows the popup on hover when hover is true', () => {
+    const { getByTestId } = render(<InfoTip title={title} hover>{body}</InfoTip>);
+    const button = getByTestId('infoTipButton');
+
+    act(() => {
+      fireEvent.mouseEnter(button);
+    });
+
+    expect(getByTestId('popupContainer')).toBeInTheDocument();
+  })
+
+
 });
 
 describe('InfoTip for glossary terms',  () => {
@@ -77,7 +90,9 @@ describe('InfoTip for glossary terms',  () => {
     const { getByRole, queryByTestId, getByTestId } = render(GlossaryInfoTipComponent);
     const button = getByRole('button', {name: glossaryTitle});
 
-    userEvent.tab();
+    act(() => {
+      userEvent.tab();
+    })
     expect(button).toHaveFocus();
     act(() => {
       userEvent.keyboard('[enter]');

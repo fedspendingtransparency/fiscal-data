@@ -31,6 +31,7 @@ describe('Download Modal Buttons', () => {
   });
 
   it('has a cancel function that returns null if no download id is passed in', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     expect(buttons.cancelButton()).toBeNull();
   });

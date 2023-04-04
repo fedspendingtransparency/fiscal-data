@@ -9,7 +9,7 @@ global.___loader = {
 describe("Topics section", () => {
   it("displays section headers", () => {
     const { getByText } = render(<TopicsSection />);
-    expect(getByText("TOPICS")).toBeInTheDocument();
+    expect(getByText("TOOLS")).toBeInTheDocument();
   });
 
   it("displays the title with the book icon", () => {
@@ -20,7 +20,7 @@ describe("Topics section", () => {
   });
 
   it("has the AFG Header and AFG Tile Subheader", () => {
-    const { getAllByText } = render(<TopicsSection />);
-    expect(getAllByText("Your Guide to America’s Finances")).toHaveLength(2);
+    const { getByText } = render(<TopicsSection />);
+    expect(getByText("Your Guide to America’s Finances")).toBeInTheDocument();
   });
 });

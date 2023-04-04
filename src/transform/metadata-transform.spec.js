@@ -4,7 +4,8 @@ const {
   staticDatasetIdMap,
   staticTopicsAssociations,
   datasetInTransformation,
-  staticFilters } = require('./transform-mock-data.json');
+  staticFilters,
+  mockFilterableData } = require('./transform-mock-data.json');
 const releaseCalendarEntries = require('../testData/release-calendar.mock.data.json').data;
 
 // make separate untransformed copy of mock obj
@@ -98,14 +99,21 @@ describe('Metadata Transform', () => {
     }
   ];
 
+  const mockFetch = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      json: () => Promise.resolve(mockFilterableData),
+    }));
+
   it('formats dataset-wide date specs as MM/dd/YYYY when retrieving dates from child apiEndpoints',
-    () => {
+    async () => {
     const transformIterationProcessor =
       transformMapper(staticDatasetIdMap,
         getEndpointConfigsById(null, null),
         staticTopicsAssociations,
         staticFilters,
-        releaseCalendarEntries).each;
+        releaseCalendarEntries,
+        'http://api.baseurl.fdg',
+        mockFetch).each;
 
     // demonstrate pre-processed mock dataset does not yet have dataset-wide dates
     expect(datasetInTransformation.techSpecs.earliestDate).toBeUndefined();
@@ -119,7 +127,7 @@ describe('Metadata Transform', () => {
     expect(datasetInTransformation.apis[0].lastUpdated).toEqual('2020-01-02');
 
     // run the process that determines dataset-wide date specs
-    transformIterationProcessor(datasetInTransformation);
+    await transformIterationProcessor(datasetInTransformation);
 
     expect(datasetInTransformation.techSpecs.earliestDate).toEqual('10/03/2005');
     expect(datasetInTransformation.techSpecs.latestDate).toEqual('01/01/2020');
@@ -127,14 +135,16 @@ describe('Metadata Transform', () => {
     expect(datasetInTransformation.dataStartYear).toEqual('2005');
   });
 
-  it('it creates kebab-cased pathName values for each api endpoint', () => {
+  it('it creates kebab-cased pathName values for each api endpoint', async () => {
     const transformIterationProcessor =
       transformMapper(
         staticDatasetIdMap,
         getEndpointConfigsById(null, null),
         staticTopicsAssociations,
         staticFilters,
-        releaseCalendarEntries).each;
+        releaseCalendarEntries,
+        'http://api.baseurl.fdg',
+        mockFetch).each;
 
     // demonstrate mock dataset initially contains child endpoint with a
     // tableName but no kebab-case pathName
@@ -142,7 +152,7 @@ describe('Metadata Transform', () => {
     expect(datasetForPathName.apis[0].pathName).toBeUndefined();
 
     // run the process that determines path names per table
-    transformIterationProcessor(datasetForPathName);
+    await transformIterationProcessor(datasetForPathName);
 
     // child endpoint is correctly assigned kebab-case pathName for URL parsing/formulation
     expect(datasetForPathName.apis[0].pathName).toEqual('debt-to-the-nickel');
@@ -191,15 +201,17 @@ describe('Metadata Transform', () => {
   });
 
   it(`adds a property called isLargeDataset to the api and sets it to true if
-   the rowCount > largeDatasetThreshold`, () => {
+   the rowCount > largeDatasetThreshold`, async () => {
     const transformIterationProcessor =
       transformMapper(
         staticDatasetIdMap,
         getEndpointConfigsById(null, null),
         staticTopicsAssociations,
         staticFilters,
-        releaseCalendarEntries).each;
-    transformIterationProcessor(datasetInTransformation);
+        releaseCalendarEntries,
+        'http://api.baseurl.fdg',
+        mockFetch).each;
+    await transformIterationProcessor(datasetInTransformation);
 
     expect(datasetInTransformation.apis[0].isLargeDataset).toBeUndefined();
     expect(datasetInTransformation.apis[1].isLargeDataset).toBeTruthy();

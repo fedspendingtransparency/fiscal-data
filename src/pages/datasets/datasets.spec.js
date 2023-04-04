@@ -1,13 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DatasetsPage from "./index.jsx";
-import PageHelmet from '../../components/page-helmet/page-helmet.jsx';
-import SiteLayout from '../../components/siteLayout/siteLayout.jsx';
+import DatasetsPage from "./index";
+import PageHelmet from '../../components/page-helmet/page-helmet';
+import SiteLayout from '../../components/siteLayout/siteLayout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { pageQueryMock } from '../../components/datasets/mockData/mockDatasets';
 import * as Gatsby from 'gatsby';
 import SearchField from "../../components/datasets/search-field/search-field";
-import FilterSection from '../../components/datasets/filters/filters.jsx';
+import FilterSection from '../../components/datasets/filters/filters';
 import { MuiThemeProvider } from "@material-ui/core";
 import { mockFilters } from "../../components/datasets/mockData/mockFilters";
 
