@@ -19,7 +19,6 @@ import {
 import {
   deficitExplainerLightSecondary, deficitExplainerPrimary
 } from "../../explainer/sections/national-deficit/national-deficit.module.scss";
-import CustomTooltip, {externalTooltipHandler} from "./custom-tooltip";
 
 // This will register plugins for all charts
 ChartJS.register(
@@ -80,15 +79,11 @@ const ChartJSLine = () => {
     plugins: {
       tooltip: {
         enabled: true,
-        // position: 'average',
-        // external: externalTooltipHandler,
       },
     },
   }
 
   const common = {
-      // pointRadius: 0,
-      // pointHoverRadius: 0,
       pointStyle: false,
       borderWidth: 2,
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Area, AreaChart, ComposedChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip} from "recharts";
+import {Area, ComposedChart, Line, XAxis, YAxis, Tooltip} from "recharts";
 import {
   deficitExplainerLightSecondary, deficitExplainerPrimary
 } from "../../explainer/sections/national-deficit/national-deficit.module.scss";

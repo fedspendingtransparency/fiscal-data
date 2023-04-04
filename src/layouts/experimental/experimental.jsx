@@ -48,13 +48,6 @@ const ExperimentalPage = () => {
       <br />
       <h3> ReCharts Composed Chart </h3>
       <ReChartsLine />
-      {/*<br />*/}
-      {/*<h3>ChartJS Line Chart</h3>*/}
-      {/*<ChartJSLine />*/}
-      {/*<br />*/}
-      {/*<ChartJSDoughnut />*/}
-      {/*<br />*/}
-      {/*<ChartJSBar />*/}
       <h2>
         Basic Bar Graph, with labels visible on bars
       </h2>
