@@ -31,7 +31,7 @@ import {
   fastRound,
   currencySelectionInfoIcon,
   effectiveDateInfoIcon,
-  effectiveDateEndpoint, countDecimals
+  effectiveDateEndpoint, countDecimals, enforceTrailingZero
 } from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
@@ -174,10 +174,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [selectedQuarter, selectedYear]);
 
-  useEffect(() => {
-    console.log(nonUSCurrencyExchangeValue);
-  }, [nonUSCurrencyExchangeValue]);
-
   const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
     const selectedYearQuarter = `${year}Q${quarter}`;
     if (currencyMapLocal[nonUSCurrencyLocal.country_currency_desc] === undefined) {
@@ -241,6 +237,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       else {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 1000) / 1000);
       }
+      product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
     }
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product);
