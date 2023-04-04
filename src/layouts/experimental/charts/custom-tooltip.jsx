@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+//Custom tool tip for chart js
 const getOrCreateTooltip = (chart) => {
   console.log(chart);
   let tooltipEl = chart.canvas.parentNode.querySelector('div');
