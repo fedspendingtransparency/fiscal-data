@@ -174,11 +174,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [selectedQuarter, selectedYear]);
 
-  useEffect(() => {
-    console.log(nonUSCurrencyExchangeValue);
-    console.log(nonUSCurrencyDecimalPlaces);
-  }, [nonUSCurrencyExchangeValue, nonUSCurrencyDecimalPlaces]);
-
   const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
     const selectedYearQuarter = `${year}Q${quarter}`;
     if (currencyMapLocal[nonUSCurrencyLocal.country_currency_desc] === undefined) {
