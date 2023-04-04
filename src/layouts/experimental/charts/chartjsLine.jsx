@@ -83,24 +83,6 @@ const ChartJSLine = () => {
         // position: 'average',
         // external: externalTooltipHandler,
       },
-      // annotation: {
-      //   annotations: {
-      //     line1: {
-      //       type: 'line',
-      //       yMin: 20,
-      //       yMax: 20,
-      //     }
-      //   }
-      // }
-      // legend: {
-      //   display: false,
-      // },
-      // datalabels: {
-      //   display: true,
-      //   color: "#15366a",
-      //   align: 'end',
-      //   anchor: 'end',
-      // }
     },
   }
 
@@ -111,11 +93,11 @@ const ChartJSLine = () => {
       borderWidth: 2,
   }
 
+  // This could be further extended to draw a dashed hover line on the chart
   const tooltipLine = {
     id: 'tooltipLine',
     beforeDraw: chart => {
       if(chart.tooltip._active && chart.tooltip._active.length) {
-        // console.log(chart);
         const ctx = chart.ctx;
         ctx.save();
         const activePoint = chart.tooltip._active[0];
