@@ -31,7 +31,7 @@ import {
   fastRound,
   currencySelectionInfoIcon,
   effectiveDateInfoIcon,
-  effectiveDateEndpoint, countDecimals
+  effectiveDateEndpoint, countDecimals, enforceTrailingZero
 } from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
@@ -239,10 +239,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       else {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 1000) / 1000);
       }
-      let num = product.toString();
-      if (num.indexOf('.') === -1) num += '.';
-      while (num.length < num.indexOf('.') + (nonUSCurrencyDecimalPlaces + 1)) num += '0';
-      product = num;
+      product = enforceTrailingZero(product, nonUSCurrencyDecimalPlaces);
     }
     if (!isNaN(product)) {
       setNonUSCurrencyExchangeValue(product);

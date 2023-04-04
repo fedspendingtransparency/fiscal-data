@@ -35,6 +35,13 @@ export const countDecimals = (number) => {
   return number.toString().split('.')[1].length || 0;
 }
 
+export const enforceTrailingZero = (number, decimalPlaces) => {
+  let num = number.toString();
+  if (num.indexOf('.') === -1) num += '.';
+  while (num.length < num.indexOf('.') + (decimalPlaces + 1)) num += '0';
+  return num;
+}
+
 export const apiEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
 
 export const effectiveDateEndpoint = 'v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=-effective_date';
