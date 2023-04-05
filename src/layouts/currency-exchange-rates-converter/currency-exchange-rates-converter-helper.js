@@ -32,12 +32,17 @@ export const countDecimals = (number) => {
   if (number.toString().split('.')[1] === undefined) {
     return 0;
   }
+  if (number.toString().split('.')[1] === '0' && number.toString().split('.')[2] === undefined) {
+    return 0;
+  }
   return number.toString().split('.')[1].length || 0;
 }
 
 export const enforceTrailingZero = (number, decimalPlaces) => {
   let num = number.toString();
-  if (num.indexOf('.') === -1) num += '.';
+  if (decimalPlaces > 0) {
+    if (num.indexOf('.') === -1) num += '.';
+  }
   while (num.length < num.indexOf('.') + (decimalPlaces + 1)) num += '0';
   return num;
 }
