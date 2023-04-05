@@ -42,8 +42,8 @@ export const enforceTrailingZero = (number, decimalPlaces) => {
   let num = number.toString();
   if (decimalPlaces > 0) {
     if (num.indexOf('.') === -1) num += '.';
+    while (num.length < num.indexOf('.') + (decimalPlaces + 1)) num += '0';
   }
-  while (num.length < num.indexOf('.') + (decimalPlaces + 1)) num += '0';
   return num;
 }
 

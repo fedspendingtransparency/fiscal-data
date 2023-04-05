@@ -83,6 +83,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then((res) => {
+      console.log(res.data);
       const yearToQuartersMapLocal = {} as Record<string, number[]>;
       const currencyMapLocal: Record<string, Currency> = {};
       res.data.forEach(record => {
@@ -225,7 +226,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     let product;
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      if (nonUSCurrencyDecimalPlaces === 1) {
+      if (nonUSCurrencyDecimalPlaces === 0) {
+        product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate))));
+      }
+      else if (nonUSCurrencyDecimalPlaces === 1) {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
       }
       else if (nonUSCurrencyDecimalPlaces === 2) {
