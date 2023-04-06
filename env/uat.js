@@ -21,6 +21,22 @@ module.exports = {
       "slug": "/treasury-certified-interest-rates-annual/",
       "currentDateButton": "byMonth"
     },
+    "015-BFS-2014Q3-044": {
+      "seoConfig": {
+        "pageTitle": "Monthly Interest Rate Certification ",
+        "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes, including treasury loans.",
+        "keywords": "Interest and Exchange Rates"
+      },
+      "topics": [
+        "interest-exchange-rates"
+      ],
+      "relatedDatasets": [
+        "015-BFS-2014Q3-041",
+        "015-BFS-2014Q3-042",
+      ],
+      "slug": "/treasury-certified-interest-rates-monthly/",
+      "currentDateButton": "byMonth"
+    }
   },
   ADDITIONAL_ENDPOINTS: {
     '27': {
