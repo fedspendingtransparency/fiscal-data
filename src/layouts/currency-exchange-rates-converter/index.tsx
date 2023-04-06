@@ -188,6 +188,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
       setNonUSCurrency(matchedRecord);
       setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+      setUSDollarValue('1.00');
       const date = new Date(matchedRecord.effective_date);
       setEffectiveDate(dateStringConverter(date));
     }
@@ -238,7 +239,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     if(event !== null) {
       setNonUSCurrencyExchangeValue(event.target.value);
       if (!isNaN(parseFloat(event.target.value))) {
-        quotient = (fastRound((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
+        quotient = (Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
       }
       if (!isNaN(quotient)) {
         setUSDollarValue(quotient.toString());
