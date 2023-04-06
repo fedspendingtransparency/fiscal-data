@@ -1917,6 +1917,36 @@ const endpointConfig = {
     'dateField': 'record_date',
     'downloadName': 'TCIR_SemiAnnual'
   },
+  '198': {
+    'endpoint': 'v1/accounting/od/tcir_monthly_table_1',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Monthly_SpecificMaturities'
+  },
+  '199': {
+    'endpoint': 'v1/accounting/od/tcir_monthly_table_2',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Monthly_RangeOfMaturities'
+  },
+  '200': {
+    'endpoint': 'v1/accounting/od/tcir_monthly_table_3',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Monthly_OtherTreasBorrowAuthorities'
+  },
+  '201': {
+    'endpoint': 'v1/accounting/od/tcir_monthly_table_4',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Monthly_GuamDevelopmentFundAct'
+  },
+  '202': {
+    'endpoint': 'v1/accounting/od/tcir_monthly_table_5',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Monthly_DeptOfDefArmsExportControl'
+  },
+  '203': {
+    'endpoint': 'v1/accounting/od/tcir_monthly_table_6',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Monthly_OtherSpecificLegislation'
+  },
 };
 
 const setCompleteTableDisplayItem = (response) => {
