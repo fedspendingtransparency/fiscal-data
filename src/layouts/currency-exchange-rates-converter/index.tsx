@@ -76,7 +76,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then((res) => {
       if(res.data) {
         const date = new Date(res.data[0].effective_date);
-        setDatasetDate(format(getDateWithoutTimeZoneAdjust(date), "MMMM d, yyyy"));
+        setDatasetDate(dateStringConverter(date));
       }
     })
   }, []);
@@ -204,7 +204,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleChangeYears = useCallback((option) => {
 
-    updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
+    if (yearToQuartersMap[option.label][selectedQuarter.value]) {
+      updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
+    }
+    else {
+      updateCurrencyForYearQuarter(option.label, yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1], nonUSCurrency, currencyMap);
+    }
 
     if (yearToQuartersMap[option.label][selectedQuarter.value]) {
       setSelectedQuarter({label: quarterNumToTerm(selectedQuarter.value), value: selectedQuarter.value});
