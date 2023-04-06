@@ -13,7 +13,7 @@ $menuWidth: 318px;
   right: 0;
   margin-top: -43px;
   transition: width 0.5s ease-in-out;
-  z-index: 100;
+  z-index: 2000;
 
   &.open {
     width: $menuWidth;
@@ -27,7 +27,7 @@ $menuWidth: 318px;
 }
 
 .tray {
-  z-index: 100;
+  z-index: 2000;
   background-color: white;
   height: 100vh;
   box-sizing: border-box;
