@@ -163,7 +163,7 @@ export default function ComboSelect(
           {required && (<span className="required">*</span>)}
         </div> : null
       }
-      <div ref={ref} onFocus={onFocusHandler} onBlur={onBlurHandler} role={'presentation'}>
+      <div ref={ref} onFocus={onFocusHandler} role={'presentation'} >
         <div>
           {yearFilter ? (
             <input type="number"
@@ -223,6 +223,8 @@ export default function ComboSelect(
       {droppedDown && (
         <ul className={`${styles.selector_list} ${scrollable ? styles.scrollable : ''}`}
             data-testid="selectorList"
+            role={'presentation'}
+            onBlur={onBlurHandler}
         >
           {filteredOptions.map((option, index) => (
             <React.Fragment key={index}>
