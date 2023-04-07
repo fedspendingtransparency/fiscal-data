@@ -118,6 +118,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
             analytics={true}
             analyticsCategory={"Explainers"}
             analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
+            tocScrollOffset={-32}
           >
             <div className={socialShareContainer}>
               <div className={socialShare}>
