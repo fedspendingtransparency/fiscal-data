@@ -50,6 +50,7 @@ module.exports = {
       "relatedDatasets": [
         "015-BFS-2014Q3-041",
         "015-BFS-2014Q3-042",
+        "015-BFS-2014Q3-043"
       ],
       "slug": "/treasury-certified-interest-rates-monthly/",
       "currentDateButton": "byMonth"
