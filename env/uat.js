@@ -40,7 +40,7 @@ module.exports = {
     },
     "015-BFS-2014Q3-044": {
       "seoConfig": {
-        "pageTitle": "Monthly Interest Rate Certification ",
+        "pageTitle": "Monthly Interest Rate Certification",
         "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes, including treasury loans.",
         "keywords": "Interest and Exchange Rates"
       },
