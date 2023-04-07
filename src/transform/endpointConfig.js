@@ -1917,6 +1917,26 @@ const endpointConfig = {
     'dateField': 'record_date',
     'downloadName': 'TCIR_SemiAnnual'
   },
+  '194': {
+    'endpoint': 'v1/accounting/od/tcir_quarterly_table_1',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Quarterly_IntRatesReclamReformAct'
+  },
+  '195': {
+    'endpoint': 'v1/accounting/od/tcir_quarterly_table_2a',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Quarterly_IntRatesSpecificLegislation'
+  },
+  '196': {
+    'endpoint': 'v1/accounting/od/tcir_quarterly_table_2b',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Quarterly_IntRatesSpecLegisPublicLaw'
+  },
+  '197': {
+    'endpoint': 'v1/accounting/od/tcir_quarterly_table_3',
+    'dateField': 'record_date',
+    'downloadName': 'TCIR_Quarterly_IntRatesNatConsCoopBank'
+  },
 };
 
 const setCompleteTableDisplayItem = (response) => {
