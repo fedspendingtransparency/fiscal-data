@@ -16,6 +16,10 @@ export const quarterNumToTerm = (num) => {
 }
 
 export const dateStringConverter = (date) => {
+
+  if (isNaN(date)) {
+    return '';
+  }
   const timeZoneOffset = date.getTimezoneOffset() * 60000;
   const offSetDate = new Date(date.getTime() + timeZoneOffset);
   const monthName = offSetDate.toLocaleString('default', { month: 'long' });

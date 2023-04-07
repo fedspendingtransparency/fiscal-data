@@ -76,7 +76,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then((res) => {
       if(res.data) {
         const date = new Date(res.data[0].effective_date);
-        setDatasetDate(format(getDateWithoutTimeZoneAdjust(date), "MMMM d, yyyy"));
+        setDatasetDate(dateStringConverter(date));
       }
     })
   }, []);
@@ -192,6 +192,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setNonUSCurrency(matchedRecord);
       setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
       setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
+      setUSDollarValue('1.00');
       const date = new Date(matchedRecord.effective_date);
       setEffectiveDate(dateStringConverter(date));
     }
@@ -204,7 +205,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
   const handleChangeYears = useCallback((option) => {
 
-    updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
+    if (yearToQuartersMap[option.label][selectedQuarter.value]) {
+      updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
+    }
+    else {
+      updateCurrencyForYearQuarter(option.label, yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1], nonUSCurrency, currencyMap);
+    }
 
     if (yearToQuartersMap[option.label][selectedQuarter.value]) {
       setSelectedQuarter({label: quarterNumToTerm(selectedQuarter.value), value: selectedQuarter.value});
@@ -252,7 +258,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       }
       setNonUSCurrencyExchangeValue(event.target.value);
       if (!isNaN(parseFloat(event.target.value))) {
-        quotient = (fastRound((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
+        quotient = (Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
       }
       if (!isNaN(quotient)) {
         setUSDollarValue(quotient.toString());
