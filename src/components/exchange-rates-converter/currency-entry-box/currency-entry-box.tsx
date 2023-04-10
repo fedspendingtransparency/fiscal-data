@@ -21,6 +21,12 @@ interface ICurrencyEntryBox  {
   resetFilterCount: number,
   testId: string,
 }
+
+const noNonNumericChar = (event) => {
+  // Prevents users from typing 'e', 'E', or '-'
+  return (event.key === 'e' || event.key === 'E' || event.key === '-') && event.preventDefault();
+}
+
 const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
   {
     defaultCurrency,
@@ -56,7 +62,9 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           )}
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'} />
+              <input type='number' inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
+                     onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'}
+              />
             </div>
           </div>
         </div> :
@@ -66,7 +74,10 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           </div>
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input'} />
+              <input type='number' inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
+                     onChange={onCurrencyValueChange}
+                     value={currencyValue} data-testid={'input'}
+              />
             </div>
           </div>
         </div>

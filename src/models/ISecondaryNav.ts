@@ -10,5 +10,6 @@ export interface ISecondaryNav {
   analyticsCategory?: string,
   analyticsPageLabel?: string,
   width?: number,
-  headerComponent?: ReactElement
+  headerComponent?: ReactElement,
+  tocScrollOffset?: number
 }

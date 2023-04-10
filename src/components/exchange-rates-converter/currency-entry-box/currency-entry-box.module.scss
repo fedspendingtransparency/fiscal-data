@@ -11,7 +11,6 @@
   position: absolute;
   right: 0.5rem;
   top: -4px;
-  outline: 0;
 }
 
 .dropdownInputContainer {
@@ -28,7 +27,7 @@
   border: 1px solid #f1f1f1;
   border-bottom: solid 1px #d6d7d9;
   font-size: 16px;
-  padding-left: 0.75rem;
+  padding-left: 0.6875rem;
   font-weight: 600;
   line-height: unset;
   padding-bottom: 1px;
@@ -73,7 +72,7 @@
   }
 
   .currencyText {
-    margin-left: 0.5rem;
+    margin-left: 0.625rem;
     padding-top: 0.5rem;
   }
 
@@ -98,5 +97,6 @@ input[type=number] {
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {
     margin: 1rem 0 0;
+    width: 100%;
   }
 }

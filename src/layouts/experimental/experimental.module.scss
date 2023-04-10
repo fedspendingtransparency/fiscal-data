@@ -10,3 +10,19 @@
   flex-direction: column;
   padding: 2rem;
 }
+
+.dot {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: .5rem;
+}
+
+.toolTip {
+  background-color: white;
+  padding: .5rem;
+  border: 1px solid #666666;
+  border-radius: .25rem;
+  box-shadow: 0.25rem 0.25rem lightgrey;
+}

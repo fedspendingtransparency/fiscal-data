@@ -6,8 +6,11 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import { barDiv, linkDiv } from './experimental.module.scss';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import VisualizationCallout from "../../components/visualization-callout/visualization-callout";
-import { ConnectableObservable } from 'rxjs';
 import InsightsDownload from "../../components/insights-download/insights-download";
+import ChartJSDoughnut from "./charts/chartjsDoughnut";
+import ChartJSBar from "./charts/chartjsBar";
+import ChartJSLine from "./charts/chartjsLine";
+import ReChartsLine from "./charts/rechartsLine";
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -36,7 +39,15 @@ const ExperimentalPage = () => {
       <h2>
         FootNote Paragraph
       </h2>
-      <p>empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut. Nulla facilisi. Ut tempus orci nibh, vitae tristique erat finibus egestas. Nullam ut nisl fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque quam.</p>
+      <p>
+        empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut.
+        Nulla facilisi. Ut tempus orci nibh, vitae tristique erat finibus egestas. Nullam ut nisl
+        fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque
+        quam.
+      </p>
+      <br />
+      <h3> ReCharts Composed Chart </h3>
+      <ReChartsLine />
       <h2>
         Basic Bar Graph, with labels visible on bars
       </h2>

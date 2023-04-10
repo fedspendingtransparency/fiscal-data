@@ -1,8 +1,9 @@
 import { TestData } from '../dtg-table/test-data';
-import { subYears, format } from 'date-fns';
+import { subYears, format, addDays } from 'date-fns';
 
 export const latestDate = '2020-04-13';
-const testDate = subYears(new Date(2020, 3, 13), 5);
+let testDate = subYears(new Date(2020, 3, 13), 5);
+testDate = addDays(testDate, 1);
 export const fivePrior = format(testDate, 'yyyy-MM-dd');
 
 const mockYears = {

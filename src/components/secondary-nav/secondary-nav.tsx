@@ -44,13 +44,17 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   analyticsPageLabel,
   width,
   headerComponent,
-  children
+  children,
+  tocScrollOffset
 }) => {
   const [hoveredSection, setHoveredSection] = useState<number>(-1);
   const [tocIsOpen, setTocIsOpen] = useState<boolean>(false);
   const [scrollToId, setScrollToId] = useState<string>(null);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [lastScrollPosition, setLastScrollPosition] = useState<number>(0);
+
+  const ScrollTarget = Scroll.Element;
+  const scrollToTop = tocScrollOffset === undefined; // no offset, so scroll to TOP for TOC
 
   const analyticsClickHandler = (section) => {
     Analytics.event({
@@ -68,28 +72,35 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     setHoveredSection(-1);
   }
 
-  const handleInteraction = (e, id, title) => {
-    // only proceed on mouse click or Enter key press
-    if(analytics) {
+  const handleInteraction = (e, id?, title?) => {
+    if (analytics) {
       analyticsClickHandler(title);
     }
 
+    // only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
     }
 
-    if (id) {
-      setScrollToId(id);
+    if (id) { // navigate to page section
+      setTocIsOpen(false);
       updateAddressPath(id, window.location);
-    } else if (!tocIsOpen) {
-      Scroll.animateScroll.scrollToTop(scrollOptions);
-    } else {
+      setScrollToId(id);
+    } else if (!tocIsOpen) { // scroll to and open TOC
+        if (!scrollToTop) {
+          // opening TOC on page with TOC scrollTo target (i.e. AFG Explainers)
+          setScrollToId('table-of-contents');
+        } else {
+          // no TOC target element so just scroll to top of page
+          setTocIsOpen(true);
+          Scroll.animateScroll.scrollToTop(scrollOptions);
+        }
+    } else { // no target ID and TOC is open so cancel and return to last position
+      setTocIsOpen(false);
       Scroll.animateScroll.scrollTo(lastScrollPosition, scrollOptions);
     }
-
     setLastScrollPosition(scrollPosition);
-    setTocIsOpen((prevState) => !prevState);
-  }
+  };
 
   useEffect(() => {
     const handleSelectLink: (e) => void = (e) => {
@@ -115,16 +126,35 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   useEffect(() => {
     // This is for mobile usage, when switching between toc and page content.
     if (scrollToId) {
-      Scroll.scroller.scrollTo(scrollToId, {
-        smooth: true,
-        spy: true,
-        duration: scrollDuration,
-        delay: scrollDelay
-      });
-
+      const targetId = scrollToId; // local variable not impacted by state change
       setScrollToId(null);
+
+      if (scrollToId === 'table-of-contents') { // configure instant scroll for opening TOC
+        Scroll.scroller.scrollTo(targetId, {
+          offset: tocScrollOffset - 5,
+          ...scrollOptions
+        });
+        // don't toggle TOC/Content until scrolling starts to prevent jarring UX
+        setTimeout(() => {
+          setTocIsOpen(true);
+        });
+        // set a minimal delay then scroll down to clear scroll-up-sticky that gets in the way
+        setTimeout(() => {
+          const scroll = Scroll.animateScroll;
+          scroll.scrollMore(5);
+        }, 10);
+
+      } else { // scroll with animation duration to navigate away from TOC
+        Scroll.scroller.scrollTo(targetId, {
+          smooth: true,
+          spy: true,
+          duration: scrollDuration,
+          delay: scrollDelay
+        });
+        setTocIsOpen(false);
+      }
     }
-  }, [tocIsOpen]);
+  }, [scrollToId]);
 
   const shouldTocShow: boolean = (
     width >= pxToNumber(breakpointLg) ||
@@ -138,6 +168,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   return (
     <div className={mainContainer}>
       <div className={`${navContainer} secondaryNavContainer`}>
+        {!scrollToTop && (
+          <ScrollTarget name="table-of-contents" />
+        )}
         {shouldTocShow && headerComponent}
         {shouldTocShow && sections.map((s) => {
           let headingClass = '';

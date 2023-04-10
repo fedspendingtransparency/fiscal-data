@@ -398,6 +398,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           datePreset
           customRangePreset
+          bannerCallout
           relatedTopics
           filterTopics
           publisher
@@ -617,17 +618,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   });
 
+  createPage({
+    path: `/currency-exchange-rates-converter/`,
+    matchPath: '/currency-exchange-rates-converter/',
+    component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
+  });
+
   if (ENV_ID !== 'production') {
     createPage({
       path: `/experimental/`,
       matchPath: '/experimental/',
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
-    });
-
-    createPage({
-      path: `/currency-exchange-rates-converter/`,
-      matchPath: '/currency-exchange-rates-converter/',
-      component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
     });
 
     const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);

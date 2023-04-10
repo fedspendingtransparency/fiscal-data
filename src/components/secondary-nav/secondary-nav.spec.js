@@ -153,7 +153,8 @@ describe('Secondary Nav', () => {
     expect(addressPathMock).toHaveBeenCalledWith(sections[0].id, window.location)
   })
 
-  it('scrolls to the correct position when TOC button is clicked', () => {
+  it('scrolls to the top of the page for TOC button when no TOC target is present', () => {
+
     const { getByRole } = render(
       <SecondaryNav
         sections={sections}
@@ -175,6 +176,28 @@ describe('Secondary Nav', () => {
       button.click();
     });
     expect(animateScrollToSpy).toHaveBeenCalledWith(0, scrollOptions);
+  });
+
+  it('does not scroll to top for TOC button when offset is specified', () => {
+
+    const { getByRole } = render(
+      <SecondaryNav
+        sections={sections}
+        width={smallWidth}
+        tocScrollOffset={-100}
+      >
+        <div id={sections[0].id}>{childContent}</div>
+      </SecondaryNav>
+    );
+    const button = getByRole('button');
+
+    // Click to open TOC
+    act(() => {
+      button.click();
+    });
+
+    // doesn't scroll to top when an offset is specified
+    expect(animateScrollToTopSpy).not.toHaveBeenCalled();
   });
 
   it('calls the appropriate analytics event when links are clicked on', () => {

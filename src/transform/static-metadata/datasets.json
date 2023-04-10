@@ -155,7 +155,8 @@
     "relatedDatasets": [],
     "currentDateButton": "byMonth",
     "datePreset": "custom",
-    "customRangePreset": "latestQuarter"
+    "customRangePreset": "latestQuarter",
+    "bannerCallout": "XRCallout"
   },
   "015-BFS-2014Q3-071": {
     "slug": "/historical-debt-outstanding/",
@@ -526,6 +527,20 @@
       "015-BFS-2014Q1-13"
     ],
     "slug": "/treasury-managed-accounts/",
+    "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-042": {
+    "seoConfig": {
+      "pageTitle": "Semi-Annual Interest Rate Certification",
+      "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
+      "keywords": "Interest and Exchange Rates"
+    },
+    "topics": [
+      "interest-exchange-rates"
+    ],
+    "relatedDatasets": [
+    ],
+    "slug": "/treasury-certified-interest-rates-semiannual/",
     "currentDateButton": "byMonth"
   }
 }

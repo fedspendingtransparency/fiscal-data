@@ -19,7 +19,7 @@ const TOCButton = ({ state, handleToggle }) => {
       <div className={container}>
         <button
           className={`${toggleButton} ${!tocIsOpen ? '' : cancelButton}`}
-          onClick={() => handleToggle && handleToggle()}
+          onClick={(event) => handleToggle && handleToggle(event)}
         >
           {tocIsOpen ? 'Cancel' : 'Table of Contents'}
         </button>

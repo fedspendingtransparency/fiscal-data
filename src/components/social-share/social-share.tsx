@@ -12,7 +12,6 @@ import {
 import { withWindowSize } from "react-fns"
 import {pxToNumber} from "../../helpers/styles-helper/styles-helper";
 import { breakpointLg } from "../../variables.module.scss"
-import { Helmet } from "react-helmet"
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -25,26 +24,11 @@ import Analytics from "../../utils/analytics/analytics"
 import ShareButtonContent from "./share-button-content/share-button-content";
 import {FunctionComponent} from "react";
 import {ISocialShareComponent} from '../../models/ISocialShareComponent';
+import SocialMetaData from './social-metadata/social-metadata';
 
 const baseUrl = globalConstants.BASE_SITE_URL
 
-const SocialMetaData = ({ image, title, description, url }) => {
-  return (
-    <>
-      <Helmet>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={url} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={image} />
-      </Helmet>
-    </>
-  )
-}
+
 const analyticsClickHandler = (page, social) => {
   Analytics.event({
     category: "Explainers",

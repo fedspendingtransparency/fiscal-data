@@ -1,5 +1,6 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
+import {fireEvent, waitFor, render, within} from "@testing-library/react";
 import ComboSelect from './combo-select';
 import {mockOptions} from "./combo-select-test-helper";
 
@@ -254,5 +255,86 @@ describe('The ComboSelect Component for general text use', () => {
     optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(1);
     expect(optionButtons[0].children).toEqual(['Nice2-lettuce']);
+  });
+
+  it('collapses dropdown when not focused', async () => {
+    const {getByTestId, queryByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+      />);
+    const dropdownButton = getByTestId('down-arrow');
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+
+    fireEvent.click(dropdownButton);
+    const list = getByTestId('selectorList');
+    list.focus();
+    expect(getByTestId('selectorList')).toBeInTheDocument();
+
+    fireEvent.blur(list);
+
+    await waitFor(() => {
+      expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+    });
+  });
+
+  it('dropdown remains open when clicked on',  () => {
+    const {getByTestId, queryByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+      />);
+    const dropdownButton = getByTestId('down-arrow');
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+
+    fireEvent.click(dropdownButton);
+    const list = getByTestId('selectorList');
+    fireEvent.mouseDown(list);
+
+    expect(getByTestId('selectorList')).toBeInTheDocument();
+  });
+
+  it('closes dropdown after mouse leave and focus is removed',  async () => {
+    const {getByTestId, queryByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+      />);
+    const dropdownButton = getByTestId('down-arrow');
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+
+    fireEvent.click(dropdownButton);
+    const list = getByTestId('selectorList');
+    // fireEvent.click(list);
+    fireEvent.mouseLeave(list);
+    fireEvent.blur(list);
+    await waitFor(() => {
+      expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+    });
+  });
+
+  it('collapses dropdown when an item is selected', async () => {
+    const {getByTestId, queryByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+      />);
+    const dropdownButton = getByTestId('down-arrow');
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+
+    fireEvent.click(dropdownButton);
+    const list = getByTestId('selectorList');
+    expect(getByTestId('selectorList')).toBeInTheDocument();
+
+    const button = within(list).getAllByRole('button')[0];
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+    });
   });
 });
