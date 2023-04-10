@@ -4,9 +4,11 @@ import {breakpointSm} from "../../../../../../variables.module.scss";
 import {
   accordionFooter,
   accordionHeader, accordionTable,
-  debtAccordion,
   growingNationalDebtSectionAccordion,
   rectangle
+} from "./visualizing-the-debt-accordion.module.scss";
+import {
+  debtAccordion
 } from "../../national-debt.module.scss";
 import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import Accordion from "../../../../../../components/accordion/accordion";

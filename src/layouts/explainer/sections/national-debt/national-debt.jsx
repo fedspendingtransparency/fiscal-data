@@ -47,7 +47,6 @@ import {
   debtAccordion,
   fundingProgramAccordion,
   debtCeilingAccordion,
-  postGraphAccordionContainer,
 } from "./national-debt.module.scss";
 import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import Analytics from "../../../../utils/analytics/analytics";
