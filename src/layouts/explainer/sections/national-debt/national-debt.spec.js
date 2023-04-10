@@ -9,7 +9,6 @@ import nationalDebtSections, {
   nationalDebtSectionIds,
   nationalDebtSectionConfigs,
   visualizingTheDebtTableContent,
-  GrowingNationalDebtSection,
   DebtBreakdownSection,
   DebtCeilingSection,
   debtCeilingSectionAccordionTitle,
@@ -18,7 +17,8 @@ import nationalDebtSections, {
   nationalDebtDescriptionGenerator,
   nationalDebtDescriptionAppendix,
   FundingProgramsSection, DebtTrackingSection, DiveDeeperSection
-} from "./national-debt"
+} from "./national-debt";
+import {GrowingNationalDebtSection} from "./growing-national-debt/growing-national-debt";
 import {
   mockFifthSectionValueMarkers,
   mockExplainerPageResponse,

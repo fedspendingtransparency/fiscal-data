@@ -37,9 +37,6 @@ import {
   row,
   firstColumn,
   secondColumn,
-  // Growing National Debt
-  growingNationalDebt,
-  growingNationalDebtSectionAccordion,
   // Dive Deeper Section
   diveDeeperQuoteRight,
   diveDeeperQuoteLeft,
@@ -62,6 +59,7 @@ import {DebtTrendsOverTimeChart}
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
 import useBeaGDP from "../../../../hooks/useBeaGDP";
 import BreakingDownTheDebt from "./breaking-down-the-debt/breaking-down-the-debt";
+import { GrowingNationalDebtSection } from "./growing-national-debt/growing-national-debt";
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -305,166 +303,6 @@ export const FundingProgramsSection = () => {
     </>
   );
 };
-
-export const VisualizingTheDebtAccordion = ({ width }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [rows, setRows] = useState(visualizingTheDebtTableContent.desktop.rows);
-  const [columns, setColumns] = useState(
-    visualizingTheDebtTableContent.desktop.columns
-  );
-  const [nationalDebtValue, setNationalDebtValue] = useState(
-    "99999999999999.99"
-  );
-  const [nationalDebtValueInTenths, setNationalDebtValueInTenths] = useState(
-    "99999999999999.9"
-  );
-  const [numberOfSquares, setNumberOfSquares] = useState("0");
-  const [dynamicGaEventValue, setDynamicGaEventValue] = useState(null);
-  useEffect(() => {
-    setIsLoading(false);
-
-    if (width < pxToNumber(breakpointSm)) {
-      setRows(visualizingTheDebtTableContent.mobile.rows);
-      setColumns(visualizingTheDebtTableContent.mobile.columns);
-    } else {
-      setRows(visualizingTheDebtTableContent.desktop.rows);
-      setColumns(visualizingTheDebtTableContent.desktop.columns);
-    }
-  }, [width]);
-
-  const drawTable = () => {
-    const table = [];
-
-    for (let i = 0; i < rows; i++) {
-      const row = [];
-
-      for (let j = 0; j < columns; j++) {
-        row.push(j);
-      }
-
-      table.push(
-        <tr key={i} data-testid="accordion-table-row">
-          {row.map(index => (
-            <td key={index} className={rectangle} />
-          ))}
-        </tr>
-      );
-    }
-
-    return <tbody>{table.map(tr => tr)}</tbody>;
-  };
-
-  const fields = "fields=tot_pub_debt_out_amt,record_date";
-  const sort = "sort=-record_date";
-  const pagination = "page[size]=1&page[number]=1";
-  const endpointUrl = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
-
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
-      if (res.data) {
-        const totalPublicDebtOutstanding = Math.trunc(
-          res.data[0]["tot_pub_debt_out_amt"]
-        );
-        const dividedDebt = totalPublicDebtOutstanding / 1000000000000;
-        setNationalDebtValue(dividedDebt.toFixed());
-        setNationalDebtValueInTenths(dividedDebt.toFixed(1));
-        setDynamicGaEventValue(dividedDebt.toFixed());
-        setNumberOfSquares(
-          (dividedDebt * 1000).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        );
-      }
-    });
-  }, []);
-
-  return (
-    <div className={debtAccordion}>
-      <Accordion
-        title={`Visualizing the debt - How much is $${nationalDebtValue} trillion dollars?`}
-        containerClass={growingNationalDebtSectionAccordion}
-        openEventNumber={"20"}
-        closeEventNumber={"21"}
-        dynamicGaEventValue={dynamicGaEventValue}
-        explainerGAEvent="Debt"
-      >
-        <div className={accordionHeader}>
-          <p>If this is 1 billion:</p>
-          <div className={rectangle} />
-          <p>Then this is 1 trillion:</p>
-        </div>
-        {!isLoading && <table className={accordionTable}>{drawTable()}</table>}
-        <div className={accordionFooter}>
-          <p>(1000 squares drawn to scale.)</p>
-          <p>
-            {`Today's debt is $${nationalDebtValueInTenths} T. That's ${numberOfSquares} squares!`}
-          </p>
-        </div>
-      </Accordion>
-    </div>
-  );
-};
-
-export const GrowingNationalDebtSection = withWindowSize(
-  ({ sectionId, glossary, cpiDataByYear, width }) => {
-    const beaGDPData = useBeaGDP(cpiDataByYear);
-    const gdp = (
-      <GlossaryTerm
-        term="Gross Domestic Product (GDP)"
-        page="Debt explainer"
-        glossary={glossary}
-      >
-        gross domestic product (GDP)
-      </GlossaryTerm>
-    );
-
-    return (
-      <div className={growingNationalDebt}>
-        <p>
-          The U.S. has carried debt since its inception. Debts incurred during
-          the American Revolutionary War amounted to over $75 million by January
-          1, 1791. Over the next 45 years, the debt continued to grow until 1835
-          when it notably shrank due to the sale of federally-owned lands and
-          cuts to the federal budget. Shortly thereafter, an economic depression
-          caused the debt to again grow into the millions. The debt grew over
-          4,000% through the course of the American Civil War, increasing from
-          $65 million in 1860 to $1 billion in 1863 and around $2.7 billion
-          shortly after the conclusion of the war in 1865. The debt grew
-          steadily into the 20th century and was roughly $22 billion after the
-          country financed its involvement in World War I.
-        </p>
-        <p>
-          Notable recent events triggering large spikes in the debt include the
-          Afghanistan and Iraq Wars, the 2008 Great Recession, and the COVID-19
-          pandemic. From FY 2019 to FY 2021, {spendingLink('spending')} increased by about 50%,
-          largely due to the COVID-19 pandemic. Tax cuts, stimulus programs,
-          increased government spending, and decreased tax revenue caused by
-          widespread unemployment generally account for sharp rises in the
-          national debt.
-        </p>
-        {!beaGDPData.isGDPLoading && (
-          <DebtOverLast100y
-            cpiDataByYear={cpiDataByYear}
-            beaGDPData={beaGDPData}
-          />
-        )}
-        <p>
-          Comparing a country’s debt to its {gdp} reveals the country’s ability
-          to pay down its debt. This ratio is considered a better indicator of a
-          country’s fiscal situation than just the national debt number because
-          it shows the burden of debt relative to the country’s total economic
-          output and therefore its ability to repay it. The U.S. debt to GDP
-          ratio surpassed 100% in 2013 when both debt and GDP were approximately
-          16.7 trillion.
-        </p>
-        {!beaGDPData.isGDPLoading && (
-        <DebtTrendsOverTimeChart sectionId={sectionId} beaGDPData={beaGDPData} width={width} />
-        )}
-        <div className={postGraphAccordionContainer}>
-          <VisualizingTheDebtAccordion width={width} />
-        </div>
-      </div>
-    );
-  }
-);
 
 export const percentageFormatter = value =>
   (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + "%";

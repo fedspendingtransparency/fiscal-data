@@ -264,10 +264,6 @@
   }
 }
 
-.postGraphAccordionContainer {
-  margin-top: 1rem;
-}
-
 .diveDeeperQuoteRight, .diveDeeperQuoteLeft {
   .diveDeeperQuote {
     font-size: $font-size-20;
@@ -377,13 +373,6 @@
       .row:not(:last-child) {
         padding-bottom: 1.75rem;
       }
-    }
-  }
-
-  .growingNationalDebt {
-    :global(.vis-callout) {
-      margin-top: calc(20% + 4rem);
-      margin-bottom: calc(20% + 4rem);
     }
   }
 
