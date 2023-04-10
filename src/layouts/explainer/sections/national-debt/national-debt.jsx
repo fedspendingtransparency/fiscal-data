@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { withWindowSize } from "react-fns";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDollarSign,
@@ -15,22 +14,15 @@ import CustomLink from "../../../../components/links/custom-link/custom-link";
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils";
 import { datasetSectionConfig } from "../../explainer-helpers/explainer-helpers";
 import {
-  breakpointSm,
   debtExplainerPrimary,
   debtExplainerLightSecondary,
 } from "../../../../variables.module.scss";
-import { pxToNumber } from "../../../../helpers/styles-helper/styles-helper";
 import alexanderHamilton from "../../../../images/alexander-hamilton.png";
 import benFranklin from "../../../../images/ben-franklin.png";
 import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
 
 import {
   icon,
-  // NationalDebtExplained
-  rectangle,
-  accordionHeader,
-  accordionTable,
-  accordionFooter,
   // Funding Programs & Services
   spendingCategoriesAccordionContent,
   spendingCategoriesTable,
@@ -48,15 +40,9 @@ import {
   fundingProgramAccordion,
   debtCeilingAccordion,
 } from "./national-debt.module.scss";
-import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
 import Analytics from "../../../../utils/analytics/analytics";
 import QuoteBox from "../../quote-box/quote-box";
-import DebtOverLast100y
-  from "./growing-national-debt/debt-over-last-100y-linechart/debt-over-last-100y-linechart"
-import {DebtTrendsOverTimeChart}
-  from "./growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart";
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
-import useBeaGDP from "../../../../hooks/useBeaGDP";
 import BreakingDownTheDebt from "./breaking-down-the-debt/breaking-down-the-debt";
 import { GrowingNationalDebtSection } from "./growing-national-debt/growing-national-debt";
 
