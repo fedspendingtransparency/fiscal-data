@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   render,
-  waitForElementToBeRemoved,
   fireEvent
 } from '@testing-library/react';
 import {
@@ -12,7 +11,6 @@ import {
 import {GrowingNationalDebtSection} from "./growing-national-debt";
 import {
   mockExplainerPageResponse,
-  mockBeaGDPData
 } from "../../../explainer-test-helper"
 import {
   determineBEAFetchResponse
@@ -23,7 +21,6 @@ import { breakpointSm } from '../../../../variables.module.scss';
 
 import { growingNationalDebtSectionAccordion } from "./debt-accordion/visualizing-the-debt-accordion.module.scss";
 import { VisualizingTheDebtAccordion } from './debt-accordion/visualizing-the-debt-accordion';
-import fetchMock from "fetch-mock";
 import { waitFor } from "@testing-library/dom"
 import Analytics from "../../../../../utils/analytics/analytics";
 
