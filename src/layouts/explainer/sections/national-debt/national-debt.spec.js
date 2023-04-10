@@ -2,49 +2,23 @@ import React from 'react';
 import {
   render,
   act,
-  waitForElementToBeRemoved,
-  fireEvent
 } from '@testing-library/react';
 import nationalDebtSections, {
-  nationalDebtSectionIds,
-  nationalDebtSectionConfigs,
-  visualizingTheDebtTableContent,
-  DebtBreakdownSection,
   DebtCeilingSection,
   debtCeilingSectionAccordionTitle,
-  VisualizingTheDebtAccordion,
   nationalDebtDataSources,
   nationalDebtDescriptionGenerator,
   nationalDebtDescriptionAppendix,
   FundingProgramsSection, DebtTrackingSection, DiveDeeperSection
 } from "./national-debt";
-import {GrowingNationalDebtSection} from "./growing-national-debt/growing-national-debt";
 import {
-  mockFifthSectionValueMarkers,
   mockExplainerPageResponse,
-  mockPublicDebtIncrease,
-  mockGovtDebtIncrease,
-  mockInterestRatesResponse,
-  mockTotalDebtResponse,
-  mockDebtBreakdownResponse,
-  mockInterestToDebtChartHeaderSummary,
-  mockInterestExpenseResponse,
-  mockDebtExpenseResponse, mockBeaGDPData
+  mockBeaGDPData
 } from "../../explainer-test-helper"
 import {
-  determineBEAFetchResponse, setGlobalFetchMatchingResponse,
   setGlobalFetchResponse,
 } from "../../../../utils/mock-utils"
-import { getYear } from 'date-fns';
-import simplifyNumber from '../../../../helpers/simplify-number/simplifyNumber';
-import { breakpointSm } from '../../../../variables.module.scss';
-
-import {
-  growingNationalDebtSectionAccordion
-} from './national-debt.module.scss';
 import DataSourcesMethodologies from "../../data-sources-methodologies/data-sources-methodologies"
-import fetchMock from "fetch-mock";
-import { waitFor } from "@testing-library/dom"
 import Analytics from "../../../../utils/analytics/analytics";
 
 
