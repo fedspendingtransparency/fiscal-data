@@ -30,6 +30,8 @@ export default function ComboSelect(
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [droppedDown, setDroppedDown] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
+  const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
+
 
   const updateSelection = (selection) => {
     changeHandler(selection);
@@ -75,7 +77,7 @@ export default function ComboSelect(
   }
   /* accessibility-enabling event handlers for interpreting focus state on control */
   const onBlurHandler = (event) => {
-    if (!event || !(event.target.parentElement.contains(event.relatedTarget))) {
+    if (((!event || !(event.target.parentElement.contains(event.relatedTarget)))) && !mouseOverDropdown) {
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
           if (isExchangeTool) {
@@ -163,7 +165,7 @@ export default function ComboSelect(
           {required && (<span className="required">*</span>)}
         </div> : null
       }
-      <div ref={ref} onFocus={onFocusHandler} onBlur={onBlurHandler} role={'presentation'}>
+      <div ref={ref} onFocus={onFocusHandler} role={'presentation'} >
         <div>
           {yearFilter ? (
             <input type="number"
@@ -223,6 +225,10 @@ export default function ComboSelect(
       {droppedDown && (
         <ul className={`${styles.selector_list} ${scrollable ? styles.scrollable : ''}`}
             data-testid="selectorList"
+            role={'presentation'}
+            onBlur={onBlurHandler}
+            onMouseDown={() => setMouseOverDropdown(true)}
+            onMouseLeave={() => setMouseOverDropdown(false)}
         >
           {filteredOptions.map((option, index) => (
             <React.Fragment key={index}>
