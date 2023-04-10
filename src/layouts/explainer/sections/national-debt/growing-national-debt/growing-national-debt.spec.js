@@ -8,9 +8,11 @@ import {
   nationalDebtSectionConfigs,
   visualizingTheDebtTableContent,
 } from "../national-debt";
-import {GrowingNationalDebtSection} from "./growing-national-debt";
+import { GrowingNationalDebtSection } from "./growing-national-debt";
+import { VisualizingTheDebtAccordion } from "./debt-accordion/visualizing-the-debt-accordion";
 import {
   mockExplainerPageResponse,
+  mockBeaGDPData
 } from "../../../explainer-test-helper"
 import {
   determineBEAFetchResponse
@@ -20,7 +22,6 @@ import simplifyNumber from '../../../../../helpers/simplify-number/simplifyNumbe
 import { breakpointSm } from '../../../../variables.module.scss';
 
 import { growingNationalDebtSectionAccordion } from "./debt-accordion/visualizing-the-debt-accordion.module.scss";
-import { VisualizingTheDebtAccordion } from './debt-accordion/visualizing-the-debt-accordion';
 import { waitFor } from "@testing-library/dom"
 import Analytics from "../../../../../utils/analytics/analytics";
 
@@ -29,6 +30,10 @@ jest.mock('./variables.module.scss', (content) => ({
   ...content,
   breakpointSm: 600
 }));
+
+jest.mock('../../../../../hooks/useBeaGDP', () => {
+  return () => mockBeaGDPData;
+});
 
 describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
@@ -46,6 +51,7 @@ describe('The Growing National Debt', () => {
   beforeEach(() => {
     determineBEAFetchResponse(jest, mockExplainerPageResponse);
     jest.spyOn(console, 'warn').mockImplementation(() => {});
+
   });
 
   afterEach(() => {
@@ -62,7 +68,7 @@ describe('The Growing National Debt', () => {
 
     expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`))
     .toBeInTheDocument();
-  });
+  })
 
   it('shows the correct amount of rows and columns for different screen sizes', async () => {
     const { findByTestId, findAllByTestId, rerender } = render(
@@ -141,6 +147,14 @@ describe('The Growing National Debt', () => {
     spy.mockClear();
   });
 });
+
+
+
+
+
+
+
+
 
 
 
