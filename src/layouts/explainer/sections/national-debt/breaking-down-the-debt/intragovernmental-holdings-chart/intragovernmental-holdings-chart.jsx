@@ -7,7 +7,6 @@ import {
   analyticsClickHandler,
   nationalDebtSectionConfigs
 } from "../../national-debt";
-import {format} from "date-fns";
 import VisualizationCallout
   from "../../../../../../components/visualization-callout/visualization-callout";
 import {
@@ -18,15 +17,19 @@ import {
 } from "../../../../../../variables.module.scss";
 import {
   barChartContainer,
-  debtBreakdownSectionGraphContainer,
-  footerContainer, titleBreakdown,
-} from "../../national-debt.module.scss";
-import {chartBackdrop, visWithCallout} from "../../../../explainer.module.scss";
+  footerContainer,
+} from "./intragovernmental-holdings-chart.module.scss";
+import {visWithCallout} from "../../../../explainer.module.scss";
 import CustomBar from './custom-bar/customBar'
+import { applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
-  const [holdingsMarkerDelay, setHoldingsMarkerDelay] = useState(null);
+
+  const chartHeight = 468;
+  const chartWidth = 524;
+  const chartParent = "breakdownChart";
 
   const setAnimationDurations = (data) => {
     if(data && data.length >= 2) {
@@ -37,7 +40,6 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
       const holdings_duration = (holdings / (debt + holdings)) * totalDuration;
       if(!debtMarkerDelay) {
         setDebtMarkerDelay(debt_duration + holdings_duration + 1250);
-        setHoldingsMarkerDelay(holdings_duration + 500 );
       }
       data[0]["debt_animation_duration"] = debt_duration;
       data[1]["debt_animation_duration"] = debt_duration;
@@ -88,17 +90,6 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
       ((rows[1][key] - rows[0][key]) / rows[0][key]) * 100
     ).toFixed();
 
-  const applyChartScaling = () => {
-    // rewrite some element attribs after render to ensure Chart scales with container
-    // which doesn't seem to happen naturally when nivo has a flex container
-    const svgChart = document.querySelector('[data-testid="breakdownChart"] svg');
-    if (svgChart) {
-      svgChart.setAttribute("viewBox", "0 0 524 500");
-      svgChart.setAttribute("height", "100%");
-      svgChart.setAttribute("width", "100%");
-    }
-  };
-
   // generate rectangular color swatches in footer legend
   const CustomSymbolShape = ({x, y, size, fill, borderWidth, borderColor}) => {
     return (
@@ -117,9 +108,26 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
 
   useEffect(() => {
     if (isChartRendered) {
-      applyChartScaling();
+      applyChartScaling(chartParent, chartWidth, chartHeight + 30);
     }
   }, [isChartRendered]);
+
+  const chartFooter =
+    <p className={footerContainer}>
+      Visit the{" "}
+      <CustomLink
+        url={slug}
+        onClick={() =>
+          analyticsClickHandler(
+            "Citation Click",
+            "Intragovernmental Holdings and Debt Held by the Public"
+          )
+        }
+      >
+        {name}
+      </CustomLink>{" "}
+      to explore and download this data.
+    </p>
 
 
   return (
@@ -132,101 +140,80 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
         )}
         {data && (
           <>
-            <div>
+            <ChartContainer
+              title={`Intragovernmental Holdings and Debt Held by the Public, CY ${data[0].record_calendar_year} and
+                        CY ${data[1].record_calendar_year}`}
+              altText={'Bar chart showing Intergovernmental Holdings and Debt Held by the Public values; comparing the '+
+                       'latest complete calendar year values to 10 years prior.'}
+              footer={chartFooter}
+              date={date}
+            >
               <div
-                className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
-                role={"img"}
-                aria-label={
-                  "Bar chart showing Intergovernmental Holdings and Debt Held by the Public values; " +
-                  "comparing the latest complete calendar year values to 10 years prior."
-                }
+                data-testid="breakdownChart"
+                className={barChartContainer}
+                // style={{width: '100%'}}
               >
-                <p className={titleBreakdown}>
-                  Intragovernmental Holdings and Debt Held by the Public, CY{" "}
-                  {data[0].record_calendar_year} and CY {data[1].record_calendar_year}
-                </p>
-                <div
-                  data-testid="breakdownChart"
-                  className={barChartContainer}
-                >
-                  <Bar
-                    barComponent={CustomBar}
-                    width={524}
-                    height={468}
-                    data={chartData}
-                    keys={[
-                      "Intragovernmental Holdings",
-                      "Debt Held by the Public",
-                    ]}
-                    indexBy="record_calendar_year"
-                    margin={{ top: 30, right: 144, bottom: 50, left: 144 }}
-                    padding={0.24}
-                    valueScale={{ type: "linear" }}
-                    indexScale={{ type: "band", round: true }}
-                    colors={[debtExplainerLightSecondary, debtExplainerPrimary]}
-                    isInteractive={false}
-                    borderColor={fontBodyCopy}
-                    axisTop={null}
-                    axisRight={null}
-                    axisLeft={null}
-                    axisBottom={{
-                      tickSize: 0,
-                      tickPadding: 5,
-                      tickRotation: 0,
-                    }}
-                    enableGridY={true}
-                    gridYValues={[0]}
-                    enableLabel={false}
-                    legends={[
-                      {
-                        dataFrom: "keys",
-                        anchor: "bottom-left",
-                        direction: "row",
-                        justify: false,
-                        translateX: -125,
-                        translateY: 90,
-                        itemsSpacing: 15,
-                        itemWidth: 250,
-                        itemHeight: 40,
-                        itemDirection: "left-to-right",
-                        itemOpacity: 1,
-                        symbolSize: 20,
-                        symbolShape: CustomSymbolShape,
-                        symbolSpacing: 28,
-                      },
-                    ]}
-                    layers={[
-                      ...layers,
-                      () => {
-                        // this final empty layer fn is called only after everything else is
-                        // rendered, so it serves as a handy postRender hook.
-                        // It's wrapped in a setTimout to avoid triggering a browser warning
-                        setTimeout(() => setIsChartRendered(true));
-                        return <></>;
-                      },
-                    ]}
-                    ariaLabel="Chart of Debt Breakdown"
-                    theme={fiveTheme}
-                  />
-                </div>
-                <div className={footerContainer}>
-                  Visit the{" "}
-                  <CustomLink
-                    url={slug}
-                    onClick={() =>
-                      analyticsClickHandler(
-                        "Citation Click",
-                        "Intragovernmental Holdings and Debt Held by the Public"
-                      )
-                    }
-                  >
-                    {name}
-                  </CustomLink>{" "}
-                  to explore and download this data.
-                  <p>Last Updated: {format(date, "MMMM d, yyyy")}</p>
-                </div>
+                <Bar
+                  barComponent={CustomBar}
+                  width={chartWidth}
+                  height={chartHeight}
+                  data={chartData}
+                  keys={[
+                    "Intragovernmental Holdings",
+                    "Debt Held by the Public",
+                  ]}
+                  indexBy="record_calendar_year"
+                  margin={{ top: 30, right: 144, bottom: 50, left: 144 }}
+                  padding={0.24}
+                  valueScale={{ type: "linear" }}
+                  indexScale={{ type: "band", round: true }}
+                  colors={[debtExplainerLightSecondary, debtExplainerPrimary]}
+                  isInteractive={false}
+                  borderColor={fontBodyCopy}
+                  axisTop={null}
+                  axisRight={null}
+                  axisLeft={null}
+                  axisBottom={{
+                    tickSize: 0,
+                    tickPadding: 5,
+                    tickRotation: 0,
+                  }}
+                  enableGridY={true}
+                  gridYValues={[0]}
+                  enableLabel={false}
+                  legends={[
+                    {
+                      dataFrom: "keys",
+                      anchor: "bottom-left",
+                      direction: "row",
+                      justify: false,
+                      translateX: -125,
+                      translateY: 90,
+                      itemsSpacing: 15,
+                      itemWidth: 250,
+                      itemHeight: 40,
+                      itemDirection: "left-to-right",
+                      itemOpacity: 1,
+                      symbolSize: 20,
+                      symbolShape: CustomSymbolShape,
+                      symbolSpacing: 28,
+                    },
+                  ]}
+                  layers={[
+                    ...layers,
+                    () => {
+                      // this final empty layer fn is called only after everything else is
+                      // rendered, so it serves as a handy postRender hook.
+                      // It's wrapped in a setTimout to avoid triggering a browser warning
+                      setTimeout(() => setIsChartRendered(true));
+                      return <></>;
+                    },
+                  ]}
+                  ariaLabel="Chart of Debt Breakdown"
+                  theme={fiveTheme}
+                />
               </div>
-            </div>
+            </ChartContainer>
             <VisualizationCallout color={debtExplainerPrimary}>
               <p>
                 There are two major categories for federal debt: debt held by

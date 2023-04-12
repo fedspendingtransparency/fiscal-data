@@ -1,0 +1,30 @@
+@import '../../../../../../variables.module.scss';
+
+  .barChartContainer {
+    width: 100%;
+    //max-width: 524px;
+    //margin: 0 auto;
+  }
+
+  .footerContainer {
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+
+
+@media screen and (min-width: $breakpoint-lg) {
+    .footerContainer {
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+      font-size: $font-size-14;
+    }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+    .footerContainer {
+      padding-top: 15px;
+      font-size: $font-size-12;
+    }
+}
