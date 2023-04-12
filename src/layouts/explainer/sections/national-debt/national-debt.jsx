@@ -550,13 +550,13 @@ export const DiveDeeperSection = () => (
         <br />
         <CustomLink
           url={
-            "https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2021.pdf"
+            "https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf"
           }
           onClick={() =>
             analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
           }
         >
-          https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2021.pdf
+          https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf
         </CustomLink>
       </div>
 
