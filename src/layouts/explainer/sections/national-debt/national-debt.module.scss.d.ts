@@ -93,7 +93,6 @@ export const growingNationalDebtSectionGraph: string;
 export const footerContainer: string;
 export const lineChartContainer: string;
 export const postGraphContent: string;
-export const postGraphAccordionContainer: string;
 export const diveDeeperQuoteRight: string;
 export const diveDeeperQuote: string;
 export const diveDeeperQuoteLeft: string;

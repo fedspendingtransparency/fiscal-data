@@ -31,6 +31,10 @@
   }
 }
 
+.postGraphAccordionContainer {
+  margin-top: 1rem;
+}
+
 :global(.multichart-scaled) :global(.area),
 :global(.multichart-scaled) :global(.dataviz-line) {
   transform: scaleX(0);
@@ -189,10 +193,6 @@
   }
 }
 
-.postGraphAccordionContainer {
-  margin-top: 1rem;
-}
-
 .diveDeeperQuoteRight, .diveDeeperQuoteLeft {
   .diveDeeperQuote {
     font-size: $font-size-20;
@@ -302,13 +302,6 @@
       .row:not(:last-child) {
         padding-bottom: 1.75rem;
       }
-    }
-  }
-
-  .growingNationalDebt {
-    :global(.vis-callout) {
-      margin-top: calc(20% + 4rem);
-      margin-bottom: calc(20% + 4rem);
     }
   }
 
@@ -513,24 +506,6 @@
   .diveDeeperQuoteLeft {
     img {
       padding-left: 1.188rem;
-    }
-  }
-}
-
-@media screen and (min-width: $breakpoint-sm) {
-  .growingNationalDebtSectionAccordion {
-    .rectangle {
-      width: calc(2% - 1px);
-      padding-bottom: calc(2% - 1px);
-    }
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm - 1) {
-  .growingNationalDebtSectionAccordion {
-    .rectangle {
-      width: calc(5% - 1px);
-      padding-bottom: calc(5% - 1px);
     }
   }
 }
