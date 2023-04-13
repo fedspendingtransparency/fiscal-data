@@ -28,8 +28,8 @@ export const scrollDelay: number = globalConstants.config.smooth_scroll.delay;
 export const scrollDuration: number = globalConstants.config.smooth_scroll.duration;
 
 export const scrollOptions = {
-  smooth: true,
-  spy: true,
+  smooth: false,
+  spy: false,
   duration: 0,
   delay: 0
 };

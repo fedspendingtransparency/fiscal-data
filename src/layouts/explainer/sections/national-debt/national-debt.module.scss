@@ -83,36 +83,6 @@
   }
 }
 
-
-.growingNationalDebtSectionAccordion {
-  .accordionHeader {
-    display: flex;
-    flex-direction: column;
-
-    p {
-      margin: 8px 0;
-      font-size: $font-size-16;
-      color: $font-body-copy;
-    }
-  }
-
-  .rectangle {
-    background-color: $font-title;
-    position: relative;
-    height: 0;
-  }
-
-  .accordionTable {
-    width: 100%;
-    border-spacing: 1px;
-  }
-
-  .accordionFooter {
-    font-size: $font-size-16;
-    text-align: center;
-  }
-}
-
 @media screen and (min-width: $breakpoint-lg) {
   .debtBreakdownSectionGraphContainer {
     .title.simple {
@@ -264,10 +234,6 @@
   }
 }
 
-.postGraphAccordionContainer {
-  margin-top: 1rem;
-}
-
 .diveDeeperQuoteRight, .diveDeeperQuoteLeft {
   .diveDeeperQuote {
     font-size: $font-size-20;
@@ -377,13 +343,6 @@
       .row:not(:last-child) {
         padding-bottom: 1.75rem;
       }
-    }
-  }
-
-  .growingNationalDebt {
-    :global(.vis-callout) {
-      margin-top: calc(20% + 4rem);
-      margin-bottom: calc(20% + 4rem);
     }
   }
 
@@ -607,24 +566,6 @@
   .diveDeeperQuoteLeft {
     img {
       padding-left: 1.188rem;
-    }
-  }
-}
-
-@media screen and (min-width: $breakpoint-sm) {
-  .growingNationalDebtSectionAccordion {
-    .rectangle {
-      width: calc(2% - 1px);
-      padding-bottom: calc(2% - 1px);
-    }
-  }
-}
-
-@media screen and (max-width: $breakpoint-sm - 1) {
-  .growingNationalDebtSectionAccordion {
-    .rectangle {
-      width: calc(5% - 1px);
-      padding-bottom: calc(5% - 1px);
     }
   }
 }
