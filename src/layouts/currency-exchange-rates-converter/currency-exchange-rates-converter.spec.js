@@ -3,8 +3,9 @@ import React from "react";
 import fetchMock from "fetch-mock";
 import CurrencyExchangeRatesConverter from "./index";
 import {fireEvent} from "@testing-library/dom";
+import Analytics from "../../utils/analytics/analytics";
 
-
+jest.useFakeTimers();
 
 describe('exchange rates converter', () => {
 
@@ -340,4 +341,116 @@ describe('exchange rates converter', () => {
     expect(getByText('December 31, 2022 to December 31, 2023', {exact: false})).toBeInTheDocument();
   });
 
+  it('calls the appropriate analytics event when year selector is set', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText, getByTestId, getAllByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+    fireEvent.click(yearSelector);
+
+    const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    // Click on '2023'
+    fireEvent.click(yearSelectorOptions[0]);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Year Selection`,
+      label: '2023'
+    });
+  });
+
+  it('calls the appropriate analytics event when quarter selector is set', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText, getByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
+    fireEvent.click(quarterSelector);
+
+    const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
+    fireEvent.click(quarterSelectorOptions[0]);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Quarter Selection`,
+      label: 2
+    });
+  });
+
+  it('calls the appropriate analytics event when Effective Date info tip is hovered over', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText, getByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const effectiveDateInfo = getByTestId('effective-date-info-tip');
+    fireEvent.mouseEnter(effectiveDateInfo);
+    jest.advanceTimersByTime(5000);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Effective Date Info'
+    });
+    jest.runAllTimers();
+  });
+
+  it('calls the appropriate analytics event when Foreign Currency info tip is hovered over', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText, getByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const effectiveDateInfo = getByTestId('foreign-currency-info-tip');
+    fireEvent.mouseEnter(effectiveDateInfo);
+    jest.advanceTimersByTime(5000);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Foreign Currency Info'
+    });
+    jest.runAllTimers();
+  });
+
+  it('calls the appropriate analytics event when TRRE link is clicked', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const trreLink = getByText('Treasury Reporting Rates of Exchange');
+    fireEvent.click(trreLink);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Citation Click`,
+      label: 'Treasury Reporting Rates of Exchange Dataset'
+    });
+  });
+
+  it('calls the appropriate analytics event when Treasury Financial Manual link is clicked', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const treasuryFinancialManualLink = getByText('Treasury Financial Manual, volume 1, part 2, section 3235');
+    fireEvent.click(treasuryFinancialManualLink);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Citation Click`,
+      label: 'Treasury Financial Manual'
+    });
+  });
 })

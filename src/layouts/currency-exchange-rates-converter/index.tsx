@@ -37,7 +37,9 @@ import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
 import {format} from "date-fns";
 import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
+import Analytics from "../../utils/analytics/analytics";
 
+let gaTimer;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -68,6 +70,24 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     label: string;
     yearQuarterMap: Record<string, CurrencyYearQuarter>
   };
+
+  const analyticsHandler = (action, label) => {
+    Analytics.event({
+      category: "Exchange Rates Converter",
+      action: action,
+      label: label,
+    });
+  };
+  
+  const handleMouseEnterInfoTip = (label) => {
+    gaTimer = setTimeout(() => {
+      analyticsHandler('Additional Info Hover', label);
+    },3000);
+  };
+
+  const handleMouseLeaveInfoTip = () => {
+    clearTimeout(gaTimer);
+  }
 
   const yearQuarterParse = (dataRecord: Record<string, string>): string =>
     `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
@@ -300,18 +320,20 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           data && (
             <div className={selectorContainer}>
-              <div className={selector} data-testid={'year-selector'}>
+              <div className={selector} data-testid={'year-selector'} onClick={() => analyticsHandler("Year Selection", selectedYear)} role={'presentation'}>
                 <SelectControl label={'Year'} className={box} options={years} selectedOption={selectedYear} changeHandler={handleChangeYears} />
               </div>
-              <div className={selector} data-testid={'quarter-selector'}>
+              <div className={selector} data-testid={'quarter-selector'} onClick={() => analyticsHandler("Quarter Selection", selectedQuarter.value)} role={'presentation'}>
                 <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={useHandleChangeQuarters} />
               </div>
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
-                    {effectiveDateInfoIcon.body}
-                  </InfoTip>
+                  <span data-testid={'effective-date-info-tip'} onMouseEnter={handleMouseEnterInfoTip('Additional Effective Date Info')} onMouseLeave={handleMouseLeaveInfoTip} role={'presentation'}>
+                    <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
+                      {effectiveDateInfoIcon.body}
+                    </InfoTip>
+                  </span>
                 </div>
                 <span className={effectiveDateText}> {effectiveDate} </span>
               </div>
@@ -323,9 +345,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion.{" "}
             </span>
-            <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
-              {currencySelectionInfoIcon.body}
-            </InfoTip>
+            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={handleMouseEnterInfoTip('Additional Foreign Currency Info')} onMouseLeave={handleMouseLeaveInfoTip} role={'presentation'}>
+              <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
+                {currencySelectionInfoIcon.body}
+              </InfoTip>
+            </span>
         </div>
         {
           nonUSCurrency !== null && (
@@ -364,7 +388,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         <span className={footer} data-testid={'test'}>
           The Currency Exchange Rates Converter tool is powered by the{' '}
-          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}>
+          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}
+            onClick={() => analyticsHandler("Citation Click", 'Treasury Reporting Rates of Exchange Dataset')}>
             Treasury Reporting Rates of Exchange
           </CustomLink>
           {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
@@ -377,7 +402,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             The Treasury Reporting Rates of Exchange dataset provides the U.S. government's authoritative
             foreign currency exchange rates for federal agencies to consistently report U.S. dollar equivalents.
             For more information on the calculation of exchange rates used by federal agencies, please see the {' '}
-            <CustomLink url={'https://tfm.fiscal.treasury.gov/v1/p2/c320'}>Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
+            <CustomLink url={'https://tfm.fiscal.treasury.gov/v1/p2/c320'}
+            onClick={() => analyticsHandler("Citation Click", 'Treasury Financial Manual')}>
+            Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
             This Exchange Rate Converter Tool is designed to make foreign currency exchange data values
             easier to access for federal agency reporting purposes.
           </p>
