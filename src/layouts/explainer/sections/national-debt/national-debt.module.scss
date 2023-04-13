@@ -87,36 +87,6 @@
   }
 }
 
-
-.growingNationalDebtSectionAccordion {
-  .accordionHeader {
-    display: flex;
-    flex-direction: column;
-
-    p {
-      margin: 8px 0;
-      font-size: $font-size-16;
-      color: $font-body-copy;
-    }
-  }
-
-  .rectangle {
-    background-color: $font-title;
-    position: relative;
-    height: 0;
-  }
-
-  .accordionTable {
-    width: 100%;
-    border-spacing: 1px;
-  }
-
-  .accordionFooter {
-    font-size: $font-size-16;
-    text-align: center;
-  }
-}
-
 .DebtOverLast100yContainer{
   margin-bottom: 1rem;
 }
