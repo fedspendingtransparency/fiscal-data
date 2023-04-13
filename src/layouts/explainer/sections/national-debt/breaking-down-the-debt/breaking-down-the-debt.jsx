@@ -23,14 +23,21 @@ import {
 } from "../../../../../variables.module.scss";
 import {chartBackdrop, visWithCallout} from "../../../explainer.module.scss";
 import {
-  aveInterestLegend, debtAccordion,
-  debtBreakdownSectionGraphContainer, debtLegend,
+  debtAccordion,
   footerContainer, header,
-  headerContainer, multichartContainer, multichartLegend,
-  multichartWrapper, postGraphAccordionContainer,
+  headerContainer,
+  postGraphAccordionContainer,
   postGraphContent, subHeader,  title,
   simple,
 } from "../national-debt.module.scss";
+import {
+  aveInterestLegend,
+  debtLegend,
+  debtBreakdownSectionGraphContainer,
+  multichartContainer,
+  multichartLegend,
+  multichartWrapper
+} from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart
   from "./intragovernmental-holdings-chart/intragovernmental-holdings-chart";
 import {getDateWithoutOffset} from "../../../explainer-helpers/explainer-helpers";
