@@ -4,6 +4,7 @@
   background-color: $body-background;
   margin-top: 1rem;
   padding: 1.75rem 1.5rem;
+  max-width: 484px;
 
   .chartTitle {
     margin-top: 0;
@@ -61,8 +62,8 @@
       font-size: $font-size-16;
     }
 
-    .footerContainer {
-      font-size: $font-size-12;
+    .chartSubTitle {
+      font-size: $font-size-14;
     }
   }
   .headerContainer {

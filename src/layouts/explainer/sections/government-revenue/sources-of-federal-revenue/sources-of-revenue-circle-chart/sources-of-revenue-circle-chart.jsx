@@ -322,6 +322,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
           customSubTitleStyles={
             width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}
           }
+          customFooterStyles={
+            width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}
+          }
         >
           {chartData !== {} ? (
             <div className={dataContent}>

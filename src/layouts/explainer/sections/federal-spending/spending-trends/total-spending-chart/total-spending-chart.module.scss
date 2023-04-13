@@ -69,14 +69,6 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerFooter) {
-    font-size: $font-size-14 !important;
-  }
-
-  :global(.chartContainerSubTitle) {
-    font-size: $font-size-14 !important;
-  }
-
-  :global(.chartContainerFooter) {
     p {
       margin-top: 0.75rem;
     }

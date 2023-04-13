@@ -359,7 +359,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
         Administration, has not increased significantly in recent years,
         resulting in this slower intragovernmental holding increase.
       </p>
-      <IntragovernmentalHoldingsChart sectionId={sectionId} data={data} date={date} />
+      <IntragovernmentalHoldingsChart sectionId={sectionId} data={data} date={date} width={width} />
       <div className={postGraphContent} id={'maintaining-national-debt'}>
         <h3>Maintaining the National Debt</h3>
         <p>

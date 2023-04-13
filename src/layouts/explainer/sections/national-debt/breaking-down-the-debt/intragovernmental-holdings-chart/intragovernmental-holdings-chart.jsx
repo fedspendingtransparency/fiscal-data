@@ -12,18 +12,20 @@ import VisualizationCallout
 import {
   fontBodyCopy,
   fontSize_16,
+  fontSize_12,
   debtExplainerPrimary,
-  debtExplainerLightSecondary,
-} from "../../../../../../variables.module.scss";
+  debtExplainerLightSecondary, breakpointLg,
+} from '../../../../../../variables.module.scss';
 import {
   barChartContainer,
-  footerContainer,
+  title
 } from "./intragovernmental-holdings-chart.module.scss";
 import {visWithCallout} from "../../../../explainer.module.scss";
 import CustomBar from './custom-bar/customBar'
 import { applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+const IntragovernmentalHoldingsChart = ({sectionId, data, date, width}) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
 
@@ -84,7 +86,6 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
     "axes",
   ];
 
-
   const calcPercentIncrease = (key, rows) =>
     Math.round(
       ((rows[1][key] - rows[0][key]) / rows[0][key]) * 100
@@ -113,7 +114,7 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
   }, [isChartRendered]);
 
   const chartFooter =
-    <p className={footerContainer}>
+    <p>
       Visit the{" "}
       <CustomLink
         url={slug}
@@ -141,17 +142,22 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date}) => {
         {data && (
           <>
             <ChartContainer
-              title={`Intragovernmental Holdings and Debt Held by the Public, CY ${data[0].record_calendar_year} and
-                        CY ${data[1].record_calendar_year}`}
+              title={
+                <div className={title}>
+                  Intragovernmental Holdings and Debt Held by the Public, CY {data[0].record_calendar_year} and
+                  CY {data[1].record_calendar_year}
+                </div>
+              }
               altText={'Bar chart showing Intergovernmental Holdings and Debt Held by the Public values; comparing the '+
                        'latest complete calendar year values to 10 years prior.'}
               footer={chartFooter}
               date={date}
+              customFooterStyles={width < pxToNumber(breakpointLg) ?
+                {fontSize: fontSize_12, marginTop: '15px'} : null}
             >
               <div
                 data-testid="breakdownChart"
                 className={barChartContainer}
-                // style={{width: '100%'}}
               >
                 <Bar
                   barComponent={CustomBar}
