@@ -270,7 +270,7 @@ describe('Dive deeper into the debt', () => {
       <DiveDeeperSection />
     );
 
-    const financialReport = getByText('FRUSG_2021.pdf', {exact:false});
+    const financialReport = getByText('FRUSG_2022.pdf', {exact:false});
     const americasFiscalFuture = getByText('americas-fiscal-future', {exact:false});
     const debtCeiling = getByText('whitehouse.gov/cea', {exact:false});
     const federalBorrowing = getByText('whitehouse.gov/wp-content', {exact:false});
