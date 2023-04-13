@@ -1,16 +1,6 @@
 @import '../../../../../variables.module.scss';
 
 
-:global(.multichart-scaled) :global(.area),
-:global(.multichart-scaled) :global(.dataviz-line) {
-  transform: scaleX(0);
-
-  transition: transform 0.6s 0.5s;
-  &:global(.fill-right) {
-    transform: scaleX(1);
-  }
-}
-
 @media screen and (min-width: $breakpoint-lg) {
   .debtBreakdownSectionGraphContainer {
     .title.simple {
@@ -19,36 +9,6 @@
     .header {
       font-size: $font-size-24;
       min-width: 110px;
-    }
-    padding-top: 22px;
-    padding-left: 22px;
-    padding-right: 22px;
-
-    .title {
-      font-size: $font-size-18;
-    }
-
-    .titleBreakdown {
-      font-size: $font-size-18;
-    }
-
-    .header {
-      font-size: $font-size-36;
-      min-width: 140px;
-    }
-
-    .subHeader {
-      font-size: $font-size-14;
-    }
-
-    .footerContainer {
-      padding-top: 1rem;
-      padding-bottom: 2rem;
-      font-size: $font-size-14;
-    }
-
-    :global(text.multichart-margin-label) {
-      font-size: 14px;
     }
   }
 }
@@ -60,6 +20,9 @@
   .header {
     min-width: 90px;
   }
+}
+
+.debtBreakdownSectionGraphContainer {
   background-color: $body-background;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -102,56 +65,6 @@
         font-weight: $semi-bold-weight;
       }
     }
-    .barChartContainer {
-      width: 100%;
-      max-width: 524px;
-      margin: 0 auto;
-    }
-
-    .multichartContainer {
-
-      :global(.tick) line {
-        stroke: #666666;
-      }
-    }
-
-    .aveInterestLegend {
-      width: 40px;
-      height: 2px;
-      margin: 11px 16px 11px 0;
-      background-color: #555;
-    }
-
-    .multichartLegend {
-      margin: 1rem auto 0 auto;
-      white-space: nowrap;
-      text-align: center;
-      align-content: space-around;
-      > div {
-        display: inline-block;
-        vertical-align: middle;
-        white-space: nowrap;
-
-        &:first-child {
-          margin-right: 10%;
-        }
-        div {
-          vertical-align: middle;
-          display: inline-block;
-        }
-      }
-    }
-
-    .debtLegend {
-      width: 40px;
-      height: 24px;
-      margin: 0 16px 0 0;
-      background-color: #4a0072;
-    }
-
-    :global(text.multichart-margin-label) {
-      font-size: 10px;
-    }
   }
 
   .growingNationalDebtSectionGraph {
@@ -165,7 +78,94 @@
   }
 }
 
+.debtBreakdownSectionGraphContainer {
+
+  .barChartContainer {
+    width: 100%;
+    max-width: 524px;
+    margin: 0 auto;
+  }
+
+  .multichartContainer {
+
+    :global(.tick) line {
+      stroke: #666666;
+    }
+  }
+
+  .aveInterestLegend {
+    width: 40px;
+    height: 2px;
+    margin: 11px 16px 11px 0;
+    background-color: #555;
+  }
+
+  .multichartLegend {
+    margin: 1rem auto 0 auto;
+    white-space: nowrap;
+    text-align: center;
+    align-content: space-around;
+    > div {
+      display: inline-block;
+      vertical-align: middle;
+      white-space: nowrap;
+
+      &:first-child {
+        margin-right: 10%;
+      }
+      div {
+        vertical-align: middle;
+        display: inline-block;
+      }
+    }
+  }
+
+  .debtLegend {
+    width: 40px;
+    height: 24px;
+    margin: 0 16px 0 0;
+    background-color: #4a0072;
+  }
+
+  :global(text.multichart-margin-label) {
+    font-size: 10px;
+  }
+}
+
 @media screen and (min-width: $breakpoint-lg) {
+
+  .debtBreakdownSectionGraphContainer {
+    padding-top: 22px;
+    padding-left: 22px;
+    padding-right: 22px;
+
+    .title {
+      font-size: $font-size-18;
+    }
+
+    .titleBreakdown {
+      font-size: $font-size-18;
+    }
+
+    .header {
+      font-size: $font-size-36;
+      min-width: 140px;
+    }
+
+    .subHeader {
+      font-size: $font-size-14;
+    }
+
+    .footerContainer {
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+      font-size: $font-size-14;
+    }
+
+    :global(text.multichart-margin-label) {
+      font-size: 14px;
+    }
+  }
 
   .multichartContainer {
   }
@@ -173,6 +173,7 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
+
   .multichartWrapper .debtBreakdownSectionGraphContainer {
     padding: 0 14px 0 0;
 
@@ -222,4 +223,8 @@
 
 
 
-
+@media screen and (max-width: $breakpoint-lg - 1) {
+  :global(#interestToDebt .tick text) {
+    font-size: $font-size-10;
+  }
+}

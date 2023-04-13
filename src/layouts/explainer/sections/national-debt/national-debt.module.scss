@@ -31,6 +31,16 @@
   }
 }
 
+:global(.multichart-scaled) :global(.area),
+:global(.multichart-scaled) :global(.dataviz-line) {
+  transform: scaleX(0);
+
+  transition: transform 0.6s 0.5s;
+  &:global(.fill-right) {
+    transform: scaleX(1);
+  }
+}
+
 .fundingProgramAccordion {
   margin-bottom:0;
   margin-top: 2rem;

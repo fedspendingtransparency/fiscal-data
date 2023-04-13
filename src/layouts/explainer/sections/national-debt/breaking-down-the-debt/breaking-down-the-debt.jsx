@@ -24,11 +24,8 @@ import {
 import {chartBackdrop, visWithCallout} from "../../../explainer.module.scss";
 import {
   debtAccordion,
-  footerContainer, header,
-  headerContainer,
   postGraphAccordionContainer,
-  postGraphContent, subHeader,  title,
-  simple,
+  postGraphContent,
 } from "../national-debt.module.scss";
 import {
   aveInterestLegend,
@@ -36,7 +33,13 @@ import {
   debtBreakdownSectionGraphContainer,
   multichartContainer,
   multichartLegend,
-  multichartWrapper
+  header,
+  headerContainer,
+  subHeader,
+  title,
+  simple,
+  footerContainer,
+  multichartWrapper,
 } from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart
   from "./intragovernmental-holdings-chart/intragovernmental-holdings-chart";
