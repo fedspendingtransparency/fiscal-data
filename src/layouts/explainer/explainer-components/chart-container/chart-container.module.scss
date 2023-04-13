@@ -50,12 +50,6 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-lg) {
-  .chartContainer {
-    max-width: 484px;
-  }
-}
-
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .chartContainer {
