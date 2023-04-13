@@ -1,0 +1,49 @@
+@import '../../../../../../variables.module.scss';
+
+
+.growingNationalDebtSectionAccordion {
+  .accordionHeader {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      margin: 8px 0;
+      font-size: $font-size-16;
+      color: $font-body-copy;
+    }
+  }
+
+  .rectangle {
+    background-color: $font-title;
+    position: relative;
+    height: 0;
+  }
+
+  .accordionTable {
+    width: 100%;
+    border-spacing: 1px;
+  }
+
+  .accordionFooter {
+    font-size: $font-size-16;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+  .growingNationalDebtSectionAccordion {
+    .rectangle {
+      width: calc(2% - 1px);
+      padding-bottom: calc(2% - 1px);
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .growingNationalDebtSectionAccordion {
+    .rectangle {
+      width: calc(5% - 1px);
+      padding-bottom: calc(5% - 1px);
+    }
+  }
+}
