@@ -1,0 +1,230 @@
+@import '../../../../../variables.module.scss';
+
+
+@media screen and (min-width: $breakpoint-lg) {
+  .debtBreakdownSectionGraphContainer {
+    .title.simple {
+      margin-bottom: 2rem;
+    }
+    .header {
+      font-size: $font-size-24;
+      min-width: 110px;
+    }
+  }
+}
+
+.debtBreakdownSectionGraphContainer {
+  .title.simple {
+    margin-bottom: 2rem;
+  }
+  .header {
+    min-width: 90px;
+  }
+}
+
+.debtBreakdownSectionGraphContainer {
+  background-color: $body-background;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  .title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: $font-title;
+
+    &.simple {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .titleBreakdown {
+    margin-top: 0;
+    font-weight: 600;
+    color: $font-title;
+  }
+
+  .subTitle {
+    margin-top: 0;
+  }
+
+  .headerContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    div {
+      text-align: center;
+
+      .header {
+        font-weight: bold;
+      }
+
+      .subHeader {
+        font-weight: $semi-bold-weight;
+      }
+    }
+  }
+
+  .growingNationalDebtSectionGraph {
+    margin: 0;
+  }
+
+  .footerContainer {
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.debtBreakdownSectionGraphContainer {
+
+  .barChartContainer {
+    width: 100%;
+    max-width: 524px;
+    margin: 0 auto;
+  }
+
+  .multichartContainer {
+
+    :global(.tick) line {
+      stroke: #666666;
+    }
+  }
+
+  .aveInterestLegend {
+    width: 40px;
+    height: 2px;
+    margin: 11px 16px 11px 0;
+    background-color: #555;
+  }
+
+  .multichartLegend {
+    margin: 1rem auto 0 auto;
+    white-space: nowrap;
+    text-align: center;
+    align-content: space-around;
+    > div {
+      display: inline-block;
+      vertical-align: middle;
+      white-space: nowrap;
+
+      &:first-child {
+        margin-right: 10%;
+      }
+      div {
+        vertical-align: middle;
+        display: inline-block;
+      }
+    }
+  }
+
+  .debtLegend {
+    width: 40px;
+    height: 24px;
+    margin: 0 16px 0 0;
+    background-color: #4a0072;
+  }
+
+  :global(text.multichart-margin-label) {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+
+  .debtBreakdownSectionGraphContainer {
+    padding-top: 22px;
+    padding-left: 22px;
+    padding-right: 22px;
+
+    .title {
+      font-size: $font-size-18;
+    }
+
+    .titleBreakdown {
+      font-size: $font-size-18;
+    }
+
+    .header {
+      font-size: $font-size-36;
+      min-width: 140px;
+    }
+
+    .subHeader {
+      font-size: $font-size-14;
+    }
+
+    .footerContainer {
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+      font-size: $font-size-14;
+    }
+
+    :global(text.multichart-margin-label) {
+      font-size: 14px;
+    }
+  }
+
+  .multichartContainer {
+  }
+
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+
+  .multichartWrapper .debtBreakdownSectionGraphContainer {
+    padding: 0 14px 0 0;
+
+    .title {
+      padding: 1.625rem 0 0 0.875rem;
+    }
+
+    .footerContainer {
+      padding: 1.5rem  0 1.625rem 0.875rem;
+    }
+  }
+
+  .debtBreakdownSectionGraphContainer {
+    font-size: $font-size-10;
+    padding: 14px;
+
+    .headerContainer {
+      margin-bottom: 1.25rem;
+    }
+
+    .title {
+      font-size: $font-size-12;
+    }
+
+    .subTitle {
+      font-size: $font-size-12;
+    }
+
+    .titleBreakdown {
+      font-size: $font-size-12;
+    }
+
+    .header {
+      font-size: $font-size-24;
+    }
+
+    .subHeader {
+      font-size: $font-size-10;
+    }
+
+    .footerContainer {
+      padding-top: 15px;
+      font-size: $font-size-12;
+    }
+  }
+}
+
+
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  :global(#interestToDebt .tick text) {
+    font-size: $font-size-10;
+  }
+}
