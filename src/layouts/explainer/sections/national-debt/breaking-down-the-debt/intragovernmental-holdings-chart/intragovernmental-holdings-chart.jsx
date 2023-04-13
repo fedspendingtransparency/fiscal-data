@@ -29,9 +29,9 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date, width}) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
 
-  const chartHeight = 468;
-  const chartWidth = 524;
   const chartParent = "breakdownChart";
+  const chartWidth = 550;
+  const chartHeight = 490;
 
   const setAnimationDurations = (data) => {
     if(data && data.length >= 2) {
@@ -109,7 +109,7 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date, width}) => {
 
   useEffect(() => {
     if (isChartRendered) {
-      applyChartScaling(chartParent, chartWidth, chartHeight + 30);
+      applyChartScaling(chartParent, chartWidth, chartHeight+30);
     }
   }, [isChartRendered]);
 
