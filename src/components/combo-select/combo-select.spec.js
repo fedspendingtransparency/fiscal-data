@@ -3,6 +3,8 @@ import React from 'react';
 import {fireEvent, waitFor, render, within} from "@testing-library/react";
 import ComboSelect from './combo-select';
 import {mockOptions} from "./combo-select-test-helper";
+import Analytics from "../../utils/analytics/analytics";
+
 
 describe('The ComboSelect Component for Published Report year filtering', () => {
   let component = renderer.create();
@@ -335,6 +337,53 @@ describe('The ComboSelect Component for general text use', () => {
 
     await waitFor(() => {
       expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+    });
+  });
+
+  it('calls the appropriate analytics event when combo box input is updated wihtin XR tool', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const {getByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+                   isExchangeTool={true}
+      />);
+
+    const comboBox = getByTestId('combo-box');
+    
+    fireEvent.change(comboBox, {target: { value:'Abcd'}});
+    fireEvent.focusOut(comboBox);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Country-Currency Search`,
+      label: 'Abcd'
+    });
+  });
+
+  it('calls the appropriate analytics event when country is selected from drop down', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const {getByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+                   isExchangeTool={true}
+      />);
+
+    const comboBox = getByTestId('combo-box');
+    fireEvent.change(comboBox, {target: { value:'A'}});
+
+    const optionList = getByTestId('selectorList');
+    const option = within(optionList).getByText('Abcd-money');
+
+    fireEvent.click(option);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Country-Currency Selected`,
+      label: 'Abcd-money'
     });
   });
 });

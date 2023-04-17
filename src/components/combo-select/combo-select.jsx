@@ -6,6 +6,17 @@ import useOnClickOutside from 'use-onclickoutside';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { value } from '../home-highlight-cards/home-highlight-cards-helper/home-highlight-cards-helper.module.scss';
+import Analytics from "../../utils/analytics/analytics";
+
+
+const XRAnalyticsHandler = (action, label) => {
+  Analytics.event({
+    category: "Exchange Rates Converter",
+    action: action,
+    label: label
+  });
+};
 
 export default function ComboSelect(
   {
@@ -34,6 +45,7 @@ export default function ComboSelect(
 
 
   const updateSelection = (selection) => {
+    XRAnalyticsHandler('Foreign Country-Currency Selected', selection.value);
     changeHandler(selection);
     if (labelDisplay) {
       setFilterCharacters(selection.label);
@@ -189,6 +201,7 @@ export default function ComboSelect(
                      onChange={onFilterChange}
                      value={filterCharacters}
                      onFocus={onFilterChange}
+                     onBlur={isExchangeTool ? (event) => XRAnalyticsHandler('Foreign Country-Currency Search', event.target.value) : null}
                      max={options[0].value}
                      min={options[options.length -1].label}
                      placeholder={'Enter or select option'}
