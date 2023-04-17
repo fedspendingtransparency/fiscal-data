@@ -77,7 +77,7 @@ export class MultichartRenderer {
         this.draw(config);
       }
     });
-    this.connectMarkers(0);
+    this.connectMarkers(this.chartConfigs[0].data.length - 1);
   }
 
   setWidth = (selection: Selection<BaseType, unknown, HTMLElement, unknown>): void => {
@@ -195,7 +195,7 @@ export class MultichartRenderer {
         })
 
       if (config.options.placeInitialMarker) {
-        this.placeMarker(config, 0);
+        this.placeMarker(config,config.data.length - 1);
       }
       this.placeMarginLabels(config);
     } else {
@@ -225,7 +225,7 @@ export class MultichartRenderer {
           return "none"
         });
       if (config.options.placeInitialMarker) {
-        this.placeMarker(config, 0);
+        this.placeMarker(config,config.data.length - 1);
       }
       this.placeMarginLabels(config);
     }
