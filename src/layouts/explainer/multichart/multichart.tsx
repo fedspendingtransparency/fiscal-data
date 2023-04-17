@@ -97,8 +97,6 @@ const Multichart: FunctionComponent<MultichartProperties> =
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             // animate data series display on chart upon initial scroll
-            // document.querySelector('.multichart-scaled .area').classList.add('fill-right');
-            // document.querySelector('.multichart-scaled .dataviz-line').classList.add('fill-right');
             setAnimateChart(true);
           }
         });
