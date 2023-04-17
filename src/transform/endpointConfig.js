@@ -1920,22 +1920,26 @@ const endpointConfig = {
   '194': {
     'endpoint': 'v1/accounting/od/tcir_quarterly_table_1',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Quarterly_IntRatesReclamReformAct'
+    'downloadName': 'TCIR_Quarterly_IntRatesReclamReformAct',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '195': {
     'endpoint': 'v1/accounting/od/tcir_quarterly_table_2a',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Quarterly_IntRatesSpecificLegislation'
+    'downloadName': 'TCIR_Quarterly_IntRatesSpecificLegislation',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '196': {
     'endpoint': 'v1/accounting/od/tcir_quarterly_table_2b',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Quarterly_IntRatesSpecLegisPublicLaw'
+    'downloadName': 'TCIR_Quarterly_IntRatesSpecLegisPublicLaw',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '197': {
     'endpoint': 'v1/accounting/od/tcir_quarterly_table_3',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_Quarterly_IntRatesNatConsCoopBank'
+    'downloadName': 'TCIR_Quarterly_IntRatesNatConsCoopBank',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
   '198': {
     'endpoint': 'v1/accounting/od/tcir_monthly_table_1',
