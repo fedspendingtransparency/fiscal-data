@@ -224,6 +224,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const useHandleChangeQuarters = useCallback((option) => {
     updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
     setSelectedQuarter(option);
+    analyticsHandler("Year-Quarter Selection", selectedYear.value + '-' + selectedQuarter.value);
   }, [selectedQuarter, data, nonUSCurrency, currencyMap]);
 
   const handleChangeYears = useCallback((option) => {
@@ -244,7 +245,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
     }
     setSelectedYear(option);
-    // analytics here 
+    
+    analyticsHandler("Year-Quarter Selection", selectedYear.value + '-' + selectedQuarter.value);
+
     setQuarters(yearToQuartersMap[option.label].map((quarter) => ({
       label: quarterNumToTerm(quarter),
       value: quarter
@@ -335,10 +338,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           data && (
             <div className={selectorContainer}>
-              <div className={selector} data-testid={'year-selector'} onClick={() => analyticsHandler("Year Selection", selectedYear.value)} role={'presentation'}>
+              <div className={selector} data-testid={'year-selector'}>
                 <SelectControl label={'Year'} className={box} options={years} selectedOption={selectedYear} changeHandler={handleChangeYears} />
               </div>
-              <div className={selector} data-testid={'quarter-selector'} onClick={() => analyticsHandler("Quarter Selection", selectedQuarter.value)} role={'presentation'}>
+              <div className={selector} data-testid={'quarter-selector'}>
                 <SelectControl label={'Quarter'} className={box} options={quarters} selectedOption={selectedQuarter} changeHandler={useHandleChangeQuarters} />
               </div>
               <div className={effectiveDateContainer}>

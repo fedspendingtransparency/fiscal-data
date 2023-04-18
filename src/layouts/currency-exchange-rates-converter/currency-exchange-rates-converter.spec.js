@@ -357,8 +357,8 @@ describe('exchange rates converter', () => {
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
-      action: `Year Selection`,
-      label: 2023
+      action: `Year-Quarter Selection`,
+      label: '2023-2'
     });
   });
 
@@ -377,66 +377,9 @@ describe('exchange rates converter', () => {
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
-      action: `Quarter Selection`,
-      label: 2
+      action: `Year-Quarter Selection`,
+      label: '2023-2'
     });
-  });
-
-  it('calls the appropriate analytics event for year selector when conversion occurs', async() => {
-    const spy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByTestId, getAllByTestId } = render(
-      <CurrencyExchangeRatesConverter />
-    );
-    await waitFor(() => getByTestId('year-selector'));
-    await waitFor(() => getByTestId('box-container'));
-  
-    // const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
-    // fireEvent.click(yearSelector);
-  
-    // const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
-    // // Click on '2023'
-    // fireEvent.click(yearSelectorOptions[0]);
-  
-    const usBox = within(getByTestId('box-container')).getByTestId('input');
-    fireEvent.change(usBox, {target: { value:'12.34'}});
-  
-    jest.advanceTimersByTime(5000);
-  
-    //expect(spy).toHaveBeenCalled();
-
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Exchange Rates Converter',
-      action: `Year Selection`,
-      label: 2023
-    });
-    jest.runAllTimers();
-  });
-  
-  it('calls the appropriate analytics event for quarter when conversion occurs', async() => {
-    const spy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByTestId } = render(
-      <CurrencyExchangeRatesConverter />
-    );
-    await waitFor(() => getByTestId('year-selector'));
-    await waitFor(() => getByTestId('box-container'));
-  
-    // const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
-    // fireEvent.click(quarterSelector);
-  
-    // const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
-    // fireEvent.click(quarterSelectorOptions[0]);
-  
-    const usBox = within(getByTestId('box-container')).getByTestId('input');
-    fireEvent.change(usBox, {target: { value:'12.34'}});
-  
-    jest.advanceTimersByTime(5000);
-  
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Exchange Rates Converter',
-      action: `Quarter Selection`,
-      label: 2
-    });
-    jest.runAllTimers();
   });
 
   it('calls the appropriate analytics event when Effective Date info tip is hovered over', async() => {
