@@ -177,7 +177,7 @@ const HowMuchDoesTheGovtSpend = () => {
         maxWidth: "100%",
         paddingLeft: "0px",
       }}
-      customFooterSpacing={{ paddingLeft: "32px" }}
+      customFooterStyles={{ paddingLeft: "32px" }}
       customSpacing={{
         marginBottom: "32px",
         paddingLeft: "0px",
@@ -314,7 +314,7 @@ const HowMuchDoesTheGovtSpend = () => {
                     marginRight: item.percentage > 20 ? "0px" : "8px",
                   }}
                 >
-                  {percentDollarToggleChecked ? 
+                  {percentDollarToggleChecked ?
                     `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
                 </div>
                 <div className={descContainer}>

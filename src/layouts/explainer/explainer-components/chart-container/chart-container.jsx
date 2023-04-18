@@ -20,7 +20,7 @@ const ChartContainer = ({
   customContainerStyles,
   customHeaderStyles,
   customSpacing,
-  customFooterSpacing,
+  customFooterStyles,
   customTitleStyles,
   customSubTitleStyles
 }) => {
@@ -45,7 +45,7 @@ const ChartContainer = ({
       >
         {children}
       </div>
-      <div className={`${footerContainer} chartContainerFooter`} style={{ ...customFooterSpacing }}>
+      <div className={`${footerContainer} chartContainerFooter`} style={{ ...customFooterStyles }}>
         {footer}
         Last Updated: {format(date, "MMMM d, yyyy")}
       </div>
