@@ -23,6 +23,7 @@ export class ReleaseCalendarService {
   private _intervalId: number;
   private _releaseCalendarUpdated: ReplaySubject<IReleaseCalendarEntry[]>
     = new ReplaySubject<IReleaseCalendarEntry[]>(1);
+  private _releaseCalendarObservable: Observable<IReleaseCalendarEntry[]>;
 
   constructor() {
     // Updates shouldn't occur for the build (server-side). Updates use
@@ -50,7 +51,8 @@ export class ReleaseCalendarService {
    * return Observable for continued updates.
    */
   public entriesUpdated(): Observable<IReleaseCalendarEntry[]> {
-    return this._releaseCalendarUpdated.asObservable();
+    return this._releaseCalendarUpdated.asObservable(); // TODO: Make this a private variable and return it here
+    // return this._releaseCalendarObservable;
   }
 
   private _indexReleaseCalendarData(): void {
@@ -120,6 +122,7 @@ export class ReleaseCalendarService {
    */
   private _fetchReleaseCalendarEntries(date: Date): Promise<IReleaseCalendarEntry[]> {
     const releasedByDate: string = lightFormat(date, this.API_DATE_FORMAT);
+    console.log('RUNNING RELEASE CALENDAR REQUEST');
     return basicFetch(
       `${API_BASE_URL}${this.RELEASE_CALENDAR_URL}?released_by_date=${releasedByDate}`
     );

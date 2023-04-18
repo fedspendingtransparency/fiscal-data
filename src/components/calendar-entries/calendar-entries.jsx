@@ -38,32 +38,12 @@ const CalendarEntriesList = () => {
       }
     }`);
 
-  const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
-  const [releaseData, setReleaseData] = useState(allReleases.releases);
-  const generateSortKey = (entry) => `${entry.date}_${entry.time}`;
+  // const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
+  // const [releaseData, setReleaseData] = useState([]);
+  // const generateSortKey = (entry) => `${entry.date}_${entry.time}`;
 
-  useEffect(() => {
-    try {
-      basicFetch(`${releaseCalendarUrl}`)
-        .then(async (res) => {
-          const rcEntries = await res;
 
-          rcEntries.sort((a, b) => {
-            const aKey = generateSortKey(a);
-            const bKey = generateSortKey(b);
-
-            if (aKey > bKey) return 1;
-            else if (aKey < bKey) return -1;
-            else return 0;
-          });
-          setReleaseData(rcEntries);
-        });
-    } catch (e) {
-      setReleaseData(allReleases.releases);
-    }
-  }, []);
-
-  const releases = useReleaseCalendarEntriesUpdater(releaseData).filter(d => d.dataset);
+  const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
   const earliestDate = releases[0].date;
   const [loading, setLoading] = useState(true);
   const [entries, setEntries] = useState(releases);
