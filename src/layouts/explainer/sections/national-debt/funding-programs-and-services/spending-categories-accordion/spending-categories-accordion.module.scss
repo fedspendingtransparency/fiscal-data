@@ -1,0 +1,76 @@
+@import '../../../../../../variables.module.scss';
+
+.fundingProgramAccordion {
+  margin-bottom:0;
+  margin-top: 2rem;
+}
+
+.spendingCategoriesAccordionContent {
+  p {
+    margin-top: 0.438rem;
+  }
+  .spendingCategoriesTable {
+    .row {
+      display: flex;
+
+      .firstColumn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 72px;
+        min-width: 50px;
+      }
+
+      .secondColumn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+    .row:first-child {
+      padding-top: 2.25rem;
+    }
+
+    .icon {
+      font-size: $font-size-36;
+      color: $debt-explainer-light-secondary;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .spendingCategoriesAccordionContent {
+    .spendingCategoriesTable {
+
+      .firstColumn {
+        padding-right: 31px;
+      }
+
+      .row {
+        padding-bottom: .5rem;
+      }
+
+      .row:not(:last-child) {
+        padding-bottom: 1.75rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .spendingCategoriesAccordionContent {
+    .spendingCategoriesTable {
+      .firstColumn {
+        padding-right: 21px;
+      }
+
+      .row:not(:last-child) {
+        padding-bottom: 30px;
+      }
+    }
+  }
+}

@@ -1,34 +1,13 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faDollarSign,
-  faHandHoldingMedical,
-  faHeartbeat,
-  faShieldAlt,
-  faUserFriends,
-  faFlagUsa,
-} from "@fortawesome/free-solid-svg-icons";
-
 import Accordion from "../../../../components/accordion/accordion";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils";
 import { datasetSectionConfig } from "../../explainer-helpers/explainer-helpers";
-import {
-  debtExplainerPrimary,
-  debtExplainerLightSecondary,
-} from "../../../../variables.module.scss";
 import alexanderHamilton from "../../../../images/alexander-hamilton.png";
 import benFranklin from "../../../../images/ben-franklin.png";
 import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
 
 import {
-  icon,
-  // Funding Programs & Services
-  spendingCategoriesAccordionContent,
-  spendingCategoriesTable,
-  row,
-  firstColumn,
-  secondColumn,
   // Dive Deeper Section
   diveDeeperQuoteRight,
   diveDeeperQuoteLeft,
@@ -37,14 +16,14 @@ import {
   diveDeeperCitation,
   //Accordion styling
   debtAccordion,
-  fundingProgramAccordion,
   debtCeilingAccordion,
 } from "./national-debt.module.scss";
 import Analytics from "../../../../utils/analytics/analytics";
-import QuoteBox from "../../quote-box/quote-box";
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
 import BreakingDownTheDebt from "./breaking-down-the-debt/breaking-down-the-debt";
 import { GrowingNationalDebtSection } from "./growing-national-debt/growing-national-debt";
+import FundingProgramsAndServices
+  from './funding-programs-and-services/funding-programs-and-services';
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -95,199 +74,7 @@ export const chartPatternBackground = "#4A0072";
 
 
 
-export const FundingProgramsSection = () => {
-  const usaSpending = (
-    <CustomLink
-      url={"https://www.usaspending.gov/"}
-      onClick={() =>
-        analyticsClickHandler("Citation Click", "Funding Programs & Services")
-      }
-    >
-      USAspending.gov
-    </CustomLink>
-  );
 
-  const usaSpending_majorSpendingCategories = (
-    <CustomLink
-      url={"https://www.usaspending.gov/"}
-      onClick={() =>
-        analyticsClickHandler(
-          "Citation Click",
-          "What are the major spending categories?"
-        )
-      }
-    >
-      USAspending.gov
-    </CustomLink>
-  );
-
-  const objectClass = (
-    <CustomLink
-      url={"https://www.usaspending.gov/#/explorer/object_class"}
-      onClick={() =>
-        analyticsClickHandler(
-          "Citation Click",
-          "What are the major spending categories?"
-        )
-      }
-    >
-      Object Class
-    </CustomLink>
-  );
-
-  const budgetFunction = (
-    <CustomLink
-      url={"https://www.usaspending.gov/explorer/budget_function"}
-      onClick={() =>
-        analyticsClickHandler(
-          "Citation Click",
-          "What are the major spending categories?"
-        )
-      }
-    >
-      Budget Function
-    </CustomLink>
-  );
-
-  const revenueLink = (
-    <CustomLink url={'/americas-finance-guide/government-revenue/'} >
-      federal revenues
-    </CustomLink>
-  )
-
-  return (
-    <>
-      <p>
-        The federal government needs to borrow money to pay its bills when its
-        ongoing {spendingLink('spending')} activities and investments cannot be funded
-        by {revenueLink} alone. Decreases in federal revenue are largely due to either a
-        decrease in tax rates or individuals or corporations making less money.
-        The national debt enables the federal government to pay for important
-        programs and services even if it does not have funds immediately
-        available, often due to a decrease in revenue. Decreases in federal
-        revenue coupled with increased government spending further increases the {deficitLink}.
-      </p>
-      <p>
-        Consistent with the purpose of the federal government established by the
-        U.S. Constitution, money is spent on programs and services to ensure the
-        well-being of U.S. residents. The Constitution’s preamble states that
-        the purpose of the federal government is “…to establish Justice, insure
-        domestic Tranquility, provide for the common defense, promote the
-        general Welfare, and secure the Blessings of Liberty to ourselves and
-        our Posterity.” Uninterrupted funding of programs and services is
-        critical to residents’ health, welfare, and security.
-      </p>
-      <div className={debtAccordion}>
-        <Accordion
-          title="What are some of the major spending categories?"
-          altStyleAccordion={{ padding: "9px 16px" }}
-          containerClass={fundingProgramAccordion}
-          openEventNumber={"11"}
-          closeEventNumber={"12"}
-          explainerGAEvent="Debt"
-        >
-          <div className={spendingCategoriesAccordionContent}>
-            <p>
-              Below are some of the federal government’s largest spending
-              categories. Visit {usaSpending_majorSpendingCategories} to explore
-              federal spending by the types of items and services purchased by
-              the federal government. Explore federal spending by {objectClass}{" "}
-              or learn how spending categories and subcategories break down by
-              viewing federal spending by {budgetFunction}.
-            </p>
-            <div className={spendingCategoriesTable}>
-              <div className={row}>
-                <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faDollarSign} className={icon} />
-                </div>
-                <div className={secondColumn}>
-                  <strong>Income Security</strong>
-                  <p>
-                    Supports programs such as unemployment compensation, federal
-                    employee retirement and disability, and food and nutrition
-                    assistance; spending for this program increased during the
-                    COVID-19 pandemic because of the CARES Act and American
-                    Rescue Plan Act
-                  </p>
-                </div>
-              </div>
-              <div className={row}>
-                <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faUserFriends} className={icon} />
-                </div>
-                <div className={secondColumn}>
-                  <strong>Social Security</strong>
-                  <p>
-                    Supports programs for beneficiaries including retirement,
-                    disability insurance, and supplemental security income
-                    payments
-                  </p>
-                </div>
-              </div>
-              <div className={row}>
-                <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faHeartbeat} className={icon} />
-                </div>
-                <div className={secondColumn}>
-                  <strong>Health</strong>
-                  <p>
-                    Supports spending for programs related to health care
-                    services, health research and training, and consumer and
-                    occupational health and safety, except for Medicare which
-                    has its own category
-                  </p>
-                </div>
-              </div>
-              <div className={row}>
-                <div className={firstColumn}>
-                  <FontAwesomeIcon icon={faShieldAlt} className={icon} />
-                </div>
-                <div className={secondColumn}>
-                  <strong>National Defense</strong>
-                  <p>
-                    Supports spending related to the military and
-                    defense-related activities
-                  </p>
-                </div>
-              </div>
-              <div className={row}>
-                <div className={firstColumn}>
-                  <FontAwesomeIcon
-                    icon={faHandHoldingMedical}
-                    className={icon}
-                  />
-                </div>
-                <div className={secondColumn}>
-                  <strong>Medicare</strong>
-                  <p>
-                    Supports spending programs providing health insurance for
-                    people such as those aged 65 or older and certain younger
-                    people with disabilities
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Accordion>
-      </div>
-      <QuoteBox
-        icon={faFlagUsa}
-        primaryColor={debtExplainerPrimary}
-        secondaryColor={debtExplainerLightSecondary}
-        customTopMargin={"0"}
-      >
-        <p>
-          In accordance with the 2014 DATA Act, federal agencies are required to
-          submit financial data on a quarterly and/or monthly basis to{" "}
-          {usaSpending}. Anyone can visit USAspending for a breakdown of what
-          the federal government spends each year and how it spends that money.
-          Visitors can follow the money from the Congressional appropriations to
-          the federal agencies and down to local communities and businesses.
-        </p>
-      </QuoteBox>
-    </>
-  );
-};
 
 export const percentageFormatter = value =>
   (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + "%";
@@ -547,9 +334,7 @@ const nationalDebtSections = [
     index: 2,
     id: nationalDebtSectionIds[2],
     title: "Funding Programs & Services",
-    component: (glossary, cpiDataByYear) => (
-      <FundingProgramsSection glossary={glossary} />
-    ),
+    component: (glossary, cpiDataByYear) => <FundingProgramsAndServices />,
   },
   {
     index: 3,
