@@ -163,42 +163,6 @@
   }
 }
 
-.diveDeeperQuoteRight, .diveDeeperQuoteLeft {
-  .diveDeeperQuote {
-    font-size: $font-size-20;
-    padding-bottom: 1rem;
-  }
-
-  .diveDeeperCitation {
-    font-size: $font-size-14;
-  }
-}
-
-.diveDeeperQuoteLeft {
-  display: flex;
-  align-items: center;
-  padding-bottom: 2rem;
-  img {
-    height: 142px;
-    padding-left: 2.125rem;
-  }
-}
-
-.diveDeeperQuoteRight {
-  display: flex;
-  align-items: center;
-  padding-top: 1rem;
-  padding-bottom: 4.063rem;
-  img {
-    height: 142px;
-    padding-right: 2.125rem;
-  }
-}
-
-.diveDeeperLink {
-  padding-bottom: 1.25rem;
-}
-
 .debtAccordion {
   :global(.accordionHeading) {
     font-size: $font-size-18;
@@ -305,18 +269,6 @@
       padding-top: 1rem;
       padding-bottom: 2rem;
       font-size: $font-size-14;
-    }
-  }
-
-  .diveDeeperQuoteLeft {
-    p {
-      margin-right: 2rem;
-    }
-  }
-
-  .diveDeeperQuoteRight {
-    p {
-      margin-left: 2rem;
     }
   }
 
@@ -456,27 +408,6 @@
 
   .debtAccordion {
     margin-top: 2rem;
-  }
-
-  .diveDeeperQuoteLeft, .diveDeeperQuoteRight {
-    .diveDeeperQuote {
-      font-size: 0.781rem;
-    }
-    .diveDeeperCitation {
-      font-size: 0.544rem;
-    }
-  }
-
-  .diveDeeperQuoteRight {
-    img {
-      padding-right: 1.188rem;
-    }
-  }
-
-  .diveDeeperQuoteLeft {
-    img {
-      padding-left: 1.188rem;
-    }
   }
 }
 

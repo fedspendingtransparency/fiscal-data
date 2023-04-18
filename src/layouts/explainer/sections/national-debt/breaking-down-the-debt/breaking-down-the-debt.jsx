@@ -9,10 +9,10 @@ import VisualizationCallout
 import Multichart from "../../../multichart/multichart";
 import Accordion from "../../../../../components/accordion/accordion";
 import {
-  analyticsClickHandler,
   chartPatternBackground,
   nationalDebtSectionConfigs, spendingLink
 } from "../national-debt";
+import {analyticsClickHandler} from '../../../explainer-helpers/national-debt-helper';
 import React, {useEffect, useState} from "react";
 import {
   breakpointLg,
