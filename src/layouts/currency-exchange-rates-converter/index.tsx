@@ -39,7 +39,7 @@ import {format} from "date-fns";
 import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
 import Analytics from "../../utils/analytics/analytics";
 
-let gaTimer = null;
+let gaInfoTipTimer = null;
 let gaCurrencyTimer = null;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
@@ -83,7 +83,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
   
   const handleMouseEnterInfoTip = (label) => {
-    gaTimer = setTimeout(() => {
+    //console.log("IN MOUSE ENTER")
+    gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
     }, 3000);
   };
@@ -163,6 +164,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const mostRecentQuarter = Math.max(...listOfQuarterOptions.map(entry => entry.value));
       setYears(listOfYearOptions);
       setQuarters(listOfQuarterOptions);
+      console.log(mostRecentYear)
       setSelectedYear({
         label: mostRecentYear.toString(),
         value: mostRecentYear
@@ -255,9 +257,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-
+      //console.log(selectedYear);
       gaCurrencyTimer = setTimeout(() => {
         analyticsHandler("USD Value Entered", event.target.value);
+        analyticsHandler("Year Selection", selectedYear.value);
       }, 3000);
       
       if (nonUSCurrencyDecimalPlaces === 1) {
@@ -331,7 +334,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           data && (
             <div className={selectorContainer}>
-              <div className={selector} data-testid={'year-selector'} onClick={() => analyticsHandler("Year Selection", selectedYear)} role={'presentation'}>
+              <div className={selector} data-testid={'year-selector'} onClick={() => analyticsHandler("Year Selection", selectedYear.value)} role={'presentation'}>
                 <SelectControl label={'Year'} className={box} options={years} selectedOption={selectedYear} changeHandler={handleChangeYears} />
               </div>
               <div className={selector} data-testid={'quarter-selector'} onClick={() => analyticsHandler("Quarter Selection", selectedQuarter.value)} role={'presentation'}>
@@ -340,7 +343,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Effective Date Info')} onMouseLeave={() => clearTimeout(gaTimer)} role={'presentation'}>
+                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Effective Date Info')} onMouseLeave={() => clearTimeout(gaInfoTipTimer)} role={'presentation'}>
                     <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                       {effectiveDateInfoIcon.body}
                     </InfoTip>
@@ -356,7 +359,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion.{" "}
             </span>
-            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info')} onMouseLeave={() => clearTimeout(gaTimer)} role={'presentation'}>
+            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info')} onMouseLeave={() => clearTimeout(gaInfoTipTimer)} role={'presentation'}>
               <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                 {currencySelectionInfoIcon.body}
               </InfoTip>
