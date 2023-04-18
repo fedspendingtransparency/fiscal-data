@@ -362,6 +362,24 @@ describe('The ComboSelect Component for general text use', () => {
     });
   });
 
+  it('does not call analytic event when combo box input is empty', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const {getByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+                   isExchangeTool={true}
+      />);
+
+    const comboBox = getByTestId('combo-box');
+    
+    fireEvent.change(comboBox, {target: { value:''}});
+    fireEvent.focusOut(comboBox);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('calls the appropriate analytics event when country is selected from drop down', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const {getByTestId} = render(

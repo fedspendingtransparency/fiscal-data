@@ -39,7 +39,8 @@ import {format} from "date-fns";
 import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
 import Analytics from "../../utils/analytics/analytics";
 
-let gaTimer;
+let gaTimer = null;
+let gaCurrencyTimer = null;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -72,22 +73,20 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
 
   const analyticsHandler = (action, label) => {
-    Analytics.event({
-      category: "Exchange Rates Converter",
-      action: action,
-      label: label,
-    });
+    if(action && label) {
+      Analytics.event({
+        category: "Exchange Rates Converter",
+        action: action,
+        label: label,
+      });
+    }
   };
   
   const handleMouseEnterInfoTip = (label) => {
     gaTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
-    },3000);
+    }, 3000);
   };
-
-  const handleMouseLeaveInfoTip = () => {
-    clearTimeout(gaTimer);
-  }
 
   const yearQuarterParse = (dataRecord: Record<string, string>): string =>
     `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
@@ -248,12 +247,19 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [selectedYear, data, nonUSCurrency, currencyMap]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
+    clearTimeout(gaCurrencyTimer);
+
     let product;
     if (event.target.value === '') {
       setNonUSCurrencyExchangeValue('');
     }
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
+
+      gaCurrencyTimer = setTimeout(() => {
+        analyticsHandler("USD Value Entered", event.target.value);
+      }, 3000);
+      
       if (nonUSCurrencyDecimalPlaces === 1) {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
       }
@@ -271,6 +277,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [usDollarValue, nonUSCurrency]);
 
   const handleChangeNonUSCurrency = useCallback((event) => {
+    clearTimeout(gaCurrencyTimer);
     let quotient;
     if(event !== null) {
       if (event.target.value === '') {
@@ -278,6 +285,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       }
       setNonUSCurrencyExchangeValue(event.target.value);
       if (!isNaN(parseFloat(event.target.value))) {
+        gaCurrencyTimer = setTimeout(() => {
+          analyticsHandler("Foreign Currency Value Entered", event.target.value);
+        }, 3000);
+
         quotient = (Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
       }
       if (!isNaN(quotient)) {
@@ -329,7 +340,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <span data-testid={'effective-date-info-tip'} onMouseEnter={handleMouseEnterInfoTip('Additional Effective Date Info')} onMouseLeave={handleMouseLeaveInfoTip} role={'presentation'}>
+                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Effective Date Info')} onMouseLeave={() => clearTimeout(gaTimer)} role={'presentation'}>
                     <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                       {effectiveDateInfoIcon.body}
                     </InfoTip>
@@ -345,7 +356,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion.{" "}
             </span>
-            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={handleMouseEnterInfoTip('Additional Foreign Currency Info')} onMouseLeave={handleMouseLeaveInfoTip} role={'presentation'}>
+            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info')} onMouseLeave={() => clearTimeout(gaTimer)} role={'presentation'}>
               <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                 {currencySelectionInfoIcon.body}
               </InfoTip>

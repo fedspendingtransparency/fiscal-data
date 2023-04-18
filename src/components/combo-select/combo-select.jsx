@@ -11,11 +11,13 @@ import Analytics from "../../utils/analytics/analytics";
 
 
 const XRAnalyticsHandler = (action, label) => {
-  Analytics.event({
-    category: "Exchange Rates Converter",
-    action: action,
-    label: label
-  });
+  if(action && label){
+    Analytics.event({
+      category: "Exchange Rates Converter",
+      action: action,
+      label: label
+    });
+  }
 };
 
 export default function ComboSelect(
