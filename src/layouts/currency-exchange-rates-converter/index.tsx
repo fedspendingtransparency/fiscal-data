@@ -39,8 +39,8 @@ import {format} from "date-fns";
 import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
 import Analytics from "../../utils/analytics/analytics";
 
-let gaInfoTipTimer = null;
-let gaCurrencyTimer = null;
+let gaInfoTipTimer;
+let gaCurrencyTimer;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -83,11 +83,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
   
   const handleMouseEnterInfoTip = (label) => {
-    //console.log("IN MOUSE ENTER")
     gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
     }, 3000);
   };
+
+  const handleInfoTipClose = () => {
+    clearTimeout(gaInfoTipTimer);
+  }
 
   const yearQuarterParse = (dataRecord: Record<string, string>): string =>
     `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
@@ -164,7 +167,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       const mostRecentQuarter = Math.max(...listOfQuarterOptions.map(entry => entry.value));
       setYears(listOfYearOptions);
       setQuarters(listOfQuarterOptions);
-      console.log(mostRecentYear)
       setSelectedYear({
         label: mostRecentYear.toString(),
         value: mostRecentYear
@@ -242,6 +244,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
     }
     setSelectedYear(option);
+    // analytics here 
     setQuarters(yearToQuartersMap[option.label].map((quarter) => ({
       label: quarterNumToTerm(quarter),
       value: quarter
@@ -257,10 +260,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
-      //console.log(selectedYear);
       gaCurrencyTimer = setTimeout(() => {
         analyticsHandler("USD Value Entered", event.target.value);
-        analyticsHandler("Year Selection", selectedYear.value);
       }, 3000);
       
       if (nonUSCurrencyDecimalPlaces === 1) {
@@ -343,7 +344,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Effective Date Info')} onMouseLeave={() => clearTimeout(gaInfoTipTimer)} role={'presentation'}>
+                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => {handleMouseEnterInfoTip('Additional Effective Date Info');}} onBlur={handleInfoTipClose} role={'presentation'}>
                     <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                       {effectiveDateInfoIcon.body}
                     </InfoTip>
@@ -359,7 +360,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion.{" "}
             </span>
-            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info')} onMouseLeave={() => clearTimeout(gaInfoTipTimer)} role={'presentation'}>
+            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info')} onBlur={handleInfoTipClose} role={'presentation'}>
               <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                 {currencySelectionInfoIcon.body}
               </InfoTip>

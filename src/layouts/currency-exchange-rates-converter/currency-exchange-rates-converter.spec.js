@@ -358,7 +358,7 @@ describe('exchange rates converter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Year Selection`,
-      label: '2023'
+      label: 2023
     });
   });
 
@@ -441,7 +441,7 @@ describe('exchange rates converter', () => {
 
   it('calls the appropriate analytics event when Effective Date info tip is hovered over', async() => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByTestId } = render(
+    const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
     );
     await waitFor(() => getByTestId('effective-date-info-tip'));
@@ -458,7 +458,7 @@ describe('exchange rates converter', () => {
     jest.runAllTimers();
   });
 
-  it('calls the appropriate analytics event when Effective Date info tip is hovered over and left before 3 seconds', async() => {
+  it('does not call analytic event when Effective Date info tip is hovered over and left before 3 seconds', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
@@ -466,14 +466,31 @@ describe('exchange rates converter', () => {
     await waitFor(() => getByTestId('effective-date-info-tip'));
 
     const effectiveDateInfo = getByTestId('effective-date-info-tip');
-    fireEvent.mouseEnter(effectiveDateInfo);
-    fireEvent.mouseLeave(effectiveDateInfo);
+    fireEvent.mouseOver(effectiveDateInfo);
+    fireEvent.focusOut(effectiveDateInfo);
 
     jest.advanceTimersByTime(5000);
 
     expect(spy).not.toHaveBeenCalled();
     jest.runAllTimers();
   });
+
+  it('does not call analytic event when Effective Date info tip is hovered over in first 3 seconds', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByTestId('effective-date-info-tip'));
+
+    const effectiveDateInfo = getByTestId('effective-date-info-tip');
+    fireEvent.mouseOver(effectiveDateInfo);
+
+    jest.advanceTimersByTime(1000);
+
+    expect(spy).not.toHaveBeenCalled();
+    jest.runAllTimers();
+  });
+
 
   it('calls the appropriate analytics event when Foreign Currency info tip is hovered over', async() => {
     const spy = jest.spyOn(Analytics, 'event');
@@ -483,15 +500,14 @@ describe('exchange rates converter', () => {
     await waitFor(() => getByTestId('foreign-currency-info-tip'));
 
     const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
-    fireEvent.mouseEnter(foreignCurrencyInfo);
+    fireEvent.mouseOver(foreignCurrencyInfo);
     jest.advanceTimersByTime(5000);
 
-    expect(spy).toHaveBeenCalled();
-    // expect(spy).toHaveBeenCalledWith({
-    //   category: 'Exchange Rates Converter',
-    //   action: `Additional Info Hover`,
-    //   label: 'Additional Foreign Currency Info'
-    // });
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Foreign Currency Info'
+    });
     jest.runAllTimers();
   });
 
@@ -503,9 +519,24 @@ describe('exchange rates converter', () => {
     await waitFor(() => getByTestId('foreign-currency-info-tip'));
 
     const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
-    fireEvent.mouseEnter(foreignCurrencyInfo);
-    fireEvent.mouseLeave(foreignCurrencyInfo);
+    fireEvent.mouseOver(foreignCurrencyInfo);
+    fireEvent.focusOut(foreignCurrencyInfo);
     jest.advanceTimersByTime(5000);
+
+    expect(spy).not.toHaveBeenCalled();
+    jest.runAllTimers();
+  });
+
+  it('does not call analytics event when Foreign Currency info tip is hovered over in first 3 seconds', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText, getByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByTestId('foreign-currency-info-tip'));
+
+    const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
+    fireEvent.mouseOver(foreignCurrencyInfo);
+    jest.advanceTimersByTime(1000);
 
     expect(spy).not.toHaveBeenCalled();
     jest.runAllTimers();
