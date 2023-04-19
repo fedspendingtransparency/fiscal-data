@@ -362,6 +362,31 @@ describe('The ComboSelect Component for general text use', () => {
     });
   });
 
+
+  //// this test passes when it shouldn't
+  it('does not call analytic event when combo box is initially clicked then cleared with x icon', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const {getByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={mockOptions[1]}
+                   isExchangeTool={true}
+      />);
+
+    const comboBox = getByTestId('combo-box');
+    // fireEvent.focusIn(comboBox);
+    fireEvent.click(comboBox);
+    fireEvent.change(comboBox, {target: { value:'B'}});
+    
+    const clearButton = getByTestId('clear-button');
+    fireEvent.click(clearButton);
+
+    await waitFor(() => {getByTestId('dropdown-button')});
+ 
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('does not call analytic event when combo box input is empty', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const {getByTestId} = render(
