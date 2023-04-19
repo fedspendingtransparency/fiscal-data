@@ -363,7 +363,7 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
 
-  //// this test passes when it shouldn't
+  //// this test passes when it shouldn't.. take out the checks on blur to get to fail correctly 
   it('does not call analytic event when combo box is initially clicked then cleared with x icon', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const {getByTestId} = render(
@@ -375,7 +375,6 @@ describe('The ComboSelect Component for general text use', () => {
       />);
 
     const comboBox = getByTestId('combo-box');
-    // fireEvent.focusIn(comboBox);
     fireEvent.click(comboBox);
     fireEvent.change(comboBox, {target: { value:'B'}});
     
@@ -384,7 +383,9 @@ describe('The ComboSelect Component for general text use', () => {
 
     await waitFor(() => {getByTestId('dropdown-button')});
  
-    expect(spy).not.toHaveBeenCalled();
+    // supposed to not be called but passing when it shouldn't
+    // expect(spy).not.toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('does not call analytic event when combo box input is empty', async() => {

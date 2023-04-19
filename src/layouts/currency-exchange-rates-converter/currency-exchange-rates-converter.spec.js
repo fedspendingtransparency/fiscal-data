@@ -337,7 +337,6 @@ describe('exchange rates converter', () => {
     await waitFor(() => getByText('U.S. Dollar'));
 
     const test = getByTestId('test');
-    console.log(test.innerHTML);
     expect(getByText('December 31, 2022 to December 31, 2023', {exact: false})).toBeInTheDocument();
   });
 

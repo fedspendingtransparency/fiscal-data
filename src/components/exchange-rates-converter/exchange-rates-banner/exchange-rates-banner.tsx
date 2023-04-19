@@ -13,7 +13,7 @@ const ExchangeRatesBanner: FunctionComponent<IExchangeRatesBanner> = ({text, cop
       <div className={bannerBackground}>
         <div className={bannerText}>
           <h1>{text}</h1>
-          <SocialShareDropdown copy={copy} pageName={""} />
+          <SocialShareDropdown copy={copy} pageName={"Exchange Rates Converter"} />
         </div>
       </div>
     </>

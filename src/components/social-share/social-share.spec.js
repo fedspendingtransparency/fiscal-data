@@ -103,7 +103,7 @@ describe('Social Share component', () => {
     expect(facebookText).toBeNull();
   });
 
-  it('calls the appropriate analytics event when buttons are clicked on', () => {
+  it('calls the appropriate analytics for Explainer pages event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
     const { getByRole } = render(
@@ -157,6 +157,65 @@ describe('Social Share component', () => {
       category: 'Explainers',
       action: `Share Click`,
       label: 'Debt - Share on Email'
+    });
+    spy.mockClear();
+
+  });
+
+  it('calls the appropriate XR Converter analytics event when buttons are clicked on', () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    window.open = jest.fn();
+    const { getByRole } = render(
+      <SocialShareComponent
+        copy={testCopy}
+        pageName={'Exchange Rates Converter'}
+        width={ breakpointSm }
+      />
+    );
+
+    const facebookButton = getByRole('button', {name: 'facebook'});
+    const twitterButton = getByRole('button', {name: 'twitter'});
+    const linkedInButton = getByRole('button', {name: 'linkedin'});
+    const redditButton = getByRole('button', {name: 'reddit'});
+    const emailButton = getByRole('button', {name: 'email'});
+
+    facebookButton.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Share Click`,
+      label: 'Share on Facebook'
+    });
+    spy.mockClear();
+
+    twitterButton.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Share Click`,
+      label: 'Share on Twitter'
+    });
+    spy.mockClear();
+
+    linkedInButton.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Share Click`,
+      label: 'Share on LinkedIn'
+    });
+    spy.mockClear();
+
+    redditButton.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Share Click`,
+      label: 'Share on Reddit'
+    });
+    spy.mockClear();
+
+    emailButton.click();
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Share Click`,
+      label: 'Share on Email'
     });
     spy.mockClear();
 
