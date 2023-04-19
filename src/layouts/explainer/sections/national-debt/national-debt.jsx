@@ -30,7 +30,6 @@ export const nationalDebtSectionIds = [
   "dive-deeper-into-the-debt",
 ];
 
-
 export const deficitLink = (
   <CustomLink url={'/americas-finance-guide/national-deficit/'} >
     deficit
@@ -42,8 +41,6 @@ export const spendingLink = (copy) => (
     {copy}
   </CustomLink>
 );
-
-
 
 export const visualizingTheDebtTableContent = {
   desktop: {
@@ -58,16 +55,10 @@ export const visualizingTheDebtTableContent = {
 
 export const chartPatternBackground = "#4A0072";
 
-
-
-
-
 export const percentageFormatter = value =>
   (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + "%";
 export const trillionsFormatter = value =>
   `$${(Number(value) / 1000000).toFixed(2)} T`;
-
-
 
 export const debtCeilingSectionAccordionTitle =
   "How is the debt ceiling different from a government shutdown?";
