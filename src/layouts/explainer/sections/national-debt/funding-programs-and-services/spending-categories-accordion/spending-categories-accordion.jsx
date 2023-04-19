@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { debtAccordion } from '../../national-debt.module.scss';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import { analyticsClickHandler } from '../../national-debt';
+import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt-helper';
 import {
   fundingProgramAccordion,
   spendingCategoriesAccordionContent,
