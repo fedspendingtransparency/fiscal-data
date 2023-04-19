@@ -17,10 +17,9 @@ import {
   debtExplainerPrimary,
   debtExplainerLightSecondary,
 } from "../../../../variables.module.scss";
-import alexanderHamilton from "../../../../images/alexander-hamilton.png";
-import benFranklin from "../../../../images/ben-franklin.png";
 import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
-
+import DiveDeeperIntoTheDebt from './dive-deeper-into-the-debt/dive-deeper-into-the-debt';
+import {analyticsClickHandler} from '../../explainer-helpers/national-debt-helper';
 import {
   icon,
   // Funding Programs & Services
@@ -29,18 +28,11 @@ import {
   row,
   firstColumn,
   secondColumn,
-  // Dive Deeper Section
-  diveDeeperQuoteRight,
-  diveDeeperQuoteLeft,
-  diveDeeperLink,
-  diveDeeperQuote,
-  diveDeeperCitation,
   //Accordion styling
   debtAccordion,
   fundingProgramAccordion,
   debtCeilingAccordion,
 } from "./national-debt.module.scss";
-import Analytics from "../../../../utils/analytics/analytics";
 import QuoteBox from "../../quote-box/quote-box";
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
 import BreakingDownTheDebt from "./breaking-down-the-debt/breaking-down-the-debt";
@@ -58,13 +50,7 @@ export const nationalDebtSectionIds = [
   "tracking-the-debt",
   "dive-deeper-into-the-debt",
 ];
-export const analyticsClickHandler = (action, section) => {
-  Analytics.event({
-    category: "Explainers",
-    action: action,
-    label: `Debt - ${section}`,
-  });
-};
+
 
 export const deficitLink = (
   <CustomLink url={'/americas-finance-guide/national-deficit/'} >
@@ -361,171 +347,6 @@ export const DebtTrackingSection = () => {
   );
 };
 
-export const DiveDeeperSection = () => (
-  <>
-    <p>
-      For more information about the national debt, please explore more of
-      Fiscal Data and check out the extensive resources listed below.
-    </p>
-    <div className={diveDeeperLink}>
-      <div className={diveDeeperLink}>
-        <strong>The most recent U.S. Government Financial Report</strong>
-        <br />
-        <CustomLink
-          url={
-            "https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf"
-          }
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>America’s Fiscal Future: Federal Debt</strong>
-        <br />
-        <CustomLink
-          url={"https://www.gao.gov/americas-fiscal-future/federal-debt"}
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://www.gao.gov/americas-fiscal-future/federal-debt
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>{"The Debt Ceiling: An Explainer\n"}</strong>
-        <br />
-        <CustomLink
-          url={
-            "https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-" +
-            "an-explainer/"
-          }
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-an-explainer/
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>{"Federal Borrowing and Debt\n"}</strong>
-        <br />
-        <CustomLink
-          url={
-            "https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf"
-          }
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>Federal Net Interest Costs: A Primer</strong>
-        <br />
-        <CustomLink
-          url={"https://www.cbo.gov/publication/56910"}
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://www.cbo.gov/publication/56910
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>
-          Is the Federal Reserve Printing Money in Order to Buy Treasury
-          Securities?
-        </strong>
-        <br />
-        <CustomLink
-          url={"https://www.federalreserve.gov/faqs/money_12853.htm"}
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://www.federalreserve.gov/faqs/money_12853.htm
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>Options for Reducing Deficit</strong>
-        <br />
-        <CustomLink
-          url={"https://www.cbo.gov/publication/56783"}
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://www.cbo.gov/publication/56783
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>Treasury Bulletin</strong>
-        <br />
-        <CustomLink
-          url={
-            "https://fiscal.treasury.gov/reports-statements/treasury-bulletin/"
-          }
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://fiscal.treasury.gov/reports-statements/treasury-bulletin/
-        </CustomLink>
-      </div>
-
-      <div className={diveDeeperLink}>
-        <strong>USAspending</strong>
-        <br />
-        <CustomLink
-          url={"https://www.usaspending.gov"}
-          onClick={() =>
-            analyticsClickHandler("Citation Click", "Dive Deeper into the Debt")
-          }
-        >
-          https://www.usaspending.gov
-        </CustomLink>
-      </div>
-    </div>
-
-    <div className={diveDeeperQuoteRight}>
-      <img src={benFranklin} alt="" />
-      <div>
-        <div className={diveDeeperQuote}>
-          “Rather go to bed without dinner than to rise in debt.”
-        </div>
-        <div className={diveDeeperCitation}>
-          Benjamin Franklin, statesman, civic leader, and diplomat
-        </div>
-      </div>
-    </div>
-    <div className={diveDeeperQuoteLeft}>
-      <div>
-        <div className={diveDeeperQuote}>
-          “The necessity for borrowing in particular emergencies cannot be
-          doubted, so on the other, it is equally evident that, to be able to
-          borrow upon good terms, it is essential that the credit of the nation
-          should be well established.”
-        </div>
-        <div className={diveDeeperCitation}>
-          Alexander Hamilton, 1st U.S. Treasury Secretary
-        </div>
-      </div>
-      <img src={alexanderHamilton} alt="" />
-    </div>
-  </>
-);
-
 const nationalDebtSections = [
   {
     index: 0,
@@ -595,7 +416,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[7],
     title: "Dive Deeper into the Debt",
     component: (glossary, cpiDataByYear) => (
-      <DiveDeeperSection glossary={glossary} />
+      <DiveDeeperIntoTheDebt />
     ),
   },
 ];

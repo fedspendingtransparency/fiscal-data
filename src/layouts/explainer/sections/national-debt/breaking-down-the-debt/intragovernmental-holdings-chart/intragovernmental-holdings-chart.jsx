@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import {Bar} from "@nivo/bar";
-import CustomLink from "../../../../../../components/links/custom-link/custom-link";
-import {
-  analyticsClickHandler,
-  nationalDebtSectionConfigs
-} from "../../national-debt";
+import React, {useEffect, useState} from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {Bar} from '@nivo/bar';
+import CustomLink from '../../../../../../components/links/custom-link/custom-link';
+import { nationalDebtSectionConfigs } from '../../national-debt';
+import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt-helper';
 import VisualizationCallout
-  from "../../../../../../components/visualization-callout/visualization-callout";
+  from '../../../../../../components/visualization-callout/visualization-callout';
 import {
   fontBodyCopy,
   fontSize_16,
@@ -19,8 +17,8 @@ import {
 import {
   barChartContainer,
   title
-} from "./intragovernmental-holdings-chart.module.scss";
-import {visWithCallout} from "../../../../explainer.module.scss";
+} from './intragovernmental-holdings-chart.module.scss';
+import {visWithCallout} from '../../../../explainer.module.scss';
 import CustomBar from './custom-bar/customBar'
 import { applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
