@@ -1,0 +1,76 @@
+@import '../../../../../variables.module.scss';
+
+.diveDeeperLink {
+  padding-bottom: 1.25rem;
+}
+
+.diveDeeperQuoteRight, .diveDeeperQuoteLeft {
+  .diveDeeperQuote {
+    font-size: $font-size-20;
+    padding-bottom: 1rem;
+  }
+
+  .diveDeeperCitation {
+    font-size: $font-size-14;
+  }
+}
+
+.diveDeeperQuoteLeft {
+  display: flex;
+  align-items: center;
+  padding-bottom: 2rem;
+  img {
+    height: 142px;
+    padding-left: 2.125rem;
+  }
+}
+
+.diveDeeperQuoteRight {
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 4.063rem;
+  img {
+    height: 142px;
+    padding-right: 2.125rem;
+  }
+}
+
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .diveDeeperQuoteLeft, .diveDeeperQuoteRight {
+    .diveDeeperQuote {
+      font-size: 0.781rem;
+    }
+    .diveDeeperCitation {
+      font-size: 0.544rem;
+    }
+  }
+
+  .diveDeeperQuoteRight {
+    img {
+      padding-right: 1.188rem;
+    }
+  }
+
+  .diveDeeperQuoteLeft {
+    img {
+      padding-left: 1.188rem;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .diveDeeperQuoteLeft {
+    p {
+      margin-right: 2rem;
+    }
+  }
+
+  .diveDeeperQuoteRight {
+    p {
+      margin-left: 2rem;
+    }
+  }
+}
+
