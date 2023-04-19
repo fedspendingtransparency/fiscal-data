@@ -341,9 +341,9 @@ describe('exchange rates converter', () => {
     expect(getByText('December 31, 2022 to December 31, 2023', {exact: false})).toBeInTheDocument();
   });
 
-  it('calls the appropriate analytics event when year selector is set', async() => {
+  it('calls the appropriate analytics event when year selector is set and current quarter is available', async() => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByTestId, getAllByTestId } = render(
+    const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
     );
     await waitFor(() => getByTestId('year-selector'));
@@ -352,8 +352,39 @@ describe('exchange rates converter', () => {
     fireEvent.click(yearSelector);
 
     const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
-    // Click on '2023'
-    fireEvent.click(yearSelectorOptions[0]);
+    fireEvent.click(yearSelectorOptions[1]);
+
+    expect(spy).toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Year-Quarter Selection`,
+      label: '2022-2'
+    });
+  });
+
+  it('calls the appropriate analytics event when year selector is set and current quarter is not available', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByTestId('year-selector'));
+
+    // set year to 2022
+    const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+    fireEvent.click(yearSelector);
+    const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    fireEvent.click(yearSelectorOptions[1]);
+
+    // set quarter to 1st
+    const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
+    fireEvent.click(quarterSelector);
+    const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
+    fireEvent.click(quarterSelectorOptions[0]);
+
+    // set year back to 2023
+    const yearSelector2 = within(getByTestId('year-selector')).getByTestId('toggle-button');
+    fireEvent.click(yearSelector2);
+    const yearSelectorOptions2 = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    fireEvent.click(yearSelectorOptions2[0]);
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
@@ -369,16 +400,22 @@ describe('exchange rates converter', () => {
     );
     await waitFor(() => getByText('U.S. Dollar'));
 
+    const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+    fireEvent.click(yearSelector);
+
+    const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    fireEvent.click(yearSelectorOptions[1]);
+
     const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
     fireEvent.click(quarterSelector);
 
     const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
-    fireEvent.click(quarterSelectorOptions[0]);
+    fireEvent.click(quarterSelectorOptions[1]);
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Year-Quarter Selection`,
-      label: '2023-2'
+      label: '2022-2'
     });
   });
 

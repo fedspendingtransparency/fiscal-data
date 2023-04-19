@@ -224,10 +224,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const useHandleChangeQuarters = useCallback((option) => {
     updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
     setSelectedQuarter(option);
-    analyticsHandler("Year-Quarter Selection", selectedYear.value + '-' + selectedQuarter.value);
+    analyticsHandler("Year-Quarter Selection", selectedYear.value + '-' + option.value);
   }, [selectedQuarter, data, nonUSCurrency, currencyMap]);
 
   const handleChangeYears = useCallback((option) => {
+    let gaQuarter = selectedQuarter.value;
 
     if (yearToQuartersMap[option.label][selectedQuarter.value]) {
       updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
@@ -243,15 +244,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       // Set quarter to most recent for that year
       const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
       setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
+      gaQuarter = newestQuarter;
     }
     setSelectedYear(option);
-    
-    analyticsHandler("Year-Quarter Selection", selectedYear.value + '-' + selectedQuarter.value);
-
     setQuarters(yearToQuartersMap[option.label].map((quarter) => ({
       label: quarterNumToTerm(quarter),
       value: quarter
     })));
+    analyticsHandler("Year-Quarter Selection", option.value + '-' + gaQuarter);
   }, [selectedYear, data, nonUSCurrency, currencyMap]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
