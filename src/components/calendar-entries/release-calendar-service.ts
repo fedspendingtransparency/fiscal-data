@@ -23,7 +23,7 @@ export class ReleaseCalendarService {
   private _intervalId: number;
   private _releaseCalendarUpdated: ReplaySubject<IReleaseCalendarEntry[]>
     = new ReplaySubject<IReleaseCalendarEntry[]>(1);
-  private _releaseCalendarObservable: Observable<IReleaseCalendarEntry[]>;
+  private _releaseCalendarObservable: Observable<IReleaseCalendarEntry[]> = this._releaseCalendarUpdated.asObservable();
 
   constructor() {
     // Updates shouldn't occur for the build (server-side). Updates use
@@ -51,8 +51,7 @@ export class ReleaseCalendarService {
    * return Observable for continued updates.
    */
   public entriesUpdated(): Observable<IReleaseCalendarEntry[]> {
-    return this._releaseCalendarUpdated.asObservable(); // TODO: Make this a private variable and return it here
-    // return this._releaseCalendarObservable;
+    return this._releaseCalendarObservable;
   }
 
   private _indexReleaseCalendarData(): void {

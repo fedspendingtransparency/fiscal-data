@@ -24,8 +24,6 @@ export const useReleaseCalendarEntriesUpdater =
       });
   }, []);
 
-  // TODO: Add useEffect that calls callback to unsubscribe
-
   useEffect(() => () => {
       subscription.current.unsubscribe();
     }
