@@ -63,6 +63,7 @@ export const paleBg: string;
 export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
+export const diveDeeperLink: string;
 export const diveDeeperQuoteRight: string;
 export const diveDeeperQuote: string;
 export const diveDeeperQuoteLeft: string;

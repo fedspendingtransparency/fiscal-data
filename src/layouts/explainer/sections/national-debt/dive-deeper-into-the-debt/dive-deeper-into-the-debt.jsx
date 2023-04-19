@@ -8,6 +8,7 @@ import {
   diveDeeperQuote,
   diveDeeperQuoteLeft,
   diveDeeperQuoteRight,
+  diveDeeperLink
 } from './dive-deeper-into-the-debt.module.scss';
 
 
@@ -16,10 +17,12 @@ const DiveDeeperIntoTheDebt = () => {
     'Fiscal Data and check out the extensive resources listed below.';
   return (
     <>
-      <LearnMoreSection
-        links={debtLearnMoreLinks}
-        description={description}
-      />
+      <div className={diveDeeperLink}>
+        <LearnMoreSection
+          links={debtLearnMoreLinks}
+          description={description}
+        />
+      </div>
       <div className={diveDeeperQuoteRight}>
         <img src={benFranklin} alt="" />
         <div>
