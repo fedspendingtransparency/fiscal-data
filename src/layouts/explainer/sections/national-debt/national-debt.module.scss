@@ -35,48 +35,6 @@
   margin-top: 1rem;
 }
 
-.fundingProgramAccordion {
-  margin-bottom:0;
-  margin-top: 2rem;
-}
-
-.spendingCategoriesAccordionContent {
-  p {
-    margin-top: 0.438rem;
-  }
-  .spendingCategoriesTable {
-    .row {
-      display: flex;
-
-      .firstColumn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 72px;
-        min-width: 50px;
-      }
-
-      .secondColumn {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      p {
-        margin: 0;
-      }
-    }
-    .row:first-child {
-      padding-top: 2.25rem;
-    }
-
-    .icon {
-      font-size: $font-size-36;
-      color: $debt-explainer-light-secondary;
-    }
-  }
-}
-
 .DebtOverLast100yContainer{
   margin-bottom: 1rem;
 }
@@ -212,22 +170,6 @@
       margin-left: 2rem;
     }
   }
-  .spendingCategoriesAccordionContent {
-    .spendingCategoriesTable {
-
-      .firstColumn {
-        padding-right: 31px;
-      }
-
-      .row {
-        padding-bottom: .5rem;
-      }
-
-      .row:not(:last-child) {
-        padding-bottom: 1.75rem;
-      }
-    }
-  }
 
   .debtTrendsOverTimeSectionGraphContainer {
     margin-bottom: 2.75rem;
@@ -291,18 +233,6 @@
       margin-left: 1rem;
     }
   }
-  .spendingCategoriesAccordionContent {
-    .spendingCategoriesTable {
-      .firstColumn {
-        padding-right: 21px;
-      }
-
-      .row:not(:last-child) {
-        padding-bottom: 30px;
-      }
-    }
-  }
-
 
   .postGraphContent {
     h3 {
