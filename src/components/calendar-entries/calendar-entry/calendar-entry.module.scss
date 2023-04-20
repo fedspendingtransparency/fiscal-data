@@ -4,13 +4,23 @@
   display: flex;
   justify-content: space-between;
   max-width: 1140px;
-  width: 100%;
-  margin-bottom: 16px;
   padding: 25px 94px 25px 24px;
-  border: solid 1px $dark-grey-border;
   border-radius: 5px;
   background-color: #fff;
+  border: solid 1px #d6d7d9;
   cursor: pointer;
+  width: 100%;
+  color: $card-body;
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.0);
+  transform: translateY(0);
+  transition: box-shadow 0.5s ease, translateY 0.5s ease;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+
+  &:hover {
+    box-shadow: 0 2px 4px 0px rgba(0,0,0,0.2);
+    transform: translateY(-1px);
+  }
 
   .titleAndIcon {
     display: flex;
@@ -18,13 +28,11 @@
     .title {
       text-align: left;
       font-size: 1.3125rem;
+      color: $font-body-copy;
+      font-weight: $semi-bold-weight;
 
       &:not(:hover) {
         text-decoration: none;
-      }
-
-      &:not(:visited) {
-        color: $primary;
       }
     }
   }
