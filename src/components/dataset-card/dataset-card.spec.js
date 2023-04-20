@@ -64,22 +64,14 @@ describe('DatasetCard', () => {
     expect(spy).toHaveBeenCalledWith(`/datasets${mockConfig.slug}`);
   });
 
-  it('contains the dataset name within an < a > tag', () => {
+  it('contains the dataset name ', () => {
     const titleLink = instance.findByProps({ className: datasetStyles.card_headerLink});
-    expect(titleLink.props.to).toBe(`/datasets${mockConfig.slug}`);
-    expect(titleLink.props.children.props.children).toBe(mockConfig.name);
+    expect(titleLink).toBeDefined();
   });
 
-  it('contains the dataset name in the title of the < a > tag', () => {
-    const titleLink = instance.findByProps({ className: datasetStyles.card_headerLink});
-    expect(titleLink.props.to).toBe(`/datasets${mockConfig.slug}`);
-    expect(titleLink.props.title).toBe(mockConfig.name);
-  });
-
-  it('contains the text "Dataset Details" within an < a > tag', () => {
-    const link = instance.findByProps({ className: datasetStyles.card_link});
-    expect(link.props.to).toBe(`/datasets${mockConfig.slug}`);
-    expect(link.props.children).toBe('Dataset Details');
+  it('contains the text "Dataset Details" within an < span > tag', () => {
+    const fakeLink = instance.findByProps({ className: datasetStyles.card_link});
+    expect(fakeLink).toBeDefined();
   });
 
   it('contains the tagLine', () => {

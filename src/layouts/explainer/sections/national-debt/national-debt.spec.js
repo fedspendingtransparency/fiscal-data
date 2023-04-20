@@ -4,13 +4,9 @@ import {
   act,
 } from '@testing-library/react';
 import nationalDebtSections, {
-  DebtCeilingSection,
-  debtCeilingSectionAccordionTitle,
   nationalDebtDataSources,
   nationalDebtDescriptionGenerator,
   nationalDebtDescriptionAppendix,
-  FundingProgramsSection,
-  DebtTrackingSection
 } from "./national-debt";
 import {
   mockExplainerPageResponse,
@@ -46,17 +42,6 @@ describe('National Debt explainer page sections', () => {
 
 jest.mock('../../../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
-});
-
-
-describe('The Debt Ceiling', () => {
-  it('contains an accordion', () => {
-    const { getByText } = render(
-      <DebtCeilingSection />
-    );
-
-    expect(getByText(debtCeilingSectionAccordionTitle)).toBeInTheDocument();
-  });
 });
 
 describe('Data Sources & Methodologies', () => {

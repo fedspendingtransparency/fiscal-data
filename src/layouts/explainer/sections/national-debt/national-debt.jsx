@@ -1,19 +1,14 @@
 import React from "react";
-import Accordion from "../../../../components/accordion/accordion";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import { apiPrefix, basicFetch } from "../../../../utils/api-utils";
 import { datasetSectionConfig } from "../../explainer-helpers/explainer-helpers";
 import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
 import DiveDeeperIntoTheDebt from './dive-deeper-into-the-debt/dive-deeper-into-the-debt';
 import {analyticsClickHandler} from '../../explainer-helpers/national-debt-helper';
-import {
-  //Accordion styling
-  debtAccordion,
-  debtCeilingAccordion,
-} from "./national-debt.module.scss";
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
 import BreakingDownTheDebt from "./breaking-down-the-debt/breaking-down-the-debt";
 import { GrowingNationalDebtSection } from "./growing-national-debt/growing-national-debt";
+import DebtCeilingSection from "./debt-ceiling/debt-ceiling";
 import FundingProgramsAndServices
   from './funding-programs-and-services/funding-programs-and-services';
 import TrackingTheDebt from './tracking-the-debt/tracking-the-debt';
@@ -30,8 +25,6 @@ export const nationalDebtSectionIds = [
   "tracking-the-debt",
   "dive-deeper-into-the-debt",
 ];
-
-
 
 export const visualizingTheDebtTableContent = {
   desktop: {
@@ -50,44 +43,6 @@ export const percentageFormatter = value =>
   (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + "%";
 export const trillionsFormatter = value =>
   `$${(Number(value) / 1000000).toFixed(2)} T`;
-
-export const debtCeilingSectionAccordionTitle =
-  "How is the debt ceiling different from a government shutdown?";
-
-export const DebtCeilingSection = () => (
-  <>
-    <p>
-      The debt ceiling, or debt limit, is a restriction imposed by Congress on
-      the amount of outstanding national debt that the federal government can
-      have. The debt ceiling is the amount that the Treasury can borrow to pay
-      the bills that have become due and pay for future investments. Once the
-      debt ceiling is reached, the federal government cannot increase the amount
-      of outstanding debt, losing the ability to pay bills and fund programs and
-      services. However, the Treasury can use extraordinary measures authorized
-      by Congress to temporarily suspend certain intragovernmental debt allowing
-      it to borrow to fund programs or services for a limited amount of time
-      after it has reached the ceiling.
-    </p>
-    <p>
-      Since the United States has never defaulted on its obligations, the scope
-      of the negative repercussions related to a default are unknown but would
-      likely have catastrophic repercussions in the United States and in markets
-      across the globe.
-    </p>
-    <div className={debtAccordion}>
-      <Accordion
-        title={debtCeilingSectionAccordionTitle}
-        containerClass={debtCeilingAccordion}
-        openEventNumber="28"
-        closeEventNumber="29"
-        explainerGAEvent="Debt"
-      >
-        Government shutdowns occur when annual funding for ongoing federal
-        government operations expires, and Congress does not renew it in time.
-      </Accordion>
-    </div>
-  </>
-);
 
 
 const nationalDebtSections = [

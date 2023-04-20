@@ -90,7 +90,6 @@ export const footerContainer: string;
 export const lineChartContainer: string;
 export const postGraphContent: string;
 export const debtAccordion: string;
-export const debtCeilingAccordion: string;
 export const deficitAccordion: string;
 export const mainContainer: string;
 export const topContainer: string;
