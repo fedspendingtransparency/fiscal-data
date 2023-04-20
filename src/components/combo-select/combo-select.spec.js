@@ -4,7 +4,7 @@ import {fireEvent, waitFor, render, within} from "@testing-library/react";
 import ComboSelect from './combo-select';
 import {mockOptions} from "./combo-select-test-helper";
 import Analytics from "../../utils/analytics/analytics";
-
+import userEvent from '@testing-library/user-event'
 
 describe('The ComboSelect Component for Published Report year filtering', () => {
   let component = renderer.create();
@@ -362,8 +362,6 @@ describe('The ComboSelect Component for general text use', () => {
     });
   });
 
-
-  //// this test passes when it shouldn't.. take out the checks on blur to get to fail correctly 
   it('does not call analytic event when combo box is initially clicked then cleared with x icon', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const {getByTestId} = render(
@@ -375,17 +373,22 @@ describe('The ComboSelect Component for general text use', () => {
       />);
 
     const comboBox = getByTestId('combo-box');
-    fireEvent.click(comboBox);
-    fireEvent.change(comboBox, {target: { value:'B'}});
+    await userEvent.click(comboBox);
     
     const clearButton = getByTestId('clear-button');
-    fireEvent.click(clearButton);
+    await userEvent.click(clearButton);
 
-    await waitFor(() => {getByTestId('dropdown-button')});
- 
-    // supposed to not be called but passing when it shouldn't
-    // expect(spy).not.toHaveBeenCalled();
-    expect(spy).toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Country-Currency Search`,
+      label: 'Abcd-money'
+    });
+
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Country-Currency Selected`,
+      label: 'Abcd-money'
+    });
   });
 
   it('does not call analytic event when combo box input is empty', async() => {
@@ -403,7 +406,17 @@ describe('The ComboSelect Component for general text use', () => {
     fireEvent.change(comboBox, {target: { value:''}});
     fireEvent.focusOut(comboBox);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Country-Currency Search`,
+      label: ''
+    });
+
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Country-Currency Selected`,
+      label: ''
+    });
   });
 
   it('calls the appropriate analytics event when country is selected from drop down', async() => {
