@@ -51,8 +51,6 @@
 }
 
 
-
-
 @media screen and (max-width: $breakpoint-lg - 1) {
   .chartContainer {
     padding: 1.25rem 1.125rem;
@@ -61,8 +59,8 @@
       font-size: $font-size-16;
     }
 
-    .footerContainer {
-      font-size: $font-size-12;
+    .chartSubTitle {
+      font-size: $font-size-14;
     }
   }
   .headerContainer {

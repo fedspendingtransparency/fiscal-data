@@ -82,6 +82,7 @@ const SiteFooter = () => {
             className={styles.logo}
             to="/"
             onClick={() => clickHandler('Logo')}
+            aria-label={'Redirect to Fiscal Data homepage'}
           >
             <StaticImage
               src="../../images/logos/fd-logo-ko.svg"
@@ -90,6 +91,7 @@ const SiteFooter = () => {
               width={171}
               placeholder="tracedSVG"
               layout="fixed"
+              aria-label={'Fiscal Data logo'}
             />
           </Link>
           <div className={styles.pageLinks}>

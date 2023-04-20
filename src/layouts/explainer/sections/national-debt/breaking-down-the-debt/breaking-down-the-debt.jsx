@@ -9,10 +9,10 @@ import VisualizationCallout
 import Multichart from "../../../multichart/multichart";
 import Accordion from "../../../../../components/accordion/accordion";
 import {
-  analyticsClickHandler,
   chartPatternBackground,
   nationalDebtSectionConfigs, spendingLink
 } from "../national-debt";
+import {analyticsClickHandler} from '../../../explainer-helpers/national-debt-helper';
 import React, {useEffect, useState} from "react";
 import {
   breakpointLg,
@@ -23,14 +23,24 @@ import {
 } from "../../../../../variables.module.scss";
 import {chartBackdrop, visWithCallout} from "../../../explainer.module.scss";
 import {
-  aveInterestLegend, debtAccordion,
-  debtBreakdownSectionGraphContainer, debtLegend,
-  footerContainer, header,
-  headerContainer, multichartContainer, multichartLegend,
-  multichartWrapper, postGraphAccordionContainer,
-  postGraphContent, subHeader,  title,
-  simple,
+  debtAccordion,
+  postGraphAccordionContainer,
+  postGraphContent,
 } from "../national-debt.module.scss";
+import {
+  aveInterestLegend,
+  debtLegend,
+  debtBreakdownSectionGraphContainer,
+  multichartContainer,
+  multichartLegend,
+  header,
+  headerContainer,
+  subHeader,
+  title,
+  simple,
+  footerContainer,
+  multichartWrapper,
+} from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart
   from "./intragovernmental-holdings-chart/intragovernmental-holdings-chart";
 import {getDateWithoutOffset} from "../../../explainer-helpers/explainer-helpers";
@@ -359,7 +369,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
         Administration, has not increased significantly in recent years,
         resulting in this slower intragovernmental holding increase.
       </p>
-      <IntragovernmentalHoldingsChart sectionId={sectionId} data={data} date={date} />
+      <IntragovernmentalHoldingsChart sectionId={sectionId} data={data} date={date} width={width} />
       <div className={postGraphContent} id={'maintaining-national-debt'}>
         <h3>Maintaining the National Debt</h3>
         <p>

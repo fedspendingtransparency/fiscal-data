@@ -8,7 +8,7 @@
 
 .container {
   overflow: hidden;
-  
+
   .lineChart {
     width: 100%;
     margin-top: .625rem;
@@ -34,27 +34,12 @@
       }
     }
   }
-  
-}
-
-@media screen and (min-width: $breakpoint-lg - 1) {
-  :global(.chartContainerChart) {
-    max-width: 484px !important;
-  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerHeader) {
     margin-top: .125rem;
     margin-bottom: 0 !important;
-  }
-
-  :global(.chartContainerFooter) {
-    font-size: $font-size-14 !important;
-  }
-
-  :global(.chartContainerSubTitle) {
-    font-size: $font-size-14 !important;
   }
 
   :global(.chartContainerFooter) {
@@ -72,7 +57,7 @@
       div {
         text-align: center;
         min-width: 110px !important;
-        
+
           .header {
             font-size: $font-size-24;
             line-height: $font-size-24;
@@ -82,7 +67,7 @@
             font-size: $font-size-10;
             margin: 0 1rem;
           }
-        
+
       }
     }
   }

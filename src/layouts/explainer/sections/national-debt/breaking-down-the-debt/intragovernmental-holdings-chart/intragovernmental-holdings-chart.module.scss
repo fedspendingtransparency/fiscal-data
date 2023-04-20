@@ -1,0 +1,16 @@
+@import '../../../../../../variables.module.scss';
+
+.barChartContainer {
+  width: 100%;
+}
+
+.title {
+  margin-bottom: 18px;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .title {
+    font-size: $font-size-12;
+    margin-bottom: 12px;
+  }
+}
