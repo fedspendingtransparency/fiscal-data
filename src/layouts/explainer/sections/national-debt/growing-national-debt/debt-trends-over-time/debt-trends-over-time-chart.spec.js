@@ -1,4 +1,4 @@
-import {render, waitFor} from "@testing-library/react";
+import {act, render, waitFor} from "@testing-library/react";
 import {fireEvent} from "@testing-library/dom";
 import {nationalDebtSectionIds} from "../../national-debt";
 import React from "react";
@@ -6,8 +6,7 @@ import {determineBEAFetchResponse} from "../../../../../../utils/mock-utils";
 import {mockBeaGDPData, mockExplainerPageResponse} from "../../../../explainer-test-helper";
 import Analytics from "../../../../../../utils/analytics/analytics";
 import {DebtTrendsOverTimeChart} from "./debt-trends-over-time-chart";
-import fetchMock from "fetch-mock";
-
+import globalConstants from "../../../../../../helpers/constants";
 
 jest.useFakeTimers();
 
@@ -24,7 +23,6 @@ describe('The Growing National Debt', () => {
     global.fetch.mockReset();
   });
 
-
   it('contains the debt trends line chart', async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const { findByTestId } = render(
@@ -33,7 +31,7 @@ describe('The Growing National Debt', () => {
     await waitFor(() => expect(fetchSpy).toBeCalled());
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
-  })
+  });
 
   it('Renders the chart point', async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
@@ -120,5 +118,26 @@ describe('The Growing National Debt', () => {
       label: 'Debt - Federal Debt Trends Over Time'
     });
     jest.runAllTimers();
-  })
+  });
+
+  it('fails gracefully with error message after 3 fetch attempts', async () => {
+    global.fetch.mockReset();
+    global.fetch = jest.fn(() => Promise.reject({ ok: false }));
+    const fetchErrorSpy = jest.spyOn(global, "fetch");
+    const { queryAllByTestId } = render(
+      <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
+    );
+    await act(async () => {
+
+      // use simple 'for' loop to enforce awaits in async code
+      for (let attempts = 0; attempts < globalConstants.DEFAULT_FETCH_RETRIES; attempts++) {
+        jest.runAllTimers(); // wait for all async state updates between fetch attempts
+        expect(queryAllByTestId('error-message').length).toBe(0); // no error message until all tries are done
+        await waitFor(() => expect(fetchErrorSpy).toBeCalled()); // expect fetch retry for each iteration
+        jest.advanceTimersByTime(globalConstants.DEFAULT_FETCH_RETRY_TIMER);
+      }
+      await waitFor(() => expect(fetchErrorSpy).toHaveBeenCalledTimes(globalConstants.DEFAULT_FETCH_RETRIES));
+      expect(queryAllByTestId('error-message').length).toBe(1);
+    });
+  });
 });

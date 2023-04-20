@@ -39,7 +39,7 @@
   margin-bottom: 1rem;
 }
 
-.growingNationalDebtSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
+.growingNationalDebtSectionGraphContainer {
   background-color: $body-background;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -92,14 +92,6 @@
     p {
       margin-bottom: 0;
     }
-  }
-}
-
-.debtTrendsOverTimeSectionGraphContainer {
-  overflow: hidden;
-  .lineChartContainer {
-    width: 100%;
-    margin: 0 auto;
   }
 }
 
@@ -171,11 +163,7 @@
     }
   }
 
-  .debtTrendsOverTimeSectionGraphContainer {
-    margin-bottom: 2.75rem;
-  }
-
-  .growingNationalDebtSectionGraphContainer, .debtTrendsOverTimeSectionGraphContainer {
+  .growingNationalDebtSectionGraphContainer {
     padding-top: 22px;
     padding-left: 22px;
     padding-right: 22px;
@@ -238,50 +226,6 @@
     h3 {
       font-size: $font-size-24;
       padding-bottom: .5rem;
-    }
-  }
-
-
-  .debtTrendsOverTimeSectionGraphContainer {
-    font-size: $font-size-10;
-    padding: 14px;
-    margin-top: 2rem;
-
-    .lineChartContainer {
-      max-width: 464px;
-    }
-
-    .headerContainer {
-      margin-bottom: 1.25rem;
-    }
-
-    .title {
-      font-size: $font-size-12;
-    }
-
-    .subTitle {
-      font-size: $font-size-12;
-    }
-
-    .titleBreakdown {
-      font-size: $font-size-12;
-    }
-
-    .header {
-      font-size: $font-size-24;
-      min-width: 110px;
-    }
-
-    .subHeader {
-      font-size: $font-size-10;
-    }
-
-    .footerContainer {
-      padding-top: 0;
-
-      p {
-        font-size: $font-size-12;
-      }
     }
   }
 
