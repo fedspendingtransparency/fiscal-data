@@ -450,7 +450,11 @@ describe('exchange rates converter', () => {
 
     jest.advanceTimersByTime(5000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Effective Date Info'
+    });
     jest.runAllTimers();
   });
 
@@ -466,7 +470,11 @@ describe('exchange rates converter', () => {
 
     jest.advanceTimersByTime(1000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Effective Date Info'
+    });
     jest.runAllTimers();
   });
 
@@ -502,7 +510,11 @@ describe('exchange rates converter', () => {
     fireEvent.focusOut(foreignCurrencyInfo);
     jest.advanceTimersByTime(5000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Foreign Currency Info'
+    });
     jest.runAllTimers();
   });
 
@@ -517,7 +529,11 @@ describe('exchange rates converter', () => {
     fireEvent.mouseOver(foreignCurrencyInfo);
     jest.advanceTimersByTime(1000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Foreign Currency Info'
+    });
     jest.runAllTimers();
   });
 
@@ -587,7 +603,11 @@ describe('exchange rates converter', () => {
 
     jest.advanceTimersByTime(1000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Currency Value Entered`,
+      label: '1.23'
+    });
     jest.runAllTimers();
   });
 
@@ -603,7 +623,11 @@ describe('exchange rates converter', () => {
 
     jest.advanceTimersByTime(5000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Foreign Currency Value Entered`,
+      label: ''
+    });
     jest.runAllTimers();
   });
   
@@ -640,7 +664,11 @@ describe('exchange rates converter', () => {
     fireEvent.change(usBox, {target: { value:'123.45'}});
     jest.advanceTimersByTime(1000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `USD Value Entered`,
+      label: '123.45'
+    });
     jest.runAllTimers();
   });
 
@@ -656,7 +684,11 @@ describe('exchange rates converter', () => {
     fireEvent.change(usBox, {target: { value:''}});
     jest.advanceTimersByTime(5000);
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `USD Value Entered`,
+      label: ''
+    });
     jest.runAllTimers();
   });
 })
