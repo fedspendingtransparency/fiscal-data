@@ -10,8 +10,9 @@ import Multichart from "../../../multichart/multichart";
 import Accordion from "../../../../../components/accordion/accordion";
 import {
   chartPatternBackground,
-  nationalDebtSectionConfigs, spendingLink
+  nationalDebtSectionConfigs
 } from "../national-debt";
+import { spendingLink } from '../../../explainer-helpers/national-debt-helper';
 import {analyticsClickHandler} from '../../../explainer-helpers/national-debt-helper';
 import React, {useEffect, useState} from "react";
 import {

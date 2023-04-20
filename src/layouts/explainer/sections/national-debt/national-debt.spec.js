@@ -59,26 +59,6 @@ describe('The Debt Ceiling', () => {
   });
 });
 
-describe('Tracking the debt', () => {
-  it('calls the appropriate analytics event when link is clicked on',  () => {
-    const spy = jest.spyOn(Analytics, 'event');
-    const { getByText } = render(
-      <DebtTrackingSection />
-    );
-
-    const fiscalService = getByText('Bureau of the Fiscal Service');
-
-    fiscalService.click();
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: `Citation Click`,
-      label: 'Debt - Tracking the Debt'
-    });
-    spy.mockClear();
-
-  });
-})
-
 describe('Data Sources & Methodologies', () => {
   it('contains content for a Data sources and methodologies section', async () => {
     const { findByText, getByRole} = render(

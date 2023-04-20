@@ -5,7 +5,7 @@ import {postGraphAccordionContainer} from "../national-debt.module.scss";
 import DebtOverLast100y from "./debt-over-last-100y-linechart/debt-over-last-100y-linechart";
 import {DebtTrendsOverTimeChart} from "./debt-trends-over-time/debt-trends-over-time-chart";
 import React from "react";
-import {spendingLink} from "../national-debt";
+import {spendingLink} from "../../../explainer-helpers/national-debt-helper";
 import {VisualizingTheDebtAccordion} from "./debt-accordion/visualizing-the-debt-accordion";
 
 export const GrowingNationalDebtSection = withWindowSize(
