@@ -418,25 +418,6 @@ describe('exchange rates converter', () => {
     });
   });
 
-  it('calls the appropriate analytics event when Effective Date info tip is hovered over', async() => {
-    const spy = jest.spyOn(Analytics, 'event');
-    const { getByTestId } = render(
-      <CurrencyExchangeRatesConverter />
-    );
-    await waitFor(() => getByTestId('effective-date-info-tip'));
-
-    const effectiveDateInfo = getByTestId('effective-date-info-tip');
-    fireEvent.mouseOver(effectiveDateInfo);
-    jest.advanceTimersByTime(5000);
-
-    expect(spy).toHaveBeenCalledWith({
-      category: 'Exchange Rates Converter',
-      action: `Additional Info Hover`,
-      label: 'Additional Effective Date Info'
-    });
-    jest.runAllTimers();
-  });
-
   it('does not call analytic event when Effective Date info tip is hovered over and left before 3 seconds', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(
@@ -478,29 +459,28 @@ describe('exchange rates converter', () => {
     jest.runAllTimers();
   });
 
-
-  it('calls the appropriate analytics event when Foreign Currency info tip is hovered over', async() => {
+  it('calls the appropriate analytics event when Effective Date info tip is hovered over', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
     );
-    await waitFor(() => getByTestId('foreign-currency-info-tip'));
+    await waitFor(() => getByTestId('effective-date-info-tip'));
 
-    const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
-    fireEvent.mouseOver(foreignCurrencyInfo);
+    const effectiveDateInfo = getByTestId('effective-date-info-tip');
+    fireEvent.mouseOver(effectiveDateInfo);
     jest.advanceTimersByTime(5000);
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Additional Info Hover`,
-      label: 'Additional Foreign Currency Info'
+      label: 'Additional Effective Date Info'
     });
     jest.runAllTimers();
   });
 
   it('does not call analytics event when Foreign Currency info tip is hovered over and left before 3 seconds', async() => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByTestId } = render(
+    const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
     );
     await waitFor(() => getByTestId('foreign-currency-info-tip'));
@@ -520,7 +500,7 @@ describe('exchange rates converter', () => {
 
   it('does not call analytics event when Foreign Currency info tip is hovered over in first 3 seconds', async() => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByTestId } = render(
+    const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
     );
     await waitFor(() => getByTestId('foreign-currency-info-tip'));
@@ -530,6 +510,25 @@ describe('exchange rates converter', () => {
     jest.advanceTimersByTime(1000);
 
     expect(spy).not.toHaveBeenCalledWith({
+      category: 'Exchange Rates Converter',
+      action: `Additional Info Hover`,
+      label: 'Additional Foreign Currency Info'
+    });
+    jest.runAllTimers();
+  });
+
+  it('calls the appropriate analytics event when Foreign Currency info tip is hovered over', async() => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(
+      <CurrencyExchangeRatesConverter />
+    );
+    await waitFor(() => getByTestId('foreign-currency-info-tip'));
+
+    const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
+    fireEvent.mouseOver(foreignCurrencyInfo);
+    jest.advanceTimersByTime(5000);
+
+    expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Additional Info Hover`,
       label: 'Additional Foreign Currency Info'
@@ -579,14 +578,14 @@ describe('exchange rates converter', () => {
     await waitFor(() => getByText('U.S. Dollar'));
 
     const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
-    fireEvent.change(nonUSBox, {target: { value:'1.23'}});
+    fireEvent.change(nonUSBox, {target: { value:'1.11'}});
 
     jest.advanceTimersByTime(5000);
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Currency Value Entered`,
-      label: '1.23'
+      label: '1.11'
     });
     jest.runAllTimers();
   });
@@ -599,14 +598,14 @@ describe('exchange rates converter', () => {
     await waitFor(() => getByTestId('box-container'));
 
     const nonUSBox = within(getByTestId('box-container')).getByTestId('input-dropdown');
-    fireEvent.change(nonUSBox, {target: { value:'1.23'}});
+    fireEvent.change(nonUSBox, {target: { value:'2.22'}});
 
     jest.advanceTimersByTime(1000);
 
     expect(spy).not.toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Currency Value Entered`,
-      label: '1.23'
+      label: '2.22'
     });
     jest.runAllTimers();
   });
@@ -640,14 +639,14 @@ describe('exchange rates converter', () => {
 
     const usBox = within(getByTestId('box-container')).getByTestId('input');
 
-    fireEvent.change(usBox, {target: { value:'123.45'}});
+    fireEvent.change(usBox, {target: { value:'111.11'}});
 
     jest.advanceTimersByTime(5000);
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `USD Value Entered`,
-      label: '123.45'
+      label: '111.11'
     });
     jest.runAllTimers();
   });
@@ -661,13 +660,13 @@ describe('exchange rates converter', () => {
 
     const usBox = within(getByTestId('box-container')).getByTestId('input');
 
-    fireEvent.change(usBox, {target: { value:'123.45'}});
+    fireEvent.change(usBox, {target: { value:'222.22'}});
     jest.advanceTimersByTime(1000);
 
     expect(spy).not.toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `USD Value Entered`,
-      label: '123.45'
+      label: '222.22'
     });
     jest.runAllTimers();
   });
