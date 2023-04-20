@@ -1,13 +1,11 @@
 @import '../../../../../../variables.module.scss';
 
-.debtTrendsOverTimeSectionGraphContainer {
+.container {
   overflow: hidden;
   .lineChartContainer {
     width: 100%;
     margin: 0 auto;
   }
-  background-color: $body-background;
-  margin-top: 1rem;
   margin-bottom: 1rem;
 
   .title {
@@ -62,11 +60,8 @@
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-  .debtTrendsOverTimeSectionGraphContainer {
+  .container {
     margin-bottom: 2.75rem;
-    padding-top: 22px;
-    padding-left: 22px;
-    padding-right: 22px;
 
     .title {
       font-size: $font-size-18;
