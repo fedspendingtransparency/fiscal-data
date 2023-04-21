@@ -22,13 +22,13 @@ describe('PageButtons component', () => {
   });
 
   it('renders a next button that is active when active page is not last page', () => {
-    const nextButton = instance.findByProps({'id': 'page-next'});
+    const nextButton = instance.findByProps({'id': `${tableName}-page-next`});
     expect(nextButton).toBeDefined();
     expect(nextButton.props.disabled).toBeFalsy();
   });
 
   it('renders a previous button that is disabled when active page is 1', () => {
-    const prevButton = instance.findByProps({'id': 'page-prev'});
+    const prevButton = instance.findByProps({'id': `${tableName}-page-prev`});
     expect(prevButton).toBeDefined();
     expect(prevButton.props.disabled).toBeTruthy();
   });
@@ -38,7 +38,7 @@ describe('PageButtons component', () => {
     renderer.act(() => {
       component.update(<PageButtons pageButtonProps={pageButtonProps} />);
     });
-    const nextButton = instance.findByProps({'id': 'page-next'});
+    const nextButton = instance.findByProps({'id': `${tableName}-page-next`});
     expect(nextButton).toBeDefined();
     expect(nextButton.props.disabled).toBeTruthy();
   });
