@@ -7,6 +7,9 @@ import {DebtTrendsOverTimeChart} from "./debt-trends-over-time/debt-trends-over-
 import React from "react";
 import {spendingLink} from "../national-debt";
 import {VisualizingTheDebtAccordion} from "./debt-accordion/visualizing-the-debt-accordion";
+import { debtExplainerPrimary } from "../../../../../variables.module.scss";
+import VisualizationCallout from "../../../../../components/visualization-callout/visualization-callout";
+import { visWithCallout } from "../../../explainer.module.scss";
 
 export const GrowingNationalDebtSection = withWindowSize(
   ({ sectionId, glossary, cpiDataByYear, width }) => {
@@ -61,7 +64,7 @@ export const GrowingNationalDebtSection = withWindowSize(
           16.7 trillion.
         </p>
         {!beaGDPData.isGDPLoading && (
-          <DebtTrendsOverTimeChart sectionId={sectionId} beaGDPData={beaGDPData} width={width} />
+            <DebtTrendsOverTimeChart sectionId={sectionId} beaGDPData={beaGDPData} width={width} />
         )}
         <div className={postGraphAccordionContainer}>
           <VisualizingTheDebtAccordion width={width} />

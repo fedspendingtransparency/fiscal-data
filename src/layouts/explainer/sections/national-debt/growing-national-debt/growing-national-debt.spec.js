@@ -86,15 +86,15 @@ describe('The Growing National Debt', () => {
   });
 
 
-  it('contains the chart', async () => {
-    const { findByTestId } = render(
+  it('contains the two charts contained in this section', async () => {
+    const { findAllByTestId } = render(
       <GrowingNationalDebtSection sectionId={sectionId}
                                   glossary={glossary}
                                   cpiDataByYear={mockCpiDataset}
       />
     );
-
-    expect(await findByTestId('chart')).toBeInTheDocument();
+    const allCharts = await findAllByTestId('chart');
+    expect(allCharts.length).toStrictEqual(2);
   })
 
 
