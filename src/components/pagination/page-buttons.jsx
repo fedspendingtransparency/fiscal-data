@@ -98,6 +98,7 @@ const PageButtons = ({ pageButtonProps }) => {
         onClick={() => handlePrev()}
         disabled={currentPage-1 <= 0}
         className={styles.arrow}
+        aria-label='Previous Page'
       >
         <ChevronLeftIcon variant="outlined" size="small" />
       </button>
@@ -109,6 +110,7 @@ const PageButtons = ({ pageButtonProps }) => {
         onClick={() => handleNext()}
         disabled={currentPage + 1 > maxPage}
         className={styles.arrow}
+        aria-label='Next Page'
       >
         <ChevronRightIcon variant="outlined" size="small" />
       </button>
