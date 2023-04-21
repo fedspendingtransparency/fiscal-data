@@ -84,4 +84,3 @@ export const footerContainer: string;
 export const lineChartContainer: string;
 export const postGraphContent: string;
 export const debtAccordion: string;
-export const debtCeilingAccordion: string;

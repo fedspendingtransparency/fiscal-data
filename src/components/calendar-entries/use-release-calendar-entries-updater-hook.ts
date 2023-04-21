@@ -24,5 +24,10 @@ export const useReleaseCalendarEntriesUpdater =
       });
   }, []);
 
+  useEffect(() => () => {
+      subscription.current.unsubscribe();
+    }
+  , [])
+
   return output;
 };

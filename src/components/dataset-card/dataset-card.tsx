@@ -53,19 +53,15 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
     <MuiThemeProvider theme={theme}>
       <Card className={card} onClick={clickHandler}>
         <CardActionArea>
-          <Link
-            to={cardLink}
-            className={card_headerLink}
-            title={dataset.name}
-          >
+          <div className={card_headerLink}>
             <Truncator>{dataset.name}</Truncator>
-          </Link>
+          </div>
           <div className={card_tagLine}>
             <Truncator>{dataset.tagLine}</Truncator>
           </div>
           <DatasetStats dataset={dataset} />
           <DatasetTopicsSummary relatedTopics={dataset.relatedTopics} />
-          <Link to={cardLink} className={card_link}>Dataset Details</Link>
+          <span className={card_link}>Dataset Details</span>
         </CardActionArea>
       </Card>
     </MuiThemeProvider>
