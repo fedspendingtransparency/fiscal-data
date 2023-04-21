@@ -16,6 +16,8 @@ const globalConstants = {
   DATA_DOWNLOAD_STATUS_PREFIX: '/static-data/downloads',
   DATE_RELATED_META_TYPES: ['YEAR', 'QUARTER', 'MONTH', 'DAY', 'DATE'],
   ENDPOINTS_WITH_YEAR_MONTH_DATE_FORMAT: ['151', '152'],
+  DEFAULT_FETCH_RETRIES: 3,
+  DEFAULT_FETCH_RETRY_TIMER: 3000,
   breakpoints: {
     small: 600,
     medium: 768,
