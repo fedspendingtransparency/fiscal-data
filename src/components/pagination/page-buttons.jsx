@@ -74,6 +74,7 @@ const PageButtons = ({ pageButtonProps }) => {
             key={`${tableName}-ellipsis${index}`}
             id={`${tableName}-ellipsis${index}`}
             className={styles.ellipsis}
+            aria-label="Page number overflow ellipsis"
           >
             <FontAwesomeIcon icon={faEllipsisH} className={styles.ellipsis} />
           </button>
@@ -94,11 +95,11 @@ const PageButtons = ({ pageButtonProps }) => {
   return(
     <div className={styles.pagingButtons}>
       <button
-        id="page-prev"
+        id={`${tableName}-page-prev`}
         onClick={() => handlePrev()}
         disabled={currentPage-1 <= 0}
         className={styles.arrow}
-        aria-label='Previous Page'
+        aria-label="Previous page"
       >
         <ChevronLeftIcon variant="outlined" size="small" />
       </button>
@@ -106,11 +107,11 @@ const PageButtons = ({ pageButtonProps }) => {
         {renderPageButtons()}
       </span>
       <button
-        id="page-next"
+        id={`${tableName}-page-next`}
         onClick={() => handleNext()}
         disabled={currentPage + 1 > maxPage}
         className={styles.arrow}
-        aria-label='Next Page'
+        aria-label="Next page"
       >
         <ChevronRightIcon variant="outlined" size="small" />
       </button>
