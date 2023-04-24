@@ -2,7 +2,7 @@ import CustomLink from '../../../../../components/links/custom-link/custom-link'
 import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
 import QuoteBox from '../../../quote-box/quote-box';
 import React from 'react';
-import { deficitLink, spendingLink } from '../national-debt';
+import { deficitLink, spendingLink } from '../../../explainer-helpers/national-debt-helper';
 import { analyticsClickHandler } from '../../../explainer-helpers/national-debt-helper';
 import { debtExplainerLightSecondary, debtExplainerPrimary } from '../national-debt.module.scss';
 import SpendingCategoriesAccordion
