@@ -121,7 +121,6 @@ export class ReleaseCalendarService {
    */
   private _fetchReleaseCalendarEntries(date: Date): Promise<IReleaseCalendarEntry[]> {
     const releasedByDate: string = lightFormat(date, this.API_DATE_FORMAT);
-    console.log('RUNNING RELEASE CALENDAR REQUEST');
     return basicFetch(
       `${API_BASE_URL}${this.RELEASE_CALENDAR_URL}?released_by_date=${releasedByDate}`
     );
