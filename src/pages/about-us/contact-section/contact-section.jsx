@@ -202,143 +202,16 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
           >
             FAQ
           </Link> are the quickest ways to get an answer, but if you can’t find what you’re
-          looking for there or would like to make a suggestion, please fill out the form
-          below! Please note that required fields are denoted with an asterisk(
-          <span className={styles.required}>*</span>).
+          looking for there or would like to make a suggestion, please {' '}
+          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
+            contact us
+          </CustomLink> here.
           <br /><br />
           <i>
             Do not enter sensitive personal identifiable information such as SSN, address,
             phone number, date of birth, or driver's license number.
           </i>
         </p>
-        <div className={styles.contactUsForm}>
-          <div className={styles.formElement}>
-            <SelectControl options={dropdownOptions}
-                           label="Subject"
-                           optionLabelKey="label"
-                           selectedOption={subjectType}
-                           changeHandler={subjectValueChange}
-            />
-          </div>
-          <div className={styles.formElement}>
-            <label htmlFor="contactUsName" className={styles.label}>
-              Name
-            </label>
-            <input id="contactUsName"
-                   type="text"
-                   placeholder="Name"
-                   className={styles.textInput}
-                   disabled={(disabled) ? 'disabled': ''}
-            />
-          </div>
-          <form name="contactUsForm"
-                noValidate
-          >
-            <div className={styles.commentBoxSpacing}>
-              <label htmlFor="contactUsEmail"
-                     className={styles.label}
-              >
-                Email <span className={styles.required}>*</span>
-              </label>
-              {
-                emailError &&
-                <div className={styles.errorIcon}>
-                  <FontAwesomeIcon icon={faExclamationCircle} />
-                </div>
-              }
-              <input onBlur={checkForErrors}
-                     onChange={setIsDirty}
-                     required id="contactUsEmail"
-                     type="email"
-                     placeholder="Email"
-                     disabled={(disabled) ? 'disabled': ''}
-                     className={`${styles.textInput} ${emailError ? styles.error : ''}`}
-              />
-              {
-                emailError &&
-                  <div className={styles.errorMsg}>
-                    <span className={styles.required}>*</span>{' '}
-                    {emailErrorMsg}
-                  </div>
-              }
-            </div>
-            <div className={styles.commentBoxSpacing}>
-              <label htmlFor="contactUsComment" className={styles.label}>
-                Comment <span className={styles.required}>*</span>
-              </label>
-              {
-                commentError &&
-                  <div className={styles.errorIcon}>
-                    <FontAwesomeIcon icon={faExclamationCircle} />
-                  </div>
-              }
-              <textarea onBlur={checkForErrors}
-                        onChange={setIsDirty}
-                        required
-                        id="contactUsComment"
-                        disabled={(disabled) ? 'disabled': ''}
-                        className={
-                          `${styles.textInput} ${styles.comment} ${commentError ?
-                            styles.error : ""}`}
-              />
-              {
-                commentError &&
-                <div className={styles.errorMsg}>
-                  <span className={styles.required}>*</span> Required Field
-                </div>
-              }
-            </div>
-            <ReCAPTCHA sitekey="6LdyvrEZAAAAAPtSTHjmXgJ2oU8tVhBfpuMzHqa4"
-                       className={styles.recaptcha}
-                       ref={recaptchaRef}
-                       onChange={onChange}
-            />
-            {
-              (!isCallingAPI && showResponseMessage) && (isResponseSuccessful ?
-              <div data-test-id="successfulResponse"
-                   className={`${styles.responseMessage} ${styles.success}`}
-              >
-                <div>
-                  <FontAwesomeIcon icon={faCheckCircle} className={styles.responseIcon} />
-                  <div className={styles.responseTitle}>Thank you!</div>
-                </div>
-                <div className={styles.responseBody}>
-                  Your message has been received and will be reviewed. We appreciate{' '}
-                  your input, but please know that we{' '}
-                  may not be able to respond to every submission.
-                </div>
-              </div>
-                :
-              <div data-test-id="failedResponse"
-                   className={`${styles.responseMessage} ${styles.error}`}
-              >
-                <div>
-                  <FontAwesomeIcon icon={faExclamationCircle} className={styles.responseIcon} />
-                  <div className={styles.responseTitle}>Unable to Send Message</div>
-                </div>
-                <div className={styles.responseBody}>
-                  Your message could not be sent at this time. Please ensure that all{' '}
-                  required fields have been filled out and try again.
-                </div>
-              </div>)
-            }
-            {
-              !isLongResponse ?
-                <button disabled={!isValid || isCallingAPI || !recaptchaValue || disabled }
-                        className={styles.submit}
-                        onClick={submitFeedback}
-                >
-                  Submit
-                </button>
-              :
-                <button disabled={true}
-                        className={`${styles.submit} ${styles.loading}`}
-                >
-                  <CircularProgress size={17} />
-                </button>
-            }
-          </form>
-        </div>
       </SectionContent>
       <SectionContent id="subscribe"
                       headingLevel={3}
