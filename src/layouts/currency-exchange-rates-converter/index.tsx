@@ -37,7 +37,10 @@ import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
 import {format} from "date-fns";
 import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
+import Analytics from "../../utils/analytics/analytics";
 
+let gaInfoTipTimer;
+let gaCurrencyTimer;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -68,6 +71,26 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     label: string;
     yearQuarterMap: Record<string, CurrencyYearQuarter>
   };
+
+  const analyticsHandler = (action, label) => {
+    if(action && label) {
+      Analytics.event({
+        category: "Exchange Rates Converter",
+        action: action,
+        label: label,
+      });
+    }
+  };
+  
+  const handleMouseEnterInfoTip = (label) => {
+    gaInfoTipTimer = setTimeout(() => {
+      analyticsHandler('Additional Info Hover', label);
+    }, 3000);
+  };
+
+  const handleInfoTipClose = () => {
+    clearTimeout(gaInfoTipTimer);
+  }
 
   const yearQuarterParse = (dataRecord: Record<string, string>): string =>
     `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
@@ -201,9 +224,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const useHandleChangeQuarters = useCallback((option) => {
     updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
     setSelectedQuarter(option);
+    analyticsHandler("Year-Quarter Selection", selectedYear.value + '-' + option.value);
   }, [selectedQuarter, data, nonUSCurrency, currencyMap]);
 
   const handleChangeYears = useCallback((option) => {
+    let gaQuarter = selectedQuarter.value;
 
     if (yearToQuartersMap[option.label][selectedQuarter.value]) {
       updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
@@ -219,21 +244,29 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       // Set quarter to most recent for that year
       const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
       setSelectedQuarter({label: quarterNumToTerm(newestQuarter), value: newestQuarter});
+      gaQuarter = newestQuarter;
     }
     setSelectedYear(option);
     setQuarters(yearToQuartersMap[option.label].map((quarter) => ({
       label: quarterNumToTerm(quarter),
       value: quarter
     })));
+    analyticsHandler("Year-Quarter Selection", option.value + '-' + gaQuarter);
   }, [selectedYear, data, nonUSCurrency, currencyMap]);
 
   const useHandleChangeUSDollar = useCallback((event) => {
+    clearTimeout(gaCurrencyTimer);
+
     let product;
     if (event.target.value === '') {
       setNonUSCurrencyExchangeValue('');
     }
     setUSDollarValue(event.target.value);
     if (!isNaN(parseFloat(event.target.value))) {
+      gaCurrencyTimer = setTimeout(() => {
+        analyticsHandler("USD Value Entered", event.target.value);
+      }, 3000);
+      
       if (nonUSCurrencyDecimalPlaces === 1) {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
       }
@@ -251,6 +284,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [usDollarValue, nonUSCurrency]);
 
   const handleChangeNonUSCurrency = useCallback((event) => {
+    clearTimeout(gaCurrencyTimer);
     let quotient;
     if(event !== null) {
       if (event.target.value === '') {
@@ -258,6 +292,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       }
       setNonUSCurrencyExchangeValue(event.target.value);
       if (!isNaN(parseFloat(event.target.value))) {
+        gaCurrencyTimer = setTimeout(() => {
+          analyticsHandler("Foreign Currency Value Entered", event.target.value);
+        }, 3000);
+
         quotient = (Math.round((parseFloat(event.target.value) / parseFloat(nonUSCurrency.exchange_rate)) * 100) / 100).toFixed(2);
       }
       if (!isNaN(quotient)) {
@@ -309,9 +347,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
-                    {effectiveDateInfoIcon.body}
-                  </InfoTip>
+                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => {handleMouseEnterInfoTip('Additional Effective Date Info');}} onBlur={handleInfoTipClose} role={'presentation'}>
+                    <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
+                      {effectiveDateInfoIcon.body}
+                    </InfoTip>
+                  </span>
                 </div>
                 <span className={effectiveDateText}> {effectiveDate} </span>
               </div>
@@ -323,9 +363,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion.{" "}
             </span>
-            <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
-              {currencySelectionInfoIcon.body}
-            </InfoTip>
+            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info')} onBlur={handleInfoTipClose} role={'presentation'}>
+              <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
+                {currencySelectionInfoIcon.body}
+              </InfoTip>
+            </span>
         </div>
         {
           nonUSCurrency !== null && (
@@ -364,7 +406,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         <span className={footer} data-testid={'test'}>
           The Currency Exchange Rates Converter tool is powered by the{' '}
-          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}>
+          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}
+            onClick={() => analyticsHandler("Citation Click", 'Treasury Reporting Rates of Exchange Dataset')}>
             Treasury Reporting Rates of Exchange
           </CustomLink>
           {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
@@ -377,7 +420,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             The Treasury Reporting Rates of Exchange dataset provides the U.S. government's authoritative
             foreign currency exchange rates for federal agencies to consistently report U.S. dollar equivalents.
             For more information on the calculation of exchange rates used by federal agencies, please see the {' '}
-            <CustomLink url={'https://tfm.fiscal.treasury.gov/v1/p2/c320'}>Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
+            <CustomLink url={'https://tfm.fiscal.treasury.gov/v1/p2/c320'}
+            onClick={() => analyticsHandler("Citation Click", 'Treasury Financial Manual')}>
+            Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
             This Exchange Rate Converter Tool is designed to make foreign currency exchange data values
             easier to access for federal agency reporting purposes.
           </p>

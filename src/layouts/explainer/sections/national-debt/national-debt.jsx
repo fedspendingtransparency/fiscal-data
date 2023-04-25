@@ -11,6 +11,7 @@ import { GrowingNationalDebtSection } from "./growing-national-debt/growing-nati
 import DebtCeilingSection from "./debt-ceiling/debt-ceiling";
 import FundingProgramsAndServices
   from './funding-programs-and-services/funding-programs-and-services';
+import TrackingTheDebt from './tracking-the-debt/tracking-the-debt';
 
 export const nationalDebtSectionConfigs = datasetSectionConfig["national-debt"];
 
@@ -24,18 +25,6 @@ export const nationalDebtSectionIds = [
   "tracking-the-debt",
   "dive-deeper-into-the-debt",
 ];
-
-export const deficitLink = (
-  <CustomLink url={'/americas-finance-guide/national-deficit/'} >
-    deficit
-  </CustomLink>
-);
-
-export const spendingLink = (copy) => (
-  <CustomLink url={'/americas-finance-guide/federal-spending/'} >
-    {copy}
-  </CustomLink>
-);
 
 export const visualizingTheDebtTableContent = {
   desktop: {
@@ -55,32 +44,6 @@ export const percentageFormatter = value =>
 export const trillionsFormatter = value =>
   `$${(Number(value) / 1000000).toFixed(2)} T`;
 
-export const DebtTrackingSection = () => {
-  const fiscalService = (
-    <CustomLink
-      url={"https://www.fiscal.treasury.gov/"}
-      onClick={() =>
-        analyticsClickHandler("Citation Click", "Tracking the Debt")
-      }
-    >
-      Bureau of the Fiscal Service
-    </CustomLink>
-  );
-
-  return (
-    <>
-      <p>
-        Created in 2012 and operating under the Department of the Treasury, the{" "}
-        {fiscalService} manages all federal payments and collections and
-        provides government-wide accounting and reporting services. A primary
-        function of the Fiscal Service is to account for and report the national
-        debt, as dictated by the U.S. Constitution, which states that “regular
-        Statement and Account of the Receipts and Expenditures of all public
-        Money shall be published from time to time.”
-      </p>
-    </>
-  );
-};
 
 const nationalDebtSections = [
   {
@@ -141,7 +104,7 @@ const nationalDebtSections = [
     id: nationalDebtSectionIds[6],
     title: "Tracking the Debt",
     component: (glossary, cpiDataByYear) => (
-      <DebtTrackingSection glossary={glossary} />
+      <TrackingTheDebt />
     ),
   },
   {

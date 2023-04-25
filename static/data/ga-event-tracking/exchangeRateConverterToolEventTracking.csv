@@ -1,0 +1,11 @@
+Number,Trigger,eventCategory,eventAction,eventLabel
+1,Click on the Year or Quarter dropdown,Fiscal Data - Exchange Rates Converter,Year-Quarter Selection,<year-quarter selected from drop-down>
+2,Hover over the information icon next to Effective Date,Fiscal Data - Exchange Rates Converter,Additional Info Hover,Additional Effective Date Info
+3,"Hover over the information icon following the ""select a foreign currency"" sentence.",Fiscal Data - Exchange Rates Converter,Additional Info Hover,Additional Foreign Currency Info
+4,"When the default Euro Zone-Euro value is cleared out, the value entered into the foreign currency selection search field",Fiscal Data - Exchange Rates Converter,Foreign Country-Currency Search,<country-currency search value entered>
+5,Click on the foreign currency and select a currency from drop-down (after entering search value),Fiscal Data - Exchange Rates Converter,Foreign Country-Currency Selected,<country-currency selected>
+6,"When the default exchange rate value is cleared out, the value entered into the foreign currency amount field",Fiscal Data - Exchange Rates Converter,Foreign Currency Value Entered,<currency value entered>
+7,"When the default exchange rate value is cleared out, the value entered into the U.S. Dollar amount field",Fiscal Data - Exchange Rates Converter,USD Value Entered,<usd value entered>
+8,Click on the 'Treasury Reporting Rates of Exchange' link,Fiscal Data - Exchange Rates Converter,Citation Click,Treasury Reporting Rates of Exchange Dataset
+9,"Click on the 'Treasury Financial Manual, volume 1, part 2, section 3235' link",Fiscal Data - Exchange Rates Converter,Citation Click,Treasury Financial Manual
+10,Click on the Share button,Fiscal Data - Exchange Rates Converter,Share Click,Share on <title of sharing option>

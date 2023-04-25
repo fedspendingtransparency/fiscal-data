@@ -1,5 +1,19 @@
 import Analytics from '../../../utils/analytics/analytics';
+import CustomLink from '../../../components/links/custom-link/custom-link';
+import React from 'react';
 
+
+export const deficitLink = (
+  <CustomLink url={'/americas-finance-guide/national-deficit/'} >
+    deficit
+  </CustomLink>
+);
+
+export const spendingLink = (copy) => (
+  <CustomLink url={'/americas-finance-guide/federal-spending/'} >
+    {copy}
+  </CustomLink>
+);
 export const analyticsClickHandler = (action, section) => {
   Analytics.event({
     category: "Explainers",

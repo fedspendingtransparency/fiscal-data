@@ -5,7 +5,7 @@ import React from "react";
 import { nationalDebtExplainedTextContent } from "./national-debt-explained.module.scss";
 import { visWithCallout } from "../../../explainer.module.scss";
 import { debtExplainerPrimary } from "../../../../../variables.module.scss";
-import { deficitLink } from "../national-debt";
+import { deficitLink } from "../../../explainer-helpers/national-debt-helper";
 import NationalDebtExplainedTable
   from "./national-debt-explained-table/national-debt-explained-table";
  const NationalDebtExplained = ({ glossary }) => {

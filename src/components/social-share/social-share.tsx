@@ -30,10 +30,21 @@ const baseUrl = globalConstants.BASE_SITE_URL
 
 
 const analyticsClickHandler = (page, social) => {
+  let gaCategory;
+  let gaLabel;
+
+  if(page === 'Exchange Rates Converter'){
+    gaCategory = page;
+    gaLabel = `Share on ${social}`;
+  }
+  else {
+    gaCategory = "Explainers";
+    gaLabel = `${page} - Share on ${social}`;
+  }
   Analytics.event({
-    category: "Explainers",
+    category: gaCategory,
     action: `Share Click`,
-    label: `${page} - Share on ${social}`,
+    label: gaLabel,
   })
 }
 
