@@ -1,37 +1,39 @@
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import {
   breakpointLg,
   debtExplainerPrimary,
   fontSize_10,
   fontSize_14
-} from "../../../../../../variables.module.scss";
-import React, {useEffect, useState} from "react";
-import CustomLink from "../../../../../../components/links/custom-link/custom-link";
-import Analytics from "../../../../../../utils/analytics/analytics";
-import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
+} from '../../../../../../variables.module.scss';
+import React, {useEffect, useState} from 'react';
+import CustomLink from '../../../../../../components/links/custom-link/custom-link';
+import Analytics from '../../../../../../utils/analytics/analytics';
+import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import {
   container,
   lineChartContainer,
   header,
   headerContainer,
-  subHeader
-} from "./debt-trends-over-time-chart.module.scss";
-import {chartBackdrop, visWithCallout} from "../../../../explainer.module.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import { Line } from "@nivo/line";
+  subHeader,
+  inAnimation,
+  animationCrosshair
+} from './debt-trends-over-time-chart.module.scss';
+import { visWithCallout } from '../../../../explainer.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { Line } from '@nivo/line';
 import VisualizationCallout
-  from "../../../../../../components/visualization-callout/visualization-callout";
+  from '../../../../../../components/visualization-callout/visualization-callout';
 import {
   nationalDebtSectionConfigs,
-} from "../../national-debt";
+} from '../../national-debt';
 import {
   applyChartScaling,
   applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
-import globalConstants from "../../../../../../helpers/constants";
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
-import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
+import globalConstants from '../../../../../../helpers/constants';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 let gaTimerDebtTrends;
 
 const analyticsClickHandler = (action, section) => {
@@ -44,8 +46,8 @@ const analyticsClickHandler = (action, section) => {
 
 export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
-  const [lineChartHoveredYear, setLineChartHoveredYear] = useState("");
-  const [lineChartHoveredValue, setLineChartHoveredValue] = useState("");
+  const [lineChartHoveredYear, setLineChartHoveredYear] = useState('');
+  const [lineChartHoveredValue, setLineChartHoveredValue] = useState('');
   const [debtTrendsData, setDebtTrendsData] = useState([]);
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
   const [lastDebtValue, setLastDebtValue] = useState({});
@@ -137,7 +139,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         }
       }).catch(error => {
         console.warn('Could not load data', error);
-        console.log('dataLoadAttemptsLeft', dataLoadAttemptsLeft);
         if (dataLoadAttemptsLeft === 1) { // this was the final attempt that failed
           setDataLoadError(true);
           setIsLoadingDebtTrends(false);
@@ -179,6 +180,13 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         },
       },
     },
+    crosshair: {
+      line: {
+        stroke: '#555555',
+        strokeWidth: 2,
+        pointerEvents: 'all'
+      }
+    }
   };
 
   const formatPercentage = v => `${v}%`;
@@ -254,6 +262,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const CustomPoint = props => {
     const { currentSlice, borderWidth, borderColor, points } = props;
     let currentPoint;
+    let verticalCrosshair;
     let observer;
     if (!isLoadingDebtTrends && !dataLoadError) {
       if (!animationComplete) {
@@ -273,9 +282,21 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
             observer.observe(document.querySelector('[data-testid="debtTrendsChart"]')), 1000);
 
           currentPoint = points[animationPoint];
+          verticalCrosshair = (
+            <line
+              className={animationCrosshair}
+              x1={currentPoint.x}
+              x2={currentPoint.x}
+              y1={0}
+              y2={450}
+              style={{
+                ...chartBorderTheme.crosshair.line,
+                strokeDasharray: [6, 6]
+                }}
+            />
+          );
         }
-      }
-      else {
+      } else {
         currentPoint = currentSlice?.points?.length
           ? currentSlice.points[0]
           : points[points.length - 1];
@@ -289,6 +310,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
             borderColor={borderColor}
             borderWidth={borderWidth}
           />
+          {verticalCrosshair}
         </>
       );
     }
@@ -370,7 +392,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           customFooterSpacing={customFooterSpacing}
         >
           <div
-            className={`${lineChartContainer}`}
+            className={`${lineChartContainer} ${!animationComplete ? inAnimation : ''}`}
             data-testid={`${chartParent}`}
             onMouseEnter={handleMouseEnterLineChart}
             onMouseLeave={handleMouseLeaveLineChart}
@@ -387,6 +409,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                 "axes",
                 CustomPoint,
                 CustomSlices,
+                "crosshair"
               ]}
                 margin={
                   width < pxToNumber(breakpointLg)
@@ -423,7 +446,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                 tickValues: 8,
               }}
               enablePoints={false}
-              enableSlices={"x"}
+              enableSlices="x"
               pointSize={0}
               pointColor={debtExplainerPrimary}
               pointBorderWidth={2}
@@ -434,8 +457,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               enableGridY={false}
               enableGridX={false}
               sliceTooltip={() => <></>}
-              enableCrosshair={false}
-              animate={true}
+              enableCrosshair={true}
+              crosshairType="x"
+              animate={false}
               isInteractive={true}
               onMouseLeave={lineChartOnMouseLeave}
             />
