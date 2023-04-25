@@ -1,6 +1,6 @@
 import {withWindowSize} from "react-fns";
 import useBeaGDP from "../../../../../hooks/useBeaGDP";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 import {postGraphAccordionContainer} from "../national-debt.module.scss";
 import DebtOverLast100y from "./debt-over-last-100y-linechart/debt-over-last-100y-linechart";
 import {DebtTrendsOverTimeChart} from "./debt-trends-over-time/debt-trends-over-time-chart";

@@ -15,7 +15,7 @@ import DeficitDesktop from "../../../../../../static/images/deficit-vs-debt_desk
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../variables.module.scss";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 
 export const DebtDeficitDifference = ({width, glossary}) => {
 

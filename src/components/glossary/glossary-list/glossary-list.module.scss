@@ -1,0 +1,12 @@
+@import '../../../variables.module.scss';
+
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-weight: $semi-bold-weight;
+    margin-bottom: 1.5rem;
+  }
+}

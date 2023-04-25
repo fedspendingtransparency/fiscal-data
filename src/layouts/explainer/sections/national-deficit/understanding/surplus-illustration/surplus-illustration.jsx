@@ -17,7 +17,7 @@ import React, {useState} from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import GlossaryTerm from "../../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../../components/glossary/glossary-term/glossary-term";
 import FolderTabEdgeRight from "./folder-illustration-svgs/folder-tab-edge-right";
 import FolderTabEdgeRightLast from "./folder-illustration-svgs/folder-tab-edge-right-last";
 import FolderTabEdgeLeft from "./folder-illustration-svgs/folder-tab-edge-left";
@@ -31,16 +31,16 @@ import Analytics from "../../../../../../utils/analytics/analytics";
 
 const SurplusIllustration = ({glossary, width}) => {
   const {getGAEvent} = useGAEventTracking(null, "Deficit");
-  
+
   const handleClick = (eventNumber) =>{
     const gaEvent = getGAEvent(eventNumber);
     Analytics.event({
       category: gaEvent?.eventCategory?.replace("Fiscal Data - ", ""),
       action: gaEvent?.eventAction,
       label: gaEvent?.eventLabel,
-    }); 
+    });
   }
-  
+
   const tabListStyle = {
     margin:'0',
     borderColor:deficitExplainerLightSecondary,

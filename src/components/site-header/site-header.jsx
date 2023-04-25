@@ -11,6 +11,7 @@ import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
+import Glossary from '../glossary/glossary';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -419,6 +420,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             })}
           </div>
         </div>
+        <Experimental featureId={"Glossary"}>
+          <Glossary />
+        </Experimental>
         <MobileMenu />
       </div>
       {lowerEnvMsg && (
