@@ -57,7 +57,7 @@ const NotFoundText = () => (
     <PTag>
       Want to get in touch or send in general comments about the site?{' '}
       Send us a message using the{' '}
-      <CustomLink url="/about-us/#contact-us" external>
+      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
         Contact Us
       </CustomLink> form.
     </PTag>
