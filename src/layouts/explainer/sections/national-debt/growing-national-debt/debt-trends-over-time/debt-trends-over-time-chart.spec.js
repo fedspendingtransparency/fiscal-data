@@ -7,6 +7,9 @@ import {mockBeaGDPData, mockExplainerPageResponse} from "../../../../explainer-t
 import Analytics from "../../../../../../utils/analytics/analytics";
 import {DebtTrendsOverTimeChart} from "./debt-trends-over-time-chart";
 import globalConstants from "../../../../../../helpers/constants";
+import { animationCrosshair } from './debt-trends-over-time-chart.module.scss';
+import renderer from "react-test-renderer";
+import { Line } from "@nivo/line";
 
 jest.useFakeTimers();
 
@@ -33,7 +36,21 @@ describe('The Growing National Debt', () => {
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
   });
 
-  it('Renders the chart point', async () => {
+  it('Renders the chart with the vertical crosshair option enabled', async () => {
+    let component = renderer.create();
+    let instance = null;
+    await renderer.act(async () => {
+      component = await renderer.create(
+        <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />);
+      instance = component.root;
+    });
+
+    const lineChart = instance.findByType(Line);
+    expect(lineChart.props.enableCrosshair).toBeTruthy();
+    expect(lineChart.props.crosshairType).toStrictEqual('x');
+  });
+
+  it('Renders the initial chart point and crosshair for onScroll animation', async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
 
     const { findByTestId, getByTestId } = render(
@@ -45,12 +62,14 @@ describe('The Growing National Debt', () => {
     const chartPoint = await getByTestId('debtTrendsChart')
       .querySelector('div > div > svg > g > g > circle:nth-child(1)');
     expect(chartPoint).toBeInTheDocument();
+    const chartCrosshair = await getByTestId('debtTrendsChart')
+      .querySelector(`div > div > svg > g > line.${animationCrosshair}`);
+    expect(chartCrosshair).toBeInTheDocument();
   });
 
   it('Renders the chart slices', async () => {
     const { findByTestId, getByTestId } = render(
       <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -63,7 +82,6 @@ describe('The Growing National Debt', () => {
   it('initializes with the earliest data point', async () => {
     const { findAllByText } = render(
       <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-
     );
 
     const dateComponents = await findAllByText("2011");
@@ -71,14 +89,12 @@ describe('The Growing National Debt', () => {
 
     const valueComponent = await findAllByText("80%");
     expect(valueComponent[0]).toBeInTheDocument();
-  })
-
+  });
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { findByText, findByTestId } = render(
       <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();

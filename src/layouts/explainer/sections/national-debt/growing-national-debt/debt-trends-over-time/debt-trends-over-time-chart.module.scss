@@ -5,6 +5,12 @@
   .lineChartContainer {
     width: 100%;
     margin: 0 auto;
+    &.inAnimation > div > svg > g > line {
+      opacity: 0;
+      &.animationCrosshair {
+        opacity: 0.75;
+      }
+    }
   }
   margin-bottom: 1rem;
 
