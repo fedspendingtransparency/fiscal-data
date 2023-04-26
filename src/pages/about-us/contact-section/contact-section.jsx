@@ -202,10 +202,10 @@ const Contact = ({onUnsupportedSubject = () => {}}) => {
           >
             FAQ
           </Link> are the quickest ways to get an answer, but if you can’t find what you’re
-          looking for there or would like to make a suggestion, please {' '}
+          looking for there or would like to make a suggestion, please contact us{' '}
           <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
-            contact us
-          </CustomLink> here.
+            via email
+          </CustomLink>, and our team will respond at our earliest opportunity{' '}
           <br /><br />
           <i>
             Do not enter sensitive personal identifiable information such as SSN, address,
