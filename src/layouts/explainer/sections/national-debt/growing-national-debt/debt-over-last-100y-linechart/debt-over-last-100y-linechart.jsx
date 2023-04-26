@@ -50,7 +50,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [lastDebtValue, setlastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
-  const [isMobile, setIsMobile] = useState(true);
   const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({});
 
   const chartParent = 'totalDebtChartParent';

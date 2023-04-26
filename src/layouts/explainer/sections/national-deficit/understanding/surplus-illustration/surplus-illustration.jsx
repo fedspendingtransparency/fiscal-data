@@ -13,7 +13,7 @@ import surplus from "../../../../../../images/explainer/national-deficit/surplus
 import balancedBudget
   from "../../../../../../images/explainer/national-deficit/balanced-budget.png";
 import deficit from "../../../../../../images/explainer/national-deficit/deficit.png";
-import React, {useState} from "react";
+import React from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
@@ -31,16 +31,16 @@ import Analytics from "../../../../../../utils/analytics/analytics";
 
 const SurplusIllustration = ({glossary, width}) => {
   const {getGAEvent} = useGAEventTracking(null, "Deficit");
-  
+
   const handleClick = (eventNumber) =>{
     const gaEvent = getGAEvent(eventNumber);
     Analytics.event({
       category: gaEvent?.eventCategory?.replace("Fiscal Data - ", ""),
       action: gaEvent?.eventAction,
       label: gaEvent?.eventLabel,
-    }); 
+    });
   }
-  
+
   const tabListStyle = {
     margin:'0',
     borderColor:deficitExplainerLightSecondary,

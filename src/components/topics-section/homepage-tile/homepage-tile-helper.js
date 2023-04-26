@@ -35,6 +35,7 @@ export const SpendingBodyGenerator = () => {
 export const RevenueBodyGenerator = () => {
   const [currentRevenue, setCurrentRevenue] = useState(null);
   const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  // eslint-disable-next-line max-len
   const revUrl = `v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date&filter=line_code_nbr:eq:830&sort=-record_date&page[size]=1`;
   useEffect(() => {
     basicFetch(`${apiPrefix}${revUrl}`).then(res => {

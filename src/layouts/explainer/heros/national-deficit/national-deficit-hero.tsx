@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import {
   counterSourceInfo,

@@ -11,7 +11,7 @@ import {
   getFootNotesDateRange,
   getPillData
 } from "../hero-helper";
-import {spendingExplainerLightSecondary, spendingExplainerPrimary} from
+import { spendingExplainerPrimary } from
     "../../sections/federal-spending/federal-spending.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 import {getShortForm} from "../../../../utils/rounding-utils";

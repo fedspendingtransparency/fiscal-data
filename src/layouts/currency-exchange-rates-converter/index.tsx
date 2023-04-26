@@ -28,15 +28,12 @@ import {
   apiEndpoint,
   breadCrumbLinks,
   socialCopy,
-  fastRound,
   currencySelectionInfoIcon,
   effectiveDateInfoIcon,
   effectiveDateEndpoint, countDecimals, enforceTrailingZero
 } from "./currency-exchange-rates-converter-helper";
 import CustomLink from "../../components/links/custom-link/custom-link";
 import InfoTip from "../../components/info-tip/info-tip";
-import {format} from "date-fns";
-import {getDateWithoutTimeZoneAdjust} from "../../utils/date-utils";
 import Analytics from "../../utils/analytics/analytics";
 
 let gaInfoTipTimer;
@@ -81,7 +78,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       });
     }
   };
-  
+
   const handleMouseEnterInfoTip = (label) => {
     gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
@@ -234,7 +231,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
     }
     else {
-      updateCurrencyForYearQuarter(option.label, yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1], nonUSCurrency, currencyMap);
+      updateCurrencyForYearQuarter(option.label,
+        yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1],
+        nonUSCurrency,
+        currencyMap);
     }
 
     if (yearToQuartersMap[option.label][selectedQuarter.value]) {
@@ -266,7 +266,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       gaCurrencyTimer = setTimeout(() => {
         analyticsHandler("USD Value Entered", event.target.value);
       }, 3000);
-      
+
       if (nonUSCurrencyDecimalPlaces === 1) {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
       }

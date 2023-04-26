@@ -80,6 +80,3 @@ yarn-error.log
 
 # For VS Code users
 .vscode
-
-# generated ts type definition files
-*.module.scss.d.ts

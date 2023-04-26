@@ -35,11 +35,13 @@ import Analytics from "../../../../../../utils/analytics/analytics";
 
 const callOutDataEndPoint =
   apiPrefix +
-  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1';
+  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year' +
+  '&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1';
 
 const chartDataEndPoint =
   apiPrefix +
-  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
+  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year' +
+  '&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
 
 let gaTimer;
 
@@ -150,7 +152,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
     basicFetch(chartDataEndPoint).then(res => {
       if (res.data) {
-        let maxAmount;
         let finalSpendingChartData = [];
 
         res.data.map(spending => {
@@ -216,13 +217,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
         setRatioGdpChartData(finalGdpRatioChartData);
 
-        maxAmount =
+        const maxAmountLocal =
           Math.ceil(
             (spendingMaxAmount > gdpMaxAmount
               ? spendingMaxAmount
               : gdpMaxAmount) / 5
           ) * 5;
-        setMaxAmount(maxAmount);
+        setMaxAmount(maxAmountLocal);
 
         setFirstRatio(
           numeral(finalSpendingChartData[0].y / filteredGDPData[0].y).format('0%')

@@ -8,7 +8,6 @@ import {
   semiBoldWeight,
 } from "../../../../../../variables.module.scss";
 import { pxToNumber } from "../../../../../../helpers/styles-helper/styles-helper";
-import Analytics from "../../../../../../utils/analytics/analytics";
 
 const mts = <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`}
                         eventNumber="21"

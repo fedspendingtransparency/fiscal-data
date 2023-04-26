@@ -341,7 +341,13 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             customTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_16, color: '#666666'}: {} }
             customSubTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
           >
-            <div className={styles.lineChart} role={'presentation'} data-testid={'chartParent'} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
+            <div
+              className={styles.lineChart}
+              role={'presentation'}
+              data-testid={'chartParent'}
+              onMouseEnter={handleChartMouseEnter}
+              onMouseLeave={handleChartMouseLeave}
+            >
               <Line
                 data={chartData}
                 layers={[

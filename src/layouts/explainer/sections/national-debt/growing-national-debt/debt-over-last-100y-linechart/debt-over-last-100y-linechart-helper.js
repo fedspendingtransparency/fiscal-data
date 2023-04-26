@@ -8,7 +8,6 @@ import {
   semiBoldWeight,
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import numeral from "numeral";
 import Analytics from '../../../../../../utils/analytics/analytics';
 
@@ -62,7 +61,8 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
     subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
     footer: footer,
     altText:
-      'Line graph displaying the amount of debt in trillions from 1922 to 2022. The graph shows a steady trend with an increase beginning around 1940 continuing through today.',
+      'Line graph displaying the amount of debt in trillions from 1922 to 2022. The graph shows a steady trend with an ' +
+      'increase beginning around 1940 continuing through today.',
   };
 };
 

@@ -1,13 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react';
-import * as styles from './../explainer-sub-nav/explainer-sub-nav.module.scss';
+import React, {useState, useEffect} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
 import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
@@ -100,7 +95,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
     };
   }, [scrollPosition]);
 
-  
+
 
   const handleClick = event => {
     setDefaultOpen(false);

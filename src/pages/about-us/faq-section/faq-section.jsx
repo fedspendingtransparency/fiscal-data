@@ -77,9 +77,8 @@ const FAQ = ({triggerHighlight = 0}) => {
         title="How often is the data updated?"
       >
           <p>
-            The answer varies by dataset. To determine the update frequency, refer to the <strong>
-            Metadata
-                                                                                          </strong> tab in the <strong>About this Dataset</strong> section for a
+            The answer varies by dataset. To determine the update frequency, refer to the <strong>Metadata</strong>
+            tab in the <strong>About this Dataset</strong> section for a
             particular dataset. You can also filter the datasets in our{' '}
             <CustomLink url="/datasets/">
               Dataset Search
