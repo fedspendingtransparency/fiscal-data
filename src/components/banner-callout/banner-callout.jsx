@@ -1,31 +1,35 @@
 import React from 'react';
 import CustomLink  from '../links/custom-link/custom-link';
 import { banner, sideTab, calloutText, icon } from './banner-callout.module.scss';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'; 
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const BannerCallout = ({bannerCallout}) => {
     const callouts = {
-        "XRCallout": <>To calculate foreign currency exchange rates for tax reporting, visit the{" "}
-        <CustomLink url={"/currency-exchange-rates-converter/"}>
-            Currency Exchange Rates Converter</CustomLink>
-            {" "}page.</>
+        "XRCallout":
+          <>
+            To calculate foreign currency exchange rates for tax reporting, visit the{" "}
+            <CustomLink url={"/currency-exchange-rates-converter/"}>
+                Currency Exchange Rates Converter
+            </CustomLink>
+            {" "}page.
+          </>
     }
 
     const currentCallout = callouts[bannerCallout];
 
-    if(currentCallout){
+    if (currentCallout) {
         return (
             <div className={banner} data-testid="banner">
                 <div className={sideTab}></div>
-                
+
                 <span className={calloutText}>
-                    <FontAwesomeIcon className={icon} icon={faCircleInfo}/>
+                    <FontAwesomeIcon className={icon} icon={faCircleInfo} />
                     <div>
                         {currentCallout}
                     </div>
                 </span>
-                
+
             </div>
         );
     } else {

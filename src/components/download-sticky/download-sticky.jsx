@@ -356,7 +356,10 @@ const DownloadSticky = () => {
                         {multipleDownloads ? dsTextContent.planToLeaveMulti : dsTextContent.planToLeaveSingle}
                       </div>
                       {!multipleDownloads && (
-                        <div className={styles.noticeButtonContainer}>{buttons.copyToClipboardButton(allInProgress[0].statusPath, dsTextContent.copyLinkLabel)}</div>
+                        <div
+                          className={styles.noticeButtonContainer}
+                        >{buttons.copyToClipboardButton(allInProgress[0].statusPath, dsTextContent.copyLinkLabel)
+                       }</div>
                       )}
                     </div>
                   )}
@@ -397,7 +400,10 @@ const DownloadSticky = () => {
                     <div className={styles.rightSegment}>
                       <div className={styles.filename}>{resumedDownload.filename}</div>
                       { resumedDownload.statusPath && (
-                        <div className={styles.noticeButtonContainer}>{buttons.copyToClipboardButton(resumedDownload.statusPath, dsTextContent.copyLinkLabel)}</div>
+                        <div
+                          className={styles.noticeButtonContainer}
+                        >{buttons.copyToClipboardButton(resumedDownload.statusPath, dsTextContent.copyLinkLabel)
+                       }</div>
                       )}
                     </div>
                   </div>
@@ -410,7 +416,10 @@ const DownloadSticky = () => {
                     <div className={styles.rightSegment}>
                       <div className={styles.filename}>{downloadInProgress.filename}</div>
                       { downloadInProgress.statusPath && (
-                        <div className={styles.noticeButtonContainer}>{buttons.copyToClipboardButton(downloadInProgress.statusPath, dsTextContent.copyLinkLabel)}</div>
+                        <div
+                          className={styles.noticeButtonContainer}
+                        >{buttons.copyToClipboardButton(downloadInProgress.statusPath, dsTextContent.copyLinkLabel)
+                       }</div>
                       )}
                     </div>
                   </div>

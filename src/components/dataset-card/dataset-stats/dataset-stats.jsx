@@ -12,16 +12,17 @@ import {
   faCalendarCheck
 } from "@fortawesome/free-solid-svg-icons"
 
-export default function DatasetStats(props) {
+export default function DatasetStats({ dataset }) {
   // TODO: clean some of these up a little
-  const earliestDate = (props.dataset && props.dataset.techSpecs && props.dataset.techSpecs.earliestDate) ? props.dataset.techSpecs.earliestDate : null;
-  const latestDate = (props.dataset && props.dataset.techSpecs && props.dataset.techSpecs.latestDate) ? props.dataset.techSpecs.latestDate : null;
+  const earliestDate = (dataset && dataset.techSpecs && dataset.techSpecs.earliestDate) ? dataset.techSpecs.earliestDate : null;
+  const latestDate = (dataset && dataset.techSpecs && dataset.techSpecs.latestDate) ? dataset.techSpecs.latestDate : null;
   const dateRange = earliestDate && latestDate ? `${earliestDate} - ${latestDate}` : undefined;
-  const frequency = (props.dataset && props.dataset.techSpecs && props.dataset.techSpecs.updateFrequency) ? props.dataset.techSpecs.updateFrequency : 'no frequency available';
-  const lastUpdated = (props.dataset && props.dataset.techSpecs && props.dataset.techSpecs.lastUpdated) ? props.dataset.techSpecs.lastUpdated : 'no date available';
-  const dataDictionaryPresent = props.dataset.dictionary;
+  const frequency = (dataset && dataset.techSpecs && dataset.techSpecs.updateFrequency) ?
+    dataset.techSpecs.updateFrequency : 'no frequency available';
+  const lastUpdated = (dataset && dataset.techSpecs && dataset.techSpecs.lastUpdated) ? dataset.techSpecs.lastUpdated : 'no date available';
+  const dataDictionaryPresent = dataset.dictionary;
   const dataDictionaryText = dataDictionaryPresent ? 'data dictionary complete' : 'data dictionary incomplete';
-  const latestDateParts = (props.dataset && props.dataset.techSpecs && props.dataset.techSpecs.latestDate) ? latestDate.split('/') : ['','',''];
+  const latestDateParts = (dataset && dataset.techSpecs && dataset.techSpecs.latestDate) ? latestDate.split('/') : ['','',''];
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0,0,0), new Date());
 
   return (

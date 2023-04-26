@@ -1,7 +1,7 @@
 import React from "react";
 import * as styles from "./filterCount.module.scss";
 
-function FilterCount({ count }) {
+const FilterCount = ({ count }) => {
     const width = Math.ceil(count.count / count.of * 100) + '%';
     let minWidth = 12;
 

@@ -6,9 +6,10 @@ import {getMessageForUnmatchedUserFilter} from "../../filter-download-container/
 export const SetNoChartMessage = (selectedTable, selectedPivot, dateRange, allTablesSelected,
                                   userFilterSelection, userFilterUnmatchedForDateRange) => {
   if (allTablesSelected) {
-    return (<NotShownMessage
-      heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.'
-    />);
+    return (
+      <NotShownMessage
+        heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.'
+      />);
   } else if (selectedTable.dataDisplays &&
     selectedTable.dataDisplays.every(dd => dd.chartType === 'none')) {
 
@@ -18,10 +19,11 @@ export const SetNoChartMessage = (selectedTable, selectedPivot, dateRange, allTa
       />);
   } else if (selectedPivot && selectedPivot.pivotView &&
     selectedPivot.pivotView.chartType === 'none') {
-    return (<NotShownMessage
-      heading="Use the dropdown to select a pivot option to display the chart"
-      bodyText="This data table cannot be rendered as a chart until a pivot option is applied."
-    />);
+    return (
+      <NotShownMessage
+        heading="Use the dropdown to select a pivot option to display the chart"
+        bodyText="This data table cannot be rendered as a chart until a pivot option is applied."
+      />);
   } else if (selectedTable.userFilter && !userFilterSelection?.value) {
     return (
       <NotShownMessage

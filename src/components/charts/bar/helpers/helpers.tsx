@@ -2,7 +2,7 @@ const timeout = {};
 
 export const delay = 500;
 
-export const mouseLeaveEvent = (cardId: string, callback: Function): void => {
+export const mouseLeaveEvent = (cardId: string, callback: () => void): void => {
   if(!cardId || !callback){
     return;
   }

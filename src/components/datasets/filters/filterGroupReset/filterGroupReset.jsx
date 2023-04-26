@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { filtersByGroupId } from "../../../../transform/filters/filterDefinitions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUndo } from "@fortawesome/free-solid-svg-icons";

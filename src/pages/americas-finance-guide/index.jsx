@@ -44,7 +44,7 @@ import AnchorText from "../../components/anchor-text/anchor-text";
 import { getAFGFootnotes } from "../../helpers/footnotes-helper/footnotes-helper";
 import Analytics from "../../utils/analytics/analytics";
 
-export const AmericasFinanceGuidePage = ({ width }) => {
+const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
     graphql`
         query {
@@ -128,7 +128,10 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       if (res.data) {
         const mtsData = res.data[0];
         const mtsMonth = mtsData.record_calendar_month;
+
+        // eslint-disable-next-line max-len
         const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
+
         basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
           if (res.data) {
             const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
@@ -277,7 +280,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
           <AfgTopicSection
             heading={spendingHeading}
-            body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
+            body={`The federal government funds a variety of programs and services that support the American public.
+            The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.`}
             linkUrl="/americas-finance-guide/federal-spending/"
             linkText="Learn more about federal spending"
             linkColor={spendingExplainerPrimary}
@@ -389,11 +393,15 @@ export const AmericasFinanceGuidePage = ({ width }) => {
         data-testid="bottomContainer"
       >
         <p className={styles.bottomHeading}>Americans asked. We listened.</p>
-        <p className={styles.bottomBody}>
+        <p>
           Your Guide to America's Finances is a re-invention of the{" "}
           <span className={styles.blueText}>
             {" "}
-            <a href={'https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'} onClick={handleCitizensGuideClick}>Citizen's Guide to the Financial Report of the U.S. Government.</a>
+            <a href={'https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'}
+               onClick={handleCitizensGuideClick}
+            >
+              Citizen's Guide to the Financial Report of the U.S. Government.
+            </a>
           </span>{" "}
           This site was created in response to the public's desire to learn more
           about the financial picture of the United States. Where does the money

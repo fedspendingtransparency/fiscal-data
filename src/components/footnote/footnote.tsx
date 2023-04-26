@@ -1,8 +1,18 @@
-import React from 'react';
-import { IFootnote } from '../../models/IFootnote';
+import React, {FunctionComponent} from 'react';
 import * as styles from './footnote.module.scss';
 
-const Footnote = ({footnotes, width="80%"}) : JSX.Element => {
+type FootnoteProps = {
+  footnotes: [{
+    anchors: [{
+      text?: string,
+      link?: string
+    }],
+    definition?: string
+  }],
+  width?: string
+};
+
+const Footnote: FunctionComponent<FootnoteProps> = ({footnotes, width ="80%"}) : JSX.Element => {
 
   return (
     <div className={styles.footnoteContainer} id="footnote" data-testid="footnote-section">

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import Analytics from '../../utils/analytics/analytics';
-import { Link, navigate } from "gatsby";
+import { navigate } from "gatsby";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { MuiThemeProvider } from "@material-ui/core";

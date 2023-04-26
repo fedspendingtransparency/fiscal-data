@@ -299,6 +299,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                     handleMouseLeave={handleMouseLeave}
                     handleBlur={handleBlur}
                     menuExpanding={menuExpanding}
+                    key={pageLink.title}
                   >
                     <div className={styles.dropdownRow}>
                       <div className={styles.dropdownColumnOne}>
@@ -338,6 +339,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                     handleMouseLeave={handleMouseLeave}
                     handleBlur={handleBlur}
                     menuExpanding={toolsMenuExpanding}
+                    key={pageLink.title}
                   >
                     <div className={styles.toolsSingleDropDown}>
                       {toolsPageLinks.map((link) => {
@@ -368,6 +370,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                     handleMouseLeave={handleMouseLeave}
                     handleBlur={handleBlur}
                     menuExpanding={resourcesMenuExpanding}
+                    key={pageLink.title}
                   >
                     <div className={styles.resourcesDropDown}>
                       {resourcesPageLinks.map((link) => {

@@ -206,7 +206,7 @@ export const DatasetDataComponent = ({
             allTablesSelected={allTablesSelected}
             earliestDate={config.techSpecs.earliestDate}
             latestDate={config.techSpecs.latestDate}
-            />
+          />
           {selectedTable &&
           <RangePresets
             setDateRange={handleDateRangeChange}

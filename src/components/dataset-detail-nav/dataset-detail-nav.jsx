@@ -15,7 +15,7 @@ const breakpoint = {
 const DDNav = ({title}) => {
   const [links, setLinks] = useState([]);
   const [isMobile, setIsMobile] = useState(true);
-  const [scrollInstance, setScrollInstance] = useState(new SmoothScroll());
+  const [scrollInstance] = useState(new SmoothScroll());
   const [mobileIdx, setMobileIdx] = useState(0);
   const [offsetHeight, setOffsetHeight] = useState(0);
   let debounce, previousWidth;

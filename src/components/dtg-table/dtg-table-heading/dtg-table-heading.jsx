@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function DtgTableHeading(props) {
+export default function DtgTableHeading({ columns }) {
     const setStyle = (column) => {
       const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
       if (types.includes(column.type)) {
@@ -16,7 +16,7 @@ export default function DtgTableHeading(props) {
     return (
         <thead>
             <tr>
-                {props.columns.map((column, index) => (
+                {columns.map((column, index) => (
                     <th key={index} scope="col"  style={setStyle(column)}>{column.name}</th>
                 ))}
             </tr>
