@@ -19,21 +19,19 @@ export default function SearchFilterSummary({
     setFilters(updated);
   }, [activeFilters, allFilters]);
 
-  function clickHandler(option, filterConfig) {
-    return () => {
-      option.active = false
-      changeHandler({
-        filter: filterConfig.key,
-        selections: filterConfig.options.slice(),
-      })
-    }
-  }
-  function handleClearAll() {
+  const clickHandler = (option, filterConfig) => () => {
+    option.active = false
+    changeHandler({
+      filter: filterConfig.key,
+      selections: filterConfig.options.slice(),
+    })
+  };
+  const handleClearAll = () => {
     const active = filters.filter(r => r.options.some(d => d.active))
     active.map(a => {
       return changeHandler(a.key)
     })
-  }
+  };
   const searched = searchQuery.length > 0
   const filtered = activeFilters.length > 0
 

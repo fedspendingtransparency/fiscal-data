@@ -39,13 +39,7 @@ const DDNav = ({title}) => {
 
   const linksCnt = linksArr.length;
 
-  function updateMobileLinks(i){
-    const idxAdjust = (i === 1) ? 1 : -1;
-    const newIdx = mobileIdx + idxAdjust;
-    setMobileLinks(newIdx);
-  }
-
-  function setMobileLinks(idx){
+  const setMobileLinks = idx => {
     const mobileLinks = [];
 
     if(idx <= 0 || idx >= linksCnt - 1){
@@ -64,9 +58,13 @@ const DDNav = ({title}) => {
 
     setMobileIdx(idx);
     setLinks(mobileLinks);
-  }
+  };
 
-
+  const updateMobileLinks = i => {
+    const idxAdjust = (i === 1) ? 1 : -1;
+    const newIdx = mobileIdx + idxAdjust;
+    setMobileLinks(newIdx);
+  };
 
   useEffect(() => {
     d3.select('.' + styles.menu)
