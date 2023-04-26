@@ -82,4 +82,4 @@ yarn-error.log
 .vscode
 
 # generated ts type definition files
-*.scss.d.ts
+*.module.scss.d.ts
