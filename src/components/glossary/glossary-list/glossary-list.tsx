@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import {
   listContainer,
   title,
@@ -6,7 +6,7 @@ import {
 } from './glossary-list.module.scss';
 
 
-const GlossaryList = () => {
+const GlossaryList:FunctionComponent = () => {
 
   return (
     <div className={listContainer}>
