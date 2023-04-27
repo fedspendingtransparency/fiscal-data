@@ -14,7 +14,7 @@ import {
 } from './glossary-header.module.scss'
 
 interface IGlossaryHeader {
-  clickHandler: () => void
+  clickHandler: (e) => void
 }
 
 const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler}) => {

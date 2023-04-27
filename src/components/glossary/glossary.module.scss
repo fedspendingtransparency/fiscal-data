@@ -7,7 +7,7 @@ $menuWidth: 318px;
   100% {opacity: 0.75;}
 }
 
-.menuContainer {
+.glossaryContainer {
   position: absolute;
   width: 0;
   right: 0;
@@ -53,24 +53,10 @@ $menuWidth: 318px;
   display: none;
 }
 
-.logo {
-  height: 2.5rem;
-  padding-bottom: 0.625rem;
-}
-
-.linkHeaderContainer {
+.glossaryHeaderContainer {
   display: flex;
   flex-direction: row;
   gap: 72px;
-}
-
-.pageLinks {
-  display: block;
-  text-decoration: none;
-  color: #666666;
-  white-space: nowrap;
-  padding: .875rem 0 .875rem 1rem;
-  font-size: $font-size-16;
 }
 
 :global(body) {
