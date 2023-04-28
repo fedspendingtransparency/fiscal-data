@@ -10,7 +10,8 @@ import {
   bookIcon,
   searchIcon,
   header,
-  closeIcon
+  closeIcon,
+  closeButton
 } from './glossary-header.module.scss'
 
 interface IGlossaryHeader {
@@ -27,7 +28,7 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler}) => {
           <FontAwesomeIcon icon={faBook as IconProp} className={bookIcon} />
           GLOSSARY
         </div>
-        <button onClick={clickHandler}>
+        <button onClick={clickHandler} className={closeButton}>
           <FontAwesomeIcon icon={faXmark as IconProp} className={closeIcon} />
         </button>
       </div>

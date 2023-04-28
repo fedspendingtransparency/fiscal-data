@@ -65,3 +65,6 @@ export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const listContainer: string;
 export const title: string;
+export const termContainer: string;
+export const sectionHeader: string;
+export const sectionTerms: string;

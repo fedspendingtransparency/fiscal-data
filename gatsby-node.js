@@ -535,6 +535,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const glossaryData = result.data.allGlossaryCsv.glossaryCsv;
 
+  result.data.allGlossaryCsv.glossaryCsv.sort((a,b) => a.term.localeCompare(b.term));
+  const glossaryMap = {};
+  result.data.allGlossaryCsv.glossaryCsv.forEach(node => {
+    if(glossaryMap[node.term.charAt(0)]) {
+      glossaryMap[node.term.charAt(0)].push(node)
+    } else {
+      glossaryMap[node.term.charAt(0)] = [node]
+    }
+  })
+
   result.data.allBlsPublicApiData.blsPublicApiData
     .filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))
     .forEach(blsRow => {
