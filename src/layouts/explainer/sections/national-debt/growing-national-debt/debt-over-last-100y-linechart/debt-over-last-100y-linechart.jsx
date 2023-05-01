@@ -214,12 +214,13 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
               customHeaderStyles={customHeaderStyles}
               customFooterSpacing={customFooterSpacing}
             >
+              {/* TODO: Move these mouse handlers to a different element, maybe chart container? */}
+              {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
               <div
                 className={lineChart}
                 data-testid={'totalDebtChartParent'}
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
-                role={'presentation'}
               >
                 <Line
                   data={chartData}
