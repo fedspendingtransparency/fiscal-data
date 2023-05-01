@@ -5,7 +5,9 @@ import {
   sectionHeader,
   sectionTerms,
   termContainer,
-  gradientRectangle
+  termText,
+  gradientRectangle,
+  // anotherContainer
 } from './glossary-list.module.scss';
 import { IGlossaryMap } from '../../../helpers/glossary-helper/glossary-data';
 
@@ -19,22 +21,26 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({termList}) => {
   return (
     <div className={listContainer}>
       <span className={title}>All Terms </span>
-      {/*<div className={gradientRectangle} />*/}
+      <div className={gradientRectangle} />
+      {/*<div className={anotherContainer}>*/}
         <div className={termContainer}>
           {keys.map((key) =>
             <>
               <div className={sectionHeader}>{key}</div>
-                <div className={sectionTerms}>
-                  {Reflect.get(termList, key).map((term) => {
-                    return(
-                      <div>{term.term}</div>
-                    )
-                  })
+              <div className={sectionTerms}>
+                {Reflect.get(termList, key).map((term) => {
+                  return(
+                    <div className={termText}>
+                      {term.term}
+                    </div>
+                  )
+                })
                 }
-                </div>
+              </div>
             </>
           )}
-        </div>
+        {/*</div>*/}
+      </div>
     </div>
   )
 }
