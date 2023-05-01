@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useRef } from 'react';
 import {
   listContainer,
   title,
@@ -6,8 +6,7 @@ import {
   sectionTerms,
   termContainer,
   termText,
-  gradientRectangle,
-  // anotherContainer
+  scrollGradient,
 } from './glossary-list.module.scss';
 import { IGlossaryMap } from '../../../helpers/glossary-helper/glossary-data';
 
@@ -16,14 +15,33 @@ interface IGlossaryList {
 }
 
 const GlossaryList:FunctionComponent<IGlossaryList> = ({termList}) => {
-
+  const scrollableRef = useRef();
   const keys = Reflect.ownKeys(termList);
+
+  // const handleScroll = () => {
+  //   if(scrollableRef.current !== undefined) {
+  //     const currPosition = scrollableRef.current.scrollTop;
+  //     console.log(currPosition);
+  //
+  //   }
+  //
+  // }
+  //
+  // useEffect(() => {
+  //   window.addEventListener('scroll', handleScroll, {passive: true});
+  //
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  //
+  // }, []);
+
   return (
-    <div className={listContainer}>
+    <>
       <span className={title}>All Terms </span>
-      <div className={gradientRectangle} />
-      {/*<div className={anotherContainer}>*/}
-        <div className={termContainer}>
+      <div className={scrollGradient} />
+      <div className={listContainer}>
+        <div className={termContainer} ref={scrollableRef}>
           {keys.map((key) =>
             <>
               <div className={sectionHeader}>{key}</div>
@@ -39,9 +57,9 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({termList}) => {
               </div>
             </>
           )}
-        {/*</div>*/}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

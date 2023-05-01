@@ -1,28 +1,26 @@
 @import '../../../variables.module.scss';
 
+.title {
+  font-weight: $semi-bold-weight;
+  margin-bottom: 1.5rem;
+}
+
+.scrollGradient {
+  height: 2.5rem;
+  background: linear-gradient(white, rgba(255,255,255,0));
+  position: sticky;
+  margin-top: 1.5rem;
+}
 
 .listContainer {
   display: flex;
   flex-direction: column;
-
-  .title {
-    font-weight: $semi-bold-weight;
-    margin-bottom: 1.5rem;
-  }
-  .gradientRectangle {
-    height: 2.5rem;
-    background: linear-gradient(red,rgba(255,255,255,0));
-    z-index: 100;
-  }
-
-  //.anotherContainer {
-    //max-height: 100%;
+  height: 100%;
 
     .termContainer {
       overflow-y: scroll;
       margin-bottom: 7.5rem;
-      margin-top: -20px;
-      height: 100%;
+      margin-top: -2.5rem;
 
       .sectionHeader {
         font-size: $font-size-20;
@@ -40,7 +38,6 @@
     }
   }
 
-//}
 
 .listContainer > div {
   min-height: 0;
