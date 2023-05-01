@@ -10,7 +10,7 @@ import {
   revenueExplainerLightSecondary,
 } from "../revenue.module.scss";
 import KeyTakeawaysSection from "../../../explainer-components/key-takeaways/key-takeaways-section";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 import reactStringReplace from "react-string-replace";
 const RevenueKeyTakeaways = ({ glossary }) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);

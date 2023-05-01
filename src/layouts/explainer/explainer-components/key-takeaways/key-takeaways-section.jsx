@@ -6,7 +6,7 @@ import {
   offsetIcon,
 } from "./key-takeaways-section.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import GlossaryTerm from "../../../../components/glossary-term/glossary-term"
+import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term"
 import reactStringReplace from "react-string-replace"
 
 export const toTitleCase = text => {

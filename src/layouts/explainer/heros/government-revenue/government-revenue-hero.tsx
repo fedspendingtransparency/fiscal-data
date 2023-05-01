@@ -11,7 +11,7 @@ import { getFootNotesDateRange, getPillData } from "../hero-helper"
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
-import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term";
 import {getShortForm} from "../../../../utils/rounding-utils";
 
 const GovernmentRevenueHero = ({glossary}): JSX.Element => {
