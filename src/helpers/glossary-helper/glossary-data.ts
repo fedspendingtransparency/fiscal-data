@@ -6,7 +6,6 @@ export interface IGlossaryMap {
 }
 
 export const getGlossaryData = (glossaryData: IGlossaryTerm[]):IGlossaryMap => {
-  console.log(glossaryData);
   const sortedGlossaryData = [...glossaryData];
   sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));
   const glossaryMap = {};

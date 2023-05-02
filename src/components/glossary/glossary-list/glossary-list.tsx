@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   listContainer,
   title,
@@ -7,6 +7,7 @@ import {
   termContainer,
   termText,
   scrollGradient,
+  scrollNonGradient
 } from './glossary-list.module.scss';
 import { IGlossaryMap } from '../../../helpers/glossary-helper/glossary-data';
 
@@ -15,33 +16,32 @@ interface IGlossaryList {
 }
 
 const GlossaryList:FunctionComponent<IGlossaryList> = ({termList}) => {
-  const scrollableRef = useRef();
+  const [scrollTop, setScrollTop] = useState(true);
+
   const keys = Reflect.ownKeys(termList);
 
-  // const handleScroll = () => {
-  //   if(scrollableRef.current !== undefined) {
-  //     const currPosition = scrollableRef.current.scrollTop;
-  //     console.log(currPosition);
-  //
-  //   }
-  //
-  // }
-  //
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll, {passive: true});
-  //
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  //
-  // }, []);
+  const handleScroll = (scrollContainer) => {
+    setScrollTop(scrollContainer.scrollTop === 0);
+  }
+
+
+  useEffect(() => {
+    const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
+
+    scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), {passive: true});
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+    };
+
+  }, []);
 
   return (
     <>
       <span className={title}>All Terms </span>
-      <div className={scrollGradient} />
+      <div className={scrollTop ? scrollNonGradient : scrollGradient} />
       <div className={listContainer}>
-        <div className={termContainer} ref={scrollableRef}>
+        <div className={termContainer} data-testid={'scrollContainer'}>
           {keys.map((key) =>
             <>
               <div className={sectionHeader}>{key}</div>

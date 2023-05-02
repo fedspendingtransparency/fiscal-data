@@ -10,6 +10,15 @@
   background: linear-gradient(white, rgba(255,255,255,0));
   position: sticky;
   margin-top: 1.5rem;
+  width: 94%;
+}
+
+.scrollNonGradient {
+  height: 2.5rem;
+  background: rgba(255,255,255,0);
+  position: sticky;
+  margin-top: 1.5rem;
+  width: 94%;
 }
 
 .listContainer {
@@ -18,7 +27,7 @@
   height: 100%;
 
     .termContainer {
-      overflow-y: scroll;
+      overflow-y: auto;
       margin-bottom: 7.5rem;
       margin-top: -2.5rem;
 
