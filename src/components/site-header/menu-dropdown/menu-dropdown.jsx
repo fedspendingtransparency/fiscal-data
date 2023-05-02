@@ -23,7 +23,9 @@ const MenuDropdown = (
         className={`${toggled ? dropdownButtonExpanded : null} ${dropdownButton}`}
         onMouseEnter={handleMouseOver}
         onFocus={handleMouseOver}
-        data-testid={'topicsButton'}
+        onMouseLeave={(e) => handleBlur(e, title)}
+
+        data-testid={'menuDropdownButton'}
         style={{minWidth:`${(title.length * 7.5)+28}px`}}
       >
         {title}

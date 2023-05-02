@@ -97,6 +97,22 @@ describe('SiteHeader', () => {
     });
   });
 
+  it('collapses the topics drop down when mouse is not over tab or menu', async () => {
+    const { getByTestId, queryByTestId, getByRole } = render(<SiteHeader />);
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    //fireEvent.mouseOut(getByRole('button', {name: 'Topics'}));
+    fireEvent.mouseEnter(getByTestId('search'));
+    //fireEvent.mouseLeave(getByRole('button', {name: 'Topics'}));
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
+  });
+
   it('collapses the tools drop down when tab is not focused on or within drop down', async () => {
     const { getByTestId, getByText, queryByTestId, getByRole } = render(<SiteHeader />);
 
@@ -111,6 +127,22 @@ describe('SiteHeader', () => {
     });
 
     getByTestId('logo').focus();
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
+  });
+
+  it('collapses the tools drop down when mouse is not over tab or menu', async () => {
+    const { getByTestId, queryByTestId, getByRole } = render(<SiteHeader />);
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Tools'}));
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+
+    fireEvent.mouseEnter(getByTestId('logo'));
+    //fireEvent.mouseOut(getByRole('button', {name: 'Tools'}));
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeFalsy();
     });
@@ -135,6 +167,21 @@ describe('SiteHeader', () => {
     });
   });
 
+  it('collapses the resources drop down when mouse is not over tab or menu', async () => {
+    const { getByTestId, queryByTestId, getByRole } = render(<SiteHeader />);
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeTruthy();
+    });
+
+    // fireEvent.mouseOut(getByRole('button', {name: 'Resources'}));
+    fireEvent.mouseEnter(getByTestId('logo'));
+    await waitFor(() => {
+      expect(queryByTestId('dropdownContent')).toBeFalsy();
+    });
+  });
+
   it('closes each dropdown when another one opens ',  () => {
     const { getByRole, queryByRole } = render(<SiteHeader />);
     fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
@@ -150,7 +197,7 @@ describe('SiteHeader', () => {
 
     fireEvent.mouseEnter(getByRole('button', {name: 'Topics'}));
     expect(queryByRole('link', {name: 'API Documentation'})).not.toBeInTheDocument();
-  } )
+  });
 
 
   it('expects that all of the header links are not active/highlighted by default', () => {

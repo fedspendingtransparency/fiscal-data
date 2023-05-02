@@ -205,6 +205,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   }
 
   const handleMouseLeave = (title) => {
+    //console.log("Title", title);
     if(title === 'Topics') {
       if(isExpanded) {
         setMenuExpanding(true);
@@ -232,10 +233,18 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   }
 
-  const handleBlur = (e, title) => {
-    const currentTarget = e.currentTarget;
+  const handleBlur = (event, title) => {
+    const currentTarget = event.currentTarget;
+
+    console.log("parent ", event.target.parentElement);
+    console.log("related ", event.relatedTarget);
+    console.log("target ", event.target);
+    console.log("currentTarget ", event.currentTarget);
+    console.log("active ", document.activeElement);
+
+
     requestAnimationFrame(() => {
-      if(!currentTarget.contains(document.activeElement)) {
+      if(!currentTarget.contains(document.activeElement) && !event.target.parentElement.contains(event.relatedTarget)) {
         handleMouseLeave(title);
       }
     });

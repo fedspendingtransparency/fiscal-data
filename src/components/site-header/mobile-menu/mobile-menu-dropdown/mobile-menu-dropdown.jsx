@@ -37,7 +37,7 @@ const MobileMenuDropdown = ({header, sections, defaultOpen}) => {
         className={`${mainHeader} ${isExpanded ? headerExpanded : null}`}
         onClick={() => {setIsExpanded(!isExpanded);}}
         onKeyPress={(e) => handleKeyPress(e)}
-        data-testid="topicsButton"
+        data-testid="menuDropdownButton"
         role={'button'}
         tabIndex={0}
       >
