@@ -65,7 +65,7 @@ export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const title: string;
 export const scrollGradient: string;
-export const scrollNonGradient: string;
+export const scrollContainerTop: string;
 export const listContainer: string;
 export const termContainer: string;
 export const sectionHeader: string;

@@ -6,16 +6,19 @@ export interface IGlossaryMap {
 }
 
 export const getGlossaryData = (glossaryData: IGlossaryTerm[]):IGlossaryMap => {
-  const sortedGlossaryData = [...glossaryData];
-  sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));
   const glossaryMap = {};
-  sortedGlossaryData.forEach(node => {
-    if(glossaryMap[node.term.charAt(0).toUpperCase()]) {
-      glossaryMap[node.term.charAt(0).toUpperCase()].push(node)
-    } else {
-      glossaryMap[node.term.charAt(0).toUpperCase()] = [node]
-    }
-  })
+  if(glossaryData) {
+    const sortedGlossaryData = [...glossaryData];
+    sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));
+    sortedGlossaryData.forEach(node => {
+      if(glossaryMap[node.term.charAt(0).toUpperCase()]) {
+        glossaryMap[node.term.charAt(0).toUpperCase()].push(node)
+      } else {
+        glossaryMap[node.term.charAt(0).toUpperCase()] = [node]
+      }
+    })
 
+
+  }
   return glossaryMap;
 }

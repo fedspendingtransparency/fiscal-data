@@ -7,18 +7,18 @@ import {
   termContainer,
   termText,
   scrollGradient,
-  scrollNonGradient
+  scrollContainerTop
 } from './glossary-list.module.scss';
 import { IGlossaryMap } from '../../../helpers/glossary-helper/glossary-data';
 
 interface IGlossaryList {
-  termList: IGlossaryMap
+  termMap: IGlossaryMap
 }
 
-const GlossaryList:FunctionComponent<IGlossaryList> = ({termList}) => {
+const GlossaryList:FunctionComponent<IGlossaryList> = ({termMap}) => {
   const [scrollTop, setScrollTop] = useState(true);
 
-  const keys = Reflect.ownKeys(termList);
+  const keys = Reflect.ownKeys(termMap);
 
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
@@ -39,16 +39,16 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({termList}) => {
   return (
     <>
       <span className={title}>All Terms </span>
-      <div className={scrollTop ? scrollNonGradient : scrollGradient} />
+      <div className={scrollTop ? scrollContainerTop : scrollGradient} />
       <div className={listContainer}>
         <div className={termContainer} data-testid={'scrollContainer'}>
           {keys.map((key) =>
             <>
               <div className={sectionHeader}>{key}</div>
               <div className={sectionTerms}>
-                {Reflect.get(termList, key).map((term) => {
+                {Reflect.get(termMap, key).map((term) => {
                   return(
-                    <div className={termText}>
+                    <div className={termText} key={termText}>
                       {term.term}
                     </div>
                   )

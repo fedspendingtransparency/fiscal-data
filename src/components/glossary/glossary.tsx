@@ -6,12 +6,11 @@ import GlossaryList from './glossary-list/glossary-list';
 import { IGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
 
 interface IGlossary {
-  termList: IGlossaryMap
+  termMap: IGlossaryMap
 }
 
-const Glossary:FunctionComponent<IGlossary> = ({termList}) => {
+const Glossary:FunctionComponent<IGlossary> = ({ termMap }) => {
   const [activeState, setActiveState] = useState(true);
-
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
@@ -35,7 +34,7 @@ const Glossary:FunctionComponent<IGlossary> = ({termList}) => {
             <div className={styles.glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} />
             </div>
-            <GlossaryList termList={termList} />
+            <GlossaryList termMap={termMap} />
           </>
         )}
       </div>

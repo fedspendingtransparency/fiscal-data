@@ -44,13 +44,13 @@ describe('glossary list',() => {
   }
 
   it('contains the initial list header', () => {
-    const { getByText } = render(<GlossaryList termList={glossaryExample} />);
+    const { getByText } = render(<GlossaryList termMap={glossaryExample} />);
 
     expect(getByText('All Terms')).toBeInTheDocument();
   });
 
   it('renders a header for every letter containing a term', () => {
-    const { getByText } = render(<GlossaryList termList={glossaryExample} />);
+    const { getByText } = render(<GlossaryList termMap={glossaryExample} />);
 
     expect(getByText('A')).toBeInTheDocument();
     expect(getByText('B')).toBeInTheDocument();
@@ -58,17 +58,12 @@ describe('glossary list',() => {
   });
 
   it('renders all terms for each given letter', () => {
-    const { getByText } = render(<GlossaryList termList={glossaryExample} />);
+    const { getByText } = render(<GlossaryList termMap={glossaryExample} />);
 
     expect(getByText('Apple')).toBeInTheDocument();
     expect(getByText('Another Apple')).toBeInTheDocument();
     expect(getByText('Banana')).toBeInTheDocument();
     expect(getByText('Pear')).toBeInTheDocument();
   });
-
-  it('', () => {
-
-  })
-
 
 });

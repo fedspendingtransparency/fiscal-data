@@ -7,13 +7,14 @@
 
 .scrollGradient {
   height: 2.5rem;
-  background: linear-gradient(white, rgba(255,255,255,0));
+  background: rgba(255,255,255,0);
   position: sticky;
   margin-top: 1.5rem;
   width: 94%;
+  background: linear-gradient(white, rgba(255,255,255,0));
 }
 
-.scrollNonGradient {
+.scrollContainerTop {
   height: 2.5rem;
   background: rgba(255,255,255,0);
   position: sticky;

@@ -29,7 +29,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     graphql`
       query {
         allGlossaryCsv {
-          glossaryCsv: nodes {
+          nodes {
             term
             definition
             site_page
@@ -42,7 +42,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     `
   )
 
-  const glossaryData = getGlossaryData(glossaryCsv.allGlossaryCsv.glossaryCsv);
+  const glossaryData = getGlossaryData(glossaryCsv?.allGlossaryCsv?.nodes);
 
   const pageLinks = [
     {
@@ -441,7 +441,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
           </div>
         </div>
         <Experimental featureId={"Glossary"}>
-          <Glossary termList={glossaryData} />
+          <Glossary termMap={glossaryData} />
         </Experimental>
         <MobileMenu />
       </div>

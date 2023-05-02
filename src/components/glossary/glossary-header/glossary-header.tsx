@@ -28,7 +28,7 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler}) => {
           <FontAwesomeIcon icon={faBook as IconProp} className={bookIcon} />
           GLOSSARY
         </div>
-        <button onClick={clickHandler} className={closeButton}>
+        <button onClick={clickHandler} className={closeButton} aria-label={'Close glossary'}>
           <FontAwesomeIcon icon={faXmark as IconProp} className={closeIcon} />
         </button>
       </div>
