@@ -310,8 +310,7 @@ export const LineChartCustomSlices = ( props, groupMouseLeave, mouseMove ) => {
   );
 };
 
-export const lineChartCustomPoints = props => {
-  const { currentSlice, borderWidth, borderColor, points } = props;
+export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
 
     const lastGdpPoints = points.filter(g => g.serieId === 'GDP').pop();
 

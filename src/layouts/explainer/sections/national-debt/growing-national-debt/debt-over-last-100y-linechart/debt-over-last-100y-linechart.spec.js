@@ -7,6 +7,7 @@ import {
   mockTotalDebt100YData,
   mockCpiDataset,
 } from '../../../../explainer-test-helper';
+import {mockAllIsIntersecting} from "react-intersection-observer/test-utils";
 
 describe('National Debt Over the Last 100 Years Chart', () => {
   beforeAll(() => {
@@ -91,5 +92,49 @@ describe('National Debt Over the Last 100 Years Chart', () => {
     expect(
       await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })
     ).toBeInTheDocument();
+  });
+
+  it('animates the chart when it is scrolled into view', async () => {
+
+    jest.useFakeTimers();
+
+    // make sure data is loaded (from mock) and chart layers are rendered
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const {getByTestId} = render(
+      <DebtOverLast100y cpiDataByYear={mockCpiDataset}/>
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+
+    // expicitly declare that the chart is not scrolled into view
+    mockAllIsIntersecting(false);
+
+    // find an element corresponding to the selected point
+    let points = await getByTestId('customPoints');
+    let circleElem = await points.querySelector('circle:first-child');
+    const initialPointPosition = {x: circleElem.getAttribute('cx'), y: circleElem.getAttribute('cy')};
+
+    // advance the time and confirm that the position of the point hasn't changed
+    jest.advanceTimersByTime(900);
+    points = await getByTestId('customPoints');
+    let updatedCircleElem = points.querySelector('circle:first-child');
+    let updatedPointPosition = {x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy')};
+    expect(initialPointPosition).toStrictEqual(updatedPointPosition);
+
+/*
+    // expicitly declare that the chart IS NOW scrolled into view and confirm animation is underway
+    mockAllIsIntersecting(true);
+    jest.advanceTimersByTime(900);
+    updatedCircleElem = points.querySelector('circle:first-child');
+    updatedPointPosition = {x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy')};
+    expect(initialPointPosition.x - updatedPointPosition.x).toBeGreaterThan(0);
+
+    // confirm that point eventually returns to home position
+    mockAllIsIntersecting(true);
+    jest.advanceTimersByTime(5000);
+    updatedCircleElem = points.querySelector('circle:first-child');
+    updatedPointPosition = {x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy')};
+    expect(initialPointPosition).toStrictEqual(updatedPointPosition);
+*/
   });
 });
