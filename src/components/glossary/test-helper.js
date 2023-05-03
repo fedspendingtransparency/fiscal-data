@@ -1,17 +1,41 @@
-const glossaryData = [
+export const testGlossaryData = [
   {
-    "term": "Apple",
-    "definition": "An Apple",
-    "site_page": "Debt",
-    "id":"1",
-    "url_display": "",
-    "url_path": "",
+    id: 1,
+    term: 'Banana',
+    site_page: 'debt',
+    definition: 'A banana',
+    urlDisplay: 'example.com',
+    urlPath: 'example.com'
+  },
+  {
+    id: 2,
+    term: 'Pear',
+    site_page: 'debt',
+    definition: 'A pear',
+    urlDisplay: 'example.com',
+    urlPath: 'example.com'
+  },
+  {
+    id: 3,
+    term: 'apple',
+    site_page: 'spending',
+    definition: 'An apple',
+    urlDisplay: 'example.com',
+    urlPath: 'example.com'
+  },
+  {
+    id: 4,
+    term: 'Another Apple',
+    site_page: 'spending',
+    definition: 'An apple',
+    urlDisplay: 'example.com',
+    urlPath: 'example.com'
   }
 ]
 
 export const mockUseStaticGlossaryData = {
   allGlossaryCsv: {
-    nodes: glossaryData
+    nodes: testGlossaryData
   }
 }
 
