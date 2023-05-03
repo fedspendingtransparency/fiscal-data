@@ -1,7 +1,8 @@
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import GlossaryList from './glossary-list';
 import { glossaryMapExample } from '../test-helper';
+import userEvent from '@testing-library/user-event';
 describe('glossary list',() => {
   it('contains the initial list header', () => {
     const { getByText } = render(<GlossaryList termMap={glossaryMapExample} />);
@@ -42,6 +43,49 @@ describe('glossary list',() => {
     fireEvent.scroll(scrollContainer, { target: { scrollTop: 0}})
     expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
     expect(getByTestId('scrollGradient')).not.toHaveClass('scrollGradient');
+  })
+
+  it('opens definition display on term click', () => {
+    const { getByRole, getByText } = render(
+      <GlossaryList termMap={glossaryMapExample} />
+    );
+
+    const termButton = getByRole('button', {name: 'Apple'});
+    termButton.click();
+
+    expect(getByText('Apple')).toBeInTheDocument();
+    expect(getByText('An apple')).toBeInTheDocument();
+
+  })
+
+  it('definition display is keyboard accessible', () => {
+    const { getByRole, getByText } = render(
+      <GlossaryList termMap={glossaryMapExample} />
+    );
+
+    const termButton = getByRole('button', {name: 'Apple'});
+
+    act(() => {
+      userEvent.tab();
+    })
+    expect(termButton).toHaveFocus();
+    act(() => {
+      userEvent.keyboard('[enter]');
+    });
+    expect(getByText('Apple')).toBeInTheDocument();
+    expect(getByText('An apple')).toBeInTheDocument();
+  })
+
+  it('renders a back to list button when a definition is displayed', () => {
+    const { getByText, getByRole } = render(
+      <GlossaryList termMap={glossaryMapExample} />
+    );
+
+    const termButton = getByText('Banana');
+    termButton.click();
+
+    const backButton = getByRole('button', {name: 'Back to list'});
+    backButton.click();
   })
 
 });
