@@ -35,13 +35,15 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({termMap}) => {
   useEffect(() => {
     const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
 
-    scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), {passive: true});
+    if(scrollContainer) {
+      scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), {passive: true});
 
-    return () => {
-      scrollContainer.removeEventListener('scroll', handleScroll);
-    };
+      return () => {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      };
+    }
 
-  }, []);
+  }, [selectedTerm]);
 
   const onTermClick = (e, term) => {
     if (e.key === undefined || e.key === 'Enter') {
