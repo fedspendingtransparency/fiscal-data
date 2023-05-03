@@ -11,7 +11,7 @@ import { pagedDatatableRequest, formatDateForApi } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
 import * as styles from './dtg-table.module.scss';
-import { Link } from 'gatsby';
+import CustomLink from "../links/custom-link/custom-link";
 
 const defaultRowsPerPage = 5;
 
@@ -261,8 +261,10 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
               <p><strong>Table failed to load.</strong></p>
               <p>
                 There was an error with our API and we are unable to load this table. Please try
-                your request again or <Link to="/about-us/#contact-us">contact us</Link> for
-                assistance.
+                your request again or {' '}
+                <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
+                  contact us
+                </CustomLink> for assistance.
               </p>
             </div>
           </>

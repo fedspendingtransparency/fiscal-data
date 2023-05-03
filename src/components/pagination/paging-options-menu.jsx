@@ -44,7 +44,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
     <div className={styles.pageOptions}>
       <span className={styles.perPageLabel}>{label}</span>
       <Button
-        aria-controls="rows-per-page-menu"
+        aria-label="rows-per-page-menu"
         onClick={handleOpen}
         variant="outlined"
         endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}

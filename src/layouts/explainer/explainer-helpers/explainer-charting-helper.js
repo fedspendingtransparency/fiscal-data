@@ -10,6 +10,7 @@ export const applyChartScaling = (parent, chartWidth, chartHeight) => {
     svgChart.setAttribute('viewBox', `0 0 ${chartWidth} ${chartHeight}`);
     svgChart.setAttribute('height', '100%');
     svgChart.setAttribute('width', '100%');
+    svgChart.setAttribute('aria-label', 'Inner chart area');
   }
 };
 

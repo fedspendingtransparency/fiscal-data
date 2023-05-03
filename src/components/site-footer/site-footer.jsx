@@ -19,7 +19,7 @@ export const siteFooterColumns = [
       },
       {
         title: 'Contact Us',
-        to: '/about-us/#contact-us',
+        to: 'mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us',
         actionTitle: 'Contact',
         testId: 'contact'
       }

@@ -289,7 +289,8 @@ const SplitFlapDisplay = (
 
   return (
     <div className={splitFlapContainer}
-         aria-label={`$${description}`}
+      role="img"
+      aria-label={`$${description}`}
     >
 
       { displayReady &&
