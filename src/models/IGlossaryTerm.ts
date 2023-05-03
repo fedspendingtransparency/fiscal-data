@@ -1,5 +1,5 @@
 export interface IGlossaryTerm {
-  id: number,
+  id: string,
   term: string,
   definition: string,
   site_page: string,

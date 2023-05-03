@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'gatsby';
+import { graphql, Link, useStaticQuery } from 'gatsby';
 import * as styles from './site-header.module.scss';
 import MobileMenu from "./mobile-menu/mobile-menu";
 import { withWindowSize } from 'react-fns';
@@ -12,6 +12,7 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
 import Glossary from '../glossary/glossary';
+import { getGlossaryData } from '../../helpers/glossary-helper/glossary-data';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -23,6 +24,25 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [toggled, setToggled] = useState(false);
   const [toggledTools, setToggledTools] = useState(false);
   const [toggledResources, setToggledResources] = useState(false);
+
+  const glossaryCsv = useStaticQuery(
+    graphql`
+      query {
+        allGlossaryCsv {
+          nodes {
+            term
+            definition
+            site_page
+            id
+            url_display
+            url_path
+          }
+        }
+      }
+    `
+  )
+
+  const glossaryData = getGlossaryData(glossaryCsv?.allGlossaryCsv?.nodes);
 
   const pageLinks = [
     {
@@ -421,7 +441,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
           </div>
         </div>
         <Experimental featureId={"Glossary"}>
-          <Glossary />
+          <Glossary termMap={glossaryData} />
         </Experimental>
         <MobileMenu />
       </div>
