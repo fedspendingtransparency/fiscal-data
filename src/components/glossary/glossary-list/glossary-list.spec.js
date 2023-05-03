@@ -68,10 +68,7 @@ describe('glossary list',() => {
 
   it('applies a gradient to the scroll container when it is not at the top', () => {
     const { getByTestId } = render(
-      <div style={{height: '10px'}}>
         <GlossaryList termMap={glossaryExample} />
-      </div>
-
     );
 
     expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
