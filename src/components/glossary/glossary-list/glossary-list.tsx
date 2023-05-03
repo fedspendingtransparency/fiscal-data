@@ -39,23 +39,23 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({termMap}) => {
   return (
     <>
       <span className={title}>All Terms </span>
-      <div className={scrollTop ? scrollContainerTop : scrollGradient} />
+      <div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid={'scrollGradient'} />
       <div className={listContainer}>
         <div className={termContainer} data-testid={'scrollContainer'}>
-          {keys.map((key) =>
-            <>
-              <div className={sectionHeader}>{key}</div>
+          {keys.map((letter) =>
+            <React.Fragment key={letter}>
+              <div className={sectionHeader}>{letter}</div>
               <div className={sectionTerms}>
-                {Reflect.get(termMap, key).map((term) => {
+                {Reflect.get(termMap, letter).map((term) => {
                   return(
-                    <div className={termText} key={termText}>
+                    <div className={termText} key={term.term}>
                       {term.term}
                     </div>
                   )
                 })
                 }
               </div>
-            </>
+            </React.Fragment>
           )}
         </div>
       </div>

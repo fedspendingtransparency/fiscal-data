@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import GlossaryList from './glossary-list';
 describe('glossary list',() => {
@@ -19,7 +19,7 @@ describe('glossary list',() => {
         definition: 'An apple',
         urlDisplay: 'example.com',
         urlPath: 'example.com'
-      }
+      },
     ],
     'B': [
       {
@@ -65,5 +65,26 @@ describe('glossary list',() => {
     expect(getByText('Banana')).toBeInTheDocument();
     expect(getByText('Pear')).toBeInTheDocument();
   });
+
+  it('applies a gradient to the scroll container when it is not at the top', () => {
+    const { getByTestId } = render(
+      <div style={{height: '10px'}}>
+        <GlossaryList termMap={glossaryExample} />
+      </div>
+
+    );
+
+    expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
+
+    const scrollContainer = getByTestId('scrollContainer');
+
+    fireEvent.scroll(scrollContainer, { target: { scrollTop: 100}})
+    expect(getByTestId('scrollGradient')).toHaveClass('scrollGradient');
+    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollContainerTop');
+
+    fireEvent.scroll(scrollContainer, { target: { scrollTop: 0}})
+    expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
+    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollGradient');
+  })
 
 });
