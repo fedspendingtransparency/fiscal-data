@@ -29,6 +29,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import {getShortForm} from "../../../../../../utils/rounding-utils";
 import Analytics from "../../../../../../utils/analytics/analytics";
+import {addInnerChartAriaLabel} from "../../../../explainer-helpers/explainer-charting-helper";
 
 let gaTimerRevenueCircle;
 
@@ -56,6 +57,12 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
+
+  const chartParent = 'chartParent';
+
+  useEffect(() => {
+    addInnerChartAriaLabel(chartParent);
+  }, [chartData])
 
   useEffect(() => {
     const url =
@@ -331,6 +338,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               <div
                 role="presentation"
                 className={chartSize}
+                data-testid={'chartParent'}
                 onMouseEnter={handleMouseEnterChart}
                 onMouseLeave={HandleChartMouseLeave}
                 onClick={HandleChartMouseLeave}
