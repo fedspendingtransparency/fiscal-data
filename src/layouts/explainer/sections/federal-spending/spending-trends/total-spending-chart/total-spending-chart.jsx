@@ -127,17 +127,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const chartParent = 'chartParent';
   const chartWidth = 550;
   const chartHeight = 490;
-  //
-  // const applyChartScaling = () => {
-  //   // rewrite some element attribs after render to ensure Chart scales with container
-  //   // which doesn't seem to happen naturally when nivo has a flex container
-  //   const svgChart = document.querySelector('[data-testid="chartParent"] svg');
-  //   if (svgChart) {
-  //     svgChart.setAttribute('viewBox', '0 0 550 490');
-  //     svgChart.setAttribute('height', '100%');
-  //     svgChart.setAttribute('width', '100%');
-  //   }
-  // };
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
