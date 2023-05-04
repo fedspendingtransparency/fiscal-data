@@ -1,0 +1,44 @@
+
+$base: 0;
+$above: 1;
+$below: -1;
+
+$backdrop: $base;
+
+// global
+// range preset, download, published reports
+$radio-button: $above + $backdrop;
+
+// menu
+
+
+// dataset detail
+// table
+$dtg-table: $backdrop;
+$dtg-table-overlay: $above + $dtg-table;
+// check this later !!
+$dtg-table-loading-icon: $above + $dtg-table-overlay;
+$dtg-api-error: $dtg-table-loading-icon;
+
+// table container
+$table-loading-section: $above + $backdrop;
+$table-title: $above + $table-loading-section;
+// test loading icon ??
+$table-loading-icon: $above + $table-title;
+
+// explainer
+// flip card
+$half-panel-flip-out: $backdrop;
+$half-panel-bottom: $below + $half-panel-flip-out;
+$half-panel-top: $below + $half-panel-bottom;
+$half-panel-flip-in: $above + $half-panel-flip-out;
+$mid-card-line: $half-panel-flip-in;
+$selectable-digits: $above + $half-panel-flip-in;
+
+
+:export {
+    dtgTable: $dtg-table;
+    dtgTableOverlay: $dtg-table-overlay;
+    dtgTableLoadingIcon: $dtg-table-loading-icon;
+    dtgApiError: $dtg-api-error;
+}
