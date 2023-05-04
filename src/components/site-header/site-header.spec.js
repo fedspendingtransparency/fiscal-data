@@ -116,9 +116,7 @@ describe('SiteHeader', () => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
     });
 
-    //fireEvent.mouseOut(getByRole('button', {name: 'Topics'}));
     fireEvent.mouseEnter(getByTestId('search'));
-    //fireEvent.mouseLeave(getByRole('button', {name: 'Topics'}));
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeFalsy();
     });
@@ -151,9 +149,7 @@ describe('SiteHeader', () => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
     });
 
-
-    fireEvent.mouseEnter(getByTestId('logo'));
-    //fireEvent.mouseOut(getByRole('button', {name: 'Tools'}));
+    fireEvent.mouseOver(getByTestId('logo'));
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeFalsy();
     });
@@ -186,8 +182,7 @@ describe('SiteHeader', () => {
       expect(queryByTestId('dropdownContent')).toBeTruthy();
     });
 
-    // fireEvent.mouseOut(getByRole('button', {name: 'Resources'}));
-    fireEvent.mouseEnter(getByTestId('logo'));
+    fireEvent.mouseOver(getByTestId('logo'));
     await waitFor(() => {
       expect(queryByTestId('dropdownContent')).toBeFalsy();
     });

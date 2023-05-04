@@ -256,20 +256,6 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   const handleBlur = (event, title) => {
     const currentTarget = event.currentTarget;
 
-    // console.log("parent ", event.target.parentElement);
-    // console.log("related ", event.relatedTarget);
-    // console.log("target ", event.target);
-    // console.log("currentTarget ", event.currentTarget);
-    // console.log("active ", document.activeElement);
-
-
-    // requestAnimationFrame(() => {
-    //   if(!currentTarget.contains(document.activeElement) && !event.target.parentElement.contains(event.relatedTarget)) {
-    //     console.log("IN IF STATEMENT")
-    //     handleMouseLeave(title);
-    //   }
-    // });
-
     requestAnimationFrame(() => {
       if(!currentTarget.contains(document.activeElement)) {
         handleMouseLeave(title);
@@ -277,10 +263,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     });
   }
 
-  const handleMouseEnterNonDropdown = (event, title) => {
+  const handleMouseEnterNonDropdown = (title) => {
 
-    // called for about is, logo, and dataset search
-    // need to account for other non focusable things? want it to collapse when in white space? 
     if (title !== 'Topics' && title !== 'Tools' && title !== 'Resources') {
       handleMouseLeave("Topics");
       handleMouseLeave("Tools");
@@ -302,7 +286,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             aria-label="Fiscal Data logo - return to home page"
             to="/"
             onClick={() => clickHandler('Logo')}
-            onMouseOver={(e) => handleMouseEnterNonDropdown(e, "Logo")}
+            onMouseOver={() => handleMouseEnterNonDropdown("Logo")}
           >
             <StaticImage
               src="../../images/logos/fd-logo.svg"
@@ -449,7 +433,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         </span>
                       </button> : (
                         <button className={styles.pageLinkButton}
-                        onMouseEnter={(e) => handleMouseEnterNonDropdown(e, pageLink.title)}>
+                        onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}>
                           <Link
                             key={pageLink.title}
                             to={pageLink.to}
