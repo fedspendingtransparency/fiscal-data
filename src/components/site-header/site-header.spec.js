@@ -5,10 +5,21 @@ import * as styles from './site-header.module.scss';
 import * as rdd from 'react-device-detect';
 import SiteLayout from "../siteLayout/siteLayout";
 import Analytics from '../../utils/analytics/analytics';
+import { StaticQuery, useStaticQuery } from 'gatsby';
+import { mockUseStaticGlossaryData } from '../glossary/test-helper';
 
 jest.useFakeTimers();
 
 describe('SiteHeader', () => {
+
+  beforeEach(() => {
+    StaticQuery.mockImplementation(({ render }) => render({ mockUseStaticGlossaryData }));
+    useStaticQuery.mockImplementation(() => {
+      return {
+        ...mockUseStaticGlossaryData
+      };
+    });
+  });
 
   it('displays the the logo', async () => {
     const { getByTestId } = render(<SiteHeader />);

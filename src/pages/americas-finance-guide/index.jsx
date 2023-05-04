@@ -37,7 +37,7 @@ import {
   spendingRequest,
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../components/glossary/glossary-term/glossary-term";
 import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";

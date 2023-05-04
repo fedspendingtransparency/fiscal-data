@@ -10,7 +10,7 @@ import React, {useEffect, useState} from "react";
 import 'react-tabs/style/react-tabs.css';
 import SurplusIllustration from "./surplus-illustration/surplus-illustration";
 import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 import {apiPrefix, basicFetch} from "../../../../../../src/utils/api-utils";
 import {nationalDeficitSectionConfigs} from "../../national-deficit/national-deficit";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../src/utils/date-utils";

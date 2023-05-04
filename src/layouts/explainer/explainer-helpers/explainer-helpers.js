@@ -15,7 +15,6 @@ import {
   revenueHover
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from "../heros/national-debt/national-debt-hero";
-import globalConstants from "../../../helpers/constants";
 import {
   deficitExplainerPrimary,
   deficitExplainerSecondary,

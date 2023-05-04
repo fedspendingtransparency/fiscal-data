@@ -55,11 +55,11 @@ const NotFoundText = () => (
       </li>
     </UlTag>
     <PTag>
-      Want to get in touch or send in general comments about the site?{' '}
-      Send us a message using the{' '}
-      <CustomLink url="/about-us/#contact-us" external>
-        Contact Us
-      </CustomLink> form.
+      Want to get in touch or send in general comments about the site? 
+      Send a message {' '}
+      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
+        via email
+      </CustomLink>, and our team will respond at our earliest opportunity.
     </PTag>
     <NotFoundGraphicHolder />
   </Wrapper>

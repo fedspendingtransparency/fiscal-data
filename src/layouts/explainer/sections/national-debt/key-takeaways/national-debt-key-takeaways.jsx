@@ -1,4 +1,4 @@
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 import {
   icon,
   iconBackground,
