@@ -20,6 +20,7 @@ import {
   container
 } from './debt-over-last-100y-linechart.module.scss';
 import {
+  addInnerChartAriaLabel,
   applyChartScaling,
   applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
@@ -134,6 +135,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
           chartWidth.toString(),
           chartHeight.toString()
         );
+        addInnerChartAriaLabel(chartParent);
       }
     });
   }, []);
