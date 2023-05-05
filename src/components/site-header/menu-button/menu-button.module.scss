@@ -1,4 +1,5 @@
 @import '../../../variables.module.scss';
+@import '../../../zIndex.module.scss';
 
 $buttonWidth: 57px;
 
@@ -9,7 +10,6 @@ $buttonWidth: 57px;
   width: $buttonWidth;
   background-color: white;
   border: none;
-  z-index: 99;
   padding: 0.3rem 0.5rem 0;
   cursor: pointer;
   color: #666666;
@@ -20,7 +20,6 @@ $buttonWidth: 57px;
   width: $buttonWidth;
   background-color: white;
   border: none;
-  z-index: 99;
   padding: 0 0.5rem 0.625rem;
   cursor: pointer;
   color: #666666;

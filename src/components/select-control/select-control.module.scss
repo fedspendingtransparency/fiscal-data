@@ -1,4 +1,5 @@
 @import '../../variables.module.scss';
+@import '../../zIndex.module.scss';
 
 .selector_button {
   position: relative;
@@ -41,7 +42,7 @@
   box-sizing: border-box;
   background-color: $content-section-background;
   white-space: normal;
-  z-index: 10000;
+  z-index: $select-control;
   &.scrollable {
     max-height: 315px;
     overflow-y: scroll;
