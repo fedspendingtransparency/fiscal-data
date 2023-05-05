@@ -12,7 +12,7 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
 import Glossary from '../glossary/glossary';
-import { getGlossaryData } from '../../helpers/glossary-helper/glossary-data';
+import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -42,7 +42,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     `
   )
 
-  const glossaryData = getGlossaryData(glossaryCsv?.allGlossaryCsv?.nodes);
+  const glossaryData = glossaryCsv?.allGlossaryCsv?.nodes;
 
   const pageLinks = [
     {
@@ -440,9 +440,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             })}
           </div>
         </div>
-        <Experimental featureId={"Glossary"}>
-          <Glossary termMap={glossaryData} />
-        </Experimental>
+        {/*<Experimental featureId={"Glossary"}>*/}
+          <Glossary termList={glossaryData} />
+        {/*</Experimental>*/}
         <MobileMenu />
       </div>
       {lowerEnvMsg && (

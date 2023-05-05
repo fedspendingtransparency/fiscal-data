@@ -16,21 +16,24 @@ import GlossaryDefinition from '../glossary-definition/glossary-definition';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
+import { navigate } from 'gatsby';
+// import { navigateTo } from 'gatsby-link';
 
 interface IGlossaryList {
   termMap: IGlossaryMap
+  defaultTerm: IGlossaryTerm
 }
 
-const GlossaryList:FunctionComponent<IGlossaryList> = ({termMap}) => {
+const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, defaultTerm}) => {
   const [scrollTop, setScrollTop] = useState(true);
-  const [selectedTerm, setSelectedTerm] = useState(null);
+  const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
 
   const keys = Reflect.ownKeys(termMap);
 
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
-
 
   useEffect(() => {
     const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');

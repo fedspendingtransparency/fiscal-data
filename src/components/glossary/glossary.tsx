@@ -3,14 +3,26 @@ import React, { FunctionComponent, useState } from 'react';
 import * as styles from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
 import GlossaryList from './glossary-list/glossary-list';
-import { IGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
+import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
+import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 
 interface IGlossary {
-  termMap: IGlossaryMap
+  termList: IGlossaryTerm[]
 }
 
-const Glossary:FunctionComponent<IGlossary> = ({ termMap }) => {
-  const [activeState, setActiveState] = useState(true);
+const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
+  const termMap = getGlossaryMap(termList);
+  const getTerm = (termName):IGlossaryTerm => {
+    return termList.find((element:IGlossaryTerm) => {
+      return element.term.toLowerCase() === termName.toLowerCase()
+    });
+  }
+  const queryParameters = new URLSearchParams(window.location.search);
+  const urlTerm = getTerm(queryParameters.get("glossary"));
+
+  const [activeState, setActiveState] = useState( urlTerm !== null && urlTerm !== undefined);
+
+  console.log(urlTerm);
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
@@ -34,7 +46,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termMap }) => {
             <div className={styles.glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} />
             </div>
-            <GlossaryList termMap={termMap} />
+            <GlossaryList termMap={termMap} defaultTerm={urlTerm} />
           </>
         )}
       </div>
