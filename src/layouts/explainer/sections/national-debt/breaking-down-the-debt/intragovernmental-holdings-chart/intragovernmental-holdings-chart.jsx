@@ -20,7 +20,10 @@ import {
 } from './intragovernmental-holdings-chart.module.scss';
 import {visWithCallout} from '../../../../explainer.module.scss';
 import CustomBar from './custom-bar/customBar'
-import { applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling
+} from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 const IntragovernmentalHoldingsChart = ({sectionId, data, date, width}) => {
@@ -108,6 +111,7 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date, width}) => {
   useEffect(() => {
     if (isChartRendered) {
       applyChartScaling(chartParent, chartWidth, chartHeight+30);
+      addInnerChartAriaLabel(chartParent);
     }
   }, [isChartRendered]);
 

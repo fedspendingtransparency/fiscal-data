@@ -20,6 +20,7 @@ import VisualizationCallout
 import { lineChart, container } from './total-revenue-chart.module.scss';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import {
+  addInnerChartAriaLabel,
   applyChartScaling,
   applyTextScaling,
 } from '../../../../../explainer-helpers/explainer-charting-helper';
@@ -120,7 +121,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
       chartWidth.toString(),
       chartHeight.toString()
     );
-  }, []);
+    addInnerChartAriaLabel(chartParent);
+  }, [isLoading]);
 
   const breakpoint = {
     desktop: 1015,
