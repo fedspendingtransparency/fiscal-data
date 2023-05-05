@@ -13,6 +13,7 @@ type CustomLinkProps = {
   onClick?: () => void;
   "data-testid"?: string;
   eventNumber?: string;
+  id?: string;
 };
 
 const analyticsEventMap: Record<
@@ -33,6 +34,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   onClick,
   "data-testid": dataTestId,
   eventNumber,
+  id,
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
@@ -125,6 +127,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           smooth={true}
           duration={600}
           delay={200}
+          id={id}
         >
           {children}
         </ScrollLink>
