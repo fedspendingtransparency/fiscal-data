@@ -13,11 +13,6 @@ import CustomLink from "../../links/custom-link/custom-link";
 const Accordions = ({ selectedTable }) => {
 
   const numOfFields = 5;
-  // <a href="#about-this-dataset"
-  //    className={sectionLink}
-  // >
-  //   About This Dataset
-  // </a>
   const methods = {
     title: 'Parameters',
     desc: <>
