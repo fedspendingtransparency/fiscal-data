@@ -122,7 +122,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
       return (
         <ScrollLink
           to={urlOrHref.substr(1)}
-          data-testid="scroll-link"
+          data-testid={dataTestId || "scroll-link"}
           className="primary"
           smooth={true}
           duration={600}
