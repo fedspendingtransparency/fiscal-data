@@ -21,7 +21,7 @@ import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
 
 interface IGlossaryList {
   termMap: IGlossaryMap
-  defaultTerm: IGlossaryTerm
+  defaultTerm?: IGlossaryTerm
 }
 
 const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, defaultTerm}) => {

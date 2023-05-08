@@ -13,9 +13,8 @@ export const removeAddressPathQuery = (location) => {
   if (typeof window !== 'undefined' && window.history && location && location.search) {
     const searchParam = location.search;
     if (searchParam !== null) {
-      const href = location.href.toString().split(searchParam)[0];
-      const newHistoryUrl = `${href}`;
-      window.history.replaceState("", "", newHistoryUrl);
+      const newHistoryUrl = `${location.pathname}`;
+      window.history.replaceState('', '', newHistoryUrl);
     }
     return true;
   }

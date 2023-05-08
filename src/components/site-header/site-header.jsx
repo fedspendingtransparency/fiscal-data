@@ -440,9 +440,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             })}
           </div>
         </div>
-        {/*<Experimental featureId={"Glossary"}>*/}
+        <Experimental featureId={"Glossary"}>
           <Glossary termList={glossaryData} />
-        {/*</Experimental>*/}
+        </Experimental>
         <MobileMenu />
       </div>
       {lowerEnvMsg && (

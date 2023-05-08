@@ -1,7 +1,7 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import GlossaryList from './glossary-list';
-import { glossaryMapExample } from '../test-helper';
+import { glossaryMapExample, testGlossaryData } from '../test-helper';
 import userEvent from '@testing-library/user-event';
 describe('glossary list',() => {
   it('contains the initial list header', () => {
@@ -28,9 +28,7 @@ describe('glossary list',() => {
   });
 
   it('applies a gradient to the scroll container when it is not at the top', () => {
-    const { getByTestId } = render(
-        <GlossaryList termMap={glossaryMapExample} />
-    );
+    const { getByTestId } = render(<GlossaryList termMap={glossaryMapExample} />);
 
     expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
 
@@ -86,6 +84,19 @@ describe('glossary list',() => {
 
     const backButton = getByRole('button', {name: 'Back to list'});
     backButton.click();
+  })
+
+  it('initially display the default term definition', () => {
+    const defaultTerm = testGlossaryData[0];
+    const { getByText } = render(
+      <GlossaryList termMap={glossaryMapExample} defaultTerm={defaultTerm} />
+    );
+
+    const {term, definition} = defaultTerm;
+
+
+    expect(getByText(term)).toBeInTheDocument();
+    expect(getByText(definition)).toBeInTheDocument();
   })
 
 });
