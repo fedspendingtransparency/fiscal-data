@@ -17,8 +17,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
-import { navigate } from 'gatsby';
-// import { navigateTo } from 'gatsby-link';
+
 
 interface IGlossaryList {
   termMap: IGlossaryMap
