@@ -253,13 +253,23 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   }
 
-  const handleBlur = (e, title) => {
-    const currentTarget = e.currentTarget;
+  const handleBlur = (event, title) => {
+    const currentTarget = event.currentTarget;
+
     requestAnimationFrame(() => {
       if(!currentTarget.contains(document.activeElement)) {
         handleMouseLeave(title);
       }
     });
+  }
+
+  const handleMouseEnterNonDropdown = (title) => {
+
+    if (title !== 'Topics' && title !== 'Tools' && title !== 'Resources') {
+      handleMouseLeave("Topics");
+      handleMouseLeave("Tools");
+      handleMouseLeave("Resources");
+    }
   }
 
   return (
@@ -276,6 +286,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             aria-label="Fiscal Data logo - return to home page"
             to="/"
             onClick={() => clickHandler('Logo')}
+            onMouseOver={() => handleMouseEnterNonDropdown("Logo")}
           >
             <StaticImage
               src="../../images/logos/fd-logo.svg"
@@ -421,7 +432,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                           {pageLink.title}
                         </span>
                       </button> : (
-                        <button className={styles.pageLinkButton}>
+                        <button className={styles.pageLinkButton}
+                        onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}>
                           <Link
                             key={pageLink.title}
                             to={pageLink.to}
