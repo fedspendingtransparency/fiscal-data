@@ -65,7 +65,7 @@ const GettingStarted = () => {
           on federal government spending, revenue, debt, and more.
         </p>
         <p>
-          <Link to="/datasets/">Search and filter</Link> our datasets to explore more.
+          <CustomLink url="/datasets/">Search and filter</CustomLink> our datasets to explore more.
         </p>
       </SectionContent>
       <SectionContent id="api-endpoint-url-structure"
