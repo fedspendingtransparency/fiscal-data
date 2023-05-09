@@ -34,7 +34,8 @@ import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNu
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
+import { useInView } from 'react-intersection-observer';
 
 const chartDataEndPoint =
   apiPrefix + 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101';
@@ -42,16 +43,14 @@ const chartDataEndPoint =
 let gaTimerDebt100Yrs;
 
 const DebtOverLast100y = ({ cpiDataByYear, width }) => {
-  const [debtChartData, setDebtChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [minYear, setMinYear] = useState(2015);
   const [maxYear, setMaxYear] = useState(2022);
   const [maxAmount, setMaxAmount] = useState(0);
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
-  const [lastDebtValue, setlastDebtValue] = useState('');
+  const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
-  const [isMobile, setIsMobile] = useState(true);
   const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({});
 
   const chartParent = 'totalDebtChartParent';
@@ -70,7 +69,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
 
         const finalDebtChartData = [];
 
-        res.data.map(debt => {
+        res.data.forEach(debt => {
           finalDebtChartData.push({
             x: parseInt(debt.record_fiscal_year),
             y: parseInt(debt.debt_outstanding_amt),
@@ -81,8 +80,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         });
 
         finalDebtChartData.reverse();
-
-        setDebtChartData(finalDebtChartData);
 
         const debtMaxYear = finalDebtChartData.reduce((max, spending) =>
           max.x > spending.x ? max : spending
@@ -97,9 +94,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         const debtMaxAmount = finalDebtChartData.reduce((max, spending) =>
           max.y > spending.y ? max : spending
         );
-        const debtMinAmount = finalDebtChartData.reduce((min, spending) =>
-          min.y < spending.y ? min : spending
-        );
 
         const debtMaxAmountRoundedUp =
           Math.ceil(debtMaxAmount.y / 5000000000000) * 5000000000000;
@@ -109,7 +103,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         const debtLastAmountActual =
           finalDebtChartData[finalDebtChartData.length - 1].y;
 
-        setlastDebtValue(simplifyNumber(debtLastAmountActual, true));
+        setLastDebtValue(simplifyNumber(debtLastAmountActual, true));
         setFirstDebtValue(simplifyNumber(debtFirstAmountActual, true));
 
         const lastUpdatedDateDebt = new Date(finalDebtChartData[finalDebtChartData.length - 1].record_date);
@@ -190,11 +184,15 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   };
 
   const customHeaderStyles={
-    marginTop: "1rem",
+    marginTop: '1rem',
   }
   const customFooterSpacing={
-    marginTop: "2rem",
+    marginTop: '2rem',
   }
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true
+  });
 
   return (
     <>
@@ -204,7 +202,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         </div>
       )}
       {!isLoading && (
-        <div className={visWithCallout}>
+        <div className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
               title={chartTitle}
@@ -235,10 +233,12 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     'lines',
                     lineChartCustomPoints,
                     props =>
-                      LineChartCustomSlices(
-                        props,
-                        handleGroupOnMouseLeave,
-                        handleMouseLeave
+                      LineChartCustomSlices({
+                          ...props,
+                          groupMouseLeave: handleGroupOnMouseLeave,
+                          mouseMove: handleMouseLeave,
+                          inView
+                        }
                       ),
                     'mesh',
                     'legends',
