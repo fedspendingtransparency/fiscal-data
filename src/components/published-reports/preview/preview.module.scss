@@ -1,11 +1,12 @@
 @import '../../../variables.module.scss';
+@import '../../../zIndex.module.scss';
 
 .titleContainer {
   border: 1px solid $dd-border-color;
   position: relative;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  z-index: 9;
+  z-index: $published-reports-preview;
 }
 
 .textReportContainer {

@@ -2,9 +2,11 @@ import React from "react";
 import * as styles from './official-banner.module.scss';
 import ExperimentalSwitch from "../../experimental/experimental-switch/experimental-switch";
 import { StaticImage } from "gatsby-plugin-image";
+import CustomLink from "../../links/custom-link/custom-link";
 
 const OfficialBanner = () => {
   const officialBannerText = 'An official website of the U.S. government';
+  const vaccineLink = <CustomLink url={'https://www.vaccines.gov'}>Vaccines.gov</CustomLink>
   return (
     <div className={styles.container}>
       <div className={styles.officialBanner} data-testid="officialBanner">
@@ -13,7 +15,7 @@ const OfficialBanner = () => {
         </div>
         <div data-testid="vaccine-banner">
           We can do this. Find COVID-19 vaccines near you.
-          Visit <a href="https://www.vaccines.gov">Vaccines.gov</a>
+          Visit {vaccineLink}
         </div>
         <div className={styles.text} data-testid="bannerText">
           {officialBannerText}

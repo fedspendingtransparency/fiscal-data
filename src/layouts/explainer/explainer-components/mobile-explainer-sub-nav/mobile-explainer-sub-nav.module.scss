@@ -1,12 +1,14 @@
 @import "src/variables.module";
+@import "../../../../zIndex.module.scss";
+
 
 .MenuList {
   background-color: #0a2f5a;
   color: #0a2f5a;
   min-height: 2.25rem !important;
   width: 18rem;
-  text-algin: right;
-  z-index: 1;
+  text-align: right;
+  z-index: $mobile-menu-list;
   padding-left: 0 !important;
   padding-right: 0 !important;
   padding-top: 0 !important;
@@ -86,7 +88,7 @@
 .mainContainerSticky{
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: $mobile-menu-sticky;
   margin-top: 2rem !important;
 }
 .mainContainerHidden{
@@ -95,7 +97,7 @@
 .mainListSticky{
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: $mobile-menu-sticky;
 }
 .carrot {
   padding-right: 1rem;

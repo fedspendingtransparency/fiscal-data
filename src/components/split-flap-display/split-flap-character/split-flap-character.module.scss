@@ -1,4 +1,5 @@
 @import '../../../variables.module.scss';
+@import '../../../zIndex.module.scss';
 
 $flap-border-radius: 3px;
 $flap-padding: .5rem;
@@ -45,7 +46,7 @@ $flap-padding: .5rem;
     height: 1.25em;
 
     border-radius: $flap-border-radius;
-    @include mid-card-line(2);
+    @include mid-card-line($mid-card-line);
 
     .half-panel {
       position: relative;
@@ -56,7 +57,7 @@ $flap-padding: .5rem;
         border-radius: $flap-border-radius $flap-border-radius 0 0;
         height: .626em;
         overflow: hidden;
-        z-index: -3;
+        z-index: $half-panel-top;
         transform-origin: bottom;
 
       }
@@ -66,7 +67,7 @@ $flap-padding: .5rem;
         top: .626em;
         height: .625em;
         margin-top: -.625em;
-        z-index: -1;
+        z-index: $half-panel-bottom;
         transform-origin: top;
         overflow: hidden;
 
@@ -81,12 +82,12 @@ $flap-padding: .5rem;
 
         &.flip-in {
           animation-fill-mode: forwards;
-          z-index: 2;
+          z-index: $half-panel-flip-in;
         }
 
         &.flip-out {
           margin-top: -.625em;
-          z-index: 0;
+          z-index: $half-panel-flip-out;
           background: linear-gradient(
               $hero-split-flap-background 50%,
               darken($hero-split-flap-background, 10%)

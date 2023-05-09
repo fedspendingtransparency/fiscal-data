@@ -361,10 +361,11 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   'lines',
                   lineChartCustomPoints,
                   props =>
-                    LineChartCustomSlices(
-                      props,
-                      handleGroupOnMouseLeave,
-                      handleMouseLeave
+                    LineChartCustomSlices({
+                        ...props,
+                        groupMouseLeave: handleGroupOnMouseLeave,
+                        mouseMove: handleMouseLeave
+                      }
                     ),
                   'mesh',
                   'legends',

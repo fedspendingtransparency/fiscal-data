@@ -6,6 +6,7 @@ import {
 } from './api-quick-guide.module.scss';
 import DtgTable from "../dtg-table/dtg-table";
 import ApiQuickGuideSection from './api-quick-guide-section';
+import CustomLink from "../links/custom-link/custom-link";
 
 const addTableName = (fields, table) => {
   fields.forEach(field => field.tableName = table);
@@ -84,10 +85,11 @@ const DatasetDetailFields = ({ apis }) => {
     desc: (
       <>
         Refer to{' '}
-        <a href="#about-this-dataset" className={sectionLink}>
+        <CustomLink url={'#about-this-dataset'}>
           About This Dataset
-        </a>{' '}
-        above for a data dictionary with field names and descriptions, as well as notes and
+        </CustomLink>
+        {' '}above for a data dictionary with field names and descriptions, as well as notes and
+        known limitations.
         known limitations.
       </>
     )

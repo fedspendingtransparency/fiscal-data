@@ -12,7 +12,7 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
 import Glossary from '../glossary/glossary';
-import { getGlossaryData } from '../../helpers/glossary-helper/glossary-data';
+import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -42,7 +42,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     `
   )
 
-  const glossaryData = getGlossaryData(glossaryCsv?.allGlossaryCsv?.nodes);
+  const glossaryData = glossaryCsv?.allGlossaryCsv?.nodes;
 
   const pageLinks = [
     {
@@ -253,13 +253,23 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   }
 
-  const handleBlur = (e, title) => {
-    const currentTarget = e.currentTarget;
+  const handleBlur = (event, title) => {
+    const currentTarget = event.currentTarget;
+
     requestAnimationFrame(() => {
       if(!currentTarget.contains(document.activeElement)) {
         handleMouseLeave(title);
       }
     });
+  }
+
+  const handleMouseEnterNonDropdown = (title) => {
+
+    if (title !== 'Topics' && title !== 'Tools' && title !== 'Resources') {
+      handleMouseLeave("Topics");
+      handleMouseLeave("Tools");
+      handleMouseLeave("Resources");
+    }
   }
 
   return (
@@ -276,6 +286,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             aria-label="Fiscal Data logo - return to home page"
             to="/"
             onClick={() => clickHandler('Logo')}
+            onMouseOver={() => handleMouseEnterNonDropdown("Logo")}
           >
             <StaticImage
               src="../../images/logos/fd-logo.svg"
@@ -421,7 +432,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                           {pageLink.title}
                         </span>
                       </button> : (
-                        <button className={styles.pageLinkButton}>
+                        <button className={styles.pageLinkButton}
+                        onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}>
                           <Link
                             key={pageLink.title}
                             to={pageLink.to}
@@ -441,7 +453,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
           </div>
         </div>
         <Experimental featureId={"Glossary"}>
-          <Glossary termMap={glossaryData} />
+          <Glossary termList={glossaryData} />
         </Experimental>
         <MobileMenu />
       </div>
