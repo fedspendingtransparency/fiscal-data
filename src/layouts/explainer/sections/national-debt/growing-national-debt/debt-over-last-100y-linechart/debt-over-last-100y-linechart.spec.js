@@ -93,7 +93,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
     ).toBeInTheDocument();
   });
 
-  it.skip('animates the chart when it is scrolled into view', async () => {
+  it('animates the chart updating header values when it is scrolled into view', async () => {
 
     jest.useFakeTimers();
 
@@ -110,6 +110,8 @@ describe('National Debt Over the Last 100 Years Chart', () => {
 
     // find an element corresponding to the selected point
     let points = await getByTestId('customPoints');
+    let yearHeader = await getByTestId('dynamic-year-header');
+    let debtAmountHeader = await getByTestId('dynamic-value-header');
     const circleElem = await points.querySelector('circle:first-child');
     let updatedCircleElem;
     let updatedPointPosition;
@@ -122,6 +124,11 @@ describe('National Debt Over the Last 100 Years Chart', () => {
       updatedCircleElem = points.querySelector('circle:first-child');
       updatedPointPosition = {x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy')};
       expect(initialPointPosition).toStrictEqual(updatedPointPosition);
+      yearHeader = await getByTestId('dynamic-year-header');
+      debtAmountHeader = await getByTestId('dynamic-value-header');
+      expect(yearHeader.textContent).toContain('2022');
+      expect(debtAmountHeader.textContent).toContain('$30.93 T');
+      //expect(debtAmountHeader).toStrictEqual('rong');
     });
 
     // explicitly declare that the chart IS NOW scrolled into view and confirm animation is underway
@@ -131,6 +138,10 @@ describe('National Debt Over the Last 100 Years Chart', () => {
       updatedCircleElem = points.querySelector('circle:first-child');
       updatedPointPosition = {x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy')};
       expect(initialPointPosition.x - updatedPointPosition.x).toBeGreaterThan(0);
+      yearHeader = await getByTestId('dynamic-year-header');
+      debtAmountHeader = await getByTestId('dynamic-value-header');
+      expect(yearHeader.textContent).toContain('1931');
+      expect(debtAmountHeader.textContent).toContain('$19.6');
     });
 
     // confirm that point eventually returns to home position
@@ -140,6 +151,10 @@ describe('National Debt Over the Last 100 Years Chart', () => {
       updatedCircleElem = points.querySelector('circle:first-child');
       updatedPointPosition = {x: updatedCircleElem.getAttribute('cx'), y: updatedCircleElem.getAttribute('cy')};
       expect(initialPointPosition).toStrictEqual(updatedPointPosition);
+      yearHeader = await getByTestId('dynamic-year-header');
+      debtAmountHeader = await getByTestId('dynamic-value-header');
+      expect(yearHeader.textContent).toContain('2022');
+      expect(debtAmountHeader.textContent).toContain('$30.93 T');
     });
   });
 });

@@ -234,11 +234,11 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     lineChartCustomPoints,
                     props =>
                       LineChartCustomSlices({
-                          ...props,
-                          groupMouseLeave: handleGroupOnMouseLeave,
-                          mouseMove: handleMouseLeave,
-                          inView
-                        }
+                        ...props,
+                        groupMouseLeave: handleGroupOnMouseLeave,
+                        mouseMove: handleMouseLeave,
+                        inView,
+                      }
                       ),
                     'mesh',
                     'legends',
