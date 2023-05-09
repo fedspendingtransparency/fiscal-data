@@ -1,4 +1,5 @@
 @import '../../variables.module.scss';
+@import '../../zIndex.module.scss';
 
 .split-flap-container {
   display: flex;
@@ -13,7 +14,7 @@
 
   .selectable-digits {
     user-select: contain;
-    z-index: 10;
+    z-index: $selectable-digits;
     position: absolute;
     top: 0;
     left: 0;

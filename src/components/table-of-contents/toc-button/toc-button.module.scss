@@ -1,10 +1,11 @@
 @import '../../../variables.module.scss';
+@import '../../../zIndex.module.scss';
 
 .floatingToggle {
   display: block;
   bottom: 25px;
   width: 100%;
-  z-index: 100;
+  z-index: $toc-button;
 
   .container {
     box-sizing: border-box;

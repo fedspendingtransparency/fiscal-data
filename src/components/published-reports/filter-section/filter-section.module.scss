@@ -1,8 +1,9 @@
 @import '../../../variables.module.scss';
+@import '../../../zIndex.module.scss';
 
 .yearSelect {
   ul {
-    z-index: 100;
+    z-index: $published-reports-year-select;
   }
 }
 
