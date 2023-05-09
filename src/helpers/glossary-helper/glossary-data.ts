@@ -5,7 +5,7 @@ export interface IGlossaryMap {
   [letter: string]: IGlossaryTerm[]
 }
 
-export const getGlossaryData = (glossaryData: IGlossaryTerm[]):IGlossaryMap => {
+export const getGlossaryMap = (glossaryData: IGlossaryTerm[]):IGlossaryMap => {
   const glossaryMap = {};
   if(glossaryData) {
     const sortedGlossaryData = [...glossaryData];
