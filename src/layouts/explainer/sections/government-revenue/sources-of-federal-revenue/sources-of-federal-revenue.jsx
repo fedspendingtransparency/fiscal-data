@@ -98,7 +98,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
 
   const trustFunds = (
     <GlossaryTerm
-      term={"Trust fund"}
+      term={"Trust funds"}
       page={"Revenue Explainer"}
       glossary={glossary}
     >
