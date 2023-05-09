@@ -291,10 +291,12 @@ export const LineChartCustomSlices = (
       slices.forEach((slice, index) => {
         setTimeout(() => {
           setCurrentSlice(slice);
+          mouseMove(slice);
         }, (50 * index) + 550);
       });
       setTimeout(() => {
         setCurrentSlice(slices[slices.length - 1]);
+        mouseMove(slices[slices.length - 1]);
       }, (50 * (slices.length + 1)) + 550);
     }
   }, [inView, animationTriggeredOnce, slices]);

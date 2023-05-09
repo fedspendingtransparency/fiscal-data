@@ -71,11 +71,11 @@ export const dataHeader = headingValues => {
   return (
     <div className={styles.headerContainer}>
       <div>
-        <div className={styles.header}>{fiscalYear}</div>
+        <div className={styles.header} data-testid="dynamic-year-header">{fiscalYear}</div>
         <span className={styles.subHeader}>Fiscal Year</span>
       </div>
       <div>
-        <div className={styles.header}>{totalDebt}</div>
+        <div className={styles.header} data-testid="dynamic-value-header">{totalDebt}</div>
         <span className={styles.subHeader}>Total Debt</span>
       </div>
     </div>
