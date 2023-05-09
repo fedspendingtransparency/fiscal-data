@@ -23,7 +23,6 @@ const MenuDropdown = (
         className={`${toggled ? dropdownButtonExpanded : null} ${dropdownButton}`}
         onMouseEnter={handleMouseOver}
         onFocus={handleMouseOver}
-        data-testid={'topicsButton'}
         style={{minWidth:`${(title.length * 7.5)+28}px`}}
       >
         {title}

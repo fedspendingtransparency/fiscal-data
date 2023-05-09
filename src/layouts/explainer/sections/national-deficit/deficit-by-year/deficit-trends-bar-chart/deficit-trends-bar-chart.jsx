@@ -15,6 +15,10 @@ import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling
+} from "../../../../explainer-helpers/explainer-charting-helper";
 
 let gaTimerChart;
 
@@ -35,16 +39,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [lastBar, setLastBar] = useState();
   const [numOfBars, setNumOfBars] = useState(0);
 
-  const applyChartScaling = () => {
-    // rewrite some element attribs after render to ensure Chart scales with container
-    // which doesn't seem to happen naturally when nivo has a flex container
-    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
-    if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 495 388');
-      svgChart.setAttribute('height', '100%');
-      svgChart.setAttribute('width', '100%');
-    }
-  };
+  const chartParent= 'chartParent';
+  const chartWidth = 495;
+  const chartHeight = 388;
 
   const barHighlightColor = '#555555';
 
@@ -172,7 +169,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }
 
   useEffect(() => {
-    applyChartScaling();
+    applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
     getChartData();
   }, []);
 

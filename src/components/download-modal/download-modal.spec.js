@@ -2,11 +2,10 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import DownloadModal, {
   downloadModalSubText,
-  downloadModalTitle,
   downloadModalTitleMulti,
 } from "./download-modal"
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-import { render } from "@testing-library/react";
+import { act, render } from '@testing-library/react';
 
 const mockTable = { apiId: '100100' };
 const mockDataset = {
@@ -31,7 +30,8 @@ const mockDownloadsInProgress = [{
   prepStarted: true,
   requestTime: 1000,
   selectedFileType: 'csv',
-  statusPath: 'mockFileKey'
+  statusPath: 'mockFileKey',
+  selectedUserFilter: { label: 'Atlantis-Aquabuck', value: 'Atlantis-Aquabuck' }
 }];
 
 const mockDownloadsQueued = [{
@@ -41,7 +41,8 @@ const mockDownloadsQueued = [{
   downloadUrl: '/mockFileKey/queued_dataset_id_1',
   filename: 'queued_dataset_id_1',
   requestTime: 1000,
-  selectedFileType: 'csv'
+  selectedFileType: 'csv',
+  selectedUserFilter: { label: 'Atlantis-Aquabuck', value: 'Atlantis-Aquabuck' }
 },
 {
   apis: mockTable,
@@ -110,5 +111,34 @@ describe('download modal', () => {
 
     // 2 prepared, 1 preparing, 2 queued
     expect(getByTestId('download-items-container').children).toHaveLength(3);
+  });
+
+  it('calls the cancel callback with the correct argument when the cancel download button is clicked', async () => {
+    jest.useFakeTimers();
+
+    const mockSetCancelDownloadRequest = jest.fn();
+    const { getAllByText } = render(
+      <downloadsContext.Provider value={mockSiteProviderValue}>
+        <DownloadModal
+          open={true}
+          onClose={onClose}
+          setCancelDownloadRequest={mockSetCancelDownloadRequest}
+        />
+      </downloadsContext.Provider>
+    );
+    jest.advanceTimersByTime(1000);
+    const cancelButtons = getAllByText('Cancel Download');
+
+    await act( async () => {
+      cancelButtons[0].click();
+    });
+
+    expect(mockSetCancelDownloadRequest).toHaveBeenLastCalledWith(mockDownloadsInProgress[0]);
+
+    await act( async () => {
+      cancelButtons[2].click();
+    });
+
+    expect(mockSetCancelDownloadRequest).toHaveBeenLastCalledWith(mockDownloadsQueued[1]);
   });
 });

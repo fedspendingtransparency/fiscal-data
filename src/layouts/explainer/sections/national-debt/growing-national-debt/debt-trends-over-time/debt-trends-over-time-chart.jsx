@@ -28,6 +28,7 @@ import {
   nationalDebtSectionConfigs,
 } from '../../national-debt';
 import {
+  addInnerChartAriaLabel,
   applyChartScaling,
   applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
@@ -136,6 +137,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
             chartWidth.toString(),
             chartHeight.toString()
           );
+          addInnerChartAriaLabel(chartParent);
         }
       }).catch(error => {
         console.warn('Could not load data', error);
