@@ -83,56 +83,24 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           // ELSE => return <Link>
       // ELSE => return <ScrollLink>
 
-  // Switch (expression)
-      // ext
-      // urlOrHref AND http, tel, or mailto
-      // urlOrHref AND NOT http, tel, or mailto AND anchor
-      // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND .pdf
-      // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND NOT .pdf
 
-  if (
-    ext ||
-    (urlOrHref &&
-      ["http", "tel", "mailto"].some(protocol =>
-        urlOrHref.startsWith(protocol)
-      ))
-  ) {
-    return (
-      <ExternalLink
-        url={urlOrHref}
-        onClick={onClickEventHandler}
-        dataTestId={dataTestId}
-      >
-        {children}
-      </ExternalLink>
-    );
-  } else if (urlOrHref) {
-    if (!urlOrHref.startsWith("#")) {
-      if (urlOrHref.endsWith(".pdf")) {
-        return (
-          <a
-            href={urlOrHref}
-            className="primary"
-            download
-            data-testid={dataTestId || "download-link"}
-          >
-            {children}
-          </a>
-        );
-      } else {
-        return (
-          <Link
-            to={urlOrHref}
-            className="primary"
-            download={urlOrHref.endsWith(".pdf")}
-            data-testid={dataTestId || "internal-link"}
-            onClick={onClickEventHandler}
-          >
-            {children}
-          </Link>
-        );
-      }
-    } else {
+  switch (true) {
+    // ext
+    case ext || ["http", "tel", "mailto"].some(protocol =>
+      urlOrHref.startsWith(protocol)
+    ):
+      return (
+        <ExternalLink
+          url={urlOrHref}
+          onClick={onClickEventHandler}
+          dataTestId={dataTestId}
+        >
+          {children}
+        </ExternalLink>
+      );
+
+    // urlOrHref AND NOT http, tel, or mailto AND anchor
+    case urlOrHref.startsWith('#') :
       return (
         <ScrollLink
           to={urlOrHref.substr(1)}
@@ -146,10 +114,32 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           {children}
         </ScrollLink>
       );
-    }
-  }
 
-  return null;
+    // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND .pdf
+    case urlOrHref.endsWith('.pdf') :
+      return (<a
+        href={urlOrHref}
+        className="primary"
+        download
+        data-testid={dataTestId || "download-link"}
+      >
+        {children}
+      </a>);
+
+    // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND NOT .pdf
+    default:
+      return (
+        <Link
+          to={urlOrHref}
+          className="primary"
+          download={urlOrHref.endsWith(".pdf")}
+          data-testid={dataTestId || "internal-link"}
+          onClick={onClickEventHandler}
+        >
+          {children}
+        </Link>
+      );
+  }
 };
 
 export default CustomLink;
