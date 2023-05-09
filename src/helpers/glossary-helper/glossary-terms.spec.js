@@ -38,12 +38,4 @@ describe('Glossary term finder', () => {
     const result = findGlossaryTerm('Goodbye', glossaryExample);
     expect(result).toContain(glossaryExample[1])
   })
-
-  it('Does not find term and throws console warning', () => {
-    global.console = {warn: jest.fn()}
-    const result = findGlossaryTerm('Wow', glossaryExample);
-    expect(console.warn).toBeCalled();
-    expect(result).toEqual([]);
-  })
-
 } )

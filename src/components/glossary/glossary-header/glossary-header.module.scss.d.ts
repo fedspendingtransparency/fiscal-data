@@ -67,6 +67,7 @@ export const headerContainer: string;
 export const header: string;
 export const title: string;
 export const bookIcon: string;
+export const closeButton: string;
 export const closeIcon: string;
 export const search: string;
 export const searchBar: string;

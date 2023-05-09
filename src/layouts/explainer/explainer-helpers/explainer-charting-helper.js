@@ -10,9 +10,15 @@ export const applyChartScaling = (parent, chartWidth, chartHeight) => {
     svgChart.setAttribute('viewBox', `0 0 ${chartWidth} ${chartHeight}`);
     svgChart.setAttribute('height', '100%');
     svgChart.setAttribute('width', '100%');
-    svgChart.setAttribute('aria-label', 'Inner chart area');
   }
 };
+
+export const addInnerChartAriaLabel = ( parent ) => {
+  const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);
+  if (svgChart) {
+    svgChart.setAttribute('aria-label', 'Inner chart area');
+  }
+}
 
 export const applyTextScaling = (parent, chartWidth, pageWidth, fontSize) => {
   const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);

@@ -260,9 +260,11 @@ describe("revenue trends over time section", () => {
   });
 
   it("renders the revenue trends line chart", async () => {
+    const fetchSpy = jest.spyOn(global, "fetch");
     const { getByTestId } = render(
       <FederalRevenueTrendsOverTime cpiDataByYear={mockCpiDataset} />
     );
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await getByTestId("revenueTrendsLineChart")).toBeInTheDocument();
   });
 

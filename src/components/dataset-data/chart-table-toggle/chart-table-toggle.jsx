@@ -60,6 +60,7 @@ const AntTab = withStyles({
     fontSize: '14px',
     fontFamily: 'Source Sans Pro',
     minHeight: 0,
+    opacity: 1,
     letterSpacing: 'normal',
     '&$selected': {
       color: '#0071bc',

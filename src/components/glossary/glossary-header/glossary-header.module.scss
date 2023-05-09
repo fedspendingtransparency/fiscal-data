@@ -21,15 +21,19 @@
         margin-right: 0.5rem;
       }
     }
-    button {
+    .closeButton {
       background: none;
       border: none;
+      cursor: pointer;
       .closeIcon {
         color: $primary;
         :not(svg root) {
           width: 12px;
           height: 20px;
         }
+      }
+      :hover {
+        color: $slate-blue;
       }
     }
 
