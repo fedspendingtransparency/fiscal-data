@@ -43,7 +43,6 @@ const chartDataEndPoint =
 let gaTimerDebt100Yrs;
 
 const DebtOverLast100y = ({ cpiDataByYear, width }) => {
-  const [, setDebtChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [minYear, setMinYear] = useState(2015);
   const [maxYear, setMaxYear] = useState(2022);
@@ -81,8 +80,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         });
 
         finalDebtChartData.reverse();
-
-        setDebtChartData(finalDebtChartData);
 
         const debtMaxYear = finalDebtChartData.reduce((max, spending) =>
           max.x > spending.x ? max : spending
