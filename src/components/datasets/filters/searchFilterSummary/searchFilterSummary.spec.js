@@ -90,6 +90,8 @@ describe("Search Filter Summary", ()=> {
       renderer.act(() => {
           clearAll.onClick();
       });
+      expect(onGroupResetSpy).toHaveBeenCalledWith("startDate");
+      expect(onGroupResetSpy).toHaveBeenCalledWith("topics");
       expect(onGroupResetSpy).toHaveBeenCalledTimes(2);
     });
 });

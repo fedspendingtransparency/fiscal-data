@@ -158,20 +158,8 @@ const FilterSection = ({
     }
   };
 
-  // TODO: determine what passes in an object rather than a string
-  // and make that call consistent with others
   const onGroupReset = (id) => {
-    // in certain cases the param passed into this function is a filter object rather than an id
-    // if (typeof id === 'object' && id.filter) {
-    //   //console.log("ID IS OBJECT: ", id);
-    //   //console.log("ID IS OBJECT: ", id.selections);
-
-    //   id = id.filter;
-    // }
     const group = filtersByGroupId(id, filterList);
-    //console.log("IN ON GROUP RESET")
-    //console.log("ID IS: ", id);
-
 
     setFilterValues(group.map(filter => {
       return {key: filter.id, val: false}
