@@ -384,7 +384,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     'points',
                     lineChartCustomPoints,
                     (props) =>
-                      LineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                      LineChartCustomSlices({
+                          ...props,
+                          groupMouseLeave: handleGroupOnMouseLeave,
+                          mouseMove: handleMouseLeave
+                        }
+                      ),
                     'mesh',
                     'legends',
                   ]}

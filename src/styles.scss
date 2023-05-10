@@ -17,14 +17,14 @@ body {
 a.primary {
   color: $primary;
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: underline;
 
   &:active {
     color: #4C2C92;
   }
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
