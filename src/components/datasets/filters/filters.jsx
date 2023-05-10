@@ -162,10 +162,16 @@ const FilterSection = ({
   // and make that call consistent with others
   const onGroupReset = (id) => {
     // in certain cases the param passed into this function is a filter object rather than an id
-    if (typeof id === 'object' && id.filter) {
-      id = id.filter;
-    }
+    // if (typeof id === 'object' && id.filter) {
+    //   //console.log("ID IS OBJECT: ", id);
+    //   //console.log("ID IS OBJECT: ", id.selections);
+
+    //   id = id.filter;
+    // }
     const group = filtersByGroupId(id, filterList);
+    //console.log("IN ON GROUP RESET")
+    //console.log("ID IS: ", id);
+
 
     setFilterValues(group.map(filter => {
       return {key: filter.id, val: false}
@@ -177,6 +183,10 @@ const FilterSection = ({
       context.setExactRange(false);
       setDateRangeResetApplied(true);
     }
+  };
+
+  const onIndividualReset = (selection) => {
+    setFilterValues([{key: selection.id, val: false}]);
   };
 
   const calculateFilterCount = (filterGroupMatches, searchResults) => {
@@ -304,7 +314,7 @@ const FilterSection = ({
 
   const mobileFiltersReset = () => {
     const groups = getActiveGroups();
-    Object.keys(groups).map(g => onGroupReset(g))
+    Object.keys(groups).map(g => onGroupReset(g));
   }
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
@@ -314,7 +324,8 @@ const FilterSection = ({
     <>
       <SearchFilterSummary
         searchQuery={searchQuery}
-        changeHandler={onGroupReset}
+        onIndividualReset={onIndividualReset}
+        onGroupReset={onGroupReset}
         activeFilters={activeFilters}
         allFilters={availableFilters}
       />
