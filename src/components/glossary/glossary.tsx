@@ -18,6 +18,8 @@ interface IGlossary {
 }
 
 const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
+  const [filter, setFilter] = useState('');
+
   const termMap = getGlossaryMap(termList);
   const getQueryTerm = (termName):IGlossaryTerm => {
     if (termName) {
@@ -58,9 +60,9 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
-              <GlossaryHeader clickHandler={toggleState} />
+              <GlossaryHeader clickHandler={toggleState} filterHandler={setFilter} />
             </div>
-            <GlossaryList termMap={termMap} defaultTerm={queryTerm} />
+            <GlossaryList termMap={termMap} termList={termList} filter={filter} defaultTerm={queryTerm} />
           </>
         )}
       </div>

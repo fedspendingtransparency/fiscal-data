@@ -62,4 +62,14 @@ describe('glossary',() => {
     expect(getByText('An apple')).toBeInTheDocument();
     expect(addressPathMock).toHaveBeenCalledWith(window.location)
   })
+
+  it('filters list based on search term', () => {
+
+  })
+
+  it('displays term not found when no terms match the current search', () => {
+
+  })
+
+
 });

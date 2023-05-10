@@ -20,19 +20,39 @@ import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
 
 
 interface IGlossaryList {
-  termMap: IGlossaryMap
-  defaultTerm?: IGlossaryTerm
+  termMap?: IGlossaryTerm[],
+  termList?: IGlossaryTerm[],
+  filter: string,
+  defaultTerm?: IGlossaryTerm,
 }
 
-const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, defaultTerm}) => {
+const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filter, defaultTerm}) => {
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
+  const [displayList, setDisplayList] = useState(termMap);
 
-  const keys = Reflect.ownKeys(termMap);
+  // const keys = Reflect.ownKeys(termMap);
 
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
+
+  const filterOptionsByEntry = (opts, entry) => {
+    let filteredList = opts;
+    if (entry?.length) {
+      filteredList = opts.filter(opt => opt.term.toUpperCase().includes(entry.toUpperCase()));
+    }
+    if (filteredList.length === 0) {
+      // No options matching ${filterCharacters}
+      filteredList = [{label: `No matches. Please revise your search.`, value: null}];
+    }
+    return filteredList;
+  };
+
+  useEffect(() => {
+    // const localFilterOptions = filterOptionsByEntry(termList, filter);
+    // setDisplayList(localFilterOptions);
+  }, [filter])
 
   useEffect(() => {
     const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
@@ -74,28 +94,75 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, defaultTerm}) 
             <div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid={'scrollGradient'} />
             <div className={listContainer}>
               <div className={termContainer} data-testid={'scrollContainer'}>
-                {keys.map((letter) =>
-                  <React.Fragment key={letter.toString()}>
-                    <div className={sectionHeader}>{letter}</div>
-                    <div className={sectionTerms}>
-                      {Reflect.get(termMap, letter).map((term) => {
-                        return(
-                          <div
-                            className={termText}
-                            tabIndex={0}
-                            role={'button'}
-                            key={term.term}
-                            onClick={(e) => onTermClick(e, term)}
-                            onKeyPress={(e) => onTermClick(e, term)}
-                          >
-                            {term.term}
-                          </div>
-                        )
-                      })
-                      }
-                    </div>
-                  </React.Fragment>
-                )}
+                {
+                  displayList.map((section) => {
+                    const header = section[0]?.term?.charAt(0);
+                    console.log(section);
+                    return (
+                      <React.Fragment key={header}>
+                        <div className={sectionHeader}>
+                          {header}
+                        </div>
+                        {
+                          section.map((term) => {
+                            console.log(term);
+                            return (
+                              <div
+                                className={termText}
+                                tabIndex={0}
+                                role={'button'}
+                                key={term.term}
+                                onClick={(e) => onTermClick(e, term)}
+                                onKeyPress={(e) => onTermClick(e, term)}
+                              >
+                                {term.term}
+                              </div>
+                            );
+                          })
+                        }
+                      </React.Fragment>
+                    )
+                  })
+                }
+
+                {/*{displayList && displayList.map((term) =>*/}
+                {/*  <React.Fragment key={term.term}>*/}
+                {/*    {displayHeader(term)}*/}
+                {/*    <div*/}
+                {/*      className={termText}*/}
+                {/*      tabIndex={0}*/}
+                {/*      role={'button'}*/}
+                {/*      key={term.term}*/}
+                {/*      onClick={(e) => onTermClick(e, term)}*/}
+                {/*      onKeyPress={(e) => onTermClick(e, term)}*/}
+                {/*    >*/}
+                {/*      {term.term}*/}
+                {/*    </div>*/}
+                {/*  </React.Fragment>*/}
+                {/*)}*/}
+
+                {/*{keys.map((letter) =>*/}
+                {/*  <React.Fragment key={letter.toString()}>*/}
+                {/*    <div className={sectionHeader}>{letter}</div>*/}
+                {/*    <div className={sectionTerms}>*/}
+                {/*      {Reflect.get(termMap, letter).map((term) => {*/}
+                {/*        return(*/}
+                {/*          <div*/}
+                {/*            className={termText}*/}
+                {/*            tabIndex={0}*/}
+                {/*            role={'button'}*/}
+                {/*            key={term.term}*/}
+                {/*            onClick={(e) => onTermClick(e, term)}*/}
+                {/*            onKeyPress={(e) => onTermClick(e, term)}*/}
+                {/*          >*/}
+                {/*            {term.term}*/}
+                {/*          </div>*/}
+                {/*        )*/}
+                {/*      })*/}
+                {/*      }*/}
+                {/*    </div>*/}
+                {/*  </React.Fragment>*/}
+                {/*)}*/}
               </div>
             </div>
           </>

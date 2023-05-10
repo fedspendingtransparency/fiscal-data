@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -15,10 +15,15 @@ import {
 } from './glossary-header.module.scss'
 
 interface IGlossaryHeader {
-  clickHandler: (e) => void
+  clickHandler: (e) => void,
+  filterHandler: (e) => void
 }
 
-const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler}) => {
+const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler, filterHandler}) => {
+  const onSearchBarChange = (event) => {
+    const val = (event && event.target) ? event.target.value : '';
+    filterHandler(val);
+  }
 
 
   return (
@@ -34,8 +39,10 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler}) => {
       </div>
       <div className={search}>
         Search the glossary
-        <div className={searchBar}>
-        </div>
+        <input className={searchBar}
+               onChange={onSearchBarChange}
+        >
+        </input>
       </div>
     </div>
   )
