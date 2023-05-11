@@ -47,11 +47,11 @@ $published-reports-year-select: $above + $published-reports-left-content;
 // api quick guide
 $dataset-details-example-loading-icon: $above + $backdrop; // example request and response loading icon
 // nav
-$dataset-detail-nav: $above + $published-reports-year-select; // published-reports-year-select is the highest in DDP, z-index:3
+$dataset-detail-nav: $above + $filter-download-left-content; // $filter-download-left-content is the highest in DDP, z-index:5
 
 
 // download dataset sticky footer
-$download-sticky-footer: $above + $published-reports-year-select; // published-reports-year-select is the highest on DDP, z-index:3
+$download-sticky-footer: $above + $filter-download-left-content; // published-reports-year-select is the highest on DDP, z-index:5
 $main-sticky-footer: $above + $download-sticky-footer;
 
 // global
