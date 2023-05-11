@@ -76,17 +76,10 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
     }
   }, [ext, url, href]);
 
-  // IF ext OR (urlOrHref AND  http, tel, or mailto) => return <ExternalLink>
-  // Else If urlOrHref AND NOT (http, tel, or mailto) => check !# (not an anchor)
-      // If urlOrHref DOES NOT START WITH # => check .pdf
-          // IF urlOrHref ENDS WITH .pdf => return <a>
-          // ELSE => return <Link>
-      // ELSE => return <ScrollLink>
-
 
   switch (true) {
-    // ext
-    case ext || ["http", "tel", "mailto"].some(protocol =>
+    // ext OR urlOrHref AND http or tel
+    case ext || ["http", "tel"].some(protocol =>
       urlOrHref.startsWith(protocol)
     ):
       return (
@@ -97,6 +90,19 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         >
           {children}
         </ExternalLink>
+      );
+
+    // urlOrHref AND mailto
+    case urlOrHref.startsWith("mailto") :
+      return (
+        <a
+          href={urlOrHref}
+          onClick={onClickEventHandler}
+          className="primary"
+          data-testid={dataTestId || "mail-to link"}
+        >
+          {children}
+        </a>
       );
 
     // urlOrHref AND NOT http, tel, or mailto AND anchor
@@ -117,14 +123,16 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
     // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND .pdf
     case urlOrHref.endsWith('.pdf') :
-      return (<a
-        href={urlOrHref}
-        className="primary"
-        download
-        data-testid={dataTestId || "download-link"}
-      >
-        {children}
-      </a>);
+      return (
+        <a
+          href={urlOrHref}
+          className="primary"
+          download
+          data-testid={dataTestId || "download-link"}
+        >
+          {children}
+        </a>
+      );
 
     // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND NOT .pdf
     default:
