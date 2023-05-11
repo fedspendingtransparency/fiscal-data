@@ -12,9 +12,12 @@ import {Link} from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
 
 
-const MobileMenuDropdown = ({header, sections, defaultOpen}) => {
+const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary }) => {
   const [isExpanded, setIsExpanded] = useState(defaultOpen);
   const topicsClickHandler = (title, action) => {
+    if (title === 'Glossary'){
+      setOpenGlossary(true);
+    }
     if(action){
       Analytics.event({
         category: 'Sitewide Navigation',

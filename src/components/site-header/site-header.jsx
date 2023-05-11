@@ -24,6 +24,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [toggled, setToggled] = useState(false);
   const [toggledTools, setToggledTools] = useState(false);
   const [toggledResources, setToggledResources] = useState(false);
+  const [openGlossary, setOpenGlossary] = useState(false);
 
   const glossaryCsv = useStaticQuery(
     graphql`
@@ -108,10 +109,12 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   ]
 
+  // TODO: make mobile and desktop links for glossary experimental
+
   const resourcesPageLinks = [
     {
       title: 'Glossary',
-      to: '/glossary/',
+      to: '/',
       isExperimental: true,
       testId: 'glossary'
     },
@@ -134,6 +137,10 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   ]
 
   const clickHandler = (title) => {
+    if (title === 'Glossary'){
+      setOpenGlossary(true);
+    }
+
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Top ${title} Click`,
@@ -459,9 +466,13 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
           </div>
         </div>
         <Experimental featureId={"Glossary"}>
-          <Glossary termList={glossaryData} />
+          {openGlossary && 
+          <Glossary termList={glossaryData}
+          activeState={openGlossary}
+          setActiveState={setOpenGlossary} />
+          }
         </Experimental>
-        <MobileMenu />
+        <MobileMenu setOpenGlossary={setOpenGlossary}/>
       </div>
       {lowerEnvMsg && (
         <PageNotice>

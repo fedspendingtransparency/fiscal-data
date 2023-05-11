@@ -14,10 +14,12 @@ import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
 
 interface IGlossary {
-  termList: IGlossaryTerm[]
+  termList: IGlossaryTerm[],
+  activeState: boolean;
+  setActiveState: any;
 }
 
-const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
+const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState }) => {
   const termMap = getGlossaryMap(termList);
   const getQueryTerm = (termName):IGlossaryTerm => {
     if (termName) {
@@ -35,11 +37,12 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
   const queryTerm = getQueryTerm(queryParameters.get("glossary"));
 
   // Active state will default to true for testing purposes
-  const [activeState, setActiveState] = useState(true); //queryTerm !== null && queryTerm !== undefined);
+ // const [activeState, setActiveState] = useState(true); //queryTerm !== null && queryTerm !== undefined);
 
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
+      // close mobile menu when this opens??? or just over the top?
     }
   }
 
