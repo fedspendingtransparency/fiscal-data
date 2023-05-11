@@ -31,29 +31,36 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(termMap);
 
-  // const keys = Reflect.ownKeys(termMap);
 
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
 
-  const filterOptionsByEntry = (sortedList, entry) => {
-    let filteredList = sortedList;
+  const filterTermsByEntry = (sortedList, entry) => {
+    let secondList = [];
 
-    const filterNestedList = (terms) => terms.filter(term => term.term.toUpperCase().includes(entry.toUpperCase()))
+    const filterNestedList = (terms) => {
+      const matchedTerms = terms.filter(term => term.term.toUpperCase().includes(entry.toUpperCase()))
+      if (matchedTerms.length > 0) {
+        secondList.push(matchedTerms);
+      }
+      // return matchedTerms
+    }
 
     if (entry?.length) {
-      filteredList = sortedList.filter(terms => filterNestedList(terms).length > 0)
+      sortedList.forEach(terms => filterNestedList(terms));
+      console.log(secondList);
     }
-    if (filteredList?.length === 0) {
+    if (secondList?.length === 0) {
       // No options matching ${filterCharacters}
-      filteredList = [{label: `No matches. Please revise your search.`, value: null}];
+      secondList = [{label: `No matches. Please revise your search.`, value: null}];
     }
-    return filteredList;
+    return secondList.length > 0 ? secondList : sortedList;
   };
 
   useEffect(() => {
-    const localFilterOptions = filterOptionsByEntry(termMap, filter);
+    const localFilterOptions = filterTermsByEntry(termMap, filter);
+    console.log(localFilterOptions);
     setDisplayList(localFilterOptions);
   }, [filter])
 
@@ -106,7 +113,7 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
                           {header}
                         </div>
                         {
-                          section.map((term) => {
+                          section?.map((term) => {
                             return (
                               <div
                                 className={termText}
