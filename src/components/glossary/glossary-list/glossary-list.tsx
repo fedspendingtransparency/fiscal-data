@@ -37,12 +37,15 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
     setScrollTop(scrollContainer.scrollTop === 0);
   }
 
-  const filterOptionsByEntry = (opts, entry) => {
-    let filteredList = opts;
+  const filterOptionsByEntry = (sortedList, entry) => {
+    let filteredList = sortedList;
+
+    const filterNestedList = (terms) => terms.filter(term => term.term.toUpperCase().includes(entry.toUpperCase()))
+
     if (entry?.length) {
-      filteredList = opts.filter(opt => opt.term.toUpperCase().includes(entry.toUpperCase()));
+      filteredList = sortedList.filter(terms => filterNestedList(terms).length > 0)
     }
-    if (filteredList.length === 0) {
+    if (filteredList?.length === 0) {
       // No options matching ${filterCharacters}
       filteredList = [{label: `No matches. Please revise your search.`, value: null}];
     }
@@ -50,8 +53,8 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
   };
 
   useEffect(() => {
-    // const localFilterOptions = filterOptionsByEntry(termList, filter);
-    // setDisplayList(localFilterOptions);
+    const localFilterOptions = filterOptionsByEntry(termMap, filter);
+    setDisplayList(localFilterOptions);
   }, [filter])
 
   useEffect(() => {
@@ -97,7 +100,6 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
                 {
                   displayList.map((section) => {
                     const header = section[0]?.term?.charAt(0);
-                    console.log(section);
                     return (
                       <React.Fragment key={header}>
                         <div className={sectionHeader}>
@@ -105,7 +107,6 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
                         </div>
                         {
                           section.map((term) => {
-                            console.log(term);
                             return (
                               <div
                                 className={termText}
@@ -124,45 +125,6 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
                     )
                   })
                 }
-
-                {/*{displayList && displayList.map((term) =>*/}
-                {/*  <React.Fragment key={term.term}>*/}
-                {/*    {displayHeader(term)}*/}
-                {/*    <div*/}
-                {/*      className={termText}*/}
-                {/*      tabIndex={0}*/}
-                {/*      role={'button'}*/}
-                {/*      key={term.term}*/}
-                {/*      onClick={(e) => onTermClick(e, term)}*/}
-                {/*      onKeyPress={(e) => onTermClick(e, term)}*/}
-                {/*    >*/}
-                {/*      {term.term}*/}
-                {/*    </div>*/}
-                {/*  </React.Fragment>*/}
-                {/*)}*/}
-
-                {/*{keys.map((letter) =>*/}
-                {/*  <React.Fragment key={letter.toString()}>*/}
-                {/*    <div className={sectionHeader}>{letter}</div>*/}
-                {/*    <div className={sectionTerms}>*/}
-                {/*      {Reflect.get(termMap, letter).map((term) => {*/}
-                {/*        return(*/}
-                {/*          <div*/}
-                {/*            className={termText}*/}
-                {/*            tabIndex={0}*/}
-                {/*            role={'button'}*/}
-                {/*            key={term.term}*/}
-                {/*            onClick={(e) => onTermClick(e, term)}*/}
-                {/*            onKeyPress={(e) => onTermClick(e, term)}*/}
-                {/*          >*/}
-                {/*            {term.term}*/}
-                {/*          </div>*/}
-                {/*        )*/}
-                {/*      })*/}
-                {/*      }*/}
-                {/*    </div>*/}
-                {/*  </React.Fragment>*/}
-                {/*)}*/}
               </div>
             </div>
           </>
