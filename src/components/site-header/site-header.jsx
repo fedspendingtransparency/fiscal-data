@@ -110,6 +110,12 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
   const resourcesPageLinks = [
     {
+      title: 'Glossary',
+      to: '/glossary/',
+      isExperimental: true,
+      testId: 'glossary'
+    },
+    {
       title: 'API Documentation',
       to: '/api-documentation/',
       testId: 'apiDocs'

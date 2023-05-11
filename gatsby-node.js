@@ -630,6 +630,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       matchPath: '/experimental/',
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
     });
+    createPage({
+      path: `/glossary/`,
+      matchPath: '/glossary/',
+      component: path.resolve(`./src/components/glossary/glossary.tsx`),
+    });
 
     const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
     const features = await graphql(`

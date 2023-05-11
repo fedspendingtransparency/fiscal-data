@@ -59,6 +59,10 @@ const MobileMenu = () => {
     {
       children: [
         {
+          to: '/glossary/',
+          name: 'Glossary'
+        },
+        {
           to: '/api-documentation/',
           name: 'API Documentation'
         },
