@@ -78,7 +78,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
 
   switch (true) {
-    // ext OR urlOrHref AND http or tel
     case ext || ["http", "tel"].some(protocol =>
       urlOrHref.startsWith(protocol)
     ):
@@ -92,7 +91,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         </ExternalLink>
       );
 
-    // urlOrHref AND mailto
     case urlOrHref.startsWith("mailto") :
       return (
         <a
@@ -105,7 +103,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         </a>
       );
 
-    // urlOrHref AND NOT http, tel, or mailto AND anchor
     case urlOrHref.startsWith('#') :
       return (
         <ScrollLink
@@ -121,7 +118,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         </ScrollLink>
       );
 
-    // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND .pdf
     case urlOrHref.endsWith('.pdf') :
       return (
         <a
@@ -134,7 +130,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
         </a>
       );
 
-    // urlOrHref AND NOT http, tel, or mailto AND NOT anchor AND NOT .pdf
     default:
       return (
         <Link
