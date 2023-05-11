@@ -30,6 +30,7 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(termMap);
+  const [noResults, setNoResults] = useState(false);
 
 
   const handleScroll = (scrollContainer) => {
@@ -37,30 +38,26 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
   }
 
   const filterTermsByEntry = (sortedList, entry) => {
-    let secondList = [];
+    const filteredList = [];
 
     const filterNestedList = (terms) => {
       const matchedTerms = terms.filter(term => term.term.toUpperCase().includes(entry.toUpperCase()))
       if (matchedTerms.length > 0) {
-        secondList.push(matchedTerms);
+        filteredList.push(matchedTerms);
       }
-      // return matchedTerms
     }
 
     if (entry?.length) {
       sortedList.forEach(terms => filterNestedList(terms));
-      console.log(secondList);
     }
-    if (secondList?.length === 0) {
-      // No options matching ${filterCharacters}
-      secondList = [{label: `No matches. Please revise your search.`, value: null}];
+    if (filteredList?.length === 0) {
+      setNoResults(true);
     }
-    return secondList.length > 0 ? secondList : sortedList;
+    return entry.length > 0 ? filteredList : sortedList;
   };
 
   useEffect(() => {
     const localFilterOptions = filterTermsByEntry(termMap, filter);
-    console.log(localFilterOptions);
     setDisplayList(localFilterOptions);
   }, [filter])
 
@@ -104,34 +101,35 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
             <div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid={'scrollGradient'} />
             <div className={listContainer}>
               <div className={termContainer} data-testid={'scrollContainer'}>
-                {
-                  displayList.map((section) => {
-                    const header = section[0]?.term?.charAt(0);
-                    return (
-                      <React.Fragment key={header}>
-                        <div className={sectionHeader}>
-                          {header}
-                        </div>
-                        {
-                          section?.map((term) => {
-                            return (
-                              <div
-                                className={termText}
-                                tabIndex={0}
-                                role={'button'}
-                                key={term.term}
-                                onClick={(e) => onTermClick(e, term)}
-                                onKeyPress={(e) => onTermClick(e, term)}
-                              >
-                                {term.term}
-                              </div>
-                            );
-                          })
-                        }
-                      </React.Fragment>
-                    )
-                  })
-                }
+                  {
+                    displayList.map((section) => {
+                      const header = section[0]?.term?.charAt(0);
+                      return (
+                        <React.Fragment key={header}>
+                          <div className={sectionHeader}>
+                            {header}
+                          </div>
+                          {
+                            section.map((term) => {
+                              return (
+                                <div
+                                  className={termText}
+                                  tabIndex={0}
+                                  role={'button'}
+                                  key={term.term}
+                                  onClick={(e) => onTermClick(e, term)}
+                                  onKeyPress={(e) => onTermClick(e, term)}
+                                >
+                                  {term.term}
+                                </div>
+                              );
+                            })
+                          }
+                        </React.Fragment>
+                      )
+                    })
+                  }
+
               </div>
             </div>
           </>
