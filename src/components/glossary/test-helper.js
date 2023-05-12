@@ -45,7 +45,7 @@ export const testGlossaryData2 = [
     },
     {
     id: 3,
-    term: 'apple',
+    term: 'Apple',
     site_page: 'spending',
     definition: 'An apple',
     urlDisplay: 'example.com',

@@ -53,7 +53,7 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
     if (filteredList?.length === 0) {
       setNoResults(true);
     }
-    return entry.length > 0 ? filteredList : sortedList;
+    return entry?.length > 0 ? filteredList : sortedList;
   };
 
   useEffect(() => {
@@ -85,6 +85,25 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
     setSelectedTerm(null);
   }
 
+  const underlineMatch = (term, filter) => {
+    const termLength = term.length;
+    const filterLength = filter.length;
+    const start = term.indexOf(filter);
+    const end = start + filterLength - 1;
+    console.log(term.indexOf(filter));
+    return (
+      filterLength === 0 ? (
+          <span>{term}</span>
+          ) : (
+          <>
+            <span>{term.substr(0,start)}</span>
+            <span>{term.substr(start,end)}</span>
+            <span>{term.substr(end, termLength - 1)}</span>
+          </>
+        )
+    );
+  }
+
   return (
     <>
       {selectedTerm ? (
@@ -109,22 +128,24 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
                           <div className={sectionHeader}>
                             {header}
                           </div>
-                          {
-                            section.map((term) => {
-                              return (
-                                <div
-                                  className={termText}
-                                  tabIndex={0}
-                                  role={'button'}
-                                  key={term.term}
-                                  onClick={(e) => onTermClick(e, term)}
-                                  onKeyPress={(e) => onTermClick(e, term)}
-                                >
-                                  {term.term}
-                                </div>
-                              );
-                            })
-                          }
+                          <div className={sectionTerms}>
+                            {
+                              section.map((term) => {
+                                return (
+                                  <div
+                                    className={termText}
+                                    tabIndex={0}
+                                    role={'button'}
+                                    key={term.term}
+                                    onClick={(e) => onTermClick(e, term)}
+                                    onKeyPress={(e) => onTermClick(e, term)}
+                                  >
+                                    {underlineMatch(term.term, filter)}
+                                  </div>
+                                );
+                              })
+                            }
+                          </div>
                         </React.Fragment>
                       )
                     })

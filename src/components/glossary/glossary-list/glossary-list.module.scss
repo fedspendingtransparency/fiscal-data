@@ -39,8 +39,8 @@
         margin-bottom: .5rem;
       }
 
-      //.sectionTerms {
-      //  margin-bottom: 1.25rem;
+      .sectionTerms {
+        margin-bottom: 1.25rem;
 
         .termText:not(:last-child) {
           margin-bottom: .25rem;
@@ -51,7 +51,7 @@
             cursor: pointer;
           }
         }
-      //}
+      }
     }
   }
 
