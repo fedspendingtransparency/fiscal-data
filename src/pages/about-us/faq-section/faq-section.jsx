@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import {Link as ScrollLink} from 'react-scroll';
+
 import SectionContent from '../../../components/api-documentation/section-content/section-content';
 import '../../../styles.scss';
 import * as styles from '../about-us.module.scss';
@@ -7,7 +7,6 @@ import GLOBALS from '../../../helpers/constants';
 import CustomLink from "../../../components/links/custom-link/custom-link";
 
 const FAQ = ({triggerHighlight = 0}) => {
-  const smoothScrollConfig = GLOBALS.config.smooth_scroll;
   const commonSectionHeadingLevel = 3;
   const highlightTime = GLOBALS.config.highlight.defaultTimeToHighlight;
 

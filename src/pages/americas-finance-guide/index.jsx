@@ -220,9 +220,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
     </CustomLink>
   );
   const citizensGuideLink = (
-    <CustomLink url={
-      "https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html"
-    }>
+    <CustomLink url="https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html">
       Citizen's Guide to the Financial Report of the U.S. Government
     </CustomLink>
   );

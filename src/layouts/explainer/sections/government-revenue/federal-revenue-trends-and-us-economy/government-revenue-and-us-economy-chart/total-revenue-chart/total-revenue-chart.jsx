@@ -148,17 +148,14 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   useEffect(() => {
     const {
       finalGDPData,
-      gdpMinYear,
       gdpMaxYear,
-      gdpMinAmount,
-      gdpMaxAmount,
     } = beaGDPData;
 
     basicFetch(chartDataEndPoint).then(res => {
       if (res.data) {
         let finalRevenueChartData = [];
 
-        res.data.map(revenue => {
+        res.data.forEach(revenue => {
           if (parseInt(revenue.record_fiscal_year) <= gdpMaxYear)
             finalRevenueChartData.push({
               x: parseInt(revenue.record_fiscal_year),
@@ -177,7 +174,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
           cpiDataByYear
         );
 
-        finalRevenueChartData.map(revenue => {
+        finalRevenueChartData.forEach(revenue => {
           revenue.y = parseFloat(
             simplifyNumber(revenue.actual, false).slice(0, -2)
           );
@@ -215,7 +212,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         );
 
         const finalGdpRatioChartData = [];
-        finalRevenueChartData.map((revenue) => {
+        finalRevenueChartData.forEach((revenue) => {
           const revenueYear = revenue.fiscalYear;
           const revenueAmount = revenue.y;
           const matchingGDP = filteredGDPData

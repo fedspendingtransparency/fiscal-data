@@ -27,7 +27,6 @@ const DownloadModal = ({ open,
     downloadModalIsOpen,
     downloadsInProgress,
     downloadQueue,
-    activeDownloadProgress,
     resumedDownloads
   } = siteDownloads;
 

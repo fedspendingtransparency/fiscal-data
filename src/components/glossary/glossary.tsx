@@ -21,11 +21,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
   const termMap = getGlossaryMap(termList);
   const getQueryTerm = (termName):IGlossaryTerm => {
     if (termName) {
-      const term = termList.find((element:IGlossaryTerm) => {
-        if (termName !== null) {
-          return element.term.toLowerCase() === termName.toLowerCase()
-        }
-      });
+      const term = termList.find((element:IGlossaryTerm) => element.term.toLowerCase() === termName.toLowerCase());
 
       removeAddressPathQuery(window.location);
       return term;

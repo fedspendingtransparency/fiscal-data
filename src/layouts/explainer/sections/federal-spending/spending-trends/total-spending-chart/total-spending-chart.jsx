@@ -141,9 +141,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   useEffect(() => {
     const {
       finalGDPData,
-      gdpMinYear,
       gdpMaxYear,
-      gdpMinAmount,
       gdpMaxAmount,
     } = beaGDPData;
 
@@ -151,7 +149,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
       if (res.data) {
         let finalSpendingChartData = [];
 
-        res.data.map(spending => {
+        res.data.forEach(spending => {
           finalSpendingChartData.push({
             x: parseInt(spending.record_fiscal_year),
             actual: parseInt(spending.current_fytd_net_outly_amt),
@@ -173,7 +171,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           cpiDataByYear
         );
 
-        finalSpendingChartData.map(spending => {
+        finalSpendingChartData.forEach(spending => {
           spending.y = parseFloat(
             simplifyNumber(spending.actual, false).slice(0, -2)
           );
@@ -199,7 +197,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         );
 
         const finalGdpRatioChartData = [];
-        finalSpendingChartData.map((spending) => {
+        finalSpendingChartData.forEach((spending) => {
           const spendingYear = spending.fiscalYear;
           const spendingAmount = spending.y;
           const matchingGDP = filteredGDPData

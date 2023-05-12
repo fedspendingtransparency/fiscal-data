@@ -62,7 +62,7 @@ export const downloadsContext = React.createContext({
 
 export const DownloadsProvider = ({ children }) => {
   const [downloadQueue, setDownloadQueue] = useState([]);
-  const [downloadQueueByDataset, setDownloadQueueByDataset] = useState({});
+  const [downloadQueueByDataset] = useState({});
   const [downloadsPrepared, setDownloadsPrepared] = useState([]);
   const [downloadModalIsOpen, setDownloadModalIsOpen] = useState(false);
   const [preparingDownload, setPreparingDownload] = useState(false);

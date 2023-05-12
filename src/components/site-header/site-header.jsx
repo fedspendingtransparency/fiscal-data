@@ -12,7 +12,6 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
 import Glossary from '../glossary/glossary';
-import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
 
 const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -436,7 +435,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         </span>
                       </button> : (
                         <button className={styles.pageLinkButton}
-                        onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}>
+                          onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}
+                        >
                           <Link
                             key={pageLink.title}
                             to={pageLink.to}
