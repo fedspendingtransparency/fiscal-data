@@ -12,8 +12,7 @@ import SurplusIllustration from "./surplus-illustration/surplus-illustration";
 import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
 import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
-import {nationalDeficitSectionConfigs} from "../national-deficit/national-deficit";
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../src/utils/date-utils";
+import {nationalDeficitSectionConfigs} from "../national-deficit";
 
 const UnderstandingDeficit = ({sectionId, glossary}) => {
   const spending =
