@@ -9,7 +9,7 @@ import {
 } from "../../hero-image/hero-image.module.scss"
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display"
-import GlossaryTerm from "../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term";
 import {getFootNotesDateRange, getPillData} from "../hero-helper";
 import { getShortForm } from "../../../../utils/rounding-utils";
 

@@ -179,7 +179,7 @@ export const DownloadsProvider = ({ children }) => {
       selectedFileType: downloadRequest.selectedFileType,
       datasetId: datasetId,
       requestTime: downloadRequest.requestTime,
-      userFilter: downloadRequest.userFilter
+      selectedUserFilter: downloadRequest.selectedUserFilter
     };
     return JSON.stringify(newObj);
   };
@@ -200,7 +200,7 @@ export const DownloadsProvider = ({ children }) => {
           filename: downloadRequest.filename,
           requestTime: downloadRequest.requestTime,
           originalRequestHash: downloadRequest.originalRequestHash,
-          userFilter: downloadRequest.selectedUserFilter
+          selectedUserFilter: downloadRequest.selectedUserFilter
         };
         downloadsInProgressByDataset[downloadRequest.datasetId] = download;
         setDownloadsInProgress(Object.values(downloadsInProgressByDataset)

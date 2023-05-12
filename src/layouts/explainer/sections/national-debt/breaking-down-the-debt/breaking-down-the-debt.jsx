@@ -1,5 +1,5 @@
 import {withWindowSize} from "react-fns";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import Analytics from "../../../../../utils/analytics/analytics";

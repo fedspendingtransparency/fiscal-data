@@ -13,6 +13,13 @@ export const applyChartScaling = (parent, chartWidth, chartHeight) => {
   }
 };
 
+export const addInnerChartAriaLabel = ( parent ) => {
+  const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);
+  if (svgChart) {
+    svgChart.setAttribute('aria-label', 'Inner chart area');
+  }
+}
+
 export const applyTextScaling = (parent, chartWidth, pageWidth, fontSize) => {
   const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);
   if (svgChart) {

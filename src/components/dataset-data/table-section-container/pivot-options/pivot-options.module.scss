@@ -1,4 +1,6 @@
 @import '../../../../variables.module.scss';
+@import '../../../../zIndex.module.scss';
+
 .containerBar {
   display: flex;
   align-items: center;
@@ -22,7 +24,7 @@
   align-items: center;
   white-space: nowrap;
   &:first-child {
-    z-index: 200;
+    z-index: $pivot-options-form-first-child;
     margin-right: 0.75rem;
   }
 }

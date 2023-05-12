@@ -32,6 +32,10 @@ import {getShortForm} from "../../../../../../utils/rounding-utils";
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from "../../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../../utils/analytics/analytics";
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling
+} from "../../../../explainer-helpers/explainer-charting-helper";
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -122,16 +126,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     }
   };
 
-  const applyChartScaling = () => {
-    // rewrite some element attribs after render to ensure Chart scales with container
-    // which doesn't seem to happen naturally when nivo has a flex container
-    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
-    if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 550 490');
-      svgChart.setAttribute('height', '100%');
-      svgChart.setAttribute('width', '100%');
-    }
-  };
+  const chartParent = 'chartParent';
+  const chartWidth = 550;
+  const chartHeight = 490;
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
@@ -259,7 +256,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
         setIsLoading(false);
 
-        applyChartScaling();
+        applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+        addInnerChartAriaLabel(chartParent);
 
         copyPageData({
           fiscalYear: maxYear,
@@ -387,7 +385,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     'points',
                     lineChartCustomPoints,
                     (props) =>
-                      LineChartCustomSlices(props, handleGroupOnMouseLeave, handleMouseLeave ),
+                      LineChartCustomSlices({
+                          ...props,
+                          groupMouseLeave: handleGroupOnMouseLeave,
+                          mouseMove: handleMouseLeave
+                        }
+                      ),
                     'mesh',
                     'legends',
                   ]}

@@ -15,6 +15,10 @@ import {colors, sum} from "./revenue-trends-line-chart-helpers";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import { useTooltip } from '@nivo/tooltip';
 import Analytics from "../../../../../../utils/analytics/analytics";
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling
+} from "../../../../explainer-helpers/explainer-charting-helper";
 
 let gaTimerRevenueTrends;
 
@@ -27,6 +31,16 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [chartYears, setChartYears] = useState([]);
   const [totalRevByYear, setTotalRevByYear] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const chartParent = 'chartParentTrends';
+  const chartWidth = 515;
+  const chartHeight = 500;
+
+  useEffect(() => {
+    applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
+  }, [isLoading]);
 
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,'
@@ -115,9 +129,10 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           }
           setTotalRevByYear(sumRevPerYear);
           setChartData(completeData);
+          setIsLoading(false);
         }
       });
-  }, [])
+  }, []);
 
   const handleChartMouseEnter = () => {
      gaTimerRevenueTrends = setTimeout(() => {
@@ -142,17 +157,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     >
       Bureau of Labor Statistics
     </CustomLink>;
-
-  const applyChartScaling = () => {
-    // rewrite some element attribs after render to ensure Chart scales with container
-    // which doesn't seem to happen naturally when nivo has a flex container
-    const svgChart = document.querySelector('[data-testid="chartParent"] svg');
-    if (svgChart) {
-      svgChart.setAttribute('viewBox', '0 0 480 500');
-      svgChart.setAttribute('height', '100%');
-      svgChart.setAttribute('width', '100%');
-    }
-  };
 
   const CustomSlices = props => {
     const { showTooltipFromEvent, hideTooltip } = useTooltip();
@@ -323,13 +327,10 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
            </div>;
   }
 
-  useEffect(() => {
-    applyChartScaling()
-  }, [])
 
   return (
     <>
-      { chartData !== [] ? (
+      { !isLoading ? (
         <div data-testid={'revenueTrendsLineChart'} className={styles.container}>
           <ChartContainer
             title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
@@ -344,7 +345,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             <div
               className={styles.lineChart}
               role={'presentation'}
-              data-testid={'chartParent'}
+              data-testid={'chartParentTrends'}
               onMouseEnter={handleChartMouseEnter}
               onMouseLeave={handleChartMouseLeave}
             >

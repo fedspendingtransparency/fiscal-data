@@ -14,7 +14,7 @@ import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons";
 import SourcesOfRevenueCircleChart
   from "./sources-of-revenue-circle-chart/sources-of-revenue-circle-chart";
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
 import Accordion from "../../../../../components/accordion/accordion";
 import {revenueAccordion} from "../revenue.module.scss";
 const SourcesOfFederalRevenue = ({ glossary }) => {
@@ -98,7 +98,7 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
 
   const trustFunds = (
     <GlossaryTerm
-      term={"Trust fund"}
+      term={"Trust funds"}
       page={"Revenue Explainer"}
       glossary={glossary}
     >

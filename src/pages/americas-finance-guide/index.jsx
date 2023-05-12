@@ -37,7 +37,7 @@ import {
   spendingRequest,
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../components/glossary/glossary-term/glossary-term";
 import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
@@ -219,6 +219,13 @@ const AmericasFinanceGuidePage = ({ width }) => {
       Debt to the Penny
     </CustomLink>
   );
+  const citizensGuideLink = (
+    <CustomLink url={
+      "https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html"
+    }>
+      Citizen's Guide to the Financial Report of the U.S. Government
+    </CustomLink>
+  );
 
   const revenueBody =
     <>
@@ -393,16 +400,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
         data-testid="bottomContainer"
       >
         <p className={styles.bottomHeading}>Americans asked. We listened.</p>
-        <p>
-          Your Guide to America's Finances is a re-invention of the{" "}
-          <span className={styles.blueText}>
-            {" "}
-            <a href={'https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html'}
-               onClick={handleCitizensGuideClick}
-            >
-              Citizen's Guide to the Financial Report of the U.S. Government.
-            </a>
-          </span>{" "}
+        <p className={styles.bottomBody}>
+          Your Guide to America's Finances is a re-invention of the {citizensGuideLink}.{" "}
           This site was created in response to the public's desire to learn more
           about the financial picture of the United States. Where does the money
           come from? Where does it go? What are the trends over time? This guide

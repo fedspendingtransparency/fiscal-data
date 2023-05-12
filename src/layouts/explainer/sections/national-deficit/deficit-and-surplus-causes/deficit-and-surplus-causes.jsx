@@ -1,6 +1,7 @@
 import React from "react";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term";
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import Analytics from "../../../../../utils/analytics/analytics";
 
 const DeficitAndSurplusCauses = ({glossary}) => {
   const federalCovidResponseLink =

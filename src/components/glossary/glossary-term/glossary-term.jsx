@@ -1,7 +1,7 @@
 import React from "react"
-import InfoTip from "../info-tip/info-tip"
-import { findGlossaryTerm } from "../../helpers/glossary-helper/glossary-terms"
-import CustomLink from "../links/custom-link/custom-link"
+import InfoTip from "../../info-tip/info-tip"
+import { findGlossaryTerm } from "../../../helpers/glossary-helper/glossary-terms"
+import CustomLink from "../../links/custom-link/custom-link"
 
 const GlossaryTerm = ({ term, page, glossary, children }) => {
   const lookupTerm = value => {

@@ -70,7 +70,7 @@ describe('DataSetDetailFields', () => {
   });
 
   it('includes a link to the about section', () => {
-    expect(instance.findByProps({'href': '#about-this-dataset'})).toBeDefined();
+    expect(instance.findByProps({'data-testid': 'scroll-link'})).toBeDefined();
   });
 
   it('includes data types section with header and body', () => {

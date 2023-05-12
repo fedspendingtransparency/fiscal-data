@@ -1,18 +1,19 @@
 @import '../../../../../../variables.module.scss';
+@import '../../../../../../zIndex.module.scss';
 @import '../../national-deficit.module';
 
 .tabEdgeLeft {
   position: absolute;
   left: -11px;
   top: -2.5px;
-  z-index: -1;
+  z-index: $tab-edge;
 }
 
 .tabEdgeRight {
   position: absolute;
   right: -21px;
   top: -2.5px;
-  z-index: -1;
+  z-index: $tab-edge;
 }
 
 .selectedTab {
@@ -31,7 +32,7 @@
 }
 
 [aria-selected="true"] .tabEdgeLeft, [aria-selected="true"] .tabEdgeRight {
-  z-index: 1;
+  z-index: $tab-edge-selected;
 }
 
 .tabBaselineWhiteout {
@@ -44,7 +45,7 @@
   right: -4.8px;
   border-radius: 4px;
   background-color: #ffffff;
-  z-index: 100;
+  z-index: $illustration-whiteout;
 }
 
 [aria-selected="true"] .tabBaselineWhiteout {
@@ -56,7 +57,7 @@
   position: absolute;
   max-width: 542px;
   background-color: #FFFFFF;
-  z-index: 100;
+  z-index: $illustration-whiteout;
   min-height: 1.5rem;
   min-width: 1rem;
   right: 3px;
@@ -110,7 +111,7 @@
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-  img {
+  .folderContent img {
     padding-right: 4rem;
   }
 }

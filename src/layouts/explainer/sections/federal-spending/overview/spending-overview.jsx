@@ -3,7 +3,7 @@ import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
-import GlossaryTerm from "../../../../../components/glossary-term/glossary-term"
+import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term"
 import {
   spendingExplainerPrimary,
   spendingExplainerSecondary,

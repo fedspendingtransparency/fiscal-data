@@ -26,6 +26,8 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {nationalDeficitSectionConfigs} from "../../national-deficit";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import Analytics from "../../../../../../utils/analytics/analytics";
+import {addInnerChartAriaLabel} from "../../../../explainer-helpers/explainer-charting-helper";
 
 const DeficitComparisonBarChart = ({sectionId, width}) => {
   const [date, setDate] = useState(new Date ());
@@ -46,6 +48,8 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
     endpoints
   } = nationalDeficitSectionConfigs[sectionId];
 
+
+  const chartParent = 'chartParentDiv';
 
   const mst =
     <CustomLink url={slug} eventNumber='13'>{name}
@@ -75,6 +79,10 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
   const deficitChangeEndpoint = endpoints[4];
 
   const markers = getMarkers(data, width);
+
+  useEffect(() => {
+    addInnerChartAriaLabel(chartParent);
+  }, [data]);
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${dateEndpoint.path}`)
@@ -172,7 +180,7 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
               footer={chartCopy.footer}
               date={date}
             >
-              <div className={barChart} >
+              <div className={barChart} data-testid={'chartParentDiv'}>
                 <Bar
                   width={desktop ? 408 : 304}
                   height={desktop ? desktopHeight : mobileHeight}

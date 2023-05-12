@@ -105,7 +105,7 @@ const AboutUsPage: FunctionComponent = ({data}) => {
             >
               <About />
               <FAQ triggerHighlight={highlight} />
-              <Contact onUnsupportedSubject={() => doHighlight(prevState => prevState + 1)} />
+              <Contact />
             </div>
           </SecondaryNav>
         </Experimental>

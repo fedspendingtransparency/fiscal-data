@@ -164,15 +164,9 @@ const FAQ = ({triggerHighlight = 0}) => {
       >
           <p>
             Please{' '}
-            <ScrollLink to="contact-us"
-                               data-test-id="contact"
-                               className="primary"
-                               smooth={true}
-                               duration={smoothScrollConfig.duration}
-                               delay={smoothScrollConfig.delay}
-            >
+            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
               contact us
-            </ScrollLink> with questions about the
+            </CustomLink> with questions about the
              data or to submit recommendations.
           </p>
           <div>

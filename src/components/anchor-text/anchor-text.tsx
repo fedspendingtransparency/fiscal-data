@@ -1,4 +1,5 @@
 import React from 'react';
+import CustomLink from "../links/custom-link/custom-link";
 
 type IAnchorText = {
   link: string;
@@ -8,14 +9,9 @@ type IAnchorText = {
 const AnchorText = ({ link, text }: IAnchorText): JSX.Element => {
   return (
     <sup>
-      <a
-        href="#footnote"
-        id={link}
-        data-testid="anchor-text"
-        className="primary"
-      >
+      <CustomLink url={`#footnote`} id={link} data-testid={'anchor-text'}>
         {text}
-      </a>
+      </CustomLink>
     </sup>
   );
 };

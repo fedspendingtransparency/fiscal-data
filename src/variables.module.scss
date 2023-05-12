@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap');
+@import './zIndex.module.scss';
 
 $breakpoint-sm: 600px;
 $breakpoint-md: 768px;
@@ -246,7 +247,7 @@ $pale-bg: #f8f8f8;
     }
     &:focus, &:focus-within {
       outline: 1px solid $focus;
-      z-index: 2;
+      z-index: $radio-button;
     }
   }
 
@@ -264,7 +265,7 @@ $pale-bg: #f8f8f8;
     position: absolute;
     &:focus + .toggleButton {
       outline: 1px solid $focus;
-      z-index: 2;
+      z-index: $radio-button;
     }
   }
 
