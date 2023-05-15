@@ -108,7 +108,10 @@ const MobileMenu = ({ setOpenGlossary }) => {
             <Link to="/datasets/" className={styles.pageLinks}>
               Dataset Search
             </Link>
-            <MobileMenuDropdown header={'Resources'} sections={resources} setOpenGlossary={setOpenGlossary} />
+            <MobileMenuDropdown header={'Resources'} 
+                                sections={resources} 
+                                setOpenGlossary={setOpenGlossary} 
+                                setActiveState={setActiveState} />
             <Link to="/about-us/" className={styles.pageLinks}>
               About Us
             </Link>

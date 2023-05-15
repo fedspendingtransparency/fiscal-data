@@ -12,11 +12,12 @@ import {Link} from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
 
 
-const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary }) => {
+const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, setActiveState }) => {
   const [isExpanded, setIsExpanded] = useState(defaultOpen);
-  const topicsClickHandler = (title, action) => {
+  const clickHandler = (title, action) => {
     if (title === 'Glossary'){
       setOpenGlossary(true);
+      setActiveState(false);
     }
     if(action){
       Analytics.event({
@@ -63,7 +64,7 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary }) 
                   return(
                     <Link
                       to={page.to}
-                      onClick={() => topicsClickHandler(page.name, section.analyticsAction)}
+                      onClick={() => clickHandler(page.name, section.analyticsAction)}
                       key={page.name}
                     >
                       {page.name}

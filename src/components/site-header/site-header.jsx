@@ -109,13 +109,10 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
     }
   ]
 
-  // TODO: make mobile and desktop links for glossary experimental
-
   const resourcesPageLinks = [
     {
       title: 'Glossary',
       to: '/',
-      isExperimental: true,
       testId: 'glossary'
     },
     {
@@ -416,16 +413,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                   >
                     <div className={styles.resourcesDropDown}>
                       {resourcesPageLinks.map((link) => {
-                        return (
-                          <Link
-                            to={link.to}
-                            activeClassName={styles.activeTopicLink}
-                            key={link.title}
-                            onClick={() => clickHandler(link.title)}
-                          >
-                            {link.title}
-                          </Link>
-                        )
+                          return (
+                            <Link
+                              to={link.to}
+                              activeClassName={styles.activeTopicLink}
+                              key={link.title}
+                              onClick={() => clickHandler(link.title)}
+                            >
+                              {link.title}
+                            </Link>
+                          )
                       })
                       }
                     </div>
