@@ -71,5 +71,6 @@ export const termContainer: string;
 export const sectionHeader: string;
 export const sectionTerms: string;
 export const termText: string;
+export const matchedSubstring: string;
 export const backToList: string;
 export const arrowIcon: string;

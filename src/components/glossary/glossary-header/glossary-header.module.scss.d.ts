@@ -70,5 +70,6 @@ export const bookIcon: string;
 export const closeButton: string;
 export const closeIcon: string;
 export const search: string;
+export const searchLabel: string;
 export const searchBar: string;
 export const searchIcon: string;

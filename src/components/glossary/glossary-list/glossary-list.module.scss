@@ -50,6 +50,11 @@
             text-decoration: underline;
             cursor: pointer;
           }
+
+          .matchedSubstring {
+            text-decoration: underline;
+            font-weight: $semi-bold-weight;
+          }
         }
       }
     }

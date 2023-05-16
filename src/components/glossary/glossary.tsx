@@ -60,9 +60,9 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
-              <GlossaryHeader clickHandler={toggleState} filterHandler={setFilter} />
+              <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} />
             </div>
-            <GlossaryList termMap={termMap} termList={termList} filter={filter} defaultTerm={queryTerm} />
+            <GlossaryList termMap={termMap} termList={termList} filter={filter} filterHandler={setFilter} defaultTerm={queryTerm} />
           </>
         )}
       </div>
