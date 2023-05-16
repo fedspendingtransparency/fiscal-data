@@ -462,13 +462,11 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             })}
           </div>
         </div>
-        <Experimental featureId={"Glossary"}>
           {openGlossary && 
           <Glossary termList={glossaryData}
           activeState={openGlossary}
           setActiveState={setOpenGlossary} />
           }
-        </Experimental>
         <MobileMenu setOpenGlossary={setOpenGlossary}/>
       </div>
       {lowerEnvMsg && (

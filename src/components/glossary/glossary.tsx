@@ -21,6 +21,7 @@ interface IGlossary {
 
 const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState }) => {
   const termMap = getGlossaryMap(termList);
+  let currentState = activeState;
   const getQueryTerm = (termName):IGlossaryTerm => {
     if (termName) {
       const term = termList.find((element:IGlossaryTerm) => {
@@ -36,20 +37,16 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
   const queryParameters = new URLSearchParams(window.location.search);
   const queryTerm = getQueryTerm(queryParameters.get("glossary"));
 
-  // Active state will default to true for testing purposes
- // const [activeState, setActiveState] = useState(true); //queryTerm !== null && queryTerm !== undefined);
-
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
-      setActiveState(!activeState);
-      // close mobile menu when this opens??? or just over the top?
+      currentState = !currentState;
+      setActiveState(currentState);
     }
   }
 
-
   return (
     <div
-      className={`${glossaryContainer} ${activeState ? open : ''}`}
+      className={`${glossaryContainer} ${currentState ? open : ''}`}
       data-testid="glossaryContainer"
     >
       <div
@@ -57,8 +54,8 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
         data-testid="overlay"
         onClick={toggleState}
       />
-      <div className={`${tray} ${activeState ? open : ''}`}>
-        {activeState && (
+      <div className={`${tray} ${currentState ? open : ''}`}>
+        {currentState && (
           <>
             <div className={glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} />
