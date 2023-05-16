@@ -48,7 +48,6 @@ export const deficitLearnMoreLinks = [
     title: 'An Update to the Budget and Economic Outlook: 2021 to 2031',
     url: 'https://www.cbo.gov/publication/57339',
     eventNumber: '20'
-    
   },
   {
     title: 'Congressional Budget Office Topics – Budget',
@@ -66,16 +65,10 @@ export const deficitLearnMoreLinks = [
     eventNumber: '23'
   },
   {
-    title: 'FY 2021 Final Monthly Treasury Statement',
+    title: 'FY 2022 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/' +
-      'MonthlyTreasuryStatement_202109.pdf',
+      'MonthlyTreasuryStatement_202209.pdf',
     eventNumber: '24'
-  },
-  {
-    title: 'U.S. Current Account Deficit Widens in Third Quarter 2021',
-    url: 'https://www.bea.gov/news/blog/2021-12-20/us-current-account-deficit-' +
-      'widens-third-quarter-2021',
-    eventNumber: '25'
   },
 ];
 
