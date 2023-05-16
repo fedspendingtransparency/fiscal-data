@@ -10,7 +10,8 @@ export default function SearchFilterSummary({
   searchQuery,
   activeFilters,
   allFilters,
-  changeHandler
+  onIndividualReset,
+  onGroupReset
 }) {
   const [filters, setFilters] = useState(filtersByGroupKeyWithName(activeFilters, allFilters));
 
@@ -22,16 +23,13 @@ export default function SearchFilterSummary({
   function clickHandler(option, filterConfig) {
     return () => {
       option.active = false
-      changeHandler({
-        filter: filterConfig.key,
-        selections: filterConfig.options.slice(),
-      })
+      onIndividualReset(option);
     }
   }
   function handleClearAll() {
     const active = filters.filter(r => r.options.some(d => d.active))
     active.map(a => {
-      return changeHandler(a.key)
+      return onGroupReset(a.key)
     })
   }
   const searched = searchQuery.length > 0
