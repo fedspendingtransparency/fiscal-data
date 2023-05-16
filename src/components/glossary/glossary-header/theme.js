@@ -12,35 +12,31 @@ const searchBar = {
     MuiOutlinedInput: {
       root: {
         height: '36px',
-        '&:hover': {
-          borderColor: '#d9d9d9',
-        },
-        '&.Mui-focused': {
-          borderWidth: '1px',
-          '&.notchedOutline': {
-            border: 'none'
+        '&.Mui-focused fieldset': {
+          '&.MuiOutlinedInput-notchedOutline': {
+            borderColor: '#0071bc',
+            borderWidth: '1px',
           }
-        }
+        },
+        '&:hover fieldset': {
+          // borderColor: '#d9d9d9',
+          '&.MuiOutlinedInput-notchedOutline': {
+            borderColor: '#d9d9d9',
+            // '&.Mui-focused fieldset': {
+            //   borderColor: '#0071bc',
+            // },
+          },
+        },
       },
       adornedEnd: {
         paddingRight: '16px',
       },
-      notchedOutline: {
-        borderWidth: '1px',
-        '&:focus': {
-          borderWidth: '1px',
-        }
-      }
     },
     MuiInputBase: {
       root: {
         fontFamily: 'Source Sans Pro',
         borderColor: '#d9d9d9',
-        '&:hover': {
-          borderColor: '#d9d9d9',
-        }
       },
-
     }
   }
 }

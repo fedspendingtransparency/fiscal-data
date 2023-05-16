@@ -19,14 +19,13 @@ import GlossaryDisplayList from './glossary-display-list/glossary-display-list';
 
 interface IGlossaryList {
   termMap?: IGlossaryTerm[],
-  termList?: IGlossaryTerm[],
   filter: string,
   filterHandler: (e) => void,
 
   defaultTerm?: IGlossaryTerm,
 }
 
-const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filter, filterHandler, defaultTerm}) => {
+const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ termMap, filter, filterHandler, defaultTerm}) => {
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(termMap);
@@ -38,6 +37,7 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
   const onClickBack = () => {
     setSelectedTerm(null);
     setDisplayList(termMap);
+    setScrollTop(true);
     filterHandler('');
   }
 
@@ -81,16 +81,14 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
 
   return (
     <>
-      <>
-        {(selectedTerm || displayList.length !== termMap.length) ? (
-          <button onClick={onClickBack} className={backToList}>
-            <FontAwesomeIcon icon={faArrowLeft as IconProp} className={arrowIcon} />
-            Back to list
-          </button>
-        ) : (
-          <span className={title}>All Terms</span>
-        )}
-      </>
+      {(selectedTerm || displayList.length !== termMap.length) ? (
+        <button onClick={onClickBack} className={backToList}>
+          <FontAwesomeIcon icon={faArrowLeft as IconProp} className={arrowIcon} />
+          Back to list
+        </button>
+      ) : (
+        <span className={title}>All Terms</span>
+      )}
       {selectedTerm ? (
         <GlossaryDefinition glossaryTerm={selectedTerm} />
         ) : (
@@ -112,4 +110,4 @@ const GlossaryList:FunctionComponent<IGlossaryList> = ({ termMap, termList, filt
   )
 }
 
-export default GlossaryList;
+export default GlossaryListContainer;

@@ -8,7 +8,7 @@ import {
   glossaryHeaderContainer
 } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
-import GlossaryList from './glossary-list/glossary-list';
+import GlossaryListContainer from './glossary-list/glossary-list';
 import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
@@ -62,7 +62,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
             <div className={glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} />
             </div>
-            <GlossaryList termMap={termMap} termList={termList} filter={filter} filterHandler={setFilter} defaultTerm={queryTerm} />
+            <GlossaryListContainer termMap={termMap} filter={filter} filterHandler={setFilter} defaultTerm={queryTerm} />
           </>
         )}
       </div>

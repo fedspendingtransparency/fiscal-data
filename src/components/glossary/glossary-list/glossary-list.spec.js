@@ -1,4 +1,4 @@
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, getAllByText, render } from '@testing-library/react';
 import React from 'react';
 import GlossaryList from './glossary-list';
 import { glossaryMapExample, testGlossaryData, testGlossaryData2 } from '../test-helper';
@@ -117,6 +117,19 @@ describe('glossary list',() => {
     );
 
     expect(getByText('All Terms')).toBeInTheDocument();
+  })
+
+  it('filters the list with the provided filter term', () => {
+    const { getAllByText, queryByText } = render(
+      <GlossaryList termMap={testGlossaryData2} filter={'apple'} />
+    );
+
+    expect(getAllByText('Apple')).toHaveLength(2);
+    expect(queryByText('Banana')).toBeFalsy();
+  })
+
+  it('', () => {
+
   })
 
 });

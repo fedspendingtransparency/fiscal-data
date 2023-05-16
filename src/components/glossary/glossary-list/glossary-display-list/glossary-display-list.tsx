@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { matchedSubstring, sectionHeader, sectionTerms, termText } from '../glossary-list.module.scss';
 import reactStringReplace from 'react-string-replace';
+import { IGlossaryTerm } from '../../../../models/IGlossaryTerm';
 
+interface IGlossarySubList {
+  termList: IGlossaryTerm[]
+}
 
-const GlossaryDisplayList = ({displayList, filter, selectedTermHandler}) => {
+interface IGlossaryDisplayList {
+  displayList: IGlossarySubList[],
+  filter: string,
+  selectedTermHandler: (e) => void,
+
+}
+const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({displayList, filter, selectedTermHandler}) => {
 
   const onTermClick = (e, term) => {
     if (e.key === undefined || e.key === 'Enter') {
