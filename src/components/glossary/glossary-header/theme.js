@@ -1,31 +1,16 @@
 // import * as variables from "../../../../variables.module.scss";
 
- import { createTheme } from '@material-ui/core/styles';
+ import { createTheme, makeStyles } from '@material-ui/core/styles';
 
-const searchBar = {
-  palette: {
-    primary: {
-      main: '#0071bc'
-    }
-  },
+const theme = {
   overrides: {
     MuiOutlinedInput: {
       root: {
-        height: '36px',
         '&.Mui-focused fieldset': {
           '&.MuiOutlinedInput-notchedOutline': {
             borderColor: '#0071bc',
             borderWidth: '1px',
           }
-        },
-        '&:hover fieldset': {
-          // borderColor: '#d9d9d9',
-          '&.MuiOutlinedInput-notchedOutline': {
-            borderColor: '#d9d9d9',
-            // '&.Mui-focused fieldset': {
-            //   borderColor: '#0071bc',
-            // },
-          },
         },
       },
       adornedEnd: {
@@ -35,12 +20,22 @@ const searchBar = {
     MuiInputBase: {
       root: {
         fontFamily: 'Source Sans Pro',
-        borderColor: '#d9d9d9',
       },
     }
   }
 }
 
-export const searchBarTheme = createTheme(searchBar);
+export const useStyles = makeStyles({
+  root: {
+    '& .MuiOutlinedInput-root': {
+      height: '36px',
+    },
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#d9d9d9',
+    },
+  }
+})
+
+export const searchBarTheme = createTheme(theme);
 
 

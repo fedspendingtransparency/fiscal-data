@@ -16,7 +16,7 @@ import {
   closeButton,
   searchLabel
 } from './glossary-header.module.scss'
-import { searchBarTheme } from './theme';
+import { searchBarTheme, useStyles } from './theme';
 
 interface IGlossaryHeader {
   clickHandler: (e) => void,
@@ -24,8 +24,6 @@ interface IGlossaryHeader {
   filterHandler: (e) => void
 }
 
-//TODO: Fix list blur after click back
-// Adjust style of search bar
 
 const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler, filter, filterHandler}) => {
   const onSearchBarChange = (event) => {
@@ -48,9 +46,11 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler, filter
       <div className={search}>
         <span className={searchLabel}>Search the glossary</span>
         <MuiThemeProvider theme={searchBarTheme} >
-          <Box sx={{width: 280}}>
+          <Box sx={{width: 282}}>
             <TextField
+              className={useStyles().root}
               variant="outlined"
+              margin="dense"
               fullWidth
               onChange={onSearchBarChange}
               size="small"

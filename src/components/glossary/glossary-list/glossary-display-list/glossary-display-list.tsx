@@ -1,5 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import { matchedSubstring, sectionHeader, sectionTerms, termText } from '../glossary-list.module.scss';
+import {
+  matchedSubstring,
+  sectionHeader,
+  sectionTerms,
+  termText
+} from './glossary-display-list.module.scss';
 import reactStringReplace from 'react-string-replace';
 import { IGlossaryTerm } from '../../../../models/IGlossaryTerm';
 

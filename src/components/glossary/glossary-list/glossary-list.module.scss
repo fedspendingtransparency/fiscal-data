@@ -33,30 +33,7 @@
       margin-top: -2.5rem;
       padding-right: 1rem;
 
-      .sectionHeader {
-        font-size: $font-size-20;
-        font-weight: $semi-bold-weight;
-        margin-bottom: .5rem;
-      }
 
-      .sectionTerms {
-        margin-bottom: 1.25rem;
-
-        .termText:not(:last-child) {
-          margin-bottom: .25rem;
-        }
-        .termText {
-          &:hover {
-            text-decoration: underline;
-            cursor: pointer;
-          }
-
-          .matchedSubstring {
-            text-decoration: underline;
-            font-weight: $semi-bold-weight;
-          }
-        }
-      }
     }
   }
 
