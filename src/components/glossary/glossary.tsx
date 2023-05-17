@@ -9,7 +9,7 @@ import {
 } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
 import GlossaryListContainer from './glossary-list/glossary-list';
-import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
+import { getSortedGlossaryList } from '../../helpers/glossary-helper/glossary-data';
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
 
@@ -20,7 +20,7 @@ interface IGlossary {
 const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
   const [filter, setFilter] = useState('');
 
-  const termMap = getGlossaryMap(termList);
+  const sortedTermList = getSortedGlossaryList(termList);
   const getQueryTerm = (termName):IGlossaryTerm => {
     if (termName) {
       const term = termList.find((element:IGlossaryTerm) => {
@@ -62,7 +62,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
             <div className={glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} />
             </div>
-            <GlossaryListContainer termMap={termMap} filter={filter} filterHandler={setFilter} defaultTerm={queryTerm} />
+            <GlossaryListContainer sortedTermList={sortedTermList} filter={filter} filterHandler={setFilter} defaultTerm={queryTerm} />
           </>
         )}
       </div>

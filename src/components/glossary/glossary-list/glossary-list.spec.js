@@ -1,34 +1,21 @@
 import { act, fireEvent, getAllByText, render } from '@testing-library/react';
 import React from 'react';
-import GlossaryList from './glossary-list';
-import { glossaryMapExample, testGlossaryData, testGlossaryData2 } from '../test-helper';
+import { testGlossaryData, testGlossaryData2 } from '../test-helper';
 import userEvent from '@testing-library/user-event';
-describe('glossary list',() => {
+import GlossaryListContainer from './glossary-list';
+describe('glossary list container',() => {
   it('contains the initial list header', () => {
-    const { getByText } = render(<GlossaryList termMap={testGlossaryData2} />);
+    const { getByText } = render(
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+    );
 
     expect(getByText('All Terms')).toBeInTheDocument();
   });
 
-  it('renders a header for every letter containing a term', () => {
-    const { getByText } = render(<GlossaryList termMap={testGlossaryData2} />);
-
-    expect(getByText('A')).toBeInTheDocument();
-    expect(getByText('B')).toBeInTheDocument();
-    expect(getByText('P')).toBeInTheDocument();
-  });
-
-  it('renders all terms for each given letter', () => {
-    const { getByText } = render(<GlossaryList termMap={testGlossaryData2} />);
-
-    expect(getByText('Apple')).toBeInTheDocument();
-    expect(getByText('Another Apple')).toBeInTheDocument();
-    expect(getByText('Banana')).toBeInTheDocument();
-    expect(getByText('Pear')).toBeInTheDocument();
-  });
-
   it('applies a gradient to the scroll container when it is not at the top', () => {
-    const { getByTestId } = render(<GlossaryList termMap={testGlossaryData2} />);
+    const { getByTestId } = render(
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+    );
 
     expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
 
@@ -43,9 +30,9 @@ describe('glossary list',() => {
     expect(getByTestId('scrollGradient')).not.toHaveClass('scrollGradient');
   })
 
-  it('opens definition display on term click', () => {
+  it('opens a terms definition display on click', () => {
     const { getByRole, getByText } = render(
-      <GlossaryList termMap={testGlossaryData2} />
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
     );
 
     const termButton = getByRole('button', {name: 'Apple'});
@@ -58,7 +45,7 @@ describe('glossary list',() => {
 
   it('definition display is keyboard accessible', () => {
     const { getByRole, getByText } = render(
-      <GlossaryList termMap={testGlossaryData2} />
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
     );
 
     const termButton = getByRole('button', {name: 'Another Apple'});
@@ -74,9 +61,9 @@ describe('glossary list',() => {
     expect(getByText('An apple')).toBeInTheDocument();
   })
 
-  it('renders a back to list button when a definition is displayed', () => {
+  it('renders the back to list button when a definition is displayed', () => {
     const { getByText, getByRole } = render(
-      <GlossaryList termMap={testGlossaryData2} />
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
     );
 
     const termButton = getByText('Banana');
@@ -86,10 +73,39 @@ describe('glossary list',() => {
     backButton.click();
   })
 
-  it('initially display the default term definition', () => {
+  it('renders the back to list button when the list is filtered', () => {
+    const { getByText, getByRole, queryByText } = render(
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'Apple'} filterHandler={jest.fn()} />
+    );
+    const backButton = getByRole('button', {name: 'Back to list'});
+
+    expect(queryByText('All Terms')).toBeFalsy();
+    expect(backButton).toBeInTheDocument();
+
+    backButton.click();
+
+    expect(getByText('All Terms')).toBeInTheDocument();
+  })
+
+  it('renders the back to list button when the no match found message is displayed', () => {
+    const { getByText, getByRole, queryByText } = render(
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'orange'} filterHandler={jest.fn()} />
+    );
+
+    const backButton = getByRole('button', {name: 'Back to list'});
+
+    expect(queryByText('All Terms')).toBeFalsy();
+    expect(backButton).toBeInTheDocument();
+
+    backButton.click();
+
+    expect(getByText('All Terms')).toBeInTheDocument();
+  })
+
+  it('initially displays the default term definition when a default term is provided', () => {
     const defaultTerm = testGlossaryData[0];
     const { getByText } = render(
-      <GlossaryList termMap={testGlossaryData2} defaultTerm={defaultTerm} />
+      <GlossaryListContainer sortedTermList={testGlossaryData2} defaultTerm={defaultTerm} filter={''} filterHandler={jest.fn()} />
     );
 
     const {term, definition} = defaultTerm;
@@ -99,9 +115,9 @@ describe('glossary list',() => {
     expect(getByText(definition)).toBeInTheDocument();
   })
 
-  it('filters terms and their headers with the provided search entry', () => {
+  it('filters terms and their headers with the provided a search filter', () => {
     const { getByText, queryByText } = render(
-      <GlossaryList termMap={testGlossaryData2} filter={'Pear'} />
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'Pear'} filterHandler={jest.fn()} />
     );
 
     expect(getByText('P')).toBeInTheDocument();
@@ -113,23 +129,28 @@ describe('glossary list',() => {
 
   it('displays the full term list when the search filter is empty', () => {
     const { getByText } = render(
-      <GlossaryList termMap={testGlossaryData2} filter={''} />
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
     );
 
     expect(getByText('All Terms')).toBeInTheDocument();
   })
 
-  it('filters the list with the provided filter term', () => {
-    const { getAllByText, queryByText } = render(
-      <GlossaryList termMap={testGlossaryData2} filter={'apple'} />
+  it('displays the no match found message when the search filter does not match any terms', () => {
+    const { getByText } = render(
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'orange'} filterHandler={jest.fn()} />
     );
 
-    expect(getAllByText('Apple')).toHaveLength(2);
-    expect(queryByText('Banana')).toBeFalsy();
-  })
+    expect(getByText('No match found for')).toBeInTheDocument();
+    expect(getByText('\'orange.\'')).toBeInTheDocument();
+  });
 
-  it('', () => {
+  it('ignores case from the search filter', () => {
+    const { getByText } = render(
+      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'pEAr'} filterHandler={jest.fn()} />
+    );
 
-  })
+    expect(getByText('P')).toBeInTheDocument();
+    expect(getByText('Pear')).toBeInTheDocument();
+  });
 
 });

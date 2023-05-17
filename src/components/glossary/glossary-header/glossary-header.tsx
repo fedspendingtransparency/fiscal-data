@@ -19,13 +19,13 @@ import {
 import { searchBarTheme, useStyles } from './theme';
 
 interface IGlossaryHeader {
-  clickHandler: (e) => void,
   filter: string,
+  clickHandler: (e) => void,
   filterHandler: (e) => void
 }
 
 
-const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler, filter, filterHandler}) => {
+const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler, filterHandler}) => {
   const onSearchBarChange = (event) => {
     const val = (event && event.target) ? event.target.value : '';
     filterHandler(val);

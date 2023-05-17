@@ -1,49 +1,31 @@
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 
+export interface IGlossaryListSection {
+  sortedList: IGlossaryTerm[]
 
-export interface IGlossaryMap {
-  [letter: string]: IGlossaryTerm[]
+  map(element: (term) => JSX.Element): any;
 }
 
 
-export const getGlossaryMap = (glossaryData: IGlossaryTerm[]):IGlossaryTerm[] => {
-  const glossaryMap = {};
+export const getSortedGlossaryList = (glossaryData: IGlossaryTerm[]):IGlossaryListSection[] => {
   const glossaryList = [];
-  if(glossaryData) {
+  if (glossaryData) {
     const sortedGlossaryData = [...glossaryData];
+    let letterList = [];
+    let lastTerm = '';
     sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));
     sortedGlossaryData.forEach(node => {
-      if(glossaryMap[node.term.charAt(0).toUpperCase()]) {
-        glossaryMap[node.term.charAt(0).toUpperCase()].push(node)
-      } else {
-        glossaryMap[node.term.charAt(0).toUpperCase()] = [node]
-      }
-    })
-
-    if (glossaryData) {
-      const sortedGlossaryData = [...glossaryData];
-      let letterList = [];
-      let lastTerm = '';
-      sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));
-      sortedGlossaryData.forEach(node => {
-        if(node.term.charAt(0) !== lastTerm.charAt(0)) {
-          if (letterList.length !== 0) {
-            glossaryList.push(letterList);
-          }
-          letterList = [node];
-        } else {
-          letterList.push(node);
+      if(node.term.charAt(0) !== lastTerm.charAt(0)) {
+        if (letterList.length !== 0) {
+          glossaryList.push(letterList);
         }
-        lastTerm = node.term;
-      })
-      glossaryList.push(letterList);
-
-    }
-
-
-    console.log(glossaryList);
-
-
+        letterList = [node];
+      } else {
+        letterList.push(node);
+      }
+      lastTerm = node.term;
+    })
+    glossaryList.push(letterList);
   }
   return glossaryList;
 }

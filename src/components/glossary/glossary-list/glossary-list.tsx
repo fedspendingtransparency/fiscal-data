@@ -15,20 +15,21 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
 import NoMatch from './no-match/no-match';
 import GlossaryDisplayList from './glossary-display-list/glossary-display-list';
+import { IGlossaryListSection } from '../../../helpers/glossary-helper/glossary-data';
 
 
 interface IGlossaryList {
-  termMap?: IGlossaryTerm[],
+  sortedTermList: IGlossaryListSection[],
   filter: string,
   filterHandler: (e) => void,
 
   defaultTerm?: IGlossaryTerm,
 }
 
-const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ termMap, filter, filterHandler, defaultTerm}) => {
+const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList, filter, filterHandler, defaultTerm}) => {
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
-  const [displayList, setDisplayList] = useState(termMap);
+  const [displayList, setDisplayList] = useState(sortedTermList);
 
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
@@ -36,12 +37,12 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ termMap, filte
 
   const onClickBack = () => {
     setSelectedTerm(null);
-    setDisplayList(termMap);
+    setDisplayList(sortedTermList);
     setScrollTop(true);
     filterHandler('');
   }
 
-  const filterTermsByEntry = (sortedList, entry) => {
+  const filterTermsByEntry = (sortedList: IGlossaryListSection[], entry: string) => {
     const filteredList = [];
 
     const filterNestedList = (terms) => {
@@ -59,7 +60,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ termMap, filte
   };
 
   useEffect(() => {
-    const localFilterOptions = filterTermsByEntry(termMap, filter);
+    const localFilterOptions = filterTermsByEntry(sortedTermList, filter);
     setDisplayList(localFilterOptions);
     setSelectedTerm(null);
   }, [filter])
@@ -81,7 +82,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ termMap, filte
 
   return (
     <>
-      {(selectedTerm || displayList.length !== termMap.length) ? (
+      {(selectedTerm || displayList.length !== sortedTermList.length) ? (
         <button onClick={onClickBack} className={backToList}>
           <FontAwesomeIcon icon={faArrowLeft as IconProp} className={arrowIcon} />
           Back to list
@@ -97,7 +98,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ termMap, filte
             <div className={listContainer}>
               <div className={termContainer} data-testid={'scrollContainer'}>
                 {displayList.length ? (
-                  <GlossaryDisplayList displayList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
+                  <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
                   ) : (
                     <NoMatch term={filter} />
                 )

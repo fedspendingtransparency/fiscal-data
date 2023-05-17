@@ -1,3 +1,5 @@
+import { IGlossaryListSection } from '../../helpers/glossary-helper/glossary-data';
+
 export const testGlossaryData = [
   {
     id: 1,

@@ -6,19 +6,15 @@ import {
   termText
 } from './glossary-display-list.module.scss';
 import reactStringReplace from 'react-string-replace';
-import { IGlossaryTerm } from '../../../../models/IGlossaryTerm';
-
-interface IGlossarySubList {
-  termList: IGlossaryTerm[]
-}
+import { IGlossaryListSection } from '../../../../helpers/glossary-helper/glossary-data';
 
 interface IGlossaryDisplayList {
-  displayList: IGlossarySubList[],
+  sortedList: IGlossaryListSection[],
   filter: string,
   selectedTermHandler: (e) => void,
 
 }
-const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({displayList, filter, selectedTermHandler}) => {
+const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({sortedList, filter, selectedTermHandler}) => {
 
   const onTermClick = (e, term) => {
     if (e.key === undefined || e.key === 'Enter') {
@@ -27,21 +23,19 @@ const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({displayLis
     }
   }
 
-  const underlineMatch = (term, filter) => {
+  const underlineMatchedString = (term, filter) => {
     const filterString = filter.replace(/[/\-\\^$*+?.()|[\]{}]/g,'\\$1');
     const regex = new RegExp(`(${filterString})`, 'ig');
     const strReplace = reactStringReplace(term, regex, (match) =>
       <span className={matchedSubstring}>{match}</span>);
 
-    return (
-      filter.length === 0 ? (<span>{term}</span>) : (<span>{strReplace}</span>)
-    );
+    return filter.length ?  <span>{strReplace}</span> : <span>{term}</span>;
   }
 
   return (
     <>
       {
-        displayList.map((section) => {
+        sortedList.map((section) => {
           const header = section[0]?.term?.charAt(0);
           return (
             <React.Fragment key={header}>
@@ -60,7 +54,7 @@ const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({displayLis
                         onClick={(e) => onTermClick(e, term)}
                         onKeyPress={(e) => onTermClick(e, term)}
                       >
-                        {underlineMatch(term.term, filter)}
+                        {underlineMatchedString(term.term, filter)}
                       </div>
                     );
                   })

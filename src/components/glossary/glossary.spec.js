@@ -63,17 +63,18 @@ describe('glossary',() => {
     expect(addressPathMock).toHaveBeenCalledWith(window.location)
   })
 
-  it('filters list based on search term', () => {
-    const { getByText } = render(<Glossary termList={testGlossaryData} />);
 
-    // get search bar
-    // enter search term
-    // check list
-  })
 
-  it('displays term not found when no terms match the current search', () => {
+  it('', () => {
 
-  })
+  });
 
+  it('', () => {
+
+  });
+
+  it('', () => {
+
+  });
 
 });
