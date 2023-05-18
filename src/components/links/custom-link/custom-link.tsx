@@ -76,49 +76,34 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
     }
   }, [ext, url, href]);
 
-  if (
-    ext ||
-    (urlOrHref &&
-      ["http", "tel", "mailto"].some(protocol =>
-        urlOrHref.startsWith(protocol)
-      ))
-  ) {
-    return (
-      <ExternalLink
-        url={urlOrHref}
-        onClick={onClickEventHandler}
-        dataTestId={dataTestId}
-      >
-        {children}
-      </ExternalLink>
-    );
-  } else if (urlOrHref) {
-    if (!urlOrHref.startsWith("#")) {
-      if (urlOrHref.endsWith(".pdf")) {
-        return (
-          <a
-            href={urlOrHref}
-            className="primary"
-            download
-            data-testid={dataTestId || "download-link"}
-          >
-            {children}
-          </a>
-        );
-      } else {
-        return (
-          <Link
-            to={urlOrHref}
-            className="primary"
-            download={urlOrHref.endsWith(".pdf")}
-            data-testid={dataTestId || "internal-link"}
-            onClick={onClickEventHandler}
-          >
-            {children}
-          </Link>
-        );
-      }
-    } else {
+
+  switch (true) {
+    case ext || ["http", "tel"].some(protocol =>
+      urlOrHref.startsWith(protocol)
+    ):
+      return (
+        <ExternalLink
+          url={urlOrHref}
+          onClick={onClickEventHandler}
+          dataTestId={dataTestId}
+        >
+          {children}
+        </ExternalLink>
+      );
+
+    case urlOrHref.startsWith("mailto") :
+      return (
+        <a
+          href={urlOrHref}
+          onClick={onClickEventHandler}
+          className="primary"
+          data-testid={dataTestId || "mail-to link"}
+        >
+          {children}
+        </a>
+      );
+
+    case urlOrHref.startsWith('#') :
       return (
         <ScrollLink
           to={urlOrHref.substr(1)}
@@ -132,10 +117,32 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           {children}
         </ScrollLink>
       );
-    }
-  }
 
-  return null;
+    case urlOrHref.endsWith('.pdf') :
+      return (
+        <a
+          href={urlOrHref}
+          className="primary"
+          download
+          data-testid={dataTestId || "download-link"}
+        >
+          {children}
+        </a>
+      );
+
+    default:
+      return (
+        <Link
+          to={urlOrHref}
+          className="primary"
+          download={urlOrHref.endsWith(".pdf")}
+          data-testid={dataTestId || "internal-link"}
+          onClick={onClickEventHandler}
+        >
+          {children}
+        </Link>
+      );
+  }
 };
 
 export default CustomLink;
