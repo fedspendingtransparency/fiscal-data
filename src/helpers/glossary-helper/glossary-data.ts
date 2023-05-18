@@ -15,7 +15,7 @@ export const getSortedGlossaryList = (glossaryData: IGlossaryTerm[]):IGlossaryLi
     let lastTerm = '';
     sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));
     sortedGlossaryData.forEach(node => {
-      if(node.term.charAt(0) !== lastTerm.charAt(0)) {
+      if(node.term.charAt(0).toLowerCase() !== lastTerm.charAt(0).toLowerCase()) {
         if (letterList.length !== 0) {
           glossaryList.push(letterList);
         }

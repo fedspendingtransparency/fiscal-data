@@ -4,17 +4,17 @@ import {
   suggestions,
   noMatchContainer,
   suggestionsList
-} from './no-match.module.scss';
+} from './no-glossary-match.module.scss';
 interface NoMatchI {
-  term: string
+  filter: string
 }
 
-const NoMatch:FunctionComponent<NoMatchI> = ({term}) => {
+const NoGlossaryMatch:FunctionComponent<NoMatchI> = ({filter}) => {
   return (
     <div className={noMatchContainer}>
       <div>
         <span>No match found for </span>
-        <span className={unmatchedTerm}>'{term}.'</span>
+        <span className={unmatchedTerm}>'{filter}.'</span>
       </div>
       <span className={suggestions}>Suggestions</span>
       <ul className={suggestionsList}>
@@ -25,4 +25,4 @@ const NoMatch:FunctionComponent<NoMatchI> = ({term}) => {
   )
 }
 
-export default NoMatch;
+export default NoGlossaryMatch;

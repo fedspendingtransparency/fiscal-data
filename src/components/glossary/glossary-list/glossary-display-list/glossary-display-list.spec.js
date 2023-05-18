@@ -26,4 +26,8 @@ describe('glossary display list', () => {
     expect(getByText('Banana')).toBeInTheDocument();
     expect(getByText('Pear')).toBeInTheDocument();
   });
+
+  it('underlines the substring that matches the filter', () => {
+
+  })
 })

@@ -2,7 +2,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { testGlossaryData, testSortedGlossaryData } from '../test-helper';
 import userEvent from '@testing-library/user-event';
-import GlossaryListContainer from './glossary-list';
+import GlossaryListContainer from './glossary-list-container';
 describe('glossary list container',() => {
   it('contains the initial list header', () => {
     const { getByText } = render(

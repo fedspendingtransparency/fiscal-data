@@ -7,13 +7,13 @@ import {
   scrollContainerTop,
   backToList,
   arrowIcon,
-} from './glossary-list.module.scss';
+} from './glossary-list-container.module.scss';
 import GlossaryDefinition from '../glossary-definition/glossary-definition';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
-import NoMatch from './no-match/no-match';
+import NoGlossaryMatch from './no-match/no-glossary-match';
 import GlossaryDisplayList from './glossary-display-list/glossary-display-list';
 import { IGlossaryListSection } from '../../../helpers/glossary-helper/glossary-data';
 
@@ -101,7 +101,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
                 {displayList.length ? (
                   <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
                 ) : (
-                  <NoMatch term={filter} />
+                  <NoGlossaryMatch filter={filter} />
                 )
                 }
               </div>

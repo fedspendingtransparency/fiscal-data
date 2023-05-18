@@ -8,7 +8,7 @@ import {
   glossaryHeaderContainer
 } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
-import GlossaryListContainer from './glossary-list/glossary-list';
+import GlossaryListContainer from './glossary-list/glossary-list-container';
 import { getSortedGlossaryList } from '../../helpers/glossary-helper/glossary-data';
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
