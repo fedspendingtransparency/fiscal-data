@@ -1,6 +1,5 @@
-// import * as variables from "../../../../variables.module.scss";
-
- import { createTheme, makeStyles } from '@material-ui/core/styles';
+import * as variables from "../../../variables.module.scss";
+import { createTheme, makeStyles } from '@material-ui/core/styles';
 
 const theme = {
   overrides: {
@@ -8,13 +7,13 @@ const theme = {
       root: {
         '&.Mui-focused fieldset': {
           '&.MuiOutlinedInput-notchedOutline': {
-            borderColor: '#0071bc',
+            borderColor: variables.primary,
             borderWidth: '1px',
           }
         },
       },
       adornedEnd: {
-        paddingRight: '16px',
+        paddingRight: variables.fontSize_16,
       },
     },
     MuiInputBase: {
@@ -28,7 +27,7 @@ const theme = {
 export const useStyles = makeStyles({
   root: {
     '& .MuiOutlinedInput-root': {
-      height: '36px',
+      height: variables.fontSize_36,
     },
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
       borderColor: '#d9d9d9',
