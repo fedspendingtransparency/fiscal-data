@@ -41,6 +41,8 @@
   .search {
     color: #666;
     margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
 
     .searchLabel {
       font-size: $font-size-12;

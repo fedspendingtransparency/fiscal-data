@@ -61,8 +61,10 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
 
   useEffect(() => {
     const localFilterOptions = filterTermsByEntry(sortedTermList, filter);
+    if (filter) {
+      setSelectedTerm(null);
+    }
     setDisplayList(localFilterOptions);
-    setSelectedTerm(null);
   }, [filter])
 
   useEffect(() => {
@@ -75,7 +77,6 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
         scrollContainer.removeEventListener('scroll', handleScroll);
       };
     }
-
   }, [selectedTerm, displayList]);
 
 
@@ -99,8 +100,8 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
               <div className={termContainer} data-testid={'scrollContainer'}>
                 {displayList.length ? (
                   <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
-                  ) : (
-                    <NoMatch term={filter} />
+                ) : (
+                  <NoMatch term={filter} />
                 )
                 }
               </div>

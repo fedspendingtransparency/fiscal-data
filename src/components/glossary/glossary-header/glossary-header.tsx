@@ -50,7 +50,6 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler
             <TextField
               className={useStyles().root}
               variant="outlined"
-              margin="dense"
               fullWidth
               onChange={onSearchBarChange}
               size="small"
