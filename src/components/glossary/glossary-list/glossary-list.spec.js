@@ -1,12 +1,12 @@
-import { act, fireEvent, getAllByText, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import { testGlossaryData, testGlossaryData2 } from '../test-helper';
+import { testGlossaryData, testSortedGlossaryData } from '../test-helper';
 import userEvent from '@testing-library/user-event';
 import GlossaryListContainer from './glossary-list';
 describe('glossary list container',() => {
   it('contains the initial list header', () => {
     const { getByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
     );
 
     expect(getByText('All Terms')).toBeInTheDocument();
@@ -14,7 +14,7 @@ describe('glossary list container',() => {
 
   it('applies a gradient to the scroll container when it is not at the top', () => {
     const { getByTestId } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
     );
 
     expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
@@ -32,7 +32,7 @@ describe('glossary list container',() => {
 
   it('opens a terms definition display on click', () => {
     const { getByRole, getByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
     );
 
     const termButton = getByRole('button', {name: 'Apple'});
@@ -45,7 +45,7 @@ describe('glossary list container',() => {
 
   it('definition display is keyboard accessible', () => {
     const { getByRole, getByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
     );
 
     const termButton = getByRole('button', {name: 'Another Apple'});
@@ -63,7 +63,7 @@ describe('glossary list container',() => {
 
   it('renders the back to list button when a definition is displayed', () => {
     const { getByText, getByRole } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
     );
 
     const termButton = getByText('Banana');
@@ -75,7 +75,7 @@ describe('glossary list container',() => {
 
   it('renders the back to list button when the list is filtered', () => {
     const { getByText, getByRole, queryByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'Apple'} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={'Apple'} filterHandler={jest.fn()} />
     );
     const backButton = getByRole('button', {name: 'Back to list'});
 
@@ -89,7 +89,7 @@ describe('glossary list container',() => {
 
   it('renders the back to list button when the no match found message is displayed', () => {
     const { getByText, getByRole, queryByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'orange'} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={'orange'} filterHandler={jest.fn()} />
     );
 
     const backButton = getByRole('button', {name: 'Back to list'});
@@ -105,7 +105,7 @@ describe('glossary list container',() => {
   it('initially displays the default term definition when a default term is provided', () => {
     const defaultTerm = testGlossaryData[0];
     const { getByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} defaultTerm={defaultTerm} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} defaultTerm={defaultTerm} filter={''} filterHandler={jest.fn()} />
     );
 
     const {term, definition} = defaultTerm;
@@ -117,7 +117,7 @@ describe('glossary list container',() => {
 
   it('filters terms and their headers with the provided a search filter', () => {
     const { getByText, queryByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'Pear'} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={'Pear'} filterHandler={jest.fn()} />
     );
 
     expect(getByText('P')).toBeInTheDocument();
@@ -129,7 +129,7 @@ describe('glossary list container',() => {
 
   it('displays the full term list when the search filter is empty', () => {
     const { getByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
     );
 
     expect(getByText('All Terms')).toBeInTheDocument();
@@ -137,7 +137,7 @@ describe('glossary list container',() => {
 
   it('displays the no match found message when the search filter does not match any terms', () => {
     const { getByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'orange'} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={'orange'} filterHandler={jest.fn()} />
     );
 
     expect(getByText('No match found for')).toBeInTheDocument();
@@ -146,7 +146,7 @@ describe('glossary list container',() => {
 
   it('ignores case from the search filter', () => {
     const { getByText } = render(
-      <GlossaryListContainer sortedTermList={testGlossaryData2} filter={'pEAr'} filterHandler={jest.fn()} />
+      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={'pEAr'} filterHandler={jest.fn()} />
     );
 
     expect(getByText('P')).toBeInTheDocument();

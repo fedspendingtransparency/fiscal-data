@@ -34,7 +34,7 @@ export const testGlossaryData = [
   }
 ]
 
-export const testGlossaryData2 = [
+export const testSortedGlossaryData = [
   [
     {
       id: 4,
