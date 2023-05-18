@@ -7,7 +7,7 @@
   margin-bottom: 1.5rem;
 
   .header {
-    margin-bottom: 26px;
+    margin-bottom: 1.625rem;
     margin-right: 1rem;
     display: flex;
     align-items: center;
@@ -15,8 +15,8 @@
     .title {
       font-weight: $semi-bold-weight;
       .bookIcon {
-        width: 12px;
-        height: 14px;
+        width: 0.75rem;
+        height: 0.875rem;
         color: #666;
         margin-right: 0.5rem;
       }
@@ -28,8 +28,8 @@
       .closeIcon {
         color: $primary;
         :not(svg root) {
-          width: 12px;
-          height: 20px;
+          width: 0.75rem;
+          height: 1.25rem;
         }
       }
       :hover {
