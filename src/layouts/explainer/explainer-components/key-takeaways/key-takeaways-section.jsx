@@ -6,7 +6,7 @@ import {
   offsetIcon,
 } from "./key-takeaways-section.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term"
+import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition"
 import reactStringReplace from "react-string-replace"
 
 export const toTitleCase = text => {
@@ -33,14 +33,14 @@ const getText = (takeaway, glossary) => {
       glossaryRegex || glossaryString,
       (match, i) => {
         return (
-          <GlossaryTerm
+          <GlossaryPopoverDefinition
             term={toTitleCase(glossaryTerm ? glossaryTerm : match)}
             page={page}
             glossary={glossary}
             key={i}
           >
             {match}
-          </GlossaryTerm>
+          </GlossaryPopoverDefinition>
         )
       }
     )

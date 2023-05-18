@@ -1,4 +1,4 @@
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
 import React from "react";
@@ -11,61 +11,61 @@ import NationalDebtExplainedTable
  const NationalDebtExplained = ({ glossary }) => {
   const glossaryTerms = {
     fiscalYear: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Fiscal Year"
         page="Debt explainer"
         glossary={glossary}
       >
         fiscal year (FY)
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     spending: (
-      <GlossaryTerm term="Spending" page="Debt explainer" glossary={glossary}>
+      <GlossaryPopoverDefinition term="Spending" page="Debt explainer" glossary={glossary}>
         spending
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     revenue: (
-      <GlossaryTerm term="Revenue" page="Debt explainer" glossary={glossary}>
+      <GlossaryPopoverDefinition term="Revenue" page="Debt explainer" glossary={glossary}>
         revenue
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     deficit: (
-      <GlossaryTerm term="Deficit" page="Debt explainer" glossary={glossary}>
+      <GlossaryPopoverDefinition term="Deficit" page="Debt explainer" glossary={glossary}>
         deficit
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     bonds: (
-      <GlossaryTerm term="Bonds" page="Debt explainer" glossary={glossary}>
+      <GlossaryPopoverDefinition term="Bonds" page="Debt explainer" glossary={glossary}>
         bonds
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     bills: (
-      <GlossaryTerm term="Bills" page="Debt explainer" glossary={glossary}>
+      <GlossaryPopoverDefinition term="Bills" page="Debt explainer" glossary={glossary}>
         bills
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     notes: (
-      <GlossaryTerm term="Notes" page="Debt explainer" glossary={glossary}>
+      <GlossaryPopoverDefinition term="Notes" page="Debt explainer" glossary={glossary}>
         notes
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     floatingRateNotes: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Floating Rate Notes"
         page="Debt explainer"
         glossary={glossary}
       >
         floating rate notes
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     tips: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Treasury Inflation Protected Securities (TIPS)"
         page="Debt explainer"
         glossary={glossary}
       >
         Treasury inflation-protected securities (TIPS)
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
   };
 

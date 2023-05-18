@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
-import GlossaryTerm from "./glossary-term";
+import GlossaryPopoverDefinition from "./glossary-popover-definition";
 
 
 describe('glossary term',() => {
@@ -36,9 +36,9 @@ describe('glossary term',() => {
     const testPage = 'Test Page';
 
     const { getByRole } = render(
-      <GlossaryTerm term="hello" page={testPage} glossary={testGlossary}>
+      <GlossaryPopoverDefinition term="hello" page={testPage} glossary={testGlossary}>
         {termText}
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     );
     const glossaryTermButton = getByRole('button', {name: termText});
     expect(glossaryTermButton).toBeInTheDocument();
@@ -50,9 +50,9 @@ describe('glossary term',() => {
     const testPage = 'Test Page';
 
     const { getByRole, getByText } = render(
-      <GlossaryTerm term={termText} page={testPage} glossary={testGlossary}>
+      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary}>
         {termText}
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     );
     const glossaryTermButton = getByRole('button', {name: termText});
     glossaryTermButton.click();
@@ -68,9 +68,9 @@ describe('glossary term',() => {
     const testPage = 'Test Page';
 
     const { getByRole, getByText } = render(
-      <GlossaryTerm term={termText} page={testPage} glossary={testGlossary}>
+      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary}>
         {termText}
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     );
     const glossaryTermButton = getByRole('button', {name: termText});
     glossaryTermButton.click();
@@ -87,9 +87,9 @@ describe('glossary term',() => {
     const testPage = 'Another Test Page';
 
     const { getByRole, getByText, queryByText } = render(
-      <GlossaryTerm term={termText} page={testPage} glossary={testGlossary}>
+      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary}>
         {termText}
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     );
 
     const glossaryTermButton = getByRole('button', {name: termText});

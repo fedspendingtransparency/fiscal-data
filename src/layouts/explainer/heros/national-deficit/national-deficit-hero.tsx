@@ -9,7 +9,7 @@ import {
 } from "../../hero-image/hero-image.module.scss"
 import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display"
-import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {getFootNotesDateRange, getPillData} from "../hero-helper";
 import { getShortForm } from "../../../../utils/rounding-utils";
 
@@ -97,9 +97,9 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   );
 
   const fiscalYear =
-    <GlossaryTerm term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >
+    <GlossaryPopoverDefinition term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >
       fiscal year (FY)
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   const changeNationaDeficitFooter =
     <p>Compared to the national deficit of ${desktopPriorDeficit} for the same period last year

@@ -1,5 +1,5 @@
 import {withWindowSize} from "react-fns";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import Analytics from "../../../../../utils/analytics/analytics";
@@ -73,40 +73,40 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
 
   const glossaryTerms = {
     debtHeldByThePublic: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Debt Held by the Public"
         page="Debt explainer"
         glossary={glossary}
       >
         debt held by the public
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     intragovernmental: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Intragovernmental Holdings"
         page="Debt explainer"
         glossary={glossary}
       >
         intragovernmental
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     calendarYear: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Calendar Year"
         page="Debt explainer"
         glossary={glossary}
       >
         calendar year
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     interestRates: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Interest Rates"
         page="Debt explainer"
         glossary={glossary}
       >
         interest rates
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
   };
 

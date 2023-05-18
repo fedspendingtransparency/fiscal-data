@@ -1,4 +1,4 @@
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {
   icon,
   iconBackground,
@@ -12,22 +12,22 @@ import React from "react";
 
 export const KeyTakeawaysSection = ({ glossary }) => {
   const nonMarketableSecurities = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term="Non-Marketable Securities"
       page="Debt explainer"
       glossary={glossary}
     >
       non-marketable
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
   const marketableSecurities = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term="Marketable Securities"
       page="Debt explainer"
       glossary={glossary}
     >
       marketable
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
 
   return (

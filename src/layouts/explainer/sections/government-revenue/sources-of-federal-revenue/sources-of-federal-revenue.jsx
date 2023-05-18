@@ -14,7 +14,7 @@ import { faMartiniGlassCitrus } from "@fortawesome/free-solid-svg-icons";
 import SourcesOfRevenueCircleChart
   from "./sources-of-revenue-circle-chart/sources-of-revenue-circle-chart";
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import Accordion from "../../../../../components/accordion/accordion";
 import {revenueAccordion} from "../revenue.module.scss";
 const SourcesOfFederalRevenue = ({ glossary }) => {
@@ -87,23 +87,23 @@ const SourcesOfFederalRevenue = ({ glossary }) => {
   );
 
   const excise = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Excise"}
       page={"Revenue Explainer & AFG Overview Page"}
       glossary={glossary}
     >
       excise
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
 
   const trustFunds = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Trust fund"}
       page={"Revenue Explainer"}
       glossary={glossary}
     >
       trust funds
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
 
   const federalReserveAct = (

@@ -37,7 +37,7 @@ import {
   spendingRequest,
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../components/glossary/glossary-term/glossary-popover-definition";
 import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
@@ -191,13 +191,13 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </>
   );
   const exciseTaxes =
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Excise"}
       page={"Revenue Explainer & AFG Overview Page"}
       glossary={glossary}
     >
       excise
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   const mts = (
     <CustomLink
       url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}

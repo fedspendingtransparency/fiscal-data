@@ -1,6 +1,6 @@
 import React from "react";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import Analytics from "../../../../../utils/analytics/analytics";
 
 const DeficitAndSurplusCauses = ({glossary}) => {
@@ -27,12 +27,12 @@ const DeficitAndSurplusCauses = ({glossary}) => {
     </CustomLink>
 
   const gdp =
-    <GlossaryTerm term={'gross domestic product (GDP)'}
-                  page={'Deficit Explainer'}
-                  glossary={glossary}
+    <GlossaryPopoverDefinition term={'gross domestic product (GDP)'}
+                               page={'Deficit Explainer'}
+                               glossary={glossary}
     >
       gross domestic product (GDP)
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   return (
     <div data-testid={'textContent'}>

@@ -3,7 +3,7 @@ import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term"
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition"
 import {
   spendingExplainerPrimary,
   spendingExplainerSecondary,
@@ -31,52 +31,52 @@ export const SpendingOverview = ({ glossary }) => {
     </CustomLink>;
 
   const objectClass = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Object Class"}
       page={"Spending explainer"}
       glossary={glossary}
     >
       object class
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   const budgetFunctions = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Budget Function"}
       page={"Spending explainer"}
       glossary={glossary}
     >
       budget functions
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
   const revenue = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Revenue"}
       page={"Deficit & Spending explainer"}
       glossary={glossary}
     >
       revenue
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   const agency = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Agency"}
       page={"Spending explainer"}
       glossary={glossary}
     >
       agency
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   const federalDebt = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Federal Debt"}
       page={"Spending Explainer"}
       glossary={glossary}
     >
       federal debt
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   useEffect(() => {
