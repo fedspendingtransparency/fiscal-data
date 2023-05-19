@@ -42,18 +42,22 @@
   border-radius: 0.25rem;
   padding: 0.125rem 0.25rem;
 
-  &:hover {
-    background-color: $primary;
-    color: white;
-  }
-
   .bookIcon {
     color: $primary;
     height: 0.875rem;
     padding-left: 0.25rem;
-    &:hover {
-      color: white;
-    }
+  }
+}
+
+.glossaryHover {
+  background-color: $primary;
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  color: white;
+  .bookIcon {
+    color: white;
+    height: 0.875rem;
+    padding-left: 0.25rem;
   }
 }
 

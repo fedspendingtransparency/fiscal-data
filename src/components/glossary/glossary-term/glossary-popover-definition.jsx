@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { findGlossaryTerm } from "../../../helpers/glossary-helper/glossary-terms"
 import { makeStyles } from '@material-ui/core/styles';
 import {
   arrowIcon,
@@ -8,7 +7,8 @@ import {
   glossaryText,
   header,
   mobileFA, termNameText,
-  bookIcon
+  bookIcon,
+  glossaryHover
 } from './glossary-popover-definition.module.scss';
 import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,7 +52,8 @@ const style = {
 const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [buttonFocus, setButtonFocus] = useState(false);
   let timeout;
 
   const displayText = children.toString();
@@ -92,6 +93,7 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       if (e.type === 'mouseenter') {
+        setButtonFocus(true);
         timeout = setTimeout(() => {
           setAnchorEl(anchor);
         }, 500);
@@ -107,6 +109,7 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setButtonFocus(false);
   };
 
   const open = Boolean(anchorEl);
@@ -115,7 +118,7 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
   return (
     <span data-testid="infoTipContainer">
       <span
-        className={glossaryLink}
+        className={`${buttonFocus ? glossaryHover : glossaryLink}`}
         onMouseEnter={handleGlossaryClick}
         onMouseLeave={handleMouseLeave}
         onClick={handleGlossaryClick}
