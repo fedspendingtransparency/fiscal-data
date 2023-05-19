@@ -61,15 +61,27 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
               }
               <div className={linkContainer}>
                 {section.children.map((page) => {
-                  return(
-                    <Link
-                      to={page.to}
-                      onClick={() => clickHandler(page.name, section.analyticsAction)}
-                      key={page.name}
-                    >
-                      {page.name}
-                    </Link>
-                    )
+                  if(page.name === 'Glossary'){
+                    return(
+                      <div>
+                        <button onClick={() => clickHandler(page.name)}>
+                          <div>{page.name}</div>
+                        </button>
+                      </div>
+                      )
+                  }
+                  else {
+                    return(
+                      <Link
+                        to={page.to}
+                        onClick={() => clickHandler(page.name, section.analyticsAction)}
+                        key={page.name}
+                      >
+                        {page.name}
+                      </Link>
+                      )
+                  }
+                  
                 })}
               </div>
             </div>

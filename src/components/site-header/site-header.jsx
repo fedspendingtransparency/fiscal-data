@@ -384,14 +384,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                     <div className={styles.toolsSingleDropDown}>
                       {toolsPageLinks.map((link) => {
                         return (
-                          <Link
-                            to={link.to}
-                            activeClassName={styles.activeTopicLink}
-                            key={link.title}
-                            onClick={() => clickHandler(link.title)}
-                          >
-                            {link.title}
-                          </Link>
+                          <div className={styles.dropdownListItem}>
+                            <Link
+                              to={link.to}
+                              activeClassName={styles.activeTopicLink}
+                              key={link.title}
+                              onClick={() => clickHandler(link.title)}
+                            >
+                              {link.title}
+                            </Link>
+                          </div>
                         )
                       })
                       }
@@ -413,16 +415,29 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                   >
                     <div className={styles.resourcesDropDown}>
                       {resourcesPageLinks.map((link) => {
+                        if(link.title === 'Glossary'){
                           return (
-                            <Link
-                              to={link.to}
-                              activeClassName={styles.activeTopicLink}
-                              key={link.title}
-                              onClick={() => clickHandler(link.title)}
-                            >
-                              {link.title}
-                            </Link>
+                            <div data-title={link.title} className={styles.dropdownListItem}>
+                              <button onClick={() => clickHandler(link.title)}>
+                                <div>{link.title}</div>
+                              </button>
+                            </div>
                           )
+                        }
+                        else {
+                          return (
+                            <div data-title={link.title} className={styles.dropdownListItem}>
+                              <Link
+                                to={link.to}
+                                activeClassName={styles.activeTopicLink}
+                                key={link.title}
+                                onClick={() => clickHandler(link.title)}
+                              >
+                                {link.title}
+                              </Link>
+                            </div>
+                          )
+                        }
                       })
                       }
                     </div>
