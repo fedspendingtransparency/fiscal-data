@@ -2,23 +2,34 @@ import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import TextField from '@material-ui/core/TextField';
+import Box from '@material-ui/core/Box';
+import { InputAdornment, MuiThemeProvider } from '@material-ui/core';
 import {
   search,
-  searchBar,
   headerContainer,
   title,
   bookIcon,
   searchIcon,
   header,
   closeIcon,
-  closeButton
+  closeButton,
+  searchLabel
 } from './glossary-header.module.scss'
+import { searchBarTheme, useStyles } from './theme';
 
 interface IGlossaryHeader {
-  clickHandler: (e) => void
+  filter: string,
+  clickHandler: (e) => void,
+  filterHandler: (e) => void
 }
 
-const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler}) => {
+
+const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler, filterHandler}) => {
+  const onSearchBarChange = (event) => {
+    const val = (event && event.target) ? event.target.value : '';
+    filterHandler(val);
+  }
 
 
   return (
@@ -33,9 +44,26 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({clickHandler}) => {
         </button>
       </div>
       <div className={search}>
-        Search the glossary
-        <div className={searchBar}>
-        </div>
+        <span className={searchLabel}>Search the glossary</span>
+        <MuiThemeProvider theme={searchBarTheme} >
+          <Box sx={{width: 282}}>
+            <TextField
+              className={useStyles().root}
+              variant="outlined"
+              fullWidth
+              onChange={onSearchBarChange}
+              size="small"
+              value={filter}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" >
+                    <FontAwesomeIcon icon={faMagnifyingGlass as IconProp} className={searchIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Box>
+        </MuiThemeProvider>
       </div>
     </div>
   )
