@@ -12,7 +12,7 @@ describe('Deficit and Surplus Causes Section', () => {
   it('renders the text content', () => {
     const {getByTestId, getAllByRole} = render(<DeficitByYear />);
     expect(getByTestId('textContent')).toBeInTheDocument();
-    expect(getAllByRole('link').length).toEqual(3);
+    expect(getAllByRole('link').length).toEqual(4);
   });
   it('renders the trends chart', () => {
     const {getByTestId} = render(<DeficitByYear />);
