@@ -46,7 +46,7 @@ describe('MobileMenu actions', () => {
 
     const theOverlay = getByTestId('overlay');
     const theContainer = getByTestId('menuContainer');
-    let menuButton = getByTestId('button');
+    const menuButton = getByTestId('button');
 
 
     triggerClickEvent(menuButton);
@@ -58,7 +58,7 @@ describe('MobileMenu actions', () => {
 
   it('contains the logo', () => {
     const { getByTestId } = render(<MobileMenu />);
-    let menuButton = getByTestId('button');
+    const menuButton = getByTestId('button');
     triggerClickEvent(menuButton);
     expect(getByTestId('logo')).toBeDefined();
   });
