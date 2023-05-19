@@ -89,23 +89,13 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
   }, [scrollPosition]);
 
   const handleGlossaryClick = (e) => {
-    const anchor = e.currentTarget;
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
-      if (e.type === 'mouseenter') {
-        setButtonFocus(true);
-        timeout = setTimeout(() => {
-          setAnchorEl(anchor);
-        }, 500);
-      } else {
-        setAnchorEl(e.currentTarget);
-      }
+      setButtonFocus(true);
+      setAnchorEl(e.currentTarget);
     }
   };
 
-  const handleMouseLeave = () => {
-    clearTimeout(timeout);
-  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -119,8 +109,6 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
     <span data-testid="infoTipContainer">
       <span
         className={`${buttonFocus ? glossaryHover : glossaryLink}`}
-        onMouseEnter={handleGlossaryClick}
-        onMouseLeave={handleMouseLeave}
         onClick={handleGlossaryClick}
         onKeyPress={handleGlossaryClick}
         role="button"
