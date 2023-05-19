@@ -95,11 +95,9 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .container {
-    font-size: $font-size-10;
-    padding: 14px;
-    margin-top: 2rem;
-  }
+  font-size: $font-size-10;
+  padding: 14px;
+  margin-top: 2rem;
 
   .lineChartContainer {
     max-width: 464px;
