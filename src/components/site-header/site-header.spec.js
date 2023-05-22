@@ -85,7 +85,7 @@ describe('SiteHeader', () => {
   it('displays the resources drop down when mousing over resources button', () => {
     const { getByRole } = render(<SiteHeader />);
     fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
-    expect(getByRole('link', {name: 'Glossary'})).toBeInTheDocument();
+    expect(getByRole('button', {name: 'Glossary'})).toBeInTheDocument();
     expect(getByRole('link', {name: 'API Documentation'})).toBeInTheDocument();
     expect(getByRole('link', {name: 'Release Calendar'})).toBeInTheDocument();
   });
@@ -287,7 +287,7 @@ describe('SiteHeader', () => {
     const { getByRole, getByTestId } = render(<SiteHeader />);
 
     fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
-    const glossaryButton = getByRole('link', {name: 'Glossary'});
+    const glossaryButton = getByRole('button', {name: 'Glossary'});
     fireEvent.click(glossaryButton);
 
     await waitFor(() => {
@@ -300,7 +300,7 @@ describe('SiteHeader', () => {
     const { getByRole, getByTestId, queryByTestId } = render(<SiteHeader />);
 
     fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
-    const glossaryButton = getByRole('link', {name: 'Glossary'});
+    const glossaryButton = getByRole('button', {name: 'Glossary'});
 
     fireEvent.click(glossaryButton);
     const glossary = getByTestId('glossaryContainer');
