@@ -1,12 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import {
-  glossaryContainer,
-  open,
-  overlay,
-  tray,
-  glossaryHeaderContainer
-} from './glossary.module.scss';
+import { glossaryContainer, glossaryHeaderContainer, open, overlay, tray } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
 import GlossaryListContainer from './glossary-list/glossary-list-container';
 import { getSortedGlossaryList } from '../../helpers/glossary-helper/glossary-data';
@@ -18,22 +12,17 @@ interface IGlossary {
   glossaryEvent: boolean,
   glossaryEventHandler: (boolean) => void,
 }
-  const getQueryTerm = (termList):IGlossaryTerm => {
-    const queryParameters= new URLSearchParams(window.location.search);
-    console.log(queryParameters);
-    const termName = queryParameters.get("glossary");
-    if (termName) {
-      console.log(termName);
-      const term = termList.find((element:IGlossaryTerm) => {
-        if (termName !== null) {
-          return element.term.toLowerCase() === termName.toLowerCase()
-        }
-      });
-
-      removeAddressPathQuery(window.location);
-      return term;
-    }
+const getQueryTerm = (termList):IGlossaryTerm => {
+  const queryParameters= new URLSearchParams(window.location.search);
+  const termName = queryParameters.get("glossary");
+  if (termName) {
+    return termList.find((element: IGlossaryTerm) => {
+      if (termName !== null) {
+        return element.term.toLowerCase() === termName.toLowerCase()
+      }
+    });
   }
+}
 
 const Glossary:FunctionComponent<IGlossary> = ({ termList, glossaryEvent, glossaryEventHandler }) => {
   const [filter, setFilter] = useState('');
@@ -44,20 +33,19 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, glossaryEvent, glossa
 
 
   useEffect(() => {
-    console.log(glossaryEvent);
     if (glossaryEvent) {
       const term = getQueryTerm(termList);
-      setQueryTerm(term);
-      setTimeout(() => {
-        setActiveState(true);
-        glossaryEventHandler(false);
-      }, 500);
+      if (term) {
+        setQueryTerm(term);
+        setTimeout(() => {
+          setActiveState(true);
+          glossaryEventHandler(false);
+          removeAddressPathQuery(window.location);
+        });
+      }
     }
   }, [glossaryEvent]);
 
-  // useEffect(() => {
-  //   console.log('queryTerm', queryTerm);
-  // }, [queryTerm])
 
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {

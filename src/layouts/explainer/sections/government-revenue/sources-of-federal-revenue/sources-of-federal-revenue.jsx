@@ -81,6 +81,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryEventHandler }) => {
     <CustomLink
       url={"https://www.irs.gov/newsroom/historical-highlights-of-the-irs"}
       eventNumber={'14'}
+      eventHandler={glossaryEventHandler}
     >
       IRS.gov
     </CustomLink>
@@ -102,6 +103,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryEventHandler }) => {
       term={"Trust fund"}
       page={"Revenue Explainer"}
       glossary={glossary}
+      eventHandler={glossaryEventHandler}
     >
       trust funds
     </GlossaryPopoverDefinition>
