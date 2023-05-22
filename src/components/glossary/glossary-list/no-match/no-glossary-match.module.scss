@@ -1,0 +1,19 @@
+@import '../../../../variables.module.scss';
+
+.noMatchContainer {
+  display: flex;
+  flex-direction: column;
+  .suggestions {
+    font-size: $font-size-20;
+    font-weight: $semi-bold-weight;
+    margin: .5rem 0;
+  }
+
+  .unmatchedTerm {
+    font-weight: $semi-bold-weight;
+  }
+
+  .suggestionsList {
+    margin: 0;
+  }
+}
