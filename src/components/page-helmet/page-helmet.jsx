@@ -60,6 +60,16 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
 
   return (
     <Helmet>
+      {/*Google Analytics 4 Tag  */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP"/>
+      <script>
+        {`window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-ME8TBPZYXP');`}
+      </script>
+      {/*Google Analytics 4 Tag  */}
       {/* Version info is placed inside a script comment below because both react jsx
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}
