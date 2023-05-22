@@ -50,7 +50,7 @@ const nationalDebtSections = [
     index: 0,
     id: nationalDebtSectionIds[0],
     title: "Key Takeaways",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <KeyTakeawaysSection glossary={glossary} />
     ),
   },
@@ -58,7 +58,7 @@ const nationalDebtSections = [
     index: 1,
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <NationalDebtExplained glossary={glossary} />
     ),
   },
@@ -66,13 +66,13 @@ const nationalDebtSections = [
     index: 2,
     id: nationalDebtSectionIds[2],
     title: "Funding Programs & Services",
-    component: (glossary, cpiDataByYear) => <FundingProgramsAndServices />,
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => <FundingProgramsAndServices />,
   },
   {
     index: 3,
     id: nationalDebtSectionIds[3],
     title: "The Growing National Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <GrowingNationalDebtSection
         sectionId={nationalDebtSectionIds[3]}
         glossary={glossary}
@@ -84,7 +84,7 @@ const nationalDebtSections = [
     index: 4,
     id: nationalDebtSectionIds[4],
     title: "Breaking Down the Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <BreakingDownTheDebt
         sectionId={nationalDebtSectionIds[4]}
         glossary={glossary}
@@ -95,7 +95,7 @@ const nationalDebtSections = [
     index: 5,
     id: nationalDebtSectionIds[5],
     title: "The Debt Ceiling",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <DebtCeilingSection glossary={glossary} />
     ),
   },
@@ -103,7 +103,7 @@ const nationalDebtSections = [
     index: 6,
     id: nationalDebtSectionIds[6],
     title: "Tracking the Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <TrackingTheDebt />
     ),
   },
@@ -111,7 +111,7 @@ const nationalDebtSections = [
     index: 7,
     id: nationalDebtSectionIds[7],
     title: "Dive Deeper into the Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <DiveDeeperIntoTheDebt />
     ),
   },

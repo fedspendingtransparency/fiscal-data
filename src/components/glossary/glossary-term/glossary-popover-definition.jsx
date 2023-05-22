@@ -49,12 +49,11 @@ const style = {
 };
 
 
-const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
+const GlossaryPopoverDefinition = ({ term, page, glossary, eventHandler, children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
-  let timeout;
 
   const displayText = children.toString();
   const { termName, definition } = glossaryLookup(term, glossary, page);
@@ -105,6 +104,19 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
+  const glossaryNavigation = () => {
+    // window.location.href = window.location.href + '/?glossary=agency'
+    if (window.history.pushState) {
+      if (eventHandler) {
+      const newurl = new URL(window.location.href);
+      newurl.searchParams.set('glossary', 'excise');
+      // const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?glossary=agency';
+      window.history.pushState(null, '', newurl);
+        eventHandler(true);
+      }
+    }
+  }
+
   return (
     <span data-testid="infoTipContainer">
       <span
@@ -146,7 +158,11 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, children }) => {
             </div>
             <div className={termNameText}>{termName}</div>
             <div>{definition}</div>
-            <div className={glossaryButton}>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
+            <div className={glossaryButton}
+                 role="button"
+                 onClick={glossaryNavigation}
+            >
               <div>View in glossary</div>
               <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} />
             </div>

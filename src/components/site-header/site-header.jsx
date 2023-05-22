@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import * as styles from './site-header.module.scss';
 import MobileMenu from "./mobile-menu/mobile-menu";
@@ -12,9 +12,8 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
 import Glossary from '../glossary/glossary';
-import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
 
-const SiteHeader = ({ lowerEnvMsg, location }) => {
+const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryEventHandler }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpandedTools, setIsExpandedTools] = useState(false);
   const [isExpandedResources, setIsExpandedResources] = useState(false);
@@ -452,9 +451,9 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             })}
           </div>
         </div>
-        <Experimental featureId={"Glossary"}>
-          <Glossary termList={glossaryData} />
-        </Experimental>
+        {/*<Experimental featureId={"Glossary"}>*/}
+          <Glossary termList={glossaryData} glossaryEvent={glossaryEvent} glossaryEventHandler={glossaryEventHandler} />
+        {/*</Experimental>*/}
         <MobileMenu />
       </div>
       {lowerEnvMsg && (

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   glossaryContainer,
   open,
@@ -14,15 +14,16 @@ import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
 
 interface IGlossary {
-  termList: IGlossaryTerm[]
+  termList: IGlossaryTerm[],
+  glossaryEvent: boolean,
+  glossaryEventHandler: (boolean) => void,
 }
-
-const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
-  const [filter, setFilter] = useState('');
-
-  const sortedTermList = getSortedGlossaryList(termList);
-  const getQueryTerm = (termName):IGlossaryTerm => {
+  const getQueryTerm = (termList):IGlossaryTerm => {
+    const queryParameters= new URLSearchParams(window.location.search);
+    console.log(queryParameters);
+    const termName = queryParameters.get("glossary");
     if (termName) {
+      console.log(termName);
       const term = termList.find((element:IGlossaryTerm) => {
         if (termName !== null) {
           return element.term.toLowerCase() === termName.toLowerCase()
@@ -33,11 +34,30 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
       return term;
     }
   }
-  const queryParameters = new URLSearchParams(window.location.search);
-  const queryTerm = getQueryTerm(queryParameters.get("glossary"));
 
-  // Active state will default to true for testing purposes
-  const [activeState, setActiveState] = useState(true); //queryTerm !== null && queryTerm !== undefined);
+const Glossary:FunctionComponent<IGlossary> = ({ termList, glossaryEvent, glossaryEventHandler }) => {
+  const [filter, setFilter] = useState('');
+
+  const sortedTermList = getSortedGlossaryList(termList);
+  const [queryTerm, setQueryTerm] = useState(getQueryTerm(termList));
+  const [activeState, setActiveState] = useState(queryTerm !== null && queryTerm !== undefined);
+
+
+  useEffect(() => {
+    console.log(glossaryEvent);
+    if (glossaryEvent) {
+      const term = getQueryTerm(termList);
+      setQueryTerm(term);
+      setTimeout(() => {
+        setActiveState(true);
+        glossaryEventHandler(false);
+      }, 500);
+    }
+  }, [glossaryEvent]);
+
+  // useEffect(() => {
+  //   console.log('queryTerm', queryTerm);
+  // }, [queryTerm])
 
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
@@ -62,7 +82,12 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
             <div className={glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} />
             </div>
-            <GlossaryListContainer sortedTermList={sortedTermList} filter={filter} filterHandler={setFilter} defaultTerm={queryTerm} />
+            <GlossaryListContainer
+              sortedTermList={sortedTermList}
+              filter={filter}
+              filterHandler={setFilter}
+              defaultTerm={queryTerm ? queryTerm : null}
+            />
           </>
         )}
       </div>

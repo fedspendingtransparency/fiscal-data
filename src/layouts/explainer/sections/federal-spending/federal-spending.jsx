@@ -20,7 +20,7 @@ const federalSpendingSection = [
     index: 0,
     id: federalSpendingSectionIds[0],
     title: "Key Takeaways",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <SpendingKeyTakeaways
         glossary={glossary}
       />
@@ -30,7 +30,7 @@ const federalSpendingSection = [
     index: 1,
     id: federalSpendingSectionIds[1],
     title: "Federal Spending Overview",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <SpendingOverview glossary={glossary} />
     ),
   },
@@ -38,7 +38,7 @@ const federalSpendingSection = [
     index: 2,
     id: federalSpendingSectionIds[2],
     title: "Spending Categories",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <SpendingCategories />
     ),
   },
@@ -47,7 +47,7 @@ const federalSpendingSection = [
     id: federalSpendingSectionIds[3],
     title:
       "The Difference Between Mandatory, Discretionary, and Supplemental Spending",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <SpendingDifference glossary={glossary} />
     ),
   },
@@ -55,7 +55,7 @@ const federalSpendingSection = [
     index: 4,
     id: federalSpendingSectionIds[4],
     title: "Spending Trends Over Time and the U.S. Economy",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryEventHandler, cpiDataByYear) => (
       <SpendingTrends cpiDataByYear={cpiDataByYear} />
     ),
   },

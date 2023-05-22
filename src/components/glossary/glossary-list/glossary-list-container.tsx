@@ -30,7 +30,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(sortedTermList);
-
+  console.log(defaultTerm);
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
