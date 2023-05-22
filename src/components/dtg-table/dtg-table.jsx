@@ -262,7 +262,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
               <p>
                 There was an error with our API and we are unable to load this table. Please try
                 your request again or {' '}
-                <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
+                <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
                   contact us
                 </CustomLink> for assistance.
               </p>

@@ -176,7 +176,6 @@ const AboutUs = () => {
             </ScrollLink> or{' '}
             <CustomLink
             url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us"
-            external
           >
             Contact Us
           </CustomLink>.
