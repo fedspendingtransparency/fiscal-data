@@ -417,8 +417,10 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                       {resourcesPageLinks.map((link) => {
                         if(link.title === 'Glossary'){
                           return (
-                            <div data-title={link.title} className={styles.dropdownListItem}>
-                              <button onClick={() => clickHandler(link.title)}>
+                            <div className={styles.dropdownListItem}>
+                              <button onClick={() => clickHandler(link.title)}
+                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                              >
                                 <div>{link.title}</div>
                               </button>
                             </div>
@@ -426,12 +428,13 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                         }
                         else {
                           return (
-                            <div data-title={link.title} className={styles.dropdownListItem}>
+                            <div className={styles.dropdownListItem}>
                               <Link
                                 to={link.to}
                                 activeClassName={styles.activeTopicLink}
                                 key={link.title}
                                 onClick={() => clickHandler(link.title)}
+                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
                               >
                                 {link.title}
                               </Link>
