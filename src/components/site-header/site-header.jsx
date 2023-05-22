@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import * as styles from './site-header.module.scss';
 import MobileMenu from "./mobile-menu/mobile-menu";
@@ -23,6 +23,7 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
   const [toggled, setToggled] = useState(false);
   const [toggledTools, setToggledTools] = useState(false);
   const [toggledResources, setToggledResources] = useState(false);
+  const [openGlossary, setOpenGlossary] = useState(false);
 
   const glossaryCsv = useStaticQuery(
     graphql`
@@ -109,6 +110,11 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
 
   const resourcesPageLinks = [
     {
+      title: 'Glossary',
+      to: '/',
+      testId: 'glossary'
+    },
+    {
       title: 'API Documentation',
       to: '/api-documentation/',
       testId: 'apiDocs'
@@ -127,6 +133,10 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
   ]
 
   const clickHandler = (title) => {
+    if (title === 'Glossary'){
+      setOpenGlossary(true);
+    }
+
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Top ${title} Click`,
@@ -373,14 +383,16 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
                     <div className={styles.toolsSingleDropDown}>
                       {toolsPageLinks.map((link) => {
                         return (
-                          <Link
-                            to={link.to}
-                            activeClassName={styles.activeTopicLink}
-                            key={link.title}
-                            onClick={() => clickHandler(link.title)}
-                          >
-                            {link.title}
-                          </Link>
+                          <div className={styles.dropdownListItem}>
+                            <Link
+                              to={link.to}
+                              activeClassName={styles.activeTopicLink}
+                              key={link.title}
+                              onClick={() => clickHandler(link.title)}
+                            >
+                              {link.title}
+                            </Link>
+                          </div>
                         )
                       })
                       }
@@ -402,16 +414,32 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
                   >
                     <div className={styles.resourcesDropDown}>
                       {resourcesPageLinks.map((link) => {
-                        return (
-                          <Link
-                            to={link.to}
-                            activeClassName={styles.activeTopicLink}
-                            key={link.title}
-                            onClick={() => clickHandler(link.title)}
-                          >
-                            {link.title}
-                          </Link>
-                        )
+                        if(link.title === 'Glossary'){
+                          return (
+                            <div className={styles.dropdownListItem}>
+                              <button onClick={() => clickHandler(link.title)}
+                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                              >
+                                <div>{link.title}</div>
+                              </button>
+                            </div>
+                          )
+                        }
+                        else {
+                          return (
+                            <div className={styles.dropdownListItem}>
+                              <Link
+                                to={link.to}
+                                activeClassName={styles.activeTopicLink}
+                                key={link.title}
+                                onClick={() => clickHandler(link.title)}
+                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                              >
+                                {link.title}
+                              </Link>
+                            </div>
+                          )
+                        }
                       })
                       }
                     </div>
@@ -451,10 +479,16 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
             })}
           </div>
         </div>
-        {/*<Experimental featureId={"Glossary"}>*/}
-          <Glossary termList={glossaryData} glossaryEvent={glossaryEvent} glossaryClickEventHandler={glossaryClickEventHandler} />
-        {/*</Experimental>*/}
-        <MobileMenu />
+          {openGlossary &&
+          <Glossary
+            termList={glossaryData}
+            activeState={openGlossary}
+            setActiveState={setOpenGlossary}
+            glossaryEvent={glossaryEvent}
+            glossaryClickEventHandler={glossaryClickEventHandler}
+          />
+          }
+        <MobileMenu setOpenGlossary={setOpenGlossary}/>
       </div>
       {lowerEnvMsg && (
         <PageNotice>

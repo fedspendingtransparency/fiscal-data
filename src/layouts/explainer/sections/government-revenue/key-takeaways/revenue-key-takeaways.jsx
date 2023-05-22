@@ -59,10 +59,9 @@ const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
     });
   }, []);
   const firstTakeawayText = `The primary sources of revenue for the U.S. government are individual
-  and corporate taxes, and taxes that are dedicated to funding Social Security, and Medicare.
+  and corporate taxes, and taxes that are dedicated to funding Social Security and Medicare.
   This revenue is used to fund a variety of goods, programs, and services to support the American
-  public and pay interest incurred from borrowing. Revenue is typically measured by fiscal
-  year (FY).`;
+  public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`;
 
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(
     firstTakeawayText,

@@ -69,6 +69,7 @@ describe('MobileMenu actions', () => {
     triggerClickEvent(menuButton);
     expect(getByText('Dataset Search')).toBeDefined();
     expect(getByText('About Us')).toBeDefined();
+    expect(getByText('Glossary')).toBeDefined();
     expect(getByText('API Documentation')).toBeDefined();
     expect(getByText('Release Calendar')).toBeDefined();
     expect(getByText('Currency Exchange Rates Converter')).toBeDefined();

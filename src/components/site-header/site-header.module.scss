@@ -122,7 +122,8 @@
   .dropdownListItem {
     margin-bottom: 0.5rem;
     font-size: 1rem;
-    a {
+
+    a, button {
       &:hover {
         color: $primary;
         font-weight: $semi-bold-weight;
@@ -131,6 +132,14 @@
       &.activeTopicLink {
         font-weight: $semi-bold-weight;
       }
+    }
+
+    button {
+      background-color: white;
+      border: none;
+      cursor: pointer;
+      color: #666666;
+      font-size: 1rem;
     }
   }
 
