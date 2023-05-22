@@ -61,7 +61,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
   return (
     <Helmet>
       {/*Google Analytics 4 Tag  */}
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP"/>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />
       <script>
         {`window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
