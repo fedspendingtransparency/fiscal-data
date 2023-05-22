@@ -28,13 +28,19 @@ const getQueryTerm = (termList):IGlossaryTerm => {
 }
 
 const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState, glossaryEvent, glossaryClickEventHandler }) => {
-  let currentState = activeState;
   const [filter, setFilter] = useState('');
 
   const sortedTermList = getSortedGlossaryList(termList);
   const [queryTerm, setQueryTerm] = useState(getQueryTerm(termList));
-  const [activeState, setActiveState] = useState(queryTerm !== null && queryTerm !== undefined);
+  const [initialQuery, setInitialQuery] = useState(false);
 
+  useEffect(() => {
+    if (!initialQuery) {
+      setInitialQuery(true);
+      setActiveState(queryTerm !== null && queryTerm !== undefined);
+      removeAddressPathQuery(window.location);
+    }
+  })
 
   useEffect(() => {
     if (glossaryEvent) {
@@ -52,14 +58,14 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
 
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
-      currentState = !currentState;
-      setActiveState(currentState);
+      setActiveState(!activeState);
+      setQueryTerm(null);
     }
   }
 
   return (
     <div
-      className={`${glossaryContainer} ${currentState ? open : ''}`}
+      className={`${glossaryContainer} ${activeState ? open : ''}`}
       data-testid="glossaryContainer"
     >
       <div
@@ -67,8 +73,8 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
         data-testid="overlay"
         onClick={toggleState}
       />
-      <div className={`${tray} ${currentState ? open : ''}`}>
-        {currentState && (
+      <div className={`${tray} ${activeState ? open : ''}`}>
+        {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} />

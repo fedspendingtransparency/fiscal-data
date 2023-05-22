@@ -479,16 +479,14 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
             })}
           </div>
         </div>
-          {openGlossary &&
-          <Glossary
-            termList={glossaryData}
-            activeState={openGlossary}
-            setActiveState={setOpenGlossary}
-            glossaryEvent={glossaryEvent}
-            glossaryClickEventHandler={glossaryClickEventHandler}
-          />
-          }
-        <MobileMenu setOpenGlossary={setOpenGlossary}/>
+        <Glossary
+          termList={glossaryData}
+          activeState={openGlossary}
+          setActiveState={setOpenGlossary}
+          glossaryEvent={glossaryEvent}
+          glossaryClickEventHandler={glossaryClickEventHandler}
+        />
+        <MobileMenu setOpenGlossary={setOpenGlossary} />
       </div>
       {lowerEnvMsg && (
         <PageNotice>
