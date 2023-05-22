@@ -14,7 +14,7 @@ import SplitFlapDisplay from "../../../../components/split-flap-display/split-fl
 import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {getShortForm} from "../../../../utils/rounding-utils";
 
-const GovernmentRevenueHero = ({glossary}): JSX.Element => {
+const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element => {
 
   const fields: string = 'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,' +
     'record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
@@ -83,6 +83,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
       term={"Expenditures"}
       page={"Revenue Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       expenditures
     </GlossaryPopoverDefinition>

@@ -11,28 +11,27 @@ import 'react-tabs/style/react-tabs.css';
 import SurplusIllustration from "./surplus-illustration/surplus-illustration";
 import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
 import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
-import {apiPrefix, basicFetch} from "../../../../../../src/utils/api-utils";
-import {nationalDeficitSectionConfigs} from "../../national-deficit/national-deficit";
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../src/utils/date-utils";
+import {apiPrefix, basicFetch} from '../../../../../utils/api-utils';
+import {nationalDeficitSectionConfigs} from '../national-deficit';
 
-const UnderstandingDeficit = ({sectionId, glossary}) => {
+const UnderstandingDeficit = ({sectionId, glossary, glossaryClickHandler}) => {
   const spending =
-    <GlossaryPopoverDefinition term={'spending'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'spending'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       spending
     </GlossaryPopoverDefinition>
 
   const revenue =
-    <GlossaryPopoverDefinition term={'revenue'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'revenue'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       revenue
     </GlossaryPopoverDefinition>
 
   const surplus =
-    <GlossaryPopoverDefinition term={'surplus'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'surplus'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       surplus
     </GlossaryPopoverDefinition>
 
   const balanced =
-    <GlossaryPopoverDefinition term={'Balanced Budget'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'Balanced Budget'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       balanced
     </GlossaryPopoverDefinition>
 

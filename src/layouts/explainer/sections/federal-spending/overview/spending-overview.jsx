@@ -13,7 +13,7 @@ import QuoteBox from "../../../quote-box/quote-box"
 import { faFlagUsa } from "@fortawesome/free-solid-svg-icons"
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import {getShortForm} from "../../../../../utils/rounding-utils";
-export const SpendingOverview = ({ glossary, glossaryEventHandler }) => {
+export const SpendingOverview = ({ glossary, glossaryClickHandler }) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(null);
   const [spendingChange, setSpendingChange] = useState(null);
@@ -35,7 +35,7 @@ export const SpendingOverview = ({ glossary, glossaryEventHandler }) => {
       term={"Object Class"}
       page={"Spending explainer"}
       glossary={glossary}
-      glossaryClickHandler={glossaryEventHandler}
+      glossaryClickHandler={glossaryClickHandler}
     >
       object class
     </GlossaryPopoverDefinition>
@@ -46,7 +46,7 @@ export const SpendingOverview = ({ glossary, glossaryEventHandler }) => {
       term={"Budget Function"}
       page={"Spending explainer"}
       glossary={glossary}
-      glossaryClickHandler={glossaryEventHandler}
+      glossaryClickHandler={glossaryClickHandler}
     >
       budget functions
     </GlossaryPopoverDefinition>
@@ -56,7 +56,7 @@ export const SpendingOverview = ({ glossary, glossaryEventHandler }) => {
       term={"Revenue"}
       page={"Deficit & Spending explainer"}
       glossary={glossary}
-      glossaryClickHandler={glossaryEventHandler}
+      glossaryClickHandler={glossaryClickHandler}
     >
       revenue
     </GlossaryPopoverDefinition>
@@ -67,7 +67,7 @@ export const SpendingOverview = ({ glossary, glossaryEventHandler }) => {
       term={"Agency"}
       page={"Spending explainer"}
       glossary={glossary}
-      glossaryClickHandler={glossaryEventHandler}
+      glossaryClickHandler={glossaryClickHandler}
     >
       agency
     </GlossaryPopoverDefinition>
@@ -78,7 +78,7 @@ export const SpendingOverview = ({ glossary, glossaryEventHandler }) => {
       term={"Federal Debt"}
       page={"Spending Explainer"}
       glossary={glossary}
-      glossaryClickHandler={glossaryEventHandler}
+      glossaryClickHandler={glossaryClickHandler}
     >
       federal debt
     </GlossaryPopoverDefinition>

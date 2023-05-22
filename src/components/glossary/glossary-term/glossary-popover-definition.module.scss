@@ -42,6 +42,7 @@
   border-radius: 0.25rem;
   padding: 0.125rem 0.25rem;
   cursor: pointer;
+  white-space: nowrap;
   &:hover {
     color: $primary;
   }

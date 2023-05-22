@@ -18,7 +18,7 @@ export const toTitleCase = text => {
     .trim()
 }
 
-const getText = (takeaway, glossary) => {
+const getText = (takeaway, glossary, glossaryClickHandler) => {
   const {
     hasGlossaryTerm,
     page,
@@ -37,6 +37,7 @@ const getText = (takeaway, glossary) => {
             term={toTitleCase(glossaryTerm ? glossaryTerm : match)}
             page={page}
             glossary={glossary}
+            glossaryClickHandler={glossaryClickHandler}
             key={i}
           >
             {match}
@@ -53,6 +54,7 @@ const KeyTakeawaysSection = ({
   primaryColor,
   secondaryColor,
   glossary,
+  glossaryClickHandler
 }) => (
   <>
     {takeaways.map(takeaway => (
@@ -68,7 +70,7 @@ const KeyTakeawaysSection = ({
             style={{ color: primaryColor }}
           />
         </div>
-        <p>{getText(takeaway, glossary)}</p>
+        <p>{getText(takeaway, glossary, glossaryClickHandler)}</p>
       </div>
     ))}
   </>

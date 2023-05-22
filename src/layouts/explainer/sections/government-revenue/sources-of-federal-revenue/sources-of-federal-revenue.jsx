@@ -17,7 +17,7 @@ import { apiPrefix, basicFetch } from "../../../../../utils/api-utils";
 import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import Accordion from "../../../../../components/accordion/accordion";
 import {revenueAccordion} from "../revenue.module.scss";
-const SourcesOfFederalRevenue = ({ glossary, glossaryEventHandler }) => {
+const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
   const [indvPercent, setIndvPercent] = useState('');
   const [ssPercent, setSSPercent] = useState('');
@@ -91,7 +91,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryEventHandler }) => {
       term={"Excise"}
       page={"Revenue Explainer & AFG Overview Page"}
       glossary={glossary}
-      glossaryClickHandler={glossaryEventHandler}
+      glossaryClickHandler={glossaryClickHandler}
     >
       excise
     </GlossaryPopoverDefinition>
@@ -102,7 +102,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryEventHandler }) => {
       term={"Trust funds"}
       page={"Revenue Explainer"}
       glossary={glossary}
-      glossaryClickHandler={glossaryEventHandler}
+      glossaryClickHandler={glossaryClickHandler}
     >
       trust funds
     </GlossaryPopoverDefinition>

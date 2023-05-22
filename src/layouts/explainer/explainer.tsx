@@ -111,7 +111,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
           secondaryColor={explainerColorMap[pageName].secondaryLight}
           pageName={pageName}
         >
-          {explainerHeroMap[pageName].component(glossary)}
+          {explainerHeroMap[pageName].component(glossary, setGlossaryClickEvent)}
         </HeroImage>
         <div className={contentContainer}>
           <SecondaryNav

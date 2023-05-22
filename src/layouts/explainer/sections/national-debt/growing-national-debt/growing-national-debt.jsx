@@ -12,13 +12,14 @@ import VisualizationCallout from "../../../../../components/visualization-callou
 import { visWithCallout } from "../../../explainer.module.scss";
 
 export const GrowingNationalDebtSection = withWindowSize(
-  ({ sectionId, glossary, cpiDataByYear, width }) => {
+  ({ sectionId, glossary, cpiDataByYear, glossaryClickHandler, width }) => {
     const beaGDPData = useBeaGDP(cpiDataByYear);
     const gdp = (
       <GlossaryPopoverDefinition
         term="Gross Domestic Product (GDP)"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         gross domestic product (GDP)
       </GlossaryPopoverDefinition>

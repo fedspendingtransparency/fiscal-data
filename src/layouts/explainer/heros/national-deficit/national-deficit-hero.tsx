@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import {
   counterSourceInfo,
@@ -13,14 +13,13 @@ import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-
 import {getFootNotesDateRange, getPillData} from "../hero-helper";
 import { getShortForm } from "../../../../utils/rounding-utils";
 
-const NationalDeficitHero = ({glossary}): JSX.Element => {
+const NationalDeficitHero = ({glossary, glossaryClickHandler}): JSX.Element => {
   const fields: string = 'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' +
     'record_calendar_month,record_calendar_year,record_fiscal_year';
   const sort: string = 'sort=-record_date';
   const filter: string = 'filter=line_code_nbr:eq:5694'
   const pagination: string = 'page[size]=13';
-  const endpointUrl: string
-    = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
+  const endpointUrl: string = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
   const deficitUrl: string = `${apiPrefix}${endpointUrl}`;
 
   const deficitPillColor = '#b3532d1a';
@@ -45,8 +44,6 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
     basicFetch(`${url}`)
     .then((res) => {
       if (res.data) {
-
-
         // create local variable to immediately find last complete year record
         const lastFiscalYear = (Number(res.data[0].record_fiscal_year) - 1).toString();
         setCurrentFiscalYear(res.data[0].record_fiscal_year);
@@ -101,6 +98,7 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
       term={'fiscal year'}
       page={'Deficit Explainer'}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       fiscal year (FY)
     </GlossaryPopoverDefinition>

@@ -52,7 +52,7 @@ export const trillionsFormatter = value =>
 
 let gaTimerDualChart;
 
-const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
+const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date());
   const [startYear, setStartYear] = useState("");
@@ -77,6 +77,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
         term="Debt Held by the Public"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         debt held by the public
       </GlossaryPopoverDefinition>
@@ -86,6 +87,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
         term="Intragovernmental Holdings"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         intragovernmental
       </GlossaryPopoverDefinition>
@@ -95,6 +97,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
         term="Calendar Year"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         calendar year
       </GlossaryPopoverDefinition>
@@ -104,6 +107,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
         term="Interest Rates"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         interest rates
       </GlossaryPopoverDefinition>
