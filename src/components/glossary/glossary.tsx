@@ -14,10 +14,13 @@ import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
 
 interface IGlossary {
-  termList: IGlossaryTerm[]
+  termList: IGlossaryTerm[],
+  activeState: boolean;
+  setActiveState: any;
 }
 
-const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
+const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState }) => {
+  let currentState = activeState;
   const [filter, setFilter] = useState('');
 
   const sortedTermList = getSortedGlossaryList(termList);
@@ -36,19 +39,16 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
   const queryParameters = new URLSearchParams(window.location.search);
   const queryTerm = getQueryTerm(queryParameters.get("glossary"));
 
-  // Active state will default to true for testing purposes
-  const [activeState, setActiveState] = useState(true); //queryTerm !== null && queryTerm !== undefined);
-
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
-      setActiveState(!activeState);
+      currentState = !currentState;
+      setActiveState(currentState);
     }
   }
 
-
   return (
     <div
-      className={`${glossaryContainer} ${activeState ? open : ''}`}
+      className={`${glossaryContainer} ${currentState ? open : ''}`}
       data-testid="glossaryContainer"
     >
       <div
@@ -56,8 +56,8 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
         data-testid="overlay"
         onClick={toggleState}
       />
-      <div className={`${tray} ${activeState ? open : ''}`}>
-        {activeState && (
+      <div className={`${tray} ${currentState ? open : ''}`}>
+        {currentState && (
           <>
             <div className={glossaryHeaderContainer}>
               <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} />

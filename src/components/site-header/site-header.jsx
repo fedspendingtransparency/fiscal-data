@@ -24,6 +24,7 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [toggled, setToggled] = useState(false);
   const [toggledTools, setToggledTools] = useState(false);
   const [toggledResources, setToggledResources] = useState(false);
+  const [openGlossary, setOpenGlossary] = useState(false);
 
   const glossaryCsv = useStaticQuery(
     graphql`
@@ -110,6 +111,11 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
 
   const resourcesPageLinks = [
     {
+      title: 'Glossary',
+      to: '/',
+      testId: 'glossary'
+    },
+    {
       title: 'API Documentation',
       to: '/api-documentation/',
       testId: 'apiDocs'
@@ -128,6 +134,10 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
   ]
 
   const clickHandler = (title) => {
+    if (title === 'Glossary'){
+      setOpenGlossary(true);
+    }
+
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Top ${title} Click`,
@@ -374,14 +384,16 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                     <div className={styles.toolsSingleDropDown}>
                       {toolsPageLinks.map((link) => {
                         return (
-                          <Link
-                            to={link.to}
-                            activeClassName={styles.activeTopicLink}
-                            key={link.title}
-                            onClick={() => clickHandler(link.title)}
-                          >
-                            {link.title}
-                          </Link>
+                          <div className={styles.dropdownListItem}>
+                            <Link
+                              to={link.to}
+                              activeClassName={styles.activeTopicLink}
+                              key={link.title}
+                              onClick={() => clickHandler(link.title)}
+                            >
+                              {link.title}
+                            </Link>
+                          </div>
                         )
                       })
                       }
@@ -403,16 +415,32 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
                   >
                     <div className={styles.resourcesDropDown}>
                       {resourcesPageLinks.map((link) => {
-                        return (
-                          <Link
-                            to={link.to}
-                            activeClassName={styles.activeTopicLink}
-                            key={link.title}
-                            onClick={() => clickHandler(link.title)}
-                          >
-                            {link.title}
-                          </Link>
-                        )
+                        if(link.title === 'Glossary'){
+                          return (
+                            <div className={styles.dropdownListItem}>
+                              <button onClick={() => clickHandler(link.title)}
+                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                              >
+                                <div>{link.title}</div>
+                              </button>
+                            </div>
+                          )
+                        }
+                        else {
+                          return (
+                            <div className={styles.dropdownListItem}>
+                              <Link
+                                to={link.to}
+                                activeClassName={styles.activeTopicLink}
+                                key={link.title}
+                                onClick={() => clickHandler(link.title)}
+                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                              >
+                                {link.title}
+                              </Link>
+                            </div>
+                          )
+                        }
                       })
                       }
                     </div>
@@ -452,10 +480,12 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
             })}
           </div>
         </div>
-        <Experimental featureId={"Glossary"}>
-          <Glossary termList={glossaryData} />
-        </Experimental>
-        <MobileMenu />
+          {openGlossary && 
+          <Glossary termList={glossaryData}
+          activeState={openGlossary}
+          setActiveState={setOpenGlossary} />
+          }
+        <MobileMenu setOpenGlossary={setOpenGlossary}/>
       </div>
       {lowerEnvMsg && (
         <PageNotice>

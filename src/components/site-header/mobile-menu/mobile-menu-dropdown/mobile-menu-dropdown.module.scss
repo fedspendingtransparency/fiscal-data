@@ -11,13 +11,18 @@
 }
 
 .linkContainer {
-  a {
+  a, button{
     display: block;
     text-decoration: none;
     padding: 0.875rem 0 0.875rem 2rem;
     color: #666666;
     white-space: nowrap;
     font-size: $font-size-16;
+  }
+  
+  button {
+    background-color: white;
+    border: none;
   }
 }
 

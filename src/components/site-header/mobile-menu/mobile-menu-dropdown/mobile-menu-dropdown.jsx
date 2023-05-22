@@ -12,9 +12,13 @@ import {Link} from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
 
 
-const MobileMenuDropdown = ({header, sections, defaultOpen}) => {
+const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, setActiveState }) => {
   const [isExpanded, setIsExpanded] = useState(defaultOpen);
-  const topicsClickHandler = (title, action) => {
+  const clickHandler = (title, action) => {
+    if (title === 'Glossary'){
+      setOpenGlossary(true);
+      setActiveState(false);
+    }
     if(action){
       Analytics.event({
         category: 'Sitewide Navigation',
@@ -57,15 +61,27 @@ const MobileMenuDropdown = ({header, sections, defaultOpen}) => {
               }
               <div className={linkContainer}>
                 {section.children.map((page) => {
-                  return(
-                    <Link
-                      to={page.to}
-                      onClick={() => topicsClickHandler(page.name, section.analyticsAction)}
-                      key={page.name}
-                    >
-                      {page.name}
-                    </Link>
-                    )
+                  if(page.name === 'Glossary'){
+                    return(
+                      <div>
+                        <button onClick={() => clickHandler(page.name)}>
+                          <div>{page.name}</div>
+                        </button>
+                      </div>
+                      )
+                  }
+                  else {
+                    return(
+                      <Link
+                        to={page.to}
+                        onClick={() => clickHandler(page.name, section.analyticsAction)}
+                        key={page.name}
+                      >
+                        {page.name}
+                      </Link>
+                      )
+                  }
+                  
                 })}
               </div>
             </div>
