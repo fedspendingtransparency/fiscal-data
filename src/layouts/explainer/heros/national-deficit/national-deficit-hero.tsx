@@ -97,7 +97,11 @@ const NationalDeficitHero = ({glossary}): JSX.Element => {
   );
 
   const fiscalYear =
-    <GlossaryPopoverDefinition term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} >
+    <GlossaryPopoverDefinition
+      term={'fiscal year'}
+      page={'Deficit Explainer'}
+      glossary={glossary}
+    >
       fiscal year (FY)
     </GlossaryPopoverDefinition>
 

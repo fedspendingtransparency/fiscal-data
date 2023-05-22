@@ -13,7 +13,7 @@ import QuoteBox from "../../../quote-box/quote-box"
 import { faFlagUsa } from "@fortawesome/free-solid-svg-icons"
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import {getShortForm} from "../../../../../utils/rounding-utils";
-export const SpendingOverview = ({ glossary }) => {
+export const SpendingOverview = ({ glossary, glossaryEventHandler }) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(null);
   const [spendingChange, setSpendingChange] = useState(null);
@@ -35,6 +35,7 @@ export const SpendingOverview = ({ glossary }) => {
       term={"Object Class"}
       page={"Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryEventHandler}
     >
       object class
     </GlossaryPopoverDefinition>
@@ -45,6 +46,7 @@ export const SpendingOverview = ({ glossary }) => {
       term={"Budget Function"}
       page={"Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryEventHandler}
     >
       budget functions
     </GlossaryPopoverDefinition>
@@ -54,6 +56,7 @@ export const SpendingOverview = ({ glossary }) => {
       term={"Revenue"}
       page={"Deficit & Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryEventHandler}
     >
       revenue
     </GlossaryPopoverDefinition>
@@ -64,6 +67,7 @@ export const SpendingOverview = ({ glossary }) => {
       term={"Agency"}
       page={"Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryEventHandler}
     >
       agency
     </GlossaryPopoverDefinition>
@@ -74,6 +78,7 @@ export const SpendingOverview = ({ glossary }) => {
       term={"Federal Debt"}
       page={"Spending Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryEventHandler}
     >
       federal debt
     </GlossaryPopoverDefinition>

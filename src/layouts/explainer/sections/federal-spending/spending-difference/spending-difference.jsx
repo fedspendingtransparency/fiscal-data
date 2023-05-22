@@ -18,12 +18,13 @@ import supplementalSpendingMobile from "../../../../../../static/images/suppleme
 import MandatorySpendingImgDesktop from "../../../../../../static/images/mandatory-spending_desktop.png"
 import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png"
 
-export const SpendingDifference = ({ width, glossary }) => {
+export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) => {
   const appropriations = (
     <GlossaryPopoverDefinition
       term={"appropriations"}
       page={"Spending Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       appropriations
     </GlossaryPopoverDefinition>
@@ -34,6 +35,7 @@ export const SpendingDifference = ({ width, glossary }) => {
       term={"supplemental appropriations"}
       page={"Spending Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       supplemental appropriations
     </GlossaryPopoverDefinition>

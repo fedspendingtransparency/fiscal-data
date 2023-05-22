@@ -13,7 +13,7 @@ import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
 import Glossary from '../glossary/glossary';
 
-const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryEventHandler }) => {
+const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHandler }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpandedTools, setIsExpandedTools] = useState(false);
   const [isExpandedResources, setIsExpandedResources] = useState(false);
@@ -452,7 +452,7 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryEventHandler
           </div>
         </div>
         {/*<Experimental featureId={"Glossary"}>*/}
-          <Glossary termList={glossaryData} glossaryEvent={glossaryEvent} glossaryEventHandler={glossaryEventHandler} />
+          <Glossary termList={glossaryData} glossaryEvent={glossaryEvent} glossaryClickEventHandler={glossaryClickEventHandler} />
         {/*</Experimental>*/}
         <MobileMenu />
       </div>

@@ -49,14 +49,14 @@ const style = {
 };
 
 
-const GlossaryPopoverDefinition = ({ term, page, glossary, eventHandler, children }) => {
+const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler, children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
 
   const displayText = children.toString();
-  const { termName, definition } = glossaryLookup(term, glossary, page);
+  const { termName, definition, slug } = glossaryLookup(term, glossary, page);
 
 
   const useStyles = makeStyles(theme => (
@@ -105,14 +105,12 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, eventHandler, childre
   const id = open ? 'simple-popover' : undefined;
 
   const glossaryNavigation = () => {
-    // window.location.href = window.location.href + '/?glossary=agency'
     if (window.history.pushState) {
-      if (eventHandler) {
+      if (glossaryClickHandler) {
       const newurl = new URL(window.location.href);
-      newurl.searchParams.set('glossary', 'excise');
-      // const newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?glossary=agency';
+      newurl.searchParams.set('glossary', slug);
       window.history.pushState(null, '', newurl);
-        eventHandler(true);
+        glossaryClickHandler(true);
       }
     }
   }

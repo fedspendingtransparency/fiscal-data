@@ -31,7 +31,7 @@ const federalSpendingSection = [
     id: federalSpendingSectionIds[1],
     title: "Federal Spending Overview",
     component: (glossary, glossaryEventHandler, cpiDataByYear) => (
-      <SpendingOverview glossary={glossary} />
+      <SpendingOverview glossary={glossary} glossaryEventHandler={glossaryEventHandler} />
     ),
   },
   {
@@ -48,7 +48,7 @@ const federalSpendingSection = [
     title:
       "The Difference Between Mandatory, Discretionary, and Supplemental Spending",
     component: (glossary, glossaryEventHandler, cpiDataByYear) => (
-      <SpendingDifference glossary={glossary} />
+      <SpendingDifference glossary={glossary} glossaryClickHandler={glossaryEventHandler} />
     ),
   },
   {

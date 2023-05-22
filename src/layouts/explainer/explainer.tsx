@@ -77,7 +77,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
   };
 
   return (
-    <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryEventHandler={setGlossaryClickEvent}>
+    <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}

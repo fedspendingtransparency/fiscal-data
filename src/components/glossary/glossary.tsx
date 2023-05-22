@@ -10,21 +10,21 @@ import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
 interface IGlossary {
   termList: IGlossaryTerm[],
   glossaryEvent: boolean,
-  glossaryEventHandler: (boolean) => void,
+  glossaryClickEventHandler: (boolean) => void,
 }
 const getQueryTerm = (termList):IGlossaryTerm => {
   const queryParameters= new URLSearchParams(window.location.search);
-  const termName = queryParameters.get("glossary");
-  if (termName) {
+  const termSlug = queryParameters.get("glossary");
+  if (termSlug) {
     return termList.find((element: IGlossaryTerm) => {
-      if (termName !== null) {
-        return element.term.toLowerCase() === termName.toLowerCase()
+      if (termSlug !== null) {
+        return element.slug === termSlug;
       }
     });
   }
 }
 
-const Glossary:FunctionComponent<IGlossary> = ({ termList, glossaryEvent, glossaryEventHandler }) => {
+const Glossary:FunctionComponent<IGlossary> = ({ termList, glossaryEvent, glossaryClickEventHandler }) => {
   const [filter, setFilter] = useState('');
 
   const sortedTermList = getSortedGlossaryList(termList);
@@ -39,7 +39,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, glossaryEvent, glossa
         setQueryTerm(term);
         setTimeout(() => {
           setActiveState(true);
-          glossaryEventHandler(false);
+          glossaryClickEventHandler(false);
           removeAddressPathQuery(window.location);
         });
       }

@@ -11,6 +11,10 @@ export const getSortedGlossaryList = (glossaryData: IGlossaryTerm[]):IGlossaryLi
   const glossaryList = [];
   if (glossaryData) {
     const sortedGlossaryData = [...glossaryData];
+
+    //Add a slug for each glossary term
+    sortedGlossaryData.map((term) => term.slug = term.term.toLowerCase().split(' ').join('-'));
+
     let letterList = [];
     let lastTerm = '';
     sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));

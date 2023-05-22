@@ -15,4 +15,10 @@ describe('Glossary Data', () => {
     const result = getSortedGlossaryList(testGlossaryData);
     expect(result['Z']).toBeFalsy();
   })
+
+  it('adds a slug for each glossary term', () => {
+    const result = getSortedGlossaryList(testGlossaryData);
+
+    expect(result[0][0].slug).toBe('another-apple');
+  })
 })

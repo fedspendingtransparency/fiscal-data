@@ -5,7 +5,7 @@ import SiteFooter from "../site-footer/site-footer";
 export const preProdEnvMsg =
   'Loading metadata and data from endpoints in pre-production environment.';
 
-const SiteLayout = ({ children, isPreProd, glossaryEvent, glossaryEventHandler }) => {
+const SiteLayout = ({ children, isPreProd, glossaryEvent, glossaryClickEventHandler }) => {
   let lowerEnvMsg;
 
   if (isPreProd) {
@@ -14,7 +14,7 @@ const SiteLayout = ({ children, isPreProd, glossaryEvent, glossaryEventHandler }
 
   return (
     <div>
-        <SiteHeader lowerEnvMsg={lowerEnvMsg} glossaryEvent={glossaryEvent} glossaryEventHandler={glossaryEventHandler} />
+        <SiteHeader lowerEnvMsg={lowerEnvMsg} glossaryEvent={glossaryEvent} glossaryClickEventHandler={glossaryClickEventHandler} />
           {children}
         <SiteFooter />
     </div>
