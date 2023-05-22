@@ -111,7 +111,7 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal Year-to-Date (since October {priorFiscalYear}) total updated
+          Fiscal year-to-date (since October {priorFiscalYear}) total updated
           monthly using the {mts} dataset.
         </p>
         <div className={footNotesPillData}>
