@@ -33,7 +33,7 @@ const Contact = () => {
             FAQ
           </Link> are the quickest ways to get an answer, but if you can’t find what you’re
           looking for there or would like to make a suggestion, please contact us{' '}
-          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
+          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
             via email
           </CustomLink>, and our team will respond at our earliest opportunity.
           <br /><br />
@@ -53,7 +53,6 @@ const Contact = () => {
           <CustomLink
             url={`mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov?
             subject=Yes, I’d like to receive updates from Fiscal Data!`}
-            external
           >
             join-fiscal-data-gov@lists.fiscal.treasury.gov
           </CustomLink>.

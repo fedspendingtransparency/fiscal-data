@@ -55,9 +55,9 @@ const NotFoundText = () => (
       </li>
     </UlTag>
     <PTag>
-      Want to get in touch or send in general comments about the site? 
+      Want to get in touch or send in general comments about the site?
       Send a message {' '}
-      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
+      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
         via email
       </CustomLink>, and our team will respond at our earliest opportunity.
     </PTag>

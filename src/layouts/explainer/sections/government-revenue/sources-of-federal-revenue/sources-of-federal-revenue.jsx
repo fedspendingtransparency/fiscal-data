@@ -100,7 +100,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryEventHandler }) => {
 
   const trustFunds = (
     <GlossaryPopoverDefinition
-      term={"Trust fund"}
+      term={"Trust funds"}
       page={"Revenue Explainer"}
       glossary={glossary}
       eventHandler={glossaryEventHandler}

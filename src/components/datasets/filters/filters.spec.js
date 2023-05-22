@@ -311,7 +311,7 @@ describe('Filter Main', () => {
   it("shows toggle button when using mobile device", () => {
     //switched in test above
     expect(instance.props.isHandheld).toEqual(true);
-    const mobileToggle = instance.findByType(MobileFilterToggle)
-    expect(mobileToggle).toBeDefined()
+    const mobileToggle = instance.findByType(MobileFilterToggle);
+    expect(mobileToggle).toBeDefined();
   });
 });

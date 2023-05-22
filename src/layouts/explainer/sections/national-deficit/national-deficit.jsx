@@ -4,17 +4,12 @@ import DeficitAndSurplusCauses from "./deficit-and-surplus-causes/deficit-and-su
 import DebtDeficitDifference from "./debt-deficit-difference/debt-deficit-difference";
 import DeficitByYear from "./deficit-by-year/deficit-by-year";
 import {
-  deficitExplainerLightSecondary,
-  deficitExplainerPrimary
-} from "./national-deficit.module.scss";
-import KeyTakeawaysSection from "../../explainer-components/key-takeaways/key-takeaways-section";
-import {
-  deficitKeyTakeaways,
   deficitLearnMoreDescription,
   deficitLearnMoreLinks
 } from "../../explainer-helpers/national-deficit/national-deficit-helper";
 import LearnMoreSection from "../../explainer-components/learn-more/learn-more-section";
 import {datasetSectionConfig} from "../../explainer-helpers/explainer-helpers";
+import DeficitKeyTakeaways from "./deficit-key-takeaways/deficit-key-takeaways";
 
 export const nationalDeficitSectionIds = [
   'key-takeaways',
@@ -33,10 +28,7 @@ const nationalDeficitSections = [
     id: nationalDeficitSectionIds[0],
     title: 'Key Takeaways',
     component: (glossary, glossaryEventHandler, cpiDataByYear) =>
-      <KeyTakeawaysSection takeaways={deficitKeyTakeaways}
-                           primaryColor={deficitExplainerPrimary}
-                           secondaryColor={deficitExplainerLightSecondary}
-      />
+      <DeficitKeyTakeaways />
   },
   {
     index: 1,
