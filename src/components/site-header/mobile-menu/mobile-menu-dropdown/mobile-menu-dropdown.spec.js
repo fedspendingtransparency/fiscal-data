@@ -2,7 +2,6 @@ import {fireEvent, render} from "@testing-library/react";
 import MobileMenuDropdown from "./mobile-menu-dropdown";
 import React from "react";
 import Analytics from "../../../../utils/analytics/analytics";
-import SiteHeader from "../../site-header";
 
 const testSections = [
   {
