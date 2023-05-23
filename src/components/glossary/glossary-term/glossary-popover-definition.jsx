@@ -13,8 +13,10 @@ import {
 import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faXmark, faBook } from '@fortawesome/free-solid-svg-icons';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup';
+import { withWindowSize } from 'react-fns';
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../variables.module.scss';
 
 const style = {
   button: {
@@ -38,7 +40,8 @@ const style = {
       backgroundColor: 'rgba(255, 253, 253, 0.96)',
       boxShadow: '0 2px 30px 0 rgba(0, 0, 0, 0.16)',
       maxWidth: '90%',
-      width: '17rem'
+      width: '17rem',
+      margin: '0.5rem 0',
     }
   },
   secondarySvgColor: {
@@ -49,7 +52,7 @@ const style = {
 };
 
 
-const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler, children }) => {
+const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler, children, width }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -58,7 +61,7 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page);
 
-
+console.log(width);
   const useStyles = makeStyles(theme => (
     {
       ...style,
@@ -137,17 +140,16 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'center',
+          horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'center',
+          horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
         }}
       >
         <div
           className={popupContainer}
           data-testid="popupContainer"
-          onMouseLeave={handleClose}
           role={'presentation'}
         >
           <div className={glossaryText}>
@@ -158,6 +160,7 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
                 onClick={handleClose}
                 onKeyPress={handleClose}
                 tabIndex={0}
+                size="lg"
               />
               <span>Definition</span>
             </div>
@@ -170,7 +173,7 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
                  tabIndex={0}
             >
               <div>View in glossary</div>
-              <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} />
+              <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} size="lg" />
             </div>
           </div>
         </div>
@@ -179,4 +182,4 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
   );
 }
 
-export default GlossaryPopoverDefinition;
+export default withWindowSize(GlossaryPopoverDefinition);
