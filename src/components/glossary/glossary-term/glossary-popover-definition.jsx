@@ -173,7 +173,7 @@ console.log(width);
                  tabIndex={0}
             >
               <div>View in glossary</div>
-              <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} size="lg" />
+              <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} />
             </div>
           </div>
         </div>
