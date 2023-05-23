@@ -26,6 +26,7 @@ const governmentRevenueSections = [
     component: (glossary, glossaryClickHandler, cpiDataByYear) => (
       <RevenueKeyTakeaways
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       />
     ),
   },
@@ -40,7 +41,7 @@ const governmentRevenueSections = [
     id: governmentRevenueSectionIds[2],
     title: "Sources of Federal Revenue",
     component: (glossary, glossaryClickHandler, cpiDataByYear) =>
-      <SourcesOfFederalRevenue glossary={glossary} glossaryEventHandler={glossaryClickHandler} />
+      <SourcesOfFederalRevenue glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
   },
   {
     index: 3,

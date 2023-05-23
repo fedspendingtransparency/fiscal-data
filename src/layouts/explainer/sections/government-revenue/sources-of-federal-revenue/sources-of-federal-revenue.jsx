@@ -89,7 +89,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
   const excise = (
     <GlossaryPopoverDefinition
       term={"Excise"}
-      page={"Revenue Explainer & AFG Overview Page"}
+      page={"Revenue Explainer"}
       glossary={glossary}
       glossaryClickHandler={glossaryClickHandler}
     >

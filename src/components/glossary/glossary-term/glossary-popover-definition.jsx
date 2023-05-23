@@ -156,10 +156,11 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
             </div>
             <div className={termNameText}>{termName}</div>
             <div>{definition}</div>
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/interactive-supports-focus */}
             <div className={glossaryButton}
                  role="button"
                  onClick={glossaryNavigation}
+                 onKeyPress={glossaryNavigation}
+                 tabIndex={0}
             >
               <div>View in glossary</div>
               <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} />
