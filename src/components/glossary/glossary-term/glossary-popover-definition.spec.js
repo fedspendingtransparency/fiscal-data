@@ -130,5 +130,26 @@ describe('glossary term',() => {
     expect(window.history.pushState).toHaveBeenCalled();
   })
 
+  it('closes the popover when the full glossary tab is opened', () => {
+    const termText = 'Hello';
+    const testPage = 'Another Test Page';
+
+    window.history.pushState = jest.fn();
+    const clickHandler = jest.fn();
+
+    const { getByRole, queryByRole } = render(
+      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary} glossaryClickHandler={clickHandler}>
+        {termText}
+      </GlossaryPopoverDefinition>
+    );
+
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
+
+    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' })
+    viewInGlossaryButton.click();
+
+    expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
+  })
 
 });
