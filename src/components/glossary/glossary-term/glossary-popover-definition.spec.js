@@ -109,16 +109,14 @@ describe('glossary term',() => {
     expect(queryByText(differentPageTermDefinition)).toBeNull();
   })
 
-  it('', () => {
+  it('Adds query to window.history when View in Glossary button is clicked ', () => {
     const termText = 'Hello';
-    const termDefinition = 'A different greeting';
-    const differentPageTermDefinition = 'A greeting';
     const testPage = 'Another Test Page';
 
     window.history.pushState = jest.fn();
     const clickHandler = jest.fn();
 
-    const { getByRole, getByText, queryByText } = render(
+    const { getByRole } = render(
       <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary} glossaryClickHandler={clickHandler}>
         {termText}
       </GlossaryPopoverDefinition>
