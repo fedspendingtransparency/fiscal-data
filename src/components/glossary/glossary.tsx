@@ -16,14 +16,16 @@ interface IGlossary {
 }
 
 const getQueryTerm = (termList):IGlossaryTerm => {
-  const queryParameters= new URLSearchParams(window.location.search);
-  const termSlug = queryParameters.get("glossary");
-  if (termSlug) {
-    return termList.find((element: IGlossaryTerm) => {
-      if (termSlug !== null) {
-        return element.slug === termSlug;
-      }
-    });
+  if (typeof window !== 'undefined') {
+    const queryParameters= new URLSearchParams(window.location.search);
+    const termSlug = queryParameters.get("glossary");
+    if (termSlug) {
+      return termList.find((element: IGlossaryTerm) => {
+        if (termSlug !== null) {
+          return element.slug === termSlug;
+        }
+      });
+    }
   }
 }
 
