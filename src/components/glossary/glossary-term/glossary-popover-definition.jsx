@@ -61,7 +61,6 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page);
 
-console.log(width);
   const useStyles = makeStyles(theme => (
     {
       ...style,
