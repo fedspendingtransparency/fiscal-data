@@ -21,11 +21,12 @@ import { searchBarTheme, useStyles } from './theme';
 interface IGlossaryHeader {
   filter: string,
   clickHandler: (e) => void,
-  filterHandler: (e) => void
+  filterHandler: (e) => void,
+  glossaryRef: any,
 }
 
 
-const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler, filterHandler}) => {
+const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler, filterHandler, glossaryRef}) => {
   const onSearchBarChange = (event) => {
     const val = (event && event.target) ? event.target.value : '';
     filterHandler(val);
@@ -39,7 +40,7 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler
           <FontAwesomeIcon icon={faBook as IconProp} className={bookIcon} />
           GLOSSARY
         </div>
-        <button onClick={clickHandler} className={closeButton} aria-label={'Close glossary'}>
+        <button onClick={clickHandler} onKeyPress={clickHandler} className={closeButton} aria-label={'Close glossary'} ref={glossaryRef}>
           <FontAwesomeIcon icon={faXmark as IconProp} className={closeIcon} />
         </button>
       </div>

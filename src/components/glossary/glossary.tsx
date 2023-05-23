@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { glossaryContainer, glossaryHeaderContainer, open, overlay, tray } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
 import GlossaryListContainer from './glossary-list/glossary-list-container';
@@ -35,6 +35,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
   const sortedTermList = getSortedGlossaryList(termList);
   const [queryTerm, setQueryTerm] = useState(getQueryTerm(termList));
   const [initialQuery, setInitialQuery] = useState(false);
+  const glossaryRef = useRef(null);
 
   useEffect(() => {
     if (!initialQuery) {
@@ -58,6 +59,14 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
     }
   }, [glossaryEvent]);
 
+  useEffect(() => {
+    if (activeState) {
+      const node = glossaryRef.current;
+      if (node) {
+        node.focus();
+      }
+    }
+  }, [activeState])
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
@@ -79,7 +88,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
-              <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} />
+              <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} glossaryRef={glossaryRef} />
             </div>
             <GlossaryListContainer
               sortedTermList={sortedTermList}

@@ -152,7 +152,13 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
         >
           <div className={glossaryText}>
             <div className={header}>
-              <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} />
+              <FontAwesomeIcon
+                className={mobileFA}
+                icon={faXmark}
+                onClick={handleClose}
+                onKeyPress={handleClose}
+                tabIndex={0}
+              />
               <span>Definition</span>
             </div>
             <div className={termNameText}>{termName}</div>
