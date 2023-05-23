@@ -32,7 +32,7 @@ const path = require(`path`);
 const metadataTransform =
   require('./src/transform/metadata-transform').metadataTransform;
 
-const fetchUtil = require('node-fetch');
+const fetchUtil = require('make-fetch-happen');
 const authenticatingFetch =
   require('./src/utils/authenticating-fetch/authenticating-fetch');
 const fetch = apiKey ? authenticatingFetch(apiKey, fetchUtil) : fetchUtil;
@@ -76,15 +76,15 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       if (USE_MOCK_RELEASE_CALENDAR_DATA_ON_API_FAIL) {
         error !== null
           ? console.info("Reject received, but resolving with mock " +
-            "release calendar data.")
+          "release calendar data.")
           : console.info("API endpoint unavailable for Release " +
-            "Calendar, using mock data.");
+          "Calendar, using mock data.");
         resolve(releaseCalendarMockData);
       } else {
         error !== null
           ? console.warn("Reject received, rejecting with error.")
           : console.warn("API endpoint unavailable for Release Calender, " +
-            "not configured to allow mock data.");
+          "not configured to allow mock data.");
         reject(error);
       }
     };
@@ -242,16 +242,16 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   }
 
-  let resultData;
+/*  let resultData;
   await getBLSData().then(res => {
     resultData = res;
   }).catch(error => {
-    throw error
-/*    console.warn('error', error);
-    console.info('using BLS Data from file');
-    resultData = require('./static/data/bls-data.json');*/
-  });
-  /*  const resultData = require('./static/data/bls-data.json');*/
+      // throw error
+      console.warn('error', error);
+      console.info('using BLS Data from file');
+      resultData = require('./static/data/bls-data.json');
+    });*/
+  const resultData = require('./static/data/bls-data.json');
   resultData.Results.series[0].data.forEach((blsRow) => {
     blsRow.id = createNodeId(blsRow.year + blsRow.period);
     const node = {
@@ -288,9 +288,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   }
 
   const beaResults = await fetchBEA().then(res => res)
-    .catch(error => {
-      throw error
-    });
+  .catch(error => {
+    throw error
+  });
   beaResults.BEAAPI.Results.Data.forEach((bea) => {
 
     if(bea.LineDescription === 'Gross domestic product') {
@@ -550,7 +550,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         value: blsRow.value
       };
       result.data.allCpi100Csv.cpi100Csv.push(appendRow);
-    });
+  });
   result.data.allCpi100Csv.cpi100Csv.sort((a,b) => Number(a.year) - Number(b.year));
   const cpiYearMap = {};
   result.data.allCpi100Csv.cpi100Csv.forEach(row => {
@@ -564,9 +564,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       filterOptionsUrl += `&page[size]=10000&sort=${config.apis[0].userFilter.field}`;
 
       const options = await fetch(filterOptionsUrl)
-        .then(res => res.json()
-          .then(body => body.data.map(row => row[config.apis[0].userFilter.field])
-            .sort((a,b)=>a.localeCompare(b))));
+      .then(res => res.json()
+      .then(body => body.data.map(row => row[config.apis[0].userFilter.field])
+      .sort((a,b)=>a.localeCompare(b))));
       config.apis[0].userFilter.optionValues = [...new Set(options)]; // uniquify results
     }
     createPage({
