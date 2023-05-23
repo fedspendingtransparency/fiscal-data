@@ -3,7 +3,7 @@ import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import {visWithCallout} from "../../../explainer.module.scss";
 import VisualizationCallout
   from "../../../../../components/visualization-callout/visualization-callout";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term"
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition"
 import {
   spendingExplainerPrimary,
   spendingExplainerSecondary,
@@ -13,7 +13,7 @@ import QuoteBox from "../../../quote-box/quote-box"
 import { faFlagUsa } from "@fortawesome/free-solid-svg-icons"
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import {getShortForm} from "../../../../../utils/rounding-utils";
-export const SpendingOverview = ({ glossary }) => {
+export const SpendingOverview = ({ glossary, glossaryClickHandler }) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
   const [priorYearSpending, setPriorYearSpending] = useState(null);
   const [spendingChange, setSpendingChange] = useState(null);
@@ -31,52 +31,57 @@ export const SpendingOverview = ({ glossary }) => {
     </CustomLink>;
 
   const objectClass = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Object Class"}
       page={"Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       object class
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   const budgetFunctions = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Budget Function"}
       page={"Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       budget functions
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
   const revenue = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Revenue"}
       page={"Deficit & Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       revenue
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   const agency = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Agency"}
       page={"Spending explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       agency
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   const federalDebt = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Federal Debt"}
       page={"Spending Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       federal debt
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   useEffect(() => {

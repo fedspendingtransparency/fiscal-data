@@ -11,32 +11,34 @@ import { pxToNumber } from "../../../../../helpers/styles-helper/styles-helper"
 import { breakpointLg } from "../../../../../variables.module.scss"
 import discretionarySpendingDesktop from "../../../../../../static/images/discretionary-spending_desktop.png"
 import discretionarySpendingMobile from "../../../../../../static/images/discretionary-spending_mobile.png"
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term"
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import supplementalSpendingDesktop from "../../../../../../static/images/supplemental-spending_desktop.png"
 import supplementalSpendingMobile from "../../../../../../static/images/supplemental-spending_mobile.png"
 import MandatorySpendingImgDesktop from "../../../../../../static/images/mandatory-spending_desktop.png"
 import MandatorySpendingImgMobile from "../../../../../../static/images/mandatory-spending_mobile.png"
 
-export const SpendingDifference = ({ width, glossary }) => {
+export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) => {
   const appropriations = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"appropriations"}
       page={"Spending Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       appropriations
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
 
   const supplementalAppropriations = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"supplemental appropriations"}
       page={"Spending Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       supplemental appropriations
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   )
   return (
     <div className={spendingDifferenceContent}>

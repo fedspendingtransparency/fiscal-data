@@ -37,7 +37,7 @@ import {
   spendingRequest,
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../components/glossary/glossary-term/glossary-popover-definition";
 import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
@@ -63,6 +63,8 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   );
 
   const glossary  = allGlossary.allGlossaryCsv.glossaryCsv;
+  glossary.map((term) => term.slug = term.term.toLowerCase().split(' ').join('-'));
+  const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
   const [fiscalYear, setFiscalYear] = useState("");
   const [yearToDateRevenue, setYearToDateRevenue] = useState("");
   const [yearToDateSpending, setYearToDateSpending] = useState("");
@@ -190,14 +192,16 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       <span style={{ fontStyle: "italic" }}>debt</span> of ${latestDebt} through {debtDate}.
     </>
   );
+
   const exciseTaxes =
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Excise"}
       page={"Revenue Explainer & AFG Overview Page"}
       glossary={glossary}
+      glossaryClickHandler={setGlossaryClickEvent}
     >
       excise
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   const mts = (
     <CustomLink
       url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
@@ -217,9 +221,9 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </CustomLink>
   );
   const citizensGuideLink = (
-    <CustomLink url={
-      "https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html"
-    }>
+    <CustomLink
+      url={"https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html"}
+    >
       Citizen's Guide to the Financial Report of the U.S. Government
     </CustomLink>
   );
@@ -242,7 +246,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       Are federal debt and deficit the same thing? No, but they do affect one another
     </>
   return (
-    <SiteLayout isPreProd={false}>
+    <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
         pageTitle="America’s Finance Guide"
         description={"Your Guide to America’s Finances makes federal financial information open " +

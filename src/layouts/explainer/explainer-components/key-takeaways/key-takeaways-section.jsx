@@ -6,7 +6,7 @@ import {
   offsetIcon,
 } from "./key-takeaways-section.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term"
+import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition"
 import reactStringReplace from "react-string-replace"
 
 export const toTitleCase = text => {
@@ -18,7 +18,7 @@ export const toTitleCase = text => {
     .trim()
 }
 
-const getText = (takeaway, glossary) => {
+const getText = (takeaway, glossary, glossaryClickHandler) => {
   const {
     hasGlossaryTerm,
     page,
@@ -33,14 +33,15 @@ const getText = (takeaway, glossary) => {
       glossaryRegex || glossaryString,
       (match, i) => {
         return (
-          <GlossaryTerm
+          <GlossaryPopoverDefinition
             term={toTitleCase(glossaryTerm ? glossaryTerm : match)}
             page={page}
             glossary={glossary}
+            glossaryClickHandler={glossaryClickHandler}
             key={i}
           >
             {match}
-          </GlossaryTerm>
+          </GlossaryPopoverDefinition>
         )
       }
     )
@@ -53,6 +54,7 @@ const KeyTakeawaysSection = ({
   primaryColor,
   secondaryColor,
   glossary,
+  glossaryClickHandler
 }) => (
   <>
     {takeaways.map(takeaway => (
@@ -68,7 +70,7 @@ const KeyTakeawaysSection = ({
             style={{ color: primaryColor }}
           />
         </div>
-        <p>{getText(takeaway, glossary)}</p>
+        <p>{getText(takeaway, glossary, glossaryClickHandler)}</p>
       </div>
     ))}
   </>

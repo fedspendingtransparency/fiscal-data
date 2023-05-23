@@ -297,7 +297,8 @@ describe('SiteHeader', () => {
   });
 
   it('glossary menu closes when overlay is clicked', async () => {
-    const { getByRole, getByTestId, queryByTestId } = render(<SiteHeader />);
+    const { getByRole, getByTestId, queryByTestId } =
+      render(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
 
     fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
     const glossaryButton = getByRole('button', {name: 'Glossary'});
@@ -316,7 +317,7 @@ describe('SiteHeader', () => {
     }));
 
     await waitFor(() => {
-      expect(queryByTestId('glossaryContainer')).not.toBeInTheDocument();
+      expect(glossary).not.toHaveClass('open');
     });
   });
 });

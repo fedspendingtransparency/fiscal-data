@@ -10,9 +10,9 @@ import {
   revenueExplainerLightSecondary,
 } from "../revenue.module.scss";
 import KeyTakeawaysSection from "../../../explainer-components/key-takeaways/key-takeaways-section";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import reactStringReplace from "react-string-replace";
-const RevenueKeyTakeaways = ({ glossary }) => {
+const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
   const [totalGDP, setTotalGDP] = useState("");
@@ -68,13 +68,14 @@ const RevenueKeyTakeaways = ({ glossary }) => {
     "fiscal year (FY)",
     match => {
       return (
-        <GlossaryTerm
+        <GlossaryPopoverDefinition
           term={"fiscal year"}
           page={"Debt, Revenue & Spending explainer"}
           glossary={glossary}
+          glossaryClickHandler={glossaryClickHandler}
         >
           {match}
-        </GlossaryTerm>
+        </GlossaryPopoverDefinition>
       );
     }
   );

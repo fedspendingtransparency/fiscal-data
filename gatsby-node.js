@@ -540,6 +540,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   `);
 
   const glossaryData = result.data.allGlossaryCsv.glossaryCsv;
+  glossaryData.map((term) => term.slug = term.term.toLowerCase().split(' ').join('-'));
 
   result.data.allBlsPublicApiData.blsPublicApiData
     .filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))

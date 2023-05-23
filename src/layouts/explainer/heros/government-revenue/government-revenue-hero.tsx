@@ -11,10 +11,10 @@ import { getFootNotesDateRange, getPillData } from "../hero-helper"
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
-import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {getShortForm} from "../../../../utils/rounding-utils";
 
-const GovernmentRevenueHero = ({glossary}): JSX.Element => {
+const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element => {
 
   const fields: string = 'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,' +
     'record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
@@ -79,13 +79,14 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   }, []);
 
   const expenditures = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Expenditures"}
       page={"Revenue Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       expenditures
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
 
   const rightTooltip =

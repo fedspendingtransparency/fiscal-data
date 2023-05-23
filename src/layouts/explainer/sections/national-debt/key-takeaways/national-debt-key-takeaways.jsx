@@ -1,4 +1,4 @@
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {
   icon,
   iconBackground,
@@ -10,24 +10,26 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChartLine, faMoneyCheckDollar, faPeopleCarry} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 
-export const KeyTakeawaysSection = ({ glossary }) => {
+export const KeyTakeawaysSection = ({ glossary, glossaryClickHandler }) => {
   const nonMarketableSecurities = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term="Non-Marketable Securities"
       page="Debt explainer"
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       non-marketable
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
   const marketableSecurities = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term="Marketable Securities"
       page="Debt explainer"
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       marketable
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
 
   return (

@@ -30,7 +30,6 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(sortedTermList);
-
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
@@ -66,6 +65,10 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
     }
     setDisplayList(localFilterOptions);
   }, [filter])
+
+  useEffect(() => {
+    setSelectedTerm(defaultTerm);
+  }, [defaultTerm])
 
   useEffect(() => {
     const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');

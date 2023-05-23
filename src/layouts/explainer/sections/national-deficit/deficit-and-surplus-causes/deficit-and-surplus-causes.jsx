@@ -1,9 +1,8 @@
 import React from "react";
 import CustomLink from "../../../../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
-import Analytics from "../../../../../utils/analytics/analytics";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 
-const DeficitAndSurplusCauses = ({glossary}) => {
+const DeficitAndSurplusCauses = ({glossary, glossaryClickHandler}) => {
   const federalCovidResponseLink =
     <CustomLink
     url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'}
@@ -27,12 +26,13 @@ const DeficitAndSurplusCauses = ({glossary}) => {
     </CustomLink>
 
   const gdp =
-    <GlossaryTerm term={'gross domestic product (GDP)'}
-                  page={'Deficit Explainer'}
-                  glossary={glossary}
+    <GlossaryPopoverDefinition term={'gross domestic product (GDP)'}
+                               page={'Deficit Explainer'}
+                               glossary={glossary}
+                               glossaryClickHandler={glossaryClickHandler}
     >
       gross domestic product (GDP)
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   return (
     <div data-testid={'textContent'}>

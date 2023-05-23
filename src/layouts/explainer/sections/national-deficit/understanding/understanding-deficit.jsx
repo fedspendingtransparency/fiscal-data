@@ -10,31 +10,30 @@ import React, {useEffect, useState} from "react";
 import 'react-tabs/style/react-tabs.css';
 import SurplusIllustration from "./surplus-illustration/surplus-illustration";
 import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
-import {apiPrefix, basicFetch} from "../../../../../../src/utils/api-utils";
-import {nationalDeficitSectionConfigs} from "../../national-deficit/national-deficit";
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../src/utils/date-utils";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
+import {apiPrefix, basicFetch} from '../../../../../utils/api-utils';
+import {nationalDeficitSectionConfigs} from '../national-deficit';
 
-const UnderstandingDeficit = ({sectionId, glossary}) => {
+const UnderstandingDeficit = ({sectionId, glossary, glossaryClickHandler}) => {
   const spending =
-    <GlossaryTerm term={'spending'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'spending'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       spending
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   const revenue =
-    <GlossaryTerm term={'revenue'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'revenue'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       revenue
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   const surplus =
-    <GlossaryTerm term={'surplus'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'surplus'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       surplus
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   const balanced =
-    <GlossaryTerm term={'Balanced Budget'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'Balanced Budget'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       balanced
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   const [lastFiscalYear, setLastFiscalYear] = useState(0);
   const [deficitLabel, setDeficitLabel] = useState("");

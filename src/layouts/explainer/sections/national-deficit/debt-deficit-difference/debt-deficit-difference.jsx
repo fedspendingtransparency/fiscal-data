@@ -15,9 +15,9 @@ import DeficitDesktop from "../../../../../../static/images/deficit-vs-debt_desk
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../variables.module.scss";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 
-export const DebtDeficitDifference = ({width, glossary}) => {
+export const DebtDeficitDifference = ({width, glossary, glossaryClickHandler}) => {
 
   const nationalDebtLink =
     <CustomLink url={'/americas-finance-guide/national-debt/'}>
@@ -25,14 +25,14 @@ export const DebtDeficitDifference = ({width, glossary}) => {
     </CustomLink>
 
   const bonds =
-    <GlossaryTerm term={'Bonds'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'Bonds'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler} >
       bonds
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   const bills =
-    <GlossaryTerm term={'Bills'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'Bills'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler} >
       bills
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   return (
     <>

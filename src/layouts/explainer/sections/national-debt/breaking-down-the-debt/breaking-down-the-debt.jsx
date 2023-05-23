@@ -1,5 +1,5 @@
 import {withWindowSize} from "react-fns";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import Analytics from "../../../../../utils/analytics/analytics";
@@ -52,7 +52,7 @@ export const trillionsFormatter = value =>
 
 let gaTimerDualChart;
 
-const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
+const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date());
   const [startYear, setStartYear] = useState("");
@@ -73,40 +73,44 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
 
   const glossaryTerms = {
     debtHeldByThePublic: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Debt Held by the Public"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         debt held by the public
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     intragovernmental: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Intragovernmental Holdings"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         intragovernmental
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     calendarYear: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Calendar Year"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         calendar year
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     interestRates: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Interest Rates"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         interest rates
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
   };
 
