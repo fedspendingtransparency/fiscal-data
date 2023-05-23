@@ -31,6 +31,14 @@ describe('glossary term',() => {
     }
   ]
 
+  beforeEach(() => {
+    Object.defineProperty(window, 'history', {
+      value: {
+        pathname: '',
+      }
+    })
+  });
+
   it('renders a button for the glossary term', () => {
     const termText = 'Hello';
     const testPage = 'Test Page';
@@ -100,4 +108,29 @@ describe('glossary term',() => {
     expect(definition).toBeInTheDocument();
     expect(queryByText(differentPageTermDefinition)).toBeNull();
   })
+
+  it('', () => {
+    const termText = 'Hello';
+    const termDefinition = 'A different greeting';
+    const differentPageTermDefinition = 'A greeting';
+    const testPage = 'Another Test Page';
+
+    window.history.pushState = jest.fn();
+    const clickHandler = jest.fn();
+
+    const { getByRole, getByText, queryByText } = render(
+      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary} glossaryClickHandler={clickHandler}>
+        {termText}
+      </GlossaryPopoverDefinition>
+    );
+
+    const glossaryTermButton = getByRole('button', { name: termText });
+    glossaryTermButton.click();
+
+    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' })
+    viewInGlossaryButton.click();
+    expect(window.history.pushState).toHaveBeenCalled();
+  })
+
+
 });

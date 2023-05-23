@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
-import  userEvent from '@testing-library/user-event'
 import InfoTip from "./info-tip";
 
 describe('InfoTip', () => {

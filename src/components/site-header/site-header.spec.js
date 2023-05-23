@@ -296,27 +296,28 @@ describe('SiteHeader', () => {
     });
   });
 
-  // it('glossary menu closes when overlay is clicked', async () => {
-  //   const { getByRole, getByTestId, queryByTestId } = render(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()}/>);
-  //
-  //   fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
-  //   const glossaryButton = getByRole('button', {name: 'Glossary'});
-  //
-  //   fireEvent.click(glossaryButton);
-  //   const glossary = getByTestId('glossaryContainer');
-  //
-  //   await waitFor(() => {
-  //     expect(glossary).toHaveClass('open');
-  //   });
-  //   const glossaryOverlay = within(glossary).getByTestId('overlay');
-  //
-  //   fireEvent(glossaryOverlay, new MouseEvent('click', {
-  //     bubbles: true,
-  //     cancelable: true,
-  //   }));
-  //
-  //   await waitFor(() => {
-  //     expect(queryByTestId('glossaryContainer')).not.toBeInTheDocument();
-  //   });
-  // });
+  it('glossary menu closes when overlay is clicked', async () => {
+    const { getByRole, getByTestId, queryByTestId } =
+      render(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    const glossaryButton = getByRole('button', {name: 'Glossary'});
+
+    fireEvent.click(glossaryButton);
+    const glossary = getByTestId('glossaryContainer');
+
+    await waitFor(() => {
+      expect(glossary).toHaveClass('open');
+    });
+    const glossaryOverlay = within(glossary).getByTestId('overlay');
+
+    fireEvent(glossaryOverlay, new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    }));
+
+    await waitFor(() => {
+      expect(glossary).not.toHaveClass('open');
+    });
+  });
 });
