@@ -112,6 +112,7 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
       window.history.pushState(null, '', newurl);
         glossaryClickHandler(true);
       }
+      handleClose();
     }
   }
 
