@@ -242,16 +242,10 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   }
 
-/*  let resultData;
-  await getBLSData().then(res => {
-    resultData = res;
-  }).catch(error => {
-      // throw error
-      console.warn('error', error);
-      console.info('using BLS Data from file');
-      resultData = require('./static/data/bls-data.json');
-    });*/
-  const resultData = require('./static/data/bls-data.json');
+  const resultData = await getBLSData().then(res => res)
+    .catch(error => {
+      throw error
+    });
   resultData.Results.series[0].data.forEach((blsRow) => {
     blsRow.id = createNodeId(blsRow.year + blsRow.period);
     const node = {
