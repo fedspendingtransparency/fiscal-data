@@ -32,7 +32,7 @@ const federalSpendingSection = [
     id: federalSpendingSectionIds[1],
     title: "Federal Spending Overview",
     component: (glossary, glossaryClickHandler, cpiDataByYear) => (
-      <SpendingOverview glossary={glossary} glossaryEventHandler={glossaryClickHandler} />
+      <SpendingOverview glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
     ),
   },
   {
