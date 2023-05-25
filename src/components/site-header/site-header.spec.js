@@ -7,28 +7,32 @@ import SiteLayout from "../siteLayout/siteLayout";
 import Analytics from '../../utils/analytics/analytics';
 import { StaticQuery, useStaticQuery } from 'gatsby';
 import { mockUseStaticGlossaryData } from '../glossary/test-helper';
+import { createHistory, createMemorySource, LocationProvider } from '@reach/router';
+import "gatsby-env-variables";
+import '@testing-library/jest-dom/extend-expect'
 
 jest.useFakeTimers();
 
+jest.mock("gatsby-env-variables", () => ({
+  ENV_ID: 'dev',
+  API_BASE_URL: 'https://www.transparency.treasury.gov',
+  ADDITIONAL_DATASETS: {},
+  EXPERIMENTAL_WHITELIST: [],
+  NOTIFICATION_BANNER_TEXT: 'Test Page Name',
+  NOTIFICATION_BANNER_DISPLAY_PAGES: ['/', '/datasets/'],
+  NOTIFICATION_BANNER_DISPLAY_PATHS: ['/americas-finance-guide/'],
+}));
+
+const renderWithRouter = (ui, routeStr, {route=routeStr, history = createHistory(createMemorySource(route))} = {}) => {
+  return {
+    ...render(<LocationProvider history={history}>{ui}</LocationProvider>),
+    history
+  }
+}
 describe('SiteHeader', () => {
 
-  jest.mock("gatsby-env-variables", () => ({
-    ENV_ID: 'dev',
-    API_BASE_URL: 'https://www.transparency.treasury.gov',
-    ADDITIONAL_DATASETS: {},
-    NOTIFICATION_BANNER_TEXT: 'Test Page Name',
-    NOTIFICATION_BANNER_DISPLAY_PAGES: ['/', '/datasets/'],
-    NOTIFICATION_BANNER_DISPLAY_PATHS: ['/americas-finance-guide/'],
-  }));
 
   beforeEach(() => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        pathname: '/datasets/',
-        href: 'https://fiscaldata.treasury.gov/datasets/'
-      }
-    })
-
     StaticQuery.mockImplementation(({ render }) => render({ mockUseStaticGlossaryData }));
     useStaticQuery.mockImplementation(() => {
       return {
@@ -337,22 +341,18 @@ describe('SiteHeader', () => {
     });
   });
 
-
-
-
   it('displays announcement banner for specified pages', () => {
-    // Object.defineProperty(window, 'location', {
-    //   value: {
-    //     pathname: '/datasets/',
-    //     href: 'https://fiscaldata.treasury.gov/datasets/'
-    //   }
-    // })
+    const { getByText } = renderWithRouter(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/datasets/');
 
-    const { getByText, getByTestId, queryByTestId } =
-      render(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
+    expect(getByText('Dataset Unavailable', {exact: false})).toBeInTheDocument();
+    expect(getByText('Test Page Name', {exact: false})).toBeInTheDocument();
+  })
 
-    expect(getByText('Dataset Unavailable')).toBeInTheDocument();
+  it('displays announcement banner for specified paths', () => {
+    const { getByText } =
+      renderWithRouter(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/americas-finance-guide/national-debt/');
 
-
+    expect(getByText('Dataset Unavailable', {exact: false})).toBeInTheDocument();
+    expect(getByText('Test Page Name', {exact: false})).toBeInTheDocument();
   })
 });
