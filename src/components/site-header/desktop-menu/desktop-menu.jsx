@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import { Link } from 'gatsby';
-import * as styles from './site-header.module.scss';
+import * as styles from '../site-header.module.scss';
 import Experimental from "../../experimental/experimental";
 import MenuDropdown from "../menu-dropdown/menu-dropdown";
 import Analytics from "../../../utils/analytics/analytics";
+import { menuSections } from "../site-header-helper";
 
 const DesktopMenu = ({ location }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -15,70 +16,6 @@ const DesktopMenu = ({ location }) => {
   const [toggled, setToggled] = useState(false);
   const [toggledTools, setToggledTools] = useState(false);
   const [toggledResources, setToggledResources] = useState(false);
-
-  const pageLinks = [
-    {
-      title: 'Topics',
-      to: '/',
-      testId: 'topics',
-      featureId: 'topics',
-      dropdown: true,
-    },
-    {
-      title: 'Tools',
-      to: '/',
-      testId: 'tools',
-      featureId: 'tools',
-      dropdown: true,
-    },
-    {
-      title: 'Dataset Search',
-      to: '/datasets/',
-      testId: 'search'
-    },
-    {
-      title: 'Resources',
-      to: '/',
-      testId: 'Resources',
-      dropdown: true,
-    },
-    {
-      title: 'About Us',
-      to: '/about-us/',
-      testId: 'about'
-    },
-    {
-      title: 'Experimental',
-      to: '/experimental/',
-      testId: 'experimental',
-      isExperimental: true,
-      featureId: 'experimental-page'
-    }
-  ]
-
-  const topicsPageLinks = [
-    {
-      title: 'Overview',
-      to: '/americas-finance-guide/',
-      testId: 'overview'
-    }, {
-      title: 'Revenue',
-      to: '/americas-finance-guide/government-revenue/',
-      testId: 'revenue'
-    }, {
-      title: 'Spending',
-      to: '/americas-finance-guide/federal-spending/',
-      testId: 'spending'
-    }, {
-      title: 'Deficit',
-      to: '/americas-finance-guide/national-deficit/',
-      testId: 'deficit'
-    }, {
-      title: 'Debt',
-      to: '/americas-finance-guide/national-debt/',
-      testId: 'debt'
-    }
-  ]
 
   const resourcesPageLinks = [
     {
@@ -269,7 +206,7 @@ const DesktopMenu = ({ location }) => {
           )
         }
 
-        if (pageLink.title === 'Topics') {
+        if (pageLink.largeDropdown === true) {
           return (
             <MenuDropdown
               title={pageLink.title}

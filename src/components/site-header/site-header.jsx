@@ -68,8 +68,8 @@ const SiteHeader = ({ lowerEnvMsg, location }) => {
               width={192}
             />
           </Link>
+          <DesktopMenu location={location} />
         </div>
-        <DesktopMenu location={location} />
         <Experimental featureId={"Glossary"}>
           <Glossary termList={glossaryData} />
         </Experimental>
