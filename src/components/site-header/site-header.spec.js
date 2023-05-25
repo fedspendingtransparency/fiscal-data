@@ -12,7 +12,23 @@ jest.useFakeTimers();
 
 describe('SiteHeader', () => {
 
+  jest.mock("gatsby-env-variables", () => ({
+    ENV_ID: 'dev',
+    API_BASE_URL: 'https://www.transparency.treasury.gov',
+    ADDITIONAL_DATASETS: {},
+    NOTIFICATION_BANNER_TEXT: 'Test Page Name',
+    NOTIFICATION_BANNER_DISPLAY_PAGES: ['/', '/datasets/'],
+    NOTIFICATION_BANNER_DISPLAY_PATHS: ['/americas-finance-guide/'],
+  }));
+
   beforeEach(() => {
+    Object.defineProperty(window, 'location', {
+      value: {
+        pathname: '/datasets/',
+        href: 'https://fiscaldata.treasury.gov/datasets/'
+      }
+    })
+
     StaticQuery.mockImplementation(({ render }) => render({ mockUseStaticGlossaryData }));
     useStaticQuery.mockImplementation(() => {
       return {
@@ -320,4 +336,23 @@ describe('SiteHeader', () => {
       expect(glossary).not.toHaveClass('open');
     });
   });
+
+
+
+
+  it('displays announcement banner for specified pages', () => {
+    // Object.defineProperty(window, 'location', {
+    //   value: {
+    //     pathname: '/datasets/',
+    //     href: 'https://fiscaldata.treasury.gov/datasets/'
+    //   }
+    // })
+
+    const { getByText, getByTestId, queryByTestId } =
+      render(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
+
+    expect(getByText('Dataset Unavailable')).toBeInTheDocument();
+
+
+  })
 });

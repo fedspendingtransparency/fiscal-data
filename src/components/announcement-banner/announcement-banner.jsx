@@ -26,7 +26,9 @@ const AnnouncementBanner = ({
       >
         <div className={`${content} bannerContent`}>
           <FontAwesomeIcon className={infoIcon} icon={faInfoCircle} />
-          {children}
+          <div>
+            {children}
+          </div>
         </div>
         <div
           onClick={hideBanner}
