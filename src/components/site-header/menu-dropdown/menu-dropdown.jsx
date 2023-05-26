@@ -42,10 +42,10 @@ const MenuDropdown = (
   }
 
   const children = (object) => {
-    if (object.children.children) {
-      const subsectionHeader = object.children.subsectionHeader;
-      const secondaryChildren = object.children.children;
-
+    if (object.children[0].children) {
+      const subsectionHeader = object.children[0].subsectionHeader;
+      const secondaryChildren = object.children[0].children;
+      console.log('Topics');
       return (
         <div className={styles.dropdownRow}>
           <div className={styles.dropdownColumnOne}>
@@ -74,6 +74,7 @@ const MenuDropdown = (
       )
     } else {
       const primaryChildren = object.children;
+      console.log('other')
       return (
         <div className={styles.resourcesDropDown}>
           {primaryChildren.map((link) => {
@@ -81,10 +82,10 @@ const MenuDropdown = (
               <Link
                 to={link.to}
                 activeClassName={styles.activeTopicLink}
-                key={link.title}
-                onClick={() => clickHandler(link.title)}
+                key={link.name}
+                onClick={() => clickHandler(link.name)}
               >
-                {link.title}
+                {link.name}
               </Link>
             )
           })
@@ -120,7 +121,7 @@ const MenuDropdown = (
           tabIndex={'0'}
           data-testid={'dropdownContent'}
         >
-          {children}
+          {children(object)}
         </div>
       )}
     </div>
