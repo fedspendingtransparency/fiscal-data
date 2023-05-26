@@ -183,7 +183,7 @@ const DesktopMenu = ({ location }) => {
 
   return (
     <div className={styles.pageLinks} data-testid="pageLinks">
-      {pageLinks.map((pageLink) => {
+      {menuSections.map((pageLink) => {
         if (pageLink.isExperimental) {
           return (
             <Experimental featureId={pageLink.featureId} key={pageLink.title}>
@@ -206,104 +206,20 @@ const DesktopMenu = ({ location }) => {
           )
         }
 
-        if (pageLink.largeDropdown === true) {
+        if (pageLink.children) {
           return (
             <MenuDropdown
-              title={pageLink.title}
+              object={pageLink}
               handleMouseOver={handleMouseOver}
               toggled={toggled}
               isExpanded={isExpanded}
               handleMouseLeave={handleMouseLeave}
               handleBlur={handleBlur}
               menuExpanding={menuExpanding}
-            >
-              <div className={styles.dropdownRow}>
-                <div className={styles.dropdownColumnOne}>
-                  <div className={styles.dropdownTitle}>
-                    AMERICA'S FINANCE GUIDE
-                  </div>
-                  <div>
-                    {topicsPageLinks.map((topicPageLink) => {
-                      return (
-                        <div key={topicPageLink.title}
-                             className={styles.dropdownListItem}
-                        >
-                          <Link
-                            to={topicPageLink.to}
-                            activeClassName={styles.activeTopicLink}
-                            onClick={() => topicsClickHandler(topicPageLink.title)}
-                          >
-                            {topicPageLink.title}
-                          </Link>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            </MenuDropdown>
+            />
           )
         }
 
-        if (pageLink.title === 'Tools') {
-          return (
-            <MenuDropdown
-              title={pageLink.title}
-              handleMouseOver={handleMouseOverTools}
-              toggled={toggledTools}
-              isExpanded={isExpandedTools}
-              handleMouseLeave={handleMouseLeave}
-              handleBlur={handleBlur}
-              menuExpanding={toolsMenuExpanding}
-            >
-              <div className={styles.toolsSingleDropDown}>
-                {toolsPageLinks.map((link) => {
-                  return (
-                    <Link
-                      to={link.to}
-                      activeClassName={styles.activeTopicLink}
-                      key={link.title}
-                      onClick={() => clickHandler(link.title)}
-                    >
-                      {link.title}
-                    </Link>
-                  )
-                })
-                }
-              </div>
-            </MenuDropdown>
-          )
-        }
-
-        if (pageLink.title === 'Resources') {
-          return (
-            <MenuDropdown
-              title={pageLink.title}
-              handleMouseOver={handleMouseOverResources}
-              toggled={toggledResources}
-              isExpanded={isExpandedResources}
-              handleMouseLeave={handleMouseLeave}
-              handleBlur={handleBlur}
-              menuExpanding={resourcesMenuExpanding}
-            >
-              <div className={styles.resourcesDropDown}>
-                {resourcesPageLinks.map((link) => {
-                  return (
-                    <Link
-                      to={link.to}
-                      activeClassName={styles.activeTopicLink}
-                      key={link.title}
-                      onClick={() => clickHandler(link.title)}
-                    >
-                      {link.title}
-                    </Link>
-                  )
-                })
-                }
-              </div>
-            </MenuDropdown>
-          )
-        }
         return (
           <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
             <div className={styles.pageLinkButtonContent}

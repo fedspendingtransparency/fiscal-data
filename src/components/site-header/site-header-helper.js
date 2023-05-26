@@ -4,8 +4,7 @@ export const menuSections = [
     to: '/',
     testId: 'topics',
     featureId: 'topics',
-    dropdown: true,
-    subsection: [
+    children: [
       {
         subsectionHeader: 'AMERICA\'S FINANCE GUIDE',
         analyticsAction: 'Topics Click',
@@ -44,7 +43,12 @@ export const menuSections = [
     to: '/',
     testId: 'tools',
     featureId: 'tools',
-    dropdown: true,
+    children: [
+      {
+        to: '/currency-exchange-rates-converter/',
+        name: 'Currency Exchange Rates Converter'
+      }
+    ]
   },
   {
     title: 'Dataset Search',
@@ -55,7 +59,16 @@ export const menuSections = [
     title: 'Resources',
     to: '/',
     testId: 'Resources',
-    dropdown: true,
+    children: [
+      {
+        to: '/api-documentation/',
+        name: 'API Documentation'
+      },
+      {
+        to: '/release-calendar/',
+        name: 'Release Calendar'
+      },
+    ]
   },
   {
     title: 'About Us',
