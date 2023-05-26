@@ -28,6 +28,7 @@ import CustomLink from "../../../../../../components/links/custom-link/custom-li
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import Analytics from "../../../../../../utils/analytics/analytics";
 import {addInnerChartAriaLabel} from "../../../../explainer-helpers/explainer-charting-helper";
+import CustomBar from './custom-bar/customBar';
 
 const DeficitComparisonBarChart = ({sectionId, width}) => {
   const [date, setDate] = useState(new Date ());
@@ -48,8 +49,30 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
     endpoints
   } = nationalDeficitSectionConfigs[sectionId];
 
-
   const chartParent = 'chartParentDiv';
+
+  const setAnimationDurations = (data) => {
+    if(data && data.length >= 2) {
+      const revenue = parseFloat(data[0]['revenue']);
+      const deficit = data[0]['deficit'];
+      const spending = parseFloat(data[1]['spending']);
+      const totalDuration = 6000;
+      const total = revenue + deficit + spending;
+      const revenue_duration = (revenue / total) * totalDuration;
+      const deficit_duration = (deficit / total) * totalDuration;
+      const spending_duration = (spending / total) * totalDuration;
+
+      data[0]["revenue_animation_duration"] = revenue_duration;
+      data[0]["deficit_animation_duration"] = deficit_duration;
+      data[1]["spending_animation_duration"] = spending_duration;
+      data[1]["revenue_deficit_animation_duration"] = revenue_duration + deficit_duration;
+      console.log("after data", data)
+
+      return data;
+    }
+  }
+
+  const chartData = setAnimationDurations(data);
 
   const mst =
     <CustomLink url={slug} eventNumber='13'>{name}
@@ -182,13 +205,14 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
             >
               <div className={barChart} data-testid={'chartParentDiv'}>
                 <Bar
+                  barComponent={CustomBar}
                   width={desktop ? 408 : 304}
                   height={desktop ? desktopHeight : mobileHeight}
                   axisTop={null}
                   axisRight={null}
                   axisLeft={null}
                   axisBottom={null}
-                  data={data}
+                  data={chartData}
                   keys={['revenue', 'deficit', 'spending']}
                   margin={ desktop ?
                     { top: 0, right: 74, bottom: 0, left: 74 } :

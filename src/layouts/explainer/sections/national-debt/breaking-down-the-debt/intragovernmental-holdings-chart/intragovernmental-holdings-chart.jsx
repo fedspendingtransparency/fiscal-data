@@ -19,7 +19,7 @@ import {
   title
 } from './intragovernmental-holdings-chart.module.scss';
 import {visWithCallout} from '../../../../explainer.module.scss';
-import CustomBar from './custom-bar/customBar'
+import CustomBar from './custom-bar/customBar';
 import {
   addInnerChartAriaLabel,
   applyChartScaling
