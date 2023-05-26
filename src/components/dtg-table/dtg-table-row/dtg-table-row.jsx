@@ -27,6 +27,10 @@ export default function DtgTableRow(props) {
     } else if (type === 'SMALL_FRACTION') {
       formattedData = new Intl.NumberFormat('en-US', {maximumSignificantDigits:5})
         .format(cellData);
+    } else if (type === 'STRING') {
+      if (formattedData.includes('%')) {
+        formattedData = cellData.replace(/-/g, '\u2011')
+      }
     }
 
     cells.push(<td key={index} className={dataTypes.includes(type) ? styles.formattedCell : ''}>{formattedData}</td>);
