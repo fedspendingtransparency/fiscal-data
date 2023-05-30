@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {animated, useSpring} from "@react-spring/web";
 import {
-  boldWeight,
   semiBoldWeight,
   fontBodyCopy,
   fontSize_12,
@@ -41,7 +40,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
       ...config,
       duration: data.data["revenue_animation_duration"]
     },
-    delay: 250
+    delay: 500
 
   })
 
@@ -51,7 +50,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
       ...config,
       duration: data.data["deficit_animation_duration"]
     },
-    delay: (data.data["revenue_animation_duration"] + 1000)
+    delay: (data.data["revenue_animation_duration"] + 1500)
   })
 
   const springs_Spending = useSpring({
@@ -60,7 +59,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
       ...config,
       duration: data.data["spending_animation_duration"]
     },
-    delay: (data.data["revenue_deficit_animation_duration"] + 2000)
+    delay: (data.data["revenue_deficit_animation_duration"] + 2500)
   })
 
   let springs;
@@ -87,10 +86,10 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
     if(key.includes("revenue")) {
       delay = 0;
     } else if(key.includes("deficit")) {
-      delay = data.data["revenue_animation_duration"] + 250;
+      delay = data.data["revenue_animation_duration"] + 1000;
     }
     else {
-      delay = data.data["revenue_deficit_animation_duration"] + 1000;
+      delay = data.data["revenue_deficit_animation_duration"] + 2000;
     }
     return delay;
   }
