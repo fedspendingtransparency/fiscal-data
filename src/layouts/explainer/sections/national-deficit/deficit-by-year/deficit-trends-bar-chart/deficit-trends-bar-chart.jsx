@@ -5,7 +5,7 @@ import {barChart, headerTitle, subHeader} from "./deficit-trends-bar-chart.modul
 import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
 import {container} from "./deficit-trends-bar-chart.module.scss";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {breakpointLg, fontSize_12, fontSize_16} from "../../../../../../variables.module.scss";
+import {breakpointLg, fontSize_12, fontSize_16, fontBodyCopy, fontTitle} from "../../../../../../variables.module.scss";
 import {withWindowSize} from "react-fns";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {apiPrefix, basicFetch} from '../../../../../../utils/api-utils';
@@ -43,7 +43,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const chartWidth = 495;
   const chartHeight = 388;
 
-  const barHighlightColor = '#555555';
+  const barHighlightColor = fontTitle;
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -227,7 +227,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const chartTheme = {
     fontSize:  width < pxToNumber(breakpointLg) ? fontSize_12 : fontSize_16,
-    fontColor: '#666666',
+    fontColor: fontBodyCopy,
   }
 
   return (
@@ -241,8 +241,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY 2001-${mostRecentFiscalYear}`}
             altText={'Bar graph that shows the federal deficit trend from 2001 to '
-            + `${mostRecentFiscalYear}. Over the years, the data fluctuates `
-            + 'with a spiked increase starting in 2019.'}
+            + `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`}
             header={header}
             footer={footer}
             date={date}
@@ -254,15 +253,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 layers={['grid', 'axes', 'bars']}
                 width={ 495 }
                 height={ 388 }
-                keys={[
-                  'deficit',
-                  'decoyDeficit'
-                ]}
+                keys={['deficit', 'decoyDeficit']}
                 indexBy="year"
-                margin={desktop ?
-                  {top: 15, right: 0, bottom: 20, left: 50} :
-                  {top: 10, right: 0, bottom: 20, left: 50}
-                }
+                margin={{top: desktop ? 15 : 10, right: 0, bottom: 20, left: 50}}
                 padding={desktop ? 0.30 : 0.35}
                 valueScale={{type: 'linear'}}
                 indexScale={{type: 'band', round: true}}
@@ -293,10 +286,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 isInteractive={true}
                 onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
                 onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event)}}
-                groupMode={"stacked"}
-                tooltip={() => (
-                  <></>
-                )}
+                groupMode="stacked"
+                tooltip={() => (<></>)}
               />
             </div>
           </ChartContainer>
