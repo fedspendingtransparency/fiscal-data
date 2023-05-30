@@ -63,9 +63,18 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
     delay: (data.data["revenue_deficit_animation_duration"] + 2000)
   })
 
-  const springs = key.includes("revenue") ? springs_Revenue : 
-    (key.includes("deficit") ? springs_Deficit : springs_Spending);
-
+  let springs;
+  let label;
+  if (key.includes("revenue")){
+    springs = springs_Revenue;
+    label = "Revenue";
+  } else if (key.includes("deficit")) {
+    springs = springs_Deficit;
+    label = "Deficit";
+  } else {
+    springs = springs_Spending;
+    label = "Spending";
+  }
 
   const xPosDesktop = data.index ? x + width + 62 : x - 65;
   const yPosDesktop = y + (height / 2) - 5;
@@ -119,30 +128,22 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
 
   }, [])
 
-  // things to check
-  // - desktop vs mobile styling
-  // - browser stack
-  // - write tests
-
-  // check font weights on top and bottom and mobile vs desktop does it need to change 
-
     return(
         <>
           <text
             x={desktop ? xPosDesktop : xPosMobile }
             y={desktop ? yPosDesktop : yPosMobile }
-            style={{...textStyle, fontWeight: semiBoldWeight}}
+            style={{...textStyle}}
           >
             {`$${getShortForm(data.value)}`}
           </text>
 
           <text
             x={desktop ? xPosDesktop : xPosMobile }
-            y={desktop ? yPosDesktop + 25 : yPosMobile }
-            style={{...textStyle, fontWeight: boldWeight}}
+            y={desktop ? yPosDesktop + 25 : yPosMobile + 15 }
+            style={{...textStyle, fontWeight: semiBoldWeight}}
           >
-            {data.key}
-            Test
+            {`${label}`}
           </text>
           
           <animated.rect

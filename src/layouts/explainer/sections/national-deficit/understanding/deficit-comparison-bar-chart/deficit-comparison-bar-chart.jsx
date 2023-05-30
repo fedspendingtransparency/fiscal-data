@@ -18,7 +18,6 @@ import {
   barChartColors,
   desktopHeight,
   mobileHeight,
-  getMarkers,
   layers,
   theme
 } from './deficit-comparison-bar-chart-helper';
