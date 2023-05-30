@@ -66,7 +66,6 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
       data[0]["deficit_animation_duration"] = deficit_duration;
       data[1]["spending_animation_duration"] = spending_duration;
       data[1]["revenue_deficit_animation_duration"] = revenue_duration + deficit_duration;
-      console.log("after data", data)
 
       return data;
     }
@@ -100,8 +99,6 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
   const revenueEndpoint = endpoints[2];
   const spendingEndpoint = endpoints[3];
   const deficitChangeEndpoint = endpoints[4];
-
-  const markers = getMarkers(data, width);
 
   useEffect(() => {
     addInnerChartAriaLabel(chartParent);
@@ -225,7 +222,6 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
                   borderColor={fontBodyCopy}
                   enableGridY={true}
                   gridYValues={[0]}
-                  markers={desktop ? markers[0] : markers[1]}
                   enableLabel={false}
                   layers={[...layers]}
                   theme={theme}

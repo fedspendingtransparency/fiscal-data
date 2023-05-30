@@ -2,13 +2,19 @@ import React, {useEffect, useState} from "react";
 import {animated, useSpring} from "@react-spring/web";
 import {
   boldWeight,
+  semiBoldWeight,
   fontBodyCopy,
-  fontSize_36,
+  fontSize_12,
+  fontSize_16,
 } from "../../../national-deficit.module.scss";
+import {getShortForm} from "../../../../../../../utils/rounding-utils";
 
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
   const [pauseAnimation, setPauseAnimation ] = useState(true);
   const [opacity, setOpacity] = useState(0);
+
+  // 80 is bar width for desktop
+  const desktop = width >= 80;
 
   const config = {
     mass: 10,
@@ -29,41 +35,43 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
     pause: pauseAnimation
   }
 
-  let springs  = null;
-  if(key.includes("revenue")) {
-    springs = useSpring({
-      ...props,
-      config: {
-        ...config,
-        duration: data.data["revenue_animation_duration"]
-      }
-    })
-  };
+  const springs_Revenue = useSpring({
+    ...props,
+    config: {
+      ...config,
+      duration: data.data["revenue_animation_duration"]
+    },
+    delay: 250
 
-  if(key.includes("deficit")) {
-    springs = useSpring({
-      ...props,
-      config: {
-        ...config,
-        duration: data.data["deficit_animation_duration"]
-      },
-      delay: (data.data["revenue_animation_duration"] + 1000)
-    })
-  }
-  
-  if(key.includes("spending")) {
-    springs = useSpring({
-      ...props,
-      config: {
-        ...config,
-        duration: data.data["spending_animation_duration"]
-      },
-      delay: (data.data["revenue_deficit_animation_duration"] + 1000) // + 2000 instead ?
-    })
-  }
+  })
 
-  // const xPos = data.index ? x + width + 17 : x - 18;
-  // const yPos = y + 35;
+  const springs_Deficit = useSpring({
+    ...props,
+    config: {
+      ...config,
+      duration: data.data["deficit_animation_duration"]
+    },
+    delay: (data.data["revenue_animation_duration"] + 1000)
+  })
+
+  const springs_Spending = useSpring({
+    ...props,
+    config: {
+      ...config,
+      duration: data.data["spending_animation_duration"]
+    },
+    delay: (data.data["revenue_deficit_animation_duration"] + 2000)
+  })
+
+  const springs = key.includes("revenue") ? springs_Revenue : 
+    (key.includes("deficit") ? springs_Deficit : springs_Spending);
+
+
+  const xPosDesktop = data.index ? x + width + 62 : x - 65;
+  const yPosDesktop = y + (height / 2) - 5;
+
+  const xPosMobile = data.index ? x + width + 40 : x - 42;
+  const yPosMobile = y + (height / 2) - 3;
 
   const getTextDelay = () => {
     let delay;
@@ -73,20 +81,20 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
       delay = data.data["revenue_animation_duration"] + 250;
     }
     else {
-      delay = data.data["revenue_deficit_animation_duration"] + 250;
+      delay = data.data["revenue_deficit_animation_duration"] + 1000;
     }
     return delay;
   }
 
-  // text style
-  // const textStyle = {
-  //   fontSize: fontSize_36,
-  //   fontWeight: boldWeight,
-  //   fill: fontBodyCopy,
-  //   textAnchor: data.index ? "start" : "end",
-  //   opacity: opacity,
-  //   transition: "opacity .25s ease-in"
-  // }
+
+
+  const textStyle = {
+    fontSize: desktop ? fontSize_16 : fontSize_12,
+    fill: fontBodyCopy,
+    textAnchor: "middle",
+    opacity: opacity,
+    transition: "opacity .25s ease-in",
+  };
 
   useEffect(() => {
     let observer;
@@ -111,15 +119,32 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
 
   }, [])
 
+  // things to check
+  // - desktop vs mobile styling
+  // - browser stack
+  // - write tests
+
+  // check font weights on top and bottom and mobile vs desktop does it need to change 
+
     return(
         <>
-          {/* <text
-            x={xPos}
-            y={yPos}
-            style={{...textStyle}}
+          <text
+            x={desktop ? xPosDesktop : xPosMobile }
+            y={desktop ? yPosDesktop : yPosMobile }
+            style={{...textStyle, fontWeight: semiBoldWeight}}
           >
-            {`$${data.value.toFixed(2)} T`}
-          </text> */}
+            {`$${getShortForm(data.value)}`}
+          </text>
+
+          <text
+            x={desktop ? xPosDesktop : xPosMobile }
+            y={desktop ? yPosDesktop + 25 : yPosMobile }
+            style={{...textStyle, fontWeight: boldWeight}}
+          >
+            {data.key}
+            Test
+          </text>
+          
           <animated.rect
             width={width}
             height={height}
