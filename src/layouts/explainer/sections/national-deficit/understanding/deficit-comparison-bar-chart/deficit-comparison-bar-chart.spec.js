@@ -23,7 +23,7 @@ describe('Deficit and Surplus Causes Section', () => {
     global.fetch.mockReset();
   });
 
-  it('renders the chart markers', async () => {
+  it('renders the chart $ values and labels', async () => {
     const {findByText} = render(<DeficitComparisonBarChart sectionId={sectionId} />);
 
     for (const mockMarker of mockDeficitComparisonChartMarkers) {

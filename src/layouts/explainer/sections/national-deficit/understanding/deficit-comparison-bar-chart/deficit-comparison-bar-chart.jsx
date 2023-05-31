@@ -41,6 +41,8 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
   const [spendingValue, setSpendingValue] = useState(0);
   const [spendingLabel, setSpendingLabel] = useState("");
   const [data, setData] = useState(null);
+  const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
+
   const desktop = width >= pxToNumber(breakpointLg);
   const {
     name,
@@ -60,6 +62,10 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
       const revenue_duration = (revenue / total) * totalDuration;
       const deficit_duration = (deficit / total) * totalDuration;
       const spending_duration = (spending / total) * totalDuration;
+
+      if(!debtMarkerDelay) {
+        setDebtMarkerDelay(revenue_duration + deficit_duration + spending_duration + 1250);
+      }
 
       data[0]["revenue_animation_duration"] = revenue_duration;
       data[0]["deficit_animation_duration"] = deficit_duration;

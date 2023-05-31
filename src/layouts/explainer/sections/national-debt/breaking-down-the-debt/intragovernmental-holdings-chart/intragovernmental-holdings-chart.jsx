@@ -41,6 +41,8 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date, width}) => {
       const totalDuration = 6000;
       const debt_duration = (debt / (debt + holdings)) * totalDuration;
       const holdings_duration = (holdings / (debt + holdings)) * totalDuration;
+      
+      // is this to wait for it to scroll til mid page ???
       if(!debtMarkerDelay) {
         setDebtMarkerDelay(debt_duration + holdings_duration + 1250);
       }

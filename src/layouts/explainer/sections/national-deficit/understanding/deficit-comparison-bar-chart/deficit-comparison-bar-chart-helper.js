@@ -1,11 +1,6 @@
 import {
   fontBodyCopy,
-  fontSize_12,
-  fontSize_16,
-  semiBoldWeight,
-  breakpointLg
 } from "../../../../../../variables.module.scss";
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
 import {deficitExplainerSecondary} from "../../national-deficit.module.scss";
 
 
