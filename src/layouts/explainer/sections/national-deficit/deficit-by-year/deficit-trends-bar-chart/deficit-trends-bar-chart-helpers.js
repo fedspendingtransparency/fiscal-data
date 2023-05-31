@@ -20,101 +20,99 @@ export const preAPIData = [
     "year": "2001",
     "deficit": "-0.13",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.5",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
-
+    "extendedHover": "3.5",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2002",
     "deficit": "0.16",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.34",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
-
+    "extendedHover": "3.34",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2003",
     "deficit": "0.37",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.23",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "3.23",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2004",
     "deficit": "0.41",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.09",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "3.09",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2005",
     "deficit": "0.32",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.18",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "3.18",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2006",
     "deficit": "0.25",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.25",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "3.25",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2007",
     "deficit": "0.16",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.34",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "3.34",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2008",
     "deficit": "0.45",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.05",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "3.05",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2009",
     "deficit": "1.42",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "2.08",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "2.08",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2010",
     "deficit": "1.29",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "2.21",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "2.21",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2011",
     "deficit": "1.30",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "2.20",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "2.20",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2012",
     "deficit": "1.09",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "2.41",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "2.41",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2013",
     "deficit": "0.68",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "2.82",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "2.82",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2014",
     "deficit": "0.48",
     "deficitColor": deficitExplainerPrimary,
-    "decoyDeficit": "3.02",
-    "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+    "extendedHover": "3.02",
+    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   }
 ];
 

@@ -17,8 +17,10 @@ import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import {
   addInnerChartAriaLabel,
-  applyChartScaling
-} from "../../../../explainer-helpers/explainer-charting-helper";
+  applyChartScaling,
+  applyTextScaling,
+} from '../../../../explainer-helpers/explainer-charting-helper';
+import CustomBar from './custom-bar/custom-bar';
 
 let gaTimerChart;
 
@@ -39,7 +41,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [lastBar, setLastBar] = useState();
   const [numOfBars, setNumOfBars] = useState(0);
 
-  const chartParent= 'chartParent';
+  const chartParent= 'deficitTrendsChartParent';
   const chartWidth = 495;
   const chartHeight = 388;
 
@@ -54,40 +56,51 @@ export const DeficitTrendsBarChart = ({ width }) => {
     }
   };
 
+  const setAnimationDurations = (data, totalValues, totalDuration) => {
+    if (data) {
+      let delay = 100;
+      data.forEach(datum => {
+        const duration = Math.abs((datum.deficit / totalValues) * totalDuration);
+        datum["duration"] = duration;
+        datum["delay"] = delay;
+        delay += duration;
+      })
+    }
+    return data;
+  }
+
+
   const getChartData = () => {
     const apiData = [];
     // Counts pre api data bars
     let barCounter = 14;
+    const totalDuration = 15000;
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       const lastEntry = result.data[result.data.length - 1];
+      let deficitSum = 0;
       result.data.forEach((entry) => {
-        if(entry.record_fiscal_year === lastEntry.record_fiscal_year) {
-          apiData.push({
-            "year": entry.record_fiscal_year,
-            "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt))
-              / 1000000000000).toFixed(2),
-            "deficitColor": barHighlightColor,
-            "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt))
-              / 1000000000000)).toFixed(2),
-            "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
-          })
-        }
+        const barColor = entry.record_fiscal_year === lastEntry.record_fiscal_year ? barHighlightColor : deficitExplainerPrimary;
+        const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
+        deficitSum += deficitValue;
+        const maxYAxis = 3.5;   //TODO: 3.5 should not be hard coded here
+        console.log(entry.record_fiscal_year);
         apiData.push({
           "year": entry.record_fiscal_year,
-          "deficit": (Math.abs(parseFloat(entry.current_fytd_net_outly_amt))
-            / 1000000000000).toFixed(2),
-          "deficitColor": deficitExplainerPrimary,
-          "decoyDeficit": ((3.5 - Math.abs(parseFloat(entry.current_fytd_net_outly_amt))
-            / 1000000000000)).toFixed(2),
-          "decoyDeficitColor": "hsl(0, 0%, 100%, 0.0)"
+          "deficit": deficitValue.toFixed(2),
+          "deficitColor": barColor,
+          "extendedHover": (maxYAxis - deficitValue).toFixed(2),
+          "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
         })
         barCounter += 1;
+      })
+      preAPIData.forEach(entry => {
+        deficitSum += Math.abs(entry.deficit);
       })
       setNumOfBars(barCounter);
       setDate(getDateWithoutTimeZoneAdjust
       (new Date(result.data[result.data.length -1].record_date)));
-      const newData = preAPIData.concat(apiData);
+      const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, totalDuration);
       const latestYear = newData[newData.length - 1].year;
       const latestDeficit = newData[newData.length - 1].deficit;
       setMostRecentFiscalYear(latestYear);
@@ -100,7 +113,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const chartChangeOnMouseEnter = (data, event, chartData) => {
     const barSVGs = Array.from(event.target.parentNode.parentNode.children);
-    if (data.id !== 'decoyDeficit') {
+    if (data.id !== 'extendedHover') {
       if (data.data.year === chartData[chartData.length - 1].year) {
         event.target.style.fill = barHighlightColor;
         setLastBar(event.target.parentNode.parentNode.children
@@ -118,7 +131,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         setHeaderDeficit(data.data.deficit);
       }
     }
-    else if (data.id === 'decoyDeficit') {
+    else if (data.id === 'extendedHover') {
       if (data.data.year === chartData[chartData.length - 1].year) {
         const parentG = event.target.parentNode;
         const realBar = barSVGs.find((element) => element === parentG);
@@ -147,10 +160,10 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }
 
   const chartChangeOnMouseLeave = (data, event) => {
-    if (data.id !== 'decoyDeficit') {
+    if (data.id !== 'extendedHover') {
         event.target.style.fill = deficitExplainerPrimary;
     }
-    else if (data.id === 'decoyDeficit') {
+    else if (data.id === 'extendedHover') {
       const parentG = event.target.parentNode;
       const barSVGs = Array.from(event.target.parentNode.parentNode.children);
       const realBar = barSVGs.find((element) => element === parentG);
@@ -164,7 +177,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
 
-    if(lastBar)
+    if (lastBar)
       lastBar.style.fill = barHighlightColor;
   }
 
@@ -173,6 +186,10 @@ export const DeficitTrendsBarChart = ({ width }) => {
     addInnerChartAriaLabel(chartParent);
     getChartData();
   }, []);
+
+  useEffect(() => {
+    applyTextScaling(chartParent, chartWidth.toString(), width, fontSize_16);
+  }, [width]);
 
 
   useEffect(() => {
@@ -198,7 +215,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const handleMouseChartLeave = () =>{
     clearTimeout(gaTimerChart);
   }
-
 
 
   const name = 'Monthly Treasury Statement (MTS)';
@@ -227,13 +243,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const chartTheme = {
     fontSize:  width < pxToNumber(breakpointLg) ? fontSize_12 : fontSize_16,
-    fontColor: fontBodyCopy,
+    fontFamily: 'sans-serif',
+    textColor: fontBodyCopy,
   }
 
   return (
     <>
       { chartData !== [] ? (
-        <div data-testid={'deficitTrendsBarChart'} className={container}
+        <div className={container}
           onMouseEnter={handleMouseChartEnter}
           onMouseLeave={handleMouseChartLeave}
           role={'presentation'}
@@ -246,22 +263,22 @@ export const DeficitTrendsBarChart = ({ width }) => {
             footer={footer}
             date={date}
           >
-            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid={'chartParent'} role={'presentation'}>
+            <div className={barChart}
+                 onMouseLeave={resetHeaderValues}
+                 data-testid={'deficitTrendsChartParent'}
+                 role={'presentation'}
+            >
               <Bar
+                barComponent={CustomBar}
+                width={ chartWidth }
+                height={ chartHeight }
                 data={chartData}
-                theme={chartTheme}
-                layers={['grid', 'axes', 'bars']}
-                width={ 495 }
-                height={ 388 }
-                keys={['deficit', 'decoyDeficit']}
+                keys={['deficit', 'extendedHover']}
                 indexBy="year"
-                margin={{top: desktop ? 15 : 10, right: 0, bottom: 20, left: 50}}
+                margin={{top: desktop ? 15 : 10, right: 0, bottom: 20, left: 60}}
                 padding={desktop ? 0.30 : 0.35}
-                valueScale={{type: 'linear'}}
-                indexScale={{type: 'band', round: true}}
                 colors={({id, data}) =>  String(data[`${id}Color`])}
-                axisTop={null}
-                axisRight={null}
+                isInteractive={false}
                 axisBottom={{
                   tickSize: 0,
                   tickPadding: 5,
@@ -275,19 +292,19 @@ export const DeficitTrendsBarChart = ({ width }) => {
                   tickRotation: 0,
                   tickValues: tickValuesY
                 }}
+                enableGridX={true}
+                theme={chartTheme}
+                layers={['grid', 'axes', 'bars']}
                 minValue={minValue}
                 maxValue={maxValue}
-                enableGridX={true}
                 gridXValues={tickValuesX}
-                enableGridY={true}
                 gridYValues={tickValuesY}
-                animate={false}
-                enableLabel={false}
-                isInteractive={true}
-                onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
-                onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event)}}
-                groupMode="stacked"
-                tooltip={() => (<></>)}
+                // reverse={true}
+                // animate={false}
+                // enableLabel={false}
+                // onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
+                // onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event)}}
+                // tooltip={() => (<></>)}
               />
             </div>
           </ChartContainer>

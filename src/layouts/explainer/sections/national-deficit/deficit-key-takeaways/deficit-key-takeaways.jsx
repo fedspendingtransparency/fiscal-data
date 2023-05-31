@@ -14,9 +14,9 @@ const DeficitKeyTakeaways = () => {
   const thirdTakeawayTextWithGlossaryTerm = reactStringReplace(
     thirdTakeawayText,
     'national debt',
-    match => {
+    (match, index) => {
       return (
-        <CustomLink url={"/americas-finance-guide/national-debt/"}>
+        <CustomLink url={"/americas-finance-guide/national-debt/"} key={index}>
           {match}
         </CustomLink>
       );
