@@ -8,7 +8,7 @@ import {
 }from "./menu-dropdown.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {useEffect} from "react";
 import * as styles from "../site-header.module.scss";
 import {Link} from "gatsby";
 import Analytics from "../../../utils/analytics/analytics";
@@ -18,18 +18,20 @@ const MenuDropdown = (
     object,
     handleMouseOver,
     toggled,
-    isExpanded,
     handleMouseLeave,
     handleBlur,
-    menuExpanding,
+    // menuExpanding,
   }) => {
 
-  // pass in obj
-  // place in title
-  // check for child or grandchild obj/arr
-    // if has dropdown and subsection => large submenu
-    // if has dropdown and no subsection => regular submenu
-  // return correct component
+  let menuExpanding = false;
+
+  // use effect when toggled is updated, then timeout and expand
+  useEffect(() => {
+    setTimeout(() => {
+      menuExpanding = !!toggled;
+      // toggled === true ? menuExpanding = true : menuExpanding = false;
+    }, 5000)
+  }, [toggled])
 
   const title = object.title;
 
@@ -40,41 +42,39 @@ const MenuDropdown = (
       label: title
     });
   }
-
+// TODO: IS THE SUBSECTION HEADER BEING RENDERED MULTIPLE TIMES?
   const children = (object) => {
     if (object.children[0].children) {
-      const subsectionHeader = object.children[0].subsectionHeader;
-      const secondaryChildren = object.children[0].children;
-      console.log('Topics');
-      return (
-        <div className={styles.dropdownRow}>
-          <div className={styles.dropdownColumnOne}>
-            <div className={styles.dropdownTitle}>
-              {subsectionHeader}
-            </div>
-            <div>
-              {secondaryChildren.map((children) => {
-                return (
-                  <div key={children.name}
-                       className={styles.dropdownListItem}
-                  >
-                    <Link
-                      to={children.to}
-                      activeClassName={styles.activeTopicLink}
-                      onClick={() => clickHandler(object.title)}
+      return object.children.map((section) =>{
+        return (
+          <div className={styles.dropdownRow}>
+            <div className={styles.dropdownColumnOne}>
+              <div className={styles.dropdownTitle}>
+                {section.subsectionHeader}
+              </div>
+              <div>
+                {section.children.map((children) => {
+                  return (
+                    <div key={children.title}
+                         className={styles.dropdownListItem}
                     >
-                      {children.name}
-                    </Link>
-                  </div>
-                )
-              })}
+                      <Link
+                        to={children.to}
+                        activeClassName={styles.activeTopicLink}
+                        onClick={() => clickHandler(object.title)}
+                      >
+                        {children.title}
+                      </Link>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      )
+        )
+      })
     } else {
       const primaryChildren = object.children;
-      console.log('other')
       return (
         <div className={styles.resourcesDropDown}>
           {primaryChildren.map((link) => {
@@ -82,10 +82,10 @@ const MenuDropdown = (
               <Link
                 to={link.to}
                 activeClassName={styles.activeTopicLink}
-                key={link.name}
-                onClick={() => clickHandler(link.name)}
+                key={link.title}
+                onClick={() => clickHandler(link.title)}
               >
-                {link.name}
+                {link.title}
               </Link>
             )
           })
@@ -101,16 +101,16 @@ const MenuDropdown = (
       key={title}
     >
       <button
-        className={`${toggled ? dropdownButtonExpanded : null} ${dropdownButton}`}
+        className={`${toggled === title ? dropdownButtonExpanded : null} ${dropdownButton}`}
         onMouseEnter={handleMouseOver}
         onFocus={handleMouseOver}
         style={{minWidth:`${(title.length * 7.5)+28}px`}}
       >
         {title}
-        <FontAwesomeIcon icon={toggled ? faCaretDown : faCaretRight} className={caret} />
+        <FontAwesomeIcon icon={toggled === title ? faCaretDown : faCaretRight} className={caret} />
 
       </button>
-      {isExpanded && (
+      {toggled === title && (
         <div
           className={`${dropdownContent} ${menuExpanding ? dropdownHidden : ''}`}
           onMouseOver={handleMouseOver}

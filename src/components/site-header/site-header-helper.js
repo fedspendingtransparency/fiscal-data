@@ -11,27 +11,27 @@ export const menuSections = [
         children: [
           {
             to: '/americas-finance-guide/',
-            name: 'Overview',
+            title: 'Overview',
             testId: 'overview'
           },
           {
             to: '/americas-finance-guide/government-revenue/',
-            name: 'Revenue',
+            title: 'Revenue',
             testId: 'revenue'
           },
           {
             to: '/americas-finance-guide/federal-spending/',
-            name: 'Spending',
+            title: 'Spending',
             testId: 'spending'
           },
           {
             to: '/americas-finance-guide/national-deficit/',
-            name: 'Deficit',
+            title: 'Deficit',
             testId: 'deficit'
           },
           {
             to: '/americas-finance-guide/national-debt/',
-            name: 'Debt',
+            title: 'Debt',
             testId: 'debt'
           }
         ]
@@ -46,7 +46,7 @@ export const menuSections = [
     children: [
       {
         to: '/currency-exchange-rates-converter/',
-        name: 'Currency Exchange Rates Converter'
+        title: 'Currency Exchange Rates Converter'
       }
     ]
   },
@@ -62,11 +62,11 @@ export const menuSections = [
     children: [
       {
         to: '/api-documentation/',
-        name: 'API Documentation'
+        title: 'API Documentation'
       },
       {
         to: '/release-calendar/',
-        name: 'Release Calendar'
+        title: 'Release Calendar'
       },
     ]
   },

@@ -7,6 +7,8 @@ import Analytics from "../../../utils/analytics/analytics";
 import { menuSections } from "../site-header-helper";
 
 const DesktopMenu = ({ location }) => {
+  const [currentDropdown, setDropdown] = useState(null);
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpandedTools, setIsExpandedTools] = useState(false);
   const [isExpandedResources, setIsExpandedResources] = useState(false);
@@ -17,25 +19,6 @@ const DesktopMenu = ({ location }) => {
   const [toggledTools, setToggledTools] = useState(false);
   const [toggledResources, setToggledResources] = useState(false);
 
-  const resourcesPageLinks = [
-    {
-      title: 'API Documentation',
-      to: '/api-documentation/',
-      testId: 'apiDocs'
-    },
-    {
-      title: 'Release Calendar',
-      to: '/release-calendar/',
-      testId: 'releaseCalendar'
-    }
-  ]
-  const toolsPageLinks = [
-    {
-      title: 'Currency Exchange Rates Converter',
-      to: '/currency-exchange-rates-converter/',
-    },
-  ]
-
   const clickHandler = (title) => {
     Analytics.event({
       category: 'Sitewide Navigation',
@@ -44,7 +27,7 @@ const DesktopMenu = ({ location }) => {
     });
   }
 
-  const handleMouseOver = () => {
+  const handleMouseOver = (title) => {
     if (!isExpanded) {
       const thisurl = typeof window !== 'undefined' ? window.location.href : '';
       const urlSplit = thisurl.split('/');
@@ -56,99 +39,21 @@ const DesktopMenu = ({ location }) => {
         label: explainerPageName
       })
 
-      setToolsMenuExpanding(false);
-      setToggledTools(false);
-      setIsExpandedTools(false);
-      setToolsMenuExpanding(false);
+      setDropdown(title)
 
-      setResourcesMenuExpanding(false);
-      setToggledResources(false);
-      setIsExpandedResources(false);
-      setResourcesMenuExpanding(false);
-
-      setMenuExpanding(true);
-      setToggled(true);
-      setIsExpanded(true);
       setTimeout(() => {
         setMenuExpanding(false);
       }, 10);
     }
   }
 
-  const handleMouseOverTools = () => {
-    if (!isExpandedTools) {
-
-      setMenuExpanding(false);
-      setToggled(false);
-      setIsExpanded(false);
-      setMenuExpanding(false);
-
-      setResourcesMenuExpanding(false);
-      setToggledResources(false);
-      setIsExpandedResources(false);
-      setResourcesMenuExpanding(false);
-
-      setToolsMenuExpanding(true);
-      setToggledTools(true);
-      setIsExpandedTools(true);
-      setTimeout(() => {
-        setToolsMenuExpanding(false);
-      }, 10);
-    }
-  }
-
-  const handleMouseOverResources = () => {
-    if (!isExpandedResources) {
-
-      setMenuExpanding(false);
-      setToggled(false);
-      setIsExpanded(false);
-      setMenuExpanding(false);
-
-      setToolsMenuExpanding(false);
-      setToggledTools(false);
-      setIsExpandedTools(false);
-      setToolsMenuExpanding(false);
-
-      setResourcesMenuExpanding(true);
-      setToggledResources(true);
-      setIsExpandedResources(true);
-      setTimeout(() => {
-        setResourcesMenuExpanding(false);
-      }, 10);
-    }
-  }
-
   const handleMouseLeave = (title) => {
-    if(title === 'Topics') {
-      if(isExpanded) {
-        setMenuExpanding(true);
-        setToggled(false);
-        setTimeout(() => {
-          setIsExpanded(false);
-        }, 500);
-      }
-    } else if(title === 'Tools') {
-      if(isExpandedTools) {
-        setToolsMenuExpanding(true);
-        setToggledTools(false);
-        setTimeout(() => {
-          setIsExpandedTools(false);
-        }, 500);
-      }
-    } else if(title === 'Resources') {
-      if(isExpandedResources) {
-        setResourcesMenuExpanding(true);
-        setToggledResources(false);
-        setTimeout(() => {
-          setIsExpandedResources(false);
-        }, 500);
-      }
+    if (title) {
+      setDropdown(null)
     }
   }
 
   const handleMouseEnterNonDropdown = (title) => {
-
     if (title !== 'Topics' && title !== 'Tools' && title !== 'Resources') {
       handleMouseLeave("Topics");
       handleMouseLeave("Tools");
@@ -210,9 +115,8 @@ const DesktopMenu = ({ location }) => {
           return (
             <MenuDropdown
               object={pageLink}
-              handleMouseOver={handleMouseOver}
-              toggled={toggled}
-              isExpanded={isExpanded}
+              handleMouseOver={() => handleMouseOver(pageLink.title)}
+              toggled={currentDropdown}
               handleMouseLeave={handleMouseLeave}
               handleBlur={handleBlur}
               menuExpanding={menuExpanding}
