@@ -20,103 +20,73 @@ export const preAPIData = [
     "year": "2001",
     "deficit": "-0.13",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.5",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2002",
     "deficit": "0.16",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.34",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2003",
     "deficit": "0.37",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.23",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2004",
     "deficit": "0.41",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.09",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2005",
     "deficit": "0.32",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.18",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2006",
     "deficit": "0.25",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.25",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2007",
     "deficit": "0.16",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.34",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2008",
     "deficit": "0.45",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.05",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2009",
     "deficit": "1.42",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "2.08",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2010",
     "deficit": "1.29",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "2.21",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2011",
     "deficit": "1.30",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "2.20",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2012",
     "deficit": "1.09",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "2.41",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2013",
     "deficit": "0.68",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "2.82",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   },
   {
     "year": "2014",
     "deficit": "0.48",
     "deficitColor": deficitExplainerPrimary,
-    "extendedHover": "3.02",
-    "extendedHoverColor": "hsl(0, 0%, 100%, 0.0)"
   }
 ];
-
-export const deficit2001Full = 127165000000;
 
 export const generateTickValues = (chartData) => {
   const xValues = [];

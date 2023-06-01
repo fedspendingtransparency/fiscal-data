@@ -69,12 +69,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
     return data;
   }
 
-
   const getChartData = () => {
     const apiData = [];
     // Counts pre api data bars
     let barCounter = 14;
-    const totalDuration = 15000;
+    const totalDuration = 5000;
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       const lastEntry = result.data[result.data.length - 1];
@@ -84,7 +83,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
         const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
         deficitSum += deficitValue;
         const maxYAxis = 3.5;   //TODO: 3.5 should not be hard coded here
-        console.log(entry.record_fiscal_year);
         apiData.push({
           "year": entry.record_fiscal_year,
           "deficit": deficitValue.toFixed(2),
@@ -111,65 +109,19 @@ export const DeficitTrendsBarChart = ({ width }) => {
     });
   }
 
-  const chartChangeOnMouseEnter = (data, event, chartData) => {
-    const barSVGs = Array.from(event.target.parentNode.parentNode.children);
-    if (data.id !== 'extendedHover') {
-      if (data.data.year === chartData[chartData.length - 1].year) {
-        event.target.style.fill = barHighlightColor;
-        setLastBar(event.target.parentNode.parentNode.children
-          [(barSVGs.length - 1) - numOfBars].firstChild);
-        setHeaderYear(data.data.year);
-        setHeaderDeficit(data.data.deficit);
-      }
-      else {
-        event.target.style.fill = barHighlightColor;
-        event.target.parentNode.parentNode.children
-          [(barSVGs.length - 1) - numOfBars].firstChild.style.fill = deficitExplainerPrimary;
-        setLastBar(event.target.parentNode.parentNode.children
-          [(barSVGs.length - 1) - numOfBars].firstChild);
-        setHeaderYear(data.data.year);
-        setHeaderDeficit(data.data.deficit);
-      }
-    }
-    else if (data.id === 'extendedHover') {
-      if (data.data.year === chartData[chartData.length - 1].year) {
-        const parentG = event.target.parentNode;
-        const realBar = barSVGs.find((element) => element === parentG);
-        const indexOfRealBar = barSVGs.indexOf(realBar) - numOfBars;
-        event.target.parentNode.parentNode.children[indexOfRealBar]
-          .firstChild.style.fill = barHighlightColor;
-        setLastBar(event.target.parentNode.parentNode
-          .children[(barSVGs.length - 1) - numOfBars].firstChild);
-        const matchedBar = chartData.find((element) => element.year === data.data.year);
-        setHeaderYear(matchedBar.year);
-        setHeaderDeficit(matchedBar.deficit);
-      }
-      else {
-        const parentG = event.target.parentNode;
-        const realBar = barSVGs.find((element) => element === parentG);
-        const indexOfRealBar = barSVGs.indexOf(realBar) - numOfBars;
-        event.target.parentNode.parentNode
-          .children[indexOfRealBar].firstChild.style.fill = barHighlightColor;
-        event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars]
-          .firstChild.style.fill = deficitExplainerPrimary;
-        const matchedBar = chartData.find((element) => element.year === data.data.year);
-        setHeaderYear(matchedBar.year);
-        setHeaderDeficit(matchedBar.deficit);
-      }
+  const onBarMouseEnter = (data, event) => {
+    if (data) {
+      const barSVGs = Array.from(event.target.parentNode.parentNode.children);
+      event.target.parentNode.children[0].style.fill = barHighlightColor;
+      setLastBar(event.target.parentNode.parentNode.children[(barSVGs.length - 1) - numOfBars]?.firstChild);
+      setHeaderYear(data.data.year);
+      setHeaderDeficit(data.data.deficit);
     }
   }
 
-  const chartChangeOnMouseLeave = (data, event) => {
-    if (data.id !== 'extendedHover') {
-        event.target.style.fill = deficitExplainerPrimary;
-    }
-    else if (data.id === 'extendedHover') {
-      const parentG = event.target.parentNode;
-      const barSVGs = Array.from(event.target.parentNode.parentNode.children);
-      const realBar = barSVGs.find((element) => element === parentG);
-      const indexOfRealBar = barSVGs.indexOf(realBar) - numOfBars;
-      event.target.parentNode.parentNode.children[indexOfRealBar]
-        .firstChild.style.fill = deficitExplainerPrimary;
+  const onBarMouseLeave = (data, event) => {
+    if (event.target) {
+      event.target.parentNode.children[0].style.fill = deficitExplainerPrimary;
     }
   }
 
@@ -243,7 +195,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const chartTheme = {
     fontSize:  width < pxToNumber(breakpointLg) ? fontSize_12 : fontSize_16,
-    fontFamily: 'sans-serif',
+    fontFamily: 'Source Sans Pro',
     textColor: fontBodyCopy,
   }
 
@@ -273,12 +225,12 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 width={ chartWidth }
                 height={ chartHeight }
                 data={chartData}
-                keys={['deficit', 'extendedHover']}
+                keys={['deficit']}
                 indexBy="year"
-                margin={{top: desktop ? 15 : 10, right: 0, bottom: 20, left: 60}}
+                margin={{top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55}}
                 padding={desktop ? 0.30 : 0.35}
                 colors={({id, data}) =>  String(data[`${id}Color`])}
-                isInteractive={false}
+                // isInteractive={true}
                 axisBottom={{
                   tickSize: 0,
                   tickPadding: 5,
@@ -299,12 +251,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 maxValue={maxValue}
                 gridXValues={tickValuesX}
                 gridYValues={tickValuesY}
-                // reverse={true}
-                // animate={false}
-                // enableLabel={false}
-                // onMouseEnter={(data, event) => {chartChangeOnMouseEnter(data, event, chartData)}}
-                // onMouseLeave={(data, event) => {chartChangeOnMouseLeave(data, event)}}
-                // tooltip={() => (<></>)}
+                onMouseEnter={(data, event) => {onBarMouseEnter(data, event)}}
+                onMouseLeave={(data, event) => {onBarMouseLeave(data, event)}}
               />
             </div>
           </ChartContainer>
