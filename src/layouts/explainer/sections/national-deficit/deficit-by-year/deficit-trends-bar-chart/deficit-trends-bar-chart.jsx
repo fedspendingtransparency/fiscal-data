@@ -72,8 +72,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const getChartData = () => {
     const apiData = [];
-    // Counts pre api data bars
-    const animationDuration = 15000;
+    const animationDuration = 10000;
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       const lastEntry = result.data[result.data.length - 1];
@@ -196,7 +195,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
           console.log(element)
         }, element.delay + 250)
       }
-
     })
   }, [pauseAnimation])
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}, onMouseEnter, onMouseLeave}) => {
   const [pauseAnimation, setPauseAnimation] = useState(false);
 
-
+console.log(data);
 
   useEffect(() => {
     let observer;
