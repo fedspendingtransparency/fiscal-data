@@ -8,7 +8,7 @@ import {
 }from "./menu-dropdown.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import * as styles from "../site-header.module.scss";
 import {Link} from "gatsby";
 import Analytics from "../../../utils/analytics/analytics";
@@ -18,20 +18,29 @@ const MenuDropdown = (
     object,
     handleMouseOver,
     toggled,
-    handleMouseLeave,
     handleBlur,
-    // menuExpanding,
   }) => {
 
-  let menuExpanding = false;
+  const [expanding, setExpanding] = useState(false);
+  const [isExpanded, setExpanded] = useState(null);
 
-  // use effect when toggled is updated, then timeout and expand
   useEffect(() => {
+    // debugger
+    setExpanding(true);
+    setExpanded(toggled);
     setTimeout(() => {
-      menuExpanding = !!toggled;
-      // toggled === true ? menuExpanding = true : menuExpanding = false;
-    }, 5000)
+      setExpanding(false)
+        }, 10)
   }, [toggled])
+
+  const handleMouseLeave = (title) => {
+    if(title) {
+      setExpanding(true);
+      setTimeout(() => {
+        setExpanded(toggled);
+      }, 500)
+    }
+  }
 
   const title = object.title;
 
@@ -110,9 +119,9 @@ const MenuDropdown = (
         <FontAwesomeIcon icon={toggled === title ? faCaretDown : faCaretRight} className={caret} />
 
       </button>
-      {toggled === title && (
+      {isExpanded === title && (
         <div
-          className={`${dropdownContent} ${menuExpanding ? dropdownHidden : ''}`}
+          className={`${dropdownContent} ${expanding ? dropdownHidden : ''}`}
           onMouseOver={handleMouseOver}
           onMouseLeave={() => handleMouseLeave(title)}
           onFocus={handleMouseOver}

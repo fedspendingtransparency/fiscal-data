@@ -40,24 +40,6 @@ const DesktopMenu = ({ location }) => {
       })
 
       setDropdown(title)
-
-      setTimeout(() => {
-        setMenuExpanding(false);
-      }, 10);
-    }
-  }
-
-  const handleMouseLeave = (title) => {
-    if (title) {
-      setDropdown(null)
-    }
-  }
-
-  const handleMouseEnterNonDropdown = (title) => {
-    if (title !== 'Topics' && title !== 'Tools' && title !== 'Resources') {
-      handleMouseLeave("Topics");
-      handleMouseLeave("Tools");
-      handleMouseLeave("Resources");
     }
   }
 
@@ -66,7 +48,7 @@ const DesktopMenu = ({ location }) => {
 
     requestAnimationFrame(() => {
       if(!currentTarget.contains(document.activeElement)) {
-        handleMouseLeave(title);
+        // handleMouseLeave(title);
       }
     });
   }
@@ -117,9 +99,7 @@ const DesktopMenu = ({ location }) => {
               object={pageLink}
               handleMouseOver={() => handleMouseOver(pageLink.title)}
               toggled={currentDropdown}
-              handleMouseLeave={handleMouseLeave}
               handleBlur={handleBlur}
-              menuExpanding={menuExpanding}
             />
           )
         }
@@ -138,7 +118,8 @@ const DesktopMenu = ({ location }) => {
                           </span>
                 </button> : (
                   <button className={styles.pageLinkButton}
-                          onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}>
+                          onMouseEnter={() => setDropdown(pageLink.title)}
+                  >
                     <Link
                       key={pageLink.title}
                       to={pageLink.to}
