@@ -7,57 +7,13 @@ import Analytics from "../../../utils/analytics/analytics";
 import { menuSections } from "../site-header-helper";
 
 const DesktopMenu = ({ location }) => {
-  const [currentDropdown, setDropdown] = useState(null);
-
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isExpandedTools, setIsExpandedTools] = useState(false);
-  const [isExpandedResources, setIsExpandedResources] = useState(false);
-  const [menuExpanding, setMenuExpanding] = useState(false);
-  const [toolsMenuExpanding, setToolsMenuExpanding] = useState(false);
-  const [resourcesMenuExpanding, setResourcesMenuExpanding] = useState(false);
-  const [toggled, setToggled] = useState(false);
-  const [toggledTools, setToggledTools] = useState(false);
-  const [toggledResources, setToggledResources] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   const clickHandler = (title) => {
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Top ${title} Click`,
       label: document.title
-    });
-  }
-
-  const handleMouseOver = (title) => {
-    if (!isExpanded) {
-      const thisurl = typeof window !== 'undefined' ? window.location.href : '';
-      const urlSplit = thisurl.split('/');
-      const pageName = urlSplit[urlSplit.length - 2];
-      const explainerPageName = analyticsEventMap[pageName];
-      Analytics.event({
-        category: 'Sitewide Navigation',
-        action: `Topics Click`,
-        label: explainerPageName
-      })
-
-      setDropdown(title)
-    }
-  }
-
-  const handleBlur = (event, title) => {
-    const currentTarget = event.currentTarget;
-
-    requestAnimationFrame(() => {
-      if(!currentTarget.contains(document.activeElement)) {
-        // handleMouseLeave(title);
-      }
-    });
-  }
-
-  const topicsClickHandler = (title) => {
-    Analytics.event({
-      category: 'Sitewide Navigation',
-      action: `Topics Click`,
-      label: title
     });
   }
 
@@ -68,9 +24,25 @@ const DesktopMenu = ({ location }) => {
     "government-revenue": "Revenue"
   };
 
+  const handleMouseOver = (title) => {
+    if (title === 'Topics') {
+      const thisurl = typeof window !== 'undefined' ? window.location.href : '';
+      const urlSplit = thisurl.split('/');
+      const pageName = urlSplit[urlSplit.length - 2];
+      const explainerPageName = analyticsEventMap[pageName];
+
+      Analytics.event({
+        category: 'Sitewide Navigation',
+        action: `Topics Click`,
+        label: explainerPageName
+      })
+    }
+    setActiveDropdown(title);
+  }
+
   return (
     <div className={styles.pageLinks} data-testid="pageLinks">
-      {menuSections.map((pageLink) => {
+      {menuSections.map((pageLink, index) => {
         if (pageLink.isExperimental) {
           return (
             <Experimental featureId={pageLink.featureId} key={pageLink.title}>
@@ -98,8 +70,9 @@ const DesktopMenu = ({ location }) => {
             <MenuDropdown
               object={pageLink}
               handleMouseOver={() => handleMouseOver(pageLink.title)}
-              toggled={currentDropdown}
-              handleBlur={handleBlur}
+              activeDropdown={activeDropdown}
+              setActiveDropdown={setActiveDropdown}
+              key={index}
             />
           )
         }
@@ -118,7 +91,7 @@ const DesktopMenu = ({ location }) => {
                           </span>
                 </button> : (
                   <button className={styles.pageLinkButton}
-                          onMouseEnter={() => setDropdown(pageLink.title)}
+                          onMouseEnter={() => setActiveDropdown(pageLink.title)}
                   >
                     <Link
                       key={pageLink.title}

@@ -17,32 +17,43 @@ const MenuDropdown = (
   {
     object,
     handleMouseOver,
-    toggled,
-    handleBlur,
+    activeDropdown,
+    setActiveDropdown,
   }) => {
 
-  const [expanding, setExpanding] = useState(false);
-  const [isExpanded, setExpanded] = useState(null);
-
-  useEffect(() => {
-    // debugger
-    setExpanding(true);
-    setExpanded(toggled);
-    setTimeout(() => {
-      setExpanding(false)
-        }, 10)
-  }, [toggled])
-
-  const handleMouseLeave = (title) => {
-    if(title) {
-      setExpanding(true);
-      setTimeout(() => {
-        setExpanded(toggled);
-      }, 500)
-    }
-  }
+  const [hideDropdown, setHideDropdown] = useState(false);
+  const [isExpanded, setExpanded] = useState(false);
 
   const title = object.title;
+
+  useEffect(() => {
+    setHideDropdown(true);
+    console.log("Title: " + title)
+    console.log("Active dropdown: " + activeDropdown)
+
+    if (activeDropdown === title) {
+      setExpanded(true);
+    } else if (activeDropdown) {
+      setExpanded(false);
+      handleMouseLeave()
+    }
+
+    setTimeout(() => {
+      setHideDropdown(false)
+        }, 10)
+  }, [activeDropdown])
+
+
+  const handleMouseLeave = () => {
+    setHideDropdown(true);
+    setTimeout(() => {
+      setExpanded(false);
+    }, 500)
+
+    if (activeDropdown === title) {
+      setActiveDropdown(null);
+    }
+  }
 
   const clickHandler = (title) => {
     Analytics.event({
@@ -51,12 +62,22 @@ const MenuDropdown = (
       label: title
     });
   }
+
+  const handleBlur = (event) => {
+    const currentTarget = event.currentTarget;
+    requestAnimationFrame(() => {
+      if(!currentTarget.contains(document.activeElement)) {
+        handleMouseLeave();
+      }
+    });
+  }
+
 // TODO: IS THE SUBSECTION HEADER BEING RENDERED MULTIPLE TIMES?
   const children = (object) => {
     if (object.children[0].children) {
-      return object.children.map((section) =>{
+      return object.children.map((section, index) =>{
         return (
-          <div className={styles.dropdownRow}>
+          <div className={styles.dropdownRow} key={index}>
             <div className={styles.dropdownColumnOne}>
               <div className={styles.dropdownTitle}>
                 {section.subsectionHeader}
@@ -110,22 +131,22 @@ const MenuDropdown = (
       key={title}
     >
       <button
-        className={`${toggled === title ? dropdownButtonExpanded : null} ${dropdownButton}`}
+        className={`${activeDropdown === title ? dropdownButtonExpanded : null} ${dropdownButton}`}
         onMouseEnter={handleMouseOver}
         onFocus={handleMouseOver}
         style={{minWidth:`${(title.length * 7.5)+28}px`}}
       >
         {title}
-        <FontAwesomeIcon icon={toggled === title ? faCaretDown : faCaretRight} className={caret} />
+        <FontAwesomeIcon icon={activeDropdown === title ? faCaretDown : faCaretRight} className={caret} />
 
       </button>
-      {isExpanded === title && (
+      {isExpanded && (
         <div
-          className={`${dropdownContent} ${expanding ? dropdownHidden : ''}`}
-          onMouseOver={handleMouseOver}
-          onMouseLeave={() => handleMouseLeave(title)}
+          className={`${dropdownContent} ${hideDropdown ? dropdownHidden : ''}`}
+          onMouseOver={() => handleMouseOver(title)}
+          onMouseLeave={() => handleMouseLeave()}
           onFocus={handleMouseOver}
-          onBlur={(e) => handleBlur(e, title)}
+          onBlur={(e) => handleBlur(e)}
           role={'button'}
           tabIndex={'0'}
           data-testid={'dropdownContent'}
