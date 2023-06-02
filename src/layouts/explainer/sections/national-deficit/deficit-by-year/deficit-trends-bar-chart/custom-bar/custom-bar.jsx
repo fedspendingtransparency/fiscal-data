@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}, onMouseEnter, onMouseLeave}) => {
-  const [pauseAnimation, setPauseAnimation] = useState(false);
-
-console.log(data);
+  const [pauseAnimation, setPauseAnimation] = useState(true);
 
   useEffect(() => {
     let observer;
@@ -15,7 +13,7 @@ console.log(data);
         entries.forEach((entry) => {
           if(entry.isIntersecting) {
             setTimeout(() => {
-              setPauseAnimation(true);
+              setPauseAnimation(false);
             }, data.data.delay)
           }
         })
@@ -34,11 +32,10 @@ console.log(data);
     <g onMouseEnter={(event) => onMouseEnter(data, event)} onMouseLeave={(event) => {onMouseLeave(data, event)}}>
       <rect
         width={width}
-        height={pauseAnimation ? height : 0}
+        height={pauseAnimation ?0 : height}
         x={x}
-        y={pauseAnimation ? y : height + y}
+        y={pauseAnimation ? height + y : y}
         fill={color}
-        focusable={true}
         style={{ transition: 'y ' + duration + 's ease-in, height ' + duration + 's ease-in' } }
       />
       <rect

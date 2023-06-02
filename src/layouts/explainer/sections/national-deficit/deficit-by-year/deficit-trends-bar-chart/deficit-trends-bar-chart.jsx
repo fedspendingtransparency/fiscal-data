@@ -173,6 +173,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
     getChartData();
   }, []);
 
+
+  //TODO: correct text scaling 
   useEffect(() => {
     applyTextScaling(chartParent, chartWidth.toString(), width, fontSize_16);
   }, [width]);
