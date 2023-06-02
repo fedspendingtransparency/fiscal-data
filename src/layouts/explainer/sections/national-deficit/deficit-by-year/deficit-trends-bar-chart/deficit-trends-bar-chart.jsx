@@ -41,13 +41,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [lastBar, setLastBar] = useState();
   const [pauseAnimation, setPauseAnimation] = useState(true);
 
-
-  const chartParent= 'deficitTrendsChartParent';
-  const chartWidth = 495;
-  const chartHeight = 388;
-
-  const barHighlightColor = fontTitle;
-
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
       return `-$${Math.abs(v)} T`;
@@ -56,6 +49,34 @@ export const DeficitTrendsBarChart = ({ width }) => {
       return `$${v} T`;
     }
   };
+
+  const chartConfigs = {
+    parent: 'deficitTrendsChartParent',
+    width: 495,
+    height: 388,
+    theme: {
+      fontSize:  width < pxToNumber(breakpointLg) ? fontSize_12 : fontSize_16,
+      fontFamily: 'Source Sans Pro',
+      textColor: fontBodyCopy,
+    },
+    axisBottom:{
+      tickSize: 0,
+      tickPadding: 5,
+      tickRotation: 0,
+      tickValues: tickValuesX
+    },
+    axisLeft:{
+      format: formatCurrency,
+      tickSize: 0,
+      tickPadding: 5,
+      tickRotation: 0,
+      tickValues: tickValuesY
+    },
+    highlightColor: fontTitle,
+    animationDuration: 7500,
+  }
+
+  const startingYear = '2001';
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
@@ -72,13 +93,12 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const getChartData = () => {
     const apiData = [];
-    const animationDuration = 10000;
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
       const lastEntry = result.data[result.data.length - 1];
       let deficitSum = 0;
       result.data.forEach((entry) => {
-        const barColor = entry.record_fiscal_year === lastEntry.record_fiscal_year ? barHighlightColor : deficitExplainerPrimary;
+        const barColor = entry.record_fiscal_year === lastEntry.record_fiscal_year ? chartConfigs.highlightColor : deficitExplainerPrimary;
         const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
         deficitSum += deficitValue;
         apiData.push({
@@ -91,7 +111,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         deficitSum += Math.abs(entry.deficit);
       })
       setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
-      const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, animationDuration);
+      const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, chartConfigs.animationDuration);
       const latestYear = newData[newData.length - 1].year;
       const latestDeficit = newData[newData.length - 1].deficit;
       setMostRecentFiscalYear(latestYear);
@@ -107,14 +127,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setHeaderDeficit(mostRecentDeficit);
 
     if (lastBar)
-      lastBar.style.fill = barHighlightColor;
+      lastBar.style.fill = chartConfigs.highlightColor;
   }
 
   const onBarMouseEnter = (data, event) => {
-    if (data && event && data.data.year !== '2000') {
+    if (data && event && data.data.year >= startingYear) {
       const barSVGs = Array.from(event.target.parentNode.parentNode.children);
       const currentBarElement = event.target.parentNode.children[0];
-      currentBarElement.style.fill = barHighlightColor;
+      currentBarElement.style.fill = chartConfigs.highlightColor;
       const lastBarElement = barSVGs[barSVGs.length - 1].children[0];
       if (currentBarElement !== lastBarElement) {
         lastBarElement.style.fill = deficitExplainerPrimary;
@@ -147,6 +167,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }
 
   useEffect(() => {
+    //Trigger Animation for header values
     let observer;
     if (typeof window !== "undefined") {
       const config = {
@@ -168,17 +189,29 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
 
   useEffect(() => {
-    applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-    addInnerChartAriaLabel(chartParent);
+    //Run animation for header values
+    chartData.map((element) => {
+      if (!pauseAnimation && element.year >= startingYear) {
+        setTimeout(() => {
+          setHeaderYear(element.year);
+          setHeaderDeficit(element.deficit);
+        }, element.delay)
+      }
+    })
+  }, [pauseAnimation])
+
+  useEffect(() => {
+    applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
+    addInnerChartAriaLabel(chartConfigs.parent);
     getChartData();
+    const fontSize = desktop ? fontSize_16 : fontSize_12;
+    applyTextScaling(chartConfigs.parent, chartConfigs.width, width, fontSize);
   }, []);
 
-
-  //TODO: correct text scaling 
   useEffect(() => {
-    applyTextScaling(chartParent, chartWidth.toString(), width, fontSize_16);
+    const fontSize = desktop ? fontSize_16 : fontSize_12;
+    applyTextScaling(chartConfigs.parent, chartConfigs.width, width, fontSize);
   }, [width]);
-
 
   useEffect(() => {
     const tickValues = generateTickValues(chartData);
@@ -188,19 +221,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
-  useEffect(() => {
-    chartData.map((element) => {
-      if (!pauseAnimation) {
-        setTimeout(() => {
-          setHeaderYear(element.year);
-          setHeaderDeficit(element.deficit);
-          console.log(element)
-        }, element.delay + 250)
-      }
-    })
-  }, [pauseAnimation])
-
-
   const name = 'Monthly Treasury Statement (MTS)';
   const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
@@ -208,9 +228,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
     <div>
       Visit the <CustomLink url={slug} eventNumber='18'>{name}</CustomLink> dataset to explore and
       download this data.
-      <p>
-        Please note: This data visual only includes completed fiscal years.
-      </p>
+      <p>Please note: This data visual only includes completed fiscal years.</p>
     </div>
 
   const header =
@@ -219,17 +237,12 @@ export const DeficitTrendsBarChart = ({ width }) => {
         <div className={headerTitle} data-testid={'deficitFiscalYearHeader'}>{headerYear}</div>
         <span className={subHeader}>Fiscal Year</span>
       </div>
-    <div>
-      <div className={headerTitle} data-testid={'deficitTotalHeader'}>${headerDeficit} T</div>
-      <span className={subHeader}>Total Deficit</span>
-    </div>
+      <div>
+        <div className={headerTitle} data-testid={'deficitTotalHeader'}>${headerDeficit} T</div>
+        <span className={subHeader}>Total Deficit</span>
+      </div>
     </>
 
-  const chartTheme = {
-    fontSize:  width < pxToNumber(breakpointLg) ? fontSize_12 : fontSize_16,
-    fontFamily: 'Source Sans Pro',
-    textColor: fontBodyCopy,
-  }
 
   return (
     <>
@@ -240,8 +253,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
           role={'presentation'}
         >
           <ChartContainer
-            title={`Federal Deficit Trends Over Time, FY 2001-${mostRecentFiscalYear}`}
-            altText={'Bar graph that shows the federal deficit trend from 2001 to '
+            title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
+            altText={`Bar graph that shows the federal deficit trend from ${startingYear} to `
             + `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`}
             header={header}
             footer={footer}
@@ -254,29 +267,18 @@ export const DeficitTrendsBarChart = ({ width }) => {
             >
               <Bar
                 barComponent={CustomBar}
-                width={ chartWidth }
-                height={ chartHeight }
+                width={chartConfigs.width}
+                height={chartConfigs.height}
                 data={chartData}
                 keys={['deficit']}
                 indexBy="year"
                 margin={{top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55}}
                 padding={desktop ? 0.30 : 0.35}
                 colors={({id, data}) =>  String(data[`${id}Color`])}
-                axisBottom={{
-                  tickSize: 0,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  tickValues: tickValuesX
-                }}
-                axisLeft={{
-                  format: formatCurrency,
-                  tickSize: 0,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  tickValues: tickValuesY
-                }}
+                axisBottom={chartConfigs.axisBottom}
+                axisLeft={chartConfigs.axisLeft}
                 enableGridX={true}
-                theme={chartTheme}
+                theme={chartConfigs.theme}
                 layers={['grid', 'axes', 'bars']}
                 minValue={minValue}
                 maxValue={maxValue}
