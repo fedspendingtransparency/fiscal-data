@@ -12,7 +12,13 @@ import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import MenuDropdown from "./menu-dropdown/menu-dropdown";
 import Glossary from '../glossary/glossary';
-
+import AnnouncementBanner from '../announcement-banner/announcement-banner';
+import {
+  NOTIFICATION_BANNER_TEXT,
+  NOTIFICATION_BANNER_DISPLAY_PAGES,
+  NOTIFICATION_BANNER_DISPLAY_PATHS
+} from 'gatsby-env-variables';
+import CustomLink from '../links/custom-link/custom-link';
 const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHandler }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpandedTools, setIsExpandedTools] = useState(false);
@@ -24,6 +30,17 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
   const [toggledTools, setToggledTools] = useState(false);
   const [toggledResources, setToggledResources] = useState(false);
   const [openGlossary, setOpenGlossary] = useState(false);
+
+  const displayBanner = () => {
+    let display = false;
+    display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
+    NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
+      if (location.pathname.includes(path)) {
+        display = true;
+      }
+    });
+    return display;
+  }
 
   const glossaryCsv = useStaticQuery(
     graphql`
@@ -282,150 +299,115 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
   }
 
   return (
-    <header>
-      <OfficialBanner data-testid="officialBanner" />
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <Link
-            role="img"
-            title="Return to home page"
-            alt="Fiscal Data Homepage"
-            data-testid="logo"
-            className={styles.logo}
-            aria-label="Fiscal Data logo - return to home page"
-            to="/"
-            onClick={() => clickHandler('Logo')}
-            onMouseOver={() => handleMouseEnterNonDropdown("Logo")}
-          >
-            <StaticImage
-              src="../../images/logos/fd-logo.svg"
-              loading="eager"
-              placeholder="none"
-              alt="Fiscal Data logo"
-              height={55}
-              width={192}
-            />
-          </Link>
-          <div className={styles.pageLinks} data-testid="pageLinks">
-            {pageLinks.map((pageLink) => {
-              if (pageLink.isExperimental) {
-                return (
-                  <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-                    <div className={styles.pageLinkButtonContainer}>
-                      <div className={styles.pageLinkButtonContent}
-                           style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
-                      >
-                        <button className={styles.pageLinkButton}>
-                          <Link
-                            to={pageLink.to}
-                            activeClassName={styles.activeLink}
-                            data-testid={pageLink.testId}
-                          >
-                            {pageLink.title}
-                          </Link>
-                        </button>
-                      </div>
-                    </div>
-                  </Experimental>
-                )
-              }
-
-              if (pageLink.title === 'Topics') {
-                return (
-                  <MenuDropdown
-                    title={pageLink.title}
-                    handleMouseOver={handleMouseOver}
-                    toggled={toggled}
-                    isExpanded={isExpanded}
-                    handleMouseLeave={handleMouseLeave}
-                    handleBlur={handleBlur}
-                    menuExpanding={menuExpanding}
-                  >
-                    <div className={styles.dropdownRow}>
-                      <div className={styles.dropdownColumnOne}>
-                        <div className={styles.dropdownTitle} >
-                          AMERICA'S FINANCE GUIDE
-                        </div>
-                        <div>
-                          {topicsPageLinks.map((topicPageLink) => {
-                            return (
-                              <div key={topicPageLink.title}
-                                   className={styles.dropdownListItem}
-                              >
-                                <Link
-                                  to={topicPageLink.to}
-                                  activeClassName={styles.activeTopicLink}
-                                  onClick={() => topicsClickHandler(topicPageLink.title)}
-                                >
-                                  {topicPageLink.title}
-                                </Link>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </MenuDropdown>
-                )
-              }
-
-              if (pageLink.title === 'Tools') {
-                return (
-                  <MenuDropdown
-                    title={pageLink.title}
-                    handleMouseOver={handleMouseOverTools}
-                    toggled={toggledTools}
-                    isExpanded={isExpandedTools}
-                    handleMouseLeave={handleMouseLeave}
-                    handleBlur={handleBlur}
-                    menuExpanding={toolsMenuExpanding}
-                  >
-                    <div className={styles.toolsSingleDropDown}>
-                      {toolsPageLinks.map((link) => {
-                        return (
-                          <div className={styles.dropdownListItem}>
+    <>
+      { displayBanner()  &&
+        <AnnouncementBanner>
+          Dataset Unavailable: Fiscal Data is currently experiencing an issue with the {NOTIFICATION_BANNER_TEXT}.
+          Our team is working diligently to address the issue. Please check back later or contact us{' '}
+          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> {' '}
+          for further assistance. Thank you.
+        </AnnouncementBanner>
+      }
+      <header>
+        <OfficialBanner data-testid="officialBanner" />
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <Link
+              role="img"
+              title="Return to home page"
+              alt="Fiscal Data Homepage"
+              data-testid="logo"
+              className={styles.logo}
+              aria-label="Fiscal Data logo - return to home page"
+              to="/"
+              onClick={() => clickHandler('Logo')}
+              onMouseOver={() => handleMouseEnterNonDropdown("Logo")}
+            >
+              <StaticImage
+                src="../../images/logos/fd-logo.svg"
+                loading="eager"
+                placeholder="none"
+                alt="Fiscal Data logo"
+                height={55}
+                width={192}
+              />
+            </Link>
+            <div className={styles.pageLinks} data-testid="pageLinks">
+              {pageLinks.map((pageLink) => {
+                if (pageLink.isExperimental) {
+                  return (
+                    <Experimental featureId={pageLink.featureId} key={pageLink.title}>
+                      <div className={styles.pageLinkButtonContainer}>
+                        <div className={styles.pageLinkButtonContent}
+                             style={{minWidth:`${(pageLink.title.length * 8)+16}px`}}
+                        >
+                          <button className={styles.pageLinkButton}>
                             <Link
-                              to={link.to}
-                              activeClassName={styles.activeTopicLink}
-                              key={link.title}
-                              onClick={() => clickHandler(link.title)}
+                              to={pageLink.to}
+                              activeClassName={styles.activeLink}
+                              data-testid={pageLink.testId}
                             >
-                              {link.title}
+                              {pageLink.title}
                             </Link>
-                          </div>
-                        )
-                      })
-                      }
-                    </div>
-                  </MenuDropdown>
-                )
-              }
+                          </button>
+                        </div>
+                      </div>
+                    </Experimental>
+                  )
+                }
 
-              if (pageLink.title === 'Resources') {
-                return (
-                  <MenuDropdown
-                    title={pageLink.title}
-                    handleMouseOver={handleMouseOverResources}
-                    toggled={toggledResources}
-                    isExpanded={isExpandedResources}
-                    handleMouseLeave={handleMouseLeave}
-                    handleBlur={handleBlur}
-                    menuExpanding={resourcesMenuExpanding}
-                  >
-                    <div className={styles.resourcesDropDown}>
-                      {resourcesPageLinks.map((link) => {
-                        if(link.title === 'Glossary'){
-                          return (
-                            <div className={styles.dropdownListItem}>
-                              <button onClick={() => clickHandler(link.title)}
-                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
-                              >
-                                <div>{link.title}</div>
-                              </button>
-                            </div>
-                          )
-                        }
-                        else {
+                if (pageLink.title === 'Topics') {
+                  return (
+                    <MenuDropdown
+                      title={pageLink.title}
+                      handleMouseOver={handleMouseOver}
+                      toggled={toggled}
+                      isExpanded={isExpanded}
+                      handleMouseLeave={handleMouseLeave}
+                      handleBlur={handleBlur}
+                      menuExpanding={menuExpanding}
+                    >
+                      <div className={styles.dropdownRow}>
+                        <div className={styles.dropdownColumnOne}>
+                          <div className={styles.dropdownTitle} >
+                            AMERICA'S FINANCE GUIDE
+                          </div>
+                          <div>
+                            {topicsPageLinks.map((topicPageLink) => {
+                              return (
+                                <div key={topicPageLink.title}
+                                     className={styles.dropdownListItem}
+                                >
+                                  <Link
+                                    to={topicPageLink.to}
+                                    activeClassName={styles.activeTopicLink}
+                                    onClick={() => topicsClickHandler(topicPageLink.title)}
+                                  >
+                                    {topicPageLink.title}
+                                  </Link>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </MenuDropdown>
+                  )
+                }
+
+                if (pageLink.title === 'Tools') {
+                  return (
+                    <MenuDropdown
+                      title={pageLink.title}
+                      handleMouseOver={handleMouseOverTools}
+                      toggled={toggledTools}
+                      isExpanded={isExpandedTools}
+                      handleMouseLeave={handleMouseLeave}
+                      handleBlur={handleBlur}
+                      menuExpanding={toolsMenuExpanding}
+                    >
+                      <div className={styles.toolsSingleDropDown}>
+                        {toolsPageLinks.map((link) => {
                           return (
                             <div className={styles.dropdownListItem}>
                               <Link
@@ -433,79 +415,124 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
                                 activeClassName={styles.activeTopicLink}
                                 key={link.title}
                                 onClick={() => clickHandler(link.title)}
-                                style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
                               >
                                 {link.title}
                               </Link>
                             </div>
                           )
+                        })
                         }
-                      })
-                      }
-                    </div>
-                  </MenuDropdown>
-                )
-              }
-              return (
-                <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
-                  <div className={styles.pageLinkButtonContent}
-                       style={{minWidth:`${(pageLink.title.length * 7.5)+16}px`}}
-                  >
-                    {pageLink.to === location.pathname ?
-                      <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
-                              disabled
-                      >
+                      </div>
+                    </MenuDropdown>
+                  )
+                }
+
+                if (pageLink.title === 'Resources') {
+                  return (
+                    <MenuDropdown
+                      title={pageLink.title}
+                      handleMouseOver={handleMouseOverResources}
+                      toggled={toggledResources}
+                      isExpanded={isExpandedResources}
+                      handleMouseLeave={handleMouseLeave}
+                      handleBlur={handleBlur}
+                      menuExpanding={resourcesMenuExpanding}
+                    >
+                      <div className={styles.resourcesDropDown}>
+                        {resourcesPageLinks.map((link) => {
+                          if(link.title === 'Glossary'){
+                            return (
+                              <div className={styles.dropdownListItem}>
+                                <button onClick={() => clickHandler(link.title)}
+                                        style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                                >
+                                  <div>{link.title}</div>
+                                </button>
+                              </div>
+                            )
+                          }
+                          else {
+                            return (
+                              <div className={styles.dropdownListItem}>
+                                <Link
+                                  to={link.to}
+                                  activeClassName={styles.activeTopicLink}
+                                  key={link.title}
+                                  onClick={() => clickHandler(link.title)}
+                                  style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                                >
+                                  {link.title}
+                                </Link>
+                              </div>
+                            )
+                          }
+                        })
+                        }
+                      </div>
+                    </MenuDropdown>
+                  )
+                }
+                return (
+                  <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
+                    <div className={styles.pageLinkButtonContent}
+                         style={{minWidth:`${(pageLink.title.length * 7.5)+16}px`}}
+                    >
+                      {pageLink.to === location.pathname ?
+                        <button className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
+                                disabled
+                        >
                         <span>
                           {pageLink.title}
                         </span>
-                      </button> : (
-                        <button className={styles.pageLinkButton}
-                        onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}>
-                          <Link
-                            key={pageLink.title}
-                            to={pageLink.to}
-                            activeClassName={styles.activeLink}
-                            data-testid={pageLink.testId}
-                            onClick={() => clickHandler(pageLink.title)}
-                          >
-                            {pageLink.title}
-                          </Link>
-                        </button>
-                      )
-                    }
+                        </button> : (
+                          <button className={styles.pageLinkButton}
+                                  onMouseEnter={() => handleMouseEnterNonDropdown(pageLink.title)}>
+                            <Link
+                              key={pageLink.title}
+                              to={pageLink.to}
+                              activeClassName={styles.activeLink}
+                              data-testid={pageLink.testId}
+                              onClick={() => clickHandler(pageLink.title)}
+                            >
+                              {pageLink.title}
+                            </Link>
+                          </button>
+                        )
+                      }
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
+          <Glossary
+            termList={glossaryData}
+            activeState={openGlossary}
+            setActiveState={setOpenGlossary}
+            glossaryEvent={glossaryEvent}
+            glossaryClickEventHandler={glossaryClickEventHandler}
+          />
+          <MobileMenu setOpenGlossary={setOpenGlossary} />
         </div>
-        <Glossary
-          termList={glossaryData}
-          activeState={openGlossary}
-          setActiveState={setOpenGlossary}
-          glossaryEvent={glossaryEvent}
-          glossaryClickEventHandler={glossaryClickEventHandler}
-        />
-        <MobileMenu setOpenGlossary={setOpenGlossary} />
-      </div>
-      {lowerEnvMsg && (
-        <PageNotice>
+        {lowerEnvMsg && (
+          <PageNotice>
           <span data-testid="lowerEnvMessage">
             <strong>NOTICE: </strong>
             {lowerEnvMsg}
           </span>
-        </PageNotice>
-      )}
-      {
-        isIE && (
-          <PageNotice warningLevel={1}>
-            <strong data-testid="ieDetected">You seem to be using an unsupported browser</strong>
-            <div>
-              To get the best experience with Fiscal Data please use Chrome, Firefox, Edge, or Safari.
-            </div>
           </PageNotice>
         )}
-    </header>
+        {
+          isIE && (
+            <PageNotice warningLevel={1}>
+              <strong data-testid="ieDetected">You seem to be using an unsupported browser</strong>
+              <div>
+                To get the best experience with Fiscal Data please use Chrome, Firefox, Edge, or Safari.
+              </div>
+            </PageNotice>
+          )}
+      </header>
+    </>
   );
 };
 
