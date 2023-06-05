@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import { useInView } from 'react-intersection-observer';
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}, onMouseEnter, onMouseLeave}) => {
   const [pauseAnimation, setPauseAnimation] = useState(true);
 
