@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {animated, useSpring} from "@react-spring/web";
 import {
   semiBoldWeight,
+  boldWeight,
   fontBodyCopy,
   fontSize_12,
   fontSize_16,
@@ -140,7 +141,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
           <text
             x={desktop ? xPosDesktop : xPosMobile }
             y={desktop ? yPosDesktop + 25 : yPosMobile + 15 }
-            style={{...textStyle, fontWeight: semiBoldWeight}}
+            style={{...textStyle, fontWeight: (desktop ? boldWeight : semiBoldWeight) }}
           >
             {`${label}`}
           </text>
