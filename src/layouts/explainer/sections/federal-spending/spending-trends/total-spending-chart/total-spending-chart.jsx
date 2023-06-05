@@ -36,6 +36,7 @@ import {
   addInnerChartAriaLabel,
   applyChartScaling
 } from "../../../../explainer-helpers/explainer-charting-helper";
+import CustomSlices  from '../../../../explainer-helpers/CustomSlice/custom-slice';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -66,11 +67,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
 
-
-  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState(
-    {}
-  );
-
+  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 
@@ -384,7 +381,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     'points',
                     lineChartCustomPoints,
                     (props) =>
-                      LineChartCustomSlices({
+                      CustomSlices({
                           ...props,
                           groupMouseLeave: handleGroupOnMouseLeave,
                           mouseMove: handleMouseLeave

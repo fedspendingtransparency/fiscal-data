@@ -35,6 +35,11 @@ import {
 import globalConstants from '../../../../../../helpers/constants';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
+import {
+  LineChartCustomSlices
+} from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
+
+import CustomSlices from '../../../../explainer-helpers/CustomSlice/custom-slice';
 let gaTimerDebtTrends;
 
 const analyticsClickHandler = (action, section) => {
@@ -192,35 +197,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   };
 
   const formatPercentage = v => `${v}%`;
-
-  const CustomSlices = ({ slices, setCurrentSlice }) => {
-    const allSlices =
-      <g>
-        {slices.map((slice, i) => (
-          <rect
-            key={i}
-            x={slice.x0}
-            y={slice.y0}
-            tabIndex={0}
-            width={slice.width + 1}
-            height={slice.height}
-            strokeWidth={1}
-            strokeOpacity={0}
-            fillOpacity={0}
-            onMouseEnter={() => setCurrentSlice(slice)}
-            onMouseLeave={() => {
-              setCurrentSlice(null);
-            }}
-          />
-        ))}
-      </g>;
-
-    return (
-      <>
-        {allSlices}
-      </>
-    );
-  };
 
   useEffect(() => {
     if(startAnimation && debtTrendsData && !animationComplete) {
@@ -410,7 +386,11 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                 "lines",
                 "axes",
                 CustomPoint,
-                CustomSlices,
+                (props) =>
+                  CustomSlices({
+                      ...props,
+                    }
+                  ),
                 "crosshair"
               ]}
                 margin={
