@@ -28,14 +28,14 @@ const MenuDropdown = (
 
   useEffect(() => {
     setHideDropdown(true);
-    console.log("Title: " + title)
-    console.log("Active dropdown: " + activeDropdown)
+    // console.log("Title: " + title)
+    // console.log("Active dropdown: " + activeDropdown)
 
     if (activeDropdown === title) {
       setExpanded(true);
     } else if (activeDropdown) {
-      setExpanded(false);
-      handleMouseLeave()
+      // setExpanded(false);
+      // handleMouseLeave()
     }
 
     setTimeout(() => {
@@ -45,7 +45,12 @@ const MenuDropdown = (
 
 
   const handleMouseLeave = () => {
+    console.log("mouse leave activited")
+
     setHideDropdown(true);
+    if (activeDropdown && activeDropdown !== title) {
+      setExpanded(false)
+    }
     setTimeout(() => {
       setExpanded(false);
     }, 500)
@@ -72,7 +77,7 @@ const MenuDropdown = (
     });
   }
 
-// TODO: IS THE SUBSECTION HEADER BEING RENDERED MULTIPLE TIMES?
+
   const children = (object) => {
     if (object.children[0].children) {
       return object.children.map((section, index) =>{
@@ -131,8 +136,9 @@ const MenuDropdown = (
       key={title}
     >
       <button
-        className={`${activeDropdown === title ? dropdownButtonExpanded : null} ${dropdownButton}`}
+        className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`}
         onMouseEnter={handleMouseOver}
+        onMouseLeave={() => handleMouseLeave()}
         onFocus={handleMouseOver}
         style={{minWidth:`${(title.length * 7.5)+28}px`}}
       >
