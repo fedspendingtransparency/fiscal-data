@@ -1,11 +1,9 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 import DebtDeficitDifference from "./debt-deficit-difference";
-import {deficitDebtDifferenceVisContainer} from "./debt-deficit-difference.module.scss";
-import {getByTestId} from "@testing-library/dom";
 
 
-describe('Deficit and Surplus Causes Section', () => {
+describe('Difference between national debt and national deficit section', () => {
   it('renders the text content', () => {
     const {getByTestId, getByRole} = render(<DebtDeficitDifference />);
     expect(getByTestId('textContent')).toBeInTheDocument();

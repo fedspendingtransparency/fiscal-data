@@ -5,7 +5,7 @@ import {setGlobalFetchResponse} from "../../../../../utils/mock-utils";
 import {mockDeficitTrendsData} from "../../../explainer-test-helper";
 
 
-describe('Deficit and Surplus Causes Section', () => {
+describe('Deficit by year section', () => {
   beforeEach(() => {
     setGlobalFetchResponse(jest, mockDeficitTrendsData);
   });
@@ -16,6 +16,6 @@ describe('Deficit and Surplus Causes Section', () => {
   });
   it('renders the trends chart', () => {
     const {getByTestId} = render(<DeficitByYear />);
-    expect(getByTestId('deficitTrendsBarChart')).toBeInTheDocument();
+    expect(getByTestId('deficitTrendsChartParent')).toBeInTheDocument();
   });
 });

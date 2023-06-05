@@ -11,7 +11,7 @@ import {
 } from "../../../../explainer-helpers/national-deficit/national-deficit-test-helper";
 import {waitFor} from "@testing-library/dom";
 
-describe('Deficit and Surplus Causes Section', () => {
+describe('Deficit Comparison Bar Chart', () => {
   const sectionId = nationalDeficitSectionIds[1];
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
