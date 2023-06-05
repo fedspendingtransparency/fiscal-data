@@ -28,30 +28,30 @@ describe('search results helper', () => {
     })
 
     it('sets a label property for each option', () => {
-        SortOptions.forEach(opt => expect(opt.label).toBeDefined())
+        SortOptions.forEach(opt => expect(opt.label).toBeDefined());
     })
 
     it('provides a filtered list that removes the relevance option', () => {
         expect(FilteredSortOptions.every(opt => opt.id !== 'relevance')).toBeTruthy();
     })
 
-    it('sorts by title from A to Z', () => {
+    it('sorts by last updated', () => {
         PerformSort(SortOptions[1], mockDatasets);
-        expect(mockDatasets[0].name).toBe('Dataset A')
+        expect(mockDatasets[0].name).toBe('Dataset A');
+    })
+
+    it('sorts by title from A to Z', () => {
+        PerformSort(SortOptions[2], mockDatasets);
+        expect(mockDatasets[0].name).toBe('Dataset A');
     })
 
     it('sorts by title from Z to A', () => {
-        PerformSort(SortOptions[2], mockDatasets);
-        expect(mockDatasets[0].name).toBe('Dataset C')
+        PerformSort(SortOptions[3], mockDatasets);
+        expect(mockDatasets[0].name).toBe('Dataset C');
     })
 
     it('sorts by relevance', () => {
         PerformSort(SortOptions[0], mockDatasets);
-        expect(mockDatasets[0].name).toBe('Dataset C')
-    })
-
-    it('sorts by last updated', () => {
-        PerformSort(SortOptions[3], mockDatasets);
-        expect(mockDatasets[0].name).toBe('Dataset A')
+        expect(mockDatasets[0].name).toBe('Dataset C');
     })
 })

@@ -5,6 +5,11 @@ export const SortOptions = [
         sortFn: (a, b) => {return b.searchScore - a.searchScore}
     },
     {
+        id: 'lastUpdated',
+        label: 'Recently Updated',
+        sortFn: (a, b) => {return Date.parse(b.techSpecs.lastUpdated) - Date.parse(a.techSpecs.lastUpdated)}
+    },
+    {
         id: 'alpha',
         label: 'Alphabetical (A to Z)',
         sortFn: (a, b) => {return a.name.localeCompare(b.name)}
@@ -13,11 +18,6 @@ export const SortOptions = [
         id: 'alphaReversed',
         label: 'Alphabetical (Z to A)',
         sortFn: (a, b) => {return b.name.localeCompare(a.name)}
-    },
-    {
-        id: 'lastUpdated',
-        label: 'Recently Updated',
-        sortFn: (a, b) => {return Date.parse(b.techSpecs.lastUpdated) - Date.parse(a.techSpecs.lastUpdated)}
     }
 ];
 
