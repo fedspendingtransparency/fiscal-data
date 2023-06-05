@@ -21,6 +21,7 @@ import {
   applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomBar from './custom-bar/custom-bar';
+import { useInView } from 'react-intersection-observer';
 
 let gaTimerChart;
 
@@ -39,7 +40,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [headerYear, setHeaderYear] = useState('');
   const [headerDeficit, setHeaderDeficit] = useState('');
   const [lastBar, setLastBar] = useState();
-  const [pauseAnimation, setPauseAnimation] = useState(true);
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -54,8 +54,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
     parent: 'deficitTrendsChartParent',
     width: 495,
     height: 388,
+    fontSize: desktop ? fontSize_16 : fontSize_12,
     theme: {
-      fontSize:  width < pxToNumber(breakpointLg) ? fontSize_12 : fontSize_16,
+      fontSize: fontSize_16,
       fontFamily: 'Source Sans Pro',
       textColor: fontBodyCopy,
     },
@@ -166,52 +167,36 @@ export const DeficitTrendsBarChart = ({ width }) => {
     clearTimeout(gaTimerChart);
   }
 
-  useEffect(() => {
-    //Trigger Animation for header values
-    let observer;
-    if (typeof window !== "undefined") {
-      const config = {
-        rootMargin: '-50% 0% -50% 0%',
-        threshold: 0
-      }
-      observer = new IntersectionObserver(entries => {
-        entries.forEach((entry) => {
-          if(entry.isIntersecting) {
-            setPauseAnimation(false);
-          }
-        })
-      }, config)
-      setTimeout(() =>
-          observer.observe(document.querySelector('[data-testid="deficitTrendsChartParent"]')),
-      1000)
-    }
-  }, [])
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+    delay: 1000,
+  });
 
 
   useEffect(() => {
     //Run animation for header values
     chartData.map((element) => {
-      if (!pauseAnimation && element.year >= startingYear) {
+      if (inView && element.year >= startingYear) {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
         }, element.delay)
       }
     })
-  }, [pauseAnimation])
+  }, [inView])
 
   useEffect(() => {
     applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
     addInnerChartAriaLabel(chartConfigs.parent);
     getChartData();
-    const fontSize = desktop ? fontSize_16 : fontSize_12;
-    applyTextScaling(chartConfigs.parent, chartConfigs.width, width, fontSize);
   }, []);
 
   useEffect(() => {
-    const fontSize = desktop ? fontSize_16 : fontSize_12;
-    applyTextScaling(chartConfigs.parent, chartConfigs.width, width, fontSize);
-  }, [width]);
+    setTimeout(() => {
+      applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
+    })
+  }, [width, chartData]);
 
   useEffect(() => {
     const tickValues = generateTickValues(chartData);
@@ -226,7 +211,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   receipts-and-outlays-of-the-u-s-government`;
   const footer =
     <div>
-      Visit the <CustomLink url={slug} eventNumber='18'>{name}</CustomLink> dataset to explore and
+      Visit the <CustomLink url={slug} eventNumber="18">{name}</CustomLink> dataset to explore and
       download this data.
       <p>Please note: This data visual only includes completed fiscal years.</p>
     </div>
@@ -234,11 +219,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const header =
     <>
       <div>
-        <div className={headerTitle} data-testid={'deficitFiscalYearHeader'}>{headerYear}</div>
+        <div className={headerTitle} data-testid="deficitFiscalYearHeader">{headerYear}</div>
         <span className={subHeader}>Fiscal Year</span>
       </div>
       <div>
-        <div className={headerTitle} data-testid={'deficitTotalHeader'}>${headerDeficit} T</div>
+        <div className={headerTitle} data-testid="deficitTotalHeader">${headerDeficit} T</div>
         <span className={subHeader}>Total Deficit</span>
       </div>
     </>
@@ -264,6 +249,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                  onMouseLeave={resetHeaderValues}
                  data-testid={'deficitTrendsChartParent'}
                  role={'presentation'}
+                 ref={ref}
             >
               <Bar
                 barComponent={CustomBar}

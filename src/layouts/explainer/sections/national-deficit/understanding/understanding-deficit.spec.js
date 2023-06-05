@@ -9,7 +9,7 @@ import {understandingDeficitMatchers}
 import {waitFor} from "@testing-library/dom";
 
 
-describe('Deficit and Surplus Causes Section', () => {
+describe('Understanding the National Deficit Section', () => {
   const sectionId = nationalDeficitSectionIds[1];
   const glossary = [];
   beforeEach(() => {

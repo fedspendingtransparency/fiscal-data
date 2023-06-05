@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { useInView } from 'react-intersection-observer';
 const CustomBar = ({bar: { x, y, width, height, color,  key, data}, onMouseEnter, onMouseLeave}) => {
   const [pauseAnimation, setPauseAnimation] = useState(true);
 
@@ -29,7 +30,10 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}, onMouseEnter
 
 
   return(
-    <g onMouseEnter={(event) => onMouseEnter(data, event)} onMouseLeave={(event) => {onMouseLeave(data, event)}}>
+    <g onMouseEnter={(event) => onMouseEnter(data, event)}
+       onMouseLeave={(event) => {onMouseLeave(data, event)}}
+       data-testid="customBar"
+    >
       <rect
         width={width}
         height={pauseAnimation ?0 : height}
