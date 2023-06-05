@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import * as styles from './total-spending-chart.module.scss';
 import {
@@ -272,70 +272,6 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
       ];
 };
 
-export const LineChartCustomSlices = (
-  {
-    slices,
-    data,
-    setCurrentSlice,
-    groupMouseLeave,
-    mouseMove,
-    inView
-  }) => {
-
-  const [style, setStyle] = useState({});
-  const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
-
-  useEffect(() => {
-    if (!animationTriggeredOnce && inView && data.length) {
-      setAnimationTriggeredOnce(true);
-      slices.forEach((slice, index) => {
-        setTimeout(() => {
-          setCurrentSlice(slice);
-          mouseMove(slice);
-        }, (50 * index) + 550);
-      });
-      setTimeout(() => {
-        setCurrentSlice(slices[slices.length - 1]);
-        mouseMove(slices[slices.length - 1]);
-      }, (50 * (slices.length + 1)) + 550);
-    }
-  }, [inView, animationTriggeredOnce, slices]);
-
-  return (
-    <g data-testid="customSlices"
-      onMouseLeave={groupMouseLeave}
-    >
-      {slices.map((slice, index) => (
-        <rect
-          key={index}
-          x={slice.x0}
-          y={slice.y0}
-          tabIndex={0}
-          width={slice.width}
-          height={slice.height}
-          strokeWidth={0}
-          strokeOpacity={0.25}
-          fillOpacity={0}
-          style={style}
-          onMouseEnter={() => setCurrentSlice(slice)}
-          onFocus={() => {
-            setStyle({})
-            mouseMove(slice)
-            setCurrentSlice(slice)
-          }}
-          onMouseMove={() =>{
-            setStyle({outline: "none"})
-            mouseMove(slice)
-            setCurrentSlice(slice)}
-          }
-          onMouseLeave={() => {
-            setCurrentSlice(null)
-          }}
-        />
-      ))}
-    </g>
-  );
-};
 
 export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
 
