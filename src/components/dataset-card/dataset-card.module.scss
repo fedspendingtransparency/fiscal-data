@@ -24,7 +24,11 @@
 .card_withFocus {
   // Outline for Chrome and Safari
   outline: 1rem auto -webkit-focus-ring-color;
-  //Outline for FireFox
+}
+
+
+.card_withFocus_FireFox {
+  //Outline for Firefox
   outline: 1rem auto Highlight;
 }
 

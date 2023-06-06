@@ -12,10 +12,14 @@ import {
   card_tagLine,
   card_link,
   card_withFocus,
+  card_withFocus_FireFox,
 } from './dataset-card.module.scss';
 import DatasetStats from "./dataset-stats/dataset-stats";
 import Truncator from '../truncate/truncate';
 import DatasetTopicsSummary from './dataset-topics-summary/dataset-topics-summary';
+import { isFirefox } from 'react-device-detect';
+
+
 
 type DatasetCardProps = {
   dataset: IDataset,
@@ -32,6 +36,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
 }) => {
   const cardLink = `/datasets${dataset.slug}`;
   const [applyFocusStyle, setApplyFocusStyle] = useState(false);
+  const focusStyle = isFirefox ? card_withFocus_FireFox : card_withFocus;
 
   const clickHandler: () => void = () => {
     if (context && referrer) {
@@ -53,7 +58,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? card_withFocus : card} onClick={clickHandler} >
+      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} >
         <CardActionArea
           onFocus={() => setApplyFocusStyle(true)}
           onBlur={() => setApplyFocusStyle(false)}
