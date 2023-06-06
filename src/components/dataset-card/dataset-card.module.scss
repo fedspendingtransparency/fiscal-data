@@ -1,23 +1,34 @@
 @import '../../variables.module.scss';
 
-.card {
+.card, .card_withFocus {
   border: solid 1px #d6d7d9;
   cursor: pointer;
   width: 100%;
   color: $card-body;
-  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.0);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.0);
   transform: translateY(0);
   transition: box-shadow 0.5s ease, translateY 0.5s ease;
   box-sizing: border-box;
-  
+
   &:hover {
-    box-shadow: 0 2px 4px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
     transform: translateY(-1px);
   }
+
 
   button {
     padding: 1rem;
   }
+}
+
+.card_withFocus {
+  // Outline for Chrome and Safari
+  outline: 1rem auto -webkit-focus-ring-color;
+}
+
+.card_withFocus_FireFox {
+  //Outline for Firefox
+  outline: 1rem auto Highlight;
 }
 
 .card_headerLink {
