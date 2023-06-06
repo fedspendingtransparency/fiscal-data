@@ -22,7 +22,10 @@
 }
 
 .card_withFocus {
+  // Outline for Chrome and Safari
   outline: 1rem auto -webkit-focus-ring-color;
+  //Outline for FireFox
+  outline: 1rem auto Highlight;
 }
 
 .card_headerLink {
