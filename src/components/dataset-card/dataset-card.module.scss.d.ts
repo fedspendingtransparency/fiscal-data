@@ -64,6 +64,7 @@ export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const card: string;
+export const card_withFocus: string;
 export const card_headerLink: string;
 export const card_areaLink: string;
 export const card_link: string;

@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from 'react';
 import Analytics from '../../utils/analytics/analytics';
-import { Link, navigate } from "gatsby";
+import { navigate } from "gatsby";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { MuiThemeProvider } from "@material-ui/core";
@@ -10,7 +10,8 @@ import {
   card,
   card_headerLink,
   card_tagLine,
-  card_link
+  card_link,
+  card_withFocus,
 } from './dataset-card.module.scss';
 import DatasetStats from "./dataset-stats/dataset-stats";
 import Truncator from '../truncate/truncate';
@@ -30,6 +31,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   explainer
 }) => {
   const cardLink = `/datasets${dataset.slug}`;
+  const [applyFocusStyle, setApplyFocusStyle] = useState(false);
 
   const clickHandler: () => void = () => {
     if (context && referrer) {
@@ -51,8 +53,11 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className={card} onClick={clickHandler}>
-        <CardActionArea>
+      <Card className={applyFocusStyle ? card_withFocus : card} onClick={clickHandler} >
+        <CardActionArea
+          onFocus={() => setApplyFocusStyle(true)}
+          onBlur={() => setApplyFocusStyle(false)}
+        >
           <div className={card_headerLink}>
             <Truncator>{dataset.name}</Truncator>
           </div>
