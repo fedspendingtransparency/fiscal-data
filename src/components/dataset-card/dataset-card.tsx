@@ -20,7 +20,6 @@ import DatasetTopicsSummary from './dataset-topics-summary/dataset-topics-summar
 import { isFirefox } from 'react-device-detect';
 
 
-
 type DatasetCardProps = {
   dataset: IDataset,
   context: string,
