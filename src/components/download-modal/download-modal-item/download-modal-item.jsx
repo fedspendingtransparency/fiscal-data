@@ -93,7 +93,7 @@ const DownloadModalItem = ({
               </div>
               {(!download.readyForDownload && download.status !== 'completed') && (
                 <div
-                  className={styles.cancelDownloadButton}
+                  className={ `${styles.cancelDownloadButton} cancelDownloadButton` }
                   data-testid="cancel-download-button"
                 >
                   {buttons.cancelButton(download, cancelDownloadRequest)}
@@ -121,7 +121,7 @@ const DownloadModalItem = ({
                   {download.statusPath}
                 </div>
                 <div
-                  className={styles.copyLinkButton}
+                  className={ `${styles.copyLinkButton} copyLinkButton` }
                   data-testid="copy-link-button"
                 >
                   {buttons.copyToClipboardButton(download.statusPath)}

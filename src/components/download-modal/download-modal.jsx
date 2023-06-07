@@ -87,7 +87,7 @@ const DownloadModal = ({ open,
       </div>
       <button
         onClick={onClose}
-        className={styles.closeButton}
+        className= { `${styles.closeButton} closeDownloadButton` }
         data-testid="download-modal-close-button"
         aria-label="Close"
       >
