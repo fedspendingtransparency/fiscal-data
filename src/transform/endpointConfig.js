@@ -1978,6 +1978,12 @@ const endpointConfig = {
     'downloadName': 'TCIR_Monthly_OtherSpecificLegislation',
     'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
+  '204': {
+    'endpoint': 'v1/accounting/od/auctions_query',
+    'dateField': 'record_date',
+    'downloadName': 'Auctions_Query',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
+  },
 };
 
 const setCompleteTableDisplayItem = (response) => {
