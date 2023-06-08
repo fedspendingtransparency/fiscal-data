@@ -204,7 +204,7 @@ const DownloadSticky = () => {
   };
 
   const renderExpandDetailsButton = () => {
-    return <button className={styles.collapseToggle}
+    return <button className={[`${styles.collapseToggle}`, (expanded ? 'hideDownloadDetails' : 'showDownloadDetails')].join(' ')}
                    onClick={toggleDetailsEvent}
                    data-testid="collapse-toggle"
            >

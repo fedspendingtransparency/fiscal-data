@@ -76,7 +76,7 @@ const SelectControl = ({
           <FontAwesomeIcon icon={faChevronDown} size="sm" className={styles.icon} />
         </button>
         {droppedDown && (
-          <ul className={styles.selector_list} data-testid="selectorList">
+          <ul className={ `${styles.selector_list} selectControlList` } data-testid="selectorList">
             {options.map((option, index) => {
               const colName = option.columnName;
               const isSelectedOption = option === optionSelected || (
