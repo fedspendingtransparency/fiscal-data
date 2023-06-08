@@ -4,6 +4,8 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .dropdown .dropdownButton {
+    display: flex;
+    align-items: center;
     overflow: hidden;
     transform: translateX(2rem);
     padding: 3px 0 1px;

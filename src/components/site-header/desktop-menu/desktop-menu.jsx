@@ -37,7 +37,6 @@ const DesktopMenu = ({ location }) => {
         label: explainerPageName
       })
     }
-    setActiveDropdown(title);
   }
 
   return (
