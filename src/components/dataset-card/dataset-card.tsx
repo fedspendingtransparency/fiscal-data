@@ -40,16 +40,28 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   const clickHandler: () => void = () => {
     if (context && referrer) {
       explainer ?
+      (
         Analytics.event({
           category: `Explainers`,
           action: 'Citation Click',
           label: `${referrer} - ${context}`
-        }) :
+        })
+      ) :
+      (
         Analytics.event({
           category: `${context} Click`,
           action: `from ${referrer}`,
           value: dataset.name
         })
+        // GA4 Data Layer - Date Picker Click
+        
+        // window.dataLayer = window.dataLayer || [];
+        // window.dataLayer.push({
+        //   'event': 'Published Report Preview',
+        //   'eventLabel': selectedFile.path,
+        // });
+      )
+          
     }
 
     navigate(cardLink);
