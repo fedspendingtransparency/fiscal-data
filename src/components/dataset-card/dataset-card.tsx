@@ -53,7 +53,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
           action: `from ${referrer}`,
           value: dataset.name
         });
-        // GA4 Data Layer - Date Picker Click
+        // GA4 Data Layer - Related Dataset Click
         (window as any).dataLayer = (window as any).dataLayer || [];
         (window as any).dataLayer.push({
           'event': 'Related Dataset Click',
