@@ -60,6 +60,7 @@ const Accordion = ({
           role="button"
           tabIndex={0}
           className={`${heading} accordionHeading`}
+          id={`accordion-${open}`}
           style={altStyleAccordion}
         >
           {title}
