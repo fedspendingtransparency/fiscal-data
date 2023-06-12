@@ -73,6 +73,7 @@ export const DebtDeficitDifference = ({width, glossary, glossaryClickHandler}) =
             openEventNumber={"15"}
             closeEventNumber={"16"}
             explainerGAEvent="Deficit"
+            ga4ID={"diff-deficit"}
           >
             The government also uses operating cash available from an account at the Federal
             Reserve to pay for the deficit. This would be similar to a business using a line of
