@@ -88,6 +88,7 @@ const NationalDeficitHero = ({glossary, glossaryClickHandler}): JSX.Element => {
         "-of-the-u-s-government"
       }
       eventNumber="2"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
