@@ -92,6 +92,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
             setSelectedChartView('totalSpending');
             gaEvent('19');
           }}
+          id={'total-spending-toggle-total'}
         >
           <span
             style={{
@@ -120,6 +121,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
             setSelectedChartView('percentageGdp');
             gaEvent('19');
           }}
+          id={'total-spending-toggle-percent'}
         >
           <span
             style={{
