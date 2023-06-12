@@ -1,53 +1,43 @@
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import React from "react";
 
-export const ChartPlaceholder = () => (
-  <div
-    style={{
-      height: 500,
-      marginTop: '16px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      color: '#fff',
-      backgroundColor: '#555'
-    }}
-  >
-    Placeholder
-  </div>
-);
-
 export const deficitLearnMoreLinks = [
   {
     title: 'America’s Fiscal Future',
     url: 'https://www.gao.gov/americas-fiscal-future',
-    eventNumber: '19'
+    eventNumber: '19',
+    id: 'America\'s Fiscal Future'
   },
   {
     title: 'An Update to the Budget and Economic Outlook: 2021 to 2031',
     url: 'https://www.cbo.gov/publication/57339',
-    eventNumber: '20'
+    eventNumber: '20',
+    id: 'An Update to the Budget and Economic Outlook'
   },
   {
     title: 'Congressional Budget Office Topics – Budget',
     url: 'https://www.cbo.gov/topics/budget',
-    eventNumber: '21'
+    eventNumber: '21',
+    id: 'Budget'
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
     url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
-    eventNumber: '22'
+    eventNumber: '22',
+    id: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19'
   },
   {
     title: 'President’s Budget – Historical Tables',
     url: 'https://www.whitehouse.gov/omb/historical-tables/',
-    eventNumber: '23'
+    eventNumber: '23',
+    id: 'Historical Tables'
   },
   {
     title: 'FY 2022 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/' +
       'MonthlyTreasuryStatement_202209.pdf',
-    eventNumber: '24'
+    eventNumber: '24',
+    id: 'Monthly Treasury Statement'
   },
 ];
 
@@ -58,7 +48,9 @@ const mst =
   <CustomLink
     url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-' +
     'the-u-s-government'}
-    eventNumber='28'
+    eventNumber="28"
+    id="Monthly Treasury Statement"
+
   >
     Monthly Treasury Statement (MTS)
   </CustomLink>;
@@ -66,6 +58,7 @@ const github =
   <CustomLink
     url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}
     eventNumber='29'
+    id="DS&M"
   >
     GitHub repository
   </CustomLink>;

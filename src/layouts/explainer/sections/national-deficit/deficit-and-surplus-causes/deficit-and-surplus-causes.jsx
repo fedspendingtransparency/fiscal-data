@@ -5,8 +5,9 @@ import GlossaryPopoverDefinition from "../../../../../components/glossary/glossa
 const DeficitAndSurplusCauses = ({glossary, glossaryClickHandler}) => {
   const federalCovidResponseLink =
     <CustomLink
-    url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'}
-    eventNumber='14'
+    url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+    eventNumber="14"
+    id="The Federal Response to COVID-19"
     >
       the federal response to COVID-19
     </CustomLink>
