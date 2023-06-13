@@ -11,7 +11,7 @@ import {
   getFootNotesDateRange,
   getPillData
 } from "../hero-helper";
-import {spendingExplainerLightSecondary, spendingExplainerPrimary} from
+import {spendingExplainerPrimary} from
     "../../sections/federal-spending/federal-spending.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 import {getShortForm} from "../../../../utils/rounding-utils";
@@ -39,8 +39,9 @@ const FederalSpendingHero = (): JSX.Element => {
 
     const mts =
     <CustomLink
-      url={'/datasets/monthly-treasury-statement/outlays-of-the-u-s-government'}
+      url="/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"
       eventNumber="2"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
