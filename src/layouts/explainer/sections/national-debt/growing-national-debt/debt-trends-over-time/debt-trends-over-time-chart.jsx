@@ -35,11 +35,8 @@ import {
 import globalConstants from '../../../../../../helpers/constants';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import {
-  LineChartCustomSlices
-} from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
-
 import CustomSlices from '../../../../explainer-helpers/CustomSlice/custom-slice';
+
 let gaTimerDebtTrends;
 
 const analyticsClickHandler = (action, section) => {
@@ -81,6 +78,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           "Federal Debt Trends Over Time"
         )
       }
+      id="Historical Debt Outstanding"
     >
       {name}
     </CustomLink>

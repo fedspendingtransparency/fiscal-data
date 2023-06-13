@@ -29,6 +29,7 @@ const hdoLink = (
         "U.S. Federal Debt Trends Over the Last 100 Years"
       )
     }
+    id="Historical Debt Outstanding"
   >
     Historical Debt Outstanding
   </CustomLink>
