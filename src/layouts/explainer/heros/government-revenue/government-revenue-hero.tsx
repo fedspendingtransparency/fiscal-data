@@ -40,8 +40,9 @@ const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element =>
 
   const mts =
     <CustomLink
-      url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}
-      eventNumber={'4'}
+      url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government"
+      eventNumber="4"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
