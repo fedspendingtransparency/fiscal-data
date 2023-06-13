@@ -16,6 +16,7 @@ export const subTitle = 'Revenue by Source Categories';
 
 const name = 'Monthly Treasury Statement (MTS)';
 const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`;
+const mts = <CustomLink url={slug} eventNumber="12" id="Monthly Treasury Statement">{name}</CustomLink>
 export const footer =
   <div className={footerContainer}>
     <p>
@@ -24,7 +25,7 @@ export const footer =
       </i>
     </p>
     <p>
-      Visit the <CustomLink url={slug} eventNumber={'12'}>{name}</CustomLink> dataset to explore and
+      Visit the {mts} dataset to explore and
       download this data.
     </p>
   </div>

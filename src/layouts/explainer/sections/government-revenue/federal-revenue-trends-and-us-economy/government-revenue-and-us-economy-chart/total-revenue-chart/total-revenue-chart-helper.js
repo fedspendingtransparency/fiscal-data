@@ -13,8 +13,9 @@ import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import Analytics from "../../../../../../../utils/analytics/analytics";
 const mts = (
   <CustomLink
-    url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`}
-    eventNumber={'21'}
+    url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government"
+    eventNumber="21"
+    id="Monthly Treasury Statement"
   >
     Monthly Treasury Statement (MTS)
   </CustomLink>
