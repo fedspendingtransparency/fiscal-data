@@ -33,6 +33,7 @@ const DebtCeilingSection = () => (
         openEventNumber="28"
         closeEventNumber="29"
         explainerGAEvent="Debt"
+        ga4ID={"debt-ceiling"}
       >
         Government shutdowns occur when annual funding for ongoing federal
         government operations expires, and Congress does not renew it in time.

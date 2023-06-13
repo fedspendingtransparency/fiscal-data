@@ -508,6 +508,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
               openEventNumber={"26"}
               closeEventNumber={"27"}
               explainerGAEvent="Debt"
+              ga4ID={"print-money"}
             >
               While the Treasury prints actual dollar bills, “printing money”
               is also a term that is sometimes used to describe a means of{" "}

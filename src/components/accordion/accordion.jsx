@@ -23,6 +23,7 @@ const Accordion = ({
   openEventNumber,
   closeEventNumber,
   explainerGAEvent,
+  ga4ID
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
 
@@ -46,7 +47,9 @@ const Accordion = ({
   };
 
   return (
-    <div className={containerClass ? containerClass : container}>
+    <div
+      className={containerClass ? containerClass : container}
+    >
       <section
         data-testid="section"
         className={`${accordion} ${
@@ -60,11 +63,14 @@ const Accordion = ({
           role="button"
           tabIndex={0}
           className={`${heading} accordionHeading`}
-          id={`accordion-${open}`}
           style={altStyleAccordion}
+          id={`accordion-${open}-${ga4ID}`}
         >
           {title}
-          <div data-testid="button" className={`${toggle} accordionToggle`}>
+          <div
+            data-testid="button"
+            className={`${toggle} accordionToggle`}
+          >
             {open ? (
               <FontAwesomeIcon icon={faMinus} style={altStyleIcon} />
             ) : (

@@ -155,6 +155,7 @@ export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) =>
         <Accordion title="What is the process for determining discretionary spending?"
                     openEventNumber="18"
                    explainerGAEvent="Spending"
+                   ga4ID={"disc-spend"}
         >
           Discretionary spending is determined by the President and Congress
           each year in the budget and appropriations process. First, the
