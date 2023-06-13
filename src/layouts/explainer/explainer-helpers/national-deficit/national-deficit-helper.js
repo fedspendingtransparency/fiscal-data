@@ -45,7 +45,6 @@ const mst =
     'the-u-s-government'}
     eventNumber="28"
     id="Monthly Treasury Statement"
-
   >
     Monthly Treasury Statement (MTS)
   </CustomLink>;
