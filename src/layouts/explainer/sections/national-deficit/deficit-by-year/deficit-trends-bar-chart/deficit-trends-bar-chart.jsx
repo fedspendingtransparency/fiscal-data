@@ -24,6 +24,7 @@ import CustomBar from './custom-bar/custom-bar';
 import { useInView } from 'react-intersection-observer';
 
 let gaTimerChart;
+let ga4Timer;
 
 export const DeficitTrendsBarChart = ({ width }) => {
   const {getGAEvent} = useGAEventTracking(null, "Deficit");
@@ -161,10 +162,17 @@ export const DeficitTrendsBarChart = ({ width }) => {
         label: gaEvent.eventLabel,
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-deficit-trends',
+      });
+    }, 3000);
   }
 
   const handleGoogleAnalyticsMouseLeave = () =>{
     clearTimeout(gaTimerChart);
+    clearTimeout(ga4Timer);
   }
 
   const { ref, inView } = useInView({

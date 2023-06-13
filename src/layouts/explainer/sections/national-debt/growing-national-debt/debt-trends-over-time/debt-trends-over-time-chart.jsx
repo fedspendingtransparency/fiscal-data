@@ -41,6 +41,7 @@ import {
 
 import CustomSlices from '../../../../explainer-helpers/CustomSlice/custom-slice';
 let gaTimerDebtTrends;
+let ga4Timer;
 
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
@@ -302,10 +303,17 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         label: 'Debt - Federal Debt Trends Over Time'
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-debt-trends',
+      });
+    }, 3000);
   }
 
   const handleMouseLeaveLineChart = () => {
     clearTimeout(gaTimerDebtTrends);
+    clearTimeout(ga4Timer);
   };
 
   const lineChartOnMouseLeave = () => {
@@ -374,6 +382,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
             data-testid={`${chartParent}`}
             onMouseEnter={handleMouseEnterLineChart}
             onMouseLeave={handleMouseLeaveLineChart}
+            id={'debt-trends'}
             role={'presentation'}
           >
             <Line
