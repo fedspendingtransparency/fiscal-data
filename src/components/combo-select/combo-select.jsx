@@ -16,6 +16,11 @@ const XRAnalyticsHandler = (action, label) => {
       action: action,
       label: label
     });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': action,
+      'eventLabel': label,
+    });
   }
 };
 

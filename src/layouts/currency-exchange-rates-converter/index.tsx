@@ -80,6 +80,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         action: action,
         label: label,
       });
+
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        'event': action,
+        'eventLabel': label,
+      });
     }
   };
 
