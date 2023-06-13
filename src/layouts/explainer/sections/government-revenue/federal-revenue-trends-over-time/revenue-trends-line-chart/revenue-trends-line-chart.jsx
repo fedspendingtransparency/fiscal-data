@@ -21,6 +21,7 @@ import {
 } from "../../../../explainer-helpers/explainer-charting-helper";
 
 let gaTimerRevenueTrends;
+let ga4Timer;
 
 const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
@@ -144,10 +145,17 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
          }
        );
      }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-federal-rev-trends',
+      });
+    }, 3000);
   };
 
   const handleChartMouseLeave = () => {
     clearTimeout(gaTimerRevenueTrends);
+    clearTimeout(ga4Timer);
   }
 
   const blsLink =

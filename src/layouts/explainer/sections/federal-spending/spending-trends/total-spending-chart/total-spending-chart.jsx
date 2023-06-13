@@ -47,6 +47,7 @@ const chartDataEndPoint =
   'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
 
 let gaTimer;
+let ga4Timer;
 
 const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
@@ -305,6 +306,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const handleMouseEnter = () => {
     gaTimer = setTimeout(() => {
       handleClick("20");
+    }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-total-spending',
+      });
     }, 3000);
   }
 

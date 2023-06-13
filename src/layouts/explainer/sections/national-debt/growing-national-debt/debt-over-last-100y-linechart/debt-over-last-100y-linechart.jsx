@@ -42,6 +42,7 @@ const chartDataEndPoint =
   apiPrefix + 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101';
 
 let gaTimerDebt100Yrs;
+let ga4Timer;
 
 const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -179,9 +180,16 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-debt-100y',
+      });
+    }, 3000);
   };
   const handleChartMouseLeave = () => {
     clearTimeout(gaTimerDebt100Yrs);
+    clearTimeout(ga4Timer);
   };
 
   const customHeaderStyles={

@@ -51,6 +51,7 @@ export const trillionsFormatter = value =>
   `$${(Number(value) / 1000000).toFixed(2)} T`;
 
 let gaTimerDualChart;
+let ga4Timer;
 
 const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width }) => {
   const [data, setData] = useState();
@@ -341,9 +342,16 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
         label: 'Debt - Interest Rate and Total Debt'
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-interest-total-debt',
+      });
+    }, 3000);
   }
   const handleMouseLeaveInterestChart = () => {
     clearTimeout(gaTimerDualChart);
+    clearTimeout(ga4Timer);
   };
 
 

@@ -39,6 +39,7 @@ import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-util
 import Analytics from "../../../../../../../utils/analytics/analytics";
 
 let gaTimerTotalRevenue;
+let ga4Timer;
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -78,10 +79,17 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
       });
     },3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-total-revenue',
+      });
+    }, 3000);
   }
 
   const handleMouseLeaveChart = () => {
     clearTimeout(gaTimerTotalRevenue);
+    clearTimeout(ga4Timer);
   }
 
   const percentageData = [
