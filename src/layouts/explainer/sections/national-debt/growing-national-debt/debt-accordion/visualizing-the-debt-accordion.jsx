@@ -93,6 +93,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
         closeEventNumber={"21"}
         dynamicGaEventValue={dynamicGaEventValue}
         explainerGAEvent="Debt"
+        ga4ID={"viz-debt"}
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>

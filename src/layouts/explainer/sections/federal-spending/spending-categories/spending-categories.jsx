@@ -73,6 +73,7 @@ export const SpendingCategories = () => {
         <Accordion title="What does the future of Social Security and Medicare look like?"
                    openEventNumber="16"
                    explainerGAEvent="Spending"
+                   ga4ID={"social-sec"}
         >
           Each year, the Social Security and Medicare Boards of Trustees publish
           their{" "}

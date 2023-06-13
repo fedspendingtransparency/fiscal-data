@@ -98,6 +98,7 @@ const SpendingCategoriesAccordion = () => {
       <div className={debtAccordion}>
         <Accordion
           title="What are some of the major spending categories?"
+          ga4ID={"major-spending-cat"}
           altStyleAccordion={{ padding: "9px 16px" }}
           containerClass={fundingProgramAccordion}
           openEventNumber={"11"}

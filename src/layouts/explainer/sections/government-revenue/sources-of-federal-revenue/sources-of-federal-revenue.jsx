@@ -140,6 +140,7 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
           title={'Why does the Federal Reserve send money to the federal government?'}
           openEventNumber={"13"}
           explainerGAEvent={"Revenue"}
+          ga4ID={"source-rev"}
         >
           The Federal Reserve Act of 1913, the law that created the Federal Reserve System and
           established it as the central bank of the United States, requires that any excess

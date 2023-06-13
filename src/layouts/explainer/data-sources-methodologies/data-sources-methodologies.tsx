@@ -42,7 +42,7 @@ const DataSourcesMethodologies: FunctionComponent<DsmProps> = ({
   const analyticsProps = analyticsEventMap[pageName];
   return (
     <section className={`${section} dataSourceAccordion`}>
-      <Accordion {...analyticsProps} title="Data Sources & Methodologies">
+      <Accordion {...analyticsProps} title="Data Sources & Methodologies" ga4ID={'DSM'}>
         {children}
       </Accordion>
     </section>
