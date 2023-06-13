@@ -206,12 +206,16 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
-  const name = 'Monthly Treasury Statement (MTS)';
-  const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
+  const slug = `/datasets/monthly-treasury-statement/summary-of-
   receipts-and-outlays-of-the-u-s-government`;
+  const mts =
+    <CustomLink url={slug} eventNumber="18" id="Monthly Treasury Statement">
+      Monthly Treasury Statement (MTS)
+    </CustomLink>
+
   const footer =
     <div>
-      Visit the <CustomLink url={slug} eventNumber="18">{name}</CustomLink> dataset to explore and
+      Visit the {mts} dataset to explore and
       download this data.
       <p>Please note: This data visual only includes completed fiscal years.</p>
     </div>

@@ -79,7 +79,8 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
   const chartData = setAnimationDurations(data);
 
   const mst =
-    <CustomLink url={slug} eventNumber='13'>{name}
+    <CustomLink url={slug} eventNumber="13" id="Monthly Treasury Statement">
+      {name}
     </CustomLink>
 
   const footer =

@@ -9,17 +9,19 @@ import  DeficitTrendsBarChart  from "./deficit-trends-bar-chart/deficit-trends-b
 const DeficitByYear = () => {
 
   const federalCovidResponseLink =
-    <CustomLink url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'} eventNumber='17'>
+    <CustomLink url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+                eventNumber="17"
+    >
       in response to the COVID-19 pandemic
     </CustomLink>
 
   const federalSpendingLink =
-    <CustomLink url={'/americas-finance-guide/federal-spending/'}>
+    <CustomLink url="/americas-finance-guide/federal-spending/" id="Federal Spending">
       federal spending
     </CustomLink>
 
   const federalRevenueLink =
-    <CustomLink url={"/americas-finance-guide/government-revenue/"}>
+    <CustomLink url="/americas-finance-guide/government-revenue/" id="Government Revenue">
       federal revenue
     </CustomLink>
 

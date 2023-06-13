@@ -12,7 +12,8 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = (
     url,
     children,
     onClick ,
-    dataTestId = 'external-link'}
+    dataTestId = 'external-link'
+  },
 ) => (
   <a
     className="primary"

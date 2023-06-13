@@ -138,6 +138,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           download={urlOrHref.endsWith(".pdf")}
           data-testid={dataTestId || "internal-link"}
           onClick={onClickEventHandler}
+          id={id}
         >
           {children}
         </Link>

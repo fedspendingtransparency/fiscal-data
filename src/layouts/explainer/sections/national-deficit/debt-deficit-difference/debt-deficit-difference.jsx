@@ -20,7 +20,7 @@ import GlossaryPopoverDefinition from "../../../../../components/glossary/glossa
 export const DebtDeficitDifference = ({width, glossary, glossaryClickHandler}) => {
 
   const nationalDebtLink =
-    <CustomLink url={'/americas-finance-guide/national-debt/'}>
+    <CustomLink url="/americas-finance-guide/national-debt/" id="National Debt">
       National Debt Explainer
     </CustomLink>
 
