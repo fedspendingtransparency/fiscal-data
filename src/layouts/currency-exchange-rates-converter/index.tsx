@@ -81,7 +81,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       });
     }
   };
-  
+
   const handleMouseEnterInfoTip = (label) => {
     gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
@@ -266,7 +266,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       gaCurrencyTimer = setTimeout(() => {
         analyticsHandler("USD Value Entered", event.target.value);
       }, 3000);
-      
+
       if (nonUSCurrencyDecimalPlaces === 1) {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
       }
@@ -406,8 +406,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         <span className={footer} data-testid={'test'}>
           The Currency Exchange Rates Converter tool is powered by the{' '}
-          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}
-            onClick={() => analyticsHandler("Citation Click", 'Treasury Reporting Rates of Exchange Dataset')}>
+          <CustomLink
+            url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}
+            onClick={() => analyticsHandler("Citation Click", 'Treasury Reporting Rates of Exchange Dataset')}
+            id="Treasury Reporting Rates of Exchange"
+          >
             Treasury Reporting Rates of Exchange
           </CustomLink>
           {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
