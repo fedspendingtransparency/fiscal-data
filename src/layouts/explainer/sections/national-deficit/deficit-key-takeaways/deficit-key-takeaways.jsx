@@ -16,7 +16,7 @@ const DeficitKeyTakeaways = () => {
     'national debt',
     (match, index) => {
       return (
-        <CustomLink url={"/americas-finance-guide/national-debt/"} key={index}>
+        <CustomLink url="/americas-finance-guide/national-debt/" key={index} id="National Debt">
           {match}
         </CustomLink>
       );

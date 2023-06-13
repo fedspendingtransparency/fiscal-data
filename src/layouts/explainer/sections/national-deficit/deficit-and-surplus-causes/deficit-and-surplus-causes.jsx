@@ -7,22 +7,17 @@ const DeficitAndSurplusCauses = ({glossary, glossaryClickHandler}) => {
     <CustomLink
     url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
     eventNumber="14"
-    id="The Federal Response to COVID-19"
     >
       the federal response to COVID-19
     </CustomLink>
 
   const spendingLink =
-    <CustomLink
-      url={'/americas-finance-guide/federal-spending/'}
-    >
+    <CustomLink url="/americas-finance-guide/federal-spending/" id="Federal Spending">
       spending
     </CustomLink>
 
   const revenueLink =
-    <CustomLink
-      url={'/americas-finance-guide/government-revenue/'}
-    >
+    <CustomLink url="/americas-finance-guide/government-revenue/" id="Government Revenue">
       revenue
     </CustomLink>
 

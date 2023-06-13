@@ -86,7 +86,6 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           url={urlOrHref}
           onClick={onClickEventHandler}
           dataTestId={dataTestId}
-          id={id}
         >
           {children}
         </ExternalLink>

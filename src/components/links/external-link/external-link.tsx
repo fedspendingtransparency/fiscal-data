@@ -5,7 +5,6 @@ type ExternalLinkProps = {
   children: React.ReactNode,
   onClick?: () => void,
   dataTestId?: string,
-  id?: string
 }
 
 const ExternalLink: FunctionComponent<ExternalLinkProps> = (
@@ -14,7 +13,6 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = (
     children,
     onClick ,
     dataTestId = 'external-link',
-    id
   },
 ) => (
   <a
@@ -24,7 +22,6 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = (
     rel="noreferrer noopener"
     data-testid={dataTestId}
     onClick={() => onClick ? onClick() : null}
-    id={id}
   >
     {children}
   </a>
