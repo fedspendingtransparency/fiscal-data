@@ -465,34 +465,29 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
                   <p>
                     Visit the{" "}
                     <CustomLink
-                      url={
-                        "https://fiscaldata.treasury.gov/datasets/average-interest-rates-treasury" +
-                        "-securities/average-interest-rates-on-u-s-treasury-securities"
-                      }
+                      url={"/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities"}
                       onClick={() =>
                         analyticsClickHandler(
                           "Citation Click",
                           "Interest Rate and Total Debt"
                         )
                       }
+                      id="Average Interest Rates on U.S. Treasury Securities"
                     >
                       Average Interest Rates on U.S. Treasury Securities
                     </CustomLink>{" "}
                     and{" "}
                     <CustomLink
-                      url={
-                        "https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/" +
-                        "summary-of-treasury-securities-outstanding"
-                      }
+                      url={"/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"}
                       onClick={() =>
                         analyticsClickHandler(
                           "Citation Click",
                           "Interest Rate and Total Debt"
                         )
                       }
+                      id="U.S. Treasury Monthly Statement of the Public Debt"
                     >
-                      U.S. Treasury Monthly Statement of the Public Debt
-                      (MSPD)
+                      U.S. Treasury Monthly Statement of the Public Debt (MSPD)
                     </CustomLink>{" "}
                     datasets to explore and download this data.
                   </p>

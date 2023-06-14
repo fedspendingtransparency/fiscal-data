@@ -131,6 +131,7 @@ const debtToThePenny = (
   <CustomLink
     url={"/datasets/debt-to-the-penny/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Debt to the Penny"
   >
     Debt to the Penny
   </CustomLink>
@@ -140,6 +141,7 @@ const mspd = (
   <CustomLink
     url={"/datasets/monthly-statement-public-debt/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Monthly Statement of the Public Debt"
   >
     Monthly Statement of the Public Debt (MSPD)
   </CustomLink>
@@ -149,6 +151,7 @@ const historicalDebt = (
   <CustomLink
     url={"/datasets/historical-debt-outstanding/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Historical Debt Outstanding"
   >
     Historical Debt Outstanding
   </CustomLink>
@@ -158,6 +161,7 @@ const treasurySecurities = (
   <CustomLink
     url={"/datasets/average-interest-rates-treasury-securities/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Average Interest Rates on U.S. Treasury Securities"
   >
     Average Interest Rates on U.S. Treasury Securities
   </CustomLink>
