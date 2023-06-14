@@ -4,13 +4,19 @@ import React from 'react';
 
 
 export const deficitLink = (
-  <CustomLink url={'/americas-finance-guide/national-deficit/'} >
+  <CustomLink
+    url={'/americas-finance-guide/national-deficit/'}
+    id="National Deficit"
+  >
     deficit
   </CustomLink>
 );
 
 export const spendingLink = (copy) => (
-  <CustomLink url={'/americas-finance-guide/federal-spending/'} >
+  <CustomLink
+    url={'/americas-finance-guide/federal-spending/'}
+    id="Federal Spending"
+  >
     {copy}
   </CustomLink>
 );

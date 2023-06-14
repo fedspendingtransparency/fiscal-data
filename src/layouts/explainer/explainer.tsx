@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from 'react';
 import BreadCrumbs from "../../components/breadcrumbs/breadcrumbs";
 import PageHelmet from "../../components/page-helmet/page-helmet";
 import SiteLayout from "../../components/siteLayout/siteLayout";
@@ -64,6 +64,9 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
     },
   ];
 
+  const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
+
+
   const isAFGPage = () => {
     const isBrowser = () => typeof window !== "undefined";
     let isAFG = false;
@@ -74,7 +77,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
   };
 
   return (
-    <SiteLayout isPreProd={false}>
+    <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
@@ -108,7 +111,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
           secondaryColor={explainerColorMap[pageName].secondaryLight}
           pageName={pageName}
         >
-          {explainerHeroMap[pageName].component(glossary)}
+          {explainerHeroMap[pageName].component(glossary, setGlossaryClickEvent)}
         </HeroImage>
         <div className={contentContainer}>
           <SecondaryNav
@@ -140,7 +143,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
                       >
                         {s.title}
                       </h2>
-                      {s.component(glossary, cpiDataByYear)}
+                      {s.component(glossary, setGlossaryClickEvent, cpiDataByYear)}
                       {s.index !== explainerSections[pageName].length - 1 && (
                         <div
                           className={sectionBorder}

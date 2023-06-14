@@ -41,6 +41,7 @@ import Analytics from "../../utils/analytics/analytics";
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
+let ga4Timer;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
@@ -79,17 +80,30 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         action: action,
         label: label,
       });
+
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        'event': action,
+        'eventLabel': label,
+      });
     }
   };
-  
-  const handleMouseEnterInfoTip = (label) => {
+
+  const handleMouseEnterInfoTip = (label, ga4ID) => {
     gaInfoTipTimer = setTimeout(() => {
       analyticsHandler('Additional Info Hover', label);
+    }, 3000);
+    ga4Timer = setTimeout(() => {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        'event': `additional-info-hover-${ga4ID}`,
+      });
     }, 3000);
   };
 
   const handleInfoTipClose = () => {
     clearTimeout(gaInfoTipTimer);
+    clearTimeout(ga4Timer);
   }
 
   const yearQuarterParse = (dataRecord: Record<string, string>): string =>
@@ -266,7 +280,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       gaCurrencyTimer = setTimeout(() => {
         analyticsHandler("USD Value Entered", event.target.value);
       }, 3000);
-      
+
       if (nonUSCurrencyDecimalPlaces === 1) {
         product = (Math.round((parseFloat(event.target.value) * parseFloat(nonUSCurrency.exchange_rate)) * 10) / 10);
       }
@@ -347,7 +361,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => {handleMouseEnterInfoTip('Additional Effective Date Info');}} onBlur={handleInfoTipClose} role={'presentation'}>
+                  <span data-testid={'effective-date-info-tip'} onMouseEnter={() => {handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');}} onBlur={handleInfoTipClose} role={'presentation'}>
                     <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                       {effectiveDateInfoIcon.body}
                     </InfoTip>
@@ -363,7 +377,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion.{" "}
             </span>
-            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info')} onBlur={handleInfoTipClose} role={'presentation'}>
+            <span data-testid={'foreign-currency-info-tip'} onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')} onBlur={handleInfoTipClose} role={'presentation'}>
               <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                 {currencySelectionInfoIcon.body}
               </InfoTip>
@@ -406,8 +420,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         <span className={footer} data-testid={'test'}>
           The Currency Exchange Rates Converter tool is powered by the{' '}
-          <CustomLink url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}
-            onClick={() => analyticsHandler("Citation Click", 'Treasury Reporting Rates of Exchange Dataset')}>
+          <CustomLink
+            url={'/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange'}
+            onClick={() => analyticsHandler("Citation Click", 'Treasury Reporting Rates of Exchange Dataset')}
+            id="Treasury Reporting Rates of Exchange"
+          >
             Treasury Reporting Rates of Exchange
           </CustomLink>
           {' '}dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.

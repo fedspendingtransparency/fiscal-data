@@ -36,6 +36,7 @@ import {
   addInnerChartAriaLabel,
   applyChartScaling
 } from "../../../../explainer-helpers/explainer-charting-helper";
+import CustomSlices  from '../../../../explainer-helpers/CustomSlice/custom-slice';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -46,6 +47,7 @@ const chartDataEndPoint =
   'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
 
 let gaTimer;
+let ga4Timer;
 
 const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
@@ -66,11 +68,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
 
-
-  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState(
-    {}
-  );
-
+  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 
@@ -309,6 +307,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     gaTimer = setTimeout(() => {
       handleClick("20");
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-total-spending',
+      });
+    }, 3000);
   }
 
   const handleGroupOnMouseLeave = () => {
@@ -384,7 +388,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     'points',
                     lineChartCustomPoints,
                     (props) =>
-                      LineChartCustomSlices({
+                      CustomSlices({
                           ...props,
                           groupMouseLeave: handleGroupOnMouseLeave,
                           mouseMove: handleMouseLeave

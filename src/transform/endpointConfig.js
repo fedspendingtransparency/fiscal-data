@@ -1915,7 +1915,8 @@ const endpointConfig = {
   '193': {
     'endpoint': 'v1/accounting/od/tcir_semi_annual',
     'dateField': 'record_date',
-    'downloadName': 'TCIR_SemiAnnual'
+    'downloadName': 'TCIR_SemiAnnual',
+    'alwaysSortWith': ['-effective_start_date', 'src_line_nbr'],
   },
   '194': {
     'endpoint': 'v1/accounting/od/tcir_quarterly_table_1',
@@ -1975,6 +1976,12 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/tcir_monthly_table_6',
     'dateField': 'record_date',
     'downloadName': 'TCIR_Monthly_OtherSpecificLegislation',
+    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
+  },
+  '204': {
+    'endpoint': 'v1/accounting/od/auctions_query',
+    'dateField': 'record_date',
+    'downloadName': 'Auctions_Query',
     'alwaysSortWith': ['-record_date', 'src_line_nbr'],
   },
 };

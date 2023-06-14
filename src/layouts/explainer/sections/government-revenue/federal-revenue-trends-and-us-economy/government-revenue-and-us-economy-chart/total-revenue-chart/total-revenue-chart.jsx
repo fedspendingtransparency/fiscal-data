@@ -26,6 +26,7 @@ import {
 } from '../../../../../explainer-helpers/explainer-charting-helper';
 import {lineChartCustomPoints, LineChartCustomSlices} from
     '../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
+import CustomSlices from '../../../../../explainer-helpers/CustomSlice/custom-slice';
 import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation }
   from '../../../../../../../helpers/inflation-adjust/inflation-adjust';
@@ -38,6 +39,7 @@ import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-util
 import Analytics from "../../../../../../../utils/analytics/analytics";
 
 let gaTimerTotalRevenue;
+let ga4Timer;
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -77,10 +79,17 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         label: 'Revenue - Federal Revenue Trends and the U.S. Economy'
       });
     },3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-total-revenue',
+      });
+    }, 3000);
   }
 
   const handleMouseLeaveChart = () => {
     clearTimeout(gaTimerTotalRevenue);
+    clearTimeout(ga4Timer);
   }
 
   const percentageData = [
@@ -361,7 +370,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   'lines',
                   lineChartCustomPoints,
                   props =>
-                    LineChartCustomSlices({
+                    CustomSlices({
                         ...props,
                         groupMouseLeave: handleGroupOnMouseLeave,
                         mouseMove: handleMouseLeave

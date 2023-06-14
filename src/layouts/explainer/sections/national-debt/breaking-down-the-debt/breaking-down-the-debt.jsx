@@ -1,5 +1,5 @@
 import {withWindowSize} from "react-fns";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
 import Analytics from "../../../../../utils/analytics/analytics";
@@ -51,8 +51,9 @@ export const trillionsFormatter = value =>
   `$${(Number(value) / 1000000).toFixed(2)} T`;
 
 let gaTimerDualChart;
+let ga4Timer;
 
-const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
+const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(new Date());
   const [startYear, setStartYear] = useState("");
@@ -73,40 +74,44 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
 
   const glossaryTerms = {
     debtHeldByThePublic: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Debt Held by the Public"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         debt held by the public
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     intragovernmental: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Intragovernmental Holdings"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         intragovernmental
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     calendarYear: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Calendar Year"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         calendar year
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
     interestRates: (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Interest Rates"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         interest rates
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     ),
   };
 
@@ -337,9 +342,16 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
         label: 'Debt - Interest Rate and Total Debt'
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-interest-total-debt',
+      });
+    }, 3000);
   }
   const handleMouseLeaveInterestChart = () => {
     clearTimeout(gaTimerDualChart);
+    clearTimeout(ga4Timer);
   };
 
 
@@ -453,34 +465,29 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
                   <p>
                     Visit the{" "}
                     <CustomLink
-                      url={
-                        "https://fiscaldata.treasury.gov/datasets/average-interest-rates-treasury" +
-                        "-securities/average-interest-rates-on-u-s-treasury-securities"
-                      }
+                      url={"/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities"}
                       onClick={() =>
                         analyticsClickHandler(
                           "Citation Click",
                           "Interest Rate and Total Debt"
                         )
                       }
+                      id="Average Interest Rates on U.S. Treasury Securities"
                     >
                       Average Interest Rates on U.S. Treasury Securities
                     </CustomLink>{" "}
                     and{" "}
                     <CustomLink
-                      url={
-                        "https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/" +
-                        "summary-of-treasury-securities-outstanding"
-                      }
+                      url={"/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"}
                       onClick={() =>
                         analyticsClickHandler(
                           "Citation Click",
                           "Interest Rate and Total Debt"
                         )
                       }
+                      id="U.S. Treasury Monthly Statement of the Public Debt"
                     >
-                      U.S. Treasury Monthly Statement of the Public Debt
-                      (MSPD)
+                      U.S. Treasury Monthly Statement of the Public Debt (MSPD)
                     </CustomLink>{" "}
                     datasets to explore and download this data.
                   </p>
@@ -504,6 +511,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, width }) => {
               openEventNumber={"26"}
               closeEventNumber={"27"}
               explainerGAEvent="Debt"
+              ga4ID={"print-money"}
             >
               While the Treasury prints actual dollar bills, “printing money”
               is also a term that is sometimes used to describe a means of{" "}

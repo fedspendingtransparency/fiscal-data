@@ -6,11 +6,11 @@ import { SortOptions, FilteredSortOptions } from './search-results-helper';
 import { sortSelectionContainer } from './search-results.module.scss';
 
 const mockAllDatasets = [
-  { name: 'Dataset A' },
-  { name: 'Dataset B' },
-  { name: 'Dataset C' },
-  { name: 'Dataset D' },
-  { name: 'Dataset E' }
+  { name: 'Dataset A', techSpecs: { lastUpdated: 1/1/2000 } },
+  { name: 'Dataset B', techSpecs: { lastUpdated: 2/1/2000 } },
+  { name: 'Dataset C', techSpecs: { lastUpdated: 3/2/2000 } },
+  { name: 'Dataset D', techSpecs: { lastUpdated: 3/1/2000 } },
+  { name: 'Dataset E', techSpecs: { lastUpdated: 10/1/2000 } }
 ];
 const mockFilteredDatasets = [
   mockAllDatasets[0],
@@ -129,7 +129,6 @@ describe('Search Results', () => {
         searchIsActive={false}
       />
     );
-    
     expect(getByText(FilteredSortOptions[0].label)).toBeInTheDocument();
   });
 

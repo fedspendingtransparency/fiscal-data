@@ -6,7 +6,7 @@ import { Link } from "gatsby";
 import MenuButton from "../menu-button/menu-button";
 import MobileMenuDropdown from "./mobile-menu-dropdown/mobile-menu-dropdown";
 
-const MobileMenu = () => {
+const MobileMenu = ({ setOpenGlossary }) => {
   const [activeState, setActiveState] = useState(false);
 
   const toggleState = (e) => {
@@ -59,6 +59,10 @@ const MobileMenu = () => {
     {
       children: [
         {
+          to: '/',
+          name: 'Glossary'
+        },
+        {
           to: '/api-documentation/',
           name: 'API Documentation'
         },
@@ -104,7 +108,10 @@ const MobileMenu = () => {
             <Link to="/datasets/" className={styles.pageLinks}>
               Dataset Search
             </Link>
-            <MobileMenuDropdown header={'Resources'} sections={resources} />
+            <MobileMenuDropdown header={'Resources'} 
+                                sections={resources} 
+                                setOpenGlossary={setOpenGlossary} 
+                                setActiveState={setActiveState} />
             <Link to="/about-us/" className={styles.pageLinks}>
               About Us
             </Link>

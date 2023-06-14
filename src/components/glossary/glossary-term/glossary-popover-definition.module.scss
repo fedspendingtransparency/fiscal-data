@@ -1,0 +1,78 @@
+@import '../../../variables.module.scss';
+
+.glossaryText {
+    color: $font-body-copy;
+    font-size: $font-size-16;
+  .header {
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
+  .termNameText {
+    font-size: $font-size-20;
+    font-weight: $semi-bold-weight;
+    margin-bottom: .25rem;
+  }
+
+  .glossaryButton {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: $primary;
+    font-weight: $semi-bold-weight;
+    margin-top: 1.5rem;
+    &:hover {
+      color: $slate-blue;
+    }
+    .arrowIcon {
+      margin-left: .5rem;
+      height: 0.833rem;
+    }
+  }
+}
+
+.popoverContents {
+  p:last-child, ul:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.glossaryLink {
+  background-color: #e8f5ff;
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover {
+    color: $primary;
+  }
+
+  .bookIcon {
+    color: $primary;
+    height: 0.875rem;
+    padding-left: 0.25rem;
+  }
+}
+
+.glossaryHover {
+  background-color: $primary;
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  color: white;
+  white-space: nowrap;
+  .bookIcon {
+    color: white;
+    height: 0.875rem;
+    padding-left: 0.25rem;
+  }
+}
+
+.mobileFA{
+  float: right;
+  color: $primary;
+  height: 1.2rem;
+  cursor: pointer;
+  &:hover {
+    color: $slate-blue;
+  }
+}

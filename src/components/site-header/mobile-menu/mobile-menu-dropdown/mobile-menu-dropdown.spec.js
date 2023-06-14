@@ -2,7 +2,6 @@ import {fireEvent, render} from "@testing-library/react";
 import MobileMenuDropdown from "./mobile-menu-dropdown";
 import React from "react";
 import Analytics from "../../../../utils/analytics/analytics";
-import SiteHeader from "../../site-header";
 
 const testSections = [
   {
@@ -35,6 +34,10 @@ const testSections = [
         to: '/americas-finance-guide/government-revenue/',
         name: 'A Second Test Section'
       },
+      {
+        to: '/',
+        name: 'Glossary'
+      }
     ]
   }
 ]
@@ -89,6 +92,7 @@ describe('Mobile Menu Dropdown', () => {
     expect(getByText('Spending')).toBeInTheDocument();
     expect(getByText('Test Section')).toBeInTheDocument();
     expect(getByText('A Second Test Section')).toBeInTheDocument();
+    expect(getByText('Glossary')).toBeInTheDocument();
   });
 
   it('calls the appropriate analytics event when links are clicked on', () => {
@@ -103,5 +107,20 @@ describe('Mobile Menu Dropdown', () => {
       label: 'Spending'
     });
     spy.mockClear();
+  });
+
+  it('sets open state for glossary and closed state for menu when glossary selected', () => {
+    const setGlossaryOpenMock = jest.fn();
+    const setActiveStateMock = jest.fn();
+    const { getByText } = render(<MobileMenuDropdown header={'Header'} 
+                                                     sections={testSections} 
+                                                     defaultOpen 
+                                                     setActiveState={setActiveStateMock}
+                                                     setOpenGlossary={setGlossaryOpenMock}/>);
+
+    getByText('Glossary').click();
+
+    expect(setGlossaryOpenMock).toHaveBeenCalledWith(true);
+    expect(setActiveStateMock).toHaveBeenCalledWith(false);
   });
 })

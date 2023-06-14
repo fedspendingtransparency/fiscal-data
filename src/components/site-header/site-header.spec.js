@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, waitFor, render} from "@testing-library/react"
+import {fireEvent, waitFor, render, within } from "@testing-library/react"
 import SiteHeader from "./site-header";
 import * as styles from './site-header.module.scss';
 import * as rdd from 'react-device-detect';
@@ -7,10 +7,30 @@ import SiteLayout from "../siteLayout/siteLayout";
 import Analytics from '../../utils/analytics/analytics';
 import { StaticQuery, useStaticQuery } from 'gatsby';
 import { mockUseStaticGlossaryData } from '../glossary/test-helper';
+import { createHistory, createMemorySource, LocationProvider } from '@reach/router';
+import "gatsby-env-variables";
+import '@testing-library/jest-dom/extend-expect'
 
 jest.useFakeTimers();
 
+jest.mock("gatsby-env-variables", () => ({
+  ENV_ID: 'dev',
+  API_BASE_URL: 'https://www.transparency.treasury.gov',
+  ADDITIONAL_DATASETS: {},
+  EXPERIMENTAL_WHITELIST: [],
+  NOTIFICATION_BANNER_TEXT: 'Test Page Name',
+  NOTIFICATION_BANNER_DISPLAY_PAGES: ['/', '/datasets/'],
+  NOTIFICATION_BANNER_DISPLAY_PATHS: ['/americas-finance-guide/'],
+}));
+
+const renderWithRouter = (ui, routeStr, {route=routeStr, history = createHistory(createMemorySource(route))} = {}) => {
+  return {
+    ...render(<LocationProvider history={history}>{ui}</LocationProvider>),
+    history
+  }
+}
 describe('SiteHeader', () => {
+
 
   beforeEach(() => {
     StaticQuery.mockImplementation(({ render }) => render({ mockUseStaticGlossaryData }));
@@ -85,6 +105,7 @@ describe('SiteHeader', () => {
   it('displays the resources drop down when mousing over resources button', () => {
     const { getByRole } = render(<SiteHeader />);
     fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    expect(getByRole('button', {name: 'Glossary'})).toBeInTheDocument();
     expect(getByRole('link', {name: 'API Documentation'})).toBeInTheDocument();
     expect(getByRole('link', {name: 'Release Calendar'})).toBeInTheDocument();
   });
@@ -255,8 +276,6 @@ describe('SiteHeader', () => {
     });
     spy.mockClear();
 
-
-
     aboutButton.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
@@ -285,4 +304,57 @@ describe('SiteHeader', () => {
     });
     spy.mockClear();
   });
+
+  it('opens the glossary menu when selected', async () => {
+    const { getByRole, getByTestId } = render(<SiteHeader />);
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    const glossaryButton = getByRole('button', {name: 'Glossary'});
+    fireEvent.click(glossaryButton);
+
+    await waitFor(() => {
+      expect(getByTestId('glossaryContainer')).toBeInTheDocument();
+      expect(getByTestId('glossaryContainer')).toHaveClass('open');
+    });
+  });
+
+  it('glossary menu closes when overlay is clicked', async () => {
+    const { getByRole, getByTestId, queryByTestId } =
+      render(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />);
+
+    fireEvent.mouseEnter(getByRole('button', {name: 'Resources'}));
+    const glossaryButton = getByRole('button', {name: 'Glossary'});
+
+    fireEvent.click(glossaryButton);
+    const glossary = getByTestId('glossaryContainer');
+
+    await waitFor(() => {
+      expect(glossary).toHaveClass('open');
+    });
+    const glossaryOverlay = within(glossary).getByTestId('overlay');
+
+    fireEvent(glossaryOverlay, new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    }));
+
+    await waitFor(() => {
+      expect(glossary).not.toHaveClass('open');
+    });
+  });
+
+  it('displays announcement banner for specified pages', () => {
+    const { getByText } = renderWithRouter(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/datasets/');
+
+    expect(getByText('Dataset Unavailable', {exact: false})).toBeInTheDocument();
+    expect(getByText('Test Page Name', {exact: false})).toBeInTheDocument();
+  })
+
+  it('displays announcement banner for specified paths', () => {
+    const { getByText } =
+      renderWithRouter(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/americas-finance-guide/national-debt/');
+
+    expect(getByText('Dataset Unavailable', {exact: false})).toBeInTheDocument();
+    expect(getByText('Test Page Name', {exact: false})).toBeInTheDocument();
+  })
 });

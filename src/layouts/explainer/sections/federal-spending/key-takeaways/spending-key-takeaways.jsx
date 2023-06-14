@@ -9,7 +9,7 @@ import KeyTakeawaysSection from "../../../explainer-components/key-takeaways/key
 import {getShortForm} from "../../../../../utils/rounding-utils";
 
 
-const SpendingKeyTakeaways = ({glossary}) => {
+const SpendingKeyTakeaways = ({glossary, glossaryClickHandler}) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [priorYearSpendingShort, setPriorYearSpendingShort] = useState("");
   const [spendingRevComparison, setSpendingRevComparison] = useState("");
@@ -118,6 +118,7 @@ const SpendingKeyTakeaways = ({glossary}) => {
       primaryColor={spendingExplainerPrimary}
       secondaryColor={spendingExplainerLightSecondary}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     />
 );
 }

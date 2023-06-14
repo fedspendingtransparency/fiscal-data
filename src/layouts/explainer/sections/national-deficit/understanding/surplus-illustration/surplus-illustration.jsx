@@ -17,7 +17,7 @@ import React, {useState} from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import GlossaryTerm from "../../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import FolderTabEdgeRight from "./folder-illustration-svgs/folder-tab-edge-right";
 import FolderTabEdgeRightLast from "./folder-illustration-svgs/folder-tab-edge-right-last";
 import FolderTabEdgeLeft from "./folder-illustration-svgs/folder-tab-edge-left";
@@ -101,9 +101,9 @@ const SurplusIllustration = ({glossary, width}) => {
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
   const balancedBudgetGlossary =
-    <GlossaryTerm term={'balanced budget'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'balanced budget'} page={'Deficit Explainer'} glossary={glossary}>
       balanced budget
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
 
   return (

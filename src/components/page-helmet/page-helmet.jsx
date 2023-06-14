@@ -60,6 +60,32 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
 
   return (
     <Helmet>
+      {/*Google Tag Manager */}
+      <script>
+        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5N9D5C5');`}
+      </script>
+      {/*End Google Tag Manager*/}
+      {/*Google Tag Manager (noscript)*/}
+      <noscript>
+        {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
+        {`<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5N9D5C5"
+        height="0" width="0" style="display:none;visibility:hidden"
+        />`}
+      </noscript>
+      {/*End Google Tag Manager (noscript)*/}
+      {/*Google Analytics 4 Tag  */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />
+      <script>
+        {`window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-ME8TBPZYXP');`}
+      </script>
+      {/*Google Analytics 4 Tag  */}
       {/* Version info is placed inside a script comment below because both react jsx
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}

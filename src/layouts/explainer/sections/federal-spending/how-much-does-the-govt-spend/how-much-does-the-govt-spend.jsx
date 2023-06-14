@@ -106,9 +106,9 @@ const HowMuchDoesTheGovtSpend = () => {
 
   const mts =
     <CustomLink
-      url={`https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`}
+      url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
       eventNumber="15"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>;
@@ -203,6 +203,7 @@ const HowMuchDoesTheGovtSpend = () => {
           <div className={chartToggle}>
             <button
               className={toggleButton}
+              id={'spending-categories-toggle-cat'}
               style={{
                 borderBottomLeftRadius: "4px",
                 borderTopLeftRadius: "4px",
@@ -229,6 +230,7 @@ const HowMuchDoesTheGovtSpend = () => {
             </button>
             <button
               className={toggleButton}
+              id={'spending-categories-toggle-agency'}
               style={{
                 borderBottomRightRadius: "4px",
                 borderTopRightRadius: "4px",

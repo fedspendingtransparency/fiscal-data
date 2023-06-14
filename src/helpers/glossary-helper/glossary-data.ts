@@ -1,24 +1,35 @@
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 
+export interface IGlossaryListSection {
+  sortedList: IGlossaryTerm[]
 
-export interface IGlossaryMap {
-  [letter: string]: IGlossaryTerm[]
+  map(element: (term) => JSX.Element): any;
 }
 
-export const getGlossaryMap = (glossaryData: IGlossaryTerm[]):IGlossaryMap => {
-  const glossaryMap = {};
-  if(glossaryData) {
+
+export const getSortedGlossaryList = (glossaryData: IGlossaryTerm[]):IGlossaryListSection[] => {
+  const glossaryList = [];
+  if (glossaryData) {
     const sortedGlossaryData = [...glossaryData];
+
+    //Add a slug for each glossary term
+    sortedGlossaryData.map((term) => term.slug = term.term.toLowerCase().split(' ').join('-'));
+
+    let letterList = [];
+    let lastTerm = '';
     sortedGlossaryData.sort((a,b) => a.term.localeCompare(b.term));
     sortedGlossaryData.forEach(node => {
-      if(glossaryMap[node.term.charAt(0).toUpperCase()]) {
-        glossaryMap[node.term.charAt(0).toUpperCase()].push(node)
+      if(node.term.charAt(0).toLowerCase() !== lastTerm.charAt(0).toLowerCase()) {
+        if (letterList.length !== 0) {
+          glossaryList.push(letterList);
+        }
+        letterList = [node];
       } else {
-        glossaryMap[node.term.charAt(0).toUpperCase()] = [node]
+        letterList.push(node);
       }
+      lastTerm = node.term;
     })
-
-
+    glossaryList.push(letterList);
   }
-  return glossaryMap;
+  return glossaryList;
 }

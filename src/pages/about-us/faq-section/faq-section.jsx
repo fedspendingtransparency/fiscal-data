@@ -116,7 +116,6 @@ const FAQ = ({triggerHighlight = 0}) => {
             about new features and datasets,{' '}
             <CustomLink url="mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov?subject=Yes,
             I’d like to receive updates from Fiscal Data!"
-                        external
             >
               sign up for our mailing list
             </CustomLink>.
@@ -165,7 +164,7 @@ const FAQ = ({triggerHighlight = 0}) => {
       >
           <p>
             Please{' '}
-            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us" external>
+            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
               contact us
             </CustomLink> with questions about the
              data or to submit recommendations.

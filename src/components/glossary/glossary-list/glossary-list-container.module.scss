@@ -29,29 +29,9 @@
 
     .termContainer {
       overflow-y: auto;
-      margin-bottom: 13rem;
+      margin-bottom: 12.825rem;
       margin-top: -2.5rem;
       padding-right: 1rem;
-
-      .sectionHeader {
-        font-size: $font-size-20;
-        font-weight: $semi-bold-weight;
-        margin-bottom: .5rem;
-      }
-
-      .sectionTerms {
-        margin-bottom: 1.25rem;
-
-        .termText:not(:last-child) {
-          margin-bottom: .25rem;
-        }
-        .termText {
-          &:hover {
-            text-decoration: underline;
-            cursor: pointer;
-          }
-        }
-      }
     }
   }
 
@@ -71,10 +51,9 @@
   }
   .arrowIcon {
     margin-right: .5rem;
-    height: 10px;
+    height: 0.833rem;
   }
 }
-
 
 .listContainer > div {
   min-height: 0;

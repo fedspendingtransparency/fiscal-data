@@ -9,13 +9,20 @@ import  DeficitTrendsBarChart  from "./deficit-trends-bar-chart/deficit-trends-b
 const DeficitByYear = () => {
 
   const federalCovidResponseLink =
-    <CustomLink url={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'} eventNumber='17'>
+    <CustomLink url="https://www.usaspending.gov/disaster/covid-19?publicLaw=all"
+                eventNumber="17"
+    >
       in response to the COVID-19 pandemic
     </CustomLink>
 
   const federalSpendingLink =
-    <CustomLink url={'/americas-finance-guide/federal-spending/'}>
+    <CustomLink url="/americas-finance-guide/federal-spending/" id="Federal Spending">
       federal spending
+    </CustomLink>
+
+  const federalRevenueLink =
+    <CustomLink url="/americas-finance-guide/government-revenue/" id="Government Revenue">
+      federal revenue
     </CustomLink>
 
   return (
@@ -24,7 +31,7 @@ const DeficitByYear = () => {
         <p>
           Since 2001, the federal government’s budget has run a deficit each year. Starting in
           2016, increases in spending on Social Security, health care, and interest on federal
-          debt have outpaced the growth of federal revenue.
+          debt have outpaced the growth of {federalRevenueLink}.
         </p>
         <p>
           From FY 2019 to FY 2021, {federalSpendingLink} increased by about 50 percent {federalCovidResponseLink}.

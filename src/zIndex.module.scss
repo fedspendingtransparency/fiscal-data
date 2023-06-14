@@ -39,7 +39,8 @@ $table-loading-icon: $above + $table-title;
 $dynamic-config-edit-pivot: $above + $backdrop;
 $pivot-options-form-first-child: $above + $dynamic-config-edit-pivot;
 // filter download
-$filter-download-left-content: $above + $backdrop;
+$filter-download-left-content: $above + $table-loading-icon; // parent of select-control dropdown
+                                                             // table-loading-icon highest on table which select control must overlay
 // published reports
 $published-reports-preview: $above + $backdrop;
 $published-reports-left-content: $above + $published-reports-preview;
@@ -47,21 +48,21 @@ $published-reports-year-select: $above + $published-reports-left-content;
 // api quick guide
 $dataset-details-example-loading-icon: $above + $backdrop; // example request and response loading icon
 // nav
-$dataset-detail-nav: $above + $published-reports-year-select; // published-reports-year-select is the highest in DDP, z-index:3
+$dataset-detail-nav: $above + $filter-download-left-content; // $filter-download-left-content is the highest in DDP, $dataset-detail-nav z-index:5
 
 
 // download dataset sticky footer
-$download-sticky-footer: $above + $published-reports-year-select; // published-reports-year-select is the highest on DDP, z-index:3
+$download-sticky-footer: $above + $filter-download-left-content; // published-reports-year-select is the highest on DDP, $download-sticky-footer z-index:5
 $main-sticky-footer: $above + $download-sticky-footer;
 
 // global
 $radio-button: $above + $backdrop;
 $toc-button: $above + $illustration-whiteout; // $illustration-whiteout is highest on explainer
-$select-control: $above + $backdrop;
+$select-control: $above + $table-loading-icon;
 
 // menu
-$menu-dropdown: $above + $backdrop;
-$mobile-menu: $above + $main-sticky-footer; // main-sticky-footer is highest on site ... $mobile-menu is now z-index: 6
+$menu-dropdown: $above + $backdrop; 
+$mobile-menu: $above + $main-sticky-footer; // main-sticky-footer was highest on site before ... $mobile-menu is now z-index: 7
 $mobile-menu-overlay: $below + $backdrop;
 
 // glossary

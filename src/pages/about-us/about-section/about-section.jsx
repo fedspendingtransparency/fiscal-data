@@ -37,7 +37,7 @@ const AboutUs = () => {
                         title="Who We Are"
         >
           <p>
-            This site was created by the Office of the Chief Data Officer at the{' '}
+            This site was created by the Office of the Chief Data Officer (OCDO) at the{' '}
             <CustomLink url={`${globalConstants.FISCAL_TREASURY_URL}/about.html`}
                         data-testid="fsLink"
             >
@@ -176,7 +176,6 @@ const AboutUs = () => {
             </ScrollLink> or{' '}
             <CustomLink
             url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us"
-            external
           >
             Contact Us
           </CustomLink>.

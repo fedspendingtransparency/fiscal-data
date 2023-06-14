@@ -10,9 +10,9 @@ import {
   revenueExplainerLightSecondary,
 } from "../revenue.module.scss";
 import KeyTakeawaysSection from "../../../explainer-components/key-takeaways/key-takeaways-section";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import reactStringReplace from "react-string-replace";
-const RevenueKeyTakeaways = ({ glossary }) => {
+const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
   const [totalGDP, setTotalGDP] = useState("");
@@ -59,23 +59,23 @@ const RevenueKeyTakeaways = ({ glossary }) => {
     });
   }, []);
   const firstTakeawayText = `The primary sources of revenue for the U.S. government are individual
-  and corporate taxes, and taxes that are dedicated to funding Social Security, and Medicare.
+  and corporate taxes, and taxes that are dedicated to funding Social Security and Medicare.
   This revenue is used to fund a variety of goods, programs, and services to support the American
-  public and pay interest incurred from borrowing. Revenue is typically measured by fiscal
-  year (FY).`;
+  public and pay interest incurred from borrowing. Revenue is typically measured by fiscal year (FY).`;
 
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(
     firstTakeawayText,
     "fiscal year (FY)",
     match => {
       return (
-        <GlossaryTerm
+        <GlossaryPopoverDefinition
           term={"fiscal year"}
           page={"Debt, Revenue & Spending explainer"}
           glossary={glossary}
+          glossaryClickHandler={glossaryClickHandler}
         >
           {match}
-        </GlossaryTerm>
+        </GlossaryPopoverDefinition>
       );
     }
   );

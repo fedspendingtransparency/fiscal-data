@@ -55,13 +55,21 @@ const FederalRevenueOverview = () => {
   }, []);
 
   const spending = (
-    <CustomLink url={"/americas-finance-guide/federal-spending/"} eventNumber={'33'}>
+    <CustomLink
+      url="/americas-finance-guide/federal-spending/"
+      eventNumber="33"
+      id="Federal Spending"
+    >
       Spending
     </CustomLink>
   );
 
   const deficit = (
-    <CustomLink url={"/americas-finance-guide/national-deficit/"} eventNumber={'32'}>
+    <CustomLink
+      url="/americas-finance-guide/national-deficit/"
+      eventNumber="32"
+      id="National Deficit"
+    >
       Deficit
     </CustomLink>
   );

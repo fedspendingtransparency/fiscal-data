@@ -223,7 +223,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   })
 
-  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=8d808b5dd9914fd2a173a908be42baf4`;
+  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=0270cf2d85494f99aeab578067ad5d9c`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
       fetch(blsPublicApiUrl)
@@ -534,6 +534,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   `);
 
   const glossaryData = result.data.allGlossaryCsv.glossaryCsv;
+  glossaryData.map((term) => term.slug = term.term.toLowerCase().split(' ').join('-'));
 
   result.data.allBlsPublicApiData.blsPublicApiData
     .filter(blsRow => blsRow.year > 2021 && (blsRow.period === "M12" || blsRow.latest === "true"))

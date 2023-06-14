@@ -1,48 +1,78 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-import React, { FunctionComponent, useState } from 'react';
-import {
-  glossaryContainer,
-  open,
-  overlay,
-  tray,
-  glossaryHeaderContainer
-} from './glossary.module.scss';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { glossaryContainer, glossaryHeaderContainer, open, overlay, tray } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
-import GlossaryList from './glossary-list/glossary-list';
-import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
+import GlossaryListContainer from './glossary-list/glossary-list-container';
+import { getSortedGlossaryList } from '../../helpers/glossary-helper/glossary-data';
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
 
 interface IGlossary {
-  termList: IGlossaryTerm[]
+  termList: IGlossaryTerm[],
+  activeState: boolean,
+  setActiveState: (boolean) => void,
+  glossaryEvent: boolean,
+  glossaryClickEventHandler: (boolean) => void,
 }
 
-const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
-  const termMap = getGlossaryMap(termList);
-  const getQueryTerm = (termName):IGlossaryTerm => {
-    if (termName) {
-      const term = termList.find((element:IGlossaryTerm) => {
-        if (termName !== null) {
-          return element.term.toLowerCase() === termName.toLowerCase()
+const getQueryTerm = (termList):IGlossaryTerm => {
+  if (typeof window !== 'undefined') {
+    const queryParameters= new URLSearchParams(window.location.search);
+    const termSlug = queryParameters.get("glossary");
+    if (termSlug) {
+      return termList.find((element: IGlossaryTerm) => {
+        if (termSlug !== null) {
+          return element.slug === termSlug;
         }
       });
-
-      removeAddressPathQuery(window.location);
-      return term;
     }
   }
-  const queryParameters = new URLSearchParams(window.location.search);
-  const queryTerm = getQueryTerm(queryParameters.get("glossary"));
+}
 
-  // Active state will default to true for testing purposes
-  const [activeState, setActiveState] = useState(true); //queryTerm !== null && queryTerm !== undefined);
+const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState, glossaryEvent, glossaryClickEventHandler }) => {
+  const [filter, setFilter] = useState('');
 
+  const sortedTermList = getSortedGlossaryList(termList);
+  const [queryTerm, setQueryTerm] = useState(getQueryTerm(termList));
+  const [initialQuery, setInitialQuery] = useState(false);
+  const glossaryRef = useRef(null);
+
+  useEffect(() => {
+    if (!initialQuery) {
+      setInitialQuery(true);
+      setActiveState(queryTerm !== null && queryTerm !== undefined);
+      removeAddressPathQuery(window.location);
+    }
+  })
+
+  useEffect(() => {
+    if (glossaryEvent) {
+      const term = getQueryTerm(termList);
+      if (term) {
+        setQueryTerm(term);
+        setTimeout(() => {
+          setActiveState(true);
+          glossaryClickEventHandler(false);
+          removeAddressPathQuery(window.location);
+        });
+      }
+    }
+  }, [glossaryEvent]);
+
+  useEffect(() => {
+    if (activeState) {
+      const node = glossaryRef.current;
+      if (node) {
+        node.focus();
+      }
+    }
+  }, [activeState])
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
+      setQueryTerm(null);
     }
   }
-
 
   return (
     <div
@@ -58,9 +88,14 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList }) => {
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
-              <GlossaryHeader clickHandler={toggleState} />
+              <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} glossaryRef={glossaryRef} />
             </div>
-            <GlossaryList termMap={termMap} defaultTerm={queryTerm} />
+            <GlossaryListContainer
+              sortedTermList={sortedTermList}
+              filter={filter}
+              filterHandler={setFilter}
+              defaultTerm={queryTerm ? queryTerm : null}
+            />
           </>
         )}
       </div>

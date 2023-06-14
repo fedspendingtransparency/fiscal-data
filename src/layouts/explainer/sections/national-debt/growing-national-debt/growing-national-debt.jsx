@@ -1,6 +1,6 @@
 import {withWindowSize} from "react-fns";
 import useBeaGDP from "../../../../../hooks/useBeaGDP";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {postGraphAccordionContainer} from "../national-debt.module.scss";
 import DebtOverLast100y from "./debt-over-last-100y-linechart/debt-over-last-100y-linechart";
 import {DebtTrendsOverTimeChart} from "./debt-trends-over-time/debt-trends-over-time-chart";
@@ -12,16 +12,17 @@ import VisualizationCallout from "../../../../../components/visualization-callou
 import { visWithCallout } from "../../../explainer.module.scss";
 
 export const GrowingNationalDebtSection = withWindowSize(
-  ({ sectionId, glossary, cpiDataByYear, width }) => {
+  ({ sectionId, glossary, cpiDataByYear, glossaryClickHandler, width }) => {
     const beaGDPData = useBeaGDP(cpiDataByYear);
     const gdp = (
-      <GlossaryTerm
+      <GlossaryPopoverDefinition
         term="Gross Domestic Product (GDP)"
         page="Debt explainer"
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       >
         gross domestic product (GDP)
-      </GlossaryTerm>
+      </GlossaryPopoverDefinition>
     );
 
     return (

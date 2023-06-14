@@ -19,7 +19,7 @@ import {
   title
 } from './intragovernmental-holdings-chart.module.scss';
 import {visWithCallout} from '../../../../explainer.module.scss';
-import CustomBar from './custom-bar/customBar'
+import CustomBar from './custom-bar/customBar';
 import {
   addInnerChartAriaLabel,
   applyChartScaling
@@ -126,6 +126,7 @@ const IntragovernmentalHoldingsChart = ({sectionId, data, date, width}) => {
             "Intragovernmental Holdings and Debt Held by the Public"
           )
         }
+        id="U.S. Treasury Monthly Statement of the Public Debt"
       >
         {name}
       </CustomLink>{" "}

@@ -107,7 +107,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
           className={containerStyle}
         >
           <FacebookShareButton
-            className={buttonStyle}
+            className={`${buttonStyle} facebookShare`}
             url={url}
             quote={body}
             beforeOnClick={() => handleClick('Facebook')}
@@ -123,7 +123,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
           className={containerStyle}
         >
           <TwitterShareButton
-            className={buttonStyle}
+            className={`${buttonStyle} twitterShare`}
             url={url}
             title={body}
             beforeOnClick={() => handleClick('Twitter')}
@@ -139,7 +139,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
           className={containerStyle}
         >
           <LinkedinShareButton
-            className={buttonStyle}
+            className={`${buttonStyle} linkedInShare`}
             url={url}
             title={title}
             summary={body}
@@ -158,7 +158,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
           className={containerStyle}
         >
           <RedditShareButton
-            className={buttonStyle}
+            className={`${buttonStyle} redditShare`}
             url={url}
             title={title}
             beforeOnClick={() => handleClick('Reddit')}
@@ -172,7 +172,7 @@ export const SocialShareComponent:FunctionComponent<ISocialShareComponent> = ({
         </div>
         <div className={containerStyle}>
           <EmailShareButton
-            className={buttonStyle}
+            className={`${buttonStyle} emailShare`}
             url={url}
             subject={emailSubject}
             body={emailBody}
