@@ -224,11 +224,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   };
 
   const name = 'Monthly Treasury Statement (MTS)';
-  const slug = `https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`;
+  const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`;
+  const mts = <CustomLink url={slug} eventNumber="16" id="Monthly Treasury Statement">{name}</CustomLink>
   const footer =
     <div>
       <p>
-      Visit the <CustomLink url={slug} eventNumber={'16'}>{name}</CustomLink> dataset to explore and
+      Visit the {mts} dataset to explore and
       download this data. The inflation data is sourced from the {blsLink}.
       </p>
       <p></p>
