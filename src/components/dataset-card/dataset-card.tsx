@@ -39,17 +39,27 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
 
   const clickHandler: () => void = () => {
     if (context && referrer) {
-      explainer ?
+
+      if (explainer){
         Analytics.event({
           category: `Explainers`,
           action: 'Citation Click',
           label: `${referrer} - ${context}`
-        }) :
+        })
+      }
+      else {
         Analytics.event({
           category: `${context} Click`,
           action: `from ${referrer}`,
           value: dataset.name
-        })
+        });
+        // GA4 Data Layer - Dataset Click
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          'event': `${context} Click`,
+          'eventLabel': `from ${referrer} to ${dataset.name}`,
+        });
+      }
     }
 
     navigate(cardLink);

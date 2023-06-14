@@ -71,7 +71,7 @@ const ReportDataToggle = ({ onChange, reports }) => {
           <div className={buttonDescription}>{radioBtn.description}</div>
           <input type="radio"
                  checked={activeState === radioBtn.value ? 'checked' : ''}
-                 className={radio}
+                 className={`${radio} ${radioBtn.description.split(' ').join('')}`}
                  value={radioBtn.value}
                  name="reportData"
                  onChange={() => toggleState(radioBtn.value)}

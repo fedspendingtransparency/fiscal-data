@@ -140,6 +140,7 @@ const ChartTableToggle = ({
           <AntTab
             label="Chart"
             data-testid="chartTab"
+            className='datasetChartEnabled'
             icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
             {...a11yProps(1)} disableRipple
           />
