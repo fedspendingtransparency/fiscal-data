@@ -102,7 +102,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
           onClick={() => {
             setSelectedChartView('totalRevenue'); toggleButtonEvent();
           }}
-          id={'revenue-chart-toggle-total'}
+          id={'revenue-chart-toggle'}
         >
           <span
             style={{
@@ -134,7 +134,7 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
           onClick={() => {
             setSelectedChartView('percentageGdp'); toggleButtonEvent();
           }}
-          id={'revenue-chart-toggle-percent'}
+          id={'revenue-chart-toggle'}
         >
           <span
             style={{
