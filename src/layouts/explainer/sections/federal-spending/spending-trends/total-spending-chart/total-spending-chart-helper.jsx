@@ -9,8 +9,9 @@ import {
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 
-const mts = <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`}
+const mts = <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/"
                         eventNumber="21"
+                        id="Monthly Treasury Statement"
             >
               Monthly Treasury Statement (MTS)
             </CustomLink>;

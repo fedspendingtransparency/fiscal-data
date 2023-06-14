@@ -106,9 +106,9 @@ const HowMuchDoesTheGovtSpend = () => {
 
   const mts =
     <CustomLink
-      url={`https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`}
+      url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
       eventNumber="15"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>;
