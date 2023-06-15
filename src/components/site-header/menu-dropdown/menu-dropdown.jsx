@@ -15,7 +15,7 @@ import Analytics from "../../../utils/analytics/analytics";
 
 const MenuDropdown = (
   {
-    object,
+    content,
     handleMouseOver,
     activeDropdown,
     setActiveDropdown,
@@ -24,26 +24,31 @@ const MenuDropdown = (
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
 
-  const title = object.title;
+  const title = content.title;
 
   const handleMouseLeave = () => {
-    setExpanded(false);
-    setToggleDropdown(true);
-
-    setTimeout(() => {
-      setToggleDropdown(false);
-    }, 500)
+    setActiveDropdown(null)
   }
 
   const handleMouseEnter = () => {
+    setExpanded(true);
     setActiveDropdown(title);
     handleMouseOver(title);
     setToggleDropdown(true);
-    setExpanded(true);
     setTimeout(() => {
       setToggleDropdown(false)
     }, 10)
   }
+
+  useEffect(() => {
+    if(activeDropdown !== title) {
+      setExpanded(false);
+      setToggleDropdown(true);
+      setTimeout(() => {
+        setToggleDropdown(false);
+      }, 10)
+    }
+  }, [activeDropdown])
 
   const clickHandler = (title) => {
     Analytics.event({
@@ -62,27 +67,27 @@ const MenuDropdown = (
     });
   }
 
-  const children = (object) => {
-    if (object.children[0].children) {
-      return object.children.map((section, index) =>{
+  const childLayout = () => {
+    if (content.children[0].children) {
+      return content.children.map((section, index) =>{
         return (
           <div className={styles.dropdownRow} key={index}>
             <div className={styles.dropdownColumnOne}>
               <div className={styles.dropdownTitle}>
-                {section.subsectionHeader}
+                {section.header}
               </div>
               <div>
-                {section.children.map((children) => {
+                {section.children.map((page) => {
                   return (
-                    <div key={children.title}
+                    <div key={page.title}
                          className={styles.dropdownListItem}
                     >
                       <Link
-                        to={children.to}
+                        to={page.to}
                         activeClassName={styles.activeTopicLink}
-                        onClick={() => clickHandler(object.title)}
+                        onClick={() => clickHandler(title)}
                       >
-                        {children.title}
+                        {page.title}
                       </Link>
                     </div>
                   )
@@ -93,7 +98,7 @@ const MenuDropdown = (
         )
       })
     } else {
-      const primaryChildren = object.children;
+      const primaryChildren = content.children;
       return (
         <div className={styles.resourcesDropDown}>
           {primaryChildren.map((link) => {
@@ -118,8 +123,6 @@ const MenuDropdown = (
     <div
       className={dropdown}
       key={title}
-      onMouseLeave={handleMouseLeave}
-      onBlur={(e) => handleBlur(e)}
       onMouseEnter={handleMouseEnter}
       onFocus={handleMouseEnter}
       role={'button'}
@@ -135,8 +138,12 @@ const MenuDropdown = (
       {isExpanded && (
         <div
           className={`${dropdownContent} ${toggleDropdown ? dropdownHidden : ''}`}
+          data-testid={'dropdownContent'}
+          onMouseLeave={handleMouseLeave}
+          onBlur={(e) => handleBlur(e)}
+          role={'presentation'}
         >
-          {children(object)}
+          {childLayout()}
         </div>
       )}
     </div>

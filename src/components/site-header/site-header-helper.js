@@ -1,38 +1,30 @@
 export const menuSections = [
   {
     title: 'Topics',
-    to: '/',
-    testId: 'topics',
-    featureId: 'topics',
     children: [
       {
-        subsectionHeader: 'AMERICA\'S FINANCE GUIDE',
+        header: 'AMERICA\'S FINANCE GUIDE',
         analyticsAction: 'Topics Click',
         children: [
           {
             to: '/americas-finance-guide/',
             title: 'Overview',
-            testId: 'overview'
           },
           {
             to: '/americas-finance-guide/government-revenue/',
             title: 'Revenue',
-            testId: 'revenue'
           },
           {
             to: '/americas-finance-guide/federal-spending/',
             title: 'Spending',
-            testId: 'spending'
           },
           {
             to: '/americas-finance-guide/national-deficit/',
             title: 'Deficit',
-            testId: 'deficit'
           },
           {
             to: '/americas-finance-guide/national-debt/',
             title: 'Debt',
-            testId: 'debt'
           }
         ]
       }
@@ -40,9 +32,6 @@ export const menuSections = [
   },
   {
     title: 'Tools',
-    to: '/',
-    testId: 'tools',
-    featureId: 'tools',
     children: [
       {
         to: '/currency-exchange-rates-converter/',
@@ -57,9 +46,11 @@ export const menuSections = [
   },
   {
     title: 'Resources',
-    to: '/',
-    testId: 'Resources',
     children: [
+      {
+        to:'/',
+        title: 'Glossary',
+      },
       {
         to: '/api-documentation/',
         title: 'API Documentation'
