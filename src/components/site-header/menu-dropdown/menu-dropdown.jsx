@@ -32,7 +32,7 @@ const MenuDropdown = (
 
   const title = content.title;
 
-  const handleClick = (title) => {
+  const handlePageClick = (title) => {
     if (title === 'Topics') {
       const thisurl = typeof window !== 'undefined' ? window.location.href : '';
       const urlSplit = thisurl.split('/');
@@ -60,12 +60,23 @@ const MenuDropdown = (
   }
 
   const handleMouseEnter = () => {
-    setExpanded(true);
-    setActiveDropdown(title);
-    setToggleDropdown(true);
     setTimeout(() => {
-      setToggleDropdown(false)
-    }, 10)
+      setExpanded(true);
+      setActiveDropdown(title);
+      setToggleDropdown(true);
+      setTimeout(() => {
+        setToggleDropdown(false)
+      }, 10)
+    }, 20)
+  }
+  const handleBlur = (event) => {
+
+    const currentTarget = event.currentTarget;
+    requestAnimationFrame(() => {
+      if(!currentTarget.contains(document.activeElement)) {
+        handleMouseLeave();
+      }
+    });
   }
 
   useEffect(() => {
@@ -77,15 +88,6 @@ const MenuDropdown = (
       }, 10)
     }
   }, [activeDropdown])
-
-  const handleBlur = (event) => {
-    const currentTarget = event.currentTarget;
-    requestAnimationFrame(() => {
-      if(!currentTarget.contains(document.activeElement)) {
-        handleMouseLeave();
-      }
-    });
-  }
 
   const childLayout = () => {
     if (content.children[0].children) {
@@ -105,7 +107,7 @@ const MenuDropdown = (
                       <Link
                         to={page.to}
                         activeClassName={activeDropdownLink}
-                        onClick={() => handleClick(title)}
+                        onClick={() => handlePageClick(title)}
                       >
                         {page.title}
                       </Link>
@@ -131,7 +133,7 @@ const MenuDropdown = (
                   <Link
                     to={link.to}
                     activeClassName={activeDropdownLink}
-                    onClick={() => handleClick(link.title)}
+                    onClick={() => handlePageClick(link.title)}
                     style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
                   >
                     {link.title}
@@ -142,7 +144,7 @@ const MenuDropdown = (
               return (
                 <button
                   key={link.title}
-                  onClick={() => handleClick(link.title)}
+                  onClick={() => handlePageClick(link.title)}
                   style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
                 >
                   {link.title}
