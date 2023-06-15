@@ -46,10 +46,16 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
           action: 'Citation Click',
           label: `${referrer} - ${context}`
         });
+        // GA4 Data Layer - Dataset Click
         (window as any).dataLayer = (window as any).dataLayer || [];
         (window as any).dataLayer.push({
           'event': `${referrer} - Citation Click`,
           'eventLabel': `${dataset.name}`,
+        });
+        // GA4 Data Layer - Clear
+        (window as any).dataLayer.push({
+          'event': `${referrer} - Citation Click`,
+          'eventLabel': undefined,
         });
       }
       else {
