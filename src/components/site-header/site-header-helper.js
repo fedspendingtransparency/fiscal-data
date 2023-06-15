@@ -48,7 +48,6 @@ export const menuSections = [
     title: 'Resources',
     children: [
       {
-        to:'/',
         title: 'Glossary',
       },
       {

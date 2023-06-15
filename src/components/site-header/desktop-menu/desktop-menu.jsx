@@ -1,28 +1,34 @@
 import React, {useState} from 'react';
 import { Link } from 'gatsby';
-import * as styles from '../site-header.module.scss';
-import Experimental from "../../experimental/experimental";
-import MenuDropdown from "../menu-dropdown/menu-dropdown";
-import Analytics from "../../../utils/analytics/analytics";
-import { menuSections } from "../site-header-helper";
+import Experimental from '../../experimental/experimental';
+import MenuDropdown from '../menu-dropdown/menu-dropdown';
+import { menuSections } from '../site-header-helper';
+import {
+  pageLinks,
+  pageLinkButtonContainer,
+  pageLinkButtonContent,
+  pageLinkButton,
+  activeLink,
+  pageLinkButtonActive,
+} from './desktop-menu.module.scss';
 
 const DesktopMenu = ({ location, glossaryClickHandler, clickHandler }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   return (
-    <div className={styles.pageLinks} data-testid="pageLinks">
+    <div className={pageLinks} data-testid="pageLinks">
       {menuSections.map((pageLink, index) => {
         if (pageLink.isExperimental) {
           return (
             <Experimental featureId={pageLink.featureId} key={pageLink.title}>
-              <div className={styles.pageLinkButtonContainer}>
-                <div className={styles.pageLinkButtonContent}
+              <div className={pageLinkButtonContainer}>
+                <div className={pageLinkButtonContent}
                      style={{minWidth: `${(pageLink.title.length * 8) + 16}px`}}
                 >
-                  <button className={styles.pageLinkButton}>
+                  <button className={pageLinkButton}>
                     <Link
                       to={pageLink.to}
-                      activeClassName={styles.activeLink}
+                      activeClassName={activeLink}
                       data-testid={pageLink.testId}
                     >
                       {pageLink.title}
@@ -47,26 +53,26 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler }) => {
         }
 
         return (
-          <div className={styles.pageLinkButtonContainer} key={pageLink.title}>
-            <div className={styles.pageLinkButtonContent}
+          <div className={pageLinkButtonContainer} key={pageLink.title}>
+            <div className={pageLinkButtonContent}
                  style={{minWidth: `${(pageLink.title.length * 7.5) + 16}px`}}
             >
               {pageLink.to === location.pathname ?
                 <button
-                  className={`${styles.pageLinkButton} ${styles.pageLinkButtonActive}`}
+                  className={`${pageLinkButton} ${pageLinkButtonActive}`}
                   disabled
                 >
                   <span>
                     {pageLink.title}
                   </span>
                 </button> : (
-                  <button className={styles.pageLinkButton}
+                  <button className={pageLinkButton}
                           onMouseEnter={() => setActiveDropdown(pageLink.title)}
                   >
                     <Link
                       key={pageLink.title}
                       to={pageLink.to}
-                      activeClassName={styles.activeLink}
+                      activeClassName={activeLink}
                       data-testid={pageLink.testId}
                       onClick={() => clickHandler(pageLink.title)}
                     >

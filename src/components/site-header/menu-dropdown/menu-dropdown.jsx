@@ -4,14 +4,20 @@ import {
   dropdownButtonExpanded,
   dropdownContent,
   caret,
-  dropdownHidden
-}from "./menu-dropdown.module.scss";
+  dropdownHidden,
+  dropdownRow,
+  dropdownColumnOne,
+  dropdownTitle,
+  dropdownListItem,
+  activeDropdownLink,
+  resourcesDropDown,
+} from "./menu-dropdown.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect, useState} from "react";
-import * as styles from "../site-header.module.scss";
 import {Link} from "gatsby";
 import Analytics from "../../../utils/analytics/analytics";
+import { explainerAnalyticsLabelMap } from '../../../layouts/explainer/explainer-helpers/explainer-helpers';
 
 const MenuDropdown = (
   {
@@ -26,19 +32,12 @@ const MenuDropdown = (
 
   const title = content.title;
 
-  const analyticsEventMap = {
-    "national-debt": "Debt",
-    "national-deficit": "Deficit",
-    "federal-spending": "Spending",
-    "government-revenue": "Revenue"
-  };
-
   const handleClick = (title) => {
     if (title === 'Topics') {
       const thisurl = typeof window !== 'undefined' ? window.location.href : '';
       const urlSplit = thisurl.split('/');
       const pageName = urlSplit[urlSplit.length - 2];
-      const explainerPageName = analyticsEventMap[pageName];
+      const explainerPageName = explainerAnalyticsLabelMap[pageName];
 
       Analytics.event({
         category: 'Sitewide Navigation',
@@ -92,20 +91,20 @@ const MenuDropdown = (
     if (content.children[0].children) {
       return content.children.map((section, index) =>{
         return (
-          <div className={styles.dropdownRow} key={index}>
-            <div className={styles.dropdownColumnOne}>
-              <div className={styles.dropdownTitle}>
+          <div className={dropdownRow} key={index}>
+            <div className={dropdownColumnOne}>
+              <div className={dropdownTitle}>
                 {section.header}
               </div>
               <div>
                 {section.children.map((page) => {
                   return (
                     <div key={page.title}
-                         className={styles.dropdownListItem}
+                         className={dropdownListItem}
                     >
                       <Link
                         to={page.to}
-                        activeClassName={styles.activeTopicLink}
+                        activeClassName={activeDropdownLink}
                         onClick={() => handleClick(title)}
                       >
                         {page.title}
@@ -121,18 +120,31 @@ const MenuDropdown = (
     } else {
       const primaryChildren = content.children;
       return (
-        <div className={styles.resourcesDropDown}>
+        <div className={resourcesDropDown}>
           {primaryChildren.map((link) => {
-            return (
-              <Link
-                to={link.to}
-                activeClassName={styles.activeTopicLink}
-                key={link.title}
-                onClick={() => handleClick(link.title)}
-              >
-                {link.title}
-              </Link>
-            )
+            if (link.to) {
+              return (
+                <Link
+                  to={link.to}
+                  activeClassName={activeDropdownLink}
+                  key={link.title}
+                  onClick={() => handleClick(link.title)}
+                  style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                >
+                  {link.title}
+                </Link>
+              )
+            } else {
+              return (
+                <button
+                  key={link.title}
+                  onClick={() => handleClick(link.title)}
+                  style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                >
+                  {link.title}
+                </button>
+              )
+            }
           })
           }
         </div>
