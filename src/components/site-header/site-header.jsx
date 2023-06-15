@@ -54,18 +54,7 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
 
   const glossaryData = glossaryCsv?.allGlossaryCsv?.nodes;
 
-  // TODO: Add to helper object
-  // {
-  //   title: 'Glossary',
-  //     to: '/',
-  //   testId: 'glossary'
-  // },
-
   const clickHandler = (title) => {
-    if (title === 'Glossary'){
-      setOpenGlossary(true);
-    }
-
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Top ${title} Click`,
@@ -86,16 +75,32 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
       <header>
         <OfficialBanner data-testid="officialBanner" />
         <div className={styles.container}>
-          const displayBanner = () => {
-          let display = false;
-          display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
-          NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
-          if (location.pathname.includes(path)) {
-          display = true;
-        }
-        });
-          return display;
-        }
+          <div className={styles.content}>
+            <Link
+              role="img"
+              title="Return to home page"
+              alt="Fiscal Data Homepage"
+              data-testid="logo"
+              className={styles.logo}
+              aria-label="Fiscal Data logo - return to home page"
+              to="/"
+              onClick={() => clickHandler('Logo')}
+            >
+              <StaticImage
+                src="../../images/logos/fd-logo.svg"
+                loading="eager"
+                placeholder="none"
+                alt="Fiscal Data logo"
+                height={55}
+                width={192}
+              />
+            </Link>
+            <DesktopMenu
+              location={location}
+              glossaryClickHandler={setOpenGlossary}
+              clickHandler={clickHandler}
+            />
+          </div>
           <Glossary
             termList={glossaryData}
             activeState={openGlossary}

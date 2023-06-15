@@ -16,15 +16,45 @@ import Analytics from "../../../utils/analytics/analytics";
 const MenuDropdown = (
   {
     content,
-    handleMouseOver,
     activeDropdown,
     setActiveDropdown,
+    glossaryClickHandler,
   }) => {
 
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
 
   const title = content.title;
+
+  const analyticsEventMap = {
+    "national-debt": "Debt",
+    "national-deficit": "Deficit",
+    "federal-spending": "Spending",
+    "government-revenue": "Revenue"
+  };
+
+  const handleClick = (title) => {
+    if (title === 'Topics') {
+      const thisurl = typeof window !== 'undefined' ? window.location.href : '';
+      const urlSplit = thisurl.split('/');
+      const pageName = urlSplit[urlSplit.length - 2];
+      const explainerPageName = analyticsEventMap[pageName];
+
+      Analytics.event({
+        category: 'Sitewide Navigation',
+        action: `Topics Click`,
+        label: explainerPageName
+      })
+    } else if (title === 'Glossary') {
+      glossaryClickHandler(true);
+    } else {
+      Analytics.event({
+        category: 'Sitewide Navigation',
+        action: `${title} Click`,
+        label: title,
+      })
+    }
+  }
 
   const handleMouseLeave = () => {
     setActiveDropdown(null)
@@ -33,7 +63,6 @@ const MenuDropdown = (
   const handleMouseEnter = () => {
     setExpanded(true);
     setActiveDropdown(title);
-    handleMouseOver(title);
     setToggleDropdown(true);
     setTimeout(() => {
       setToggleDropdown(false)
@@ -49,14 +78,6 @@ const MenuDropdown = (
       }, 10)
     }
   }, [activeDropdown])
-
-  const clickHandler = (title) => {
-    Analytics.event({
-      category: 'Sitewide Navigation',
-      action: `${title} Click`,
-      label: title
-    });
-  }
 
   const handleBlur = (event) => {
     const currentTarget = event.currentTarget;
@@ -85,7 +106,7 @@ const MenuDropdown = (
                       <Link
                         to={page.to}
                         activeClassName={styles.activeTopicLink}
-                        onClick={() => clickHandler(title)}
+                        onClick={() => handleClick(title)}
                       >
                         {page.title}
                       </Link>
@@ -107,7 +128,7 @@ const MenuDropdown = (
                 to={link.to}
                 activeClassName={styles.activeTopicLink}
                 key={link.title}
-                onClick={() => clickHandler(link.title)}
+                onClick={() => handleClick(link.title)}
               >
                 {link.title}
               </Link>

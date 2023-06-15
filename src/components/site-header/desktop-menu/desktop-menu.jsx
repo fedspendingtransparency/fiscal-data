@@ -6,38 +6,8 @@ import MenuDropdown from "../menu-dropdown/menu-dropdown";
 import Analytics from "../../../utils/analytics/analytics";
 import { menuSections } from "../site-header-helper";
 
-const DesktopMenu = ({ location }) => {
+const DesktopMenu = ({ location, glossaryClickHandler, clickHandler }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
-
-  const clickHandler = (title) => {
-    Analytics.event({
-      category: 'Sitewide Navigation',
-      action: `Top ${title} Click`,
-      label: document.title
-    });
-  }
-
-  const analyticsEventMap = {
-    "national-debt": "Debt",
-    "national-deficit": "Deficit",
-    "federal-spending": "Spending",
-    "government-revenue": "Revenue"
-  };
-
-  const handleMouseOver = (title) => {
-    if (title === 'Topics') {
-      const thisurl = typeof window !== 'undefined' ? window.location.href : '';
-      const urlSplit = thisurl.split('/');
-      const pageName = urlSplit[urlSplit.length - 2];
-      const explainerPageName = analyticsEventMap[pageName];
-
-      Analytics.event({
-        category: 'Sitewide Navigation',
-        action: `Topics Click`,
-        label: explainerPageName
-      })
-    }
-  }
 
   return (
     <div className={styles.pageLinks} data-testid="pageLinks">
@@ -68,9 +38,9 @@ const DesktopMenu = ({ location }) => {
           return (
             <MenuDropdown
               content={pageLink}
-              handleMouseOver={() => handleMouseOver(pageLink.title)}
               activeDropdown={activeDropdown}
               setActiveDropdown={setActiveDropdown}
+              glossaryClickHandler={glossaryClickHandler}
               key={index}
             />
           )
