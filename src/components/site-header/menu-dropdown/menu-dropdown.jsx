@@ -124,15 +124,19 @@ const MenuDropdown = (
           {primaryChildren.map((link) => {
             if (link.to) {
               return (
-                <Link
-                  to={link.to}
-                  activeClassName={activeDropdownLink}
+                <div
                   key={link.title}
-                  onClick={() => handleClick(link.title)}
-                  style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                  className={dropdownListItem}
                 >
-                  {link.title}
-                </Link>
+                  <Link
+                    to={link.to}
+                    activeClassName={activeDropdownLink}
+                    onClick={() => handleClick(link.title)}
+                    style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                  >
+                    {link.title}
+                  </Link>
+                </div>
               )
             } else {
               return (
