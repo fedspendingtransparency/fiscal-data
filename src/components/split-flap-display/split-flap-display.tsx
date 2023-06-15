@@ -202,7 +202,7 @@ const SplitFlapDisplay = (
 
   const setDisplayChars = (minimumLength: number): void => {
     if (prevValue === null) return;
-    if (padDirection === 'left') {
+    if (padDirection === 'left' && !prevValue.includes(' ') && minLength > 3) {
       setPrevChars([
         ...minLengthFill(prevValue, charSet, minimumLength),
         ...prevValue.split('')
@@ -211,7 +211,7 @@ const SplitFlapDisplay = (
         ...minLengthFill(currValue, charSet, minimumLength),
         ...currValue.split('')
       ]);
-    } else {
+    } else if (!prevValue.includes(' ') && minLength > 3) {
       setPrevChars([
         ...prevValue.split(''),
         ...minLengthFill(prevValue, charSet, minimumLength)

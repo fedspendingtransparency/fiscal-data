@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   box-sizing: border-box;
   justify-content: center;
+  height: 3.125rem;
 
   .flap-container {
     display: flex;
@@ -55,5 +56,11 @@
   > .magnitude {
     text-transform: uppercase;
     margin-right: 0;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .split-flap-container {
+    height: 6.25rem;
   }
 }

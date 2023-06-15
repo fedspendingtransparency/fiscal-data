@@ -37,6 +37,8 @@ const FederalSpendingHero = (): JSX.Element => {
   const [spendingChange, setSpendingChange] = useState( 0);
   const [spendingPercentChange, setSpendingPercentChange] = useState(0);
 
+  const numberFormat = new Intl.NumberFormat('en-US');
+
     const mts =
     <CustomLink
       url="/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"
@@ -88,7 +90,7 @@ const FederalSpendingHero = (): JSX.Element => {
       </p>
       <div className={counterContainerSpending}>
         <SplitFlapDisplay value={totalSpending}
-                          minLength={totalSpending?.toString().length} // number of characters to initially display
+                          minLength={numberFormat.format(parseInt(totalSpending)).length} // number of characters to initially display
                           mobilePrecision={parseInt(totalSpending) > 999999999999 ? 2 : 0}
                           valueType="currency"
         />

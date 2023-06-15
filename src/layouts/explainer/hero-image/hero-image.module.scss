@@ -8,6 +8,9 @@
   color: #666666;
   text-align: center;
   padding: 2.25rem .625rem 2.813rem;
+  animation: fadeInAnimation ease 3.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 
   .heroImageHeading {
     margin: 0;
@@ -56,6 +59,23 @@
     }
   }
 
+  @keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInBottom {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to { opacity: 1 }
+  }
+
   .counterContainer {
     text-align: center;
     padding: 1rem 0 2rem 0;
@@ -73,12 +93,19 @@
       padding-top: 0;
     }
 
+    &.debt {
+      margin-top: -1rem;
+      padding-top: 0;
+      padding-bottom: 2rem;
+    }
+
     font-size: $font-size-14;
 
     >a {
       color: $hero-primary-link;
     }
   }
+
 
   .flapWrapper {
     text-align: center;
@@ -141,6 +168,8 @@
 
 .heroBorder {
   width: 100%;
+  animation: fadeInBottom 1.5s;
+  animation-fill-mode: both;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
