@@ -4,6 +4,8 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .dropdown .dropdownButton {
+    display: flex;
+    align-items: center;
     overflow: hidden;
     transform: translateX(2rem);
     padding: 3px 0 1px;
@@ -57,5 +59,66 @@
     &.dropdownHidden {
       opacity: 0;
     }
+
+    a, button {
+      &:hover {
+        color: $primary;
+        font-weight: $semi-bold-weight;
+      }
+
+      &.activeDropdownLink {
+        font-weight: $semi-bold-weight;
+      }
+    }
+
+    button {
+      background-color: white;
+      border: none;
+      cursor: pointer;
+      color: #666666;
+      font-size: 1rem;
+    }
+  }
+
+  .dropdownRow {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+  }
+
+  .resourcesDropDown {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    gap: 6rem;
+  }
+
+  .resourcesDropDown {
+  }
+
+  .dropdownColumnOne {
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .dropdownColumnTwo {
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin: 2rem 0 2rem 20%;
+  }
+
+  .dropdownTitle {
+    font-weight: $semi-bold-weight;
+    white-space: nowrap;
+    margin-bottom: 1rem;
+    font-size: 14px;
+  }
+
+  .dropdownListItem {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
   }
 }
