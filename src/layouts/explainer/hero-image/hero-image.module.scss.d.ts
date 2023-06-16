@@ -64,7 +64,6 @@ export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const mainContainer: string;
-export const fadeInAnimation: string;
 export const heroImageHeading: string;
 export const heroImageSubHeading: string;
 export const deficit: string;

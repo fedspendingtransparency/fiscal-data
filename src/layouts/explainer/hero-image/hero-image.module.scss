@@ -8,9 +8,6 @@
   color: #666666;
   text-align: center;
   padding: 2.25rem .625rem 2.813rem;
-  animation: fadeInAnimation ease 3.2s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
 
   .heroImageHeading {
     margin: 0;
@@ -56,15 +53,6 @@
       margin: 0;
       font-size: $font-size-16;
       text-align: left;
-    }
-  }
-
-  @keyframes fadeInAnimation {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
     }
   }
 

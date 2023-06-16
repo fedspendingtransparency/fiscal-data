@@ -64,6 +64,7 @@ export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const splitFlapContainer: string;
+export const fadeInAnimation: string;
 export const flapContainer: string;
 export const selectableDigits: string;
 export const punctuation: string;
