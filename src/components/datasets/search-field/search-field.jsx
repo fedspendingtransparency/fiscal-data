@@ -73,6 +73,13 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
           ...searchFieldAnalyticsObject,
           label: localText
         });
+
+        // GA4 event
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'Keyword Search',
+          'eventLabel': localText
+        });
       }
     }, 2000)
   }
@@ -85,6 +92,12 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
 
   const handleInfoTipClick = () => {
     Analytics.event(lastUpdatedInfoTipAnalyticsObject);
+    // GA4 event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'Info Button Click',
+      'eventLabel': 'Keyword Search'
+    });
   }
 
   useEffect(() => {

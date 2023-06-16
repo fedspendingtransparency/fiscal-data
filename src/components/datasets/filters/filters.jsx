@@ -23,7 +23,9 @@ import * as styles from './filters.module.scss';
 
 export const lastUpdatedAnalyticsObject = {
   category: 'Dataset Search Page',
-  action: 'Last Updated Filter Click'
+  action: 'Last Updated Filter Click',
+  // GA4 event
+  event:'Last Updated Filter Click'
 }
 
 export const lastUpdatedInfoTipAnalyticsObject = {
@@ -33,7 +35,9 @@ export const lastUpdatedInfoTipAnalyticsObject = {
 
 export const dateRangeAnalyticsObject = {
   category: 'Dataset Search Page',
-  action: 'Date Range Click'
+  action: 'Date Range Click',
+  // GA4 event
+  event:'Start Date Range Click'
 }
 
 export const dateRangeInfoTipAnalyticsObject = {
@@ -43,7 +47,9 @@ export const dateRangeInfoTipAnalyticsObject = {
 
 export const datasetPublisherAnalyticsObject = {
   category: 'Dataset Search Page',
-  action: 'Publisher Filter Click'
+  action: 'Publisher Filter Click',
+  // GA4 event
+  event: 'Publisher Filter Click'
 }
 
 export const datasetPublisherInfoTipAnalyticsObject = {
@@ -53,7 +59,9 @@ export const datasetPublisherInfoTipAnalyticsObject = {
 
 export const dataFormatAnalyticsObject = {
   category: 'Dataset Search Page',
-  action: 'Data Format Filter Click'
+  action: 'Data Format Filter Click',
+  // GA4 event
+  event: 'Data Format Filter Click'
 }
 
 export const dataFormatInfoTipAnalyticsObject = {
@@ -254,6 +262,14 @@ const FilterSection = ({
   };
 
   const handleInfoTipClick = (label) => {
+
+    // GA4 event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'Info Button Click',
+      'eventLabel': label
+    });
+
     switch (label) {
       case tips.lastUpdated.title:
         Analytics.event(lastUpdatedInfoTipAnalyticsObject);

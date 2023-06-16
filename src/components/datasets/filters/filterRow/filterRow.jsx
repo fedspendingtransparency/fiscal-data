@@ -27,9 +27,17 @@ const FilterRow = ({
 
     if (newVal) {
       Analytics.event({
-        ...analyticsObject,
+        category: analyticsObject.category,
+        action: analyticsObject.action,
         label: children
-      })
+      });
+
+      // GA4 event
+      window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': analyticsObject.event,
+          'eventLabel': children
+        });
     }
   }
 
