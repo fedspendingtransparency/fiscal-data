@@ -6,13 +6,11 @@ import { withWindowSize } from 'react-fns';
 import PageNotice from '../page-notice/page-notice';
 import OfficialBanner from "./official-banner/official-banner";
 import { isIE } from 'react-device-detect';
-import Experimental from "../experimental/experimental";
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
 import LocationAware from "../location-aware/location-aware";
 import Glossary from '../glossary/glossary';
 import DesktopMenu from "./desktop-menu/desktop-menu";
-import { getGlossaryMap } from '../../helpers/glossary-helper/glossary-data';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import {
   NOTIFICATION_BANNER_TEXT,
@@ -23,6 +21,7 @@ import CustomLink from '../links/custom-link/custom-link';
 
 const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHandler }) => {
   const [openGlossary, setOpenGlossary] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   const displayBanner = () => {
     let display = false;
@@ -85,6 +84,7 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
               aria-label="Fiscal Data logo - return to home page"
               to="/"
               onClick={() => clickHandler('Logo')}
+              onFocus={() => setActiveDropdown(null)}
             >
               <StaticImage
                 src="../../images/logos/fd-logo.svg"
@@ -99,6 +99,8 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
               location={location}
               glossaryClickHandler={setOpenGlossary}
               clickHandler={clickHandler}
+              activeDropdown={activeDropdown}
+              setActiveDropdown={setActiveDropdown}
             />
           </div>
           <Glossary

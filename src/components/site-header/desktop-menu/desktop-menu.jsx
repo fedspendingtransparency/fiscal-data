@@ -12,8 +12,8 @@ import {
   pageLinkButtonActive,
 } from './desktop-menu.module.scss';
 
-const DesktopMenu = ({ location, glossaryClickHandler, clickHandler }) => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown,  setActiveDropdown }) => {
+
 
   return (
     <div className={pageLinks} data-testid="pageLinks">
@@ -48,6 +48,7 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler }) => {
               setActiveDropdown={setActiveDropdown}
               glossaryClickHandler={glossaryClickHandler}
               key={index}
+              analyticsClickHandler={clickHandler}
             />
           )
         }
@@ -57,7 +58,7 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler }) => {
             <div className={pageLinkButtonContent}
                  style={{minWidth: `${(pageLink.title.length * 7.5) + 16}px`}}
             >
-              {pageLink.to === location.pathname ?
+              {pageLink.to === location?.pathname ?
                 <button
                   className={`${pageLinkButton} ${pageLinkButtonActive}`}
                   disabled
@@ -66,8 +67,9 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler }) => {
                     {pageLink.title}
                   </span>
                 </button> : (
-                  <button className={pageLinkButton}
-                          onMouseEnter={() => setActiveDropdown(pageLink.title)}
+                  <button
+                    className={pageLinkButton}
+                    onMouseEnter={() => setActiveDropdown(pageLink.title)}
                   >
                     <Link
                       key={pageLink.title}

@@ -17,7 +17,6 @@ import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect, useState} from "react";
 import {Link} from "gatsby";
 import Analytics from "../../../utils/analytics/analytics";
-import { explainerAnalyticsLabelMap } from '../../../layouts/explainer/explainer-helpers/explainer-helpers';
 
 const MenuDropdown = (
   {
@@ -25,6 +24,7 @@ const MenuDropdown = (
     activeDropdown,
     setActiveDropdown,
     glossaryClickHandler,
+    analyticsClickHandler,
   }) => {
 
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -32,25 +32,23 @@ const MenuDropdown = (
 
   const title = content.title;
 
-  const handlePageClick = (title) => {
+  const handlePageClick = (title, pageName) => {
     if (title === 'Topics') {
-      const thisurl = typeof window !== 'undefined' ? window.location.href : '';
-      const urlSplit = thisurl.split('/');
-      const pageName = urlSplit[urlSplit.length - 2];
-      const explainerPageName = explainerAnalyticsLabelMap[pageName];
-
       Analytics.event({
         category: 'Sitewide Navigation',
         action: `Topics Click`,
-        label: explainerPageName
+        label: pageName
       })
-    } else if (title === 'Glossary') {
+    } else if (pageName === 'Glossary') {
       glossaryClickHandler(true);
-    } else {
+    } else if (pageName === 'API Documentation') {
+      analyticsClickHandler(pageName);
+    }
+    else {
       Analytics.event({
         category: 'Sitewide Navigation',
-        action: `${title} Click`,
-        label: title,
+        action: `${pageName} Click`,
+        label: pageName,
       })
     }
   }
@@ -107,7 +105,7 @@ const MenuDropdown = (
                       <Link
                         to={page.to}
                         activeClassName={activeDropdownLink}
-                        onClick={() => handlePageClick(title)}
+                        onClick={() => handlePageClick(title, page.title)}
                       >
                         {page.title}
                       </Link>
@@ -133,7 +131,7 @@ const MenuDropdown = (
                   <Link
                     to={link.to}
                     activeClassName={activeDropdownLink}
-                    onClick={() => handlePageClick(link.title)}
+                    onClick={() => handlePageClick(title,  link.title)}
                     style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
                   >
                     {link.title}
@@ -144,7 +142,7 @@ const MenuDropdown = (
               return (
                 <button
                   key={link.title}
-                  onClick={() => handlePageClick(link.title)}
+                  onClick={() => handlePageClick(title, link.title)}
                   style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
                 >
                   {link.title}
