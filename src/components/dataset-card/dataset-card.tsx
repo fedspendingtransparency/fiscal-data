@@ -31,7 +31,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   dataset,
   context,
   referrer,
-  explainer
+  explainer,
 }) => {
   const cardLink = `/datasets${dataset.slug}`;
   const [applyFocusStyle, setApplyFocusStyle] = useState(false);
@@ -45,7 +45,18 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
           category: `Explainers`,
           action: 'Citation Click',
           label: `${referrer} - ${context}`
-        })
+        });
+        // GA4 Data Layer - Dataset Click
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          'event': `${referrer} - Citation Click`,
+          'eventLabel': `${dataset.name}`,
+        });
+        // GA4 Data Layer - Clear
+        (window as any).dataLayer.push({
+          'event': `${referrer} - Citation Click`,
+          'eventLabel': undefined,
+        });
       }
       else {
         Analytics.event({
@@ -61,13 +72,12 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
         });
       }
     }
-
     navigate(cardLink);
   };
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} >
+      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
         <CardActionArea
           onFocus={() => setApplyFocusStyle(true)}
           onBlur={() => setApplyFocusStyle(false)}
