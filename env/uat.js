@@ -8,7 +8,7 @@ module.exports = {
   ADDITIONAL_DATASETS: {
     "015-BFS-2014Q3-045": {
       "seoConfig": {
-        "pageTitle": "Treasury Securities Auctions Data | U.S. Treasury Fiscal Data",
+        "pageTitle": "Treasury Securities Auctions Data",
         "description": "U.S. Marketable Treasury securities that are sold to the public through the Treasury auction process.",
         "keywords": "treasury securities"
       },
