@@ -204,7 +204,7 @@ const DownloadSticky = () => {
   };
 
   const renderExpandDetailsButton = () => {
-    return <button className={styles.collapseToggle}
+    return <button className={[`${styles.collapseToggle}`, (expanded ? 'hideDownloadDetails' : 'showDownloadDetails')].join(' ')}
                    onClick={toggleDetailsEvent}
                    data-testid="collapse-toggle"
            >
@@ -257,9 +257,9 @@ const DownloadSticky = () => {
               data-testid={'minimize-toggle'}
               aria-label="Toggle minimized state for download notification."
       >{minimized ? (
-        <FontAwesomeIcon icon={faAngleDoubleUp} data-testid={'maximize-symbol'} />
+        <FontAwesomeIcon className='maximizeDownloadNotification' icon={faAngleDoubleUp} data-testid={'maximize-symbol'} />
       ) : (
-        <FontAwesomeIcon icon={faAngleDoubleDown} data-testid={'minimize-symbol'} />
+        <FontAwesomeIcon className='minimizeDownloadNotification' icon={faAngleDoubleDown} data-testid={'minimize-symbol'} />
       )}
       </button>
       <div className={[`${styles.downloadContent}`, (minimized ? `${styles.minimized}`: '')].join(' ')}
@@ -356,7 +356,9 @@ const DownloadSticky = () => {
                         {multipleDownloads ? dsTextContent.planToLeaveMulti : dsTextContent.planToLeaveSingle}
                       </div>
                       {!multipleDownloads && (
-                        <div className={styles.noticeButtonContainer}>{buttons.copyToClipboardButton(allInProgress[0].statusPath, dsTextContent.copyLinkLabel)}</div>
+                        <div className={ `${styles.noticeButtonContainer} copyLinkButton` }>
+                          {buttons.copyToClipboardButton(allInProgress[0].statusPath, dsTextContent.copyLinkLabel)}
+                        </div>
                       )}
                     </div>
                   )}
@@ -397,7 +399,9 @@ const DownloadSticky = () => {
                     <div className={styles.rightSegment}>
                       <div className={styles.filename}>{resumedDownload.filename}</div>
                       { resumedDownload.statusPath && (
-                        <div className={styles.noticeButtonContainer}>{buttons.copyToClipboardButton(resumedDownload.statusPath, dsTextContent.copyLinkLabel)}</div>
+                        <div className={ `${styles.noticeButtonContainer} copyLinkButton` }>
+                          {buttons.copyToClipboardButton(resumedDownload.statusPath, dsTextContent.copyLinkLabel)}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -410,7 +414,9 @@ const DownloadSticky = () => {
                     <div className={styles.rightSegment}>
                       <div className={styles.filename}>{downloadInProgress.filename}</div>
                       { downloadInProgress.statusPath && (
-                        <div className={styles.noticeButtonContainer}>{buttons.copyToClipboardButton(downloadInProgress.statusPath, dsTextContent.copyLinkLabel)}</div>
+                        <div className={ `${styles.noticeButtonContainer} copyLinkButton` }>
+                          {buttons.copyToClipboardButton(downloadInProgress.statusPath, dsTextContent.copyLinkLabel)}
+                        </div>
                       )}
                     </div>
                   </div>

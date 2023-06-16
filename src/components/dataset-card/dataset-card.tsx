@@ -31,7 +31,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   dataset,
   context,
   referrer,
-  explainer
+  explainer,
 }) => {
   const cardLink = `/datasets${dataset.slug}`;
   const [applyFocusStyle, setApplyFocusStyle] = useState(false);
@@ -39,25 +39,45 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
 
   const clickHandler: () => void = () => {
     if (context && referrer) {
-      explainer ?
+
+      if (explainer){
         Analytics.event({
           category: `Explainers`,
           action: 'Citation Click',
           label: `${referrer} - ${context}`
-        }) :
+        });
+        // GA4 Data Layer - Dataset Click
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          'event': `${referrer} - Citation Click`,
+          'eventLabel': `${dataset.name}`,
+        });
+        // GA4 Data Layer - Clear
+        (window as any).dataLayer.push({
+          'event': `${referrer} - Citation Click`,
+          'eventLabel': undefined,
+        });
+      }
+      else {
         Analytics.event({
           category: `${context} Click`,
           action: `from ${referrer}`,
           value: dataset.name
-        })
+        });
+        // GA4 Data Layer - Dataset Click
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          'event': `${context} Click`,
+          'eventLabel': `from ${referrer} to ${dataset.name}`,
+        });
+      }
     }
-
     navigate(cardLink);
   };
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} >
+      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
         <CardActionArea
           onFocus={() => setApplyFocusStyle(true)}
           onBlur={() => setApplyFocusStyle(false)}
