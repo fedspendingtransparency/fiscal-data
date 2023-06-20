@@ -248,7 +248,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
       {/* Loading Indicator */}
       {isLoading && (
         <>
-          <div data-test-id="loading-overlay" className={styles.overlay}  />
+          <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
             <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
           </div>

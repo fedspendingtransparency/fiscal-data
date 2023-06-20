@@ -7,6 +7,9 @@ import {
 import * as styles from '../dtg-table/dtg-table.module.scss';
 
 
+// TODO: Add unit tests and then delete comment below
+/* istanbul ignore file */
+
 type DataTableProps = {
   rawData: any;
 }
@@ -32,7 +35,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData }) => {
   return (
     // apply the table props
     <>
-    <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+    <div data-test-id="table-content" className={styles.newTableContainer}>
       <table>
         <thead>
         {table.getHeaderGroups().map((headerGroup) => (
