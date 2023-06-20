@@ -152,6 +152,14 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
       action: `${action}`,
       label: `${title}`
     });
+
+    if(action && title) {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        'event': action,
+        'eventLabel': title,
+      });
+    }
   };
 
   const setTempValueAndDate = (v, d) => {
