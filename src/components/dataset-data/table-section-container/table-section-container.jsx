@@ -63,6 +63,7 @@ const TableSectionContainer = ({
     }
 
     setTableProps({
+      rawData: apiData,
       data: displayData, //null for server-side pagination
       columnConfig,
       width,

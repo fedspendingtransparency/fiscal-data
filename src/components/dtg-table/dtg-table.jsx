@@ -12,11 +12,14 @@ import NotShownMessage from '../dataset-data/table-section-container/not-shown-m
 
 import * as styles from './dtg-table.module.scss';
 import CustomLink from "../links/custom-link/custom-link";
+import Experimental from '../experimental/experimental';
+import { DataTable } from '../data-table/data-table';
 
 const defaultRowsPerPage = 5;
 
 export default function DtgTable({tableProps, perPage, setPerPage}) {
   const {
+    rawData,
     width,
     noBorder,
     tableName,
@@ -62,7 +65,6 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
-
   const handlePerPageChange = (numRows) => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
@@ -245,13 +247,13 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
       {/* Loading Indicator */}
       {isLoading && (
         <>
-          <div data-test-id="loading-overlay" className={styles.overlay}  />
+          <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
             <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
           </div>
         </>
       )}
-
+      <Experimental exclude featureId="react-table-poc">
       <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
         {/* API Error Message */}
         {(apiError || tableProps.apiError) && !emptyDataMessage && (
@@ -290,13 +292,20 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
 
       {/* Table Footer */}
       {shouldPage &&
-        <div data-test-id="table-footer" className={styles.tableFooter}>
-          <div data-test-id="rows-showing" className={styles.rowsShowing}>
-            {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
-          </div>
-          {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
-        </div>
+
+            <div data-test-id="table-footer" className={styles.tableFooter}>
+              <div data-test-id="rows-showing" className={styles.rowsShowing}>
+                {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
+              </div>
+              {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
+            </div>
       }
+      </Experimental>
+      <Experimental featureId="react-table-poc">
+        {rawData && (
+          <DataTable rawData={rawData} />
+        )}
+      </Experimental>
     </div>
   );
 }
