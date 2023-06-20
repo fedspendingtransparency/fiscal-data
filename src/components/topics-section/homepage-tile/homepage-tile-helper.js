@@ -70,6 +70,7 @@ export const pageTileMap = {
     desktopImage: "homepage_debt_1200x630",
     mobileImage: "homepage_debt_1200x630",
     path: "/americas-finance-guide/national-debt/",
+    analyticsName: "National Debt",
   },
   spending: {
     title: "How much has the U.S. government spent this year?",
@@ -85,6 +86,7 @@ export const pageTileMap = {
     desktopImage: "homepage_spending_1200x630",
     mobileImage: "homepage_spending_1200x630",
     path: "/americas-finance-guide/federal-spending/",
+    analyticsName: "Federal Spending",
   },
   deficit: {
     title: "What is the national deficit?",
@@ -97,6 +99,7 @@ export const pageTileMap = {
     desktopImage: "deficit_homepage",
     mobileImage: "deficit_homepage",
     path: "/americas-finance-guide/national-deficit/",
+    analyticsName: "National Deficit",
   },
   revenue: {
     title: "How much has the U.S. government collected this year?",
@@ -111,6 +114,7 @@ export const pageTileMap = {
     desktopImage: "Revenue-HomePage-1200x630",
     mobileImage: "Revenue-HomePage-1200x630",
     path: "/americas-finance-guide/government-revenue/",
+    analyticsName: "Government Revenue",
   },
   "americas-finance-guide": {
     title: "Your Guide to America’s Finances",
@@ -127,6 +131,7 @@ export const pageTileMap = {
     mobileImage: "afg-feature-homepage-mobile",
     path: "/americas-finance-guide/",
     mainFeature: true,
+    analyticsName: "America's Finance Guide",
   },
   "currency-exchange-rates": {
     title: "Currency Exchange Rates Converter Tool",
@@ -137,5 +142,6 @@ export const pageTileMap = {
     desktopImage: "currency_exchange_rates_converter_1200x600",
     mobileImage: "currency_exchange_rates_converter_1200x600",
     path: "/currency-exchange-rates-converter/",
+    analyticsName: "Currency Exchange Rates Converter",
   },
 };

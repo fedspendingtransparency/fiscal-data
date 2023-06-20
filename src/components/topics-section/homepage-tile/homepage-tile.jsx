@@ -19,7 +19,9 @@ import { pxToNumber } from "../../../helpers/styles-helper/styles-helper";
 import Link from "gatsby-link";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Grid } from "@material-ui/core";
+import Analytics from "../../../utils/analytics/analytics";
 
+let ga4Timer;
 
 const ExplainerTile = ({
   content,
@@ -113,10 +115,32 @@ const ExplainerTile = ({
         </div>
       </div>
     );
+
+  const analyticsHandler = (event, label) => {
+    if(event && label) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': event,
+        'eventLabel': label,
+      });
+    }
+  };
+
+  const hoverAnalyticsHandler = (event, label) => {
+    ga4Timer = setTimeout(() => {
+      analyticsHandler(event, label);
+    }, 3000);
+  };
+
   return (
     <>
       {content.path ? (
-        <Link to={content.path} data-testid={"tile-link"}>
+        <Link
+          to={content.path}
+          data-testid={"tile-link"}
+          onMouseEnter={() => hoverAnalyticsHandler('Card Hover', content.analyticsName)}
+          onMouseLeave={() => clearTimeout(ga4Timer)}
+        >
           {card}
         </Link>
       ) : (
