@@ -18,7 +18,8 @@ export default function AfgTopicSection({
     imageAltText,
     eventNumber,
     pageName,
-    citationClickPage
+    citationClickPage,
+    id
 }) {
 
   const {gaEvent} = useGAEventTracking(eventNumber, citationClickPage);
@@ -38,7 +39,11 @@ export default function AfgTopicSection({
             <Grid item md classes={{ root: styles.textContainer }}>
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>
-                <a href={linkUrl} style={{ color: linkColor, marginTop: '2rem' }} className={styles.link} onClick={onClickEventHandler}>
+                <a href={linkUrl} 
+                   style={{ color: linkColor, marginTop: '2rem' }} 
+                   className={`${styles.link} afgTopicsLink`} 
+                   onClick={onClickEventHandler}
+                   id={id}>
                   {linkText}
                   <FontAwesomeIcon icon={faArrowRightLong} title={"right arrow"} className={styles.arrow} />
                 </a>

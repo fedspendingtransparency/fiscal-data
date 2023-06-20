@@ -204,18 +204,18 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </GlossaryPopoverDefinition>
   const mts = (
     <CustomLink
-      url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
-      eventNumber={"9"}
+      url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+      eventNumber="9"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
   );
   const debtToThePenny = (
     <CustomLink
-      url={
-        "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny"
-      }
-      eventNumber={"10"}
+      url="/datasets/debt-to-the-penny/debt-to-the-penny"
+      eventNumber="10"
+      id="Debt to the Penny"
     >
       Debt to the Penny
     </CustomLink>
@@ -277,6 +277,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkUrl="/americas-finance-guide/government-revenue/"
             eventNumber={'4'}
             citationClickPage={'AfgOverview'}
+            id={'Government Revenue'}
             pageName={'RevenueExplainer'}
             linkText="Learn more about government revenue"
             linkColor={styles.revenueExplainerPrimary}
@@ -294,6 +295,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkColor={spendingExplainerPrimary}
             eventNumber={'5'}
             citationClickPage={'AfgOverview'}
+            id={'Federal Spending'}
             pageName={'SpendingExplainer'}
             image="/topics-section-images/homepage_spending_1200x630.png"
             imageAltText="The US Treasury building is placed next to a row of homes. A pair
@@ -334,6 +336,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkColor={deficitExplainerPrimary}
             eventNumber={'6'}
             citationClickPage={'AfgOverview'}
+            id={'National Deficit'}
             pageName={'DeficitExplainer'}
             image="/topics-section-images/homepage_deficit_1200x630.png"
             imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
@@ -348,6 +351,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkColor={debtExplainerPrimary}
             eventNumber={'7'}
             citationClickPage={'AfgOverview'}
+            id={'National Debt'}
             pageName={'DebtExplainer'}
             image="/topics-section-images/homepage_debt_1200x630.png"
             imageAltText="A variety of hands reach up with objects, including a magnifying
