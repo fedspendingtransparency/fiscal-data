@@ -8,6 +8,7 @@ import CalendarEntryTime from "../calendar-entry-time/calendar-entry-time";
 import Analytics from "../../../utils/analytics/analytics";
 import { convertDateAndTimeToDateTime } from "../calendar-entry-sort-helper/calendar-entry-sort-helper";
 import { format } from 'date-fns';
+import { releaseCalendarSortEvent } from '../calendar-entries';
 
 export const releaseCalendarDatasetClickEvent = {
   category: 'Release Calendar',
@@ -24,6 +25,12 @@ const CalendarEntry = ({ dataset, earliestDate }) => {
     Analytics.event({
       ...releaseCalendarDatasetClickEvent,
       label
+    });
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': releaseCalendarDatasetClickEvent.action,
+      'eventLabel': label,
     });
 
     navigate(`/datasets${url}`);

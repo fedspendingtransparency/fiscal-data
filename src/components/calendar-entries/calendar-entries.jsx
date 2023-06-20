@@ -87,6 +87,12 @@ const CalendarEntriesList = () => {
       ...releaseCalendarSortEvent,
       label: option.label
     });
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': releaseCalendarSortEvent.action,
+      'eventLabel': option.label,
+    });
   };
 
   useEffect(() => {
