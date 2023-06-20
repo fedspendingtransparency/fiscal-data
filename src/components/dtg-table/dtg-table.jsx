@@ -65,7 +65,6 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
-  console.log('rawData', rawData);
   const handlePerPageChange = (numRows) => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
