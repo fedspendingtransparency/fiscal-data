@@ -64,10 +64,16 @@ const SiteFooter = () => {
   const fiscalURL = globalConstants.FISCAL_TREASURY_URL;
 
   const clickHandler = (action) => {
+    console.log(action);
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Bottom ${action} Click`,
       label: document.title
+    });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': `${action}-click`,
+      'eventLabel':document.title
     });
   }
 
