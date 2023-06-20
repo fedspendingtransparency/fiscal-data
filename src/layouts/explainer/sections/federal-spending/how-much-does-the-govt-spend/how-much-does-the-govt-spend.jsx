@@ -203,7 +203,7 @@ const HowMuchDoesTheGovtSpend = () => {
           <div className={chartToggle}>
             <button
               className={toggleButton}
-              id={'spending-categories-toggle-cat'}
+              id={'spending-categories-toggle'}
               style={{
                 borderBottomLeftRadius: "4px",
                 borderTopLeftRadius: "4px",
@@ -230,7 +230,7 @@ const HowMuchDoesTheGovtSpend = () => {
             </button>
             <button
               className={toggleButton}
-              id={'spending-categories-toggle-agency'}
+              id={'spending-categories-toggle'}
               style={{
                 borderBottomRightRadius: "4px",
                 borderTopRightRadius: "4px",
