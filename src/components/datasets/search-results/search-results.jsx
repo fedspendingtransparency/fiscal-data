@@ -60,6 +60,13 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
         ...sortDatasetsAnalyticsObject,
         label: sort.label
       });
+
+      // GA4 event
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'Sort Click',
+        'eventLabel': sort.label
+      });
     }
   }
 

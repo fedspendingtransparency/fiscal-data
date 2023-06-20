@@ -45,6 +45,7 @@ const DateFilterTabs = ({
         value={selectedTab}
         onChange={handleSelectTab}
         indicatorColor="primary"
+        className='dateFilterTabs'
       >
         <Tab label="Start Date" {...a11yProps(0)} />
         <Tab label="Time Range"  {...a11yProps(1)} />
