@@ -67,11 +67,6 @@ const MenuDropdown = (
         action: `${pageName} Click`,
         label: pageName,
       })
-      // window.dataLayer = window.dataLayer || [];
-      // window.dataLayer.push({
-      //   'event': 'nav-click',
-      //   'eventLabel': pageName,
-      // });
     }
   }
 
