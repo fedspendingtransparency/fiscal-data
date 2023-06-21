@@ -417,7 +417,7 @@ const connect = (datasetId, apis, dateRange, fileTypes, requestId) => {
     .subscribe(
       (msg) => processIncomingMessage(msg),
       (err) => handleWebsocketError(requestId, err),
-      () => handleWebsocketComplete(requestId)
+      () => handleWebsocketComplete(requestId, fileTypes, apis, dateRange)
     );
 }
 
@@ -714,10 +714,20 @@ const handleWebsocketError = (requestId, error) => {
   console.error('Websocket Error: ', error);
 }
 
-const handleWebsocketComplete = (requestId) => {
+const handleWebsocketComplete = (requestId, fileType, apis, dateRange) => {
   delete currentConnections[requestId];
   if (currentStatuses[requestId]) {
     currentStatuses[requestId].complete();
+    // GA4 Datalayer push
+    const from = new Date(dateRange.from);
+    const to = new Date(dateRange.to);
+    if (apis && fileType && dateRange.from) {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        'event': 'raw-data-download',
+        'eventLabel': `Table Name: ${apis.tableName}, Type: ${fileType}, Date Range: ${from.toLocaleDateString("en-US")} - ${to.toLocaleDateString("en-US")}`
+      });
+    }
   }
   delete currentStatuses[requestId];
 }
