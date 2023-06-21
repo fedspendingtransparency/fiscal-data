@@ -719,11 +719,15 @@ const handleWebsocketComplete = (requestId, fileType, apis, dateRange) => {
   if (currentStatuses[requestId]) {
     currentStatuses[requestId].complete();
     // GA4 Datalayer push
-    (window as any).dataLayer = (window as any).dataLayer || [];
-    (window as any).dataLayer.push({
-      'event': 'raw-data-download',
-      'eventLabel': `Table Name: ${apis.tableName}, Type: ${fileType}, Date Range: ${dateRange.from.toLocaleDateString("en-US")} - ${dateRange.to.toLocaleDateString("en-US")}`
-    });
+    const from = new Date(dateRange.from);
+    const to = new Date(dateRange.to);
+    if (apis && fileType && dateRange.from) {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        'event': 'raw-data-download',
+        'eventLabel': `Table Name: ${apis.tableName}, Type: ${fileType}, Date Range: ${from.toLocaleDateString("en-US")} - ${to.toLocaleDateString("en-US")}`
+      });
+    }
   }
   delete currentStatuses[requestId];
 }
