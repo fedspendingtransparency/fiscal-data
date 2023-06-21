@@ -5,7 +5,6 @@ import * as styles from './mobile-menu.module.scss';
 import { Link } from "gatsby";
 import MenuButton from "../menu-button/menu-button";
 import MobileMenuDropdown from "./mobile-menu-dropdown/mobile-menu-dropdown";
-import Analytics from "../../../utils/analytics/analytics";
 
 const MobileMenu = ({ setOpenGlossary }) => {
   const [activeState, setActiveState] = useState(false);
