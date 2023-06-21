@@ -112,11 +112,11 @@ describe('Mobile Menu Dropdown', () => {
   it('sets open state for glossary and closed state for menu when glossary selected', () => {
     const setGlossaryOpenMock = jest.fn();
     const setActiveStateMock = jest.fn();
-    const { getByText } = render(<MobileMenuDropdown header={'Header'} 
-                                                     sections={testSections} 
-                                                     defaultOpen 
+    const { getByText } = render(<MobileMenuDropdown header={'Header'}
+                                                     sections={testSections}
+                                                     defaultOpen
                                                      setActiveState={setActiveStateMock}
-                                                     setOpenGlossary={setGlossaryOpenMock}/>);
+                                                     setOpenGlossary={setGlossaryOpenMock} />);
 
     getByText('Glossary').click();
 
