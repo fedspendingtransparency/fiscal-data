@@ -190,6 +190,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
         }, ANALYTICS_EVENT_DELAY));
       }
     } else if (!hoverDelayHandler) {
+      // For bar charts, check that the target is not a chart component
       if (graphType !== 'BAR' || (target['nodeName'] !== 'rect' && target['nodeName'] !== 'svg')) {
         handleChartMouseLeave();
         setHoverDelayHandler(setTimeout(() => {
