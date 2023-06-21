@@ -33,16 +33,38 @@ const MenuDropdown = (
   const title = content.title;
 
   const handlePageClick = (title, pageName) => {
+    window.dataLayer = window.dataLayer || [];
     if (title === 'Topics') {
       Analytics.event({
         category: 'Sitewide Navigation',
         action: `Topics Click`,
         label: pageName
       })
+      window.dataLayer.push({
+        'event': 'topics-click',
+        'eventLabel': pageName,
+      });
     } else if (pageName === 'Glossary') {
       glossaryClickHandler(true);
+      window.dataLayer.push({
+        'event': 'glossary-click',
+      });
     } else if (pageName === 'API Documentation') {
       analyticsClickHandler(pageName);
+      window.dataLayer.push({
+        'event': 'api-doc-click-resources',
+        'eventLabel': document.title,
+      });
+    } else if (pageName === 'Release Calendar') {
+      window.dataLayer.push({
+        'event': 'Release Calendar-click',
+        'eventLabel': document.title,
+      });
+    } else if (title === 'Tools') {
+      window.dataLayer.push({
+        'event': 'tools-click',
+        'eventLabel': pageName,
+      });
     }
     else {
       Analytics.event({

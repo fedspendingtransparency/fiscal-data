@@ -59,6 +59,17 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
       action: `Top ${title} Click`,
       label: document.title
     });
+    window.dataLayer = window.dataLayer || [];
+    if (title === 'About Us') {
+      window.dataLayer.push({
+        'event': `About-click`,
+        'eventLabel':document.title
+      });
+    }
+    window.dataLayer.push({
+      'event': `${title}-click`,
+      'eventLabel':document.title
+    });
   }
 
   return (
