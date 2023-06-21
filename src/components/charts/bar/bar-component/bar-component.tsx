@@ -58,6 +58,7 @@ const CustomBarComponent: FunctionComponent<CustomBarComponentProps> = ({
       onMouseEnter={setValue}
       className={bar}
       data-testid="container"
+      role="presentation"
     >
       <rect
         width={width}

@@ -26,6 +26,12 @@ const CalendarEntry = ({ dataset, earliestDate }) => {
       label
     });
 
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': releaseCalendarDatasetClickEvent.action,
+      'eventLabel': label,
+    });
+
     navigate(`/datasets${url}`);
   }
 

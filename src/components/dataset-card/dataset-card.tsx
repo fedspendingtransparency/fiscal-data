@@ -40,7 +40,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   const clickHandler: () => void = () => {
     if (context && referrer) {
 
-      if (explainer){
+      if (explainer) {
         Analytics.event({
           category: `Explainers`,
           action: 'Citation Click',
@@ -50,12 +50,12 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
         (window as any).dataLayer = (window as any).dataLayer || [];
         (window as any).dataLayer.push({
           'event': `${referrer} - Citation Click`,
-          'eventLabel': `${dataset.name}`,
+          'citationClickEventLabel': `${dataset.name}`,
         });
         // GA4 Data Layer - Clear
         (window as any).dataLayer.push({
           'event': `${referrer} - Citation Click`,
-          'eventLabel': undefined,
+          'citationClickEventLabel': undefined,
         });
       }
       else {

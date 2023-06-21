@@ -10,7 +10,7 @@ import {faChartColumn} from "@fortawesome/free-solid-svg-icons";
 import CustomLink from "../links/custom-link/custom-link";
 
 const HomeMainContent = () => {
-  const datasetSearchPage = <CustomLink url={'/datasets/'}>Dataset Search page</CustomLink>
+  const datasetSearchPage = <CustomLink url="/datasets/" id="Dataset Search">Dataset Search page</CustomLink>
   return (
     <>
       <div data-testid="home-main-content" className={mainContent}>
