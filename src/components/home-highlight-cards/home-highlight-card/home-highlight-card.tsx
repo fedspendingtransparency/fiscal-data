@@ -176,7 +176,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
       barChartParent = target['parentNode'].parentNode.parentNode.parentNode.parentNode;
     }
 
-    if (target['id'] === `chart-${displayOrder}` || (barChartParent && barChartParent['id'] === `chart-${displayOrder}`)) {
+    if (target['id'] === `chart-${displayOrder}` || barChartParent?.id === `chart-${displayOrder}`) {
       if (graphType === 'LINE') {
         addHoverEffects(
           apiData.data,
@@ -188,20 +188,20 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
       }
 
       if (!chartHoverDelayHandler) {
+        handleCardLeave();
         setChartHoverDelayHandler(setTimeout(() => {
           analyticsEvent(ANALYTICS_CHART_ACTION);
           setChartHoverDelayHandler(null);
         }, ANALYTICS_EVENT_DELAY));
 
-        handleCardLeave();
       }
     } else if (!hoverDelayHandler) {
+      handleChartMouseLeave();
       setHoverDelayHandler(setTimeout(() => {
         analyticsEvent(ANALYTICS_CARD_ACTION);
         setHoverDelayHandler(null);
       }, ANALYTICS_EVENT_DELAY));
 
-      handleChartMouseLeave();
     }
   };
 
