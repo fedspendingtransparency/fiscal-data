@@ -18,6 +18,7 @@ import helpers from './helpers/helpers';
  * Chart will be rendered with tick marks
  * @returns {*} - Bar graph of plotted data
  */
+
 const BarGraph = ({
   cardId,
   graphData,
@@ -34,6 +35,7 @@ const BarGraph = ({
   setTempDate,
   dateField,
   useCustomBarComponent,
+  mouseEnter,
   ...props
 }) => {
   const [data, setData] = useState([]);
@@ -90,11 +92,16 @@ const BarGraph = ({
     />
   );
 
+  const onMouseEnter = (e, cardId) => {
+    helpers.mouseEnterEvent(cardId);
+    mouseEnter(e);
+  }
+
   return isValidChart && (
     <div
       data-testid="barGraph" className={divClass || styles.barDiv}
       onMouseLeave={() => helpers.mouseLeaveEvent(cardId, resetValue)}
-      onMouseEnter={() => helpers.mouseEnterEvent(cardId)}
+      onMouseEnter={() => onMouseEnter(cardId)}
       role={'presentation'}
     >
       <ResponsiveBar

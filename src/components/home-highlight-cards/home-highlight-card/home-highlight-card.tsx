@@ -171,12 +171,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>
   ) => void = (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
     const { target } = event;
-    let barChartParent;
-    if (graphType === 'BAR') {
-      barChartParent = target['parentNode'].parentNode.parentNode.parentNode.parentNode;
-    }
-
-    if (target['id'] === `chart-${displayOrder}` || barChartParent?.id === `chart-${displayOrder}`) {
+    if (target['id'] === `chart-${displayOrder}`) {
       if (graphType === 'LINE') {
         addHoverEffects(
           apiData.data,
@@ -193,13 +188,25 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
           analyticsEvent(ANALYTICS_CHART_ACTION);
           setChartHoverDelayHandler(null);
         }, ANALYTICS_EVENT_DELAY));
-
       }
     } else if (!hoverDelayHandler) {
-      handleChartMouseLeave();
-      setHoverDelayHandler(setTimeout(() => {
-        analyticsEvent(ANALYTICS_CARD_ACTION);
-        setHoverDelayHandler(null);
+      if (graphType !== 'BAR' || (target['nodeName'] !== 'rect' && target['nodeName'] !== 'svg')) {
+        handleChartMouseLeave();
+        setHoverDelayHandler(setTimeout(() => {
+          analyticsEvent(ANALYTICS_CARD_ACTION);
+          setHoverDelayHandler(null);
+        }, ANALYTICS_EVENT_DELAY));
+
+      }
+    }
+  };
+
+  const barChartMouseEnter: () => void = () => {
+    if (!chartHoverDelayHandler) {
+      handleCardLeave();
+      setChartHoverDelayHandler(setTimeout(() => {
+        analyticsEvent(ANALYTICS_CHART_ACTION);
+        setChartHoverDelayHandler(null);
       }, ANALYTICS_EVENT_DELAY));
 
     }
@@ -385,6 +392,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                   setTempDate={setTempDate}
                   dateField={api.dateField}
                   useCustomBarComponent
+                  mouseEnter={barChartMouseEnter}
                 />
                 <div className={xAxis}>
                   <div data-testid="highlight-stats" className={statsContainer}>
