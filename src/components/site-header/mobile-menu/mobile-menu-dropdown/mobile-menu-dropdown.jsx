@@ -15,9 +15,37 @@ import Analytics from '../../../../utils/analytics/analytics';
 const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, setActiveState }) => {
   const [isExpanded, setIsExpanded] = useState(defaultOpen);
   const clickHandler = (title, action) => {
+    window.dataLayer = window.dataLayer || [];
     if (title === 'Glossary'){
       setOpenGlossary(true);
       setActiveState(false);
+      window.dataLayer.push({
+        'event': 'glossary-click',
+      });
+    }
+    if (action.includes('Topics')) {
+      window.dataLayer.push({
+        'event': 'topics-click',
+        'eventLabel': title,
+      });
+    }
+    if (title.includes('API')) {
+      window.dataLayer.push({
+        'event': 'api-doc-click-resources',
+        'eventLabel': title,
+      });
+    }
+    if (title.includes('Release')) {
+      window.dataLayer.push({
+        'event': 'Release Calendar-click',
+        'eventLabel': document.title,
+      });
+    }
+    if (action.includes('Tools')) {
+      window.dataLayer.push({
+        'event': 'tools-click',
+        'eventLabel': title,
+      });
     }
     if(action){
       Analytics.event({
@@ -81,7 +109,7 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
                       </Link>
                       )
                   }
-                  
+
                 })}
               </div>
             </div>

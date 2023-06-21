@@ -55,6 +55,11 @@ const MenuDropdown = (
         'event': 'api-doc-click-resources',
         'eventLabel': pageName,
       });
+    } else if (pageName === 'Release Calendar') {
+      window.dataLayer.push({
+        'event': 'Release Calendar-click',
+        'eventLabel': document.title,
+      });
     } else if (title === 'Tools') {
       window.dataLayer.push({
         'event': 'tools-click',

@@ -64,7 +64,6 @@ const SiteFooter = () => {
   const fiscalURL = globalConstants.FISCAL_TREASURY_URL;
 
   const clickHandler = (action) => {
-    console.log(action);
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Bottom ${action} Click`,
