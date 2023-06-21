@@ -54,6 +54,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
 
   const tools = [
     {
+      analyticsAction: 'Tools Click',
       children: [
         {
           to: '/currency-exchange-rates-converter/',
