@@ -718,6 +718,7 @@ const handleWebsocketComplete = (requestId, fileType, apis, dateRange) => {
   delete currentConnections[requestId];
   if (currentStatuses[requestId]) {
     currentStatuses[requestId].complete();
+    // GA4 Datalayer push
     (window as any).dataLayer = (window as any).dataLayer || [];
     (window as any).dataLayer.push({
       'event': 'raw-data-download',
