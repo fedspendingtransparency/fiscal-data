@@ -11,7 +11,6 @@ import { fetchHighlights } from '../../../utils/api-utils';
 import drawSparkline, { addHoverEffects, removeHoverEffects } from '../../charts/chart-sparkline';
 import globalConstants from "../../../helpers/constants";
 import { theme } from "../../../theme";
-
 import {
   card,
   cardActionArea,
@@ -38,6 +37,7 @@ import { DatasetFieldDataType } from "../../../models/fdg-types";
 import { formatCardValue } from "../home-highlight-cards-helper/home-highlight-cards-helper";
 import BarGraph from '../../charts/bar/bar';
 import Sparkler from "./sparkler/sparkler"
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const cardStyles = {
   root: {
@@ -171,7 +171,12 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>
   ) => void = (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
     const { target } = event;
-    if (target['id'] === `chart-${displayOrder}`) {
+    let barChartParent;
+    if (graphType === 'BAR') {
+      barChartParent = target['parentNode'].parentNode.parentNode.parentNode.parentNode;
+    }
+
+    if (target['id'] === `chart-${displayOrder}` || (barChartParent && barChartParent['id'] === `chart-${displayOrder}`)) {
       if (graphType === 'LINE') {
         addHoverEffects(
           apiData.data,
@@ -327,7 +332,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               >
                 {isLoading ?
                   <div data-testid="loadingSection">
-                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse />
+                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
                     Loading...
                   </div> :
                   <div style={{position: 'relative'}}>
@@ -354,7 +359,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 {apiError && <p>API Error</p>}
                 {isLoading &&
                 <div data-testid="loadingSection">
-                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse />
+                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
                   Loading...
                 </div>
                 }
@@ -398,7 +403,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 {apiError && <p>API Error</p>}
                 {isLoading &&
                 <div data-testid="loadingSection">
-                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse />
+                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
                   Loading...
                 </div>
                 }
@@ -409,7 +414,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               className={datasetName}
               title={name}
             >
-              <FontAwesomeIcon icon={faTable} className={datasetIcon} />
+              <FontAwesomeIcon icon={faTable as IconProp} className={datasetIcon} />
               {name}
             </div>
             <div data-testid="highlight-hero-value">
@@ -432,7 +437,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
           <div className={datasetLineLink}>
             <div data-testid="dataset-line" className={viewDataset}>
               Dataset Details
-              <FontAwesomeIcon icon={faArrowRight} className={datasetArrow} />
+              <FontAwesomeIcon icon={faArrowRight as IconProp} className={datasetArrow} />
             </div>
           </div>
         </Link>
