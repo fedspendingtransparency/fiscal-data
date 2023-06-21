@@ -23,12 +23,6 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
         'event': 'glossary-click',
       });
     }
-    if (action.includes('Topics')) {
-      window.dataLayer.push({
-        'event': 'topics-click',
-        'eventLabel': title,
-      });
-    }
     if (title.includes('API')) {
       window.dataLayer.push({
         'event': 'api-doc-click-resources',
@@ -41,18 +35,24 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
         'eventLabel': document.title,
       });
     }
-    if (action.includes('Tools')) {
-      window.dataLayer.push({
-        'event': 'tools-click',
-        'eventLabel': title,
-      });
-    }
     if(action){
       Analytics.event({
         category: 'Sitewide Navigation',
         action: action,
         label: title
       });
+      if (action.includes('Tools')) {
+        window.dataLayer.push({
+          'event': 'tools-click',
+          'eventLabel': title,
+        });
+      }
+      if (action.includes('Topics')) {
+        window.dataLayer.push({
+          'event': 'topics-click',
+          'eventLabel': title,
+        });
+      }
     }
   };
 
