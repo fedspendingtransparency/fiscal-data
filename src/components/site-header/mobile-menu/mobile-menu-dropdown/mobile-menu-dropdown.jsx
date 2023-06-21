@@ -32,7 +32,7 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
     if (title.includes('API')) {
       window.dataLayer.push({
         'event': 'api-doc-click-resources',
-        'eventLabel': title,
+        'eventLabel': document.title,
       });
     }
     if (title.includes('Release')) {

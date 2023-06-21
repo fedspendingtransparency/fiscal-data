@@ -53,7 +53,7 @@ const MenuDropdown = (
       analyticsClickHandler(pageName);
       window.dataLayer.push({
         'event': 'api-doc-click-resources',
-        'eventLabel': pageName,
+        'eventLabel': document.title,
       });
     } else if (pageName === 'Release Calendar') {
       window.dataLayer.push({
