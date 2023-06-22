@@ -203,8 +203,10 @@ const TableSectionContainer = ({
           <ChartTableToggle
             legend={legend}
             selectedTab={selectedTab}
-            showToggle={!noChartMessage}
+            showToggleChart={!noChartMessage}
+            showToggleTable={config.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
+            // fix toggle legend for table toggle ************
             onToggleLegend={legendToggler}
             emptyData={
               !isLoading

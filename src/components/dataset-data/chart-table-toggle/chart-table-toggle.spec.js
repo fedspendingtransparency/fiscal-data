@@ -5,8 +5,10 @@ import Analytics from "../../../utils/analytics/analytics";
 
 describe('Chart Table Toggle 0', () => {
   const onTabChange = jest.fn();
+  const onToggleLegend = jest.fn();
   const spyProps = {
-    onTabChange: onTabChange
+    onTabChange: onTabChange,
+    onToggleLegend: onToggleLegend
   };
   const gaSpy = jest.spyOn(Analytics, 'event');
   const dummyTableName = 'Oh how the turntables have turned';
@@ -77,5 +79,47 @@ describe('Chart Table Toggle 0', () => {
       category: 'Chart Enabled',
       action: dummyTableName,
     });
-  })
+  });
+
+  it('displays the select column tab when selectColumns on table tab', () => {
+    const {getByRole} = render(<ChartTableToggle 
+      currentTab={0}
+      emptyData
+      table={tableProps}
+      onTabChange={spyProps.onTabChange}
+      chart={mockChart}
+      showToggleTable={true}
+      selectedTab={0}
+      onToggleLegend={spyProps.onToggleLegend} />);
+
+      expect(getByRole('button', {name:'Select Column'})).toBeInTheDocument();
+  });
+
+  it('does not display the select column tab when selectColumns on chart tab', () => {
+    const {queryByRole} = render(<ChartTableToggle 
+      currentTab={1}
+      emptyData
+      table={tableProps}
+      onTabChange={spyProps.onTabChange}
+      chart={mockChart}
+      showToggleChart={true}
+      selectedTab={1} />);
+
+      expect(queryByRole('button', {name:'Select Column'})).not.toBeInTheDocument();
+  });
+
+  it('does not display the select column tab when showToggleTable is false', () => {
+    const {getByRole} = render(<ChartTableToggle 
+      currentTab={0}
+      emptyData
+      table={tableProps}
+      onTabChange={spyProps.onTabChange}
+      chart={mockChart}
+      showToggleTable={true}
+      selectedTab={0}
+      onToggleLegend={spyProps.onToggleLegend} />);
+
+      expect(queryByRole('button', {name:'Select Column'})).not.toBeInTheDocument();
+  });
+  
 });

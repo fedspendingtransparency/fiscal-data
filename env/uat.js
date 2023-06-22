@@ -19,7 +19,8 @@ module.exports = {
         "015-BFS-2014Q1-14"
       ],
       "slug": "/auctions/",
-      "currentDateButton": "byMonth"
+      "currentDateButton": "byMonth",
+      "selectColumns": true
     }
   },
   ADDITIONAL_ENDPOINTS: {

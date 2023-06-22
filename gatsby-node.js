@@ -399,6 +399,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           datePreset
           customRangePreset
           bannerCallout
+          selectColumns
           relatedTopics
           filterTopics
           publisher
