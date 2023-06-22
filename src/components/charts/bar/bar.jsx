@@ -94,7 +94,9 @@ const BarGraph = ({
 
   const onMouseEnter = (cardId) => {
     helpers.mouseEnterEvent(cardId);
-    mouseEnter();
+    if (mouseEnter) {
+      mouseEnter();
+    }
   }
 
   return isValidChart && (
