@@ -7,7 +7,9 @@ import {
   mockPaginatedTableProps,
   shortPaginatedDataResponse,
   TestData,
-  TestDataOneRow
+  TestDataOneRow,
+  ColSelectColConfig,
+  ColSelectTestData
 } from './test-data';
 import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
@@ -280,4 +282,68 @@ describe('DtgTable component with shouldPage property and tableData with only on
   it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
     expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(0);
   });
+});
+
+describe('DtgTable component - Select Columns', () => {
+
+  // columnConfig undefined in test? 
+  it('displays the select columns menu', () => {
+    const {getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig }}
+      />);
+    expect(getByText('Visible Columns')).toBeInTheDocument();
+  });
+
+  it('displays the select columns menu with all columns displayed', () => {
+    const {getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig }}
+      />);
+   
+      expect(getByText(ColSelectColConfig[0].name)).toBeInTheDocument();
+      expect(getByText(ColSelectColConfig[1].name)).toBeInTheDocument();
+      expect(getByText(ColSelectColConfig[2].name)).toBeInTheDocument();
+  });
+
+  it('should close the side panel when x is clicked', () => {
+    const {getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig }}
+      />);
+   
+      //expect(side panel).not.toBeInTheDocument();
+  });
+
+  it('should have only the defauted columns shown in the table initally', () => {
+    const {getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig }}
+      />);
+   
+      // expect(defaulted columns).toBeInTheDocument();
+      // expect(non-defaulted columns).not.toBeInTheDocument();
+  });
+  
+  it('should display all columns when select all', () => {
+    const {getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig }}
+      />);
+   
+      // expect(all columns).toBeInTheDocument();
+  });
+
+  it('should display selected columns when changed from default', () => {
+    const {getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig }}
+      />);
+   
+      //expect(selected columns).toBeInTheDocument();
+      //expect(non-selected columns).not.toBeInTheDocument();
+  });
+
+  // test that it doesn't appear when there is no selectCol
+
 });

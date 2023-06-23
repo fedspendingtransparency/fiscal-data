@@ -14,6 +14,7 @@ import * as styles from './dtg-table.module.scss';
 import CustomLink from "../links/custom-link/custom-link";
 import Experimental from '../experimental/experimental';
 import { DataTable } from '../data-table/data-table';
+import DtgTableColumnSelector from './dtg-table-column-selector';
 
 const defaultRowsPerPage = 5;
 
@@ -29,7 +30,8 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     selectedPivot,
     dateRange,
     columnConfig,
-    caption
+    caption,
+    selectColumns
   } = tableProps;
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
@@ -51,6 +53,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   const [rows, setRows] = useState([]);
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
+  const [columnSelectValues, setColumnSelectValues] = useState([]);
 
   let loadCanceled = false;
 
@@ -184,10 +187,30 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     }
   };
 
+  const setColumnsToSelect = () => {
+    let selectColArray = [];
+
+    columnConfig.forEach((col) => {
+      let colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
+      const selectCol = Object.assign({label: col.name},
+                                {field: col.property},
+                                {active: colDefault},
+                                {default: colDefault});
+                                
+      selectColArray.push(selectCol);
+    });
+
+    setColumnSelectValues(selectColArray);
+  }
+
   useEffect(() => {
     updateSmallFractionDataType();
     setCurrentPage(1);
     setApiError(false);
+
+    // TODO: make it not render a million times 
+    setColumnsToSelect();
+
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null
       ? getPagedData(true)
@@ -288,6 +311,20 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
             </table>
           }
         </div>
+
+        <div>
+          {selectColumns && 
+            <DtgTableColumnSelector
+            isVisible={true}
+            fields={columnSelectValues}
+            // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
+            // onHover={(on, item) => callbacks.onHover(on, item)}
+            // onLabelChange={(update) =>
+            //   callbacks.onLabelChange(update, chartFields, setChartFields)}
+          />
+          }
+        </div>
+
       </div>
 
       {/* Table Footer */}

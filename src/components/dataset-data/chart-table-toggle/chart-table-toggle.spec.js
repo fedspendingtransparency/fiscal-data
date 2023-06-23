@@ -109,13 +109,13 @@ describe('Chart Table Toggle 0', () => {
   });
 
   it('does not display the select column tab when showToggleTable is false', () => {
-    const {getByRole} = render(<ChartTableToggle 
+    const {queryByRole} = render(<ChartTableToggle 
       currentTab={0}
       emptyData
       table={tableProps}
       onTabChange={spyProps.onTabChange}
       chart={mockChart}
-      showToggleTable={true}
+      showToggleTable={false}
       selectedTab={0}
       onToggleLegend={spyProps.onToggleLegend} />);
 

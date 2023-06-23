@@ -75,6 +75,7 @@ const TableSectionContainer = ({
       selectedPivot,
       dateRange,
       apiError,
+      selectColumns: config.selectColumns,
       excludeCols: ['CHART_DATE'],
       aria: {"aria-labelledby": "main-data-table-title"}
     });

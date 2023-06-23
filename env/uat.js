@@ -20,7 +20,7 @@ module.exports = {
       ],
       "slug": "/auctions/",
       "currentDateButton": "byMonth",
-      "selectColumns": true
+      "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
     }
   },
   ADDITIONAL_ENDPOINTS: {

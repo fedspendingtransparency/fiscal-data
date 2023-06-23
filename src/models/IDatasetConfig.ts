@@ -7,7 +7,7 @@ export interface IDatasetConfig {
   datePreset: string | null,
   customRangePreset: string | null,
   bannerCallout: string | null,
-  selectColumns: boolean | null,
+  selectColumns: string[] | null,
   dataFormats: string[] | Record<string, unknown>[],
   dataStartYear: string,
   datasetId: string,

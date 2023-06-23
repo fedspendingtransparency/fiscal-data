@@ -1,0 +1,39 @@
+@import '../../variables.module.scss';
+
+.headingWrapper {
+    padding: 0.75rem 1rem;
+    margin: 0;
+    background: $pale-bg;
+    border-bottom: 1px solid $border-color;
+
+    .heading {
+        @include headingStyle6;
+    }
+
+    .selectedValues {
+        font-size: $font-size-14;
+        color: $font-title;
+    }
+}
+
+.checkboxHeading {
+    font-size: $font-size-12;
+    color: $font-title;
+    font-weight: $semi-bold-weight;
+    padding-bottom: 1rem;
+}
+
+.buttonContainer {
+    padding: 1rem;
+    max-height: 470px;
+    overflow-y: auto;
+}
+
+.toggleButton {
+    display: block;
+    width: 100%;
+}
+
+.defaultSection {
+    padding-bottom: 1.5rem;
+}

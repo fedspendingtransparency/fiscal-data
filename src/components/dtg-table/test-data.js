@@ -253,3 +253,33 @@ export const mockPaginatedTableProps = {
   serverSidePagination: "v1/accounting/dts/dts_table_1",
   shouldPage: true
 };
+
+export const ColSelectColConfig = [
+  {
+    property: 'date',
+    name: 'Pretty Date'
+  },
+  {
+    property: 'time',
+    name: 'Pretty Time'
+  },
+  {
+    property: 'name',
+    name: 'Pretty Name'
+  },
+];
+
+export const ColSelectTestData = [
+  {
+    field: 'date',
+    prettyName: 'Pretty Date'
+  },
+  {
+    field: 'time',
+    prettyName: 'Pretty Time'
+  },
+  {
+    field: 'name',
+    prettyName: 'Pretty Name'
+  }
+];
