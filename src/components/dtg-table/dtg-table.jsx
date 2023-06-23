@@ -295,36 +295,37 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
           </>
         )}
 
-        {/* Table Wrapper */}
-        <div className={noBorder ? [styles.wrapper,styles.noBorder].join(' ') : styles.wrapper}>
-          {/* Empty Data Message */}
-          { emptyDataMessage && emptyDataMessage }
+        <div className={styles.selectColumnsWrapper}>
+            {/* Table Wrapper */}
+          <div className={noBorder ? [styles.wrapper,styles.noBorder].join(' ') : styles.wrapper}>
+            {/* Empty Data Message */}
+            { emptyDataMessage && emptyDataMessage }
 
-          {/* Table */}
-          {!emptyDataMessage &&
-            <table {...tableProps.aria} style={{width: tableWidth}}>
-              {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-              <DtgTableHeading columns={columns} />
-              <tbody>
-                {rows}
-              </tbody>
-            </table>
-          }
+            {/* Table */}
+            {!emptyDataMessage &&
+              <table {...tableProps.aria} style={{width: tableWidth}}>
+                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                <DtgTableHeading columns={columns} />
+                <tbody>
+                  {rows}
+                </tbody>
+              </table>
+            }
+          </div>
+
+          <div>
+            {selectColumns && 
+              <DtgTableColumnSelector
+              isVisible={true}
+              fields={columnSelectValues}
+              // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
+              // onHover={(on, item) => callbacks.onHover(on, item)}
+              // onChange={(update) =>
+              //   callbacks.onLabelChange(update, chartFields, setChartFields)}
+            />
+            }
+          </div>
         </div>
-
-        <div>
-          {selectColumns && 
-            <DtgTableColumnSelector
-            isVisible={true}
-            fields={columnSelectValues}
-            // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
-            // onHover={(on, item) => callbacks.onHover(on, item)}
-            // onLabelChange={(update) =>
-            //   callbacks.onLabelChange(update, chartFields, setChartFields)}
-          />
-          }
-        </div>
-
       </div>
 
       {/* Table Footer */}

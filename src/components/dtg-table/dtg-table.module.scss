@@ -138,6 +138,10 @@ $borderRadius: 5px;
   }
 }
 
+.selectColumnsWrapper {
+  display: flex;
+}
+
 @media screen and (max-width: $breakpoint-md) {
   .wrapper {
     table {
