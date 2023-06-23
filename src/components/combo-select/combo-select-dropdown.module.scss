@@ -1,0 +1,56 @@
+
+@import '../../variables.module.scss';
+@import '../../zIndex.module.scss';
+
+.dropdownContainer {
+  height: 281px;
+  width: 324px;
+  position: absolute;
+  box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  background-color: white;
+  margin-top: 0.25rem;
+  overflow-y: scroll;
+
+  .searchBarContainer {
+    margin: .75rem 0 1rem 1rem;
+  }
+
+  .dropdownList {
+    padding-bottom: .75rem;
+    padding: 0;
+
+    .dropdownListItem {
+      font-weight: normal;
+      font-size: $font-size-16;
+      display: block;
+      padding: .5rem 1rem;
+      color: $font-body-copy;
+      &:hover {
+        background-color: $body-background;
+        transition: background-color 0.2s ease
+      }
+      &.dropdownListItem_Selected {
+        background-color: #e8f5ff;
+        color: #0071bc;
+      }
+
+      .dropdownListItem_Button {
+        line-height: unset;
+        width: 100%;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+
+        &:disabled {
+          cursor: default;
+          &:hover {
+            background-color: $content-section-background;
+          }
+        }
+
+      }
+    }
+  }
+}
+

@@ -3,12 +3,9 @@ import {
   currencyBody,
   currencyBox,
   currencyHeader,
-  dropdownIcon,
   currencyText,
-  dropdownInput,
-  dropdownInputContainer
 } from './currency-entry-box.module.scss';
-import ComboSelect from "../../combo-select/combo-select";
+import ComboCurrencySelect from '../../combo-select/combo-currency-select';
 
 interface ICurrencyEntryBox  {
   defaultCurrency: string,
@@ -44,14 +41,14 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
       {dropdown ?
         <div className={currencyBox} data-testid={testId}>
           {options && (
-            <ComboSelect
+            <ComboCurrencySelect
               selectedOption={selectedCurrency}
               label={''}
               options={options}
-              iconStyle={dropdownIcon}
-              inputStyle={dropdownInput}
+              // iconStyle={dropdownIcon}
+              // inputStyle={dropdownInput}
               scrollable={true}
-              inputContainerStyle={dropdownInputContainer}
+              // inputContainerStyle={dropdownInputContainer}
               labelDisplay={true}
               changeHandler={onCurrencyChange}
               isExchangeTool={true}

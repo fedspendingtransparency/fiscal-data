@@ -17,6 +17,7 @@ import {
   searchLabel
 } from './glossary-header.module.scss'
 import { searchBarTheme, useStyles } from './theme';
+import SearchBar from '../../combo-select/search-bar';
 
 interface IGlossaryHeader {
   filter: string,
@@ -44,28 +45,7 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler
           <FontAwesomeIcon icon={faXmark as IconProp} className={closeIcon} />
         </button>
       </div>
-      <div className={search}>
-        <span className={searchLabel}>Search the glossary</span>
-        <MuiThemeProvider theme={searchBarTheme} >
-          <Box sx={{width: 282}}>
-            <TextField
-              className={useStyles().root}
-              variant="outlined"
-              fullWidth
-              onChange={onSearchBarChange}
-              size="small"
-              value={filter}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end" >
-                    <FontAwesomeIcon icon={faMagnifyingGlass as IconProp} className={searchIcon} />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
-        </MuiThemeProvider>
-      </div>
+      <SearchBar onChange={onSearchBarChange} width={282} filter={filter} label="Search the glossary" />
     </div>
   )
 }
