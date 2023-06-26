@@ -22,6 +22,7 @@ import useGAEventTracking from "../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../utils/analytics/analytics";
 import {getShortForm} from "../../../../../utils/rounding-utils";
 import {ToggleSwitch} from "./chart-toggle-switch";
+import {getDateWithoutOffset} from "../../../explainer-helpers/explainer-helpers";
 
 const breakpoint = {
   desktop: 1015,
@@ -63,10 +64,10 @@ const HowMuchDoesTheGovtSpend = () => {
   const getChartData = () => {
     Promise.all([
       basicFetch(
-        `${apiPrefix}${`v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19`}`
+        `${apiPrefix}${`v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19`}`
       ),
       basicFetch(
-        `${apiPrefix}${`v1/accounting/mts/mts_table_5?filter=record_calendar_month:eq:09,data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30`}`
+        `${apiPrefix}${`v1/accounting/mts/mts_table_5?filter=data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30`}`
       ),
     ]).then(result => {
       setChartData({
@@ -95,12 +96,11 @@ const HowMuchDoesTheGovtSpend = () => {
 
   useEffect(() => {
     if (chartData && chartData[selectedChartView]?.data) {
-      const dataItems = chartData[selectedChartView].data
-      const dates = dataItems.map(item => moment(item.record_date))
-      const maxDate = moment.max(dates)
-      const updatedDate = new Date(maxDate.toDate())
-      setLastUpdatedDate(updatedDate)
-      setFiscalYear(updatedDate.getFullYear());
+      const dataItems = chartData[selectedChartView].data;
+      const updatedDate = getDateWithoutOffset(dataItems[0].record_date);
+      setLastUpdatedDate(updatedDate);
+      const fiscalYear = dataItems[0].record_fiscal_year;
+      setFiscalYear(fiscalYear);
     }
   }, [selectedChartView, chartData])
 
@@ -129,7 +129,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const header = (
     <div className={headerContainer}>
       <div className={headerStyle} style={{ fontWeight: "600" }}>
-        U.S. Government Spending, FY {fiscalYear}
+        U.S. Government Spending, FYTD {fiscalYear}
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
