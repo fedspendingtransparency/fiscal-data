@@ -95,12 +95,15 @@ const HowMuchDoesTheGovtSpend = () => {
   }, [width, height])
 
   useEffect(() => {
-    if (chartData && chartData[selectedChartView]?.data) {
-      const dataItems = chartData[selectedChartView].data;
-      const updatedDate = getDateWithoutOffset(dataItems[0].record_date);
+    if (chartData) {
+      const dataItems = chartData.category.data;
+      const dates = dataItems.map(item => moment(item.record_date));
+      const fiscalYears = dataItems.map(item => moment(item.record_fiscal_year));
+      const maxDate = moment.max(dates);
+      const upToDateFiscalYear = moment.max(fiscalYears);
+      const updatedDate = getDateWithoutOffset(maxDate);
       setLastUpdatedDate(updatedDate);
-      const fiscalYear = dataItems[0].record_fiscal_year;
-      setFiscalYear(fiscalYear);
+      setFiscalYear(upToDateFiscalYear.year());
     }
   }, [selectedChartView, chartData])
 
