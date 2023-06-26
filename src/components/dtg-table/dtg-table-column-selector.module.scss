@@ -5,14 +5,63 @@
     margin: 0;
     background: $pale-bg;
     border-bottom: 1px solid $border-color;
-
+    
     .heading {
-        @include headingStyle6;
+        display: flex;
+        justify-content: space-between;
+        .title {
+            @include headingStyle6;
+        }
+        .closeButton {
+            background: none;
+            border: none;
+            cursor: pointer;
+            .closeIcon {
+              color: $primary;
+              :not(svg root) {
+                width: 0.75rem;
+                height: 1.25rem;
+              }
+            }
+            :hover {
+              color: $slate-blue;
+            }
+        }
     }
 
+    
     .selectedValues {
         font-size: $font-size-14;
         color: $font-title;
+    }
+}
+
+.selectAllContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 1px #d9d9d9;
+
+    .selectAllColumns {
+        border-bottom: 0px;
+        // border looks weird 
+    }
+
+    .reset {
+        cursor: pointer;
+        color: $primary;
+        font-size: $font-size-14;
+        font-weight: $semi-bold-weight;
+        margin-right: 1rem;
+
+        .resetIcon {
+            padding-right: 0.5rem;
+            height: 0.75rem;
+            width: 0.75rem;
+        }
+    }
+    :hover {
+        color: $slate-blue;
     }
 }
 

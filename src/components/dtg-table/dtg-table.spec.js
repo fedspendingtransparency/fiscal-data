@@ -306,6 +306,15 @@ describe('DtgTable component - Select Columns', () => {
       expect(getByText(ColSelectColConfig[2].name)).toBeInTheDocument();
   });
 
+  it('should display 10 rows by default when dataset has selected columns enabled', () => {
+    const {getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig }}
+      />);
+   
+      //expect(number of rows).toBe(10);
+  });
+
   it('should close the side panel when x is clicked', () => {
     const {getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,

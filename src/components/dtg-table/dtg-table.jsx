@@ -17,6 +17,7 @@ import { DataTable } from '../data-table/data-table';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 
 const defaultRowsPerPage = 5;
+const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({tableProps, perPage, setPerPage}) {
   const {
@@ -39,9 +40,12 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   const [itemsPerPage, setItemsPerPage] = useState(perPage
     ? perPage
     : (
-      !shouldPage && data.length > defaultRowsPerPage
+      selectColumns 
+      ? selectColumnRowsPerPage
+      : (!shouldPage && data.length > defaultRowsPerPage
         ? data.length
-        : defaultRowsPerPage
+        : defaultRowsPerPage)
+      
       )
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
@@ -53,7 +57,9 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   const [rows, setRows] = useState([]);
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
+  // maybe this doesn't have to be a state ?
   const [columnSelectValues, setColumnSelectValues] = useState([]);
+  const [activeColumns, setActiveColumns] = useState([]);
 
   let loadCanceled = false;
 
@@ -167,11 +173,11 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     setCurrentPage(Math.min(pageNum, maxPage));
   }
 
-  const populateRows = () => {
+  const populateRows = (currentColumns) => {
     const tableRows = [];
     tableData.forEach((row, index) => {
       tableRows.push(
-        <DtgTableRow columns={columns} data={row} key={index} />
+        <DtgTableRow columns={currentColumns} data={row} key={index} />
       )
     });
     setRows(tableRows);
@@ -187,29 +193,52 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     }
   };
 
-  const setColumnsToSelect = () => {
+  const setDefaultColumnsToSelect = () => {
     let selectColArray = [];
+    let activeColArray = [];
 
-    columnConfig.forEach((col) => {
+    columns.forEach((col) => {
       let colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
       const selectCol = Object.assign({label: col.name},
                                 {field: col.property},
                                 {active: colDefault},
                                 {default: colDefault});
+      if(colDefault == true) {
+        activeColArray.push(col);
+      }
                                 
       selectColArray.push(selectCol);
     });
 
     setColumnSelectValues(selectColArray);
+    setActiveColumns(activeColArray);
+  }
+
+  const columnSelectChangeHandler = (update) => {
+    let selectColArray = [];
+    let activeColArray = [];
+
+    columnSelectValues.forEach((col) => {
+      let currentCol = col;
+      if(update.find(updatedCol => updatedCol.field === col.field)) {
+        activeColArray.push(columns.find(column => column.property === col.field));
+      }
+      else {
+        currentCol.active = false;
+      }
+
+      selectColArray.push(currentCol);
+    })
+
+    setColumnSelectValues(selectColArray);
+    setActiveColumns(activeColArray);
+    populateRows(activeColArray);
   }
 
   useEffect(() => {
     updateSmallFractionDataType();
     setCurrentPage(1);
     setApiError(false);
-
-    // TODO: make it not render a million times 
-    setColumnsToSelect();
 
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null
@@ -232,7 +261,12 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
-    populateRows();
+    if(selectColumns && activeColumns){
+      populateRows(activeColumns);
+    } 
+    else {
+      populateRows(columns);
+    }
   }, [tableData]);
 
   useEffect(() => {
@@ -245,6 +279,9 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     if (!tableProps.data) {
       setCurrentPage(1);
     }
+
+    // TODO: make it not render a million times ??
+    setDefaultColumnsToSelect();
   }, [tableProps.data]);
 
   useEffect(() => {
@@ -302,14 +339,21 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
             { emptyDataMessage && emptyDataMessage }
 
             {/* Table */}
-            {!emptyDataMessage &&
-              <table {...tableProps.aria} style={{width: tableWidth}}>
+            {(!emptyDataMessage && !selectColumns ? 
+              (<table {...tableProps.aria} style={{width: tableWidth}}>
                 {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                 <DtgTableHeading columns={columns} />
                 <tbody>
                   {rows}
                 </tbody>
-              </table>
+              </table>) :
+              (<table {...tableProps.aria} style={{width: tableWidth}}>
+                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                <DtgTableHeading columns={activeColumns} />
+                <tbody>
+                  {rows}
+                </tbody>
+              </table>))
             }
           </div>
 
@@ -320,8 +364,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
               fields={columnSelectValues}
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
               // onHover={(on, item) => callbacks.onHover(on, item)}
-              // onChange={(update) =>
-              //   callbacks.onLabelChange(update, chartFields, setChartFields)}
+              onChange={(update) => columnSelectChangeHandler(update)}
             />
             }
           </div>
