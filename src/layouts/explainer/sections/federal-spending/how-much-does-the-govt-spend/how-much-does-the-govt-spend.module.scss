@@ -36,22 +36,6 @@
   align-items: center;
 }
 
-.grow {
-  animation-name: grow;
-}
-
-@keyframes grow {
-  from {
-    width: 0;
-    height: 40px;
-  }
-
-  to {
-    width: 30%;
-    height: 40px;
-  }
-}
-
 .percentOrDollarContainer {
   color: #666666;
   font-weight: 600;

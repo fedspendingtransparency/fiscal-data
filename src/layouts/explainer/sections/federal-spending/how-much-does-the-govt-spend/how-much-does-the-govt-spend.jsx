@@ -22,7 +22,7 @@ import useGAEventTracking from "../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../utils/analytics/analytics";
 import {getShortForm} from "../../../../../utils/rounding-utils";
 import {ToggleSwitch} from "./chart-toggle-switch";
-import { css, keyframes } from "styled-components";
+import { keyframes } from "styled-components";
 import styled from 'styled-components';
 
 const breakpoint = {
@@ -128,7 +128,7 @@ const HowMuchDoesTheGovtSpend = () => {
         and download this data.
       </p>
     </div>
-  )
+  );
 
   const header = (
     <div className={headerContainer}>
@@ -142,13 +142,13 @@ const HowMuchDoesTheGovtSpend = () => {
   const sortField =
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
-      : "current_fytd_net_outly_amt"
+      : "current_fytd_net_outly_amt";
 
   let sortedItems =
     chartData &&
     chartData[selectedChartView]?.data.sort((a, b) => {
       return b[sortField] - a[sortField]
-    })
+    });
 
   const grow = (width) => keyframes`
   from {
