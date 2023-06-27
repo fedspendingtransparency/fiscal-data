@@ -11,6 +11,7 @@
         justify-content: space-between;
         .title {
             @include headingStyle6;
+            padding-bottom: .25rem;
         }
         .closeButton {
             background: none;
@@ -48,6 +49,8 @@
     }
 
     .reset {
+        background: none;
+        border: none;
         cursor: pointer;
         color: $primary;
         font-size: $font-size-14;
@@ -67,7 +70,7 @@
 
 .buttonContainer {
     padding: 1rem;
-    max-height: 470px;
+    max-height: 300px;
     overflow-y: auto;
 }
 

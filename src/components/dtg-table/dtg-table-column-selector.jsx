@@ -7,11 +7,11 @@ import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 
   // FIX TABBING
 
-const DtgTableColumnSelector = ({ fields, isVisible, onChange }) => (
+const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault }) => (
   <section>
     <div className={styles.headingWrapper}>
       <div className={styles.heading}>
-        <h1 className={styles.title}>Visible Columns</h1>
+        <div className={styles.title}>Visible Columns</div>
         {/* use ref in glossary panel */}
         <button onClick={console.log("CLICK")} 
                 onKeyPress={console.log("CLICK")} 
@@ -31,11 +31,10 @@ const DtgTableColumnSelector = ({ fields, isVisible, onChange }) => (
         isVisible={isVisible}
         onUpdateFields={onChange}
       />
-      <div className={styles.reset}>
-        {/* make this work */}
+      <button className={styles.reset} onClick={resetToDefault}>
         <FontAwesomeIcon className={styles.resetIcon} icon={faUndo} />
         Reset
-      </div>
+      </button>
     </div>
     <div className={styles.buttonContainer}>
     <Checkbox

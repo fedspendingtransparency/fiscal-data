@@ -212,6 +212,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
 
     setColumnSelectValues(selectColArray);
     setActiveColumns(activeColArray);
+    populateRows(activeColArray);
   }
 
   const columnSelectChangeHandler = (update) => {
@@ -365,6 +366,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
               // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
               // onHover={(on, item) => callbacks.onHover(on, item)}
               onChange={(update) => columnSelectChangeHandler(update)}
+              resetToDefault={setDefaultColumnsToSelect}
             />
             }
           </div>
