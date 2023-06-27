@@ -1,6 +1,5 @@
-
-@import '../../variables.module.scss';
-@import '../../zIndex.module.scss';
+@import '../../../../variables.module';
+@import '../../../../zIndex.module';
 
 .dropdownContainer {
   height: 281px;
@@ -10,22 +9,18 @@
   border-radius: 2px;
   background-color: white;
   margin-top: 0.25rem;
-  overflow-y: scroll;
 
   .searchBarContainer {
     margin: .75rem 0 1rem 1rem;
   }
 
   .dropdownList {
-    padding-bottom: .75rem;
     padding: 0;
+    margin: 0;
+    height: 190px;
 
     .dropdownListItem {
-      font-weight: normal;
-      font-size: $font-size-16;
       display: block;
-      padding: .5rem 1rem;
-      color: $font-body-copy;
       &:hover {
         background-color: $body-background;
         transition: background-color 0.2s ease
@@ -36,6 +31,11 @@
       }
 
       .dropdownListItem_Button {
+        padding: .5rem 1rem;
+        background-color: transparent;
+        font-weight: normal;
+        font-size: $font-size-16;
+        color: $font-body-copy;
         line-height: unset;
         width: 100%;
         border: none;
@@ -44,13 +44,17 @@
 
         &:disabled {
           cursor: default;
-          &:hover {
-            background-color: $content-section-background;
-          }
         }
-
       }
     }
   }
+}
+
+.unmatchedTerm {
+  font-weight: 600;
+}
+
+.noMatch {
+  margin: 0 1rem;
 }
 

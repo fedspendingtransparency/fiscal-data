@@ -1,10 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  listContainer,
   title,
-  termContainer,
-  scrollGradient,
-  scrollContainerTop,
   backToList,
   arrowIcon,
 } from './glossary-list-container.module.scss';
@@ -16,13 +12,13 @@ import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
 import NoGlossaryMatch from './no-match/no-glossary-match';
 import GlossaryDisplayList from './glossary-display-list/glossary-display-list';
 import { IGlossaryListSection } from '../../../helpers/glossary-helper/glossary-data';
+import ScrollContainer from '../../search-bar/scroll-container';
 
 
 interface IGlossaryList {
   sortedTermList: IGlossaryListSection[],
   filter: string,
   filterHandler: (e) => void,
-
   defaultTerm?: IGlossaryTerm,
 }
 
@@ -30,9 +26,6 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(sortedTermList);
-  const handleScroll = (scrollContainer) => {
-    setScrollTop(scrollContainer.scrollTop === 0);
-  }
 
   const onClickBack = () => {
     setSelectedTerm(null);
@@ -70,17 +63,17 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
     setSelectedTerm(defaultTerm);
   }, [defaultTerm])
 
-  useEffect(() => {
-    const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
-
-    if(scrollContainer) {
-      scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), {passive: true});
-
-      return () => {
-        scrollContainer.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [selectedTerm, displayList]);
+  // useEffect(() => {
+  //   const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
+  //
+  //   if(scrollContainer) {
+  //     scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), {passive: true});
+  //
+  //     return () => {
+  //       scrollContainer.removeEventListener('scroll', handleScroll);
+  //     };
+  //   }
+  // }, [selectedTerm, displayList]);
 
 
 
@@ -98,17 +91,25 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
         <GlossaryDefinition glossaryTerm={selectedTerm} />
         ) : (
           <>
-            <div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid={'scrollGradient'} />
-            <div className={listContainer}>
-              <div className={termContainer} data-testid={'scrollContainer'}>
-                {displayList.length ? (
-                  <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
-                ) : (
-                  <NoGlossaryMatch filter={filter} />
-                )
-                }
-              </div>
-            </div>
+            {/*<div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid={'scrollGradient'} />*/}
+            <ScrollContainer
+              list={displayList}
+              selection={selectedTerm}
+              scrollTop={scrollTop}
+              setScrollTop={setScrollTop}
+              customChildStyle={{marginBottom: '12.825rem', paddingRight: '1rem'}}
+            >
+              {/*<div className={listContainer}>*/}
+              {/*  <div className={termContainer} data-testid={'scrollContainer'}>*/}
+                  {displayList.length ? (
+                    <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
+                  ) : (
+                    <NoGlossaryMatch filter={filter} />
+                  )
+                  }
+                {/*</div>*/}
+              {/*</div>*/}
+            </ScrollContainer>
           </>
         )}
     </>

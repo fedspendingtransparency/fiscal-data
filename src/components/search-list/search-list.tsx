@@ -1,25 +1,35 @@
 import React, { FunctionComponent } from 'react';
 import {
+  matchedSubstring,
   sectionHeader,
   sectionTerms,
   termText
-} from './glossary-display-list.module.scss';
-import { IGlossaryListSection } from '../../../../helpers/glossary-helper/glossary-data';
-import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
+} from '../glossary/glossary-list/glossary-display-list/glossary-display-list.module.scss';
+import reactStringReplace from 'react-string-replace';
+import { IGlossaryListSection } from '../../helpers/glossary-helper/glossary-data';
 
-interface IGlossaryDisplayList {
+interface ISearchList {
   sortedList: IGlossaryListSection[],
-  filter: string,
-  selectedTermHandler: (e) => void,
+    filter: string,
+    selectedTermHandler: (e) => void,
 
 }
-const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({sortedList, filter, selectedTermHandler}) => {
+const SearchList:FunctionComponent<ISearchList> = ({sortedList, filter, selectedTermHandler}) => {
 
   const onTermClick = (e, term) => {
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       selectedTermHandler(term);
     }
+  }
+
+  const underlineMatchedString = (term, filter) => {
+    const filterString = filter.replace(/[/\-\\^$*+?.()|[\]{}]/g,'\\$1');
+    const regex = new RegExp(`(${filterString})`, 'ig');
+    const strReplace = reactStringReplace(term, regex, (match) =>
+      <span className={matchedSubstring}>{match}</span>);
+
+    return filter.length ?  <span>{strReplace}</span> : <span>{term}</span>;
   }
 
   return (
@@ -58,4 +68,4 @@ const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({sortedList
   )
 }
 
-export default GlossaryDisplayList;
+export default SearchList;

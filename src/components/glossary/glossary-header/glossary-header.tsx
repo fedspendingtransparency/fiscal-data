@@ -1,23 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
-import { InputAdornment, MuiThemeProvider } from '@material-ui/core';
 import {
-  search,
   headerContainer,
   title,
   bookIcon,
-  searchIcon,
   header,
   closeIcon,
   closeButton,
-  searchLabel
 } from './glossary-header.module.scss'
-import { searchBarTheme, useStyles } from './theme';
-import SearchBar from '../../combo-select/search-bar';
+import SearchBar from '../../search-bar/search-bar';
 
 interface IGlossaryHeader {
   filter: string,

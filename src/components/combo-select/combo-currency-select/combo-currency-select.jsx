@@ -1,30 +1,35 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { inputContainer, iconButton } from './combo-select.module.scss';
-import * as styles from '../select-control/select-control.module.scss';
-import { filterYearOptions } from '../published-reports/util/util';
+import * as styles from '../../select-control/select-control.module.scss';
+import { filterYearOptions } from '../../published-reports/util/util';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import Analytics from "../../utils/analytics/analytics";
+import Analytics from "../../../utils/analytics/analytics";
 
-import { activeDropdown, dropdownIcon, dropdownInput, dropdownInputContainer, hoverContainer } from './combo-currency-select.module.scss';
-import ComboSelectDropdown from './combo-select-dropdown';
+import {
+  activeDropdown,
+  dropdownInput,
+  dropdownInputContainer,
+  hoverContainer,
+  activeSearchBar, dropdownIcon,
+} from './combo-currency-select.module.scss';
+import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 
 
-// const XRAnalyticsHandler = (action, label) => {
-//   if(action && label){
-//     Analytics.event({
-//       category: "Exchange Rates Converter",
-//       action: action,
-//       label: label
-//     });
-//     window.dataLayer = window.dataLayer || [];
-//     window.dataLayer.push({
-//       'event': action,
-//       'eventLabel': label,
-//     });
-//   }
-// };
+const XRAnalyticsHandler = (action, label) => {
+  if(action && label){
+    Analytics.event({
+      category: "Exchange Rates Converter",
+      action: action,
+      label: label
+    });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': action,
+      'eventLabel': label,
+    });
+  }
+};
 
 const ComboCurrencySelect = (
   {
@@ -33,29 +38,24 @@ const ComboCurrencySelect = (
     optionLabelKey = 'label',
     selectedOption,
     yearFilter = false,
-    scrollable,
     label,
     labelClass = '',
     labelDisplay,
     required = false,
     disabledMessage,
-    // inputStyle,
-    // iconStyle,
-    // inputContainerStyle,
     isExchangeTool,
     resetFilterCount
   }) => {
   const [filterCharacters, setFilterCharacters] = useState('');
-  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState(options);
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
-  const [currentCurrency, setCurrentCurrency] = useState(selectedOption);
-
+  const [searchBarActive, setSearchBarActive] = useState(false);
 
   const updateSelection = (selection, sendGA) => {
-    if(isExchangeTool && sendGA){
-      // XRAnalyticsHandler('Foreign Country-Currency Selected', selection.label);
+    if (isExchangeTool && sendGA) {
+      XRAnalyticsHandler('Foreign Country-Currency Selected', selection.label);
     }
     changeHandler(selection);
     setDropdownActive(false);
@@ -91,14 +91,13 @@ const ComboCurrencySelect = (
   };
 
   const toggleDropdown = () => {
-    setDropdownActive(!dropdownActive);
-    // if (droppedDown) {
-    //   onBlurHandler();
-    // } else {
-    //   clearTimeout(timeOutId);
-    //   setDroppedDown(true);
-    //   setInputFocus();
-    // }
+    if (dropdownActive) {
+      onBlurHandler();
+    } else {
+      clearTimeout(timeOutId);
+      setDropdownActive(true);
+      setInputFocus();
+    }
   }
   /* accessibility-enabling event handlers for interpreting focus state on control */
   const onBlurHandler = (event) => {
@@ -140,6 +139,7 @@ const ComboCurrencySelect = (
       }
     }
   }, [selectedOption]);
+
   useEffect(() => {
     if (resetFilterCount) {
       setFilterCharacters('');
@@ -151,14 +151,10 @@ const ComboCurrencySelect = (
     if (entry?.length) {
       filteredList = opts.filter(opt => opt.label.toUpperCase().includes(entry.toUpperCase()));
     }
-    if (filteredList.length === 0) {
-      // No options matching ${filterCharacters}
-      filteredList = [{label: `No matches. Please revise your search.`, value: null}];
-    }
     return filteredList;
   };
 
-  const clear = () => {
+  const clearFilter = () => {
     changeHandler(null);
     // fire artificial event to reset field
     onFilterChange({
@@ -189,31 +185,51 @@ const ComboCurrencySelect = (
     `Year (${options[options.length -1].label} - ${options[0].label})` :
     label;
 
+  const dropdownStyle = () => {
+    let containerClasses;
+    if (dropdownActive) {
+      if (searchBarActive) {
+        containerClasses = `${dropdownInputContainer} ${activeSearchBar}`;
+      } else {
+        containerClasses = `${dropdownInputContainer} ${activeDropdown}`;
+      }
+    } else {
+      containerClasses = `${dropdownInputContainer} ${hoverContainer}`;
+    }
+    return containerClasses;
+  }
+
   return (
     <>
       <div className={styles.selector_container} role="presentation">
-        {/*<div ref={ref} onFocus={onFocusHandler} role={'presentation'} >*/}
-        <div className={ dropdownActive ? `${dropdownInputContainer} ${activeDropdown}` : `${dropdownInputContainer} ${hoverContainer}`}>
-          <button
-            className={ dropdownInput }
-            onClick={toggleDropdown}
-          >
-            {selectedOption.label}
-            <div className={dropdownIcon}>
-              {dropdownActive ? (
-                <FontAwesomeIcon icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />
-              ) : (
-                <FontAwesomeIcon icon={faChevronDown} data-testid="expand-dropdown" aria-label="expand dropdown" />
-              )}
-            </div>
-          </button>
+        {labelText !== '' ?
+          <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
+            {labelText}
+            {required && (<span className="required">*</span>)}
+          </div> : null
+        }
+        <div ref={ref} onFocus={onFocusHandler} role="presentation">
+          <div className={dropdownStyle()}>
+            <button
+              className={ dropdownInput }
+              onClick={toggleDropdown}
+            >
+              {selectedOption.label}
+              <div className={dropdownIcon}>
+                {dropdownActive ? (
+                  <FontAwesomeIcon icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />
+                ) : (
+                  <FontAwesomeIcon icon={faChevronDown} data-testid="expand-dropdown" aria-label="expand dropdown" />
+                )}
+              </div>
+            </button>
+          </div>
         </div>
         <ComboSelectDropdown
           active={dropdownActive}
-          scrollable={scrollable}
           onBlurHandler={onBlurHandler}
           setMouseOverDropdown={setMouseOverDropdown}
-          filteredOptions={options}
+          filteredOptions={filteredOptions}
           selectedOption={selectedOption}
           updateSelection={updateSelection}
           required={required}
@@ -221,6 +237,9 @@ const ComboCurrencySelect = (
           optionLabelKey={optionLabelKey}
           filter={filterCharacters}
           onChange={onFilterChange}
+          onClear={clearFilter}
+          searchBarActive={searchBarActive}
+          setSearchBarActive={setSearchBarActive}
         />
       </div>
     </>

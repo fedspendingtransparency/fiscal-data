@@ -5,7 +5,7 @@ import {
   currencyHeader,
   currencyText,
 } from './currency-entry-box.module.scss';
-import ComboCurrencySelect from '../../combo-select/combo-currency-select';
+import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 
 interface ICurrencyEntryBox  {
   defaultCurrency: string,

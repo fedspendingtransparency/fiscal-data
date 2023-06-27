@@ -2,9 +2,9 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
 import {fireEvent, waitFor, render, within} from "@testing-library/react";
-import ComboSelect from './combo-select';
-import {mockOptions} from "./combo-select-test-helper";
-import Analytics from "../../utils/analytics/analytics";
+import ComboSelect from '../combo-select';
+import {mockOptions} from "../combo-select-test-helper";
+import Analytics from "../../../utils/analytics/analytics";
 import userEvent from '@testing-library/user-event'
 import ComboCurrencySelect from './combo-currency-select';
 
