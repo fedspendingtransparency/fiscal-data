@@ -75,19 +75,20 @@ export const DeficitTrendsBarChart = ({ width }) => {
       tickValues: tickValuesY
     },
     highlightColor: fontTitle,
-    animationDuration: 7500,
+    animationDuration: 2000,
   }
 
   const startingYear = '2001';
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
-      let delay = 100;
+      // let delay = 100;
       data.forEach(value => {
-        const duration = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
+        const duration = Math.abs((value.deficit / totalValues) * totalDuration);
         value["duration"] = duration;
-        value["delay"] = delay;
-        delay += duration;
+        // value["duration"] = 2000;
+        value["delay"] = 100;
+        // delay += duration;
       })
     }
     return data;
@@ -184,12 +185,15 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   useEffect(() => {
     //Run animation for header values
+    console.log(chartData);
+    let delay = 100;
     chartData.map((element) => {
       if (inView && element.year >= startingYear) {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
-        }, element.delay)
+          // setLastBar(element)
+        }, delay += element.delay )
       }
     })
   }, [inView])
