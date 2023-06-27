@@ -22,6 +22,8 @@ import useGAEventTracking from "../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../utils/analytics/analytics";
 import {getShortForm} from "../../../../../utils/rounding-utils";
 import {ToggleSwitch} from "./chart-toggle-switch";
+import { css, keyframes } from "styled-components";
+import styled from 'styled-components';
 
 const breakpoint = {
   desktop: 1015,
@@ -38,6 +40,8 @@ const HowMuchDoesTheGovtSpend = () => {
   const [width, height] = useWindowSize()
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
   const [fiscalYear, setFiscalYear] = useState('');
+  const [animateBars, setAnimateBars] = useState(false);
+  const [hasAgencyTriggered, setHasAgencyTriggered] = useState(false);
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 
@@ -133,7 +137,8 @@ const HowMuchDoesTheGovtSpend = () => {
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
-  )
+  );
+
   const sortField =
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
@@ -145,11 +150,29 @@ const HowMuchDoesTheGovtSpend = () => {
       return b[sortField] - a[sortField]
     })
 
+  const grow = (width) => keyframes`
+  from {
+    width: 0;
+    height: 2.5rem;
+  }
+  to {
+    width: ${width}%;
+    height: 2.5rem;
+  }`;
+
+  const GrowDivBar = styled.div`
+    animation: 6s ${props => props.animate && grow(props.item.percentage * (isMobile ? 1 : 2))};
+    background: #00766C;
+    width: ${props => props.item.percentage * (isMobile ? 1 : 2)}%;
+    margin-right: 10px;
+    height: 40px;
+  `
+
   const total = (sortedItems || [])
     .map(item => parseInt(item[sortField], 10))
     ?.reduce((item, nextItem) => {
       return item + nextItem
-    }, 0)
+    }, 0);
 
   sortedItems = sortedItems?.map(item => {
     return {
@@ -157,10 +180,10 @@ const HowMuchDoesTheGovtSpend = () => {
       percentage: Math.round((parseInt(item[sortField], 10) / total) * 100),
       dollarAmount: parseInt(item[sortField]),
     }
-  })
+  });
 
-  const firstTen = sortedItems?.slice(0, 10)
-  const other = sortedItems?.slice(10)
+  const firstTen = sortedItems?.slice(0, 10);
+  const other = sortedItems?.slice(10);
 
   const otherTotal = (other || [])
     .map(item => parseInt(item[sortField], 10))
@@ -213,8 +236,11 @@ const HowMuchDoesTheGovtSpend = () => {
                 borderRight: "none",
               }}
               onClick={() => {
-                setSelectedChartView("category")
+                setSelectedChartView("category");
                 handleClick("12");
+                if (animateBars) {
+                  setAnimateBars(false);
+                }
               }}
               data-testid={'toggle-button-category'}
             >
@@ -239,8 +265,12 @@ const HowMuchDoesTheGovtSpend = () => {
                   selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
               }}
               onClick={() => {
-                setSelectedChartView("agency")
+                setSelectedChartView("agency");
                 handleClick("32");
+                if (!hasAgencyTriggered) {
+                  setAnimateBars(true);
+                  setHasAgencyTriggered(true);
+                }
               }}
               data-testid={'toggle-button-agency'}
             >
@@ -277,6 +307,9 @@ const HowMuchDoesTheGovtSpend = () => {
               handleChange={e => {
                 setPercentDollarToggleChecked(e)
                 handleClick(e ? "33" : "13");
+                if (animateBars) {
+                  setAnimateBars(false);
+                }
               }}
               customStyles={{
                 onColor: "#00766C",
@@ -301,15 +334,7 @@ const HowMuchDoesTheGovtSpend = () => {
           {firstTen?.map((item, i) => {
             return (
               <div className={chartsContainer} key={i}>
-                <div
-                  style={{
-                    background: "#00766C",
-                    width: `${item.percentage * (isMobile ? 1 : 2)}%`,
-                    marginRight: "10px",
-                    height: "40px",
-                  }}
-                >
-                </div>
+                <GrowDivBar item={item} animate={animateBars} />
                 <div
                   className={percentOrDollarContainer}
                   style={{

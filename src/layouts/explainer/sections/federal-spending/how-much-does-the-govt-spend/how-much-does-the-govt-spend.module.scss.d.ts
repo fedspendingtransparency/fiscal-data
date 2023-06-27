@@ -69,6 +69,7 @@ export const headerStyle: string;
 export const subHeader: string;
 export const column: string;
 export const chartsContainer: string;
+export const grow: string;
 export const percentOrDollarContainer: string;
 export const descContainer: string;
 export const chartToggle: string;
