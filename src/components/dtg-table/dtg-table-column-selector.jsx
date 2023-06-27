@@ -5,6 +5,8 @@ import * as styles from './dtg-table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 
+  // FIX TABBING
+
 const DtgTableColumnSelector = ({ fields, isVisible, onChange }) => (
   <section>
     <div className={styles.headingWrapper}>
@@ -18,9 +20,11 @@ const DtgTableColumnSelector = ({ fields, isVisible, onChange }) => (
             <FontAwesomeIcon icon={faXmark} className={styles.closeIcon} />
         </button>
       </div>
-      <div className={styles.selectedValues}>X selected of XXX</div>
+      <div className={styles.selectedValues}>{fields.filter(field => field.active === true).length} selected of {fields.length}</div>
     </div>
     <div className={styles.selectAllContainer}>
+
+
       <SelectAll
       className={styles.selectAllColumns}
         fields={fields}
@@ -28,30 +32,17 @@ const DtgTableColumnSelector = ({ fields, isVisible, onChange }) => (
         onUpdateFields={onChange}
       />
       <div className={styles.reset}>
+        {/* make this work */}
         <FontAwesomeIcon className={styles.resetIcon} icon={faUndo} />
         Reset
       </div>
     </div>
-    
-    {/* // clicking between default and additional clears the other section out
-    probs bc they are seperate instances of the same component */}
-
     <div className={styles.buttonContainer}>
-      <div className={styles.checkboxHeading}>DEFAULTS</div>
-      <div className={styles.defaultSection}>
-        <Checkbox
-            checkboxData={fields.filter(field => field.default === true)}
+    <Checkbox
+            checkboxData={(fields.filter(field => field.default === true))
+              .concat(fields.filter(field => field.default !== true))}
             changeHandler={onChange}
             // onHover={console.log("UPDATE HOVER")}
-        />
-      </div>
-      
-
-      <div className={styles.checkboxHeading}>ADDITIONAL</div>
-        <Checkbox
-          checkboxData={fields.filter(field => field.default === false)}
-          changeHandler={onChange}
-          // onHover={onChange}
         />
     </div>
   </section>

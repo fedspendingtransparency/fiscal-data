@@ -65,13 +65,6 @@
     }
 }
 
-.checkboxHeading {
-    font-size: $font-size-12;
-    color: $font-title;
-    font-weight: $semi-bold-weight;
-    padding-bottom: 1rem;
-}
-
 .buttonContainer {
     padding: 1rem;
     max-height: 470px;
@@ -81,8 +74,4 @@
 .toggleButton {
     display: block;
     width: 100%;
-}
-
-.defaultSection {
-    padding-bottom: 1.5rem;
 }

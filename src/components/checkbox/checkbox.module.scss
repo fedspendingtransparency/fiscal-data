@@ -85,3 +85,14 @@
   left: 2px;
   font-size: 0.9rem;
 }
+
+.sectionHeading {
+  font-size: $font-size-12;
+  color: $font-title;
+  font-weight: $semi-bold-weight;
+  padding-bottom: 1rem;
+}
+
+.additionalSection {
+  padding-top: 1rem;
+}
