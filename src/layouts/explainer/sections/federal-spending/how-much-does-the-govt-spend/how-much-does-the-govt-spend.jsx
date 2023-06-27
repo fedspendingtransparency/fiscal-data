@@ -161,12 +161,32 @@ const HowMuchDoesTheGovtSpend = () => {
   }`;
 
   const GrowDivBar = styled.div`
-    animation: 6s ${props => props.animate && grow(props.item.percentage * (isMobile ? 1 : 2))};
+    animation: ${props => props.animateTime}s ${props => props.animate && grow(props.item.percentage * (isMobile ? 1 : 2))};
+    animation-timing-function: ease-in;
     background: #00766C;
     width: ${props => props.item.percentage * (isMobile ? 1 : 2)}%;
     margin-right: 10px;
     height: 40px;
   `
+
+  useEffect(() => {
+    let observer;
+    if (typeof window !== "undefined") {
+      const config = {
+        rootMargin: '-50% 0% -50% 0%',
+        threshold: 0
+      };
+      observer = new IntersectionObserver(entries => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setAnimateBars(true);
+            observer.unobserve(document.querySelector('[data-testid="chart"]'));
+          }
+        })
+      }, config);
+      setTimeout(() => observer.observe(document.querySelector('[data-testid="chart"]')), 1000);
+    }
+  }, []);
 
   const total = (sortedItems || [])
     .map(item => parseInt(item[sortField], 10))
@@ -334,7 +354,8 @@ const HowMuchDoesTheGovtSpend = () => {
           {firstTen?.map((item, i) => {
             return (
               <div className={chartsContainer} key={i}>
-                <GrowDivBar item={item} animate={animateBars} />
+                {/*<GrowDivBar item={item} animateTime={7 - (7 * ((100 - item.percentage) / 100))} animate={animateBars} />*/}
+                <GrowDivBar item={item} animateTime={2} animate={animateBars} />
                 <div
                   className={percentOrDollarContainer}
                   style={{
