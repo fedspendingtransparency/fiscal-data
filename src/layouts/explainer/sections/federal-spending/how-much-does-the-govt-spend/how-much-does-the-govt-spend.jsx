@@ -191,7 +191,6 @@ const HowMuchDoesTheGovtSpend = () => {
       observer = new IntersectionObserver(entries => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setTimeout(() => {},200);
             setAnimateBars(true);
             setScrolled(true);
             observer.unobserve(document.querySelector('[data-testid="spending-bar-chart"]'));
