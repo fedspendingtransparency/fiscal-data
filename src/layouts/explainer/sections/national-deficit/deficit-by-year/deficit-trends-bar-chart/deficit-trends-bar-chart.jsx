@@ -82,13 +82,10 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
-      // let delay = 100;
       data.forEach(value => {
         const duration = Math.abs((value.deficit / totalValues) * totalDuration);
         value["duration"] = duration;
-        // value["duration"] = 2000;
-        value["delay"] = 100;
-        // delay += duration;
+        value["delay"] = 300;
       })
     }
     return data;
@@ -142,6 +139,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
       if (currentBarElement !== lastBarElement) {
         lastBarElement.style.fill = deficitExplainerPrimary;
       }
+
       setLastBar(lastBarElement);
       setHeaderYear(data.data.year);
       setHeaderDeficit(data.data.deficit);
@@ -184,15 +182,31 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
 
   useEffect(() => {
-    //Run animation for header values
-    console.log(chartData);
+    const barSVGs = Array.from(document.getElementById('deficitTrendsChartParent').children[0].children[0].children[1].children)
+    barSVGs.splice(0, 5)
     let delay = 100;
+    let delay2 = 100;
+
+    // Run bar highlight wave
+    barSVGs.map((element) => {
+      if(inView) {
+        const bar = element.children[0];
+        setTimeout(() => {
+          bar.style.fill = chartConfigs.highlightColor;
+        }, delay2 += 300 )
+
+        setTimeout(() => {
+          bar.style.fill = deficitExplainerPrimary
+        }, delay2 + 300)
+      }
+    })
+
+    //Run animation for header values
     chartData.map((element) => {
       if (inView && element.year >= startingYear) {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
-          // setLastBar(element)
         }, delay += element.delay )
       }
     })
@@ -264,6 +278,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
             <div className={barChart}
                  onMouseLeave={resetHeaderValues}
                  data-testid={'deficitTrendsChartParent'}
+                 id={'deficitTrendsChartParent'}
                  role={'presentation'}
                  ref={ref}
             >
