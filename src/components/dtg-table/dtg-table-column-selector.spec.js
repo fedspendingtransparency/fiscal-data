@@ -1,46 +1,31 @@
 import React from "react";
-import {render} from "@testing-library/react";
+import { render } from "@testing-library/react";
 import DtgTableColumnSelector from "./dtg-table-column-selector";
-
-// from col config
-const TestData1 = [
-    {
-        property: 'date',
-        name: 'Pretty Date'
-    },
-    {
-        property: 'time',
-        name: 'Pretty Time'
-    },
-    {
-        property: 'name',
-        name: 'Pretty Name'
-    },
-];
 
 const TestData = [
     {
         field: 'date',
         label: 'Pretty Date',
-        active: true
+        active: true,
+        default: true
     },
     {
         field: 'time',
         label: 'Pretty Time',
-        active: true
+        active: false,
+        default: false
     },
     {
         field: 'name',
         label: 'Pretty Name',
-        active: true
+        active: false,
+        default: false
     },
 ];
 
-const TestDataDefaults = ['date', 'time'];
-
 describe('DTG table column selector', () => {
 
-    it('should display all column names', () => {
+    it('should display columns for selection', () => {
         const {getByText} = render(<DtgTableColumnSelector
             fields={TestData}
             isVisible={true}
@@ -51,25 +36,22 @@ describe('DTG table column selector', () => {
             expect(getByText(TestData[2].label)).toBeInTheDocument();
     });
 
-    it('should display default columns under default title', () => {
+    it('should display default title with defaults selected', () => {
         const {getByText} = render(<DtgTableColumnSelector
             fields={TestData}
             isVisible={true}
             />);
         
-        expect(getByText("DEFAULT")).toBeInTheDocument();
-        // add other expect
+        expect(getByText("DEFAULTS")).toBeInTheDocument();
     });
 
-    it('should display non-default columns under additional title', () => {
+    it('should display additional title with additional checkboxes not selected', () => {
         const {getByText} = render(<DtgTableColumnSelector
             fields={TestData}
             isVisible={true}
             />);
         
         expect(getByText("ADDITIONAL")).toBeInTheDocument();
-        // add other expect
-
     });
 
     it('should display number of selected columns out of total', () => {
@@ -78,25 +60,16 @@ describe('DTG table column selector', () => {
             isVisible={true}
             />);
 
-        // add expect
+        expect(getByText("1 selected of 3")).toBeInTheDocument();
     });
 
-    it('should display reset button when other selected different than default', () => {
-        const {getByText} = render(<DtgTableColumnSelector
+    it('should display reset button', () => {
+        const {getByRole} = render(<DtgTableColumnSelector
             fields={TestData}
             isVisible={true}
             />);
 
-        // add expect
-    });
-
-    it('should reset values to default checked when reset button clicked', () => {
-        const {getByText} = render(<DtgTableColumnSelector
-            fields={TestData}
-            isVisible={true}
-            />);
-
-        // add expect
+        expect(getByRole('button', {name: 'Reset'})).toBeInTheDocument();
     });
 
 });

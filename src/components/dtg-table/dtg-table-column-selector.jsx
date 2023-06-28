@@ -37,12 +37,11 @@ const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault })
       </button>
     </div>
     <div className={styles.buttonContainer}>
-    <Checkbox
-            checkboxData={(fields.filter(field => field.default === true))
-              .concat(fields.filter(field => field.default !== true))}
-            changeHandler={onChange}
-            // onHover={console.log("UPDATE HOVER")}
-        />
+      <Checkbox
+        checkboxData={(fields.filter(field => field.default === true))
+          .concat(fields.filter(field => field.default !== true))}
+        changeHandler={onChange}
+      />
     </div>
   </section>
 );

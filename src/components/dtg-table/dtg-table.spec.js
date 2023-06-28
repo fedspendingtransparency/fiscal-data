@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-
+import { render } from "@testing-library/react";
 import DtgTable from './dtg-table';
 import {
   longerPaginatedDataResponse,
@@ -9,11 +9,14 @@ import {
   TestData,
   TestDataOneRow,
   ColSelectColConfig,
-  ColSelectTestData
+  ColSelectTestData,
+  DefaultColSelectTestColumns,
+  ColSelectTestDataRowCount
 } from './test-data';
 import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
 import * as helpers from './dtg-table-helper';
+import userEvent from '@testing-library/user-event';
 
 const defaultRowsPer = 5;
 
@@ -285,49 +288,85 @@ describe('DtgTable component with shouldPage property and tableData with only on
 });
 
 describe('DtgTable component - Select Columns', () => {
+  const selectColumnPanel = true;
+  const setSelectColumnPanelMock = jest.fn();
 
-  // columnConfig undefined in test? 
   it('displays the select columns menu', () => {
     const {getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig }}
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
       />);
+
+      // Change just to columns for mobile???
     expect(getByText('Visible Columns')).toBeInTheDocument();
   });
 
-  it('displays the select columns menu with all columns displayed', () => {
-    const {getByText} = render(<DtgTable
+  it('displays the default active columns and content', () => {
+    const {getByText, queryByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig }}
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
       />);
    
-      expect(getByText(ColSelectColConfig[0].name)).toBeInTheDocument();
-      expect(getByText(ColSelectColConfig[1].name)).toBeInTheDocument();
-      expect(getByText(ColSelectColConfig[2].name)).toBeInTheDocument();
+      expect(getByText(ColSelectTestData[0].date)).toBeInTheDocument();
+      expect(getByText(ColSelectTestData[0].time)).toBeInTheDocument();
+      expect(getByText(ColSelectTestData[1].date)).toBeInTheDocument();
+      expect(getByText(ColSelectTestData[1].time)).toBeInTheDocument();
+      expect(getByText(ColSelectTestData[2].date)).toBeInTheDocument();
+      expect(getByText(ColSelectTestData[2].time)).toBeInTheDocument();
+
+      expect(queryByText(ColSelectTestData[0].name)).not.toBeInTheDocument();
+      expect(queryByText(ColSelectTestData[1].name)).not.toBeInTheDocument();
+      expect(queryByText(ColSelectTestData[2].name)).not.toBeInTheDocument();
+
   });
 
   it('should display 10 rows by default when dataset has selected columns enabled', () => {
-    const {getByText} = render(<DtgTable
-      tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig }}
+    const {getAllByRole} = render(<DtgTable
+      tableProps={{ data: ColSelectTestDataRowCount,
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
       />);
-   
-      //expect(number of rows).toBe(10);
+
+      const rowCount = 10;
+      const headerRow = 1;
+
+      expect(getAllByRole('row').length).toEqual(rowCount + headerRow);
   });
 
   it('should close the side panel when x is clicked', () => {
-    const {getByText} = render(<DtgTable
+    const {getByTestId, getByRole, queryByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig }}
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
       />);
+
+      const selectColPanel = getByTestId("selectColPanel");
+      const closeButton = within(selectColPanel).getByTestId('colSelectClose');
+
+      expect(getByText('Visible Columns')).toBeInTheDocument();
+
+      userEvent.click(closeButton);
    
-      //expect(side panel).not.toBeInTheDocument();
+      expect(queryByText('Visible Columns')).not.toBeInTheDocument();
   });
 
   it('should have only the defauted columns shown in the table initally', () => {
     const {getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig }}
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
       />);
    
       // expect(defaulted columns).toBeInTheDocument();
@@ -337,7 +376,10 @@ describe('DtgTable component - Select Columns', () => {
   it('should display all columns when select all', () => {
     const {getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig }}
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
       />);
    
       // expect(all columns).toBeInTheDocument();
@@ -346,7 +388,10 @@ describe('DtgTable component - Select Columns', () => {
   it('should display selected columns when changed from default', () => {
     const {getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig }}
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
       />);
    
       //expect(selected columns).toBeInTheDocument();

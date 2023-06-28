@@ -223,6 +223,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       let currentCol = col;
       if(update.find(updatedCol => updatedCol.field === col.field)) {
         activeColArray.push(columns.find(column => column.property === col.field));
+        currentCol.active = true;
       }
       else {
         currentCol.active = false;
@@ -340,15 +341,15 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             { emptyDataMessage && emptyDataMessage }
 
             {/* Table */}
-            {(!emptyDataMessage && !selectColumns ? 
-              (<table {...tableProps.aria} style={{width: tableWidth}}>
+            {(!emptyDataMessage && !selectColumns 
+              ? (<table {...tableProps.aria} style={{width: tableWidth}}>
                 {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                 <DtgTableHeading columns={columns} />
                 <tbody>
                   {rows}
                 </tbody>
-              </table>) :
-              (<table {...tableProps.aria} style={{width: tableWidth}}>
+              </table>) 
+              : (<table {...tableProps.aria} style={{width: tableWidth}}>
                 {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                 <DtgTableHeading columns={activeColumns} />
                 <tbody>
