@@ -85,7 +85,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
       data.forEach(value => {
         const duration = Math.abs((value.deficit / totalValues) * totalDuration);
         value["duration"] = duration;
-        value["delay"] = 300;
+        value["delay"] = 200;
       })
     }
     return data;
@@ -95,16 +95,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
-      const lastEntry = result.data[result.data.length - 1];
       let deficitSum = 0;
       result.data.forEach((entry) => {
-        const barColor = entry.record_fiscal_year === lastEntry.record_fiscal_year ? chartConfigs.highlightColor : deficitExplainerPrimary;
-        const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
+       const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
         deficitSum += deficitValue;
         apiData.push({
           "year": entry.record_fiscal_year,
           "deficit": deficitValue.toFixed(2),
-          "deficitColor": barColor,
+          "deficitColor": deficitExplainerPrimary,
         })
       })
       preAPIData.forEach(entry => {
@@ -182,22 +180,27 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
 
   useEffect(() => {
-    const barSVGs = Array.from(document.getElementById('deficitTrendsChartParent').children[0].children[0].children[1].children)
-    barSVGs.splice(0, 5)
     let delay = 100;
     let delay2 = 100;
+    const barSVGs = Array.from(
+      document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children
+    );
+    barSVGs.splice(0, 5);
 
     // Run bar highlight wave
     barSVGs.map((element) => {
+      const finalBar = barSVGs[barSVGs.length - 1].children[0];
       if(inView) {
         const bar = element.children[0];
         setTimeout(() => {
           bar.style.fill = chartConfigs.highlightColor;
-        }, delay2 += 300 )
+        }, delay2 += 200 )
 
-        setTimeout(() => {
-          bar.style.fill = deficitExplainerPrimary
-        }, delay2 + 300)
+        if (bar !== finalBar) {
+          setTimeout(() => {
+            bar.style.fill = deficitExplainerPrimary
+          }, delay2 + 200)
+        }
       }
     })
 
