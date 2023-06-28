@@ -384,7 +384,7 @@ const HowMuchDoesTheGovtSpend = () => {
                     <div className={chartsContainer} key={i}>
                       <GrowDivBar
                         percent={item.percentage}
-                        animateTime={0.75}
+                        animateTime={0.6}
                         animate={animateBars}
                         onAnimationEnd={animationEndHandler}
                         isMobile={isMobile}
