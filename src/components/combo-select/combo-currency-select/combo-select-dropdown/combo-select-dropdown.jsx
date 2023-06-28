@@ -13,50 +13,96 @@ import {
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../search-bar/scroll-container';
+import { filterYearOptions } from '../../../published-reports/util/util';
 
 const ComboSelectDropdown = (
   {
     active,
+    setDropdownActive,
     onBlurHandler,
     setMouseOverDropdown,
-    filteredOptions,
     selectedOption,
     updateSelection,
     required,
     disabledMessage,
     optionLabelKey,
-    filter,
-    onChange,
-    onClear,
     searchBarActive,
-    setSearchBarActive
+    setSearchBarActive,
+    inputRef,
+    options,
+    yearFilter,
+    changeHandler,
+    timeOutId,
   }) => {
   const [filterValue, setFilterValue] = useState('');
   const [scrollTop, setScrollTop] = useState(true);
+  const [filteredOptions, setFilteredOptions] = useState(options);
+
+  const filterOptionsByEntry = (opts, entry) => {
+    let filteredList = opts;
+    if (entry?.length) {
+      filteredList = opts.filter(opt => opt.label.toUpperCase().includes(entry.toUpperCase()));
+    }
+    return filteredList;
+  };
+
+  const clearFilter = () => {
+    changeHandler(null);
+    // fire artificial event to reset field
+    onFilterChange({
+      target: {
+        value: ''
+      }
+    });
+    setFilterValue('');
+  };
+  const onFilterChange = (event) => {
+    const val = (event && event.target) ? event.target.value : '';
+    setFilterValue(val);
+    const localFilteredOptions = yearFilter ?
+      filterYearOptions(options, val) :
+      filterOptionsByEntry(options, val);
+    setFilteredOptions(localFilteredOptions);
+    if (localFilteredOptions.length === 1
+      && (localFilteredOptions[0].value
+        && localFilteredOptions[0].value.toString() === val)) {
+      updateSelection(localFilteredOptions[0], false);
+    } else {
+      clearTimeout(timeOutId);
+      setDropdownActive(true);
+    }
+  };
   const change = (event) => {
     const val = (event && event.target) ? event.target.value : '';
     setFilterValue(val);
-    onChange(event);
+    onFilterChange(event);
   }
 
-  const clearSearchBar = () => {
-    onClear();
-    setFilterValue('');
+  const onBlur = (listFocus, event) => {
+    setMouseOverDropdown(false);
+    onBlurHandler(event, listFocus);
   }
 
   return (
     <>
       {active && (
-        <div className={dropdownContainer} data-testid="dropdown-container">
+        <div className={dropdownContainer} data-testid="dropdown-container"
+             onMouseOver={() => setMouseOverDropdown(true)}
+             onMouseLeave={() => setMouseOverDropdown(false)}
+             onBlur={() => onBlur(false)}
+             onFocus={() => setMouseOverDropdown(true)}
+             role="presentation"
+        >
           <div className={searchBarContainer}>
             <SearchBar
               onChange={change}
               width={288}
               filter={filterValue}
               label="Search currencies"
-              handleClear={clearSearchBar}
+              handleClear={clearFilter}
               active={searchBarActive}
               setActive={setSearchBarActive}
+              inputRef={inputRef}
             />
           </div>
           <ScrollContainer
@@ -73,9 +119,7 @@ const ComboSelectDropdown = (
             ) : (
               <ul
                 role="presentation"
-                onBlur={onBlurHandler}
-                onMouseDown={() => setMouseOverDropdown(true)}
-                onMouseLeave={() => setMouseOverDropdown(false)}
+                onBlur={() => onBlur(true)}
                 className={dropdownList}
               >
                 {filteredOptions.map((option, index) => {
@@ -92,7 +136,7 @@ const ComboSelectDropdown = (
                           className={dropdownListItem_Button}
                           onClick={() => updateSelection(option, true)}
                           disabled={required && !option.value}
-                          title={(required && !option.value && disabledMessage) && disabledMessage}
+                          title={(required && !option.value && disabledMessage) ? disabledMessage : null}
                         >
                           {underlineMatchedString(option[optionLabelKey], filterValue)}
                         </button>

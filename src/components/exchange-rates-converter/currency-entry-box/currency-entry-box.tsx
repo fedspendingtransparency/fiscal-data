@@ -47,7 +47,6 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
               options={options}
               // iconStyle={dropdownIcon}
               // inputStyle={dropdownInput}
-              scrollable={true}
               // inputContainerStyle={dropdownInputContainer}
               labelDisplay={true}
               changeHandler={onCurrencyChange}

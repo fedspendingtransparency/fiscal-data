@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import * as styles from '../../select-control/select-control.module.scss';
 import { filterYearOptions } from '../../published-reports/util/util';
 import useOnClickOutside from 'use-onclickoutside';
@@ -46,8 +46,6 @@ const ComboCurrencySelect = (
     isExchangeTool,
     resetFilterCount
   }) => {
-  const [filterCharacters, setFilterCharacters] = useState('');
-  const [filteredOptions, setFilteredOptions] = useState(options);
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
@@ -59,9 +57,6 @@ const ComboCurrencySelect = (
     }
     changeHandler(selection);
     setDropdownActive(false);
-    if (labelDisplay) {
-      setFilterCharacters(selection.label);
-    }
     setTimeout(() => {setDropdownActive(false);});
   };
 
@@ -100,17 +95,10 @@ const ComboCurrencySelect = (
     }
   }
   /* accessibility-enabling event handlers for interpreting focus state on control */
-  const onBlurHandler = (event) => {
-    if (((!event || !(event.target.parentElement.contains(event.relatedTarget)))) && !mouseOverDropdown) {
+  const onBlurHandler = (event, dropdownListFocus) => {
+    const dropdownFocus = dropdownListFocus || !mouseOverDropdown;
+    if (((!event || !(event.target.parentElement.contains(event.relatedTarget)))) && dropdownFocus) {
       timeOutId = setTimeout(() => {
-        if (selectedOption && selectedOption.value) {
-          if (isExchangeTool) {
-            setFilterCharacters(selectedOption.label)
-          }
-          else {
-            setFilterCharacters(selectedOption.value);
-          }
-        }
         setDropdownActive(false);
       });
     }
@@ -128,58 +116,6 @@ const ComboCurrencySelect = (
 
   const ref = React.useRef(null)
   useOnClickOutside(ref, onBlurHandler)
-
-  useEffect(() => {
-    if (selectedOption && selectedOption.value) {
-      if (isExchangeTool) {
-        setFilterCharacters(selectedOption.label)
-      }
-      else {
-        setFilterCharacters(selectedOption.value);
-      }
-    }
-  }, [selectedOption]);
-
-  useEffect(() => {
-    if (resetFilterCount) {
-      setFilterCharacters('');
-    }
-  }, [resetFilterCount]);
-
-  const filterOptionsByEntry = (opts, entry) => {
-    let filteredList = opts;
-    if (entry?.length) {
-      filteredList = opts.filter(opt => opt.label.toUpperCase().includes(entry.toUpperCase()));
-    }
-    return filteredList;
-  };
-
-  const clearFilter = () => {
-    changeHandler(null);
-    // fire artificial event to reset field
-    onFilterChange({
-      target: {
-        value: ''
-      }
-    })
-  };
-
-  const onFilterChange = (event) => {
-    const val = (event && event.target) ? event.target.value : '';
-    setFilterCharacters(val);
-    const localFilteredOptions = yearFilter ?
-      filterYearOptions(options, val) :
-      filterOptionsByEntry(options, val);
-    setFilteredOptions(localFilteredOptions);
-    if (localFilteredOptions.length === 1
-      && (localFilteredOptions[0].value
-        && localFilteredOptions[0].value.toString() === val)) {
-      updateSelection(localFilteredOptions[0], false);
-    } else {
-      clearTimeout(timeOutId);
-      setDropdownActive(true);
-    }
-  };
 
   const labelText = yearFilter ?
     `Year (${options[options.length -1].label} - ${options[0].label})` :
@@ -201,7 +137,7 @@ const ComboCurrencySelect = (
 
   return (
     <>
-      <div className={styles.selector_container} role="presentation">
+      <div className={styles.selector_container}>
         {labelText !== '' ?
           <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
             {labelText}
@@ -227,19 +163,21 @@ const ComboCurrencySelect = (
         </div>
         <ComboSelectDropdown
           active={dropdownActive}
+          setDropdownActive={setDropdownActive}
           onBlurHandler={onBlurHandler}
           setMouseOverDropdown={setMouseOverDropdown}
-          filteredOptions={filteredOptions}
           selectedOption={selectedOption}
           updateSelection={updateSelection}
           required={required}
           disabledMessage={disabledMessage}
           optionLabelKey={optionLabelKey}
-          filter={filterCharacters}
-          onChange={onFilterChange}
-          onClear={clearFilter}
           searchBarActive={searchBarActive}
           setSearchBarActive={setSearchBarActive}
+          inputRef={inputRef}
+          options={options}
+          yearFilter={yearFilter}
+          changeHandler={changeHandler}
+          timeOutId={timeOutId}
         />
       </div>
     </>

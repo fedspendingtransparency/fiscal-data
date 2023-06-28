@@ -14,7 +14,7 @@ import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-ic
 import React from 'react';
 
 
-const SearchBar = ({label, onChange, filter, width, handleClear, active, setActive}) => {
+const SearchBar = ({ label, onChange, filter, width, handleClear, active, setActive, inputRef}) => {
   let searchCleared = false;
 
   const clearBox = () => {
@@ -56,6 +56,7 @@ const SearchBar = ({label, onChange, filter, width, handleClear, active, setActi
         <MuiThemeProvider theme={searchBarTheme} >
           <Box sx={{width: width}}>
             <TextField
+              ref={inputRef}
               className={useStyles().root}
               variant="outlined"
               fullWidth
