@@ -140,6 +140,14 @@ $borderRadius: 5px;
 
 .selectColumnsWrapper {
   display: flex;
+
+  .selectColumnPanel {
+    display: none;
+  }
+
+  .selectColumnPanelActive {
+    display: block;
+  }
 }
 
 @media screen and (max-width: $breakpoint-md) {

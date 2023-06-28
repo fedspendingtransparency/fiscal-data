@@ -47,6 +47,7 @@ const TableSectionContainer = ({
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
+  const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
   const refreshTable = () => {
     if (allTablesSelected) return;
@@ -114,6 +115,7 @@ const TableSectionContainer = ({
       e.preventDefault();
       setLegend(!legend);
       setLegendToggledByUser(true);
+      setSelectColumnPanel(!selectColumnPanel);
     }
   };
 
@@ -222,6 +224,8 @@ const TableSectionContainer = ({
             table={
               tableProps ?
                 <DtgTable
+                  selectColumnPanel={selectColumnPanel}
+                  setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}
                   perPage={perPage}
                   setPerPage={setPerPage}

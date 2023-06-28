@@ -19,11 +19,11 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
 
   return (
       <div className={styles.checkbox_container}>
-      { defaultData && <div className={styles.sectionHeading}>DEFAULTS</div> }
+      { defaultData.length ? <div className={styles.sectionHeading}>DEFAULTS</div> : ''}
 
         {checkboxData.map((obj, index) => (
           <>
-          {defaultData && defaultData.length === index && <div className={[styles.sectionHeading, styles.additionalSection].join(' ')}>ADDITIONAL</div>}
+          {(defaultData.length && defaultData.length === index) ? <div className={[styles.sectionHeading, styles.additionalSection].join(' ')}>ADDITIONAL</div> : ''}
             <React.Fragment key={index}>
               <label
                 className={styles.checkbox_label}

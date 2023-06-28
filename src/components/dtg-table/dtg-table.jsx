@@ -19,7 +19,7 @@ import DtgTableColumnSelector from './dtg-table-column-selector';
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
 
-export default function DtgTable({tableProps, perPage, setPerPage}) {
+export default function DtgTable({tableProps, perPage, setPerPage, selectColumnPanel, setSelectColumnPanel}) {
   const {
     rawData,
     width,
@@ -358,7 +358,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
             }
           </div>
 
-          <div>
+          <div className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}>
             {selectColumns && 
               <DtgTableColumnSelector
               isVisible={true}
@@ -367,6 +367,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
               // onHover={(on, item) => callbacks.onHover(on, item)}
               onChange={(update) => columnSelectChangeHandler(update)}
               resetToDefault={setDefaultColumnsToSelect}
+              setSelectColumnPanel={setSelectColumnPanel}
             />
             }
           </div>

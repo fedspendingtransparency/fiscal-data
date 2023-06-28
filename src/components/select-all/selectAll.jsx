@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 
-const SelectAll = ({ fields, onUpdateFields,isVisible }) => {
+const SelectAll = ({ fields, onUpdateFields, isVisible }) => {
   const [allSelected, setAllSelected] = useState(true);
   const [indeterminate, setIndeterminate] = useState(true);
   const inputRef = useRef();
