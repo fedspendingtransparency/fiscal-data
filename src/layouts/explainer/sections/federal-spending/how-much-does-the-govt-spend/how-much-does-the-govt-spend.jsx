@@ -14,6 +14,7 @@ import {
   toggleButton,
   loadingIcon,
   barContainer,
+  barContainerInvisible,
   otherContainer,
   descContainerNoAnimation
 } from "./how-much-does-the-govt-spend.module.scss"
@@ -68,7 +69,8 @@ const HowMuchDoesTheGovtSpend = () => {
   const [animateBars, setAnimateBars] = useState(false);
   const [hasAgencyTriggered, setHasAgencyTriggered] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [labelFade, setLabelFade] = useState(true);
+  const [labelFade, setLabelFade] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 
@@ -189,6 +191,7 @@ const HowMuchDoesTheGovtSpend = () => {
       observer = new IntersectionObserver(entries => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            setTimeout(() => {},200);
             setAnimateBars(true);
             setScrolled(true);
             observer.unobserve(document.querySelector('[data-testid="spending-bar-chart"]'));
@@ -198,6 +201,7 @@ const HowMuchDoesTheGovtSpend = () => {
       setTimeout(() => observer.observe(document.querySelector('[data-testid="spending-bar-chart"]')), 1000);
     }
   }, []);
+
 
 
   const total = (sortedItems || [])
@@ -226,6 +230,12 @@ const HowMuchDoesTheGovtSpend = () => {
 
   const agencyLabelFade = useCallback(() => {
     setLabelFade(true);
+  }, []);
+
+  const animationEndHandler = useCallback(() => {
+    setAnimateBars(false);
+    setLabelFade(true);
+    setAnimationComplete(true);
   }, []);
 
   return (
@@ -369,16 +379,15 @@ const HowMuchDoesTheGovtSpend = () => {
               Dollars
             </span>
           </div>
-          <div className={barContainer} data-testid={'barContainer'}>
-            {scrolled && (
-              firstTen?.map((item, i) => {
+          <div className={scrolled ? barContainer : barContainerInvisible} data-testid={'barContainer'}>
+            {firstTen?.map((item, i) => {
                   return (
                     <div className={chartsContainer} key={i}>
                       <GrowDivBar
                         percent={item.percentage}
                         animateTime={0.75}
                         animate={animateBars}
-                        onAnimationEnd={() => setAnimateBars(false)}
+                        onAnimationEnd={animationEndHandler}
                         isMobile={isMobile}
                       />
                       <div
@@ -392,6 +401,7 @@ const HowMuchDoesTheGovtSpend = () => {
                       </div>
                       <div
                         className={labelFade ? descContainer : descContainerNoAnimation}
+                        style={{opacity: descContainerNoAnimation && animationComplete ? '1' : '0'}}
                         onAnimationEnd={() => setLabelFade(false)}
                         data-testid={'label'}
                       >
@@ -399,8 +409,7 @@ const HowMuchDoesTheGovtSpend = () => {
                       </div>
                     </div>
                 )
-              })
-            )}
+              })}
           </div>
           <div className={otherContainer}>
             {scrolled && (

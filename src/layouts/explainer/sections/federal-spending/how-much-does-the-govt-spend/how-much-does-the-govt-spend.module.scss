@@ -37,8 +37,14 @@
 }
 .barContainer {
   height: 35rem;
-  margin-bottom: 1rem;
+  opacity: 1;
 }
+
+.barContainerInvisible {
+  height: 35rem;
+  opacity: 0;
+}
+
 .otherContainer {
   height: 2.5rem;
   margin-bottom: 1rem;
@@ -57,6 +63,7 @@
   font-weight: 400;
   max-width: 180px;
   margin-left: 4px;
+  max-height: 2.5rem;
   animation: fadeInAnimation ease 2s;
 }
 
@@ -64,6 +71,7 @@
   margin-right: 16px;
   font-size: 14px;
   font-weight: 400;
+  max-height: 2.5rem;
   max-width: 180px;
   margin-left: 4px;
 }

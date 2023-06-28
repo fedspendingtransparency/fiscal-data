@@ -70,6 +70,7 @@ export const subHeader: string;
 export const column: string;
 export const chartsContainer: string;
 export const barContainer: string;
+export const barContainerInvisible: string;
 export const otherContainer: string;
 export const percentOrDollarContainer: string;
 export const descContainer: string;
