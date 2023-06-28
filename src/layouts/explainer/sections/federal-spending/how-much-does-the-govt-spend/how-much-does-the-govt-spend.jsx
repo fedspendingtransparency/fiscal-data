@@ -33,6 +33,27 @@ const breakpoint = {
   desktop: 1015,
   tablet: 600,
 }
+
+const grow = (width) => keyframes`
+  0% {
+    width: 0;
+    height: 2.5rem;
+  }
+  100% {
+    width: ${width}%;
+    height: 2.5rem;
+  }`;
+
+const GrowDivBar = styled.div`
+    animation: ${props => props.animateTime}s ${props => props.animate && grow(props.percent * (props.isMobile ? 1 : 2))};
+    animation-timing-function: ease-in;
+    background: #00766C;
+    width: ${props => props.percent * (props.isMobile ? 1 : 2)}%;
+    margin-right: 10px;
+    height: 40px;
+  `
+
+
 const HowMuchDoesTheGovtSpend = () => {
   const [chartData, setChartData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -158,27 +179,6 @@ const HowMuchDoesTheGovtSpend = () => {
       return b[sortField] - a[sortField]
     });
 
-  const grow = (width) => keyframes`
-  0% {
-    width: 0;
-    height: 2.5rem;
-  }
-  100% {
-    width: ${width}%;
-    height: 2.5rem;
-  }`;
-
-  // Styled component to get dynamic bar size
-
-  const GrowDivBar = styled.div`
-    animation: ${props => props.animateTime}s ${props => props.animate && grow(props.percent * (isMobile ? 1 : 2))};
-    animation-timing-function: ease-in;
-    background: #00766C;
-    width: ${props => props.percent * (isMobile ? 1 : 2)}%;
-    margin-right: 10px;
-    height: 40px;
-  `
-
   useEffect(() => {
     let observer;
     if (typeof window !== "undefined") {
@@ -258,7 +258,7 @@ const HowMuchDoesTheGovtSpend = () => {
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       ) : (
-        <Fragment data-testid={'spending-chart-parent'}>
+        <Fragment>
           {" "}
           <div className={chartToggle}>
             <button
@@ -374,7 +374,13 @@ const HowMuchDoesTheGovtSpend = () => {
               firstTen?.map((item, i) => {
                   return (
                     <div className={chartsContainer} key={i}>
-                      <GrowDivBar percent={item.percentage} animateTime={0.75} animate={animateBars} onAnimationEnd={() => setAnimateBars(false)} />
+                      <GrowDivBar
+                        percent={item.percentage}
+                        animateTime={0.75}
+                        animate={animateBars}
+                        onAnimationEnd={() => setAnimateBars(false)}
+                        isMobile={isMobile}
+                      />
                       <div
                         className={percentOrDollarContainer}
                         style={{
@@ -399,7 +405,7 @@ const HowMuchDoesTheGovtSpend = () => {
           <div className={otherContainer}>
             {scrolled && (
               <div className={chartsContainer} key={otherPercentage}>
-                <GrowDivBar percent={otherPercentage} animateTime={0.75} animate={animateBars} />
+                <GrowDivBar percent={otherPercentage} animateTime={0.75} animate={animateBars} isMobile={isMobile} />
                 <div className={percentOrDollarContainer}>
                   {percentDollarToggleChecked
                     ? `$${getShortForm(otherTotal)}`

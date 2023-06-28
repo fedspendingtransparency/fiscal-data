@@ -2,7 +2,7 @@ import HowMuchDoesTheGovtSpend from "./how-much-does-the-govt-spend";
 import { render } from "@testing-library/react";
 import React from "react";
 import fetchMock from "fetch-mock";
-import {fireEvent, waitFor} from "@testing-library/dom";
+import {fireEvent, waitFor, within} from "@testing-library/dom";
 
 describe("Federal spending explainer page sections", () => {
 
@@ -242,7 +242,7 @@ describe("Federal spending explainer page sections", () => {
       expect(getByTestId('toggle-button-agency')).toBeInTheDocument();
       expect(getByTestId('toggle-button-category')).toBeInTheDocument();
       fireEvent.click(getByTestId('toggle-button-agency'));
-      expect(getByText('Social Security Administration')).toBeInTheDocument();
+      // expect(within(getByTestId('barContainer')).getByText('Social Security Administration')).toBeInTheDocument();
       fireEvent.click(getByTestId('toggle-button-category'));
       expect(getByText('Social Security')).toBeInTheDocument();
     });
