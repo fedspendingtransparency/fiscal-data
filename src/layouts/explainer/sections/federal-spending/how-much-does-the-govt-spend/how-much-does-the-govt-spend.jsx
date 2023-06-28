@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react"
+import React, { useState, useEffect, Fragment, useCallback } from "react"
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import ChartContainer from "../../../explainer-components/chart-container/chart-container"
@@ -13,6 +13,9 @@ import {
   chartToggle,
   toggleButton,
   loadingIcon,
+  barContainer,
+  otherContainer,
+  descContainerNoAnimation
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
@@ -43,6 +46,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const [animateBars, setAnimateBars] = useState(false);
   const [hasAgencyTriggered, setHasAgencyTriggered] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [labelFade, setLabelFade] = useState(true);
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 
@@ -161,11 +165,13 @@ const HowMuchDoesTheGovtSpend = () => {
     height: 2.5rem;
   }`;
 
+  // Styled component to get dynamic bar size
+
   const GrowDivBar = styled.div`
-    animation: ${props => props.animateTime}s ${props => props.animate && grow(props.item.percentage * (isMobile ? 1 : 2))};
+    animation: ${props => props.animateTime}s ${props => props.animate && grow(props.percent * (isMobile ? 1 : 2))};
     animation-timing-function: ease-in;
     background: #00766C;
-    width: ${props => props.item.percentage * (isMobile ? 1 : 2)}%;
+    width: ${props => props.percent * (isMobile ? 1 : 2)}%;
     margin-right: 10px;
     height: 40px;
   `
@@ -190,6 +196,7 @@ const HowMuchDoesTheGovtSpend = () => {
     }
   }, []);
 
+
   const total = (sortedItems || [])
     .map(item => parseInt(item[sortField], 10))
     ?.reduce((item, nextItem) => {
@@ -212,7 +219,11 @@ const HowMuchDoesTheGovtSpend = () => {
     ?.reduce((item, nextItem) => {
       return item + nextItem
     }, 0)
-  const otherPercentage = Math.round((otherTotal / total) * 100)
+  const otherPercentage = Math.round((otherTotal / total) * 100);
+
+  const agencyLabelFade = useCallback(() => {
+    setLabelFade(true);
+  }, []);
 
   return (
     <ChartContainer
@@ -293,6 +304,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 if (!hasAgencyTriggered) {
                   setAnimateBars(true);
                   setHasAgencyTriggered(true);
+                  agencyLabelFade();
                 }
               }}
               data-testid={'toggle-button-agency'}
@@ -354,46 +366,47 @@ const HowMuchDoesTheGovtSpend = () => {
               Dollars
             </span>
           </div>
-          {/*{scrolled && (*/}
-          {firstTen?.map((item, i) => {
-              return (
-                <div className={chartsContainer} key={i}>
-                  {/*<GrowDivBar item={item} animateTime={7 - (7 * ((100 - item.percentage) / 100))} animate={animateBars} />*/}
-                  <GrowDivBar item={item} animateTime={0.5} animate={animateBars} />
-                  <div
-                    className={percentOrDollarContainer}
-                    style={{
-                      marginRight: item.percentage > 20 ? "0px" : "8px",
-                    }}
-                  >
-                    {percentDollarToggleChecked ?
-                      `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
-                  </div>
-                  <div className={descContainer}>
-                    {item.classification_desc?.replace("Total--", "")}
-                  </div>
+          <div className={barContainer} data-testid={'barContainer'}>
+            {scrolled && (
+              firstTen?.map((item, i) => {
+                  return (
+                    <div className={chartsContainer} key={i}>
+                      <GrowDivBar percent={item.percentage} animateTime={0.75} animate={animateBars} onAnimationEnd={() => setAnimateBars(false)} />
+                      <div
+                        className={percentOrDollarContainer}
+                        style={{
+                          marginRight: item.percentage > 20 ? "0px" : "8px",
+                        }}
+                      >
+                        {percentDollarToggleChecked ?
+                          `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
+                      </div>
+                      <div
+                        className={labelFade ? descContainer : descContainerNoAnimation}
+                        onAnimationEnd={() => setLabelFade(false)}
+                        data-testid={'label'}
+                      >
+                        {item.classification_desc?.replace("Total--", "")}
+                      </div>
+                    </div>
+                )
+              })
+            )}
+          </div>
+          <div className={otherContainer}>
+            {scrolled && (
+              <div className={chartsContainer} key={otherPercentage}>
+                <GrowDivBar percent={otherPercentage} animateTime={0.75} animate={animateBars} />
+                <div className={percentOrDollarContainer}>
+                  {percentDollarToggleChecked
+                    ? `$${getShortForm(otherTotal)}`
+                    : `${otherPercentage} %`}
                 </div>
-            )
-          })}
-          {/*)}*/}
-            <div className={chartsContainer} key={otherPercentage}>
-            <div
-            style={{
-            background: "#00766C",
-            width: `${otherPercentage * (isMobile ? 1 : 2)}%`,
-            marginRight: "10px",
-            height: "40px",
-          }}
-            >
-            </div>
-            <div className={percentOrDollarContainer}>
-          {percentDollarToggleChecked
-            ? `$${getShortForm(otherTotal)}`
-            : `${otherPercentage} %`}
-            </div>
-            <div className={descContainer}>Other </div>
-            </div>
-            </Fragment>
+                <div className={labelFade ? descContainer : descContainerNoAnimation}>Other </div>
+              </div>
+            )}
+          </div>
+      </Fragment>
             )}
     </ChartContainer>
   )
