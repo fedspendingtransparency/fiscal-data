@@ -419,7 +419,12 @@ const HowMuchDoesTheGovtSpend = () => {
                     ? `$${getShortForm(otherTotal)}`
                     : `${otherPercentage} %`}
                 </div>
-                <div className={labelFade ? descContainer : descContainerNoAnimation}>Other </div>
+                <div
+                  className={labelFade ? descContainer : descContainerNoAnimation}
+                  style={{opacity: descContainerNoAnimation && animationComplete ? '1' : '0'}}
+                >
+                  Other
+                </div>
               </div>
             )}
           </div>
