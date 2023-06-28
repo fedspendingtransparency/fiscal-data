@@ -25,6 +25,7 @@ import useGAEventTracking from "../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../utils/analytics/analytics";
 import {getShortForm} from "../../../../../utils/rounding-utils";
 import {ToggleSwitch} from "./chart-toggle-switch";
+import {getDateWithoutOffset} from "../../../explainer-helpers/explainer-helpers";
 import { keyframes } from "styled-components";
 import styled from 'styled-components';
 
@@ -72,10 +73,10 @@ const HowMuchDoesTheGovtSpend = () => {
   const getChartData = () => {
     Promise.all([
       basicFetch(
-        `${apiPrefix}${`v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19`}`
+        `${apiPrefix}${`v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19`}`
       ),
       basicFetch(
-        `${apiPrefix}${`v1/accounting/mts/mts_table_5?filter=record_calendar_month:eq:09,data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30`}`
+        `${apiPrefix}${`v1/accounting/mts/mts_table_5?filter=data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30`}`
       ),
     ]).then(result => {
       setChartData({
@@ -103,13 +104,15 @@ const HowMuchDoesTheGovtSpend = () => {
   }, [width, height])
 
   useEffect(() => {
-    if (chartData && chartData[selectedChartView]?.data) {
-      const dataItems = chartData[selectedChartView].data
-      const dates = dataItems.map(item => moment(item.record_date))
-      const maxDate = moment.max(dates)
-      const updatedDate = new Date(maxDate.toDate())
-      setLastUpdatedDate(updatedDate)
-      setFiscalYear(updatedDate.getFullYear());
+    if (chartData) {
+      const dataItems = chartData.category.data;
+      const dates = dataItems.map(item => moment(item.record_date));
+      const fiscalYears = dataItems.map(item => moment(item.record_fiscal_year));
+      const maxDate = moment.max(dates);
+      const upToDateFiscalYear = moment.max(fiscalYears);
+      const updatedDate = getDateWithoutOffset(maxDate);
+      setLastUpdatedDate(updatedDate);
+      setFiscalYear(upToDateFiscalYear.year());
     }
   }, [selectedChartView, chartData])
 
@@ -138,7 +141,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const header = (
     <div className={headerContainer}>
       <div className={headerStyle} style={{ fontWeight: "600" }}>
-        U.S. Government Spending, FY {fiscalYear}
+        U.S. Government Spending, FYTD {fiscalYear}
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
