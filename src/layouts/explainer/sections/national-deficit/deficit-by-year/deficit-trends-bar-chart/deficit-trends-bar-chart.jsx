@@ -77,15 +77,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
     highlightColor: fontTitle,
     animationDuration: 2000,
   }
-
   const startingYear = '2001';
+  let delayIncrement = 500;
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
       data.forEach(value => {
-        const duration = Math.abs((value.deficit / totalValues) * totalDuration);
-        value["duration"] = duration;
-        value["delay"] = 200;
+        value["duration"] = 300;
+        value["delay"] = delayIncrement / data.length;
       })
     }
     return data;
@@ -180,8 +179,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
 
   useEffect(() => {
-    let delay = 100;
-    let delay2 = 100;
+    let headerDelay = 100;
+    let barDelay = 100;
     const barSVGs = Array.from(
       document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children
     );
@@ -194,12 +193,12 @@ export const DeficitTrendsBarChart = ({ width }) => {
         const bar = element.children[0];
         setTimeout(() => {
           bar.style.fill = chartConfigs.highlightColor;
-        }, delay2 += 200 )
+        }, barDelay += delayIncrement / barSVGs.length )
 
         if (bar !== finalBar) {
           setTimeout(() => {
             bar.style.fill = deficitExplainerPrimary
-          }, delay2 + 200)
+          }, barDelay + delayIncrement / barSVGs.length)
         }
       }
     })
@@ -210,7 +209,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
-        }, delay += element.delay )
+        }, headerDelay += element.delay )
       }
     })
   }, [inView])
@@ -281,7 +280,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
             <div className={barChart}
                  onMouseLeave={resetHeaderValues}
                  data-testid={'deficitTrendsChartParent'}
-                 id={'deficitTrendsChartParent'}
                  role={'presentation'}
                  ref={ref}
             >
