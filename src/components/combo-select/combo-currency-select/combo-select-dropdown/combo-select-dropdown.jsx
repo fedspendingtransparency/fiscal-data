@@ -12,7 +12,7 @@ import {
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
-import ScrollContainer from '../../../search-bar/scroll-container';
+import ScrollGradientContainer from '../../../search-bar/scroll-grdient-container/scroll-grdient-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
 
 const ComboSelectDropdown = (
@@ -72,11 +72,6 @@ const ComboSelectDropdown = (
       setDropdownActive(true);
     }
   };
-  const change = (event) => {
-    const val = (event && event.target) ? event.target.value : '';
-    setFilterValue(val);
-    onFilterChange(event);
-  }
 
   const onBlur = (listFocus, event) => {
     setMouseOverDropdown(false);
@@ -95,7 +90,7 @@ const ComboSelectDropdown = (
         >
           <div className={searchBarContainer}>
             <SearchBar
-              onChange={change}
+              onChange={onFilterChange}
               width={288}
               filter={filterValue}
               label="Search currencies"
@@ -105,7 +100,7 @@ const ComboSelectDropdown = (
               inputRef={inputRef}
             />
           </div>
-          <ScrollContainer
+          <ScrollGradientContainer
             list={filteredOptions}
             selection={selectedOption}
             scrollTop={scrollTop}
@@ -121,6 +116,7 @@ const ComboSelectDropdown = (
                 role="presentation"
                 onBlur={() => onBlur(true)}
                 className={dropdownList}
+                data-testid="dropdown-list"
               >
                 {filteredOptions.map((option, index) => {
                   return (
@@ -137,6 +133,7 @@ const ComboSelectDropdown = (
                           onClick={() => updateSelection(option, true)}
                           disabled={required && !option.value}
                           title={(required && !option.value && disabledMessage) ? disabledMessage : null}
+                          aria-label={option.value}
                         >
                           {underlineMatchedString(option[optionLabelKey], filterValue)}
                         </button>
@@ -146,7 +143,7 @@ const ComboSelectDropdown = (
                 })}
               </ul>
             )}
-          </ScrollContainer>
+          </ScrollGradientContainer>
         </div>
       )}
     </>

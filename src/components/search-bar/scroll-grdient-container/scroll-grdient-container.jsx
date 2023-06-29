@@ -4,10 +4,10 @@ import {
   listItems,
   scrollContainerTop,
   scrollGradient,
-} from './scroll-container.module.scss'
+} from './scroll-grdient-container.module.scss';
 
 
-const ScrollContainer = ({list, selection, scrollTop, setScrollTop, customChildStyle, children}) => {
+const ScrollGradientContainer = ({list, selection, scrollTop, setScrollTop, customChildStyle, children}) => {
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
@@ -27,8 +27,8 @@ const ScrollContainer = ({list, selection, scrollTop, setScrollTop, customChildS
   return (
     <>
       <div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid="scrollGradient" />
-      <div className={container}>
-        <div className={listItems} style={customChildStyle} data-testid="scrollContainer">
+      <div className={container}  data-testid="scrollContainer">
+        <div className={listItems} style={customChildStyle}>
           {children}
         </div>
       </div>
@@ -36,4 +36,4 @@ const ScrollContainer = ({list, selection, scrollTop, setScrollTop, customChildS
   );
 }
 
-export default ScrollContainer;
+export default ScrollGradientContainer;

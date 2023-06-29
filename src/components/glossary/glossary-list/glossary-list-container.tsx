@@ -12,7 +12,7 @@ import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
 import NoGlossaryMatch from './no-match/no-glossary-match';
 import GlossaryDisplayList from './glossary-display-list/glossary-display-list';
 import { IGlossaryListSection } from '../../../helpers/glossary-helper/glossary-data';
-import ScrollContainer from '../../search-bar/scroll-container';
+import ScrollGradientContainer from '../../search-bar/scroll-grdient-container/scroll-grdient-container';
 
 
 interface IGlossaryList {
@@ -63,20 +63,6 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
     setSelectedTerm(defaultTerm);
   }, [defaultTerm])
 
-  // useEffect(() => {
-  //   const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
-  //
-  //   if(scrollContainer) {
-  //     scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), {passive: true});
-  //
-  //     return () => {
-  //       scrollContainer.removeEventListener('scroll', handleScroll);
-  //     };
-  //   }
-  // }, [selectedTerm, displayList]);
-
-
-
   return (
     <>
       {(selectedTerm || displayList.length !== sortedTermList.length) ? (
@@ -91,25 +77,20 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
         <GlossaryDefinition glossaryTerm={selectedTerm} />
         ) : (
           <>
-            {/*<div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid={'scrollGradient'} />*/}
-            <ScrollContainer
+            <ScrollGradientContainer
               list={displayList}
               selection={selectedTerm}
               scrollTop={scrollTop}
               setScrollTop={setScrollTop}
               customChildStyle={{marginBottom: '12.825rem', paddingRight: '1rem'}}
             >
-              {/*<div className={listContainer}>*/}
-              {/*  <div className={termContainer} data-testid={'scrollContainer'}>*/}
-                  {displayList.length ? (
-                    <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
-                  ) : (
-                    <NoGlossaryMatch filter={filter} />
-                  )
-                  }
-                {/*</div>*/}
-              {/*</div>*/}
-            </ScrollContainer>
+              {displayList.length ? (
+                <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
+              ) : (
+                <NoGlossaryMatch filter={filter} />
+              )
+              }
+            </ScrollGradientContainer>
           </>
         )}
     </>

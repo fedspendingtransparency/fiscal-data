@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
 import * as styles from '../../select-control/select-control.module.scss';
-import { filterYearOptions } from '../../published-reports/util/util';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -110,7 +109,7 @@ const ComboCurrencySelect = (
 
   const onBlurAnalyticsHandler = (event) => {
     if(isExchangeTool && !event.target.parentElement.contains(event.relatedTarget)){
-      // XRAnalyticsHandler('Foreign Country-Currency Search', event.target.value);
+      XRAnalyticsHandler('Foreign Country-Currency Search', event.target.value);
     }
   };
 

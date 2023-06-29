@@ -38,7 +38,12 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler
           <FontAwesomeIcon icon={faXmark as IconProp} className={closeIcon} />
         </button>
       </div>
-      <SearchBar onChange={onSearchBarChange} width={282} filter={filter} label="Search the glossary" />
+      <SearchBar
+        onChange={onSearchBarChange}
+        width={282}
+        filter={filter}
+        label="Search the glossary"
+      />
     </div>
   )
 }
