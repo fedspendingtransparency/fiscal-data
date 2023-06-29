@@ -78,13 +78,16 @@ export const DeficitTrendsBarChart = ({ width }) => {
     animationDuration: 2000,
   }
   const startingYear = '2001';
-  let delayIncrement = 500;
+  let delayIncrement = 1250;
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
+      let delay = 100;
       data.forEach(value => {
-        value["duration"] = 300;
-        value["delay"] = delayIncrement / data.length;
+        const duration = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
+        value["duration"] = duration;
+        value["delay"] = delay;
+        delay += 100;
       })
     }
     return data;
@@ -179,8 +182,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
 
   useEffect(() => {
-    let headerDelay = 100;
-    let barDelay = 100;
+    let headerDelay = delayIncrement + 1250;
+    let barDelay = delayIncrement + 1250;
     const barSVGs = Array.from(
       document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children
     );
@@ -189,11 +192,12 @@ export const DeficitTrendsBarChart = ({ width }) => {
     // Run bar highlight wave
     barSVGs.map((element) => {
       const finalBar = barSVGs[barSVGs.length - 1].children[0];
+      const bar = element.children[0];
+
       if(inView) {
-        const bar = element.children[0];
         setTimeout(() => {
           bar.style.fill = chartConfigs.highlightColor;
-        }, barDelay += delayIncrement / barSVGs.length )
+        }, barDelay += delayIncrement / barSVGs.length)
 
         if (bar !== finalBar) {
           setTimeout(() => {
@@ -209,7 +213,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
-        }, headerDelay += element.delay )
+        }, headerDelay += delayIncrement / chartData.length )
       }
     })
   }, [inView])
