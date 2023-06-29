@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import DtgTable from './dtg-table';
 import {
   longerPaginatedDataResponse,
@@ -304,8 +304,17 @@ describe('DtgTable component - Select Columns', () => {
     expect(getByText('Visible Columns')).toBeInTheDocument();
   });
 
+  it('does not displays the select columns menu when no select column', () => {
+    const {queryByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData }}
+      />);
+
+      // Change just to columns for mobile???
+    expect(queryByText('Visible Columns')).not.toBeInTheDocument();
+  });
+
   it('displays the default active columns and content', () => {
-    const {getByText, queryByText} = render(<DtgTable
+    const {getByText, queryByText, getByRole} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
         columnConfig: ColSelectColConfig,
         selectColumns: DefaultColSelectTestColumns }}
@@ -324,6 +333,11 @@ describe('DtgTable component - Select Columns', () => {
       expect(queryByText(ColSelectTestData[1].name)).not.toBeInTheDocument();
       expect(queryByText(ColSelectTestData[2].name)).not.toBeInTheDocument();
 
+      // checkbox default checked
+      expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+      expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
+      expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
+
   });
 
   it('should display 10 rows by default when dataset has selected columns enabled', () => {
@@ -341,8 +355,9 @@ describe('DtgTable component - Select Columns', () => {
       expect(getAllByRole('row').length).toEqual(rowCount + headerRow);
   });
 
-  it('should close the side panel when x is clicked', () => {
-    const {getByTestId, getByRole, queryByText} = render(<DtgTable
+  // not working
+  it('should close the side panel when x is clicked', async () => {
+    const {getByRole, getByText, queryByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
         columnConfig: ColSelectColConfig,
         selectColumns: DefaultColSelectTestColumns }}
@@ -350,30 +365,78 @@ describe('DtgTable component - Select Columns', () => {
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
 
-      const selectColPanel = getByTestId("selectColPanel");
-      const closeButton = within(selectColPanel).getByTestId('colSelectClose');
+      const closeButton = getByRole('button', {name: 'Close select control panel'});
 
       expect(getByText('Visible Columns')).toBeInTheDocument();
 
       userEvent.click(closeButton);
-   
-      expect(queryByText('Visible Columns')).not.toBeInTheDocument();
-  });
 
-  it('should have only the defauted columns shown in the table initally', () => {
-    const {getByText} = render(<DtgTable
-      tableProps={{ data: ColSelectTestData,
-        columnConfig: ColSelectColConfig,
-        selectColumns: DefaultColSelectTestColumns }}
-      selectColumnPanel={selectColumnPanel}
-      setSelectColumnPanel={setSelectColumnPanelMock}
-      />);
-   
-      // expect(defaulted columns).toBeInTheDocument();
-      // expect(non-defaulted columns).not.toBeInTheDocument();
+      await waitFor(() => expect(queryByText('Visible Columns')).not.toBeInTheDocument());
   });
   
-  it('should display all columns when select all', () => {
+  it('should display all columns when select all', async () => {
+    const {getByRole, getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
+      />);
+   
+      const selectAllButton = getByRole('checkbox', {name: 'Select All'});
+      userEvent.click(selectAllButton);
+      await waitFor(() => {
+        expect(getByText('3 selected of 3')).toBeInTheDocument();
+
+        expect(getByText(ColSelectTestData[0].date)).toBeInTheDocument();
+        expect(getByText(ColSelectTestData[1].time)).toBeInTheDocument();
+        expect(getByText(ColSelectTestData[2].name)).toBeInTheDocument();
+
+        expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).toBeChecked();
+      });
+
+  });
+
+  it('should display zero columns when select all has been deselected', async () => {
+    const {getByRole, getByText, queryByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
+      />);
+   
+      const selectAllButton = getByRole('checkbox', {name: 'Select All'});
+      userEvent.click(selectAllButton);
+      await waitFor(() => {
+        expect(getByText('3 selected of 3')).toBeInTheDocument();
+
+        expect(getByText(ColSelectTestData[0].date)).toBeInTheDocument();
+        expect(getByText(ColSelectTestData[1].time)).toBeInTheDocument();
+        expect(getByText(ColSelectTestData[2].name)).toBeInTheDocument();
+
+        expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).toBeChecked();
+      });
+
+      userEvent.click(selectAllButton);
+      await waitFor(() => {
+        expect(getByText('0 selected of 3')).toBeInTheDocument();
+
+        expect(queryByText(ColSelectTestData[0].date)).not.toBeInTheDocument();
+        expect(queryByText(ColSelectTestData[1].time)).not.toBeInTheDocument();
+        expect(queryByText(ColSelectTestData[2].name)).not.toBeInTheDocument();
+
+        expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).not.toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).not.toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
+      });
+  });
+
+  it('should display selected columns when changed from default', async () => {
     const {getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
         columnConfig: ColSelectColConfig,
@@ -382,10 +445,22 @@ describe('DtgTable component - Select Columns', () => {
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
    
-      // expect(all columns).toBeInTheDocument();
+      const dateColButton = getByRole('checkbox', {name: ColSelectColConfig[0].name});
+      userEvent.click(dateColButton);
+      await waitFor(() => {
+        expect(getByText('1 selected of 3')).toBeInTheDocument();
+
+        expect(getByText(ColSelectTestData[0].date)).toBeInTheDocument();
+        expect(getByText(ColSelectTestData[1].time)).toBeInTheDocument();
+        expect(getByText(ColSelectTestData[2].name)).toBeInTheDocument();
+
+        expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).toBeChecked();
+      });
   });
 
-  it('should display selected columns when changed from default', () => {
+  it('should display default columns when reset button clicked', () => {
     const {getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
         columnConfig: ColSelectColConfig,
@@ -397,7 +472,5 @@ describe('DtgTable component - Select Columns', () => {
       //expect(selected columns).toBeInTheDocument();
       //expect(non-selected columns).not.toBeInTheDocument();
   });
-
-  // test that it doesn't appear when there is no selectCol
 
 });

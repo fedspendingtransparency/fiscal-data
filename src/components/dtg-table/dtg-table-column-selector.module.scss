@@ -70,11 +70,19 @@
 
 .buttonContainer {
     padding: 1rem;
-    max-height: 300px;
+    // height: auto;
     overflow-y: auto;
 }
 
 .toggleButton {
     display: block;
     width: 100%;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1){
+    .selectAllContainer {
+        .reset {
+            margin-right: 0rem;
+        }
+    }
 }
