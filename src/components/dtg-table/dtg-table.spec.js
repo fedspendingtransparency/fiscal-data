@@ -355,7 +355,6 @@ describe('DtgTable component - Select Columns', () => {
       expect(getAllByRole('row').length).toEqual(rowCount + headerRow);
   });
 
-  // not working
   it('should close the side panel when x is clicked', async () => {
     const {getByRole, getByText, queryByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
@@ -371,7 +370,7 @@ describe('DtgTable component - Select Columns', () => {
 
       userEvent.click(closeButton);
 
-      await waitFor(() => expect(queryByText('Visible Columns')).not.toBeInTheDocument());
+      expect(setSelectColumnPanelMock).toHaveBeenCalledWith(false);
   });
   
   it('should display all columns when select all', async () => {

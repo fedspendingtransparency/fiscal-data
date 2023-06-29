@@ -209,7 +209,6 @@ const TableSectionContainer = ({
             showToggleChart={!noChartMessage}
             showToggleTable={config.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-            // fix toggle legend for table toggle ************
             onToggleLegend={legendToggler}
             emptyData={
               !isLoading

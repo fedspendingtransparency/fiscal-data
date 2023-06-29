@@ -6,11 +6,13 @@ import SelectAll from '../../select-all/selectAll';
 const ChartLegend = ({ fields, isVisible, onLabelChange, onHover }) => (
   <section>
     <h1 className={styles.heading}>Legend ({fields.length})</h1>
-    <SelectAll
-      fields={fields}
-      isVisible={isVisible}
-      onUpdateFields={onLabelChange}
-    />
+    <div className={styles.selectAllContainer}>
+      <SelectAll
+        fields={fields}
+        isVisible={isVisible}
+        onUpdateFields={onLabelChange}
+      />
+    </div>
     <div className={styles.buttonContainer}>
       <Checkbox
         checkboxData={fields}

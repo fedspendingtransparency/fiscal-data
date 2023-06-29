@@ -147,6 +147,8 @@ $borderRadius: 5px;
 
   .selectColumnPanelActive {
     display: block;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
   }
 }
 
