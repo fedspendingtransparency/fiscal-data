@@ -64,28 +64,12 @@
   max-width: 180px;
   margin-left: 4px;
   max-height: 2.5rem;
-  animation: fadeInAnimation ease 1.5s;
+  opacity: 0;
 }
 
-.descContainerNoAnimation {
-  margin-right: 16px;
-  font-size: 14px;
-  font-weight: 400;
-  max-height: 2.5rem;
-  max-width: 180px;
-  margin-left: 4px;
-}
-
-@keyframes fadeInAnimation {
-  0% {
-    opacity: 0;
-  }
-  66% {
-    opacity:0;
-  }
-  100% {
-    opacity: 1;
-  }
+.active .descContainer {
+  transition:opacity 0.5s ease 0.5s;
+  opacity: 1;
 }
 
 .chartToggle {

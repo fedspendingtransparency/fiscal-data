@@ -16,7 +16,7 @@ import {
   barContainer,
   barContainerInvisible,
   otherContainer,
-  descContainerNoAnimation
+  active
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
@@ -69,7 +69,6 @@ const HowMuchDoesTheGovtSpend = () => {
   const [animateBars, setAnimateBars] = useState(false);
   const [hasAgencyTriggered, setHasAgencyTriggered] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [labelFade, setLabelFade] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
@@ -227,13 +226,8 @@ const HowMuchDoesTheGovtSpend = () => {
     }, 0)
   const otherPercentage = Math.round((otherTotal / total) * 100);
 
-  const agencyLabelFade = useCallback(() => {
-    setLabelFade(true);
-  }, []);
-
   const animationEndHandler = useCallback(() => {
     setAnimateBars(false);
-    setLabelFade(true);
     setAnimationComplete(true);
   }, []);
 
@@ -316,7 +310,7 @@ const HowMuchDoesTheGovtSpend = () => {
                 if (!hasAgencyTriggered) {
                   setAnimateBars(true);
                   setHasAgencyTriggered(true);
-                  agencyLabelFade();
+                  setAnimationComplete(false);
                 }
               }}
               data-testid={'toggle-button-agency'}
@@ -379,39 +373,39 @@ const HowMuchDoesTheGovtSpend = () => {
             </span>
           </div>
           <div className={scrolled ? barContainer : barContainerInvisible} data-testid={'barContainer'}>
-            {firstTen?.map((item, i) => {
-                  return (
-                    <div className={chartsContainer} key={i}>
-                      <GrowDivBar
-                        percent={item.percentage}
-                        animateTime={0.6}
-                        animate={animateBars}
-                        onAnimationEnd={animationEndHandler}
-                        isMobile={isMobile}
-                      />
-                      <div
-                        className={percentOrDollarContainer}
-                        style={{
-                          marginRight: item.percentage > 20 ? "0px" : "8px",
-                        }}
-                      >
-                        {percentDollarToggleChecked ?
-                          `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
+            <div className={animationComplete && active}>
+              {firstTen?.map((item, i) => {
+                    return (
+                      <div className={chartsContainer} key={i}>
+                        <GrowDivBar
+                          percent={item.percentage}
+                          animateTime={0.6}
+                          animate={animateBars}
+                          onAnimationEnd={animationEndHandler}
+                          isMobile={isMobile}
+                        />
+                        <div
+                          className={percentOrDollarContainer}
+                          style={{
+                            marginRight: item.percentage > 20 ? "0px" : "8px",
+                          }}
+                        >
+                          {percentDollarToggleChecked ?
+                            `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
+                        </div>
+                        <div
+                          className={descContainer}
+                          data-testid={'label'}
+                        >
+                          {item.classification_desc?.replace("Total--", "")}
+                        </div>
                       </div>
-                      <div
-                        className={labelFade ? descContainer : descContainerNoAnimation}
-                        style={{opacity: descContainerNoAnimation && animationComplete ? '1' : '0'}}
-                        onAnimationEnd={() => setLabelFade(false)}
-                        data-testid={'label'}
-                      >
-                        {item.classification_desc?.replace("Total--", "")}
-                      </div>
-                    </div>
-                )
-              })}
+                  )
+                })}
+            </div>
           </div>
           <div className={otherContainer}>
-            {scrolled && (
+            <div className={animationComplete && active}>
               <div className={chartsContainer} key={otherPercentage}>
                 <GrowDivBar percent={otherPercentage} animateTime={0.75} animate={animateBars} isMobile={isMobile} />
                 <div className={percentOrDollarContainer}>
@@ -420,13 +414,12 @@ const HowMuchDoesTheGovtSpend = () => {
                     : `${otherPercentage} %`}
                 </div>
                 <div
-                  className={labelFade ? descContainer : descContainerNoAnimation}
-                  style={{opacity: descContainerNoAnimation && animationComplete ? '1' : '0'}}
+                  className={descContainer}
                 >
                   Other
                 </div>
               </div>
-            )}
+            </div>
           </div>
       </Fragment>
             )}
