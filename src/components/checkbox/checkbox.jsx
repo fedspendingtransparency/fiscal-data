@@ -6,8 +6,13 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
   const defaultData = checkboxData.filter(field => field?.default === true);
 
-  const handleClick = (e) => {
-    checkboxData[e.target.value].active = e.target.checked;
+  const handleClick = (e, isKeyPress, checkedValue) => {
+    if (isKeyPress) {
+      checkboxData[e.target.value].active = checkedValue;
+    }
+    else {
+      checkboxData[e.target.value].active = e.target.checked;
+    }
     changeHandler(checkboxData.filter(obj => obj.active));
   }
 
@@ -38,6 +43,7 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
                     type="checkbox"
                     name={obj.label}
                     value={index}
+                    onKeyDown={(e) => e.key === 'Enter' && handleClick(e, true, !e.target.checked)}
                     onChange={handleClick}
                     data-testid="checkbox-input-element"
                     checked={obj.active}
@@ -52,9 +58,9 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
               </label>
             </React.Fragment>
           </>
-          
+
         ))}
-      </div> 
+      </div>
   )
 }
 

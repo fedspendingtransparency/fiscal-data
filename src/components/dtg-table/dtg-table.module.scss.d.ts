@@ -75,3 +75,6 @@ export const rowsShowing: string;
 export const overlay: string;
 export const fadeIn: string;
 export const loadingIcon: string;
+export const selectColumnsWrapper: string;
+export const selectColumnPanel: string;
+export const selectColumnPanelActive: string;

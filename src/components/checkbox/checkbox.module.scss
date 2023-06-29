@@ -40,7 +40,7 @@
 .label {
   max-width: 95%;
   font-size: 13.5px;
-  
+
   &:focus-within .optionCheckbox + span {
     border: 1px solid $primary;
   }
@@ -49,9 +49,9 @@
 .optionCheckbox[type="checkbox"] {
   position: absolute;
   display: inline-block;
-  max-width: 1px;
-  max-height: 1px;
-  opacity: 0;
+  min-width: 16px;
+  min-height: 16px;
+  right: 6px;
   overflow: hidden;
 }
 
