@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import * as styles from './checkbox.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
-  const handleClick = (e) => {
-    checkboxData[e.target.value].active = e.target.checked;
+
+  const handleClick = (e, isKeyPress, checkedValue) => {
+    if (isKeyPress) {
+      checkboxData[e.target.value].active = checkedValue;
+    }
+    else {
+      checkboxData[e.target.value].active = e.target.checked;
+    }
     changeHandler(checkboxData.filter(obj => obj.active));
   }
+
 
   const handleHover = (enter, obj) => {
     if (onHover) {
@@ -32,6 +39,7 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
                 type="checkbox"
                 name={obj.label}
                 value={index}
+                onKeyDown={(e) => e.key === 'Enter' && handleClick(e, true, !e.target.checked)}
                 onChange={handleClick}
                 data-testid="checkbox-input-element"
                 checked={obj.active}
