@@ -437,26 +437,32 @@ describe('DtgTable component - Select Columns', () => {
   });
 
   it('should display selected columns when changed from default', async () => {
-    const {getByText} = render(<DtgTable
+    const {getByText, getByRole, queryByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
         columnConfig: ColSelectColConfig,
         selectColumns: DefaultColSelectTestColumns }}
       selectColumnPanel={selectColumnPanel}
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
+
+      // Data column checkbox
+      expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+      // Time and Name columns
+      expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
+      expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
    
       const dateColButton = getByRole('checkbox', {name: ColSelectColConfig[0].name});
       userEvent.click(dateColButton);
       await waitFor(() => {
         expect(getByText('1 selected of 3')).toBeInTheDocument();
 
-        expect(getByText(ColSelectTestData[0].date)).toBeInTheDocument();
+        expect(queryByText(ColSelectTestData[0].date)).not.toBeInTheDocument();
         expect(getByText(ColSelectTestData[1].time)).toBeInTheDocument();
-        expect(getByText(ColSelectTestData[2].name)).toBeInTheDocument();
+        expect(queryByText(ColSelectTestData[2].name)).not.toBeInTheDocument();
 
-        expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).not.toBeChecked();
         expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
-        expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).toBeChecked();
+        expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
       });
   });
 

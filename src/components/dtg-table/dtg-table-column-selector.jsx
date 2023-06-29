@@ -5,11 +5,13 @@ import * as styles from './dtg-table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 
+const desktop = 1015;
+
 const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefault, setSelectColumnPanel }) => (
   <section>
     <div className={styles.headingWrapper}>
       <div className={styles.heading}>
-        <div className={styles.title}>Visible Columns</div>
+        <div className={styles.title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
         <button onClick={() => setSelectColumnPanel(false)} 
                 onKeyPress={() => setSelectColumnPanel(false)} 
                 className={styles.closeButton} 
