@@ -7,7 +7,7 @@ import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 
   // FIX TABBING
 
-const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault }) => (
+const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault, setSelectColumnPanel }) => (
   <section>
     <div className={styles.headingWrapper}>
       <div className={styles.heading}>
@@ -26,7 +26,7 @@ const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault })
 
 
       <SelectAll
-      className={styles.selectAllColumns}
+        className={styles.selectAllColumns}
         fields={fields}
         isVisible={isVisible}
         onUpdateFields={onChange}
