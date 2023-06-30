@@ -24,21 +24,6 @@ const theme = {
   }
 }
 
-const themeWithGlow = {
-  ...theme,
-  overrides: {
-    MuiOutlinedInput: {
-      root: {
-        '&.Mui-focused fieldset': {
-          '&.MuiOutlinedInput-notchedOutline': {
-            boxShadow: '0 0 0 4px #e8f5ff',
-          }
-        },
-      },
-    },
-  }
-}
-
 export const useStyles = makeStyles({
   root: {
     '& .MuiOutlinedInput-root': {
@@ -51,7 +36,6 @@ export const useStyles = makeStyles({
 })
 
 export const searchBarTheme = createTheme(theme);
-export const searchBarTheme_withFocusGlow = createTheme(themeWithGlow);
 
 
 
