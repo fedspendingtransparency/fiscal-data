@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from "@testing-library/react";
 import ChartTableToggle, {allTablesSelectedBody} from './chart-table-toggle';
 import Analytics from "../../../utils/analytics/analytics";
+import userEvent from '@testing-library/user-event';
 
 describe('Chart Table Toggle 0', () => {
   const onTabChange = jest.fn();
@@ -93,6 +94,24 @@ describe('Chart Table Toggle 0', () => {
       onToggleLegend={spyProps.onToggleLegend} />);
 
       expect(getByRole('button', {name:'Select Column'})).toBeInTheDocument();
+  });
+
+  it('calls toggle when select column tab is clicked', () => {
+    const {getByRole} = render(<ChartTableToggle 
+      currentTab={0}
+      emptyData
+      table={tableProps}
+      onTabChange={spyProps.onTabChange}
+      chart={mockChart}
+      showToggleTable={true}
+      selectedTab={0}
+      onToggleLegend={spyProps.onToggleLegend} />);
+
+      const selectColButton = getByRole('button', {name:'Select Column'});
+      expect(selectColButton).toBeInTheDocument();
+
+      userEvent.click(selectColButton);
+      expect(onToggleLegend).toHaveBeenCalledTimes(1);
   });
 
   it('does not display the select column tab when selectColumns on chart tab', () => {

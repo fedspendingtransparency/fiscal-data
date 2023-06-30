@@ -63,6 +63,7 @@ export const paleBg: string;
 export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
+export const columnSelectContainer: string;
 export const headingWrapper: string;
 export const heading: string;
 export const title: string;

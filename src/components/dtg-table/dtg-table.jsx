@@ -78,6 +78,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     const colCount = col ? col.length : 0;
     const curWidth = colCount > 5 ? colCount * 200 : '100%';
     setTableWidth(curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto');
+    setActiveColumns(col);
   };
 
   const handlePerPageChange = (numRows) => {
@@ -217,7 +218,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     });
 
     setColumnSelectValues(selectColArray);
-    setActiveColumns(activeColArray);
     populateRows(activeColArray);
     changeTableWidth(activeColArray);
   }
@@ -240,7 +240,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     })
 
     setColumnSelectValues(selectColArray);
-    setActiveColumns(activeColArray);
     populateRows(activeColArray);
     changeTableWidth(activeColArray);
   }
@@ -365,7 +364,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             }
           </div>
 
-          <div className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}>
+          <div data-testid='selectColumnsMainContainer' className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel} style={{height: `${(itemsPerPage * 41) + 48.4}px` }}>
             {selectColumns && 
               <DtgTableColumnSelector
               isVisible={true}

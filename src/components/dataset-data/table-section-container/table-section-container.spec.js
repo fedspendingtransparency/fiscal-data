@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { render } from "@testing-library/react";
 import TableSectionContainer from './table-section-container';
 import DtgTable from '../../dtg-table/dtg-table';
 import PivotToggle from './pivot-toggle/pivot-toggle';
@@ -23,7 +22,7 @@ import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
-import { render, fireEvent } from "@testing-library/react"
+import { render, fireEvent, waitFor } from "@testing-library/react"
 import NotShownMessage from "./not-shown-message/not-shown-message";
 import userEvent from '@testing-library/user-event';
 
@@ -474,53 +473,69 @@ describe('TableSectionContainer with Pivot Options', () => {
 
 describe('TableSectionContainer with Select Column', () => {
   const mockSetSelectedPivot = jest.fn();
+  const selectedTable = selectedTableLessFields;
   const selectColMockConfig = {
     name: 'my name',
     slug: 'mock/slug/here',
     apis: [
       selectedTableLessFields,
-      selectedTableMoreFields,
       mockTableWithNoChartAvailable,
       mockTableWithPivot
     ],
-    selectColumns: ['a', 'b']
+    selectColumns: ['facility_desc', 'book_value_amt']
   }
 
-
-  it('should show select column panel when select column is toggled on', () => {
-    const {getByRole, getByText, queryByText} = render(<TableSectionContainer
+  it('should show select column panel when select column is toggled on', async() => {
+    const {getByRole, getByTestId} = render(<TableSectionContainer
       config={selectColMockConfig}
       dateRange={mockDateRange}
       selectedTable={selectedTable}
+      selectedTab={0}
       apiData={mockApiData}
       isLoading={false}
       apiError={false}
       selectedPivot={selectedPivot}
       setSelectedPivot={mockSetSelectedPivot} />);
 
+      const selectColumns = getByTestId('selectColumnsMainContainer');
+      expect(selectColumns).toHaveClass('selectColumnPanel');
+
       const selectColToggle = getByRole('button', {name: 'Select Column'});
       userEvent.click(selectColToggle);
 
-      expect(getByText('Visible Columns')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(selectColumns).toHaveClass('selectColumnPanelActive');
+      });
+
   });
 
-  it('should hide select column panel when select column is toggled off', () => {
-    const {getByRole, getByText, queryByText} = render(<TableSectionContainer
+  it('should hide select column panel when select column is toggled off', async () => {
+    const {getByRole, getByTestId} = render(<TableSectionContainer
       config={selectColMockConfig}
       dateRange={mockDateRange}
       selectedTable={selectedTable}
+      selectedTab={0}
       apiData={mockApiData}
       isLoading={false}
       apiError={false}
       selectedPivot={selectedPivot}
       setSelectedPivot={mockSetSelectedPivot} />);
 
+      const selectColumns = getByTestId('selectColumnsMainContainer');
+      expect(selectColumns).toHaveClass('selectColumnPanel');
+
       const selectColToggle = getByRole('button', {name: 'Select Column'});
       userEvent.click(selectColToggle);
-      expect(getByText('Visible Columns')).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(selectColumns).toHaveClass('selectColumnPanelActive');
+      });
+
       userEvent.click(selectColToggle);
 
-      expect(queryByText('Visible Columns')).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(selectColumns).toHaveClass('selectColumnPanel');
+      });
   });
 
 });

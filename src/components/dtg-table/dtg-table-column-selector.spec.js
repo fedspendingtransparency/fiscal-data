@@ -36,6 +36,26 @@ describe('DTG table column selector', () => {
             expect(getByText(TestData[2].label)).toBeInTheDocument();
     });
 
+    it('should display Columns for mobile', () => {
+        global.window.innerWidth = 400;
+        const {getByText, queryByText} = render(<DtgTableColumnSelector
+            fields={TestData}
+            isVisible={true}
+            />);
+
+            expect(getByText('Columns')).toBeInTheDocument();
+            expect(queryByText('Visible Columns')).not.toBeInTheDocument();
+    });
+
+    it('should display Visible Columns for desktop', () => {
+        const {getByText} = render(<DtgTableColumnSelector
+            fields={TestData}
+            isVisible={true}
+            />);
+
+            expect(getByText('Visible Columns')).toBeInTheDocument();
+    });
+
     it('should display default title with defaults selected', () => {
         const {getByText} = render(<DtgTableColumnSelector
             fields={TestData}

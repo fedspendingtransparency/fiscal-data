@@ -8,7 +8,7 @@ import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 const desktop = 1015;
 
 const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefault, setSelectColumnPanel }) => (
-  <section>
+  <section className={styles.columnSelectContainer}>
     <div className={styles.headingWrapper}>
       <div className={styles.heading}>
         <div className={styles.title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
