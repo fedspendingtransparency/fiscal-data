@@ -37,13 +37,12 @@ const ComboCurrencySelect = (
     optionLabelKey = 'label',
     selectedOption,
     yearFilter = false,
-    label,
+    label = '',
     labelClass = '',
     labelDisplay,
     required = false,
     disabledMessage,
     isExchangeTool,
-    resetFilterCount
   }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
@@ -60,29 +59,6 @@ const ComboCurrencySelect = (
   };
 
   let timeOutId;
-
-  // Prevent NAN pasted values like .3.2 or --1, etc. since neither keyPress nor onChange can be
-  // reliably expected to fire in those cases.
-  const restrictKeyPress = (event) => {
-    // Extend browser behavior for numeric field preventing the field from echoing '.-+' or
-    // digits beyond 4
-    if (event.key && !(/\d/.test(event.key))) {
-      event.preventDefault();
-    }
-  };
-
-  // The above restrictKeyPress() isn't fully redundant with this function because when valid
-  // number is made NAN by keyboard entry this function would have the effect of blanking the
-  // whole field, but the keyPress intercepts that character before the value becomes NAN. So,
-  // if a user types '201-' the result is '201' but would be '' without the onKeyPress
-  // method. It's also not sufficient to place this sanitizing logic in the onChange method,
-  // because onChange doesn't fire when the entry is NAN due to browser validation of numeric
-  // input fields.
-  const restrictInput = (event) => {
-    if (yearFilter) {
-      event.target.value = event.target.value.replace(/[^\d]/g, '').substr(0, 4);
-    }
-  };
 
   const toggleDropdown = () => {
     if (dropdownActive) {
@@ -144,7 +120,7 @@ const ComboCurrencySelect = (
           </div> : null
         }
         <div ref={ref} onFocus={onFocusHandler} role="presentation">
-          <div className={dropdownStyle()}>
+          <div className={dropdownStyle()} data-testid="dropdown-button-container">
             <button
               className={ dropdownInput }
               onClick={toggleDropdown}

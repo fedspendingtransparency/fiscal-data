@@ -286,19 +286,23 @@ describe('exchange rates converter', () => {
 
   it('try to select a currency other than euro that is greyed out', async() => {
 
-    const {getByTestId, getByText} = render(
+    const {getByTestId, getByText, getByRole} = render(
       <CurrencyExchangeRatesConverter />
     )
     await waitFor(() => getByText('U.S. Dollar'));
 
     const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
 
-    const currencySelector = within(nonUSBox).getByTestId('combo-box');
+    const comboBox = within(nonUSBox).getByRole('button');
+
+    fireEvent.click(comboBox);
+
+    const currencySelector = getByRole('textbox');
 
     // Search list
     fireEvent.change(currencySelector, {target: { value:'Other'}});
 
-    const optionList = within(nonUSBox).getByTestId('selectorList');
+    const optionList = within(nonUSBox).getByTestId('dropdown-list');
 
     const option = within(optionList).getByText('Other OtherDollar');
 
@@ -309,20 +313,23 @@ describe('exchange rates converter', () => {
   });
 
   it('select a currency other than euro that is not greyed out', async() => {
-
-    const {getByTestId, getByText} = render(
+    const {getByTestId, getByText, getByRole} = render(
       <CurrencyExchangeRatesConverter />
     )
     await waitFor(() => getByText('U.S. Dollar'));
 
     const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
 
-    const currencySelector = within(nonUSBox).getByTestId('combo-box');
+    const comboBox = within(nonUSBox).getByRole('button');
+
+    fireEvent.click(comboBox);
+
+    const currencySelector = getByRole('textbox');
 
     // Search list
     fireEvent.change(currencySelector, {target: { value:'Other'}});
 
-    const optionList = within(nonUSBox).getByTestId('selectorList');
+    const optionList = within(nonUSBox).getByTestId('dropdown-list');
 
     const option = within(optionList).getByText('Other OtherDollar2');
 
@@ -629,7 +636,7 @@ describe('exchange rates converter', () => {
     });
     jest.runAllTimers();
   });
-  
+
   it('calls the appropriate analytics event when new value is entered into US currency field', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(

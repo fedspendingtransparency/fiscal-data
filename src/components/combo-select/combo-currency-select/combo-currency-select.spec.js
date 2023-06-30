@@ -1,10 +1,7 @@
 
 import React from 'react';
 import {fireEvent, waitFor, render, within} from "@testing-library/react";
-import ComboSelect from '../combo-select';
 import {mockOptions} from "../combo-select-test-helper";
-import Analytics from "../../../utils/analytics/analytics";
-import userEvent from '@testing-library/user-event'
 import ComboCurrencySelect from './combo-currency-select';
 
 
@@ -50,47 +47,63 @@ describe('The ComboSelect Component for general text use', () => {
     expect(getByTestId('dropdown-container')).toBeInTheDocument();
   });
 
-  // it('collapses dropdown when not focused', async () => {
-  //   const defaultSelection = mockOptions[1];
-  //   const {getByTestId, queryByTestId, getByRole} = render(
-  //     <ComboSelectDropdown
-  //       active={true}
-  //       options={mockOptions}
-  //       selectedOption={defaultSelection}
-  //       changeHandler={jest.fn()}
-  //       setDropdownActive={jest.fn()}
-  //       optionLabelKey={'label'}
-  //     />);
-  //
-  //   const inputField = getByRole('textbox');
-  //   console.log(inputField.innerHTML)
-  //   expect(getByRole('img', {hidden: true})).toHaveClass('fa-magnifying-glass');
-  //
-  //   // const dropdownButton = getByTestId('down-arrow');
-  //   expect(queryByTestId('selectorList')).not.toBeInTheDocument();
-  //
-  //   fireEvent.click(dropdownButton);
-  //   const list = getByTestId('selectorList');
-  //   list.focus();
-  //   expect(getByTestId('selectorList')).toBeInTheDocument();
-  //
-  //   fireEvent.blur(list);
-  //
-  //   await waitFor(() => {
-  //     expect(queryByTestId('selectorList')).not.toBeInTheDocument();
-  //   });
-  // });
+  it('collapses dropdown when not focused', async () => {
+    const {getByTestId, queryByTestId, getByRole} = render(
+      <ComboCurrencySelect
+        changeHandler={changeHandlerSpy}
+        optionLabelKey={'label'}
+        options={mockOptions}
+        selectedOption={mockDefaultSelection}
+      />
+    );
+
+    const comboBox = getByRole('button', {name: 'Mock Label'});
+    fireEvent.click(comboBox);
+
+    const list = getByTestId('dropdown-container');
+    list.focus();
+    expect(list).toBeInTheDocument();
+    fireEvent.blur(list);
+
+    await waitFor(() => {
+      expect(queryByTestId('dropdown-container')).not.toBeInTheDocument();
+    });
+  });
+
+  it('sets search bar to active on click and updates the container class', () => {
+    const {getByTestId, queryByTestId, getByRole} = render(
+      <ComboCurrencySelect
+        changeHandler={changeHandlerSpy}
+        optionLabelKey={'label'}
+        options={mockOptions}
+        selectedOption={mockDefaultSelection}
+      />
+    );
+
+    const comboBox = getByRole('button', {name: 'Mock Label'});
+    fireEvent.click(comboBox);
+
+    const searchBar = getByRole('textbox');
+    fireEvent.click(searchBar);
+
+    const buttonContainer = getByTestId('dropdown-button-container');
+    expect(buttonContainer).toHaveClass('activeSearchBar');
+  });
+
 
   it('dropdown remains open when clicked on',  () => {
-    const {getByTestId} = render(
-      <ComboSelectDropdown
-        active={true}
-        options={mockOptions}
-        selectedOption={defaultSelection}
-        changeHandler={jest.fn()}
-        setDropdownActive={jest.fn()}
+    const {getByTestId, getByRole} = render(
+      <ComboCurrencySelect
+        changeHandler={changeHandlerSpy}
         optionLabelKey={'label'}
-      />);
+        options={mockOptions}
+        selectedOption={mockDefaultSelection}
+      />
+    );
+
+    const comboBox = getByRole('button', {name: 'Mock Label'});
+    fireEvent.click(comboBox);
+
     const dropdownContainer = getByTestId('dropdown-container')
     expect(getByTestId('dropdown-list')).toBeInTheDocument();
 
@@ -102,20 +115,18 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('closes dropdown after mouse leave and focus is removed',  async () => {
-    const setMouseOverDropdownSpy = jest.fn();
-    const blurHandlerSpy = jest.fn();
-    const {getByTestId, queryByTestId} = render(
-      <ComboSelectDropdown
-        active={true}
-        options={mockOptions}
-        selectedOption={defaultSelection}
-        changeHandler={jest.fn()}
-        setDropdownActive={jest.fn()}
+    const {getByTestId, queryByTestId, getByRole} = render(
+      <ComboCurrencySelect
+        changeHandler={changeHandlerSpy}
         optionLabelKey={'label'}
-        setMouseOverDropdown={setMouseOverDropdownSpy}
-        onBlurHandler={blurHandlerSpy}
-      />);
-    const dropdownContainer = queryByTestId('dropdown-container')
+        options={mockOptions}
+        selectedOption={mockDefaultSelection}
+      />
+    );
+
+    const comboBox = getByRole('button', {name: 'Mock Label'});
+    fireEvent.click(comboBox);
+
     expect(queryByTestId('dropdown-list')).toBeInTheDocument();
 
     const list = getByTestId('dropdown-list');
@@ -128,29 +139,26 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('collapses dropdown when an item is selected', async () => {
-    const {getByTestId, queryByTestId} = render(
-      <ComboSelectDropdown
-        active={true}
-        options={mockOptions}
-        selectedOption={defaultSelection}
-        changeHandler={jest.fn()}
-        setDropdownActive={jest.fn()}
+    const {getByTestId, queryByTestId, getByRole} = render(
+      <ComboCurrencySelect
+        changeHandler={changeHandlerSpy}
         optionLabelKey={'label'}
-      />);
-    const dropdownButton = getByTestId('down-arrow');
-    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+        options={mockOptions}
+        selectedOption={mockDefaultSelection}
+      />
+    );
 
-    fireEvent.click(dropdownButton);
-    const list = getByTestId('selectorList');
-    expect(getByTestId('selectorList')).toBeInTheDocument();
+    const comboBox = getByRole('button', {name: 'Mock Label'});
+    fireEvent.click(comboBox);
+
+    const list = getByTestId('dropdown-list');
+    expect(getByTestId('dropdown-list')).toBeInTheDocument();
 
     const button = within(list).getAllByRole('button')[0];
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+      expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
     });
   });
-
-
 });

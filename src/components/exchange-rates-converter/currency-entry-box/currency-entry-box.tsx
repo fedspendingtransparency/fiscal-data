@@ -43,7 +43,6 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           {options && (
             <ComboCurrencySelect
               selectedOption={selectedCurrency}
-              label={''}
               options={options}
               // iconStyle={dropdownIcon}
               // inputStyle={dropdownInput}
@@ -53,13 +52,13 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
               isExchangeTool={true}
               required={true}
               disabledMessage="This option has no data for the selected quarter."
-              resetFilterCount={resetFilterCount}
+              // resetFilterCount={resetFilterCount}
             />
           )}
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
-                     onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'}
+              <input type="number" inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
+                     onChange={onCurrencyValueChange} value={currencyValue} data-testid="input-dropdown"
               />
             </div>
           </div>
@@ -70,9 +69,9 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           </div>
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
+              <input type="number" inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
                      onChange={onCurrencyValueChange}
-                     value={currencyValue} data-testid={'input'}
+                     value={currencyValue} data-testid="input"
               />
             </div>
           </div>
