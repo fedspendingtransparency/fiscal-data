@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import { testSortedGlossaryData } from '../../glossary/test-helper';
+import { testSortedGlossaryData } from '../glossary/test-helper';
 import React from 'react';
 import ScrollContainer from './scroll-container';
 

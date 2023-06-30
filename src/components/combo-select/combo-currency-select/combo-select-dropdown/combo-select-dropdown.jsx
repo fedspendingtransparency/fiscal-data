@@ -12,7 +12,7 @@ import {
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
-import ScrollContainer from '../../../search-bar/scroll-container/scroll-container';
+import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
 
 const ComboSelectDropdown = (

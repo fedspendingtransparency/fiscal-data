@@ -25,7 +25,6 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
 
   const displayBanner = () => {
     let display = false;
-    // console.log(location);
     display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
     NOTIFICATION_BANNER_DISPLAY_PATHS?.forEach(path => {
       if (location.pathname.includes(path)) {

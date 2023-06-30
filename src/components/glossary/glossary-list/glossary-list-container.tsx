@@ -12,7 +12,7 @@ import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
 import NoGlossaryMatch from './no-match/no-glossary-match';
 import GlossaryDisplayList from './glossary-display-list/glossary-display-list';
 import { IGlossaryListSection } from '../../../helpers/glossary-helper/glossary-data';
-import ScrollContainer from '../../search-bar/scroll-container/scroll-container';
+import ScrollContainer from '../../scroll-container/scroll-container';
 
 
 interface IGlossaryList {

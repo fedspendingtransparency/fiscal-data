@@ -28,9 +28,6 @@ describe('Combo Select Dropdown', () => {
     expect(getByTestId('scrollContainer')).toBeInTheDocument();
   });
 
-  it('on blur', () => {
-
-  });
 
   it('tracks when mouse or focus is over the dropdown', () => {
     const setMouseOverDropdownSpy = jest.fn();
