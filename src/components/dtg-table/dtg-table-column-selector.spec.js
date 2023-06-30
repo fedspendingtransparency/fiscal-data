@@ -48,6 +48,7 @@ describe('DTG table column selector', () => {
     });
 
     it('should display Visible Columns for desktop', () => {
+        global.window.innerWidth = 1020;
         const {getByText} = render(<DtgTableColumnSelector
             fields={TestData}
             isVisible={true}

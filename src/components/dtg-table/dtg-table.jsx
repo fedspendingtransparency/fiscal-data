@@ -59,7 +59,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   const [showPaginationControls, setShowPaginationControls] = useState();
   const [columnSelectValues, setColumnSelectValues] = useState([]);
   const [activeColumns, setActiveColumns] = useState([]);
-  const [tableWidth, setTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
+  const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
 
   let loadCanceled = false;
 
@@ -68,6 +68,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
   const rowText = ['rows', 'rows'];
 
+  const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
   const dataProperties = {
     keys: tableData[0] ? Object.keys(tableData[0]) : [],
     excluded: excludeCols !== undefined ? excludeCols : [],
@@ -75,10 +76,12 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   const columns = setColumns(dataProperties, columnConfig);
 
   const changeTableWidth = (col) => {
-    const colCount = col ? col.length : 0;
-    const curWidth = colCount > 5 ? colCount * 200 : '100%';
-    setTableWidth(curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto');
-    setActiveColumns(col);
+    if(selectColumns) {
+      const colCount = col ? col.length : 0;
+      const curWidth = colCount > 5 ? colCount * 200 : '100%';
+      setSelectColumnsTableWidth(curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto');
+      setActiveColumns(col);
+    }
   };
 
   const handlePerPageChange = (numRows) => {
@@ -354,7 +357,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
                   {rows}
                 </tbody>
               </table>) 
-              : (<table {...tableProps.aria} style={{width: tableWidth}}>
+              : (<table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
                 {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                 <DtgTableHeading columns={activeColumns} />
                 <tbody>

@@ -96,7 +96,7 @@ describe('DTG table component', () => {
     it('supports a noBorder configuration', () => {
         const componentJSON = component.toJSON();
         let table = componentJSON.children.find(e => e.props['data-test-id'] === 'table-content');
-        expect(table.children.filter(e => e.props.className.includes('noBorder')).length).toEqual(0);
+        expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(0);
 
         renderer.act(() => {
             component.update(
@@ -107,7 +107,7 @@ describe('DTG table component', () => {
 
         const updatedJSON = component.toJSON();
         table = updatedJSON.children.find(e => e.props['data-test-id'] === 'table-content')
-        expect(table.children.filter(e => e.props.className.includes('noBorder')).length).toEqual(1);
+        expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(1);
     })
 
     it('does not show pagination controls by default', () => {
@@ -300,7 +300,6 @@ describe('DtgTable component - Select Columns', () => {
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
 
-      // Change just to columns for mobile???
     expect(getByText('Visible Columns')).toBeInTheDocument();
   });
 
@@ -309,7 +308,6 @@ describe('DtgTable component - Select Columns', () => {
       tableProps={{ data: ColSelectTestData }}
       />);
 
-      // Change just to columns for mobile???
     expect(queryByText('Visible Columns')).not.toBeInTheDocument();
   });
 
