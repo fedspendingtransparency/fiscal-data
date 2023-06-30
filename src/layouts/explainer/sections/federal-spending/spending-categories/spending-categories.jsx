@@ -18,8 +18,8 @@ export const SpendingCategories = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
 
   useEffect(() => {
-    const endpointUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,'+
-      'record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19';
+    const endpointUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F'
+      + '&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19';
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
         if (res.data) {

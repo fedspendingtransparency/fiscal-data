@@ -1,5 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { render } from "@testing-library/react";
 import TableSectionContainer from './table-section-container';
 import DtgTable from '../../dtg-table/dtg-table';
 import PivotToggle from './pivot-toggle/pivot-toggle';
@@ -24,6 +25,7 @@ import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
 import { render, fireEvent } from "@testing-library/react"
 import NotShownMessage from "./not-shown-message/not-shown-message";
+import userEvent from '@testing-library/user-event';
 
 describe('TableSectionContainer initial state', () => {
   let component, instance;
@@ -466,6 +468,59 @@ describe('TableSectionContainer with Pivot Options', () => {
     datasetChart = tableSectionContainer.root.findByType(DatasetChart);
     // Expect legend to still be invisible after change to tablet
     expect(datasetChart.props.legend).toBeFalsy();
+  });
+
+});
+
+describe('TableSectionContainer with Select Column', () => {
+  const mockSetSelectedPivot = jest.fn();
+  const selectColMockConfig = {
+    name: 'my name',
+    slug: 'mock/slug/here',
+    apis: [
+      selectedTableLessFields,
+      selectedTableMoreFields,
+      mockTableWithNoChartAvailable,
+      mockTableWithPivot
+    ],
+    selectColumns: ['a', 'b']
+  }
+
+
+  it('should show select column panel when select column is toggled on', () => {
+    const {getByRole, getByText, queryByText} = render(<TableSectionContainer
+      config={selectColMockConfig}
+      dateRange={mockDateRange}
+      selectedTable={selectedTable}
+      apiData={mockApiData}
+      isLoading={false}
+      apiError={false}
+      selectedPivot={selectedPivot}
+      setSelectedPivot={mockSetSelectedPivot} />);
+
+      const selectColToggle = getByRole('button', {name: 'Select Column'});
+      userEvent.click(selectColToggle);
+
+      expect(getByText('Visible Columns')).toBeInTheDocument();
+  });
+
+  it('should hide select column panel when select column is toggled off', () => {
+    const {getByRole, getByText, queryByText} = render(<TableSectionContainer
+      config={selectColMockConfig}
+      dateRange={mockDateRange}
+      selectedTable={selectedTable}
+      apiData={mockApiData}
+      isLoading={false}
+      apiError={false}
+      selectedPivot={selectedPivot}
+      setSelectedPivot={mockSetSelectedPivot} />);
+
+      const selectColToggle = getByRole('button', {name: 'Select Column'});
+      userEvent.click(selectColToggle);
+      expect(getByText('Visible Columns')).toBeInTheDocument();
+      userEvent.click(selectColToggle);
+
+      expect(queryByText('Visible Columns')).not.toBeInTheDocument();
   });
 
 });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -57,9 +57,9 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   const [rows, setRows] = useState([]);
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
-  // maybe this doesn't have to be a state ?
   const [columnSelectValues, setColumnSelectValues] = useState([]);
   const [activeColumns, setActiveColumns] = useState([]);
+  const [tableWidth, setTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
 
   let loadCanceled = false;
 
@@ -68,12 +68,18 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
   const rowText = ['rows', 'rows'];
 
-  const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
   const dataProperties = {
     keys: tableData[0] ? Object.keys(tableData[0]) : [],
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
+
+  const changeTableWidth = (col) => {
+    const colCount = col ? col.length : 0;
+    const curWidth = colCount > 5 ? colCount * 200 : '100%';
+    setTableWidth(curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto');
+  };
+
   const handlePerPageChange = (numRows) => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
@@ -194,8 +200,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   };
 
   const setDefaultColumnsToSelect = () => {
-    let selectColArray = [];
-    let activeColArray = [];
+    const selectColArray = [];
+    const activeColArray = [];
 
     columns.forEach((col) => {
       let colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
@@ -213,14 +219,15 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     setColumnSelectValues(selectColArray);
     setActiveColumns(activeColArray);
     populateRows(activeColArray);
+    changeTableWidth(activeColArray);
   }
 
   const columnSelectChangeHandler = (update) => {
-    let selectColArray = [];
-    let activeColArray = [];
+    const selectColArray = [];
+    const activeColArray = [];
 
     columnSelectValues.forEach((col) => {
-      let currentCol = col;
+      const currentCol = col;
       if(update.find(updatedCol => updatedCol.field === col.field)) {
         activeColArray.push(columns.find(column => column.property === col.field));
         currentCol.active = true;
@@ -235,6 +242,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     setColumnSelectValues(selectColArray);
     setActiveColumns(activeColArray);
     populateRows(activeColArray);
+    changeTableWidth(activeColArray);
   }
 
   useEffect(() => {
@@ -281,8 +289,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     if (!tableProps.data) {
       setCurrentPage(1);
     }
-
-    // TODO: make it not render a million times ??
     setDefaultColumnsToSelect();
   }, [tableProps.data]);
 
@@ -364,9 +370,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
               <DtgTableColumnSelector
               isVisible={true}
               fields={columnSelectValues}
-              // If onHover is set to {callbacks.onHover}, then Jest can't tell onHover was fired.
-              // onHover={(on, item) => callbacks.onHover(on, item)}
-              onChange={(update) => columnSelectChangeHandler(update)}
+              changeHandler={(update) => columnSelectChangeHandler(update)}
               resetToDefault={setDefaultColumnsToSelect}
               setSelectColumnPanel={setSelectColumnPanel}
             />

@@ -218,13 +218,13 @@ describe("Federal spending explainer page sections", () => {
 
   beforeAll(() => {
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19`,
       mockCategoryData,
       { overwriteRoutes: true },
       { repeat: 0 }
     );
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=record_calendar_month:eq:09,data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30`,
       mockAgencyData,
       { overwriteRoutes: true },
       { repeat: 0 }
@@ -246,7 +246,7 @@ describe("Federal spending explainer page sections", () => {
       fireEvent.click(getByTestId('toggle-button-category'));
       expect(getByText('Social Security')).toBeInTheDocument();
     });
-    expect(getByText("U.S. Government Spending, FY 2022")).toBeDefined();
+    expect(getByText("U.S. Government Spending, FYTD 2022")).toBeDefined();
     expect(getByText("Top 10 Spending by Category and Agency")).toBeDefined();
   });
 

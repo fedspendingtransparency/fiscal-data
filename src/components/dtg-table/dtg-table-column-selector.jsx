@@ -5,14 +5,13 @@ import * as styles from './dtg-table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 
-  // FIX TABBING
+const desktop = 1015;
 
-const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault, setSelectColumnPanel }) => (
+const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefault, setSelectColumnPanel }) => (
   <section>
     <div className={styles.headingWrapper}>
       <div className={styles.heading}>
-        <div className={styles.title}>Visible Columns</div>
-        {/* use ref in glossary panel */}
+        <div className={styles.title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
         <button onClick={() => setSelectColumnPanel(false)} 
                 onKeyPress={() => setSelectColumnPanel(false)} 
                 className={styles.closeButton} 
@@ -23,13 +22,11 @@ const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault, s
       <div className={styles.selectedValues}>{fields.filter(field => field.active === true).length} selected of {fields.length}</div>
     </div>
     <div className={styles.selectAllContainer}>
-
-
       <SelectAll
         className={styles.selectAllColumns}
         fields={fields}
         isVisible={isVisible}
-        onUpdateFields={onChange}
+        onUpdateFields={changeHandler}
       />
       <button className={styles.reset} onClick={resetToDefault}>
         <FontAwesomeIcon className={styles.resetIcon} icon={faUndo} />
@@ -40,7 +37,7 @@ const DtgTableColumnSelector = ({ fields, isVisible, onChange, resetToDefault, s
       <Checkbox
         checkboxData={(fields.filter(field => field.default === true))
           .concat(fields.filter(field => field.default !== true))}
-        changeHandler={onChange}
+        changeHandler={changeHandler}
       />
     </div>
   </section>
