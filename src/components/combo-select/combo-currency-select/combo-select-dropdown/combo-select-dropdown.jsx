@@ -12,14 +12,15 @@ import {
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
-import ScrollGradientContainer from '../../../search-bar/scroll-grdient-container/scroll-grdient-container';
+import ScrollContainer from '../../../search-bar/scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
 
 const ComboSelectDropdown = (
   {
     active,
     setDropdownActive,
-    onBlurHandler,
+    dropdownOnBlurHandler,
+    searchBarOnBlurHandler,
     setMouseOverDropdown,
     selectedOption,
     updateSelection,
@@ -75,7 +76,7 @@ const ComboSelectDropdown = (
 
   const onBlur = (listFocus, event) => {
     setMouseOverDropdown(false);
-    onBlurHandler(event, listFocus);
+    dropdownOnBlurHandler(event, listFocus);
   }
 
   return (
@@ -91,6 +92,7 @@ const ComboSelectDropdown = (
           <div className={searchBarContainer}>
             <SearchBar
               onChange={onFilterChange}
+              onBlur={searchBarOnBlurHandler}
               width={288}
               filter={filterValue}
               label="Search currencies"
@@ -100,7 +102,7 @@ const ComboSelectDropdown = (
               inputRef={inputRef}
             />
           </div>
-          <ScrollGradientContainer
+          <ScrollContainer
             list={filteredOptions}
             selection={selectedOption}
             scrollTop={scrollTop}
@@ -143,7 +145,7 @@ const ComboSelectDropdown = (
                 })}
               </ul>
             )}
-          </ScrollGradientContainer>
+          </ScrollContainer>
         </div>
       )}
     </>

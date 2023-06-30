@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { testSortedGlossaryData } from '../../glossary/test-helper';
 import React from 'react';
-import ScrollGradientContainer from './scroll-grdient-container';
+import ScrollContainer from './scroll-container';
 
 
 describe('Scroll gradient container', () => {
@@ -9,12 +9,12 @@ describe('Scroll gradient container', () => {
   it('applies a gradient to the scroll container when it is not at the top', () => {
     const setScrollTopSpy = jest.fn();
     const { getByTestId } = render(
-      <ScrollGradientContainer list={testSortedGlossaryData}
+      <ScrollContainer list={testSortedGlossaryData}
                                selection={testSortedGlossaryData[0]}
                                scrollTop={false}
                                setScrollTop={setScrollTopSpy}
       >
-      </ScrollGradientContainer>
+      </ScrollContainer>
     );
     const scrollContainer = getByTestId('scrollContainer');
 
@@ -29,12 +29,12 @@ describe('Scroll gradient container', () => {
   it('applies a gradient to the scroll container when it is at the top', () => {
     const setScrollTopSpy = jest.fn();
     const { getByTestId } = render(
-      <ScrollGradientContainer list={testSortedGlossaryData}
+      <ScrollContainer list={testSortedGlossaryData}
                                selection={testSortedGlossaryData[0]}
                                scrollTop={true}
                                setScrollTop={setScrollTopSpy}
       >
-      </ScrollGradientContainer>
+      </ScrollContainer>
     );
     const scrollContainer = getByTestId('scrollContainer');
 

@@ -12,7 +12,7 @@ import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
 import NoGlossaryMatch from './no-match/no-glossary-match';
 import GlossaryDisplayList from './glossary-display-list/glossary-display-list';
 import { IGlossaryListSection } from '../../../helpers/glossary-helper/glossary-data';
-import ScrollGradientContainer from '../../search-bar/scroll-grdient-container/scroll-grdient-container';
+import ScrollContainer from '../../search-bar/scroll-container/scroll-container';
 
 
 interface IGlossaryList {
@@ -77,7 +77,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
         <GlossaryDefinition glossaryTerm={selectedTerm} />
         ) : (
           <>
-            <ScrollGradientContainer
+            <ScrollContainer
               list={displayList}
               selection={selectedTerm}
               scrollTop={scrollTop}
@@ -90,7 +90,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
                 <NoGlossaryMatch filter={filter} />
               )
               }
-            </ScrollGradientContainer>
+            </ScrollContainer>
           </>
         )}
     </>

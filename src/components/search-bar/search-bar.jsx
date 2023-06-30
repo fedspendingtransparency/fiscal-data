@@ -14,7 +14,7 @@ import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-ic
 import React from 'react';
 
 
-const SearchBar = ({ label, onChange, filter, width, handleClear, active, setActive, inputRef}) => {
+const SearchBar = ({ label, onChange, onBlur, filter, width, handleClear, active, setActive, inputRef}) => {
   let searchCleared = false;
 
   const clearBox = () => {
@@ -33,6 +33,10 @@ const SearchBar = ({ label, onChange, filter, width, handleClear, active, setAct
   }
 
   const handleBlur = () => {
+    if (onBlur) {
+      onBlur();
+    }
+
     if (setActive) {
       setActive(false)
     }

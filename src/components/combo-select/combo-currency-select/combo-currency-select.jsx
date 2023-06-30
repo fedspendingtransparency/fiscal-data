@@ -139,7 +139,8 @@ const ComboCurrencySelect = (
         <ComboSelectDropdown
           active={dropdownActive}
           setDropdownActive={setDropdownActive}
-          onBlurHandler={onBlurHandler}
+          dropdownOnBlurHandler={onBlurHandler}
+          searchBarOnBlurHandler={onBlurAnalyticsHandler}
           setMouseOverDropdown={setMouseOverDropdown}
           selectedOption={selectedOption}
           updateSelection={updateSelection}

@@ -4,18 +4,17 @@ import {
   listItems,
   scrollContainerTop,
   scrollGradient,
-} from './scroll-grdient-container.module.scss';
+} from './scroll-container.module.scss';
 
 
-const ScrollGradientContainer = ({list, selection, scrollTop, setScrollTop, customChildStyle, children}) => {
+const ScrollContainer = ({list, selection, scrollTop, setScrollTop, customChildStyle, children}) => {
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
 
   useEffect(() => {
     const scrollContainer = document.querySelector('[data-testid="scrollContainer"]');
-
-    if(scrollContainer) {
+    if (scrollContainer) {
       scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), {passive: true});
 
       return () => {
@@ -27,8 +26,8 @@ const ScrollGradientContainer = ({list, selection, scrollTop, setScrollTop, cust
   return (
     <>
       <div className={scrollTop ? scrollContainerTop : scrollGradient} data-testid="scrollGradient" />
-      <div className={container}  data-testid="scrollContainer">
-        <div className={listItems} style={customChildStyle}>
+      <div className={container}>
+        <div className={listItems} style={customChildStyle} data-testid="scrollContainer">
           {children}
         </div>
       </div>
@@ -36,4 +35,4 @@ const ScrollGradientContainer = ({list, selection, scrollTop, setScrollTop, cust
   );
 }
 
-export default ScrollGradientContainer;
+export default ScrollContainer;
