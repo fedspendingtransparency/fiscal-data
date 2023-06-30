@@ -58,3 +58,9 @@
   margin: 0 1rem;
 }
 
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .dropdownContainer {
+    width: 100%;
+  }
+}
+
