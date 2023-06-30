@@ -25,6 +25,7 @@ const breakpoint = {
 
 const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) => {
     const [fauxIndex, setFauxIndex] = useState({});
+    const [newlyIndexedCards, setNewlyIndexedCards] = useState([]);
 
     const faux = filteredDatasets.slice();
 
@@ -90,13 +91,24 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
         updateSort()
     }, [activeSort])
 
+    useEffect(() => {
+      if (fauxIndex) {
+        allDatasets.forEach((dataset) => {
+          const oldIndex = allDatasets.indexOf(dataset);
+          allDatasets.splice(oldIndex, 1);
+          allDatasets.splice(fauxIndex[dataset.name], 0, dataset);
+        });
+        setNewlyIndexedCards(allDatasets);
+      }
+    }, [fauxIndex, placeCard()]);
+
     return (
         <div className={styles.cardContainer}
              data-test-id="wrapper"
              style={setContainerHeight(filteredDatasets.length)}
         >
         {
-            allDatasets && allDatasets.map((dataset, i) => (
+            newlyIndexedCards && newlyIndexedCards.map((dataset, i) => (
                 <div data-testid="cardPlacement"
                      className={
                        `${styles.cardPlacement} ${dataset.hidden ? styles.hiddenCard : ''}`
