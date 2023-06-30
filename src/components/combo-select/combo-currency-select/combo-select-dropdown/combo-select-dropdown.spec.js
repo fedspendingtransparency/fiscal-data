@@ -3,7 +3,6 @@ import {fireEvent, render} from "@testing-library/react";
 import ComboSelectDropdown from './combo-select-dropdown';
 import { mockOptions } from '../../combo-select-test-helper';
 import { act } from 'react-test-renderer';
-import ComboCurrencySelect from '../combo-currency-select';
 
 describe('Combo Select Dropdown', () => {
   jest.useFakeTimers();
@@ -42,7 +41,7 @@ describe('Combo Select Dropdown', () => {
         options={mockOptions}
         selectedOption={defaultSelection}
         setMouseOverDropdown={setMouseOverDropdownSpy}
-        onBlurHandler={onBlurHandlerSpy}
+        dropdownOnBlurHandler={onBlurHandlerSpy}
       />);
 
     const dropdown = getByTestId('dropdown-container');
