@@ -134,7 +134,7 @@ const ComboSelectDropdown = (
                           onClick={() => updateSelection(option, true)}
                           disabled={required && !option.value}
                           title={(required && !option.value && disabledMessage) ? disabledMessage : null}
-                          aria-label={option.value}
+                          aria-label={option.label}
                         >
                           {underlineMatchedString(option[optionLabelKey], filterValue)}
                         </button>
