@@ -26,6 +26,7 @@ const breakpoint = {
 const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) => {
     const [fauxIndex, setFauxIndex] = useState({});
     const [newlyIndexedCards, setNewlyIndexedCards] = useState([]);
+    const [firstLoad, setFirstLoad] = useState(true);
 
     const faux = filteredDatasets.slice();
 
@@ -55,6 +56,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
         })
 
         setFauxIndex(obj);
+        setFirstLoad(false);
     }
 
     const placeCard = (name) => {
@@ -68,6 +70,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
           top: `${y}px`
         };
     };
+
 
     const setContainerHeight = (count) => {
         return {
@@ -89,7 +92,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
 
     useEffect(() => {
         updateSort()
-    }, [activeSort])
+    }, [activeSort]);
 
     useEffect(() => {
       if (fauxIndex) {
@@ -97,6 +100,9 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
           const oldIndex = allDatasets.indexOf(dataset);
           allDatasets.splice(oldIndex, 1);
           allDatasets.splice(fauxIndex[dataset.name], 0, dataset);
+        });
+        allDatasets.map((dataset) => {
+          dataset.style = placeCard(dataset.name);
         });
         setNewlyIndexedCards(allDatasets);
       }
@@ -113,7 +119,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
                      className={
                        `${styles.cardPlacement} ${dataset.hidden ? styles.hiddenCard : ''}`
                      }
-                     style={placeCard(dataset.name)}
+                     style={firstLoad ? dataset.style : placeCard(dataset.name)}
                      key={i}
                 >
                     <DatasetCard dataset={dataset}
