@@ -68,7 +68,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
           'record_date',
           cpiDataByYear
         );
-
         const finalDebtChartData = [];
 
         res.data.forEach(debt => {
@@ -80,7 +79,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             record_date: debt.record_date,
           });
         });
-
         finalDebtChartData.reverse();
 
         const debtMaxYear = finalDebtChartData.reduce((max, spending) =>
