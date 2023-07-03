@@ -65,6 +65,8 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
         const x = (i % cardsPerRow) * (cardWidth + gutter.x);
         const y = Math.floor(i/cardsPerRow) * (cardHeight + gutter.y);
 
+        console.log(x, y);
+
         return {
           left: `${x}%`,
           top: `${y}px`
@@ -101,9 +103,6 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
           allDatasets.splice(oldIndex, 1);
           allDatasets.splice(fauxIndex[dataset.name], 0, dataset);
         });
-        allDatasets.map((dataset) => {
-          dataset.style = placeCard(dataset.name);
-        });
         setNewlyIndexedCards(allDatasets);
       }
     }, [fauxIndex, placeCard()]);
@@ -119,7 +118,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
                      className={
                        `${styles.cardPlacement} ${dataset.hidden ? styles.hiddenCard : ''}`
                      }
-                     style={firstLoad ? dataset.style : placeCard(dataset.name)}
+                     style={placeCard(dataset.name)}
                      key={i}
                 >
                     <DatasetCard dataset={dataset}
