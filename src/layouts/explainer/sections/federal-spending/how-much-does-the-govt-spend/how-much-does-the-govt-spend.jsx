@@ -16,6 +16,7 @@ import {
   barContainer,
   barContainerInvisible,
   otherContainer,
+  otherContainerInvisible,
   active
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -404,10 +405,15 @@ const HowMuchDoesTheGovtSpend = () => {
                 })}
             </div>
           </div>
-          <div className={otherContainer}>
+          <div className={scrolled ? otherContainer : otherContainerInvisible}>
             <div className={animationComplete && active}>
               <div className={chartsContainer} key={otherPercentage}>
-                <GrowDivBar percent={otherPercentage} animateTime={0.75} animate={animateBars} isMobile={isMobile} />
+                <GrowDivBar
+                  percent={otherPercentage}
+                  animateTime={0.6}
+                  animate={animateBars}
+                  isMobile={isMobile}
+                />
                 <div className={percentOrDollarContainer}>
                   {percentDollarToggleChecked
                     ? `$${getShortForm(otherTotal)}`

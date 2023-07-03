@@ -72,6 +72,7 @@ export const chartsContainer: string;
 export const barContainer: string;
 export const barContainerInvisible: string;
 export const otherContainer: string;
+export const otherContainerInvisible: string;
 export const percentOrDollarContainer: string;
 export const descContainer: string;
 export const active: string;
