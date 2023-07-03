@@ -129,7 +129,6 @@ const ComboSelectDropdown = (
                             dropdownListItem_Selected : '',
                         ])}
                       >
-                        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                         <button
                           className={dropdownListItem_Button}
                           onClick={() => updateSelection(option, true)}

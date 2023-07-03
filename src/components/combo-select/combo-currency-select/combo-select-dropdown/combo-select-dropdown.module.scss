@@ -21,6 +21,7 @@
 
     .dropdownListItem {
       display: block;
+      color: $font-body-copy;
       &:hover {
         background-color: $body-background;
         transition: background-color 0.2s ease
@@ -31,11 +32,11 @@
       }
 
       .dropdownListItem_Button {
+        color: inherit;
         padding: .5rem 1rem;
         background-color: transparent;
         font-weight: normal;
         font-size: $font-size-16;
-        color: $font-body-copy;
         line-height: unset;
         width: 100%;
         border: none;
