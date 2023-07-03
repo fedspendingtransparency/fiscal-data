@@ -56,7 +56,7 @@ export default function ComboSelect(
     }
     changeHandler(selection);
     if (labelDisplay) {
-      setFilterCharacters(selection.label);
+      setFilterCharacters(selection?.label);
     }
     setTimeout(() => {setDroppedDown(false);});
   };

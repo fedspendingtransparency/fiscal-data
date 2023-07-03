@@ -4,13 +4,13 @@ import {
   filterLabel,
   infoContainer
 } from './user-filter.module.scss';
-import ComboSelect from "../../combo-select/combo-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import { info, icon } from '../../dataset-data/dataset-chart/dataset-chart.module.scss';
 import NotShownMessage from
     "../../dataset-data/table-section-container/not-shown-message/not-shown-message";
+import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 
 type UserFilterProps = {
   selectedTable?: {
@@ -35,19 +35,23 @@ const UserFilter: FunctionComponent<UserFilterProps> = (
     apiData
   }) => {
 
+  const defaultSelection = {label: '(None selected)', value: null};
+
   const [userFilterOptions, setUserFilterOptions] = useState(null);
-  const [selectedFilterOption, setSelectedFilterOption] = useState(null);
+  const [selectedFilterOption, setSelectedFilterOption] = useState(defaultSelection);
 
   const updateUserFilter = selection => {
-    setSelectedFilterOption(selection);
-    onUserFilter(selection);
+    if (selection !== null) {
+      setSelectedFilterOption(selection);
+      onUserFilter(selection);
+    }
   }
 
   const establishOptions = () => {
     let options = null;
     if (selectedTable?.userFilter?.optionValues && userFilterOptions === null) {
       options = selectedTable.userFilter.optionValues.map(val => ({label: val, value: val}));
-      options.unshift({label: '(None selected)', value: null});
+      options.unshift(defaultSelection);
       setUserFilterOptions(options);
     }
   };
@@ -60,13 +64,12 @@ const UserFilter: FunctionComponent<UserFilterProps> = (
     <>
       {(selectedTable.userFilter && userFilterOptions) && (
         <div className={userFilterWrapper}>
-          <ComboSelect
+          <ComboCurrencySelect
             label={`${selectedTable.userFilter.label}:`}
             labelClass={filterLabel}
             options={userFilterOptions}
             changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
-            scrollable={true}
           />
         </div>
       )}
