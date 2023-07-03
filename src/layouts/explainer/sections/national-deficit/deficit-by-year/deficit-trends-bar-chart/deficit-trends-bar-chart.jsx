@@ -75,10 +75,10 @@ export const DeficitTrendsBarChart = ({ width }) => {
       tickValues: tickValuesY
     },
     highlightColor: fontTitle,
-    animationDuration: 7500,
+    animationDuration: 2000,
   }
-
   const startingYear = '2001';
+  let delayIncrement = 1250;
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
@@ -87,7 +87,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         const duration = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
         value["duration"] = duration;
         value["delay"] = delay;
-        delay += duration;
+        delay += 100;
       })
     }
     return data;
@@ -97,16 +97,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
-      const lastEntry = result.data[result.data.length - 1];
       let deficitSum = 0;
       result.data.forEach((entry) => {
-        const barColor = entry.record_fiscal_year === lastEntry.record_fiscal_year ? chartConfigs.highlightColor : deficitExplainerPrimary;
-        const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
+       const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
         deficitSum += deficitValue;
         apiData.push({
           "year": entry.record_fiscal_year,
           "deficit": deficitValue.toFixed(2),
-          "deficitColor": barColor,
+          "deficitColor": deficitExplainerPrimary,
         })
       })
       preAPIData.forEach(entry => {
@@ -141,6 +139,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
       if (currentBarElement !== lastBarElement) {
         lastBarElement.style.fill = deficitExplainerPrimary;
       }
+
       setLastBar(lastBarElement);
       setHeaderYear(data.data.year);
       setHeaderDeficit(data.data.deficit);
@@ -183,13 +182,38 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
 
   useEffect(() => {
+    let headerDelay = delayIncrement + 1250;
+    let barDelay = delayIncrement + 1250;
+    const barSVGs = Array.from(
+      document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children
+    );
+    barSVGs.splice(0, 5);
+
+    // Run bar highlight wave
+    barSVGs.map((element) => {
+      const finalBar = barSVGs[barSVGs.length - 1].children[0];
+      const bar = element.children[0];
+
+      if(inView) {
+        setTimeout(() => {
+          bar.style.fill = chartConfigs.highlightColor;
+        }, barDelay += delayIncrement / barSVGs.length)
+
+        if (bar !== finalBar) {
+          setTimeout(() => {
+            bar.style.fill = deficitExplainerPrimary
+          }, barDelay + delayIncrement / barSVGs.length)
+        }
+      }
+    })
+
     //Run animation for header values
     chartData.map((element) => {
       if (inView && element.year >= startingYear) {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
-        }, element.delay)
+        }, headerDelay += delayIncrement / chartData.length )
       }
     })
   }, [inView])
