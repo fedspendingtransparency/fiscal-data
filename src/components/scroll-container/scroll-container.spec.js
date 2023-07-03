@@ -26,7 +26,7 @@ describe('Scroll gradient container', () => {
     expect(setScrollTopSpy).toHaveBeenCalledWith(true);
   })
 
-  it('applies a gradient to the scroll container when it is at the top', () => {
+  it('does not apply a gradient to the scroll container when it is at the top', () => {
     const setScrollTopSpy = jest.fn();
     const { getByTestId } = render(
       <ScrollContainer list={testSortedGlossaryData}
