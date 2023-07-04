@@ -43,7 +43,7 @@ const SearchBar = ({ label, onChange, onBlur, filter, width, handleClear, active
   }
 
   const icon = filter.length > 0 && handleClear ? (
-    <FontAwesomeIcon icon={faTimesCircle} className={`${searchIcon} ${searchIconHover}`} role="button" onClick={clearBox} />
+    <FontAwesomeIcon icon={faTimesCircle} className={`${searchIcon} ${searchIconHover}`} role="button" onClick={clearBox} border />
   ) : (
     <FontAwesomeIcon icon={faMagnifyingGlass} className={searchIcon} />
   )
