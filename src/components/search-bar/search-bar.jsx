@@ -67,6 +67,7 @@ const SearchBar = ({ label, onChange, onBlur, filter, width, handleClear, active
               onChange={onChange}
               size="small"
               value={filter}
+              aria-label={label}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end" >

@@ -19,7 +19,6 @@ const ComboSelectDropdown = (
   {
     active,
     setDropdownActive,
-    dropdownOnBlurHandler,
     searchBarOnBlurHandler,
     setMouseOverDropdown,
     selectedOption,
@@ -38,6 +37,7 @@ const ComboSelectDropdown = (
   const [filterValue, setFilterValue] = useState('');
   const [scrollTop, setScrollTop] = useState(true);
   const [filteredOptions, setFilteredOptions] = useState(options);
+
 
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = opts;
@@ -74,18 +74,31 @@ const ComboSelectDropdown = (
     }
   };
 
-  const onBlur = (listFocus, event) => {
+  const handleBlur = (event) => {
+    console.log(event);
+    let dropdownChild;
+    if (event.target.localName === 'input') {
+      dropdownChild =
+        event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
+    } else if (event.target.localName === 'button') {
+      dropdownChild = event.target.parentElement.parentElement.contains(event.relatedTarget);
+    }
     setMouseOverDropdown(false);
-    dropdownOnBlurHandler(event, listFocus);
+    if (!dropdownChild) {
+      timeOutId = setTimeout(() => {
+        setDropdownActive(false);
+      });
+    }
   }
 
   return (
     <>
       {active && (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div className={dropdownContainer} data-testid="dropdown-container"
              onMouseOver={() => setMouseOverDropdown(true)}
              onMouseLeave={() => setMouseOverDropdown(false)}
-             onBlur={() => onBlur(false)}
+             onBlur={handleBlur}
              onFocus={() => setMouseOverDropdown(true)}
              role="presentation"
         >
@@ -115,8 +128,7 @@ const ComboSelectDropdown = (
               </div>
             ) : (
               <ul
-                role="presentation"
-                onBlur={() => onBlur(true)}
+                // role="presentation"
                 className={dropdownList}
                 data-testid="dropdown-list"
               >
@@ -131,6 +143,7 @@ const ComboSelectDropdown = (
                       >
                         <button
                           className={dropdownListItem_Button}
+                          // onBlur={handleBlur_ListItem}
                           onClick={() => updateSelection(option, true)}
                           disabled={required && !option.value}
                           title={(required && !option.value && disabledMessage) ? disabledMessage : null}

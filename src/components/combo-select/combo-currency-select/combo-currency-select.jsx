@@ -61,7 +61,7 @@ const ComboCurrencySelect = (
   let timeOutId;
 
   const toggleDropdown = () => {
-    if (dropdownActive) {
+    if (dropdownActive && !mouseOverDropdown) {
       onBlurHandler();
     } else {
       clearTimeout(timeOutId);
@@ -70,12 +70,14 @@ const ComboCurrencySelect = (
     }
   }
   /* accessibility-enabling event handlers for interpreting focus state on control */
-  const onBlurHandler = (event, dropdownListFocus) => {
-    const dropdownFocus = dropdownListFocus || !mouseOverDropdown;
-    if (((!event || !(event.target.parentElement.contains(event.relatedTarget)))) && dropdownFocus) {
-      timeOutId = setTimeout(() => {
-        setDropdownActive(false);
-      });
+  const onBlurHandler = (event) => {
+    if (event) {
+      const mouseEvent = event.type !== 'blur' && !mouseOverDropdown;
+      if (mouseEvent && (!event.target.parentElement.contains(event.relatedTarget))) {
+        timeOutId = setTimeout(() => {
+          setDropdownActive(false);
+        });
+      }
     }
   };
 
@@ -89,8 +91,8 @@ const ComboCurrencySelect = (
     }
   };
 
-  const ref = React.useRef(null)
-  useOnClickOutside(ref, onBlurHandler)
+  const ref = React.useRef(null);
+  useOnClickOutside(ref, onBlurHandler);
 
   const labelText = yearFilter ?
     `Year (${options[options.length -1].label} - ${options[0].label})` :
@@ -112,7 +114,13 @@ const ComboCurrencySelect = (
 
   return (
     <>
-      <div className={styles.selector_container}>
+      <div className={styles.selector_container}
+           onMouseOver={() => setMouseOverDropdown(true)}
+           onMouseLeave={() => setMouseOverDropdown(false)}
+           onBlur={() => setMouseOverDropdown(false)}
+           onFocus={() => setMouseOverDropdown(true)}
+           role={'presentation'}
+      >
         {labelText !== '' ?
           <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
             {labelText}
