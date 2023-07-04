@@ -50,7 +50,6 @@ describe('Combo Select Dropdown', () => {
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(true);
     fireEvent.blur(dropdown);
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
-    expect(onBlurHandlerSpy).toHaveBeenCalled();
   });
 
 

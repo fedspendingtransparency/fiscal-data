@@ -75,7 +75,6 @@ const ComboSelectDropdown = (
   };
 
   const handleBlur = (event) => {
-    console.log(event);
     let dropdownChild;
     if (event.target.localName === 'input') {
       dropdownChild =
@@ -94,7 +93,6 @@ const ComboSelectDropdown = (
   return (
     <>
       {active && (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div className={dropdownContainer} data-testid="dropdown-container"
              onMouseOver={() => setMouseOverDropdown(true)}
              onMouseLeave={() => setMouseOverDropdown(false)}
@@ -128,7 +126,6 @@ const ComboSelectDropdown = (
               </div>
             ) : (
               <ul
-                // role="presentation"
                 className={dropdownList}
                 data-testid="dropdown-list"
               >
@@ -143,7 +140,6 @@ const ComboSelectDropdown = (
                       >
                         <button
                           className={dropdownListItem_Button}
-                          // onBlur={handleBlur_ListItem}
                           onClick={() => updateSelection(option, true)}
                           disabled={required && !option.value}
                           title={(required && !option.value && disabledMessage) ? disabledMessage : null}
