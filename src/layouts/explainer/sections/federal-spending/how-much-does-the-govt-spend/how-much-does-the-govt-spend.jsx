@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react"
+import React, { useState, useEffect, Fragment, useCallback } from "react"
 import { apiPrefix, basicFetch } from "../../../../../utils/api-utils"
 import CustomLink from "../../../../../components/links/custom-link/custom-link"
 import ChartContainer from "../../../explainer-components/chart-container/chart-container"
@@ -13,6 +13,11 @@ import {
   chartToggle,
   toggleButton,
   loadingIcon,
+  barContainer,
+  barContainerInvisible,
+  otherContainer,
+  otherContainerInvisible,
+  active
 } from "./how-much-does-the-govt-spend.module.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
@@ -23,11 +28,34 @@ import Analytics from "../../../../../utils/analytics/analytics";
 import {getShortForm} from "../../../../../utils/rounding-utils";
 import {ToggleSwitch} from "./chart-toggle-switch";
 import {getDateWithoutOffset} from "../../../explainer-helpers/explainer-helpers";
+import { keyframes } from "styled-components";
+import styled from 'styled-components';
 
 const breakpoint = {
   desktop: 1015,
   tablet: 600,
 }
+
+const grow = (width) => keyframes`
+  0% {
+    width: 0;
+    height: 2.5rem;
+  }
+  100% {
+    width: ${width}%;
+    height: 2.5rem;
+  }`;
+
+const GrowDivBar = styled.div`
+    animation: ${props => props.animateTime}s ${props => props.animate && grow(props.percent * (props.isMobile ? 1 : 2))};
+    animation-timing-function: ease-in;
+    background: #00766C;
+    width: ${props => props.percent * (props.isMobile ? 1 : 2)}%;
+    margin-right: 10px;
+    height: 40px;
+  `
+
+
 const HowMuchDoesTheGovtSpend = () => {
   const [chartData, setChartData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -39,6 +67,10 @@ const HowMuchDoesTheGovtSpend = () => {
   const [width, height] = useWindowSize()
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date())
   const [fiscalYear, setFiscalYear] = useState('');
+  const [animateBars, setAnimateBars] = useState(false);
+  const [hasAgencyTriggered, setHasAgencyTriggered] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 
@@ -127,7 +159,7 @@ const HowMuchDoesTheGovtSpend = () => {
         and download this data.
       </p>
     </div>
-  )
+  );
 
   const header = (
     <div className={headerContainer}>
@@ -136,23 +168,46 @@ const HowMuchDoesTheGovtSpend = () => {
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
     </div>
-  )
+  );
+
   const sortField =
     selectedChartView === "category"
       ? "current_fytd_rcpt_outly_amt"
-      : "current_fytd_net_outly_amt"
+      : "current_fytd_net_outly_amt";
 
   let sortedItems =
     chartData &&
     chartData[selectedChartView]?.data.sort((a, b) => {
       return b[sortField] - a[sortField]
-    })
+    });
+
+  useEffect(() => {
+    let observer;
+    if (typeof window !== "undefined") {
+      const config = {
+        rootMargin: '-50% 0% -50% 0%',
+        threshold: 0
+      };
+      observer = new IntersectionObserver(entries => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setAnimateBars(true);
+            setScrolled(true);
+            observer.unobserve(document.querySelector('[data-testid="spending-bar-chart"]'));
+          }
+        })
+      }, config);
+      setTimeout(() => observer.observe(document.querySelector('[data-testid="spending-bar-chart"]')), 1000);
+    }
+  }, []);
+
+
 
   const total = (sortedItems || [])
     .map(item => parseInt(item[sortField], 10))
     ?.reduce((item, nextItem) => {
       return item + nextItem
-    }, 0)
+    }, 0);
 
   sortedItems = sortedItems?.map(item => {
     return {
@@ -160,17 +215,22 @@ const HowMuchDoesTheGovtSpend = () => {
       percentage: Math.round((parseInt(item[sortField], 10) / total) * 100),
       dollarAmount: parseInt(item[sortField]),
     }
-  })
+  });
 
-  const firstTen = sortedItems?.slice(0, 10)
-  const other = sortedItems?.slice(10)
+  const firstTen = sortedItems?.slice(0, 10);
+  const other = sortedItems?.slice(10);
 
   const otherTotal = (other || [])
     .map(item => parseInt(item[sortField], 10))
     ?.reduce((item, nextItem) => {
       return item + nextItem
     }, 0)
-  const otherPercentage = Math.round((otherTotal / total) * 100)
+  const otherPercentage = Math.round((otherTotal / total) * 100);
+
+  const animationEndHandler = useCallback(() => {
+    setAnimateBars(false);
+    setAnimationComplete(true);
+  }, []);
 
   return (
     <ChartContainer
@@ -192,6 +252,7 @@ const HowMuchDoesTheGovtSpend = () => {
       header={header}
       footer={footer}
       date={lastUpdatedDate}
+      customTestId={'spending-bar-chart'}
       altText={
         "Horizontal bar graph comparing government spending by category or agency from largest to smallest, by percentage or dollar value"
       }
@@ -216,8 +277,11 @@ const HowMuchDoesTheGovtSpend = () => {
                 borderRight: "none",
               }}
               onClick={() => {
-                setSelectedChartView("category")
+                setSelectedChartView("category");
                 handleClick("12");
+                if (animateBars) {
+                  setAnimateBars(false);
+                }
               }}
               data-testid={'toggle-button-category'}
             >
@@ -242,8 +306,13 @@ const HowMuchDoesTheGovtSpend = () => {
                   selectedChartView === "agency" ? "#00766C" : "#f1f1f1",
               }}
               onClick={() => {
-                setSelectedChartView("agency")
+                setSelectedChartView("agency");
                 handleClick("32");
+                if (!hasAgencyTriggered) {
+                  setAnimateBars(true);
+                  setHasAgencyTriggered(true);
+                  setAnimationComplete(false);
+                }
               }}
               data-testid={'toggle-button-agency'}
             >
@@ -280,6 +349,9 @@ const HowMuchDoesTheGovtSpend = () => {
               handleChange={e => {
                 setPercentDollarToggleChecked(e)
                 handleClick(e ? "33" : "13");
+                if (animateBars) {
+                  setAnimateBars(false);
+                }
               }}
               customStyles={{
                 onColor: "#00766C",
@@ -301,54 +373,64 @@ const HowMuchDoesTheGovtSpend = () => {
               Dollars
             </span>
           </div>
-          {firstTen?.map((item, i) => {
-            return (
-              <div className={chartsContainer} key={i}>
-                <div
-                  style={{
-                    background: "#00766C",
-                    width: `${item.percentage * (isMobile ? 1 : 2)}%`,
-                    marginRight: "10px",
-                    height: "40px",
-                  }}
-                >
+          <div className={scrolled ? barContainer : barContainerInvisible} data-testid={'barContainer'}>
+            <div className={animationComplete && active}>
+              {firstTen?.map((item, i) => {
+                    return (
+                      <div className={chartsContainer} key={i}>
+                        <GrowDivBar
+                          percent={item.percentage}
+                          animateTime={0.6}
+                          animate={animateBars}
+                          onAnimationEnd={animationEndHandler}
+                          isMobile={isMobile}
+                        />
+                        <div
+                          className={percentOrDollarContainer}
+                          style={{
+                            marginRight: item.percentage > 20 ? "0px" : "8px",
+                          }}
+                        >
+                          {percentDollarToggleChecked ?
+                            `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
+                        </div>
+                        <div
+                          className={descContainer}
+                          data-testid={'label'}
+                        >
+                          {item.classification_desc?.replace("Total--", "")}
+                        </div>
+                      </div>
+                  )
+                })}
+            </div>
+          </div>
+          <div className={scrolled ? otherContainer : otherContainerInvisible}>
+            <div className={animationComplete && active}>
+              <div className={chartsContainer} key={otherPercentage}>
+                <GrowDivBar
+                  percent={otherPercentage}
+                  animateTime={0.6}
+                  animate={animateBars}
+                  isMobile={isMobile}
+                />
+                <div className={percentOrDollarContainer}>
+                  {percentDollarToggleChecked
+                    ? `$${getShortForm(otherTotal)}`
+                    : `${otherPercentage} %`}
                 </div>
                 <div
-                  className={percentOrDollarContainer}
-                  style={{
-                    marginRight: item.percentage > 20 ? "0px" : "8px",
-                  }}
+                  className={descContainer}
                 >
-                  {percentDollarToggleChecked ?
-                    `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
-                </div>
-                <div className={descContainer}>
-                  {item.classification_desc?.replace("Total--", "")}
+                  Other
                 </div>
               </div>
-            )
-          })}
-          <div className={chartsContainer} key={otherPercentage}>
-            <div
-              style={{
-                background: "#00766C",
-                width: `${otherPercentage * (isMobile ? 1 : 2)}%`,
-                marginRight: "10px",
-                height: "40px",
-              }}
-            >
             </div>
-            <div className={percentOrDollarContainer}>
-              {percentDollarToggleChecked
-                ? `$${getShortForm(otherTotal)}`
-                : `${otherPercentage} %`}
-            </div>
-            <div className={descContainer}>Other </div>
           </div>
-        </Fragment>
-      )}
+      </Fragment>
+            )}
     </ChartContainer>
   )
 }
 
-export default HowMuchDoesTheGovtSpend
+export default HowMuchDoesTheGovtSpend;

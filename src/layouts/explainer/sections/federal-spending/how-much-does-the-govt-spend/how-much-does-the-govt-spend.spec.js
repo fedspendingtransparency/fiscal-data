@@ -273,7 +273,7 @@ describe("Federal spending explainer page sections", () => {
   })
 
   it("dollar / percent toggle renders and is functional", async() => {
-    const { getByText, getByTestId} = render(<HowMuchDoesTheGovtSpend />);
+    const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
     await waitFor(() => {
       expect(getByText('Dollars')).toBeInTheDocument();
       expect(getByTestId('switch')).toBeInTheDocument();
