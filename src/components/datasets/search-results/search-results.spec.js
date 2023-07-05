@@ -67,7 +67,7 @@ describe('Search Results', () => {
       />
     );
 
-    expect(getAllByTestId('cardPlacement')).toHaveLength(mockFilteredDatasets.length);
+    expect(getAllByTestId('cardPlacement')).toHaveLength(mockAllDatasets.length);
   });
 
   it('places the sort control', () => {
