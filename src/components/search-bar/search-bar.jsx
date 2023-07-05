@@ -28,12 +28,16 @@ const SearchBar = (
 }) => {
   let searchCleared = false;
 
-  const clearBox = () => {
-    if (setActive) {
-      setActive(false);
-      searchCleared = true;
+
+  const clearBox = (e) => {
+    if (e.key === undefined || e.key === 'Enter') {
+      if (setActive) {
+        e.stopPropagation();
+        setActive(false);
+        searchCleared = true;
+      }
+      handleClear();
     }
-    handleClear();
   }
 
   const handleClick = () => {
@@ -54,7 +58,15 @@ const SearchBar = (
   }
 
   const icon = filter.length > 0 && handleClear ? (
-    <FontAwesomeIcon icon={faTimesCircle} className={`${searchIcon} ${searchIconHover}`} role="button" onClick={clearBox} border />
+    <FontAwesomeIcon
+      icon={faTimesCircle}
+      className={`${searchIcon} ${searchIconHover}`}
+      role="button"
+      onClick={clearBox}
+      onKeyPress={clearBox}
+      tabIndex={0}
+      border
+    />
   ) : (
     <FontAwesomeIcon icon={faMagnifyingGlass} className={searchIcon} />
   )

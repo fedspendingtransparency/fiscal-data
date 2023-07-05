@@ -75,17 +75,28 @@ const ComboSelectDropdown = (
   };
 
   const handleBlur = (event) => {
-    let dropdownChild;
-    if (event.target.localName === 'input') {
-      dropdownChild = true;
-    } else if (event.target.localName === 'button') {
-      dropdownChild = event.target.parentElement.parentElement.contains(event.relatedTarget);
-    }
-    setMouseOverDropdown(false);
-    if (!dropdownChild) {
-      timeOutId = setTimeout(() => {
-        setDropdownActive(false);
-      });
+    if (event) {
+      let dropdownChild;
+      switch(event.target.localName) {
+        case 'input':
+          dropdownChild = true;
+          break;
+        case 'svg':
+          dropdownChild = filteredOptions.length > 0;
+          break;
+        case 'button':
+          dropdownChild = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
+          break;
+        default:
+          dropdownChild = false;
+          break;
+      }
+      setMouseOverDropdown(false);
+      if (!dropdownChild) {
+        timeOutId = setTimeout(() => {
+          setDropdownActive(false);
+        });
+      }
     }
   }
 
@@ -114,6 +125,7 @@ const ComboSelectDropdown = (
           <ScrollContainer
             list={filteredOptions}
             selection={selectedOption}
+            filter={filterValue}
             scrollTop={scrollTop}
             setScrollTop={setScrollTop}
           >
