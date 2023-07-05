@@ -47,6 +47,7 @@ const TableSectionContainer = ({
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
+  const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
   const refreshTable = () => {
     if (allTablesSelected) return;
@@ -75,6 +76,7 @@ const TableSectionContainer = ({
       selectedPivot,
       dateRange,
       apiError,
+      selectColumns: config.selectColumns,
       excludeCols: ['CHART_DATE'],
       aria: {"aria-labelledby": "main-data-table-title"}
     });
@@ -113,6 +115,7 @@ const TableSectionContainer = ({
       e.preventDefault();
       setLegend(!legend);
       setLegendToggledByUser(true);
+      setSelectColumnPanel(!selectColumnPanel);
     }
   };
 
@@ -203,7 +206,8 @@ const TableSectionContainer = ({
           <ChartTableToggle
             legend={legend}
             selectedTab={selectedTab}
-            showToggle={!noChartMessage}
+            showToggleChart={!noChartMessage}
+            showToggleTable={config.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
             onToggleLegend={legendToggler}
             emptyData={
@@ -219,6 +223,8 @@ const TableSectionContainer = ({
             table={
               tableProps ?
                 <DtgTable
+                  selectColumnPanel={selectColumnPanel}
+                  setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}
                   perPage={perPage}
                   setPerPage={setPerPage}

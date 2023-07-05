@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -14,10 +14,12 @@ import * as styles from './dtg-table.module.scss';
 import CustomLink from "../links/custom-link/custom-link";
 import Experimental from '../experimental/experimental';
 import { DataTable } from '../data-table/data-table';
+import DtgTableColumnSelector from './dtg-table-column-selector';
 
 const defaultRowsPerPage = 5;
+const selectColumnRowsPerPage = 10;
 
-export default function DtgTable({tableProps, perPage, setPerPage}) {
+export default function DtgTable({tableProps, perPage, setPerPage, selectColumnPanel, setSelectColumnPanel}) {
   const {
     rawData,
     width,
@@ -29,7 +31,8 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     selectedPivot,
     dateRange,
     columnConfig,
-    caption
+    caption,
+    selectColumns
   } = tableProps;
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
@@ -37,9 +40,12 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   const [itemsPerPage, setItemsPerPage] = useState(perPage
     ? perPage
     : (
-      !shouldPage && data.length > defaultRowsPerPage
+      selectColumns 
+      ? selectColumnRowsPerPage
+      : (!shouldPage && data.length > defaultRowsPerPage
         ? data.length
-        : defaultRowsPerPage
+        : defaultRowsPerPage)
+      
       )
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
@@ -51,6 +57,10 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   const [rows, setRows] = useState([]);
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
+  const [columnSelectValues, setColumnSelectValues] = useState([]);
+  const [activeColumns, setActiveColumns] = useState([]);
+  const [isReset, setIsReset] = useState(false);
+  const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
 
   let loadCanceled = false;
 
@@ -65,6 +75,16 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
+
+  const changeTableWidth = (col) => {
+    if(selectColumns) {
+      const colCount = col ? col.length : 0;
+      const curWidth = colCount > 5 ? colCount * 200 : '100%';
+      setSelectColumnsTableWidth(curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto');
+      setActiveColumns(col);
+    }
+  };
+
   const handlePerPageChange = (numRows) => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
@@ -164,11 +184,11 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     setCurrentPage(Math.min(pageNum, maxPage));
   }
 
-  const populateRows = () => {
+  const populateRows = (currentColumns) => {
     const tableRows = [];
     tableData.forEach((row, index) => {
       tableRows.push(
-        <DtgTableRow columns={columns} data={row} key={index} />
+        <DtgTableRow columns={currentColumns} data={row} key={index} />
       )
     });
     setRows(tableRows);
@@ -184,10 +204,59 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     }
   };
 
+  const setDefaultColumnsToSelect = () => {
+    const selectColArray = [];
+    const activeColArray = [];
+
+    setIsReset(true);
+
+    columns.forEach((col) => {
+      let colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
+      const selectCol = Object.assign({label: col.name},
+                                {field: col.property},
+                                {active: colDefault},
+                                {default: colDefault});
+      if(colDefault == true) {
+        activeColArray.push(col);
+      }
+                                
+      selectColArray.push(selectCol);
+    });
+
+    setColumnSelectValues(selectColArray);
+    populateRows(activeColArray);
+    changeTableWidth(activeColArray);
+  }
+
+  const columnSelectChangeHandler = (update) => {
+    const selectColArray = [];
+    const activeColArray = [];
+
+    setIsReset(false);
+
+    columnSelectValues.forEach((col) => {
+      const currentCol = col;
+      if(update.find(updatedCol => updatedCol.field === col.field)) {
+        activeColArray.push(columns.find(column => column.property === col.field));
+        currentCol.active = true;
+      }
+      else {
+        currentCol.active = false;
+      }
+
+      selectColArray.push(currentCol);
+    })
+
+    setColumnSelectValues(selectColArray);
+    populateRows(activeColArray);
+    changeTableWidth(activeColArray);
+  }
+
   useEffect(() => {
     updateSmallFractionDataType();
     setCurrentPage(1);
     setApiError(false);
+
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null
       ? getPagedData(true)
@@ -209,7 +278,12 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
   }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
-    populateRows();
+    if(selectColumns && activeColumns){
+      populateRows(activeColumns);
+    } 
+    else {
+      populateRows(columns);
+    }
   }, [tableData]);
 
   useEffect(() => {
@@ -222,6 +296,7 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
     if (!tableProps.data) {
       setCurrentPage(1);
     }
+    setDefaultColumnsToSelect();
   }, [tableProps.data]);
 
   useEffect(() => {
@@ -272,21 +347,43 @@ export default function DtgTable({tableProps, perPage, setPerPage}) {
           </>
         )}
 
-        {/* Table Wrapper */}
-        <div className={noBorder ? [styles.wrapper,styles.noBorder].join(' ') : styles.wrapper}>
-          {/* Empty Data Message */}
-          { emptyDataMessage && emptyDataMessage }
+        <div className={styles.selectColumnsWrapper}>
+            {/* Table Wrapper */}
+          <div className={noBorder ? [styles.wrapper,styles.noBorder].join(' ') : styles.wrapper}>
+            {/* Empty Data Message */}
+            { emptyDataMessage && emptyDataMessage }
 
-          {/* Table */}
-          {!emptyDataMessage &&
-            <table {...tableProps.aria} style={{width: tableWidth}}>
-              {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-              <DtgTableHeading columns={columns} />
-              <tbody>
-                {rows}
-              </tbody>
-            </table>
-          }
+            {/* Table */}
+            {(!emptyDataMessage && !selectColumns 
+              ? (<table {...tableProps.aria} style={{width: tableWidth}}>
+                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                <DtgTableHeading columns={columns} />
+                <tbody>
+                  {rows}
+                </tbody>
+              </table>) 
+              : (<table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
+                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                <DtgTableHeading columns={activeColumns} />
+                <tbody>
+                  {rows}
+                </tbody>
+              </table>))
+            }
+          </div>
+
+          <div data-testid='selectColumnsMainContainer' className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel} style={{height: `${(itemsPerPage * 41) + 48.4}px` }}>
+            {selectColumns && 
+              <DtgTableColumnSelector
+              isVisible={true}
+              fields={columnSelectValues}
+              changeHandler={(update) => columnSelectChangeHandler(update)}
+              resetToDefault={setDefaultColumnsToSelect}
+              setSelectColumnPanel={setSelectColumnPanel}
+              isReset={isReset}
+            />
+            }
+          </div>
         </div>
       </div>
 

@@ -19,7 +19,8 @@ module.exports = {
         "015-BFS-2014Q1-14"
       ],
       "slug": "/auctions/",
-      "currentDateButton": "byMonth"
+      "currentDateButton": "byMonth",
+      "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
     }
   },
   ADDITIONAL_ENDPOINTS: {
