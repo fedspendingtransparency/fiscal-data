@@ -5,35 +5,10 @@
   margin-bottom: 1.5rem;
 }
 
-.scrollGradient {
-  height: 2.5rem;
-  background: rgba(255,255,255,0);
-  position: sticky;
-  margin-top: 1.5rem;
-  width: 94%;
-  background: linear-gradient(white, rgba(255,255,255,0));
+.termContainer {
+  margin-bottom: 12.825rem;
+  padding-right: 1rem;
 }
-
-.scrollContainerTop {
-  height: 2.5rem;
-  background: rgba(255,255,255,0);
-  position: sticky;
-  margin-top: 1.5rem;
-  width: 94%;
-}
-
-.listContainer {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-    .termContainer {
-      overflow-y: auto;
-      margin-bottom: 12.825rem;
-      margin-top: -2.5rem;
-      padding-right: 1rem;
-    }
-  }
 
 .backToList {
   display: flex;

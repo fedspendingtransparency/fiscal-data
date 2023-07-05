@@ -37,24 +37,5 @@
       }
     }
   }
-
-  .search {
-    color: #666;
-    margin-right: 1rem;
-    display: flex;
-    flex-direction: column;
-
-    .searchLabel {
-      font-size: $font-size-12;
-      margin-bottom: .25rem;
-    }
-
-    .searchIcon {
-      width: 1rem;
-      height: 1rem;
-      color: #666;
-    }
-  }
-
 }
 
