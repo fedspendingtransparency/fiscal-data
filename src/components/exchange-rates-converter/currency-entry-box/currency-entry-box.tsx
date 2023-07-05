@@ -44,15 +44,11 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
             <ComboCurrencySelect
               selectedOption={selectedCurrency}
               options={options}
-              // iconStyle={dropdownIcon}
-              // inputStyle={dropdownInput}
-              // inputContainerStyle={dropdownInputContainer}
               labelDisplay={true}
               changeHandler={onCurrencyChange}
               isExchangeTool={true}
               required={true}
               disabledMessage="This option has no data for the selected quarter."
-              // resetFilterCount={resetFilterCount}
             />
           )}
           <div className={currencyBody}>

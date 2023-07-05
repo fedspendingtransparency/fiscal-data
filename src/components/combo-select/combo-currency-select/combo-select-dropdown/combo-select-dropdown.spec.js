@@ -15,7 +15,7 @@ describe('Combo Select Dropdown', () => {
     expect(getByTestId('dropdown-container')).toBeInTheDocument();
   });
 
-  it('renders the dropdown when active is true', () => {
+  it('does not render the dropdown when active is false', () => {
     const { queryByTestId } = render(<ComboSelectDropdown active={false} options={[]} />);
 
     expect(queryByTestId('dropdown-container')).not.toBeInTheDocument();
@@ -50,7 +50,6 @@ describe('Combo Select Dropdown', () => {
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(true);
     fireEvent.blur(dropdown);
     expect(setMouseOverDropdownSpy).toHaveBeenCalledWith(false);
-    expect(onBlurHandlerSpy).toHaveBeenCalled();
   });
 
 

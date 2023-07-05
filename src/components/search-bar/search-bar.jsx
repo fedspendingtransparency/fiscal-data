@@ -54,7 +54,7 @@ const SearchBar = (
   }
 
   const icon = filter.length > 0 && handleClear ? (
-    <FontAwesomeIcon icon={faTimesCircle} className={`${searchIcon} ${searchIconHover}`} role="button" onClick={clearBox} />
+    <FontAwesomeIcon icon={faTimesCircle} className={`${searchIcon} ${searchIconHover}`} role="button" onClick={clearBox} border />
   ) : (
     <FontAwesomeIcon icon={faMagnifyingGlass} className={searchIcon} />
   )
@@ -77,6 +77,7 @@ const SearchBar = (
               onChange={onChange}
               size="small"
               value={filter}
+              aria-label={label}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end" >
