@@ -87,7 +87,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
         const duration = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
         value["duration"] = duration;
         value["delay"] = delay;
-        delay += 100;
       })
     }
     return data;
