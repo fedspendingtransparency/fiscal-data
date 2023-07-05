@@ -39,7 +39,7 @@ describe('Search Results Cards', () => {
 
   const instance = component.root;
 
-  it('creates a card for each item in the array of filteredDatasets', () => {
+  it('creates a card for each item in the array of allDatasets', () => {
       expect(instance.findAllByType(DatasetCard).length).toBe(mockAllDatasets.length);
   });
 

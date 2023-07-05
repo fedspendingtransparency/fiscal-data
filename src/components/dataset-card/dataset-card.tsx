@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import { navigate } from "gatsby";
 import Card from '@material-ui/core/Card';
