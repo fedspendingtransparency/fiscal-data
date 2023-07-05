@@ -1,22 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
-import { InputAdornment, MuiThemeProvider } from '@material-ui/core';
 import {
-  search,
   headerContainer,
   title,
   bookIcon,
-  searchIcon,
   header,
   closeIcon,
   closeButton,
-  searchLabel
 } from './glossary-header.module.scss'
-import { searchBarTheme, useStyles } from './theme';
+import SearchBar from '../../search-bar/search-bar';
 
 interface IGlossaryHeader {
   filter: string,
@@ -44,28 +38,12 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler
           <FontAwesomeIcon icon={faXmark as IconProp} className={closeIcon} />
         </button>
       </div>
-      <div className={search}>
-        <span className={searchLabel}>Search the glossary</span>
-        <MuiThemeProvider theme={searchBarTheme} >
-          <Box sx={{width: 282}}>
-            <TextField
-              className={useStyles().root}
-              variant="outlined"
-              fullWidth
-              onChange={onSearchBarChange}
-              size="small"
-              value={filter}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end" >
-                    <FontAwesomeIcon icon={faMagnifyingGlass as IconProp} className={searchIcon} />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
-        </MuiThemeProvider>
-      </div>
+      <SearchBar
+        onChange={onSearchBarChange}
+        width={282}
+        filter={filter}
+        label="Search the glossary"
+      />
     </div>
   )
 }

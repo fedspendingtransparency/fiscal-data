@@ -11,8 +11,6 @@ describe('glossary header',() => {
 
     const closeButton = getByRole('button');
     expect(within(closeButton).getByRole('img', {hidden: true})).toHaveClass('fa-xmark');
-
-
   });
 
   it('calls the click handler when the close button is clicked', () => {

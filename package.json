@@ -131,6 +131,7 @@
     "rxjs": "^7.2.0",
     "smoothscroll-polyfill": "^0.4.4",
     "stream": "0.0.2",
+    "styled-components": "^6.0.0-rc.6",
     "typed-scss-modules": "^4.1.1",
     "typeface-roboto": "0.0.75",
     "typeface-roboto-mono": "0.0.75",

@@ -3,12 +3,9 @@ import {
   currencyBody,
   currencyBox,
   currencyHeader,
-  dropdownIcon,
   currencyText,
-  dropdownInput,
-  dropdownInputContainer
 } from './currency-entry-box.module.scss';
-import ComboSelect from "../../combo-select/combo-select";
+import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 
 interface ICurrencyEntryBox  {
   defaultCurrency: string,
@@ -44,26 +41,20 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
       {dropdown ?
         <div className={currencyBox} data-testid={testId}>
           {options && (
-            <ComboSelect
+            <ComboCurrencySelect
               selectedOption={selectedCurrency}
-              label={''}
               options={options}
-              iconStyle={dropdownIcon}
-              inputStyle={dropdownInput}
-              scrollable={true}
-              inputContainerStyle={dropdownInputContainer}
               labelDisplay={true}
               changeHandler={onCurrencyChange}
               isExchangeTool={true}
               required={true}
               disabledMessage="This option has no data for the selected quarter."
-              resetFilterCount={resetFilterCount}
             />
           )}
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
-                     onChange={onCurrencyValueChange} value={currencyValue} data-testid={'input-dropdown'}
+              <input type="number" inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
+                     onChange={onCurrencyValueChange} value={currencyValue} data-testid="input-dropdown"
               />
             </div>
           </div>
@@ -74,9 +65,9 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           </div>
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type='number' inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
+              <input type="number" inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
                      onChange={onCurrencyValueChange}
-                     value={currencyValue} data-testid={'input'}
+                     value={currencyValue} data-testid="input"
               />
             </div>
           </div>

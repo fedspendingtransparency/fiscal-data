@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import {
-  matchedSubstring,
   sectionHeader,
   sectionTerms,
   termText
 } from './glossary-display-list.module.scss';
-import reactStringReplace from 'react-string-replace';
 import { IGlossaryListSection } from '../../../../helpers/glossary-helper/glossary-data';
+import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 
 interface IGlossaryDisplayList {
   sortedList: IGlossaryListSection[],
@@ -21,15 +20,6 @@ const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({sortedList
       e.stopPropagation();
       selectedTermHandler(term);
     }
-  }
-
-  const underlineMatchedString = (term, filter) => {
-    const filterString = filter.replace(/[/\-\\^$*+?.()|[\]{}]/g,'\\$1');
-    const regex = new RegExp(`(${filterString})`, 'ig');
-    const strReplace = reactStringReplace(term, regex, (match) =>
-      <span className={matchedSubstring}>{match}</span>);
-
-    return filter.length ?  <span>{strReplace}</span> : <span>{term}</span>;
   }
 
   return (

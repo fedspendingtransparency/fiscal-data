@@ -22,7 +22,8 @@ const ChartContainer = ({
   customSpacing,
   customFooterStyles,
   customTitleStyles,
-  customSubTitleStyles
+  customSubTitleStyles,
+  customTestId
 }) => {
   return (
     <div
@@ -39,7 +40,7 @@ const ChartContainer = ({
         {header}
       </div>
       <div
-        data-testid="chart"
+        data-testid={customTestId ? customTestId : 'chart'}
         className={`${chart} chartContainerChart`}
         style={{ ...customContainerStyles }}
       >
