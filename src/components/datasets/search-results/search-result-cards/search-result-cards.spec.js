@@ -4,7 +4,6 @@ import SearchResultCards from "./search-result-cards";
 import DatasetCard from "../../../dataset-card/dataset-card";
 import { SortOptions } from "../search-results-helper";
 import {setWindowMockFontSize} from "../../../../utils/mock-utils";
-import { render } from "@testing-library/react";
 
 const mockAllDatasets = [
     {name: 'Dataset A', datasetId: '0'},
