@@ -67,7 +67,7 @@ describe('Search Results', () => {
       />
     );
 
-    expect(getAllByTestId('cardPlacement')).toHaveLength(mockAllDatasets.length);
+    expect(getAllByTestId('cardPlacement')).toHaveLength(mockFilteredDatasets.length);
   });
 
   it('places the sort control', () => {
@@ -120,7 +120,7 @@ describe('Search Results', () => {
     );
 
     expect(getByText(SortOptions[0].label)).toBeInTheDocument();
-    
+
     rerender(
       <SearchResults
         allDatasets={mockAllDatasets}
