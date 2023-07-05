@@ -10,7 +10,7 @@ import {
   dropdownInput,
   dropdownInputContainer,
   hoverContainer,
-  activeSearchBar, dropdownIcon,
+  activeSearchBar, dropdownIcon, fullBorderContainer
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 
@@ -43,6 +43,7 @@ const ComboCurrencySelect = (
     required = false,
     disabledMessage,
     isExchangeTool,
+    containerBorder,
   }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
@@ -75,7 +76,7 @@ const ComboCurrencySelect = (
   const onBlurHandler = (event) => {
     if (event) {
       const mouseEvent = event.type !== 'blur' && !mouseOverDropdown;
-      if (mouseEvent && (!event.target.parentElement.contains(event.relatedTarget))) {
+      if (mouseEvent && (!event.target?.parentElement.contains(event.relatedTarget))) {
         timeOutId = setTimeout(() => {
           setDropdownActive(false);
         });
@@ -109,7 +110,11 @@ const ComboCurrencySelect = (
         containerClasses = `${dropdownInputContainer} ${activeDropdown}`;
       }
     } else {
-      containerClasses = `${dropdownInputContainer} ${hoverContainer}`;
+      if (containerBorder) {
+        containerClasses = `${dropdownInputContainer} ${hoverContainer} ${fullBorderContainer}`;
+      } else {
+        containerClasses = `${dropdownInputContainer} ${hoverContainer}`;
+      }
     }
     return containerClasses;
   }

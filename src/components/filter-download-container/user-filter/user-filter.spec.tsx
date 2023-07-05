@@ -4,8 +4,8 @@ import UserFilter, {determineUserFilterUnmatchedForDateRange} from "./user-filte
 
 describe('UserFilter Component', () => {
 
-  const ComboSelect = jest.requireActual('../../combo-select/combo-select');
-  const comboSelectSpy = jest.spyOn(ComboSelect, "default");
+  const ComboCurrencySelect = jest.requireActual('../../combo-select/combo-currency-select/combo-currency-select');
+  const comboSelectSpy = jest.spyOn(ComboCurrencySelect, "default");
 
   it('sends expected properties to combo-select control and displays notice', async () => {
     const { getByTestId } = render(
@@ -28,7 +28,10 @@ describe('UserFilter Component', () => {
         value: null
       }
     ].concat(optionsFromBuildTimeData.slice(0, 4)));
-    expect(comboSelectProps['selectedOption']).toEqual(null);
+    expect(comboSelectProps['selectedOption']).toEqual({
+      label: "(None selected)",
+      value: null
+    });
   });
 
   it(`supplies a utility function that determines if the userFilter selection is

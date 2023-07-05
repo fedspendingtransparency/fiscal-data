@@ -114,7 +114,6 @@ const ComboSelectDropdown = (
             <SearchBar
               onChange={onFilterChange}
               onBlur={searchBarOnBlurHandler}
-              width={288}
               filter={filterValue}
               label="Search currencies"
               handleClear={clearFilter}
@@ -145,7 +144,7 @@ const ComboSelectDropdown = (
                     <React.Fragment key={index}>
                       <li className={
                         classNames([
-                          dropdownListItem, option.label === selectedOption.label ?
+                          dropdownListItem, option?.label === selectedOption?.label ?
                             dropdownListItem_Selected : '',
                         ])}
                       >
@@ -154,7 +153,7 @@ const ComboSelectDropdown = (
                           onClick={() => updateSelection(option, true)}
                           disabled={required && !option.value}
                           title={(required && !option.value && disabledMessage) ? disabledMessage : null}
-                          aria-label={option.value}
+                          aria-label={option.label}
                         >
                           {underlineMatchedString(option[optionLabelKey], filterValue)}
                         </button>
