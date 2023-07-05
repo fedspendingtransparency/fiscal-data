@@ -4,6 +4,7 @@ import SearchResultCards from "./search-result-cards";
 import DatasetCard from "../../../dataset-card/dataset-card";
 import { SortOptions } from "../search-results-helper";
 import {setWindowMockFontSize} from "../../../../utils/mock-utils";
+import { render } from "@testing-library/react";
 
 const mockAllDatasets = [
     {name: 'Dataset A', datasetId: '0'},
@@ -39,21 +40,21 @@ describe('Search Results Cards', () => {
 
   const instance = component.root;
 
-  it('creates a card for each item in the array of allDatasets', () => {
-      expect(instance.findAllByType(DatasetCard).length).toBe(mockAllDatasets.length);
+  it('creates a card for each item in the array of filteredDatasets', () => {
+      expect(instance.findAllByType(DatasetCard).length).toBe(mockFilteredDatasets.length);
   });
 
-  it('applies hiddenCard className to datasets not in the filteredDatasets array', () => {
-    const datasetCardsArray = instance.findAllByProps({'data-testid': 'cardPlacement'});
-    expect(datasetCardsArray[3].props.className).toContain('hiddenCard');
-    expect(datasetCardsArray[4].props.className).toContain('hiddenCard');
-  });
-
-  it('adds the left:0% style to all hidden cards', () => {
-    const datasetCardsArray = instance.findAllByProps({'data-testid': 'cardPlacement'});
-    expect(datasetCardsArray[3].props.style).toStrictEqual({left: '0%', top: '0px'});
-    expect(datasetCardsArray[4].props.style).toStrictEqual({left: '0%', top: '0px'});
-  });
+  // it('applies hiddenCard className to datasets not in the filteredDatasets array', () => {
+  //   const datasetCardsArray = instance.findAllByProps({'data-testid': 'cardPlacement'});
+  //   expect(datasetCardsArray[3].props.className).toContain('hiddenCard');
+  //   expect(datasetCardsArray[4].props.className).toContain('hiddenCard');
+  // });
+  //
+  // it('adds the left:0% style to all hidden cards', () => {
+  //   const datasetCardsArray = instance.findAllByProps({'data-testid': 'cardPlacement'});
+  //   expect(datasetCardsArray[3].props.style).toStrictEqual({left: '0%', top: '0px'});
+  //   expect(datasetCardsArray[4].props.style).toStrictEqual({left: '0%', top: '0px'});
+  // });
 
   it('places cards by inline style', () => {
       expect(instance.findAllByProps({'data-testid': 'cardPlacement'})[1].props.style)

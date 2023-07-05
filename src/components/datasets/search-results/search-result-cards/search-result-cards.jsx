@@ -55,6 +55,7 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
             obj[row.name] = i;
         })
 
+        setNewlyIndexedCards(faux);
         setFauxIndex(obj);
     }
 
@@ -64,19 +65,10 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
         const x = (i % cardsPerRow) * (cardWidth + gutter.x);
         const y = Math.floor(i/cardsPerRow) * (cardHeight + gutter.y);
 
-
-        console.log(`Dataset ${name} y value: ` + y);
-
-        const upperYLimit = (((filteredDatasets.length / cardsPerRow) - 0.5) * cardHeight) - 0.5;
-
-        console.log(upperYLimit);
-
-        if (y <= 4212) {
           return {
             left: `${x}%`,
             top: `${y}px`
           };
-        }
     };
 
 
@@ -102,16 +94,6 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
         updateSort()
     }, [activeSort]);
 
-    useEffect(() => {
-      if (fauxIndex) {
-        allDatasets.forEach((dataset) => {
-          const oldIndex = allDatasets.indexOf(dataset);
-          allDatasets.splice(oldIndex, 1);
-          allDatasets.splice(fauxIndex[dataset.name], 0, dataset);
-        });
-        setNewlyIndexedCards(allDatasets);
-      }
-    }, [placeCard()]);
 
     return (
         <div className={styles.cardContainer}
