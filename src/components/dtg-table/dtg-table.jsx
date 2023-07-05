@@ -59,6 +59,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   const [showPaginationControls, setShowPaginationControls] = useState();
   const [columnSelectValues, setColumnSelectValues] = useState([]);
   const [activeColumns, setActiveColumns] = useState([]);
+  const [isReset, setIsReset] = useState(false);
   const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
 
   let loadCanceled = false;
@@ -207,6 +208,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     const selectColArray = [];
     const activeColArray = [];
 
+    setIsReset(true);
+
     columns.forEach((col) => {
       let colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
       const selectCol = Object.assign({label: col.name},
@@ -228,6 +231,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   const columnSelectChangeHandler = (update) => {
     const selectColArray = [];
     const activeColArray = [];
+
+    setIsReset(false);
 
     columnSelectValues.forEach((col) => {
       const currentCol = col;
@@ -375,6 +380,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
               changeHandler={(update) => columnSelectChangeHandler(update)}
               resetToDefault={setDefaultColumnsToSelect}
               setSelectColumnPanel={setSelectColumnPanel}
+              isReset={isReset}
             />
             }
           </div>

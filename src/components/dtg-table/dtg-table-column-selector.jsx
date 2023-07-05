@@ -7,7 +7,7 @@ import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 const desktop = 1015;
 
-const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefault, setSelectColumnPanel }) => (
+const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefault, setSelectColumnPanel, isReset }) => (
   <section className={styles.columnSelectContainer}>
     <div className={styles.headingWrapper}>
       <div className={styles.heading}>
@@ -27,8 +27,9 @@ const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefau
         fields={fields}
         isVisible={isVisible}
         onUpdateFields={changeHandler}
+        resetToFalse={isReset}
       />
-      <button className={styles.reset} onClick={resetToDefault}>
+      <button className={styles.reset} onClick={resetToDefault} onKeyDown={resetToDefault}>
         <FontAwesomeIcon className={styles.resetIcon} icon={faUndo} />
         Reset
       </button>

@@ -494,4 +494,41 @@ describe('DtgTable component - Select Columns', () => {
       expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
   });
 
+  it('should display all columns when select all, reset then select all again', () => {
+    const {getByRole, getByText} = render(<DtgTable
+      tableProps={{ data: ColSelectTestData,
+        columnConfig: ColSelectColConfig,
+        selectColumns: DefaultColSelectTestColumns }}
+      selectColumnPanel={selectColumnPanel}
+      setSelectColumnPanel={setSelectColumnPanelMock}
+      />);
+   
+      // default options
+      // Data column checkbox
+      expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+      // Time and Name columns
+      expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
+      expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
+
+      const selectAllButton = getByRole('checkbox', {name: 'Select All'});
+      userEvent.click(selectAllButton);
+
+      expect(getByText('3 selected of 3')).toBeInTheDocument();
+      expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).toBeChecked();
+   
+      const resetButton = getByRole('button', {name: 'Reset'});
+      userEvent.click(resetButton);
+
+      expect(getByText('2 selected of 3')).toBeInTheDocument();
+      // Data column checkbox
+      expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
+      // Time and Name columns
+      expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
+      expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
+
+      userEvent.click(selectAllButton);
+      expect(getByText('3 selected of 3')).toBeInTheDocument();
+      expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).toBeChecked();
+  });
+
 });

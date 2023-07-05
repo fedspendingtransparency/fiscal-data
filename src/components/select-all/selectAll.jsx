@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 
-const SelectAll = ({ fields, onUpdateFields, isVisible }) => {
+const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
   const [allSelected, setAllSelected] = useState(true);
   const [indeterminate, setIndeterminate] = useState(true);
   const inputRef = useRef();
@@ -23,8 +23,15 @@ const SelectAll = ({ fields, onUpdateFields, isVisible }) => {
 
       if (inputRef.current !== null) {
         if (allSelected && !allFieldsChecked && !allFieldsUnchecked) {
-          inputRef.current.indeterminate = true;
-          setIndeterminate(true);
+          if(resetToFalse){
+            inputRef.current.indeterminate = false;
+            setIndeterminate(false);
+            setAllSelected(false);
+          }
+          else {
+            inputRef.current.indeterminate = true;
+            setIndeterminate(true);
+          }
         } else {
           inputRef.current.indeterminate = false;
           setIndeterminate(false);
@@ -54,6 +61,7 @@ const SelectAll = ({ fields, onUpdateFields, isVisible }) => {
         <label>
           <input
             name="selectAll"
+            onKeyDown={(e) => e.key === 'Enter' && handleToggleSelectAll(!allSelected)}
             onChange={() => handleToggleSelectAll(!allSelected)}
             id="selectAll"
             value={allSelected}

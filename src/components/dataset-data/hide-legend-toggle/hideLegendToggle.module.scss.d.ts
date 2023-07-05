@@ -66,3 +66,4 @@ export const debtExplainerLightSecondary: string;
 export const toggleButton: string;
 export const buttonLabel: string;
 export const icon: string;
+export const selectColumnsIcon: string;
