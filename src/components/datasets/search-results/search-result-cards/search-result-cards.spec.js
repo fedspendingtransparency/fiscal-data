@@ -44,18 +44,6 @@ describe('Search Results Cards', () => {
       expect(instance.findAllByType(DatasetCard).length).toBe(mockFilteredDatasets.length);
   });
 
-  // it('applies hiddenCard className to datasets not in the filteredDatasets array', () => {
-  //   const datasetCardsArray = instance.findAllByProps({'data-testid': 'cardPlacement'});
-  //   expect(datasetCardsArray[3].props.className).toContain('hiddenCard');
-  //   expect(datasetCardsArray[4].props.className).toContain('hiddenCard');
-  // });
-  //
-  // it('adds the left:0% style to all hidden cards', () => {
-  //   const datasetCardsArray = instance.findAllByProps({'data-testid': 'cardPlacement'});
-  //   expect(datasetCardsArray[3].props.style).toStrictEqual({left: '0%', top: '0px'});
-  //   expect(datasetCardsArray[4].props.style).toStrictEqual({left: '0%', top: '0px'});
-  // });
-
   it('places cards by inline style', () => {
       expect(instance.findAllByProps({'data-testid': 'cardPlacement'})[1].props.style)
         .toStrictEqual({
