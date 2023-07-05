@@ -70,6 +70,7 @@ const UserFilter: FunctionComponent<UserFilterProps> = (
             options={userFilterOptions}
             changeHandler={updateUserFilter}
             selectedOption={selectedFilterOption}
+            containerBorder={true}
           />
         </div>
       )}

@@ -65,6 +65,7 @@ export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const dropdownIcon: string;
 export const dropdownInputContainer: string;
+export const fullBorderContainer: string;
 export const hoverContainer: string;
 export const dropdownInput: string;
 export const activeDropdown: string;
