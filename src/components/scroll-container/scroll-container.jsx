@@ -7,7 +7,7 @@ import {
 } from './scroll-container.module.scss';
 
 
-const ScrollContainer = ({list, selection, scrollTop, setScrollTop, customChildStyle, children}) => {
+const ScrollContainer = ({list, selection, filter, scrollTop, setScrollTop, customChildStyle, children}) => {
   const handleScroll = (scrollContainer) => {
     setScrollTop(scrollContainer.scrollTop === 0);
   }
@@ -21,7 +21,7 @@ const ScrollContainer = ({list, selection, scrollTop, setScrollTop, customChildS
         scrollContainer.removeEventListener('scroll', handleScroll);
       };
     }
-  }, [selection, list]);
+  }, [selection, list, filter]);
 
   return (
     <>
