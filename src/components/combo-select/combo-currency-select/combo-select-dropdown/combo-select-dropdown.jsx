@@ -77,8 +77,7 @@ const ComboSelectDropdown = (
   const handleBlur = (event) => {
     let dropdownChild;
     if (event.target.localName === 'input') {
-      dropdownChild =
-        event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.contains(event.relatedTarget);
+      dropdownChild = true;
     } else if (event.target.localName === 'button') {
       dropdownChild = event.target.parentElement.parentElement.contains(event.relatedTarget);
     }

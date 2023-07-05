@@ -61,8 +61,10 @@ const ComboCurrencySelect = (
   let timeOutId;
 
   const toggleDropdown = () => {
-    if (dropdownActive && !mouseOverDropdown) {
-      onBlurHandler();
+    if (dropdownActive) {
+      timeOutId = setTimeout(() => {
+        setDropdownActive(false);
+      });
     } else {
       clearTimeout(timeOutId);
       setDropdownActive(true);
