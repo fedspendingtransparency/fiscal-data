@@ -341,7 +341,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataFormats: [String!],
       filters: [String!],
       seoConfig: SEOConfig,
-      customRangePreset: String
+      customRangePreset: String,
+      selectColumns: [String]
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
