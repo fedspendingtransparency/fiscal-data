@@ -276,7 +276,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         <div className={container}
           onMouseEnter={handleGoogleAnalyticsMouseEnter}
           onMouseLeave={handleGoogleAnalyticsMouseLeave}
-          role={'presentation'}
+          role="presentation"
         >
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
@@ -288,8 +288,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
           >
             <div className={barChart}
                  onMouseLeave={resetHeaderValues}
-                 data-testid={'deficitTrendsChartParent'}
-                 role={'presentation'}
+                 data-testid="deficitTrendsChartParent"
+                 role="presentation"
                  ref={ref}
             >
               <Bar
@@ -297,7 +297,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 width={chartConfigs.width}
                 height={chartConfigs.height}
                 data={chartData}
-                keys={['deficit']}
+                keys={["deficit"]}
                 indexBy="year"
                 margin={{top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55}}
                 padding={desktop ? 0.30 : 0.35}
@@ -306,7 +306,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 axisLeft={chartConfigs.axisLeft}
                 enableGridX={true}
                 theme={chartConfigs.theme}
-                layers={['grid', 'axes', 'bars']}
+                layers={["grid", "axes", "bars"]}
                 minValue={minValue}
                 maxValue={maxValue}
                 gridXValues={tickValuesX}
