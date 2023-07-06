@@ -184,12 +184,10 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: true,
-    delay: 1000,
   });
 
-
   useEffect(() => {
-    const initialDelay = delayIncrement + 100;
+    const initialDelay = delayIncrement + 500;
     let headerDelay = initialDelay;
     let barDelay = initialDelay;
     const barSVGs = Array.from(
@@ -246,8 +244,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
-  const slug = `/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`;
+  const slug = `/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government`;
   const mts =
     <CustomLink url={slug} eventNumber="18" id="Monthly Treasury Statement">
       Monthly Treasury Statement (MTS)
