@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "cross-env BUILD_ENV=prod gatsby build",
+    "cypress-open": "cypress open",
     "develop-prod": "cross-env BUILD_ENV=prod gatsby develop",
     "develop-dev": "cross-env BUILD_ENV=dev gatsby develop",
     "develop-qat": "cross-env BUILD_ENV=qat gatsby develop",
@@ -142,6 +143,7 @@
     "@babel/eslint-parser": "^7.15.4",
     "@babel/preset-typescript": "^7.14.5",
     "@rxreact/jest-helpers": "^1.0.0",
+    "@testing-library/cypress": "^9.0.0",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
@@ -160,6 +162,7 @@
     "check-outdated": "^1.4.3",
     "core-js": "^2.6.12",
     "cross-env": "^7.0.3",
+    "cypress": "^12.17.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^6.15.0",
