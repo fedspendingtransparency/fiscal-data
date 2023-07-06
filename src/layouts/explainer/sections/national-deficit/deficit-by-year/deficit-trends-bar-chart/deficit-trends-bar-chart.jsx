@@ -1,18 +1,28 @@
 import { Bar } from '@nivo/bar';
-import { deficitExplainerPrimary } from "../../national-deficit.module.scss";
-import React, {useEffect, useState} from "react";
-import {barChart, headerTitle, subHeader} from "./deficit-trends-bar-chart.module.scss";
-import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
-import {container} from "./deficit-trends-bar-chart.module.scss";
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {breakpointLg, fontSize_12, fontSize_16, fontBodyCopy, fontTitle} from "../../../../../../variables.module.scss";
-import {withWindowSize} from "react-fns";
-import CustomLink from "../../../../../../components/links/custom-link/custom-link";
-import {apiPrefix, basicFetch} from '../../../../../../utils/api-utils';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-chart-helpers";
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
+import React, { useEffect, useState } from 'react';
+import {
+  barChart,
+  container,
+  headerTitle,
+  subHeader,
+} from './deficit-trends-bar-chart.module.scss';
+import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import {
+  breakpointLg,
+  fontBodyCopy,
+  fontSize_12,
+  fontSize_16,
+  fontTitle,
+} from '../../../../../../variables.module.scss';
+import { withWindowSize } from 'react-fns';
+import CustomLink from '../../../../../../components/links/custom-link/custom-link';
+import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import {
@@ -78,15 +88,13 @@ export const DeficitTrendsBarChart = ({ width }) => {
     animationDuration: 2000,
   }
   const startingYear = '2001';
-  let delayIncrement = 1250;
+  const delayIncrement = 1250;
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
-      let delay = 100;
       data.forEach(value => {
-        const duration = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
-        value["duration"] = duration;
-        value["delay"] = delay;
+        value["duration"] = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
+        value["delay"] = 100;
       })
     }
     return data;
@@ -181,15 +189,16 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
 
   useEffect(() => {
-    let headerDelay = delayIncrement + 1250;
-    let barDelay = delayIncrement + 1250;
+    const initialDelay = delayIncrement + 100;
+    let headerDelay = initialDelay;
+    let barDelay = initialDelay;
     const barSVGs = Array.from(
       document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children
     );
     barSVGs.splice(0, 5);
 
     // Run bar highlight wave
-    barSVGs.map((element) => {
+    barSVGs.forEach((element) => {
       const finalBar = barSVGs[barSVGs.length - 1].children[0];
       const bar = element.children[0];
 
@@ -207,7 +216,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
     })
 
     //Run animation for header values
-    chartData.map((element) => {
+    chartData.forEach((element) => {
       if (inView && element.year >= startingYear) {
         setTimeout(() => {
           setHeaderYear(element.year);
@@ -215,7 +224,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         }, headerDelay += delayIncrement / chartData.length )
       }
     })
-  }, [inView])
+  }, [inView, chartData])
 
   useEffect(() => {
     applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
