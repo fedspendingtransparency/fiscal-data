@@ -3,6 +3,8 @@ import {fireEvent, render} from "@testing-library/react";
 import ComboSelectDropdown from './combo-select-dropdown';
 import { mockOptions } from '../../combo-select-test-helper';
 import { act } from 'react-test-renderer';
+import ScrollContainer from '../../../scroll-container/scroll-container';
+import { testSortedGlossaryData } from '../../../glossary/test-helper';
 
 describe('Combo Select Dropdown', () => {
   jest.useFakeTimers();
@@ -140,4 +142,20 @@ describe('Combo Select Dropdown', () => {
     const filteredOptions = getAllByRole('button');
     expect(filteredOptions.length).toEqual(3);
   });
+
+  it('resets scroll top when active is true', () => {
+    const defaultSelection = mockOptions[1];
+    const { getByTestId } = render(
+      <ComboSelectDropdown
+        active={true}
+        options={mockOptions}
+        selectedOption={defaultSelection}
+        changeHandler={jest.fn()}
+        setDropdownActive={jest.fn()}
+        optionLabelKey="label"
+      />);
+
+    expect(getByTestId('scrollGradient')).toHaveClass('scrollContainerTop');
+    expect(getByTestId('scrollGradient')).not.toHaveClass('scrollGradient');
+  })
 })
