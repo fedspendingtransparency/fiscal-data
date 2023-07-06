@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import {
   dropdownContainer,
@@ -99,6 +99,12 @@ const ComboSelectDropdown = (
       }
     }
   }
+
+  useEffect(() => {
+    if (active) {
+      setScrollTop(true);
+    }
+  }, [active])
 
   return (
     <>
