@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import { navigate } from "gatsby";
 import Card from '@material-ui/core/Card';
@@ -24,7 +24,7 @@ type DatasetCardProps = {
   dataset: IDataset,
   context: string,
   referrer: string,
-  explainer?: boolean
+  explainer?: boolean,
 }
 
 const DatasetCard: FunctionComponent<DatasetCardProps> = ({
@@ -36,6 +36,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   const cardLink = `/datasets${dataset.slug}`;
   const [applyFocusStyle, setApplyFocusStyle] = useState(false);
   const focusStyle = isFirefox ? card_withFocus_FireFox : card_withFocus;
+
 
   const clickHandler: () => void = () => {
     if (context && referrer) {
