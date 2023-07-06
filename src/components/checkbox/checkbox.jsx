@@ -5,15 +5,26 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
   const defaultData = checkboxData.filter(field => field?.default === true);
+  const additionalData = checkboxData.filter(field => field?.default === false);
+  if (defaultData.length && defaultData[0]?.label) {
+    additionalData.sort((a, b) => {
+      function stripCommas(label) {
+        return label.replace(/[,]/g, ''); 
+      }      
+      return stripCommas(a.label).localeCompare(stripCommas(b.label));
+    });
+  }
+
+  const currentCheckboxData = defaultData.length ? defaultData.concat(additionalData) : checkboxData;
 
   const handleClick = (e, isKeyPress, checkedValue) => {
     if (isKeyPress) {
-      checkboxData[e.target.value].active = checkedValue;
+      currentCheckboxData[e.target.value].active = checkedValue;
     }
     else {
-      checkboxData[e.target.value].active = e.target.checked;
+      currentCheckboxData[e.target.value].active = e.target.checked;
     }
-    changeHandler(checkboxData.filter(obj => obj.active));
+    changeHandler(currentCheckboxData.filter(obj => obj.active));
   }
 
   const handleHover = (enter, obj) => {
@@ -26,7 +37,7 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
       <div className={styles.checkbox_container}>
       { defaultData.length ? <div className={styles.sectionHeading}>DEFAULTS</div> : ''}
 
-        {checkboxData.map((obj, index) => (
+        {currentCheckboxData.map((obj, index) => (
           <>
           {(defaultData.length && defaultData.length === index) ? <div className={[styles.sectionHeading, styles.additionalSection].join(' ')}>ADDITIONAL</div> : ''}
             <React.Fragment key={index}>
