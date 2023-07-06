@@ -3,8 +3,6 @@ import {fireEvent, render} from "@testing-library/react";
 import ComboSelectDropdown from './combo-select-dropdown';
 import { mockOptions } from '../../combo-select-test-helper';
 import { act } from 'react-test-renderer';
-import ScrollContainer from '../../../scroll-container/scroll-container';
-import { testSortedGlossaryData } from '../../../glossary/test-helper';
 
 describe('Combo Select Dropdown', () => {
   jest.useFakeTimers();
