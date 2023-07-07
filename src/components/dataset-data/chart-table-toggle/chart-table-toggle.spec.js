@@ -93,7 +93,7 @@ describe('Chart Table Toggle 0', () => {
       selectedTab={0}
       onToggleLegend={spyProps.onToggleLegend} />);
 
-      expect(getByRole('button', {name:'Select Column'})).toBeInTheDocument();
+      expect(getByRole('button', {name:'Select Columns'})).toBeInTheDocument();
   });
 
   it('calls toggle when select column tab is clicked', () => {
@@ -107,7 +107,7 @@ describe('Chart Table Toggle 0', () => {
       selectedTab={0}
       onToggleLegend={spyProps.onToggleLegend} />);
 
-      const selectColButton = getByRole('button', {name:'Select Column'});
+      const selectColButton = getByRole('button', {name:'Select Columns'});
       expect(selectColButton).toBeInTheDocument();
 
       userEvent.click(selectColButton);
@@ -124,7 +124,7 @@ describe('Chart Table Toggle 0', () => {
       showToggleChart={true}
       selectedTab={1} />);
 
-      expect(queryByRole('button', {name:'Select Column'})).not.toBeInTheDocument();
+      expect(queryByRole('button', {name:'Select Columns'})).not.toBeInTheDocument();
   });
 
   it('does not display the select column tab when showToggleTable is false', () => {
@@ -138,7 +138,7 @@ describe('Chart Table Toggle 0', () => {
       selectedTab={0}
       onToggleLegend={spyProps.onToggleLegend} />);
 
-      expect(queryByRole('button', {name:'Select Column'})).not.toBeInTheDocument();
+      expect(queryByRole('button', {name:'Select Columns'})).not.toBeInTheDocument();
   });
   
 });

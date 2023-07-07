@@ -157,7 +157,7 @@ const ChartTableToggle = ({
             
             ) : (
               <HideLegendToggle
-              displayText={"Select Column"}
+              displayText={"Select Columns"}
               displayIcon={faCrosshairs}
               showToggle={showToggleTable}
               onToggleLegend={onToggleLegend}
