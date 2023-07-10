@@ -1,23 +1,38 @@
 import React, {FunctionComponent} from 'react';
 import {
   ColumnDef,
-  flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  SortingState,
 } from '@tanstack/react-table';
 
 import * as styles from '../dtg-table/dtg-table.module.scss';
-
+import './data-table.module.scss';
 
 // TODO: Add unit tests and then delete comment below
 /* istanbul ignore file */
 
 type DataTableProps = {
   rawData: any;
+  // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
+  defaultSelectedColumns: string[];
 }
 
-export const DataTable:FunctionComponent<DataTableProps> = ({ rawData }) => {
+export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSelectedColumns }) => {
 
-  const columns = Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>));
-  const data = rawData.data as any[];
+  console.log(defaultSelectedColumns);
+
+  const allColumns = Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>));
+  // const data = rawData.data as any[];
+  const [data, setData] = React.useState(() => [...rawData.data]);
+  const [columns] = React.useState(() => [
+    ...allColumns,
+  ])
+  const [columnVisibility, setColumnVisibility] = React.useState({});
+  const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
     columns,
@@ -25,28 +40,88 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData }) => {
     initialState: {
       pagination: {
         pageIndex: 0,
-        pageSize: 5,
+        pageSize: 10,
       }
     },
+    state: {
+     columnVisibility,
+     sorting,
+    },
+    onSortingChange: setSorting,
+    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel()
   });
+  console.log(table.getAllLeafColumns());
   return (
     // apply the table props
     <>
+      <div className="inline-block border border-black shadow rounded">
+        <div className="px-1 border-b border-black">
+          <label>
+            <input
+              {...{
+                type: 'checkbox',
+                checked: table.getIsAllColumnsVisible(),
+                onChange: table.getToggleAllColumnsVisibilityHandler(),
+              }}
+            />{' '}
+            Toggle All
+          </label>
+        </div>
+        {table.getAllLeafColumns().map(column => {
+          return (
+            <div key={column.id} className="px-1">
+              <label>
+                <input
+                  {...{
+                    type: 'checkbox',
+                    checked: column.getIsVisible(),
+                    onChange: column.getToggleVisibilityHandler(),
+                  }}
+                />{' '}
+                {column.columnDef.header}
+              </label>
+            </div>
+          )
+        })}
+      </div>
     <div data-test-id="table-content" className={styles.newTableContainer}>
       <table>
         <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id}>
+              <th
+                {...{
+                  key: header.id,
+                  colSpan: header.colSpan,
+                  style: {
+                    width: header.getSize(),
+                  },
+                }}
+              >
                 {header.isPlaceholder
                   ? null
-                  : flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
+                  :  (
+                  <div
+                    {...{
+                      style: {cursor: 'pointer', select: 'none', display: 'flex', flexDirection: 'row'},
+                      onClick: header.column.getToggleSortingHandler(),
+                      tabIndex: 0,
+                      role: 'button'
+                    }}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {{
+                      asc: ' 🔼',
+                      desc: ' 🔽',
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </div>
                   )}
               </th>
             ))}
