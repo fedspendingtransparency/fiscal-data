@@ -78,3 +78,5 @@ export const loadingIcon: string;
 export const selectColumnsWrapper: string;
 export const selectColumnPanel: string;
 export const selectColumnPanelActive: string;
+export const resizer: string;
+export const isResizing: string;

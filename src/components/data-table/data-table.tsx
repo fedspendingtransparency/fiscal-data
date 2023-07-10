@@ -7,6 +7,7 @@ import {
   getSortedRowModel,
   useReactTable,
   SortingState,
+  ColumnResizeMode,
 } from '@tanstack/react-table';
 
 import * as styles from '../dtg-table/dtg-table.module.scss';
@@ -23,7 +24,7 @@ type DataTableProps = {
 
 export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSelectedColumns }) => {
 
-  console.log(defaultSelectedColumns);
+  // console.log(defaultSelectedColumns);
 
   const allColumns = Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>));
   // const data = rawData.data as any[];
@@ -32,11 +33,13 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
     ...allColumns,
   ])
   const [columnVisibility, setColumnVisibility] = React.useState({});
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnResizeMode, setColumnResizeMode] = React.useState<ColumnResizeMode>('onChange');
 
   const table = useReactTable({
     columns,
     data,
+    columnResizeMode,
     initialState: {
       pagination: {
         pageIndex: 0,
@@ -51,12 +54,22 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel()
+    getSortedRowModel: getSortedRowModel(),
+    debugTable: true,
+    debugHeaders: true,
+    debugColumns: true,
   });
-  console.log(table.getAllLeafColumns());
   return (
     // apply the table props
     <>
+      <select
+        value={columnResizeMode}
+        onChange={e => setColumnResizeMode(e.target.value as ColumnResizeMode)}
+        className="border p-2 border-black rounded"
+      >
+        <option value="onEnd">Resize: "onEnd"</option>
+        <option value="onChange">Resize: "onChange"</option>
+      </select>
       <div className="inline-block border border-black shadow rounded">
         <div className="px-1 border-b border-black">
           <label>
@@ -98,19 +111,18 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                   key: header.id,
                   colSpan: header.colSpan,
                   style: {
-                    width: header.getSize(),
+                    minWidth: header.getSize(),
                   },
                 }}
               >
                 {header.isPlaceholder
                   ? null
                   :  (
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                   <div
                     {...{
                       style: {cursor: 'pointer', select: 'none', display: 'flex', flexDirection: 'row'},
                       onClick: header.column.getToggleSortingHandler(),
-                      tabIndex: 0,
-                      role: 'button'
                     }}
                   >
                     {flexRender(
@@ -123,6 +135,22 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                     }[header.column.getIsSorted() as string] ?? null}
                   </div>
                   )}
+                <div
+                  {...{
+                    onMouseDown: header.getResizeHandler(),
+                    onTouchStart: header.getResizeHandler(),
+                    className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
+                    style: {
+                      transform:
+                        columnResizeMode === 'onEnd' &&
+                        header.column.getIsResizing()
+                          ? `translateX(${
+                            table.getState().columnSizingInfo.deltaOffset
+                          }px)`
+                          : '',
+                    },
+                  }}
+                />
               </th>
             ))}
           </tr>
