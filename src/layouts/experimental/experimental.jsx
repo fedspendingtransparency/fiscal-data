@@ -11,6 +11,8 @@ import ChartJSDoughnut from "./charts/chartjsDoughnut";
 import ChartJSBar from "./charts/chartjsBar";
 import ChartJSLine from "./charts/chartjsLine";
 import ReChartsLine from "./charts/rechartsLine";
+import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
+import AFGDeficitBarChartPOC from './charts/afgOverviewDeficitBarChart';
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -47,7 +49,7 @@ const ExperimentalPage = () => {
       </p>
       <br />
       <h3> ReCharts Composed Chart </h3>
-      <ReChartsLine />
+      <AFGDeficitBarChartPOC />
       <h2>
         Basic Bar Graph, with labels visible on bars
       </h2>
