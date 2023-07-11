@@ -6,9 +6,13 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  getFilteredRowModel,
   SortingState,
   ColumnResizeMode,
+  Column,
+  Table,
 } from '@tanstack/react-table';
+
 
 import * as styles from '../dtg-table/dtg-table.module.scss';
 import * as childStyles from './data-table.module.scss';
@@ -16,18 +20,68 @@ import * as childStyles from './data-table.module.scss';
 // TODO: Add unit tests and then delete comment below
 /* istanbul ignore file */
 
+
 type DataTableProps = {
   rawData: any;
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   defaultSelectedColumns: string[];
 }
 
+const Filter = ({
+                  column,
+                  table,
+                }: {
+  column: Column<any, any>
+  table: Table<any>
+}) => {
+  const firstValue = table
+  .getPreFilteredRowModel()
+    .flatRows[0]?.getValue(column.id)
+
+  const columnFilterValue = column.getFilterValue()
+
+  return typeof firstValue === 'number' ? (
+    <div className="flex space-x-2">
+      <input
+        type="number"
+        value={(columnFilterValue as [number, number])?.[0] ?? ''}
+        onChange={e =>
+          column.setFilterValue((old: [number, number]) => [
+            e.target.value,
+            old?.[1],
+          ])
+        }
+        placeholder={`Min`}
+        className="w-24 border shadow rounded"
+      />
+      <input
+        type="number"
+        value={(columnFilterValue as [number, number])?.[1] ?? ''}
+        onChange={e =>
+          column.setFilterValue((old: [number, number]) => [
+            old?.[0],
+            e.target.value,
+          ])
+        }
+        placeholder={`Max`}
+        className="w-24 border shadow rounded"
+      />
+    </div>
+  ) : (
+    <input
+      type="text"
+      value={(columnFilterValue ?? '') as string}
+      onChange={e => column.setFilterValue(e.target.value)}
+      placeholder={`Search...`}
+      className="w-36 border shadow rounded"
+    />
+  )
+}
+
 export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSelectedColumns }) => {
 
-  // console.log(defaultSelectedColumns);
-
   const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
-  // const data = rawData.data as any[];
+  console.log(allColumns);
   const [data, setData] = React.useState(() => [...rawData.data]);
   const [columns] = React.useState(() => [
     ...allColumns,
@@ -55,10 +109,12 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     debugTable: true,
     debugHeaders: true,
     debugColumns: true,
   });
+
   return (
     // apply the table props
     <div className={childStyles.tableStyle}>
@@ -105,54 +161,63 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
         <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th
-                {...{
-                  key: header.id,
-                  colSpan: header.colSpan,
-                  style: {
-                    minWidth: header.getSize(),
-                  },
-                }}
-              >
-                {header.isPlaceholder
-                  ? null
-                  :  (
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                  <div
-                    {...{
-                      style: {cursor: 'pointer', select: 'none', display: 'flex', flexDirection: 'row'},
-                      onClick: header.column.getToggleSortingHandler(),
-                    }}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                    {{
-                      asc: ' 🔼',
-                      desc: ' 🔽',
-                    }[header.column.getIsSorted() as string] ?? null}
-                  </div>
-                  )}
-                <div
+            {headerGroup.headers.map((header) => {
+              return (
+                <th
                   {...{
-                    onMouseDown: header.getResizeHandler(),
-                    onTouchStart: header.getResizeHandler(),
-                    className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
+                    key: header.id,
+                    colSpan: header.colSpan,
                     style: {
-                      transform:
-                        columnResizeMode === 'onEnd' &&
-                        header.column.getIsResizing()
-                          ? `translateX(${
-                            table.getState().columnSizingInfo.deltaOffset
-                          }px)`
-                          : '',
+                      minWidth: header.getSize(),
                     },
                   }}
-                />
-              </th>
-            ))}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    :  (
+                      <>
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? `${styles.colArrowButton}`
+                              : '',
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          {{
+                            asc: ' 🔼',
+                            desc: ' 🔽',
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
+                        {header.column.getCanFilter() ? (
+                          <div>
+                            <Filter column={header.column} table={table} />
+                          </div>
+                        ) : null}
+                      </>
+                    )}
+                  <div
+                    {...{
+                      onMouseDown: header.getResizeHandler(),
+                      onTouchStart: header.getResizeHandler(),
+                      className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
+                      style: {
+                        transform:
+                          columnResizeMode === 'onEnd' &&
+                          header.column.getIsResizing()
+                            ? `translateX(${
+                              table.getState().columnSizingInfo.deltaOffset
+                            }px)`
+                            : '',
+                      },
+                      }}
+                  />
+                </th>
+            )})}
           </tr>
         ))}
         </thead>
@@ -233,4 +298,5 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
     </div>
     </div>
     );
+
 }

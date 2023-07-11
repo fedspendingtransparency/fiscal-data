@@ -169,6 +169,10 @@ $borderRadius: 5px;
   opacity: 1;
 }
 
+.colArrowButton {
+  cursor: pointer;
+}
+
 @media (hover: hover) {
   .resizer {
     opacity: 0;

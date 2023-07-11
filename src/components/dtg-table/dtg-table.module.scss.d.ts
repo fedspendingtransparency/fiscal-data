@@ -80,3 +80,4 @@ export const selectColumnPanel: string;
 export const selectColumnPanelActive: string;
 export const resizer: string;
 export const isResizing: string;
+export const colArrowButton: string;
