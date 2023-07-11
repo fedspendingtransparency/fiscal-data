@@ -128,7 +128,6 @@ describe('National Debt Over the Last 100 Years Chart', () => {
       debtAmountHeader = await getByTestId('dynamic-value-header');
       expect(yearHeader.textContent).toContain('2022');
       expect(debtAmountHeader.textContent).toContain('$30.93 T');
-      //expect(debtAmountHeader).toStrictEqual('rong');
     });
 
     // explicitly declare that the chart IS NOW scrolled into view and confirm animation is underway

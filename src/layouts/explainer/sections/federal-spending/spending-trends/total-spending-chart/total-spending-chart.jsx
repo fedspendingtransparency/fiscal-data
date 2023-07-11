@@ -37,6 +37,7 @@ import {
   applyChartScaling
 } from "../../../../explainer-helpers/explainer-charting-helper";
 import CustomSlices  from '../../../../explainer-helpers/CustomSlice/custom-slice';
+import { useInView} from "react-intersection-observer";
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -351,6 +352,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText} =
     getChartCopy(minYear, maxYear, selectedChartView);
 
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true
+  })
+
   return (
     <>
       {isLoading && (
@@ -359,7 +365,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         </div>
       )}
       {!isLoading && chartToggleConfig && (
-        <div className={visWithCallout}>
+        <div className={visWithCallout} ref={ref}>
           <div className={container}>
 
             <ChartContainer
@@ -391,7 +397,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                       CustomSlices({
                           ...props,
                           groupMouseLeave: handleGroupOnMouseLeave,
-                          mouseMove: handleMouseLeave
+                          mouseMove: handleMouseLeave,
+                          inView,
+                          duration: 500,
                         }
                       ),
                     'mesh',
