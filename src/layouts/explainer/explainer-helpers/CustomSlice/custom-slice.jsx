@@ -28,12 +28,7 @@ import React, { useEffect, useState } from 'react';
       });
 
       setTimeout(() => {
-        setCurrentSlice(slices[slices.length - 1]);
-        mouseMove(slices[slices.length - 1]);
-        if (groupMouseLeave) {
-          console.log('hello')
-          setCurrentSlice(null)
-        }
+        setCurrentSlice(null);
       }, (stepDuration * (slices.length + 1)) + 550);
     }
   }, [inView, animationTriggeredOnce, slices]);
