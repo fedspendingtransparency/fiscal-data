@@ -8,9 +8,11 @@ import {
   semiBoldWeight,
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import numeral from "numeral";
 import Analytics from '../../../../../../utils/analytics/analytics';
+import {
+  Point
+} from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
 
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
@@ -138,21 +140,20 @@ export const chartConfigs = {
   },
 };
 
-export const getMarkers = (width) => {
-  const markerStyle = {
-    axis: "y",
-    background: "#666666",
-    lineStyle: { strokeWidth: 0 },
-    textStyle: {
-      fontWeight: semiBoldWeight,
-      fill: "#666666",
-      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    },
-  };
-  return [
-    {
-      ...markerStyle,
-    },
-  ];
+export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
+
+  const lastPoint = points.filter(g => g.serieId === 'Total Debt').sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric: true})).pop();
+
+  const currentPrimaryPoint = currentSlice?.points?.length
+    ? currentSlice.points[0]
+    : lastPoint;
+
+  return (
+    <g data-testid="customPoints">
+      {currentPrimaryPoint && (
+        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
+      )}
+    </g>
+  );
 };
 

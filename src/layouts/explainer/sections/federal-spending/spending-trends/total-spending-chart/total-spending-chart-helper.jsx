@@ -275,14 +275,40 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
       ];
 };
 
+export const Point = ({ borderWidth, borderColor, point }) => {
+  return (
+    <>
+      <circle
+        r={8}
+        strokeWidth={borderWidth}
+        stroke={borderColor}
+        fill="#D8D8D8"
+        fillOpacity={0.35}
+        cx={point?.x}
+        cy={point?.y}
+      />
+      <circle
+        r={2}
+        strokeWidth="4"
+        stroke="#000000"
+        fill="#000000"
+        fillOpacity={0.85}
+        cx={point?.x}
+        cy={point?.y}
+      />
+    </>
+  )
+}
 
 export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
+  const getLastValue = (values, name) =>
+    values.filter(g => g.serieId === name).sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric: true})).pop();
 
-  const lastSpendingPoints = points.filter(g => g.serieId === 'Total Spending').sort((a,b) => a.id.localeCompare(b.id)).pop();
+  const lastSpendingPoints = getLastValue(points, 'Total Spending');
 
-  const lastGdpPoints = points.filter(g => g.serieId === 'GDP').sort((a,b) => a.id.localeCompare(b.id)).pop();
+  const lastGdpPoints = getLastValue(points,'GDP');
 
-  const lastGDPPercentagePoints = points.filter(g => g.serieId === 'GDP Percentage').sort((a,b) => a.id.localeCompare(b.id)).pop();
+  const lastGDPPercentagePoints = getLastValue(points,'GDP Percentage');
 
   const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints : lastGDPPercentagePoints;
 
@@ -297,48 +323,10 @@ export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, 
   return (
     <g data-testid="customPoints">
       {currentPrimaryPoint && (
-        <>
-          <circle
-            fill={'#D8D8D8'}
-            r={8}
-            strokeWidth={borderWidth}
-            stroke={borderColor}
-            fillOpacity={0.35}
-            cx={currentPrimaryPoint?.x}
-            cy={currentPrimaryPoint?.y}
-          />
-          <circle
-            r={2}
-            strokeWidth={'4'}
-            stroke={'#000000'}
-            fill={'#000000'}
-            fillOpacity={0.85}
-            cx={currentPrimaryPoint?.x}
-            cy={currentPrimaryPoint?.y}
-          />
-        </>
+        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
       )}
       {currentGdpPoint && (
-        <>
-          <circle
-            fill={'#D8D8D8'}
-            r={8}
-            strokeWidth={borderWidth}
-            stroke={borderColor}
-            fillOpacity={0.35}
-            cx={currentGdpPoint.x}
-            cy={currentGdpPoint.y}
-          />
-          <circle
-            r={2}
-            strokeWidth={'4'}
-            stroke={'#000000'}
-            fill={'#000000'}
-            fillOpacity={0.85}
-            cx={currentGdpPoint.x}
-            cy={currentGdpPoint.y}
-          />
-        </>
+        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />
       )}
     </g>
   );
