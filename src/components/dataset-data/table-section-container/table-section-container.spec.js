@@ -500,7 +500,7 @@ describe('TableSectionContainer with Select Column', () => {
       const selectColumns = getByTestId('selectColumnsMainContainer');
       expect(selectColumns).toHaveClass('selectColumnPanel');
 
-      const selectColToggle = getByRole('button', {name: 'Select Column'});
+      const selectColToggle = getByRole('button', {name: 'Select Columns'});
       userEvent.click(selectColToggle);
 
       await waitFor(() => {
@@ -524,7 +524,7 @@ describe('TableSectionContainer with Select Column', () => {
       const selectColumns = getByTestId('selectColumnsMainContainer');
       expect(selectColumns).toHaveClass('selectColumnPanel');
 
-      const selectColToggle = getByRole('button', {name: 'Select Column'});
+      const selectColToggle = getByRole('button', {name: 'Select Columns'});
       userEvent.click(selectColToggle);
 
       await waitFor(() => {
