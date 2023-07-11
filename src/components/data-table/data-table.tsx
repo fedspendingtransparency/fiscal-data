@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table';
 
 import * as styles from '../dtg-table/dtg-table.module.scss';
-import './data-table.module.scss';
+import * as childStyles from './data-table.module.scss';
 
 // TODO: Add unit tests and then delete comment below
 /* istanbul ignore file */
@@ -26,7 +26,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
 
   // console.log(defaultSelectedColumns);
 
-  const allColumns = Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>));
+  const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
   // const data = rawData.data as any[];
   const [data, setData] = React.useState(() => [...rawData.data]);
   const [columns] = React.useState(() => [
@@ -61,7 +61,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
   });
   return (
     // apply the table props
-    <>
+    <div className={childStyles.tableStyle}>
       <select
         value={columnResizeMode}
         onChange={e => setColumnResizeMode(e.target.value as ColumnResizeMode)}
@@ -231,6 +231,6 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
         ))}
       </select>
     </div>
-    </>
+    </div>
     );
 }
