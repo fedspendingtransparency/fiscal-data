@@ -278,7 +278,11 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
 
 export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
 
-  const lastGdpPoints = points.filter(g => g.serieId === 'GDP').pop();
+  const lastGdpPoints = points.filter(g => g.serieId === 'GDP')[7];
+
+  console.log(points)
+
+  console.log(lastGdpPoints)
 
   const currentSpendingPoint = currentSlice?.points?.length
     ? currentSlice.points[0]
