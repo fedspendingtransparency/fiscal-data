@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import React from 'react';
-import { Area, ComposedChart, Bar, XAxis, YAxis, Tooltip, BarChart } from 'recharts';
+import { Area, ComposedChart, Bar, XAxis, YAxis, Tooltip, BarChart, Cell } from 'recharts';
 import {
   deficitExplainerLightSecondary, deficitExplainerPrimary
 } from "../../explainer/sections/national-deficit/national-deficit.module.scss";
@@ -56,17 +56,24 @@ const AFGDeficitBarChartPOC = () => {
   ]
 
 
-  const CustomBar = ({ active, payload, label}) => {
-    console.log(payload);
+  const CustomBar = (props) => {
+    const {payload, active, fill, x, y,width, height} = props;
+    // console.log(payload);
+    console.log(props);
     if (active && payload && payload.length) {
       return (
-        <React.Fragment data-testid='custom bar'>
-          <line x1={payload['Deficit'][0]}
-                x2={payload['Deficit'][1]}
-                y1={payload['year']}
-                y2={payload['year']}
-          />
-        </React.Fragment>
+        <rect
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+        />
+        // <line x1={payload['Deficit'][0]}
+        //       x2={payload['Deficit'][1]}
+        //       y1={payload['year']}
+        //       y2={payload['year']}
+        //       stroke="black"
+        // />
       )
     }
     return null;
@@ -83,8 +90,12 @@ const AFGDeficitBarChartPOC = () => {
         }}
         layout="vertical"
       >
-        <Bar dataKey="Deficit" shape={CustomBar} />
-        <YAxis dataKey="year" type="category" />
+        <Bar dataKey="Deficit" fill="black" shape={<CustomBar />}>
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}` } />
+          ))}
+        </Bar>
+        <YAxis dataKey="year" type="category" fill="black" />
         <XAxis />
       </BarChart>
     </>

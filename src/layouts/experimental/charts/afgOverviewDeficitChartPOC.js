@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import React from 'react';
-import {Area, ComposedChart, Line, XAxis, YAxis, Tooltip} from "recharts";
+import { Area, ComposedChart, Line, XAxis, YAxis, Tooltip, LineChart, Dot } from 'recharts';
 import {
   deficitExplainerLightSecondary, deficitExplainerPrimary
 } from "../../explainer/sections/national-deficit/national-deficit.module.scss";
@@ -107,37 +107,28 @@ const AFGDeficitPOC = () => {
       "Deficit": [2, 4],
     }
   ]
+
   const testData = [
-      {
-        'year': '2016',
-         '2016-Deficit': 0,
-       },
-       {
-         'year': '2016',
-         "2016-Deficit": 4,
-       },
-       {
-         'year': '2016',
-         "2016-Deficit": 6,
-       },
-    ]
-    //  [
-    //    {
-    //      "2016-Deficit": 0,
-    //      "2016-Spending": 0,
-    //      "2016-Revenue": 0.5,
-    //    },
-    //    {
-    //      "2017-Deficit": [2,4],
-    //      "2017-Spending": 2,
-    //      "2017-Revenue": 4,
-    //    },
-    //    {
-    //      "2018-Deficit": [3,5],
-    //      "2018-Spending": 3,
-    //      "2018-Revenue": 5,
-    //    },
-    // ];
+    {
+      data: [
+        {year: '2016', value: 0.5},
+        {year: '2016', value: 2},
+      ]
+    },
+    {
+      data: [
+        {year: '2017', value: 1.5},
+        {year: '2017', value: 3},
+      ]
+    },
+    {
+      data: [
+        {year: '2018', value: 3.5},
+        {year: '2018', value: 6},
+      ]
+    }
+  ]
+
 
 
   const CustomTooltip = ({ active, payload, label}) => {
@@ -190,9 +181,6 @@ const AFGDeficitPOC = () => {
     }
     return null;
   }
-  const NewLine = () => {
-
-  }
 
   const years = ['2016', '2017', '2018'];
 
@@ -201,15 +189,20 @@ const AFGDeficitPOC = () => {
       <ComposedChart
         width={730}
         height={250}
-        data={testData}
+        // data={testData}
         margin={{
           top: 20, right: 20, bottom: 20, left: 20,
         }}
         layout="vertical"
       >
-        <Line dataKey={'Deficit'} stroke={spendingExplainerPrimary} strokeWidth={2} dot={false} activeDot={false} strokeOpacity={1} />
+        {testData.map((s) => (
+          <>
 
-        <YAxis dataKey="year" type="category" ticks={["2016", "2017", "2018",]} />
+            <Line dataKey='value' data={s.data} stroke={deficitExplainerPrimary} strokeWidth={2} dot={false} activeDot={false} strokeOpacity={1} />
+          </>
+        ))}
+
+        <YAxis dataKey="year" type="category" allowDuplicatedCategory={false} />
         <XAxis />
         {/*<Tooltip content={<CustomTooltip />} cursor={{ stroke: '#666666', strokeWidth: 2, strokeDasharray: 3}} />*/}
       </ComposedChart>
