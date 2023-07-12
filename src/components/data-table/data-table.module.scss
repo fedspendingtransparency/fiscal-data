@@ -10,7 +10,6 @@ $borderRadius: 5px;
     border-radius: $borderRadius;
     background-color: white;
     overflow-x: auto;
-    //min-height: calc(64px + 8rem);
   }
 
   table,
@@ -33,8 +32,8 @@ $borderRadius: 5px;
   .th,
   td,
   .td {
-    box-shadow: inset 0 0 0 1px lightgray;
     padding: 0.25rem;
+    border-bottom: 2px solid lightgrey;
   }
 
   #th-parent{
@@ -45,7 +44,6 @@ $borderRadius: 5px;
 
   th,
   .th {
-    //padding: 4px 4px;
     background-color: white;
     position: relative;
     font-weight: bold;

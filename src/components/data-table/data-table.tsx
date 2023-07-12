@@ -9,9 +9,9 @@ import {
   getFilteredRowModel,
   SortingState,
   ColumnResizeMode,
-  Column,
-  Table,
 } from '@tanstack/react-table';
+
+import {Filter} from "./data-table-helper";
 
 import StickyTable from "react-sticky-table-thead";
 
@@ -29,73 +29,20 @@ type DataTableProps = {
   defaultSelectedColumns: string[];
 }
 
-const Filter = ({
-                  column,
-                  table,
-                }: {
-  column: Column<any, any>
-  table: Table<any>
-}) => {
-  const firstValue = table
-  .getPreFilteredRowModel()
-    .flatRows[0]?.getValue(column.id)
-
-  const columnFilterValue = column.getFilterValue()
-
-  return typeof firstValue === 'number' ? (
-    <div className="flex space-x-2">
-      <input
-        type="number"
-        value={(columnFilterValue as [number, number])?.[0] ?? ''}
-        onChange={e =>
-          column.setFilterValue((old: [number, number]) => [
-            e.target.value,
-            old?.[1],
-          ])
-        }
-        placeholder={`Min`}
-        className="w-24 border shadow rounded"
-      />
-      <input
-        type="number"
-        value={(columnFilterValue as [number, number])?.[1] ?? ''}
-        onChange={e =>
-          column.setFilterValue((old: [number, number]) => [
-            old?.[0],
-            e.target.value,
-          ])
-        }
-        placeholder={`Max`}
-        className="w-24 border shadow rounded"
-      />
-    </div>
-  ) : (
-    <input
-      type="text"
-      value={(columnFilterValue ?? '') as string}
-      onChange={e => column.setFilterValue(e.target.value)}
-      placeholder={`Search...`}
-      className="w-36 border shadow rounded"
-    />
-  )
-}
-
 export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSelectedColumns }) => {
 
   const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
-  console.log(allColumns);
-  const [data, setData] = React.useState(() => [...rawData.data]);
+  const data = rawData.data;
   const [columns] = React.useState(() => [
     ...allColumns,
   ])
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnResizeMode, setColumnResizeMode] = React.useState<ColumnResizeMode>('onChange');
 
   const table = useReactTable({
     columns,
     data,
-    columnResizeMode,
+    columnResizeMode: 'onChange',
     initialState: {
       pagination: {
         pageIndex: 0,
@@ -120,14 +67,6 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
   return (
     // apply the table props
     <div className={styles.tableStyle}>
-      <select
-        value={columnResizeMode}
-        onChange={e => setColumnResizeMode(e.target.value as ColumnResizeMode)}
-        className="border p-2 border-black rounded"
-      >
-        <option value="onEnd">Resize: "onEnd"</option>
-        <option value="onChange">Resize: "onChange"</option>
-      </select>
       <div className="inline-block border border-black shadow rounded">
         <div className="px-1 border-b border-black">
           <label>
@@ -159,7 +98,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
         })}
       </div>
       <div data-test-id="table-content" className={styles.tableContainer}>
-       <StickyTable height={650} >
+       <StickyTable height={500} >
         <table>
           <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -209,15 +148,6 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                         onMouseDown: header.getResizeHandler(),
                         onTouchStart: header.getResizeHandler(),
                         className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
-                        style: {
-                          transform:
-                            columnResizeMode === 'onEnd' &&
-                            header.column.getIsResizing()
-                              ? `translateX(${
-                                table.getState().columnSizingInfo.deltaOffset
-                              }px)`
-                              : '',
-                        },
                         }}
                     />
                   </th>
@@ -229,7 +159,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} onClick={() => console.log(cell.getValue())}>
+                <td key={cell.id}>
                   {
                     cell.getValue() === 'null' ? (
                       <div />
