@@ -13,9 +13,9 @@ import {
   Table,
 } from '@tanstack/react-table';
 
-
-import * as styles from '../dtg-table/dtg-table.module.scss';
-import * as childStyles from './data-table.module.scss';
+import * as styles from './data-table.module.scss';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowDown, faArrowUp} from "@fortawesome/free-solid-svg-icons";
 
 // TODO: Add unit tests and then delete comment below
 /* istanbul ignore file */
@@ -117,7 +117,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
 
   return (
     // apply the table props
-    <div className={childStyles.tableStyle}>
+    <div className={styles.tableStyle}>
       <select
         value={columnResizeMode}
         onChange={e => setColumnResizeMode(e.target.value as ColumnResizeMode)}
@@ -156,7 +156,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
           )
         })}
       </div>
-    <div data-test-id="table-content" className={styles.newTableContainer}>
+    <div data-test-id="table-content" className={styles.tableContainer}>
       <table>
         <thead>
         {table.getHeaderGroups().map((headerGroup) => (
@@ -176,10 +176,11 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                     ? null
                     :  (
                       <>
+                        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                         <div
                           {...{
                             className: header.column.getCanSort()
-                              ? `${styles.colArrowButton}`
+                              ? `${styles.colHeader}`
                               : '',
                             onClick: header.column.getToggleSortingHandler(),
                           }}
@@ -189,8 +190,8 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                             header.getContext()
                           )}
                           {{
-                            asc: ' 🔼',
-                            desc: ' 🔽',
+                            asc: <FontAwesomeIcon icon={faArrowUp} className={styles.sortArrow} />,
+                            desc: <FontAwesomeIcon icon={faArrowDown} className={styles.sortArrow} />,
                           }[header.column.getIsSorted() as string] ?? null}
                         </div>
                         {header.column.getCanFilter() ? (

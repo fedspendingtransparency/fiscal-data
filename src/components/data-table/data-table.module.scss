@@ -1,4 +1,18 @@
+@import '../../variables.module.scss';
+$borderRadius: 5px;
 .tableStyle {
+
+  .tableContainer {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid $dd-border-color;
+    border-radius: $borderRadius;
+    background-color: white;
+    overflow-x: auto;
+    min-height: calc(64px + 8rem);
+  }
+
   table,
   .divTable {
     border: 1px solid lightgray;
@@ -23,6 +37,12 @@
     padding: 0.25rem;
   }
 
+  #th-parent{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
   th,
   .th {
     padding: 2px 4px;
@@ -36,4 +56,40 @@
   .td {
     height: 30px;
   }
+
+  .sortArrow {
+    margin-left: 0.5rem;
+  }
+
+  .colHeader{
+    cursor: pointer;
+  }
+
+  .resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .resizer.isResizing {
+    background: blue;
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .resizer {
+      opacity: 0;
+    }
+
+    *:hover > .resizer {
+      opacity: 1;
+    }
+  }
+
 }
