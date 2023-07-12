@@ -306,11 +306,14 @@ export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, 
 
   const lastSpendingPoints = getLastValue(points, 'Total Spending');
 
+  const lastRevenuePoints = getLastValue(points, 'Total Revenue');
+
   const lastGdpPoints = getLastValue(points,'GDP');
 
   const lastGDPPercentagePoints = getLastValue(points,'GDP Percentage');
 
-  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints : lastGDPPercentagePoints;
+  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints 
+                              : (lastRevenuePoints ? lastRevenuePoints : lastGDPPercentagePoints);
 
   const currentPrimaryPoint = currentSlice?.points?.length
     ? currentSlice.points[0]
