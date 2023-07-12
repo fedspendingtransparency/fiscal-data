@@ -37,6 +37,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getShortForm } from '../../../../../../../utils/rounding-utils';
 import {getDateWithoutTimeZoneAdjust} from '../../../../../../../utils/date-utils';
 import Analytics from "../../../../../../../utils/analytics/analytics";
+import { useInView } from "react-intersection-observer";
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -340,6 +341,11 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     altText: chartAltText,
   } = getChartCopy(minYear, maxYear, selectedChartView);
 
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true
+  })
+
   return (
     <>
       {isLoading && (
@@ -348,7 +354,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         </div>
       )}
       {!isLoading && chartToggleConfig && (
-      <div className={visWithCallout}>
+      <div className={visWithCallout} ref={ref}>
         <div className={container} role={'presentation'} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
           <ChartContainer
             title={chartTitle}
@@ -373,7 +379,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                     CustomSlices({
                         ...props,
                         groupMouseLeave: handleGroupOnMouseLeave,
-                        mouseMove: handleMouseLeave
+                        mouseMove: handleMouseLeave,
+                        inView,
+                        duration: 500,
                       }
                     ),
                   'mesh',
