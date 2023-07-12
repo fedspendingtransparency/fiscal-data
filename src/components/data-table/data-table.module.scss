@@ -10,7 +10,7 @@ $borderRadius: 5px;
     border-radius: $borderRadius;
     background-color: white;
     overflow-x: auto;
-    min-height: calc(64px + 8rem);
+    //min-height: calc(64px + 8rem);
   }
 
   table,
@@ -45,7 +45,8 @@ $borderRadius: 5px;
 
   th,
   .th {
-    padding: 2px 4px;
+    //padding: 4px 4px;
+    background-color: white;
     position: relative;
     font-weight: bold;
     text-align: center;

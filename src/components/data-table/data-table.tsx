@@ -13,6 +13,8 @@ import {
   Table,
 } from '@tanstack/react-table';
 
+import StickyTable from "react-sticky-table-thead";
+
 import * as styles from './data-table.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowDown, faArrowUp} from "@fortawesome/free-solid-svg-icons";
@@ -156,84 +158,92 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
           )
         })}
       </div>
-    <div data-test-id="table-content" className={styles.tableContainer}>
-      <table>
-        <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
-                <th
-                  {...{
-                    key: header.id,
-                    colSpan: header.colSpan,
-                    style: {
-                      minWidth: header.getSize(),
-                    },
-                  }}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    :  (
-                      <>
-                        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? `${styles.colHeader}`
-                              : '',
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {{
-                            asc: <FontAwesomeIcon icon={faArrowUp} className={styles.sortArrow} />,
-                            desc: <FontAwesomeIcon icon={faArrowDown} className={styles.sortArrow} />,
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                        {header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={header.column} table={table} />
-                          </div>
-                        ) : null}
-                      </>
-                    )}
-                  <div
+      <div data-test-id="table-content" className={styles.tableContainer}>
+       <StickyTable height={650} >
+        <table>
+          <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <th
                     {...{
-                      onMouseDown: header.getResizeHandler(),
-                      onTouchStart: header.getResizeHandler(),
-                      className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
+                      key: header.id,
+                      colSpan: header.colSpan,
                       style: {
-                        transform:
-                          columnResizeMode === 'onEnd' &&
-                          header.column.getIsResizing()
-                            ? `translateX(${
-                              table.getState().columnSizingInfo.deltaOffset
-                            }px)`
-                            : '',
+                        minWidth: header.getSize(),
                       },
-                      }}
-                  />
-                </th>
-            )})}
-          </tr>
-        ))}
-        </thead>
-        <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-        </tbody>
-      </table>
+                    }}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      :  (
+                        <>
+                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                          <div
+                            {...{
+                              className: header.column.getCanSort()
+                                ? `${styles.colHeader}`
+                                : '',
+                              onClick: header.column.getToggleSortingHandler(),
+                            }}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                            {{
+                              asc: <FontAwesomeIcon icon={faArrowUp} className={styles.sortArrow} />,
+                              desc: <FontAwesomeIcon icon={faArrowDown} className={styles.sortArrow} />,
+                            }[header.column.getIsSorted() as string] ?? null}
+                          </div>
+                          {header.column.getCanFilter() ? (
+                            <div>
+                              <Filter column={header.column} table={table} />
+                            </div>
+                          ) : null}
+                        </>
+                      )}
+                    <div
+                      {...{
+                        onMouseDown: header.getResizeHandler(),
+                        onTouchStart: header.getResizeHandler(),
+                        className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
+                        style: {
+                          transform:
+                            columnResizeMode === 'onEnd' &&
+                            header.column.getIsResizing()
+                              ? `translateX(${
+                                table.getState().columnSizingInfo.deltaOffset
+                              }px)`
+                              : '',
+                        },
+                        }}
+                    />
+                  </th>
+              )})}
+            </tr>
+          ))}
+          </thead>
+          <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id} onClick={() => console.log(cell.getValue())}>
+                  {
+                    cell.getValue() === 'null' ? (
+                      <div />
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )
+                  }
+                </td>
+              ))}
+            </tr>
+          ))}
+          </tbody>
+        </table>
+     </StickyTable>
     </div>
     <div className="h-2" />
     <div className="flex items-center gap-2">
@@ -290,7 +300,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
           table.setPageSize(Number(e.target.value))
         }}
       >
-        {[5, 10, 20, 30, 40, 50].map(pageSize => (
+        {[10, 20, 30, 40, 50, 100, 250, 500, 1000].map(pageSize => (
           <option key={pageSize} value={pageSize}>
             Show {pageSize}
           </option>
