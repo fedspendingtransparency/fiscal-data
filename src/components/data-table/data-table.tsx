@@ -8,7 +8,6 @@ import {
   useReactTable,
   getFilteredRowModel,
   SortingState,
-  ColumnResizeMode,
 } from '@tanstack/react-table';
 
 import {Filter} from "./data-table-helper";
