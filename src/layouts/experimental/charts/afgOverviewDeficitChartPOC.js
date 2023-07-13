@@ -1,7 +1,17 @@
 /* istanbul ignore file */
 
 import React from 'react';
-import { Area, ComposedChart, Line, XAxis, YAxis, Tooltip, LineChart, Dot } from 'recharts';
+import {
+  Area,
+  ComposedChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  LineChart,
+  Dot,
+  Scatter,
+} from 'recharts';
 import {
   deficitExplainerLightSecondary, deficitExplainerPrimary
 } from "../../explainer/sections/national-deficit/national-deficit.module.scss";
@@ -17,195 +27,85 @@ import {dot, toolTip} from '../experimental.module.scss';
 
 const AFGDeficitPOC = () => {
 
-  // const data = [
-  //   {
-  //     "year": "2016",
-  //     "Deficit": [0,.5],
-  //     "Spending": 0,
-  //     "Revenue": 0.5,
-  //   },
-  //   {
-  //     "year": "2017",
-  //     "Deficit": [2,4],
-  //     "Spending": 2,
-  //     "Revenue": 4,
-  //   },
-  //   {
-  //     "year": "2018",
-  //     "Deficit": [3,5],
-  //     "Spending": 3,
-  //     "Revenue": 5,
-  //   },
-  //   {
-  //     "year": "2019",
-  //     "Deficit": [5,6],
-  //     "Spending ": 5,
-  //     "Revenue": 6,
-  //
-  //   },
-  //   {
-  //     "year": "2020",
-  //     "Deficit": [7,10],
-  //     "Spending": 7,
-  //     "Revenue": 10,
-  //   },
-  //   {
-  //     "year": "2021",
-  //     "Deficit": [9,12],
-  //     "Spending": 9,
-  //     "Revenue": 12,
-  //   },
-  //   {
-  //     "year": "2022",
-  //     "Deficit": [7,9],
-  //     "Spending": 7,
-  //     "Revenue": 9,
-  //   },
-  //   {
-  //     "year": "2023",
-  //     "Deficit": [2, 4],
-  //     "Spending": 2,
-  //     "Revenue": 4,
-  //   }
-  // ]
-
-
-  const data = [
-    {
-      "year": "2016",
-      "Deficit": [
-        0.5,
-        0
-      ]
-    },
-    {
-      "year": "2017",
-      "Deficit": [2,4],
-    },
-    {
-      "year": "2018",
-      "Deficit": [3,5],
-    },
-    {
-      "year": "2019",
-      "Deficit": [5,6],
-    },
-    {
-      "year": "2020",
-      "Deficit": [7,10],
-    },
-    {
-      "year": "2021",
-      "Deficit": [9,12],
-    },
-    {
-      "year": "2022",
-      "Deficit": [7,9],
-    },
-    {
-      "year": "2023",
-      "Deficit": [2, 4],
-    }
-  ]
 
   const testData = [
     {
       data: [
-        {year: '2016', value: 0.5},
-        {year: '2016', value: 2},
+        {year: '2016', value: 0.5, type: 'spending'},
+        {year: '2016', value: 2, type: 'revenue'},
       ]
     },
     {
       data: [
-        {year: '2017', value: 1.5},
-        {year: '2017', value: 3},
+        {year: '2017', value: 1, type: 'spending'},
+        {year: '2017', value: 2.5, type: 'revenue'},
       ]
     },
     {
       data: [
-        {year: '2018', value: 3.5},
-        {year: '2018', value: 6},
+        {year: '2018', value: 2.4, type: 'spending'},
+        {year: '2018', value: 4, type: 'revenue'},
+      ]
+    },
+    {
+      data: [
+        {year: '2019', value: 3.5, type: 'spending'},
+        {year: '2019', value: 6, type: 'revenue'},
+      ]
+    },
+    {
+      data: [
+        {year: '2020', value: 5.5, type: 'spending'},
+        {year: '2020', value: 7, type: 'revenue'},
+      ]
+    },
+    {
+      data: [
+        {year: '2021', value: 6, type: 'spending', latest: true},
+        {year: '2021', value: 8, type: 'revenue', latest: true},
       ]
     }
   ]
 
-
-
-  const CustomTooltip = ({ active, payload, label}) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className={toolTip}>
-          {label}
-          <table>
-            <tr>
-              <td>FY</td>
-              <td>'21</td>
-              <td>'22</td>
-            </tr>
-            <tr>
-              <td>Spending</td>
-              <td>
-                <span className={dot} style={{backgroundColor: spendingExplainerLightSecondary}}></span>
-                $X.XX T
-              </td>
-              <td>
-                <span className={dot} style={{backgroundColor: spendingExplainerPrimary}}></span>
-                $X.XX T
-              </td>
-            </tr>
-            <tr>
-              <td>Revenue</td>
-              <td>
-                <span className={dot} style={{backgroundColor: revenueExplainerLightSecondary}}></span>
-                $X.XX T
-              </td>
-              <td>
-                <span className={dot} style={{backgroundColor: revenueExplainerPrimary}}></span>
-                $X.XX T
-              </td>
-            </tr>
-            <tr>
-              <td>Deficit / Surplus</td>
-              <td>
-                <span className={dot} style={{backgroundColor: deficitExplainerLightSecondary}}></span>
-                $X.XX T
-              </td>
-              <td>
-                <span className={dot} style={{backgroundColor: deficitExplainerPrimary}}></span>
-                $X.XX T
-              </td>
-            </tr>
-          </table>
-        </div>
-      )
-    }
-    return null;
+  const CustomDot = (props) => {
+    console.log(props);
+    const {cx, cy, payload, value, strokeWidth, r} = props;
+    const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
+    const fill =  payload?.latest ? null : color;
+    return (
+        <circle
+          fill={fill}
+          r={r}
+          strokeWidth={strokeWidth}
+          stroke={color}
+          fillOpacity={1}
+          cx={cx}
+          cy={cy}
+        />
+    )
   }
-
-  const years = ['2016', '2017', '2018'];
 
   return (
     <>
-      <ComposedChart
+      <LineChart
+        key={Math.random()}
         width={730}
         height={250}
-        // data={testData}
         margin={{
           top: 20, right: 20, bottom: 20, left: 20,
         }}
         layout="vertical"
       >
-        {testData.map((s) => (
-          <>
-
-            <Line dataKey='value' data={s.data} stroke={deficitExplainerPrimary} strokeWidth={2} dot={false} activeDot={false} strokeOpacity={1} />
-          </>
-        ))}
-
+        {testData.map((s) =>
+          <Line dataKey="value"
+                data={s.data} stroke={deficitExplainerPrimary} strokeWidth={2} strokeOpacity={1}
+                dot={<CustomDot />}
+                isAnimationActive={false}
+          />
+        )}
         <YAxis dataKey="year" type="category" allowDuplicatedCategory={false} />
         <XAxis />
-        {/*<Tooltip content={<CustomTooltip />} cursor={{ stroke: '#666666', strokeWidth: 2, strokeDasharray: 3}} />*/}
-      </ComposedChart>
+      </LineChart>
     </>
   )
 }

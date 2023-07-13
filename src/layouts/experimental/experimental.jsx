@@ -45,8 +45,9 @@ const ExperimentalPage = () => {
       </p>
       <br />
       <h3> ReCharts Composed Chart </h3>
-      <AFGDeficitBarChartPOC />
       <AFGDeficitPOC />
+      <AFGDeficitBarChartPOC />
+      {/*<AFGDeficitPOC />*/}
       <h2>
         Basic Bar Graph, with labels visible on bars
       </h2>
