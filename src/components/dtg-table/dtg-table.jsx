@@ -34,7 +34,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     dateRange,
     columnConfig,
     caption,
-    selectColumns
+    selectColumns,
   } = tableProps;
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
@@ -87,6 +87,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       setActiveColumns(col);
     }
   };
+
 
   const handlePerPageChange = (numRows) => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
@@ -298,6 +299,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       populateRows(activeColumns);
     }
     else {
+      setDtgTableData(rawData);
       populateRows(columns);
     }
   }, [tableData]);

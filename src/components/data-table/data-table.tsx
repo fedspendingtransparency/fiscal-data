@@ -52,7 +52,6 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
   ])
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [hasSorted, setHasSorted] = React.useState<boolean>(false);
 
   const table = useReactTable({
     columns,
@@ -133,7 +132,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                       ? null
                       :  (
                         <>
-                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                           <div
                             {...{
                               className: header.column.getCanSort()
