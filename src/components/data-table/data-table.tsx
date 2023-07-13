@@ -16,7 +16,7 @@ import StickyTable from "react-sticky-table-thead";
 
 import * as styles from './data-table.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowDown, faArrowUp} from "@fortawesome/free-solid-svg-icons";
+import {faArrowDown, faArrowUp, faSort} from "@fortawesome/free-solid-svg-icons";
 
 // TODO: Add unit tests and then delete comment below
 /* istanbul ignore file */
@@ -30,16 +30,15 @@ type DataTableProps = {
 
 const getTrProps = (rowInfo) => {
   if (rowInfo.id === 0 || rowInfo.id % 2 === 0) {
-    console.log(rowInfo);
     return {
-        background:'lightgrey',
-        color: 'black'
+        background:'#f1f1f1',
+        color: '#555555'
     }
   }
   else {
     return {
         background:'white',
-        color: 'black'
+        color: '#555555'
     }
   }
 }
@@ -53,6 +52,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
   ])
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [hasSorted, setHasSorted] = React.useState<boolean>(false);
 
   const table = useReactTable({
     columns,
@@ -133,7 +133,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                       ? null
                       :  (
                         <>
-                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
                           <div
                             {...{
                               className: header.column.getCanSort()
@@ -142,6 +142,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                               onClick: header.column.getToggleSortingHandler(),
                             }}
                           >
+
                             {flexRender(
                               header.column.columnDef.header,
                               header.getContext()
@@ -149,6 +150,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                             {{
                               asc: <FontAwesomeIcon icon={faArrowUp} className={styles.sortArrow} />,
                               desc: <FontAwesomeIcon icon={faArrowDown} className={styles.sortArrow} />,
+                              false: <FontAwesomeIcon icon={faSort} className={styles.sortArrow} />
                             }[header.column.getIsSorted() as string] ?? null}
                           </div>
                           {header.column.getCanFilter() ? (
