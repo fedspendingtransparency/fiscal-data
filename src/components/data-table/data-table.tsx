@@ -28,6 +28,22 @@ type DataTableProps = {
   defaultSelectedColumns: string[];
 }
 
+const getTrProps = (rowInfo) => {
+  if (rowInfo.id === 0 || rowInfo.id % 2 === 0) {
+    console.log(rowInfo);
+    return {
+        background:'lightgrey',
+        color: 'black'
+    }
+  }
+  else {
+    return {
+        background:'white',
+        color: 'black'
+    }
+  }
+}
+
 export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSelectedColumns }) => {
 
   const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
@@ -46,7 +62,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
       pagination: {
         pageIndex: 0,
         pageSize: 10,
-      }
+      },
     },
     state: {
      columnVisibility,
@@ -156,7 +172,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
           </thead>
           <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr key={row.id} style={getTrProps(row)}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {
