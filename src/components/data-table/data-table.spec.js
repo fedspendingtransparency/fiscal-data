@@ -108,4 +108,13 @@ describe('react-table', () => {
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
   });
 
+  it('Clicking on header sorts column', () => {
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} />);
+    // Column header
+    expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
+    expect(instance.getByTestId('header-sorter-record_date')).toBeInTheDocument();
+    fireEvent.click(instance.getByTestId('header-sorter-record_date'));
+
+  });
+
 });

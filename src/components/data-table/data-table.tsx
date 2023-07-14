@@ -140,7 +140,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                                 : '',
                               onClick: header.column.getToggleSortingHandler(),
                             }}
-                            data-testid={'header-sorter'}
+                            data-testid={`header-sorter-${header.id}`}
                           >
 
                             {flexRender(
