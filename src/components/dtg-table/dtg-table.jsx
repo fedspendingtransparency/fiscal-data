@@ -417,10 +417,10 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       </Experimental>
       <Experimental featureId="react-table-poc">
         {rawData !== undefined && rawData !== null ? (
-          <DataTable rawData={rawData} defaultSelectedColumns={selectColumns} />
+          <DataTable rawData={rawData} pageSize={10} defaultSelectedColumns={selectColumns} />
         ) : (
             dtgTableData !== undefined ? (
-            <DataTable rawData={dtgTableData}  defaultSelectedColumns={selectColumns} />
+            <DataTable rawData={dtgTableData} pageSize={10} defaultSelectedColumns={selectColumns} />
           ) : (
             <div />
           )

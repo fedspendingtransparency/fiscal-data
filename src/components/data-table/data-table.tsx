@@ -18,14 +18,12 @@ import * as styles from './data-table.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowDown, faArrowUp, faSort} from "@fortawesome/free-solid-svg-icons";
 
-// TODO: Add unit tests and then delete comment below
-/* istanbul ignore file */
-
 
 type DataTableProps = {
   rawData: any;
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   defaultSelectedColumns: string[];
+  pageSize: number;
 }
 
 const getTrProps = (rowInfo) => {
@@ -43,7 +41,7 @@ const getTrProps = (rowInfo) => {
   }
 }
 
-export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSelectedColumns }) => {
+export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize, defaultSelectedColumns }) => {
 
   const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
   const data = rawData.data;
@@ -60,7 +58,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
     initialState: {
       pagination: {
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: pageSize,
       },
     },
     state: {
@@ -174,7 +172,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
           </thead>
           <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} style={getTrProps(row)}>
+            <tr key={row.id} style={getTrProps(row)} data-testid={'row'}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
                   {
@@ -233,6 +231,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                 | Go to page:
                 <input
                   type="number"
+                  data-testid={'pagination-text-input'}
                   defaultValue={table.getState().pagination.pageIndex + 1}
                   onChange={e => {
                     const page = e.target.value ? Number(e.target.value) - 1 : 0

@@ -1,7 +1,6 @@
 import { render } from "@testing-library/react";
 import React from "react";
-import fetchMock from "fetch-mock";
-import {fireEvent, waitFor} from "@testing-library/dom";
+import {fireEvent} from "@testing-library/dom";
 import {DataTable} from "./data-table";
 
 const mockTableData = {
@@ -96,24 +95,83 @@ const mockTableData = {
 describe('react-table', () => {
 
   it('table renders', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} />);
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
     expect(instance).toBeTruthy();
   });
 
   it('renders headers and column checkboxs', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} />);
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
     // Column checkbox
     expect(instance.getAllByText('Record Date')[0]).toBeInTheDocument();
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
   });
 
-  it('Clicking on header sorts column', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} />);
+  it('Able to interact with headers for column sort', () => {
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
+    // Rows render
+    expect(instance.getAllByTestId('row').length).toEqual(3);
     expect(instance.getByTestId('header-sorter-record_date')).toBeInTheDocument();
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('2023-07-12');
     fireEvent.click(instance.getByTestId('header-sorter-record_date'));
+    // Now sorted in desc order
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('2023-07-10');
+  });
+
+  it('Filter column by text search', () => {
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
+    // Column header
+    expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
+    // Rows render
+    expect(instance.getAllByTestId('row').length).toEqual(3);
+    const columnFilter = instance.getByTestId('column-search-record_date');
+    expect(columnFilter).toBeInTheDocument();
+    fireEvent.change(columnFilter, {target: {value: '2023-07-10'}});
+    // Rows filtered down to 1
+    expect(instance.getAllByTestId('row').length).toEqual(1);
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('2023-07-10');
+  });
+
+  it('pagination', () => {
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={2} />);
+    // Column header
+    expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
+    // Rows render
+    expect(instance.getAllByTestId('row').length).toEqual(2);
+
+    // Forward one page
+    const forwardOne = instance.getByText('>');
+    expect(forwardOne).toBeInTheDocument();
+    fireEvent.click(forwardOne);
+    expect(instance.getAllByTestId('row').length).toEqual(1);
+
+    // Back one page
+    const backOne = instance.getByText('<');
+    expect(backOne).toBeInTheDocument();
+    fireEvent.click(backOne);
+    expect(instance.getAllByTestId('row').length).toEqual(2);
+
+    // Forward to last page
+    const forwardLast = instance.getByText('>>');
+    expect(forwardLast).toBeInTheDocument();
+    fireEvent.click(forwardLast);
+    expect(instance.getAllByTestId('row').length).toEqual(1);
+
+    // Back to first page
+    const backFirst = instance.getByText('<<');
+    expect(backFirst).toBeInTheDocument();
+    fireEvent.click(backFirst);
+    expect(instance.getAllByTestId('row').length).toEqual(2);
+
+    // Go to specific page
+    const input = instance.getByTestId('pagination-text-input');
+    expect(input).toBeInTheDocument();
+    fireEvent.change(input, {target: {value: '2'}});
+    expect(instance.getAllByTestId('row').length).toEqual(1);
+    fireEvent.change(input, {target: {value: '1'}});
+    expect(instance.getAllByTestId('row').length).toEqual(2);
 
   });
 
