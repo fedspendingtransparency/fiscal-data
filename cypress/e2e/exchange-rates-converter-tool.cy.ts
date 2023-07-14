@@ -11,7 +11,7 @@ describe('Exchange Rates Converter Tool User Interactions', () => {
     cy.findByTestId('quarter-selector').should('have.text', 'Quarter4th')
     cy.findByTestId('year-selector').click()
     cy.contains('2023').click()
-    cy.findByTestId('quarter-selector').should('have.text', 'Quarter1st')
+    cy.findByTestId('quarter-selector').should('have.text', 'Quarter2nd')
     cy.findByText('March 31, 2023').should('be.visible')
   })
 
