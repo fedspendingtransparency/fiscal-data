@@ -2,27 +2,19 @@
 
 import React from 'react';
 import {
-  Area,
-  ComposedChart,
   Line,
   XAxis,
   YAxis,
-  Tooltip,
   LineChart,
-  Dot,
-  Scatter,
 } from 'recharts';
+import { deficitExplainerPrimary } from "../../explainer/sections/national-deficit/national-deficit.module.scss";
 import {
-  deficitExplainerLightSecondary, deficitExplainerPrimary
-} from "../../explainer/sections/national-deficit/national-deficit.module.scss";
-import {
-  spendingExplainerLightSecondary,
+
   spendingExplainerPrimary
 } from "../../explainer/sections/federal-spending/federal-spending.module.scss";
 import {
-  revenueExplainerLightSecondary, revenueExplainerPrimary
+   revenueExplainerPrimary
 } from "../../explainer/sections/government-revenue/revenue.module.scss";
-import {dot, toolTip} from '../experimental.module.scss';
 
 
 const AFGDeficitPOC = () => {
@@ -68,7 +60,6 @@ const AFGDeficitPOC = () => {
   ]
 
   const CustomDot = (props) => {
-    console.log(props);
     const {cx, cy, payload, value, strokeWidth, r} = props;
     const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
     const fill =  payload?.latest ? null : color;
