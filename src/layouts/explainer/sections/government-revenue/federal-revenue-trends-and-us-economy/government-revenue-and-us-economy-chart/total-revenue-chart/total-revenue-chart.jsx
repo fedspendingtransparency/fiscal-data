@@ -342,8 +342,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   } = getChartCopy(minYear, maxYear, selectedChartView);
 
   const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
   })
 
   return (
@@ -354,7 +355,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         </div>
       )}
       {!isLoading && chartToggleConfig && (
-      <div className={visWithCallout} ref={ref}>
+      <div className={visWithCallout}>
         <div className={container} role={'presentation'} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
           <ChartContainer
             title={chartTitle}
@@ -364,7 +365,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
             header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
             altText={chartAltText}
           >
-            <div className={lineChart} data-testid={'totalRevenueChartParent'}>
+            <div className={lineChart} data-testid={'totalRevenueChartParent'} ref={ref}>
               <Line
                 data={chartData}
                 layers={[

@@ -353,8 +353,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     getChartCopy(minYear, maxYear, selectedChartView);
 
   const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
   })
 
   return (
@@ -381,6 +382,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                    onMouseEnter={handleMouseEnter}
                    onMouseLeave={() => clearTimeout(gaTimer)}
                    role={'presentation'}
+                   ref={ref}
               >
                 <Line
                   data={chartData}
