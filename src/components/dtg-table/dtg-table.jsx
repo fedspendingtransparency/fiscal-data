@@ -299,7 +299,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       populateRows(activeColumns);
     }
     else {
-      setDtgTableData(rawData);
       populateRows(columns);
     }
   }, [tableData]);
@@ -417,15 +416,15 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       }
       </Experimental>
       <Experimental featureId="react-table-poc">
-        {rawData && (
+        {rawData !== undefined && rawData !== null ? (
           <DataTable rawData={rawData} defaultSelectedColumns={selectColumns} />
-        )}
-        {/*FOR WHEN RAW DATA IS UNAVAILABLE*/}
-        {
-          dtgTableData && (
+        ) : (
+            dtgTableData !== undefined ? (
             <DataTable rawData={dtgTableData}  defaultSelectedColumns={selectColumns} />
+          ) : (
+            <div />
           )
-        }
+        )}
       </Experimental>
     </div>
   );

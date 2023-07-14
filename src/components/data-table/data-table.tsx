@@ -116,7 +116,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
         <table>
           <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <tr key={headerGroup.id} data-testid={'header-row'}>
               {headerGroup.headers.map((header) => {
                 return (
                   <th
@@ -140,6 +140,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, defaultSe
                                 : '',
                               onClick: header.column.getToggleSortingHandler(),
                             }}
+                            data-testid={'header-sorter'}
                           >
 
                             {flexRender(

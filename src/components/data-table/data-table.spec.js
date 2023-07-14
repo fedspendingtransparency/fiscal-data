@@ -94,8 +94,18 @@ const mockTableData = {
 };
 
 describe('react-table', () => {
+
   it('table renders', () => {
     const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} />);
     expect(instance).toBeTruthy();
   });
+
+  it('renders headers and column checkboxs', () => {
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} />);
+    // Column checkbox
+    expect(instance.getAllByText('Record Date')[0]).toBeInTheDocument();
+    // Column header
+    expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
+  });
+
 });
