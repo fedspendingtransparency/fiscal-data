@@ -52,7 +52,7 @@ const getFirstElPadding = (chartView, isMobile) => {
   return '32px';
 };
 
-export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
+export const dataHeader = (chartToggleConfig, headingValues, gaEvent, setStartAnimation) => {
   if (!chartToggleConfig) return;
   const {
     setSelectedChartView,
@@ -92,6 +92,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
           onClick={() => {
             setSelectedChartView('totalSpending');
             gaEvent('19');
+            setStartAnimation(true);
           }}
           id={'total-spending-toggle'}
         >
@@ -120,7 +121,8 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
           }}
           onClick={() => {
             setSelectedChartView('percentageGdp');
-            gaEvent('19');
+            gaEvent('19')
+            setStartAnimation(true);
           }}
           id={'total-spending-toggle'}
         >
@@ -312,7 +314,7 @@ export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, 
 
   const lastGDPPercentagePoints = getLastValue(points,'GDP Percentage');
 
-  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints 
+  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints
                               : (lastRevenuePoints ? lastRevenuePoints : lastGDPPercentagePoints);
 
   const currentPrimaryPoint = currentSlice?.points?.length

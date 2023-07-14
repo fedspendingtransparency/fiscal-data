@@ -10,13 +10,15 @@ import React, { useEffect, useState } from 'react';
     mouseMove,
     inView,
     duration,
+    selectedChartView,
   }) => {
 
   const [style, setStyle] = useState({});
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
+  const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
 
   useEffect(() => {
-    if (!animationTriggeredOnce && inView && data.length) {
+    if (inView && data.length && (!animationTriggeredOnce || selectedChartView === 'percentageGdp')) {
       setAnimationTriggeredOnce(true);
       const stepDuration = duration ? duration : 50;
 
@@ -31,7 +33,7 @@ import React, { useEffect, useState } from 'react';
         setCurrentSlice(null);
       }, (stepDuration * (slices.length + 1)) + 550);
     }
-  }, [inView, animationTriggeredOnce, slices]);
+  }, [inView, animationTriggeredOnce, slices, selectedChartView]);
 
   return (
     <g data-testid="customSlices"

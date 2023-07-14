@@ -68,6 +68,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
+  const [startAnimation, setStartAnimation] = useState(false);
 
   const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
 
@@ -367,13 +368,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout} ref={ref}>
           <div className={container}>
-
             <ChartContainer
               title={chartTitle}
               subTitle={chartSubtitle}
               footer={chartFooter}
               date={lastUpdatedDate}
-              header={dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
+              header={dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick, setStartAnimation)}
               altText={chartAltText}
               customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
             >
@@ -400,6 +400,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                           mouseMove: handleMouseLeave,
                           inView,
                           duration: 500,
+                          selectedChartView,
                         }
                       ),
                     'mesh',
