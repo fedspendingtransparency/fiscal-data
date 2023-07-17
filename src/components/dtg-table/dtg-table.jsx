@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -7,7 +7,8 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import { pagedDatatableRequest, formatDateForApi } from '../../utils/api-utils';
+import { pagedDatatableRequest, formatDateForApi, basicFetch,
+  buildSortParams } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
 import * as styles from './dtg-table.module.scss';
@@ -15,6 +16,7 @@ import CustomLink from "../links/custom-link/custom-link";
 import Experimental from '../experimental/experimental';
 import { DataTable } from '../data-table/data-table';
 import DtgTableColumnSelector from './dtg-table-column-selector';
+import {apiPrefix} from "../../utils/api-utils";
 
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
@@ -32,7 +34,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     dateRange,
     columnConfig,
     caption,
-    selectColumns
+    selectColumns,
   } = tableProps;
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
@@ -40,15 +42,16 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   const [itemsPerPage, setItemsPerPage] = useState(perPage
     ? perPage
     : (
-      selectColumns 
+      selectColumns
       ? selectColumnRowsPerPage
       : (!shouldPage && data.length > defaultRowsPerPage
         ? data.length
         : defaultRowsPerPage)
-      
+
       )
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
+  const [dtgTableData, setDtgTableData] = useState(rawData);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
@@ -85,6 +88,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     }
   };
 
+
   const handlePerPageChange = (numRows) => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
@@ -116,6 +120,19 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
+
+      const sortParam = buildSortParams(selectedTable, selectedPivot);
+
+      basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+        + `:lte:${to}&sort=${sortParam}`)
+      .then(res => {
+        const totalCount = res.meta['total-count'];
+        basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+          + `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`)
+        .then(data => {
+          setDtgTableData(data);
+        });
+      });
 
       pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage)
         .then(res => {
@@ -219,7 +236,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       if(colDefault == true) {
         activeColArray.push(col);
       }
-                                
+
       selectColArray.push(selectCol);
     });
 
@@ -280,7 +297,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   useEffect(() => {
     if(selectColumns && activeColumns){
       populateRows(activeColumns);
-    } 
+    }
     else {
       populateRows(columns);
     }
@@ -354,14 +371,14 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             { emptyDataMessage && emptyDataMessage }
 
             {/* Table */}
-            {(!emptyDataMessage && !selectColumns 
+            {(!emptyDataMessage && !selectColumns
               ? (<table {...tableProps.aria} style={{width: tableWidth}}>
                 {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                 <DtgTableHeading columns={columns} />
                 <tbody>
                   {rows}
                 </tbody>
-              </table>) 
+              </table>)
               : (<table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
                 {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                 <DtgTableHeading columns={activeColumns} />
@@ -373,7 +390,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
           </div>
 
           <div data-testid='selectColumnsMainContainer' className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel} style={{height: `${(itemsPerPage * 41) + 48.4}px` }}>
-            {selectColumns && 
+            {selectColumns &&
               <DtgTableColumnSelector
               isVisible={true}
               fields={columnSelectValues}
@@ -399,8 +416,14 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       }
       </Experimental>
       <Experimental featureId="react-table-poc">
-        {rawData && (
-          <DataTable rawData={rawData} />
+        {rawData !== undefined && rawData !== null ? (
+          <DataTable rawData={rawData} pageSize={10} defaultSelectedColumns={selectColumns} />
+        ) : (
+            dtgTableData !== undefined && dtgTableData !== null && dtgTableData !== [] ? (
+            <DataTable rawData={dtgTableData} pageSize={10} defaultSelectedColumns={selectColumns} />
+          ) : (
+            <div />
+          )
         )}
       </Experimental>
     </div>
