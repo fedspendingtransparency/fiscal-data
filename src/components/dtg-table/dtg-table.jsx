@@ -310,10 +310,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   }, [data]);
 
   useEffect(() => {
-    console.log(dtgTableData)
-  }, [dtgTableData]);
-
-  useEffect(() => {
     if (!tableProps.data) {
       setCurrentPage(1);
     }
