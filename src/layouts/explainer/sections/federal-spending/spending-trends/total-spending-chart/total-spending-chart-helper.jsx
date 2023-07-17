@@ -8,6 +8,9 @@ import {
   semiBoldWeight,
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import {
+  animationCrosshair
+} from '../../../national-debt/growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart.module.scss';
 
 const mts = <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/"
                         eventNumber="21"
@@ -212,12 +215,12 @@ const chartTheme = {
 
 const layers = [
   'grid',
-  'axes',
-  'lines',
   'crosshair',
   'markers',
+  'axes',
+  'areas',
+  'lines',
   'points',
-  'mesh',
 ];
 
 export const chartConfigs = {
@@ -300,7 +303,8 @@ export const Point = ({ borderWidth, borderColor, point }) => {
   )
 }
 
-export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
+export const lineChartCustomPoints = (
+  { currentSlice, borderWidth, borderColor, points }) => {
   const getLastValue = (values, name) =>
     values.filter(g => g.serieId === name).sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric: true})).pop();
 
@@ -312,7 +316,7 @@ export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, 
 
   const lastGDPPercentagePoints = getLastValue(points,'GDP Percentage');
 
-  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints 
+  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints
                               : (lastRevenuePoints ? lastRevenuePoints : lastGDPPercentagePoints);
 
   const currentPrimaryPoint = currentSlice?.points?.length
@@ -324,13 +328,15 @@ export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, 
     : lastGdpPoints;
 
   return (
-    <g data-testid="customPoints">
-      {currentPrimaryPoint && (
-        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
-      )}
-      {currentGdpPoint && (
-        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />
-      )}
-    </g>
+    <>
+      <g data-testid="customPoints">
+        {currentPrimaryPoint && (
+          <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
+        )}
+        {currentGdpPoint && (
+          <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />
+        )}
+      </g>
+    </>
   );
 };
