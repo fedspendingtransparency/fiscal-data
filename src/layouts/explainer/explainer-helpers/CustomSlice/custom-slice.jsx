@@ -17,7 +17,7 @@ import React, { useEffect, useState } from 'react';
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
 
   useEffect(() => {
-    const animationTriggered = customAnimationTriggeredOnce ? customAnimationTriggeredOnce : animationTriggeredOnce
+    const animationTriggered = customAnimationTriggeredOnce ? customAnimationTriggeredOnce : animationTriggeredOnce;
     if (inView && data.length && !animationTriggered) {
       setAnimationTriggeredOnce(true);
       if (setCustomAnimationTriggeredOnce) {

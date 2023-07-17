@@ -476,8 +476,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                               mouseMove: handleMouseLeave,
                               inView: spendingInView,
                               duration: 500,
-                              animationTriggeredOnce: secondaryAnimationTriggeredOnce,
-                              setAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
+                              customAnimationTriggeredOnce: animationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
                             }
                           ),
                       ]}
@@ -498,8 +498,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                             mouseMove: handleMouseLeave,
                             inView: gdpInView,
                             duration: 500,
-                            animationTriggeredOnce,
-                            setAnimationTriggeredOnce,
+                            customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
+                            setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
                           }
                         ),
                     ]}
