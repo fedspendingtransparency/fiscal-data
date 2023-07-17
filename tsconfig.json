@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "strict": false,
     "traceResolution": true,
-    "watch": true
+    "watch": true,
+    "types": ["cypress", "@testing-library/cypress"]
   },
   "options": {
     "isTsx": true
