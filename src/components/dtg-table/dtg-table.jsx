@@ -310,6 +310,10 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   }, [data]);
 
   useEffect(() => {
+    console.log(dtgTableData)
+  }, [dtgTableData]);
+
+  useEffect(() => {
     if (!tableProps.data) {
       setCurrentPage(1);
     }
@@ -419,7 +423,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
         {rawData !== undefined && rawData !== null ? (
           <DataTable rawData={rawData} pageSize={10} defaultSelectedColumns={selectColumns} />
         ) : (
-            dtgTableData !== undefined ? (
+            dtgTableData !== undefined && dtgTableData !== null && dtgTableData !== [] ? (
             <DataTable rawData={dtgTableData} pageSize={10} defaultSelectedColumns={selectColumns} />
           ) : (
             <div />
