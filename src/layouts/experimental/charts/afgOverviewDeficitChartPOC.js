@@ -5,7 +5,7 @@ import {
   Line,
   XAxis,
   YAxis,
-  LineChart,
+  LineChart, CartesianGrid,
 } from 'recharts';
 import { deficitExplainerPrimary } from "../../explainer/sections/national-deficit/national-deficit.module.scss";
 import {
@@ -64,15 +64,26 @@ const AFGDeficitPOC = () => {
     const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
     const fill =  payload?.latest ? null : color;
     return (
+      <>
+        <circle
+          fill={'red'}
+          r={r}
+          strokeWidth={strokeWidth + 2}
+          stroke="white"
+          fillOpacity={1}
+          cx={cx}
+          cy={cy}
+        />
         <circle
           fill={fill}
           r={r}
-          strokeWidth={strokeWidth}
+          strokeWidth={strokeWidth - 1}
           stroke={color}
           fillOpacity={1}
           cx={cx}
           cy={cy}
         />
+      </>
     )
   }
 
@@ -87,15 +98,16 @@ const AFGDeficitPOC = () => {
         }}
         layout="vertical"
       >
+        <CartesianGrid horizontal={false} />
+        <YAxis dataKey="year" type="category" allowDuplicatedCategory={false} axisLine={false} tickLine={false} />
+        <XAxis ticks={[0,2,4,6,8]} type="number" tickFormatter={(value) => `$${value}`} axisLine={false} tickLine={false} />
         {testData.map((s) =>
           <Line dataKey="value"
-                data={s.data} stroke={deficitExplainerPrimary} strokeWidth={2} strokeOpacity={1}
+                data={s.data} stroke={deficitExplainerPrimary} strokeWidth={6} strokeOpacity={1}
                 dot={<CustomDot />}
                 isAnimationActive={false}
           />
         )}
-        <YAxis dataKey="year" type="category" allowDuplicatedCategory={false} />
-        <XAxis />
       </LineChart>
     </>
   )
