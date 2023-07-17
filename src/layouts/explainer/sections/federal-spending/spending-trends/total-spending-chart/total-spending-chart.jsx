@@ -365,13 +365,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     getChartCopy(minYear, maxYear, selectedChartView);
 
   const { ref: spendingRef, inView: spendingInView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
   })
 
   const { ref: gdpRef, inView: gdpInView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
   })
 
   const chartTheme = {
