@@ -8,6 +8,9 @@ import {
   semiBoldWeight,
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import {
+  animationCrosshair
+} from '../../../national-debt/growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart.module.scss';
 
 const mts = <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/"
                         eventNumber="21"
@@ -52,7 +55,7 @@ const getFirstElPadding = (chartView, isMobile) => {
   return '32px';
 };
 
-export const dataHeader = (chartToggleConfig, headingValues, gaEvent, setStartAnimation) => {
+export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
   if (!chartToggleConfig) return;
   const {
     setSelectedChartView,
@@ -92,7 +95,6 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent, setStartAn
           onClick={() => {
             setSelectedChartView('totalSpending');
             gaEvent('19');
-            setStartAnimation(true);
           }}
           id={'total-spending-toggle'}
         >
@@ -121,8 +123,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent, setStartAn
           }}
           onClick={() => {
             setSelectedChartView('percentageGdp');
-            gaEvent('19')
-            setStartAnimation(true);
+            gaEvent('19');
           }}
           id={'total-spending-toggle'}
         >
@@ -214,12 +215,12 @@ const chartTheme = {
 
 const layers = [
   'grid',
-  'axes',
-  'lines',
   'crosshair',
   'markers',
+  'axes',
+  'areas',
+  'lines',
   'points',
-  'mesh',
 ];
 
 export const chartConfigs = {
@@ -302,7 +303,8 @@ export const Point = ({ borderWidth, borderColor, point }) => {
   )
 }
 
-export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
+export const lineChartCustomPoints = (
+  { currentSlice, borderWidth, borderColor, points }) => {
   const getLastValue = (values, name) =>
     values.filter(g => g.serieId === name).sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric: true})).pop();
 
@@ -326,13 +328,15 @@ export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, 
     : lastGdpPoints;
 
   return (
-    <g data-testid="customPoints">
-      {currentPrimaryPoint && (
-        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
-      )}
-      {currentGdpPoint && (
-        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />
-      )}
-    </g>
+    <>
+      <g data-testid="customPoints">
+        {currentPrimaryPoint && (
+          <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
+        )}
+        {currentGdpPoint && (
+          <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />
+        )}
+      </g>
+    </>
   );
 };
