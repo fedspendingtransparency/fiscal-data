@@ -1982,7 +1982,7 @@ const endpointConfig = {
     'endpoint': 'v1/accounting/od/auctions_query',
     'dateField': 'record_date',
     'downloadName': 'Auctions_Query',
-    'alwaysSortWith': ['-record_date', 'src_line_nbr'],
+    'alwaysSortWith': ['-auction_date', '-issue_date', 'maturity_date'],
   },
 };
 
