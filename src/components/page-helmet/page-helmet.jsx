@@ -69,14 +69,6 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
       })(window,document,'script','dataLayer','GTM-5N9D5C5');`}
       </script>
       {/*End Google Tag Manager*/}
-      {/*Google Tag Manager (noscript)*/}
-      <noscript>
-        {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
-        {`<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5N9D5C5"
-        height="0" width="0" style="display:none;visibility:hidden"
-        />`}
-      </noscript>
-      {/*End Google Tag Manager (noscript)*/}
       {/*Google Analytics 4 Tag  */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />
       <script>
