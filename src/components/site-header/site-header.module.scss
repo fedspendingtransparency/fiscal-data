@@ -1,5 +1,16 @@
 @import '../../variables.module.scss';
 
+.bannerHeading {
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+  margin-bottom: .25rem;
+}
+
+.bannerContent {
+  font-size: $font-size-14;
+  font-weight: 400;
+}
+
 .container {
   border-bottom: 1px solid $slate-blue;
   background-color: white;
