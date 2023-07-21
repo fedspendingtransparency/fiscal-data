@@ -53,9 +53,14 @@ export const DatasetDataComponent = ({
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
   const [userFilterSelection, setUserFilterSelection] = useState(null);
+  const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
 
   let loadByPage;
+
+  useEffect(() => {
+    console.log(tableColumnSortData);
+  }, [tableColumnSortData])
 
   const shouldUseLoadByPage = (pivot) => {
     return selectedTable && selectedTable.isLargeDataset && pivot &&
@@ -189,44 +194,49 @@ export const DatasetDataComponent = ({
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
       <div className={activeTab === 1 ? '' : 'hidden'}>
-        <FilterAndDownload
-          data-testid="filterAndDownload"
-          dateRange={dateRange}
-          isFiltered={isFiltered}
-          selectedTable={selectedTable}
-          dataset={config}
-          allTablesSelected={allTablesSelected}
-          isCustomDateRange={isCustomDateRange}
-          selectedUserFilter={userFilterSelection}
-        >
-          <DataTableSelect
-            apis={apis}
+        {
+          tableColumnSortData &&
+          <FilterAndDownload
+            data-testid="filterAndDownload"
+            dateRange={dateRange}
+            isFiltered={isFiltered}
             selectedTable={selectedTable}
-            setSelectedTable={handleSelectedTableChange}
+            dataset={config}
             allTablesSelected={allTablesSelected}
-            earliestDate={config.techSpecs.earliestDate}
-            latestDate={config.techSpecs.latestDate}
+            isCustomDateRange={isCustomDateRange}
+            selectedUserFilter={userFilterSelection}
+            tableColumnSortData={tableColumnSortData}
+          >
+            <DataTableSelect
+              apis={apis}
+              selectedTable={selectedTable}
+              setSelectedTable={handleSelectedTableChange}
+              allTablesSelected={allTablesSelected}
+              earliestDate={config.techSpecs.earliestDate}
+              latestDate={config.techSpecs.latestDate}
             />
-          {selectedTable &&
-          <RangePresets
-            setDateRange={handleDateRangeChange}
-            selectedTable={selectedTable}
-            apiData={apiData}
-            onUserFilter={setUserFilterSelection}
-            setIsFiltered={setIsFiltered}
-            currentDateButton={config.currentDateButton}
-            datePreset={config.datePreset}
-            customRangePreset={config.customRangePreset}
-            setIsCustomDateRange={setIsCustomDateRange}
-            allTablesSelected={allTablesSelected}
-            datasetDateRange={{
-              earliestDate: config.techSpecs.earliestDate,
-              latestDate: config.techSpecs.latestDate}
+            {selectedTable &&
+            <RangePresets
+              setDateRange={handleDateRangeChange}
+              selectedTable={selectedTable}
+              apiData={apiData}
+              onUserFilter={setUserFilterSelection}
+              setIsFiltered={setIsFiltered}
+              currentDateButton={config.currentDateButton}
+              datePreset={config.datePreset}
+              customRangePreset={config.customRangePreset}
+              setIsCustomDateRange={setIsCustomDateRange}
+              allTablesSelected={allTablesSelected}
+              datasetDateRange={{
+                earliestDate: config.techSpecs.earliestDate,
+                latestDate: config.techSpecs.latestDate
+              }
+              }
+              finalDatesNotFound={finalDatesNotFound}
+            />
             }
-            finalDatesNotFound={finalDatesNotFound}
-          />
-          }
-        </FilterAndDownload>
+          </FilterAndDownload>
+        }
         {dateRange &&
         <TableSectionContainer
           config={config}
@@ -246,6 +256,7 @@ export const DatasetDataComponent = ({
           handleIgnorePivots={setIgnorePivots}
           allTablesSelected={allTablesSelected}
           handleConfigUpdate={() => setConfigUpdated(true)}
+          setTableColumnSortData={setTableColumnSortData}
         />
         }
       </div>

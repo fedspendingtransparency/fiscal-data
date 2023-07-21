@@ -21,7 +21,7 @@ import {apiPrefix} from "../../utils/api-utils";
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
 
-export default function DtgTable({tableProps, perPage, setPerPage, selectColumnPanel, setSelectColumnPanel}) {
+export default function DtgTable({tableProps, perPage, setPerPage, selectColumnPanel, setSelectColumnPanel, setTableColumnSortData}) {
   const {
     rawData,
     width,
@@ -417,10 +417,10 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       </Experimental>
       <Experimental featureId="react-table-poc">
         {rawData !== undefined && rawData !== null ? (
-          <DataTable rawData={rawData} pageSize={10} defaultSelectedColumns={selectColumns} />
+          <DataTable rawData={rawData} pageSize={10} defaultSelectedColumns={selectColumns} setTableColumnSortData={setTableColumnSortData} />
         ) : (
             dtgTableData !== undefined && dtgTableData !== null && dtgTableData !== [] ? (
-            <DataTable rawData={dtgTableData} pageSize={10} defaultSelectedColumns={selectColumns} />
+            <DataTable rawData={dtgTableData} pageSize={10} defaultSelectedColumns={selectColumns} setTableColumnSortData={setTableColumnSortData} />
           ) : (
             <div />
           )

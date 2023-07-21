@@ -35,7 +35,8 @@ const TableSectionContainer = ({
   handleIgnorePivots,
   ignorePivots,
   allTablesSelected,
-  handleConfigUpdate
+  handleConfigUpdate,
+  setTableColumnSortData
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -229,6 +230,7 @@ const TableSectionContainer = ({
                   tableProps={tableProps}
                   perPage={perPage}
                   setPerPage={setPerPage}
+                  setTableColumnSortData={setTableColumnSortData}
                 /> :
                 ''
             }

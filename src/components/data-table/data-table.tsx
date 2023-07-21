@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect} from 'react';
 import {
   ColumnDef,
   flexRender,
@@ -24,6 +24,7 @@ type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   defaultSelectedColumns: string[];
   pageSize: number;
+  setTableColumnSortData: any,
 }
 
 const getTrProps = (rowInfo) => {
@@ -41,7 +42,7 @@ const getTrProps = (rowInfo) => {
   }
 }
 
-export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize, defaultSelectedColumns }) => {
+export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize, defaultSelectedColumns, setTableColumnSortData }) => {
 
   const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
   const data = rawData.data;
@@ -75,6 +76,17 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
     debugHeaders: true,
     debugColumns: true,
   });
+
+  const getSortedColumnsData = (table) => {
+    const columns = table.getVisibleFlatColumns();
+    const mapped = columns.map(column => ({ id: column.id, sorted: column.getIsSorted(), filterValue: column.getFilterValue()}));
+    setTableColumnSortData(mapped);
+  }
+
+  useEffect(() => {
+    getSortedColumnsData(table);
+  }, [sorting, columnVisibility, table.getFilteredRowModel()]);
+
 
   return (
     // apply the table props

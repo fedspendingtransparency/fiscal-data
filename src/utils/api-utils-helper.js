@@ -8,10 +8,11 @@ import GLOBALS from '../helpers/constants';
  * @param dateRange {object} - From and To are the only fields with an API format of YYYY-MM-DD.
  * @param fileType {String}  - Accepted values are 'csv', 'xml', 'json'.
  * @param userFilter {null|object}  - Object to describe the user selected filter object
+ * @param tableColumnSortData
  * @returns {null|Object}    - Returns null if params are invalid, else returns object with desired
  * fields "apiId" and "params"
  */
-const buildDownloadObject = (api, dateRange, fileType, userFilter) => {
+const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSortData) => {
   if(!api || !dateRange || !fileType){
     console.warn('Invalid params passed to buildDownloadObject');
     return null;
@@ -22,20 +23,37 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter) => {
   const apiDateField = api.dateField;
   const apiSortParams = buildSortParams(api);
 
+  console.log(tableColumnSortData);
+
   // Convert the date range format from YYYY-MM-DD to YYYY-MM for the following apis.
   if(GLOBALS.ENDPOINTS_WITH_YEAR_MONTH_DATE_FORMAT.some(id => id === apiIdStr)){
     dateRange.to = dateRange.to.slice(0, -3);
     dateRange.from = dateRange.from.slice(0, -3);
   }
   let filterAddendum = '';
+  let tableColumnFilter = ',record_date';
   if (userFilter?.value) {
     filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
   }
+  if (tableColumnSortData) {
+    tableColumnSortData.forEach(column => {
+      if (column.sorted !== false) {
+        // do stuff
+      }
+      if (column.filterValue !== undefined) {
+        // do stuff
+      }
+      // tableColumnFilter += `,${column.id}`
+    });
+    console.log(tableColumnFilter);
+  }
+
+
 
   return {
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
-      `${apiDateField}:lte:${dateRange.to}${filterAddendum}` +
+      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
       `&sort=${apiSortParams}&format=${fileType}`
   }
 };
@@ -69,10 +87,11 @@ const dataTables = [
  * @param dateRange {object}  - From and To are fields on this object that are both jsDates.
  * @param fileType {String}   - Accepted values are 'csv', 'xml', 'json'.
  * @param userFilter {object}   - option selected from userFilter dropdown
+ * @param tableColumnSortData
  * @returns {null|Object}     - Returns null if params are invalid, else returns object with
  * collection of APIs as built from buildDownloadObject above.
  */
-export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter) => {
+export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter, tableColumnSortData) => {
   if(!apis || !dateRange || !fileType){
     console.warn('Invalid params passed to buildDownloadRequestArray');
     return null;
@@ -90,7 +109,7 @@ export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter)
   }
 
   for(let i = requestAPIs.length; i--;){
-    curDownloadObject = buildDownloadObject(requestAPIs[i], apiDateRange, fileType, userFilter);
+    curDownloadObject = buildDownloadObject(requestAPIs[i], apiDateRange, fileType, userFilter, tableColumnSortData);
     if (curDownloadObject) {
       requestArr.push(curDownloadObject);
     }
