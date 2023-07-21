@@ -35,6 +35,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
   const sortedTermList = getSortedGlossaryList(termList);
   const [queryTerm, setQueryTerm] = useState(getQueryTerm(termList));
   const [initialQuery, setInitialQuery] = useState(false);
+  const [tabReset, setTabReset] = useState(false);
   const glossaryRef = useRef(null);
 
   useEffect(() => {
@@ -67,6 +68,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
       }
     }
   }, [activeState])
+
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
@@ -88,13 +90,21 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
-              <GlossaryHeader clickHandler={toggleState} filter={filter} filterHandler={setFilter} glossaryRef={glossaryRef} />
+              <GlossaryHeader
+                clickHandler={toggleState}
+                filter={filter}
+                filterHandler={setFilter}
+                glossaryRef={glossaryRef}
+                tabReset={tabReset}
+                setTabReset={(e) => setTabReset(e)}
+              />
             </div>
             <GlossaryListContainer
               sortedTermList={sortedTermList}
               filter={filter}
               filterHandler={setFilter}
               defaultTerm={queryTerm ? queryTerm : null}
+              setTabReset={(e) => setTabReset(e)}
             />
           </>
         )}
