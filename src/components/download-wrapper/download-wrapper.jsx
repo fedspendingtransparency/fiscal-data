@@ -126,7 +126,6 @@ const DownloadWrapper =
       selectedUserFilter,
       tableColumnSortData
     };
-    console.log(downloadEntry);
     setDownloadRequest(downloadEntry);
     setOpen(true);
 

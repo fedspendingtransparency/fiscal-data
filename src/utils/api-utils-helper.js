@@ -23,8 +23,6 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   const apiDateField = api.dateField;
   const apiSortParams = buildSortParams(api);
 
-  console.log(tableColumnSortData);
-
   // Convert the date range format from YYYY-MM-DD to YYYY-MM for the following apis.
   if(GLOBALS.ENDPOINTS_WITH_YEAR_MONTH_DATE_FORMAT.some(id => id === apiIdStr)){
     dateRange.to = dateRange.to.slice(0, -3);
@@ -57,9 +55,6 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
         tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`
       }
     });
-    console.log(`?filter=${apiDateField}:gte:${dateRange.from},` +
-      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}&fields=${tableColumnFields}`);
   }
 
 

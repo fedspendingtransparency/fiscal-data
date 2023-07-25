@@ -17,7 +17,6 @@ const FilterAndDownload = ({
   selectedUserFilter,
   tableColumnSortData
 }) => {
-  console.log(tableColumnSortData);
   return (
     <div className={container} data-test-id="filterDownloadContainer">
         <div className={leftContent}>

@@ -210,7 +210,6 @@ export const DownloadsProvider = ({ children }) => {
           tableColumnSortData: downloadRequest.tableColumnSortData,
           // add react table filters here
         };
-        console.log(downloadRequest.tableColumnSortData);
         downloadsInProgressByDataset[downloadRequest.datasetId] = download;
         setDownloadsInProgress(Object.values(downloadsInProgressByDataset)
           .sort((a, b) => a.requestTime - b.requestTime));

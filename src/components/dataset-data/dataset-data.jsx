@@ -58,10 +58,6 @@ export const DatasetDataComponent = ({
 
   let loadByPage;
 
-  useEffect(() => {
-    console.log(tableColumnSortData);
-  }, [tableColumnSortData])
-
   const shouldUseLoadByPage = (pivot) => {
     return selectedTable && selectedTable.isLargeDataset && pivot &&
       pivot.pivotView &&
