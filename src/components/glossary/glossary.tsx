@@ -96,7 +96,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
                 filterHandler={setFilter}
                 glossaryRef={glossaryRef}
                 tabReset={tabReset}
-                setTabReset={(e) => setTabReset(e)}
+                setTabReset={setTabReset}
               />
             </div>
             <GlossaryListContainer
