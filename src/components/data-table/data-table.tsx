@@ -79,7 +79,15 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
 
   const getSortedColumnsData = (table) => {
     const columns = table.getVisibleFlatColumns();
-    const mapped = columns.map(column => ({ id: column.id, sorted: column.getIsSorted(), filterValue: column.getFilterValue()}));
+    console.log(table.getFilteredRowModel());
+    const mapped = columns.map(column =>
+      ({
+        id: column.id,
+        sorted: column.getIsSorted(),
+        filterValue: column.getFilterValue(),
+        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id])
+      })
+    );
     setTableColumnSortData(mapped);
   }
 

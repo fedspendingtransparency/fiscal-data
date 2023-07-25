@@ -54,7 +54,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
         }
       }
       if (column.filterValue !== undefined) {
-        // do stuff
+        tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`
       }
     });
     console.log(`?filter=${apiDateField}:gte:${dateRange.from},` +
