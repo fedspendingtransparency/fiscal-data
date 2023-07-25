@@ -11,7 +11,7 @@ interface IGlossaryDisplayList {
   sortedList: IGlossaryListSection[],
   filter: string,
   selectedTermHandler: (e) => void,
-  setTabReset: (e) => void,
+  setTabReset: (reset: boolean) => void,
 }
 const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({sortedList, filter, selectedTermHandler, setTabReset }) => {
 

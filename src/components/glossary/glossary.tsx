@@ -104,7 +104,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
               filter={filter}
               filterHandler={setFilter}
               defaultTerm={queryTerm ? queryTerm : null}
-              setTabReset={(e) => setTabReset(e)}
+              setTabReset={setTabReset}
             />
           </>
         )}

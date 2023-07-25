@@ -20,7 +20,7 @@ interface IGlossaryList {
   filter: string,
   filterHandler: (e) => void,
   defaultTerm?: IGlossaryTerm,
-  setTabReset: (e) => void,
+  setTabReset: (reset: boolean) => void,
 }
 
 const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList, filter, filterHandler, defaultTerm, setTabReset }) => {
@@ -90,7 +90,7 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
                   sortedList={displayList}
                   filter={filter}
                   selectedTermHandler={setSelectedTerm}
-                  setTabReset={(e) => setTabReset(e)}
+                  setTabReset={setTabReset}
                 />
               ) : (
                 <NoGlossaryMatch filter={filter} />
