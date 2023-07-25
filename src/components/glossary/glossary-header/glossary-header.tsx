@@ -24,15 +24,11 @@ interface IGlossaryHeader {
 
 const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler, filterHandler, glossaryRef, tabReset, setTabReset}) => {
 
-  // useEffect to detect change in setTabReset,
-  // which will hold the reference to the specific DOM element
-  // document.querySelector(`[data-testid]='glossaryCloseButton'`).focus();
-  // .focus()
-  // set tabReset to false
+// this use effect is to reset the tabbing order in the glossary after you have entered into one of the definitions
   useEffect(() => {
-    const glossaryCloseButton = document.querySelector(`[data-testid='glossaryCloseButton']`)
+    const glossaryCloseButton = (document.querySelector(`[data-testid='glossaryCloseButton']`) as HTMLButtonElement);
     glossaryCloseButton.focus();
-    console.log(glossaryCloseButton);
+    setTabReset(false);
   }, [tabReset])
 
   const onSearchBarChange = (event) => {
