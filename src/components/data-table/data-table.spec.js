@@ -94,13 +94,15 @@ const mockTableData = {
 
 describe('react-table', () => {
 
+  const setTableColumnSortData = jest.fn();
+
   it('table renders', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
     expect(instance).toBeTruthy();
   });
 
   it('renders headers and column checkboxs', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
     // Column checkbox
     expect(instance.getAllByText('Record Date')[0]).toBeInTheDocument();
     // Column header
@@ -108,7 +110,7 @@ describe('react-table', () => {
   });
 
   it('Able to interact with headers for column sort', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
     // Rows render
@@ -121,7 +123,7 @@ describe('react-table', () => {
   });
 
   it('Filter column by text search', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} />);
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
     // Rows render
@@ -135,7 +137,7 @@ describe('react-table', () => {
   });
 
   it('pagination', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={2} />);
+    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={2} setTableColumnSortData={setTableColumnSortData} />);
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
     // Rows render

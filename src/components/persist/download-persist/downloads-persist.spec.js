@@ -172,6 +172,7 @@ describe('Downloads Persist', () => {
       mockDateRange,
       "csv",
       downloadRequest.requestTime,
+      undefined,
       undefined
     ];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);
@@ -347,6 +348,7 @@ describe('Downloads Persist', () => {
       mockDateRange,
       "csv",
       downloadRequest.requestTime,
+      undefined,
       undefined
     ];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);

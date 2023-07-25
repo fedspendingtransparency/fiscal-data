@@ -29,7 +29,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     dateRange.from = dateRange.from.slice(0, -3);
   }
   let filterAddendum = '';
-  let tableColumnFields = '';
+  let tableColumnFields = '&fields=';
   let tableColumnSort = '';
   let tableColumnFilter = '';
   if (userFilter?.value) {
@@ -63,7 +63,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
       `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}&fields=${tableColumnFields}`
+      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}${tableColumnSort ? tableColumnFields : ''}`
   }
 };
 
