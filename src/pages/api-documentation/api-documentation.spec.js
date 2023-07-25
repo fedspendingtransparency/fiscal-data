@@ -7,8 +7,6 @@ import Endpoints from '../../components/api-documentation/endpoints/endpoints';
 import Methods from '../../components/api-documentation/methods/methods';
 import Fields from '../../components/api-documentation/fields/fields';
 import Aggregation from '../../components/api-documentation/aggregation/aggregation';
-import Pivoting from '../../components/api-documentation/pivoting/pivoting';
-import MultiDimensionDatasets from '../../components/api-documentation/multi-dimension-datasets/multi-dimension-datasets';
 import Examples from '../../components/api-documentation/examples/examples';
 import * as styles from './api.module.scss';
 import TOCButton from "../../components/table-of-contents/toc-button/toc-button";
@@ -72,12 +70,6 @@ describe('ApiDocumentationPage', () => {
   });
   it('expects Aggregation to be within its layout', () => {
     expect(instance.findByType(Aggregation)).toBeDefined();
-  });
-  it('expects Pivoting to be within its layout', () => {
-    expect(instance.findByType(Pivoting)).toBeDefined();
-  });
-  it('expects Multi-Dimension Datasets to be within its layout', () => {
-    expect(instance.findByType(MultiDimensionDatasets)).toBeDefined();
   });
   it('expects Examples to be within its layout', () => {
     expect(instance.findByType(Examples)).toBeDefined();

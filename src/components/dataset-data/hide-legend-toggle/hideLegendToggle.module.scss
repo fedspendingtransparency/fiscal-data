@@ -1,5 +1,12 @@
 @import '../../../variables.module.scss';
 
+.toggleContainer{   
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
 .toggleButton {
     color: $primary;
     font-weight: $semi-bold-weight;
@@ -10,12 +17,7 @@
     margin-right: 0.625rem;
     font-size: $font-size-16;
 }
-.buttonLabel {
-    width: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-end;
-}
+
 .icon {
     margin-right: 0.5rem;
     font-size: $font-size-14;
