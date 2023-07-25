@@ -31,21 +31,35 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     dateRange.from = dateRange.from.slice(0, -3);
   }
   let filterAddendum = '';
-  let tableColumnFilter = ',record_date';
+  let tableColumnFields = '';
+  let tableColumnSort = '';
+  let tableColumnFilter = '';
   if (userFilter?.value) {
     filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
   }
   if (tableColumnSortData) {
     tableColumnSortData.forEach(column => {
+      if (tableColumnFields === '') {
+        tableColumnFields += `${column.id}`;
+      }
+      else {
+        tableColumnFields += `,${column.id}`;
+      }
       if (column.sorted !== false) {
-        // do stuff
+        if (column.sorted === 'asc') {
+          tableColumnSort += `+${column.id}`;
+        }
+        else {
+          tableColumnSort += `-${column.id}`;
+        }
       }
       if (column.filterValue !== undefined) {
         // do stuff
       }
-      // tableColumnFilter += `,${column.id}`
     });
-    console.log(tableColumnFilter);
+    console.log(`?filter=${apiDateField}:gte:${dateRange.from},` +
+      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
+      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}&fields=${tableColumnFields}`);
   }
 
 
@@ -54,7 +68,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
       `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${apiSortParams}&format=${fileType}`
+      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}&fields=${tableColumnFields}`
   }
 };
 
