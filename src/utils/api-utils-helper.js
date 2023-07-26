@@ -37,7 +37,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   }
   if (tableColumnSortData) {
     tableColumnSortData.forEach(column => {
-      if (tableColumnFields === '') {
+      if (tableColumnFields === '&fields=') {
         tableColumnFields += `${column.id}`;
       }
       else {
@@ -55,6 +55,9 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
         tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`
       }
     });
+    console.log(`?filter=${apiDateField}:gte:${dateRange.from},` +
+      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
+      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}${tableColumnSort ? tableColumnFields : ''}`);
   }
 
 
