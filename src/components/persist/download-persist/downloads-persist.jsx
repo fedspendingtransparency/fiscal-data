@@ -185,7 +185,6 @@ export const DownloadsProvider = ({ children }) => {
       requestTime: downloadRequest.requestTime,
       selectedUserFilter: downloadRequest.selectedUserFilter,
       tableColumnSortData: downloadRequest.tableColumnSortData
-      // Add react table filters here
     };
     return JSON.stringify(newObj);
   };
@@ -208,7 +207,6 @@ export const DownloadsProvider = ({ children }) => {
           originalRequestHash: downloadRequest.originalRequestHash,
           selectedUserFilter: downloadRequest.selectedUserFilter,
           tableColumnSortData: downloadRequest.tableColumnSortData,
-          // add react table filters here
         };
         downloadsInProgressByDataset[downloadRequest.datasetId] = download;
         setDownloadsInProgress(Object.values(downloadsInProgressByDataset)
