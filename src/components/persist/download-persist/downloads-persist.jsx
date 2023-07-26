@@ -94,7 +94,6 @@ export const DownloadsProvider = ({ children }) => {
 
   const getDownloadSubscription = (download) => {
 
-    // Add prop here for react table filters
     const requestId = downloadService.initiateDownload(
       downloadRequest.datasetId,
       downloadRequest.apis,
