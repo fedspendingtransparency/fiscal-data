@@ -57,7 +57,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     });
     console.log(`?filter=${apiDateField}:gte:${dateRange.from},` +
       `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}${tableColumnSort ? tableColumnFields : ''}`);
+      `&sort=${tableColumnSort || tableColumnFields ? tableColumnSort : apiSortParams}&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`);
   }
 
 
@@ -66,7 +66,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
       `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${tableColumnSort ? tableColumnSort : apiSortParams}&format=${fileType}${tableColumnSort ? tableColumnFields : ''}`
+      `&sort=${tableColumnSort || tableColumnFields ? tableColumnSort : apiSortParams}&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
   }
 };
 
