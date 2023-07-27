@@ -58,6 +58,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
         tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`
       }
     });
+    // If the user has engaged the column select, apply the default sort params to the applicable selected columns
     if (tableColumnFields !== '&fields=') {
       const fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
       const defaultSortParamsAsArray = apiSortParams.split(',');
