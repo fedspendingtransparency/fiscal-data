@@ -32,16 +32,19 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
   let tableColumnFields = '&fields=';
   let tableColumnSort = '';
   let tableColumnFilter = '';
+  let defaultParamsWithColumnSelect = [];
   if (userFilter?.value) {
     filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
   }
   if (tableColumnSortData) {
     tableColumnSortData.forEach(column => {
-      if (tableColumnFields === '&fields=') {
-        tableColumnFields += `${column.id}`;
-      }
-      else {
-        tableColumnFields += `,${column.id}`;
+      if (!column.allColumnsSelected) {
+        if (tableColumnFields === '&fields=') {
+          tableColumnFields += `${column.id}`;
+        }
+        else {
+          tableColumnFields += `,${column.id}`;
+        }
       }
       if (column.sorted !== false) {
         if (column.sorted === 'asc') {
@@ -55,15 +58,26 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
         tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`
       }
     });
+    if (tableColumnFields !== '&fields=') {
+      const fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
+      const defaultSortParamsAsArray = apiSortParams.split(',');
+      defaultSortParamsAsArray.filter((element) => {
+        fieldsAsArray.forEach((field) => {
+          if (element.includes(field)) {
+            defaultParamsWithColumnSelect.push(element);
+          }
+        });
+      });
+      defaultParamsWithColumnSelect = defaultParamsWithColumnSelect.join(',');
+    }
   }
-
 
 
   return {
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
       `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${tableColumnSort || tableColumnFields ? tableColumnSort : apiSortParams}&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
+      `&sort=${tableColumnSort ? tableColumnSort : tableColumnFields !== '&fields=' ? defaultParamsWithColumnSelect : apiSortParams }&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
   }
 };
 

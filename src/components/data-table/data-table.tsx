@@ -84,7 +84,8 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
         id: column.id,
         sorted: column.getIsSorted(),
         filterValue: column.getFilterValue(),
-        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id])
+        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
+        allColumnsSelected: table.getIsAllColumnsVisible()
       })
     );
     setTableColumnSortData(mapped);
