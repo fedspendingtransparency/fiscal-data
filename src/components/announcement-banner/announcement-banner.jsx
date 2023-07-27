@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const AnnouncementBanner = ({
   altStyle,
+  closable,
   children
 }) => {
   const [visible, setVisible] = useState(true);
@@ -30,9 +31,11 @@ const AnnouncementBanner = ({
           <div>
             {children}
           </div>
-          <button onClick={hideBanner} onKeyPress={hideBanner} className={closeButton} aria-label={'Close banner'}>
-            <FontAwesomeIcon icon={faXmark} className={closeIcon} />
-          </button>
+          { closable && 
+            <button onClick={hideBanner} onKeyPress={hideBanner} className={closeButton} aria-label={'Close banner'}>
+              <FontAwesomeIcon icon={faXmark} className={closeIcon} />
+            </button>
+          }
         </div>
       </div>
     );

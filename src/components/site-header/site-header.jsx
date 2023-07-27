@@ -75,7 +75,7 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
   return (
     <>
       { displayBanner()  &&
-        <AnnouncementBanner>
+        <AnnouncementBanner closable={false}>
           <div className={styles.bannerHeading}>We're experiencing an issue with the {NOTIFICATION_BANNER_TEXT}</div>
           <div className={styles.bannerContent}>
             Our team is working diligently to address the issue. Please check back later or contact us{' '}

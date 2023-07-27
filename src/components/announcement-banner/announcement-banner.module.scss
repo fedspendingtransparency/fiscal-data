@@ -1,9 +1,7 @@
 @import '../../variables.module.scss';
 
 .container {
-  display: flex;
-  justify-content: center;
-  padding: 0.875rem 2rem 1rem 2rem;
+  padding: 1rem;
   background-color: #fff1d2;
   color: #444444;
 }
@@ -12,14 +10,14 @@
   display: flex;
   align-items: center;
   font-size: $font-size-14;
-  max-width: 62.5rem;
+  max-width: $main-width;
+  margin: 0 auto;
 }
 
 .infoIcon{
   font-size: 1rem;
   align-self: flex-start;
   padding: 5px 0px;
-
 }
 
 .closeButton {
@@ -41,13 +39,8 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .container {
-    padding: 1rem 1.875rem 1rem;
-  }
-
   .content {
     align-items: normal;
-    margin-right: 1.375rem;
   }
 
   .closeIcon {
@@ -55,12 +48,16 @@
   }
 
   .infoIcon {
-    margin-right: 1.375rem;
+    margin-right: .5rem;
   }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
   .infoIcon, .closeIcon {
-    margin: 0 1rem;
+    margin-right: .5rem;
+  }
+
+  .closeIcon {
+    margin-left: .5rem;
   }
 }
