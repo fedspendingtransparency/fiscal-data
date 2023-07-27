@@ -1,9 +1,7 @@
 @import '../../variables.module.scss';
 
 .container {
-  display: flex;
-  justify-content: center;
-  padding: 0.875rem 2rem 1rem 2rem;
+  padding: 1rem;
   background-color: #fff1d2;
   color: #444444;
 }
@@ -12,31 +10,54 @@
   display: flex;
   align-items: center;
   font-size: $font-size-14;
-  max-width: 62.5rem;
+  max-width: $main-width;
+  margin: 0 auto;
 }
 
-.infoIcon, .xMarkIcon {
+.infoIcon{
   font-size: 1rem;
+  align-self: flex-start;
+  padding: 5px 0px;
+}
+
+.closeButton {
+  font-size: 1rem;
+  align-self: flex-start;
+  background: none;
+  border: none;
+  cursor: pointer;
+  .closeIcon {
+    color: $primary;
+    :not(svg root) {
+      width: 0.75rem;
+      height: 1.25rem;
+    }
+  }
+  :hover {
+    color: $slate-blue;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .container {
-    padding: 1rem 1.875rem 1rem;
-  }
-
   .content {
     align-items: normal;
-    margin-right: 1.375rem;
+  }
+
+  .closeIcon {
+    margin-left: .25rem;
   }
 
   .infoIcon {
-    padding-top: .7rem;
-    margin-right: 1.375rem;
+    margin-right: .5rem;
   }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-  .infoIcon, .xMarkIcon {
-    margin: 0 1rem;
+  .infoIcon, .closeIcon {
+    margin-right: .5rem;
+  }
+
+  .closeIcon {
+    margin-left: .5rem;
   }
 }

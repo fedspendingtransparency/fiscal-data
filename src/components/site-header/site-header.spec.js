@@ -146,7 +146,7 @@ describe('SiteHeader', () => {
   it('displays announcement banner for specified pages', () => {
     const { getByText } = renderWithRouter(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/datasets/');
 
-    expect(getByText('Dataset Unavailable', {exact: false})).toBeInTheDocument();
+    expect(getByText("We're experiencing an issue", {exact: false})).toBeInTheDocument();
     expect(getByText('Test Page Name', {exact: false})).toBeInTheDocument();
   })
 
@@ -154,7 +154,7 @@ describe('SiteHeader', () => {
     const { getByText } =
       renderWithRouter(<SiteHeader glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />, '/americas-finance-guide/national-debt/');
 
-    expect(getByText('Dataset Unavailable', {exact: false})).toBeInTheDocument();
+    expect(getByText("We're experiencing an issue", {exact: false})).toBeInTheDocument();
     expect(getByText('Test Page Name', {exact: false})).toBeInTheDocument();
   })
 
