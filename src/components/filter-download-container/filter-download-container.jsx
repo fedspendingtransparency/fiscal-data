@@ -14,24 +14,28 @@ const FilterAndDownload = ({
   dataset,
   allTablesSelected,
   isCustomDateRange,
-  selectedUserFilter
-}) => (
-  <div className={container} data-test-id="filterDownloadContainer">
-      <div className={leftContent}>
-        {children}
-      </div>
-      <div className={rightContent}>
-        <DownloadWrapper
-          dateRange={dateRange}
-          isFiltered={isFiltered}
-          selectedTable={selectedTable}
-          dataset={dataset}
-          allTablesSelected={allTablesSelected}
-          isCustomDateRange={isCustomDateRange}
-          selectedUserFilter={selectedUserFilter}
-        />
-      </div>
-  </div>
-);
+  selectedUserFilter,
+  tableColumnSortData
+}) => {
+  return (
+    <div className={container} data-test-id="filterDownloadContainer">
+        <div className={leftContent}>
+          {children}
+        </div>
+        <div className={rightContent}>
+          <DownloadWrapper
+            dateRange={dateRange}
+            isFiltered={isFiltered}
+            selectedTable={selectedTable}
+            dataset={dataset}
+            allTablesSelected={allTablesSelected}
+            isCustomDateRange={isCustomDateRange}
+            selectedUserFilter={selectedUserFilter}
+            tableColumnSortData={tableColumnSortData}
+          />
+        </div>
+    </div>
+  )
+};
 
 export default FilterAndDownload;
