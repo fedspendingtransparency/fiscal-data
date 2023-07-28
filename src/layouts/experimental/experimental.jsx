@@ -3,11 +3,23 @@ import BarGraph from '../../components/charts/bar/bar';
 import { uncompressedBarGraphData, staggeredData } from '../../components/charts/helpers/helpersData';
 import { reducer } from "../../components/charts/helpers/helpers";
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { barDiv, linkDiv } from './experimental.module.scss';
+import { barDiv, linkDiv, fallback } from './experimental.module.scss';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import VisualizationCallout from "../../components/visualization-callout/visualization-callout";
 import InsightsDownload from "../../components/insights-download/insights-download";
 import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
+import { ErrorBoundary } from "react-error-boundary";
+
+
+function fallbackRender({ error, resetErrorBoundary }) {
+  // Call resetErrorBoundary() to reset the error boundary and retry the render.
+
+  return (
+    <div role="alert" className={fallback}>
+      <p>Something went wrong. Please refresh the page to try again.</p>
+    </div>
+  );
+}
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -32,7 +44,17 @@ const ExperimentalPage = () => {
 
 
   return (
-    <SiteLayout>
+    // error boundary 
+    // <ErrorBoundary
+    //   fallback={<div>Something went wrong. Please refresh the page to try again.</div>}
+    //   >
+<ErrorBoundary
+  fallbackRender={fallbackRender}
+  onReset={(details) => {
+    // Reset the state of your app so the error doesn't happen again
+  }}
+> 
+<SiteLayout>
       <h2>
         FootNote Paragraph
       </h2>
@@ -137,6 +159,9 @@ const ExperimentalPage = () => {
         <VisualizationCallout children={'Example Text.'} />
       </div>
     </SiteLayout>
+
+      </ErrorBoundary>
+    
   )
 };
 
