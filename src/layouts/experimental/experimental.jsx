@@ -10,16 +10,11 @@ import InsightsDownload from "../../components/insights-download/insights-downlo
 import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from "react-error-boundary";
 
-
-function fallbackRender({ error, resetErrorBoundary }) {
-  // Call resetErrorBoundary() to reset the error boundary and retry the render.
-
+const fallbackComponent = () => {
   return (
-    <div role="alert" className={fallback}>
-      <p>Something went wrong. Please refresh the page to try again.</p>
-    </div>
+      <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>
   );
-}
+};
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -44,123 +39,114 @@ const ExperimentalPage = () => {
 
 
   return (
-    // error boundary 
-    // <ErrorBoundary
-    //   fallback={<div>Something went wrong. Please refresh the page to try again.</div>}
-    //   >
-<ErrorBoundary
-  fallbackRender={fallbackRender}
-  onReset={(details) => {
-    // Reset the state of your app so the error doesn't happen again
-  }}
-> 
-<SiteLayout>
-      <h2>
-        FootNote Paragraph
-      </h2>
-      <p>
-        empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut.
-        Nulla facilisi. Ut tempus orci nibh, vitae tristique erat finibus egestas. Nullam ut nisl
-        fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque
-        quam.
-      </p>
-      <br />
-      <h3> ReCharts Composed Chart </h3>
-      <AFGDeficitPOC />
-      <h2>
-        Basic Bar Graph, with labels visible on bars
-      </h2>
-        <BarGraph
-          divClass={barDiv}
-          graphData={graphData}
-          graphIndex={graphIndex}
-          valueKeys={valueKeys}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'Year',
-            legendPosition: 'middle',
-            legendOffset: 36
-          }}
-          axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'Deficit/Surplus (in Billions)',
-            legendPosition: 'middle',
-            legendOffset: -50
-          }}
-          margin={{left: 60, bottom: 50}}
-          enableLabel={true}
-          labelTextColor={'#ffffff'}
-        />
-      <h2>
-        Bar Graph with Negative Values, no axes
-      </h2>
-      <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
-      <div className={barDiv}>
-        <BarGraph
-          graphData={graph2Data}
-          graphIndex={'year'}
-          valueKeys={['value']}
-          colors={(d) => Number(d.value) >= 0 ? 'rgb(1, 118, 198)' : 'rgb(242, 108, 98)'}
-        />
-      </div>
-
-      <h2>
-        Two graphs at once, no axes
-      </h2>
-      <div className={barDiv}>
-        <span> The following graphs are color coded even as they cross the x-axis and stack at the end. </span>
+    <ErrorBoundary FallbackComponent={fallbackComponent}> 
+      <SiteLayout>
+        <h2>
+          FootNote Paragraph
+        </h2>
+        <p>
+          empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut.
+          Nulla facilisi. Ut tempus orci nibh, vitae tristique erat finibus egestas. Nullam ut nisl
+          fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque
+          quam.
+        </p>
+        <br />
+        <h3> ReCharts Composed Chart </h3>
+        <AFGDeficitPOC />
+        <h2>
+          Basic Bar Graph, with labels visible on bars
+        </h2>
+          <BarGraph
+            divClass={barDiv}
+            graphData={graphData}
+            graphIndex={graphIndex}
+            valueKeys={valueKeys}
+            axisBottom={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: 'Year',
+              legendPosition: 'middle',
+              legendOffset: 36
+            }}
+            axisLeft={{
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: 'Deficit/Surplus (in Billions)',
+              legendPosition: 'middle',
+              legendOffset: -50
+            }}
+            margin={{left: 60, bottom: 50}}
+            enableLabel={true}
+            labelTextColor={'#ffffff'}
+          />
+        <h2>
+          Bar Graph with Negative Values, no axes
+        </h2>
+        <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
+        <div className={barDiv}>
           <BarGraph
             graphData={graph2Data}
             graphIndex={'year'}
-            valueKeys={['value', 'value2']}
-            colors={['rgb(1, 118, 198)', 'rgb(242, 108, 98)']}
+            valueKeys={['value']}
+            colors={(d) => Number(d.value) >= 0 ? 'rgb(1, 118, 198)' : 'rgb(242, 108, 98)'}
           />
-      </div>
-
-      <h2>
-        Graph with incomplete/invalid data
-      </h2>
-      <div className={barDiv}>
-        <span> The following placeholder avoids a page error by checking the params on deciding not to render a broken chart </span>
-          <BarGraph
-            graphData={[]}
-            graphIndex={17}
-            valueKeys={{}}
-          />
-      </div>
-      <h2>
-        Custom Link Component
-      </h2>
-      <div className={linkDiv}>
-        <CustomLink url="/">This should open the homepage in the same tab</CustomLink>
-        <CustomLink url="/" external>This should open the homepage in a new tab (since the "external" prop is passed in)</CustomLink>
-        <CustomLink url="https://example.com">
-          This link should open https://example.com/ in a new tab even without the "external" prop since the url starts with http(s)
-        </CustomLink>
-      </div>
-      <div>
-        <div
-          style={{
-            height: 500,
-            margin: '32px 0',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#fff',
-            backgroundColor: '#555'
-          }}
-        >
-          A smaller graph
         </div>
-        <VisualizationCallout children={'Example Text.'} />
-      </div>
-    </SiteLayout>
 
-      </ErrorBoundary>
+        <h2>
+          Two graphs at once, no axes
+        </h2>
+        <div className={barDiv}>
+          <span> The following graphs are color coded even as they cross the x-axis and stack at the end. </span>
+            <BarGraph
+              graphData={graph2Data}
+              graphIndex={'year'}
+              valueKeys={['value', 'value2']}
+              colors={['rgb(1, 118, 198)', 'rgb(242, 108, 98)']}
+            />
+        </div>
+
+        <h2>
+          Graph with incomplete/invalid data
+        </h2>
+        <div className={barDiv}>
+          <span> The following placeholder avoids a page error by checking the params on deciding not to render a broken chart </span>
+            <BarGraph
+              graphData={[]}
+              graphIndex={17}
+              valueKeys={{}}
+            />
+        </div>
+        <h2>
+          Custom Link Component
+        </h2>
+        <div className={linkDiv}>
+          <CustomLink url="/">This should open the homepage in the same tab</CustomLink>
+          <CustomLink url="/" external>This should open the homepage in a new tab (since the "external" prop is passed in)</CustomLink>
+          <CustomLink url="https://example.com">
+            This link should open https://example.com/ in a new tab even without the "external" prop since the url starts with http(s)
+          </CustomLink>
+        </div>
+        <div>
+          <div
+            style={{
+              height: 500,
+              margin: '32px 0',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: '#fff',
+              backgroundColor: '#555'
+            }}
+          >
+            A smaller graph
+          </div>
+          <VisualizationCallout children={'Example Text.'} />
+        </div>
+      </SiteLayout>
+
+    </ErrorBoundary>
     
   )
 };

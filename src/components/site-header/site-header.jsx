@@ -31,7 +31,6 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
         display = true;
       }
     });
-    //abcdefg<
     return display;
   }
 
