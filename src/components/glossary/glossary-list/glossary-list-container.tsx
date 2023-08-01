@@ -20,9 +20,10 @@ interface IGlossaryList {
   filter: string,
   filterHandler: (e) => void,
   defaultTerm?: IGlossaryTerm,
+  setTabReset: (reset: boolean) => void,
 }
 
-const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList, filter, filterHandler, defaultTerm}) => {
+const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList, filter, filterHandler, defaultTerm, setTabReset }) => {
   const [scrollTop, setScrollTop] = useState(true);
   const [selectedTerm, setSelectedTerm] = useState(defaultTerm);
   const [displayList, setDisplayList] = useState(sortedTermList);
@@ -85,7 +86,12 @@ const GlossaryListContainer:FunctionComponent<IGlossaryList> = ({ sortedTermList
               customChildStyle={{marginBottom: '12.825rem', paddingRight: '1rem'}}
             >
               {displayList.length ? (
-                <GlossaryDisplayList sortedList={displayList} filter={filter} selectedTermHandler={setSelectedTerm} />
+                <GlossaryDisplayList
+                  sortedList={displayList}
+                  filter={filter}
+                  selectedTermHandler={setSelectedTerm}
+                  setTabReset={setTabReset}
+                />
               ) : (
                 <NoGlossaryMatch filter={filter} />
               )

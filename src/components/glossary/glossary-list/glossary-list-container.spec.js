@@ -3,6 +3,7 @@ import React from 'react';
 import { testGlossaryData, testSortedGlossaryData } from '../test-helper';
 import userEvent from '@testing-library/user-event';
 import GlossaryListContainer from './glossary-list-container';
+
 describe('glossary list container',() => {
   it('contains the initial list header', () => {
     const { getByText } = render(
@@ -32,7 +33,12 @@ describe('glossary list container',() => {
 
   it('opens a terms definition display on click', () => {
     const { getByRole, getByText } = render(
-      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer
+        sortedTermList={testSortedGlossaryData}
+        filter={''}
+        filterHandler={jest.fn()}
+        setTabReset={jest.fn()}
+      />
     );
 
     const termButton = getByRole('button', {name: 'Apple'});
@@ -45,7 +51,12 @@ describe('glossary list container',() => {
 
   it('definition display is keyboard accessible', () => {
     const { getByRole, getByText } = render(
-      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer
+        sortedTermList={testSortedGlossaryData}
+        filter={''}
+        filterHandler={jest.fn()}
+        setTabReset={jest.fn()}
+      />
     );
 
     const termButton = getByRole('button', {name: 'Another Apple'});
@@ -63,7 +74,12 @@ describe('glossary list container',() => {
 
   it('renders the back to list button when a definition is displayed', () => {
     const { getByText, getByRole } = render(
-      <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} />
+      <GlossaryListContainer
+        sortedTermList={testSortedGlossaryData}
+        filter={''}
+        filterHandler={jest.fn()}
+        setTabReset={jest.fn()}
+      />
     );
 
     const termButton = getByText('Banana');
