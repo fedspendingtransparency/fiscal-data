@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import BreadCrumbs from "../../components/breadcrumbs/breadcrumbs";
 import PageHelmet from "../../components/page-helmet/page-helmet";
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import explainerSections, {
@@ -18,7 +17,6 @@ import {
 } from "./explainer-helpers/explainer-helpers";
 
 import {
-  breadCrumbsContainer,
   contentContainer,
   relatedDatasetsStyle,
   mainContainer,
@@ -45,7 +43,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
 }) => {
   const {
     pageName,
-    breadCrumbLinkName,
     heroImage,
     seoConfig,
     relatedDatasets,
