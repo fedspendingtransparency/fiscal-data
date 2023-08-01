@@ -132,6 +132,7 @@
     "react-tabs": "^4.2.1",
     "recharts": "^2.5.0",
     "rxjs": "^7.2.0",
+    "sharp": "^0.32.4",
     "smoothscroll-polyfill": "^0.4.4",
     "stream": "0.0.2",
     "styled-components": "^6.0.0-rc.6",
@@ -142,6 +143,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.6.0",
+    "@babel/core": "^7.22.9",
     "@babel/eslint-parser": "^7.15.4",
     "@babel/preset-typescript": "^7.14.5",
     "@rxreact/jest-helpers": "^1.0.0",
