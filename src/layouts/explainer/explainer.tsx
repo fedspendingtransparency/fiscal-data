@@ -53,24 +53,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
     cpiDataByYear,
   } = pageContext;
 
-  const breadCrumbLinks: Record<string, unknown>[] = [
-    {
-      name: breadCrumbLinkName,
-      link: path,
-    },
-    {
-      name: "Home",
-      link: "/",
-    },
-  ];
-
   const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
-
-
-  const isAFGPage = () => {
-    const isBrowser = () => typeof window !== "undefined";
-    return isBrowser() && window.location.href.includes("americas-finance-guide");
-  };
 
   return (
     <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
@@ -83,22 +66,12 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
         canonical=""
         datasetDetails=""
       />
-
-      {isAFGPage ? (
-        <>
-          <div className={mobileSubNav}>
-            <MobileSubNav hidePosition={160} pageName={pageName} />
-          </div>
-          <div className={desktopSubNav}>
-            <DeskTopSubNav hidePosition={160} />
-          </div>
-        </>
-      ) : (
-        <div className={breadCrumbsContainer}>
-          <BreadCrumbs links={breadCrumbLinks} />
-        </div>
-      )}
-
+      <div className={mobileSubNav}>
+        <MobileSubNav hidePosition={160} pageName={pageName} />
+      </div>
+      <div className={desktopSubNav}>
+        <DeskTopSubNav hidePosition={160} />
+      </div>
       <div className={mainContainer}>
         <HeroImage
           heading={heroImage.heading}
