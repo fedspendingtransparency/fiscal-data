@@ -23,6 +23,8 @@ const defaultRowsPer = 5;
 describe('DTG table component', () => {
     jest.useFakeTimers();
 
+    beforeEach(() => jest.resetAllMocks());
+
     let component = renderer.create();
     renderer.act(() => {
         component = renderer.create(
@@ -319,7 +321,7 @@ describe('DtgTable component - Select Columns', () => {
       selectColumnPanel={selectColumnPanel}
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
-   
+
       expect(getByText(ColSelectTestData[0].date)).toBeInTheDocument();
       expect(getByText(ColSelectTestData[0].time)).toBeInTheDocument();
       expect(getByText(ColSelectTestData[1].date)).toBeInTheDocument();
@@ -370,7 +372,7 @@ describe('DtgTable component - Select Columns', () => {
 
       expect(setSelectColumnPanelMock).toHaveBeenCalledWith(false);
   });
-  
+
   it('should display all columns when select all', async () => {
     const {getByRole, getByText} = render(<DtgTable
       tableProps={{ data: ColSelectTestData,
@@ -379,7 +381,7 @@ describe('DtgTable component - Select Columns', () => {
       selectColumnPanel={selectColumnPanel}
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
-   
+
       const selectAllButton = getByRole('checkbox', {name: 'Select All'});
       userEvent.click(selectAllButton);
       await waitFor(() => {
@@ -404,7 +406,7 @@ describe('DtgTable component - Select Columns', () => {
       selectColumnPanel={selectColumnPanel}
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
-   
+
       const selectAllButton = getByRole('checkbox', {name: 'Select All'});
       userEvent.click(selectAllButton);
       await waitFor(() => {
@@ -447,7 +449,7 @@ describe('DtgTable component - Select Columns', () => {
       // Time and Name columns
       expect(getByRole('checkbox', {name: ColSelectColConfig[1].name})).toBeChecked();
       expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).not.toBeChecked();
-   
+
       const dateColButton = getByRole('checkbox', {name: ColSelectColConfig[0].name});
       userEvent.click(dateColButton);
       await waitFor(() => {
@@ -471,7 +473,7 @@ describe('DtgTable component - Select Columns', () => {
       selectColumnPanel={selectColumnPanel}
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
-   
+
       // default options
       // Data column checkbox
       expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
@@ -483,7 +485,7 @@ describe('DtgTable component - Select Columns', () => {
       userEvent.click(dateColButton);
 
       expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).not.toBeChecked();
-   
+
       const resetButton = getByRole('button', {name: 'Reset'});
       userEvent.click(resetButton);
 
@@ -502,7 +504,7 @@ describe('DtgTable component - Select Columns', () => {
       selectColumnPanel={selectColumnPanel}
       setSelectColumnPanel={setSelectColumnPanelMock}
       />);
-   
+
       // default options
       // Data column checkbox
       expect(getByRole('checkbox', {name: ColSelectColConfig[0].name})).toBeChecked();
@@ -515,7 +517,7 @@ describe('DtgTable component - Select Columns', () => {
 
       expect(getByText('3 selected of 3')).toBeInTheDocument();
       expect(getByRole('checkbox', {name: ColSelectColConfig[2].name})).toBeChecked();
-   
+
       const resetButton = getByRole('button', {name: 'Reset'});
       userEvent.click(resetButton);
 

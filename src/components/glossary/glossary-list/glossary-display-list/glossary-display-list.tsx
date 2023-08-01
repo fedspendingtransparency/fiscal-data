@@ -11,15 +11,16 @@ interface IGlossaryDisplayList {
   sortedList: IGlossaryListSection[],
   filter: string,
   selectedTermHandler: (e) => void,
-
+  setTabReset: (reset: boolean) => void,
 }
-const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({sortedList, filter, selectedTermHandler}) => {
+const GlossaryDisplayList:FunctionComponent<IGlossaryDisplayList> = ({sortedList, filter, selectedTermHandler, setTabReset }) => {
 
   const onTermClick = (e, term) => {
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       selectedTermHandler(term);
     }
+    setTabReset(true);
   }
 
   return (

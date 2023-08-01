@@ -35,7 +35,8 @@ const TableSectionContainer = ({
   handleIgnorePivots,
   ignorePivots,
   allTablesSelected,
-  handleConfigUpdate
+  handleConfigUpdate,
+  setTableColumnSortData
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -50,6 +51,7 @@ const TableSectionContainer = ({
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
   const refreshTable = () => {
+
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
@@ -64,7 +66,7 @@ const TableSectionContainer = ({
     }
 
     setTableProps({
-      rawData: apiData,
+      rawData: {...apiData, data: displayData}.data ? {...apiData, data: displayData} : apiData,
       data: displayData, //null for server-side pagination
       columnConfig,
       width,
@@ -228,6 +230,7 @@ const TableSectionContainer = ({
                   tableProps={tableProps}
                   perPage={perPage}
                   setPerPage={setPerPage}
+                  setTableColumnSortData={setTableColumnSortData}
                 /> :
                 ''
             }

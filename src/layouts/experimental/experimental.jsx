@@ -7,10 +7,7 @@ import { barDiv, linkDiv } from './experimental.module.scss';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import VisualizationCallout from "../../components/visualization-callout/visualization-callout";
 import InsightsDownload from "../../components/insights-download/insights-download";
-import ChartJSDoughnut from "./charts/chartjsDoughnut";
-import ChartJSBar from "./charts/chartjsBar";
-import ChartJSLine from "./charts/chartjsLine";
-import ReChartsLine from "./charts/rechartsLine";
+import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 
 /**
  * This page exists primarily for testing functionality that does not have a spot on the site at the time of development.
@@ -47,7 +44,7 @@ const ExperimentalPage = () => {
       </p>
       <br />
       <h3> ReCharts Composed Chart </h3>
-      <ReChartsLine />
+      <AFGDeficitPOC />
       <h2>
         Basic Bar Graph, with labels visible on bars
       </h2>

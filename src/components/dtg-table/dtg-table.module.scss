@@ -11,17 +11,6 @@ $borderRadius: 5px;
   }
 }
 
-.newTableContainer {
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid $dd-border-color;
-  border-radius: $borderRadius;
-  background-color: white;
-  overflow-x: auto;
-  min-height: calc(64px + 8rem);
-}
-
 .overlayContainer, .overlayContainerNoFooter {
   position: relative;
 }

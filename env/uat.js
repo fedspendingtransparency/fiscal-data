@@ -5,24 +5,7 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
-  ADDITIONAL_DATASETS: {
-    "015-BFS-2014Q3-045": {
-      "seoConfig": {
-        "pageTitle": "Treasury Securities Auctions Data",
-        "description": "U.S. Marketable Treasury securities that are sold to the public through the Treasury auction process.",
-        "keywords": "treasury securities"
-      },
-      "topics": [
-        "debt", "savings-bonds"
-      ],
-      "relatedDatasets": [
-        "015-BFS-2014Q1-14"
-      ],
-      "slug": "/auctions/",
-      "currentDateButton": "byMonth",
-      "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
-    }
-  },
+  ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '27': {
       'endpoint': 'v1/debt/mspd/mspd_table_1',

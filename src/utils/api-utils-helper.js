@@ -8,10 +8,11 @@ import GLOBALS from '../helpers/constants';
  * @param dateRange {object} - From and To are the only fields with an API format of YYYY-MM-DD.
  * @param fileType {String}  - Accepted values are 'csv', 'xml', 'json'.
  * @param userFilter {null|object}  - Object to describe the user selected filter object
+ * @param tableColumnSortData
  * @returns {null|Object}    - Returns null if params are invalid, else returns object with desired
  * fields "apiId" and "params"
  */
-const buildDownloadObject = (api, dateRange, fileType, userFilter) => {
+const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSortData) => {
   if(!api || !dateRange || !fileType){
     console.warn('Invalid params passed to buildDownloadObject');
     return null;
@@ -28,15 +29,56 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter) => {
     dateRange.from = dateRange.from.slice(0, -3);
   }
   let filterAddendum = '';
+  let tableColumnFields = '&fields=';
+  let tableColumnSort = '';
+  let tableColumnFilter = '';
+  let defaultParamsWithColumnSelect = [];
   if (userFilter?.value) {
     filterAddendum = `,${api.userFilter.field}:eq:${userFilter.value}`;
   }
+  if (tableColumnSortData) {
+    tableColumnSortData.forEach(column => {
+      if (!column.allColumnsSelected) {
+        if (tableColumnFields === '&fields=') {
+          tableColumnFields += `${column.id}`;
+        }
+        else {
+          tableColumnFields += `,${column.id}`;
+        }
+      }
+      if (column.sorted !== false) {
+        if (column.sorted === 'asc') {
+          tableColumnSort += `+${column.id}`;
+        }
+        else {
+          tableColumnSort += `-${column.id}`;
+        }
+      }
+      if (column.filterValue !== undefined) {
+        tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`
+      }
+    });
+    // If the user has engaged the column select, apply the default sort params to the applicable selected columns
+    if (tableColumnFields !== '&fields=') {
+      const fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
+      const defaultSortParamsAsArray = apiSortParams.split(',');
+      defaultSortParamsAsArray.filter((element) => {
+        fieldsAsArray.forEach((field) => {
+          if (element.includes(field)) {
+            defaultParamsWithColumnSelect.push(element);
+          }
+        });
+      });
+      defaultParamsWithColumnSelect = defaultParamsWithColumnSelect.join(',');
+    }
+  }
+
 
   return {
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
-      `${apiDateField}:lte:${dateRange.to}${filterAddendum}` +
-      `&sort=${apiSortParams}&format=${fileType}`
+      `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
+      `&sort=${tableColumnSort ? tableColumnSort : tableColumnFields !== '&fields=' ? defaultParamsWithColumnSelect : apiSortParams }&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
   }
 };
 
@@ -69,10 +111,11 @@ const dataTables = [
  * @param dateRange {object}  - From and To are fields on this object that are both jsDates.
  * @param fileType {String}   - Accepted values are 'csv', 'xml', 'json'.
  * @param userFilter {object}   - option selected from userFilter dropdown
+ * @param tableColumnSortData
  * @returns {null|Object}     - Returns null if params are invalid, else returns object with
  * collection of APIs as built from buildDownloadObject above.
  */
-export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter) => {
+export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter, tableColumnSortData) => {
   if(!apis || !dateRange || !fileType){
     console.warn('Invalid params passed to buildDownloadRequestArray');
     return null;
@@ -90,7 +133,7 @@ export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter)
   }
 
   for(let i = requestAPIs.length; i--;){
-    curDownloadObject = buildDownloadObject(requestAPIs[i], apiDateRange, fileType, userFilter);
+    curDownloadObject = buildDownloadObject(requestAPIs[i], apiDateRange, fileType, userFilter, tableColumnSortData);
     if (curDownloadObject) {
       requestArr.push(curDownloadObject);
     }

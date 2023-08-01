@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const mockDatasets = [
     {
         slug: '/blah/',
