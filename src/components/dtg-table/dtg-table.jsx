@@ -7,8 +7,10 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import { pagedDatatableRequest, formatDateForApi, basicFetch,
-  buildSortParams } from '../../utils/api-utils';
+import {
+  pagedDatatableRequest, formatDateForApi, basicFetch,
+  buildSortParams, MAX_PAGE_SIZE,
+} from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
 import * as styles from './dtg-table.module.scss';
@@ -127,8 +129,9 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
         + `:lte:${to}&sort=${sortParam}`)
       .then(res => {
         const totalCount = res.meta['total-count'];
+        const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
         basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
-          + `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`)
+          + `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`)
         .then(data => {
           setDtgTableData(data);
         });
