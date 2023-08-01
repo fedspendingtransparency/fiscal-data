@@ -69,11 +69,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
 
   const isAFGPage = () => {
     const isBrowser = () => typeof window !== "undefined";
-    let isAFG = false;
-    isBrowser() && window.location.href.includes("americas-finance-guide")
-      ? (isAFG = true)
-      : (isAFG = false);
-    return isAFG;
+    return isBrowser() && window.location.href.includes("americas-finance-guide");
   };
 
   return (
