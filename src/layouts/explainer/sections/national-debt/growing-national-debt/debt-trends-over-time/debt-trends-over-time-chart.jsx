@@ -255,9 +255,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               }
             })
           }, config);
-          setTimeout(() =>
-            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]')), 1000);
-
+          if (document.querySelector('[data-testid="debtTrendsChart"]')) {
+            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]'));
+          }
           currentPoint = points[animationPoint];
           verticalCrosshair = (
             <line

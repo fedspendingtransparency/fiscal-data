@@ -8,12 +8,12 @@ import {
   folderWhiteOutLine,
   selectedTab
 }
-from "./surplus-illustration.module.scss";
+  from "./surplus-illustration.module.scss";
 import surplus from "../../../../../../images/explainer/national-deficit/surplus.png";
 import balancedBudget
   from "../../../../../../images/explainer/national-deficit/balanced-budget.png";
 import deficit from "../../../../../../images/explainer/national-deficit/deficit.png";
-import React, {useState} from "react";
+import React, {useEffect, useRef} from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
@@ -75,28 +75,40 @@ const SurplusIllustration = ({glossary, width}) => {
     paddingLeft: '8px',
   };
 
-  let renderCounter = 0;
 
-  let observer;
+  const budgetRef = useRef(null);
+  const deficitRef = useRef(null);
 
-  if(typeof window !== "undefined") {
-    observer = new IntersectionObserver(entries => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if (entry.target.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
-            entry.target.classList.add('bounce');
-            renderCounter += 1;
+  useEffect(() => {
+    let renderCounter = 0;
+    let observer;
+    if(typeof window !== "undefined") {
+      observer = new IntersectionObserver(entries => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
+              entry.target.classList.add('bounce');
+              renderCounter += 1;
+            }
+            else if (entry.target.innerHTML.includes('Deficit') && renderCounter < 2) {
+              entry.target.classList.add('bounceDeficit');
+              renderCounter += 1;
+            }
           }
-          else if (entry.target.innerHTML.includes('Deficit') && renderCounter < 2) {
-            entry.target.classList.add('bounceDeficit');
-            renderCounter += 1;
-          }
-        }
-      })
-    });
-    setTimeout(() => observer.observe(document.querySelector('[data-testid="budget-tab"]')), 1000);
-    setTimeout(() => observer.observe(document.querySelector('[data-testid="deficit-tab"]')), 1000);
-  }
+        })
+      });
+      if (budgetRef.current && deficitRef.current) {
+        observer.observe(budgetRef.current);
+        observer.observe(deficitRef.current);
+      }
+    }
+    return () => {
+      if (budgetRef.current && deficitRef.current) {
+        observer.unobserve(budgetRef.current);
+        observer.unobserve(deficitRef.current);
+      }
+    }
+  }, [budgetRef, deficitRef]);
 
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
@@ -112,7 +124,7 @@ const SurplusIllustration = ({glossary, width}) => {
       <Tabs>
         <TabList style={tabListStyle}>
           <Tab style={tabStyle} data-testid={'surplus-tab'} selectedClassName={selectedTab}
-            onClick={()=>handleClick("10")}
+               onClick={()=>handleClick("10")}
           >
             <div className={tabBaselineWhiteout} />
             {width < pxToNumber(1188) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
@@ -121,26 +133,30 @@ const SurplusIllustration = ({glossary, width}) => {
             </div>
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}
-            onClick={()=>handleClick("11")}
-          >
-            <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
-            <div className={title}>
-              Balanced Budget
-            </div>
-            {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
-          </Tab>
-          <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}
-            onClick={()=>handleClick("12")}
-          >
-            <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
-            <div className={title}>
-              Deficit
-            </div>
-            {width < pxToNumber(1188) ? <FolderTabEdgeRightLastMobile /> :  <FolderTabEdgeRightLast />  }
-          </Tab>
+          <div ref={budgetRef}>
+              <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}
+                   onClick={()=>handleClick("11")}
+              >
+              <div className={tabBaselineWhiteout} />
+              {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
+              <div className={title}>
+                Balanced Budget
+              </div>
+              {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
+            </Tab>
+          </div>
+          <div ref={deficitRef}>
+            <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}
+                 onClick={()=>handleClick("12")}
+            >
+              <div className={tabBaselineWhiteout} />
+              {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
+              <div className={title}>
+                Deficit
+              </div>
+              {width < pxToNumber(1188) ? <FolderTabEdgeRightLastMobile /> :  <FolderTabEdgeRightLast />  }
+            </Tab>
+          </div>
         </TabList>
         <TabPanel>
           <div className={folderVis}>
