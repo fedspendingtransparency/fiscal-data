@@ -97,10 +97,6 @@ const SurplusIllustration = ({glossary, width}) => {
         observer.observe(document.querySelector('[data-testid="budget-tab"]'));
         observer.observe(document.querySelector('[data-testid="deficit-tab"]'));
     }
-    return () => {
-        observer.unobserve(document.querySelector('[data-testid="budget-tab"]'));
-        observer.unobserve(document.querySelector('[data-testid="deficit-tab"]'));
-    }
   }, []);
 
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
