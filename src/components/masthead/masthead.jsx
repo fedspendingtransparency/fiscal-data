@@ -26,10 +26,9 @@ const Masthead = ({title, tagLine, techSpecs, dictionary, bannerCallout}) => {
         <h1 className={styles.pageTitle}>{title}</h1>
         <DetailPills techSpecs={techSpecs} dictionary={dictionary} />
         <p className={styles.tagLine} data-test-id="tagLine">{tagLine}</p>
-        {bannerCallout && 
+        {bannerCallout &&
         <div data-testid="callout">
-          <BannerCallout 
-          bannerCallout={bannerCallout}/>
+          <BannerCallout bannerCallout={bannerCallout} />
         </div>
       }
       </div>
