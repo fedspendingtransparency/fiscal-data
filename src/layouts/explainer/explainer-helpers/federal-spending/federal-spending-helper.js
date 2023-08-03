@@ -1,10 +1,5 @@
-import React from "react"
-import {
-  faHandHoldingDollar,
-  faCommentDollar,
-  faPiggyBank,
-} from "@fortawesome/free-solid-svg-icons"
-import CustomLink from "../../../../components/links/custom-link/custom-link"
+import React from "react";
+import CustomLink from "../../../../components/links/custom-link/custom-link";
 
 
 const mts = (

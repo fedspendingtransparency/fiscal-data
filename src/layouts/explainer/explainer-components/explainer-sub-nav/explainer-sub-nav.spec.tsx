@@ -32,19 +32,19 @@ describe("ExplainerSubNav Component", () => {
 
   it("renders all the correct links", () => {
     const { getByText  } = render(<ExplainerSubNav hidePosition={160} />)
-    
+
     urls.forEach(url => {
       expect(getByText(url.text).closest('a')).toHaveAttribute('href', url.url)
     })
   })
 
   it('sets className depending on scroll', async() =>  {
-    const { getByTestId, container } = render(
+    const { getByTestId } = render(
       <div style={{ height: '100px', display: 'block' }} data-testid="mockDiv">
         <ExplainerSubNav hidePosition={5} />
       </div>
     );
-    
+
     fireEvent.scroll(window, { target: { pageYOffset: 4 } });
     expect(await getByTestId('explainerSubNavList')).toHaveClass('navBlock');
 

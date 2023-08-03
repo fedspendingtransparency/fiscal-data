@@ -33,7 +33,7 @@ import SecondaryNav from "../../components/secondary-nav/secondary-nav";
 import SocialShare from "../../components/social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies";
-import ComingSoon from "./explainer-components/hightlighted-text/highlighted-text";
+import ComingSoon from "./explainer-components/highlighted-text/highlighted-text";
 import DeskTopSubNav from "./explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "./explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
 

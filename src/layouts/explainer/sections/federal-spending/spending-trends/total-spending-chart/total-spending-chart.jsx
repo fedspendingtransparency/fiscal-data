@@ -35,7 +35,7 @@ import {
   addInnerChartAriaLabel,
   applyChartScaling
 } from "../../../../explainer-helpers/explainer-charting-helper";
-import CustomSlices  from '../../../../explainer-helpers/CustomSlice/custom-slice';
+import CustomSlices  from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { useInView} from "react-intersection-observer";
 
 const callOutDataEndPoint =

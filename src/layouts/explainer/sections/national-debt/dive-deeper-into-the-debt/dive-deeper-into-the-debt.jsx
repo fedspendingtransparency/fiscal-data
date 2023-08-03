@@ -1,5 +1,5 @@
 import LearnMoreSection from '../../../explainer-components/learn-more/learn-more-section';
-import { debtLearnMoreLinks } from '../../../explainer-helpers/national-debt-helper';
+import { debtLearnMoreLinks } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import benFranklin from '../../../../../images/ben-franklin.png';
 import alexanderHamilton from '../../../../../images/alexander-hamilton.png';
 import React from 'react';
