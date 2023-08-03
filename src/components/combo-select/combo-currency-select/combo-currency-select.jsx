@@ -39,7 +39,6 @@ const ComboCurrencySelect = (
     yearFilter = false,
     label = '',
     labelClass = '',
-    labelDisplay,
     required = false,
     disabledMessage,
     isExchangeTool,
