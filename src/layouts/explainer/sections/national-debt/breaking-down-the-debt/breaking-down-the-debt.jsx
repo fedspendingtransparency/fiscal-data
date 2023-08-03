@@ -12,8 +12,8 @@ import {
   chartPatternBackground,
   nationalDebtSectionConfigs
 } from "../national-debt";
-import { spendingLink } from '../../../explainer-helpers/national-debt-helper';
-import {analyticsClickHandler} from '../../../explainer-helpers/national-debt-helper';
+import { spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
+import {analyticsClickHandler} from '../../../explainer-helpers/national-debt/national-debt-helper';
 import React, {useEffect, useState} from "react";
 import {
   breakpointLg,

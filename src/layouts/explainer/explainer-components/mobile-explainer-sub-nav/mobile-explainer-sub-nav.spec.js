@@ -1,63 +1,20 @@
 import React from "react";
-import MobileExplainerSubNav from './mobile-explainer-sub-nav'
+import MobileExplainerSubNav from './mobile-explainer-sub-nav';
 import {render, fireEvent} from '@testing-library/react';
-import {
-  Router,
-  Link,
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from '@reach/router'
-
-function renderWithRouterWrapper(
-  ui,
-  {route = '/', history = createHistory(createMemorySource(route))} = {},
-) {
-  return {
-    ...render(
-      <LocationProvider history={history}>
-        <Router>{ui}</Router>
-      </LocationProvider>,
-    ),
-    history,
-  }
-}
-
-const urls = [{
-  text: 'Overview',
-  url:  '/americas-finance-guide/'
-},
-  {
-    text: 'Revenue',
-    url:  '/americas-finance-guide/government-revenue/'
-  },
-  {
-    text: 'Spending',
-    url:  '/americas-finance-guide/federal-spending/'
-  },
-  {
-    text: 'Deficit',
-    url:  '/americas-finance-guide/national-deficit/'
-  },
-  {
-    text: 'Debt',
-    url:  '/americas-finance-guide/national-debt/'
-  }
-]
 
 describe("ExplainerSubNav Component", () => {
   it("renders the component", () => {
-    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'government-revenue'}/>)
+    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'government-revenue'} />)
     expect(getByTestId("mobileSubNav")).toBeInTheDocument()
   })
 
   it('sets className depending on scroll', async() =>  {
-    const { getByTestId, container } = render(
+    const { getByTestId } = render(
       <div style={{ height: '100px', display: 'block' }} data-testid="mockDiv">
-        <MobileExplainerSubNav hidePosition={5} pageName={'government-revenue'}/>
+        <MobileExplainerSubNav hidePosition={5} pageName={'government-revenue'} />
       </div>
     );
-    
+
     fireEvent.scroll(window, { target: { pageYOffset: 4 } });
     expect(await getByTestId('mobileSubNavBlock')).toHaveClass('mainContainerShow');
 
@@ -68,37 +25,37 @@ describe("ExplainerSubNav Component", () => {
     expect(await getByTestId('mobileSubNavBlock')).toHaveClass('mainContainerSticky');
   });
 
-  it('sets active state of revenue button', async() =>{    
-    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'government-revenue'}/>)
+  it('sets active state of revenue button', async() =>{
+    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'government-revenue'} />)
     fireEvent.click(getByTestId('revenueButton'));
     expect(await getByTestId('revenueButton')).toHaveClass('activeMenu');
   });
 
-  it('sets active state of spending button', async() =>{    
-    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'federal-spending'}/>)
+  it('sets active state of spending button', async() =>{
+    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'federal-spending'} />)
     fireEvent.click(getByTestId('spendingButton'));
-    expect(await getByTestId('spendingButton')).toHaveClass('activeMenu');    
+    expect(await getByTestId('spendingButton')).toHaveClass('activeMenu');
   });
 
-  it('sets active state of deficit button', async() =>{    
-    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'national-deficit'}/>)
+  it('sets active state of deficit button', async() =>{
+    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'national-deficit'} />)
     fireEvent.click(getByTestId('deficitButton'));
-    expect(await getByTestId('deficitButton')).toHaveClass('activeMenu');    
+    expect(await getByTestId('deficitButton')).toHaveClass('activeMenu');
   });
 
-  it('sets active state of debt button', async() =>{    
-    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'national-debt'}/>)
+  it('sets active state of debt button', async() =>{
+    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'national-debt'} />)
     fireEvent.click(getByTestId('debtButton'));
-    expect(await getByTestId('debtButton')).toHaveClass('activeMenu');    
+    expect(await getByTestId('debtButton')).toHaveClass('activeMenu');
   });
 
-  it('sets active state of overview button', async() =>{    
-    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'americas-finance-guide'}/>)
+  it('sets active state of overview button', async() =>{
+    const { getByTestId } = render(<MobileExplainerSubNav isShown={true} pageName={'americas-finance-guide'} />)
     fireEvent.click(getByTestId('mobileSubNavBlockButton'));
     fireEvent.click(getByTestId('afgSpan'));
     fireEvent.keyPress(getByTestId('afgSpan'),  { key: "Enter", code: 13, charCode: 13 });
-    expect(await getByTestId('mobileSubNavBlockButton')).toHaveClass('activeMenu');    
+    expect(await getByTestId('mobileSubNavBlockButton')).toHaveClass('activeMenu');
   });
 
-  
+
 })

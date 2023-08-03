@@ -11,7 +11,7 @@ export default function ExplainerSubNav({hidePosition}) {
 
   const handleScroll = () => {
     const prevScrollPosition = scrollPosition
-    const currPosition = window.pageYOffset;
+    const currPosition = window.pageYOffset; //TODO: Look into replacing
     setScrollPosition(currPosition);
 
     if (currPosition > hidePosition) {
@@ -54,8 +54,8 @@ export default function ExplainerSubNav({hidePosition}) {
             <span className={styles.navLinkText}>Overview</span>
           </Link>
         </li>
-        <li className={[styles.frontChevron, styles.overview].join(' ')}></li>
-        <li className={[styles.backChevron, styles.revenue].join(' ')}></li>
+        <li className={[styles.frontChevron, styles.overview].join(' ')} />
+        <li className={[styles.backChevron, styles.revenue].join(' ')} />
         <li className={[styles.navItem, styles.revenue].join(' ')}>
           <Link to='/americas-finance-guide/government-revenue/' className={styles.navLink}
                 activeClassName={styles.active}  onClick={() => analyticsEvent('Revenue')}
@@ -63,8 +63,8 @@ export default function ExplainerSubNav({hidePosition}) {
             <span className={styles.navLinkText}>Revenue</span>
           </Link>
         </li>
-        <li className={[styles.frontChevron, styles.revenue].join(' ')}></li>
-        <li className={[styles.backChevron, styles.spending].join(' ')}></li>
+        <li className={[styles.frontChevron, styles.revenue].join(' ')} />
+        <li className={[styles.backChevron, styles.spending].join(' ')} />
         <li className={[styles.navItem, styles.spending].join(' ')}>
           <Link to='/americas-finance-guide/federal-spending/' className={styles.navLink}
                 activeClassName={styles.active} onClick={() => analyticsEvent('Spending')}
@@ -72,8 +72,8 @@ export default function ExplainerSubNav({hidePosition}) {
             <span className={styles.navLinkText}>Spending</span>
           </Link>
         </li>
-        <li className={[styles.frontChevron, styles.spending].join(' ')}></li>
-        <li className={[styles.backChevron, styles.deficit].join(' ')}></li>
+        <li className={[styles.frontChevron, styles.spending].join(' ')} />
+        <li className={[styles.backChevron, styles.deficit].join(' ')} />
         <li className={[styles.navItem, styles.deficit].join(' ')}>
           <Link to='/americas-finance-guide/national-deficit/' className={styles.navLink}
                 activeClassName={styles.active} onClick={() => analyticsEvent('Deficit')}
@@ -81,8 +81,8 @@ export default function ExplainerSubNav({hidePosition}) {
             <span className={styles.navLinkText}>Deficit</span>
           </Link>
         </li>
-        <li className={[styles.frontChevron, styles.deficit].join(' ')}></li>
-        <li className={[styles.backChevron, styles.debt].join(' ')}></li>
+        <li className={[styles.frontChevron, styles.deficit].join(' ')} />
+        <li className={[styles.backChevron, styles.debt].join(' ')} />
         <li className={[styles.navItem, styles.debt].join(' ')}>
           <Link to='/americas-finance-guide/national-debt/' className={styles.navLink}
                 activeClassName={styles.active} onClick={() => analyticsEvent('Debt')}

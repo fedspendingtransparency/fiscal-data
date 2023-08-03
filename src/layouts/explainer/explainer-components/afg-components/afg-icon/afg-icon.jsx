@@ -7,6 +7,8 @@ import {
     offsetIcon
 } from "./afg-icon.module.scss";
 
+// TODO: Move this out of AFG folder and use in key takeaways
+
 export default function AfgIcon({
     faIcon,
     iconColor,

@@ -35,7 +35,7 @@ import {
 import globalConstants from '../../../../../../helpers/constants';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import CustomSlices from '../../../../explainer-helpers/CustomSlice/custom-slice';
+import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 
 let gaTimerDebtTrends;
 let ga4Timer;

@@ -26,7 +26,7 @@ import {
 } from '../../../../../explainer-helpers/explainer-charting-helper';
 import {lineChartCustomPoints} from
     '../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
-import CustomSlices from '../../../../../explainer-helpers/CustomSlice/custom-slice';
+import CustomSlices from '../../../../../explainer-helpers/custom-slice/custom-slice';
 import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation }
   from '../../../../../../../helpers/inflation-adjust/inflation-adjust';

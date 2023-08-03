@@ -17,7 +17,6 @@ export default function AfgTopicSection({
     image,
     imageAltText,
     eventNumber,
-    pageName,
     citationClickPage,
     id
 }) {
@@ -39,11 +38,12 @@ export default function AfgTopicSection({
             <Grid item md classes={{ root: styles.textContainer }}>
                 <h5 className={styles.topicHeading}>{heading}</h5>
                 <p className={styles.body}>{body}</p>
-                <a href={linkUrl} 
-                   style={{ color: linkColor, marginTop: '2rem' }} 
-                   className={`${styles.link} afgTopicsLink`} 
+                <a href={linkUrl}
+                   style={{ color: linkColor, marginTop: '2rem' }} // TODO: Move marginTop to afgTopicsLink class
+                   className={`${styles.link} afgTopicsLink`}
                    onClick={onClickEventHandler}
-                   id={id}>
+                   id={id}
+                >
                   {linkText}
                   <FontAwesomeIcon icon={faArrowRightLong} title={"right arrow"} className={styles.arrow} />
                 </a>

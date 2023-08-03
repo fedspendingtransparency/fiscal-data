@@ -25,7 +25,7 @@ import {
   applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import { lineChartCustomPoints } from './debt-over-last-100y-linechart-helper';
-import CustomSlices from '../../../../explainer-helpers/CustomSlice/custom-slice';
+import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
