@@ -76,9 +76,6 @@ const SurplusIllustration = ({glossary, width}) => {
   };
 
 
-  const budgetRef = useRef(null);
-  const deficitRef = useRef(null);
-
   useEffect(() => {
     let renderCounter = 0;
     let observer;
@@ -97,18 +94,14 @@ const SurplusIllustration = ({glossary, width}) => {
           }
         })
       });
-      if (budgetRef.current && deficitRef.current) {
-        observer.observe(budgetRef.current);
-        observer.observe(deficitRef.current);
-      }
+        observer.observe(document.querySelector('[data-testid="budget-tab"]'));
+        observer.observe(document.querySelector('[data-testid="deficit-tab"]'));
     }
     return () => {
-      if (budgetRef.current && deficitRef.current) {
-        observer.unobserve(budgetRef.current);
-        observer.unobserve(deficitRef.current);
-      }
+        observer.unobserve(document.querySelector('[data-testid="budget-tab"]'));
+        observer.unobserve(document.querySelector('[data-testid="deficit-tab"]'));
     }
-  }, [budgetRef, deficitRef]);
+  }, []);
 
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
@@ -133,7 +126,6 @@ const SurplusIllustration = ({glossary, width}) => {
             </div>
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-          <div ref={budgetRef}>
               <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}
                    onClick={()=>handleClick("11")}
               >
@@ -144,8 +136,6 @@ const SurplusIllustration = ({glossary, width}) => {
               </div>
               {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
             </Tab>
-          </div>
-          <div ref={deficitRef}>
             <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}
                  onClick={()=>handleClick("12")}
             >
@@ -156,7 +146,6 @@ const SurplusIllustration = ({glossary, width}) => {
               </div>
               {width < pxToNumber(1188) ? <FolderTabEdgeRightLastMobile /> :  <FolderTabEdgeRightLast />  }
             </Tab>
-          </div>
         </TabList>
         <TabPanel>
           <div className={folderVis}>
