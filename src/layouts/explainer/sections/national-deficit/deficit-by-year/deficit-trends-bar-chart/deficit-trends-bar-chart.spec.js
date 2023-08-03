@@ -54,7 +54,7 @@ describe('Deficit Trends Bar Chart', () => {
     // explicitly declare that the chart IS NOW scrolled into view and confirm animation is underway
     await act(async () => {
       mockAllIsIntersecting(true);
-      jest.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(1850);
       yearHeader = await getByTestId('deficitFiscalYearHeader');
       deficitAmountHeader = await getByTestId('deficitTotalHeader');
       expect(yearHeader.textContent).toContain('2001');

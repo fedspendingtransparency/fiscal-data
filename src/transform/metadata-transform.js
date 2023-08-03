@@ -122,6 +122,8 @@ const transformMapper = (datasetIdMap,
         ? mappedDataset.customRangePreset : null;
       dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout
         ? mappedDataset.bannerCallout : null;
+      dataset.selectColumns = mappedDataset && mappedDataset.selectColumns
+        ? mappedDataset.selectColumns : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {

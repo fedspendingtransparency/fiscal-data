@@ -35,7 +35,7 @@ import {
 import globalConstants from '../../../../../../helpers/constants';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import CustomSlices from '../../../../explainer-helpers/CustomSlice/custom-slice';
+import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -255,9 +255,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               }
             })
           }, config);
-          setTimeout(() =>
-            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]')), 1000);
-
+          if (document.querySelector('[data-testid="debtTrendsChart"]')) {
+            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]'));
+          }
           currentPoint = points[animationPoint];
           verticalCrosshair = (
             <line

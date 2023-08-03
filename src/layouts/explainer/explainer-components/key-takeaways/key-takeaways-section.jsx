@@ -4,10 +4,10 @@ import {
   iconBackground,
   keyTakeawaysContent,
   offsetIcon,
-} from "./key-takeaways-section.module.scss"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition"
-import reactStringReplace from "react-string-replace"
+} from "./key-takeaways-section.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition";
+import reactStringReplace from "react-string-replace";
 
 export const toTitleCase = text => {
   return text
@@ -15,7 +15,7 @@ export const toTitleCase = text => {
     .split(" ")
     .map(s => s.charAt(0).toUpperCase() + s.substring(1))
     .join(" ")
-    .trim()
+    .trim();
 }
 
 const getText = (takeaway, glossary, glossaryClickHandler) => {
@@ -46,9 +46,10 @@ const getText = (takeaway, glossary, glossaryClickHandler) => {
       }
     )
   }
-  return text
+  return text;
 }
 
+//TODO: Replace below icon with afg-icon component
 const KeyTakeawaysSection = ({
   takeaways,
   primaryColor,

@@ -12,8 +12,6 @@ import Methods from "../../components/api-documentation/methods/methods";
 import Parameters from "../../components/api-documentation/parameters/parameters";
 import Responses from "../../components/api-documentation/responses/responses";
 import Aggregation from '../../components/api-documentation/aggregation/aggregation';
-import Pivoting from '../../components/api-documentation/pivoting/pivoting';
-import MultiDimensionDatasets from '../../components/api-documentation/multi-dimension-datasets/multi-dimension-datasets';
 import Examples from '../../components/api-documentation/examples/examples';
 import TOCButton from "../../components/table-of-contents/toc-button/toc-button";
 import * as tocStyles from '../../components/table-of-contents/toc.module.scss';
@@ -170,16 +168,6 @@ const ApiDocumentationPage = ({location}) => {
       id: 'aggregation-sums',
       headingLevel: styles.headingLevel2,
       title: 'Aggregation & Sums'
-    },
-    {
-      id: 'pivoting',
-      headingLevel: styles.headingLevel2,
-      title: 'Pivoting'
-    },
-    {
-      id: 'multidimension-datasets',
-      headingLevel: styles.headingLevel2,
-      title: 'Multi-Dimension Datasets'
     },
     {
       id: 'examples-code-snippets',
@@ -348,8 +336,6 @@ const ApiDocumentationPage = ({location}) => {
           <Parameters/>
           <Responses/>
           <Aggregation/>
-          <Pivoting/>
-          <MultiDimensionDatasets/>
           <Examples/>
         </div>
         <TOCButton handleToggle={handleToggle} state={tocIsOpen}/>

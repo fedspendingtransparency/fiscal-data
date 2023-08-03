@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-export   const mockOptions = [
+export const mockOptions = [
   {
     label: '(None selected)',
     value: null,

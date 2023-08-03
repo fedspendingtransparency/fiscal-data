@@ -1,0 +1,62 @@
+@import '../../../../variables.module';
+@import '../../../../zIndex.module';
+
+.dropdownContainer {
+  height: 17.5rem;
+  width: 100%;
+  position: absolute;
+  box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
+  border-radius: 0.125rem;
+  background-color: white;
+  margin-top: 0.25rem;
+
+  .searchBarContainer {
+    margin: .75rem 0 1rem 1rem;
+  }
+
+  .dropdownList {
+    padding: 0;
+    margin: 0;
+    height: 11.875rem;
+
+    .dropdownListItem {
+      display: block;
+      color: $font-body-copy;
+      &:hover {
+        background-color: $body-background;
+        transition: background-color 0.2s ease
+      }
+      &.dropdownListItem_Selected {
+        background-color: #e8f5ff;
+        color: $primary;
+      }
+
+      .dropdownListItem_Button {
+        color: inherit;
+        padding: .5rem 1rem;
+        background-color: transparent;
+        font-weight: normal;
+        font-size: $font-size-16;
+        line-height: unset;
+        width: 100%;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+
+        &:disabled {
+          cursor: default;
+        }
+      }
+    }
+  }
+}
+
+.unmatchedTerm {
+  font-weight: 600;
+}
+
+.noMatch {
+  margin: 0 1rem;
+}
+
+

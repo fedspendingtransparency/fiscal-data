@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
-import { analyticsClickHandler } from '../../../explainer-helpers/national-debt-helper';
+import { analyticsClickHandler } from '../../../explainer-helpers/national-debt/national-debt-helper';
 
 
 const TrackingTheDebt = () => {

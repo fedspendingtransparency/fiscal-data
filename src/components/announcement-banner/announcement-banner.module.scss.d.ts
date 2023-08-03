@@ -65,4 +65,5 @@ export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
 export const container: string;
 export const content: string;
-export const xMarkIcon: string;
+export const closeButton: string;
+export const closeIcon: string;

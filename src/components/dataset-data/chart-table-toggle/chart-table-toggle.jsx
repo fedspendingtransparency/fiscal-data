@@ -12,6 +12,7 @@ import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
 import { chartBorder, tabBorder, tabIcon } from './chart-table-toggle.module.scss';
 import {getMessageForUnmatchedUserFilter} from
     "../../filter-download-container/user-filter/user-filter";
+import { faSlidersH, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 
 export const allTablesSelectedBody = 'With the current "All Data Tables" selection, we are' +
       ' unable to render a Table or Chart at this time.';
@@ -88,7 +89,8 @@ const ChartTableToggle = ({
                             emptyData,
                             unchartable,
                             legend,
-                            showToggle,
+                            showToggleChart,
+                            showToggleTable,
                             onToggleLegend,
                             selectedTab,
                             chart,
@@ -144,12 +146,27 @@ const ChartTableToggle = ({
             icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
             {...a11yProps(1)} disableRipple
           />
-          <HideLegendToggle
-            legend={legend}
-            showToggle={showToggle}
+          {selectedTab === 1 ? (
+            <HideLegendToggle
+            displayText={legend ? "Hide Legend" : "Show Legend"}
+            displayIcon={faSlidersH}
+            showToggle={showToggleChart}
             onToggleLegend={onToggleLegend}
-            selectedTab={selectedTab}
-          />
+            selectedTab={selectedTab === 1}
+            />
+            
+            ) : (
+              <HideLegendToggle
+              displayText={"Select Columns"}
+              displayIcon={faCrosshairs}
+              showToggle={showToggleTable}
+              onToggleLegend={onToggleLegend}
+              selectedTab={selectedTab === 0}
+            />
+            )
+          }
+          
+          
         </AntTabs>
       </div>
       <TabPanel index={0} value={tabState}>

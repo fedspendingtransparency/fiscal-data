@@ -69,7 +69,7 @@ $borderRadius: 5px;
 
     td {
       padding: 0.5rem 0;
-
+      height: 1.5rem;
       @include side-padding;
     }
   }
@@ -124,6 +124,20 @@ $borderRadius: 5px;
     margin-right: 0.5rem;
     font-size: 64px;
     color: $loading-icon-color;
+  }
+}
+
+.selectColumnsWrapper {
+  display: flex;
+
+  .selectColumnPanel {
+    display: none;
+  }
+
+  .selectColumnPanelActive {
+    display: block;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
   }
 }
 

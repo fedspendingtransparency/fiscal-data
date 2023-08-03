@@ -101,8 +101,7 @@ const Multichart: FunctionComponent<MultichartProperties> =
           }
         });
       });
-      setTimeout(() =>
-        observer.observe(document.querySelector('[data-testid="multichart"]')), 1000);
+      observer.observe(document.querySelector('[data-testid="multichart"]'));
     }
   }, []);
 

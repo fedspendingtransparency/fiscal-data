@@ -113,10 +113,26 @@ const ExplainerTile = ({
         </div>
       </div>
     );
+
+  const analyticsHandler = (event, label) => {
+    if(event && label) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': event,
+        'eventLabel': label,
+      });
+    }
+  };
+
+
   return (
     <>
       {content.path ? (
-        <Link to={content.path} data-testid={"tile-link"}>
+        <Link
+          to={content.path}
+          data-testid={"tile-link"}
+          onClick={() => analyticsHandler('Homepage - Citation Click', content.analyticsName)}
+        >
           {card}
         </Link>
       ) : (

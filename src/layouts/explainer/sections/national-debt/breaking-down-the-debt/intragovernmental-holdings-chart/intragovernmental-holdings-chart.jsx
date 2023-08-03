@@ -4,7 +4,7 @@ import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {Bar} from '@nivo/bar';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { nationalDebtSectionConfigs } from '../../national-debt';
-import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt-helper';
+import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 import VisualizationCallout
   from '../../../../../../components/visualization-callout/visualization-callout';
 import {

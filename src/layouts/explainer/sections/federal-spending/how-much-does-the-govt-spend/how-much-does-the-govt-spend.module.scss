@@ -21,7 +21,7 @@
   color: #666666;
   font-size: 16px;
   margin-bottom: 16px;
-  margin-right: 8px;
+  margin-right: 22px;
 }
 
 .column {
@@ -34,6 +34,27 @@
   margin-bottom: 16px;
   margin-left: 7%;
   align-items: center;
+}
+.barContainer {
+  height: 35rem;
+  opacity: 1;
+}
+
+.barContainerInvisible {
+  height: 35rem;
+  opacity: 0;
+}
+
+.otherContainer {
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 1;
+}
+
+.otherContainerInvisible {
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0;
 }
 
 .percentOrDollarContainer {
@@ -49,6 +70,13 @@
   font-weight: 400;
   max-width: 180px;
   margin-left: 4px;
+  max-height: 2.5rem;
+  opacity: 0;
+}
+
+.active .descContainer {
+  transition:opacity 0.5s ease 0.5s;
+  opacity: 1;
 }
 
 .chartToggle {

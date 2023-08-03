@@ -71,3 +71,5 @@ export const optionCheckbox: string;
 export const label: string;
 export const label_checkmark_container: string;
 export const label_checkmark_text: string;
+export const sectionHeading: string;
+export const additionalSection: string;

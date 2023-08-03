@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.listItems {
+  overflow-y: auto;
+  margin-top: -2.5rem;
+}
+
+.scrollGradient, .scrollContainerTop {
+  height: 2.5rem;
+  position: sticky;
+  margin-top: 1.5rem;
+  margin-right: 1rem;
+  pointer-events: none;
+}
+
+.scrollGradient {
+  background: linear-gradient(white, rgba(255,255,255,0));
+}
+
+.scrollContainerTop {
+  background: rgba(255,255,255,0);
+}

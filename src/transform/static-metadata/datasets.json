@@ -45,7 +45,8 @@
     "relatedDatasets": [
       "015-BFS-2014Q3-065"
     ],
-    "currentDateButton": "byDay"
+    "currentDateButton": "byDay",
+    "bannerCallout": "DTSAPIUpdate"
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
@@ -589,5 +590,21 @@
     ],
     "slug": "/treasury-certified-interest-rates-annual/",
     "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-045": {
+    "seoConfig": {
+      "pageTitle": "Treasury Securities Auctions Data",
+      "description": "U.S. Marketable Treasury securities that are sold to the public through the Treasury auction process.",
+      "keywords": "treasury securities"
+    },
+    "topics": [
+      "debt", "savings-bonds"
+    ],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-14"
+    ],
+    "slug": "/auctions/",
+    "currentDateButton": "byMonth",
+    "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
   }
 }

@@ -10,8 +10,7 @@ import {
 export const title = 'Related Datasets';
 export const context = 'Related Datasets';
 
-const ExplainerRelatedDatasets:
-  FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer, header, explainer  }) => {
+const ExplainerRelatedDatasets: FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer, header, explainer  }) => {
 
   return (
       <div className={paddingAdjust}>

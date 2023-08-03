@@ -120,7 +120,7 @@ describe('Search Results', () => {
     );
 
     expect(getByText(SortOptions[0].label)).toBeInTheDocument();
-    
+
     rerender(
       <SearchResults
         allDatasets={mockAllDatasets}

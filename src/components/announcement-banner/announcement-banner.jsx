@@ -3,7 +3,8 @@ import {
   container,
   content,
   infoIcon,
-  xMarkIcon
+  closeButton,
+  closeIcon
 } from "./announcement-banner.module.scss";
 import {faInfoCircle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -11,6 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const AnnouncementBanner = ({
   altStyle,
+  closable,
   children
 }) => {
   const [visible, setVisible] = useState(true);
@@ -29,14 +31,11 @@ const AnnouncementBanner = ({
           <div>
             {children}
           </div>
-        </div>
-        <div
-          onClick={hideBanner}
-          onKeyPress={hideBanner}
-          tabIndex={0}
-          role="button"
-        >
-          <FontAwesomeIcon className={xMarkIcon} icon={faXmark} />
+          { closable && 
+            <button onClick={hideBanner} onKeyPress={hideBanner} className={closeButton} aria-label={'Close banner'}>
+              <FontAwesomeIcon icon={faXmark} className={closeIcon} />
+            </button>
+          }
         </div>
       </div>
     );

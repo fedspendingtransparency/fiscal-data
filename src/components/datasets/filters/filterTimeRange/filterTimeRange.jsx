@@ -62,6 +62,11 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   const handleCheckbox = () => {
     if (!checked) {
       Analytics.event(spanTimeRangeAnalyticsObject);
+      // GA4 - Span Time Range
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'Time Range Click'
+      });
     }
 
     context.setExactRange(!checked);
@@ -88,10 +93,25 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   const handleInfoTipClick = () => {
     Analytics.event(timeRangeInfoTipAnalyticsObject);
+
+    // GA4 event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'Info Button Click',
+      'eventLabel': 'Time Range'
+    });
   }
 
   useEffect(() => {
     prepDateFilterValue();
+    if(beginDate && endDate && !selecting){
+      // GA4 - Time Range Entry
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'Time Range Entry',
+        'eventLabel': `${beginDate} - ${endDate}`
+      });
+    }
   }, [selecting, endDate, beginDate]);
 
   useEffect(() => {

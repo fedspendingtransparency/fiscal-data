@@ -1,37 +1,47 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from "@testing-library/react";
 import HideLegendToggle from './hideLegendToggle';
+import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
+import userEvent from '@testing-library/user-event';
+
 
 describe('Legend Show/Hide Toggle', ()=> {
-    let showLegend = true;
-    let component, instance;
-    beforeEach(()=> {
-        renderer.act(()=> {
-            component = renderer.create(<HideLegendToggle
-                legend={showLegend} showToggle={true} onToggleLegend={jest.fn()} selectedTab={1}
-                                        />);
-        });
-        instance=component.root;
-    });
+    const text = 'Toggle Text';
+    const icon = faSlidersH;
+    const onToggleLegendlMock = jest.fn();
 
     it('is defined', ()=> {
-        expect(instance.findByType(HideLegendToggle)).toBeDefined();
+      const {getByRole} = render(<HideLegendToggle
+        displayText={text} 
+        displayIcon={icon}
+        showToggle={true} 
+        onToggleLegend={onToggleLegendlMock} 
+        selectedTab={true}/>);
+        expect(getByRole('button', {name: text})).toBeInTheDocument();
     });
 
-    it('gives ability to hide legend when visible', ()=> {
-        expect(instance.findByType(HideLegendToggle)
-          .find(e => e.type.toString() === 'span').children[1]).toBe("Hide Legend");
+
+    it('calls toggle function when selected', ()=> {
+      const {getByRole} = render(<HideLegendToggle
+        displayText={text} 
+        displayIcon={icon}
+        showToggle={true} 
+        onToggleLegend={onToggleLegendlMock} 
+        selectedTab={true}/>);
+        
+      const toggleButton = getByRole('button', {name: text});
+      userEvent.click(toggleButton);
+      expect(onToggleLegendlMock).toHaveBeenCalledTimes(1);
     });
 
-    it('gives ability to show legend when hidden', ()=> {
-      showLegend = false;
-      renderer.act(() => {
-        component.update(<HideLegendToggle
-          legend={showLegend} showToggle={true} onToggleLegend={jest.fn()} selectedTab={1}
-                         />)
-      });
-
-      expect(instance.findByType(HideLegendToggle)
-        .find(e => e.type.toString() === 'span').children[1]).toBe("Show Legend");
+    it('does not display when selectedTab is false', ()=> {
+      const {queryByRole} = render(<HideLegendToggle
+        displayText={text} 
+        displayIcon={icon}
+        showToggle={true} 
+        onToggleLegend={onToggleLegendlMock} 
+        selectedTab={false}/>);
+        
+      expect(queryByRole('button', {name: text})).not.toBeInTheDocument();
     });
 });

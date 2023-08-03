@@ -56,7 +56,7 @@ export default function ComboSelect(
     }
     changeHandler(selection);
     if (labelDisplay) {
-      setFilterCharacters(selection.label);
+      setFilterCharacters(selection?.label);
     }
     setTimeout(() => {setDroppedDown(false);});
   };
@@ -183,6 +183,7 @@ export default function ComboSelect(
   const labelText = yearFilter ?
     `Year (${options[options.length -1].label} - ${options[0].label})` :
     label;
+
   return (
     <div className={styles.selector_container}>
       {labelText !== '' ?

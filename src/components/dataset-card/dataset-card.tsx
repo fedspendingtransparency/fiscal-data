@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import { navigate } from "gatsby";
 import Card from '@material-ui/core/Card';
@@ -24,28 +24,40 @@ type DatasetCardProps = {
   dataset: IDataset,
   context: string,
   referrer: string,
-  explainer?: boolean
+  explainer?: boolean,
 }
 
 const DatasetCard: FunctionComponent<DatasetCardProps> = ({
   dataset,
   context,
   referrer,
-  explainer
+  explainer,
 }) => {
   const cardLink = `/datasets${dataset.slug}`;
   const [applyFocusStyle, setApplyFocusStyle] = useState(false);
   const focusStyle = isFirefox ? card_withFocus_FireFox : card_withFocus;
 
+
   const clickHandler: () => void = () => {
     if (context && referrer) {
 
-      if (explainer){
+      if (explainer) {
         Analytics.event({
           category: `Explainers`,
           action: 'Citation Click',
           label: `${referrer} - ${context}`
-        })
+        });
+        // GA4 Data Layer - Dataset Click
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({
+          'event': `${referrer} - Citation Click`,
+          'citationClickEventLabel': `${dataset.name}`,
+        });
+        // GA4 Data Layer - Clear
+        (window as any).dataLayer.push({
+          'event': `${referrer} - Citation Click`,
+          'citationClickEventLabel': undefined,
+        });
       }
       else {
         Analytics.event({
@@ -61,13 +73,12 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({
         });
       }
     }
-
     navigate(cardLink);
   };
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} >
+      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
         <CardActionArea
           onFocus={() => setApplyFocusStyle(true)}
           onBlur={() => setApplyFocusStyle(false)}

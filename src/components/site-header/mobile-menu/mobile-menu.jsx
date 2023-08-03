@@ -15,6 +15,14 @@ const MobileMenu = ({ setOpenGlossary }) => {
     }
   }
 
+  const clickHandler = (action) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': `${action}-click`,
+      'eventLabel':document.title
+    });
+  }
+
   const topics = [
     {
       sectionHeader: 'AMERICA\'S FINANCE GUIDE',
@@ -46,6 +54,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
 
   const tools = [
     {
+      analyticsAction: 'Tools Click',
       children: [
         {
           to: '/currency-exchange-rates-converter/',
@@ -105,14 +114,14 @@ const MobileMenu = ({ setOpenGlossary }) => {
             </div>
             <MobileMenuDropdown header={'Topics'} sections={topics} defaultOpen />
             <MobileMenuDropdown header={'Tools'} sections={tools} />
-            <Link to="/datasets/" className={styles.pageLinks}>
+            <Link to="/datasets/" className={styles.pageLinks} onClick={() => clickHandler('Dataset Search')}>
               Dataset Search
             </Link>
-            <MobileMenuDropdown header={'Resources'} 
-                                sections={resources} 
-                                setOpenGlossary={setOpenGlossary} 
+            <MobileMenuDropdown header={'Resources'}
+                                sections={resources}
+                                setOpenGlossary={setOpenGlossary}
                                 setActiveState={setActiveState} />
-            <Link to="/about-us/" className={styles.pageLinks}>
+            <Link to="/about-us/" className={styles.pageLinks} onClick={() => clickHandler('About')}>
               About Us
             </Link>
           </>

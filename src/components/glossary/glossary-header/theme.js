@@ -13,13 +13,18 @@ const theme = {
         },
       },
       adornedEnd: {
-        paddingRight: variables.fontSize_16,
+        paddingRight: 0,
       },
     },
     MuiInputBase: {
       root: {
+        fontSize: variables.fontSize_15,
         fontFamily: 'Source Sans Pro',
+        color: variables.fontBodyCopy
       },
+    input: {
+      color: variables.fontBodyCopy
+    }
     }
   }
 }
@@ -36,5 +41,6 @@ export const useStyles = makeStyles({
 })
 
 export const searchBarTheme = createTheme(theme);
+
 
 

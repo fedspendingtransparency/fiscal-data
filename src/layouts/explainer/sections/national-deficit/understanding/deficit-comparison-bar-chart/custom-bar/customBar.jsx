@@ -122,8 +122,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
           }
         })
       }, config)
-      setTimeout(() =>
-        observer.observe(document.querySelector('[data-testid="deficitComparisonChart"]')), 1000)
+        observer.observe(document.querySelector('[data-testid="deficitComparisonChart"]'));
     }
 
   }, [])
@@ -145,7 +144,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
           >
             {`${label}`}
           </text>
-          
+
           <animated.rect
             width={width}
             height={height}

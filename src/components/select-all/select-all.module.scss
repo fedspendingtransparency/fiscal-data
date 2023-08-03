@@ -27,9 +27,9 @@ $SelectAllWidth: 261px;
   [type="checkbox"] {
     position: absolute;
     display: inline-block;
-    max-width: 1px;
-    max-height: 1px;
-    opacity: 0;
+    min-width: 1rem;
+    min-height: 1rem;
+    margin-right: 1px;
     overflow: hidden;
   }
   
@@ -44,6 +44,7 @@ $SelectAllWidth: 261px;
     top: -1px;
     width: 1rem;
     height: 1rem;
+    right: -3.5px;
     vertical-align: middle;
     background: white left top no-repeat;
     border: 1px solid #ccc;
@@ -59,7 +60,7 @@ $SelectAllWidth: 261px;
   
   .labelCheckmarkText {
     position: absolute;
-    bottom: -1px;
+    bottom: -2px;
     left: 2px;
     font-size: 0.9rem;
   }
@@ -79,5 +80,4 @@ $SelectAllWidth: 261px;
 
 .container {
   padding: 1rem;
-  border-bottom: solid 1px #dddddd;
 }

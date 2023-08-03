@@ -1,18 +1,28 @@
 import { Bar } from '@nivo/bar';
-import { deficitExplainerPrimary } from "../../national-deficit.module.scss";
-import React, {useEffect, useState} from "react";
-import {barChart, headerTitle, subHeader} from "./deficit-trends-bar-chart.module.scss";
-import ChartContainer from "../../../../explainer-components/chart-container/chart-container";
-import {container} from "./deficit-trends-bar-chart.module.scss";
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {breakpointLg, fontSize_12, fontSize_16, fontBodyCopy, fontTitle} from "../../../../../../variables.module.scss";
-import {withWindowSize} from "react-fns";
-import CustomLink from "../../../../../../components/links/custom-link/custom-link";
-import {apiPrefix, basicFetch} from '../../../../../../utils/api-utils';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
-import {preAPIData, generateTickValues, endpointUrl} from "./deficit-trends-bar-chart-helpers";
-import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
+import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
+import React, { useEffect, useState } from 'react';
+import {
+  barChart,
+  container,
+  headerTitle,
+  subHeader,
+} from './deficit-trends-bar-chart.module.scss';
+import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import {
+  breakpointLg,
+  fontBodyCopy,
+  fontSize_12,
+  fontSize_16,
+  fontTitle,
+} from '../../../../../../variables.module.scss';
+import { withWindowSize } from 'react-fns';
+import CustomLink from '../../../../../../components/links/custom-link/custom-link';
+import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import {
@@ -75,19 +85,16 @@ export const DeficitTrendsBarChart = ({ width }) => {
       tickValues: tickValuesY
     },
     highlightColor: fontTitle,
-    animationDuration: 7500,
+    animationDuration: 2000,
   }
-
   const startingYear = '2001';
+  const delayIncrement = 1250;
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
-      let delay = 100;
       data.forEach(value => {
-        const duration = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
-        value["duration"] = duration;
-        value["delay"] = delay;
-        delay += duration;
+        value["duration"] = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
+        value["delay"] = 100;
       })
     }
     return data;
@@ -97,16 +104,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
     .then((result) => {
-      const lastEntry = result.data[result.data.length - 1];
       let deficitSum = 0;
       result.data.forEach((entry) => {
-        const barColor = entry.record_fiscal_year === lastEntry.record_fiscal_year ? chartConfigs.highlightColor : deficitExplainerPrimary;
-        const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
+       const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
         deficitSum += deficitValue;
         apiData.push({
           "year": entry.record_fiscal_year,
           "deficit": deficitValue.toFixed(2),
-          "deficitColor": barColor,
+          "deficitColor": deficitExplainerPrimary,
         })
       })
       preAPIData.forEach(entry => {
@@ -141,6 +146,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
       if (currentBarElement !== lastBarElement) {
         lastBarElement.style.fill = deficitExplainerPrimary;
       }
+
       setLastBar(lastBarElement);
       setHeaderYear(data.data.year);
       setHeaderDeficit(data.data.deficit);
@@ -178,21 +184,45 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: true,
-    delay: 1000,
   });
 
-
   useEffect(() => {
+    const initialDelay = delayIncrement + 500;
+    let headerDelay = initialDelay;
+    let barDelay = initialDelay;
+    const barSVGs = Array.from(
+      document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children
+    );
+    barSVGs.splice(0, 5);
+
+    // Run bar highlight wave
+    barSVGs.forEach((element) => {
+      const finalBar = barSVGs[barSVGs.length - 1].children[0];
+      const bar = element.children[0];
+
+      if(inView) {
+        setTimeout(() => {
+          bar.style.fill = chartConfigs.highlightColor;
+        }, barDelay += delayIncrement / barSVGs.length)
+
+        if (bar !== finalBar) {
+          setTimeout(() => {
+            bar.style.fill = deficitExplainerPrimary
+          }, barDelay + delayIncrement / barSVGs.length)
+        }
+      }
+    })
+
     //Run animation for header values
-    chartData.map((element) => {
+    chartData.forEach((element) => {
       if (inView && element.year >= startingYear) {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
-        }, element.delay)
+        }, headerDelay += delayIncrement / chartData.length )
       }
     })
-  }, [inView])
+  }, [inView, chartData])
 
   useEffect(() => {
     applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
@@ -214,8 +244,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setTickValuesY(tickValues[1]);
   }, [chartData])
 
-  const slug = `/datasets/monthly-treasury-statement/summary-of-
-  receipts-and-outlays-of-the-u-s-government`;
+  const slug = `/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government`;
   const mts =
     <CustomLink url={slug} eventNumber="18" id="Monthly Treasury Statement">
       Monthly Treasury Statement (MTS)
@@ -247,7 +276,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
         <div className={container}
           onMouseEnter={handleGoogleAnalyticsMouseEnter}
           onMouseLeave={handleGoogleAnalyticsMouseLeave}
-          role={'presentation'}
+          role="presentation"
         >
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
@@ -259,8 +288,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
           >
             <div className={barChart}
                  onMouseLeave={resetHeaderValues}
-                 data-testid={'deficitTrendsChartParent'}
-                 role={'presentation'}
+                 data-testid="deficitTrendsChartParent"
+                 role="presentation"
                  ref={ref}
             >
               <Bar
@@ -268,7 +297,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 width={chartConfigs.width}
                 height={chartConfigs.height}
                 data={chartData}
-                keys={['deficit']}
+                keys={["deficit"]}
                 indexBy="year"
                 margin={{top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55}}
                 padding={desktop ? 0.30 : 0.35}
@@ -277,7 +306,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 axisLeft={chartConfigs.axisLeft}
                 enableGridX={true}
                 theme={chartConfigs.theme}
-                layers={['grid', 'axes', 'bars']}
+                layers={["grid", "axes", "bars"]}
                 minValue={minValue}
                 maxValue={maxValue}
                 gridXValues={tickValuesX}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-
  const CustomSlices = (
   {
     slices,
@@ -8,33 +7,42 @@ import React, { useEffect, useState } from 'react';
     setCurrentSlice,
     groupMouseLeave,
     mouseMove,
-    inView
+    inView,
+    duration,
+    customAnimationTriggeredOnce,
+    setCustomAnimationTriggeredOnce,
   }) => {
 
   const [style, setStyle] = useState({});
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
 
   useEffect(() => {
-    if (!animationTriggeredOnce && inView && data.length) {
+    const animationTriggered = customAnimationTriggeredOnce ? customAnimationTriggeredOnce : animationTriggeredOnce;
+    if (inView && data.length && !animationTriggered) {
       setAnimationTriggeredOnce(true);
+      if (setCustomAnimationTriggeredOnce) {
+        setCustomAnimationTriggeredOnce(true);
+      }
+      const stepDuration = duration ? duration : 50;
+
       slices.forEach((slice, index) => {
         setTimeout(() => {
           setCurrentSlice(slice);
           mouseMove(slice);
-        }, (50 * index) + 550);
+        }, (stepDuration * index) + 550);
       });
+
       setTimeout(() => {
-        setCurrentSlice(slices[slices.length - 1]);
-        mouseMove(slices[slices.length - 1]);
-      }, (50 * (slices.length + 1)) + 550);
+        setCurrentSlice(null);
+      }, (stepDuration * (slices.length + 1)) + 550);
     }
-  }, [inView, animationTriggeredOnce, slices]);
+  }, [inView]);
 
   return (
     <g data-testid="customSlices"
        onMouseLeave={ () => {
          if (groupMouseLeave) {
-           groupMouseLeave()
+           groupMouseLeave();
          }
        }}
     >

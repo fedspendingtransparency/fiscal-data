@@ -24,11 +24,8 @@ import {
   applyChartScaling,
   applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
-import {
-  lineChartCustomPoints,
-  LineChartCustomSlices,
-} from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
-import CustomSlices from '../../../../explainer-helpers/CustomSlice/custom-slice';
+import { lineChartCustomPoints } from './debt-over-last-100y-linechart-helper';
+import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
@@ -68,7 +65,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
           'record_date',
           cpiDataByYear
         );
-
         const finalDebtChartData = [];
 
         res.data.forEach(debt => {
@@ -80,7 +76,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             record_date: debt.record_date,
           });
         });
-
         finalDebtChartData.reverse();
 
         const debtMaxYear = finalDebtChartData.reduce((max, spending) =>
