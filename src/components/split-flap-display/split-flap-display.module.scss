@@ -6,10 +6,6 @@
   flex-wrap: wrap;
   box-sizing: border-box;
   justify-content: center;
-  height: 3.125rem;
-  animation: fadeInAnimation ease 6s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
 
   .flap-container {
     display: flex;
@@ -62,17 +58,3 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .split-flap-container {
-    height: 6.25rem;
-  }
-}
-
-@keyframes fadeInAnimation {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}

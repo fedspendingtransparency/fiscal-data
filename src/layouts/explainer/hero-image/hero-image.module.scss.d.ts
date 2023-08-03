@@ -83,5 +83,4 @@ export const pillDataContainer: string;
 export const pillDataValue: string;
 export const pillDataPercent: string;
 export const heroBorder: string;
-export const fadeInBottom: string;
 export const deficitBox: string;
