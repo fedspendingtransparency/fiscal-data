@@ -18,9 +18,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}, onMouseEnter
           }
         })
       }, config)
-      setTimeout(() =>
-        observer.observe(document.querySelector('[data-testid="deficitTrendsChartParent"]')),
-        1000)
+        observer.observe(document.querySelector('[data-testid="deficitTrendsChartParent"]'));
     }
 
   }, [])

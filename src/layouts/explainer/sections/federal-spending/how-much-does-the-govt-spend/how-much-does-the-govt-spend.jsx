@@ -197,7 +197,7 @@ const HowMuchDoesTheGovtSpend = () => {
           }
         })
       }, config);
-      setTimeout(() => observer.observe(document.querySelector('[data-testid="spending-bar-chart"]')), 1000);
+      observer.observe(document.querySelector('[data-testid="spending-bar-chart"]'));
     }
   }, []);
 
