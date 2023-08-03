@@ -189,8 +189,10 @@ const HowMuchDoesTheGovtSpend = () => {
   });
 
   useEffect(() => {
-    setAnimateBars(true);
-    setScrolled(true);
+    if (inView) {
+      setAnimateBars(true);
+      setScrolled(true);
+    }
   }, [inView])
 
 
