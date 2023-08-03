@@ -15,7 +15,7 @@ const BannerCallout = ({bannerCallout}) => {
         "DTSAPIUpdate":
             <>
               NOTICE: UPDATES COMING SOON! The Daily Treasury Statement (DTS) dataset will be updated to match the published DTS.
-              All of the DTS API endpoints will be renamed to reflect the DTS table names. The Federal Tax Deposits and Short-Term
+              All DTS API endpoints will be renamed to show DTS table names. The Federal Tax Deposits and Short-Term
               Cash Investments tables will contain historical data only (through Feb. 13, 2023). There will be a new API endpoint
               for the Inter-Agency Tax Transfers table, which started on Feb. 14, 2023.
             </>
