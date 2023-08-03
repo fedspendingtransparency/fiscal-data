@@ -185,7 +185,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: true,
-    rootMargin: '-25% 0% -75% 0%',
+    rootMargin: '-30% 0% -70% 0%',
   });
 
   useEffect(() => {
