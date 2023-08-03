@@ -63,5 +63,5 @@ export const paleBg: string;
 export const debtExplainerPrimary: string;
 export const debtExplainerSecondary: string;
 export const debtExplainerLightSecondary: string;
-export const hightlighTextContainer: string;
-export const hightlightText: string;
+export const highlightTextContainer: string;
+export const highlightText: string;
