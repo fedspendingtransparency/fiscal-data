@@ -73,7 +73,7 @@ const CustomBar = ({bar: { x, y, width, height, color,  key, data}}) => {
     let observer;
     if(typeof window !== "undefined") {
       const config = {
-        rootMargin: '-50% 0% -50% 0%',
+        rootMargin: '-40% 0% -60% 0%',
         threshold: 0
       }
       observer = new IntersectionObserver(entries => {
