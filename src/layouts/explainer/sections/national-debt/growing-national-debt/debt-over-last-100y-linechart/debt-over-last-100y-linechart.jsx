@@ -194,8 +194,9 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     marginTop: '2rem',
   }
   const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
   });
 
   return (
@@ -206,7 +207,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         </div>
       )}
       {!isLoading && (
-        <div className={visWithCallout} ref={ref}>
+        <div className={visWithCallout}>
           <div className={container}>
             <ChartContainer
               title={chartTitle}
@@ -218,13 +219,13 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
               customHeaderStyles={customHeaderStyles}
               customFooterSpacing={customFooterSpacing}
             >
-              {/* TODO: Move these mouse handlers to a different element, maybe chart container? */}
-              {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
               <div
                 className={lineChart}
                 data-testid={'totalDebtChartParent'}
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
+                role="presentation"
+                ref={ref}
               >
                 <Line
                   data={chartData}

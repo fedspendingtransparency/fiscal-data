@@ -93,6 +93,10 @@ const Multichart: FunctionComponent<MultichartProperties> =
     let observer;
 
     if(typeof window !== "undefined") {
+      const config = {
+        rootMargin: '-50% 0% -50% 0%',
+        threshold: 0
+      };
       observer = new IntersectionObserver(entries => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -100,7 +104,7 @@ const Multichart: FunctionComponent<MultichartProperties> =
             setAnimateChart(true);
           }
         });
-      });
+      }, config);
       observer.observe(document.querySelector('[data-testid="multichart"]'));
     }
   }, []);
@@ -116,7 +120,7 @@ const Multichart: FunctionComponent<MultichartProperties> =
            data-testid="multichart"
            onMouseEnter={handleMouseEnter}
            onMouseLeave={handleMouseLeave}
-           role={'presentation'}
+           role="presentation"
       />
     </>
   );

@@ -30,6 +30,7 @@ import {ToggleSwitch} from "./chart-toggle-switch";
 import {getDateWithoutOffset} from "../../../explainer-helpers/explainer-helpers";
 import { keyframes } from "styled-components";
 import styled from 'styled-components';
+import { useInView } from 'react-intersection-observer';
 
 const breakpoint = {
   desktop: 1015,
@@ -163,7 +164,7 @@ const HowMuchDoesTheGovtSpend = () => {
 
   const header = (
     <div className={headerContainer}>
-      <div className={headerStyle} style={{ fontWeight: "600" }}>
+      <div className={headerStyle}>
         U.S. Government Spending, FYTD {fiscalYear}
       </div>
       <div className={subHeader}>Top 10 Spending by Category and Agency</div>
@@ -181,25 +182,18 @@ const HowMuchDoesTheGovtSpend = () => {
       return b[sortField] - a[sortField]
     });
 
+  const { ref, inView } = useInView({
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-30% 0% -70% 0%',
+  });
+
   useEffect(() => {
-    let observer;
-    if (typeof window !== "undefined") {
-      const config = {
-        rootMargin: '-50% 0% -50% 0%',
-        threshold: 0
-      };
-      observer = new IntersectionObserver(entries => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setAnimateBars(true);
-            setScrolled(true);
-            observer.unobserve(document.querySelector('[data-testid="spending-bar-chart"]'));
-          }
-        })
-      }, config);
-      observer.observe(document.querySelector('[data-testid="spending-bar-chart"]'));
+    if (inView) {
+      setAnimateBars(true);
+      setScrolled(true);
     }
-  }, []);
+  }, [inView])
 
 
 
@@ -373,7 +367,7 @@ const HowMuchDoesTheGovtSpend = () => {
               Dollars
             </span>
           </div>
-          <div className={scrolled ? barContainer : barContainerInvisible} data-testid={'barContainer'}>
+          <div className={scrolled ? barContainer : barContainerInvisible} data-testid={'barContainer'} ref={ref}>
             <div className={animationComplete && active}>
               {firstTen?.map((item, i) => {
                     return (
