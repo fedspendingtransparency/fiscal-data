@@ -73,12 +73,19 @@
       padding-top: 0;
     }
 
+    &.debt {
+      margin-top: -1rem;
+      padding-top: 0;
+      padding-bottom: 2rem;
+    }
+
     font-size: $font-size-14;
 
     >a {
       color: $hero-primary-link;
     }
   }
+
 
   .flapWrapper {
     text-align: center;

@@ -39,6 +39,8 @@ const NationalDeficitHero = ({glossary, glossaryClickHandler}): JSX.Element => {
   const [deficitDifPill, setDeficitDifPill] = useState<number>(0);
   const [deficitDifPercent, setDeficitDifPercent] = useState<number>(0);
 
+  const numberFormat = new Intl.NumberFormat('en-US');
+
 
   const getCurrentNationalDeficitData = (url) => {
     basicFetch(`${url}`)
@@ -120,7 +122,7 @@ const NationalDeficitHero = ({glossary, glossaryClickHandler}): JSX.Element => {
       <div>
         <SplitFlapDisplay value={desktopDeficit}
                           mobilePrecision={parseInt(desktopDeficit) > 999999999999 ? 2 : 0}
-                          minLength={desktopDeficit?.toString().length} // number of characters to initially display
+                          minLength={numberFormat.format(parseInt(desktopDeficit)).length} // number of characters to initially display
                           valueType="currency"
         />
       </div>

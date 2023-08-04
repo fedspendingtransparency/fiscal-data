@@ -73,6 +73,7 @@ export const icon: string;
 export const counterContainer: string;
 export const counterContainerSpending: string;
 export const counterSourceInfo: string;
+export const debt: string;
 export const flapWrapper: string;
 export const footNotes: string;
 export const footNotesPillData: string;

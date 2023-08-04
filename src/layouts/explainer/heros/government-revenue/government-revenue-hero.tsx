@@ -38,6 +38,8 @@ const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element =>
   const [revenueChange, setRevenueChange] = useState( 0);
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
+  const numberFormat = new Intl.NumberFormat('en-US');
+
   const mts =
     <CustomLink
       url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government"
@@ -107,7 +109,7 @@ const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element =>
         <SplitFlapDisplay
           value={currentRevenue}
           mobilePrecision={parseInt(currentRevenue) > 999999999999 ? 2 : 0}
-          minLength={currentRevenue?.toString().length}
+          minLength={numberFormat.format(parseInt(currentRevenue)).length}
           valueType="currency"
         />
       </div>
