@@ -202,7 +202,6 @@ const SplitFlapDisplay = (
 
   const setDisplayChars = (minimumLength: number): void => {
     if (prevValue === null) return;
-    console.log(prevValue);
     if (padDirection === 'left' && minLength > 3 && !currValue.includes(' ')) {
       setPrevChars([
         ...minLengthFill(prevValue, charSet, minimumLength),
