@@ -30,6 +30,12 @@
     padding-top: 0.125rem;
 }
 
+.updateList {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0 0;
+}
+
+
 @media screen and (max-width: $breakpoint-lg - 1){
     .sideTab {
         margin-right: 0.875rem;
