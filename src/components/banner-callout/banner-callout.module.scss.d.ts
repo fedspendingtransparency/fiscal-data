@@ -67,3 +67,4 @@ export const banner: string;
 export const sideTab: string;
 export const calloutText: string;
 export const icon: string;
+export const updateList: string;
