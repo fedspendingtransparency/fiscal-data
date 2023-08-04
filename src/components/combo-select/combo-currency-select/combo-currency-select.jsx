@@ -43,6 +43,7 @@ const ComboCurrencySelect = (
     disabledMessage,
     isExchangeTool,
     containerBorder,
+    searchBarLabel = 'Search currencies'
   }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
@@ -168,6 +169,7 @@ const ComboCurrencySelect = (
           yearFilter={yearFilter}
           changeHandler={changeHandler}
           timeOutId={timeOutId}
+          searchBarLabel={searchBarLabel}
         />
       </div>
     </>
