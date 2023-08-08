@@ -312,149 +312,7 @@ export const transformAPI144 = (
   }]
 }
 
-let dtsData: IDatasetChartConfigs;
-
-if (ENV_ID === 'uat')
-{
-  console.log("LOOK HERE uat...", ENV_ID);
-
-  // FIX 220 !!
-  dtsData = [{
-    "datasetId": "015-BFS-2014Q1-03",
-    "title": "How much money goes into/out of the federal government?",
-    "displayOrder": 3,
-    "data": {
-      "api_id": 220,
-      "chartType": "BAR",
-      "noRecordDateInFields": true,
-      "fields": [
-        "transaction_type",
-        "transaction_today_amt",
-        "record_calendar_month",
-        "record_calendar_year"
-      ],
-      "filters": [
-        {
-          "key": "transaction_type",
-          "operator":"in",
-          "value":"Deposits,Withdrawals"
-        },
-        {
-          "key": "record_date",
-          "operator": "mostRecentDatePeriod",
-          "unit": "MONTH",
-          "amount": 7
-        }
-      ],
-      "value_fields": ['deposits', 'withdrawals'],
-      "index": "yearMonth",
-      "sorts": ['-record_calendar_year', "-record_calendar_month"],
-      "format": "CURRENCY_NET",
-      "limit": 16,
-      "transform": transformAPI130,
-      "valueField": "combinedValue",
-      "colors": [primaryColor, negativeColor]
-    }
-  },
-  {
-    "datasetId": "015-BFS-2014Q1-03",
-    "title": "How much money does the U.S. have on hand?",
-    "displayOrder": 5,
-    "data": {
-      "api_id": 219,
-      "chartType": "LINE",
-      "fields": ['open_today_bal', 'record_calendar_day', 'account_type', 'record_date'],
-      "filters": [        
-        {
-          "key": "record_calendar_day",
-          "operator": "gte",
-          "value": "26"
-        },
-        {
-          "key": "account_type",
-          "operator": 'eq',
-          "value": 'Treasury General Account (TGA) Closing Balance',
-        }
-      ],
-      "sorts":["-record_date"],
-      "format": "CURRENCY",
-      "limit": 30,
-      "transform": transformAPI129
-    }
-  }];
-}
-else 
-{
-  console.log("LOOK HERE not uat...", ENV_ID);
-
-  dtsData = [{
-    "datasetId": "015-BFS-2014Q1-03",
-    "title": "How much money goes into/out of the federal government?",
-    "displayOrder": 3,
-    "data": {
-      "api_id": 130,
-      "chartType": "BAR",
-      "noRecordDateInFields": true,
-      "fields": [
-        "transaction_type",
-        "transaction_today_amt",
-        "record_calendar_month",
-        "record_calendar_year"
-      ],
-      "filters": [
-        {
-          "key": "transaction_type",
-          "operator":"in",
-          "value":"Deposits,Withdrawals"
-        },
-        {
-          "key": "record_date",
-          "operator": "mostRecentDatePeriod",
-          "unit": "MONTH",
-          "amount": 7
-        }
-      ],
-      "value_fields": ['deposits', 'withdrawals'],
-      "index": "yearMonth",
-      "sorts": ['-record_calendar_year', "-record_calendar_month"],
-      "format": "CURRENCY_NET",
-      "limit": 16,
-      "transform": transformAPI130,
-      "valueField": "combinedValue",
-      "colors": [primaryColor, negativeColor]
-    }
-  },
-  {
-    "datasetId": "015-BFS-2014Q1-03",
-    "title": "How much money does the U.S. have on hand?",
-    "displayOrder": 5,
-    "data": {
-      "api_id": 129,
-      "chartType": "LINE",
-      "fields": ['open_today_bal', 'record_calendar_day', 'account_type', 'record_date'],
-      "filters": [        
-        {
-          "key": "record_calendar_day",
-          "operator": "gte",
-          "value": "26"
-        },
-        {
-          "key": "account_type",
-          "operator": 'eq',
-          "value": 'Treasury General Account (TGA) Closing Balance',
-        }
-      ],
-      "sorts":["-record_date"],
-      "format": "CURRENCY",
-      "limit": 30,
-      "transform": transformAPI129
-    }
-  }];
-}
-
-
-// did I break mts ???
-const mainDatasets: IDatasetChartConfigs = [
+const datasets: IDatasetChartConfigs = [
   {
     "datasetId": "015-BFS-2014Q3-065",
     "title": "What is the current national debt?",
@@ -524,6 +382,43 @@ const mainDatasets: IDatasetChartConfigs = [
     }
   },
   {
+        "datasetId": "015-BFS-2014Q1-03",
+        "title": "How much money goes into/out of the federal government?",
+        "displayOrder": 3,
+        "data": {
+          "api_id": (ENV_ID === 'uat' ? 220 : 130),
+          "chartType": "BAR",
+          "noRecordDateInFields": true,
+          "fields": [
+            "transaction_type",
+            "transaction_today_amt",
+            "record_calendar_month",
+            "record_calendar_year"
+          ],
+          "filters": [
+            {
+              "key": "transaction_type",
+              "operator":"in",
+              "value":"Deposits,Withdrawals"
+            },
+            {
+              "key": "record_date",
+              "operator": "mostRecentDatePeriod",
+              "unit": "MONTH",
+              "amount": 7
+            }
+          ],
+          "value_fields": ['deposits', 'withdrawals'],
+          "index": "yearMonth",
+          "sorts": ['-record_calendar_year', "-record_calendar_month"],
+          "format": "CURRENCY_NET",
+          "limit": 16,
+          "transform": transformAPI130,
+          "valueField": "combinedValue",
+          "colors": [primaryColor, negativeColor]
+        }
+      },
+  {
     "datasetId": "015-BFS-2014Q1-09",
     "title": "What is the value of the U.S. Treasury-owned gold?",
     "displayOrder": 4,
@@ -559,6 +454,32 @@ const mainDatasets: IDatasetChartConfigs = [
           ['5.3rem', '4.5rem']
         ]
       }
+    }
+  },
+  {
+    "datasetId": "015-BFS-2014Q1-03",
+    "title": "How much money does the U.S. have on hand?",
+    "displayOrder": 5,
+    "data": {
+      "api_id": (ENV_ID === 'uat' ? 219 : 129),
+      "chartType": "LINE",
+      "fields": ['open_today_bal', 'record_calendar_day', 'account_type', 'record_date'],
+      "filters": [        
+        {
+          "key": "record_calendar_day",
+          "operator": "gte",
+          "value": "26"
+        },
+        {
+          "key": "account_type",
+          "operator": 'eq',
+          "value": 'Treasury General Account (TGA) Closing Balance',
+        }
+      ],
+      "sorts":["-record_date"],
+      "format": "CURRENCY",
+      "limit": 30,
+      "transform": transformAPI129
     }
   },
   {
@@ -637,7 +558,5 @@ const mainDatasets: IDatasetChartConfigs = [
     }
   }
 ];
-
-const datasets = mainDatasets.concat(dtsData);
 
 export default datasets;
