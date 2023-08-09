@@ -10,7 +10,9 @@ import {
   dropdownInput,
   dropdownInputContainer,
   hoverContainer,
-  activeSearchBar, dropdownIcon, fullBorderContainer
+  activeSearchBar,
+  dropdownIcon,
+  fullBorderContainer
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 

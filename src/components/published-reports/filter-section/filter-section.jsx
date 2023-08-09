@@ -247,19 +247,22 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
   };
 
+  const changeHandler = (updatedReport) => {
+    if (updatedReport !== null) {
+      setSelectedReportGroup(updatedReport);
+    }
+  }
+
   useEffect(() => {
     // called on page initialization and when reports updates
     if (reportGroups[currentlySelectedGroupIndex.current]) {
       setSelectedReportGroup(reportGroups[currentlySelectedGroupIndex.current]);
       if (!currentReport) {
-        const latestReport =
-          getLatestReport(reportGroups[currentlySelectedGroupIndex.current].value);
+        const latestReport = getLatestReport(reportGroups[currentlySelectedGroupIndex.current].value);
         setCurrentReport(latestReport);
         setFileSelection(latestReport);
       }
-      setReportsByYear(
-        getYearReportOptions(reportGroups[currentlySelectedGroupIndex.current].value)
-      );
+      setReportsByYear(getYearReportOptions(reportGroups[currentlySelectedGroupIndex.current].value));
     }
   }, [reportGroups]);
 
@@ -341,7 +344,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
           <div className={filterContainer}>
             <div className={selectWrapper}>
               <ComboCurrencySelect
-                changeHandler={setSelectedReportGroup}
+                changeHandler={changeHandler}
                 label="Report "
                 optionLabelKey="label"
                 options={reportGroups}

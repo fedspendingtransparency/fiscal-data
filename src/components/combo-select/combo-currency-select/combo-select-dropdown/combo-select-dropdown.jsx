@@ -76,6 +76,7 @@ const ComboSelectDropdown = (
   };
 
   const handleBlur = (event) => {
+    // prevents dropdown from close when tabbing into a child
     if (event) {
       let dropdownChild;
       switch(event.target.localName) {
