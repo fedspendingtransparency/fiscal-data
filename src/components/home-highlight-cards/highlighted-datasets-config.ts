@@ -312,6 +312,9 @@ export const transformAPI144 = (
   }]
 }
 
+  console.log('LOOK HERE ', ENV_ID)
+
+
 const datasets: IDatasetChartConfigs = [
   {
     "datasetId": "015-BFS-2014Q3-065",
@@ -382,42 +385,42 @@ const datasets: IDatasetChartConfigs = [
     }
   },
   {
-        "datasetId": "015-BFS-2014Q1-03",
-        "title": "How much money goes into/out of the federal government?",
-        "displayOrder": 3,
-        "data": {
-          "api_id": (ENV_ID === 'uat' ? 220 : 130),
-          "chartType": "BAR",
-          "noRecordDateInFields": true,
-          "fields": [
-            "transaction_type",
-            "transaction_today_amt",
-            "record_calendar_month",
-            "record_calendar_year"
-          ],
-          "filters": [
-            {
-              "key": "transaction_type",
-              "operator":"in",
-              "value":"Deposits,Withdrawals"
-            },
-            {
-              "key": "record_date",
-              "operator": "mostRecentDatePeriod",
-              "unit": "MONTH",
-              "amount": 7
-            }
-          ],
-          "value_fields": ['deposits', 'withdrawals'],
-          "index": "yearMonth",
-          "sorts": ['-record_calendar_year', "-record_calendar_month"],
-          "format": "CURRENCY_NET",
-          "limit": 16,
-          "transform": transformAPI130,
-          "valueField": "combinedValue",
-          "colors": [primaryColor, negativeColor]
+    "datasetId": "015-BFS-2014Q1-03",
+    "title": "How much money goes into/out of the federal government?",
+    "displayOrder": 3,
+    "data": {
+      "api_id": (ENV_ID === 'uat' ? 220 : 130),
+      "chartType": "BAR",
+      "noRecordDateInFields": true,
+      "fields": [
+        "transaction_type",
+        "transaction_today_amt",
+        "record_calendar_month",
+        "record_calendar_year"
+      ],
+      "filters": [
+        {
+          "key": "transaction_type",
+          "operator":"in",
+          "value":"Deposits,Withdrawals"
+        },
+        {
+          "key": "record_date",
+          "operator": "mostRecentDatePeriod",
+          "unit": "MONTH",
+          "amount": 7
         }
-      },
+      ],
+      "value_fields": ['deposits', 'withdrawals'],
+      "index": "yearMonth",
+      "sorts": ['-record_calendar_year', "-record_calendar_month"],
+      "format": "CURRENCY_NET",
+      "limit": 16,
+      "transform": transformAPI130,
+      "valueField": "combinedValue",
+      "colors": [primaryColor, negativeColor]
+    }
+  },
   {
     "datasetId": "015-BFS-2014Q1-09",
     "title": "What is the value of the U.S. Treasury-owned gold?",
