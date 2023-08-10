@@ -456,10 +456,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               altText={chartAltText}
               customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
             >
-              <div className={lineChart} data-testid={'chartParent'}
+              <div className={lineChart} data-testid="chartParent"
                    onMouseEnter={handleMouseEnter}
-                   onMouseLeave={() => clearTimeout(gaTimer)}
-                   role={'presentation'}
+                   onMouseLeave={() => {
+                      clearTimeout(gaTimer);
+                      clearTimeout(ga4Timer);
+                   }}
+                   role="presentation"
               >
                 {selectedChartView === 'totalSpending' && (
                   <div ref={spendingRef}>

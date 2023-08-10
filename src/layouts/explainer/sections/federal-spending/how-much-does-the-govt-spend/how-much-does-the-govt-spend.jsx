@@ -248,10 +248,9 @@ const HowMuchDoesTheGovtSpend = () => {
       header={header}
       footer={footer}
       date={lastUpdatedDate}
-      customTestId={'spending-bar-chart'}
-      altText={
-        "Horizontal bar graph comparing government spending by category or agency from largest to smallest, by percentage or dollar value"
-      }
+      customTestId="spending-bar-chart"
+      altText="Horizontal bar graph comparing government spending by category or agency from largest to smallest, by percentage or dollar value"
+
     >
       {loading ? (
         <div className={loadingIcon}>
@@ -263,7 +262,7 @@ const HowMuchDoesTheGovtSpend = () => {
           <div className={chartToggle}>
             <button
               className={toggleButton}
-              id={'spending-categories-toggle'}
+              id="spending-categories-toggle"
               style={{
                 borderBottomLeftRadius: "4px",
                 borderTopLeftRadius: "4px",
@@ -279,7 +278,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   setAnimateBars(false);
                 }
               }}
-              data-testid={'toggle-button-category'}
+              data-testid="toggle-button-category"
             >
               <span
                 style={{
@@ -293,7 +292,7 @@ const HowMuchDoesTheGovtSpend = () => {
             </button>
             <button
               className={toggleButton}
-              id={'spending-categories-toggle'}
+              id="spending-categories-toggle"
               style={{
                 borderBottomRightRadius: "4px",
                 borderTopRightRadius: "4px",
@@ -310,7 +309,7 @@ const HowMuchDoesTheGovtSpend = () => {
                   setAnimationComplete(false);
                 }
               }}
-              data-testid={'toggle-button-agency'}
+              data-testid="toggle-button-agency"
             >
               <span
                 style={{
@@ -369,36 +368,36 @@ const HowMuchDoesTheGovtSpend = () => {
               Dollars
             </span>
           </div>
-          <div className={scrolled ? barContainer : barContainerInvisible} data-testid={'barContainer'} ref={ref}>
+          <div className={scrolled ? barContainer : barContainerInvisible} data-testid="barContainer" ref={ref}>
             <div className={animationComplete && active}>
               {firstTen?.map((item, i) => {
-                    return (
-                      <div className={chartsContainer} key={i}>
-                        <GrowDivBar
-                          percent={item.percentage}
-                          animateTime={0.6}
-                          animate={animateBars}
-                          onAnimationEnd={animationEndHandler}
-                          isMobile={isMobile}
-                        />
-                        <div
-                          className={percentOrDollarContainer}
-                          style={{
-                            marginRight: item.percentage > 20 ? "0px" : "8px",
-                          }}
-                        >
-                          {percentDollarToggleChecked ?
-                            `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
-                        </div>
-                        <div
-                          className={descContainer}
-                          data-testid={'label'}
-                        >
-                          {item.classification_desc?.replace("Total--", "")}
-                        </div>
-                      </div>
-                  )
-                })}
+                return (
+                  <div className={chartsContainer} key={i}>
+                    <GrowDivBar
+                      percent={item.percentage}
+                      animateTime={0.6}
+                      animate={animateBars}
+                      onAnimationEnd={animationEndHandler}
+                      isMobile={isMobile}
+                    />
+                    <div
+                      className={percentOrDollarContainer}
+                      style={{
+                        marginRight: item.percentage > 20 ? "0px" : "8px",
+                      }}
+                    >
+                      {percentDollarToggleChecked ?
+                        `$${getShortForm(item.dollarAmount)}` : `${item.percentage} %`}
+                    </div>
+                    <div
+                      className={descContainer}
+                      data-testid="label"
+                    >
+                      {item.classification_desc?.replace("Total--", "")}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
           <div className={scrolled ? otherContainer : otherContainerInvisible}>
@@ -423,8 +422,8 @@ const HowMuchDoesTheGovtSpend = () => {
               </div>
             </div>
           </div>
-      </Fragment>
-            )}
+        </Fragment>
+      )}
     </ChartContainer>
   )
 }

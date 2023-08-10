@@ -1,10 +1,7 @@
 import {Column, Table} from "@tanstack/react-table";
 import React from "react";
 
-export const Filter = ({
-                  column,
-                  table,
-                }: {
+export const Filter = ({ column, table, }: {
   column: Column<any, any>
   table: Table<any>
 }) => {

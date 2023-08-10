@@ -459,7 +459,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               url="https://tfm.fiscal.treasury.gov/v1/p2/c320"
               onClick={() => analyticsHandler("Citation Click", "Treasury Financial Manual")}
             >
-            Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
+              Treasury Financial Manual, volume 1, part 2, section 3235
+            </CustomLink>.
             This Exchange Rate Converter Tool is designed to make foreign currency exchange data values
             easier to access for federal agency reporting purposes.
           </p>

@@ -42,7 +42,6 @@ import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
 import { getAFGFootnotes } from "../../helpers/footnotes-helper/footnotes-helper";
-import Analytics from "../../utils/analytics/analytics";
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -80,13 +79,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
   const [debtDate, setDebtDate] = useState('month year');
   const [debtToPennyDate, setDebtToPennyDate] = useState('month DD, year');
 
-  const handleCitizensGuideClick = () => {
-    return Analytics.event({
-      category: 'Explainers',
-      action: 'Citation Click',
-      label: 'AFG Overview - DS&M'
-    });
-  }
 
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
@@ -290,7 +282,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
 
           <AfgTopicSection
             heading={spendingHeading}
-            body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
+            body={"The federal government funds a variety of programs and services that support the American public. " +
+              "The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."}
             linkUrl="/americas-finance-guide/federal-spending/"
             linkText="Learn more about federal spending"
             linkColor={spendingExplainerPrimary}
@@ -299,10 +292,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
             id="Federal Spending"
             pageName="SpendingExplainer"
             image="/topics-section-images/homepage_spending_1200x630.png"
-            imageAltText="The US Treasury building is placed next to a row of homes. A pair
-          of hands exchange money in the foreground. "
+            imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
           />
-
           <div className={styles.middleHeader}>
             <Grid container spacing={4}>
               <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>

@@ -424,71 +424,71 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         </div>
       )}
       {!isLoading && chartToggleConfig && (
-      <div className={visWithCallout}>
-        <div className={container} role={'presentation'} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
-          <ChartContainer
-            title={chartTitle}
-            subTitle={chartSubtitle}
-            footer={chartFooter}
-            date={lastUpdatedDate}
-            header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
-            altText={chartAltText}
-          >
-          <div className={lineChart} data-testid={'totalRevenueChartParent'}>
-            {selectedChartView === 'totalRevenue' && (
-              <div ref={revenueRef}>
-                <Line
-                    {...commonProps}
-                    layers={[
-                      ...chartConfigs.layers,
-                      lineChartCustomPoints,
-                      (props) =>
-                        CustomSlices({
-                            ...props,
-                            groupMouseLeave: handleGroupOnMouseLeave,
-                            mouseMove: handleMouseLeave,
-                            inView: revenueInView,
-                            duration: 500,
-                            customAnimationTriggeredOnce: animationTriggeredOnce,
-                            setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
-                          }
-                        ),
-                    ]}
+        <div className={visWithCallout}>
+          <div className={container} role={'presentation'} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
+            <ChartContainer
+              title={chartTitle}
+              subTitle={chartSubtitle}
+              footer={chartFooter}
+              date={lastUpdatedDate}
+              header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
+              altText={chartAltText}
+            >
+              <div className={lineChart} data-testid={'totalRevenueChartParent'}>
+                {selectedChartView === 'totalRevenue' && (
+                  <div ref={revenueRef}>
+                    <Line
+                      {...commonProps}
+                      layers={[
+                        ...chartConfigs.layers,
+                        lineChartCustomPoints,
+                        (props) =>
+                          CustomSlices({
+                              ...props,
+                              groupMouseLeave: handleGroupOnMouseLeave,
+                              mouseMove: handleMouseLeave,
+                              inView: revenueInView,
+                              duration: 500,
+                              customAnimationTriggeredOnce: animationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
+                            }
+                          ),
+                      ]}
                     />
-                </div>
-              )}
-              {selectedChartView === 'percentageGdp' && (
-                  <div ref={gdpRef}>
-                  <Line
-                    {...commonProps}
-                    layers={[
-                      ...chartConfigs.layers,
-                       lineChartCustomPoints,
-                      (props) =>
-                        CustomSlices({
-                            ...props,
-                            groupMouseLeave: handleGroupOnMouseLeave,
-                            mouseMove: handleMouseLeave,
-                            inView: gdpInView,
-                            duration: 500,
-                            customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
-                            setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
-                          }
-                        ),
-                    ]}
-                  />
                   </div>
                 )}
-            </div>
-          </ChartContainer>
+                {selectedChartView === 'percentageGdp' && (
+                  <div ref={gdpRef}>
+                    <Line
+                      {...commonProps}
+                      layers={[
+                        ...chartConfigs.layers,
+                        lineChartCustomPoints,
+                        (props) =>
+                          CustomSlices({
+                              ...props,
+                              groupMouseLeave: handleGroupOnMouseLeave,
+                              mouseMove: handleMouseLeave,
+                              inView: gdpInView,
+                              duration: 500,
+                              customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
+                            }
+                          ),
+                      ]}
+                    />
+                  </div>
+                )}
+              </div>
+            </ChartContainer>
+          </div>
+          <VisualizationCallout color={revenueExplainerPrimary}>
+            <p>
+              Since {callOutYear}, the Revenue-to-GDP ratio has increased from{' '}
+              {firstRatio} to {lastRatio}.
+            </p>
+          </VisualizationCallout>
         </div>
-        <VisualizationCallout color={revenueExplainerPrimary}>
-          <p>
-            Since {callOutYear}, the Revenue-to-GDP ratio has increased from{' '}
-            {firstRatio} to {lastRatio}.
-          </p>
-        </VisualizationCallout>
-      </div>
       )}
     </>
   );

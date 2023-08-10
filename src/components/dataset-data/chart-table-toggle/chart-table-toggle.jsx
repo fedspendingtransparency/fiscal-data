@@ -146,27 +146,27 @@ const ChartTableToggle = ({
             icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
             {...a11yProps(1)} disableRipple
           />
-          {selectedTab === 1 ? (
-            <HideLegendToggle
-            displayText={legend ? "Hide Legend" : "Show Legend"}
-            displayIcon={faSlidersH}
-            showToggle={showToggleChart}
-            onToggleLegend={onToggleLegend}
-            selectedTab={selectedTab === 1}
-            />
-            
+          {selectedTab === 1 ?
+            (
+              <HideLegendToggle
+                displayText={legend ? "Hide Legend" : "Show Legend"}
+                displayIcon={faSlidersH}
+                showToggle={showToggleChart}
+                onToggleLegend={onToggleLegend}
+                selectedTab={selectedTab === 1}
+              />
             ) : (
               <HideLegendToggle
-              displayText={"Select Columns"}
-              displayIcon={faCrosshairs}
-              showToggle={showToggleTable}
-              onToggleLegend={onToggleLegend}
-              selectedTab={selectedTab === 0}
-            />
+                displayText={"Select Columns"}
+                displayIcon={faCrosshairs}
+                showToggle={showToggleTable}
+                onToggleLegend={onToggleLegend}
+                selectedTab={selectedTab === 0}
+              />
             )
           }
-          
-          
+
+
         </AntTabs>
       </div>
       <TabPanel index={0} value={tabState}>

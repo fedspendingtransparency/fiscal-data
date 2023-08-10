@@ -231,12 +231,12 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     setIsReset(true);
 
     columns.forEach((col) => {
-      let colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
+      const colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
       const selectCol = Object.assign({label: col.name},
                                 {field: col.property},
                                 {active: colDefault},
                                 {default: colDefault});
-      if(colDefault == true) {
+      if(colDefault === true) {
         activeColArray.push(col);
       }
 
@@ -375,33 +375,39 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
             {/* Table */}
             {(!emptyDataMessage && !selectColumns
-              ? (<table {...tableProps.aria} style={{width: tableWidth}}>
-                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                <DtgTableHeading columns={columns} />
-                <tbody>
-                  {rows}
-                </tbody>
-              </table>)
-              : (<table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
-                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                <DtgTableHeading columns={activeColumns} />
-                <tbody>
-                  {rows}
-                </tbody>
-              </table>))
+              ? (
+                <table {...tableProps.aria} style={{width: tableWidth}}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={columns} />
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
+              ) : (
+                <table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={activeColumns} />
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
+              ))
             }
           </div>
 
-          <div data-testid='selectColumnsMainContainer' className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel} style={{height: `${(itemsPerPage * 41) + 48.4}px` }}>
+          <div data-testid="selectColumnsMainContainer"
+               className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}
+               style={{height: `${(itemsPerPage * 41) + 48.4}px` }}
+          >
             {selectColumns &&
               <DtgTableColumnSelector
-              isVisible={true}
-              fields={columnSelectValues}
-              changeHandler={(update) => columnSelectChangeHandler(update)}
-              resetToDefault={setDefaultColumnsToSelect}
-              setSelectColumnPanel={setSelectColumnPanel}
-              isReset={isReset}
-            />
+                isVisible={true}
+                fields={columnSelectValues}
+                changeHandler={(update) => columnSelectChangeHandler(update)}
+                resetToDefault={setDefaultColumnsToSelect}
+                setSelectColumnPanel={setSelectColumnPanel}
+                isReset={isReset}
+              />
             }
           </div>
         </div>

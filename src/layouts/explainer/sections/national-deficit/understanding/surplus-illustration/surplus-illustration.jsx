@@ -13,7 +13,7 @@ import surplus from "../../../../../../images/explainer/national-deficit/surplus
 import balancedBudget
   from "../../../../../../images/explainer/national-deficit/balanced-budget.png";
 import deficit from "../../../../../../images/explainer/national-deficit/deficit.png";
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
@@ -125,13 +125,13 @@ const SurplusIllustration = ({glossary, width}) => {
               <Tab style={tabStyle} data-testid="budget-tab" selectedClassName={selectedTab}
                    onClick={()=>handleClick("11")}
               >
-              <div className={tabBaselineWhiteout} />
-              {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
-              <div className={title}>
-                Balanced Budget
-              </div>
-              {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
-            </Tab>
+                <div className={tabBaselineWhiteout} />
+                {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
+                <div className={title}>
+                  Balanced Budget
+                </div>
+                {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
+              </Tab>
             <Tab style={tabStyle} data-testid="deficit-tab" selectedClassName={selectedTab}
                  onClick={()=>handleClick("12")}
             >

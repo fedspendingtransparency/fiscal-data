@@ -17,6 +17,7 @@ import StickyTable from "react-sticky-table-thead";
 import * as styles from './data-table.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowDown, faArrowUp, faSort} from "@fortawesome/free-solid-svg-icons";
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 
 type DataTableProps = {
@@ -44,7 +45,8 @@ const getTrProps = (rowInfo) => {
 
 export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize, defaultSelectedColumns, setTableColumnSortData }) => {
 
-  const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
+  const allColumns = rawData.meta ?
+    Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
   const data = rawData.data;
   const [columns] = React.useState(() => [
     ...allColumns,
@@ -130,149 +132,149 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
         })}
       </div>
       <div data-test-id="table-content" className={styles.tableContainer}>
-       <StickyTable height={500} >
-        <table>
-          <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} data-testid={'header-row'}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th
-                    {...{
-                      key: header.id,
-                      colSpan: header.colSpan,
-                      style: {
-                        minWidth: header.getSize(),
-                      },
-                    }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      :  (
-                        <>
-                          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-                          <div
-                            {...{
-                              className: header.column.getCanSort()
-                                ? `${styles.colHeader}`
-                                : '',
-                              onClick: header.column.getToggleSortingHandler(),
-                            }}
-                            data-testid={`header-sorter-${header.id}`}
-                          >
-
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                            {{
-                              asc: <FontAwesomeIcon icon={faArrowUp} className={styles.sortArrow} />,
-                              desc: <FontAwesomeIcon icon={faArrowDown} className={styles.sortArrow} />,
-                              false: <FontAwesomeIcon icon={faSort} className={styles.sortArrow} />
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </div>
-                          {header.column.getCanFilter() ? (
-                            <div>
-                              <Filter column={header.column} table={table} />
-                            </div>
-                          ) : null}
-                        </>
-                      )}
-                    <div
+        <StickyTable height={500} >
+          <table>
+            <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} data-testid="header-row">
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <th
                       {...{
-                        onMouseDown: header.getResizeHandler(),
-                        onTouchStart: header.getResizeHandler(),
-                        className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
+                        key: header.id,
+                        colSpan: header.colSpan,
+                        style: {
+                          minWidth: header.getSize(),
+                        },
+                      }}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        :  (
+                          <>
+                            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                            <div
+                              {...{
+                                className: header.column.getCanSort()
+                                  ? `${styles.colHeader}`
+                                  : '',
+                                onClick: header.column.getToggleSortingHandler(),
+                              }}
+                              data-testid={`header-sorter-${header.id}`}
+                            >
+
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                              {{
+                                asc: <FontAwesomeIcon icon={faArrowUp as IconProp} className={styles.sortArrow} />,
+                                desc: <FontAwesomeIcon icon={faArrowDown as IconProp} className={styles.sortArrow} />,
+                                false: <FontAwesomeIcon icon={faSort as IconProp} className={styles.sortArrow} />
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </div>
+                            {header.column.getCanFilter() ? (
+                              <div>
+                                <Filter column={header.column} table={table} />
+                              </div>
+                            ) : null}
+                          </>
+                        )}
+                      <div
+                        {...{
+                          onMouseDown: header.getResizeHandler(),
+                          onTouchStart: header.getResizeHandler(),
+                          className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
                         }}
-                    />
-                  </th>
-              )})}
-            </tr>
+                      />
+                    </th>
+                  )})}
+              </tr>
+            ))}
+            </thead>
+            <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id} style={getTrProps(row)} data-testid={'row'}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>
+                    {
+                      cell.getValue() === 'null' ? (
+                        <div />
+                      ) : (
+                        flexRender(cell.column.columnDef.cell, cell.getContext())
+                      )
+                    }
+                  </td>
+                ))}
+              </tr>
+            ))}
+            </tbody>
+          </table>
+        </StickyTable>
+      </div>
+      <div className="h-2" />
+      <div className="flex items-center gap-2">
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>>'}
+        </button>
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount()}
+          </strong>
+        </span>
+        <span className="flex items-center gap-1">
+          | Go to page:
+          <input
+            type="number"
+            data-testid="pagination-text-input"
+            defaultValue={table.getState().pagination.pageIndex + 1}
+            onChange={e => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0
+              table.setPageIndex(page)
+            }}
+            className="border p-1 rounded w-16"
+          />
+        </span>
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={e => {
+            table.setPageSize(Number(e.target.value))
+          }}
+        >
+          {[10, 20, 30, 40, 50, 100, 250, 500, 1000].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
           ))}
-          </thead>
-          <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} style={getTrProps(row)} data-testid={'row'}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {
-                    cell.getValue() === 'null' ? (
-                      <div />
-                    ) : (
-                      flexRender(cell.column.columnDef.cell, cell.getContext())
-                    )
-                  }
-                </td>
-              ))}
-            </tr>
-          ))}
-          </tbody>
-        </table>
-     </StickyTable>
-    </div>
-    <div className="h-2" />
-    <div className="flex items-center gap-2">
-      <button
-        className="border rounded p-1"
-        onClick={() => table.setPageIndex(0)}
-        disabled={!table.getCanPreviousPage()}
-      >
-        {'<<'}
-      </button>
-      <button
-        className="border rounded p-1"
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-        {'<'}
-      </button>
-      <button
-        className="border rounded p-1"
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
-      >
-        {'>'}
-      </button>
-      <button
-        className="border rounded p-1"
-        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-        disabled={!table.getCanNextPage()}
-      >
-        {'>>'}
-      </button>
-      <span className="flex items-center gap-1">
-                <div>Page</div>
-                <strong>
-                  {table.getState().pagination.pageIndex + 1} of{' '}
-                  {table.getPageCount()}
-                </strong>
-              </span>
-      <span className="flex items-center gap-1">
-                | Go to page:
-                <input
-                  type="number"
-                  data-testid={'pagination-text-input'}
-                  defaultValue={table.getState().pagination.pageIndex + 1}
-                  onChange={e => {
-                    const page = e.target.value ? Number(e.target.value) - 1 : 0
-                    table.setPageIndex(page)
-                  }}
-                  className="border p-1 rounded w-16"
-                />
-              </span>
-      <select
-        value={table.getState().pagination.pageSize}
-        onChange={e => {
-          table.setPageSize(Number(e.target.value))
-        }}
-      >
-        {[10, 20, 30, 40, 50, 100, 250, 500, 1000].map(pageSize => (
-          <option key={pageSize} value={pageSize}>
-            Show {pageSize}
-          </option>
-        ))}
-      </select>
-    </div>
+        </select>
+      </div>
     </div>
     );
 

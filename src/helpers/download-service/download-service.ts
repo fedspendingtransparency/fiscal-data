@@ -727,7 +727,8 @@ const handleWebsocketComplete = (requestId, fileType, apis, dateRange) => {
       (window as any).dataLayer = (window as any).dataLayer || [];
       (window as any).dataLayer.push({
         'event': 'raw-data-download',
-        'eventLabel': `Table Name: ${apis.tableName}, Type: ${fileType}, Date Range: ${from.toLocaleDateString("en-US")} - ${to.toLocaleDateString("en-US")}`
+        'eventLabel': 'Table Name: ' + apis.tableName + ', Type: ' + fileType + ', Date Range: ' +
+          from.toLocaleDateString("en-US") + ' - ' + to.toLocaleDateString("en-US")
       });
     }
   }
