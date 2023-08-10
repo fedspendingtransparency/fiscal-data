@@ -24,10 +24,8 @@ import {
   applyChartScaling,
   applyTextScaling,
 } from '../../../../explainer-helpers/explainer-charting-helper';
-import {
-  lineChartCustomPoints,
-  LineChartCustomSlices,
-} from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
+import { lineChartCustomPoints } from './debt-over-last-100y-linechart-helper';
+import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
@@ -41,6 +39,7 @@ const chartDataEndPoint =
   apiPrefix + 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101';
 
 let gaTimerDebt100Yrs;
+let ga4Timer;
 
 const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -66,7 +65,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
           'record_date',
           cpiDataByYear
         );
-
         const finalDebtChartData = [];
 
         res.data.forEach(debt => {
@@ -78,7 +76,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             record_date: debt.record_date,
           });
         });
-
         finalDebtChartData.reverse();
 
         const debtMaxYear = finalDebtChartData.reduce((max, spending) =>
@@ -178,9 +175,16 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-debt-100y',
+      });
+    }, 3000);
   };
   const handleChartMouseLeave = () => {
     clearTimeout(gaTimerDebt100Yrs);
+    clearTimeout(ga4Timer);
   };
 
   const customHeaderStyles={
@@ -190,8 +194,9 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     marginTop: '2rem',
   }
   const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
   });
 
   return (
@@ -202,7 +207,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         </div>
       )}
       {!isLoading && (
-        <div className={visWithCallout} ref={ref}>
+        <div className={visWithCallout}>
           <div className={container}>
             <ChartContainer
               title={chartTitle}
@@ -214,13 +219,13 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
               customHeaderStyles={customHeaderStyles}
               customFooterSpacing={customFooterSpacing}
             >
-              {/* TODO: Move these mouse handlers to a different element, maybe chart container? */}
-              {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
               <div
                 className={lineChart}
                 data-testid={'totalDebtChartParent'}
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
+                role="presentation"
+                ref={ref}
               >
                 <Line
                   data={chartData}
@@ -233,7 +238,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     'lines',
                     lineChartCustomPoints,
                     props =>
-                      LineChartCustomSlices({
+                      CustomSlices({
                         ...props,
                         groupMouseLeave: handleGroupOnMouseLeave,
                         mouseMove: handleMouseLeave,

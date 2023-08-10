@@ -1,4 +1,7 @@
-import {counterContainer, counterSourceInfo} from "../../hero-image/hero-image.module.scss";
+import {
+  counterContainer,
+  counterSourceInfo, debt,
+} from "../../hero-image/hero-image.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import React, {useEffect, useState} from "react";
@@ -14,6 +17,8 @@ const NationalDebtHero = (): JSX.Element => {
   const debtUrl: string = `${apiPrefix}${endpointUrl}`;
 
   const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
+
+  const numberFormat = new Intl.NumberFormat('en-US');
 
   const getCurrentNationalDebt = (url) => {
     basicFetch(`${url}`)
@@ -40,23 +45,23 @@ const NationalDebtHero = (): JSX.Element => {
 
   return (
     <>
-      {nationalDebtValue !== null &&
-      (
-        <div className={counterContainer}>
-          <SplitFlapDisplay value={nationalDebtValue}
-                            minLength={nationalDebtValue?.toString().length} // number of characters to initially display
-                            mobilePrecision={parseInt(nationalDebtValue) > 999999999999 ? 2 : 0}
-                            valueType="currency"
-          />
-          <div className={counterSourceInfo}>
+          <div className={counterContainer}>
+            <SplitFlapDisplay value={nationalDebtValue}
+                              minLength={numberFormat.format(parseInt(nationalDebtValue)).length} // number of characters to initially display
+                              mobilePrecision={parseInt(nationalDebtValue) > 999999999999 ? 2 : 0}
+                              valueType="currency"
+            />
+          </div>
+          <div className={`${counterSourceInfo} ${debt}`}>
             Updated daily from the {' '}
-            <CustomLink url={'/datasets/debt-to-the-penny'} onClick={() => clickHandler()}>
+            <CustomLink
+              url={'/datasets/debt-to-the-penny'}
+              onClick={() => clickHandler()}
+              id="Debt to the Penny"
+            >
               Debt to the Penny
             </CustomLink> dataset.
           </div>
-        </div>
-      )
-      }
     </>
   );
 }

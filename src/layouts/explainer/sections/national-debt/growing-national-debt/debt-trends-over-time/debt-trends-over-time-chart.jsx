@@ -35,7 +35,10 @@ import {
 import globalConstants from '../../../../../../helpers/constants';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
+import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
+
 let gaTimerDebtTrends;
+let ga4Timer;
 
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
@@ -76,6 +79,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           "Federal Debt Trends Over Time"
         )
       }
+      id="Historical Debt Outstanding"
     >
       {name}
     </CustomLink>
@@ -193,35 +197,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   const formatPercentage = v => `${v}%`;
 
-  const CustomSlices = ({ slices, setCurrentSlice }) => {
-    const allSlices =
-      <g>
-        {slices.map((slice, i) => (
-          <rect
-            key={i}
-            x={slice.x0}
-            y={slice.y0}
-            tabIndex={0}
-            width={slice.width + 1}
-            height={slice.height}
-            strokeWidth={1}
-            strokeOpacity={0}
-            fillOpacity={0}
-            onMouseEnter={() => setCurrentSlice(slice)}
-            onMouseLeave={() => {
-              setCurrentSlice(null);
-            }}
-          />
-        ))}
-      </g>;
-
-    return (
-      <>
-        {allSlices}
-      </>
-    );
-  };
-
   useEffect(() => {
     if(startAnimation && debtTrendsData && !animationComplete) {
       if(animationPoint < debtTrendsData[0].data.length -1) {
@@ -280,9 +255,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               }
             })
           }, config);
-          setTimeout(() =>
-            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]')), 1000);
-
+          if (document.querySelector('[data-testid="debtTrendsChart"]')) {
+            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]'));
+          }
           currentPoint = points[animationPoint];
           verticalCrosshair = (
             <line
@@ -326,10 +301,17 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         label: 'Debt - Federal Debt Trends Over Time'
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-debt-trends',
+      });
+    }, 3000);
   }
 
   const handleMouseLeaveLineChart = () => {
     clearTimeout(gaTimerDebtTrends);
+    clearTimeout(ga4Timer);
   };
 
   const lineChartOnMouseLeave = () => {
@@ -398,6 +380,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
             data-testid={`${chartParent}`}
             onMouseEnter={handleMouseEnterLineChart}
             onMouseLeave={handleMouseLeaveLineChart}
+            id={'debt-trends'}
             role={'presentation'}
           >
             <Line
@@ -410,7 +393,11 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                 "lines",
                 "axes",
                 CustomPoint,
-                CustomSlices,
+                (props) =>
+                  CustomSlices({
+                      ...props,
+                    }
+                  ),
                 "crosshair"
               ]}
                 margin={

@@ -1,0 +1,35 @@
+@import '../../../variables.module.scss';
+
+.title {
+  font-weight: $semi-bold-weight;
+  margin-bottom: 1.5rem;
+}
+
+.termContainer {
+  margin-bottom: 12.825rem;
+  padding-right: 1rem;
+}
+
+.backToList {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $primary;
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+  margin-bottom: 1.5rem;
+  padding: 0;
+  &:hover {
+    color: $slate-blue;
+  }
+  .arrowIcon {
+    margin-right: .5rem;
+    height: 0.833rem;
+  }
+}
+
+.listContainer > div {
+  min-height: 0;
+}

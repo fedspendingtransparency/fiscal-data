@@ -32,6 +32,7 @@ import Analytics from "../../../../../../utils/analytics/analytics";
 import {addInnerChartAriaLabel} from "../../../../explainer-helpers/explainer-charting-helper";
 
 let gaTimerRevenueCircle;
+let ga4Timer;
 
 const focusDelay = 1000;
 const SourcesOfRevenueCircleChart = ({ width }) => {
@@ -254,6 +255,12 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         label: 'Revenue - Sources of Federal Revenue'
       });
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-federal-rev',
+      });
+    }, 3000);
   }
 
   const HandleLabelClick = (node, e) => {
@@ -294,6 +301,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const HandleChartMouseLeave = () => {
     clearTimeout(gaTimerRevenueCircle);
+    clearTimeout(ga4Timer);
     if (chartData !== {}) {
       decreaseOpacity();
       highlightDefaultCircle();

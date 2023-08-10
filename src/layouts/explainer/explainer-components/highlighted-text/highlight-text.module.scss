@@ -1,0 +1,20 @@
+@import '../../../../variables.module.scss';
+
+
+
+.highlightTextContainer {
+  width: 7rem;
+  height: 1.25rem;
+  background-color: #fff1d2;
+  margin-bottom: .5625rem;
+  .highlightText {
+    font-style: italic;
+    text-align: center;
+    color: #444444;
+    font-size: $font-size-14;
+
+  }
+  p {
+    margin: 0;
+  }
+}

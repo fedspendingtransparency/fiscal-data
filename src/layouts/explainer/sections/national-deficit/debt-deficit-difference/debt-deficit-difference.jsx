@@ -15,24 +15,24 @@ import DeficitDesktop from "../../../../../../static/images/deficit-vs-debt_desk
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../../../variables.module.scss";
-import GlossaryTerm from "../../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 
-export const DebtDeficitDifference = ({width, glossary}) => {
+export const DebtDeficitDifference = ({width, glossary, glossaryClickHandler}) => {
 
   const nationalDebtLink =
-    <CustomLink url={'/americas-finance-guide/national-debt/'}>
+    <CustomLink url="/americas-finance-guide/national-debt/" id="National Debt">
       National Debt Explainer
     </CustomLink>
 
   const bonds =
-    <GlossaryTerm term={'Bonds'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'Bonds'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler} >
       bonds
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   const bills =
-    <GlossaryTerm term={'Bills'} page={'Deficit Explainer'} glossary={glossary}>
+    <GlossaryPopoverDefinition term={'Bills'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler} >
       bills
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
 
   return (
     <>
@@ -73,6 +73,7 @@ export const DebtDeficitDifference = ({width, glossary}) => {
             openEventNumber={"15"}
             closeEventNumber={"16"}
             explainerGAEvent="Deficit"
+            ga4ID={"diff-deficit"}
           >
             The government also uses operating cash available from an account at the Federal
             Reserve to pay for the deficit. This would be similar to a business using a line of

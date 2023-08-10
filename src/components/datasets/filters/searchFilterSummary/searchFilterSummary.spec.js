@@ -11,12 +11,14 @@ describe("Search Filter Summary", ()=> {
         activeFilters = [],
         searchQuery = "",
         summary,
-        changeHandlerSpy = null,
+        onGroupResetSpy = null,
+        onIndividualResetSpy = null,
         filters;
 
     const filtersByGroupKeyWithNameSpy = jest.spyOn(filterTools, 'filtersByGroupKeyWithName');
 
-    const changeHandlerMock = jest.fn();
+    const onGroupResetMock = jest.fn();
+    const onIndividualResetMock = jest.fn();
     beforeEach(()=> {
         filters = mockFilters;
         filtersByGroupKeyWithNameSpy.mockClear();
@@ -25,18 +27,20 @@ describe("Search Filter Summary", ()=> {
             component = renderer.create(
               <SearchFilterSummary searchQuery={searchQuery}
                                    activeFilters={activeFilters}
-                                   changeHandler={changeHandlerMock}
+                                   onGroupReset={onGroupResetMock}
+                                   onIndividualReset={onIndividualResetMock}
                                    allFilters={filters}
               />
               );
         });
         instance = component.root;
-        changeHandlerSpy = jest.spyOn(instance.props, 'changeHandler');
+        onGroupResetSpy = jest.spyOn(instance.props, 'onGroupReset');
+        onIndividualResetSpy = jest.spyOn(instance.props, 'onIndividualReset');
         summary = instance.findByType(SearchFilterSummary);
     });
 
     it("renders element", ()=> {
-       expect(summary).toBeDefined()
+       expect(summary).toBeDefined();
     });
 
     it("calls filtersByGroupKeyWithName upon with the active filters and allFilters", async () => {
@@ -45,7 +49,7 @@ describe("Search Filter Summary", ()=> {
     });
 
     it("renders no children if both searchQuery and activeFilters are empty", ()=> {
-        expect(summary.children.length).toBe(0)
+        expect(summary.children.length).toBe(0);
     });
 
     it("renders both search summary and filter summary when both searchQuery and activeFilters are not empty", () => {
@@ -57,14 +61,16 @@ describe("Search Filter Summary", ()=> {
         component = renderer.create(
           <SearchFilterSummary searchQuery={searchQuery}
                                activeFilters={activeFilters}
-                               changeHandler={changeHandlerMock}
+                               onGroupReset={onGroupResetMock}
+                               onIndividualReset={onIndividualResetMock}
                                allFilters={filters}
           />
         );
       });
 
       instance = component.root;
-      changeHandlerSpy = jest.spyOn(instance.props, 'changeHandler');
+      onGroupResetSpy = jest.spyOn(instance.props, 'onGroupReset');
+      onIndividualResetSpy = jest.spyOn(instance.props, 'onIndividualReset');
       summary = instance.findByType(SearchFilterSummary);
 
       expect(summary.children.length).toBe(2);
@@ -75,7 +81,7 @@ describe("Search Filter Summary", ()=> {
       renderer.act(() => {
           summary.children[1].children[0].children[1].props.onClick();
       });
-      expect(changeHandlerSpy).toHaveBeenCalledTimes(1);
+      expect(onIndividualResetSpy).toHaveBeenCalledTimes(1);
     });
 
     it("clears all filters", ()=> {
@@ -84,6 +90,8 @@ describe("Search Filter Summary", ()=> {
       renderer.act(() => {
           clearAll.onClick();
       });
-      expect(changeHandlerSpy).toHaveBeenCalledTimes(3);
+      expect(onGroupResetSpy).toHaveBeenCalledWith("startDate");
+      expect(onGroupResetSpy).toHaveBeenCalledWith("topics");
+      expect(onGroupResetSpy).toHaveBeenCalledTimes(2);
     });
 });

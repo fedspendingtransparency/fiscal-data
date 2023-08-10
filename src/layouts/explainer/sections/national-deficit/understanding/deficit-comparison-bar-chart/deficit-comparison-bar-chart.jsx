@@ -18,7 +18,6 @@ import {
   barChartColors,
   desktopHeight,
   mobileHeight,
-  getMarkers,
   layers,
   theme
 } from './deficit-comparison-bar-chart-helper';
@@ -27,6 +26,7 @@ import {nationalDeficitSectionConfigs} from "../../national-deficit";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
 import {addInnerChartAriaLabel} from "../../../../explainer-helpers/explainer-charting-helper";
+import CustomBar from './custom-bar/customBar';
 
 const DeficitComparisonBarChart = ({sectionId, width}) => {
   const [date, setDate] = useState(new Date ());
@@ -40,6 +40,8 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
   const [spendingValue, setSpendingValue] = useState(0);
   const [spendingLabel, setSpendingLabel] = useState("");
   const [data, setData] = useState(null);
+  const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
+
   const desktop = width >= pxToNumber(breakpointLg);
   const {
     name,
@@ -47,11 +49,37 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
     endpoints
   } = nationalDeficitSectionConfigs[sectionId];
 
-
   const chartParent = 'chartParentDiv';
 
+  const setAnimationDurations = (data) => {
+    if(data && data.length >= 2) {
+      const revenue = parseFloat(data[0]['revenue']);
+      const deficit = data[0]['deficit'];
+      const spending = parseFloat(data[1]['spending']);
+      const totalDuration = 6000;
+      const total = revenue + deficit + spending;
+      const revenue_duration = (revenue / total) * totalDuration;
+      const deficit_duration = (deficit / total) * totalDuration;
+      const spending_duration = (spending / total) * totalDuration;
+
+      if(!debtMarkerDelay) {
+        setDebtMarkerDelay(revenue_duration + deficit_duration + spending_duration + 1250);
+      }
+
+      data[0]["revenue_animation_duration"] = revenue_duration;
+      data[0]["deficit_animation_duration"] = deficit_duration;
+      data[1]["spending_animation_duration"] = spending_duration;
+      data[1]["revenue_deficit_animation_duration"] = revenue_duration + deficit_duration;
+
+      return data;
+    }
+  }
+
+  const chartData = setAnimationDurations(data);
+
   const mst =
-    <CustomLink url={slug} eventNumber='13'>{name}
+    <CustomLink url={slug} eventNumber="13" id="Monthly Treasury Statement">
+      {name}
     </CustomLink>
 
   const footer =
@@ -76,8 +104,6 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
   const revenueEndpoint = endpoints[2];
   const spendingEndpoint = endpoints[3];
   const deficitChangeEndpoint = endpoints[4];
-
-  const markers = getMarkers(data, width);
 
   useEffect(() => {
     addInnerChartAriaLabel(chartParent);
@@ -181,13 +207,14 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
             >
               <div className={barChart} data-testid={'chartParentDiv'}>
                 <Bar
+                  barComponent={CustomBar}
                   width={desktop ? 408 : 304}
                   height={desktop ? desktopHeight : mobileHeight}
                   axisTop={null}
                   axisRight={null}
                   axisLeft={null}
                   axisBottom={null}
-                  data={data}
+                  data={chartData}
                   keys={['revenue', 'deficit', 'spending']}
                   margin={ desktop ?
                     { top: 0, right: 74, bottom: 0, left: 74 } :
@@ -200,7 +227,6 @@ const DeficitComparisonBarChart = ({sectionId, width}) => {
                   borderColor={fontBodyCopy}
                   enableGridY={true}
                   gridYValues={[0]}
-                  markers={desktop ? markers[0] : markers[1]}
                   enableLabel={false}
                   layers={[...layers]}
                   theme={theme}

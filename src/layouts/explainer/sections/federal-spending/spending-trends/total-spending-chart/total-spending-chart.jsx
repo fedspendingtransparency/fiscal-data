@@ -13,7 +13,6 @@ import {
   dataHeader,
   chartConfigs,
   getMarkers,
-  LineChartCustomSlices,
   lineChartCustomPoints
 } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
@@ -36,6 +35,8 @@ import {
   addInnerChartAriaLabel,
   applyChartScaling
 } from "../../../../explainer-helpers/explainer-charting-helper";
+import CustomSlices  from '../../../../explainer-helpers/custom-slice/custom-slice';
+import { useInView} from "react-intersection-observer";
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -48,6 +49,7 @@ const chartDataEndPoint =
   '&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
 
 let gaTimer;
+let ga4Timer;
 
 const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
@@ -67,12 +69,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [isMobile, setIsMobile] = useState(true);
+  const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
+  const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
+
+  const chartParent = 'chartParent';
+  const chartWidth = 550;
+  const chartHeight = 490;
 
 
-  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState(
-    {}
-  );
-
+  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
 
   const {getGAEvent} = useGAEventTracking(null, "Spending");
 
@@ -126,9 +131,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     }
   };
 
-  const chartParent = 'chartParent';
-  const chartWidth = 550;
-  const chartHeight = 490;
+
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
@@ -291,6 +294,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   }, [width, chartToggleConfig]);
 
   useEffect(() => {
+    applyChartScaling(
+      chartParent,
+      chartWidth.toString(),
+      chartHeight.toString()
+    );
+  }, [selectedChartView]);
+
+  useEffect(() => {
     if (!selectedChartView) return;
     if (selectedChartView === 'percentageGdp') {
       setChartData(percentageData);
@@ -308,6 +319,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     gaTimer = setTimeout(() => {
       handleClick("20");
     }, 3000);
+    ga4Timer = setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'chart-hover-total-spending',
+      });
+    }, 3000);
   }
 
   const handleGroupOnMouseLeave = () => {
@@ -321,8 +338,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   const handleMouseLeave = (slice) => {
     if (selectedChartView === 'totalSpending') {
-      const spendingData = slice.points[0].data;
-      const gdpData = slice.points[1].data;
+      const spendingData = slice.points[0]?.data;
+      const gdpData = slice.points[1]?.data;
       if (spendingData && gdpData) {
         setTotalSpendingHeadingValues({
           ...totalSpendingHeadingValues,
@@ -332,7 +349,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         });
       }
     } else if (selectedChartView === 'percentageGdp') {
-      const percentData = slice.points[0].data;
+      const percentData = slice.points[0]?.data;
       if (percentData) {
         setTotalSpendingHeadingValues({
           ...totalSpendingHeadingValues,
@@ -346,6 +363,80 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const {title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText} =
     getChartCopy(minYear, maxYear, selectedChartView);
 
+  const { ref: spendingRef, inView: spendingInView } = useInView({
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
+  })
+
+  const { ref: gdpRef, inView: gdpInView } = useInView({
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '-50% 0% -50% 0%',
+  })
+
+  const chartTheme = {
+    ...chartConfigs.theme,
+    fontSize:
+      width < pxToNumber(breakpointLg)
+        ? fontSize_10
+        : fontSize_14,
+    marker: {
+      fontSize:
+        width < pxToNumber(breakpointLg)
+          ? fontSize_10
+          : fontSize_14,
+    },
+    crosshair: {
+      line: {
+        stroke: '#555555',
+        strokeWidth: 2,
+      },
+    },
+  }
+
+  const xScale = {
+    type: 'linear',
+      min: minYear,
+      max: maxYear,
+  };
+  const yScale = {
+    type: 'linear',
+      min: 0,
+      max: selectedChartView === 'percentageGdp' ? 50 : maxAmount,
+      stacked: false,
+      reverse: false,
+  };
+
+  const commonProps = {
+    data: chartData,
+    colors: d => d.color,
+    width: chartWidth,
+    height: chartHeight,
+    enablePoints:true,
+    pointSize: 0,
+    enableGridX: false,
+    enableGridY:false,
+    axisTop:null,
+    axisRight:null,
+    axisBottom:chartConfigs.axisBottom,
+    axisLeft:chartConfigs.axisLeftPercent,
+    useMesh:false,
+    isInteractive:true,
+    enableCrosshair:true,
+    crosshairType:'x',
+    animate:false,
+    sliceTooltip:() => null,
+    tooltip:() => null,
+    enableSlices:'x',
+    markers: getMarkers(width, selectedChartView, maxGDPValue, maxSpendingValue),
+    margin: width < pxToNumber(breakpointLg) ? { top: 25, right: 25, bottom: 30, left: 55 }
+      : { top: 20, right: 15, bottom: 35, left: 50 },
+    theme: chartTheme,
+    xScale: xScale,
+    yScale: yScale,
+  }
+
   return (
     <>
       {isLoading && (
@@ -356,7 +447,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
           <div className={container}>
-
             <ChartContainer
               title={chartTitle}
               subTitle={chartSubtitle}
@@ -371,94 +461,50 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                    onMouseLeave={() => clearTimeout(gaTimer)}
                    role={'presentation'}
               >
-                <Line
-                  data={chartData}
-                  layers={[
-                    'grid',
-                    'crosshair',
-                    'markers',
-                    'axes',
-                    'areas',
-                    'lines',
-                    'points',
-                    lineChartCustomPoints,
-                    (props) =>
-                      LineChartCustomSlices({
-                          ...props,
-                          groupMouseLeave: handleGroupOnMouseLeave,
-                          mouseMove: handleMouseLeave
-                        }
-                      ),
-                    'mesh',
-                    'legends',
-                  ]}
-                  theme={{
-                    ...chartConfigs.theme,
-                    fontSize:
-                      width < pxToNumber(breakpointLg)
-                        ? fontSize_10
-                        : fontSize_14,
-                    marker: {
-                      fontSize:
-                        width < pxToNumber(breakpointLg)
-                          ? fontSize_10
-                          : fontSize_14,
-                    },
-                    crosshair: {
-                      line: {
-                        stroke: '#555555',
-                        strokeWidth: 2,
-                      },
-                    },
-                  }}
-                  colors={d => d.color}
-                  width={550}
-                  height={490}
-                  margin={
-                    width < pxToNumber(breakpointLg)
-                      ? { top: 25, right: 25, bottom: 30, left: 55 }
-                      : { top: 20, right: 15, bottom: 35, left: 50 }
-                  }
-                  enablePoints={true}
-                  pointSize={0}
-                  enableGridX={false}
-                  enableGridY={false}
-                  xScale={{
-                    type: 'linear',
-                    min: minYear,
-                    max: maxYear,
-                  }}
-                  yScale={{
-                    type: 'linear',
-                    min: 0,
-                    max: selectedChartView === 'percentageGdp' ? 50 : maxAmount,
-                    stacked: false,
-                    reverse: false,
-                  }}
-                  axisTop={null}
-                  axisRight={null}
-                  axisBottom={chartConfigs.axisBottom}
-                  axisLeft={
-                    selectedChartView === 'percentageGdp'
-                      ? chartConfigs.axisLeftPercent
-                      : chartConfigs.axisLeftSpending
-                  }
-                  useMesh={true}
-                  isInteractive={true}
-                  enableCrosshair={true}
-                  crosshairType={'x'}
-                  animate={false}
-                  sliceTooltip={() => null}
-                  tooltip={() => null}
-                  enableSlices={'x'}
-                  markers={getMarkers(
-                    width,
-                    selectedChartView,
-                    maxGDPValue,
-                    maxSpendingValue
-                  )}
-                >
-                </Line>
+                {selectedChartView === 'totalSpending' && (
+                  <div ref={spendingRef}>
+                    <Line
+                      {...commonProps}
+                      layers={[
+                        ...chartConfigs.layers,
+                        lineChartCustomPoints,
+                        (props) =>
+                          CustomSlices({
+                              ...props,
+                              groupMouseLeave: handleGroupOnMouseLeave,
+                              mouseMove: handleMouseLeave,
+                              inView: spendingInView,
+                              duration: 500,
+                              customAnimationTriggeredOnce: animationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
+                            }
+                          ),
+                      ]}
+                    />
+                  </div>
+                )}
+                {selectedChartView === 'percentageGdp' && (
+                  <div ref={gdpRef}>
+                  <Line
+                    {...commonProps}
+                    layers={[
+                      ...chartConfigs.layers,
+                       lineChartCustomPoints,
+                      (props) =>
+                        CustomSlices({
+                            ...props,
+                            groupMouseLeave: handleGroupOnMouseLeave,
+                            mouseMove: handleMouseLeave,
+                            inView: gdpInView,
+                            duration: 500,
+                            customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
+                            setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
+                          }
+                        ),
+                    ]}
+                  />
+                  </div>
+                )}
               </div>
             </ChartContainer>
           </div>

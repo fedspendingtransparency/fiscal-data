@@ -23,10 +23,9 @@ const breakpoint = {
     tablet: 600
 };
 
+
 const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) => {
     const [fauxIndex, setFauxIndex] = useState({});
-
-    const faux = filteredDatasets.slice();
 
     let cardsPerRow = 1,
         cardWidth = 100;
@@ -47,11 +46,11 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
     const updateSort = () => {
         const obj = {};
 
-        PerformSort(activeSort, faux);
+        PerformSort(activeSort, filteredDatasets);
 
-        faux.forEach((row, i) => {
+        filteredDatasets.forEach((row, i) => {
             obj[row.name] = i;
-        })
+        });
 
         setFauxIndex(obj);
     }
@@ -64,9 +63,10 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
 
         return {
           left: `${x}%`,
-          top: `${y}px`
+          top: `${y}px`,
         };
     };
+
 
     const setContainerHeight = (count) => {
         return {
@@ -88,29 +88,30 @@ const SearchResultCards = ({filteredDatasets, width, activeSort, allDatasets}) =
 
     useEffect(() => {
         updateSort()
-    }, [activeSort])
+    }, [activeSort]);
+
 
     return (
         <div className={styles.cardContainer}
              data-test-id="wrapper"
              style={setContainerHeight(filteredDatasets.length)}
         >
-        {
-            allDatasets && allDatasets.map((dataset, i) => (
-                <div data-testid="cardPlacement"
-                     className={
-                       `${styles.cardPlacement} ${dataset.hidden ? styles.hiddenCard : ''}`
-                     }
-                     style={placeCard(dataset.name)}
-                     key={i}
-                >
-                    <DatasetCard dataset={dataset}
-                                 context="Dataset Search Page"
-                                 referrer="Dataset"
-                    />
-                </div>
-            ))
-        }
+              {
+                  allDatasets && allDatasets.map((dataset, i) => (
+                      <div data-testid="cardPlacement"
+                           className={
+                             `${styles.cardPlacement} ${dataset.hidden ? styles.hiddenCard : ''}`
+                           }
+                           style={placeCard(dataset.name)}
+                           key={i}
+                      >
+                          <DatasetCard dataset={dataset}
+                                       context="Dataset Search Page"
+                                       referrer="Dataset"
+                          />
+                      </div>
+                  ))
+              }
         </div>
     );
 }

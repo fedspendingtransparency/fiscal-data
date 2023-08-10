@@ -4,58 +4,8 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page', 'Glossary'],
-  ADDITIONAL_DATASETS: {
-    "015-BFS-2014Q3-041": {
-      "seoConfig": {
-        "pageTitle": "Annual Interest Rate Certification",
-        "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
-        "keywords": "Interest and Exchange Rates"
-      },
-      "topics": [
-        "interest-exchange-rates"
-      ],
-      "relatedDatasets": [
-        "015-BFS-2014Q3-042"
-      ],
-      "slug": "/treasury-certified-interest-rates-annual/",
-      "currentDateButton": "byMonth"
-    },
-
-    "015-BFS-2014Q3-043": {
-      "seoConfig": {
-        "pageTitle": "Quarterly Interest Rate Certification",
-        "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
-        "keywords": "Interest and Exchange Rates"
-      },
-      "topics": [
-        "interest-exchange-rates"
-      ],
-      "relatedDatasets": [
-        "015-BFS-2014Q3-042",
-        "015-BFS-2014Q3-041"
-      ],
-      "slug": "/treasury-certified-interest-rates-quarterly/",
-      "currentDateButton": "byMonth"
-    },
-    "015-BFS-2014Q3-044": {
-      "seoConfig": {
-        "pageTitle": "Monthly Interest Rate Certification",
-        "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes, including treasury loans.",
-        "keywords": "Interest and Exchange Rates"
-      },
-      "topics": [
-        "interest-exchange-rates"
-      ],
-      "relatedDatasets": [
-        "015-BFS-2014Q3-041",
-        "015-BFS-2014Q3-042",
-        "015-BFS-2014Q3-043"
-      ],
-      "slug": "/treasury-certified-interest-rates-monthly/",
-      "currentDateButton": "byMonth"
-    }
-  },
+  EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
+  ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '27': {
       'endpoint': 'v1/debt/mspd/mspd_table_1',

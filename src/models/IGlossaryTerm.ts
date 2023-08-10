@@ -4,5 +4,6 @@ export interface IGlossaryTerm {
   definition: string,
   site_page: string,
   url_display: string,
-  url_path: string
+  url_path: string,
+  slug?: string,
 }

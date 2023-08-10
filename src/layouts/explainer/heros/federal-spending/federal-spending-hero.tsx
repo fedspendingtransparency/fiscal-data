@@ -6,7 +6,7 @@ import {
 } from "../../hero-image/hero-image.module.scss";
 import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
-import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
+import { apiPrefix, basicFetch } from "../../../../utils/api-utils";
 import {
   getFootNotesDateRange,
   getPillData
@@ -14,7 +14,7 @@ import {
 import { spendingExplainerPrimary } from
     "../../sections/federal-spending/federal-spending.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
-import {getShortForm} from "../../../../utils/rounding-utils";
+import { getShortForm } from "../../../../utils/rounding-utils";
 
 
 const FederalSpendingHero = (): JSX.Element => {
@@ -37,10 +37,13 @@ const FederalSpendingHero = (): JSX.Element => {
   const [spendingChange, setSpendingChange] = useState( 0);
   const [spendingPercentChange, setSpendingPercentChange] = useState(0);
 
+  const numberFormat = new Intl.NumberFormat('en-US');
+
     const mts =
     <CustomLink
-      url={'/datasets/monthly-treasury-statement/outlays-of-the-u-s-government'}
+      url="/datasets/monthly-treasury-statement/outlays-of-the-u-s-government"
       eventNumber="2"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -87,7 +90,7 @@ const FederalSpendingHero = (): JSX.Element => {
       </p>
       <div className={counterContainerSpending}>
         <SplitFlapDisplay value={totalSpending}
-                          minLength={totalSpending?.toString().length} // number of characters to initially display
+                          minLength={numberFormat.format(parseInt(totalSpending)).length} // number of characters to initially display
                           mobilePrecision={parseInt(totalSpending) > 999999999999 ? 2 : 0}
                           valueType="currency"
         />

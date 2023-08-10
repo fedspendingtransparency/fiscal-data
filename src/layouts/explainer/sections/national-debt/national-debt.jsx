@@ -4,7 +4,7 @@ import { apiPrefix, basicFetch } from "../../../../utils/api-utils";
 import { datasetSectionConfig } from "../../explainer-helpers/explainer-helpers";
 import { KeyTakeawaysSection } from "./key-takeaways/national-debt-key-takeaways";
 import DiveDeeperIntoTheDebt from './dive-deeper-into-the-debt/dive-deeper-into-the-debt';
-import {analyticsClickHandler} from '../../explainer-helpers/national-debt-helper';
+import {analyticsClickHandler} from '../../explainer-helpers/national-debt/national-debt-helper';
 import NationalDebtExplained from "./national-debt-explained/national-debt-explained";
 import BreakingDownTheDebt from "./breaking-down-the-debt/breaking-down-the-debt";
 import { GrowingNationalDebtSection } from "./growing-national-debt/growing-national-debt";
@@ -50,33 +50,40 @@ const nationalDebtSections = [
     index: 0,
     id: nationalDebtSectionIds[0],
     title: "Key Takeaways",
-    component: (glossary, cpiDataByYear) => (
-      <KeyTakeawaysSection glossary={glossary} />
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
+      <KeyTakeawaysSection
+        glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
+      />
     ),
   },
   {
     index: 1,
     id: nationalDebtSectionIds[1],
     title: "The National Debt Explained",
-    component: (glossary, cpiDataByYear) => (
-      <NationalDebtExplained glossary={glossary} />
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
+      <NationalDebtExplained
+        glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
+      />
     ),
   },
   {
     index: 2,
     id: nationalDebtSectionIds[2],
     title: "Funding Programs & Services",
-    component: (glossary, cpiDataByYear) => <FundingProgramsAndServices />,
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => <FundingProgramsAndServices />,
   },
   {
     index: 3,
     id: nationalDebtSectionIds[3],
     title: "The Growing National Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
       <GrowingNationalDebtSection
         sectionId={nationalDebtSectionIds[3]}
         glossary={glossary}
         cpiDataByYear={cpiDataByYear}
+        glossaryClickHandler={glossaryClickHandler}
       />
     ),
   },
@@ -84,10 +91,11 @@ const nationalDebtSections = [
     index: 4,
     id: nationalDebtSectionIds[4],
     title: "Breaking Down the Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
       <BreakingDownTheDebt
         sectionId={nationalDebtSectionIds[4]}
         glossary={glossary}
+        glossaryClickHandler={glossaryClickHandler}
       />
     ),
   },
@@ -95,7 +103,7 @@ const nationalDebtSections = [
     index: 5,
     id: nationalDebtSectionIds[5],
     title: "The Debt Ceiling",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
       <DebtCeilingSection glossary={glossary} />
     ),
   },
@@ -103,7 +111,7 @@ const nationalDebtSections = [
     index: 6,
     id: nationalDebtSectionIds[6],
     title: "Tracking the Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
       <TrackingTheDebt />
     ),
   },
@@ -111,7 +119,7 @@ const nationalDebtSections = [
     index: 7,
     id: nationalDebtSectionIds[7],
     title: "Dive Deeper into the Debt",
-    component: (glossary, cpiDataByYear) => (
+    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
       <DiveDeeperIntoTheDebt />
     ),
   },
@@ -123,6 +131,7 @@ const debtToThePenny = (
   <CustomLink
     url={"/datasets/debt-to-the-penny/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Debt to the Penny"
   >
     Debt to the Penny
   </CustomLink>
@@ -132,6 +141,7 @@ const mspd = (
   <CustomLink
     url={"/datasets/monthly-statement-public-debt/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Monthly Statement of the Public Debt"
   >
     Monthly Statement of the Public Debt (MSPD)
   </CustomLink>
@@ -141,6 +151,7 @@ const historicalDebt = (
   <CustomLink
     url={"/datasets/historical-debt-outstanding/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Historical Debt Outstanding"
   >
     Historical Debt Outstanding
   </CustomLink>
@@ -150,6 +161,7 @@ const treasurySecurities = (
   <CustomLink
     url={"/datasets/average-interest-rates-treasury-securities/"}
     onClick={() => analyticsClickHandler("Citation Click", "DS&M")}
+    id="Average Interest Rates on U.S. Treasury Securities"
   >
     Average Interest Rates on U.S. Treasury Securities
   </CustomLink>

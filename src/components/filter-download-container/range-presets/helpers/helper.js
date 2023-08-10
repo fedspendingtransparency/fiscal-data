@@ -32,6 +32,13 @@ export const generateAnalyticsEvent = (label) => {
   curAnalyticsFields.label = label;
 
   Analytics.event(curAnalyticsFields);
+
+  // GA4 Data Layer - Date Picker Click
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    'event': 'Pick Date Click',
+    'eventLabel': label,
+  });
 };
 
 export const DATE_RANGE_OBJ = {

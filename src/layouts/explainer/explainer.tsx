@@ -1,5 +1,4 @@
-import React, { FunctionComponent } from "react";
-import BreadCrumbs from "../../components/breadcrumbs/breadcrumbs";
+import React, { FunctionComponent, useState } from 'react';
 import PageHelmet from "../../components/page-helmet/page-helmet";
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import explainerSections, {
@@ -18,7 +17,6 @@ import {
 } from "./explainer-helpers/explainer-helpers";
 
 import {
-  breadCrumbsContainer,
   contentContainer,
   relatedDatasetsStyle,
   mainContainer,
@@ -35,7 +33,7 @@ import SecondaryNav from "../../components/secondary-nav/secondary-nav";
 import SocialShare from "../../components/social-share/social-share";
 import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
 import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies";
-import ComingSoon from "./explainer-components/hightlighted-text/highlighted-text";
+import ComingSoon from "./explainer-components/highlighted-text/highlighted-text";
 import DeskTopSubNav from "./explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "./explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
 
@@ -45,7 +43,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
 }) => {
   const {
     pageName,
-    breadCrumbLinkName,
     heroImage,
     seoConfig,
     relatedDatasets,
@@ -53,28 +50,10 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
     cpiDataByYear,
   } = pageContext;
 
-  const breadCrumbLinks: Record<string, unknown>[] = [
-    {
-      name: breadCrumbLinkName,
-      link: path,
-    },
-    {
-      name: "Home",
-      link: "/",
-    },
-  ];
-
-  const isAFGPage = () => {
-    const isBrowser = () => typeof window !== "undefined";
-    let isAFG = false;
-    isBrowser() && window.location.href.includes("americas-finance-guide")
-      ? (isAFG = true)
-      : (isAFG = false);
-    return isAFG;
-  };
+  const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
 
   return (
-    <SiteLayout isPreProd={false}>
+    <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
@@ -84,22 +63,12 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
         canonical=""
         datasetDetails=""
       />
-
-      {isAFGPage ? (
-        <>
-          <div className={mobileSubNav}>
-            <MobileSubNav hidePosition={160} pageName={pageName} />
-          </div>
-          <div className={desktopSubNav}>
-            <DeskTopSubNav hidePosition={160} />
-          </div>
-        </>
-      ) : (
-        <div className={breadCrumbsContainer}>
-          <BreadCrumbs links={breadCrumbLinks} />
-        </div>
-      )}
-
+      <div className={mobileSubNav}>
+        <MobileSubNav hidePosition={160} pageName={pageName} />
+      </div>
+      <div className={desktopSubNav}>
+        <DeskTopSubNav hidePosition={160} />
+      </div>
       <div className={mainContainer}>
         <HeroImage
           heading={heroImage.heading}
@@ -108,7 +77,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
           secondaryColor={explainerColorMap[pageName].secondaryLight}
           pageName={pageName}
         >
-          {explainerHeroMap[pageName].component(glossary)}
+          {explainerHeroMap[pageName].component(glossary, setGlossaryClickEvent)}
         </HeroImage>
         <div className={contentContainer}>
           <SecondaryNav
@@ -140,7 +109,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
                       >
                         {s.title}
                       </h2>
-                      {s.component(glossary, cpiDataByYear)}
+                      {s.component(glossary, setGlossaryClickEvent, cpiDataByYear)}
                       {s.index !== explainerSections[pageName].length - 1 && (
                         <div
                           className={sectionBorder}

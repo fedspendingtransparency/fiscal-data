@@ -99,20 +99,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
     }
   };
 
-  const handleGlossaryClick = (e) => {
-    const anchor = e.currentTarget;
-    if (e.key === undefined || e.key === 'Enter') {
-      e.stopPropagation();
-      if (e.type === 'mouseenter') {
-        timeout = setTimeout(() => {
-          setAnchorEl(anchor);
-        }, 500);
-      } else {
-        setAnchorEl(e.currentTarget);
-      }
-    }
-  };
-
   const handleMouseLeave = () => {
     clearTimeout(timeout);
   }
@@ -146,19 +132,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
   }
   return (
     <span data-testid="infoTipContainer">
-      {glossaryText ? (
-        <span
-          className={styles.glossaryButton}
-          onMouseEnter={handleGlossaryClick}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleGlossaryClick}
-          onKeyPress={handleGlossaryClick}
-          role="button"
-          tabIndex={0}
-        >
-          {glossaryText}
-        </span>
-      ) : (
         <Button
           aria-describedby={id}
           aria-label={title ? label : null}
@@ -175,7 +148,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, glossaryText, iconStyle,
             style={iconStyle}
           />
         </Button>
-      )}
         <Popover
           id={id}
           className={popOver}

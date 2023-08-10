@@ -1,81 +1,38 @@
-import {faChartColumn, faCoins, faHandHoldingDollar} from "@fortawesome/free-solid-svg-icons";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
 import React from "react";
-
-export const ChartPlaceholder = () => (
-  <div
-    style={{
-      height: 500,
-      marginTop: '16px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      color: '#fff',
-      backgroundColor: '#555'
-    }}
-  >
-    Placeholder
-  </div>
-);
-
-export const deficitKeyTakeaways = [
-  {
-    text: `A budget deficit occurs when the money going out exceeds the money coming in for a
-    given period. On this page, we calculate the deficit by the government’s fiscal year.`,
-    icon: faChartColumn
-  },
-  {
-    text: `In the last 50 years, the federal government budget has run a surplus five times,
-    most recently in 2001.`,
-    icon: faCoins
-  },
-  {
-    text: `To pay for government programs while operating under a deficit, the federal
-    government borrows money by selling U.S. Treasury bonds, bills, and other securities.
-    The national debt is the accumulation of this borrowing along with associated interest
-    owed to investors who purchased these securities.`,
-    icon: faHandHoldingDollar
-  }
-];
 
 export const deficitLearnMoreLinks = [
   {
     title: 'America’s Fiscal Future',
     url: 'https://www.gao.gov/americas-fiscal-future',
-    eventNumber: '19'
+    eventNumber: '19',
   },
   {
     title: 'An Update to the Budget and Economic Outlook: 2021 to 2031',
     url: 'https://www.cbo.gov/publication/57339',
-    eventNumber: '20'
-    
+    eventNumber: '20',
   },
   {
     title: 'Congressional Budget Office Topics – Budget',
     url: 'https://www.cbo.gov/topics/budget',
-    eventNumber: '21'
+    eventNumber: '21',
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
     url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
-    eventNumber: '22'
+    eventNumber: '22',
   },
   {
     title: 'President’s Budget – Historical Tables',
     url: 'https://www.whitehouse.gov/omb/historical-tables/',
-    eventNumber: '23'
+    eventNumber: '23',
   },
   {
-    title: 'FY 2021 Final Monthly Treasury Statement',
+    title: 'FY 2022 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/' +
-      'MonthlyTreasuryStatement_202109.pdf',
-    eventNumber: '24'
-  },
-  {
-    title: 'U.S. Current Account Deficit Widens in Third Quarter 2021',
-    url: 'https://www.bea.gov/news/blog/2021-12-20/us-current-account-deficit-' +
-      'widens-third-quarter-2021',
-    eventNumber: '25'
+      'MonthlyTreasuryStatement_202209.pdf',
+    eventNumber: '24',
+    id: 'Monthly Treasury Statement'
   },
 ];
 
@@ -86,7 +43,8 @@ const mst =
   <CustomLink
     url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-' +
     'the-u-s-government'}
-    eventNumber='28'
+    eventNumber="28"
+    id="Monthly Treasury Statement"
   >
     Monthly Treasury Statement (MTS)
   </CustomLink>;

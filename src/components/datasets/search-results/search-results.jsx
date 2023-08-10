@@ -55,10 +55,17 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
   const sortCallback = (sort) => {
     if (sort.label !== activeSort.label) {
       setActiveSort(sort);
-  
+
       Analytics.event({
         ...sortDatasetsAnalyticsObject,
         label: sort.label
+      });
+
+      // GA4 event
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        'event': 'Sort Click',
+        'eventLabel': sort.label
       });
     }
   }

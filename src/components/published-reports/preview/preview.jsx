@@ -45,6 +45,12 @@ const Preview = ({ selectedFile }) => {
       const txtTextBool = groupName.indexOf('(.txt)') !== -1;
       setIsTxt(txtTextBool);
       if (pdfTextBool) {
+        // GA4 Data Layer - Published Report Preview
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'Published Report Preview',
+          'eventLabel': selectedFile.path
+        });
         Analytics.event({
           'category': 'Published Report Preview',
           'action': 'load pdf preview',
@@ -54,6 +60,13 @@ const Preview = ({ selectedFile }) => {
         getIFetch()(selectedFile.path).then(res => res.text()).then(textFile => {
                   setReportTextContext(textFile);
                   });
+        // GA4 Data Layer - Published Report Preview
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'Published Report Preview',
+          'eventLabel': selectedFile.path
+        });
+
         Analytics.event({
           'category': 'Published Report Preview',
           'action': 'load text preview',

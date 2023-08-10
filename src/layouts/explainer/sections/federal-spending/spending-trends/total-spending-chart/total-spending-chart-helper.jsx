@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import * as styles from './total-spending-chart.module.scss';
 import {
@@ -8,9 +8,13 @@ import {
   semiBoldWeight,
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import {
+  animationCrosshair
+} from '../../../national-debt/growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart.module.scss';
 
-const mts = <CustomLink url={`/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/`}
+const mts = <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/"
                         eventNumber="21"
+                        id="Monthly Treasury Statement"
             >
               Monthly Treasury Statement (MTS)
             </CustomLink>;
@@ -92,6 +96,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
             setSelectedChartView('totalSpending');
             gaEvent('19');
           }}
+          id={'total-spending-toggle'}
         >
           <span
             style={{
@@ -120,6 +125,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
             setSelectedChartView('percentageGdp');
             gaEvent('19');
           }}
+          id={'total-spending-toggle'}
         >
           <span
             style={{
@@ -209,12 +215,12 @@ const chartTheme = {
 
 const layers = [
   'grid',
-  'axes',
-  'lines',
   'crosshair',
   'markers',
+  'axes',
+  'areas',
+  'lines',
   'points',
-  'mesh',
 ];
 
 export const chartConfigs = {
@@ -272,125 +278,65 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
       ];
 };
 
-export const LineChartCustomSlices = (
-  {
-    slices,
-    data,
-    setCurrentSlice,
-    groupMouseLeave,
-    mouseMove,
-    inView
-  }) => {
-
-  const [style, setStyle] = useState({});
-  const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
-
-  useEffect(() => {
-    if (!animationTriggeredOnce && inView && data.length) {
-      setAnimationTriggeredOnce(true);
-      slices.forEach((slice, index) => {
-        setTimeout(() => {
-          setCurrentSlice(slice);
-          mouseMove(slice);
-        }, (50 * index) + 550);
-      });
-      setTimeout(() => {
-        setCurrentSlice(slices[slices.length - 1]);
-        mouseMove(slices[slices.length - 1]);
-      }, (50 * (slices.length + 1)) + 550);
-    }
-  }, [inView, animationTriggeredOnce, slices]);
-
+export const Point = ({ borderWidth, borderColor, point }) => {
   return (
-    <g data-testid="customSlices"
-      onMouseLeave={groupMouseLeave}
-    >
-      {slices.map((slice, index) => (
-        <rect
-          key={index}
-          x={slice.x0}
-          y={slice.y0}
-          tabIndex={0}
-          width={slice.width}
-          height={slice.height}
-          strokeWidth={0}
-          strokeOpacity={0.25}
-          fillOpacity={0}
-          style={style}
-          onMouseEnter={() => setCurrentSlice(slice)}
-          onFocus={() => {
-            setStyle({})
-            mouseMove(slice)
-            setCurrentSlice(slice)
-          }}
-          onMouseMove={() =>{
-            setStyle({outline: "none"})
-            mouseMove(slice)
-            setCurrentSlice(slice)}
-          }
-          onMouseLeave={() => {
-            setCurrentSlice(null)
-          }}
-        />
-      ))}
-    </g>
-  );
-};
+    <>
+      <circle
+        r={8}
+        strokeWidth={borderWidth}
+        stroke={borderColor}
+        fill="#D8D8D8"
+        fillOpacity={0.35}
+        cx={point?.x}
+        cy={point?.y}
+      />
+      <circle
+        r={2}
+        strokeWidth="4"
+        stroke="#000000"
+        fill="#000000"
+        fillOpacity={0.85}
+        cx={point?.x}
+        cy={point?.y}
+      />
+    </>
+  )
+}
 
-export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
+export const lineChartCustomPoints = (
+  { currentSlice, borderWidth, borderColor, points }) => {
+  const getLastValue = (values, name) =>
+    values.filter(g => g.serieId === name).sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric: true})).pop();
 
-  const lastGdpPoints = points.filter(g => g.serieId === 'GDP').pop();
+  const lastSpendingPoints = getLastValue(points, 'Total Spending');
 
-  const currentSpendingPoint = currentSlice?.points?.length
+  const lastRevenuePoints = getLastValue(points, 'Total Revenue');
+
+  const lastGdpPoints = getLastValue(points,'GDP');
+
+  const lastGDPPercentagePoints = getLastValue(points,'GDP Percentage');
+
+  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints
+                              : (lastRevenuePoints ? lastRevenuePoints : lastGDPPercentagePoints);
+
+  const currentPrimaryPoint = currentSlice?.points?.length
     ? currentSlice.points[0]
-    : points[points.length - 1];
+    : defaultPrimaryPoint;
 
   const currentGdpPoint = currentSlice?.points?.length
     ? currentSlice.points[1]
     : lastGdpPoints;
 
   return (
-    <g data-testid="customPoints">
-      <circle
-        fill={'#D8D8D8'}
-        r={8}
-        strokeWidth={borderWidth}
-        stroke={borderColor}
-        fillOpacity={0.35}
-        cx={currentSpendingPoint?.x}
-        cy={currentSpendingPoint?.y}
-      />
-      <circle
-        r={2}
-        strokeWidth={'4'}
-        stroke={'#000000'}
-        fill={'#000000'}
-        fillOpacity={0.85}
-        cx={currentSpendingPoint?.x}
-        cy={currentSpendingPoint?.y}
-      />
-      {currentGdpPoint && (
-        <>
-          <circle
-            fill={'#D8D8D8'}
-            r={8}
-            strokeWidth={borderWidth}
-            stroke={borderColor}
-            fillOpacity={0.35}
-            cx={currentGdpPoint.x}
-            cy={currentGdpPoint.y}
-          />
-          <circle
-            r={2}
-            strokeWidth={'4'}
-            stroke={'#000000'}
-            fill={'#000000'}
-            fillOpacity={0.85}
-            cx={currentGdpPoint.x}
-            cy={currentGdpPoint.y}
-          />
-        </>
-      )}
-    </g>
+    <>
+      <g data-testid="customPoints">
+        {currentPrimaryPoint && (
+          <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
+        )}
+        {currentGdpPoint && (
+          <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />
+        )}
+      </g>
+    </>
   );
 };

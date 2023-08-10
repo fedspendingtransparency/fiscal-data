@@ -69,6 +69,11 @@ const SiteFooter = () => {
       action: `Bottom ${action} Click`,
       label: document.title
     });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': `${action}-click`,
+      'eventLabel':document.title
+    });
   }
 
   return (

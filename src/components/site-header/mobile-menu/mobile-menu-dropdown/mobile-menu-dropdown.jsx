@@ -12,15 +12,47 @@ import {Link} from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
 
 
-const MobileMenuDropdown = ({header, sections, defaultOpen}) => {
+const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, setActiveState }) => {
   const [isExpanded, setIsExpanded] = useState(defaultOpen);
-  const topicsClickHandler = (title, action) => {
+  const clickHandler = (title, action) => {
+    window.dataLayer = window.dataLayer || [];
+    if (title === 'Glossary'){
+      setOpenGlossary(true);
+      setActiveState(false);
+      window.dataLayer.push({
+        'event': 'glossary-click',
+      });
+    }
+    if (title.includes('API')) {
+      window.dataLayer.push({
+        'event': 'api-doc-click-resources',
+        'eventLabel': document.title,
+      });
+    }
+    if (title.includes('Release')) {
+      window.dataLayer.push({
+        'event': 'Release Calendar-click',
+        'eventLabel': document.title,
+      });
+    }
     if(action){
       Analytics.event({
         category: 'Sitewide Navigation',
         action: action,
         label: title
       });
+      if (action.includes('Tools')) {
+        window.dataLayer.push({
+          'event': 'tools-click',
+          'eventLabel': title,
+        });
+      }
+      if (action.includes('Topics')) {
+        window.dataLayer.push({
+          'event': 'topics-click',
+          'eventLabel': title,
+        });
+      }
     }
   };
 
@@ -57,15 +89,27 @@ const MobileMenuDropdown = ({header, sections, defaultOpen}) => {
               }
               <div className={linkContainer}>
                 {section.children.map((page) => {
-                  return(
-                    <Link
-                      to={page.to}
-                      onClick={() => topicsClickHandler(page.name, section.analyticsAction)}
-                      key={page.name}
-                    >
-                      {page.name}
-                    </Link>
-                    )
+                  if(page.name === 'Glossary'){
+                    return(
+                      <div>
+                        <button onClick={() => clickHandler(page.name)}>
+                          <div>{page.name}</div>
+                        </button>
+                      </div>
+                      )
+                  }
+                  else {
+                    return(
+                      <Link
+                        to={page.to}
+                        onClick={() => clickHandler(page.name, section.analyticsAction)}
+                        key={page.name}
+                      >
+                        {page.name}
+                      </Link>
+                      )
+                  }
+
                 })}
               </div>
             </div>

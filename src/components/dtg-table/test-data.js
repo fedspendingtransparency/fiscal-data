@@ -253,3 +253,101 @@ export const mockPaginatedTableProps = {
   serverSidePagination: "v1/accounting/dts/dts_table_1",
   shouldPage: true
 };
+
+export const ColSelectColConfig = [
+  {
+    property: 'date',
+    name: 'Date'
+  },
+  {
+    property: 'time',
+    name: 'Time'
+  },
+  {
+    property: 'name',
+    name: 'Name'
+  },
+];
+
+export const ColSelectTestData = [
+  {
+    date: '1/1/23',
+    time: '1:11',
+    name: 'Name1'
+  },
+  {
+    date: '2/2/23',
+    time: '2:22',
+    name: 'Name2'
+  },
+  {
+    date: '3/3/23',
+    time: '3:33',
+    name: 'Name3'
+  }
+];
+
+export const DefaultColSelectTestColumns = ['date', 'time'];
+
+export const ColSelectTestDataRowCount = [
+  {
+    date: '1/1/23',
+    time: '1:11',
+    name: 'Name1'
+  },
+  {
+    date: '2/2/23',
+    time: '2:22',
+    name: 'Name2'
+  },
+  {
+    date: '3/3/23',
+    time: '3:33',
+    name: 'Name3'
+  },
+  {
+    date: '4/1/23',
+    time: '4:11',
+    name: 'Name12'
+  },
+  {
+    date: '5/2/23',
+    time: '5:22',
+    name: 'Name22'
+  },
+  {
+    date: '6/3/23',
+    time: '6:33',
+    name: 'Name32'
+  },
+  {
+    date: '7/1/23',
+    time: '7:11',
+    name: 'Name13'
+  },
+  {
+    date: '8/2/23',
+    time: '8:22',
+    name: 'Name23'
+  },
+  {
+    date: '9/3/23',
+    time: '9:33',
+    name: 'Name33'
+  },
+  {
+    date: '10/1/23',
+    time: '10:11',
+    name: 'Name14'
+  },
+  {
+    date: '11/2/23',
+    time: '11:22',
+    name: 'Name24'
+  },
+  {
+    date: '12/3/23',
+    time: '12:33',
+    name: 'Name34'
+  }
+];

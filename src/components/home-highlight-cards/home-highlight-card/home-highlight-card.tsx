@@ -11,7 +11,6 @@ import { fetchHighlights } from '../../../utils/api-utils';
 import drawSparkline, { addHoverEffects, removeHoverEffects } from '../../charts/chart-sparkline';
 import globalConstants from "../../../helpers/constants";
 import { theme } from "../../../theme";
-
 import {
   card,
   cardActionArea,
@@ -38,6 +37,7 @@ import { DatasetFieldDataType } from "../../../models/fdg-types";
 import { formatCardValue } from "../home-highlight-cards-helper/home-highlight-cards-helper";
 import BarGraph from '../../charts/bar/bar';
 import Sparkler from "./sparkler/sparkler"
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const cardStyles = {
   root: {
@@ -149,6 +149,14 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
       action: `${action}`,
       label: `${title}`
     });
+
+    if(action && title) {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        'event': action,
+        'eventLabel': title,
+      });
+    }
   };
 
   const setTempValueAndDate = (v, d) => {
@@ -172,20 +180,33 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
       }
 
       if (!chartHoverDelayHandler) {
+        handleCardLeave();
         setChartHoverDelayHandler(setTimeout(() => {
           analyticsEvent(ANALYTICS_CHART_ACTION);
           setChartHoverDelayHandler(null);
         }, ANALYTICS_EVENT_DELAY));
-
-        handleCardLeave();
       }
     } else if (!hoverDelayHandler) {
-      setHoverDelayHandler(setTimeout(() => {
-        analyticsEvent(ANALYTICS_CARD_ACTION);
-        setHoverDelayHandler(null);
+      // For bar charts, check that the target is not a chart component
+      if (graphType !== 'BAR' || (target['nodeName'] !== 'rect' && target['nodeName'] !== 'svg')) {
+        handleChartMouseLeave();
+        setHoverDelayHandler(setTimeout(() => {
+          analyticsEvent(ANALYTICS_CARD_ACTION);
+          setHoverDelayHandler(null);
+        }, ANALYTICS_EVENT_DELAY));
+
+      }
+    }
+  };
+
+  const barChartMouseEnter: () => void = () => {
+    if (!chartHoverDelayHandler) {
+      handleCardLeave();
+      setChartHoverDelayHandler(setTimeout(() => {
+        analyticsEvent(ANALYTICS_CHART_ACTION);
+        setChartHoverDelayHandler(null);
       }, ANALYTICS_EVENT_DELAY));
 
-      handleChartMouseLeave();
     }
   };
 
@@ -316,7 +337,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               >
                 {isLoading ?
                   <div data-testid="loadingSection">
-                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse />
+                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
                     Loading...
                   </div> :
                   <div style={{position: 'relative'}}>
@@ -343,7 +364,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 {apiError && <p>API Error</p>}
                 {isLoading &&
                 <div data-testid="loadingSection">
-                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse />
+                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
                   Loading...
                 </div>
                 }
@@ -369,6 +390,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                   setTempDate={setTempDate}
                   dateField={api.dateField}
                   useCustomBarComponent
+                  mouseEnter={barChartMouseEnter}
                 />
                 <div className={xAxis}>
                   <div data-testid="highlight-stats" className={statsContainer}>
@@ -387,7 +409,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 {apiError && <p>API Error</p>}
                 {isLoading &&
                 <div data-testid="loadingSection">
-                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse />
+                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
                   Loading...
                 </div>
                 }
@@ -398,7 +420,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               className={datasetName}
               title={name}
             >
-              <FontAwesomeIcon icon={faTable} className={datasetIcon} />
+              <FontAwesomeIcon icon={faTable as IconProp} className={datasetIcon} />
               {name}
             </div>
             <div data-testid="highlight-hero-value">
@@ -421,7 +443,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
           <div className={datasetLineLink}>
             <div data-testid="dataset-line" className={viewDataset}>
               Dataset Details
-              <FontAwesomeIcon icon={faArrowRight} className={datasetArrow} />
+              <FontAwesomeIcon icon={faArrowRight as IconProp} className={datasetArrow} />
             </div>
           </div>
         </Link>

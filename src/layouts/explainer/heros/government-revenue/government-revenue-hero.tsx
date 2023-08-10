@@ -11,10 +11,10 @@ import { getFootNotesDateRange, getPillData } from "../hero-helper"
 import {
   revenueExplainerLightSecondary } from "../../sections/government-revenue/revenue.module.scss"
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
-import GlossaryTerm from "../../../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {getShortForm} from "../../../../utils/rounding-utils";
 
-const GovernmentRevenueHero = ({glossary}): JSX.Element => {
+const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element => {
 
   const fields: string = 'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,' +
     'record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
@@ -38,10 +38,13 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   const [revenueChange, setRevenueChange] = useState( 0);
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
+  const numberFormat = new Intl.NumberFormat('en-US');
+
   const mts =
     <CustomLink
-      url={'/datasets/monthly-treasury-statement/receipts-of-the-u-s-government'}
-      eventNumber={'4'}
+      url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government"
+      eventNumber="4"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
@@ -79,13 +82,14 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
   }, []);
 
   const expenditures = (
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Expenditures"}
       page={"Revenue Explainer"}
       glossary={glossary}
+      glossaryClickHandler={glossaryClickHandler}
     >
       expenditures
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   );
 
   const rightTooltip =
@@ -105,13 +109,13 @@ const GovernmentRevenueHero = ({glossary}): JSX.Element => {
         <SplitFlapDisplay
           value={currentRevenue}
           mobilePrecision={parseInt(currentRevenue) > 999999999999 ? 2 : 0}
-          minLength={currentRevenue?.toString().length}
+          minLength={numberFormat.format(parseInt(currentRevenue)).length}
           valueType="currency"
         />
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal Year-to-Date (since October {priorFiscalYear}) total updated
+          Fiscal year-to-date (since October {priorFiscalYear}) total updated
           monthly using the {mts} dataset.
         </p>
         <div className={footNotesPillData}>

@@ -35,7 +35,8 @@ const TableSectionContainer = ({
   handleIgnorePivots,
   ignorePivots,
   allTablesSelected,
-  handleConfigUpdate
+  handleConfigUpdate,
+  setTableColumnSortData
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -47,8 +48,10 @@ const TableSectionContainer = ({
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
+  const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
   const refreshTable = () => {
+
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
@@ -63,6 +66,7 @@ const TableSectionContainer = ({
     }
 
     setTableProps({
+      rawData: {...apiData, data: displayData}.data ? {...apiData, data: displayData} : apiData,
       data: displayData, //null for server-side pagination
       columnConfig,
       width,
@@ -74,6 +78,7 @@ const TableSectionContainer = ({
       selectedPivot,
       dateRange,
       apiError,
+      selectColumns: config.selectColumns,
       excludeCols: ['CHART_DATE'],
       aria: {"aria-labelledby": "main-data-table-title"}
     });
@@ -112,6 +117,7 @@ const TableSectionContainer = ({
       e.preventDefault();
       setLegend(!legend);
       setLegendToggledByUser(true);
+      setSelectColumnPanel(!selectColumnPanel);
     }
   };
 
@@ -202,7 +208,8 @@ const TableSectionContainer = ({
           <ChartTableToggle
             legend={legend}
             selectedTab={selectedTab}
-            showToggle={!noChartMessage}
+            showToggleChart={!noChartMessage}
+            showToggleTable={config.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
             onToggleLegend={legendToggler}
             emptyData={
@@ -218,9 +225,12 @@ const TableSectionContainer = ({
             table={
               tableProps ?
                 <DtgTable
+                  selectColumnPanel={selectColumnPanel}
+                  setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}
                   perPage={perPage}
                   setPerPage={setPerPage}
+                  setTableColumnSortData={setTableColumnSortData}
                 /> :
                 ''
             }

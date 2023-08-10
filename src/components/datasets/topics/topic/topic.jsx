@@ -30,6 +30,13 @@ const Topic = ({ active, filterKey, label, onChange, image }) => {
         ...topicIconAnalyticsEvent,
         label
       });
+
+      // GA4 - Topics Filter Click
+      window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'event': 'Topics Filter Click',
+          'eventLabel': label
+        });
     }
   };
 

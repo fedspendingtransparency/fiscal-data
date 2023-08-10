@@ -1,18 +1,21 @@
 import React from 'react';
-import {render, waitFor, fireEvent} from '@testing-library/react';
+import { render, waitFor, fireEvent, act } from '@testing-library/react';
 import {setGlobalFetchResponse} from "../../../../../../utils/mock-utils";
-import {mockDeficitTrendsData} from "../../../../explainer-test-helper";
+import { mockDeficitTrendsData } from '../../../../explainer-test-helper';
 import {DeficitTrendsBarChart} from "./deficit-trends-bar-chart";
+import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 
 describe('Deficit Trends Bar Chart', () => {
   beforeEach(() => {
     setGlobalFetchResponse(jest, mockDeficitTrendsData);
   });
+
   it('renders the trends chart', () => {
     const {getByTestId} = render(<DeficitTrendsBarChart />);
-    expect(getByTestId('deficitTrendsBarChart')).toBeInTheDocument();
+    expect(getByTestId('deficitTrendsChartParent')).toBeInTheDocument();
   });
+
   it('renders the data', async() => {
     const fetchSpy = jest.spyOn(global, "fetch");
     const {getByText} = render(<DeficitTrendsBarChart />);
@@ -22,35 +25,86 @@ describe('Deficit Trends Bar Chart', () => {
     expect(await getByText('Last Updated: September 30, 2022')).toBeInTheDocument();
   });
 
-  it('renders correct color on single bar on mouse hover', async() => {
-    const fetchSpy = jest.spyOn(global, "fetch");
-    const {getByTestId, toHaveStyle} = render(<DeficitTrendsBarChart />);
+
+  it('Updates header values while the chart animates when it is scrolled into view', async () => {
+    jest.useFakeTimers();
+
+    // make sure data is loaded (from mock) and chart layers are rendered
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const {getAllByTestId, getByTestId} = render(<DeficitTrendsBarChart />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const firstRealBar = await getByTestId('deficitTrendsBarChart').querySelector('div > div > svg > g > g:nth-child(6) > rect');
-    const firstDecoyBar = await getByTestId('deficitTrendsBarChart').querySelector('div > div > svg > g > g:nth-child(28) > rect');
-    const lastRealBar = await getByTestId('deficitTrendsBarChart').querySelector('div > div > svg > g > g:nth-child(27) > rect');
-    const lastDecoyBar = await getByTestId('deficitTrendsBarChart').querySelector('div > div > svg > g > g:nth-child(49) > rect');
+    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
 
-    fireEvent.mouseOver(lastDecoyBar);
-    expect(lastRealBar).toHaveStyle(`fill: #555555`);
+    // explicitly declare that the chart is not scrolled into view
+    mockAllIsIntersecting(false);
 
-    fireEvent.mouseOver(lastRealBar);
-    expect(lastRealBar).toHaveStyle(`fill: #555555`);
+    let yearHeader = await getByTestId('deficitFiscalYearHeader');
+    let deficitAmountHeader = await getByTestId('deficitTotalHeader');
 
-    fireEvent.mouseOver(firstDecoyBar);
-    expect(firstRealBar).toHaveStyle(`fill: #555555`);
-    expect(getByTestId('deficitFiscalYearHeader')).toHaveTextContent('2001');
-    expect(getByTestId('deficitTotalHeader')).toHaveTextContent('$-0.13 T');
 
-    fireEvent.mouseLeave(firstDecoyBar);
-    expect(firstRealBar).toHaveStyle(`fill: deficitExplainerPrimary`);
-  
-    fireEvent.mouseOver(firstRealBar);
-    expect(firstRealBar).toHaveStyle(`fill: #555555`);
+    // advance the time and confirm that the header values have not changed
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+      yearHeader = await getByTestId('deficitFiscalYearHeader');
+      deficitAmountHeader = await getByTestId('deficitTotalHeader');
+      expect(yearHeader.textContent).toContain('2022');
+      expect(deficitAmountHeader.textContent).toContain('$1.38 T');
+    });
 
-    fireEvent.mouseLeave(firstRealBar);
-    expect(firstRealBar).toHaveStyle(`fill: deficitExplainerPrimary`);
+    // explicitly declare that the chart IS NOW scrolled into view and confirm animation is underway
+    await act(async () => {
+      mockAllIsIntersecting(true);
+      jest.advanceTimersByTime(1850);
+      yearHeader = await getByTestId('deficitFiscalYearHeader');
+      deficitAmountHeader = await getByTestId('deficitTotalHeader');
+      expect(yearHeader.textContent).toContain('2001');
+      expect(deficitAmountHeader.textContent).toContain('$-0.13 T');
+    });
+
+    // confirm that the header values eventually returns to initial values
+    await act(async () => {
+      mockAllIsIntersecting(true);
+      jest.advanceTimersByTime(20000);
+      yearHeader = await getByTestId('deficitFiscalYearHeader');
+      deficitAmountHeader = await getByTestId('deficitTotalHeader');
+      expect(yearHeader.textContent).toContain('2022');
+      expect(deficitAmountHeader.textContent).toContain('$1.38 T');
+    });
+  })
+
+  it('Updates header values when mousing over a bar', async () => {
+    jest.useFakeTimers();
+
+    // make sure data is loaded (from mock) and chart layers are rendered
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
+
+    // explicitly declare that the chart is not scrolled into view
+    mockAllIsIntersecting(false);
+
+    let yearHeader = await getByTestId('deficitFiscalYearHeader');
+    let deficitAmountHeader = await getByTestId('deficitTotalHeader');
+    let customBars = getAllByTestId('customBar');
+
+    await act(async () => {
+      mockAllIsIntersecting(true);
+      jest.advanceTimersByTime(20000);
+      const firstBar = customBars[1];
+
+      fireEvent.mouseOver(firstBar);
+      yearHeader = await getByTestId('deficitFiscalYearHeader');
+      deficitAmountHeader = await getByTestId('deficitTotalHeader');
+      expect(yearHeader.textContent).toContain('2001');
+      expect(deficitAmountHeader.textContent).toContain('$-0.13 T');
+
+      fireEvent.mouseLeave(firstBar);
+      yearHeader = await getByTestId('deficitFiscalYearHeader');
+      deficitAmountHeader = await getByTestId('deficitTotalHeader');
+      expect(yearHeader.textContent).toContain('2022');
+      expect(deficitAmountHeader.textContent).toContain('$1.38 T');
+    })
+
   });
-
-  
 });

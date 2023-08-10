@@ -11,13 +11,18 @@ describe('Announcement Banner', () => {
     expect(getByText(mockText)).toBeInTheDocument();
   });
 
-  it('expects the x icon button to be rendered', () => {
-    const { getByRole } = render(<AnnouncementBanner>{mockText}</AnnouncementBanner>);
+  it('expects the x icon button to be rendered when closable is true', () => {
+    const { getByRole } = render(<AnnouncementBanner closable={true}>{mockText}</AnnouncementBanner>);
     expect(getByRole('button', {tabIndex: '0'})).toBeInTheDocument();
   });
 
+  it('expects the x icon not to be rendered when closable is false', () => {
+    const { queryByRole } = render(<AnnouncementBanner closable={false}>{mockText}</AnnouncementBanner>);
+    expect(queryByRole('button', {tabIndex: '0'})).not.toBeInTheDocument();
+  });
+
   it('expects the banner to not be visible on click of the x button', () => {
-    const { getByRole, getByTestId } = render(<AnnouncementBanner>{mockText}</AnnouncementBanner>);
+    const { getByRole, getByTestId } = render(<AnnouncementBanner closable={true}>{mockText}</AnnouncementBanner>);
     const xButton = getByRole('button', {tabIndex: '0'});
     const banner = getByTestId('bannerContainer')
 

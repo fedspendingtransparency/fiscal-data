@@ -14,6 +14,9 @@
 
   .officialDefinition {
     font-weight: $semi-bold-weight;
-    margin-bottom: .25rem;
+    // official definition hidden until plain language added
+    // margin-bottom: .25rem;
+    height: 0;
+    visibility: hidden;
   }
 }

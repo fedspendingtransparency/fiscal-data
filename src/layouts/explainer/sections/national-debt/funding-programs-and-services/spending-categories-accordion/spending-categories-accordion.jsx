@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { debtAccordion } from '../../national-debt.module.scss';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt-helper';
+import { analyticsClickHandler } from '../../../../explainer-helpers/national-debt/national-debt-helper';
 import {
   fundingProgramAccordion,
   spendingCategoriesAccordionContent,
@@ -98,6 +98,7 @@ const SpendingCategoriesAccordion = () => {
       <div className={debtAccordion}>
         <Accordion
           title="What are some of the major spending categories?"
+          ga4ID={"major-spending-cat"}
           altStyleAccordion={{ padding: "9px 16px" }}
           containerClass={fundingProgramAccordion}
           openEventNumber={"11"}

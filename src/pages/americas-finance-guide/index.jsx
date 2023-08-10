@@ -37,7 +37,7 @@ import {
   spendingRequest,
 } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers";
 import CustomLink from "../../components/links/custom-link/custom-link";
-import GlossaryTerm from "../../components/glossary/glossary-term/glossary-term";
+import GlossaryPopoverDefinition from "../../components/glossary/glossary-term/glossary-popover-definition";
 import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
@@ -63,6 +63,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
   );
 
   const glossary  = allGlossary.allGlossaryCsv.glossaryCsv;
+  glossary.map((term) => term.slug = term.term.toLowerCase().split(' ').join('-'));
+  const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
   const [fiscalYear, setFiscalYear] = useState("");
   const [yearToDateRevenue, setYearToDateRevenue] = useState("");
   const [yearToDateSpending, setYearToDateSpending] = useState("");
@@ -193,28 +195,30 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <span style={{ fontStyle: "italic" }}>debt</span> of ${latestDebt} through {debtDate}.
     </>
   );
+
   const exciseTaxes =
-    <GlossaryTerm
+    <GlossaryPopoverDefinition
       term={"Excise"}
       page={"Revenue Explainer & AFG Overview Page"}
       glossary={glossary}
+      glossaryClickHandler={setGlossaryClickEvent}
     >
       excise
-    </GlossaryTerm>
+    </GlossaryPopoverDefinition>
   const mts = (
     <CustomLink
-      url={"/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"}
-      eventNumber={"9"}
+      url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+      eventNumber="9"
+      id="Monthly Treasury Statement"
     >
       Monthly Treasury Statement (MTS)
     </CustomLink>
   );
   const debtToThePenny = (
     <CustomLink
-      url={
-        "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny"
-      }
-      eventNumber={"10"}
+      url="/datasets/debt-to-the-penny/debt-to-the-penny"
+      eventNumber="10"
+      id="Debt to the Penny"
     >
       Debt to the Penny
     </CustomLink>
@@ -243,7 +247,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
       Are federal debt and deficit the same thing? No, but they do affect one another
     </>
   return (
-    <SiteLayout isPreProd={false}>
+    <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
         pageTitle="America’s Finance Guide"
         description={"Your Guide to America’s Finances makes federal financial information open " +
@@ -274,6 +278,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             linkUrl="/americas-finance-guide/government-revenue/"
             eventNumber={'4'}
             citationClickPage={'AfgOverview'}
+            id={'Government Revenue'}
             pageName={'RevenueExplainer'}
             linkText="Learn more about government revenue"
             linkColor={styles.revenueExplainerPrimary}
@@ -285,14 +290,14 @@ const AmericasFinanceGuidePage = ({ width }) => {
 
           <AfgTopicSection
             heading={spendingHeading}
-            body={`The federal government funds a variety of programs and services that support the American public.
-            The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.`}
+            body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
             linkUrl="/americas-finance-guide/federal-spending/"
             linkText="Learn more about federal spending"
             linkColor={spendingExplainerPrimary}
-            eventNumber={'5'}
-            citationClickPage={'AfgOverview'}
-            pageName={'SpendingExplainer'}
+            eventNumber="5"
+            citationClickPage="AfgOverview"
+            id="Federal Spending"
+            pageName="SpendingExplainer"
             image="/topics-section-images/homepage_spending_1200x630.png"
             imageAltText="The US Treasury building is placed next to a row of homes. A pair
           of hands exchange money in the foreground. "
@@ -305,7 +310,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
                   faIcon={faMoneyBill1Wave}
                   backgroundColor={styles.dollarIconBackgroundColor}
                   iconColor={styles.dollarIconColor}
-                  altText={'Dark grey one dollar bill image overlaid on a grey circle.'}
+                  altText="Dark grey one dollar bill image overlaid on a grey circle."
                 />
               </Grid>
               <Grid
@@ -330,9 +335,10 @@ const AmericasFinanceGuidePage = ({ width }) => {
             linkUrl="/americas-finance-guide/national-deficit/"
             linkText="Learn more about national deficit"
             linkColor={deficitExplainerPrimary}
-            eventNumber={'6'}
-            citationClickPage={'AfgOverview'}
-            pageName={'DeficitExplainer'}
+            eventNumber="6"
+            citationClickPage="AfgOverview"
+            id="National Deficit"
+            pageName="DeficitExplainer"
             image="/topics-section-images/homepage_deficit_1200x630.png"
             imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
           of the hand, including a pie chart, bar graph, and lit lightbulb."
@@ -344,9 +350,10 @@ const AmericasFinanceGuidePage = ({ width }) => {
             linkUrl="/americas-finance-guide/national-debt/"
             linkText="Learn more about national debt"
             linkColor={debtExplainerPrimary}
-            eventNumber={'7'}
-            citationClickPage={'AfgOverview'}
-            pageName={'DebtExplainer'}
+            eventNumber="7"
+            citationClickPage="AfgOverview"
+            id="National Debt"
+            pageName="DebtExplainer"
             image="/topics-section-images/homepage_debt_1200x630.png"
             imageAltText="A variety of hands reach up with objects, including a magnifying
           glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."

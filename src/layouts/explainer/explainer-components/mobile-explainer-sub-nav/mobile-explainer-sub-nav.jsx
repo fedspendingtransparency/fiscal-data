@@ -48,7 +48,7 @@ const StyledMenu = withStyles({
   />
 ));
 
-const StyledMenuItem = withStyles(theme => ({
+const StyledMenuItem = withStyles(() => ({
   root: {
     "&:focus": {
       "& .MuiListItemIcon-root, & .MuiListItemText-primary": {},
@@ -69,7 +69,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
 
   const handleScroll = () => {
     const prevScrollPosition = scrollPosition
-    const currPosition = window.pageYOffset;
+    const currPosition = window.pageYOffset; //TODO: replace
     setScrollPosition(currPosition);
 
     if (currPosition > hidePosition) {
@@ -127,7 +127,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
         <button
           aria-controls="customized-menu"
           aria-haspopup="true"
-          variant="contained"
+          variant="contained" //TODO: Look into warning around this
           color="#0a2f5a"
           onClick={handleClick}
           onKeyPress={handleClick}

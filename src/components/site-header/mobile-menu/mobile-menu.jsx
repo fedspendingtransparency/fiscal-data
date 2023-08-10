@@ -6,13 +6,21 @@ import { Link } from "gatsby";
 import MenuButton from "../menu-button/menu-button";
 import MobileMenuDropdown from "./mobile-menu-dropdown/mobile-menu-dropdown";
 
-const MobileMenu = () => {
+const MobileMenu = ({ setOpenGlossary }) => {
   const [activeState, setActiveState] = useState(false);
 
   const toggleState = (e) => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
     }
+  }
+
+  const clickHandler = (action) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': `${action}-click`,
+      'eventLabel':document.title
+    });
   }
 
   const topics = [
@@ -46,6 +54,7 @@ const MobileMenu = () => {
 
   const tools = [
     {
+      analyticsAction: 'Tools Click',
       children: [
         {
           to: '/currency-exchange-rates-converter/',
@@ -58,6 +67,10 @@ const MobileMenu = () => {
   const resources = [
     {
       children: [
+        {
+          to: '/',
+          name: 'Glossary'
+        },
         {
           to: '/api-documentation/',
           name: 'API Documentation'
@@ -101,11 +114,14 @@ const MobileMenu = () => {
             </div>
             <MobileMenuDropdown header={'Topics'} sections={topics} defaultOpen />
             <MobileMenuDropdown header={'Tools'} sections={tools} />
-            <Link to="/datasets/" className={styles.pageLinks}>
+            <Link to="/datasets/" className={styles.pageLinks} onClick={() => clickHandler('Dataset Search')}>
               Dataset Search
             </Link>
-            <MobileMenuDropdown header={'Resources'} sections={resources} />
-            <Link to="/about-us/" className={styles.pageLinks}>
+            <MobileMenuDropdown header={'Resources'}
+                                sections={resources}
+                                setOpenGlossary={setOpenGlossary}
+                                setActiveState={setActiveState} />
+            <Link to="/about-us/" className={styles.pageLinks} onClick={() => clickHandler('About')}>
               About Us
             </Link>
           </>

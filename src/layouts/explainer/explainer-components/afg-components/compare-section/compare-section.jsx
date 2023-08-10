@@ -36,11 +36,9 @@ export default function CompareSection({currentFiscalYear}) {
   const priorFiscalYear = (Number(currentFiscalYear) - 1).toString();
   const priorPriorYear = (Number(currentFiscalYear) - 2).toString();
   const priorRevenueRequest = new ApiRequest(revenueRequest).forEndOfFiscalYear(priorFiscalYear);
-  const priorRevenueCategoryRequest = new ApiRequest(revenueCategoryRequest)
-    .forEndOfFiscalYear(priorFiscalYear);
+  const priorRevenueCategoryRequest = new ApiRequest(revenueCategoryRequest).forEndOfFiscalYear(priorFiscalYear);
   const priorSpendingRequest = new ApiRequest(spendingRequest).forEndOfFiscalYear(priorFiscalYear);
-  const priorSpendingCategoryRequest = new ApiRequest(spendingCategoryRequest)
-    .forEndOfFiscalYear(priorFiscalYear);
+  const priorSpendingCategoryRequest = new ApiRequest(spendingCategoryRequest).forEndOfFiscalYear(priorFiscalYear);
   const priorDeficitRequest = new ApiRequest(deficitRequest).forEndOfFiscalYear(priorFiscalYear);
   const priorDebtRequest = new ApiRequest(debtRequest).forEndOfFiscalYear(priorFiscalYear);
   const priorPriorDebtRequest = new ApiRequest(debtRequest).forEndOfFiscalYear(priorPriorYear);
@@ -127,6 +125,8 @@ export default function CompareSection({currentFiscalYear}) {
     return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />
   }
 
+  //TODO: Make fontStyle a variable and reuse over hardcoded string
+
   const subSections = [{
         heading:
           <>
@@ -159,7 +159,7 @@ export default function CompareSection({currentFiscalYear}) {
           </>,
         faIcon: faHandHoldingDollar ,
         mainColor: spendingExplainerPrimary,
-      altText: 'An outstretched open hand beneath a $ sign.'
+        altText: 'An outstretched open hand beneath a $ sign.'
     },
     {
         heading:
@@ -198,7 +198,7 @@ export default function CompareSection({currentFiscalYear}) {
           </>,
         faIcon: faMagnifyingGlassDollar ,
         mainColor: debtExplainerPrimary,
-      altText: 'A magnifying glass with a $ in the center.'
+        altText: 'A magnifying glass with a $ in the center.'
     }]
 
     return (
@@ -215,13 +215,13 @@ export default function CompareSection({currentFiscalYear}) {
                       key={s.mainColor}
                       classes={{ root: styles.compareGridItem }}
                     >
-                        <Grid item xs={2} classes={{ root: styles.compareIcon }}>
-                            <AfgIcon faIcon={s.faIcon} iconColor={s.mainColor} altText={s.altText} />
-                        </Grid>
-                        <Grid item xs={10}>
-                            <h5 className={styles.subHeading}>{s.heading}</h5>
-                            <div className={styles.body}>{s.body}</div>
-                        </Grid>
+                      <Grid item xs={2} classes={{ root: styles.compareIcon }}>
+                          <AfgIcon faIcon={s.faIcon} iconColor={s.mainColor} altText={s.altText} />
+                      </Grid>
+                      <Grid item xs={10} classes={{ root: styles.compareText }}>
+                          <h5 className={styles.subHeading}>{s.heading}</h5>
+                          <div className={styles.body}>{s.body}</div>
+                      </Grid>
                     </Grid>
                 ))}
             </Grid>

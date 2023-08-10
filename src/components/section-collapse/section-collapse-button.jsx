@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 
+// TODO: move shared button styles to a site-wide style variable or mixin
 import * as DownloadButtonStyles from '../download-wrapper/download-button.module.scss';
-// TODO: move button style to separate module.scss
 import * as styles from '../api-quick-guide/api-quick-guide.module.scss';
 
 const SectionCollapseButton = ({ handleToggle, sectionName }) => {

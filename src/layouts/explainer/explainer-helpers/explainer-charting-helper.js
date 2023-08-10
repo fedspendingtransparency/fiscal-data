@@ -1,9 +1,10 @@
 import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../variables.module.scss";
+import React from 'react';
 
 
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {
-  // rewrite some element attribs after render to ensure Chart scales with container
+  // this function rewrites some element attribs after render to ensure Chart scales with container
   // which doesn't seem to happen naturally when nivo has a flex container
   const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);
   if (svgChart) {
