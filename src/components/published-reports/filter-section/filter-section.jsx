@@ -349,7 +349,6 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
                 optionLabelKey="label"
                 options={reportGroups}
                 selectedOption={selectedReportGroup}
-                data-testid="reportSelectControl"
                 searchBarLabel="Search reports"
                 required
                 containerBorder

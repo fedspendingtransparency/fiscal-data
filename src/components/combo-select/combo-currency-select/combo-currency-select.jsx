@@ -128,7 +128,7 @@ const ComboCurrencySelect = (
            onMouseLeave={() => setMouseOverDropdown(false)}
            onBlur={() => setMouseOverDropdown(false)}
            onFocus={() => setMouseOverDropdown(true)}
-           role={'presentation'}
+           role="presentation"
       >
         {labelText !== '' ?
           <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
