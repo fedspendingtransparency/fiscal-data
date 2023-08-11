@@ -6,6 +6,7 @@ import SelectControl from "../../select-control/select-control";
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
 import * as styles from './filter-section.module.scss';
 import ComboSelect from '../../combo-select/combo-select';
+import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 
 jest.useFakeTimers();
 
@@ -39,8 +40,8 @@ describe('Filter Section', () => {
     instance = component.root;
     jest.runAllTimers();
     currentReportToggle = instance.findByType(CurrentReportToggle);
-    reportSelectControl = instance.findAllByType(SelectControl)[0];
-    yearSelectControl = instance.findAllByType(SelectControl)[1];
+    reportSelectControl = instance.findByType(ComboCurrencySelect);
+    yearSelectControl = instance.findByType(SelectControl);
   });
 
   afterEach(() => {
@@ -48,7 +49,7 @@ describe('Filter Section', () => {
   });
 
   it('shows a Report dropdown if the reports array contains more than one filetype', () => {
-    expect(reportSelectControl.type).toBe(SelectControl);
+    expect(reportSelectControl.type).toBe(ComboCurrencySelect);
   });
 
   it(`changes the list of available published files depending on the option selected
@@ -188,7 +189,7 @@ describe('Filter Section', () => {
     jest.runAllTimers();
 
     // ensure reportGroups with report_group_id < 0 are filtered out
-    const reportGroupSelector = dayInstance.findAllByType(SelectControl)[0];
+    const reportGroupSelector = dayInstance.findByType(ComboCurrencySelect);
     expect(reportGroupSelector.props.options.length).toBe(2);
 
     // select report group with daily reports
@@ -199,7 +200,7 @@ describe('Filter Section', () => {
       currentReportToggler.props.onChange(false); // select "Previous"
     });
 
-    let yearSelector = dayInstance.findAllByType(SelectControl)[1];
+    let yearSelector = dayInstance.findByType(SelectControl);
     renderer.act(() => yearSelector.props.changeHandler(yearSelector.props.options[1]));
 
     // no day selector is present before a month is chosen
@@ -258,7 +259,7 @@ describe('Filter Section', () => {
     // switch back to daily report group with unavailable year last selected
     renderer.act(() =>
       reportGroupSelector.props.changeHandler(reportGroupSelector.props.options[1]));
-    yearSelector = dayInstance.findAllByType(SelectControl)[1];
+    yearSelector = dayInstance.findByType(SelectControl);
     renderer.act(() => yearSelector.props.changeHandler(yearSelector.props.options[1]));
 
     // hides day selector when no valid month is selected
