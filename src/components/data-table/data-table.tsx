@@ -109,7 +109,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
                 onChange: table.getToggleAllColumnsVisibilityHandler(),
               }}
             />{' '}
-            Toggle All
+            Select All
           </label>
         </div>
         {table.getAllLeafColumns().map(column => {
