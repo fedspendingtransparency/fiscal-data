@@ -312,9 +312,6 @@ export const transformAPI144 = (
   }]
 }
 
-  console.log('LOOK HERE ', ENV_ID)
-
-
 const datasets: IDatasetChartConfigs = [
   {
     "datasetId": "015-BFS-2014Q3-065",
