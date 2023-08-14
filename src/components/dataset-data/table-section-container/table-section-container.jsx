@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTable, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import React, {useEffect, useState} from 'react';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinner, faTable} from "@fortawesome/free-solid-svg-icons";
 import DtgTable from "../../dtg-table/dtg-table";
 import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import PivotOptions from './pivot-options/pivot-options';
 import PivotToggle from './pivot-toggle/pivot-toggle';
 import * as styles from './table-section-container.module.scss';
-import { setTableConfig } from './set-table-config';
-import { useEffect } from 'react';
-import { SetNoChartMessage } from './set-no-chart-message';
+import {setTableConfig} from './set-table-config';
+import {SetNoChartMessage} from './set-no-chart-message';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from "./dynamic-config/dynamicConfig";
 import Experimental from "../../experimental/experimental";
-import {determineUserFilterUnmatchedForDateRange} from
-    "../../filter-download-container/user-filter/user-filter";
+import {determineUserFilterUnmatchedForDateRange} from "../../filter-download-container/user-filter/user-filter";
+import {
+  apiPrefix,
+  basicFetch,
+  buildSortParams,
+  formatDateForApi,
+  MAX_PAGE_SIZE
+} from "../../../utils/api-utils";
 
 const TableSectionContainer = ({
   config,
@@ -50,7 +55,7 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
-  const refreshTable = () => {
+  const refreshTable = async() => {
 
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
@@ -65,8 +70,25 @@ const TableSectionContainer = ({
       setUserFilteredData(null);
     }
 
+    const getDepaginatedData = async() => {
+      const from = formatDateForApi(dateRange.from);
+      const to = formatDateForApi(dateRange.to);
+      const sortParam = buildSortParams(selectedTable, selectedPivot);
+      return await basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+        + `:lte:${to}&sort=${sortParam}`)
+      .then(async (res) => {
+        const totalCount = res.meta['total-count'];
+        const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
+        return await basicFetch(
+          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+          + `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`);
+      });
+    };
+
+
     setTableProps({
-      rawData: {...apiData, data: displayData}.data ? {...apiData, data: displayData} : apiData,
+      rawData: {...apiData, data: displayData}.data ? {...apiData, data: displayData} : apiData ? apiData : await getDepaginatedData(),
       data: displayData, //null for server-side pagination
       columnConfig,
       width,

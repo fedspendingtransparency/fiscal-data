@@ -53,7 +53,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       )
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
-  const [dtgTableData, setDtgTableData] = useState(rawData);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
@@ -125,17 +124,18 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
       const sortParam = buildSortParams(selectedTable, selectedPivot);
 
-      basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
-        + `:lte:${to}&sort=${sortParam}`)
-      .then(res => {
-        const totalCount = res.meta['total-count'];
-        const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
-        basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
-          + `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`)
-        .then(data => {
-          setDtgTableData(data);
-        });
-      });
+      // basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+      //   + `:lte:${to}&sort=${sortParam}`)
+      // .then(res => {
+      //   const totalCount = res.meta['total-count'];
+      //   const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
+      //   basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+      //     + `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`)
+      //   .then(data => {
+      //     console.log('SET!!!!')
+      //     setDtgTableData(data);
+      //   });
+      // });
 
       pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage)
         .then(res => {
@@ -337,6 +337,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     maxRows,
   };
 
+
+
   return (
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
@@ -419,15 +421,12 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       }
       </Experimental>
       <Experimental featureId="react-table-poc">
-        {rawData !== undefined && rawData !== null ? (
+        {rawData !== undefined && rawData.meta ? (
           <DataTable rawData={rawData} pageSize={10} defaultSelectedColumns={selectColumns} setTableColumnSortData={setTableColumnSortData} />
         ) : (
-            dtgTableData !== undefined && dtgTableData !== null && dtgTableData !== [] ? (
-            <DataTable rawData={dtgTableData} pageSize={10} defaultSelectedColumns={selectColumns} setTableColumnSortData={setTableColumnSortData} />
-          ) : (
-            <div />
+          <div />
           )
-        )}
+        }
       </Experimental>
     </div>
   );
