@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {FunctionComponent, useEffect} from 'react';
 
 import {
   ColumnDef,
@@ -52,6 +52,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
   ])
 
   const defaultInvisibleColumns = {};
+  // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
     for (const column of allColumns) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
