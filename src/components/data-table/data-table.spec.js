@@ -183,133 +183,143 @@ describe('react-table', () => {
   });
 
   it('initally renders all columns showing when no defaults specified', () => {
-    const instance = render(<DataTable 
-                            rawData={mockTableData} 
-                            defaultSelectedColumns={null} 
-                            pageSize={10} 
-                            setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={null}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+      />);
     allColLabels.forEach((index) => {
       expect(instance.getAllByRole('columnheader', {name: allColLabels[index]})[0]).toBeInTheDocument();
     });
   });
 
   it('initally renders only default columns showing when defaults specified', () => {
-    const instance = render(<DataTable 
-                            rawData={mockTableData} 
-                            defaultSelectedColumns={defaultSelectedColumnsMock} 
-                            pageSize={10} 
+    const instance = render(<DataTable
+                            rawData={mockTableData}
+                            defaultSelectedColumns={defaultSelectedColumnsMock}
+                            pageSize={10}
                             setTableColumnSortData={setTableColumnSortData} />);
     // default col in table
     defaultColLabels.forEach((index) => {
-      expect(instance.getAllByRole('columnheader', {name: defaultColLabels[index]})[0]).toBeInTheDocument();
+      expect(instance.getAllByRole('columnheader', {name: index})[0]).toBeInTheDocument();
     });
 
-    // FAIL -- Default col not implemented yet
     // additional col not in table
+    expect((instance.queryAllByRole('columnheader').length)).toEqual(3);
     additionalColLabels.forEach((index) => {
-      expect(instance.queryAllByRole('columnheader', {name: additionalColLabels[index]})).not.toBeInTheDocument();
+      expect(instance.queryAllByRole('columnheader', {name: index})[0]).not.toBeDefined();
     });
   });
 
   it('resets columns back to default on reset', () => {
-    const instance = render(<DataTable 
-                            rawData={mockTableData} 
-                            defaultSelectedColumns={defaultSelectedColumnsMock} 
-                            pageSize={10} 
+    const instance = render(<DataTable
+                            rawData={mockTableData}
+                            defaultSelectedColumns={defaultSelectedColumnsMock}
+                            pageSize={10}
                             setTableColumnSortData={setTableColumnSortData} />);
 
     const firstDefaultHeader = instance.queryAllByRole('columnheader', {name: defaultColLabels[0]})[0];
     const firstDefaultCheckbox = instance.getAllByRole('checkbox', {name: defaultColLabels[0]})[0];
 
-    const firstAdditionalHeader = instance.queryAllByRole('columnheader', {name: additionalColLabels[0]})[0];
+    let firstAdditionalHeader = instance.queryAllByRole('columnheader', {name: additionalColLabels[0]})[0];
     const firstAdditionalCheckbox = instance.getAllByRole('checkbox', {name: additionalColLabels[0]})[0];
 
-    const resetColButton = instance.getByRole('button', {name: 'Reset'})[0]; // FAILS -- no reset button yet
+    const resetColButton = instance.getByTestId('reset-button');
 
 
     expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).not.toBeInTheDocument(); // FAILS -- all col selected without default implemented
+    expect(firstAdditionalHeader).not.toBeDefined();
+    expect(firstAdditionalCheckbox).toBeInTheDocument();
     fireEvent.click(firstDefaultCheckbox);
     fireEvent.click(firstAdditionalCheckbox);
+    firstAdditionalHeader = instance.getAllByRole('columnheader', {name: additionalColLabels[0]})[0];
     expect(firstDefaultHeader).not.toBeInTheDocument();
     expect(firstAdditionalHeader).toBeInTheDocument();
 
-    fireEvent.click(resetColButton); // FAILS -- no reset button yet
+    fireEvent.click(resetColButton);
 
     // default state
     // default col in table
     defaultColLabels.forEach((index) => {
-      expect(instance.getAllByRole('columnheader', {name: defaultColLabels[index]})[0]).toBeInTheDocument(); // FAILS -- no reset to default functionality
+      expect(instance.getAllByRole('columnheader', {name: index})[0]).toBeInTheDocument();
     });
 
     // additional col not in table
     additionalColLabels.forEach((index) => {
-      expect(instance.queryAllByRole('columnheader', {name: additionalColLabels[index]})).not.toBeInTheDocument(); // FAILS -- no reset to default functionality
+      expect(instance.queryAllByRole('columnheader', {name: index})[0]).not.toBeDefined();
     });
   });
 
   it('resets columns back to default on reset from select all', () => {
-    const instance = render(<DataTable 
-                            rawData={mockTableData} 
-                            defaultSelectedColumns={defaultSelectedColumnsMock} 
-                            pageSize={10} 
+    const instance = render(<DataTable
+                            rawData={mockTableData}
+                            defaultSelectedColumns={defaultSelectedColumnsMock}
+                            pageSize={10}
                             setTableColumnSortData={setTableColumnSortData} />);
 
-    const selectAll = instance.getByRole('checkbox', {name: 'Select All'})[0];
-    const resetColButton = instance.getByRole('button', {name: 'Reset'})[0]; // FAILS -- no reset button yet
+    const selectAll = instance.getByRole('checkbox', {name: 'Select All'});
+    const resetColButton = instance.getByTestId('reset-button');
+    const firstDefaultHeader = instance.queryAllByRole('columnheader', {name: defaultColLabels[0]})[0];
+    let firstAdditionalHeader = instance.queryAllByRole('columnheader', {name: additionalColLabels[0]})[0];
 
 
     expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).not.toBeInTheDocument(); // FAILS -- all col selected without default implemented
+    expect(firstAdditionalHeader).not.toBeDefined();
     fireEvent.click(selectAll);
+    firstAdditionalHeader = instance.getAllByRole('columnheader', {name: additionalColLabels[0]})[0];
     expect(firstDefaultHeader).toBeInTheDocument();
     expect(firstAdditionalHeader).toBeInTheDocument();
 
-    fireEvent.click(resetColButton); // FAILS -- no reset button yet
+    fireEvent.click(resetColButton);
 
     // default state
     // default col in table
     defaultColLabels.forEach((index) => {
-      expect(instance.getAllByRole('columnheader', {name: defaultColLabels[index]})[0]).toBeInTheDocument(); // FAILS -- no reset to default functionality
+      expect(instance.getAllByRole('columnheader', {name: index})[0]).toBeInTheDocument();
     });
 
     // additional col not in table
     additionalColLabels.forEach((index) => {
-      expect(instance.queryAllByRole('columnheader', {name: additionalColLabels[index]})).not.toBeInTheDocument(); // FAILS -- no reset to default functionality
+      expect(instance.queryAllByRole('columnheader', {name: index})[0]).not.toBeDefined();
     });
   });
 
   it('resets columns back to default on reset from none selected', () => {
-    const instance = render(<DataTable 
-                            rawData={mockTableData} 
-                            defaultSelectedColumns={defaultSelectedColumnsMock} 
-                            pageSize={10} 
+    const instance = render(<DataTable
+                            rawData={mockTableData}
+                            defaultSelectedColumns={defaultSelectedColumnsMock}
+                            pageSize={10}
                             setTableColumnSortData={setTableColumnSortData} />);
 
-    const selectAll = instance.getByRole('checkbox', {name: 'Select All'})[0];
-    const resetColButton = instance.getByRole('button', {name: 'Reset'})[0]; // FAILS -- no reset button yet
+    const selectAll = instance.getByRole('checkbox', {name: 'Select All'});
+    const resetColButton = instance.getByTestId('reset-button');
+    const firstDefaultHeader = instance.queryAllByRole('columnheader', {name: defaultColLabels[0]})[0];
+    let firstAdditionalHeader = instance.queryAllByRole('columnheader', {name: additionalColLabels[0]})[0];
 
 
     expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).not.toBeInTheDocument(); // FAILS -- all col selected without default implemented
+    expect(firstAdditionalHeader).not.toBeDefined();
     fireEvent.click(selectAll);
+    firstAdditionalHeader = instance.getAllByRole('columnheader', {name: additionalColLabels[0]})[0];
     expect(firstDefaultHeader).toBeInTheDocument();
     expect(firstAdditionalHeader).toBeInTheDocument();
     fireEvent.click(selectAll);
     expect(firstDefaultHeader).not.toBeInTheDocument();
     expect(firstAdditionalHeader).not.toBeInTheDocument();
 
-    fireEvent.click(resetColButton); // FAILS -- no reset button yet
+    fireEvent.click(resetColButton);
 
     // default state
     // default col in table
     defaultColLabels.forEach((index) => {
-      expect(instance.getAllByRole('columnheader', {name: defaultColLabels[index]})[0]).toBeInTheDocument(); // FAILS -- no reset to default functionality
+      expect(instance.getAllByRole('columnheader', {name: index})[0]).toBeInTheDocument();
     });
 
     // additional col not in table
     additionalColLabels.forEach((index) => {
-      expect(instance.queryAllByRole('columnheader', {name: additionalColLabels[index]})).not.toBeInTheDocument(); // FAILS -- no reset to default functionality
+      expect(instance.queryAllByRole('columnheader', {name: index})[0]).not.toBeDefined();
     });
   });
 
