@@ -195,6 +195,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, []);
 
   const updateCurrencyDropdownOptions = (selQuarter, selYear) => {
+    //TODO
     const selectedYearQuarter = `${selYear.value}Q${selQuarter.value}`;
     setDropdownOptions(sortedCurrencies.map(currency =>
       ({
@@ -231,6 +232,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setUSDollarValue('1.00');
       const date = new Date(matchedRecord.effective_date);
       setEffectiveDate(dateStringConverter(date));
+      setInputWarning(false);
     }
   };
 
@@ -298,7 +300,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, [usDollarValue, nonUSCurrency]);
 
   const handleChangeNonUSCurrency = useCallback((event) => {
-    console.log(event);
     clearTimeout(gaCurrencyTimer);
     let quotient;
     if(event !== null) {
@@ -326,6 +327,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setNonUSCurrencyDecimalPLaces(countDecimals(event.value.exchange_rate));
       setEffectiveDate(dateStringConverter(new Date(event.value.effective_date)));
       setUSDollarValue('1.00');
+      setInputWarning(false);
     }
   }, []);
 
@@ -345,7 +347,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <div className={breadCrumbsContainer}>
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
-      <ExchangeRatesBanner text={'Currency Exchange Rates Converter'} copy={socialCopy} />
+      <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
       <div className={container}>
           <span className={title}>
             Check foreign currency rates against the U.S. Dollar.
@@ -353,7 +355,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {
           data && (
             <div className={selectorContainer}>
-              <div className={selector} data-testid={'year-selector'}>
+              <div className={selector} data-testid="year-selector">
                 <SelectControl
                   label={'Year'}
                   className={box}
@@ -362,9 +364,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                   changeHandler={handleChangeYears}
                 />
               </div>
-              <div className={selector} data-testid={'quarter-selector'}>
+              <div className={selector} data-testid="quarter-selector">
                 <SelectControl
-                  label={'Quarter'}
+                  label="Quarter"
                   className={box}
                   options={quarters}
                   selectedOption={selectedQuarter}
@@ -374,9 +376,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <span data-testid={'effective-date-info-tip'}
+                  <span data-testid="effective-date-info-tip"
                         onMouseEnter={() => {handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');}}
-                        onBlur={handleInfoTipClose} role={'presentation'}
+                        onBlur={handleInfoTipClose} role="presentation"
                   >
                     <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                       {effectiveDateInfoIcon.body}
@@ -430,21 +432,22 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
           )
         }
         {
-          nonUSCurrency!== null && nonUSCurrency.exchange_rate && !inputWarning ? (
+          nonUSCurrency!== null && nonUSCurrency.exchange_rate && !inputWarning && (
             <span data-testid="exchange-values">
               1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
             </span>
-          ) : (
-            <div aria-hidden={!inputWarning}>
-              <BannerCallout bannerCallout="XRPageWarning" bannerType="warning" width="25.25rem" />
-            </div>
+          )
+        }
+        {
+          inputWarning && (
+            <BannerCallout bannerCallout="XRPageWarning" bannerType="warning" width="25.25rem" />
           )
         }
         <span className={footer}>
           The Currency Exchange Rates Converter tool is powered by the{' '}
           <CustomLink
             url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange"
-            onClick={() => analyticsHandler("Citation Click", 'Treasury Reporting Rates of Exchange Dataset')}
+            onClick={() => analyticsHandler("Citation Click", "Treasury Reporting Rates of Exchange Dataset")}
             id="Treasury Reporting Rates of Exchange"
           >
             Treasury Reporting Rates of Exchange
@@ -460,7 +463,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             foreign currency exchange rates for federal agencies to consistently report U.S. dollar equivalents.
             For more information on the calculation of exchange rates used by federal agencies, please see the {' '}
             <CustomLink url="https://tfm.fiscal.treasury.gov/v1/p2/c320"
-            onClick={() => analyticsHandler("Citation Click", 'Treasury Financial Manual')}>
+            onClick={() => analyticsHandler("Citation Click", "Treasury Financial Manual")} >
             Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
             This Exchange Rate Converter Tool is designed to make foreign currency exchange data values
             easier to access for federal agency reporting purposes.
