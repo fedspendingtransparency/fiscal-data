@@ -195,7 +195,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   }, []);
 
   const updateCurrencyDropdownOptions = (selQuarter, selYear) => {
-    //TODO
     const selectedYearQuarter = `${selYear.value}Q${selQuarter.value}`;
     setDropdownOptions(sortedCurrencies.map(currency =>
       ({
@@ -421,7 +420,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                   value: nonUSCurrency}}
                 defaultCurrency={nonUSCurrency.country_currency_desc}
                 currencyValue={nonUSCurrencyExchangeValue}
-                dropdown={true}
+                dropdown
                 options={dropdownOptions}
                 onCurrencyChange={handleCurrencyChange}
                 onCurrencyValueChange={handleChangeNonUSCurrency}

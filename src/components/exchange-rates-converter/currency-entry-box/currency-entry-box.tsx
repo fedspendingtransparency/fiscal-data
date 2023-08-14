@@ -36,7 +36,6 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
     resetFilterCount,
     testId
   }) => {
-  console.log(selectedCurrency, currencyValue);
   return (
     <>
       {dropdown ?

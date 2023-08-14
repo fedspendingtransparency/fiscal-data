@@ -15,6 +15,8 @@ import {
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 
 
+let timeOutId;
+
 const XRAnalyticsHandler = (action, label) => {
   if(action && label){
     Analytics.event({
@@ -59,7 +61,6 @@ const ComboCurrencySelect = (
     setTimeout(() => {setDropdownActive(false);});
   };
 
-  let timeOutId;
 
   const toggleDropdown = () => {
     if (dropdownActive) {
@@ -126,7 +127,7 @@ const ComboCurrencySelect = (
            onMouseLeave={() => setMouseOverDropdown(false)}
            onBlur={() => setMouseOverDropdown(false)}
            onFocus={() => setMouseOverDropdown(true)}
-           role={'presentation'}
+           role="presentation"
       >
         {labelText !== '' ?
           <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
