@@ -36,6 +36,7 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
     resetFilterCount,
     testId
   }) => {
+  console.log(selectedCurrency, currencyValue);
   return (
     <>
       {dropdown ?
@@ -53,9 +54,15 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           )}
           <div className={currencyBody}>
             <div className={currencyText}>
+              {currencyValue === '--' ? (
+                <div>
+                  {currencyValue}
+                </div>
+              ) : (
               <input type="number" inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
                      onChange={onCurrencyValueChange} value={currencyValue} data-testid="input-dropdown"
               />
+              )}
             </div>
           </div>
         </div> :
@@ -65,10 +72,16 @@ const CurrencyEntryBox:FunctionComponent<ICurrencyEntryBox> = (
           </div>
           <div className={currencyBody}>
             <div className={currencyText}>
-              <input type="number" inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
-                     onChange={onCurrencyValueChange}
-                     value={currencyValue} data-testid="input"
-              />
+              {currencyValue === '--' ? (
+                <div>
+                  {currencyValue}
+                </div>
+              ) : (
+                <input type="number" inputMode="numeric" step="any" onKeyDown={noNonNumericChar}
+                       onChange={onCurrencyValueChange}
+                       value={currencyValue} data-testid="input"
+                />
+              )}
             </div>
           </div>
         </div>

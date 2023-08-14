@@ -1,37 +1,39 @@
 import React from 'react';
-import CustomLink  from '../links/custom-link/custom-link';
-import { banner, sideTab, calloutText, icon, updateList } from './banner-callout.module.scss';
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import {
+  banner,
+  infoBanner,
+  warningBanner,
+  sideTab,
+  calloutText,
+  icon,
+} from './banner-callout.module.scss';
+import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
+import { calloutConfig } from './banner-callout-helper';
 
-const BannerCallout = ({bannerCallout}) => {
-    const calloutCopy = {
-        "XRCallout":
-            <>
-              To calculate foreign currency exchange rates for tax reporting, visit the{" "}
-              <CustomLink url={"/currency-exchange-rates-converter/"}>Currency Exchange Rates Converter</CustomLink>
-              {" "}page.
-            </>,
-        "DTSAPIUpdate":
-            <>
-              <b>Updates are coming soon!</b>
-              <ul className={updateList}>
-                <li>The Daily Treasury Statement (DTS) dataset will be updated to match the published DTS.</li>
-                <li>All DTS API endpoints will be renamed to show DTS table names.</li>
-                <li>The Federal Tax Deposits and Short-Term Cash Investments tables will contain historical data only (through Feb. 13, 2023).</li>
-                <li>There will be a new API endpoint for the Inter-Agency Tax Transfers table, which started on Feb. 14, 2023.</li>
-              </ul>
-            </>
+const BannerCallout = ({ bannerCallout, bannerType = 'info', width}) => {
+    const currentCallout = calloutConfig[bannerCallout]?.copy;
+
+    const bannerMap = {
+      info: {
+        classname: infoBanner,
+        icon: faCircleInfo,
+      },
+      warning: {
+        classname: warningBanner,
+        icon: faTriangleExclamation,
+      },
     }
 
-    const currentCallout = calloutCopy[bannerCallout];
+    const styleConfig = bannerMap[bannerType];
 
     if (currentCallout) {
         return (
-            <div className={banner} data-testid="banner">
-                <div className={sideTab} />
+            <div className={classNames([banner, styleConfig.classname])} data-testid="banner" style={{width: width}}>
+                <div className={sideTab} style={{marginRight: calloutConfig[bannerCallout]?.customMargin}} />
                 <span className={calloutText}>
-                    <FontAwesomeIcon className={icon} icon={faCircleInfo} />
+                    <FontAwesomeIcon className={icon} icon={styleConfig.icon} />
                     <div>
                       {currentCallout}
                     </div>

@@ -6,14 +6,28 @@
     display: flex;
     align-items: stretch;
     margin-top: 1rem;
-    background-color: #e0f3f8;
+    padding-right: 2rem;
 }
 
 .sideTab {
-    width: 0.5rem;
-    height: inherit;
-    margin-right: 2rem;
+  width: 0.5rem;
+  height: inherit;
+  margin-right: 2rem;
+}
+
+.infoBanner {
+  background-color: #e0f3f8;
+
+  .sideTab {
     background-color: #00bde3;
+  }
+}
+
+.warningBanner {
+  background-color: #faf3d1;
+  .sideTab {
+    background-color: #ffbe2e;
+  }
 }
 
 .calloutText {
@@ -21,6 +35,21 @@
     margin: 0.875rem .5rem 0.875rem 0;
     display: flex;
     flex-direction: row;
+    .header {
+      font-weight: $semi-bold-weight;
+    }
+    .suggestions {
+        margin-top: 1rem;
+        font-size: $font-size-14;
+
+        ul {
+          margin-top: .5rem;
+          margin-bottom: .125rem;
+          li {
+            margin-bottom: .25rem;
+          }
+        }
+    }
 }
 
 .icon {
