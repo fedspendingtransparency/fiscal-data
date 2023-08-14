@@ -80,6 +80,7 @@ const ComboSelectDropdown = (
   useEffect(() => {
     if (filterValue !== '') {
       filterDropdown(filterValue);
+      setDropdownActive(false);
     }
   }, [options]);
   const handleBlur = (event) => {

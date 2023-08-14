@@ -24,7 +24,15 @@ describe('Banner Callout with flag', () => {
     it('renders the info banner by default', () => {
       const {getByTestId, getByRole} = render(<BannerCallout bannerCallout={calloutFlag} />);
       expect(getByRole('img', {hidden: true})).toHaveClass('fa-circle-info');
-      expect(getByTestId('banner')).toHaveClass('warning-banner');
+      expect(getByTestId('banner')).toHaveClass('infoBanner');
+    })
+
+    it('renders the warning banner when specified', () => {
+      const {getByTestId, getByRole} = render(
+        <BannerCallout bannerCallout={calloutFlag} bannerType="warning" />
+      );
+      expect(getByRole('img', {hidden: true})).toHaveClass('fa-triangle-exclamation');
+      expect(getByTestId('banner')).toHaveClass('warningBanner');
     })
 });
 

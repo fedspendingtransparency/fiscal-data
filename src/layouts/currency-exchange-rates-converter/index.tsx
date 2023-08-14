@@ -439,7 +439,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         {
           inputWarning && (
-            <BannerCallout bannerCallout="XRPageWarning" bannerType="warning" width="25.25rem" />
+            <BannerCallout bannerCallout="XRPageWarning" bannerType="warning" />
           )
         }
         <span className={footer}>

@@ -251,16 +251,64 @@ describe('exchange rates converter', () => {
     expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
 
   });
+
   it('renders the most recent effective date', async() => {
 
-    const { getByText, getByTestId} = render(<CurrencyExchangeRatesConverter />)
+    const { getByText} = render(<CurrencyExchangeRatesConverter />)
     await waitFor(() => getByText('U.S. Dollar'));
 
-    const test = getByTestId('test');
     expect(getByText('December 31, 2022 to December 31, 2023', {exact: false})).toBeInTheDocument();
   });
 
-  it('calls the appropriate analytics event when year selector is set and current quarter is available', async() => {
+  it('displays an error message when an invalid date is selected for the current currency', async () => {
+    const { getByText, queryByText, getByTestId, getByRole } = render(<CurrencyExchangeRatesConverter />);
+
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
+    const comboBox = within(nonUSBox).getByRole('button');
+
+    fireEvent.click(comboBox);
+
+    const currencySearchBar = getByRole('textbox');
+
+    // Search list and select currency
+    fireEvent.change(currencySearchBar, {target: { value:'OtherDollar2'}});
+
+    const optionList = within(nonUSBox).getByTestId('dropdown-list');
+    const option = within(optionList).getByText('Other OtherDollar2');
+
+    fireEvent.click(option);
+
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
+
+    //Change year to 2022
+    let yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+
+    fireEvent.click(yearSelector);
+
+    let yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    fireEvent.click(yearSelectorOptions[1]);
+
+    //Banner should appear
+    await waitFor(() => getByTestId('banner'));
+    expect(within(getByTestId('banner')).getByText('No exchange rate available for this date range.')).toBeInTheDocument();
+    expect(queryByText('1.00 U.S. Dollar')).not.toBeInTheDocument();
+
+    // Change selection to a valid option
+    yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+    fireEvent.click(yearSelector);
+
+    yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    fireEvent.click(yearSelectorOptions[0]);
+
+    // Banner should be gone
+    await waitFor(() => getByText('1.00 U.S. Dollar', {exact: false}));
+    expect(queryByText('No exchange rate available for this date range.')).not.toBeInTheDocument();
+  })
+});
+
+it('calls the appropriate analytics event when year selector is set and current quarter is available', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
@@ -609,8 +657,3 @@ describe('exchange rates converter', () => {
     jest.runAllTimers();
   });
 
-  it('displays an error message ...', () => {
-    const { getByText } = render(<CurrencyExchangeRatesConverter />);
-    expect(getByText('No exchange rate available for this date range')).toBeInTheDocument();
-  })
-})

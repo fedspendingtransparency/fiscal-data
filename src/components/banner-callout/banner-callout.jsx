@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';
 
-const BannerCallout = ({ bannerCallout, bannerType = 'info', width}) => {
+const BannerCallout = ({ bannerCallout, bannerType = 'info'}) => {
     const currentCallout = calloutConfig[bannerCallout]?.copy;
 
     const bannerMap = {
@@ -30,7 +30,7 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width}) => {
 
     if (currentCallout) {
         return (
-            <div className={classNames([banner, styleConfig.classname])} data-testid="banner" style={{width: width}}>
+            <div className={classNames([banner, styleConfig.classname])} data-testid="banner" >
                 <div className={sideTab} style={{marginRight: calloutConfig[bannerCallout]?.customMargin}} />
                 <span className={calloutText}>
                     <FontAwesomeIcon className={icon} icon={styleConfig.icon} />
