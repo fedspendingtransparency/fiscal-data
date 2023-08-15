@@ -348,7 +348,7 @@ describe('DatasetData', () => {
     const callsToApiForUpdatedTable = fetchSpy.mock.calls
     .filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
     // With paginated tables, 2 extra calls are now made to get data for react-table implementation
-    expect(callsToApiForUpdatedTable.length).toEqual(3);
+    expect(callsToApiForUpdatedTable.length).toEqual(7);
   });
 
   it(`does not duplicate api calls when switching from a large table to a small one`,

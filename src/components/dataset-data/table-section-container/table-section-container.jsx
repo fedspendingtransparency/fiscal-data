@@ -55,6 +55,24 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
+  // Investigate why this is being called twice?
+  const getDepaginatedData = async() => {
+    console.log('running request.....')
+    const from = formatDateForApi(dateRange.from);
+    const to = formatDateForApi(dateRange.to);
+    const sortParam = buildSortParams(selectedTable, selectedPivot);
+    return await basicFetch(
+      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+      + `:lte:${to}&sort=${sortParam}`)
+    .then(async (res) => {
+      const totalCount = res.meta['total-count'];
+      const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
+      return await basicFetch(
+        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
+        + `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`);
+    });
+  };
+
   const refreshTable = async() => {
 
     if (allTablesSelected) return;
@@ -70,25 +88,10 @@ const TableSectionContainer = ({
       setUserFilteredData(null);
     }
 
-    const getDepaginatedData = async() => {
-      const from = formatDateForApi(dateRange.from);
-      const to = formatDateForApi(dateRange.to);
-      const sortParam = buildSortParams(selectedTable, selectedPivot);
-      return await basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
-        + `:lte:${to}&sort=${sortParam}`)
-      .then(async (res) => {
-        const totalCount = res.meta['total-count'];
-        const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
-        return await basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
-          + `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`);
-      });
-    };
-
 
     setTableProps({
-      rawData: {...apiData, data: displayData}.data ? {...apiData, data: displayData} : apiData ? apiData : await getDepaginatedData(),
+      dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
+      rawData: {...apiData, data: displayData}.data ? {...apiData, data: displayData} : apiData,
       data: displayData, //null for server-side pagination
       columnConfig,
       width,
