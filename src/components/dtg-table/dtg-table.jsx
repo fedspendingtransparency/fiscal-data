@@ -18,13 +18,13 @@ import CustomLink from "../links/custom-link/custom-link";
 import Experimental from '../experimental/experimental';
 import { DataTable } from '../data-table/data-table';
 import DtgTableColumnSelector from './dtg-table-column-selector';
-import {apiPrefix} from "../../utils/api-utils";
 
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({tableProps, perPage, setPerPage, selectColumnPanel, setSelectColumnPanel, setTableColumnSortData}) {
   const {
+    dePaginated,
     rawData,
     width,
     noBorder,
@@ -38,6 +38,29 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     caption,
     selectColumns,
   } = tableProps;
+
+  const [reactTableData, setReactTableData] = useState(null);
+
+  useEffect(() => {
+    if (tableProps) {
+      if (tableProps.dePaginated !== undefined) {
+        console.log(tableProps);
+        if (tableProps.dePaginated !== null) {
+          if (reactTableData === null) {
+            setReactTableData(tableProps.dePaginated);
+          }
+        }
+        else {
+          if (tableProps.rawData !== null) {
+            if (reactTableData === null) {
+              setReactTableData(tableProps.rawData);
+            }
+          }
+        }
+      }
+    }
+  }, [tableProps]);
+
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,7 +76,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       )
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
-  const [dtgTableData, setDtgTableData] = useState(rawData);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
@@ -122,20 +144,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
-
-      const sortParam = buildSortParams(selectedTable, selectedPivot);
-
-      basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
-        + `:lte:${to}&sort=${sortParam}`)
-      .then(res => {
-        const totalCount = res.meta['total-count'];
-        const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
-        basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}`
-          + `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`)
-        .then(data => {
-          setDtgTableData(data);
-        });
-      });
 
       pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage)
         .then(res => {
@@ -337,6 +345,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     maxRows,
   };
 
+
+
   return (
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
@@ -419,15 +429,11 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       }
       </Experimental>
       <Experimental featureId="react-table-poc">
-        {rawData !== undefined && rawData !== null ? (
-          <DataTable rawData={rawData} pageSize={10} defaultSelectedColumns={selectColumns} setTableColumnSortData={setTableColumnSortData} />
-        ) : (
-            dtgTableData !== undefined && dtgTableData !== null && dtgTableData !== [] ? (
-            <DataTable rawData={dtgTableData} pageSize={10} defaultSelectedColumns={selectColumns} setTableColumnSortData={setTableColumnSortData} />
-          ) : (
-            <div />
-          )
-        )}
+        {reactTableData &&
+          <DataTable rawData={reactTableData} pageSize={10} defaultSelectedColumns={selectColumns}
+                     setTableColumnSortData={setTableColumnSortData}
+          />
+        }
       </Experimental>
     </div>
   );
