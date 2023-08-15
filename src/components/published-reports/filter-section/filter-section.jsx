@@ -17,6 +17,9 @@ import { getLatestReport } from '../../../helpers/dataset-detail/report-helpers'
 import ComboSelect from '../../combo-select/combo-select';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
+import ComboSelectDropdown
+  from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
+import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 
 export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   const [reportsByYear, setReportsByYear] = useState(getYearReportOptions(reports));
@@ -47,10 +50,6 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     <span data-testid="dayLabel">
         Day <span className="required">*</span>
     </span>;
-  const reportLabel =
-      <span data-testid="reportLabel">
-        Report <span className="required">*</span>
-      </span>;
 
   const populateYears = (reportVal) => {
     const availableYears = getYearReportOptions(reportVal);
@@ -248,19 +247,22 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
   };
 
+  const changeHandler = (updatedReport) => {
+    if (updatedReport !== null) {
+      setSelectedReportGroup(updatedReport);
+    }
+  }
+
   useEffect(() => {
     // called on page initialization and when reports updates
     if (reportGroups[currentlySelectedGroupIndex.current]) {
       setSelectedReportGroup(reportGroups[currentlySelectedGroupIndex.current]);
       if (!currentReport) {
-        const latestReport =
-          getLatestReport(reportGroups[currentlySelectedGroupIndex.current].value);
+        const latestReport = getLatestReport(reportGroups[currentlySelectedGroupIndex.current].value);
         setCurrentReport(latestReport);
         setFileSelection(latestReport);
       }
-      setReportsByYear(
-        getYearReportOptions(reportGroups[currentlySelectedGroupIndex.current].value)
-      );
+      setReportsByYear(getYearReportOptions(reportGroups[currentlySelectedGroupIndex.current].value));
     }
   }, [reportGroups]);
 
@@ -341,12 +343,15 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
           <h3 data-testid="filterReportHeader" className={filterHeader}>Choose Report:</h3>
           <div className={filterContainer}>
             <div className={selectWrapper}>
-              <SelectControl changeHandler={setSelectedReportGroup}
-                             label={reportLabel}
-                             optionLabelKey="label"
-                             options={reportGroups}
-                             selectedOption={selectedReportGroup}
-                             data-testid="reportSelectControl"
+              <ComboCurrencySelect
+                changeHandler={changeHandler}
+                label="Report "
+                optionLabelKey="label"
+                options={reportGroups}
+                selectedOption={selectedReportGroup}
+                searchBarLabel="Search reports"
+                required
+                containerBorder
               />
             </div>
           </div>

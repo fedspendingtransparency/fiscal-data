@@ -33,6 +33,7 @@ const ComboSelectDropdown = (
     yearFilter,
     changeHandler,
     timeOutId,
+    searchBarLabel
   }) => {
   const [filterValue, setFilterValue] = useState('');
   const [scrollTop, setScrollTop] = useState(true);
@@ -84,6 +85,7 @@ const ComboSelectDropdown = (
     }
   }, [options]);
   const handleBlur = (event) => {
+    // prevents dropdown from close when tabbing into a child
     if (event) {
       let dropdownChild;
       switch(event.target.localName) {
@@ -130,7 +132,7 @@ const ComboSelectDropdown = (
               onChange={onFilterChange}
               onBlur={searchBarOnBlurHandler}
               filter={filterValue}
-              label="Search currencies"
+              label={searchBarLabel}
               handleClear={clearFilter}
               active={searchBarActive}
               setActive={setSearchBarActive}

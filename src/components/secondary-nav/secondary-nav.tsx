@@ -189,7 +189,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
               ) : undefined}
               <div
                 role={'button'}
-                tabIndex={0}
+                tabIndex={-1}
                 onMouseEnter={() => handleMouseEnter(s.index)}
                 onMouseLeave={handleMouseLeave}
                 className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}

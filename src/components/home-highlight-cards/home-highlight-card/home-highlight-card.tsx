@@ -100,7 +100,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     .homepage.analyticsActions.click;
 
   const getApiData = async () => {
-    const dateField = api.dateField;
+    const dateField = (api ? api.dateField : '');
     const sorts = data?.sorts ? data.sorts : undefined;
     if (api) {
       fetchHighlights(
@@ -176,7 +176,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
         addHoverEffects(
           apiData.data,
           `chart-${displayOrder}`,
-          api.dateField,
+          (api ? api.dateField : ''),
           data.fields[0],
           setTempValueAndDate
         );
@@ -275,11 +275,11 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
 
       const first = apiData.data[0];
 
-      let firstDate = `${first[`${api.dateField}`]}`;
+      let firstDate = `${first[`${(api ? api.dateField : '')}`]}`;
 
       const last = apiData.data[apiData.data.length - 1];
       const lastValue = Number(last.chartedValue || last[`${statField}`]);
-      let lastDate = last[`${api.dateField}`];
+      let lastDate = last[`${(api ? api.dateField : '')}`];
 
       // Swap dates as needed
       if(firstDate > lastDate){
@@ -303,7 +303,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
         drawSparkline(
           apiData.data,
           `chart-${displayOrder}`,
-          api.dateField,
+          (api ? api.dateField : ''),
           data.fields[0],
           showXLabel,
           lowerDate,
@@ -391,7 +391,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                   isInteractive={false}
                   setTempValue={setTempValue}
                   setTempDate={setTempDate}
-                  dateField={api.dateField}
+                  dateField={(api ? api.dateField : '')}
                   useCustomBarComponent
                   mouseEnter={barChartMouseEnter}
                 />

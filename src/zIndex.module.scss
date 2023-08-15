@@ -49,7 +49,8 @@ $published-reports-year-select: $above + $published-reports-left-content;
 $dataset-details-example-loading-icon: $above + $backdrop; // example request and response loading icon
 // nav
 $dataset-detail-nav: $above + $filter-download-left-content; // $filter-download-left-content is the highest in DDP, $dataset-detail-nav z-index:5
-
+//combo-select-dropdown
+$combo-select-dropdown: $above + $backdrop;
 
 // download dataset sticky footer
 $download-sticky-footer: $above + $filter-download-left-content; // published-reports-year-select is the highest on DDP, $download-sticky-footer z-index:5
@@ -61,7 +62,7 @@ $toc-button: $above + $illustration-whiteout; // $illustration-whiteout is highe
 $select-control: $above + $table-loading-icon;
 
 // menu
-$menu-dropdown: $above + $backdrop; 
+$menu-dropdown: $above + $backdrop;
 $mobile-menu: $above + $main-sticky-footer; // main-sticky-footer was highest on site before ... $mobile-menu is now z-index: 7
 $mobile-menu-overlay: $below + $backdrop;
 

@@ -1,5 +1,6 @@
 import { getMonth, getYear, lastDayOfMonth } from "date-fns";
 import { convertDate } from "../dataset-data/dataset-data-helper/dataset-data-helper";
+import { ENV_ID } from "gatsby-env-variables";
 
 const primaryColor = 'rgb(1, 118, 198)';
 const negativeColor = 'rgb(242, 108, 98)';
@@ -311,7 +312,6 @@ export const transformAPI144 = (
   }]
 }
 
-
 const datasets: IDatasetChartConfigs = [
   {
     "datasetId": "015-BFS-2014Q3-065",
@@ -386,7 +386,7 @@ const datasets: IDatasetChartConfigs = [
     "title": "How much money goes into/out of the federal government?",
     "displayOrder": 3,
     "data": {
-      "api_id": 130,
+      "api_id": (ENV_ID === 'uat' ? 220 : 130),
       "chartType": "BAR",
       "noRecordDateInFields": true,
       "fields": [
@@ -461,7 +461,7 @@ const datasets: IDatasetChartConfigs = [
     "title": "How much money does the U.S. have on hand?",
     "displayOrder": 5,
     "data": {
-      "api_id": 129,
+      "api_id": (ENV_ID === 'uat' ? 219 : 129),
       "chartType": "LINE",
       "fields": ['open_today_bal', 'record_calendar_day', 'account_type', 'record_date'],
       "filters": [        
