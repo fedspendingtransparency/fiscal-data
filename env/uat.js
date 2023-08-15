@@ -5,7 +5,23 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
-  ADDITIONAL_DATASETS: {},
+  ADDITIONAL_DATASETS: {
+    "015-BFS-2014Q3-046": {
+      "slug": "/treasury-bulletin/",
+      "seoConfig": {
+        "pageTitle": "Treasury Bulletin",
+        "description": "Machine readable data of select Treasury Bulletin tables. These tables include those located within the Fiscal Service Operations (FFO-5 and FFO-6), ownership of federal securities, U.S. currency and coin outstanding and in circulation, foreign currency positions, and exchange stabilization fund sections of the Treasury Bulletin.",
+        "keywords": "Debt, Financial Summaries, Revenue, Savings Bonds"
+      },
+      "topics": ["debt", "financial-summaries", "revenue", "savings-bonds"],
+      "relatedDatasets": [
+        "015-BFS-2014Q1-13",
+        "015-BFS-2014Q1-11",
+        "015-BFS-2014Q1-07"
+      ],
+      "currentDateButton": "byMonth",
+    },
+  },
   ADDITIONAL_ENDPOINTS: {
     '27': {
       'endpoint': 'v1/debt/mspd/mspd_table_1',
@@ -117,7 +133,7 @@ module.exports = {
       ]
     },
 
-    // DTS 
+    // DTS
     "219": {
       "endpoint": "v1/accounting/dts/operating_cash_balance",
       "dateField": "record_date",
@@ -148,11 +164,11 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_OpCashDpstWdrl',
       'dataDisplays': [
-        { 
+        {
           "title": "By Type of Account",
-          "dimensionField": "account_type" 
+          "dimensionField": "account_type"
         },
-        { 
+        {
           "title": "By Transaction Type",
           "dimensionField": "transaction_type" },
       ],
@@ -167,9 +183,9 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_PubDebtTrans',
       'dataDisplays': [
-        { 
+        {
           "title": "By Transaction Type",
-          "dimensionField": "transaction_type" 
+          "dimensionField": "transaction_type"
         }
       ],
       'valueFieldOptions': [
@@ -183,11 +199,11 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_PubDebtCashAdj',
       'dataDisplays': [
-        { 
+        {
           "title": "By Transaction Type",
-          "dimensionField": "transaction_type" 
+          "dimensionField": "transaction_type"
         },
-        { 
+        {
           "title": "By Adjustment Type",
           "dimensionField": "adj_type"
         },
@@ -221,7 +237,7 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_FedTaxDpst',
       'dataDisplays': [
-        { 
+        {
           "title": "By Federal Tax Deposit Type",
           "dimensionField": "tax_deposit_type"
          },
@@ -237,9 +253,9 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_StCashInvest',
       'dataDisplays': [
-        { 
+        {
           "title": "By Transaction Type",
-          "dimensionField": "transaction_type" 
+          "dimensionField": "transaction_type"
         },
       ],
       'valueFieldOptions': [
@@ -254,11 +270,11 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_IncmTaxRfnd',
       'dataDisplays': [
-        { 
+        {
           "title": "By Federal Tax Refund Type",
           "dimensionField": "tax_refund_type"
         },
-        { 
+        {
           "title": "By Federal Tax Refund Type Description",
           "dimensionField": "tax_refund_type_desc"
         }
@@ -274,9 +290,9 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_InterAgencyTaxTransfers',
       'dataDisplays': [
-        { 
+        {
           "title": "By Classification",
-          "dimensionField": "classification" 
+          "dimensionField": "classification"
         }
       ],
       'valueFieldOptions': [
@@ -284,6 +300,98 @@ module.exports = {
         'mtd_amt',
         'fytd_amt'
       ]
+    },
+
+    // treasury bulletin
+    '206': {
+      'endpoint': 'v1/accounting/tb/pdo1_offerings_regular_weekly_treasury_bills',
+      'downloadName': 'TB_PDO1OfferingsRegularWeeklyTreasuryBills',
+      'dateField': 'record_date',
+    },
+    '207': {
+      'endpoint': 'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
+      'downloadName': 'TB_PDO2OfferingsMarketableSecuritiesOtherRegularWeeklyTreasuryBills',
+      'dateField': 'record_date',
+    },
+    '208': {
+      'endpoint': 'v1/accounting/tb/ofs1_distribution_federal_securities_class_investors_type_issues',
+      'dateField': 'record_date',
+      'downloadName': 'TB_OFS1DistributionFederalSecuritiesClassInvestorsTypeIssues',
+      'dataDisplays': [
+        {
+          'title': 'Securities Classification',
+          'dimensionField': 'securities_classification',
+        },
+        {
+          'title': 'Investors Classification',
+          'dimensionField': 'investors_classification',
+        },
+        {
+          'title': 'Issues Type',
+          'dimensionField': 'issues_type',
+        },
+      ],
+      "valueFieldOptions": [
+        "securities_mil_amt"
+      ]
+    },
+    '209': {
+      'endpoint': 'v1/accounting/tb/ofs2_estimated_ownership_treasury_securities',
+      'dateField': 'record_date',
+      'downloadName': 'TB_OFS2EstimatedOwnershipUSTreasurySecurities',
+      'dataDisplays': [
+        {
+          'title': 'Securities Owner',
+          'dimensionField': 'securities_owner',
+        },
+      ],
+      "valueFieldOptions": [
+        "securities_bil_amt"
+      ]
+    },
+    '210': {
+      'endpoint': 'v1/accounting/tb/uscc1_amounts_outstanding_circulation',
+      'dateField': 'record_date',
+      'downloadName': 'TB_USCC1AmountsOutstandingCirculation',
+      'dataDisplays': [
+        {
+          'title': 'Currency and Coins Category Description',
+          'dimensionField': 'currency_coins_category_desc',
+        },
+      ],
+      "valueFieldOptions": [
+        'total_currency_coins_amt',
+        'total_currency_amt',
+        'federal_reserve_notes_amt',
+        'us_notes_amt',
+        'currency_no_longer_issued_amt',
+        'total_coins_amt',
+        'dollar_coins_amt',
+        'fractional_coins_amt',
+      ]
+    },
+    '211': {
+      'endpoint': 'v1/accounting/tb/uscc2_amounts_outstanding_circulation',
+      'dateField': 'record_date',
+      'downloadName': 'TB_USCC2AmountsOutstandingCirculation',
+      'dataDisplays': [
+        {
+          'title': 'Currency Denomination',
+          'dimensionField': 'currency_denomination',
+        },
+      ],
+      "valueFieldOptions": [
+        'total_currency_amt',
+        'federal_reserve_notes_amt',
+        'us_notes_amt',
+        'currency_no_longer_issued_amt',
+        'per_capita_amt',
+      ]
+    },
+    '212': {
+      'endpoint': 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
+      'dateField': 'record_date',
+      'downloadName': 'TB_FCP2MonthlyReportMajorMarketParticipants',
     },
   }
 };
