@@ -39,7 +39,6 @@ const ComboSelectDropdown = (
   const [scrollTop, setScrollTop] = useState(true);
   const [filteredOptions, setFilteredOptions] = useState(options);
 
-
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = opts;
     if (entry?.length) {
@@ -58,9 +57,8 @@ const ComboSelectDropdown = (
     });
     setFilterValue('');
   };
-  const onFilterChange = (event) => {
-    const val = (event && event.target) ? event.target.value : '';
-    setFilterValue(val);
+
+  const filterDropdown = (val) => {
     const localFilteredOptions = yearFilter ?
       filterYearOptions(options, val) :
       filterOptionsByEntry(options, val);
@@ -73,8 +71,19 @@ const ComboSelectDropdown = (
       clearTimeout(timeOutId);
       setDropdownActive(true);
     }
+  }
+  const onFilterChange = (event) => {
+    const val = (event && event.target) ? event.target.value : '';
+    setFilterValue(val);
+    filterDropdown(val);
   };
 
+  useEffect(() => {
+    if (filterValue !== '') {
+      filterDropdown(filterValue);
+      setDropdownActive(false);
+    }
+  }, [options]);
   const handleBlur = (event) => {
     // prevents dropdown from close when tabbing into a child
     if (event) {
