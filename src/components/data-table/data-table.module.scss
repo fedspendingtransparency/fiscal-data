@@ -1,7 +1,8 @@
 @import '../../variables.module.scss';
-$borderRadius: 5px;
-.tableStyle {
 
+$borderRadius: 5px;
+
+.tableStyle {
   .tableContainer {
     position: relative;
     width: 100%;
@@ -22,18 +23,13 @@ $borderRadius: 5px;
     display: flex;
   }
 
-  tr,
-  .tr {
+  tr, .tr {
     width: fit-content;
     height: 30px;
   }
 
-  th,
-  .th,
-  td,
-  .td {
-    padding: 0.25rem;
-    //background-color: lightgrey;
+  td, .td {
+    padding: 0.25rem 0.5rem;
   }
 
   #th-parent{
@@ -42,13 +38,14 @@ $borderRadius: 5px;
     justify-content: flex-end;
   }
 
-  th,
-  .th {
+  th, .th {
     background-color: white;
     position: relative;
     font-weight: bold;
     text-align: center;
     height: 30px;
+    max-width: 4rem;
+    padding: 0.25rem 0.5rem 0.75rem;
   }
 
   td,
@@ -56,12 +53,45 @@ $borderRadius: 5px;
     height: 30px;
   }
 
-  .sortArrow {
+  .sortArrowPill, .defaultSortArrowPill {
+    height: 20px;
+    width: 28px;
+    min-width: 28px;
+    border-radius: 20px;
+    display: flex;
     margin-left: 0.5rem;
+  }
+
+  .sortArrowPill {
+    background-color: $primary;
+  }
+
+  .defaultSortArrowPill:hover {
+    background-color: #CFE8FF;
+  }
+
+  .sortArrow {
+    color: white;
+    margin: auto;
+  }
+
+  .defaultSortArrow {
+    color: $primary;
+    margin: auto;
   }
 
   .colHeader{
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    white-space: nowrap;
+  }
+
+  .colHeaderText {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    min-width: 20px; //TODO create variable for min width
   }
 
   .resizer {
@@ -70,15 +100,16 @@ $borderRadius: 5px;
     top: 0;
     height: 100%;
     width: 5px;
-    background: rgba(0, 0, 0, 0.5);
+    background: $font-body-copy;
     cursor: col-resize;
     user-select: none;
     touch-action: none;
+    border-radius: 20px;
   }
 
   .resizer.isResizing {
-    background: blue;
-    opacity: 1;
+    //background: blue;
+    //opacity: 1;
   }
 
   @media (hover: hover) {

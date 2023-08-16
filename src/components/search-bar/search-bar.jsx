@@ -25,6 +25,7 @@ const SearchBar = (
     setActive,
     inputRef,
     width,
+    height
 }) => {
   let searchCleared = false;
 
@@ -57,7 +58,7 @@ const SearchBar = (
     }
   }
 
-  const icon = filter.length > 0 && handleClear ? (
+  const icon = filter?.length > 0 && handleClear ? (
     <FontAwesomeIcon
       icon={faTimesCircle}
       className={`${searchIcon} ${searchIconHover}`}
@@ -95,7 +96,10 @@ const SearchBar = (
                   <InputAdornment position="end" >
                     {icon}
                   </InputAdornment>
-                )
+                ),
+                style: {
+                  height: height,
+                }
               }}
             />
           </Box>

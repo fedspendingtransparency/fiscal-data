@@ -1,5 +1,6 @@
 import {Column, Table} from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import SearchBar from '../search-bar/search-bar';
 
 export const Filter = ({
                   column,
@@ -8,11 +9,30 @@ export const Filter = ({
   column: Column<any, any>
   table: Table<any>
 }) => {
-  const firstValue = table
-  .getPreFilteredRowModel()
-    .flatRows[0]?.getValue(column.id)
+  //TODO: cells may be empty resulting in a null type => update method for grabbing column type
+  const firstValue = table.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
 
-  const columnFilterValue = column.getFilterValue()
+  const columnFilterValue = column.getFilterValue();
+
+  const [active, setActive] = useState(false);
+  const [filterDisplay, setFilterDisplay] = useState('');
+  const clearFilter = () => {
+    // fire artificial event to reset field
+    onFilterChange({
+      target: {
+        value: ''
+      }
+    });
+    column.setFilterValue('');
+    setFilterDisplay('');
+  };
+
+  const onFilterChange = (event) => {
+    const val = (event && event.target) ? event.target.value : '';
+    column.setFilterValue(val);
+    setFilterDisplay(val);
+  };
+
 
   return typeof firstValue === 'number' ? (
       <div className="flex space-x-2">
@@ -42,13 +62,21 @@ export const Filter = ({
       />
       </div>
     ) : (
-      <input
-        type="text"
-        data-testid={`column-search-${column.id}`}
-        value={(columnFilterValue ?? '') as string}
-        onChange={e => column.setFilterValue(e.target.value)}
-        placeholder={`Search...`}
-        className="w-36 border shadow rounded"
+      <SearchBar
+        onChange={onFilterChange}
+        filter={filterDisplay}
+        handleClear={clearFilter}
+        height="28px"
+        active={active}
+        setActive={setActive}
       />
+      // <input
+      //   type="text"
+      //   data-testid={`column-search-${column.id}`}
+      //   value={(columnFilterValue ?? '') as string}
+      //   onChange={e => column.setFilterValue(e.target.value)}
+      //   placeholder={`Search...`}
+      //   className="w-36 border shadow rounded"
+      // />
     )
 }
