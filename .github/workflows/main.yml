@@ -47,11 +47,13 @@ jobs:
         run: npm install --legacy-peer-deps
       - name: Cypress install
         uses: cypress-io/github-action@v5
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
         with:
           # Disable running of tests within install job
           install: false
           runTests: false
-          build: export NODE_OPTIONS="--max_old_space_size=8192" npm run build
+          build: npm run build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
@@ -75,6 +77,8 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v5
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
         with:
           start: npm start
           browser: chrome
