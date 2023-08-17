@@ -10,9 +10,6 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
 
   let versionInfo = useStaticQuery(graphql`
     {
-      gitTag(latest: { eq: true }) {
-        name
-      }
       gitCommit(latest: { eq: true }) {
         hash
         date
