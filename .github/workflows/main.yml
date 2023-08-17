@@ -19,9 +19,9 @@ jobs:
         with:
           node-version: 16
       - name: npm install
-          env:
-            NODE_OPTIONS: "--max_old_space_size=8192"
-          run: npm install --legacy-peer-deps
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
