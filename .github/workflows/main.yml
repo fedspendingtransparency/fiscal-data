@@ -1,12 +1,9 @@
 
 name: Cypress Tests
 
-#on:
-#  pull_request:
-#    types: [opened]
-
 on:
-  push
+  pull_request:
+    types: [opened]
 
 jobs:
   cypress-run:
