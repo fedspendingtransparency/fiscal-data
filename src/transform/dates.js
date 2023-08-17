@@ -3,7 +3,6 @@ const convertAPIDate = (dbDate) => {
   return `${mo}/${day}/${yr}`;
 };
 
-// comment to make a change DELETE
 const convertJSDateToAPI = (jsDate) => {
   if(!jsDate || !(jsDate instanceof Date)){
     return null;
