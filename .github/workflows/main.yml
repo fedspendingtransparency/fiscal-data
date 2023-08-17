@@ -1,5 +1,5 @@
 
-name: Cypress Tests
+name: Run unit and e2e tests
 
 on:
   push
@@ -26,7 +26,7 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm run test:coverage
-  cypress-run:
+  run-cypress-tests:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -35,10 +35,10 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 16
-#      - name: Cypress install
-#        env:
-#          NODE_OPTIONS: "--max_old_space_size=8192"
-#        run: npm install --legacy-peer-deps
+      - name: Cypress install
+        env:
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: npm install --legacy-peer-deps
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
