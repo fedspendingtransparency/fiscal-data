@@ -43,8 +43,9 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 16
+      - name: Legacy npm install
+        run: npm install --legacy-peer-deps
       - name: Cypress install
-#        run: npm install --legacy-peer-deps
         uses: cypress-io/github-action@v5
         with:
           # Disable running of tests within install job
