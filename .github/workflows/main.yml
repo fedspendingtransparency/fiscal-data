@@ -19,8 +19,8 @@ jobs:
           node-version: 16
       - name: Set heap size
         env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
-        run: export NODE_OPTIONS="--max_old_space_size=4096"
+          NODE_OPTIONS: "--max_old_space_size=8192"
+        run: export NODE_OPTIONS="--max_old_space_size=8192"
       - name: Cypress install
         run: npm install --legacy-peer-deps
       - name: Cypress run
