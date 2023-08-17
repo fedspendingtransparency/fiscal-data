@@ -8,32 +8,32 @@ import { graphql, useStaticQuery } from 'gatsby';
 
 const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, image, canonical, datasetDetails }) => {
 
-  // let versionInfo = useStaticQuery(graphql`
-  //   {
-  //     gitTag(latest: { eq: true }) {
-  //       name
-  //     }
-  //     gitCommit(latest: { eq: true }) {
-  //       hash
-  //       date
-  //       message
-  //     }
-  //     gitBranch(current: { eq: true }) {
-  //       name
-  //     }
-  //     currentBuildDate {
-  //       currentDate
-  //     }
-  //   }
-  // `);
+  let versionInfo = useStaticQuery(graphql`
+    {
+      gitTag(latest: { eq: true }) {
+        name
+      }
+      gitCommit(latest: { eq: true }) {
+        hash
+        date
+        message
+      }
+      gitBranch(current: { eq: true }) {
+        name
+      }
+      currentBuildDate {
+        currentDate
+      }
+    }
+  `);
 
   // protecting against null and undefined values mainly for unit tests
   // where version info is not supplied
-  // versionInfo = (versionInfo && versionInfo.gitCommit) ? versionInfo : {};
-  // const latestTag = versionInfo.gitTag ? versionInfo.gitTag.name : '';
-  // const latestCommit = versionInfo.gitCommit || {};
-  // const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
-  // const builtOnDate = versionInfo.currentBuildDate ? versionInfo.currentBuildDate.currentDate : '';
+  versionInfo = (versionInfo && versionInfo.gitCommit) ? versionInfo : {};
+  const latestTag = versionInfo.gitTag ? versionInfo.gitTag.name : '';
+  const latestCommit = versionInfo.gitCommit || {};
+  const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
+  const builtOnDate = versionInfo.currentBuildDate ? versionInfo.currentBuildDate.currentDate : '';
 
   const [dapAnalytics, setDapAnalytics] = useState(null);
   const [finalDescription, setFinalDescription] = useState(description);
@@ -82,6 +82,19 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}
 
+      {(latestCommit && latestCommit.hash) && (
+        <script id="version-info">
+          {`/*
+            TAG: ${latestTag}
+            CURRENT BRANCH: ${currentBranch}
+            COMMIT HASH: ${latestCommit.hash}
+            COMMIT MESSAGE: ${latestCommit.message}
+            COMMIT DATE: ${latestCommit.date}
+            BUILD TIME: ${builtOnDate}
+            ENV ID: ${ENV_ID}
+          */`}
+        </script>
+      )}
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width" />
       <title>{title}</title>

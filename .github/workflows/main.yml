@@ -1,9 +1,12 @@
 
 name: Cypress Tests
 
+#on:
+#  pull_request:
+#    types: [opened]
+
 on:
-  pull_request:
-    types: [opened]
+  push
 
 jobs:
   cypress-run:
@@ -23,8 +26,8 @@ jobs:
         uses: cypress-io/github-action@v5
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
           install: false
           build: npm run build
           start: npm run develop-prod
