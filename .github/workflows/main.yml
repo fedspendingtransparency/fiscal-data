@@ -1,32 +1,75 @@
-
-
-
-name: Cypress Tests
+#
+#name: Cypress Tests
+#
+#on: push
+#
+#jobs:
+#  cypress-run:
+#    runs-on: ubuntu-22.04
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#      # Install NPM dependencies, cache them correctly
+#      # and run all Cypress tests
+#      - name: Setup Node.js environment
+#        uses: actions/setup-node@v3.8.1
+#        with:
+#          node-version: 16
+#      - name: Set heap size
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: export NODE_OPTIONS="--max_old_space_size=8192"
+#      - name: Cypress install
+#        run: npm install --legacy-peer-deps
+#      - name: Cypress run
+#        uses: cypress-io/github-action@v5
+#        with:
+#          repo-token: ${{ secrets.GITHUB_TOKEN }}
+#          install: false
+#          build: npm run build
+#          start: npm start
+#          broswer: chrome
+name: Cypress Tests with Dependency and Artifact Caching
 
 on: push
 
 jobs:
-  cypress-run:
+  install:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.8.1
-        with:
-          node-version: 16
-      - name: Set heap size
-        env:
-          NODE_OPTIONS: "--max_old_space_size=8192"
-        run: export NODE_OPTIONS="--max_old_space_size=8192"
+
       - name: Cypress install
         run: npm install --legacy-peer-deps
+        uses: cypress-io/github-action@v5
+        with:
+          # Disable running of tests within install job
+          runTests: false
+          build: npm run build
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
+
+  cypress-run:
+    runs-on: ubuntu-22.04
+    needs: install
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download the build folder
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          install: false
-          build: npm run build
           start: npm start
+          browser: chrome
