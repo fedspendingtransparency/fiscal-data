@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@v3
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress install
-        run: npm install --legacy-peer-deps
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.8.1
         with:
           node-version: 16
+      - name: Cypress install
+        run: npm install --legacy-peer-deps
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
