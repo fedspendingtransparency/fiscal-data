@@ -108,7 +108,6 @@
     "make-fetch-happen": "^8.0.14",
     "mozjpeg": "7.1.0",
     "nivo": "^0.31.0",
-    "node-gyp": "^9.4.0",
     "node-json-transform": "^1.1.2",
     "normalize-scss": "^7.0.1",
     "numeral": "^2.0.6",
