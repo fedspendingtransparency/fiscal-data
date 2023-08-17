@@ -27,7 +27,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           install: false
           build: npm run build
-          start: npm start
+          start: npm run develop-prod
           broswer: chrome
 #name: Cypress Tests with Dependency and Artifact Caching
 #
