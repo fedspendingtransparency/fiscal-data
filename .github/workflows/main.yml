@@ -51,7 +51,7 @@ jobs:
           # Disable running of tests within install job
           install: false
           runTests: false
-          build: npm run build
+          build: export NODE_OPTIONS="--max_old_space_size=8192" npm run build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
