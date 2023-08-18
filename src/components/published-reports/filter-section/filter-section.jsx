@@ -374,6 +374,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
                                selectedOption={selectedYear}
                                yearFilter={true}
                                required={true}
+                               scrollable={true}
                 />
             ) : (
               <SelectControl changeHandler={setSelectedYear}
