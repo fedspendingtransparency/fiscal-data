@@ -110,7 +110,7 @@ const UnderstandingDeficit = ({sectionId, glossary, glossaryClickHandler}) => {
           </p>
         </VisualizationCallout>
       </div>
-      <SurplusIllustration glossary={glossary} />
+      <SurplusIllustration glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
       <p>
         The chart below shows a breakdown of how the U.S. deficit compares to the corresponding
         revenue and spending.
