@@ -26,6 +26,9 @@ type DataTableProps = {
   defaultSelectedColumns: string[];
   pageSize: number;
   setTableColumnSortData: any,
+  hasPublishedReports: boolean,
+  publishedReports: any[],
+  hideCellLinks: boolean,
 }
 
 const getTrProps = (rowInfo) => {
@@ -43,10 +46,39 @@ const getTrProps = (rowInfo) => {
   }
 }
 
-export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize, defaultSelectedColumns, setTableColumnSortData }) => {
+export const DataTable:FunctionComponent<DataTableProps> =
+  ({ rawData,
+    pageSize,
+    defaultSelectedColumns,
+    setTableColumnSortData,
+    publishedReports,
+    hasPublishedReports,
+    hideCellLinks
+  }) => {
 
   const allColumns = rawData.meta ? Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
   const data = rawData.data;
+
+  // POC code to include links in cells and match links to the correct cells based on record date
+  if (hasPublishedReports && !hideCellLinks) {
+    // Must be able to modify allColumns, thus the ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    allColumns[0].cell = ({getValue}) => {
+      console.log(publishedReports.find((report) => { return report.report_date.toISOString().split('T')[0] === getValue()}));
+      if (publishedReports.find((report) => { return report.report_date.toISOString().split('T')[0] === getValue()}) !== undefined) {
+        const path = publishedReports.find((report) => { return report.report_date.toISOString().split('T')[0] === getValue()}).path;
+        return (
+          <a href={path}>{getValue()}</a>
+        )
+      }
+      else {
+        return (
+          <span>{getValue()}</span>
+        )
+      }
+    }
+  }
   const [columns] = React.useState(() => [
     ...allColumns,
   ])

@@ -41,7 +41,9 @@ const TableSectionContainer = ({
   ignorePivots,
   allTablesSelected,
   handleConfigUpdate,
-  setTableColumnSortData
+  setTableColumnSortData,
+  hasPublishedReports,
+  publishedReports
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -57,7 +59,6 @@ const TableSectionContainer = ({
 
   // Investigate why this is being called twice?
   const getDepaginatedData = async() => {
-    console.log('running request.....')
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
     const sortParam = buildSortParams(selectedTable, selectedPivot);
@@ -91,6 +92,8 @@ const TableSectionContainer = ({
 
     setTableProps({
       dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
+      hasPublishedReports,
+      publishedReports,
       rawData: {...apiData, data: displayData}.data ? {...apiData, data: displayData} : apiData,
       data: displayData, //null for server-side pagination
       columnConfig,
