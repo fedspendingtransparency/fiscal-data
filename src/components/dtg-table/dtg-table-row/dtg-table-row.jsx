@@ -2,7 +2,7 @@ import React from 'react';
 import {currencyFormatter, numberFormatter, dateFormatter} from '../../../helpers/text-format/text-format';
 import * as styles from '../dtg-table.module.scss';
 
-const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE'];
+const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
 
 export default function DtgTableRow(props) {
   const cells = [];
@@ -15,7 +15,9 @@ export default function DtgTableRow(props) {
     if (!cellData || cellData === 'null' || cellData === '*') {
       formattedData = '';
     } else if (type === 'CURRENCY') {
-      formattedData = currencyFormatter.format(cellData);
+      formattedData = currencyFormatter.format(cellData, 2);
+    } else if ( type === 'CURRENCY3') {
+      formattedData = currencyFormatter.format(cellData, 3);
     } else if (type === 'NUMBER') {
       formattedData = numberFormatter.format(cellData);
     } else if (type === 'PERCENTAGE') {

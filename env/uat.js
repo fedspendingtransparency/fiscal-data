@@ -305,8 +305,8 @@ module.exports = {
     // treasury bulletin
     '206': {
       'endpoint': 'v1/accounting/tb/pdo1_offerings_regular_weekly_treasury_bills',
-      'downloadName': 'TB_PDO1OfferingsRegularWeeklyTreasuryBills',
       'dateField': 'record_date',
+      'downloadName': 'TB_PDO1OfferingsRegularWeeklyTreasuryBills',
     },
     '207': {
       'endpoint': 'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
@@ -317,6 +317,7 @@ module.exports = {
       'endpoint': 'v1/accounting/tb/ofs1_distribution_federal_securities_class_investors_type_issues',
       'dateField': 'record_date',
       'downloadName': 'TB_OFS1DistributionFederalSecuritiesClassInvestorsTypeIssues',
+      // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       'dataDisplays': [
         {
           'title': 'Securities Classification',
@@ -331,6 +332,7 @@ module.exports = {
           'dimensionField': 'issues_type',
         },
       ],
+      // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       "valueFieldOptions": [
         "securities_mil_amt"
       ]
@@ -380,7 +382,7 @@ module.exports = {
           'dimensionField': 'currency_denomination',
         },
       ],
-      "valueFieldOptions": [
+      'valueFieldOptions': [
         'total_currency_amt',
         'federal_reserve_notes_amt',
         'us_notes_amt',
@@ -392,6 +394,111 @@ module.exports = {
       'endpoint': 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
       'dateField': 'record_date',
       'downloadName': 'TB_FCP2MonthlyReportMajorMarketParticipants',
+    },
+    '213': {
+      'endpoint': 'v1/accounting/tb/fcp2_monthly_report_major_market_participants',
+      'dateField': 'record_date',
+      'downloadName': 'TB_FCP2MonthlyReportMajorMarketParticipants',
+    },
+    '214': {
+      'endpoint': 'v1/accounting/tb/fcp3_quarterly_report_large_market_participants',
+      'dateField': 'record_date',
+      'downloadName': 'TB_FCP3QuarterlyReportLargeMarketParticipants',
+    },
+    '215': {
+      'endpoint': 'v1/accounting/tb/esf1_balances',
+      'dateField': 'record_date',
+      'downloadName': 'TB_ESF1Balances',
+      'dataDisplays': [
+        {
+          'title': 'Classification Type',
+          'dimensionField': 'classification_type',
+        },
+        {
+          'title': 'Classification Description',
+          'dimensionField': 'classification_desc',
+        },
+        {
+          'title': 'Account Description',
+          'dimensionField': 'account_desc',
+        },
+        {
+          'title': 'Line Item Description',
+          'dimensionField': 'line_item_desc',
+        },
+      ],
+      'valueFieldOptions': [
+        'balance_thous_amt',
+      ]
+    },
+    '216': {
+      'endpoint': 'v1/accounting/tb/esf2_statement_net_cost',
+      'dateField': 'record_date',
+      'downloadName': 'TB_ESF2StatementNetCost',
+      'dataDisplays': [
+        {
+          'title': 'Program Type',
+          'dimensionField': 'program_type',
+        },
+        {
+          'title': 'Classification Type',
+          'dimensionField': 'classification_type',
+        },
+        {
+          'title': 'Account Description',
+          'dimensionField': 'account_desc',
+        },
+        {
+          'title': 'Line Item Description',
+          'dimensionField': 'line_item_desc',
+        },
+      ],
+      'valueFieldOptions': [
+        'current_quarter_thous_amt',
+        'fytd_thous_amt'
+      ]
+    },
+    '217': {
+      'endpoint': 'v1/accounting/tb/ffo5_internal_revenue_by_state',
+      'dateField': 'record_date',
+      'downloadName': 'TB_FFO5InternalRevenueReceiptsState',
+      'dataDisplays': [
+        {
+          'title': 'State Name',
+          'dimensionField': 'state_nm',
+        },
+      ],
+      'valueFieldOptions': [
+        'total_rev_collect_thous_amt',
+        'business_income_tax_thous_amt',
+        'total_indv_tax_thous_amt',
+        'withheld_FICA_thous_amt',
+        'not_withheld_SECA_thous_amt',
+        'unemployment_ins_tax_thous_amt',
+        'railroad_retire_tax_thous_amt',
+        'estate_trust_tax_thous_amt',
+        'estate_tax_thous_amt',
+        'gift_tax_thous_amt',
+        'excise_tax_thous_amt'
+      ]
+    },
+    '218': {
+      'endpoint': 'v1/accounting/tb/ffo6_customs_border_protection_collections',
+      'dateField': 'record_date',
+      'downloadName': 'TB_FFO6CustomsBorderProtectionCollectionDutiesTaxesFeesDistrictsPorts',
+      'dataDisplays': [
+        {
+          'title': 'District Name',
+          'dimensionField': 'district_nm',
+        },
+        {
+          'title': 'Port Name',
+          'dimensionField': 'port_nm',
+        },
+      ],
+      'valueFieldOptions': [
+        'collection_amt',
+      ]
     },
   }
 };

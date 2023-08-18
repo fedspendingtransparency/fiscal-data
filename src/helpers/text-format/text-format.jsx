@@ -1,10 +1,10 @@
 import React from 'react';
 
 // using this instead of Intl.NumberFormatter because of an IE bug with rounding
-const customFormat = (stringValue) => {
+const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
   const absVal = Math.abs(stringValue);
-  let returnString = '$' + absVal.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  let returnString = '$' + absVal.toFixed(decimalPlaces).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   if (Number(stringValue) < 0) {
     returnString = '-' + returnString;
   }
