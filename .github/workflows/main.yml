@@ -47,5 +47,5 @@ jobs:
         with:
           install: false
           build: npm run build
-          start: npm run develop-prod
+          start: npm run serve
           broswer: chrome
