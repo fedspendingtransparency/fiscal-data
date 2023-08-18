@@ -169,6 +169,12 @@ export const DataTable:FunctionComponent<DataTableProps> = (
   }, [table.getSortedRowModel()])
 
   const visibleRows = (table) => {
+    const rowsVisible = table?.getRowModel().flatRows.length;
+    const pageSize = table.getState().pagination.pageSize;
+    const currentPageIndex = table.getState().pagination.pageIndex + 1;
+    console.log(table?.getFilteredRowModel())
+    console.log(table?.getRowModel())
+    console.log(rowsVisible, pageSize, currentPageIndex)
     const rows = table.getRowModel().flatRows;
     const minRow = Number(rows[0]?.id) + 1;
     const maxRow = Number(rows[rows.length - 1]?.id) + 1;

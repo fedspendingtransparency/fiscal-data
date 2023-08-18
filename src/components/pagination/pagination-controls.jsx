@@ -19,9 +19,9 @@ const PaginationControls = ({ pagingProps }) => {
     table
   } = pagingProps;
 
-  console.log(pagingProps);
-  console.log(table?.getFilteredRowModel())
-  console.log(table?.getRowModel())
+  // console.log(pagingProps);
+  // console.log(table?.getFilteredRowModel())
+  // console.log(table?.getRowModel())
   // console.log(table?.rows?.length);
 
 
