@@ -15,8 +15,15 @@ const PaginationControls = ({ pagingProps }) => {
     maxPage,
     tableName,
     currentPage,
-    maxRows
+    maxRows,
+    table
   } = pagingProps;
+
+  console.log(pagingProps);
+  console.log(table?.getFilteredRowModel())
+  console.log(table?.getRowModel())
+  // console.log(table?.rows?.length);
+
 
   const perPageOptions = defaultPerPageOptions.slice();
   if (itemsPerPage && !perPageOptions.includes(itemsPerPage)) {

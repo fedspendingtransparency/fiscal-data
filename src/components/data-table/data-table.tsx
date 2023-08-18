@@ -17,19 +17,23 @@ import StickyTable from "react-sticky-table-thead";
 
 import {
   colHeader,
-  iconPill,
-  isResizing, resizer,
+  resizer,
   sortArrow,
   tableContainer,
   tableStyle,
   defaultSortArrow,
   colHeaderText,
   defaultSortArrowPill,
-  sortArrowPill
+  sortArrowPill,
+  isResizing,
 } from './data-table.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownShortWide} from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import PaginationControls from '../pagination/pagination-controls';
+import { rowsShowing, tableFooter } from '../dtg-table/dtg-table.module.scss';
+import PagingOptionsMenu from '../pagination/paging-options-menu';
+import PaginationButtons from './data-table-pagination-buttons';
 
 
 type DataTableProps = {
@@ -38,6 +42,9 @@ type DataTableProps = {
   defaultSelectedColumns: string[];
   pageSize: number;
   setTableColumnSortData: any,
+  shouldPage: boolean,
+  pagingProps: any,
+  showPaginationControls: any,
 }
 
 const getTrProps = (rowInfo) => {
@@ -55,7 +62,16 @@ const getTrProps = (rowInfo) => {
   }
 }
 
-export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize, defaultSelectedColumns, setTableColumnSortData }) => {
+export const DataTable:FunctionComponent<DataTableProps> = (
+  {
+    rawData,
+    pageSize,
+    defaultSelectedColumns,
+    setTableColumnSortData,
+    shouldPage,
+    pagingProps,
+    showPaginationControls,
+  }) => {
 
   const allColumns = rawData.meta ?
     Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
@@ -82,7 +98,7 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [defaultColumns, setDefaultColumns] = React.useState([]);
   const [additionalColumns, setAdditionalColumns] = React.useState([]);
-
+  const [filterRowLength, setFilteredRowLength] = React.useState(null);
 
   const table = useReactTable({
     columns,
@@ -147,6 +163,21 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
       constructDefaultColumnsFromTableData();
     }
   }, []);
+
+  useEffect(() => {
+    setFilteredRowLength(table.getSortedRowModel().rows.length);
+  }, [table.getSortedRowModel()])
+
+  const visibleRows = (table) => {
+    const rows = table.getRowModel().flatRows;
+    const minRow = Number(rows[0]?.id) + 1;
+    const maxRow = Number(rows[rows.length - 1]?.id) + 1;
+    return (
+      <>
+        {`Showing ${minRow} - ${maxRow} rows of ${filterRowLength} rows`}
+      </>
+    )
+  }
 
 
   return (
@@ -326,69 +357,29 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
         </table>
      </StickyTable>
     </div>
-    <div className="h-2" />
-    <div className="flex items-center gap-2">
-      <button
-        className="border rounded p-1"
-        onClick={() => table.setPageIndex(0)}
-        disabled={!table.getCanPreviousPage()}
-      >
-        {'<<'}
-      </button>
-      <button
-        className="border rounded p-1"
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-        {'<'}
-      </button>
-      <button
-        className="border rounded p-1"
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
-      >
-        {'>'}
-      </button>
-      <button
-        className="border rounded p-1"
-        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-        disabled={!table.getCanNextPage()}
-      >
-        {'>>'}
-      </button>
-      <span className="flex items-center gap-1">
-        <div>Page</div>
-        <strong>
-          {table.getState().pagination.pageIndex + 1} of{' '}
-          {table.getPageCount()}
-        </strong>
-      </span>
-      <span className="flex items-center gap-1">
-                | Go to page:
-                <input
-                  type="number"
-                  data-testid={'pagination-text-input'}
-                  defaultValue={table.getState().pagination.pageIndex + 1}
-                  onChange={e => {
-                    const page = e.target.value ? Number(e.target.value) - 1 : 0
-                    table.setPageIndex(page)
-                  }}
-                  className="border p-1 rounded w-16"
-                />
-              </span>
-      <select
-        value={table.getState().pagination.pageSize}
-        onChange={e => {
-          table.setPageSize(Number(e.target.value))
-        }}
-      >
-        {[10, 20, 30, 40, 50, 100, 250, 500, 1000].map(pageSize => (
-          <option key={pageSize} value={pageSize}>
-            Show {pageSize}
-          </option>
-        ))}
-      </select>
-    </div>
+      {shouldPage &&
+        <div data-test-id="table-footer" className={tableFooter}>
+          <div data-test-id="rows-showing" className={rowsShowing}>
+            {visibleRows(table)}
+            {/*{`Showing ${table.getRowModel().flatRows[0].id} - ${table.getRowModel().flatRows[0].id} of x rows`}*/}
+            {/*{`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}*/}
+          </div>
+          {showPaginationControls &&
+            <PaginationControls
+              pagingProps={{
+                itemsPerPage: table.getState().pagination.pageSize,
+                handlePerPageChange: table.setPageSize,
+                handleJump: (x) => table.setPageIndex(x-1),
+                maxPage: table.getPageCount(),
+                tableName: '',
+                currentPage: table.getState().pagination.pageIndex + 1,
+                maxRows: filterRowLength,
+                table: table,
+              }}
+            />
+          }
+        </div>
+      }
     </div>
     );
 

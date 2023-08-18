@@ -431,7 +431,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       <Experimental featureId="react-table-poc">
         {reactTableData &&
           <DataTable rawData={reactTableData} pageSize={10} defaultSelectedColumns={selectColumns}
-                     setTableColumnSortData={setTableColumnSortData}
+                     setTableColumnSortData={setTableColumnSortData} shouldPage={shouldPage}
+                     pagingProps={pagingProps} showPaginationControls={showPaginationControls}
           />
         }
       </Experimental>
