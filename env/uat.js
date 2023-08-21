@@ -409,54 +409,11 @@ module.exports = {
       'endpoint': 'v1/accounting/tb/esf1_balances',
       'dateField': 'record_date',
       'downloadName': 'TB_ESF1Balances',
-      'dataDisplays': [
-        {
-          'title': 'Classification Type',
-          'dimensionField': 'classification_type',
-        },
-        {
-          'title': 'Classification Description',
-          'dimensionField': 'classification_desc',
-        },
-        {
-          'title': 'Account Description',
-          'dimensionField': 'account_desc',
-        },
-        {
-          'title': 'Line Item Description',
-          'dimensionField': 'line_item_desc',
-        },
-      ],
-      'valueFieldOptions': [
-        'balance_thous_amt',
-      ]
     },
     '216': {
       'endpoint': 'v1/accounting/tb/esf2_statement_net_cost',
       'dateField': 'record_date',
       'downloadName': 'TB_ESF2StatementNetCost',
-      'dataDisplays': [
-        {
-          'title': 'Program Type',
-          'dimensionField': 'program_type',
-        },
-        {
-          'title': 'Classification Type',
-          'dimensionField': 'classification_type',
-        },
-        {
-          'title': 'Account Description',
-          'dimensionField': 'account_desc',
-        },
-        {
-          'title': 'Line Item Description',
-          'dimensionField': 'line_item_desc',
-        },
-      ],
-      'valueFieldOptions': [
-        'current_quarter_thous_amt',
-        'fytd_thous_amt'
-      ]
     },
     '217': {
       'endpoint': 'v1/accounting/tb/ffo5_internal_revenue_by_state',
