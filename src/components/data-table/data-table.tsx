@@ -26,6 +26,7 @@ import {
   defaultSortArrowPill,
   sortArrowPill,
   isResizing,
+  rightAlignText
 } from './data-table.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownShortWide} from "@fortawesome/free-solid-svg-icons";
@@ -79,6 +80,10 @@ export const DataTable:FunctionComponent<DataTableProps> = (
   const [columns] = React.useState(() => [
     ...allColumns,
   ])
+
+  const dataTypes = rawData.meta.dataTypes;
+
+  console.log(rawData.meta.dataTypes);
 
   const defaultInvisibleColumns = {};
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
@@ -171,19 +176,21 @@ export const DataTable:FunctionComponent<DataTableProps> = (
   const visibleRows = (table) => {
     const rowsVisible = table?.getRowModel().flatRows.length;
     const pageSize = table.getState().pagination.pageSize;
-    const currentPageIndex = table.getState().pagination.pageIndex + 1;
-    console.log(table?.getFilteredRowModel())
-    console.log(table?.getRowModel())
-    console.log(rowsVisible, pageSize, currentPageIndex)
-    const rows = table.getRowModel().flatRows;
-    const minRow = Number(rows[0]?.id) + 1;
-    const maxRow = Number(rows[rows.length - 1]?.id) + 1;
+    const pageIndex = table.getState().pagination.pageIndex;
+    const minRow = (pageIndex * pageSize) + 1;
+    const maxRow = (pageIndex * pageSize) + rowsVisible;
     return (
       <>
         {`Showing ${minRow} - ${maxRow} rows of ${filterRowLength} rows`}
       </>
     )
   }
+
+  const rightAlign = (type, header) => {
+    const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
+    console.log(header, types.includes(type));
+    return types.includes(type);
+  };
 
 
   return (
@@ -269,14 +276,16 @@ export const DataTable:FunctionComponent<DataTableProps> = (
       {/*  )}*/}
       {/*</div>*/}
       <div data-test-id="table-content" className={tableContainer}>
-       <StickyTable height={500} >
+       <StickyTable height={511} >
         <table>
           <thead>
           {table.getHeaderGroups().map((headerGroup) => {
-            console.log(headerGroup.headers);
             return (
               <tr key={headerGroup.id} data-testid='header-row'>
                 {headerGroup.headers.map((header) => {
+                  const type = dataTypes[header.id];
+                  const alignment = rightAlign(type, header.id) ? rightAlignText : undefined;
+                  console.log(alignment, header.id);
                   return (
                     <th
                       {...{
@@ -294,14 +303,13 @@ export const DataTable:FunctionComponent<DataTableProps> = (
                             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                             <div
                               {...{
-                                className: header.column.getCanSort()
-                                  ? `${colHeader}`
-                                  : '',
+                                className: header.column.getCanSort() ? `${colHeader} ${rightAlign(type, header.id) ? rightAlignText : undefined}` : '',
                                 onClick: header.column.getToggleSortingHandler(),
                               }}
+
                               data-testid={`header-sorter-${header.id}`}
                             >
-                              <div className={colHeaderText}>
+                              <div className={`${colHeaderText}`}>
                                 {flexRender(
                                   header.column.columnDef.header,
                                   header.getContext(),
@@ -347,7 +355,7 @@ export const DataTable:FunctionComponent<DataTableProps> = (
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id} style={getTrProps(row)} data-testid="row">
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <td key={cell.id} className={`${rightAlign(dataTypes[cell.id], '') ? rightAlignText : undefined}`}>
                   {
                     cell.getValue() === 'null' ? (
                       <div />

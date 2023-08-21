@@ -86,13 +86,23 @@ $borderRadius: 5px;
     align-items: center;
     padding: 8px 0;
     white-space: nowrap;
+    &.rightAlignText {
+      justify-content: flex-end;
+    }
   }
 
   .colHeaderText {
     text-overflow: ellipsis;
     overflow: hidden;
     min-width: 20px; //TODO create variable for min width
+
   }
+
+  .rightAlignText {
+    display: flex;
+    justify-content: flex-end;
+  }
+
 
   .resizer {
     position: absolute;

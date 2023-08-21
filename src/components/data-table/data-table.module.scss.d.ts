@@ -75,5 +75,6 @@ export const defaultSortArrowPill: string;
 export const sortArrow: string;
 export const defaultSortArrow: string;
 export const colHeader: string;
+export const rightAlignText: string;
 export const colHeaderText: string;
 export const resizer: string;
