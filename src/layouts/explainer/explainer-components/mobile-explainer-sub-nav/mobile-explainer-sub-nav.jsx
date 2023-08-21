@@ -137,7 +137,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           <span
             onClick={() => navigate('/americas-finance-guide/')}
             onKeyPress={() => navigate('/americas-finance-guide/')}
-            className={overviewStyle} id="home"
+            className={`${overviewStyle} explainerSubNav`} id="home"
             role={'button'}
             tabIndex={0}
             data-testid="afgSpan"
@@ -153,7 +153,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           disableScrollLock={true}
           open={defaultOpen || Boolean(anchorEl)}
           onClose={handleClose}
-          className={[mainListSticky, stylingStyledMenu].join(" ")}
+          className={[mainListSticky, stylingStyledMenu, "explainerSubNav"].join(" ")}
           id="styled-menu"
         >
           <StyledMenuItem className={MenuList}>
@@ -162,13 +162,13 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
               onClick={() =>
                 navigate("/americas-finance-guide/government-revenue/")
               }
-              primary=" Revenue"
+              primary="Revenue"
               data-testid="revenueButton"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isSpending ? [spending, activeMenu].join(" ") : spending}`}
+              className={`${isSpending ? [spending, activeMenu, "explainerSubNav"].join(" ") : spending}`}
               onClick={() =>
                 navigate("/americas-finance-guide/federal-spending/")
               }
@@ -178,7 +178,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDeficit ? [deficit, activeMenu].join(" ") : deficit}`}
+              className={`${isDeficit ? [deficit, activeMenu, "explainerSubNav"].join(" ") : deficit}`}
               onClick={() =>
                 navigate("/americas-finance-guide/national-deficit/")
               }
@@ -188,7 +188,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDebt ? [debt, activeMenu].join(" ") : debt}`}
+              className={`${isDebt ? [debt, activeMenu, "explainerSubNav"].join(" ") : debt}`}
               onClick={() => navigate("/americas-finance-guide/national-debt/")}
               primary="Debt"
               data-testid="debtButton"
