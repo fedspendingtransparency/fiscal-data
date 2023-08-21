@@ -1,5 +1,5 @@
 import {Column, Table} from "@tanstack/react-table";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SearchBar from '../search-bar/search-bar';
 
 export const Filter = ({
@@ -80,3 +80,35 @@ export const Filter = ({
       // />
     )
 }
+
+export const getTrProps = (rowInfo) => {
+  if (rowInfo.id === 0 || rowInfo.id % 2 === 0) {
+    return {
+      background:'#f1f1f1',
+      color: '#555555',
+      borderTop: '1px solid #D9D9D9',
+      borderBottom: '1px solid #D9D9D9',
+    }
+  }
+  else {
+    return {
+      background:'white',
+      color: '#555555'
+    }
+  }
+}
+export const getTdProps = (rowInfo) => {
+  if (rowInfo.id === 0 || rowInfo.id % 2 === 0) {
+    return {
+      borderTop: '1px solid #D9D9D9',
+      borderBottom: '1px solid #D9D9D9',
+    }
+  }
+}
+
+export const rightAlign = (type) => {
+  const types = ['DATE', 'CURRENCY', 'CURRENCY3', 'NUMBER', 'PERCENTAGE'];
+  return types.includes(type);
+};
+
+

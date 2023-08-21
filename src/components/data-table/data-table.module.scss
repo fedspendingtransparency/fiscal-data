@@ -39,12 +39,12 @@ $borderRadius: 5px;
   }
 
   th, .th {
+    cursor: default;
     background-color: white;
     position: relative;
     font-weight: bold;
     text-align: center;
     height: 30px;
-    max-width: 4rem;
     padding: 0.25rem 0.5rem 0.75rem;
   }
 
@@ -60,6 +60,7 @@ $borderRadius: 5px;
     border-radius: 20px;
     display: flex;
     margin-left: 0.5rem;
+    cursor: pointer;
   }
 
   .sortArrowPill {
@@ -81,7 +82,6 @@ $borderRadius: 5px;
   }
 
   .colHeader{
-    cursor: pointer;
     display: flex;
     align-items: center;
     padding: 8px 0;
@@ -99,10 +99,8 @@ $borderRadius: 5px;
   }
 
   .rightAlignText {
-    display: flex;
-    justify-content: flex-end;
+    text-align: right;
   }
-
 
   .resizer {
     position: absolute;
@@ -118,8 +116,12 @@ $borderRadius: 5px;
   }
 
   .resizer.isResizing {
-    //background: blue;
-    //opacity: 1;
+    background: $font-body-copy;
+    opacity: 1;
+  }
+
+  .columnMinWidth {
+    min-width: 160px;
   }
 
   @media (hover: hover) {

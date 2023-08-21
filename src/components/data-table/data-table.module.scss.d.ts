@@ -78,3 +78,5 @@ export const colHeader: string;
 export const rightAlignText: string;
 export const colHeaderText: string;
 export const resizer: string;
+export const isResizing: string;
+export const columnMinWidth: string;
