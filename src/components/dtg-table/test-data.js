@@ -167,6 +167,12 @@ export const ColumnConfig2 = [
     type: 'CURRENCY'
   },
   {
+    property: 'money3',
+    name: 'money3',
+    order: 14,
+    type: 'CURRENCY3'
+  },
+  {
     property: 'percent',
     name: 'percent',
     order: 4,
