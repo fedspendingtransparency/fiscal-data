@@ -28,8 +28,8 @@ export default function ExplainerSubNav({hidePosition}) {
 
   const analyticsEvent = (title) => {
     Analytics.event({
-      category: 'Sitewide Navigation',
-      action: `Left Nav Click`,
+      category: 'Fiscal Data - Explainers',
+      action: `Sub Nav Click`,
       label: title
     });
   }

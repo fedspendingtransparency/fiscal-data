@@ -1,6 +1,8 @@
 import React from "react";
 import MobileExplainerSubNav from './mobile-explainer-sub-nav';
 import {render, fireEvent} from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
+import Analytics from "../../../../utils/analytics/analytics";
 
 describe("ExplainerSubNav Component", () => {
   it("renders the component", () => {
@@ -58,4 +60,25 @@ describe("ExplainerSubNav Component", () => {
   });
 
 
-})
+});
+
+describe("Mobile ExplainerSubNav analytics", () => {
+
+  it('Calls analytics event for each mobile nav link clicked', async() => {
+    const { getByText } = render(<MobileExplainerSubNav isShown={true} pageName={'americas-finance-guide'} />);
+    const spy = jest.spyOn(Analytics, 'event');
+
+    const navMenuOptions = ["Overview", "Revenue", "Spending", "Deficit", "Debt"];
+
+
+    navMenuOptions.forEach(text => {
+      userEvent.click(getByText(text));
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Fiscal Data - Explainers',
+        action: `Sub Nav Click`,
+        label: text
+      });
+    });
+
+  });
+});
