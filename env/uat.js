@@ -393,7 +393,7 @@ module.exports = {
     '212': {
       'endpoint': 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
       'dateField': 'record_date',
-      'downloadName': 'TB_FCP2MonthlyReportMajorMarketParticipants',
+      'downloadName': 'TB_FCP1MonthlyReportMajorMarketParticipants',
     },
     '213': {
       'endpoint': 'v1/accounting/tb/fcp2_monthly_report_major_market_participants',
