@@ -358,7 +358,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
           </div>
         </>
       )}
-      <Experimental exclude featureId="react-table-poc">
+      <Experimental  featureId="react-table-poc">
       <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
         {/* API Error Message */}
         {(apiError || tableProps.apiError) && !emptyDataMessage && (
@@ -428,7 +428,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             </div>
       }
       </Experimental>
-      <Experimental featureId="react-table-poc">
+      <Experimental exclude featureId="react-table-poc">
         {reactTableData &&
           <DataTable rawData={reactTableData} pageSize={10} defaultSelectedColumns={selectColumns}
                      setTableColumnSortData={setTableColumnSortData} shouldPage={shouldPage}

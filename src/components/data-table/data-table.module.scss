@@ -46,6 +46,11 @@ $borderRadius: 5px;
     text-align: center;
     height: 30px;
     padding: 0.25rem 0.5rem 0.75rem;
+    max-width: 160px;
+  }
+
+  th[title]:hover {
+    color: red;
   }
 
   td,
@@ -95,7 +100,10 @@ $borderRadius: 5px;
     text-overflow: ellipsis;
     overflow: hidden;
     min-width: 20px; //TODO create variable for min width
+  }
 
+  .colHeaderText[title]:hover:after {
+    color: red;
   }
 
   .rightAlignText {

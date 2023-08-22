@@ -2,13 +2,7 @@ import React from 'react';
 
 
 const PaginationButtons = ({table}) => {
-  // console.log(table);
-  // console.log(table.getState());
-  // console.log(table.getPaginationRowModel());
-  // console.log(table.getPageCount());
-  // console.log(table.getPageOptions());
-  // console.log(table.getRowModel());
-  // console.log(table.getRowModel().rowsById);
+
   return (
     <>
       <div className="flex items-center gap-2">

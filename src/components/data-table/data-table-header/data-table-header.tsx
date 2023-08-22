@@ -15,9 +15,24 @@ import {
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Filter, rightAlign } from '../data-table-helper';
 import React from 'react';
+import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles } from '@material-ui/core/styles';
 
 
 const DataTableHeader = ({table, dataTypes}) => {
+  const LightTooltip = withStyles((theme) => ({
+    tooltip: {
+      color: '#555555',
+      fontSize: 16,
+      fontWeight: 600,
+      fontFamily: 'Source Sans Pro',
+      marginLeft: '20px',
+      marginTop: '4px',
+      borderRadius: '4px',
+      background: '#FFF',
+      boxShadow: '4px 4px 16px 0px rgba(0, 0, 0, 0.15), 0px 0px 2px 0px rgba(0, 0, 0, 0.20)',
+    }
+  }))(Tooltip)
 
   return (
     <thead>
@@ -44,15 +59,16 @@ const DataTableHeader = ({table, dataTypes}) => {
                         {...{
                           className: header.column.getCanSort() ? `${colHeader} ${rightAlign(type) ? rightAlignText : null}` : '',
                         }}
-
                         data-testid={`header-sorter-${header.id}`}
                       >
-                        <div className={`${colHeaderText}`} id={'test'}>
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                        </div>
+                        <LightTooltip title={header.column.columnDef.header} placement="bottom-start">
+                          <div className={colHeaderText} >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                          </div>
+                        </LightTooltip>
                         {{
                           asc:
                             <div className={sortArrowPill}>

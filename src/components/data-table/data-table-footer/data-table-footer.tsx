@@ -1,15 +1,22 @@
 import { rowsShowing, tableFooter } from '../../dtg-table/dtg-table.module.scss';
 import PaginationControls from '../../pagination/pagination-controls';
-import React, { useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 
 
-const DataTableFooter = ({shouldPage, table, showPaginationControls}) => {
+type DataTableFooterProps = {
+  table: any,
+  shouldPage: boolean,
+  showPaginationControls: boolean,
+}
+
+const DataTableFooter:FunctionComponent<DataTableFooterProps> = ({shouldPage, table, showPaginationControls}) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
 
 
   useEffect(() => {
     setFilteredRowLength(table.getSortedRowModel().rows.length);
   }, [table.getSortedRowModel()])
+
   const visibleRows = (table) => {
     const rowsVisible = table?.getRowModel().flatRows.length;
     const pageSize = table.getState().pagination.pageSize;
