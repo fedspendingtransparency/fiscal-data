@@ -1,11 +1,16 @@
 import {
   colHeader,
-  colHeaderText, columnMinWidth, defaultSortArrow, defaultSortArrowPill, isResizing, resizer,
+  colHeaderText,
+  columnMinWidth,
+  defaultSortArrow,
+  defaultSortArrowPill,
+  isResizing,
+  resizer,
   rightAlignText,
   sortArrow,
   sortArrowPill,
-} from '../data-table.module.scss';
-import { flexRender } from '@tanstack/react-table';
+} from './data-table-header.module.scss';
+import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowDownShortWide,
@@ -14,23 +19,27 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Filter, rightAlign } from '../data-table-helper';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
 
+interface IDataTableHeader {
+  table: Table<any>;
+  dataTypes: {[key: string]:string};
+}
 
-const DataTableHeader = ({table, dataTypes}) => {
-  const LightTooltip = withStyles((theme) => ({
+const DataTableHeader:FunctionComponent<IDataTableHeader> = ({table, dataTypes}) => {
+  const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
       fontSize: 16,
       fontWeight: 600,
       fontFamily: 'Source Sans Pro',
-      marginLeft: '20px',
-      marginTop: '4px',
-      borderRadius: '4px',
+      marginLeft: '1.25rem',
+      marginTop: '0.25rem',
+      borderRadius: '0.25rem',
       background: '#FFF',
-      boxShadow: '4px 4px 16px 0px rgba(0, 0, 0, 0.15), 0px 0px 2px 0px rgba(0, 0, 0, 0.20)',
+      boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
     }
   }))(Tooltip)
 
@@ -38,9 +47,8 @@ const DataTableHeader = ({table, dataTypes}) => {
     <thead>
     {table.getHeaderGroups().map((headerGroup) => {
       return (
-        <tr key={headerGroup.id} data-testid='header-row'>
+        <tr key={headerGroup.id} data-testid="header-row">
           {headerGroup.headers.map((header) => {
-            const type = dataTypes[header.id];
             return (
               <th
                 {...{
@@ -57,7 +65,7 @@ const DataTableHeader = ({table, dataTypes}) => {
                     <>
                       <div
                         {...{
-                          className: header.column.getCanSort() ? `${colHeader} ${rightAlign(type) ? rightAlignText : null}` : '',
+                          className: header.column.getCanSort() ? `${colHeader} ${rightAlign(dataTypes[header.id]) ? rightAlignText : null}` : '',
                         }}
                         data-testid={`header-sorter-${header.id}`}
                       >

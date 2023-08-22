@@ -19,6 +19,17 @@ $borderRadius: 5px;
     width: fit-content;
   }
 
+  th, .th {
+    cursor: default;
+    background-color: white;
+    position: relative;
+    font-weight: bold;
+    text-align: center;
+    height: 30px;
+    padding: 0.25rem 0.5rem 0.75rem;
+    max-width: 160px;
+  }
+
   .tr {
     display: flex;
   }
@@ -38,108 +49,8 @@ $borderRadius: 5px;
     justify-content: flex-end;
   }
 
-  th, .th {
-    cursor: default;
-    background-color: white;
-    position: relative;
-    font-weight: bold;
-    text-align: center;
-    height: 30px;
-    padding: 0.25rem 0.5rem 0.75rem;
-    max-width: 160px;
-  }
-
-  th[title]:hover {
-    color: red;
-  }
-
   td,
   .td {
     height: 30px;
   }
-
-  .sortArrowPill, .defaultSortArrowPill {
-    height: 20px;
-    width: 28px;
-    min-width: 28px;
-    border-radius: 20px;
-    display: flex;
-    margin-left: 0.5rem;
-    cursor: pointer;
-  }
-
-  .sortArrowPill {
-    background-color: $primary;
-  }
-
-  .defaultSortArrowPill:hover {
-    background-color: #CFE8FF;
-  }
-
-  .sortArrow {
-    color: white;
-    margin: auto;
-  }
-
-  .defaultSortArrow {
-    color: $primary;
-    margin: auto;
-  }
-
-  .colHeader{
-    display: flex;
-    align-items: center;
-    padding: 8px 0;
-    white-space: nowrap;
-    &.rightAlignText {
-      justify-content: flex-end;
-    }
-  }
-
-  .colHeaderText {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    min-width: 20px; //TODO create variable for min width
-  }
-
-  .colHeaderText[title]:hover:after {
-    color: red;
-  }
-
-  .rightAlignText {
-    text-align: right;
-  }
-
-  .resizer {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 5px;
-    background: $font-body-copy;
-    cursor: col-resize;
-    user-select: none;
-    touch-action: none;
-    border-radius: 20px;
-  }
-
-  .resizer.isResizing {
-    background: $font-body-copy;
-    opacity: 1;
-  }
-
-  .columnMinWidth {
-    min-width: 160px;
-  }
-
-  @media (hover: hover) {
-    .resizer {
-      opacity: 0;
-    }
-
-    *:hover > .resizer {
-      opacity: 1;
-    }
-  }
-
 }

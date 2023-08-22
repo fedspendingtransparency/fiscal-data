@@ -102,12 +102,26 @@ describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
 
   it('table renders', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={null}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
     expect(instance).toBeTruthy();
   });
 
   it('renders headers and column checkboxs', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={null}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
     // Column checkbox
     expect(instance.getAllByText('Record Date')[0]).toBeInTheDocument();
     // Column header
@@ -115,7 +129,14 @@ describe('react-table', () => {
   });
 
   it('Able to interact with headers for column sort', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={null}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
     // Rows render
@@ -128,7 +149,14 @@ describe('react-table', () => {
   });
 
   it('Filter column by text search', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={10} setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={null}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
     // Rows render
@@ -142,7 +170,14 @@ describe('react-table', () => {
   });
 
   it('pagination', () => {
-    const instance = render(<DataTable rawData={mockTableData} defaultSelectedColumns={null} pageSize={2} setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={null}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
     // Column header
     expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
     // Rows render
@@ -182,25 +217,31 @@ describe('react-table', () => {
 
   });
 
-  it('initally renders all columns showing when no defaults specified', () => {
+  it('initially renders all columns showing when no defaults specified', () => {
     const instance = render(
-      <DataTable
-        rawData={mockTableData}
-        defaultSelectedColumns={null}
-        pageSize={10}
-        setTableColumnSortData={setTableColumnSortData}
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={null}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
       />);
+
     allColLabels.forEach((index) => {
       expect(instance.getAllByRole('columnheader', {name: allColLabels[index]})[0]).toBeInTheDocument();
     });
   });
 
-  it('initally renders only default columns showing when defaults specified', () => {
-    const instance = render(<DataTable
-                            rawData={mockTableData}
-                            defaultSelectedColumns={defaultSelectedColumnsMock}
-                            pageSize={10}
-                            setTableColumnSortData={setTableColumnSortData} />);
+  it('initially renders only default columns showing when defaults specified', () => {
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={defaultSelectedColumnsMock}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
+
     // default col in table
     defaultColLabels.forEach((index) => {
       expect(instance.getAllByRole('columnheader', {name: index})[0]).toBeInTheDocument();
@@ -214,11 +255,14 @@ describe('react-table', () => {
   });
 
   it('resets columns back to default on reset', () => {
-    const instance = render(<DataTable
-                            rawData={mockTableData}
-                            defaultSelectedColumns={defaultSelectedColumnsMock}
-                            pageSize={10}
-                            setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={defaultSelectedColumnsMock}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
 
     const firstDefaultHeader = instance.queryAllByRole('columnheader', {name: defaultColLabels[0]})[0];
     const firstDefaultCheckbox = instance.getAllByRole('checkbox', {name: defaultColLabels[0]})[0];
@@ -253,11 +297,14 @@ describe('react-table', () => {
   });
 
   it('resets columns back to default on reset from select all', () => {
-    const instance = render(<DataTable
-                            rawData={mockTableData}
-                            defaultSelectedColumns={defaultSelectedColumnsMock}
-                            pageSize={10}
-                            setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={defaultSelectedColumnsMock}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
 
     const selectAll = instance.getByRole('checkbox', {name: 'Select All'});
     const resetColButton = instance.getByTestId('reset-button');
@@ -287,11 +334,14 @@ describe('react-table', () => {
   });
 
   it('resets columns back to default on reset from none selected', () => {
-    const instance = render(<DataTable
-                            rawData={mockTableData}
-                            defaultSelectedColumns={defaultSelectedColumnsMock}
-                            pageSize={10}
-                            setTableColumnSortData={setTableColumnSortData} />);
+    const instance = render(
+      <DataTable rawData={mockTableData}
+                 defaultSelectedColumns={defaultSelectedColumnsMock}
+                 pageSize={10}
+                 setTableColumnSortData={setTableColumnSortData}
+                 shouldPage
+                 showPaginationControls
+      />);
 
     const selectAll = instance.getByRole('checkbox', {name: 'Select All'});
     const resetColButton = instance.getByTestId('reset-button');

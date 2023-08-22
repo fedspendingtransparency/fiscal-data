@@ -4,7 +4,7 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page'],
+  EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page', 'react-table-poc'],
   ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '27': {
@@ -117,7 +117,7 @@ module.exports = {
       ]
     },
 
-    // DTS 
+    // DTS
     "219": {
       "endpoint": "v1/accounting/dts/operating_cash_balance",
       "dateField": "record_date",
@@ -148,11 +148,11 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_OpCashDpstWdrl',
       'dataDisplays': [
-        { 
+        {
           "title": "By Type of Account",
-          "dimensionField": "account_type" 
+          "dimensionField": "account_type"
         },
-        { 
+        {
           "title": "By Transaction Type",
           "dimensionField": "transaction_type" },
       ],
@@ -167,9 +167,9 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_PubDebtTrans',
       'dataDisplays': [
-        { 
+        {
           "title": "By Transaction Type",
-          "dimensionField": "transaction_type" 
+          "dimensionField": "transaction_type"
         }
       ],
       'valueFieldOptions': [
@@ -183,11 +183,11 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_PubDebtCashAdj',
       'dataDisplays': [
-        { 
+        {
           "title": "By Transaction Type",
-          "dimensionField": "transaction_type" 
+          "dimensionField": "transaction_type"
         },
-        { 
+        {
           "title": "By Adjustment Type",
           "dimensionField": "adj_type"
         },
@@ -221,7 +221,7 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_FedTaxDpst',
       'dataDisplays': [
-        { 
+        {
           "title": "By Federal Tax Deposit Type",
           "dimensionField": "tax_deposit_type"
          },
@@ -237,9 +237,9 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_StCashInvest',
       'dataDisplays': [
-        { 
+        {
           "title": "By Transaction Type",
-          "dimensionField": "transaction_type" 
+          "dimensionField": "transaction_type"
         },
       ],
       'valueFieldOptions': [
@@ -254,11 +254,11 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_IncmTaxRfnd',
       'dataDisplays': [
-        { 
+        {
           "title": "By Federal Tax Refund Type",
           "dimensionField": "tax_refund_type"
         },
-        { 
+        {
           "title": "By Federal Tax Refund Type Description",
           "dimensionField": "tax_refund_type_desc"
         }
@@ -274,9 +274,9 @@ module.exports = {
       'dateField': 'record_date',
       'downloadName': 'DTS_InterAgencyTaxTransfers',
       'dataDisplays': [
-        { 
+        {
           "title": "By Classification",
-          "dimensionField": "classification" 
+          "dimensionField": "classification"
         }
       ],
       'valueFieldOptions': [

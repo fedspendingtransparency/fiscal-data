@@ -26,7 +26,7 @@ type DataTableProps = {
   pageSize: number;
   setTableColumnSortData: any,
   shouldPage: boolean,
-  showPaginationControls: any,
+  showPaginationControls: boolean,
 }
 
 
@@ -49,6 +49,7 @@ export const DataTable:FunctionComponent<DataTableProps> = (
 
   const dataTypes = rawData.meta.dataTypes;
   const defaultInvisibleColumns = {};
+  console.log(dataTypes);
 
 
   const [sorting, setSorting] = React.useState<SortingState>([]);

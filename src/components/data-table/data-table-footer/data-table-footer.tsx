@@ -1,15 +1,16 @@
 import { rowsShowing, tableFooter } from '../../dtg-table/dtg-table.module.scss';
 import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
+import { Table } from '@tanstack/react-table';
 
 
-type DataTableFooterProps = {
-  table: any,
-  shouldPage: boolean,
-  showPaginationControls: boolean,
+interface IDataTableFooter {
+  table: Table<any>;
+  shouldPage: boolean;
+  showPaginationControls: boolean;
 }
 
-const DataTableFooter:FunctionComponent<DataTableFooterProps> = ({shouldPage, table, showPaginationControls}) => {
+const DataTableFooter:FunctionComponent<IDataTableFooter> = ({table, shouldPage,  showPaginationControls}) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
 
 

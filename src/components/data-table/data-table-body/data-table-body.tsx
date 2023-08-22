@@ -1,17 +1,21 @@
 import { rightAlign } from '../data-table-helper';
-import { rightAlignText } from '../data-table.module.scss';
-import { flexRender } from '@tanstack/react-table';
-import React from 'react';
+import { flexRender, Table } from '@tanstack/react-table';
+import React, { FunctionComponent } from 'react';
 import {
   fillCellGrey,
   fillCellWhite,
   cellBorder,
+  rightAlignText,
 } from './data-table-body.module.scss';
 import classNames from 'classnames';
 
 
+interface IDataTableBody {
+  table: Table<any>;
+  dataTypes: {[key: string]:string};
+}
 
-const DataTableBody = ({table, dataTypes}) => {
+const DataTableBody: FunctionComponent<IDataTableBody> = ({table, dataTypes}) => {
   let fillCell = false;
 
   return (
