@@ -59,6 +59,7 @@ const globalConstants = {
         '015-BFS-2014Q1-03',
         '015-BFS-2014Q3-037',
         '015-BFS-2014Q3-098',
+        '015-BFS-2014Q3-045',
       ],
     },
     downloadService: {

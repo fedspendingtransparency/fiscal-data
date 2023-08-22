@@ -16,10 +16,6 @@ const PublishedReports = ({ reports, dataset }) => {
   const [reportToShow, setReportToShow] = useState(null);
 
   useEffect(() => {
-    console.log(reportToShow);
-  }, [reportToShow])
-
-  useEffect(() => {
     setSelectedReportGroup(reports);
   }, [reports]);
 
@@ -31,7 +27,7 @@ const PublishedReports = ({ reports, dataset }) => {
     if (reportToShow &&
       (selectedFile.report_group_desc === reportToShow.report_group_desc
         && isEqual(selectedFile.report_date, reportToShow.report_date)
-        && isEqual(selectedFile.pathname, reportToShow.pathname))) return;
+        && isEqual(selectedFile.path, reportToShow.path))) return;
 
     setReportToShow(selectedFile);
   }, [selectedFile]);
