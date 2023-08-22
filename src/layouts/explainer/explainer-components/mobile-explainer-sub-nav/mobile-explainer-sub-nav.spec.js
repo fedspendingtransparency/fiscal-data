@@ -64,7 +64,7 @@ describe("ExplainerSubNav Component", () => {
 
 describe("Mobile ExplainerSubNav analytics", () => {
 
-  it('Calls analytics event for each mobile nav link clicked', async() => {
+  it('Calls Universal Analytics event for each mobile nav link clicked', async() => {
     const { getByText } = render(<MobileExplainerSubNav isShown={true} pageName={'americas-finance-guide'} />);
     const spy = jest.spyOn(Analytics, 'event');
 
@@ -79,6 +79,22 @@ describe("Mobile ExplainerSubNav analytics", () => {
         label: text
       });
     });
+  });
 
+  it('Pushes analytics event to dataLayer for GA4 for each mobile nav link clicked', async() => {
+    const { getByText } = render(<MobileExplainerSubNav isShown={true} pageName={'americas-finance-guide'} />);
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
+
+    const navMenuOptions = ["Overview", "Revenue", "Spending", "Deficit", "Debt"];
+
+
+    navMenuOptions.forEach(text => {
+      userEvent.click(getByText(text));
+      expect(spy).toHaveBeenCalledWith({
+        event: `Sub Nav Click`,
+        eventLabel: text
+      });
+    });
   });
 });

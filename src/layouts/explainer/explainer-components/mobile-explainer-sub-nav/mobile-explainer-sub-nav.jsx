@@ -94,6 +94,11 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
       action: `Sub Nav Click`,
       label: title
     });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'Sub Nav Click',
+      'eventLabel': title,
+    });
   }
 
   useEffect(() => {
@@ -152,7 +157,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
               analyticsEvent('Overview');
               navigate('/americas-finance-guide/');
             }}
-            className={`${overviewStyle} explainerSubNav`} id="home"
+            className={overviewStyle} id="home"
             role={'button'}
             tabIndex={0}
             data-testid="afgSpan"
@@ -168,7 +173,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           disableScrollLock={true}
           open={defaultOpen || Boolean(anchorEl)}
           onClose={handleClose}
-          className={[mainListSticky, stylingStyledMenu, "explainerSubNav"].join(" ")}
+          className={[mainListSticky, stylingStyledMenu].join(" ")}
           id="styled-menu"
         >
           <StyledMenuItem className={MenuList}>
@@ -184,7 +189,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isSpending ? [spending, activeMenu, "explainerSubNav"].join(" ") : spending}`}
+              className={`${isSpending ? [spending, activeMenu].join(" ") : spending}`}
               onClick={() => {
                 analyticsEvent('Spending');
                 navigate("/americas-finance-guide/federal-spending/");
@@ -195,7 +200,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDeficit ? [deficit, activeMenu, "explainerSubNav"].join(" ") : deficit}`}
+              className={`${isDeficit ? [deficit, activeMenu].join(" ") : deficit}`}
               onClick={() => {
                 analyticsEvent('Deficit');
                 navigate("/americas-finance-guide/national-deficit/");
@@ -206,7 +211,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDebt ? [debt, activeMenu, "explainerSubNav"].join(" ") : debt}`}
+              className={`${isDebt ? [debt, activeMenu].join(" ") : debt}`}
               onClick={() => {
                 analyticsEvent('Debt');
                 navigate("/americas-finance-guide/national-debt/");

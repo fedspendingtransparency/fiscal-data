@@ -61,7 +61,7 @@ describe("ExplainerSubNav Component", () => {
 
 describe("ExplainerSubNav analytics", () => {
 
-  it('Calls analytics event for each nav link clicked', async() => {
+  it('Calls Universal Analytics event for each nav link clicked', async() => {
     const { getByText } = render(<ExplainerSubNav hidePosition={160} />);
     const spy = jest.spyOn(Analytics, 'event');
 
@@ -73,6 +73,19 @@ describe("ExplainerSubNav analytics", () => {
         label: link.text
       });
     });
+  });
 
+  it('Pushes analytics event to datalayer for GA4 for each nav link clicked', async() => {
+    const { getByText } = render(<ExplainerSubNav hidePosition={160} />);
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    const spy = jest.spyOn((window as any).dataLayer, 'push');
+
+    urls.forEach(link => {
+      fireEvent.click(getByText(link.text));
+      expect(spy).toHaveBeenCalledWith({
+        event: `Sub Nav Click`,
+        eventLabel: link.text
+      });
+    });
   });
 });
