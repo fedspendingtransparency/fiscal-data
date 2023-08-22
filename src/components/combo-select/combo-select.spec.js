@@ -54,7 +54,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
       inputField.props.onChange({target: {value: '01'}});
     });
     let optionButtons = instance.findByType('ul').findAllByType('button');
-    expect(optionButtons.length).toEqual(10);
+    expect(optionButtons.length).toEqual(11);
     expect(optionButtons[0].children).toEqual(['2019']);
     expect(optionButtons[9].children).toEqual(['2010']);
     renderer.act(() => {
