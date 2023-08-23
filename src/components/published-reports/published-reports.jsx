@@ -26,11 +26,11 @@ const PublishedReports = ({ reports, dataset }) => {
     }
     if (reportToShow &&
       (selectedFile.report_group_desc === reportToShow.report_group_desc
-        && isEqual(selectedFile.report_date, reportToShow.report_date)
-        && isEqual(selectedFile.path, reportToShow.path))) return;
+        && isEqual(selectedFile.report_date, reportToShow.report_date) && isEqual(selectedFile.path, reportToShow.path))) return;
 
     setReportToShow(selectedFile);
   }, [selectedFile]);
+
 
   return (
     <>
