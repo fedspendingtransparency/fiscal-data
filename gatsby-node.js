@@ -254,11 +254,11 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     
 
   if (blsFileData) {
-    console.log("******************");
-    console.log("BLS FILE DATA FOUND");
+    console.warn("******************");
+    console.warn("BLS FILE DATA FOUND");
   }
   else {
-    console.log("NO BLS FILE DATA")
+    console.warn("NO BLS FILE DATA")
   }
 
   resultData.Results.series[0].data.forEach((blsRow) => {
