@@ -2,7 +2,7 @@ import {Column} from "@tanstack/react-table";
 import React, { FunctionComponent, useState } from 'react';
 import SearchBar from '../search-bar/search-bar';
 
-export const Filter: FunctionComponent<any> = (column: Column<any, any>) => {
+export const Filter: FunctionComponent<any> = ({ column }: { column: Column<any, any> }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
   const clearFilter = () => {
