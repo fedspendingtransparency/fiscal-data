@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function DtgTableHeading(props) {
     const setStyle = (column) => {
-      const types = ['DATE', 'CURRENCY', 'CURRENCY3', 'NUMBER', 'PERCENTAGE'];
-      if (types.includes(column.type)) {
+      const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
+      if (types.includes(column.type) || column.type?.includes('CURRENCY')) {
         return {
           width: column.width ? `${column.width}%` : 'auto',
           textAlign: 'right'

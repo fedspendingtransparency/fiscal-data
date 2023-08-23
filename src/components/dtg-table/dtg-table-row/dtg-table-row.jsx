@@ -31,8 +31,8 @@ export default function DtgTableRow(props) {
     } else if (type === 'CURRENCY') {
       formattedData = currencyFormatter.format(cellData);
     } else if (type && type.includes('CURRENCY') && /\d/.test(type.split('CURRENCY')[1])) {
-      console.log(type);
-      formattedData = customFormat(cellData, 3);
+      const decimalPlaces = parseInt(type.split('CURRENCY')[1]);
+      formattedData = customFormat(cellData, decimalPlaces);
     } else if (type === 'NUMBER') {
       formattedData = numberFormatter.format(cellData);
     } else if (type === 'PERCENTAGE') {
