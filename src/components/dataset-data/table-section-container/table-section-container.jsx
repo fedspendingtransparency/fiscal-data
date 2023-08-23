@@ -57,7 +57,6 @@ const TableSectionContainer = ({
 
   // Investigate why this is being called twice?
   const getDepaginatedData = async() => {
-    console.log('running request.....')
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
     const sortParam = buildSortParams(selectedTable, selectedPivot);

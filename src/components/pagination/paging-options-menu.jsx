@@ -7,7 +7,6 @@ import * as styles from './pagination-controls.module.scss';
 
 
 const PagingOptionsMenu = ({ menuProps }) => {
-  // console.log(menuProps);
   const { options, selected, updateSelected, label } = menuProps;
 
   const [anchorElement, setAnchorElement] = useState(null);
