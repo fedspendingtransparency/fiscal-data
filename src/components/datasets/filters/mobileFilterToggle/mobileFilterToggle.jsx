@@ -6,8 +6,8 @@ import {faUndo} from '@fortawesome/free-solid-svg-icons/index'
 export default function MobileFilterToggle({filterCnt, datasetsView, toggleDatasetView, datasetsCount, filterReset}) {
     const showFilterButton=!datasetsView && filterCnt>0
     return (
-        <section className='floatingToggle'>
-      <div className='container'>
+        <section className={styles.floatingToggle}>
+      <div className={styles.container}>
         {
           showFilterButton &&
           <button className={styles.resetButton} onClick={filterReset}>
@@ -17,7 +17,7 @@ export default function MobileFilterToggle({filterCnt, datasetsView, toggleDatas
             </span> <FontAwesomeIcon className={styles.resetIcon} icon={faUndo} size={'1x'} />
           </button>
         }
-        <button  className='toggleButton' onClick={toggleDatasetView}>
+        <button  className={styles.toggleButton} onClick={toggleDatasetView}>
           {datasetsView ? 'Filter Your Results' : `View Your Results (${datasetsCount})`}
         </button>
       </div>
