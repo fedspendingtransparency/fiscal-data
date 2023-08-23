@@ -30,7 +30,8 @@ export default function DtgTableRow(props) {
       formattedData = '';
     } else if (type === 'CURRENCY') {
       formattedData = currencyFormatter.format(cellData);
-    } else if (type === 'CURRENCY3') {
+    } else if (type && type.includes('CURRENCY') && /\d/.test(type.split('CURRENCY')[1])) {
+      console.log(type);
       formattedData = customFormat(cellData, 3);
     } else if (type === 'NUMBER') {
       formattedData = numberFormatter.format(cellData);
