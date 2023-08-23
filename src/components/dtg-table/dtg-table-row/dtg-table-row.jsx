@@ -1,9 +1,23 @@
 import React from 'react';
-import {currencyFormatter, numberFormatter, dateFormatter} from '../../../helpers/text-format/text-format';
+import {
+  currencyFormatter,
+  numberFormatter,
+  dateFormatter,
+} from '../../../helpers/text-format/text-format';
 import * as styles from '../dtg-table.module.scss';
 
-const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE'];
+const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
 
+//TODO: Extend original currency formatter for all new CURRENCY data types
+const customFormat = (stringValue, decimalPlaces) => {
+  // if block is to show "-$123,123.23" instead of "$-123,123.23"
+  const absVal = Math.abs(stringValue);
+  let returnString = '$' + absVal.toFixed(decimalPlaces).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  if (Number(stringValue) < 0) {
+    returnString = '-' + returnString;
+  }
+  return returnString;
+}
 export default function DtgTableRow(props) {
   const cells = [];
 
@@ -16,6 +30,8 @@ export default function DtgTableRow(props) {
       formattedData = '';
     } else if (type === 'CURRENCY') {
       formattedData = currencyFormatter.format(cellData);
+    } else if (type === 'CURRENCY3') {
+      formattedData = customFormat(cellData, 3);
     } else if (type === 'NUMBER') {
       formattedData = numberFormatter.format(cellData);
     } else if (type === 'PERCENTAGE') {
