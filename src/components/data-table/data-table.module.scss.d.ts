@@ -70,3 +70,4 @@ export const th: string;
 export const tr: string;
 export const td: string;
 export const thParent: string;
+export const range: string;

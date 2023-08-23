@@ -41,6 +41,7 @@ $borderRadius: 5px;
 
   td, .td {
     padding: 0.25rem 0.5rem;
+    white-space: nowrap;
   }
 
   #th-parent{
@@ -52,5 +53,9 @@ $borderRadius: 5px;
   td,
   .td {
     height: 1.875rem;
+  }
+
+  .range {
+    font-weight: $semi-bold-weight;
   }
 }

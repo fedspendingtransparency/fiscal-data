@@ -2,6 +2,7 @@ import { rowsShowing, tableFooter } from '../../dtg-table/dtg-table.module.scss'
 import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
+import { range } from '../data-table.module.scss';
 
 
 interface IDataTableFooter {
@@ -25,7 +26,7 @@ const DataTableFooter:FunctionComponent<IDataTableFooter> = ({table, shouldPage,
     const maxRow = (pageIndex * pageSize) + rowsVisible;
     return (
       <>
-        {`Showing ${minRow} - ${maxRow} rows of ${filteredRowLength} rows`}
+        Showing <span className={range}>{minRow} - {maxRow}</span> rows of {filteredRowLength} rows
       </>
     )
   }
