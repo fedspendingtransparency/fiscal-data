@@ -2,10 +2,10 @@
 
 
 .sortArrowPill, .defaultSortArrowPill {
-  height: 20px;
-  width: 28px;
-  min-width: 28px;
-  border-radius: 20px;
+  height: 1.25rem;
+  width: 1.75rem;
+  min-width: 1.75rem;
+  border-radius: 1.25rem;
   display: flex;
   margin-left: 0.5rem;
   cursor: pointer;
@@ -32,7 +32,7 @@
 .colHeader{
   display: flex;
   align-items: center;
-  padding: 8px 0;
+  padding: .5rem 0;
   white-space: nowrap;
   &.rightAlignText {
     justify-content: flex-end;
@@ -42,7 +42,7 @@
 .colHeaderText {
   text-overflow: ellipsis;
   overflow: hidden;
-  min-width: 20px;
+  min-width: 1.25rem;
 }
 
 .resizer {
@@ -50,12 +50,12 @@
   right: 0;
   top: 0;
   height: 100%;
-  width: 5px;
+  width: 0.3125rem;
   background: $font-body-copy;
   cursor: col-resize;
   user-select: none;
   touch-action: none;
-  border-radius: 20px;
+  border-radius: 1.25rem;
 }
 
 .resizer.isResizing {

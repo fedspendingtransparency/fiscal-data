@@ -25,9 +25,9 @@ $borderRadius: 5px;
     position: relative;
     font-weight: bold;
     text-align: center;
-    height: 30px;
+    height: 1.875rem;
     padding: 0.25rem 0.5rem 0.75rem;
-    max-width: 160px;
+    max-width: 10rem;
   }
 
   .tr {
@@ -36,7 +36,7 @@ $borderRadius: 5px;
 
   tr, .tr {
     width: fit-content;
-    height: 30px;
+    height: 1.875rem;
   }
 
   td, .td {
@@ -51,6 +51,6 @@ $borderRadius: 5px;
 
   td,
   .td {
-    height: 30px;
+    height: 1.875rem;
   }
 }
