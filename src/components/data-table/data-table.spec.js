@@ -170,6 +170,12 @@ describe('react-table', () => {
     // Rows filtered down to 1
     expect(getAllByTestId('row').length).toEqual(1);
     expect(getAllByTestId('row')[0].innerHTML).toContain('2023-07-10');
+
+    //clear results to view full table
+    const clearButton = within(header).getByRole('button', {hidden: true});
+    expect(clearButton).toHaveClass('fa-circle-xmark');
+    fireEvent.click(clearButton);
+    expect(getAllByTestId('row').length).toEqual(3);
   });
 
   it('pagination', () => {
