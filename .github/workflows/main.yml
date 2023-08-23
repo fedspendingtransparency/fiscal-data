@@ -3,7 +3,7 @@ name: Run unit and e2e tests
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   run-unit-tests-and-coverage:
