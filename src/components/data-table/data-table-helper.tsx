@@ -35,8 +35,8 @@ export const Filter: FunctionComponent<any> = ({ column }: { column: Column<any,
 }
 
 export const rightAlign = ( type: string ): boolean => {
-  const types = ['DATE', 'CURRENCY', 'CURRENCY3', 'NUMBER', 'PERCENTAGE'];
-  return types.includes(type);
+  const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
+  return types.includes(type) || type.includes('CURRENCY');
 };
 
 
