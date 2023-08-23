@@ -68,7 +68,7 @@ describe("ExplainerSubNav analytics", () => {
     urls.forEach(link => {
       fireEvent.click(getByText(link.text));
       expect(spy).toHaveBeenCalledWith({
-        category: 'Fiscal Data - Explainers',
+        category: 'Explainers',
         action: `Sub Nav Click`,
         label: link.text
       });

@@ -28,7 +28,7 @@ export default function ExplainerSubNav({hidePosition}) {
 
   const analyticsEvent = (title) => {
     Analytics.event({
-      category: 'Fiscal Data - Explainers',
+      category: 'Explainers',
       action: `Sub Nav Click`,
       label: title
     });

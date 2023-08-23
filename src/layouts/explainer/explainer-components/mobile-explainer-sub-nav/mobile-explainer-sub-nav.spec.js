@@ -74,7 +74,7 @@ describe("Mobile ExplainerSubNav analytics", () => {
     navMenuOptions.forEach(text => {
       userEvent.click(getByText(text));
       expect(spy).toHaveBeenCalledWith({
-        category: 'Fiscal Data - Explainers',
+        category: 'Explainers',
         action: `Sub Nav Click`,
         label: text
       });
