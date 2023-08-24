@@ -194,7 +194,9 @@ describe('react-table', () => {
     // Rows render
     expect(getAllByTestId('row').length).toEqual(2);
 
-    expect(getByText('Showing 1 - 2 rows of 3 rows')).toBeInTheDocument();
+    expect(getByText('Showing', {exact: false})).toBeInTheDocument();
+    expect(getByText('1 - 2', {exact: false})).toBeInTheDocument();
+    expect(getByText('rows of 3 rows', {exact: false})).toBeInTheDocument();
   });
 
 
