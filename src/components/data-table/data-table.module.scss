@@ -1,7 +1,8 @@
 @import '../../variables.module.scss';
-$borderRadius: 5px;
-.tableStyle {
 
+$borderRadius: 5px;
+
+.tableStyle {
   .tableContainer {
     position: relative;
     width: 100%;
@@ -18,22 +19,29 @@ $borderRadius: 5px;
     width: fit-content;
   }
 
+  th, .th {
+    cursor: default;
+    background-color: white;
+    position: relative;
+    font-weight: bold;
+    text-align: center;
+    height: 1.875rem;
+    padding: 0.25rem 0.5rem 0.75rem;
+    max-width: 10rem;
+  }
+
   .tr {
     display: flex;
   }
 
-  tr,
-  .tr {
+  tr, .tr {
     width: fit-content;
-    height: 30px;
+    height: 1.875rem;
   }
 
-  th,
-  .th,
-  td,
-  .td {
-    padding: 0.25rem;
-    //background-color: lightgrey;
+  td, .td {
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
   }
 
   #th-parent{
@@ -42,53 +50,12 @@ $borderRadius: 5px;
     justify-content: flex-end;
   }
 
-  th,
-  .th {
-    background-color: white;
-    position: relative;
-    font-weight: bold;
-    text-align: center;
-    height: 30px;
-  }
-
   td,
   .td {
-    height: 30px;
+    height: 1.875rem;
   }
 
-  .sortArrow {
-    margin-left: 0.5rem;
+  .range {
+    font-weight: $semi-bold-weight;
   }
-
-  .colHeader{
-    cursor: pointer;
-  }
-
-  .resizer {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 5px;
-    background: rgba(0, 0, 0, 0.5);
-    cursor: col-resize;
-    user-select: none;
-    touch-action: none;
-  }
-
-  .resizer.isResizing {
-    background: blue;
-    opacity: 1;
-  }
-
-  @media (hover: hover) {
-    .resizer {
-      opacity: 0;
-    }
-
-    *:hover > .resizer {
-      opacity: 1;
-    }
-  }
-
 }

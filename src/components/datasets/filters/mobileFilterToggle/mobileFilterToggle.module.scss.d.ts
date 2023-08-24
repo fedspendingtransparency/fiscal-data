@@ -93,3 +93,8 @@ export const resetButton: string;
 export const resetButtondisabled: string;
 export const filterCount: string;
 export const resetIcon: string;
+export const floatingToggle: string;
+export const container: string;
+export const toggleButton: string;
+export const toggleButtondisabled: string;
+export const cancelButton: string;
