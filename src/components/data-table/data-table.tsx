@@ -1,8 +1,6 @@
 import React, {FunctionComponent, useEffect} from 'react';
-
 import {
   ColumnDef,
-  flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -10,15 +8,15 @@ import {
   getFilteredRowModel,
   SortingState,
 } from '@tanstack/react-table';
-
-import {Filter} from "./data-table-helper";
-
 import StickyTable from "react-sticky-table-thead";
-
-import * as styles from './data-table.module.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowDown, faArrowUp, faSort} from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import {
+  tableContainer,
+  tableStyle,
+} from './data-table.module.scss';
+import DataTableHeader from './data-table-header/data-table-header';
+import DataTableFooter from './data-table-footer/data-table-footer';
+import DataTableBody from './data-table-body/data-table-body';
+import ColumnSelect from './column-select/column-select';
 
 
 type DataTableProps = {
@@ -27,24 +25,20 @@ type DataTableProps = {
   defaultSelectedColumns: string[];
   pageSize: number;
   setTableColumnSortData: any,
+  shouldPage: boolean,
+  showPaginationControls: boolean,
 }
 
-const getTrProps = (rowInfo) => {
-  if (rowInfo.id === 0 || rowInfo.id % 2 === 0) {
-    return {
-        background:'#f1f1f1',
-        color: '#555555'
-    }
-  }
-  else {
-    return {
-        background:'white',
-        color: '#555555'
-    }
-  }
-}
 
-export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize, defaultSelectedColumns, setTableColumnSortData }) => {
+export const DataTable:FunctionComponent<DataTableProps> = (
+  {
+    rawData,
+    pageSize,
+    defaultSelectedColumns,
+    setTableColumnSortData,
+    shouldPage,
+    showPaginationControls,
+  }) => {
 
   const allColumns = rawData.meta ?
     Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
@@ -53,25 +47,12 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
     ...allColumns,
   ])
 
+  const dataTypes = rawData.meta.dataTypes;
   const defaultInvisibleColumns = {};
-  // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-  if (defaultSelectedColumns) {
-    for (const column of allColumns) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      if (!defaultSelectedColumns.includes(column.accessorKey)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        defaultInvisibleColumns[column.accessorKey] = false;
-      }
-    }
-  }
 
-  const [columnVisibility, setColumnVisibility] = React.useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [defaultColumns, setDefaultColumns] = React.useState([]);
-  const [additionalColumns, setAdditionalColumns] = React.useState([]);
-
+  const [columnVisibility, setColumnVisibility] = React.useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
 
   const table = useReactTable({
     columns,
@@ -109,261 +90,33 @@ export const DataTable:FunctionComponent<DataTableProps> = ({ rawData, pageSize,
     setTableColumnSortData(mapped);
   }
 
-  const constructDefaultColumnsFromTableData = () => {
-    const constructedDefaultColumns = [];
-    const constructedAdditionalColumns = [];
-    for (const column of table.getAllLeafColumns()) {
-      if (defaultSelectedColumns.includes(column.id)) {
-        constructedDefaultColumns.push(column);
-      }
-      else if (!defaultSelectedColumns.includes(column.id)) {
-        constructedAdditionalColumns.push(column);
-      }
-    }
-    constructedAdditionalColumns.sort((a, b) => {
-      return a.id.localeCompare(b.id);
-    })
-    setDefaultColumns(constructedDefaultColumns);
-    setAdditionalColumns(constructedAdditionalColumns);
-  }
-
   useEffect(() => {
     getSortedColumnsData(table);
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
 
-  useEffect(() => {
-    if (defaultSelectedColumns) {
-      constructDefaultColumnsFromTableData();
-    }
-  }, []);
-
 
   return (
     // apply the table props
-    <div className={styles.tableStyle}>
-      <div className="inline-block border border-black shadow rounded">
-        <button onClick={() => setColumnVisibility(defaultInvisibleColumns)} data-testid={'reset-button'}>
-          Reset
-        </button>
-        <div className="px-1 border-b border-black">
-          <label>
-            <input
-              {...{
-                type: 'checkbox',
-                checked: table.getIsAllColumnsVisible(),
-                onChange: table.getToggleAllColumnsVisibilityHandler(),
-              }}
-            />{' '}
-            Select All
-          </label>
-        </div>
-        { defaultSelectedColumns ? (
-          <div>
-            <div>
-              <span> Defaults </span>
-              {defaultColumns.map(column => {
-                return (
-                  <div key={column.id} className="px-1">
-                    <label>
-                      <input
-                        {...{
-                          type: 'checkbox',
-                          checked: column.getIsVisible(),
-                          onChange: column.getToggleVisibilityHandler(),
-                        }}
-                      />{' '}
-                      {column.columnDef.header}
-                    </label>
-                  </div>
-                )
-              })}
-              <span> ---------------------- </span>
-            </div>
-            <div>
-              <span> Additional </span>
-              {additionalColumns.map(column => {
-                return (
-                  <div key={column.id} className="px-1">
-                    <label>
-                      <input
-                        {...{
-                          type: 'checkbox',
-                          checked: column.getIsVisible(),
-                          onChange: column.getToggleVisibilityHandler(),
-                        }}
-                      />{' '}
-                      {column.columnDef.header}
-                    </label>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        ) : (
-          <div>
-            {table.getAllLeafColumns().map(column => {
-              return (
-                <div key={column.id} className="px-1">
-                  <label>
-                    <input
-                      {...{
-                        type: 'checkbox',
-                        checked: column.getIsVisible(),
-                        onChange: column.getToggleVisibilityHandler(),
-                      }}
-                    />{' '}
-                    {column.columnDef.header}
-                  </label>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </div>
-      <div data-test-id="table-content" className={styles.tableContainer}>
-        <StickyTable height={500} >
+    <div className={tableStyle}>
+      <ColumnSelect defaultSelectedColumns={defaultSelectedColumns}
+                    defaultInvisibleColumns={defaultInvisibleColumns}
+                    table={table}
+                    setColumnVisibility={setColumnVisibility}
+                    allColumns={allColumns}
+      />
+      <div data-test-id="table-content" className={tableContainer}>
+        <StickyTable height={521} >
           <table>
-            <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} data-testid="header-row">
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <th
-                      {...{
-                        key: header.id,
-                        colSpan: header.colSpan,
-                        style: {
-                          minWidth: header.getSize(),
-                        },
-                      }}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        :  (
-                          <>
-                            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-                            <div
-                              {...{
-                                className: header.column.getCanSort()
-                                  ? `${styles.colHeader}`
-                                  : '',
-                                onClick: header.column.getToggleSortingHandler(),
-                              }}
-                              data-testid={`header-sorter-${header.id}`}
-                            >
-
-                              {flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                              {{
-                                asc: <FontAwesomeIcon icon={faArrowUp as IconProp} className={styles.sortArrow} />,
-                                desc: <FontAwesomeIcon icon={faArrowDown as IconProp} className={styles.sortArrow} />,
-                                false: <FontAwesomeIcon icon={faSort as IconProp} className={styles.sortArrow} />
-                              }[header.column.getIsSorted() as string] ?? null}
-                            </div>
-                            {header.column.getCanFilter() ? (
-                              <div>
-                                <Filter column={header.column} table={table} />
-                              </div>
-                            ) : null}
-                          </>
-                        )}
-                      <div
-                        {...{
-                          onMouseDown: header.getResizeHandler(),
-                          onTouchStart: header.getResizeHandler(),
-                          className: `${styles.resizer} ${header.column.getIsResizing() ? styles.isResizing : ''}`,
-                        }}
-                      />
-                    </th>
-                  )})}
-              </tr>
-            ))}
-            </thead>
-            <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} style={getTrProps(row)} data-testid={'row'}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {
-                      cell.getValue() === 'null' ? (
-                        <div />
-                      ) : (
-                        flexRender(cell.column.columnDef.cell, cell.getContext())
-                      )
-                    }
-                  </td>
-                ))}
-              </tr>
-            ))}
-            </tbody>
+            <DataTableHeader table={table} dataTypes={dataTypes} />
+            <DataTableBody table={table} dataTypes={dataTypes} />
           </table>
         </StickyTable>
       </div>
-      <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>>'}
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            data-testid="pagination-text-input"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              table.setPageIndex(page)
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={e => {
-            table.setPageSize(Number(e.target.value))
-          }}
-        >
-          {[10, 20, 30, 40, 50, 100, 250, 500, 1000].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+      <DataTableFooter
+        shouldPage={shouldPage}
+        table={table}
+        showPaginationControls={showPaginationControls}
+      />
     </div>
     );
 

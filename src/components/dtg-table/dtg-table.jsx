@@ -44,7 +44,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
   useEffect(() => {
     if (tableProps) {
       if (tableProps.dePaginated !== undefined) {
-        console.log(tableProps);
         if (tableProps.dePaginated !== null) {
           if (reactTableData === null) {
             setReactTableData(tableProps.dePaginated);
@@ -437,7 +436,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
       <Experimental featureId="react-table-poc">
         {reactTableData &&
           <DataTable rawData={reactTableData} pageSize={10} defaultSelectedColumns={selectColumns}
-                     setTableColumnSortData={setTableColumnSortData}
+                     setTableColumnSortData={setTableColumnSortData} shouldPage={shouldPage}
+                     pagingProps={pagingProps} showPaginationControls={showPaginationControls}
           />
         }
       </Experimental>
