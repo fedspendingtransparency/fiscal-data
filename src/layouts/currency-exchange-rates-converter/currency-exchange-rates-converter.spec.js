@@ -4,115 +4,30 @@ import fetchMock from "fetch-mock";
 import CurrencyExchangeRatesConverter from "./index";
 import {fireEvent} from "@testing-library/dom";
 import Analytics from "../../utils/analytics/analytics";
+import { XRMockData } from './currency-exchange-rates-converter-test-helper';
 
 jest.useFakeTimers();
 
 describe('exchange rates converter', () => {
-
-  const mockData = {
-    "data": [
-      {
-        "record_date":"2023-12-31",
-        "country":"Euro Zone",
-        "currency":"Euro",
-        "country_currency_desc":"Euro Zone-Euro",
-        "exchange_rate":"43.60",
-        "effective_date":"2023-12-31",
-        "src_line_nbr":"94",
-        "record_fiscal_year":"2023",
-        "record_fiscal_quarter":"1",
-        "record_calendar_year":"2023",
-        "record_calendar_quarter":"2",
-        "record_calendar_month":"12",
-        "record_calendar_day":"31"
-      },
-      {
-        "record_date":"2023-12-31",
-        "country":"Other",
-        "currency":"OtherDollar2",
-        "country_currency_desc":"Other OtherDollar2",
-        "exchange_rate":"150",
-        "effective_date":"2023-21-31",
-        "src_line_nbr":"1",
-        "record_fiscal_year":"2023",
-        "record_fiscal_quarter":"1",
-        "record_calendar_year":"2023",
-        "record_calendar_quarter":"2",
-        "record_calendar_month":"12",
-        "record_calendar_day":"31"
-      },
-      {
-        "record_date":"2022-12-31",
-        "country":"Euro Zone",
-        "currency":"Euro",
-        "country_currency_desc":"Euro Zone-Euro",
-        "exchange_rate":"89.11",
-        "effective_date":"2022-12-31",
-        "src_line_nbr":"1",
-        "record_fiscal_year":"2023",
-        "record_fiscal_quarter":"1",
-        "record_calendar_year":"2022",
-        "record_calendar_quarter":"2",
-        "record_calendar_month":"12",
-        "record_calendar_day":"31"
-      },
-      {
-        "record_date":"2022-01-31",
-        "country":"Euro Zone",
-        "currency":"Euro",
-        "country_currency_desc":"Euro Zone-Euro",
-        "exchange_rate":"99.11",
-        "effective_date":"2022-01-31",
-        "src_line_nbr":"1",
-        "record_fiscal_year":"2023",
-        "record_fiscal_quarter":"1",
-        "record_calendar_year":"2022",
-        "record_calendar_quarter":"1",
-        "record_calendar_month":"12",
-        "record_calendar_day":"31"
-      },
-      {
-        "record_date":"2022-01-31",
-        "country":"Other",
-        "currency":"OtherDollar",
-        "country_currency_desc":"Other OtherDollar",
-        "exchange_rate":"200",
-        "effective_date":"2022-01-31",
-        "src_line_nbr":"1",
-        "record_fiscal_year":"2023",
-        "record_fiscal_quarter":"1",
-        "record_calendar_year":"2022",
-        "record_calendar_quarter":"1",
-        "record_calendar_month":"12",
-        "record_calendar_day":"31"
-      },
-    ]
-  }
-
   beforeEach(() => {
-
     fetchMock.get(
       `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000`,
-      mockData,
+      XRMockData,
       { overwriteRoutes: true },
       { repeat: 1 }
     );
     fetchMock.get(
       `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=-effective_date`,
-      mockData,
+      XRMockData,
       { overwriteRoutes: true },
       { repeat: 1 }
     );
-
   });
 
   afterEach(cleanup);
 
   it('Renders the exchange rates converter page', async() => {
-
-    const {getAllByText} = render(
-      <CurrencyExchangeRatesConverter />
-    )
+    const {getAllByText} = render(<CurrencyExchangeRatesConverter />)
 
     await waitFor(() => getAllByText('Currency Exchange Rates Converter'));
 
@@ -120,9 +35,7 @@ describe('exchange rates converter', () => {
   });
 
   it('Selecting year from year dropdown changes available quarters and defaults to correct value', async() => {
-    const {getByTestId, getByText} = render(
-      <CurrencyExchangeRatesConverter />
-    )
+    const {getByTestId, getByText} = render(<CurrencyExchangeRatesConverter />)
     await waitFor(() => getByText('Year'));
 
     const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
@@ -338,16 +251,64 @@ describe('exchange rates converter', () => {
     expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
 
   });
+
   it('renders the most recent effective date', async() => {
 
-    const { getByText, getByTestId} = render(<CurrencyExchangeRatesConverter />)
+    const { getByText} = render(<CurrencyExchangeRatesConverter />)
     await waitFor(() => getByText('U.S. Dollar'));
 
-    const test = getByTestId('test');
     expect(getByText('December 31, 2022 to December 31, 2023', {exact: false})).toBeInTheDocument();
   });
 
-  it('calls the appropriate analytics event when year selector is set and current quarter is available', async() => {
+  it('displays an error message when an invalid date is selected for the current currency', async () => {
+    const { getByText, queryByText, getByTestId, getByRole } = render(<CurrencyExchangeRatesConverter />);
+
+    await waitFor(() => getByText('U.S. Dollar'));
+
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
+    const comboBox = within(nonUSBox).getByRole('button');
+
+    fireEvent.click(comboBox);
+
+    const currencySearchBar = getByRole('textbox');
+
+    // Search list and select currency
+    fireEvent.change(currencySearchBar, {target: { value:'OtherDollar2'}});
+
+    const optionList = within(nonUSBox).getByTestId('dropdown-list');
+    const option = within(optionList).getByText('Other OtherDollar2');
+
+    fireEvent.click(option);
+
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
+
+    //Change year to 2022
+    let yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+
+    fireEvent.click(yearSelector);
+
+    let yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    fireEvent.click(yearSelectorOptions[1]);
+
+    //Banner should appear
+    await waitFor(() => getByTestId('banner'));
+    expect(within(getByTestId('banner')).getByText('No exchange rate available for this date range.')).toBeInTheDocument();
+    expect(queryByText('1.00 U.S. Dollar')).not.toBeInTheDocument();
+
+    // Change selection to a valid option
+    yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
+    fireEvent.click(yearSelector);
+
+    yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
+    fireEvent.click(yearSelectorOptions[0]);
+
+    // Banner should be gone
+    await waitFor(() => getByText('1.00 U.S. Dollar', {exact: false}));
+    expect(queryByText('No exchange rate available for this date range.')).not.toBeInTheDocument();
+  })
+});
+
+it('calls the appropriate analytics event when year selector is set and current quarter is available', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(
       <CurrencyExchangeRatesConverter />
@@ -680,9 +641,7 @@ describe('exchange rates converter', () => {
 
   it('does not call analytic event when US currency field is empty', async() => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByTestId } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByTestId('box-container'));
 
     const usBox = within(getByTestId('box-container')).getByTestId('input');
@@ -697,4 +656,4 @@ describe('exchange rates converter', () => {
     });
     jest.runAllTimers();
   });
-})
+

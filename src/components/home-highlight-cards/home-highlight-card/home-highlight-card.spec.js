@@ -222,5 +222,13 @@ describe('HomeHighlightCard', () => {
       expect(Analytics.event).not.toHaveBeenCalled();
 
     });
+
+    it('continues loading when api id is invalid', async () => {
+      let invalidApiMockData = mockData;
+      invalidApiMockData.api_id = 2;
+      const { getByTestId } = render(<HomeHighlightCard dataset={invalidApiMockData} />);
+
+      expect(getByTestId('loadingSection')).toBeInTheDocument();
+    });
   });
 });

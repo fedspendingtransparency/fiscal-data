@@ -26,6 +26,7 @@ import { render, fireEvent, waitFor } from "@testing-library/react"
 import NotShownMessage from "./not-shown-message/not-shown-message";
 import userEvent from '@testing-library/user-event';
 
+
 describe('TableSectionContainer initial state', () => {
   let component, instance;
   const mockSetSelectedPivot = jest.fn();

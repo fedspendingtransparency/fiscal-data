@@ -28,9 +28,14 @@ export default function ExplainerSubNav({hidePosition}) {
 
   const analyticsEvent = (title) => {
     Analytics.event({
-      category: 'Sitewide Navigation',
-      action: `Left Nav Click`,
+      category: 'Explainers',
+      action: `Sub Nav Click`,
       label: title
+    });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'Sub Nav Click',
+      'eventLabel': title,
     });
   }
 

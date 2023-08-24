@@ -29,7 +29,7 @@ import FolderTabEdgeRightLastMobile
 import useGAEventTracking from "../../../../../../hooks/useGAEventTracking";
 import Analytics from "../../../../../../utils/analytics/analytics";
 
-const SurplusIllustration = ({glossary, width}) => {
+const SurplusIllustration = ({glossary, width, glossaryClickHandler}) => {
   const {getGAEvent} = useGAEventTracking(null, "Deficit");
 
   const handleClick = (eventNumber) =>{
@@ -101,10 +101,15 @@ const SurplusIllustration = ({glossary, width}) => {
 
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
-  const balancedBudgetGlossary =
-    <GlossaryPopoverDefinition term="balanced budget" page="Deficit Explainer" glossary={glossary}>
-      balanced budget
-    </GlossaryPopoverDefinition>
+   const balancedBudgetGlossary =
+     <GlossaryPopoverDefinition
+       term="Balanced Budget"
+       page="Deficit Explainer"
+       glossary={glossary}
+       glossaryClickHandler={glossaryClickHandler}
+     >
+       balanced budget
+     </GlossaryPopoverDefinition>
 
 
   return (

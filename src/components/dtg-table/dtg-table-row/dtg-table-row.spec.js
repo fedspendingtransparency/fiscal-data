@@ -9,7 +9,8 @@ describe('DtgTableRow', () => {
   const data4 = {row1: 'null'};
   const data5 = {row1: '*'};
   const data6 = {row1: 0.00067898};
-  const data7 = {row1: '3-3/8%'}
+  const data7 = {row1: '3-3/8%'};
+  const data8 = {row1: '-123'};
   const columns = [
     {name: 'row1', order: 1, property: 'row1', width: 12},
   ];
@@ -68,5 +69,21 @@ describe('DtgTableRow', () => {
     );
     const formattedValue = data7.row1.replace(/-/g, '\u2011');
     expect(component.root.findByType('td').props.children).toBe(formattedValue);
-  })
+  });
+  it('formats CURRENCY3 types correctly', () => {
+    const cols = columns;
+    cols[0].type = 'CURRENCY3';
+    const component = renderer.create(
+      <DtgTableRow columns={cols} data={data1} />
+    );
+    expect(component.root.findByType('td').props.children).toBe('$123.000');
+  });
+  it('formats negative CURRENCY3 types correctly', () => {
+    const cols = columns;
+    cols[0].type = 'CURRENCY3';
+    const component = renderer.create(
+      <DtgTableRow columns={cols} data={data8} />
+    );
+    expect(component.root.findByType('td').props.children).toBe('-$123.000');
+  });
 });
