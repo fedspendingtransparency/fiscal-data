@@ -1,9 +1,9 @@
 import React from 'react';
+import { rightAlign } from '../../data-table/data-table-helper';
 
 export default function DtgTableHeading(props) {
     const setStyle = (column) => {
-      const types = ['DATE', 'CURRENCY', 'CURRENCY3', 'NUMBER', 'PERCENTAGE'];
-      if (types.includes(column.type)) {
+      if (rightAlign(column.type)) {
         return {
           width: column.width ? `${column.width}%` : 'auto',
           textAlign: 'right'

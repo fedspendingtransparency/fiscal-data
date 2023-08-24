@@ -17,7 +17,6 @@ const PaginationControls = ({ pagingProps }) => {
     currentPage,
     maxRows
   } = pagingProps;
-
   const perPageOptions = defaultPerPageOptions.slice();
   if (itemsPerPage && !perPageOptions.includes(itemsPerPage)) {
     perPageOptions.push(itemsPerPage);
