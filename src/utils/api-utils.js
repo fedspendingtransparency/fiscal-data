@@ -362,8 +362,7 @@ export const pivotData = (data, dateField, pivotView, pivotValueField, aggregate
     if (!isEmptyPivotLabel(row[dimensionField])) {  /* only make columns when the pivot
                                                         dimension field has a value */
       // just take the current value if the value field is a non-summable type
-      if (data.meta.dataTypes[pivotValueField] !== 'CURRENCY'
-        && data.meta.dataTypes[pivotValueField] !== 'CURRENCY3'
+      if (!data.meta.dataTypes[pivotValueField].includes('CURRENCY')
         && data.meta.dataTypes[pivotValueField] !== 'NUMBER') {
         indexed[rowKey][row[dimensionField]] = row[pivotValueField];
       } else {

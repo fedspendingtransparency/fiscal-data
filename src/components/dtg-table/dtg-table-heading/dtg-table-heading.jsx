@@ -4,12 +4,16 @@ import { rightAlign } from '../../data-table/data-table-helper';
 export default function DtgTableHeading(props) {
     const setStyle = (column) => {
       if (rightAlign(column.type)) {
-        return {
-          width: column.width ? `${column.width}%` : 'auto',
-          textAlign: 'right'
+        const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
+        if (types.includes(column.type) || column.type?.includes('CURRENCY')) {
+          return {
+            width: column.width ? `${column.width}%` : 'auto',
+            textAlign: 'right'
+          }
         }
-      } else {
-        return { width: column.width ? `${column.width}%` : 'auto' };
+      }
+      else {
+        return {width: column.width ? `${column.width}%` : 'auto'};
       }
     };
 
