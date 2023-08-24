@@ -1,6 +1,7 @@
 import React from "react"
 import ExplainerSubNav from './explainer-sub-nav'
 import {render, fireEvent} from '@testing-library/react';
+import Analytics from "../../../../utils/analytics/analytics";
 
 const urls = [{
   text: 'Overview',
@@ -31,7 +32,7 @@ describe("ExplainerSubNav Component", () => {
   })
 
   it("renders all the correct links", () => {
-    const { getByText  } = render(<ExplainerSubNav hidePosition={160} />)
+    const { getByText } = render(<ExplainerSubNav hidePosition={160} />)
 
     urls.forEach(url => {
       expect(getByText(url.text).closest('a')).toHaveAttribute('href', url.url)
@@ -56,4 +57,35 @@ describe("ExplainerSubNav Component", () => {
   });
 
 
-})
+});
+
+describe("ExplainerSubNav analytics", () => {
+
+  it('Calls Universal Analytics event for each nav link clicked', async() => {
+    const { getByText } = render(<ExplainerSubNav hidePosition={160} />);
+    const spy = jest.spyOn(Analytics, 'event');
+
+    urls.forEach(link => {
+      fireEvent.click(getByText(link.text));
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Explainers',
+        action: `Sub Nav Click`,
+        label: link.text
+      });
+    });
+  });
+
+  it('Pushes analytics event to datalayer for GA4 for each nav link clicked', async() => {
+    const { getByText } = render(<ExplainerSubNav hidePosition={160} />);
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    const spy = jest.spyOn((window as any).dataLayer, 'push');
+
+    urls.forEach(link => {
+      fireEvent.click(getByText(link.text));
+      expect(spy).toHaveBeenCalledWith({
+        event: `Sub Nav Click`,
+        eventLabel: link.text
+      });
+    });
+  });
+});

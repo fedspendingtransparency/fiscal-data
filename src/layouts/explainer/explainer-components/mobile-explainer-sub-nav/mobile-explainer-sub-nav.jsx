@@ -7,7 +7,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
 import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import {navigate} from 'gatsby'
+import {navigate} from 'gatsby';
+import Analytics from "../../../../utils/analytics/analytics";
 import {
   MenuList,
   buttonOverview,
@@ -87,6 +88,19 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
     }
   };
 
+  const analyticsEvent = (title) => {
+    Analytics.event({
+      category: 'Explainers',
+      action: `Sub Nav Click`,
+      label: title
+    });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'Sub Nav Click',
+      'eventLabel': title,
+    });
+  }
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -135,8 +149,14 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           data-testid="mobileSubNavBlockButton"
         >
           <span
-            onClick={() => navigate('/americas-finance-guide/')}
-            onKeyPress={() => navigate('/americas-finance-guide/')}
+            onClick={() => {
+              analyticsEvent('Overview');
+              navigate('/americas-finance-guide/');
+            }}
+            onKeyPress={() => {
+              analyticsEvent('Overview');
+              navigate('/americas-finance-guide/');
+            }}
             className={overviewStyle} id="home"
             role={'button'}
             tabIndex={0}
@@ -159,19 +179,21 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           <StyledMenuItem className={MenuList}>
             <ListItemText
               className={`${isRevenue ? [revenue, activeMenu].join(" ") : revenue}`}
-              onClick={() =>
-                navigate("/americas-finance-guide/government-revenue/")
-              }
-              primary=" Revenue"
+              onClick={() => {
+                analyticsEvent('Revenue');
+                navigate("/americas-finance-guide/government-revenue/");
+              }}
+              primary="Revenue"
               data-testid="revenueButton"
             />
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
               className={`${isSpending ? [spending, activeMenu].join(" ") : spending}`}
-              onClick={() =>
-                navigate("/americas-finance-guide/federal-spending/")
-              }
+              onClick={() => {
+                analyticsEvent('Spending');
+                navigate("/americas-finance-guide/federal-spending/");
+              }}
               primary="Spending"
               data-testid="spendingButton"
             />
@@ -179,9 +201,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           <StyledMenuItem className={MenuList}>
             <ListItemText
               className={`${isDeficit ? [deficit, activeMenu].join(" ") : deficit}`}
-              onClick={() =>
-                navigate("/americas-finance-guide/national-deficit/")
-              }
+              onClick={() => {
+                analyticsEvent('Deficit');
+                navigate("/americas-finance-guide/national-deficit/");
+              }}
               primary="Deficit"
               data-testid="deficitButton"
             />
@@ -189,7 +212,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           <StyledMenuItem className={MenuList}>
             <ListItemText
               className={`${isDebt ? [debt, activeMenu].join(" ") : debt}`}
-              onClick={() => navigate("/americas-finance-guide/national-debt/")}
+              onClick={() => {
+                analyticsEvent('Debt');
+                navigate("/americas-finance-guide/national-debt/");
+              }}
               primary="Debt"
               data-testid="debtButton"
             />

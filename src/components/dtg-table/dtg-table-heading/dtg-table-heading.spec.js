@@ -24,7 +24,7 @@ describe('Data Table Heading component', () => {
         expect(instance.findAllByType('th')[1].props.style.width).toBe(`${columnWithWidth.width}%`);
     });
 
-    it('sets the text-align property to right if the datatype is "DATE", "CURRENCY", "PERCENTAGE", or "NUMBER"', () => {
+    it('sets the text-align property to right if the datatype is "DATE", "CURRENCY","CURRENCY3", "PERCENTAGE", or "NUMBER"', () => {
       const component = renderer.create(<DtgTableHeading
         columns={ColumnConfig2}
                                         />);
@@ -34,6 +34,7 @@ describe('Data Table Heading component', () => {
       expect(instance.findAllByType('th')[2].props.style.textAlign).toBe('right');
       expect(instance.findAllByType('th')[3].props.style.textAlign).toBe('right');
       expect(instance.findAllByType('th')[4].props.style.textAlign).toBe('right');
+      expect(instance.findAllByType('th')[5].props.style.textAlign).toBe('right');
     });
 
     it('sets all th scope to "col"', () => {

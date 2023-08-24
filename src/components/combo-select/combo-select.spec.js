@@ -29,7 +29,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     instance = component.root;
   });
 
-  it('renders an input field that opens a dropdown list of the top 10 options on focus', () => {
+  it('renders an input field that opens a dropdown list of all options on focus', () => {
     const inputField = instance.findByType('input');
 
     expect(inputField.props.type).toEqual('number');
@@ -42,7 +42,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
       inputField.props.onFocus();
     });
     const optionButtons = instance.findByType('ul').findAllByType('button');
-    expect(optionButtons.length).toEqual(10);
+    expect(optionButtons.length).toEqual(25);
     expect(optionButtons[0].children).toEqual(['2020']);
     expect(optionButtons[9].children).toEqual(['2011']);
   });
@@ -54,7 +54,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
       inputField.props.onChange({target: {value: '01'}});
     });
     let optionButtons = instance.findByType('ul').findAllByType('button');
-    expect(optionButtons.length).toEqual(10);
+    expect(optionButtons.length).toEqual(11);
     expect(optionButtons[0].children).toEqual(['2019']);
     expect(optionButtons[9].children).toEqual(['2010']);
     renderer.act(() => {
@@ -351,7 +351,7 @@ describe('The ComboSelect Component for general text use', () => {
       />);
 
     const comboBox = getByTestId('combo-box');
-    
+
     fireEvent.change(comboBox, {target: { value:'Abcd'}});
     fireEvent.focusOut(comboBox);
 
@@ -374,7 +374,7 @@ describe('The ComboSelect Component for general text use', () => {
 
     const comboBox = getByTestId('combo-box');
     await userEvent.click(comboBox);
-    
+
     const clearButton = getByTestId('clear-button');
     await userEvent.click(clearButton);
 
@@ -402,7 +402,7 @@ describe('The ComboSelect Component for general text use', () => {
       />);
 
     const comboBox = getByTestId('combo-box');
-    
+
     fireEvent.change(comboBox, {target: { value:''}});
     fireEvent.focusOut(comboBox);
 

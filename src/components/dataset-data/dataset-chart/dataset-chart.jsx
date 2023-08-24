@@ -91,7 +91,7 @@ const DatasetChart = ({
   const viz = useRef();
 
   const buildLegendConfig = (fields) => {
-    if (chartFields.length === 0) {
+    if (chartFields.length === 0 && fields.length !== 0) {
       setChartFields(fields.map(f => {
         return {
           field: f,

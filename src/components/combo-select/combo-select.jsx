@@ -49,7 +49,6 @@ export default function ComboSelect(
   const [inputRef, setInputFocus] = useFocus();
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
 
-
   const updateSelection = (selection, sendGA) => {
     if(isExchangeTool && sendGA){
       XRAnalyticsHandler('Foreign Country-Currency Selected', selection.label);
