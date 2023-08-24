@@ -10,9 +10,10 @@ export default function DtgTableHeading(props) {
             width: column.width ? `${column.width}%` : 'auto',
             textAlign: 'right'
           }
-        } else {
-          return {width: column.width ? `${column.width}%` : 'auto'};
         }
+      }
+      else {
+        return {width: column.width ? `${column.width}%` : 'auto'};
       }
     };
 
