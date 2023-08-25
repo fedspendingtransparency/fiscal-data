@@ -3,8 +3,6 @@ const { freshExplainerPages } = require("./src/transform/explainer-pages-config"
 const { getEndpointConfigsById } = require( './src/transform/endpointConfig');
 const { sortPublishers } = require('./src/transform/filters/filterDefinitions');
 let { filters } = require('./src/transform/filters/filterDefinitions');
-const { optionalRequire } = require("optional-require");
-const blsFileData = optionalRequire('./static/data/bls-data.json') || null;
 
 // TODO:  remove preprod holdover and give all environments and env config filename that directly
 //  matches the build-time process.env.BUILD_ENV
@@ -244,22 +242,19 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   }
 
-  // use locally for BLS failures
-  // const resultData = require('./static/data/CPI/bls-fallback-data.json');
-
-  const resultData = blsFileData ? blsFileData : await getBLSData().then(res => res)
+  const resultData = await getBLSData().then(res => res)
     .catch(error => {
       throw error
     });
-    
 
-  if (blsFileData) {
-    console.warn("******************");
-    console.warn("BLS FILE DATA FOUND");
-  }
-  else {
-    console.warn("NO BLS FILE DATA")
-  }
+
+  // if (blsFileData) {
+  //   console.log("******************");
+  //   console.log("BLS FILE DATA FOUND");
+  // }
+  // else {
+  //   console.log("NO BLS FILE DATA")
+  // }
 
   resultData.Results.series[0].data.forEach((blsRow) => {
     blsRow.id = createNodeId(blsRow.year + blsRow.period);
