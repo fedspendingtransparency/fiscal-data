@@ -13,9 +13,9 @@ import {
 import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowDownShortWide,
   faArrowRightArrowLeft,
   faArrowUpShortWide,
+  faArrowDownWideShort
 } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Filter, rightAlign } from '../data-table-helper';
@@ -87,7 +87,7 @@ const DataTableHeader:FunctionComponent<IDataTableHeader> = ({table, dataTypes})
                             </div>,
                           desc:
                             <div className={sortArrowPill}>
-                              <FontAwesomeIcon icon={faArrowDownShortWide as IconProp}
+                              <FontAwesomeIcon icon={faArrowDownWideShort as IconProp}
                                                className={sortArrow}
                                                onClick={header.column.getToggleSortingHandler()}
                               />
