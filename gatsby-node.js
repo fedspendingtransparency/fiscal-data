@@ -242,19 +242,80 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   }
 
+  // use locally for BLS failures
+  const getResultData = require('./static/data/CPI/bls-fallback-data.json');
+
+  let localBlsData;
+  let blsFileData;
+  let blsFileDataDot;
+  let blsFileDataStatic;
+  let blsFileDataPublic;
+
+  try {
+    localBlsData = await getResultData();
+  } catch (e) {
+    return console.log(e);
+  }
+  
+  try {
+    const getBlsFileData = require('./static/data/bls-data.json') || null;
+    blsFileData = await getBlsFileData();
+  } catch (e) {
+    return console.log(e);
+  }
+
+  try {
+    const getBlsFileDataDot = require('./data/bls-data.json') || null;
+    blsFileDataDot = await getBlsFileDataDot();
+  } catch (e) {
+    return console.log(e);
+  }
+
+  try {
+    const getBlsFileDataStatic = require('dtg/static/data/bls-data.json') || null;
+    blsFileDataStatic = await getBlsFileDataStatic();
+  } catch (e) {
+    return console.log(e);
+  }
+
+  try {
+    const getBlsFileDataPublic = require('dtg/public/data/bls-data.json') || null;
+    blsFileDataPublic = await getBlsFileDataPublic();
+  } catch (e) {
+    return console.log(e);
+  }
+    
+  if (blsFileData || blsFileDataDot || blsFileDataStatic || blsFileDataPublic || localBlsData) {
+    if (blsFileData) {
+      console.warn("BLS FILE DATA FOUND");
+      console.log("BLS FILE DATA FOUND");
+    }
+    if (blsFileDataDot) {
+      console.warn("BLS FILE DATA DOT FOUND");
+      console.log("BLS FILE DATA DOT FOUND");
+    }
+    if (blsFileDataStatic) {
+      console.warn("BLS FILE DATA STATIC FOUND");
+      console.log("BLS FILE DATA STATIC FOUND");
+    }
+    if (blsFileDataPublic) {
+      console.warn("BLS FILE DATA STATIC FOUND");
+      console.log("BLS FILE DATA STATIC FOUND");
+    }
+    if (localBlsData) {
+      console.warn("LOCAL BLS FILE DATA FOUND");
+      console.log("LOCAL BLS FILE DATA FOUND");
+    }
+  }
+  else {
+    console.warn("NO BLS FILE DATA");
+    console.log("NO BLS FILE DATA");
+  }
+
   const resultData = await getBLSData().then(res => res)
     .catch(error => {
       throw error
     });
-
-
-  // if (blsFileData) {
-  //   console.log("******************");
-  //   console.log("BLS FILE DATA FOUND");
-  // }
-  // else {
-  //   console.log("NO BLS FILE DATA")
-  // }
 
   resultData.Results.series[0].data.forEach((blsRow) => {
     blsRow.id = createNodeId(blsRow.year + blsRow.period);
