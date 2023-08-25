@@ -5,7 +5,7 @@ import * as Gatsby from 'gatsby';
 
 import DatasetCard from './dataset-card';
 import * as datasetStyles from './dataset-card.module.scss';
-import {render} from "@testing-library/react";
+import {render, fireEvent} from "@testing-library/react";
 
 describe('DatasetCard', () => {
 
@@ -110,6 +110,27 @@ describe('DatasetCard', () => {
       category: 'Explainers',
       action: `Citation Click`,
       label: 'Spending - Related Datasets'
+    });
+    spy.mockClear();
+  });
+
+  it('Pushes analytics event to datalayer for GA4 for each nav link clicked', async() => {
+    const { getByText } = render(
+      <DatasetCard
+        dataset={mockConfig}
+        context={'Related Datasets'}
+        referrer={'Spending'}
+        explainer={true}
+      />);
+
+    const datasetCard = getByText('Debt to the Penny');
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
+
+    fireEvent.click(datasetCard);
+    expect(spy).toHaveBeenCalledWith({
+      event: 'Spending - Citation Click',
+      citationClickEventLabel: 'Debt to the Penny'
     });
     spy.mockClear();
   });
