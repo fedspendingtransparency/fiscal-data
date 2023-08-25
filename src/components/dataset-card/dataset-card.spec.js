@@ -114,7 +114,7 @@ describe('DatasetCard', () => {
     spy.mockClear();
   });
 
-  it('Pushes analytics event to datalayer for GA4 for each nav link clicked', async() => {
+  it('Pushes analytics event to datalayer for GA4 for dataset card - explainer', async() => {
     const { getByText } = render(
       <DatasetCard
         dataset={mockConfig}
@@ -134,4 +134,26 @@ describe('DatasetCard', () => {
     });
     spy.mockClear();
   });
+
+  it('Pushes analytics event to datalayer for GA4 for dataset card - non explainer', async() => {
+    const { getByText } = render(
+      <DatasetCard
+        dataset={mockConfig}
+        context={'Related Datasets'}
+        referrer={'example'}
+        explainer={false}
+      />);
+
+    const datasetCard = getByText('Debt to the Penny');
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
+
+    fireEvent.click(datasetCard);
+    expect(spy).toHaveBeenCalledWith({
+      event: 'Related Datasets Click',
+      eventLabel: 'from example to Debt to the Penny'
+    });
+    spy.mockClear();
+  });
+
 });
