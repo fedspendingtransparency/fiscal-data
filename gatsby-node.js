@@ -247,11 +247,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   // use locally for BLS failures
   // const getResultData = require('./static/data/CPI/bls-fallback-data.json');
 
-  let localBlsData;
-  let blsFileData;
-  let blsFileDataDot;
-  let blsFileDataStatic;
-  let blsFileDataPublic;
   let resultData;
 
   fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
@@ -280,66 +275,29 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   })
 
-  // try {
-  //   const getBlsFileData = require('./static/data/bls-data.json') || null;
-  //   blsFileData = await getBlsFileData;
-  // } catch (e) {
-  //   return console.log(e);
-  // }
-  //
-  // try {
-  //   const getBlsFileDataDot = require('./data/bls-data.json') || null;
-  //   blsFileDataDot = await getBlsFileDataDot;
-  // } catch (e) {
-  //   return console.log(e);
-  // }
-  //
-  // try {
-  //   const getBlsFileDataStatic = require('dtg/static/data/bls-data.json') || null;
-  //   blsFileDataStatic = await getBlsFileDataStatic;
-  // } catch (e) {
-  //   return console.log(e);
-  // }
-  //
-  // try {
-  //   const getBlsFileDataPublic = require('dtg/public/data/bls-data.json') || null;
-  //   blsFileDataPublic = await getBlsFileDataPublic;
-  // } catch (e) {
-  //   return console.log(e);
-  // }
-  //
-  // if (blsFileData || blsFileDataDot || blsFileDataStatic || blsFileDataPublic || localBlsData) {
-  //   if (blsFileData) {
-  //     console.warn("BLS FILE DATA FOUND");
-  //     console.log("BLS FILE DATA FOUND");
-  //   }
-  //   if (blsFileDataDot) {
-  //     console.warn("BLS FILE DATA DOT FOUND");
-  //     console.log("BLS FILE DATA DOT FOUND");
-  //   }
-  //   if (blsFileDataStatic) {
-  //     console.warn("BLS FILE DATA STATIC FOUND");
-  //     console.log("BLS FILE DATA STATIC FOUND");
-  //   }
-  //   if (blsFileDataPublic) {
-  //     console.warn("BLS FILE DATA STATIC FOUND");
-  //     console.log("BLS FILE DATA STATIC FOUND");
-  //   }
-  //   if (localBlsData) {
-  //     console.warn("LOCAL BLS FILE DATA FOUND");
-  //     console.log("LOCAL BLS FILE DATA FOUND");
-  //   }
-  // }
-  // else {
-  //   console.warn("NO BLS FILE DATA");
-  //   console.log("NO BLS FILE DATA");
-  // }
+  fs.readFile('./data/bls-data.json', 'utf8', async (err) => {
+    if (err) {
+      console.warn('BLS DOT DATA FILE NOT FOUND ******************************');
+    } else {
+      console.warn('BLS DOT DATA FILE FOUND ******************************');
+    }
+  })
 
+  fs.readFile('dtg/static/data/bls-data.json', 'utf8', async (err) => {
+    if (err) {
+      console.warn('BLS DTG STATIC DATA FILE NOT FOUND ******************************');
+    } else {
+      console.warn('BLS DTG STATIC DATA FILE FOUND ******************************');
+    }
+  })
 
-
-
-
-
+  fs.readFile('dtg/public/data/bls-data.json', 'utf8', async (err) => {
+    if (err) {
+      console.warn('BLS DTG PUBLIC DATA FILE NOT FOUND ******************************');
+    } else {
+      console.warn('BLS DTG PUBLIC DATA FILE FOUND ******************************');
+    }
+  })
 
   const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
 
