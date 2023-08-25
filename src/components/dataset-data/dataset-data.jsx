@@ -253,6 +253,8 @@ export const DatasetDataComponent = ({
           allTablesSelected={allTablesSelected}
           handleConfigUpdate={() => setConfigUpdated(true)}
           setTableColumnSortData={setTableColumnSortData}
+          hasPublishedReports={!!publishedReports}
+          publishedReports={publishedReports}
         />
         }
       </div>

@@ -37,6 +37,8 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     columnConfig,
     caption,
     selectColumns,
+    hasPublishedReports,
+    publishedReports
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
@@ -427,9 +429,12 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             </div>
       }
       </Experimental>
+      {/* Set hide cell links to true before merging */}
       <Experimental featureId="react-table-poc">
         {reactTableData &&
           <DataTable rawData={reactTableData} pageSize={10} defaultSelectedColumns={selectColumns}
+                     setTableColumnSortData={setTableColumnSortData} hasPublishedReports={tableProps.hasPublishedReports}
+                     publishedReports={tableProps.publishedReports} hideCellLinks={true}
                      setTableColumnSortData={setTableColumnSortData} shouldPage={shouldPage}
                      pagingProps={pagingProps} showPaginationControls={showPaginationControls}
           />
