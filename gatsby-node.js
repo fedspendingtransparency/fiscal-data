@@ -3,8 +3,8 @@ const { freshExplainerPages } = require("./src/transform/explainer-pages-config"
 const { getEndpointConfigsById } = require( './src/transform/endpointConfig');
 const { sortPublishers } = require('./src/transform/filters/filterDefinitions');
 let { filters } = require('./src/transform/filters/filterDefinitions');
-const { optionalRequire } = require("optional-require");
-const blsFileData = optionalRequire('./static/data/bls-data.json') || null;
+const fs = require('fs');
+
 
 // TODO:  remove preprod holdover and give all environments and env config filename that directly
 //  matches the build-time process.env.BUILD_ENV
@@ -245,36 +245,59 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   }
 
   // use locally for BLS failures
-  // const resultData = require('./static/data/CPI/bls-fallback-data.json');
+  // const getResultData = require('./static/data/CPI/bls-fallback-data.json');
 
-  const resultData = blsFileData ? blsFileData : await getBLSData().then(res => res)
-    .catch(error => {
-      throw error
+  let resultData;
+
+  fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
+    if (err) {
+      resultData = await getBLSData().then(res => res)
+        .catch(error => {
+          throw error
+        });
+      console.warn('BLS DATA FILE NOT FOUND... USING API RESPONSE ******************************');
+    } else {
+      resultData = JSON.parse(data);
+      console.warn('BLS DATA FILE FOUND ******************************');
+    }
+    resultData.Results.series[0].data.forEach((blsRow) => {
+      blsRow.id = createNodeId(blsRow.year + blsRow.period);
+      const node = {
+        ...blsRow,
+        parent: null,
+        children: [],
+        internal: {
+          type: `BLSPublicAPIData`,
+        }
+      };
+      node.internal.contentDigest = createContentDigest(node);
+      createNode(node);
     });
-    
+  })
 
-  if (blsFileData) {
-    console.warn("******************");
-    console.warn("BLS FILE DATA FOUND");
-  }
-  else {
-    console.warn("NO BLS FILE DATA")
-  }
+  fs.readFile('./data/bls-data.json', 'utf8', async (err) => {
+    if (err) {
+      console.warn('BLS DOT DATA FILE NOT FOUND ******************************');
+    } else {
+      console.warn('BLS DOT DATA FILE FOUND ******************************');
+    }
+  })
 
-  resultData.Results.series[0].data.forEach((blsRow) => {
-    blsRow.id = createNodeId(blsRow.year + blsRow.period);
-    const node = {
-      ...blsRow,
-      parent: null,
-      children: [],
-      internal: {
-        type: `BLSPublicAPIData`,
-      }
-    };
-    node.internal.contentDigest = createContentDigest(node);
-    createNode(node);
-  });
+  fs.readFile('dtg/static/data/bls-data.json', 'utf8', async (err) => {
+    if (err) {
+      console.warn('BLS DTG STATIC DATA FILE NOT FOUND ******************************');
+    } else {
+      console.warn('BLS DTG STATIC DATA FILE FOUND ******************************');
+    }
+  })
 
+  fs.readFile('dtg/public/data/bls-data.json', 'utf8', async (err) => {
+    if (err) {
+      console.warn('BLS DTG PUBLIC DATA FILE NOT FOUND ******************************');
+    } else {
+      console.warn('BLS DTG PUBLIC DATA FILE FOUND ******************************');
+    }
+  })
 
   const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
 
