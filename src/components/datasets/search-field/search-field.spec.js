@@ -1,9 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SearchField, { searchFieldAnalyticsObject } from "./search-field";
+import SearchField, {lastUpdatedInfoTipAnalyticsObject, searchFieldAnalyticsObject} from "./search-field";
 import InfoTip from '../../info-tip/info-tip';
 import Analytics from "../../../utils/analytics/analytics";
 import { siteContext } from '../../persist/persist';
+import {fireEvent, render} from "@testing-library/react";
+
 
 jest.useFakeTimers();
 
@@ -18,6 +20,8 @@ describe('Search Field', () => {
 
   const gaSpy = jest.spyOn(Analytics, 'event');
   let queryTerm, component, instance, button, inputField;
+  window.dataLayer = window.dataLayer || [];
+  const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
   const mockChangeHandler = (query) => {
     queryTerm = query;
@@ -111,7 +115,7 @@ describe('Search Field', () => {
     expect(tooltip.props.children).toBeDefined(); // was content sent to the body?
   });
 
-  it('tracks when a user enters text into the search field', () => {
+  it('tracks when a user enters text into the search field and also test GA4 datalayer push', () => {
     const testString = 'Testing123';
     renderer.act(() => {
       inputField.props.onChange({ target: { value: testString } });
@@ -122,6 +126,11 @@ describe('Search Field', () => {
     expect(gaSpy).toHaveBeenLastCalledWith({
       ...searchFieldAnalyticsObject,
       label: testString
+    });
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Keyword Search',
+      eventLabel: 'Testing123'
     });
   });
 });
@@ -163,4 +172,31 @@ describe('search field persistence', () => {
 
     expect(setKeywordsSpy).toHaveBeenCalledWith(testString);
   })
-})
+
+  it('Testing GA4 datalayer push for handleInfoTipClick',()=>{
+    window.dataLayer = window.dataLayer || [];
+    const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
+    const{getByTestId} = render(
+      <siteContext.Provider
+        value={{
+          keywords: persistentTerms,
+          setKeywords: setKeywordsSpy
+        }}
+      >
+        <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
+      </siteContext.Provider>
+    )
+
+    const infoTip = getByTestId('infoTipButton');
+
+    expect(infoTip).toBeDefined();
+
+    fireEvent.click(infoTip);
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Info Button Click',
+      eventLabel: 'Keyword Search'
+    });
+  });
+});
