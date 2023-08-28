@@ -3,6 +3,7 @@ import React from 'react';
 import {fireEvent, waitFor, render, within} from "@testing-library/react";
 import {mockOptions} from "../combo-select-test-helper";
 import ComboCurrencySelect from './combo-currency-select';
+import Analytics from "../../../utils/analytics/analytics";
 
 
 describe('The ComboSelect Component for general text use', () => {
@@ -14,6 +15,36 @@ describe('The ComboSelect Component for general text use', () => {
   }
 
   const changeHandlerSpy = jest.fn();
+
+  it('Pushes analytics event to datalayer for GA4 for combo-currency-select', async()=>{
+    const { getByRole, getByTestId } = render(
+      <ComboCurrencySelect
+        changeHandler={changeHandlerSpy}
+        optionLabelKey={'label'}
+        options={mockOptions}
+        selectedOption={mockDefaultSelection}
+        isExchangeTool={true}
+      />
+    )
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
+
+    const comboBox = getByRole('button', {name: 'Mock Label'});
+    fireEvent.click(comboBox);
+
+    const list = getByTestId('dropdown-list');
+    expect(getByTestId('dropdown-list')).toBeInTheDocument();
+
+    const button = within(list).getAllByRole('button')[0];
+    fireEvent.click(button);
+
+    fireEvent.click(button);
+    expect(spy).toHaveBeenCalledWith({
+      event: 'Foreign Country-Currency Selected',
+      eventLabel: '(None selected)'
+    });
+    spy.mockClear();
+  });
 
 
   it('renders the default state, displaying the default selected option label and a down arrow icon', () => {

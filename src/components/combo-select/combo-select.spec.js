@@ -5,6 +5,7 @@ import ComboSelect from './combo-select';
 import {mockOptions} from "./combo-select-test-helper";
 import Analytics from "../../utils/analytics/analytics";
 import userEvent from '@testing-library/user-event'
+import ComboCurrencySelect from "./combo-currency-select/combo-currency-select";
 
 describe('The ComboSelect Component for Published Report year filtering', () => {
   let component = renderer.create();
@@ -28,6 +29,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     );
     instance = component.root;
   });
+
 
   it('renders an input field that opens a dropdown list of all options on focus', () => {
     const inputField = instance.findByType('input');
@@ -340,7 +342,7 @@ describe('The ComboSelect Component for general text use', () => {
     });
   });
 
-  it('calls the appropriate analytics event when combo box input is updated wihtin XR tool', async() => {
+  it('calls the appropriate analytics event when combo box input is updated within XR tool', async() => {
     const spy = jest.spyOn(Analytics, 'event');
     const {getByTestId} = render(
       <ComboSelect changeHandler={changeHandlerSpy}
@@ -359,6 +361,29 @@ describe('The ComboSelect Component for general text use', () => {
       category: 'Exchange Rates Converter',
       action: `Foreign Country-Currency Search`,
       label: 'Abcd'
+    });
+  });
+
+  it('calls the appropriate GA4 datalayer push when combo box input is updated within XR tool', async() => {
+    const {getByTestId} = render(
+      <ComboSelect changeHandler={changeHandlerSpy}
+                   optionLabelKey={'label'}
+                   options={mockOptions}
+                   selectedOption={null}
+                   isExchangeTool={true}
+      />);
+
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
+
+    const comboBox = getByTestId('combo-box');
+
+    fireEvent.change(comboBox, {target: { value:'Abcd'}});
+    fireEvent.focusOut(comboBox);
+
+    expect(spy).toHaveBeenCalledWith({
+      event: `Foreign Country-Currency Search`,
+      eventLabel: 'Abcd'
     });
   });
 

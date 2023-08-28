@@ -77,6 +77,19 @@ describe('filter row', () => {
     });
   });
 
+  it('Pushes analytics event to datalayer for GA4 for filterRow', () => {
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
+    renderer.act(() => {
+      checkbox.props.onChange()
+    });
+
+    expect(spy).toHaveBeenCalledWith({
+      event: mockAnalyticsObject.event,
+      eventLabel: labelText
+    });
+  });
+
   it('reflects the parent value', () => {
     expect(checkbox.props.checked).toBeFalsy();
 

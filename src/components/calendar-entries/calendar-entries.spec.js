@@ -9,6 +9,7 @@ import internalData from '../../testData/__dataConfig_for_tests.json';
 import PageButtons from '../pagination/page-buttons';
 import SelectControl from '../select-control/select-control';
 import Analytics from '../../utils/analytics/analytics';
+import {render, fireEvent} from "@testing-library/react";
 
 jest.mock(
   '../../components/calendar-entries/use-release-calendar-entries-updater-hook',
@@ -69,7 +70,8 @@ describe('Calendar Entries List', () => {
 
   it('triggers an analytics event when the sort changes', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
-
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
     const dropdown = instance.findByType(SelectControl);
     renderer.act(() => {
       dropdown.props.changeHandler(sortOptions[1]);
@@ -79,5 +81,11 @@ describe('Calendar Entries List', () => {
       ...releaseCalendarSortEvent,
       label: sortOptions[1].label
     });
+    expect(spy).toHaveBeenCalledWith({
+      event: releaseCalendarSortEvent.action,
+      eventLabel: sortOptions[1].label
+
+    })
+    spy.mockClear();
   })
 });

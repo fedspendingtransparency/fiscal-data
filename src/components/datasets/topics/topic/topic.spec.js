@@ -74,8 +74,11 @@ describe('Topics component', () => {
   );
 
   it(`calls triggers a tracking event with the expected parameters when the button is clicked
-    to update state to active`,
+    to update state to active and testing GA4 datalayer push`,
     async () => {
+      window.dataLayer = window.dataLayer || [];
+      const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
       renderer.act(() => {
         component = renderer.create(
           <Topic
@@ -100,6 +103,9 @@ describe('Topics component', () => {
         ...topicIconAnalyticsEvent,
         label
       });
-    }
-  );
+      expect(datalayerSpy).toHaveBeenCalledWith({
+        event: 'Topics Filter Click',
+        eventLabel: label
+      });
+    });
 });
