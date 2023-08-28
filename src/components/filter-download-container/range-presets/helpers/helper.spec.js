@@ -69,12 +69,20 @@ describe('Range Presets Helpers - generateAnalyticsEvent', () => {
   });
 
   it('triggers an Analytics event with expected fields', () => {
+    window.dataLayer = window.dataLayer || [];
+    const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
     const label = 'Test event label';
     const desiredEventFields = Object.assign({}, analyticsFields);
     desiredEventFields.label = label;
 
     generateAnalyticsEvent(label);
     expect(spy).toHaveBeenCalledWith(desiredEventFields);
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Pick Date Click',
+      eventLabel: label
+    });
   });
 
 });

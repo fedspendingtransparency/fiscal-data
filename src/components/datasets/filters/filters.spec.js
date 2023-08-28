@@ -13,6 +13,8 @@ import DateFilterTabs from './dateFilterTabs/dateFilterTabs';
 import Tabs from '@material-ui/core/Tabs';
 import { siteContext } from '../../persist/persist';
 import SearchFilterSummary from './searchFilterSummary/searchFilterSummary';
+import {render, fireEvent, getAllByTestId} from '@testing-library/react';
+
 
 jest.mock('../../../components/truncate/truncate.jsx', () => () => 'Truncator');
 
@@ -315,3 +317,53 @@ describe('Filter Main', () => {
     expect(mobileToggle).toBeDefined();
   });
 });
+
+describe('GA4 test of datalayer push', () => {
+
+  HTMLCanvasElement.prototype.getContext = jest.fn();
+  const setBeginDateSpy = jest.fn();
+  const setEndDateSpy = jest.fn();
+  const setExactRangeSpy = jest.fn();
+  const setDateRangeTabSpy = jest.fn();
+
+  let isHandheld = false;
+  let filters = mockFilters;
+
+  it('trigger GA4 datalayer push testing', ()=>{
+    window.dataLayer = window.dataLayer || [];
+    const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
+    const{getAllByTestId} = render(
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    )
+
+    expect(getAllByTestId("infoTipButton")[0]).toBeInTheDocument();
+    fireEvent.click(getAllByTestId("infoTipButton")[0]);
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Info Button Click',
+      eventLabel: 'Last Updated'
+    });
+  });
+})
