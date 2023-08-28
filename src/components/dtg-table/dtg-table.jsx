@@ -7,10 +7,7 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import {
-  pagedDatatableRequest, formatDateForApi, basicFetch,
-  buildSortParams, MAX_PAGE_SIZE,
-} from '../../utils/api-utils';
+import { pagedDatatableRequest, formatDateForApi, } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
 import * as styles from './dtg-table.module.scss';
@@ -45,16 +42,16 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
   useEffect(() => {
     if (tableProps) {
-      if (tableProps.dePaginated !== undefined) {
-        if (tableProps.dePaginated !== null) {
+      if (dePaginated !== undefined) {
+        if (dePaginated !== null) {
           if (reactTableData === null) {
-            setReactTableData(tableProps.dePaginated);
+            setReactTableData(dePaginated);
           }
         }
         else {
-          if (tableProps.rawData !== null) {
+          if (rawData !== null) {
             if (reactTableData === null) {
-              setReactTableData(tableProps.rawData);
+              setReactTableData(rawData);
             }
           }
         }
@@ -435,14 +432,18 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             </div>
       }
       </Experimental>
-      {/* Set hide cell links to true before merging */}
       <Experimental featureId="react-table-poc">
         {reactTableData &&
-          <DataTable rawData={reactTableData} pageSize={10} defaultSelectedColumns={selectColumns}
-                     setTableColumnSortData={setTableColumnSortData} hasPublishedReports={tableProps.hasPublishedReports}
-                     publishedReports={tableProps.publishedReports} hideCellLinks={true}
-                     setTableColumnSortData={setTableColumnSortData} shouldPage={shouldPage}
-                     pagingProps={pagingProps} showPaginationControls={showPaginationControls}
+          <DataTable rawData={reactTableData}
+                     pageSize={10}
+                     defaultSelectedColumns={selectColumns}
+                     setTableColumnSortData={setTableColumnSortData}
+                     hasPublishedReports={hasPublishedReports}
+                     publishedReports={publishedReports}
+                     hideCellLinks={true}
+                     shouldPage={shouldPage}
+                     pagingProps={pagingProps}
+                     showPaginationControls={showPaginationControls}
           />
         }
       </Experimental>
