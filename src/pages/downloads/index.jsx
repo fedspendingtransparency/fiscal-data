@@ -6,7 +6,7 @@ import LocationAware from '../../components/location-aware/location-aware';
 import downloadService from '../../helpers/download-service/download-service';
 import globalConstants from "../../helpers/constants";
 import { DATA_DOWNLOAD_BASE_URL } from 'gatsby-env-variables';
-import {downloadPageTextContent} from "./download-content-helper";
+import {downloadPageTextContent} from "../../helpers/downloads/download-content-helper";
 
 export const DownloadsPage = ({ location }) => {
 

@@ -5,7 +5,7 @@ import { from, throwError } from 'rxjs';
 import React from 'react';
 import globalConstants from '../../helpers/constants';
 import downloadService from '../../helpers/download-service/download-service';
-import {downloadPageTextContent} from './download-content-helper';
+import {downloadPageTextContent} from '../../helpers/downloads/download-content-helper';
 
 let mockStatusObservable = from(
   [

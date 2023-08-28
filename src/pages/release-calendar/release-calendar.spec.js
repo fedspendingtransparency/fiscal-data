@@ -7,7 +7,7 @@ import SiteLayout from "../../components/siteLayout/siteLayout";
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import internalData from '../../testData/__dataConfig_for_tests.json';
-import {tagLineText} from "./release-calendar-content-helper";
+import {tagLineText} from "../../helpers/release-calendar/release-calendar-content-helper";
 
 jest.mock(
   '../../components/calendar-entries/use-release-calendar-entries-updater-hook',
