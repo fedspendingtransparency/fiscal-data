@@ -16,7 +16,7 @@ describe('The ComboSelect Component for general text use', () => {
 
   const changeHandlerSpy = jest.fn();
 
-  it('Pushes analytics event to datalayer for GA4 for combo-currency-select - non explainer', async()=>{
+  it('Pushes analytics event to datalayer for GA4 for combo-currency-select', async()=>{
     const { getByRole, getByTestId } = render(
       <ComboCurrencySelect
         changeHandler={changeHandlerSpy}

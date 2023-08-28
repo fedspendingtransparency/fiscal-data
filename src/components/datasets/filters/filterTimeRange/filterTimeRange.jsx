@@ -42,7 +42,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   const minAllowedDate = new Date(1790, 0, 1);
   minAllowedDate.setHours(0, 0, 0, 0);
-  
+
   const handleBeginDate = (date) => {
     setBeginDate(date);
     context.setBeginDate(date);
@@ -221,8 +221,8 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
             />
           </div>
         </div>
-        <div className={styles.checkBoxDiv}>
-          <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox} />
+        <div className={styles.checkBoxDiv} data-testid={'checkbox'}>
+          <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox}/>
         </div>
       </div>
     </MuiPickersUtilsProvider>
