@@ -60,7 +60,7 @@ const AFGDeficitPOC = () => {
   ]
 
   const CustomDot = (props) => {
-    const {cx, cy, payload, value, strokeWidth, r} = props;
+    const {cx, cy, payload, strokeWidth, r} = props;
     const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
     const fill =  payload?.latest ? null : color;
     return (

@@ -1,13 +1,6 @@
 import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import * as styles from './debt-over-last-100y-linechart.module.scss';
-import {
-  breakpointLg,
-  fontSize_10,
-  fontSize_14,
-  semiBoldWeight,
-} from '../../../../../../variables.module.scss';
-import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import numeral from "numeral";
 import Analytics from '../../../../../../utils/analytics/analytics';
 import {
@@ -65,7 +58,8 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
     subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
     footer: footer,
     altText:
-      'Line graph displaying the amount of debt in trillions from 1922 to 2022. The graph shows a steady trend with an increase beginning around 1940 continuing through today.',
+      'Line graph displaying the amount of debt in trillions from 1922 to 2022. The graph shows a steady trend with an ' +
+      'increase beginning around 1940 continuing through today.',
   };
 };
 

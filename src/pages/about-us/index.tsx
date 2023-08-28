@@ -30,13 +30,6 @@ import {
 } from './about-us.module.scss';
 const tocSections = ['about-section','faq','contact-section'];
 
-export const scrollOptions = {
-  smooth: true,
-  spy: true,
-  duration: 0,
-  delay: 0
-};
-
 const AboutUsPage: FunctionComponent = ({data}) => {
   const breadCrumbLinks = [
     {

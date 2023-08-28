@@ -8,9 +8,7 @@ import {
   semiBoldWeight,
 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import {
-  animationCrosshair
-} from '../../../national-debt/growing-national-debt/debt-trends-over-time/debt-trends-over-time-chart.module.scss';
+
 
 const mts = <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/"
                         eventNumber="21"
@@ -18,11 +16,11 @@ const mts = <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-th
             >
               Monthly Treasury Statement (MTS)
             </CustomLink>;
-const bea = <CustomLink url={'https://www.bea.gov/'} eventNumber="34">
+const bea = <CustomLink url="https://www.bea.gov/" eventNumber="34">
               Bureau of Economic Analysis
             </CustomLink>;
 
-const bls = <CustomLink url={'https://www.bls.gov/developers/'}>  Bureau of Labor Statistics</CustomLink>
+const bls = <CustomLink url="https://www.bls.gov/developers/">Bureau of Labor Statistics</CustomLink>
 
 const footer = (
   <p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { rightAlign } from '../../data-table/data-table-helper';
 
-export default function DtgTableHeading(props) {
+export default function DtgTableHeading({ columns }) {
     const setStyle = (column) => {
       if (rightAlign(column.type)) {
         const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
@@ -20,7 +20,7 @@ export default function DtgTableHeading(props) {
     return (
         <thead>
             <tr>
-                {props.columns.map((column, index) => (
+                {columns.map((column, index) => (
                     <th key={index} scope="col"  style={setStyle(column)}>{column.name}</th>
                 ))}
             </tr>

@@ -1,4 +1,4 @@
-export function fileSizeTranslator(fileSize) {
+export const fileSizeTranslator = fileSize => {
   const fileSizeNumber = Number(fileSize);
   if (fileSizeNumber < 1000000) {
     const theNumber = Math.round((fileSizeNumber / 1000));
@@ -8,13 +8,13 @@ export function fileSizeTranslator(fileSize) {
   } else {
     return Math.round((fileSizeNumber / 1000000)).toString() + ' MB';
   }
-}
+};
 
 /*
  *             ~~~~~~~fileSizeTranslator2~~~~~~~
  *                   This time it's binary
  */
-export function fileSizeTranslator2(fileSize){
+export const fileSizeTranslator2 = fileSize => {
   if(fileSize && !isNaN(fileSize)){
     const fileSizeNumber = Number(fileSize);
     const fileSizes = ['B', 'KB', 'MB', 'GB'];
@@ -30,9 +30,9 @@ export function fileSizeTranslator2(fileSize){
   }
 
   return null;
-}
+};
 
-export function makeTheDataArray(apisArray) {
+export const makeTheDataArray = apisArray => {
   const theDataArray = [];
   apisArray.forEach((api) => {
     // todo - DTG-2209 will provide the file sizes.
@@ -47,4 +47,4 @@ export function makeTheDataArray(apisArray) {
     theDataArray.push(dataObj);
   });
   return theDataArray;
-}
+};

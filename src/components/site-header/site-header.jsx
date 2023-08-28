@@ -127,10 +127,10 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
         </div>
         {lowerEnvMsg && (
           <PageNotice>
-          <span data-testid="lowerEnvMessage">
-            <strong>NOTICE: </strong>
-            {lowerEnvMsg}
-          </span>
+            <span data-testid="lowerEnvMessage">
+              <strong>NOTICE: </strong>
+              {lowerEnvMsg}
+            </span>
           </PageNotice>
         )}
         {

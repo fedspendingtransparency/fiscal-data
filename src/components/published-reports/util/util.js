@@ -48,7 +48,10 @@ export const filterYearOptions = (yearOptions, filterDigits) => {
     filteredList = matchingYearsFilter(yearOptions, filterDigits);
     if (filteredList.length === 0) {
       // No reports for years matching ${filterDigits}
-      filteredList = [{label: `Please refine your search between the years ${yearOptions[yearOptions.length - 1].label} and ${yearOptions[0].label}.`, value: null}];
+      filteredList = [{
+        label: `Please refine your search between the years ${yearOptions[yearOptions.length - 1].label} and ${yearOptions[0].label}.`,
+        value: null
+      }];
     }
   }
   return filteredList;

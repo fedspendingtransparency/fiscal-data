@@ -6,7 +6,6 @@ import * as itemStyles from '../download-modal-item/download-modal-item.module.s
 import DownloadModalItem from '../download-modal-item/download-modal-item';
 import { downloadsContext } from '../../persist/download-persist/downloads-persist';
 import buttons from '../../buttons/buttons';
-import { DATA_DOWNLOAD_BASE_URL } from 'gatsby-env-variables';
 
 export const resumeDownloadTitle = 'We are still working to prepare your download.';
 export const resumeDownloadTitleMulti = 'We are still working to prepare your downloads.';
@@ -62,10 +61,6 @@ const ResumeDownloadModal = () => {
 
   const onClose = () => {
     setResumeDownloadModalIsOpen(false);
-  };
-
-  const getEnvSpecificUrl = (path) => {
-    return DATA_DOWNLOAD_BASE_URL ? `${DATA_DOWNLOAD_BASE_URL}${path}` : path;
   };
 
   return (

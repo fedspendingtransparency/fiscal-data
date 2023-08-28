@@ -12,10 +12,11 @@ const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefau
     <div className={styles.headingWrapper}>
       <div className={styles.heading}>
         <div className={styles.title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
-        <button onClick={() => setSelectColumnPanel(false)} 
-                onKeyPress={() => setSelectColumnPanel(false)} 
-                className={styles.closeButton} 
-                aria-label={'Close select control panel'}>
+        <button onClick={() => setSelectColumnPanel(false)}
+                onKeyPress={() => setSelectColumnPanel(false)}
+                className={styles.closeButton}
+                aria-label="Close select control panel"
+        >
             <FontAwesomeIcon icon={faXmark} className={styles.closeIcon} />
         </button>
       </div>

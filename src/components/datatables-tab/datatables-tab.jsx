@@ -2,8 +2,8 @@ import React from 'react';
 import DtgTable from "../dtg-table/dtg-table";
 import { makeTheDataArray } from "./datatables-tab-helpers";
 
-export default function DataTablesTab(props) {
-  const theData = makeTheDataArray(props.apis);
+export default function DataTablesTab({ apis, datasetName }) {
+  const theData = makeTheDataArray(apis);
   const columnConfig = [
     {
       property: 'name',
@@ -42,7 +42,7 @@ export default function DataTablesTab(props) {
     columnConfig,
     width: 1104,
     tableName: 'Datatables Tab',
-    aria: {"aria-label": `${props.datasetName} data tables`}
+    aria: {"aria-label": `${datasetName} data tables`}
   };
 
   return(

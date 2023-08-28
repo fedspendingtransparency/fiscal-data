@@ -56,6 +56,7 @@ interface Stats {
   value: number
 }
 type HighlightCardProps = {
+  cardId?: string,
   dataset: IDataset,
   cardButtonOverrides: any,
   hidden: boolean,
@@ -70,7 +71,6 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [apiError, setApiError] = useState<boolean>(false);
   const [apiData, setApiData] = useState<ApiData>({});
-  const [apiDataLen, setApiDataLen] = useState(0);
   const [hoverDelayHandler, setHoverDelayHandler] =  useState(null);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [chartHoverDelayHandler, setChartHoverDelayHandler] =  useState(null);
@@ -130,9 +130,6 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
           res.data = data.transform.call(data, res);
         }
         setApiData(res);
-        if (res && res.data) {
-          setApiDataLen(res.data.length);
-        }
       })
         .catch(err => {
           console.error('API error', err);
