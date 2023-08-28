@@ -255,10 +255,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         .catch(error => {
           throw error
         });
-      console.warn('BLS DATA FILE NOT FOUND... USING API RESPONSE ******************************');
+      console.warn('USING BLS API RESPONSE');
     } else {
       resultData = JSON.parse(data);
-      console.warn('BLS DATA FILE FOUND ******************************');
     }
     resultData.Results.series[0].data.forEach((blsRow) => {
       blsRow.id = createNodeId(blsRow.year + blsRow.period);
@@ -273,30 +272,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       node.internal.contentDigest = createContentDigest(node);
       createNode(node);
     });
-  })
-
-  fs.readFile('./data/bls-data.json', 'utf8', async (err) => {
-    if (err) {
-      console.warn('BLS DOT DATA FILE NOT FOUND ******************************');
-    } else {
-      console.warn('BLS DOT DATA FILE FOUND ******************************');
-    }
-  })
-
-  fs.readFile('dtg/static/data/bls-data.json', 'utf8', async (err) => {
-    if (err) {
-      console.warn('BLS DTG STATIC DATA FILE NOT FOUND ******************************');
-    } else {
-      console.warn('BLS DTG STATIC DATA FILE FOUND ******************************');
-    }
-  })
-
-  fs.readFile('dtg/public/data/bls-data.json', 'utf8', async (err) => {
-    if (err) {
-      console.warn('BLS DTG PUBLIC DATA FILE NOT FOUND ******************************');
-    } else {
-      console.warn('BLS DTG PUBLIC DATA FILE FOUND ******************************');
-    }
   })
 
   const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
