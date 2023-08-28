@@ -7,7 +7,6 @@ export const SetNoChartMessage = (selectedTable, selectedPivot, dateRange, allTa
                                   userFilterSelection, userFilterUnmatchedForDateRange) => {
 
   const {dataDisplays, userFilter} = selectedTable;
-  const {pivotView} = selectedPivot;
   if (allTablesSelected) {
     return (
       <NotShownMessage
@@ -19,7 +18,7 @@ export const SetNoChartMessage = (selectedTable, selectedPivot, dateRange, allTa
       <NotShownMessage
         heading="There are no charts for this Data Table."
       />);
-  } else if (selectedPivot && pivotView && pivotView.chartType === 'none') {
+  } else if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.chartType === 'none') {
     return (
       <NotShownMessage
         heading="Use the dropdown to select a pivot option to display the chart"

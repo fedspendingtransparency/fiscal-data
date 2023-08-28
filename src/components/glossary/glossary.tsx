@@ -24,6 +24,7 @@ const getQueryTerm = (termList):IGlossaryTerm => {
         if (termSlug !== null) {
           return element.slug === termSlug;
         }
+        return null;
       });
     }
   }

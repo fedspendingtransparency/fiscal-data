@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 
 const ColumnSelect = (
@@ -8,9 +8,9 @@ const ColumnSelect = (
     table,
     setColumnVisibility,
     allColumns
-  }) => {
-  const [defaultColumns, setDefaultColumns] = React.useState([]);
-  const [additionalColumns, setAdditionalColumns] = React.useState([]);
+  }): ReactElement => {
+  const [defaultColumns, setDefaultColumns] = useState([]);
+  const [additionalColumns, setAdditionalColumns] = useState([]);
 
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
