@@ -11,27 +11,27 @@ import 'react-tabs/style/react-tabs.css';
 import SurplusIllustration from "./surplus-illustration/surplus-illustration";
 import DeficitComparisonBarChart from "./deficit-comparison-bar-chart/deficit-comparison-bar-chart";
 import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
-import {apiPrefix, basicFetch} from '../../../../../utils/api-utils';
-import {nationalDeficitSectionConfigs} from '../national-deficit';
+import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
+import {nationalDeficitSectionConfigs} from "../national-deficit";
 
 const UnderstandingDeficit = ({sectionId, glossary, glossaryClickHandler}) => {
   const spending =
-    <GlossaryPopoverDefinition term={'spending'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="spending" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       spending
     </GlossaryPopoverDefinition>
 
   const revenue =
-    <GlossaryPopoverDefinition term={'revenue'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="revenue" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       revenue
     </GlossaryPopoverDefinition>
 
   const surplus =
-    <GlossaryPopoverDefinition term={'surplus'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="surplus" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       surplus
     </GlossaryPopoverDefinition>
 
   const balanced =
-    <GlossaryPopoverDefinition term={'Balanced Budget'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Balanced Budget" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       balanced
     </GlossaryPopoverDefinition>
 
@@ -85,7 +85,7 @@ const UnderstandingDeficit = ({sectionId, glossary, glossaryClickHandler}) => {
   return (
     <div className={understandingDeficitContainer}>
       <div className={visWithCallout}>
-        <div className={textContent} data-testid={'textContent'}>
+        <div className={textContent} data-testid="textContent">
           <p>
             A budget deficit occurs when money going out ({spending}) exceeds money coming in
             ({revenue}) during a defined period. In FY {lastFiscalYear},

@@ -1,8 +1,5 @@
 import React from 'react';
 import ApiQuickGuideSection from '../api-quick-guide-section';
-import {
-  sectionLink
-} from '../api-quick-guide.module.scss';
 import FieldsAccordion from './fields/fields';
 import FiltersAccordion from './filters/filters';
 import SortingAccordion from './sorting/sorting';

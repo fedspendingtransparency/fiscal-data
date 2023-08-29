@@ -80,11 +80,12 @@ const FilterSection = ({
   availableFilters
 }) => {
   const context = useContext(siteContext);
+  const {dateRangeTab, setBeginDate, setEndDate, setExactRange, setDateRangeTab} = context;
   const [filterList, setFilterList] = useState(availableFilters);
   const [filteredDatasets, setFilteredDatasets] = useState(searchResults);
   const [filterTally, setFilterTally] = useState({});
   const [activeFilters, setActiveFilters] = useState([]);
-  const [selectedTab, setSelectedTab] = useState(context ? context.dateRangeTab : 0);
+  const [selectedTab, setSelectedTab] = useState(context ? dateRangeTab : 0);
   const [datasetsView, setDatasetsView] = useState(true);
   const [dateRangeResetApplied, setDateRangeResetApplied] = useState(false);
 
@@ -174,9 +175,9 @@ const FilterSection = ({
     }));
 
     if (id === "dateRange") {
-      context.setBeginDate(null);
-      context.setEndDate(null);
-      context.setExactRange(false);
+      setBeginDate(null);
+      setEndDate(null);
+      setExactRange(false);
       setDateRangeResetApplied(true);
     }
   };
@@ -300,7 +301,7 @@ const FilterSection = ({
   const selectedTabChangeHandler = (selectedTabIndex) => {
     setSelectedTab(selectedTabIndex);
     if (context) {
-      context.setDateRangeTab(selectedTabIndex);
+      setDateRangeTab(selectedTabIndex);
     }
   };
 
@@ -323,7 +324,7 @@ const FilterSection = ({
 
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
   const scrollRef = useRef();
-  
+
   return (
     <>
       <SearchFilterSummary

@@ -249,7 +249,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
     else {
       updateCurrencyForYearQuarter(
-        option.label, yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1], nonUSCurrency, currencyMap);
+        option.label,
+        yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1],
+        nonUSCurrency,
+        currencyMap
+      );
     }
 
     if (yearToQuartersMap[option.label][selectedQuarter.value]) {
@@ -356,7 +360,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             <div className={selectorContainer}>
               <div className={selector} data-testid="year-selector">
                 <SelectControl
-                  label={'Year'}
+                  label="Year"
                   className={box}
                   options={years}
                   selectedOption={selectedYear}
@@ -375,9 +379,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               <div className={effectiveDateContainer}>
                 <div>
                   Effective Date
-                  <span data-testid="effective-date-info-tip"
-                        onMouseEnter={() => {handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');}}
-                        onBlur={handleInfoTipClose} role="presentation"
+                  <span
+                    data-testid="effective-date-info-tip"
+                    onMouseEnter={() => {handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');}}
+                    onBlur={handleInfoTipClose}
+                    role="presentation"
                   >
                     <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                       {effectiveDateInfoIcon.body}
@@ -394,10 +400,11 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               Select a foreign country-currency then enter a value for U.S. Dollar or for the foreign currency
               to see the conversion.{" "}
             </span>
-            <span data-testid="foreign-currency-info-tip"
-                  onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
-                  onBlur={handleInfoTipClose}
-                  role="presentation"
+            <span
+              data-testid="foreign-currency-info-tip"
+              onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
+              onBlur={handleInfoTipClose}
+              role="presentation"
             >
               <InfoTip hover iconStyle={{color: '#666666', width: '14px', height: '14px'}}>
                 {currencySelectionInfoIcon.body}
@@ -406,7 +413,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         </div>
         {
           nonUSCurrency !== null && (
-            <div className={currencyBoxContainer} data-testid={'box-container'}>
+            <div className={currencyBoxContainer} data-testid="box-container">
               <CurrencyEntryBox
                 defaultCurrency="U.S. Dollar"
                 currencyValue={usDollarValue}
@@ -461,9 +468,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             The Treasury Reporting Rates of Exchange dataset provides the U.S. government's authoritative
             foreign currency exchange rates for federal agencies to consistently report U.S. dollar equivalents.
             For more information on the calculation of exchange rates used by federal agencies, please see the {' '}
-            <CustomLink url="https://tfm.fiscal.treasury.gov/v1/p2/c320"
-            onClick={() => analyticsHandler("Citation Click", "Treasury Financial Manual")} >
-            Treasury Financial Manual, volume 1, part 2, section 3235</CustomLink>.
+            <CustomLink
+              url="https://tfm.fiscal.treasury.gov/v1/p2/c320"
+              onClick={() => analyticsHandler("Citation Click", "Treasury Financial Manual")}
+            >
+            Treasury Financial Manual, volume 1, part 2, section 3235
+            </CustomLink>.
             This Exchange Rate Converter Tool is designed to make foreign currency exchange data values
             easier to access for federal agency reporting purposes.
           </p>

@@ -6,6 +6,9 @@ import * as styles from './filters.module.scss';
 import GLOBALS from '../../../helpers/constants';
 
 const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
+const urlPath = '/v1/accounting/od/rates_of_exchange';
+const urlFieldParam = '?fields=country_currency_desc,exchange_rate,record_date';
+const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01'
 
 const Filters = () => (
   <div className={apiStyles.sectionBreak}>
@@ -61,7 +64,7 @@ const Filters = () => (
         <li>only return data that falls between January 1, 2020 and the present.</li>
       </ul>
         <code className={apiStyles.code}>
-          {baseApiUrl}/v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,record_date&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01
+          {`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}
         </code>
     </SectionContent>
   </div>

@@ -12,6 +12,8 @@ export const quarterNumToTerm = (num) => {
       return '3rd';
     case 4:
       return '4th';
+    default:
+      return;
   }
 }
 

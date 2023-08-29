@@ -40,9 +40,10 @@ export const lastUpdatedInfoTipAnalyticsObject = {
 
 const SearchField = ({ changeHandler, finalDatesNotFound }) => {
   const context = useContext(siteContext);
-  const [localText, setLocalText] = useState(context ? context.keywords : '');
+  const {keywords, setKeywords} = context;
+  const [localText, setLocalText] = useState(context ? keywords : '');
   const [searchIsEmpty, setSearchIsEmpty] = useState(
-    !context || !context.keywords || !context.keywords.length
+    !context || !keywords || !keywords.length
   );
   const searchField = useRef();
 
@@ -63,7 +64,7 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
 
     qtUpdate = setTimeout(() => {
       changeHandler(localText);
-      context.setKeywords(localText);
+      setKeywords(localText);
     }, 300);
 
     analyticsUpdate = setTimeout(() => {

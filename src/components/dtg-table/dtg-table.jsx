@@ -383,33 +383,39 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
             {/* Table */}
             {(!emptyDataMessage && !selectColumns
-              ? (<table {...tableProps.aria} style={{width: tableWidth}}>
-                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                <DtgTableHeading columns={columns} />
-                <tbody>
-                  {rows}
-                </tbody>
-              </table>)
-              : (<table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
-                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                <DtgTableHeading columns={activeColumns} />
-                <tbody>
-                  {rows}
-                </tbody>
-              </table>))
+              ? (
+                <table {...tableProps.aria} style={{width: tableWidth}}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={columns} />
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
+              ) : (
+                <table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={activeColumns} />
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
+              ))
             }
           </div>
 
-          <div data-testid='selectColumnsMainContainer' className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel} style={{height: `${(itemsPerPage * 41) + 48.4}px` }}>
+          <div data-testid="selectColumnsMainContainer"
+               className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}
+               style={{height: `${(itemsPerPage * 41) + 48.4}px` }}
+          >
             {selectColumns &&
               <DtgTableColumnSelector
-              isVisible={true}
-              fields={columnSelectValues}
-              changeHandler={(update) => columnSelectChangeHandler(update)}
-              resetToDefault={setDefaultColumnsToSelect}
-              setSelectColumnPanel={setSelectColumnPanel}
-              isReset={isReset}
-            />
+                isVisible={true}
+                fields={columnSelectValues}
+                changeHandler={(update) => columnSelectChangeHandler(update)}
+                resetToDefault={setDefaultColumnsToSelect}
+                setSelectColumnPanel={setSelectColumnPanel}
+                isReset={isReset}
+              />
             }
           </div>
         </div>
@@ -426,19 +432,18 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             </div>
       }
       </Experimental>
-      {/* Set hide cell links to true before merging */}
       <Experimental featureId="react-table-poc">
         {reactTableData &&
           <DataTable rawData={reactTableData}
                      pageSize={10}
                      defaultSelectedColumns={selectColumns}
+                     setTableColumnSortData={setTableColumnSortData}
                      hasPublishedReports={hasPublishedReports}
                      publishedReports={publishedReports}
                      hideCellLinks={true}
-                     setTableColumnSortData={setTableColumnSortData}
                      shouldPage={shouldPage}
-                     pagingProps={pagingProps} s
-                     howPaginationControls={showPaginationControls}
+                     pagingProps={pagingProps}
+                     showPaginationControls={showPaginationControls}
           />
         }
       </Experimental>

@@ -7,9 +7,6 @@ import {DebtTrendsOverTimeChart} from "./debt-trends-over-time/debt-trends-over-
 import React from "react";
 import {spendingLink} from "../../../explainer-helpers/national-debt/national-debt-helper";
 import {VisualizingTheDebtAccordion} from "./debt-accordion/visualizing-the-debt-accordion";
-import { debtExplainerPrimary } from "../../../../../variables.module.scss";
-import VisualizationCallout from "../../../../../components/visualization-callout/visualization-callout";
-import { visWithCallout } from "../../../explainer.module.scss";
 
 export const GrowingNationalDebtSection = withWindowSize(
   ({ sectionId, glossary, cpiDataByYear, glossaryClickHandler, width }) => {

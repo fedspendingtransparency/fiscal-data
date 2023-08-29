@@ -37,18 +37,25 @@ export class TableCache {
       const cachedRangeWithSomeEarlierCoverage = this.dataCache.find(cache => !isBefore(cache.range.to, requestedRange.from) &&
         !isAfter(cache.range.from, requestedRange.to));
       if (cachedRangeWithSomeEarlierCoverage) {
-        // if the coverage extends to the beginning of the range requested, set requested from date to the day after coverage ends; return the needed ranges
+        // if the coverage extends to the beginning of the range requested, set requested from-date
+        // to the day after coverage ends; return the needed ranges
         if (!isAfter(cachedRangeWithSomeEarlierCoverage.range.from, requestedRange.from)) {
           unaccountedRange.from = addDays(cachedRangeWithSomeEarlierCoverage.range.to, 1);
           neededRanges.push(unaccountedRange);
           return neededRanges;
         } else {
-          // chop the requested range into 2 parts. Add the part that comes after coverage to the neededRanges array and use the part that comes before as the new requested range
+          // chop the requested range into 2 parts. Add the part that comes after coverage to the neededRanges
+          // array and use the part that comes before as the new requested range
           neededRanges.push({from: addDays(cachedRangeWithSomeEarlierCoverage.range.to, 1), to: requestedRange.to});
-          return this.findUncachedDateRanges({from: requestedRange.from, to: subDays(cachedRangeWithSomeEarlierCoverage.range.from, 1)}, neededRanges);
+          return this.findUncachedDateRanges(
+            {
+              from: requestedRange.from,
+              to: subDays(cachedRangeWithSomeEarlierCoverage.range.from, 1)
+            }, neededRanges);
         }
       } else {
-        // couldn't find any coverage at all, so add the latest requested range as one that will need to be loaded and return it along with any other neededRanges
+        // couldn't find any coverage at all, so add the latest requested range as one that will need
+        // to be loaded and return it along with any other neededRanges
         neededRanges.push(requestedRange);
         return neededRanges;
       }

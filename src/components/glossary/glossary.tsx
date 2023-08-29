@@ -18,12 +18,13 @@ interface IGlossary {
 const getQueryTerm = (termList):IGlossaryTerm => {
   if (typeof window !== 'undefined') {
     const queryParameters= new URLSearchParams(window.location.search);
-    const termSlug = queryParameters.get("glossary");
+    const termSlug = queryParameters.get('glossary');
     if (termSlug) {
       return termList.find((element: IGlossaryTerm) => {
         if (termSlug !== null) {
           return element.slug === termSlug;
         }
+        return null;
       });
     }
   }

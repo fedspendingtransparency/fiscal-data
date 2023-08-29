@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, within } from '@testing-library/react';
 import SearchResults, { getApiCount, resultsHeaderText, noResultsText } from './search-results';
 import { getSearchResultText } from '../search-result-count/search-result-count';
 import { SortOptions, FilteredSortOptions } from './search-results-helper';
@@ -159,4 +159,33 @@ describe('Search Results', () => {
       expect(getByText(text)).toBeInTheDocument();
     }
   });
+
+  it('datalayer push for sort button passes correct params', () => {
+    window.dataLayer = window.dataLayer || [];
+    const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+    const { getByTestId } = render(
+      <SearchResults
+        allDatasets={mockAllDatasets}
+        filteredDatasets={mockFilteredDatasets}
+        totalCount={mockTotal}
+        searchIsActive={false}
+      />
+    );
+
+    expect(getByTestId('toggle-button')).toBeInTheDocument();
+
+    fireEvent.click(getByTestId('toggle-button'));
+
+    expect(getByTestId('selectorList')).toBeInTheDocument();
+
+    expect(within(getByTestId('selectorList')).getAllByTestId('selector-option')[1]).toBeInTheDocument();
+
+    fireEvent.click(within(getByTestId('selectorList')).getAllByTestId('selector-option')[1]);
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Sort Click',
+      eventLabel: 'Alphabetical (A to Z)'
+    });
+  });
+
 });
