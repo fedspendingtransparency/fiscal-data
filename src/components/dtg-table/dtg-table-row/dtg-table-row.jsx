@@ -20,7 +20,6 @@ const customFormat = (stringValue, decimalPlaces) => {
 }
 export default function DtgTableRow({ columns, data }) {
   const cells = [];
-  const {columns, data} = props;
 
   columns.forEach((column, index) => {
     const {property, type} = column;
