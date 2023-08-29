@@ -20,10 +20,11 @@ const customFormat = (stringValue, decimalPlaces) => {
 }
 export default function DtgTableRow(props) {
   const cells = [];
+  const {columns, data} = props;
 
-  props.columns.forEach((column, index) => {
+  columns.forEach((column, index) => {
     const {property, type} = column;
-    const cellData = props.data[property];
+    const cellData = data[property];
     let formattedData = cellData;
 
     if (!cellData || cellData === 'null' || cellData === '*') {

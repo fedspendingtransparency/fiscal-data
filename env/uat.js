@@ -376,19 +376,6 @@ module.exports = {
       'endpoint': 'v1/accounting/tb/uscc2_amounts_outstanding_circulation',
       'dateField': 'record_date',
       'downloadName': 'TB_USCC2AmountsOutstandingCirculation',
-      'dataDisplays': [
-        {
-          'title': 'Currency Denomination',
-          'dimensionField': 'currency_denomination',
-        },
-      ],
-      'valueFieldOptions': [
-        'total_currency_amt',
-        'federal_reserve_notes_amt',
-        'us_notes_amt',
-        'currency_no_longer_issued_amt',
-        'per_capita_amt',
-      ]
     },
     '212': {
       'endpoint': 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
