@@ -130,6 +130,7 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     // only refresh the table on date range changes if server side pagination is in effect
+    // this hook is the culprit for the unneeded loading for react table.
     if (serverSidePagination || userFilterSelection) {
       refreshTable();
     }
