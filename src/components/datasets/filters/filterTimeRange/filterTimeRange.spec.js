@@ -221,7 +221,7 @@ describe("Time Range Filter", () => {
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Time Range Entry',
-      eventLabel: 'Tue Oct 01 2019 00:00:00 GMT-0500 (Central Daylight Time) - Sun Nov 01 2020 00:00:00 GMT-0500 (Central Daylight Time)'
+      eventLabel: `${contextBeginDate} - ${contextEndDate}`
     })
   });
 
