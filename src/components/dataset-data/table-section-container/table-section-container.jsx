@@ -21,6 +21,8 @@ import {
   formatDateForApi,
   MAX_PAGE_SIZE
 } from "../../../utils/api-utils";
+import ResetTableSection
+  from '../../data-table/column-select/reset-table-section/reset-table-section';
 
 const TableSectionContainer = ({
   config,
@@ -56,6 +58,7 @@ const TableSectionContainer = ({
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
+
 
   // Investigate why this is being called twice?
   const getDepaginatedData = async() => {
@@ -111,6 +114,9 @@ const TableSectionContainer = ({
       aria: {"aria-labelledby": "main-data-table-title"}
     });
   };
+
+  const [defaultInvisibleColumns] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState(config.selectColumns ? defaultInvisibleColumns : {});
 
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
@@ -198,14 +204,14 @@ const TableSectionContainer = ({
           {!!hasPivotOptions &&
             <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />
           }
-          <Experimental featureId="chartingConfigurationTool">
-            <DynamicConfig
-              selectedTable={selectedTable}
-              handleIgnorePivots={handleIgnorePivots}
-              handlePivotsUpdated={handlePivotConfigUpdated}
-              refreshTable={refreshTable}
-            />
-          </Experimental>
+          {/*<Experimental featureId="chartingConfigurationTool">*/}
+          {/*  <DynamicConfig*/}
+          {/*    selectedTable={selectedTable}*/}
+          {/*    handleIgnorePivots={handleIgnorePivots}*/}
+          {/*    handlePivotsUpdated={handlePivotConfigUpdated}*/}
+          {/*    refreshTable={refreshTable}*/}
+          {/*  />*/}
+          {/*</Experimental>*/}
         </div>
           {dateFieldForChart === 'CHART_DATE' && (
             <div className={styles.noticeContainer}><AggregationNotice /></div>
@@ -259,6 +265,9 @@ const TableSectionContainer = ({
                   perPage={perPage}
                   setPerPage={setPerPage}
                   setTableColumnSortData={setTableColumnSortData}
+                  defaultInvisibleColumns={defaultInvisibleColumns}
+                  columnVisibility={columnVisibility}
+                  setColumnVisibility={setColumnVisibility}
                 /> :
                 ''
             }
@@ -277,6 +286,8 @@ const TableSectionContainer = ({
                 />
             }
             allTablesSelected={allTablesSelected}
+            setColumnVisibility={setColumnVisibility}
+            defaultInvisibleColumns={defaultInvisibleColumns}
           />
         }
       </div>

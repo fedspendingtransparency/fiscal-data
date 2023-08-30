@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect} from 'react';
+import React, {FunctionComponent, useState, useEffect} from 'react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -23,32 +23,42 @@ type DataTableProps = {
   rawData: any;
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   defaultSelectedColumns: string[];
-  pageSize: number;
   setTableColumnSortData: any,
   hasPublishedReports: boolean,
   publishedReports: any[],
   hideCellLinks: boolean,
   shouldPage: boolean,
   showPaginationControls: boolean,
+  columnVisibility: any,
+  setColumnVisibility: () => void,
+  defaultInvisibleColumns: any,
+  allColumns: any,
+  table: any,
+  sorting: any,
 }
 
 
 export const DataTable:FunctionComponent<DataTableProps> = (
   {
     rawData,
-    pageSize,
     defaultSelectedColumns,
     setTableColumnSortData,
     shouldPage,
     showPaginationControls,
     publishedReports,
     hasPublishedReports,
-    hideCellLinks
+    hideCellLinks,
+    columnVisibility,
+    setColumnVisibility,
+    defaultInvisibleColumns,
+    allColumns,
+    table,
+    sorting
   }) => {
 
-  const allColumns = rawData.meta ?
-    Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
-  const data = rawData.data;
+  // const allColumns = rawData.meta ?
+  //   Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
+  // const data = rawData.data;
 
   // POC code to include links in cells and match links to the correct cells based on record date
   if (hasPublishedReports && !hideCellLinks) {
@@ -70,48 +80,45 @@ export const DataTable:FunctionComponent<DataTableProps> = (
       }
     }
   }
-  const [columns] = React.useState(() => [
-    ...allColumns,
-  ])
+  // const [columns] = useState(() => [
+  //   ...allColumns,
+  // ])
 
   const dataTypes = rawData.meta.dataTypes;
-  const defaultInvisibleColumns = {};
 
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
 
-  const table = useReactTable({
-    columns,
-    data,
-    columnResizeMode: 'onChange',
-    initialState: {
-      pagination: {
-        pageIndex: 0,
-        pageSize: pageSize,
-      },
-    },
-    state: {
-     columnVisibility,
-     sorting,
-    },
-    onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-  });
+  // const table = useReactTable({
+  //   columns,
+  //   data,
+  //   columnResizeMode: 'onChange',
+  //   initialState: {
+  //     pagination: {
+  //       pageIndex: 0,
+  //       pageSize: pageSize,
+  //     },
+  //   },
+  //   state: {
+  //    columnVisibility,
+  //    sorting,
+  //   },
+  //   onSortingChange: setSorting,
+  //   onColumnVisibilityChange: setColumnVisibility,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   getPaginationRowModel: getPaginationRowModel(),
+  //   getSortedRowModel: getSortedRowModel(),
+  //   getFilteredRowModel: getFilteredRowModel(),
+  // });
 
   const getSortedColumnsData = (table) => {
-    const columns = table.getVisibleFlatColumns();
+    const columns = table?.getVisibleFlatColumns();
     const mapped = columns.map(column =>
       ({
         id: column.id,
         sorted: column.getIsSorted(),
         filterValue: column.getFilterValue(),
-        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-        allColumnsSelected: table.getIsAllColumnsVisible()
+        rowValues: table?.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
+        allColumnsSelected: table?.getIsAllColumnsVisible()
       })
     );
     setTableColumnSortData(mapped);
@@ -119,7 +126,7 @@ export const DataTable:FunctionComponent<DataTableProps> = (
 
   useEffect(() => {
     getSortedColumnsData(table);
-  }, [sorting, columnVisibility, table.getFilteredRowModel()]);
+  }, [sorting, columnVisibility, table?.getFilteredRowModel()]);
 
 
   return (

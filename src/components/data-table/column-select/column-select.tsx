@@ -52,9 +52,6 @@ const ColumnSelect = (
 
   return (
     <div className="inline-block border border-black shadow rounded">
-      <button onClick={() => setColumnVisibility(defaultInvisibleColumns)} data-testid={'reset-button'}>
-        Reset
-      </button>
       <div className="px-1 border-b border-black">
         <label>
           <input

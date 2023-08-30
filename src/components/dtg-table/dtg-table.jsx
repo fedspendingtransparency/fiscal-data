@@ -13,13 +13,24 @@ import NotShownMessage from '../dataset-data/table-section-container/not-shown-m
 import * as styles from './dtg-table.module.scss';
 import CustomLink from "../links/custom-link/custom-link";
 import Experimental from '../experimental/experimental';
-import { DataTable } from '../data-table/data-table';
 import DtgTableColumnSelector from './dtg-table-column-selector';
+import DataTableContainer from '../data-table/data-table-container';
 
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
 
-export default function DtgTable({tableProps, perPage, setPerPage, selectColumnPanel, setSelectColumnPanel, setTableColumnSortData}) {
+export default function DtgTable(
+  {
+    tableProps,
+    perPage,
+    setPerPage,
+    selectColumnPanel,
+    setSelectColumnPanel,
+    setTableColumnSortData,
+    defaultInvisibleColumns,
+    columnVisibility,
+    setColumnVisibility
+  }) {
   const {
     dePaginated,
     rawData,
@@ -35,7 +46,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     caption,
     selectColumns,
     hasPublishedReports,
-    publishedReports
+    publishedReports,
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
@@ -356,7 +367,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
           </div>
         </>
       )}
-      <Experimental exclude featureId="react-table-poc">
+      <Experimental featureId="react-table-poc">
       <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
         {/* API Error Message */}
         {(apiError || tableProps.apiError) && !emptyDataMessage && (
@@ -420,7 +431,6 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
           </div>
         </div>
       </div>
-
       {/* Table Footer */}
       {shouldPage &&
 
@@ -432,18 +442,22 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             </div>
       }
       </Experimental>
-      <Experimental featureId="react-table-poc">
+      <Experimental exclude featureId="react-table-poc">
         {reactTableData &&
-          <DataTable rawData={reactTableData}
-                     pageSize={10}
-                     defaultSelectedColumns={selectColumns}
-                     setTableColumnSortData={setTableColumnSortData}
-                     hasPublishedReports={hasPublishedReports}
-                     publishedReports={publishedReports}
-                     hideCellLinks={true}
-                     shouldPage={shouldPage}
-                     pagingProps={pagingProps}
-                     showPaginationControls={showPaginationControls}
+          <DataTableContainer
+            rawData={reactTableData}
+            pageSize={10}
+            defaultSelectedColumns={selectColumns}
+            setTableColumnSortData={setTableColumnSortData}
+            hasPublishedReports={hasPublishedReports}
+            publishedReports={publishedReports}
+            hideCellLinks={true}
+            shouldPage={shouldPage}
+            pagingProps={pagingProps}
+            showPaginationControls={showPaginationControls}
+            columnVisibility={columnVisibility}
+            setColumnVisibility={setColumnVisibility}
+            defaultInvisibleColumns={defaultInvisibleColumns}
           />
         }
       </Experimental>

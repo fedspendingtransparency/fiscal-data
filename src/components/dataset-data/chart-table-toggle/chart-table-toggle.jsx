@@ -13,6 +13,8 @@ import { chartBorder, tabBorder, tabIcon } from './chart-table-toggle.module.scs
 import {getMessageForUnmatchedUserFilter} from
     "../../filter-download-container/user-filter/user-filter";
 import { faSlidersH, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
+import ResetTableSection
+  from '../../data-table/column-select/reset-table-section/reset-table-section';
 
 export const allTablesSelectedBody = 'With the current "All Data Tables" selection, we are' +
       ' unable to render a Table or Chart at this time.';
@@ -80,22 +82,25 @@ const AntTab = withStyles({
   selected: {}
 })(Tab);
 
-const ChartTableToggle = ({
-                            currentTab,
-                            onTabChange,
-                            table,
-                            allTablesSelected,
-                            selectedTable,
-                            emptyData,
-                            unchartable,
-                            legend,
-                            showToggleChart,
-                            showToggleTable,
-                            onToggleLegend,
-                            selectedTab,
-                            chart,
-                            userFilterUnmatchedForDateRange
-                          }) => {
+const ChartTableToggle = (
+  {
+    currentTab,
+    onTabChange,
+    table,
+    allTablesSelected,
+    selectedTable,
+    emptyData,
+    unchartable,
+    legend,
+    showToggleChart,
+    showToggleTable,
+    onToggleLegend,
+    selectedTab,
+    chart,
+    userFilterUnmatchedForDateRange,
+    setColumnVisibility,
+    defaultInvisibleColumns,
+  }) => {
   const [tabState, setTabState] = React.useState(currentTab);
 
   const handleChange = (event, newValue) => {
@@ -165,10 +170,11 @@ const ChartTableToggle = ({
               />
             )
           }
-
-
         </AntTabs>
       </div>
+      {
+        <ResetTableSection resetColumns={() => setColumnVisibility(defaultInvisibleColumns)} />
+      }
       <TabPanel index={0} value={tabState}>
         {emptyDataMessage ? emptyDataMessage : table}
       </TabPanel>
