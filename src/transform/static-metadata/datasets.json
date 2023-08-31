@@ -46,7 +46,11 @@
       "015-BFS-2014Q3-065"
     ],
     "currentDateButton": "byDay",
-    "bannerCallout": "DTSAPIUpdate"
+    "bannerCallout": {
+      "banner": "DTSAPIUpdate",
+      "endDate": "9/14/2023"
+    }
+    
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
