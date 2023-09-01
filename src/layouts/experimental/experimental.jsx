@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BarGraph from '../../components/charts/bar/bar';
+import LineGraph from './charts/lineGraph';
 import { uncompressedBarGraphData, staggeredData } from '../../components/charts/helpers/helpersData';
 import { reducer } from "../../components/charts/helpers/helpers";
 import SiteLayout from '../../components/siteLayout/siteLayout';
@@ -41,6 +42,8 @@ const ExperimentalPage = () => {
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}> 
       <SiteLayout>
+        <LineGraph />
+        {console.log('graphe: ', LineGraph)}
         <h2>
           FootNote Paragraph
         </h2>
