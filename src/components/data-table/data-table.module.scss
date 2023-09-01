@@ -4,19 +4,21 @@ $borderRadius: 5px;
 
 .tableStyle {
   overflow-x: auto;
+  width: 100%;
 
   .tableContainer {
     position: relative;
-    width: 100%;
     box-sizing: border-box;
     border: 1px solid $dd-border-color;
-    border-radius: $borderRadius;
+    border-top: 0;
+    border-bottom-left-radius: $borderRadius;
+    border-bottom-right-radius: $borderRadius;
     background-color: white;
   }
 
   table,
   .divTable {
-    border: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
     width: fit-content;
   }
 

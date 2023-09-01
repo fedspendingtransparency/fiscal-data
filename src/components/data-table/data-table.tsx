@@ -18,7 +18,6 @@ import ColumnSelect from './column-select/column-select';
 type DataTableProps = {
   rawData: any;
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
-  defaultSelectedColumns: string[];
   setTableColumnSortData: any;
   hasPublishedReports: boolean;
   publishedReports: any[];
@@ -26,8 +25,6 @@ type DataTableProps = {
   shouldPage: boolean;
   showPaginationControls: boolean;
   columnVisibility: any;
-  setColumnVisibility: () => void;
-  defaultInvisibleColumns: any;
   allColumns: any;
   table: any;
   sorting: any;
@@ -35,22 +32,15 @@ type DataTableProps = {
 
 export const DataTable: FunctionComponent<DataTableProps> = ({
   rawData,
-  defaultSelectedColumns,
   setTableColumnSortData,
   publishedReports,
   hasPublishedReports,
   hideCellLinks,
   columnVisibility,
-  setColumnVisibility,
-  defaultInvisibleColumns,
   allColumns,
   table,
   sorting,
 }) => {
-  // const allColumns = rawData.meta ?
-  //   Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
-  // const data = rawData.data;
-
   // POC code to include links in cells and match links to the correct cells based on record date
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -82,28 +72,6 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
 
   const dataTypes = rawData.meta.dataTypes;
 
-  // const table = useReactTable({
-  //   columns,
-  //   data,
-  //   columnResizeMode: 'onChange',
-  //   initialState: {
-  //     pagination: {
-  //       pageIndex: 0,
-  //       pageSize: pageSize,
-  //     },
-  //   },
-  //   state: {
-  //    columnVisibility,
-  //    sorting,
-  //   },
-  //   onSortingChange: setSorting,
-  //   onColumnVisibilityChange: setColumnVisibility,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   getPaginationRowModel: getPaginationRowModel(),
-  //   getSortedRowModel: getSortedRowModel(),
-  //   getFilteredRowModel: getFilteredRowModel(),
-  // });
-
   const getSortedColumnsData = table => {
     const columns = table?.getVisibleFlatColumns();
     const mapped = columns.map(column => ({
@@ -133,11 +101,6 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
           </table>
         </StickyTable>
       </div>
-      {/*<DataTableFooter*/}
-      {/*  shouldPage={shouldPage}*/}
-      {/*  table={table}*/}
-      {/*  showPaginationControls={showPaginationControls}*/}
-      {/*/>*/}
     </div>
   );
 };

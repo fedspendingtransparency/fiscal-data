@@ -21,7 +21,21 @@
   border: none;
   display: flex;
   align-items: center;
+  border-radius: 3px;
+  &.activeButton {
+    background-color: $primary;
+    color: white;
+    .arrowIcon {
+      color: white;
+    }
+    &:hover{
+      background-color: $slate-blue;
+      cursor: pointer;
+    }
+
+  }
 }
+
 
 .arrowIcon {
   color: $font-body-copy;

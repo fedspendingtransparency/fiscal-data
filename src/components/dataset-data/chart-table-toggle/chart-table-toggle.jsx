@@ -102,6 +102,8 @@ const ChartTableToggle = ({
   userFilterUnmatchedForDateRange,
   setColumnVisibility,
   defaultInvisibleColumns,
+  columnSelectActive,
+  setResetFilters,
 }) => {
   const [tabState, setTabState] = React.useState(currentTab);
 
@@ -191,7 +193,8 @@ const ChartTableToggle = ({
       </div>
       {
         <ResetTableSection
-          resetColumns={() => setColumnVisibility(defaultInvisibleColumns)}
+          resetColumns={() => setResetFilters(true)}
+          active={columnSelectActive}
         />
       }
       <TabPanel index={0} value={tabState}>

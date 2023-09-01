@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Checkbox from '../../checkbox/checkbox';
-import SelectAll from '../../select-all/selectAll';
 import {
   buttonContainer,
   closeButton,
@@ -16,7 +14,18 @@ import {
   title,
 } from '../../dtg-table/dtg-table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faUndo, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  additionalSection,
+  checkbox_label,
+  checkbox_wrapper,
+  label_checkmark_container,
+  label_checkmark_text,
+  label_text,
+  optionCheckbox,
+  sectionHeading,
+} from '../../checkbox/checkbox.module.scss';
+import classnames from 'classnames';
 
 const desktop = 1015;
 
@@ -72,6 +81,31 @@ const DataTableColumnSelector = ({
     }
   }, []);
 
+  const CheckBoxList = columnList => (
+    <>
+      {columnList.map(column => {
+        return (
+          <label className={checkbox_label}>
+            <div key={column.id} className={checkbox_wrapper}>
+              <input
+                type="checkbox"
+                checked={column.getIsVisible()}
+                onChange={column.getToggleVisibilityHandler()}
+                className={optionCheckbox}
+              />
+              <span className={label_checkmark_container}>
+                <span className={label_checkmark_text}>
+                  <FontAwesomeIcon icon={faCheck} size="sm" />
+                </span>
+              </span>
+            </div>
+            <span className={label_text}>{column.columnDef.header}</span>
+          </label>
+        );
+      })}
+    </>
+  );
+
   return (
     <section className={columnSelectContainer}>
       <div className={headingWrapper}>
@@ -94,13 +128,15 @@ const DataTableColumnSelector = ({
         </div>
       </div>
       <div className={selectAllContainer}>
-        <SelectAll
-          className={selectAllColumns}
-          fields={allColumns}
-          isVisible={isVisible}
-          onUpdateFields={table.getToggleAllColumnsVisibilityHandler}
-          resetToFalse={table.getToggleAllColumnsVisibilityHandler}
-        />
+        <label>
+          <input
+            type="checkbox"
+            checked={table.getIsAllColumnsVisible()}
+            onChange={table.getToggleAllColumnsVisibilityHandler()}
+            className={selectAllColumns}
+          />{' '}
+          Select All
+        </label>
         <button
           className={reset}
           onClick={resetToDefault}
@@ -114,43 +150,14 @@ const DataTableColumnSelector = ({
         {defaultSelectedColumns ? (
           <div>
             <div>
-              <span> Defaults </span>
-              {defaultColumns.map(column => {
-                return (
-                  <div key={column.id} className="px-1">
-                    <label>
-                      <input
-                        {...{
-                          type: 'checkbox',
-                          checked: column.getIsVisible(),
-                          onChange: column.getToggleVisibilityHandler(),
-                        }}
-                      />{' '}
-                      {column.columnDef.header}
-                    </label>
-                  </div>
-                );
-              })}
-              <span> ---------------------- </span>
+              <span className={sectionHeading}>DEFAULTS</span>
+              {CheckBoxList(defaultColumns)}
             </div>
             <div>
-              <span> Additional </span>
-              {additionalColumns.map(column => {
-                return (
-                  <div key={column.id} className="px-1">
-                    <label>
-                      <input
-                        {...{
-                          type: 'checkbox',
-                          checked: column.getIsVisible(),
-                          onChange: column.getToggleVisibilityHandler(),
-                        }}
-                      />{' '}
-                      {column.columnDef.header}
-                    </label>
-                  </div>
-                );
-              })}
+              <span className={classnames([sectionHeading, additionalSection])}>
+                ADDITIONAL
+              </span>
+              {CheckBoxList(additionalColumns)}
             </div>
           </div>
         ) : (
@@ -174,14 +181,6 @@ const DataTableColumnSelector = ({
           </div>
         )}
       </div>
-      {/*<div className={buttonContainer}>*/}
-      {/*  <Checkbox*/}
-      {/*    checkboxData={fields*/}
-      {/*      .filter(field => field.default === true)*/}
-      {/*      .concat(fields.filter(field => field.default !== true))}*/}
-      {/*    changeHandler={changeHandler}*/}
-      {/*  />*/}
-      {/*</div>*/}
     </section>
   );
 };

@@ -28,7 +28,6 @@ const DtgTableColumnSelector = ({
   setSelectColumnPanel,
   isReset,
 }) => {
-  console.log(fields);
   return (
     <section className={columnSelectContainer}>
       <div className={headingWrapper}>

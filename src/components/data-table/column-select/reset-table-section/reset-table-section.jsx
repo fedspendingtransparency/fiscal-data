@@ -3,27 +3,27 @@ import {
   sectionBorder,
   resetButton,
   arrowIcon,
+  activeButton,
 } from './reset-table-section.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import classnames from 'classnames';
 
-
-const ResetTableSection = ({resetColumns}) => {
-
+const ResetTableSection = ({ resetColumns, active }) => {
   return (
     <div className={sectionBorder}>
       <button
-        className={resetButton}
+        className={classnames([resetButton, active ? activeButton : null])}
         onClick={() => resetColumns()}
         data-testid="reset-button"
       >
         <>
-          <FontAwesomeIcon icon={faArrowRotateRight} className={arrowIcon}/>
+          <FontAwesomeIcon icon={faArrowRotateRight} className={arrowIcon} />
           Reset Filters
         </>
       </button>
     </div>
-  )
-}
+  );
+};
 
 export default ResetTableSection;

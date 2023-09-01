@@ -1,5 +1,5 @@
 import { DataTable } from './data-table';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -8,10 +8,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import * as styles from '../dtg-table/dtg-table.module.scss';
-import DtgTableColumnSelector from '../dtg-table/dtg-table-column-selector';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
-// import { selectColumnPanel } from '../dtg-table/dtg-table.module.scss';
-import ColumnSelect from './column-select/column-select';
 import DataTableFooter from './data-table-footer/data-table-footer';
 
 const DataTableContainer = ({
@@ -29,7 +26,10 @@ const DataTableContainer = ({
   selectColumns,
   setSelectColumnPanel,
   selectColumnPanel,
+  resetFilters,
+  setResetFilters,
 }) => {
+  // React table
   const [sorting, setSorting] = useState([]);
   const pageSize = 10;
 
@@ -64,6 +64,14 @@ const DataTableContainer = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  useEffect(() => {
+    if (resetFilters) {
+      table.resetColumnFilters();
+      table.resetSorting();
+      setResetFilters(false);
+    }
+  }, [resetFilters]);
 
   return (
     <>
@@ -107,7 +115,10 @@ const DataTableContainer = ({
                 isVisible={true}
                 fields={allColumns}
                 changeHandler={table.getToggleAllColumnsVisibilityHandler}
-                resetToDefault={table.getToggleAllColumnsVisibilityHandler}
+                resetToDefault={() => table.resetColumnFilters()}
+                // resetToDefault={() =>
+                //   setColumnVisibility(defaultInvisibleColumns)
+                // }
                 // isReset={isReset}
               />
             )

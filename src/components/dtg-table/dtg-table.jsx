@@ -35,6 +35,8 @@ export default function DtgTable({
   defaultInvisibleColumns,
   columnVisibility,
   setColumnVisibility,
+  resetFilters,
+  setResetFilters,
 }) {
   const {
     dePaginated,
@@ -507,6 +509,8 @@ export default function DtgTable({
             selectColumns={selectColumns}
             setSelectColumnPanel={setSelectColumnPanel}
             selectColumnPanel={selectColumnPanel}
+            resetFilters={resetFilters}
+            setResetFilters={setResetFilters}
           />
         )}
       </Experimental>
