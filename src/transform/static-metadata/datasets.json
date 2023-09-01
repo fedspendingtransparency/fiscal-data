@@ -48,6 +48,7 @@
     "currentDateButton": "byDay",
     "bannerCallout": {
       "banner": "DTSAPIUpdate",
+      "startDate": "8/24/2023",
       "endDate": "9/14/2023"
     }
     
@@ -161,7 +162,9 @@
     "currentDateButton": "byMonth",
     "datePreset": "custom",
     "customRangePreset": "latestQuarter",
-    "bannerCallout": "XRCallout"
+    "bannerCallout": {
+      "banner": "XRCallout"
+    }
   },
   "015-BFS-2014Q3-071": {
     "slug": "/historical-debt-outstanding/",
