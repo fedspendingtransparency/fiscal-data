@@ -63,7 +63,7 @@ const ExperimentalPage = () => {
       // top
       debt: 29.5,
       //bottom
-      deficit: 1,
+      deficit: 1.3,
     },
     {
       year: '2023',
@@ -203,24 +203,23 @@ const ExperimentalPage = () => {
         </div>
         {/*SK WORK*/}
         {
-          <BarChart width={650} height={500} data={data} layout="horizontal">
+          <BarChart width={650} height={600} data={data} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-            <XAxis />
-            <YAxis
-              type="category"
-              width={150}
-              padding={{ left: 20 }}
-              dataKey="year"
-            />
+            <XAxis type="number" domain={[0, 40]} /*hide="false"*/ />
+            <YAxis type="category" dataKey="year" reversed="true" />
             <Tooltip />
+            {/*/*May have to figure out a custom legend. Not sure legend is auto*/}
+            {/*generating due to the horizontal nature of the graph/**/}
             <Legend />
             <Bar
+              name="Debt"
               dataKey="debt"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
             />
             <Bar
+              name="Deficit"
               dataKey="deficit"
               stackId="a"
               fill="#BD4E12"
