@@ -202,17 +202,32 @@ const ExperimentalPage = () => {
           <VisualizationCallout children={'Example Text.'} />
         </div>
         {/*SK WORK*/}
-        <BarChart width={650} height={500} data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {/*/!*bottom*!/*/}
-          <Bar dataKey="debt" stackId="a" fill="#4B1B79" />
-          {/*        /!*top*!/*/}
-          <Bar dataKey="deficit" stackId="a" fill="#BD4E12" />
-        </BarChart>
+        {
+          <BarChart width={650} height={500} data={data} layout="horizontal">
+            <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+            <XAxis />
+            <YAxis
+              type="category"
+              width={150}
+              padding={{ left: 20 }}
+              dataKey="year"
+            />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="debt"
+              stackId="a"
+              fill="#4B1B79"
+              layout={'horizontal'}
+            />
+            <Bar
+              dataKey="deficit"
+              stackId="a"
+              fill="#BD4E12"
+              layout={'horizontal'}
+            />
+          </BarChart>
+        }
       </SiteLayout>
     </ErrorBoundary>
   );
