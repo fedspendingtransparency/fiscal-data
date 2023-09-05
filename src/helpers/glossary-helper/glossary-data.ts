@@ -2,8 +2,6 @@ import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 
 export interface IGlossaryListSection {
   sortedList: IGlossaryTerm[]
-
-  map(element: (term) => JSX.Element): any;
 }
 
 

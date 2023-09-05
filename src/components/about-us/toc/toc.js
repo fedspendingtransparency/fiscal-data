@@ -15,7 +15,8 @@ export const classLevelErrorMsg = `tocBuilder - Not enough classes in classLevel
  * </section>
  *
  * @param mdxAST - Array of mdxAST toc data
- * @param classLevelArr - An array of class names where the index is equal to the heading level (depth) - 1. It will likely look like this: [heading1,heading2,heading3]
+ * @param classLevelArr - An array of class names where the index is equal to the heading level (depth) - 1.
+ * It will likely look like this: [heading1,heading2,heading3]
  * @returns {[]} - Returns an array of section information to feed into secondary-nav.tsx
  */
 export const tocBuilder = (mdxAST, classLevelArr) => {

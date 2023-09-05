@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import * as Gatsby from 'gatsby';
 import CalendarEntry, { releaseCalendarDatasetClickEvent } from './calendar-entry';
 import Analytics from '../../../utils/analytics/analytics';
+import {releaseCalendarSortEvent} from "../calendar-entries";
+import {sortOptions} from "../calendar-helpers";
 
 describe('Calendar Entry', () => {
   const firstDate = '2000-01-01';
@@ -48,6 +50,8 @@ describe('Calendar Entry', () => {
 
   it('triggers the correct analytics event when clicked on', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
+    window.dataLayer = window.dataLayer || [];
+    const dataLayerSpy = jest.spyOn(window.dataLayer, 'push');
 
     const {rerender} = render(<CalendarEntry dataset={dataset} earliestDate={firstDate} />);
     fireEvent.click(screen.getByTestId('calendar-entry'));
@@ -57,6 +61,11 @@ describe('Calendar Entry', () => {
       label: `${dataset.name} Current Date`
     });
     analyticsSpy.mockClear();
+    expect(dataLayerSpy).toHaveBeenCalledWith({
+      event: releaseCalendarDatasetClickEvent.action,
+      eventLabel: `${dataset.name} Current Date`,
+    });
+    dataLayerSpy.mockClear();
 
     rerender(<CalendarEntry dataset={dataset} earliestDate={secondDate} />);
     fireEvent.click(screen.getByTestId('calendar-entry'));
@@ -64,6 +73,10 @@ describe('Calendar Entry', () => {
     expect(analyticsSpy).toHaveBeenCalledWith({
       ...releaseCalendarDatasetClickEvent,
       label: `${dataset.name} Future Date`
+    });
+    expect(dataLayerSpy).toHaveBeenCalledWith({
+      event: releaseCalendarDatasetClickEvent.action,
+      eventLabel: `${dataset.name} Future Date`,
     });
   });
 });

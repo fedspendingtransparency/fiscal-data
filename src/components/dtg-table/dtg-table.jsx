@@ -7,10 +7,7 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import {
-  pagedDatatableRequest, formatDateForApi, basicFetch,
-  buildSortParams, MAX_PAGE_SIZE,
-} from '../../utils/api-utils';
+import { pagedDatatableRequest, formatDateForApi, } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
 import * as styles from './dtg-table.module.scss';
@@ -45,16 +42,16 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
   useEffect(() => {
     if (tableProps) {
-      if (tableProps.dePaginated !== undefined) {
-        if (tableProps.dePaginated !== null) {
+      if (dePaginated !== undefined) {
+        if (dePaginated !== null) {
           if (reactTableData === null) {
-            setReactTableData(tableProps.dePaginated);
+            setReactTableData(dePaginated);
           }
         }
         else {
-          if (tableProps.rawData !== null) {
+          if (rawData !== null) {
             if (reactTableData === null) {
-              setReactTableData(tableProps.rawData);
+              setReactTableData(rawData);
             }
           }
         }
@@ -240,12 +237,12 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     setIsReset(true);
 
     columns.forEach((col) => {
-      let colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
+      const colDefault = (selectColumns ? selectColumns.includes(col.property) : false);
       const selectCol = Object.assign({label: col.name},
                                 {field: col.property},
                                 {active: colDefault},
                                 {default: colDefault});
-      if(colDefault == true) {
+      if(colDefault === true) {
         activeColArray.push(col);
       }
 
@@ -386,33 +383,39 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
 
             {/* Table */}
             {(!emptyDataMessage && !selectColumns
-              ? (<table {...tableProps.aria} style={{width: tableWidth}}>
-                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                <DtgTableHeading columns={columns} />
-                <tbody>
-                  {rows}
-                </tbody>
-              </table>)
-              : (<table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
-                {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                <DtgTableHeading columns={activeColumns} />
-                <tbody>
-                  {rows}
-                </tbody>
-              </table>))
+              ? (
+                <table {...tableProps.aria} style={{width: tableWidth}}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={columns} />
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
+              ) : (
+                <table {...tableProps.aria} style={{width: selectColumnsTableWidth}}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={activeColumns} />
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
+              ))
             }
           </div>
 
-          <div data-testid='selectColumnsMainContainer' className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel} style={{height: `${(itemsPerPage * 41) + 48.4}px` }}>
+          <div data-testid="selectColumnsMainContainer"
+               className={ selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}
+               style={{height: `${(itemsPerPage * 41) + 48.4}px` }}
+          >
             {selectColumns &&
               <DtgTableColumnSelector
-              isVisible={true}
-              fields={columnSelectValues}
-              changeHandler={(update) => columnSelectChangeHandler(update)}
-              resetToDefault={setDefaultColumnsToSelect}
-              setSelectColumnPanel={setSelectColumnPanel}
-              isReset={isReset}
-            />
+                isVisible={true}
+                fields={columnSelectValues}
+                changeHandler={(update) => columnSelectChangeHandler(update)}
+                resetToDefault={setDefaultColumnsToSelect}
+                setSelectColumnPanel={setSelectColumnPanel}
+                isReset={isReset}
+              />
             }
           </div>
         </div>
@@ -429,14 +432,18 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
             </div>
       }
       </Experimental>
-      {/* Set hide cell links to true before merging */}
       <Experimental featureId="react-table-poc">
         {reactTableData &&
-          <DataTable rawData={reactTableData} pageSize={10} defaultSelectedColumns={selectColumns}
-                     setTableColumnSortData={setTableColumnSortData} hasPublishedReports={tableProps.hasPublishedReports}
-                     publishedReports={tableProps.publishedReports} hideCellLinks={true}
-                     setTableColumnSortData={setTableColumnSortData} shouldPage={shouldPage}
-                     pagingProps={pagingProps} showPaginationControls={showPaginationControls}
+          <DataTable rawData={reactTableData}
+                     pageSize={10}
+                     defaultSelectedColumns={selectColumns}
+                     setTableColumnSortData={setTableColumnSortData}
+                     hasPublishedReports={hasPublishedReports}
+                     publishedReports={publishedReports}
+                     hideCellLinks={true}
+                     shouldPage={shouldPage}
+                     pagingProps={pagingProps}
+                     showPaginationControls={showPaginationControls}
           />
         }
       </Experimental>

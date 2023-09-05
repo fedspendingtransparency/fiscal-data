@@ -9,16 +9,14 @@ import {
   infoIcon,
   iconContainer,
   dailyReport
-} from "./filter-section.module.scss";
-import SelectControl from "../../select-control/select-control";
-import { getYearReportOptions, getMonthOptions, getDayOptions } from "../util/util"
+} from './filter-section.module.scss';
+import SelectControl from '../../select-control/select-control';
+import { getYearReportOptions, getMonthOptions, getDayOptions } from '../util/util';
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
 import { getLatestReport } from '../../../helpers/dataset-detail/report-helpers';
 import ComboSelect from '../../combo-select/combo-select';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle"
-import ComboSelectDropdown
-  from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 
 export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {

@@ -9,24 +9,22 @@ export const loadingTimeout = (loadCanceled, callback) => {
   }
 }
 
-function createMissingConfigs(keys, columnConfig) {
+const createMissingConfigs = (keys, columnConfig) => {
     const indexed = {};
 
     if (columnConfig) {
         columnConfig.forEach(obj => indexed[obj.property] = obj);
     }
 
-    return keys.map(property => {
-        if (!indexed[property]) {
-            return {
-                property: property,
-                name: property
-            }
+    return keys.filter(property => !indexed[property]).map(property => {
+        return {
+          property: property,
+          name: property
         }
     }).filter(item => item);
-}
+};
 
-export function setColumns(dataProperties, columnConfig) {
+export const setColumns = (dataProperties, columnConfig) => {
     const { excluded, keys } = dataProperties;
     const propsWithNoConfig = createMissingConfigs(keys, columnConfig);
     columnConfig = columnConfig || [];
@@ -44,15 +42,13 @@ export function setColumns(dataProperties, columnConfig) {
     const configWithMissing = columnConfig.concat(propsWithNoConfig);
 
     return configWithMissing.filter(c => !excluded.includes(c.property));
-}
+};
 
-export function buildColumnConfig(fields) {
-    return fields.map(f => {
-      return {
-        property: f.columnName,
-        name: f.prettyName,
-        type: f.dataType,
-        order: f.isPrimaryDateCol ? -1 : f.order || 1
-      };
-    });
-}
+export const buildColumnConfig = fields => fields.map(f => {
+  return {
+    property: f.columnName,
+    name: f.prettyName,
+    type: f.dataType,
+    order: f.isPrimaryDateCol ? -1 : f.order || 1
+  };
+});

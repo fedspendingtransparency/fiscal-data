@@ -1,6 +1,5 @@
 import React from 'react';
-import NotFoundPage, {pageTitle} from './index';
-import NotFoundGraphic from '../../components/notFound/notFoundGraphic'
+import NotFoundPage from './index';
 import {render, waitFor} from "@testing-library/react";
 
 jest.mock("gatsby-plugin-mdx", () => {
@@ -21,7 +20,7 @@ describe("404 page", ()=> {
       }
     };
     render(<NotFoundPage pageContext={{}} data={data} />);
-    await waitFor(() => expect(document.title).toContain(pageTitle));
+    await waitFor(() => expect(document.title).toContain('Page Not Found'));
   });
 
   it("renders the not found component", ()=> {

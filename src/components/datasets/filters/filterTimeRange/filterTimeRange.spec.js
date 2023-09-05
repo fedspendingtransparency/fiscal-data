@@ -9,6 +9,8 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 import { dateRange } from "../test-helpers";
 import { siteContext } from '../../../persist/persist';
 import Analytics from '../../../../utils/analytics/analytics';
+import {fireEvent, render, within} from "@testing-library/react";
+
 
 jest.useFakeTimers();
 describe("Time Range Filter", () => {
@@ -20,6 +22,9 @@ describe("Time Range Filter", () => {
   const setEndDateSpy = jest.fn();
   const setExactRangeSpy = jest.fn();
   const analyticsSpy = jest.spyOn(Analytics, 'event');
+  window.dataLayer = window.dataLayer || [];
+  const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
 
   const dateRangeFn = jest.fn();
   const contextBeginDate = new Date(2019, 9, 1);
@@ -200,5 +205,55 @@ describe("Time Range Filter", () => {
     jest.runAllTimers();
 
     expect(analyticsSpy).toHaveBeenCalledWith(spanTimeRangeAnalyticsObject);
+  });
+
+  it('triggers a datalayer push when the checkbox is checked and the time range has valid dates', () => {
+    const checkbox = instance.findByType(Checkbox);
+    renderer.act(() => {
+      checkbox.props.changeHandler();
+    });
+    jest.runAllTimers();
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Time Range Click'
+    });
+
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Time Range Entry',
+      eventLabel: `${contextBeginDate} - ${contextEndDate}`
+    })
+  });
+
+  it('triggers GA4 datalayer push when info tip click button is pushed',() =>{
+    const{getByTestId} = render(
+      <siteContext.Provider
+        value={{
+          beginDate: contextBeginDate,
+          setBeginDate: setBeginDateSpy,
+          endDate: contextEndDate,
+          setEndDate: setEndDateSpy,
+          exactRange: false,
+          setExactRange: setExactRangeSpy,
+        }}
+      >
+        <FilterTimeRange dateRangeFilter={dateRangeFn} />
+      </siteContext.Provider>
+    )
+
+    const checkbox = getByTestId('checkbox');
+
+    expect(checkbox).toBeInTheDocument();
+
+    const infoTip = within(checkbox).getByTestId('infoTipButton');
+
+    expect(infoTip).toBeDefined();
+
+    fireEvent.click(infoTip);
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Info Button Click',
+      eventLabel: 'Time Range'
+    });
   });
 });

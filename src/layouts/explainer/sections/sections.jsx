@@ -1,4 +1,3 @@
-import React from "react"
 import { nationalDeficitDataSources } from "../explainer-helpers/national-deficit/national-deficit-helper"
 import nationalDeficitSections from "./national-deficit/national-deficit"
 import nationalDebtSections, {

@@ -1,6 +1,5 @@
 import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
 import {breakpointLg} from "../../../variables.module.scss";
-import React from 'react';
 
 
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {

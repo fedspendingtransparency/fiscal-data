@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import {container} from './dsm.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
-import {explainerDataSources} from "../../explainer/sections/sections";
 import DataSourcesMethodologies from "../../explainer/data-sources-methodologies/data-sources-methodologies";
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-const DSM = ({children}) => {
+const DSM = (children: ReactElement): ReactElement => {
   return (
     <div className={container}>
       <DataSourcesMethodologies pageName={''}>
@@ -15,8 +15,8 @@ const DSM = ({children}) => {
   );
 }
 
-const ExtIcon = () => {
-  return <FontAwesomeIcon data-testid="dsmExtIcon" icon={faExternalLinkAlt} />
+const ExtIcon = (): ReactElement => {
+  return <FontAwesomeIcon data-testid="dsmExtIcon" icon={faExternalLinkAlt as IconProp} />
 }
 
 const dsmComponents = {

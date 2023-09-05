@@ -2,11 +2,12 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { useStaticQuery } from "gatsby";
 
-import ReleaseCalendar, { tagLineText } from './index';
+import ReleaseCalendar from './index';
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import internalData from '../../testData/__dataConfig_for_tests.json';
+import {tagLineText} from "../../helpers/release-calendar/release-calendar-content-helper";
 
 jest.mock(
   '../../components/calendar-entries/use-release-calendar-entries-updater-hook',

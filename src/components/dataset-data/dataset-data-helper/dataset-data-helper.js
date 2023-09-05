@@ -76,12 +76,12 @@ export const rewriteUrl = (table, slug, location) => {
 };
 
 export const thinDataAsNeededForChart = (dataRows, slug, dateField, selectedTable) => {
-  if (slug === '/debt-to-the-penny/' || slug === '/qtcb-historical-interest-rates/' &&
-    (!selectedTable || !selectedTable.isLargeDataset)) {
+  if ((slug === '/debt-to-the-penny/') || (slug === '/qtcb-historical-interest-rates/' &&
+    (!selectedTable || !selectedTable.isLargeDataset))) {
     let latestYearMonth = '0';
     const subset = dataRows.slice().reverse().reduce((acc, d) => {
 
-      const yearMonth = d[dateField].substr(0,7);
+      const yearMonth = d[dateField].substring(0,7);
 
       if (latestYearMonth !== yearMonth) {
         latestYearMonth = yearMonth;

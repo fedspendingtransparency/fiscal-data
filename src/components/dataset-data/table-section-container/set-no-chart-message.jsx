@@ -5,28 +5,29 @@ import {getMessageForUnmatchedUserFilter} from "../../filter-download-container/
 
 export const SetNoChartMessage = (selectedTable, selectedPivot, dateRange, allTablesSelected,
                                   userFilterSelection, userFilterUnmatchedForDateRange) => {
+
+  const {dataDisplays, userFilter} = selectedTable;
   if (allTablesSelected) {
-    return (<NotShownMessage
-      heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.'
-    />);
-  } else if (selectedTable.dataDisplays &&
-    selectedTable.dataDisplays.every(dd => dd.chartType === 'none')) {
+    return (
+      <NotShownMessage
+        heading='With the current "All Data Tables" selection, we are unable to render a Table or Chart at this time.'
+      />);
+  } else if (dataDisplays && dataDisplays.every(dd => dd.chartType === 'none')) {
 
     return (
       <NotShownMessage
         heading="There are no charts for this Data Table."
       />);
-  } else if (selectedPivot && selectedPivot.pivotView &&
-    selectedPivot.pivotView.chartType === 'none') {
-    return (<NotShownMessage
-      heading="Use the dropdown to select a pivot option to display the chart"
-      bodyText="This data table cannot be rendered as a chart until a pivot option is applied."
-    />);
-  } else if (selectedTable.userFilter && !userFilterSelection?.value) {
+  } else if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.chartType === 'none') {
     return (
       <NotShownMessage
-        heading={`Select
-                  from ${selectedTable.userFilter.label} options above to display the chart.`}
+        heading="Use the dropdown to select a pivot option to display the chart"
+        bodyText="This data table cannot be rendered as a chart until a pivot option is applied."
+      />);
+  } else if (userFilter && !userFilterSelection?.value) {
+    return (
+      <NotShownMessage
+        heading={`Select from ${userFilter.label} options above to display the chart.`}
       />);
   } else if (userFilterUnmatchedForDateRange) {
     return getMessageForUnmatchedUserFilter(selectedTable);

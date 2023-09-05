@@ -55,7 +55,6 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
   const sortCallback = (sort) => {
     if (sort.label !== activeSort.label) {
       setActiveSort(sort);
-
       Analytics.event({
         ...sortDatasetsAnalyticsObject,
         label: sort.label

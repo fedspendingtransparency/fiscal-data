@@ -166,12 +166,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       Bureau of Labor Statistics
     </CustomLink>;
 
-  const CustomSlices = props => {
+  const CustomSlices = ({ enableSlices, setCurrentSlice, sliceTooltip, slices }) => {
     const { showTooltipFromEvent, hideTooltip } = useTooltip();
 
     return (
       <g onMouseLeave={() => {hideTooltip()}}>
-        {props.slices.map(slice => (
+        {slices.map(slice => (
           <rect
             x={slice.x0}
             y={slice.y0}
@@ -181,12 +181,12 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             strokeWidth={0}
             strokeOpacity={0.75}
             fillOpacity={0}
-            onMouseEnter={() => props.setCurrentSlice(slice)}
+            onMouseEnter={() => setCurrentSlice(slice)}
             onFocus={event => {
               showTooltipFromEvent(
-                React.createElement(props.sliceTooltip, {
+                React.createElement(sliceTooltip, {
                   slice,
-                  axis: props.enableSlices,
+                  axis: enableSlices,
                 }),
                 event,
                 'right'
@@ -194,16 +194,16 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             }}
             onMouseMove={ event => {
               showTooltipFromEvent(
-                React.createElement(props.sliceTooltip, {
+                React.createElement(sliceTooltip, {
                   slice,
-                  axis: props.enableSlices,
+                  axis: enableSlices,
                 }),
                 event,
                 'right'
               )
             }}
             onMouseLeave={() => {
-              props.setCurrentSlice(null)
+              setCurrentSlice(null)
             }}
           />
         ))}
@@ -351,7 +351,13 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             customTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_16, color: '#666666'}: {} }
             customSubTitleStyles={ width < pxToNumber(breakpointLg) ? {fontSize: fontSize_14}: {} }
           >
-            <div className={styles.lineChart} role={'presentation'} data-testid={'chartParentTrends'} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
+            <div
+              className={styles.lineChart}
+              role={'presentation'}
+              data-testid={'chartParentTrends'}
+              onMouseEnter={handleChartMouseEnter}
+              onMouseLeave={handleChartMouseLeave}
+            >
               <Line
                 data={chartData}
                 layers={[

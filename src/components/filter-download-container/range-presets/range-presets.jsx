@@ -36,7 +36,6 @@ const RangePresets = (
   const [availableDateRange, setAvailableDateRange] = useState(null);
   const [pickerDateRange, setPickerDateRange] = useState(null);
   const [dateRange, setCurDateRange] = useState(null);
-  const [defaultPresetKey, setDefaultPresetKey] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
 
@@ -143,7 +142,7 @@ const RangePresets = (
             to: dateObj
           }
         };
-        
+
         const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
         updateDateRange(adjRange);
       }
@@ -165,7 +164,6 @@ const RangePresets = (
       } else {
         defaultKey = idealDefaultPreset;
       }
-      setDefaultPresetKey(defaultKey);
       applyPreset(defaultKey);
     }
   };

@@ -1,9 +1,12 @@
-import React from 'react'
-import { render, RenderResult, waitFor, act } from "@testing-library/react"
-import { AmericasFinanceGuidePage } from "./index"
-import { mockEndpointResponseMap, mockEndpointResponseMapAltDates } from "../../layouts/explainer/explainer-helpers/afg-overview-helpers"
-import { setGlobalFetchMatchingResponse } from "../../utils/mock-utils"
-import { useStaticQuery } from "gatsby";
+import React from 'react';
+import { render, RenderResult, waitFor, act } from '@testing-library/react';
+import AmericasFinanceGuide from './index';
+import { mockEndpointResponseMap, mockEndpointResponseMapAltDates } from '../../layouts/explainer/explainer-helpers/afg-overview-helpers';
+import { setGlobalFetchMatchingResponse } from '../../utils/mock-utils';
+
+import { useStaticQuery } from 'gatsby';
+
+Object.defineProperty(window, 'innerWidth', {writable: true, configurable: true, value: 1200});
 
 describe('Americas Finance Guide', () => {
   const glossaryMock =
@@ -37,7 +40,7 @@ describe('Americas Finance Guide', () => {
   it('renders the top container', async () => {
     let component: RenderResult;
     await act( async () => {
-      component = render(<AmericasFinanceGuidePage width={1200} />);
+      component = render(<AmericasFinanceGuide />);
     });
     expect(component.getByTestId("topContainer")).toBeInTheDocument();
     expect(component.getByTestId("quoteContainer")).toBeInTheDocument();
@@ -47,7 +50,7 @@ describe('Americas Finance Guide', () => {
   it('renders an component',  async () => {
     let component: RenderResult;
     await act( async () => {
-      component = render(<AmericasFinanceGuidePage  width={1200} />);
+      component = render(<AmericasFinanceGuide />);
     });
     const { container } = component;
     expect(container.querySelector('[data-testid="afg-icon"]')).toBeInTheDocument();
@@ -57,7 +60,7 @@ describe('Americas Finance Guide', () => {
 
     let component: RenderResult;
     await act( async () => {
-      component = render(<AmericasFinanceGuidePage width={1200} />);
+      component = render(<AmericasFinanceGuide />);
     });
     const { getByText, getAllByText } = component;
     await waitFor(() => {
@@ -116,7 +119,7 @@ describe('Americas Finance Guide regular language', () => {
 
     let component: RenderResult;
     await act( async () => {
-      component = render(<AmericasFinanceGuidePage width={1200} />);
+      component = render(<AmericasFinanceGuide />);
     });
     const { getByText } = component;
     await waitFor(() => {

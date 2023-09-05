@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   sectionBody,
-  sectionLink,
   dataTypesHeader
 } from './api-quick-guide.module.scss';
 import DtgTable from "../dtg-table/dtg-table";

@@ -4,9 +4,9 @@ import dsmComponents from './dsm';
 describe('Feature DSM Components', () => {
 
   it('creates a DS&M section with passed in content', () => {
-    const dsmText = `Lorem ipsum dummy text';`
+    const dsmText =  `Lorem ipsum dummy text`;
     const dsmTitle = `Data Sources & Methodologies`;
-    const {getByText} = render(dsmComponents.DSM({children: dsmText}));
+    const {getByText} = render(dsmComponents.DSM(dsmText));
     const dsmAccordion = getByText(dsmTitle);
     dsmAccordion.click();
     expect(getByText(dsmText)).toBeDefined();

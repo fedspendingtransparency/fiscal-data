@@ -25,7 +25,7 @@ const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element =>
     = `v1/accounting/mts/mts_table_4?${fields}&${filter}&${sort}&${pagination}`;
   const revenueUrl: string = `${apiPrefix}${endpointUrl}`;
 
-  // appending 40 to a 6 digit hex color is equivalent to specifiying 25% opacity
+  // appending 40 to a 6 digit hex color is equivalent to specifying 25% opacity
   const pillColorWithTransparency = `${revenueExplainerLightSecondary}40`;
 
   const [currentRevenue, setCurrentRevenue] = useState(null);
@@ -83,8 +83,8 @@ const GovernmentRevenueHero = ({glossary, glossaryClickHandler}): JSX.Element =>
 
   const expenditures = (
     <GlossaryPopoverDefinition
-      term={"Expenditures"}
-      page={"Revenue Explainer"}
+      term="Expenditures"
+      page="Revenue Explainer"
       glossary={glossary}
       glossaryClickHandler={glossaryClickHandler}
     >

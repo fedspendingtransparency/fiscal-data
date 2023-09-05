@@ -154,7 +154,10 @@ describe('HomeHighlightCard', () => {
       });
     });
 
-    it('hovering over the chart sends action', async () => {
+    it('hovering over the chart sends action and pushes GA4 datalayer', async () => {
+      window.dataLayer = window.dataLayer || [];
+      const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
       const { getByTestId } = render(<HomeHighlightCard dataset={mockData} />);
       await waitForElementToBeRemoved(() => getByTestId('loadingSection'));
       jest.runAllTimers();
@@ -168,6 +171,11 @@ describe('HomeHighlightCard', () => {
         category: 'Fiscal Data - Homepage Cards',
         action: ANALYTICS_CHART_ACTION,
         label: 'test title'
+      });
+
+      expect(datalayerSpy).toHaveBeenCalledWith({
+        event: 'Chart Hover',
+        eventLabel: 'test title'
       });
     });
 

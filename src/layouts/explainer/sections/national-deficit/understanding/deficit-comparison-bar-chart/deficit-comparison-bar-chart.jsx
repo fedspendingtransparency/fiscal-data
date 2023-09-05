@@ -25,7 +25,6 @@ import {apiPrefix, basicFetch} from "../../../../../../utils/api-utils";
 import {nationalDeficitSectionConfigs} from "../../national-deficit";
 import CustomLink from "../../../../../../components/links/custom-link/custom-link";
 import {getDateWithoutTimeZoneAdjust} from "../../../../../../utils/date-utils";
-import Analytics from "../../../../../../utils/analytics/analytics";
 import {addInnerChartAriaLabel} from "../../../../explainer-helpers/explainer-charting-helper";
 import CustomBar from './custom-bar/customBar';
 

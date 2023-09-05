@@ -6,15 +6,15 @@ import {
 } from "../../hero-image/hero-image.module.scss";
 import React, {useEffect, useState} from "react";
 import CustomLink from "../../../../components/links/custom-link/custom-link";
-import {apiPrefix, basicFetch} from "../../../../utils/api-utils";
+import { apiPrefix, basicFetch } from "../../../../utils/api-utils";
 import {
   getFootNotesDateRange,
   getPillData
 } from "../hero-helper";
-import {spendingExplainerPrimary} from
+import { spendingExplainerPrimary } from
     "../../sections/federal-spending/federal-spending.module.scss";
 import SplitFlapDisplay from "../../../../components/split-flap-display/split-flap-display";
-import {getShortForm} from "../../../../utils/rounding-utils";
+import { getShortForm } from "../../../../utils/rounding-utils";
 
 
 const FederalSpendingHero = (): JSX.Element => {

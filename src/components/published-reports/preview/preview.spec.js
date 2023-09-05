@@ -66,6 +66,10 @@ describe('Preview component', () => {
 
   it('transmits a correctly formed analytics event when a pdf preview is loaded ', () => {
     spy.mockClear();
+
+    window.dataLayer = window.dataLayer || [];
+    const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
     const file = 'helloAgain.pdf';
     const groupName = 'groupName (.pdf)';
 
@@ -82,10 +86,19 @@ describe('Preview component', () => {
       'category': 'Published Report Preview',
       'value': 'helloAgain.pdf'
     });
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Published Report Preview',
+      eventLabel: 'helloAgain.pdf'
+    });
   });
 
   it('transmits a correctly formed analytics event when a txt preview is loaded ', () => {
     spy.mockClear();
+
+    window.dataLayer = window.dataLayer || [];
+    const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
     const file = 'helloAgain.txt';
     const groupName = 'groupName (.txt)';
 
@@ -101,6 +114,11 @@ describe('Preview component', () => {
       'action': 'load text preview',
       'category': 'Published Report Preview',
       'value': 'helloAgain.txt'
+    });
+
+    expect(datalayerSpy).toHaveBeenCalledWith({
+      event: 'Published Report Preview',
+      eventLabel: 'helloAgain.txt'
     });
   });
 
