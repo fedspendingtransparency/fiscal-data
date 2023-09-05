@@ -12,9 +12,16 @@ import VisualizationCallout from '../../components/visualization-callout/visuali
 import InsightsDownload from '../../components/insights-download/insights-download';
 import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from 'react-error-boundary';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Label,
+  Customized,
+} from 'recharts';
 import { Legend, Tooltip } from 'chart.js';
-import { render } from '@testing-library/react';
 
 const fallbackComponent = () => {
   return (
@@ -61,16 +68,16 @@ const ExperimentalPage = () => {
     {
       year: '2022',
       // top
-      debt: 29.5,
+      debt: 29.3,
       //bottom
-      deficit: 1.3,
+      deficit: 1.7,
     },
     {
       year: '2023',
       // top
       deficit: 1.2,
       //bottom
-      debt: 30.8,
+      debt: 31.2,
     },
   ];
 
@@ -205,9 +212,14 @@ const ExperimentalPage = () => {
         {
           <BarChart width={650} height={600} data={data} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-            <XAxis type="number" domain={[0, 40]} /*hide="false"*/ />
+            <XAxis
+              type="number"
+              domain={[0, 40]}
+              unit=" T"
+              tickFormatter={v => `$${v}`}
+            />
             <YAxis type="category" dataKey="year" reversed="true" />
-            <Tooltip />
+            <Label value="Testing" position="top" />
             {/*/*May have to figure out a custom legend. Not sure legend is auto*/}
             {/*generating due to the horizontal nature of the graph/**/}
             <Legend />
@@ -217,6 +229,7 @@ const ExperimentalPage = () => {
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="circle"
             />
             <Bar
               name="Deficit"
@@ -224,6 +237,7 @@ const ExperimentalPage = () => {
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="circle"
             />
           </BarChart>
         }
