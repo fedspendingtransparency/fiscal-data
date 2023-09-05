@@ -226,9 +226,6 @@ const ExperimentalPage = () => {
               tickFormatter={v => `$${v}`}
             />
             <YAxis type="category" dataKey="year" reversed="true" />
-            <Label value="Testing" position="top" />
-            {/*/*May have to figure out a custom legend. Not sure legend is auto*/}
-            {/*generating due to the horizontal nature of the graph/**/}
             <Legend />
             <Bar
               name="Debt"
