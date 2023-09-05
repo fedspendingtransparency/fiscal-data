@@ -94,6 +94,7 @@ const DataTableContainer = ({
             allColumns={allColumns}
             table={table}
             sorting={sorting}
+            resetFilters={resetFilters}
           />
           <div
             data-testid="selectColumnsMainContainer"

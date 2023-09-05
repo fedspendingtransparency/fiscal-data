@@ -28,6 +28,7 @@ type DataTableProps = {
   allColumns: any;
   table: any;
   sorting: any;
+  resetFilters: boolean;
 };
 
 export const DataTable: FunctionComponent<DataTableProps> = ({
@@ -40,6 +41,7 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
   allColumns,
   table,
   sorting,
+  resetFilters,
 }) => {
   // POC code to include links in cells and match links to the correct cells based on record date
   if (hasPublishedReports && !hideCellLinks) {
@@ -96,7 +98,11 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
       <div data-test-id="table-content" className={tableContainer}>
         <StickyTable height={521}>
           <table>
-            <DataTableHeader table={table} dataTypes={dataTypes} />
+            <DataTableHeader
+              table={table}
+              dataTypes={dataTypes}
+              resetFilters={resetFilters}
+            />
             <DataTableBody table={table} dataTypes={dataTypes} />
           </table>
         </StickyTable>
