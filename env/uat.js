@@ -4,24 +4,12 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: ['chartingConfigurationTool', 'experimental-page', 'react-table-poc'],
-  ADDITIONAL_DATASETS: {
-    "015-BFS-2014Q3-046": {
-      "slug": "/treasury-bulletin/",
-      "seoConfig": {
-        "pageTitle": "Treasury Bulletin",
-        "description": "Machine readable data of select Treasury Bulletin tables. These tables include those located within the Fiscal Service Operations (FFO-5 and FFO-6), ownership of federal securities, U.S. currency and coin outstanding and in circulation, foreign currency positions, and exchange stabilization fund sections of the Treasury Bulletin.",
-        "keywords": "Debt, Financial Summaries, Revenue, Savings Bonds"
-      },
-      "topics": ["debt", "financial-summaries", "revenue", "savings-bonds"],
-      "relatedDatasets": [
-        "015-BFS-2014Q1-13",
-        "015-BFS-2014Q1-11",
-        "015-BFS-2014Q1-07"
-      ],
-      "currentDateButton": "byMonth",
-    },
-  },
+  EXPERIMENTAL_WHITELIST: [
+    'chartingConfigurationTool',
+    'experimental-page',
+    'react-table-poc',
+  ],
+  ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '27': {
       'endpoint': 'v1/debt/mspd/mspd_table_1',
@@ -80,15 +68,15 @@ module.exports = {
           ]
         }
       ],
-      "valueFieldOptions": [
-        "issued_amt",
-        "inflation_adj_amt",
-        "redeemed_amt",
-        "outstanding_amt",
-        "prior_month_outstanding_amt",
-        "current_month_issued_amt",
-        "current_month_redeemed_amt",
-        "current_month_outstanding_amt"
+      valueFieldOptions: [
+        'issued_amt',
+        'inflation_adj_amt',
+        'redeemed_amt',
+        'outstanding_amt',
+        'prior_month_outstanding_amt',
+        'current_month_issued_amt',
+        'current_month_redeemed_amt',
+        'current_month_outstanding_amt',
       ]
     },
     '160': {
@@ -128,9 +116,7 @@ module.exports = {
         }
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
-      'valueFieldOptions': [
-        'position_bil_amt'
-      ]
+      'valueFieldOptions': ['position_bil_amt']
     },
 
     // DTS
@@ -337,113 +323,6 @@ module.exports = {
         "securities_mil_amt"
       ]
     },
-    '209': {
-      'endpoint': 'v1/accounting/tb/ofs2_estimated_ownership_treasury_securities',
-      'dateField': 'record_date',
-      'downloadName': 'TB_OFS2EstimatedOwnershipUSTreasurySecurities',
-      'dataDisplays': [
-        {
-          'title': 'Securities Owner',
-          'dimensionField': 'securities_owner',
-        },
-      ],
-      "valueFieldOptions": [
-        "securities_bil_amt"
-      ]
-    },
-    '210': {
-      'endpoint': 'v1/accounting/tb/uscc1_amounts_outstanding_circulation',
-      'dateField': 'record_date',
-      'downloadName': 'TB_USCC1AmountsOutstandingCirculation',
-      'dataDisplays': [
-        {
-          'title': 'Currency and Coins Category Description',
-          'dimensionField': 'currency_coins_category_desc',
-        },
-      ],
-      "valueFieldOptions": [
-        'total_currency_coins_amt',
-        'total_currency_amt',
-        'federal_reserve_notes_amt',
-        'us_notes_amt',
-        'currency_no_longer_issued_amt',
-        'total_coins_amt',
-        'dollar_coins_amt',
-        'fractional_coins_amt',
-      ]
-    },
-    '211': {
-      'endpoint': 'v1/accounting/tb/uscc2_amounts_outstanding_circulation',
-      'dateField': 'record_date',
-      'downloadName': 'TB_USCC2AmountsOutstandingCirculation',
-    },
-    '212': {
-      'endpoint': 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
-      'dateField': 'record_date',
-      'downloadName': 'TB_FCP1WeeklyReportMajorMarketParticipants',
-    },
-    '213': {
-      'endpoint': 'v1/accounting/tb/fcp2_monthly_report_major_market_participants',
-      'dateField': 'record_date',
-      'downloadName': 'TB_FCP2MonthlyReportMajorMarketParticipants',
-    },
-    '214': {
-      'endpoint': 'v1/accounting/tb/fcp3_quarterly_report_large_market_participants',
-      'dateField': 'record_date',
-      'downloadName': 'TB_FCP3QuarterlyReportLargeMarketParticipants',
-    },
-    '215': {
-      'endpoint': 'v1/accounting/tb/esf1_balances',
-      'dateField': 'record_date',
-      'downloadName': 'TB_ESF1Balances',
-    },
-    '216': {
-      'endpoint': 'v1/accounting/tb/esf2_statement_net_cost',
-      'dateField': 'record_date',
-      'downloadName': 'TB_ESF2StatementNetCost',
-    },
-    '217': {
-      'endpoint': 'v1/accounting/tb/ffo5_internal_revenue_by_state',
-      'dateField': 'record_date',
-      'downloadName': 'TB_FFO5InternalRevenueReceiptsState',
-      'dataDisplays': [
-        {
-          'title': 'State Name',
-          'dimensionField': 'state_nm',
-        },
-      ],
-      'valueFieldOptions': [
-        'total_rev_collect_thous_amt',
-        'business_income_tax_thous_amt',
-        'total_indv_tax_thous_amt',
-        'withheld_FICA_thous_amt',
-        'not_withheld_SECA_thous_amt',
-        'unemployment_ins_tax_thous_amt',
-        'railroad_retire_tax_thous_amt',
-        'estate_trust_tax_thous_amt',
-        'estate_tax_thous_amt',
-        'gift_tax_thous_amt',
-        'excise_tax_thous_amt'
-      ]
-    },
-    '218': {
-      'endpoint': 'v1/accounting/tb/ffo6_customs_border_protection_collections',
-      'dateField': 'record_date',
-      'downloadName': 'TB_FFO6CustomsBorderProtectionCollectionDutiesTaxesFeesDistrictsPorts',
-      'dataDisplays': [
-        {
-          'title': 'District Name',
-          'dimensionField': 'district_nm',
-        },
-        {
-          'title': 'Port Name',
-          'dimensionField': 'port_nm',
-        },
-      ],
-      'valueFieldOptions': [
-        'collection_amt',
-      ]
-    },
-  }
+  },
 };
 
