@@ -55,7 +55,9 @@ const LineGraph = () => {
         },
     ];
     const handleMouseMove = (event) => {
-        const mouseX=event.nativeEvent.layerX;
+        const chartElement = event.currentTarget;
+        const rect = chartElement.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
         setMouseHover(mouseX);
     };
     
@@ -64,6 +66,11 @@ const LineGraph = () => {
         <div style={{display: 'flex'}}>
             <div style={{ flex: 1, paddingLeft: '20px'}}>
                 <ul>
+                    {data.map((line) => (
+                        <li key={line.id}>
+                            {`${line.id}: ${mouseHover !== null ? (line.data.find((d) => d.x === mouseHover)?.y || 'NA' ) : 'NA'}`}
+                        </li>
+                    ))}
                 </ul>
             </div>
             <div style={{ flex:3, position: 'relative'}} onMouseMove={handleMouseMove} role='presentation'>
@@ -92,6 +99,20 @@ const LineGraph = () => {
                     enableGridY={true}
                     lineWidth={2}
                 />
+                {mouseHover !== null && (
+                    <div
+                    style={{
+                        position: 'absolute',
+                        left: mouseHover -1,
+                        top: '50px',
+                        width: '0px',
+                        height: '250px',
+                        zIndex: 1,
+                        background: 'transparent',
+                        border: '2px dashed gray',
+                    }}
+                    />
+                )}
             </div>
         </div>
     );

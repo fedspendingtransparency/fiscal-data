@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import LineGraph from './lineGraph';
 
 const LineGraphAnimation = () => {
@@ -40,16 +40,16 @@ useEffect(() => {
   }, []);
 
     return (
-        <div style={{position:'relative', width: '400px', height: '500px'}}>
+        <div style={{position:'relative', height: '400px', maxWidth: '500px', width: '100%'}}>
         <LineGraph />
             <div 
             ref={animatedLineRef}
             style={{
             position: 'absolute',
-            top: '20%',
-            left: '84%',
+            top: '12%',
+            left: '68%',
             width: '0px',
-            height: '200px',
+            height: '250px',
             background: 'transparent',
             border: '2px dashed gray',
             transform: 'translateX(-50%)',
