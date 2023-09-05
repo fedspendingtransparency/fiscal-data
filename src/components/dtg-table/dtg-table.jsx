@@ -7,7 +7,7 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import { pagedDatatableRequest, formatDateForApi, } from '../../utils/api-utils';
+import { pagedDatatableRequest, formatDateForApi } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
 import * as styles from './dtg-table.module.scss';
@@ -44,9 +44,7 @@ export default function DtgTable({tableProps, perPage, setPerPage, selectColumnP
     if (tableProps) {
       if (dePaginated !== undefined) {
         if (dePaginated !== null) {
-          if (reactTableData === null) {
-            setReactTableData(dePaginated);
-          }
+          setReactTableData(dePaginated);
         }
         else {
           if (rawData !== null) {
