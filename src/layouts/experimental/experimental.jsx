@@ -210,12 +210,19 @@ const ExperimentalPage = () => {
         </div>
         {/*SK WORK*/}
         {
-          <BarChart width={650} height={600} data={data} layout="vertical">
+          <BarChart
+            width={650}
+            height={400}
+            data={data}
+            layout="vertical"
+            barGap={10}
+            barSize={50}
+          >
             <CartesianGrid strokeDasharray="3 3" horizontal={false} />
             <XAxis
               type="number"
               domain={[0, 40]}
-              unit=" T"
+              unit="T"
               tickFormatter={v => `$${v}`}
             />
             <YAxis type="category" dataKey="year" reversed="true" />
