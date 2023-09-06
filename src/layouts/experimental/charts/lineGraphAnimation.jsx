@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React, { useRef, useEffect } from 'react';
 import LineGraph from './lineGraph';
 

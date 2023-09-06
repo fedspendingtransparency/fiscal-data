@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React, { useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 
