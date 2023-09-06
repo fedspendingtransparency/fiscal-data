@@ -14,6 +14,7 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import DataTableBody from './data-table-body/data-table-body';
 import ColumnSelect from './column-select/column-select';
+import moment from 'moment';
 
 type DataTableProps = {
   rawData: any;
@@ -41,12 +42,14 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
 }) => {
   const allColumns = rawData.meta
     ? Object.entries(rawData.meta.labels).map(([field, label]) => {
-        if (field.includes('date')) {
-          console.log(`found ${field}`);
+        if (field === 'record_date') {
           return {
             accessorKey: field,
             header: label,
-            filterFn: 'arrIncludesSome',
+            filterFn: 'equalsString',
+            cell: ({ getValue }) => {
+              return moment(getValue()).format('MM/DD/YYYY');
+            },
           } as ColumnDef<any, any>;
         }
         return { accessorKey: field, header: label } as ColumnDef<any, any>;

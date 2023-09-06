@@ -120,7 +120,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                       {header.column.getCanFilter() &&
-                      header.id.includes('date') ? (
+                      header.id === 'record_date' ? (
                         <div className={columnMinWidth}>
                           <DateRangeFilter column={header.column} />
                         </div>
