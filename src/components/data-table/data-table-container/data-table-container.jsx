@@ -1,4 +1,4 @@
-import { DataTable } from './data-table';
+import { DataTable } from '../data-table';
 import React, { useEffect, useState } from 'react';
 import {
   getCoreRowModel,
@@ -7,9 +7,16 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import * as styles from '../dtg-table/dtg-table.module.scss';
-import DataTableColumnSelector from './column-select/data-table-column-selector';
-import DataTableFooter from './data-table-footer/data-table-footer';
+// import * as styles from '../../dtg-table/dtg-table.module.scss';
+import DataTableColumnSelector from '../column-select/data-table-column-selector';
+import DataTableFooter from '../data-table-footer/data-table-footer';
+
+import {
+  overlayContainerNoFooter,
+  selectColumnPanelActive,
+  selectColumnPanelInactive,
+  selectColumnsWrapper,
+} from './data-table-container.module.scss';
 
 const DataTableContainer = ({
   rawData,
@@ -75,11 +82,8 @@ const DataTableContainer = ({
 
   return (
     <>
-      <div
-        data-test-id="table-content"
-        className={styles.overlayContainerNoFooter}
-      >
-        <div className={styles.selectColumnsWrapper}>
+      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+        <div className={selectColumnsWrapper}>
           <DataTable
             rawData={rawData}
             defaultSelectedColumns={defaultSelectedColumns}
@@ -100,36 +104,23 @@ const DataTableContainer = ({
             data-testid="selectColumnsMainContainer"
             className={
               selectColumnPanel
-                ? styles.selectColumnPanelActive
-                : styles.selectColumnPanel
+                ? selectColumnPanelActive
+                : selectColumnPanelInactive
             }
             style={{ height: `521px` }}
           >
             {selectColumns && (
               <DataTableColumnSelector
+                fields={allColumns}
+                resetToDefault={() =>
+                  setColumnVisibility(defaultInvisibleColumns)
+                }
                 setSelectColumnPanel={setSelectColumnPanel}
                 defaultSelectedColumns={defaultSelectedColumns}
                 defaultInvisibleColumns={defaultInvisibleColumns}
                 table={table}
-                setColumnVisibility={setColumnVisibility}
-                allColumns={allColumns}
-                isVisible={true}
-                fields={allColumns}
-                changeHandler={table.getToggleAllColumnsVisibilityHandler}
-                resetToDefault={() => table.resetColumnFilters()}
-                // resetToDefault={() =>
-                //   setColumnVisibility(defaultInvisibleColumns)
-                // }
-                // isReset={isReset}
               />
-            )
-            // <ColumnSelect defaultSelectedColumns={defaultSelectedColumns}
-            //             defaultInvisibleColumns={defaultInvisibleColumns}
-            //             table={table}
-            //             setColumnVisibility={setColumnVisibility}
-            //             allColumns={allColumns}
-            // />
-            }
+            )}
           </div>
         </div>
       </div>

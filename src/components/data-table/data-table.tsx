@@ -49,11 +49,6 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     allColumns[0].cell = ({ getValue }) => {
-      console.log(
-        publishedReports.find(report => {
-          return report.report_date.toISOString().split('T')[0] === getValue();
-        })
-      );
       if (
         publishedReports.find(report => {
           return report.report_date.toISOString().split('T')[0] === getValue();
@@ -91,6 +86,7 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     getSortedColumnsData(table);
   }, [sorting, columnVisibility, table?.getFilteredRowModel()]);
+  console.log(table.getFilteredRowModel());
 
   return (
     // apply the table props
@@ -103,7 +99,10 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
               dataTypes={dataTypes}
               resetFilters={resetFilters}
             />
-            <DataTableBody table={table} dataTypes={dataTypes} />
+            <DataTableBody
+              rowModel={table.getFilteredRowModel()}
+              dataTypes={dataTypes}
+            />
           </table>
         </StickyTable>
       </div>

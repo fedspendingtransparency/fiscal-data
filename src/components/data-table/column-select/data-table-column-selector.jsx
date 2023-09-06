@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import {
-  buttonContainer,
-  closeButton,
-  closeIcon,
-  resetIcon,
-  selectAllColumns,
   selectAllContainer,
-  selectedValues,
   reset,
+  selectAllColumns,
+  resetIcon,
+  closeIcon,
+  closeButton,
   columnSelectContainer,
+  selectedValues,
   heading,
   headingWrapper,
   title,
-} from '../../dtg-table/dtg-table-column-selector.module.scss';
+  buttonContainer,
+  toggleButton,
+  checkmarkText,
+} from './data-table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faUndo, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faXmark,
+  faUndo,
+  faCheck,
+  faMinus,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   additionalSection,
   checkbox_label,
@@ -26,28 +33,27 @@ import {
   sectionHeading,
 } from '../../checkbox/checkbox.module.scss';
 import classnames from 'classnames';
+import * as styles from '../../select-all/select-all.module.scss';
+import SelectAll from '../../select-all/selectAll';
+import DataTableSelectAll from './select-all/data-table-select-all';
 
 const desktop = 1015;
 
 const DataTableColumnSelector = ({
   fields,
-  isVisible,
-  changeHandler,
   resetToDefault,
   setSelectColumnPanel,
-  isReset,
   defaultSelectedColumns,
   defaultInvisibleColumns,
   table,
-  setColumnVisibility,
-  allColumns,
 }) => {
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
+  const [indeterminate, setIndeterminate] = useState(false);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
-    for (const column of allColumns) {
+    for (const column of fields) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (!defaultSelectedColumns.includes(column.accessorKey)) {
@@ -123,29 +129,10 @@ const DataTableColumnSelector = ({
           </button>
         </div>
         <div className={selectedValues}>
-          {fields?.filter(field => field.active === true).length} selected of{' '}
-          {fields?.length}
+          {table.getVisibleFlatColumns().length} selected of {fields?.length}
         </div>
       </div>
-      <div className={selectAllContainer}>
-        <label>
-          <input
-            type="checkbox"
-            checked={table.getIsAllColumnsVisible()}
-            onChange={table.getToggleAllColumnsVisibilityHandler()}
-            className={selectAllColumns}
-          />{' '}
-          Select All
-        </label>
-        <button
-          className={reset}
-          onClick={resetToDefault}
-          onKeyDown={resetToDefault}
-        >
-          <FontAwesomeIcon className={resetIcon} icon={faUndo} />
-          Reset
-        </button>
-      </div>
+      <DataTableSelectAll table={table} resetToDefault={resetToDefault} />
       <div className={buttonContainer}>
         {defaultSelectedColumns ? (
           <div>
@@ -167,11 +154,9 @@ const DataTableColumnSelector = ({
                 <div key={column.id} className="px-1">
                   <label>
                     <input
-                      {...{
-                        type: 'checkbox',
-                        checked: column.getIsVisible(),
-                        onChange: column.getToggleVisibilityHandler(),
-                      }}
+                      type="checkbox"
+                      checked={column.getIsVisible()}
+                      onChange={column.getToggleVisibilityHandler()}
                     />{' '}
                     {column.columnDef.header}
                   </label>

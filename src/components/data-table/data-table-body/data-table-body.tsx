@@ -10,22 +10,19 @@ import {
 import classNames from 'classnames';
 
 interface IDataTableBody {
-  table: Table<any>;
+  rowModel: any;
   dataTypes: { [key: string]: string };
 }
 
 const DataTableBody: FunctionComponent<IDataTableBody> = ({
-  table,
+  rowModel,
   dataTypes,
 }) => {
   let fillCell = false;
 
-  // console.log(table.getRowModel().rows[0].getVisibleCells());
-  console.log(table);
-
   return (
     <tbody>
-      {table.getRowModel().rows.map(row => {
+      {rowModel.flatRows.map(row => {
         fillCell = !fillCell;
         return (
           <tr

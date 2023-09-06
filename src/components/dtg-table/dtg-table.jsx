@@ -20,7 +20,7 @@ import * as styles from './dtg-table.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 import Experimental from '../experimental/experimental';
 import DtgTableColumnSelector from './dtg-table-column-selector';
-import DataTableContainer from '../data-table/data-table-container';
+import DataTableContainer from '../data-table/data-table-container/data-table-container';
 
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
