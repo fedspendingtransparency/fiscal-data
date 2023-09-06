@@ -57,26 +57,24 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
             {headerGroup.headers.map(header => {
               return (
                 <th
-                  {...{
-                    key: header.id,
-                    colSpan: header.colSpan,
-                    style: {
-                      minWidth: header.getSize(),
-                    },
+                  key={header.id}
+                  colSpan={header.colSpan}
+                  style={{
+                    minWidth: header.getSize(),
                   }}
                 >
                   {header.isPlaceholder ? null : (
                     <>
                       <div
-                        {...{
-                          className: header.column.getCanSort()
+                        className={
+                          header.column.getCanSort()
                             ? `${colHeader} ${
                                 rightAlign(dataTypes[header.id])
                                   ? rightAlignText
                                   : null
                               }`
-                            : '',
-                        }}
+                            : ''
+                        }
                         data-testid={`header-sorter-${header.id}`}
                       >
                         <LightTooltip
@@ -132,14 +130,13 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                       ) : null}
                     </>
                   )}
+                  {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
                   <div
-                    {...{
-                      onMouseDown: header.getResizeHandler(),
-                      onTouchStart: header.getResizeHandler(),
-                      className: `${resizer} ${
-                        header.column.getIsResizing() ? isResizing : ''
-                      }`,
-                    }}
+                    onMouseDown={header.getResizeHandler()}
+                    onTouchStart={header.getResizeHandler()}
+                    className={`${resizer} ${
+                      header.column.getIsResizing() ? isResizing : ''
+                    }`}
                   />
                 </th>
               );

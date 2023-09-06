@@ -494,15 +494,14 @@ export default function DtgTable({
         {reactTableData && (
           <DataTableContainer
             rawData={reactTableData}
-            pageSize={10}
             defaultSelectedColumns={selectColumns}
             setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={hasPublishedReports}
-            publishedReports={publishedReports}
             hideCellLinks={true}
             shouldPage={shouldPage}
             pagingProps={pagingProps}
             showPaginationControls={showPaginationControls}
+            hasPublishedReports={hasPublishedReports}
+            publishedReports={publishedReports}
             columnVisibility={columnVisibility}
             setColumnVisibility={setColumnVisibility}
             defaultInvisibleColumns={defaultInvisibleColumns}

@@ -14,21 +14,9 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import {
-  apiPrefix,
-  basicFetch,
-  buildSortParams,
-  formatDateForApi,
-  MAX_PAGE_SIZE,
-} from '../../../utils/api-utils';
+import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import ResetTableSection from '../../data-table/column-select/reset-table-section/reset-table-section';
-import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 
 const TableSectionContainer = ({
   config,
@@ -56,18 +44,13 @@ const TableSectionContainer = ({
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
-  const [legend, setLegend] = useState(
-    window.innerWidth > GLOBALS.breakpoints.large
-  );
+  const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
-  const [
-    userFilterUnmatchedForDateRange,
-    setUserFilterUnmatchedForDateRange,
-  ] = useState(false);
+  const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
   // Investigate why this is being called twice?
@@ -91,33 +74,21 @@ const TableSectionContainer = ({
   const refreshTable = async () => {
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
-    const { columnConfig, width } = setTableConfig(
-      config,
-      selectedTable,
-      selectedPivot,
-      apiData
-    );
+    const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
 
     let displayData = apiData ? apiData.data : null;
     if (userFilterSelection?.value && apiData?.data) {
-      displayData = apiData.data.filter(
-        rr => rr[selectedTable.userFilter.field] === userFilterSelection.value
-      );
+      displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
     } else {
       setUserFilteredData(null);
     }
 
     setTableProps({
-      dePaginated:
-        selectedTable.isLargeDataset === true
-          ? await getDepaginatedData()
-          : null,
+      dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
       hasPublishedReports,
       publishedReports,
-      rawData: { ...apiData, data: displayData }.data
-        ? { ...apiData, data: displayData }
-        : apiData,
+      rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
       data: displayData, //null for server-side pagination
       columnConfig,
       width,
@@ -135,10 +106,9 @@ const TableSectionContainer = ({
     });
   };
 
-  const [defaultInvisibleColumns] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState(
-    config.selectColumns ? defaultInvisibleColumns : {}
-  );
+  const defaultInvisibleColumns = config.selectColumns;
+  console.log(config.selectColumns);
+  const [columnVisibility, setColumnVisibility] = useState(config.selectColumns ? defaultInvisibleColumns : {});
 
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
@@ -164,8 +134,7 @@ const TableSectionContainer = ({
   }, [dateRange]);
 
   useEffect(() => {
-    const hasPivotOptions =
-      selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
+    const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
   }, [selectedTable]);
 
@@ -183,12 +152,7 @@ const TableSectionContainer = ({
   };
 
   const getDateFieldForChart = () => {
-    if (
-      selectedPivot &&
-      selectedPivot.pivotView &&
-      selectedPivot.pivotView.aggregateOn &&
-      selectedPivot.pivotView.aggregateOn.length
-    ) {
+    if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
       return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
     } else {
       return selectedTable.dateField;
@@ -198,31 +162,11 @@ const TableSectionContainer = ({
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
-    const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(
-      selectedTable,
-      userFilterSelection,
-      userFilteredData
-    );
+    const userFilterUnmatched = determineUserFilterUnmatchedForDateRange(selectedTable, userFilterSelection, userFilteredData);
     setUserFilterUnmatchedForDateRange(userFilterUnmatched);
 
-    setNoChartMessage(
-      SetNoChartMessage(
-        selectedTable,
-        selectedPivot,
-        dateRange,
-        allTablesSelected,
-        userFilterSelection,
-        userFilterUnmatched
-      )
-    );
-  }, [
-    selectedTable,
-    selectedPivot,
-    dateRange,
-    allTablesSelected,
-    userFilterSelection,
-    userFilteredData,
-  ]);
+    setNoChartMessage(SetNoChartMessage(selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilterUnmatched));
+  }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData]);
 
   const [resetFilters, setResetFilters] = useState(false);
 
@@ -231,16 +175,10 @@ const TableSectionContainer = ({
       <div className={styles.titleContainer}>
         <div className={styles.headerWrapper}>
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
-          <h3
-            className={styles.header}
-            data-testid="tableName"
-            id="main-data-table-title"
-          >
+          <h3 className={styles.header} data-testid="tableName" id="main-data-table-title">
             {tableName}
           </h3>
-          {!!hasPivotOptions && (
-            <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />
-          )}
+          {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
           {/*<Experimental featureId="chartingConfigurationTool">*/}
           {/*  <DynamicConfig*/}
           {/*    selectedTable={selectedTable}*/}
@@ -256,18 +194,8 @@ const TableSectionContainer = ({
           </div>
         )}
         <div className={styles.barContainer}>
-          <div
-            className={`${styles.barExpander} ${
-              showPivotBar ? styles.active : ''
-            }`}
-            data-testid="pivotOptionsDrawer"
-          >
-            <PivotOptions
-              table={selectedTable}
-              pivotSelection={selectedPivot}
-              setSelectedPivot={setSelectedPivot}
-              pivotsUpdated={pivotsUpdated}
-            />
+          <div className={`${styles.barExpander} ${showPivotBar ? styles.active : ''}`} data-testid="pivotOptionsDrawer">
+            <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
           </div>
         </div>
       </div>
@@ -276,13 +204,7 @@ const TableSectionContainer = ({
           <div data-testid="loadingSection">
             <div className={styles.loadingSection} />
             <div className={styles.loadingIcon}>
-              <FontAwesomeIcon
-                data-testid="loadingIcon"
-                icon={faSpinner}
-                spin
-                pulse
-              />{' '}
-              Loading...
+              <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
             </div>
           </div>
         )}
@@ -294,12 +216,7 @@ const TableSectionContainer = ({
             showToggleTable={config.selectColumns}
             userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
             onToggleLegend={legendToggler}
-            emptyData={
-              !isLoading &&
-              !serverSidePagination &&
-              (!apiData || !apiData.data || !apiData.data.length) &&
-              !apiError
-            }
+            emptyData={!isLoading && !serverSidePagination && (!apiData || !apiData.data || !apiData.data.length) && !apiError}
             unchartable={noChartMessage !== undefined}
             currentTab={selectedTab}
             onTabChange={tabChangeHandler}

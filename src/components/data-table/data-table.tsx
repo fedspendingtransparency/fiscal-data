@@ -1,38 +1,25 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import {
-  ColumnDef,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  getFilteredRowModel,
-  SortingState,
-} from '@tanstack/react-table';
+import React, { FunctionComponent, useEffect } from 'react';
 import StickyTable from 'react-sticky-table-thead';
 import { tableContainer, tableStyle } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
-import DataTableFooter from './data-table-footer/data-table-footer';
 import DataTableBody from './data-table-body/data-table-body';
-import ColumnSelect from './column-select/column-select';
+import { Table } from '@tanstack/react-table';
 
 type DataTableProps = {
-  rawData: any;
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   setTableColumnSortData: any;
   hasPublishedReports: boolean;
   publishedReports: any[];
   hideCellLinks: boolean;
-  shouldPage: boolean;
-  showPaginationControls: boolean;
-  columnVisibility: any;
+  columnVisibility: string[];
   allColumns: any;
-  table: any;
+  table: Table<any>;
   sorting: any;
   resetFilters: boolean;
+  dataTypes: { [key: string]: string };
 };
 
 export const DataTable: FunctionComponent<DataTableProps> = ({
-  rawData,
   setTableColumnSortData,
   publishedReports,
   hasPublishedReports,
@@ -42,6 +29,7 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
   table,
   sorting,
   resetFilters,
+  dataTypes,
 }) => {
   // POC code to include links in cells and match links to the correct cells based on record date
   if (hasPublishedReports && !hideCellLinks) {
@@ -63,21 +51,14 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
       }
     };
   }
-  // const [columns] = useState(() => [
-  //   ...allColumns,
-  // ])
-
-  const dataTypes = rawData.meta.dataTypes;
 
   const getSortedColumnsData = table => {
-    const columns = table?.getVisibleFlatColumns();
+    const columns = table.getVisibleFlatColumns();
     const mapped = columns.map(column => ({
       id: column.id,
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
-      rowValues: table
-        ?.getFilteredRowModel()
-        .flatRows.map(row => row.original[column.id]),
+      rowValues: table?.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
       allColumnsSelected: table?.getIsAllColumnsVisible(),
     }));
     setTableColumnSortData(mapped);
@@ -85,24 +66,15 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     getSortedColumnsData(table);
-  }, [sorting, columnVisibility, table?.getFilteredRowModel()]);
-  console.log(table.getFilteredRowModel());
+  }, [sorting, columnVisibility, table.getFilteredRowModel()]);
 
   return (
-    // apply the table props
     <div className={tableStyle}>
       <div data-test-id="table-content" className={tableContainer}>
         <StickyTable height={521}>
           <table>
-            <DataTableHeader
-              table={table}
-              dataTypes={dataTypes}
-              resetFilters={resetFilters}
-            />
-            <DataTableBody
-              rowModel={table.getFilteredRowModel()}
-              dataTypes={dataTypes}
-            />
+            <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} />
+            <DataTableBody table={table} dataTypes={dataTypes} />
           </table>
         </StickyTable>
       </div>

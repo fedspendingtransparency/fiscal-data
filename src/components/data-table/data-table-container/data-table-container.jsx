@@ -1,13 +1,6 @@
 import { DataTable } from '../data-table';
 import React, { useEffect, useState } from 'react';
-import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-// import * as styles from '../../dtg-table/dtg-table.module.scss';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import DataTableColumnSelector from '../column-select/data-table-column-selector';
 import DataTableFooter from '../data-table-footer/data-table-footer';
 
@@ -23,13 +16,13 @@ const DataTableContainer = ({
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
+  pagingProps,
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
   columnVisibility,
   setColumnVisibility,
   defaultInvisibleColumns,
-  pagingProps,
   selectColumns,
   setSelectColumnPanel,
   selectColumnPanel,
@@ -85,36 +78,22 @@ const DataTableContainer = ({
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
           <DataTable
-            rawData={rawData}
-            defaultSelectedColumns={defaultSelectedColumns}
             setTableColumnSortData={setTableColumnSortData}
             hasPublishedReports={hasPublishedReports}
             publishedReports={publishedReports}
             hideCellLinks={true}
-            pagingProps={pagingProps}
             columnVisibility={columnVisibility}
-            setColumnVisibility={setColumnVisibility}
-            defaultInvisibleColumns={defaultInvisibleColumns}
             allColumns={allColumns}
             table={table}
             sorting={sorting}
             resetFilters={resetFilters}
+            dataTypes={rawData.meta.dataTypes}
           />
-          <div
-            data-testid="selectColumnsMainContainer"
-            className={
-              selectColumnPanel
-                ? selectColumnPanelActive
-                : selectColumnPanelInactive
-            }
-            style={{ height: `521px` }}
-          >
+          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
             {selectColumns && (
               <DataTableColumnSelector
                 fields={allColumns}
-                resetToDefault={() =>
-                  setColumnVisibility(defaultInvisibleColumns)
-                }
+                resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
                 setSelectColumnPanel={setSelectColumnPanel}
                 defaultSelectedColumns={defaultSelectedColumns}
                 defaultInvisibleColumns={defaultInvisibleColumns}
@@ -124,12 +103,7 @@ const DataTableContainer = ({
           </div>
         </div>
       </div>
-      {shouldPage && (
-        <DataTableFooter
-          table={table}
-          showPaginationControls={showPaginationControls}
-        />
-      )}
+      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} />}
     </>
   );
 };
