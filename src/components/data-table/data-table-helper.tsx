@@ -1,7 +1,7 @@
 import { Column } from '@tanstack/react-table';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import SearchBar from '../search-bar/search-bar';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import moment from 'moment';
@@ -68,7 +68,7 @@ export const DateRangeFilter: FunctionComponent<any> = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
+      <DesktopDatePicker
         sx={{
           paddingRight: '6rem',
           maxWidth: 176,
