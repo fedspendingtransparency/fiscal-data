@@ -74,7 +74,7 @@ const DataTableColumnSelector = ({
           {table.getVisibleFlatColumns().length} selected of {fields?.length}
         </div>
       </div>
-      <DataTableSelectAll table={table} resetToDefault={resetToDefault} />
+      <DataTableSelectAll table={table} resetToDefault={resetToDefault} defaultColumns={defaultSelectedColumns} />
       <div className={buttonContainer}>
         {defaultSelectedColumns ? (
           <div>

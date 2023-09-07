@@ -4,13 +4,20 @@ import { faCheck, faMinus, faUndo } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { resetIcon, reset, selectAllContainer } from '../data-table-column-selector.module.scss';
 
-const SelectAll = ({ table, resetToDefault }) => {
-  // Un checked in default state
-  // Checked when all are selected, or some are selected and it does not equal the default
-
-  const checked = () => {
-    return table.getIsAllColumnsVisible() || table.getIsSomeColumnsVisible();
+const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
+  const defaultState = () => {
+    const selectedColumns = table.getVisibleFlatColumns();
+    if (table.getIsSomeColumnsVisible() && selectedColumns.length === defaultColumns.length) {
+      for (const column of selectedColumns) {
+        if (!defaultColumns.includes(column.id)) {
+          return false;
+        }
+      }
+      return true;
+    }
   };
+
+  const checked = () => table.getIsAllColumnsVisible() || (!defaultState() && table.getIsSomeColumnsVisible());
 
   const onButtonClick = () => {
     if (table.getIsAllColumnsVisible() || !table.getIsSomeColumnsVisible()) {
@@ -35,7 +42,10 @@ const SelectAll = ({ table, resetToDefault }) => {
               />
               <span className={styles.labelCheckmarkContainer}>
                 <span className={styles.checkmarkText}>
-                  <FontAwesomeIcon icon={!table.getIsAllColumnsVisible() && table.getIsSomeColumnsVisible() ? faMinus : faCheck} size="sm" />
+                  <FontAwesomeIcon
+                    icon={!table.getIsAllColumnsVisible() && table.getIsSomeColumnsVisible() && !defaultState() ? faMinus : faCheck}
+                    size="sm"
+                  />
                 </span>
               </span>
               Select All
