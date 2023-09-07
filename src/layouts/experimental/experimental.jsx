@@ -13,6 +13,7 @@ import InsightsDownload from '../../components/insights-download/insights-downlo
 import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from 'react-error-boundary';
 import {
+  Legend,
   BarChart,
   Bar,
   XAxis,
@@ -21,7 +22,6 @@ import {
   Label,
   Customized,
 } from 'recharts';
-import { Legend, Tooltip } from 'chart.js';
 
 const fallbackComponent = () => {
   return (
@@ -216,7 +216,7 @@ const ExperimentalPage = () => {
             data={data}
             layout="vertical"
             barGap={10}
-            barSize={50}
+            barSize={40}
           >
             <CartesianGrid strokeDasharray="3 3" horizontal={false} />
             <XAxis
@@ -226,7 +226,7 @@ const ExperimentalPage = () => {
               tickFormatter={v => `$${v}`}
             />
             <YAxis type="category" dataKey="year" reversed="true" />
-            <Legend />
+            <Legend align="left" verticalAlign="top" />
             <Bar
               name="Debt"
               dataKey="debt"
@@ -243,6 +243,7 @@ const ExperimentalPage = () => {
               layout={'horizontal'}
               legendType="circle"
             />
+            <Bar name="$1T" stackId="a" legendType="square" fill="#635F66" />
           </BarChart>
         }
       </SiteLayout>
