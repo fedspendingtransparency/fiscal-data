@@ -125,7 +125,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           <DateRangeFilter column={header.column} />
                         </div>
                       ) : (
-                        <Filter column={header.column} table={table} />
+                        <div className={columnMinWidth}>
+                          <Filter column={header.column} table={table} />
+                        </div>
                       )}
                     </>
                   )}
