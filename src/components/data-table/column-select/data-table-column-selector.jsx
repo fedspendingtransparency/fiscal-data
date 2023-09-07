@@ -37,6 +37,8 @@ const DataTableColumnSelector = ({ fields, resetToDefault, setSelectColumnPanel,
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const [indeterminate, setIndeterminate] = useState(false);
 
+  console.log(defaultSelectedColumns);
+  console.log(defaultInvisibleColumns);
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
     for (const column of fields) {

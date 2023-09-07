@@ -1,37 +1,103 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import StickyTable from 'react-sticky-table-thead';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import {
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  Table,
+  useReactTable,
+} from '@tanstack/react-table';
+import DataTableColumnSelector from './column-select/data-table-column-selector';
+import DataTableFooter from './data-table-footer/data-table-footer';
+
+import {
+  overlayContainerNoFooter,
+  selectColumnPanelActive,
+  selectColumnPanelInactive,
+  selectColumnsWrapper,
+} from './data-table-container/data-table-container.module.scss';
 import { tableContainer, tableStyle } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableBody from './data-table-body/data-table-body';
-import { Table } from '@tanstack/react-table';
+import StickyTable from 'react-sticky-table-thead';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
-  setTableColumnSortData: any;
+  rawData;
+  defaultSelectedColumns: string[];
+  setTableColumnSortData;
   hasPublishedReports: boolean;
   publishedReports: any[];
   hideCellLinks: boolean;
   columnVisibility: string[];
-  allColumns: any;
-  table: Table<any>;
-  sorting: any;
+  allColumns;
+  sorting;
   resetFilters: boolean;
   dataTypes: { [key: string]: string };
+  setColumnVisibility;
+  defaultInvisibleColumns;
+  shouldPage: boolean;
+  showPaginationControls: boolean;
+  setSelectColumnPanel;
+  selectColumnPanel;
+  setResetFilters;
 };
 
-export const DataTable: FunctionComponent<DataTableProps> = ({
+const DataTable: FunctionComponent<DataTableProps> = ({
+  rawData,
+  defaultSelectedColumns,
   setTableColumnSortData,
+  shouldPage,
+  showPaginationControls,
   publishedReports,
   hasPublishedReports,
-  hideCellLinks,
   columnVisibility,
-  allColumns,
-  table,
-  sorting,
+  setColumnVisibility,
+  defaultInvisibleColumns,
+  setSelectColumnPanel,
+  selectColumnPanel,
   resetFilters,
-  dataTypes,
+  setResetFilters,
+  hideCellLinks,
 }) => {
-  // POC code to include links in cells and match links to the correct cells based on record date
+  // React table
+  const [sorting, setSorting] = useState<SortingState>([]);
+
+  const pageSize = 10;
+
+  const allColumns = rawData?.meta
+    ? Object.entries(rawData.meta.labels).map(([field, label]) => ({
+        accessorKey: field,
+        header: label,
+      }))
+    : [];
+  const data = rawData.data;
+
+  const [columns] = useState(() => [...allColumns]);
+
+  const table = useReactTable({
+    columns,
+    data,
+    columnResizeMode: 'onChange',
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: pageSize,
+      },
+    },
+    state: {
+      columnVisibility,
+      sorting,
+    },
+    onSortingChange: setSorting,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
+
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -54,12 +120,13 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
 
   const getSortedColumnsData = table => {
     const columns = table.getVisibleFlatColumns();
+    console.log(columns);
     const mapped = columns.map(column => ({
       id: column.id,
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
-      rowValues: table?.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-      allColumnsSelected: table?.getIsAllColumnsVisible(),
+      rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
+      allColumnsSelected: table.getIsAllColumnsVisible(),
     }));
     setTableColumnSortData(mapped);
   };
@@ -68,16 +135,45 @@ export const DataTable: FunctionComponent<DataTableProps> = ({
     getSortedColumnsData(table);
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
 
+  useEffect(() => {
+    if (resetFilters) {
+      table.resetColumnFilters();
+      table.resetSorting();
+      setResetFilters(false);
+    }
+  }, [resetFilters]);
+
   return (
-    <div className={tableStyle}>
-      <div data-test-id="table-content" className={tableContainer}>
-        <StickyTable height={521}>
-          <table>
-            <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} />
-            <DataTableBody table={table} dataTypes={dataTypes} />
-          </table>
-        </StickyTable>
+    <>
+      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+        <div className={selectColumnsWrapper}>
+          <div className={tableStyle}>
+            <div data-test-id="table-content" className={tableContainer}>
+              <StickyTable height={521}>
+                <table>
+                  <DataTableHeader table={table} dataTypes={rawData.meta.dataTypes} resetFilters={resetFilters} />
+                  <DataTableBody table={table} dataTypes={rawData.meta.dataTypes} />
+                </table>
+              </StickyTable>
+            </div>
+          </div>
+          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+            {defaultSelectedColumns && (
+              <DataTableColumnSelector
+                fields={allColumns}
+                resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
+                setSelectColumnPanel={setSelectColumnPanel}
+                defaultSelectedColumns={defaultSelectedColumns}
+                defaultInvisibleColumns={defaultInvisibleColumns}
+                table={table}
+              />
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} />}
+    </>
   );
 };
+
+export default DataTable;

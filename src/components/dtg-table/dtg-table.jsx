@@ -5,14 +5,8 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
-import {
-  loadingTimeout,
-  netLoadingDelay,
-  setColumns,
-} from './dtg-table-helper';
-import PaginationControls, {
-  defaultPerPageOptions,
-} from '../pagination/pagination-controls';
+import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
+import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { pagedDatatableRequest, formatDateForApi } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
@@ -21,6 +15,7 @@ import CustomLink from '../links/custom-link/custom-link';
 import Experimental from '../experimental/experimental';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTableContainer from '../data-table/data-table-container/data-table-container';
+import DataTable from '../data-table/data-table';
 
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
@@ -76,19 +71,10 @@ export default function DtgTable({
     }
   }, [tableProps]);
 
-  const data =
-    tableProps.data !== undefined && tableProps.data !== null
-      ? tableProps.data
-      : [];
+  const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
-    perPage
-      ? perPage
-      : selectColumns
-      ? selectColumnRowsPerPage
-      : !shouldPage && data.length > defaultRowsPerPage
-      ? data.length
-      : defaultRowsPerPage
+    perPage ? perPage : selectColumns ? selectColumnRowsPerPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
@@ -102,9 +88,7 @@ export default function DtgTable({
   const [columnSelectValues, setColumnSelectValues] = useState([]);
   const [activeColumns, setActiveColumns] = useState([]);
   const [isReset, setIsReset] = useState(false);
-  const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(
-    width ? (isNaN(width) ? width : `${width}px`) : 'auto'
-  );
+  const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
 
   let loadCanceled = false;
 
@@ -124,9 +108,7 @@ export default function DtgTable({
     if (selectColumns) {
       const colCount = col ? col.length : 0;
       const curWidth = colCount > 5 ? colCount * 200 : '100%';
-      setSelectColumnsTableWidth(
-        curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto'
-      );
+      setSelectColumnsTableWidth(curWidth ? (isNaN(curWidth) ? curWidth : `${curWidth}px`) : 'auto');
       setActiveColumns(col);
     }
   };
@@ -157,23 +139,13 @@ export default function DtgTable({
 
   const makePagedRequest = async resetPage => {
     if (selectedTable && selectedTable.endpoint && !loadCanceled) {
-      loadTimer = setTimeout(
-        () => loadingTimeout(loadCanceled, setIsLoading),
-        netLoadingDelay
-      );
+      loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
       const from = formatDateForApi(dateRange.from);
       const to = formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
 
-      pagedDatatableRequest(
-        selectedTable,
-        from,
-        to,
-        selectedPivot,
-        startPage,
-        itemsPerPage
-      )
+      pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage)
         .then(res => {
           if (!loadCanceled) {
             setEmptyDataMessage(null);
@@ -243,16 +215,12 @@ export default function DtgTable({
   const populateRows = currentColumns => {
     const tableRows = [];
     tableData.forEach((row, index) => {
-      tableRows.push(
-        <DtgTableRow columns={currentColumns} data={row} key={index} />
-      );
+      tableRows.push(<DtgTableRow columns={currentColumns} data={row} key={index} />);
     });
     setRows(tableRows);
   };
 
-  const isPaginationControlNeeded = () =>
-    currentPage > 1 ||
-    (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
+  const isPaginationControlNeeded = () => currentPage > 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
 
   const updateSmallFractionDataType = () => {
     //Overwrite type for special case number format handling
@@ -268,15 +236,8 @@ export default function DtgTable({
     setIsReset(true);
 
     columns.forEach(col => {
-      const colDefault = selectColumns
-        ? selectColumns.includes(col.property)
-        : false;
-      const selectCol = Object.assign(
-        { label: col.name },
-        { field: col.property },
-        { active: colDefault },
-        { default: colDefault }
-      );
+      const colDefault = selectColumns ? selectColumns.includes(col.property) : false;
+      const selectCol = Object.assign({ label: col.name }, { field: col.property }, { active: colDefault }, { default: colDefault });
       if (colDefault === true) {
         activeColArray.push(col);
       }
@@ -298,9 +259,7 @@ export default function DtgTable({
     columnSelectValues.forEach(col => {
       const currentCol = col;
       if (update.find(updatedCol => updatedCol.field === col.field)) {
-        activeColArray.push(
-          columns.find(column => column.property === col.field)
-        );
+        activeColArray.push(columns.find(column => column.property === col.field));
         currentCol.active = true;
       } else {
         currentCol.active = false;
@@ -333,12 +292,7 @@ export default function DtgTable({
     return () => {
       loadCanceled = true;
     };
-  }, [
-    tableProps.data,
-    tableProps.serverSidePagination,
-    itemsPerPage,
-    currentPage,
-  ]);
+  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
     if (selectColumns && activeColumns) {
@@ -386,21 +340,12 @@ export default function DtgTable({
         <>
           <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
-            <FontAwesomeIcon
-              data-test-id="loading-icon"
-              icon={faSpinner}
-              spin
-              pulse
-            />{' '}
-            Loading...
+            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
           </div>
         </>
       )}
       <Experimental featureId="react-table-poc">
-        <div
-          data-test-id="table-content"
-          className={styles.overlayContainerNoFooter}
-        >
+        <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
             <>
@@ -410,12 +355,8 @@ export default function DtgTable({
                   <strong>Table failed to load.</strong>
                 </p>
                 <p>
-                  There was an error with our API and we are unable to load this
-                  table. Please try your request again or{' '}
-                  <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
-                    contact us
-                  </CustomLink>{' '}
-                  for assistance.
+                  There was an error with our API and we are unable to load this table. Please try your request again or{' '}
+                  <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
                 </p>
               </div>
             </>
@@ -423,33 +364,20 @@ export default function DtgTable({
 
           <div className={styles.selectColumnsWrapper}>
             {/* Table Wrapper */}
-            <div
-              className={
-                noBorder
-                  ? [styles.wrapper, styles.noBorder].join(' ')
-                  : styles.wrapper
-              }
-            >
+            <div className={noBorder ? [styles.wrapper, styles.noBorder].join(' ') : styles.wrapper}>
               {/* Empty Data Message */}
               {emptyDataMessage && emptyDataMessage}
 
               {/* Table */}
               {!emptyDataMessage && !selectColumns ? (
                 <table {...tableProps.aria} style={{ width: tableWidth }}>
-                  {caption !== undefined && (
-                    <caption className="sr-only">{caption}</caption>
-                  )}
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                   <DtgTableHeading columns={columns} />
                   <tbody>{rows}</tbody>
                 </table>
               ) : (
-                <table
-                  {...tableProps.aria}
-                  style={{ width: selectColumnsTableWidth }}
-                >
-                  {caption !== undefined && (
-                    <caption className="sr-only">{caption}</caption>
-                  )}
+                <table {...tableProps.aria} style={{ width: selectColumnsTableWidth }}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
                   <DtgTableHeading columns={activeColumns} />
                   <tbody>{rows}</tbody>
                 </table>
@@ -458,11 +386,7 @@ export default function DtgTable({
 
             <div
               data-testid="selectColumnsMainContainer"
-              className={
-                selectColumnPanel
-                  ? styles.selectColumnPanelActive
-                  : styles.selectColumnPanel
-              }
+              className={selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}
               style={{ height: `${itemsPerPage * 41 + 48.4}px` }}
             >
               {selectColumns && (
@@ -484,15 +408,13 @@ export default function DtgTable({
             <div data-test-id="rows-showing" className={styles.rowsShowing}>
               {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
             </div>
-            {showPaginationControls && (
-              <PaginationControls pagingProps={pagingProps} />
-            )}
+            {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
           </div>
         )}
       </Experimental>
       <Experimental exclude featureId="react-table-poc">
         {reactTableData && (
-          <DataTableContainer
+          <DataTable
             rawData={reactTableData}
             defaultSelectedColumns={selectColumns}
             setTableColumnSortData={setTableColumnSortData}
@@ -505,7 +427,6 @@ export default function DtgTable({
             columnVisibility={columnVisibility}
             setColumnVisibility={setColumnVisibility}
             defaultInvisibleColumns={defaultInvisibleColumns}
-            selectColumns={selectColumns}
             setSelectColumnPanel={setSelectColumnPanel}
             selectColumnPanel={selectColumnPanel}
             resetFilters={resetFilters}
