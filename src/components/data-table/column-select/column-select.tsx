@@ -1,17 +1,8 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
-
-const ColumnSelect = (
-  {
-    defaultSelectedColumns,
-    defaultInvisibleColumns,
-    table,
-    setColumnVisibility,
-    allColumns
-  }): ReactElement => {
+const ColumnSelect = ({ defaultSelectedColumns, defaultInvisibleColumns, table, setColumnVisibility, allColumns }): ReactElement => {
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
-
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
@@ -32,17 +23,16 @@ const ColumnSelect = (
     for (const column of table.getAllLeafColumns()) {
       if (defaultSelectedColumns.includes(column.id)) {
         constructedDefaultColumns.push(column);
-      }
-      else if (!defaultSelectedColumns.includes(column.id)) {
+      } else if (!defaultSelectedColumns.includes(column.id)) {
         constructedAdditionalColumns.push(column);
       }
     }
     constructedAdditionalColumns.sort((a, b) => {
       return a.id.localeCompare(b.id);
-    })
+    });
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
-  }
+  };
 
   useEffect(() => {
     if (defaultSelectedColumns) {
@@ -64,7 +54,7 @@ const ColumnSelect = (
           Select All
         </label>
       </div>
-      { defaultSelectedColumns ? (
+      {defaultSelectedColumns ? (
         <div>
           <div>
             <span> Defaults </span>
@@ -82,7 +72,7 @@ const ColumnSelect = (
                     {column.columnDef.header}
                   </label>
                 </div>
-              )
+              );
             })}
             <span> ---------------------- </span>
           </div>
@@ -102,7 +92,7 @@ const ColumnSelect = (
                     {column.columnDef.header}
                   </label>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -122,12 +112,12 @@ const ColumnSelect = (
                   {column.columnDef.header}
                 </label>
               </div>
-            )
+            );
           })}
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default ColumnSelect;

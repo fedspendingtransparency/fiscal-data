@@ -107,7 +107,6 @@ const TableSectionContainer = ({
   };
 
   const defaultInvisibleColumns = config.selectColumns;
-  console.log(config.selectColumns);
   const [columnVisibility, setColumnVisibility] = useState(config.selectColumns ? defaultInvisibleColumns : {});
 
   const handlePivotConfigUpdated = () => {

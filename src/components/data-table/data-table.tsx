@@ -13,6 +13,7 @@ import {
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableBody from './data-table-body/data-table-body';
 import StickyTable from 'react-sticky-table-thead';
+import ColumnSelect from './column-select/column-select';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -44,9 +45,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
-  columnVisibility,
-  setColumnVisibility,
-  defaultInvisibleColumns,
+  // columnVisibility,
+  // setColumnVisibility,
+  // defaultInvisibleColumns,
   setSelectColumnPanel,
   selectColumnPanel,
   resetFilters,
@@ -86,6 +87,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const pageSize = 10;
 
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const defaultInvisibleColumns = {};
+  // console.log(config.selectColumns);
+  const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
 
   const table = useReactTable({
     columns,
@@ -133,6 +138,46 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   }, [resetFilters]);
 
+  const [defaultColumns, setDefaultColumns] = useState([]);
+  const [additionalColumns, setAdditionalColumns] = useState([]);
+  const [indeterminate, setIndeterminate] = useState(false);
+
+  // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
+  if (defaultSelectedColumns) {
+    for (const column of allColumns) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (!defaultSelectedColumns.includes(column.accessorKey)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        defaultInvisibleColumns[column.accessorKey] = false;
+      }
+    }
+  }
+
+  const constructDefaultColumnsFromTableData = () => {
+    const constructedDefaultColumns = [];
+    const constructedAdditionalColumns = [];
+    for (const column of table.getAllLeafColumns()) {
+      if (defaultSelectedColumns.includes(column.id)) {
+        constructedDefaultColumns.push(column);
+      } else if (!defaultSelectedColumns.includes(column.id)) {
+        constructedAdditionalColumns.push(column);
+      }
+    }
+    constructedAdditionalColumns.sort((a, b) => {
+      return a.id.localeCompare(b.id);
+    });
+    setDefaultColumns(constructedDefaultColumns);
+    setAdditionalColumns(constructedAdditionalColumns);
+  };
+
+  useEffect(() => {
+    if (defaultSelectedColumns) {
+      constructDefaultColumnsFromTableData();
+    }
+  }, []);
+
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
@@ -154,8 +199,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                 resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
                 setSelectColumnPanel={setSelectColumnPanel}
                 defaultSelectedColumns={defaultSelectedColumns}
-                defaultInvisibleColumns={defaultInvisibleColumns}
                 table={table}
+                additionalColumns={additionalColumns}
+                defaultColumns={defaultColumns}
               />
             )}
           </div>

@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  selectAllContainer,
-  reset,
-  selectAllColumns,
-  resetIcon,
   closeIcon,
   closeButton,
   columnSelectContainer,
@@ -12,11 +8,9 @@ import {
   headingWrapper,
   title,
   buttonContainer,
-  toggleButton,
-  checkmarkText,
 } from './data-table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faUndo, faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   additionalSection,
   checkbox_label,
@@ -26,55 +20,22 @@ import {
   label_text,
   optionCheckbox,
   sectionHeading,
+  sectionContainer,
 } from '../../checkbox/checkbox.module.scss';
 import classnames from 'classnames';
 import DataTableSelectAll from './select-all/data-table-select-all';
 
 const desktop = 1015;
 
-const DataTableColumnSelector = ({ fields, resetToDefault, setSelectColumnPanel, defaultSelectedColumns, defaultInvisibleColumns, table }) => {
-  const [defaultColumns, setDefaultColumns] = useState([]);
-  const [additionalColumns, setAdditionalColumns] = useState([]);
-  const [indeterminate, setIndeterminate] = useState(false);
-
-  console.log(defaultSelectedColumns);
-  console.log(defaultInvisibleColumns);
-  // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-  if (defaultSelectedColumns) {
-    for (const column of fields) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      if (!defaultSelectedColumns.includes(column.accessorKey)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        defaultInvisibleColumns[column.accessorKey] = false;
-      }
-    }
-  }
-
-  const constructDefaultColumnsFromTableData = () => {
-    const constructedDefaultColumns = [];
-    const constructedAdditionalColumns = [];
-    for (const column of table.getAllLeafColumns()) {
-      if (defaultSelectedColumns.includes(column.id)) {
-        constructedDefaultColumns.push(column);
-      } else if (!defaultSelectedColumns.includes(column.id)) {
-        constructedAdditionalColumns.push(column);
-      }
-    }
-    constructedAdditionalColumns.sort((a, b) => {
-      return a.id.localeCompare(b.id);
-    });
-    setDefaultColumns(constructedDefaultColumns);
-    setAdditionalColumns(constructedAdditionalColumns);
-  };
-
-  useEffect(() => {
-    if (defaultSelectedColumns) {
-      constructDefaultColumnsFromTableData();
-    }
-  }, []);
-
+const DataTableColumnSelector = ({
+  fields,
+  resetToDefault,
+  setSelectColumnPanel,
+  defaultSelectedColumns,
+  table,
+  defaultColumns,
+  additionalColumns,
+}) => {
   const CheckBoxList = columnList => (
     <>
       {columnList.map(column => {
@@ -102,7 +63,7 @@ const DataTableColumnSelector = ({ fields, resetToDefault, setSelectColumnPanel,
           <div className={title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
           <button
             onClick={() => setSelectColumnPanel(false)}
-            onKeyPress={() => setSelectColumnPanel(false)}
+            onKeyDown={() => setSelectColumnPanel(false)}
             className={closeButton}
             aria-label="Close select control panel"
           >
@@ -117,11 +78,11 @@ const DataTableColumnSelector = ({ fields, resetToDefault, setSelectColumnPanel,
       <div className={buttonContainer}>
         {defaultSelectedColumns ? (
           <div>
-            <div>
+            <div className={sectionContainer}>
               <span className={sectionHeading}>DEFAULTS</span>
               {CheckBoxList(defaultColumns)}
             </div>
-            <div>
+            <div className={sectionContainer}>
               <span className={classnames([sectionHeading, additionalSection])}>ADDITIONAL</span>
               {CheckBoxList(additionalColumns)}
             </div>
