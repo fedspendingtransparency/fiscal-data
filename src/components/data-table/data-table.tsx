@@ -1,23 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  Table,
-  useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableFooter from './data-table-footer/data-table-footer';
-
 import {
+  tableContainer,
+  tableStyle,
   overlayContainerNoFooter,
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
-} from './data-table-container/data-table-container.module.scss';
-import { tableContainer, tableStyle } from './data-table.module.scss';
+} from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableBody from './data-table-body/data-table-body';
 import StickyTable from 'react-sticky-table-thead';
@@ -61,11 +53,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setResetFilters,
   hideCellLinks,
 }) => {
-  // React table
-  const [sorting, setSorting] = useState<SortingState>([]);
-
-  const pageSize = 10;
-
   const allColumns = rawData?.meta
     ? Object.entries(rawData.meta.labels).map(([field, label]) => ({
         accessorKey: field,
@@ -74,7 +61,31 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     : [];
   const data = rawData.data;
 
+  if (hasPublishedReports && !hideCellLinks) {
+    // Must be able to modify allColumns, thus the ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    allColumns[0].cell = ({ getValue }) => {
+      if (
+        publishedReports.find(report => {
+          return report.report_date.toISOString().split('T')[0] === getValue();
+        }) !== undefined
+      ) {
+        const path = publishedReports.find(report => {
+          return report.report_date.toISOString().split('T')[0] === getValue();
+        }).path;
+        return <a href={path}>{getValue()}</a>;
+      } else {
+        return <span>{getValue()}</span>;
+      }
+    };
+  }
   const [columns] = useState(() => [...allColumns]);
+
+  const dataTypes = rawData.meta.dataTypes;
+  const pageSize = 10;
+
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     columns,
@@ -98,29 +109,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  if (hasPublishedReports && !hideCellLinks) {
-    // Must be able to modify allColumns, thus the ignore
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    allColumns[0].cell = ({ getValue }) => {
-      if (
-        publishedReports.find(report => {
-          return report.report_date.toISOString().split('T')[0] === getValue();
-        }) !== undefined
-      ) {
-        const path = publishedReports.find(report => {
-          return report.report_date.toISOString().split('T')[0] === getValue();
-        }).path;
-        return <a href={path}>{getValue()}</a>;
-      } else {
-        return <span>{getValue()}</span>;
-      }
-    };
-  }
-
   const getSortedColumnsData = table => {
     const columns = table.getVisibleFlatColumns();
-    console.log(columns);
     const mapped = columns.map(column => ({
       id: column.id,
       sorted: column.getIsSorted(),
@@ -151,8 +141,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader table={table} dataTypes={rawData.meta.dataTypes} resetFilters={resetFilters} />
-                  <DataTableBody table={table} dataTypes={rawData.meta.dataTypes} />
+                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} />
+                  <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>
             </div>

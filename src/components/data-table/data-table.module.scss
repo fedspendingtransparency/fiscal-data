@@ -62,3 +62,25 @@ $borderRadius: 5px;
     font-weight: $semi-bold-weight;
   }
 }
+
+.overlayContainer, .overlayContainerNoFooter {
+  position: relative;
+}
+
+.selectColumnsWrapper {
+  display: flex;
+
+  .selectColumnPanelInactive {
+    display: none;
+  }
+
+  .selectColumnPanelActive {
+    display: block;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .selectColumnPanelActive, .selectColumnPanelInactive {
+    height: 521px;
+  }
+}
