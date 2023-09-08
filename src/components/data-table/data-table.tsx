@@ -13,7 +13,6 @@ import {
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableBody from './data-table-body/data-table-body';
 import StickyTable from 'react-sticky-table-thead';
-import ColumnSelect from './column-select/column-select';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -35,6 +34,7 @@ type DataTableProps = {
   setSelectColumnPanel;
   selectColumnPanel;
   setResetFilters;
+  pageSize: number;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -53,6 +53,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   resetFilters,
   setResetFilters,
   hideCellLinks,
+  pageSize,
 }) => {
   const allColumns = rawData?.meta
     ? Object.entries(rawData.meta.labels).map(([field, label]) => ({
@@ -84,7 +85,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [columns] = useState(() => [...allColumns]);
 
   const dataTypes = rawData.meta.dataTypes;
-  const pageSize = 10;
 
   const [sorting, setSorting] = useState<SortingState>([]);
 

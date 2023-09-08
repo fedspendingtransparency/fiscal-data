@@ -52,7 +52,7 @@ const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
             </label>
           </div>
         </div>
-        <button className={reset} onClick={resetToDefault} onKeyDown={resetToDefault}>
+        <button className={reset} onClick={resetToDefault} onKeyDown={e => e.key === 'Enter' && resetToDefault()}>
           <FontAwesomeIcon className={resetIcon} icon={faUndo} />
           Reset
         </button>

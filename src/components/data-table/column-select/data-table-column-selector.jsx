@@ -88,17 +88,7 @@ const DataTableColumnSelector = ({
             </div>
           </div>
         ) : (
-          <div>
-            {table.getAllLeafColumns().map(column => {
-              return (
-                <div key={column.id} className="px-1">
-                  <label>
-                    <input type="checkbox" checked={column.getIsVisible()} onChange={column.getToggleVisibilityHandler()} /> {column.columnDef.header}
-                  </label>
-                </div>
-              );
-            })}
-          </div>
+          <div className={sectionContainer}>{CheckBoxList(table.getAllLeafColumns())}</div>
         )}
       </div>
     </section>

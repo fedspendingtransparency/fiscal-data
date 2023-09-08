@@ -9,21 +9,13 @@ import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
 import NotShownMessage from '../table-section-container/not-shown-message/not-shown-message';
 import Analytics from '../../../utils/analytics/analytics';
 import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
-import {
-  chartBorder,
-  tabBorder,
-  tabIcon,
-} from './chart-table-toggle.module.scss';
+import { chartBorder, tabBorder, tabIcon } from './chart-table-toggle.module.scss';
 import { getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
 import { faSlidersH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
-import ResetTableSection from '../../data-table/column-select/reset-table-section/reset-table-section';
+import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
 
-export const allTablesSelectedBody =
-  'With the current "All Data Tables" selection, we are' +
-  ' unable to render a Table or Chart at this time.';
-export const emptyDataMessageBody =
-  'With the current Date Range selected' +
-  ' we are unable to render a preview at this time.';
+export const allTablesSelectedBody = 'With the current "All Data Tables" selection, we are' + ' unable to render a Table or Chart at this time.';
+export const emptyDataMessageBody = 'With the current Date Range selected' + ' we are unable to render a preview at this time.';
 const TabPanel = ({ children, value, index, ...other }) => {
   return (
     <Typography
@@ -126,35 +118,19 @@ const ChartTableToggle = ({
   } else if (userFilterUnmatchedForDateRange) {
     emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
   } else if (emptyData) {
-    emptyDataMessage = (
-      <NotShownMessage
-        heading="Change selections in order to preview data"
-        bodyText={emptyDataMessageBody}
-      />
-    );
+    emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
   }
 
-  const emptyChartMessage =
-    !unchartable || allTablesSelected ? emptyDataMessage : null;
+  const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
 
   return (
-    <div
-      className={tabState || emptyData || allTablesSelected ? chartBorder : ''}
-    >
-      <div
-        className={tabState || emptyData || allTablesSelected ? '' : tabBorder}
-      >
-        <AntTabs
-          value={tabState}
-          onChange={handleChange}
-          aria-label="Data preview tab set"
-        >
+    <div className={tabState || emptyData || allTablesSelected ? chartBorder : ''}>
+      <div className={tabState || emptyData || allTablesSelected ? '' : tabBorder}>
+        <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
           <AntTab
             label="Table"
             data-testid="tableTab"
-            icon={
-              <FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />
-            }
+            icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />}
             {...a11yProps(0)}
             disableRipple
           />
@@ -162,13 +138,7 @@ const ChartTableToggle = ({
             label="Chart"
             data-testid="chartTab"
             className="datasetChartEnabled"
-            icon={
-              <FontAwesomeIcon
-                icon={faChartBar}
-                className={tabIcon}
-                size="1x"
-              />
-            }
+            icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
             {...a11yProps(1)}
             disableRipple
           />
@@ -191,12 +161,7 @@ const ChartTableToggle = ({
           )}
         </AntTabs>
       </div>
-      {
-        <ResetTableSection
-          resetColumns={() => setResetFilters(true)}
-          active={columnSelectActive}
-        />
-      }
+      {<ResetTableSection resetColumns={() => setResetFilters(true)} active={columnSelectActive} />}
       <TabPanel index={0} value={tabState}>
         {emptyDataMessage ? emptyDataMessage : table}
       </TabPanel>

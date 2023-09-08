@@ -15,8 +15,6 @@ import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
-import ResetTableSection from '../../data-table/column-select/reset-table-section/reset-table-section';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 
 const TableSectionContainer = ({
   config,

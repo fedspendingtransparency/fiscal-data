@@ -4,13 +4,7 @@ import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 
-const SelectAll = ({
-  fields,
-  onUpdateFields,
-  isVisible,
-  resetToFalse,
-  table,
-}) => {
+const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
   const [allSelected, setAllSelected] = useState(true);
   const [indeterminate, setIndeterminate] = useState(true);
   const inputRef = useRef();
@@ -65,22 +59,17 @@ const SelectAll = ({
         <label>
           <input
             name="selectAll"
-            onKeyDown={e =>
-              e.key === 'Enter' && handleToggleSelectAll(!allSelected)
-            }
+            onKeyDown={e => e.key === 'Enter' && handleToggleSelectAll(!allSelected)}
             onChange={() => handleToggleSelectAll(!allSelected)}
             id="selectAll"
             value={allSelected}
             type="checkbox"
             ref={inputRef}
-            checked={table?.getIsAllColumnsVisible()}
+            checked={allSelected && allFieldsChecked}
           />
           <span className={styles.labelCheckmarkContainer}>
             <span className={styles.checkmarkText}>
-              <FontAwesomeIcon
-                icon={indeterminate ? faMinus : faCheck}
-                size="sm"
-              />
+              <FontAwesomeIcon icon={indeterminate ? faMinus : faCheck} size="sm" />
             </span>
           </span>
           Select All
