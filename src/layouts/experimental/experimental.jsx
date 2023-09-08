@@ -226,24 +226,61 @@ const ExperimentalPage = () => {
               tickFormatter={v => `$${v}`}
             />
             <YAxis type="category" dataKey="year" reversed="true" />
-            <Legend align="left" verticalAlign="top" />
-            <Bar
-              name="Debt"
-              dataKey="debt"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-              legendType="circle"
-            />
-            <Bar
-              name="Deficit"
-              dataKey="deficit"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-              legendType="circle"
-            />
-            <Bar name="$1T" stackId="a" legendType="square" fill="#635F66" />
+            {/*<Legend align="left" verticalAlign="top" />*/}
+
+            {Object.keys(data[0]).map((key, index, value) => {
+              console.log(data[0].year, data[0].debt, data[0].deficit);
+              //I think I want a for in loop that cycles through data, for now hard coding to
+              // index 0, to experiment with the year 2019
+              const year = data[0].year;
+              const debtLength = data[0].debt;
+              const defLength = data[0].deficit;
+              const currentDebt = true;
+              const currentDeficit = false;
+              const fakeDataKey = { value: 4 };
+              const fakeTransparentKey = { value2: 1 };
+
+              for (let i = 0; i < Math.ceil(debtLength + defLength); i += 4) {
+                if (i < Math.ceil(debtLength) && currentDebt) {
+                  return (
+                    <>
+                      <Bar
+                        name="Debt"
+                        dataKey="value"
+                        stackId="a"
+                        fill="#4B1B79"
+                        layout={'horizontal'}
+                      />
+                      <Bar
+                        name=""
+                        dataKey={key}
+                        stackId="a"
+                        fill="#00000000"
+                        layout={'horizontal'}
+                      />
+                    </>
+                  );
+                } else {
+                }
+              }
+            })}
+            {/*<Bar*/}
+            {/*  name="Debt"*/}
+            {/*  dataKey="debt"*/}
+            {/*  stackId="a"*/}
+            {/*  fill="#4B1B79"*/}
+            {/*  layout={'horizontal'}*/}
+            {/*  legendType="circle"*/}
+            {/*/>*/}
+            {/*<Bar*/}
+            {/*  name="Deficit"*/}
+            {/*  dataKey="deficit"*/}
+            {/*  stackId="a"*/}
+            {/*  fill="#BD4E12"*/}
+            {/*  layout={'horizontal'}*/}
+            {/*  legendType="circle"*/}
+            {/*/>*/}
+            {/*<Bar name="$1T" stackId="a" legendType="square" fill="#635F66" />*/}
           </BarChart>
         }
       </SiteLayout>
