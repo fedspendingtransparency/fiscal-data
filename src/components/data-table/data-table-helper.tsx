@@ -70,8 +70,6 @@ export const DateRangeFilter: FunctionComponent<any> = ({
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DesktopDatePicker
         sx={{
-          paddingRight: '6rem',
-          maxWidth: 176,
           '& .MuiInputBase-root': {
             height: '28px',
             fontSize: '14px',
