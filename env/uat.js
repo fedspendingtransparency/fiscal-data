@@ -4,11 +4,7 @@ module.exports = {
   API_BASE_URL: 'https://api.uat.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
-  EXPERIMENTAL_WHITELIST: [
-    'chartingConfigurationTool',
-    'experimental-page',
-    'react-table-poc',
-  ],
+  EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc'],
   ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '27': {
