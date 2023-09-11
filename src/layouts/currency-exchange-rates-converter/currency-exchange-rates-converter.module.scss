@@ -56,7 +56,7 @@
 .selectorContainer {
   display: flex;
   justify-content: center;
-  padding: 20px 32px 9px;
+  padding: 1.2rem 2rem 0.5625rem;
   max-width: 34.563rem;
   margin-bottom: 1.5rem;
   border: solid 1px #d9d9d9;
@@ -83,7 +83,7 @@
   display: flex;
   flex-direction: column;
   width: 8.75rem;
-  margin-top: 4.8px;
+  margin-top: 0.3rem;
 
   .icon {
     height: 0.875rem;
@@ -115,7 +115,7 @@
     p {
       margin: 12px 9.375rem 0;
       font-size: 0.875rem;
-      max-width: 1140px;
+      max-width: 71.25rem;
       padding-bottom: 2rem;
     }
 }
