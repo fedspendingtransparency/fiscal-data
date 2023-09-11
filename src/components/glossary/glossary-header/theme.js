@@ -1,4 +1,4 @@
-import * as variables from "../../../variables.module.scss";
+import * as variables from '../../../variables.module.scss';
 import { createTheme, makeStyles } from '@material-ui/core/styles';
 
 const theme = {
@@ -9,7 +9,12 @@ const theme = {
           '&.MuiOutlinedInput-notchedOutline': {
             borderColor: variables.primary,
             borderWidth: '1px',
-          }
+            hover: {
+              '&:hover': {
+                borderColor: '#d9d9d9',
+              },
+            },
+          },
         },
       },
       adornedEnd: {
@@ -20,14 +25,14 @@ const theme = {
       root: {
         fontSize: variables.fontSize_15,
         fontFamily: 'Source Sans Pro',
-        color: variables.fontBodyCopy
+        color: variables.fontBodyCopy,
       },
-    input: {
-      color: variables.fontBodyCopy
-    }
-    }
-  }
-}
+      input: {
+        color: variables.fontBodyCopy,
+      },
+    },
+  },
+};
 
 export const useStyles = makeStyles({
   root: {
@@ -37,10 +42,12 @@ export const useStyles = makeStyles({
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
       borderColor: '#d9d9d9',
     },
-  }
-})
+    hover: {
+      '&:hover': {
+        borderColor: '#d9d9d9',
+      },
+    },
+  },
+});
 
 export const searchBarTheme = createTheme(theme);
-
-
-
