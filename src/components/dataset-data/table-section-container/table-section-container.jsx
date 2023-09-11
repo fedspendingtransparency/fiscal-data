@@ -51,8 +51,6 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
-  const defaultInvisibleColumns = config.selectColumns;
-  const [columnVisibility, setColumnVisibility] = useState(config.selectColumns ? defaultInvisibleColumns : {});
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
 
@@ -127,6 +125,7 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     // only refresh the table on date range changes if server side pagination is in effect
+    // this hook is the culprit for the unneeded loading for react table.
     if (serverSidePagination || userFilterSelection) {
       refreshTable();
     }
@@ -176,14 +175,14 @@ const TableSectionContainer = ({
             {tableName}
           </h3>
           {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
-          {/*<Experimental featureId="chartingConfigurationTool">*/}
-          {/*  <DynamicConfig*/}
-          {/*    selectedTable={selectedTable}*/}
-          {/*    handleIgnorePivots={handleIgnorePivots}*/}
-          {/*    handlePivotsUpdated={handlePivotConfigUpdated}*/}
-          {/*    refreshTable={refreshTable}*/}
-          {/*  />*/}
-          {/*</Experimental>*/}
+          <Experimental featureId="chartingConfigurationTool">
+            <DynamicConfig
+              selectedTable={selectedTable}
+              handleIgnorePivots={handleIgnorePivots}
+              handlePivotsUpdated={handlePivotConfigUpdated}
+              refreshTable={refreshTable}
+            />
+          </Experimental>
         </div>
         {dateFieldForChart === 'CHART_DATE' && (
           <div className={styles.noticeContainer}>
@@ -228,9 +227,6 @@ const TableSectionContainer = ({
                   perPage={perPage}
                   setPerPage={setPerPage}
                   setTableColumnSortData={setTableColumnSortData}
-                  defaultInvisibleColumns={defaultInvisibleColumns}
-                  columnVisibility={columnVisibility}
-                  setColumnVisibility={setColumnVisibility}
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
                   setFiltersActive={setFiltersActive}
