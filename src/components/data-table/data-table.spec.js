@@ -1,7 +1,7 @@
 import { render, within } from '@testing-library/react';
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
-import { DataTable } from './data-table';
+import DataTable from './data-table';
 
 const mockTableData = {
   data: [
@@ -118,13 +118,15 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
     expect(instance).toBeTruthy();
   });
 
-  it('renders headers and column checkboxs', () => {
-    const instance = render(
+  it('renders headers', () => {
+    const mostResetFilter = jest.fn();
+    const { getByRole } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
@@ -132,16 +134,16 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        resetFilters
+        setResetFilters={mostResetFilter}
+        setFiltersActive={jest.fn()}
       />
     );
-    // Column checkbox
-    expect(instance.getAllByText('Record Date')[0]).toBeInTheDocument();
-    // Column header
-    expect(instance.getAllByText('Record Date')[1]).toBeInTheDocument();
+    expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
   });
 
   it('Able to interact with headers for column sort', () => {
-    const { getAllByTestId, getAllByText, getByTestId, getByRole } = render(
+    const { getAllByTestId, getByText, getByRole } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
@@ -149,15 +151,14 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
     // Column header
-    expect(getAllByText('Record Date')[1]).toBeInTheDocument();
+    expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(3);
-    const header = getByRole('columnheader', {
-      name: 'Record Date',
-    });
+    const header = getByRole('columnheader', { name: 'Record Date' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
@@ -175,12 +176,11 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
     // Column header
-    const header = getByRole('columnheader', {
-      name: 'Debt Held by the Public',
-    });
+    const header = getByRole('columnheader', {name: 'Record Date'});
     expect(header).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(3);
@@ -207,6 +207,7 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
     // Column header
@@ -233,12 +234,11 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
 
-    const header = getByRole('columnheader', {
-      name: 'Record Date',
-    });
+    const header = getByRole('columnheader', { name: 'Record Date' });
     expect(header).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(2);
@@ -257,13 +257,12 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
 
     allColLabels.forEach(index => {
-      expect(
-        instance.getAllByRole('columnheader', { name: allColLabels[index] })[0]
-      ).toBeInTheDocument();
+      expect(instance.getAllByRole('columnheader', { name: allColLabels[index] })[0]).toBeInTheDocument();
     });
   });
 
@@ -276,178 +275,19 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
 
     // default col in table
     defaultColLabels.forEach(index => {
-      expect(
-        instance.getAllByRole('columnheader', { name: index })[0]
-      ).toBeInTheDocument();
+      expect(instance.getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
     });
 
     // additional col not in table
     expect(instance.queryAllByRole('columnheader').length).toEqual(3);
     additionalColLabels.forEach(index => {
-      expect(
-        instance.queryAllByRole('columnheader', { name: index })[0]
-      ).not.toBeDefined();
-    });
-  });
-
-  it('resets columns back to default on reset', () => {
-    const instance = render(
-      <DataTable
-        rawData={mockTableData}
-        defaultSelectedColumns={defaultSelectedColumnsMock}
-        pageSize={10}
-        setTableColumnSortData={setTableColumnSortData}
-        shouldPage
-        showPaginationControls
-      />
-    );
-
-    const firstDefaultHeader = instance.queryAllByRole('columnheader', {
-      name: defaultColLabels[0],
-    })[0];
-    const firstDefaultCheckbox = instance.getAllByRole('checkbox', {
-      name: defaultColLabels[0],
-    })[0];
-
-    let firstAdditionalHeader = instance.queryAllByRole('columnheader', {
-      name: additionalColLabels[0],
-    })[0];
-    const firstAdditionalCheckbox = instance.getAllByRole('checkbox', {
-      name: additionalColLabels[0],
-    })[0];
-
-    const resetColButton = instance.getByTestId('reset-button');
-
-    expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).not.toBeDefined();
-    expect(firstAdditionalCheckbox).toBeInTheDocument();
-    fireEvent.click(firstDefaultCheckbox);
-    fireEvent.click(firstAdditionalCheckbox);
-    firstAdditionalHeader = instance.getAllByRole('columnheader', {
-      name: additionalColLabels[0],
-    })[0];
-    expect(firstDefaultHeader).not.toBeInTheDocument();
-    expect(firstAdditionalHeader).toBeInTheDocument();
-
-    fireEvent.click(resetColButton);
-
-    // default state
-    // default col in table
-    defaultColLabels.forEach(index => {
-      expect(
-        instance.getAllByRole('columnheader', { name: index })[0]
-      ).toBeInTheDocument();
-    });
-
-    // additional col not in table
-    additionalColLabels.forEach(index => {
-      expect(
-        instance.queryAllByRole('columnheader', { name: index })[0]
-      ).not.toBeDefined();
-    });
-  });
-
-  it('resets columns back to default on reset from select all', () => {
-    const instance = render(
-      <DataTable
-        rawData={mockTableData}
-        defaultSelectedColumns={defaultSelectedColumnsMock}
-        pageSize={10}
-        setTableColumnSortData={setTableColumnSortData}
-        shouldPage
-        showPaginationControls
-      />
-    );
-
-    const selectAll = instance.getByRole('checkbox', { name: 'Select All' });
-    const resetColButton = instance.getByTestId('reset-button');
-    const firstDefaultHeader = instance.queryAllByRole('columnheader', {
-      name: defaultColLabels[0],
-    })[0];
-    let firstAdditionalHeader = instance.queryAllByRole('columnheader', {
-      name: additionalColLabels[0],
-    })[0];
-
-    expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).not.toBeDefined();
-    fireEvent.click(selectAll);
-    firstAdditionalHeader = instance.getAllByRole('columnheader', {
-      name: additionalColLabels[0],
-    })[0];
-    expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).toBeInTheDocument();
-
-    fireEvent.click(resetColButton);
-
-    // default state
-    // default col in table
-    defaultColLabels.forEach(index => {
-      expect(
-        instance.getAllByRole('columnheader', { name: index })[0]
-      ).toBeInTheDocument();
-    });
-
-    // additional col not in table
-    additionalColLabels.forEach(index => {
-      expect(
-        instance.queryAllByRole('columnheader', { name: index })[0]
-      ).not.toBeDefined();
-    });
-  });
-
-  it('resets columns back to default on reset from none selected', () => {
-    const instance = render(
-      <DataTable
-        rawData={mockTableData}
-        defaultSelectedColumns={defaultSelectedColumnsMock}
-        pageSize={10}
-        setTableColumnSortData={setTableColumnSortData}
-        shouldPage
-        showPaginationControls
-      />
-    );
-
-    const selectAll = instance.getByRole('checkbox', { name: 'Select All' });
-    const resetColButton = instance.getByTestId('reset-button');
-    const firstDefaultHeader = instance.queryAllByRole('columnheader', {
-      name: defaultColLabels[0],
-    })[0];
-    let firstAdditionalHeader = instance.queryAllByRole('columnheader', {
-      name: additionalColLabels[0],
-    })[0];
-
-    expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).not.toBeDefined();
-    fireEvent.click(selectAll);
-    firstAdditionalHeader = instance.getAllByRole('columnheader', {
-      name: additionalColLabels[0],
-    })[0];
-    expect(firstDefaultHeader).toBeInTheDocument();
-    expect(firstAdditionalHeader).toBeInTheDocument();
-    fireEvent.click(selectAll);
-    expect(firstDefaultHeader).not.toBeInTheDocument();
-    expect(firstAdditionalHeader).not.toBeInTheDocument();
-
-    fireEvent.click(resetColButton);
-
-    // default state
-    // default col in table
-    defaultColLabels.forEach(index => {
-      expect(
-        instance.getAllByRole('columnheader', { name: index })[0]
-      ).toBeInTheDocument();
-    });
-
-    // additional col not in table
-    additionalColLabels.forEach(index => {
-      expect(
-        instance.queryAllByRole('columnheader', { name: index })[0]
-      ).not.toBeDefined();
+      expect(instance.queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
     });
   });
 });

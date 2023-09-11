@@ -86,6 +86,11 @@
   font-size: 0.9rem;
 }
 
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .sectionHeading {
   font-size: $font-size-12;
   color: $font-title;
@@ -94,5 +99,5 @@
 }
 
 .additionalSection {
-  padding-top: 1rem;
+  padding-top: 1.5rem;
 }

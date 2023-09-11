@@ -13,7 +13,12 @@ import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';
 
 const BannerCallout = ({ bannerCallout, bannerType = 'info'}) => {
-    const currentCallout = calloutConfig[bannerCallout]?.copy;
+  const currentCallout = calloutConfig[bannerCallout?.banner]?.copy;
+
+  const today = new Date().getTime();
+  
+  const endDate = bannerCallout?.endDate ? new Date(bannerCallout?.endDate).getTime() : null;
+  const startDate = bannerCallout?.startDate ? new Date(bannerCallout?.startDate).getTime() : today;
 
     const bannerMap = {
       info: {
@@ -28,7 +33,7 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info'}) => {
 
     const styleConfig = bannerMap[bannerType];
 
-    if (currentCallout) {
+    if (currentCallout && (today >= startDate && (endDate === null || today < endDate))) {
         return (
             <div className={classNames([banner, styleConfig.classname])} data-testid="banner" >
                 <div className={sideTab} style={{marginRight: calloutConfig[bannerCallout]?.customMargin}} />

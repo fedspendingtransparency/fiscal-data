@@ -8,8 +8,8 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
   const [allSelected, setAllSelected] = useState(true);
   const [indeterminate, setIndeterminate] = useState(true);
   const inputRef = useRef();
-  const allFieldsChecked = fields.every((f) => f.active);
-  const allFieldsUnchecked = fields.every((f) => !f.active);
+  const allFieldsChecked = fields.every(f => f.active);
+  const allFieldsUnchecked = fields.every(f => !f.active);
 
   useEffect(() => {
     if (isVisible) {
@@ -23,12 +23,11 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
 
       if (inputRef.current !== null) {
         if (allSelected && !allFieldsChecked && !allFieldsUnchecked) {
-          if(resetToFalse){
+          if (resetToFalse) {
             inputRef.current.indeterminate = false;
             setIndeterminate(false);
             setAllSelected(false);
-          }
-          else {
+          } else {
             inputRef.current.indeterminate = true;
             setIndeterminate(true);
           }
@@ -40,20 +39,19 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
     }
   }, [isVisible, fields]);
 
-
-  const updateFields = (arr) => {
+  const updateFields = arr => {
     const updated = [];
-    arr.forEach((f) => {
+    arr.forEach(f => {
       const n = Object.assign({}, f, { active: true });
       updated.push(n);
-    })
+    });
     return updated;
-  }
-  const handleToggleSelectAll = (toggle) => {
+  };
+  const handleToggleSelectAll = toggle => {
     setAllSelected(toggle);
     const updated = toggle ? updateFields(fields) : [];
     onUpdateFields(updated);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -61,7 +59,7 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
         <label>
           <input
             name="selectAll"
-            onKeyDown={(e) => e.key === 'Enter' && handleToggleSelectAll(!allSelected)}
+            onKeyDown={e => e.key === 'Enter' && handleToggleSelectAll(!allSelected)}
             onChange={() => handleToggleSelectAll(!allSelected)}
             id="selectAll"
             value={allSelected}
@@ -79,6 +77,6 @@ const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
       </div>
     </div>
   );
-}
+};
 
 export default SelectAll;

@@ -72,6 +72,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     yearQuarterMap: Record<string, CurrencyYearQuarter>
   };
 
+  const XRWarningBanner = {banner : "XRPageWarning"}
+
   const analyticsHandler = (action, label) => {
     if(action && label) {
       Analytics.event({
@@ -446,7 +448,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         }
         {
           inputWarning && (
-            <BannerCallout bannerCallout="XRPageWarning" bannerType="warning" />
+            <BannerCallout bannerCallout={XRWarningBanner} bannerType="warning" />
           )
         }
         <span className={footer}>
