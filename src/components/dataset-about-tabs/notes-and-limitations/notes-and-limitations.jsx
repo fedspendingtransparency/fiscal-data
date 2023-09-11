@@ -85,7 +85,6 @@ const NotesAndLimitations = ({apis, bodyText}) => {
   const { showExperimentalFeatures } = useContext(siteContext); // todo - Remove after 11/24/21
 
   useEffect(() => {
-    console.log(apis);
     if (apis && apis.length) {
       // todo - Remove the following if block after 11/24/21
       if (showExperimentalFeatures && isAllowedInContext('apiNKL')) {
