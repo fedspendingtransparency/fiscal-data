@@ -1,7 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
-import DataTableColumnSelector from './column-select/data-table-column-selector';
+import {
+  ColumnDef,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  getFilteredRowModel,
+  SortingState,
+} from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
+
+import StickyTable from 'react-sticky-table-thead';
 import {
   tableContainer,
   tableStyle,
@@ -11,8 +20,9 @@ import {
   selectColumnsWrapper,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
+import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import StickyTable from 'react-sticky-table-thead';
+import moment from 'moment';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -48,11 +58,20 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pageSize,
   setFiltersActive,
 }) => {
-  const allColumns = rawData?.meta
-    ? Object.entries(rawData.meta.labels).map(([field, label]) => ({
-        accessorKey: field,
-        header: label,
-      }))
+  const allColumns = rawData.meta
+    ? Object.entries(rawData.meta.labels).map(([field, label]) => {
+      if (field === 'record_date') {
+        return {
+          accessorKey: field,
+          header: label,
+          filterFn: 'equalsString',
+          cell: ({ getValue }) => {
+            return moment(getValue()).format('MM/DD/YYYY');
+          },
+        } as ColumnDef<any, any>;
+      }
+      return { accessorKey: field, header: label } as ColumnDef<any, any>;
+    })
     : [];
   const data = rawData.data;
 

@@ -91,9 +91,19 @@ const mockTableData = {
   },
 };
 
-const defaultSelectedColumnsMock = ['record_date', 'src_line_nbr', 'record_calendar_quarter'];
-const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
-const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));
+const defaultSelectedColumnsMock = [
+  'record_date',
+  'src_line_nbr',
+  'record_calendar_quarter',
+];
+const defaultColLabels = [
+  'Record Date',
+  'Source Line Number',
+  'Calendar Quarter Number',
+];
+const additionalColLabels = Object.values(mockTableData.meta.labels).filter(
+  label => !defaultColLabels.includes(label)
+);
 const allColLabels = defaultColLabels.concat(additionalColLabels);
 
 describe('react-table', () => {
@@ -151,10 +161,10 @@ describe('react-table', () => {
     const header = getByRole('columnheader', { name: 'Record Date' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
-    expect(getAllByTestId('row')[0].innerHTML).toContain('2023-07-12');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
     fireEvent.click(sortButton);
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('2023-07-10');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
   });
 
   it('Filter column by text search', () => {
@@ -170,22 +180,49 @@ describe('react-table', () => {
       />
     );
     // Column header
-    const header = getByRole('columnheader', { name: 'Record Date' });
+    const header = getByRole('columnheader', {name: 'Debt Held by the Public'});
     expect(header).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(3);
     const columnFilter = within(header).getByRole('textbox');
     expect(columnFilter).toBeInTheDocument();
-    fireEvent.change(columnFilter, { target: { value: '2023-07-10' } });
+    fireEvent.change(columnFilter, { target: { value: '25633821130387.02' } });
     // Rows filtered down to 1
     expect(getAllByTestId('row').length).toEqual(1);
-    expect(getAllByTestId('row')[0].innerHTML).toContain('2023-07-10');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('25633821130387.02');
 
     //clear results to view full table
     const clearButton = within(header).getByRole('button', { hidden: true });
     expect(clearButton).toHaveClass('fa-circle-xmark');
     fireEvent.click(clearButton);
     expect(getAllByTestId('row').length).toEqual(3);
+  });
+
+  it('Filter record_date column by date', () => {
+    const { getAllByTestId, getByRole } = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={null}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    // Column header
+    const header = getByRole('columnheader', {
+      name: 'Record Date',
+    });
+    expect(header).toBeInTheDocument();
+    // Rows render
+    expect(getAllByTestId('row').length).toEqual(3);
+    const columnFilter = within(header).getByRole('textbox', { name: '' });
+    expect(columnFilter).toBeInTheDocument();
+    fireEvent.change(columnFilter, { target: { value: '07/10/2023' } });
+    // Rows filtered down to 1
+    expect(getAllByTestId('row').length).toEqual(1);
+    expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
   });
 
   it('pagination', () => {
