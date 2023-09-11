@@ -48,6 +48,9 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   header,
 }) => {
   const [active, setActive] = useState(false);
+  const ariaLabelValue =
+    header === 'U.S. DOLLAR' ? 'U.S. Dollar' : selectedCurrency?.label;
+
   return (
     <>
       <div className={currencyBox} data-testid={testId}>
@@ -76,10 +79,11 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
               onKeyDown={noNonNumericChar}
               onChange={onCurrencyValueChange}
               value={currencyValue}
-              data-testid="input-dropdown"
+              data-testid="input"
               onClick={() => setActive(true)}
               onFocus={() => setActive(true)}
               onBlur={() => setActive(false)}
+              aria-label={'Enter ' + ariaLabelValue + ' Amount'}
             />
           )}
         </div>
