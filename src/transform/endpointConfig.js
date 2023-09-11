@@ -16,11 +16,7 @@ const endpointConfig = {
         ],
       },
     ],
-    valueFieldOptions: [
-      'debt_held_public_mil_amt',
-      'intragov_hold_mil_amt',
-      'total_mil_amt',
-    ],
+    valueFieldOptions: ['debt_held_public_mil_amt', 'intragov_hold_mil_amt', 'total_mil_amt'],
   },
   '28': {
     endpoint: 'v1/debt/mspd/mspd_table_3',
@@ -137,12 +133,7 @@ const endpointConfig = {
         dimensionField: 'security_class_desc',
       },
     ],
-    valueFieldOptions: [
-      'securities_sold_cnt',
-      'gross_sales_amt',
-      'returned_sales_amt',
-      'net_sales_amt',
-    ],
+    valueFieldOptions: ['securities_sold_cnt', 'gross_sales_amt', 'returned_sales_amt', 'net_sales_amt'],
   },
   '96': {
     showChartForCompleteTable: true,
@@ -270,17 +261,12 @@ const endpointConfig = {
           {
             key: 'debt_limit_class1_desc',
             operator: 'in',
-            value:
-              'Statutory Debt Limit,Public Debt Outstanding,Total Public Debt Outstanding',
+            value: 'Statutory Debt Limit,Public Debt Outstanding,Total Public Debt Outstanding',
           },
         ],
       },
     ],
-    valueFieldOptions: [
-      'debt_held_public_mil_amt',
-      'intragov_hold_mil_amt',
-      'total_mil_amt',
-    ],
+    valueFieldOptions: ['debt_held_public_mil_amt', 'intragov_hold_mil_amt', 'total_mil_amt'],
   },
   '108': {
     endpoint: 'v1/accounting/mts/mts_table_4',
@@ -313,11 +299,7 @@ const endpointConfig = {
         ],
       },
     ],
-    valueFieldOptions: [
-      'current_month_gross_rcpt_amt',
-      'current_month_refund_amt',
-      'current_month_net_rcpt_amt',
-    ],
+    valueFieldOptions: ['current_month_gross_rcpt_amt', 'current_month_refund_amt', 'current_month_net_rcpt_amt'],
   },
   '109': {
     endpoint: 'v1/accounting/mts/mts_table_5',
@@ -362,11 +344,7 @@ const endpointConfig = {
         ],
       },
     ],
-    valueFieldOptions: [
-      'current_month_gross_outly_amt',
-      'current_month_app_rcpt_amt',
-      'current_month_net_outly_amt',
-    ],
+    valueFieldOptions: ['current_month_gross_outly_amt', 'current_month_app_rcpt_amt', 'current_month_net_outly_amt'],
   },
   '111': {
     endpoint: 'v1/accounting/mts/mts_table_7',
@@ -403,11 +381,7 @@ const endpointConfig = {
         ],
       },
     ],
-    valueFieldOptions: [
-      'current_month_rcpt_amt',
-      'current_month_outly_amt',
-      'current_month_excess_amt',
-    ],
+    valueFieldOptions: ['current_month_rcpt_amt', 'current_month_outly_amt', 'current_month_excess_amt'],
   },
   '113': {
     endpoint: 'v1/accounting/mts/mts_table_6',
@@ -489,8 +463,7 @@ const endpointConfig = {
           {
             key: 'classification_desc',
             operator: 'in',
-            value:
-              'Total Borrowing from the Federal Financing Bank,Total Borrowing from the US Treasury',
+            value: 'Total Borrowing from the Federal Financing Bank,Total Borrowing from the US Treasury',
           },
         ],
       },
@@ -528,9 +501,7 @@ const endpointConfig = {
           {
             key: 'classification_desc',
             operator: 'in',
-            value:
-              'Net Activity&44; Direct Loan Financing' +
-              ',Net Activity&44; Guaranteed Loan Financing',
+            value: 'Net Activity&44; Direct Loan Financing' + ',Net Activity&44; Guaranteed Loan Financing',
           },
         ],
       },
@@ -554,8 +525,7 @@ const endpointConfig = {
           {
             key: 'classification_desc',
             operator: 'in',
-            value:
-              'Off-Budget Surplus (+) or Deficit (-),On-Budget Surplus (+) or Deficit (-)',
+            value: 'Off-Budget Surplus (+) or Deficit (-),On-Budget Surplus (+) or Deficit (-)',
           },
         ],
       },
@@ -566,11 +536,7 @@ const endpointConfig = {
           {
             key: 'classification_desc',
             operator: 'in',
-            value: [
-              'Borrowing from the Public',
-              'Reduction of Operating Cash&44; Increase (-)',
-              'By Other Means',
-            ].join(','),
+            value: ['Borrowing from the Public', 'Reduction of Operating Cash&44; Increase (-)', 'By Other Means'].join(','),
           },
         ],
       },
@@ -685,22 +651,13 @@ const endpointConfig = {
         ],
       },
     ],
-    valueFieldOptions: [
-      'outstanding_amt',
-      'portion_unstripped_amt',
-      'portion_stripped_amt',
-      'reconstituted_amt',
-    ],
+    valueFieldOptions: ['outstanding_amt', 'portion_unstripped_amt', 'portion_stripped_amt', 'reconstituted_amt'],
   },
   '126': {
     endpoint: 'v1/debt/top/top_state',
     dateField: 'record_date',
     downloadName: 'TOP_StateProg',
-    dataDisplays: [
-      { dimensionField: 'state_nm' },
-      { dimensionField: 'state_cd' },
-      { dimensionField: 'program_desc' },
-    ],
+    dataDisplays: [{ dimensionField: 'state_nm' }, { dimensionField: 'state_cd' }, { dimensionField: 'program_desc' }],
     valueFieldOptions: ['total_amt'],
   },
   '127': {
@@ -814,8 +771,7 @@ const endpointConfig = {
           {
             key: 'security_class2_desc',
             operator: 'in',
-            value:
-              'Net Increase in Intragovernmental Debt Holdings,Accrued Interest',
+            value: 'Net Increase in Intragovernmental Debt Holdings,Accrued Interest',
           },
         ],
       },
@@ -831,8 +787,7 @@ const endpointConfig = {
           {
             key: 'security_class2_desc',
             operator: 'in',
-            value:
-              'Repayments of Debt Held by the Public,Interest Paid,Net Amortization',
+            value: 'Repayments of Debt Held by the Public,Interest Paid,Net Amortization',
           },
         ],
       },
@@ -848,17 +803,12 @@ const endpointConfig = {
           {
             key: 'security_class2_desc',
             operator: 'in',
-            value:
-              'Net Decrease in Intragovernmental Debt Holdings,Interest Paid,Net Amortization',
+            value: 'Net Decrease in Intragovernmental Debt Holdings,Interest Paid,Net Amortization',
           },
         ],
       },
     ],
-    valueFieldOptions: [
-      'principal_mil_amt',
-      'accrued_int_payable_mil_amt',
-      'net_unamortized_mil_amt',
-    ],
+    valueFieldOptions: ['principal_mil_amt', 'accrued_int_payable_mil_amt', 'net_unamortized_mil_amt'],
   },
   '139': {
     endpoint: 'v1/debt/mspd/mspd_table_3_market',
@@ -892,8 +842,7 @@ const endpointConfig = {
           {
             key: 'security_class2_desc',
             operator: 'in',
-            value:
-              'Total Matured Treasury Bonds,Total Unmatured Treasury Bonds',
+            value: 'Total Matured Treasury Bonds,Total Unmatured Treasury Bonds',
           },
         ],
       },
@@ -917,8 +866,7 @@ const endpointConfig = {
           {
             key: 'security_class2_desc',
             operator: 'in',
-            value:
-              'Total Matured Treasury Notes,Total Unmatured Treasury Notes',
+            value: 'Total Matured Treasury Notes,Total Unmatured Treasury Notes',
           },
         ],
       },
@@ -1134,9 +1082,7 @@ const endpointConfig = {
           {
             key: 'security_class1_desc',
             operator: 'in',
-            value:
-              'Total Matured United States Savings Securities,Total Unmatured United ' +
-              'States Savings Securities',
+            value: 'Total Matured United States Savings Securities,Total Unmatured United ' + 'States Savings Securities',
           },
         ],
         uniquePivotValues: [
@@ -1307,10 +1253,7 @@ const endpointConfig = {
         dimensionField: 'security_type_desc',
       },
     ],
-    valueFieldOptions: [
-      'securities_outstanding_cnt',
-      'principal_outstanding_amt',
-    ],
+    valueFieldOptions: ['securities_outstanding_cnt', 'principal_outstanding_amt'],
   },
   '154': {
     endpoint: 'v2/accounting/od/title_xii',
@@ -1322,12 +1265,7 @@ const endpointConfig = {
         lastRowSnapshot: true,
       },
     ],
-    valueFieldOptions: [
-      'interest_rate_pct',
-      'outstanding_advance_bal',
-      'advance_auth_month_amt',
-      'gross_advance_draws_month_amt',
-    ],
+    valueFieldOptions: ['interest_rate_pct', 'outstanding_advance_bal', 'advance_auth_month_amt', 'gross_advance_draws_month_amt'],
   },
   '155': {
     endpoint: 'v2/payments/jfics/jfics_congress_report',
@@ -1341,12 +1279,7 @@ const endpointConfig = {
   '157': {
     endpoint: 'v2/debt/tror/data_act_compliance',
     downloadName: '120DayDelDebtRefComp',
-    alwaysSortWith: [
-      '-record_date',
-      'agency_nm',
-      'agency_bureau_indicator',
-      'bureau_nm',
-    ],
+    alwaysSortWith: ['-record_date', 'agency_nm', 'agency_bureau_indicator', 'bureau_nm'],
     // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
     dataDisplays: [
       {
@@ -1380,14 +1313,7 @@ const endpointConfig = {
       },
     ],
     // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
-    valueFieldOptions: [
-      'net_premium_amt',
-      'net_discount_amt',
-      'accrued_int_amt',
-      'interest_paid_amt',
-      'inflation_comp_amt',
-      'month_total_amt',
-    ],
+    valueFieldOptions: ['net_premium_amt', 'net_discount_amt', 'accrued_int_amt', 'interest_paid_amt', 'inflation_comp_amt', 'month_total_amt'],
   },
   '160': {
     alwaysSortWith: ['-record_date', '-stmt_fiscal_year', 'src_line_nbr'],
@@ -1503,12 +1429,7 @@ const endpointConfig = {
         dimensionField: 'funding_type_description',
       },
     ],
-    valueFieldOptions: [
-      'ddebt_by_age_total_amt',
-      'ddebt_1_120_total_amt',
-      'top_referred_total_amt',
-      'cs_referred_total_amt',
-    ],
+    valueFieldOptions: ['ddebt_by_age_total_amt', 'ddebt_1_120_total_amt', 'top_referred_total_amt', 'cs_referred_total_amt'],
   },
   '166': {
     endpoint: 'v2/debt/tror/collections_delinquent_debt',
@@ -1823,18 +1744,14 @@ const endpointConfig = {
     downloadName: 'TB_PDO1OfferingsRegularWeeklyTreasuryBills',
   },
   '207': {
-    endpoint:
-      'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
-    downloadName:
-      'TB_PDO2OfferingsMarketableSecuritiesOtherRegularWeeklyTreasuryBills',
+    endpoint: 'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
+    downloadName: 'TB_PDO2OfferingsMarketableSecuritiesOtherRegularWeeklyTreasuryBills',
     dateField: 'record_date',
   },
   '208': {
-    endpoint:
-      'v1/accounting/tb/ofs1_distribution_federal_securities_class_investors_type_issues',
+    endpoint: 'v1/accounting/tb/ofs1_distribution_federal_securities_class_investors_type_issues',
     dateField: 'record_date',
-    downloadName:
-      'TB_OFS1DistributionFederalSecuritiesClassInvestorsTypeIssues',
+    downloadName: 'TB_OFS1DistributionFederalSecuritiesClassInvestorsTypeIssues',
     // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
     dataDisplays: [
       {
@@ -1902,8 +1819,7 @@ const endpointConfig = {
     downloadName: 'TB_FCP2MonthlyReportMajorMarketParticipants',
   },
   '214': {
-    endpoint:
-      'v1/accounting/tb/fcp3_quarterly_report_large_market_participants',
+    endpoint: 'v1/accounting/tb/fcp3_quarterly_report_large_market_participants',
     dateField: 'record_date',
     downloadName: 'TB_FCP3QuarterlyReportLargeMarketParticipants',
   },
@@ -1944,8 +1860,7 @@ const endpointConfig = {
   '218': {
     endpoint: 'v1/accounting/tb/ffo6_customs_border_protection_collections',
     dateField: 'record_date',
-    downloadName:
-      'TB_FFO6CustomsBorderProtectionCollectionDutiesTaxesFeesDistrictsPorts',
+    downloadName: 'TB_FFO6CustomsBorderProtectionCollectionDutiesTaxesFeesDistrictsPorts',
     dataDisplays: [
       {
         title: 'District Name',
@@ -1958,6 +1873,136 @@ const endpointConfig = {
     ],
     valueFieldOptions: ['collection_amt'],
   },
+  '219': {
+    endpoint: 'v1/accounting/dts/operating_cash_balance',
+    dateField: 'record_date',
+    downloadName: 'DTS_OpCashBal',
+    dataDisplays: [
+      {
+        title: 'By Type of Account',
+        dimensionField: 'account_type',
+
+        lastRowSnapshot: true,
+        filters: [
+          {
+            key: 'account_type',
+            operator: 'eq',
+            value: 'Treasury General Account (TGA) Opening Balance',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['open_today_bal', 'open_month_bal', 'open_fiscal_year_bal'],
+  },
+  '220': {
+    endpoint: 'v1/accounting/dts/deposits_withdrawals_operating_cash',
+    dateField: 'record_date',
+    downloadName: 'DTS_OpCashDpstWdrl',
+    dataDisplays: [
+      {
+        title: 'By Type of Account',
+        dimensionField: 'account_type',
+      },
+      {
+        title: 'By Transaction Type',
+        dimensionField: 'transaction_type',
+      },
+    ],
+    valueFieldOptions: ['transaction_today_amt', 'transaction_mtd_amt', 'transaction_fytd_amt'],
+  },
+  '221': {
+    endpoint: 'v1/accounting/dts/public_debt_transactions',
+    dateField: 'record_date',
+    downloadName: 'DTS_PubDebtTrans',
+    dataDisplays: [
+      {
+        title: 'By Transaction Type',
+        dimensionField: 'transaction_type',
+      },
+    ],
+    valueFieldOptions: ['transaction_today_amt', 'transaction_mtd_amt', 'transaction_fytd_amt'],
+  },
+  '222': {
+    endpoint: 'v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
+    dateField: 'record_date',
+    downloadName: 'DTS_PubDebtCashAdj',
+    dataDisplays: [
+      {
+        title: 'By Transaction Type',
+        dimensionField: 'transaction_type',
+      },
+      {
+        title: 'By Adjustment Type',
+        dimensionField: 'adj_type',
+      },
+    ],
+    valueFieldOptions: ['adj_today_amt', 'adj_mtd_amt', 'adj_fytd_amt'],
+  },
+  '223': {
+    endpoint: 'v1/accounting/dts/debt_subject_to_limit',
+    dateField: 'record_date',
+    downloadName: 'DTS_DebtSubjLim',
+    dataDisplays: [
+      {
+        title: 'By Debt Category',
+        dimensionField: 'debt_catg',
+        lastRowSnapshot: true,
+      },
+    ],
+    valueFieldOptions: ['close_today_bal', 'open_today_bal', 'open_month_bal', 'open_fiscal_year_bal'],
+  },
+  '224': {
+    endpoint: 'v1/accounting/dts/federal_tax_deposits',
+    dateField: 'record_date',
+    downloadName: 'DTS_FedTaxDpst',
+    dataDisplays: [
+      {
+        title: 'By Federal Tax Deposit Type',
+        dimensionField: 'tax_deposit_type',
+      },
+    ],
+    valueFieldOptions: ['tax_deposit_today_amt', 'tax_deposit_mtd_amt', 'tax_deposit_fytd_amt'],
+  },
+  '225': {
+    endpoint: 'v1/accounting/dts/short_term_cash_investments',
+    dateField: 'record_date',
+    downloadName: 'DTS_StCashInvest',
+    dataDisplays: [
+      {
+        title: 'By Transaction Type',
+        dimensionField: 'transaction_type',
+      },
+    ],
+    valueFieldOptions: ['depositary_type_a_amt', 'depositary_type_b_amt', 'depositary_type_c_amt', 'total_amt'],
+  },
+  '226': {
+    endpoint: 'v1/accounting/dts/income_tax_refunds_issued',
+    dateField: 'record_date',
+    downloadName: 'DTS_IncmTaxRfnd',
+    dataDisplays: [
+      {
+        title: 'By Federal Tax Refund Type',
+        dimensionField: 'tax_refund_type',
+      },
+      {
+        title: 'By Federal Tax Refund Type Description',
+        dimensionField: 'tax_refund_type_desc',
+      },
+    ],
+    valueFieldOptions: ['tax_refund_today_amt', 'tax_refund_mtd_amt', 'tax_refund_fytd_amt'],
+  },
+  '227': {
+    endpoint: 'v1/accounting/dts/inter_agency_tax_transfers',
+    dateField: 'record_date',
+    downloadName: 'DTS_InterAgencyTaxTransfers',
+    dataDisplays: [
+      {
+        title: 'By Classification',
+        dimensionField: 'classification',
+      },
+    ],
+    valueFieldOptions: ['today_amt', 'mtd_amt', 'fytd_amt'],
+  },
 };
 
 const setCompleteTableDisplayItem = response => {
@@ -1969,10 +2014,7 @@ const setCompleteTableDisplayItem = response => {
   }
 
   response.dataDisplays = response.dataDisplays || [];
-  if (
-    !response.userFilter &&
-    response.dataDisplays.every(dd => dd.title !== strCompleteTable)
-  ) {
+  if (!response.userFilter && response.dataDisplays.every(dd => dd.title !== strCompleteTable)) {
     response.dataDisplays.unshift(completeItem);
   }
 };
