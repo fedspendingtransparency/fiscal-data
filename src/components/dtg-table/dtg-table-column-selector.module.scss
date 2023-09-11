@@ -26,8 +26,8 @@
             .closeIcon {
               color: $primary;
               :not(svg root) {
-                width: 0.75rem;
-                height: 1.25rem;
+                width: 0.9rem;
+                height: 100%;
               }
             }
             :hover {
@@ -50,7 +50,7 @@
     border-bottom: solid 1px #d9d9d9;
 
     .selectAllColumns {
-        border-bottom: 0px;
+        border-bottom: 0;
     }
 
     .reset {
@@ -64,8 +64,7 @@
 
         .resetIcon {
             padding-right: 0.5rem;
-            height: 12.3px;
-            width: 12.7px;
+            width: 14px !important;
         }
     }
     :hover {

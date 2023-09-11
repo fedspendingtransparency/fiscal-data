@@ -26,8 +26,8 @@
       .closeIcon {
         color: $primary;
         :not(svg root) {
-          width: 1rem;
-          height: 1.2rem;
+          width: 0.9rem;
+          height: 100%;
         }
       }
       :hover {
