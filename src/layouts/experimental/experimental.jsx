@@ -85,46 +85,46 @@ const ExperimentalPage = () => {
     {
       year: '2019',
       // top
-      debt: 0.75,
+      debt: 0.73,
       none: 0.25,
-      debt2: 0.75,
+      debt2: 0.73,
       none2: 0.25,
-      debt3: 0.75,
+      debt3: 0.73,
       none3: 0.25,
-      debt4: 0.75,
+      debt4: 0.73,
       none4: 0.25,
-      debt5: 0.75,
+      debt5: 0.73,
       none5: 0.25,
-      debt6: 0.75,
+      debt6: 0.73,
       none6: 0.25,
-      debt7: 0.75,
+      debt7: 0.73,
       none7: 0.25,
-      debt8: 0.75,
+      debt8: 0.73,
       none8: 0.25,
-      debt9: 0.75,
+      debt9: 0.73,
       none9: 0.25,
-      debt10: 0.75,
-      none10: 0.25,
-      debt11: 0.75,
+      debt10: 0.73,
+      none10: 0.65,
+      debt11: 0.73,
       none11: 0.25,
-      debt12: 0.75,
+      debt12: 0.73,
       none12: 0.25,
-      debt13: 0.75,
+      debt13: 0.73,
       none13: 0.25,
-      debt14: 0.75,
+      debt14: 0.73,
       none14: 0.25,
-      debt15: 0.75,
+      debt15: 0.73,
       none15: 0.25,
-      debt16: 0.75,
+      debt16: 0.73,
       none16: 0.25,
-      debt17: 0.75,
+      debt17: 0.73,
       none17: 0.25,
-      debt18: 0.75,
+      debt18: 0.73,
       none18: 0.25,
-      debt19: 0.75,
+      debt19: 0.73,
       none19: 0.25,
-      debt20: 0.75,
-      none20: 0.25,
+      debt20: 0.73,
+      none20: 0.6,
       debt21: 0.5625,
 
       //bottom
@@ -136,142 +136,270 @@ const ExperimentalPage = () => {
       year: '2020',
       // top
       // debt: 23.9,
-      debt: 0.75,
+      debt: 0.73,
       none: 0.25,
-      debt2: 0.75,
+      debt2: 0.73,
       none2: 0.25,
-      debt3: 0.75,
+      debt3: 0.73,
       none3: 0.25,
-      debt4: 0.75,
+      debt4: 0.73,
       none4: 0.25,
-      debt5: 0.75,
+      debt5: 0.73,
       none5: 0.25,
-      debt6: 0.75,
+      debt6: 0.73,
       none6: 0.25,
-      debt7: 0.75,
+      debt7: 0.73,
       none7: 0.25,
-      debt8: 0.75,
+      debt8: 0.73,
       none8: 0.25,
-      debt9: 0.75,
+      debt9: 0.73,
       none9: 0.25,
-      debt10: 0.75,
-      none10: 0.25,
-      debt11: 0.75,
+      debt10: 0.73,
+      none10: 0.65,
+      debt11: 0.73,
       none11: 0.25,
-      debt12: 0.75,
+      debt12: 0.73,
       none12: 0.25,
-      debt13: 0.75,
+      debt13: 0.73,
       none13: 0.25,
-      debt14: 0.75,
+      debt14: 0.73,
       none14: 0.25,
-      debt15: 0.75,
+      debt15: 0.73,
       none15: 0.25,
-      debt16: 0.75,
+      debt16: 0.73,
       none16: 0.25,
-      debt17: 0.75,
+      debt17: 0.73,
       none17: 0.25,
-      debt18: 0.75,
+      debt18: 0.73,
       none18: 0.25,
-      debt19: 0.75,
+      debt19: 0.73,
       none19: 0.25,
-      debt20: 0.75,
-      none20: 0.25,
-      debt22: 0.75,
+      debt20: 0.73,
+      none20: 0.6,
+      debt22: 0.73,
       none22: 0.25,
-      debt23: 0.75,
+      debt23: 0.73,
       none23: 0.25,
-      debt24: 0.75,
+      debt24: 0.73,
       none24: 0.25,
-      debt25: 0.65,
+      debt25: 0.64,
 
       //bottom
       // deficit: 3.2,
-      deficit3: 0.1,
+      deficit3: 0.09,
       none25: 0.25,
-      deficit4: 0.75,
+      deficit4: 0.73,
       none26: 0.25,
-      deficit5: 0.75,
+      deficit5: 0.73,
       none27: 0.25,
-      deficit6: 0.75,
+      deficit6: 0.73,
     },
     {
       year: '2021',
       // top
       // debt: 26.5,
-      debt: 0.75,
+      debt: 0.73,
       none: 0.25,
-      debt2: 0.75,
+      debt2: 0.73,
       none2: 0.25,
-      debt3: 0.75,
+      debt3: 0.73,
       none3: 0.25,
-      debt4: 0.75,
+      debt4: 0.73,
       none4: 0.25,
-      debt5: 0.75,
+      debt5: 0.73,
       none5: 0.25,
-      debt6: 0.75,
+      debt6: 0.73,
       none6: 0.25,
-      debt7: 0.75,
+      debt7: 0.73,
       none7: 0.25,
-      debt8: 0.75,
+      debt8: 0.73,
       none8: 0.25,
-      debt9: 0.75,
+      debt9: 0.73,
       none9: 0.25,
-      debt10: 0.75,
-      none10: 0.25,
-      debt11: 0.75,
+      debt10: 0.73,
+      none10: 0.65,
+      debt11: 0.73,
       none11: 0.25,
-      debt12: 0.75,
+      debt12: 0.73,
       none12: 0.25,
-      debt13: 0.75,
+      debt13: 0.73,
       none13: 0.25,
-      debt14: 0.75,
+      debt14: 0.73,
       none14: 0.25,
-      debt15: 0.75,
+      debt15: 0.73,
       none15: 0.25,
-      debt16: 0.75,
+      debt16: 0.73,
       none16: 0.25,
-      debt17: 0.75,
+      debt17: 0.73,
       none17: 0.25,
-      debt18: 0.75,
+      debt18: 0.73,
       none18: 0.25,
-      debt19: 0.75,
+      debt19: 0.73,
       none19: 0.25,
-      debt20: 0.75,
-      none20: 0.25,
-      debt22: 0.75,
+      debt20: 0.73,
+      none20: 0.6,
+      debt22: 0.73,
       none22: 0.25,
-      debt23: 0.75,
+      debt23: 0.73,
       none23: 0.25,
-      debt24: 0.75,
+      debt24: 0.73,
       none24: 0.25,
-      debt26: 0.75,
+      debt26: 0.73,
       none28: 0.25,
-      debt27: 0.75,
+      debt27: 0.73,
       none29: 0.25,
-      debt28: 0.75,
+      debt28: 0.73,
       none30: 0.25,
-      debt29: 0.5,
+      debt29: 0.375,
       //bottom
       // deficit: 1.5,
-      deficit7: 0.5,
+      deficit7: 0.375,
       none31: 0.25,
-      deficit8: 0.75,
+      deficit8: 0.73,
       none32: 0.25,
       deficit9: 0.4,
     },
     {
       year: '2022',
       // top
-      debt: 29.3,
+      // debt: 29.3,
+      debt: 0.73,
+      none: 0.25,
+      debt2: 0.73,
+      none2: 0.25,
+      debt3: 0.73,
+      none3: 0.25,
+      debt4: 0.73,
+      none4: 0.25,
+      debt5: 0.73,
+      none5: 0.25,
+      debt6: 0.73,
+      none6: 0.25,
+      debt7: 0.73,
+      none7: 0.25,
+      debt8: 0.73,
+      none8: 0.25,
+      debt9: 0.73,
+      none9: 0.25,
+      debt10: 0.73,
+      none10: 0.65,
+      debt11: 0.73,
+      none11: 0.25,
+      debt12: 0.73,
+      none12: 0.25,
+      debt13: 0.73,
+      none13: 0.25,
+      debt14: 0.73,
+      none14: 0.25,
+      debt15: 0.73,
+      none15: 0.25,
+      debt16: 0.73,
+      none16: 0.25,
+      debt17: 0.73,
+      none17: 0.25,
+      debt18: 0.73,
+      none18: 0.25,
+      debt19: 0.73,
+      none19: 0.25,
+      debt20: 0.73,
+      none20: 0.6,
+      debt22: 0.73,
+      none22: 0.25,
+      debt23: 0.73,
+      none23: 0.25,
+      debt24: 0.73,
+      none24: 0.25,
+      debt26: 0.73,
+      none28: 0.25,
+      debt27: 0.73,
+      none29: 0.25,
+      debt28: 0.73,
+      none30: 0.25,
+      debt30: 0.73,
+      none33: 0.25,
+      debt31: 0.73,
+      none34: 0.25,
+      debt32: 0.73,
+      none35: 0.25,
+      debt33: 0.365,
       //bottom
-      deficit: 1.7,
+      // deficit: 1.7,
+      deficit10: 0.365,
+      none36: 0.6,
+      deficit11: 0.73,
     },
     {
       year: '2023',
       // top
-      deficit: 1.2,
+      // deficit: 1.2,
+      debt: 0.73,
+      none: 0.25,
+      debt2: 0.73,
+      none2: 0.25,
+      debt3: 0.73,
+      none3: 0.25,
+      debt4: 0.73,
+      none4: 0.25,
+      debt5: 0.73,
+      none5: 0.25,
+      debt6: 0.73,
+      none6: 0.25,
+      debt7: 0.73,
+      none7: 0.25,
+      debt8: 0.73,
+      none8: 0.25,
+      debt9: 0.73,
+      none9: 0.25,
+      debt10: 0.73,
+      none10: 0.65,
+      debt11: 0.73,
+      none11: 0.25,
+      debt12: 0.73,
+      none12: 0.25,
+      debt13: 0.73,
+      none13: 0.25,
+      debt14: 0.73,
+      none14: 0.25,
+      debt15: 0.73,
+      none15: 0.25,
+      debt16: 0.73,
+      none16: 0.25,
+      debt17: 0.73,
+      none17: 0.25,
+      debt18: 0.73,
+      none18: 0.25,
+      debt19: 0.73,
+      none19: 0.25,
+      debt20: 0.73,
+      none20: 0.55,
+      debt22: 0.73,
+      none22: 0.25,
+      debt23: 0.73,
+      none23: 0.25,
+      debt24: 0.73,
+      none24: 0.25,
+      debt26: 0.73,
+      none28: 0.25,
+      debt27: 0.73,
+      none29: 0.25,
+      debt28: 0.73,
+      none30: 0.25,
+      debt30: 0.73,
+      none33: 0.25,
+      debt31: 0.73,
+      none34: 0.25,
+      debt32: 0.73,
+      none35: 0.25,
+      debt34: 0.7,
+      none37: 0.6,
+      debt35: 0.63,
       //bottom
-      debt: 31.2,
+      // debt: 31.2,
+      deficit12: 0.1,
+      none38: 0.25,
+      deficit13: 0.73,
+      none39: 0.25,
+      deficit14: 0.15,
     },
   ];
 
@@ -402,17 +530,22 @@ const ExperimentalPage = () => {
           </div>
           <VisualizationCallout children={'Example Text.'} />
         </div>
-        {/*SK WORK*/}
+        <div
+          style={{
+            height: 500,
+          }}
+        />{' '}
+        <h3>Total Debt: Last 4 Years and FYTD 2023 in Trillions of USD</h3>
         {
           <BarChart
             width={650}
-            height={400}
+            height={300}
             data={data}
             layout="vertical"
-            barGap={10}
-            barSize={40}
+            barGap={30}
+            barSize={30}
           >
-            <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+            <CartesianGrid horizontal={false} />
             <XAxis
               type="number"
               domain={[0, 40]}
@@ -420,7 +553,7 @@ const ExperimentalPage = () => {
               tickFormatter={v => `$${v}`}
             />
             <YAxis type="category" dataKey="year" reversed="true" />
-            {/*<Legend align="left" verticalAlign="top" />*/}
+            <Legend align="left" verticalAlign="top" />
 
             {/*{Object.keys(data[0]).map((key, index, value) => {*/}
             {/*  console.log(data[0].year, data[0].debt, data[0].deficit);*/}
@@ -435,424 +568,629 @@ const ExperimentalPage = () => {
             {/*  const fakeTransparentKey = { value2: 1 };*/}
 
             <Bar
+              name="Debt"
               dataKey="debt"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="circle"
             />
             <Bar
               dataKey="none"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt2"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none2"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt3"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none3"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt4"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none4"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt5"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none5"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt6"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none6"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt7"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none7"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt8"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none8"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt9"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none9"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt10"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none10"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt11"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none11"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt12"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none12"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt13"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none13"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt14"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none14"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt15"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none15"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt16"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none16"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt17"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none17"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt18"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none18"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt19"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none19"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt20"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none20"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt21"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none21"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit2"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt22"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none22"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt23"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none23"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt24"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none24"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt25"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit3"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none25"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit4"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none26"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit5"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none27"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit6"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt26"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none28"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt27"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none29"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt28"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none30"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="debt29"
               stackId="a"
               fill="#4B1B79"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit7"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none31"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit8"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="none32"
               stackId="a"
               fill="#00000000"
               layout={'horizontal'}
+              legendType="none"
             />
             <Bar
               dataKey="deficit9"
               stackId="a"
               fill="#BD4E12"
               layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="debt30"
+              stackId="a"
+              fill="#4B1B79"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="none33"
+              stackId="a"
+              fill="#00000000"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="debt31"
+              stackId="a"
+              fill="#4B1B79"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="none34"
+              stackId="a"
+              fill="#00000000"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="debt32"
+              stackId="a"
+              fill="#4B1B79"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="none35"
+              stackId="a"
+              fill="#00000000"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="debt33"
+              stackId="a"
+              fill="#4B1B79"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="deficit10"
+              stackId="a"
+              fill="#BD4E12"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="none36"
+              stackId="a"
+              fill="#00000000"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="deficit11"
+              stackId="a"
+              fill="#BD4E12"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="debt34"
+              stackId="a"
+              fill="#4B1B79"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="none37"
+              stackId="a"
+              fill="#00000000"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="debt35"
+              stackId="a"
+              fill="#4B1B79"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="deficit12"
+              stackId="a"
+              fill="#BD4E12"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="none38"
+              stackId="a"
+              fill="#00000000"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="deficit13"
+              stackId="a"
+              fill="#BD4E12"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              dataKey="none39"
+              stackId="a"
+              fill="#00000000"
+              layout={'horizontal'}
+              legendType="none"
+            />
+            <Bar
+              name="Deficit"
+              dataKey="deficit14"
+              stackId="a"
+              fill="#BD4E12"
+              layout={'horizontal'}
+              legendType="circle"
+            />
+            <Bar
+              name="$1T"
+              dataKey="null"
+              stackId="a"
+              fill="#555555"
+              legendType="square"
             />
           </BarChart>
         }
