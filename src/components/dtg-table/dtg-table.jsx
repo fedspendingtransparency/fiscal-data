@@ -26,11 +26,9 @@ export default function DtgTable({
   selectColumnPanel,
   setSelectColumnPanel,
   setTableColumnSortData,
-  defaultInvisibleColumns,
-  columnVisibility,
-  setColumnVisibility,
   resetFilters,
   setResetFilters,
+  setFiltersActive,
 }) {
   const {
     dePaginated,
@@ -423,14 +421,12 @@ export default function DtgTable({
             showPaginationControls={showPaginationControls}
             hasPublishedReports={hasPublishedReports}
             publishedReports={publishedReports}
-            columnVisibility={columnVisibility}
-            setColumnVisibility={setColumnVisibility}
-            defaultInvisibleColumns={defaultInvisibleColumns}
             setSelectColumnPanel={setSelectColumnPanel}
             selectColumnPanel={selectColumnPanel}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
             pageSize={10}
+            setFiltersActive={setFiltersActive}
           />
         )}
       </Experimental>

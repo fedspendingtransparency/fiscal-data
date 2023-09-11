@@ -51,6 +51,11 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
 
+  const defaultInvisibleColumns = config.selectColumns;
+  const [columnVisibility, setColumnVisibility] = useState(config.selectColumns ? defaultInvisibleColumns : {});
+  const [resetFilters, setResetFilters] = useState(false);
+  const [filtersActive, setFiltersActive] = useState(false);
+
   // Investigate why this is being called twice?
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -103,9 +108,6 @@ const TableSectionContainer = ({
       aria: { 'aria-labelledby': 'main-data-table-title' },
     });
   };
-
-  const defaultInvisibleColumns = config.selectColumns;
-  const [columnVisibility, setColumnVisibility] = useState(config.selectColumns ? defaultInvisibleColumns : {});
 
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
@@ -164,8 +166,6 @@ const TableSectionContainer = ({
 
     setNoChartMessage(SetNoChartMessage(selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilterUnmatched));
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData]);
-
-  const [resetFilters, setResetFilters] = useState(false);
 
   return (
     <div>
@@ -233,6 +233,7 @@ const TableSectionContainer = ({
                   setColumnVisibility={setColumnVisibility}
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
+                  setFiltersActive={setFiltersActive}
                 />
               ) : (
                 ''
@@ -255,9 +256,7 @@ const TableSectionContainer = ({
               )
             }
             allTablesSelected={allTablesSelected}
-            setColumnVisibility={setColumnVisibility}
-            defaultInvisibleColumns={defaultInvisibleColumns}
-            columnSelectActive={false}
+            filtersActive={filtersActive}
           />
         )}
       </div>

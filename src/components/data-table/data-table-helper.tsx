@@ -5,9 +5,11 @@ import SearchBar from '../search-bar/search-bar';
 export const Filter: FunctionComponent<any> = ({
   column,
   resetFilters,
+  setFiltersActive,
 }: {
   column: Column<any, any>;
   resetFilters: boolean;
+  setFiltersActive: (value: boolean) => void;
 }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
@@ -26,22 +28,14 @@ export const Filter: FunctionComponent<any> = ({
     const val = event && event.target ? event.target.value : '';
     column.setFilterValue(val);
     setFilterDisplay(val);
+    setFiltersActive(val.length > 0);
   };
 
   useEffect(() => {
     clearFilter();
   }, [resetFilters]);
 
-  return (
-    <SearchBar
-      onChange={onFilterChange}
-      filter={filterDisplay}
-      handleClear={clearFilter}
-      height="28px"
-      active={active}
-      setActive={setActive}
-    />
-  );
+  return <SearchBar onChange={onFilterChange} filter={filterDisplay} handleClear={clearFilter} height="28px" active={active} setActive={setActive} />;
 };
 
 export const rightAlign = (type: string): boolean => {

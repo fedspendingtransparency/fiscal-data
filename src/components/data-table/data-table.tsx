@@ -22,19 +22,14 @@ type DataTableProps = {
   hasPublishedReports: boolean;
   publishedReports: any[];
   hideCellLinks: boolean;
-  columnVisibility: string[];
-  allColumns;
-  sorting;
   resetFilters: boolean;
-  dataTypes: { [key: string]: string };
-  setColumnVisibility;
-  defaultInvisibleColumns;
   shouldPage: boolean;
   showPaginationControls: boolean;
   setSelectColumnPanel;
   selectColumnPanel;
-  setResetFilters;
+  setResetFilters: (value: boolean) => void;
   pageSize: number;
+  setFiltersActive: (value: boolean) => void;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -45,15 +40,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
-  // columnVisibility,
-  // setColumnVisibility,
-  // defaultInvisibleColumns,
   setSelectColumnPanel,
   selectColumnPanel,
   resetFilters,
   setResetFilters,
   hideCellLinks,
   pageSize,
+  setFiltersActive,
 }) => {
   const allColumns = rawData?.meta
     ? Object.entries(rawData.meta.labels).map(([field, label]) => ({
@@ -140,7 +133,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
-  const [indeterminate, setIndeterminate] = useState(false);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
@@ -186,7 +178,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} />
+                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>
