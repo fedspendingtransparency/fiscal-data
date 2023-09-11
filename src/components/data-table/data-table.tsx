@@ -82,7 +82,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const defaultInvisibleColumns = {};
-  // console.log(config.selectColumns);
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
 
   const table = useReactTable({

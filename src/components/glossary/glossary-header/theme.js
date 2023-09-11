@@ -9,11 +9,6 @@ const theme = {
           '&.MuiOutlinedInput-notchedOutline': {
             borderColor: variables.primary,
             borderWidth: '1px',
-            hover: {
-              '&:hover': {
-                borderColor: '#d9d9d9',
-              },
-            },
           },
         },
       },
@@ -41,11 +36,6 @@ export const useStyles = makeStyles({
     },
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
       borderColor: '#d9d9d9',
-    },
-    hover: {
-      '&:hover': {
-        borderColor: '#d9d9d9',
-      },
     },
   },
 });
