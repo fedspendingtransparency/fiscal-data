@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  closeIcon,
+  closePanelIcon,
   closeButton,
   columnSelectContainer,
   selectedValues,
@@ -40,8 +40,8 @@ const DataTableColumnSelector = ({
     <>
       {columnList.map(column => {
         return (
-          <label className={checkbox_label}>
-            <div key={column.id} className={checkbox_wrapper}>
+          <label className={checkbox_label} key={column.id}>
+            <div className={checkbox_wrapper}>
               <input type="checkbox" checked={column.getIsVisible()} onChange={column.getToggleVisibilityHandler()} className={optionCheckbox} />
               <span className={label_checkmark_container}>
                 <span className={label_checkmark_text}>
@@ -67,7 +67,7 @@ const DataTableColumnSelector = ({
             className={closeButton}
             aria-label="Close select control panel"
           >
-            <FontAwesomeIcon icon={faXmark} className={closeIcon} />
+            <FontAwesomeIcon icon={faXmark} className={closePanelIcon} />
           </button>
         </div>
         <div className={selectedValues}>

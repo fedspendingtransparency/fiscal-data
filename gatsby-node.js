@@ -412,7 +412,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           datePreset
           customRangePreset
-          bannerCallout
+          bannerCallout {
+            banner
+            startDate
+            endDate
+          }
           selectColumns
           relatedTopics
           filterTopics

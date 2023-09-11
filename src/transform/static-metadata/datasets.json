@@ -46,7 +46,12 @@
       "015-BFS-2014Q3-065"
     ],
     "currentDateButton": "byDay",
-    "bannerCallout": "DTSAPIUpdate"
+    "bannerCallout": {
+      "banner": "DTSAPIUpdate",
+      "startDate": "8/24/2023",
+      "endDate": "9/14/2023"
+    }
+    
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
@@ -157,7 +162,9 @@
     "currentDateButton": "byMonth",
     "datePreset": "custom",
     "customRangePreset": "latestQuarter",
-    "bannerCallout": "XRCallout"
+    "bannerCallout": {
+      "banner": "XRCallout"
+    }
   },
   "015-BFS-2014Q3-071": {
     "slug": "/historical-debt-outstanding/",
@@ -606,5 +613,20 @@
     "slug": "/auctions/",
     "currentDateButton": "byMonth",
     "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
+  },
+  "015-BFS-2014Q3-046": {
+    "slug": "/treasury-bulletin/",
+    "seoConfig": {
+      "pageTitle": "Treasury Bulletin",
+      "description": "Machine readable data of select Treasury Bulletin tables. These tables include those located within the Fiscal Service Operations (FFO-5 and FFO-6), ownership of federal securities, U.S. currency and coin outstanding and in circulation, foreign currency positions, and exchange stabilization fund sections of the Treasury Bulletin.",
+      "keywords": "Debt, Financial Summaries, Revenue, Savings Bonds"
+    },
+    "topics": ["debt", "financial-summaries", "revenue", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-13",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-07"
+    ],
+    "currentDateButton": "byMonth"
   }
 }
