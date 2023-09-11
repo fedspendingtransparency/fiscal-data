@@ -2,8 +2,12 @@ import React, { FunctionComponent } from 'react';
 import {
   currencyBody,
   currencyBox,
-  currencyHeader,
+  currencySelection,
   currencyText,
+  headerIcon,
+  boxLabel,
+  headerContainer,
+  comboCurrencySelection,
 } from './currency-entry-box.module.scss';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import { faDollarSign, faGlobe } from '@fortawesome/free-solid-svg-icons';
@@ -19,6 +23,7 @@ interface ICurrencyEntryBox {
   onCurrencyValueChange;
   options?: [];
   testId: string;
+  header: string;
 }
 
 const noNonNumericChar = event => {
@@ -38,35 +43,42 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   options,
   selectedCurrency,
   testId,
+  header,
 }) => {
+  console.log(options);
   return (
     <>
-      {dropdown ? (
-        <div className={currencyBox} data-testid={testId}>
-          <div>
-            <FontAwesomeIcon icon={faGlobe as IconProp} />
-            FOREIGN CURRENCY
+      <div className={currencyBox} data-testid={testId}>
+        <div className={headerContainer}>
+          <FontAwesomeIcon
+            icon={
+              (header === 'U.S. DOLLAR' ? faDollarSign : faGlobe) as IconProp
+            }
+            className={headerIcon}
+          />
+          <span>{header}</span>
+        </div>
+        <div className={boxLabel}>Amount</div>
+        <div className={currencyBody}>
+          <div className={currencyText}>
+            {currencyValue === '--' ? (
+              <div>{currencyValue}</div>
+            ) : (
+              <input
+                type="number"
+                inputMode="numeric"
+                step="any"
+                onKeyDown={noNonNumericChar}
+                onChange={onCurrencyValueChange}
+                value={currencyValue}
+                data-testid="input-dropdown"
+              />
+            )}
           </div>
-          <div>Amount</div>
-          <div className={currencyBody}>
-            <div className={currencyText}>
-              {currencyValue === '--' ? (
-                <div>{currencyValue}</div>
-              ) : (
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  step="any"
-                  onKeyDown={noNonNumericChar}
-                  onChange={onCurrencyValueChange}
-                  value={currencyValue}
-                  data-testid="input-dropdown"
-                />
-              )}
-            </div>
-          </div>
-          <span>Country-Currency</span>
-          {options && (
+        </div>
+        <div className={boxLabel}>Country-Currency</div>
+        {dropdown && options ? (
+          <div className={comboCurrencySelection}>
             <ComboCurrencySelect
               selectedOption={selectedCurrency}
               options={options}
@@ -76,38 +88,13 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
               required={true}
               disabledMessage="This option has no data for the selected quarter."
             />
-          )}
-        </div>
-      ) : (
-        <div className={currencyBox}>
-          <div>
-            <FontAwesomeIcon icon={faDollarSign as IconProp} />
-            U.S. DOLLAR
           </div>
-          <div>Amount</div>
-          <div className={currencyBody}>
-            <div className={currencyText}>
-              {currencyValue === '--' ? (
-                <div>{currencyValue}</div>
-              ) : (
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  step="any"
-                  onKeyDown={noNonNumericChar}
-                  onChange={onCurrencyValueChange}
-                  value={currencyValue}
-                  data-testid="input"
-                />
-              )}
-            </div>
-          </div>
-          <span>Country-Currency</span>
-          <div className={currencyHeader}>
+        ) : (
+          <div className={currencySelection}>
             <span>{defaultCurrency}</span>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

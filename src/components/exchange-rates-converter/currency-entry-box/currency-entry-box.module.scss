@@ -10,17 +10,32 @@ $border-color: #D9D9D9;
     opacity: 0.5;
   }
 
-  .currencyHeader {
-    background-color: #f1f1f1;
-    border-bottom: solid 1px $border-color;
+  .headerContainer {
+    display: flex;
+    span {
+      font-size: $font-size-12;
+      margin-bottom: 8.5px;
+      font-weight: 700;
+    }
+      .headerIcon {
+        margin-right: .5rem;
+      }
+  }
+
+  .boxLabel {
+    font-size: $font-size-14;
+    margin: .5rem 0 .25rem;
+
+  }
+  .currencySelection {
+    background-color: $body-background;
     height: 2.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     span {
-      font-weight: $semi-bold-weight;
-      color: #555555;
+      color: $font-title;
       margin-left: .75rem
     }
 
@@ -32,34 +47,53 @@ $border-color: #D9D9D9;
     }
   }
 
-  .currencyBody {
-    height: 2.5rem;
+
+  .currencySelection, .currencyBody,  {
     border: solid 1px $border-color;
     border-radius: 2px;
+    //padding: 12px 16px;
+  }
+
+  .comboCurrencySelection {
+    border: solid 1px $border-color;
+    border-radius: 2px;
+    height: 2.75rem;
+  }
+
+  .currencyBody {
+    height: 2.5rem;
+    &:hover {
+      border: solid 1px #666666;
+    }
   }
 
   .currencyText {
     margin-left: 0.625rem;
     padding-top: 0.5rem;
+
+    input[type=number]
+    {
+      border:none;
+      font-size: 1rem;
+      color: $font-body-copy;
+      width: 95%;
+      &:focus {
+        border: none;
+      }
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
   }
 
 }
 
-input[type=number]
-{
-  border:none;
-  font-size: 1rem;
-  color: $font-body-copy;
-  width: 95%;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-}
 
-input[type=number] {
-  -moz-appearance: textfield;
-}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {

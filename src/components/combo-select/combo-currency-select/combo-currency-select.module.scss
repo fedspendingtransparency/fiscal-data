@@ -9,7 +9,7 @@ $border-color: #D9D9D9;
 
 .dropdownInputContainer {
   position: relative;
-  border-bottom: solid 1px $border-color;
+  //border-bottom: solid 1px $border-color;
   border-radius: 0.125rem;
 }
 
@@ -36,7 +36,7 @@ $border-color: #D9D9D9;
   color: $font-body-copy;
   border: none;
   font-size: $font-size-16;
-  font-weight: $semi-bold-weight;
+  //font-weight: $semi-bold-weight;
   line-height: unset;
   -webkit-appearance: none;
 }
