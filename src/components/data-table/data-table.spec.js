@@ -180,7 +180,7 @@ describe('react-table', () => {
       />
     );
     // Column header
-    const header = getByRole('columnheader', {name: 'Record Date'});
+    const header = getByRole('columnheader', {name: 'Debt Held by the Public'});
     expect(header).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(3);

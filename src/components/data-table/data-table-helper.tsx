@@ -47,7 +47,7 @@ export const rightAlign = (type: string): boolean => {
   return types.includes(type) || type?.includes('CURRENCY');
 };
 
-export const DateRangeFilter: FunctionComponent<any> = ({
+export const SingleDateFilter: FunctionComponent<any> = ({
   column,
 }: {
   column: Column<any, any>;

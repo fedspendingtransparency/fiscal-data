@@ -14,7 +14,7 @@ import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { DateRangeFilter, Filter, rightAlign } from '../data-table-helper';
+import { SingleDateFilter, Filter, rightAlign } from '../data-table-helper';
 import React, { FunctionComponent } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
@@ -100,7 +100,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                       {header.column.getCanFilter() &&
                       header.id === 'record_date' ? (
                         <div className={columnMinWidth}>
-                          <DateRangeFilter column={header.column} />
+                          <SingleDateFilter column={header.column} />
                         </div>
                       ) : (
                         <div className={columnMinWidth}>
