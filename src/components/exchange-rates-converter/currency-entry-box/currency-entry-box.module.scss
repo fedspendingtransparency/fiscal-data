@@ -5,8 +5,6 @@ $border-color: #D9D9D9;
 .currencyBox {
   width: 20rem;
   margin: 0 1rem 0 0;
-  border-radius: 2px;
-  border: solid 1px $border-color;
 
   button:disabled {
     opacity: 0.5;
@@ -36,6 +34,8 @@ $border-color: #D9D9D9;
 
   .currencyBody {
     height: 2.5rem;
+    border: solid 1px $border-color;
+    border-radius: 2px;
   }
 
   .currencyText {
