@@ -108,6 +108,7 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
     expect(instance).toBeTruthy();
@@ -125,6 +126,7 @@ describe('react-table', () => {
         showPaginationControls
         resetFilters
         setResetFilters={mostResetFilter}
+        setFiltersActive={jest.fn()}
       />
     );
     expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
@@ -139,6 +141,7 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
     // Column header
@@ -163,6 +166,7 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
     // Column header
@@ -193,6 +197,7 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
 
@@ -215,6 +220,7 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
 
@@ -232,6 +238,7 @@ describe('react-table', () => {
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
+        setFiltersActive={jest.fn()}
       />
     );
 
@@ -246,127 +253,4 @@ describe('react-table', () => {
       expect(instance.queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
     });
   });
-
-  // it('resets columns back to default on reset', () => {
-  //   const { queryAllByRole, getAllByRole, getByTestId, getByRole } = render(
-  //     <DataTable
-  //       rawData={mockTableData}
-  //       defaultSelectedColumns={defaultSelectedColumnsMock}
-  //       pageSize={10}
-  //       setTableColumnSortData={setTableColumnSortData}
-  //       shouldPage
-  //       showPaginationControls
-  //     />
-  //   );
-  //
-  //   const firstDefaultHeader = queryAllByRole('columnheader', { name: defaultColLabels[0] })[0];
-  //   const firstDefaultCheckbox = getAllByRole('checkbox', { name: defaultColLabels[0] })[0];
-  //
-  //   let firstAdditionalHeader = queryAllByRole('columnheader', { name: additionalColLabels[0] })[0];
-  //   const firstAdditionalCheckbox = getAllByRole('checkbox', { name: additionalColLabels[0] })[0];
-  //
-  //   const columnSelectButton = getByRole('button', { name: 'Select Columns' });
-  //   const resetColButton = getByTestId('reset-button');
-  //
-  //   expect(firstDefaultHeader).toBeInTheDocument();
-  //   expect(firstAdditionalHeader).not.toBeDefined();
-  //   expect(firstAdditionalCheckbox).toBeInTheDocument();
-  //   fireEvent.click(firstDefaultCheckbox);
-  //   fireEvent.click(firstAdditionalCheckbox);
-  //   firstAdditionalHeader = getAllByRole('columnheader', { name: additionalColLabels[0] })[0];
-  //   expect(firstDefaultHeader).not.toBeInTheDocument();
-  //   expect(firstAdditionalHeader).toBeInTheDocument();
-  //
-  //   fireEvent.click(resetColButton);
-  //
-  //   // default state
-  //   // default col in table
-  //   defaultColLabels.forEach(index => {
-  //     expect(getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
-  //   });
-  //
-  //   // additional col not in table
-  //   additionalColLabels.forEach(index => {
-  //     expect(queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
-  //   });
-  // });
-  //
-  // it('resets columns back to default on reset from select all', () => {
-  //   const instance = render(
-  //     <DataTable
-  //       rawData={mockTableData}
-  //       defaultSelectedColumns={defaultSelectedColumnsMock}
-  //       pageSize={10}
-  //       setTableColumnSortData={setTableColumnSortData}
-  //       shouldPage
-  //       showPaginationControls
-  //     />
-  //   );
-  //
-  //   const selectAll = instance.getByRole('checkbox', { name: 'Select All' });
-  //   const resetColButton = instance.getByTestId('reset-button');
-  //   const firstDefaultHeader = instance.queryAllByRole('columnheader', { name: defaultColLabels[0] })[0];
-  //   let firstAdditionalHeader = instance.queryAllByRole('columnheader', { name: additionalColLabels[0] })[0];
-  //
-  //   expect(firstDefaultHeader).toBeInTheDocument();
-  //   expect(firstAdditionalHeader).not.toBeDefined();
-  //   fireEvent.click(selectAll);
-  //   firstAdditionalHeader = instance.getAllByRole('columnheader', { name: additionalColLabels[0] })[0];
-  //   expect(firstDefaultHeader).toBeInTheDocument();
-  //   expect(firstAdditionalHeader).toBeInTheDocument();
-  //
-  //   fireEvent.click(resetColButton);
-  //
-  //   // default state
-  //   // default col in table
-  //   defaultColLabels.forEach(index => {
-  //     expect(instance.getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
-  //   });
-  //
-  //   // additional col not in table
-  //   additionalColLabels.forEach(index => {
-  //     expect(instance.queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
-  //   });
-  // });
-  //
-  // it('resets columns back to default on reset from none selected', () => {
-  //   const instance = render(
-  //     <DataTable
-  //       rawData={mockTableData}
-  //       defaultSelectedColumns={defaultSelectedColumnsMock}
-  //       pageSize={10}
-  //       setTableColumnSortData={setTableColumnSortData}
-  //       shouldPage
-  //       showPaginationControls
-  //     />
-  //   );
-  //
-  //   const selectAll = instance.getByRole('checkbox', { name: 'Select All' });
-  //   const resetColButton = instance.getByTestId('reset-button');
-  //   const firstDefaultHeader = instance.queryAllByRole('columnheader', { name: defaultColLabels[0] })[0];
-  //   let firstAdditionalHeader = instance.queryAllByRole('columnheader', { name: additionalColLabels[0] })[0];
-  //
-  //   expect(firstDefaultHeader).toBeInTheDocument();
-  //   expect(firstAdditionalHeader).not.toBeDefined();
-  //   fireEvent.click(selectAll);
-  //   firstAdditionalHeader = instance.getAllByRole('columnheader', { name: additionalColLabels[0] })[0];
-  //   expect(firstDefaultHeader).toBeInTheDocument();
-  //   expect(firstAdditionalHeader).toBeInTheDocument();
-  //   fireEvent.click(selectAll);
-  //   expect(firstDefaultHeader).not.toBeInTheDocument();
-  //   expect(firstAdditionalHeader).not.toBeInTheDocument();
-  //
-  //   fireEvent.click(resetColButton);
-  //
-  //   // default state
-  //   // default col in table
-  //   defaultColLabels.forEach(index => {
-  //     expect(instance.getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
-  //   });
-  //
-  //   // additional col not in table
-  //   additionalColLabels.forEach(index => {
-  //     expect(instance.queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
-  //   });
-  // });
 });
