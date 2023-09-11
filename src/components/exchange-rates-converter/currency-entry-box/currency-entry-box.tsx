@@ -1,6 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
-  currencyBody,
   currencyBox,
   currencySelection,
   currencyText,
@@ -8,11 +7,14 @@ import {
   boxLabel,
   headerContainer,
   comboCurrencySelection,
+  activeBorder,
+  activeLabel,
 } from './currency-entry-box.module.scss';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import { faDollarSign, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import classNames from 'classnames';
 
 interface ICurrencyEntryBox {
   defaultCurrency: string;
@@ -45,7 +47,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   testId,
   header,
 }) => {
-  console.log(options);
+  const [active, setActive] = useState(false);
   return (
     <>
       <div className={currencyBox} data-testid={testId}>
@@ -58,23 +60,28 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
           />
           <span>{header}</span>
         </div>
-        <div className={boxLabel}>Amount</div>
-        <div className={currencyBody}>
-          <div className={currencyText}>
-            {currencyValue === '--' ? (
-              <div>{currencyValue}</div>
-            ) : (
-              <input
-                type="number"
-                inputMode="numeric"
-                step="any"
-                onKeyDown={noNonNumericChar}
-                onChange={onCurrencyValueChange}
-                value={currencyValue}
-                data-testid="input-dropdown"
-              />
-            )}
-          </div>
+        <div className={classNames([boxLabel, active ? activeLabel : null])}>
+          Amount
+        </div>
+        <div
+          className={classNames([currencyText, active ? activeBorder : null])}
+        >
+          {currencyValue === '--' ? (
+            <div>{currencyValue}</div>
+          ) : (
+            <input
+              type="number"
+              inputMode="numeric"
+              step="any"
+              onKeyDown={noNonNumericChar}
+              onChange={onCurrencyValueChange}
+              value={currencyValue}
+              data-testid="input-dropdown"
+              onClick={() => setActive(true)}
+              onFocus={() => setActive(true)}
+              onBlur={() => setActive(false)}
+            />
+          )}
         </div>
         <div className={boxLabel}>Country-Currency</div>
         {dropdown && options ? (

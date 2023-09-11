@@ -25,7 +25,9 @@ $border-color: #D9D9D9;
   .boxLabel {
     font-size: $font-size-14;
     margin: .5rem 0 .25rem;
-
+    &.activeLabel{
+      color: $primary;
+    }
   }
   .currencySelection {
     background-color: $body-background;
@@ -48,7 +50,7 @@ $border-color: #D9D9D9;
   }
 
 
-  .currencySelection, .currencyBody,  {
+  .currencySelection, .currencyText,  {
     border: solid 1px $border-color;
     border-radius: 2px;
     //padding: 12px 16px;
@@ -60,25 +62,30 @@ $border-color: #D9D9D9;
     height: 2.75rem;
   }
 
-  .currencyBody {
-    height: 2.5rem;
-    &:hover {
-      border: solid 1px #666666;
-    }
-  }
 
   .currencyText {
-    margin-left: 0.625rem;
-    padding-top: 0.5rem;
+    height: 2.75rem;
+    &:hover {
+      border: solid 1px $font-body-copy;
+    }
+
+    &.activeBorder {
+      border: solid 1px $primary;
+      box-shadow: 0 0 0 .25rem #e8f5ff;
+    }
 
     input[type=number]
     {
-      border:none;
+      background-color: transparent;
+      border-radius: 2px;
+      border: none;
       font-size: 1rem;
       color: $font-body-copy;
       width: 95%;
+      height: 2.75rem;
+      padding-left: .75rem;
       &:focus {
-        border: none;
+        outline: solid 1px transparent;
       }
     }
     input[type=number]::-webkit-inner-spin-button,
