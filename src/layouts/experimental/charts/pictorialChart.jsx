@@ -205,7 +205,7 @@ const PictorialChart = () => {
       } else {
         setAnimationFinished(true);
       }
-    }, 20); // Adjust the delay as needed
+    }, 20); 
 
     return () => clearTimeout(animationTimer);
   }, [currentBarIndex]);
@@ -265,7 +265,7 @@ const PictorialChart = () => {
           <Bar dataKey="none" stackId="a" fill="white" layout={'horizontal'} />
           <Bar dataKey="debt" stackId="a" fill="#4B1B79" layout={'horizontal'} />
           <Bar dataKey="none" stackId="a" fill="white" layout={'horizontal'} />
-          {/* Repeat for other data keys */}
+          {/* add addtional static bars */}
         </BarChart>
       ) : (
         bars
