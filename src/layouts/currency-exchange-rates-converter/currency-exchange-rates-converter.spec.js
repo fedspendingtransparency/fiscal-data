@@ -615,8 +615,11 @@ it('calls the appropriate analytics event when new value is entered into non US 
   const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByText('U.S. Dollar'));
 
-  const nonUSBox = within(getByTestId('box-container')).getByTestId(
-    'input-dropdown'
+  const nonUSBox = within(getByTestId('box-container')).getByRole(
+    'spinbutton',
+    {
+      name: 'Enter Euro Zone-Euro Amount',
+    }
   );
   fireEvent.change(nonUSBox, { target: { value: '1.11' } });
 
@@ -635,8 +638,11 @@ it('does not call analytic event when new value is entered into non US currency 
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
-  const nonUSBox = within(getByTestId('box-container')).getByTestId(
-    'input-dropdown'
+  const nonUSBox = within(getByTestId('box-container')).getByRole(
+    'spinbutton',
+    {
+      name: 'Enter Euro Zone-Euro Amount',
+    }
   );
   fireEvent.change(nonUSBox, { target: { value: '2.22' } });
 
@@ -655,8 +661,11 @@ it('does not call analytic event when non US currency field is empty', async () 
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
-  const nonUSBox = within(getByTestId('box-container')).getByTestId(
-    'input-dropdown'
+  const nonUSBox = within(getByTestId('box-container')).getByRole(
+    'spinbutton',
+    {
+      name: 'Enter Euro Zone-Euro Amount',
+    }
   );
   fireEvent.change(nonUSBox, { target: { value: '' } });
 
@@ -675,7 +684,9 @@ it('calls the appropriate analytics event when new value is entered into US curr
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
-  const usBox = within(getByTestId('box-container')).getByTestId('input');
+  const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+    name: 'Enter U.S. Dollar Amount',
+  });
 
   fireEvent.change(usBox, { target: { value: '111.11' } });
 
@@ -694,7 +705,9 @@ it('does not call analytic event when new value is entered into US currency fiel
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
-  const usBox = within(getByTestId('box-container')).getByTestId('input');
+  const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+    name: 'Enter U.S. Dollar Amount',
+  });
 
   fireEvent.change(usBox, { target: { value: '222.22' } });
   jest.advanceTimersByTime(1000);
@@ -712,7 +725,9 @@ it('does not call analytic event when US currency field is empty', async () => {
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
-  const usBox = within(getByTestId('box-container')).getByTestId('input');
+  const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+    name: 'Enter U.S. Dollar Amount',
+  });
 
   fireEvent.change(usBox, { target: { value: '' } });
   jest.advanceTimersByTime(5000);
