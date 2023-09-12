@@ -40,11 +40,13 @@ import { useInView} from "react-intersection-observer";
 
 const callOutDataEndPoint =
   apiPrefix +
-  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1';
+  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year' +
+  '&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1';
 
 const chartDataEndPoint =
   apiPrefix +
-  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
+  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year' +
+  '&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
 
 let gaTimer;
 let ga4Timer;
@@ -142,18 +144,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   useEffect(() => {
     const {
       finalGDPData,
-      gdpMinYear,
       gdpMaxYear,
-      gdpMinAmount,
       gdpMaxAmount,
     } = beaGDPData;
 
     basicFetch(chartDataEndPoint).then(res => {
       if (res.data) {
-        let maxAmount;
         let finalSpendingChartData = [];
 
-        res.data.map(spending => {
+        res.data.forEach(spending => {
           finalSpendingChartData.push({
             x: parseInt(spending.record_fiscal_year),
             actual: parseInt(spending.current_fytd_net_outly_amt),
@@ -175,7 +174,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           cpiDataByYear
         );
 
-        finalSpendingChartData.map(spending => {
+        finalSpendingChartData.forEach(spending => {
           spending.y = parseFloat(
             simplifyNumber(spending.actual, false).slice(0, -2)
           );
@@ -201,7 +200,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         );
 
         const finalGdpRatioChartData = [];
-        finalSpendingChartData.map((spending) => {
+        finalSpendingChartData.forEach((spending) => {
           const spendingYear = spending.fiscalYear;
           const spendingAmount = spending.y;
           const matchingGDP = filteredGDPData
@@ -216,13 +215,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
         setRatioGdpChartData(finalGdpRatioChartData);
 
-        maxAmount =
+        const maxAmountLocal =
           Math.ceil(
             (spendingMaxAmount > gdpMaxAmount
               ? spendingMaxAmount
               : gdpMaxAmount) / 5
           ) * 5;
-        setMaxAmount(maxAmount);
+        setMaxAmount(maxAmountLocal);
 
         setFirstRatio(
           numeral(finalSpendingChartData[0].y / filteredGDPData[0].y).format('0%')
@@ -457,10 +456,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               altText={chartAltText}
               customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
             >
-              <div className={lineChart} data-testid={'chartParent'}
+              <div className={lineChart} data-testid="chartParent"
                    onMouseEnter={handleMouseEnter}
-                   onMouseLeave={() => clearTimeout(gaTimer)}
-                   role={'presentation'}
+                   onMouseLeave={() => {
+                      clearTimeout(gaTimer);
+                      clearTimeout(ga4Timer);
+                   }}
+                   role="presentation"
               >
                 {selectedChartView === 'totalSpending' && (
                   <div ref={spendingRef}>

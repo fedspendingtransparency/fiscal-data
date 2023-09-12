@@ -7,9 +7,9 @@ import NotFoundText from '../../components/notFound/notFoundText';
 import NotFoundMd from "../../components/notFound/notFoundMd"
 import Experimental from "../../components/experimental/experimental"
 
-export const pageTitle = `Page Not Found`;
-
 const NotFound = ({ pageContext, data }) => {
+
+  const pageTitle = 'Page Not Found';
 
   return (
     <SiteLayout>

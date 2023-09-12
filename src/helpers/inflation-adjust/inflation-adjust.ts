@@ -1,6 +1,8 @@
 import {ICpiDataMap} from "../../models/ICpiDataMap";
 
-export const adjustDataForInflation = (dataToConvert: any[], dollarValueField: string, dateField: string, cpiYearMap: ICpiDataMap):any[] => {
+
+export const adjustDataForInflation =
+  ( dataToConvert: Record<string, number>[], dollarValueField: string, dateField: string, cpiYearMap: ICpiDataMap):Record<string, number>[] => {
   const getYearFromDate = ((dateValue) => {
     return dateValue.substring(0,4);
   });

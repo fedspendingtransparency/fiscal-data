@@ -18,13 +18,7 @@ import * as tocStyles from '../../components/table-of-contents/toc.module.scss';
 import * as styles from './api.module.scss';
 import DataRegistry from "../../components/api-documentation/data-registry/data-registry";
 import {updateAddressPath} from "../../helpers/address-bar/address-bar";
-
-export const scrollOptions = {
-  smooth: true,
-  spy: true,
-  duration: 0,
-  delay: 0
-};
+import {scrollOptionsSmooth} from "../../utils/scroll-config";
 
 const ApiDocumentationPage = ({location}) => {
 
@@ -276,10 +270,10 @@ const ApiDocumentationPage = ({location}) => {
     }
     else {
       if (!tocIsOpen) {
-        Scroll.animateScroll.scrollToTop(scrollOptions);
+        Scroll.animateScroll.scrollToTop(scrollOptionsSmooth);
       }
       else {
-        Scroll.animateScroll.scrollTo(lastScrollPosition,scrollOptions);
+        Scroll.animateScroll.scrollTo(lastScrollPosition, scrollOptionsSmooth);
       }
     }
     setLastScrollPosition(scrollPosition);

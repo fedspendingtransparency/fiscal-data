@@ -25,8 +25,8 @@ export const SortOptionsIndexed = {};
 
 SortOptions.forEach(item => SortOptionsIndexed[item.id] = item);
 
-export const FilteredSortOptions = SortOptions.filter(opt => opt.id != 'relevance');
+export const FilteredSortOptions = SortOptions.filter(opt => opt.id !== 'relevance');
 
-export function PerformSort(activeSort, list) {
+export const PerformSort = (activeSort, list) => {
     list.sort(activeSort.sortFn)
-}
+};

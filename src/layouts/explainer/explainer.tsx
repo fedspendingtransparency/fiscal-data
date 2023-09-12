@@ -37,10 +37,7 @@ import ComingSoon from "./explainer-components/highlighted-text/highlighted-text
 import DeskTopSubNav from "./explainer-components/explainer-sub-nav/explainer-sub-nav";
 import MobileSubNav from "./explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
 
-const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({
-  path,
-  pageContext,
-}) => {
+const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext, }) => {
   const {
     pageName,
     heroImage,

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   iconContainer,
@@ -7,13 +7,14 @@ import {
   offsetIcon,
   quoteContainer
 } from "./quote-box.module.scss";
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 type QuoteBoxProps = {
-  icon: any,
+  icon: IconProp,
   primaryColor: string,
   secondaryColor: string,
   customTopMargin: string,
-  children: any
+  children: ReactElement,
 }
 
 const QuoteBox: FunctionComponent<QuoteBoxProps> = (
@@ -23,9 +24,7 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = (
       <div className={iconContainer} style={{marginTop: customTopMargin}} data-testid="quote-box">
         <div
           className={iconBackground}
-          style={{
-            backgroundColor: secondaryColor
-          }}
+          style={{ backgroundColor: secondaryColor }}
         >
           <FontAwesomeIcon icon={icon} className={iconBackdrop} />
           <FontAwesomeIcon icon={icon} className={offsetIcon} style={{color: primaryColor}} />

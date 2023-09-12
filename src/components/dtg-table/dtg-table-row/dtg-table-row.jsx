@@ -18,12 +18,12 @@ const customFormat = (stringValue, decimalPlaces) => {
   }
   return returnString;
 }
-export default function DtgTableRow(props) {
+export default function DtgTableRow({ columns, data }) {
   const cells = [];
 
-  props.columns.forEach((column, index) => {
+  columns.forEach((column, index) => {
     const {property, type} = column;
-    const cellData = props.data[property];
+    const cellData = data[property];
     let formattedData = cellData;
 
     if (!cellData || cellData === 'null' || cellData === '*') {
@@ -39,7 +39,7 @@ export default function DtgTableRow(props) {
       formattedData = `${cellData}%`;
     } else if (type === 'DATE') {
       // .replace() resolves weird -1 day issue https://stackoverflow.com/a/31732581/564406
-      const date = new Date(cellData.replace(/-/g, '\/'));
+      const date = new Date(cellData.replace(/-/g, '/'));
       formattedData = dateFormatter.format(date);
     } else if (type === 'SMALL_FRACTION') {
       formattedData = new Intl.NumberFormat('en-US', {maximumSignificantDigits:5})

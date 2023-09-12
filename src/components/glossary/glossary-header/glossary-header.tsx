@@ -47,9 +47,9 @@ const GlossaryHeader:FunctionComponent<IGlossaryHeader> = ({filter, clickHandler
           onClick={clickHandler}
           onKeyPress={clickHandler}
           className={closeButton}
-          aria-label={'Close glossary'}
+          aria-label="Close glossary"
           ref={glossaryRef}
-          data-testid={'glossaryCloseButton'}
+          data-testid="glossaryCloseButton"
         >
           <FontAwesomeIcon icon={faXmark as IconProp} className={closeIcon} />
         </button>

@@ -19,7 +19,7 @@ $chevronWidth: $chevronHeight/3;
   100% { opacity: 0; }
 }
 
-#navContainer {
+.navContainer {
   width: 100%;
   color: #fff;
   max-width: $breakpoint-lg;
@@ -31,7 +31,6 @@ $chevronWidth: $chevronHeight/3;
 ul.navBlockHidden{
   display: none;
 }
-
 
 ul.navBlock {
   list-style: none;
@@ -72,7 +71,7 @@ ul.navBlockSticky {
     justify-content: center;
     align-items: center;
 
-    
+
     .navLink {
       display: flex;
       color: #fff;

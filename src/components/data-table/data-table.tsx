@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect} from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -8,51 +8,100 @@ import {
   getFilteredRowModel,
   SortingState,
 } from '@tanstack/react-table';
-import StickyTable from "react-sticky-table-thead";
+import DataTableFooter from './data-table-footer/data-table-footer';
+
+import StickyTable from 'react-sticky-table-thead';
 import {
   tableContainer,
   tableStyle,
+  overlayContainerNoFooter,
+  selectColumnPanelActive,
+  selectColumnPanelInactive,
+  selectColumnsWrapper,
 } from './data-table.module.scss';
 import DataTableHeader from './data-table-header/data-table-header';
-import DataTableFooter from './data-table-footer/data-table-footer';
+import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import ColumnSelect from './column-select/column-select';
-
+import moment from 'moment';
 
 type DataTableProps = {
-  rawData: any;
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
+  rawData;
   defaultSelectedColumns: string[];
+  setTableColumnSortData;
+  hasPublishedReports: boolean;
+  publishedReports: any[];
+  hideCellLinks: boolean;
+  resetFilters: boolean;
+  shouldPage: boolean;
+  showPaginationControls: boolean;
+  setSelectColumnPanel;
+  selectColumnPanel;
+  setResetFilters: (value: boolean) => void;
   pageSize: number;
-  setTableColumnSortData: any,
-  shouldPage: boolean,
-  showPaginationControls: boolean,
-}
+  setFiltersActive: (value: boolean) => void;
+};
 
-
-export const DataTable:FunctionComponent<DataTableProps> = (
-  {
-    rawData,
-    pageSize,
-    defaultSelectedColumns,
-    setTableColumnSortData,
-    shouldPage,
-    showPaginationControls,
-  }) => {
-
-  const allColumns = rawData.meta ?
-    Object.entries(rawData.meta.labels).map(([field, label]) => ({accessorKey: field, header: label} as ColumnDef<any, any>)) : [];
+const DataTable: FunctionComponent<DataTableProps> = ({
+  rawData,
+  defaultSelectedColumns,
+  setTableColumnSortData,
+  shouldPage,
+  showPaginationControls,
+  publishedReports,
+  hasPublishedReports,
+  setSelectColumnPanel,
+  selectColumnPanel,
+  resetFilters,
+  setResetFilters,
+  hideCellLinks,
+  pageSize,
+  setFiltersActive,
+}) => {
+  const allColumns = rawData.meta
+    ? Object.entries(rawData.meta.labels).map(([field, label]) => {
+      if (field === 'record_date') {
+        return {
+          accessorKey: field,
+          header: label,
+          filterFn: 'equalsString',
+          cell: ({ getValue }) => {
+            return moment(getValue()).format('MM/DD/YYYY');
+          },
+        } as ColumnDef<any, any>;
+      }
+      return { accessorKey: field, header: label } as ColumnDef<any, any>;
+    })
+    : [];
   const data = rawData.data;
-  const [columns] = React.useState(() => [
-    ...allColumns,
-  ])
+
+  if (hasPublishedReports && !hideCellLinks) {
+    // Must be able to modify allColumns, thus the ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    allColumns[0].cell = ({ getValue }) => {
+      if (
+        publishedReports.find(report => {
+          return report.report_date.toISOString().split('T')[0] === getValue();
+        }) !== undefined
+      ) {
+        const path = publishedReports.find(report => {
+          return report.report_date.toISOString().split('T')[0] === getValue();
+        }).path;
+        return <a href={path}>{getValue()}</a>;
+      } else {
+        return <span>{getValue()}</span>;
+      }
+    };
+  }
+  const [columns] = useState(() => [...allColumns]);
 
   const dataTypes = rawData.meta.dataTypes;
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const defaultInvisibleColumns = {};
-
-
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
+  const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
 
   const table = useReactTable({
     columns,
@@ -65,8 +114,8 @@ export const DataTable:FunctionComponent<DataTableProps> = (
       },
     },
     state: {
-     columnVisibility,
-     sorting,
+      columnVisibility,
+      sorting,
     },
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
@@ -76,48 +125,101 @@ export const DataTable:FunctionComponent<DataTableProps> = (
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  const getSortedColumnsData = (table) => {
+  const getSortedColumnsData = table => {
     const columns = table.getVisibleFlatColumns();
-    const mapped = columns.map(column =>
-      ({
-        id: column.id,
-        sorted: column.getIsSorted(),
-        filterValue: column.getFilterValue(),
-        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-        allColumnsSelected: table.getIsAllColumnsVisible()
-      })
-    );
+    const mapped = columns.map(column => ({
+      id: column.id,
+      sorted: column.getIsSorted(),
+      filterValue: column.getFilterValue(),
+      rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
+      allColumnsSelected: table.getIsAllColumnsVisible(),
+    }));
     setTableColumnSortData(mapped);
-  }
+  };
 
   useEffect(() => {
     getSortedColumnsData(table);
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
 
+  useEffect(() => {
+    if (resetFilters) {
+      table.resetColumnFilters();
+      table.resetSorting();
+      setResetFilters(false);
+    }
+  }, [resetFilters]);
+
+  const [defaultColumns, setDefaultColumns] = useState([]);
+  const [additionalColumns, setAdditionalColumns] = useState([]);
+
+  // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
+  if (defaultSelectedColumns) {
+    for (const column of allColumns) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (!defaultSelectedColumns.includes(column.accessorKey)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        defaultInvisibleColumns[column.accessorKey] = false;
+      }
+    }
+  }
+
+  const constructDefaultColumnsFromTableData = () => {
+    const constructedDefaultColumns = [];
+    const constructedAdditionalColumns = [];
+    for (const column of table.getAllLeafColumns()) {
+      if (defaultSelectedColumns.includes(column.id)) {
+        constructedDefaultColumns.push(column);
+      } else if (!defaultSelectedColumns.includes(column.id)) {
+        constructedAdditionalColumns.push(column);
+      }
+    }
+    constructedAdditionalColumns.sort((a, b) => {
+      return a.id.localeCompare(b.id);
+    });
+    setDefaultColumns(constructedDefaultColumns);
+    setAdditionalColumns(constructedAdditionalColumns);
+  };
+
+  useEffect(() => {
+    if (defaultSelectedColumns) {
+      constructDefaultColumnsFromTableData();
+    }
+  }, []);
 
   return (
-    // apply the table props
-    <div className={tableStyle}>
-      <ColumnSelect defaultSelectedColumns={defaultSelectedColumns}
-                    defaultInvisibleColumns={defaultInvisibleColumns}
-                    table={table}
-                    setColumnVisibility={setColumnVisibility}
-                    allColumns={allColumns}
-      />
-      <div data-test-id="table-content" className={tableContainer}>
-        <StickyTable height={521} >
-          <table>
-            <DataTableHeader table={table} dataTypes={dataTypes} />
-            <DataTableBody table={table} dataTypes={dataTypes} />
-          </table>
-        </StickyTable>
+    <>
+      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+        <div className={selectColumnsWrapper}>
+          <div className={tableStyle}>
+            <div data-test-id="table-content" className={tableContainer}>
+              <StickyTable height={521}>
+                <table>
+                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
+                  <DataTableBody table={table} dataTypes={dataTypes} />
+                </table>
+              </StickyTable>
+            </div>
+          </div>
+          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+            {defaultSelectedColumns && (
+              <DataTableColumnSelector
+                fields={allColumns}
+                resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
+                setSelectColumnPanel={setSelectColumnPanel}
+                defaultSelectedColumns={defaultSelectedColumns}
+                table={table}
+                additionalColumns={additionalColumns}
+                defaultColumns={defaultColumns}
+              />
+            )}
+          </div>
+        </div>
       </div>
-      <DataTableFooter
-        shouldPage={shouldPage}
-        table={table}
-        showPaginationControls={showPaginationControls}
-      />
-    </div>
-    );
+      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} />}
+    </>
+  );
+};
 
-}
+export default DataTable;

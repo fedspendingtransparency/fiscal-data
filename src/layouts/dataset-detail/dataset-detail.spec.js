@@ -307,7 +307,7 @@ describe('Dataset-Detail layout component', () => {
         });
       component = await renderer.create(<DatasetDetail test={true}
                                                        pageContext={{
-                                                         config: {...datasetPageSampleConfig, "bannerCallout": "TestCallout"},
+                                                         config: {...datasetPageSampleConfig, "bannerCallout": {"banner": "TestCallout"}},
                                                          seoConfig: seoConfig
                                                        }}
                                                        data={mockQueryReturn}
@@ -316,7 +316,7 @@ describe('Dataset-Detail layout component', () => {
     });
 
     const masthead = instance.findByType(Masthead);
-    expect(masthead.props.bannerCallout).toBe("TestCallout");
+    expect(masthead.props.bannerCallout.banner).toBe("TestCallout");
   });
 });
 

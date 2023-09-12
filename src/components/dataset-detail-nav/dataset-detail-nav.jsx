@@ -15,7 +15,7 @@ const breakpoint = {
 const DDNav = ({title}) => {
   const [links, setLinks] = useState([]);
   const [isMobile, setIsMobile] = useState(true);
-  const [scrollInstance, setScrollInstance] = useState(new SmoothScroll());
+  const [scrollInstance] = useState(new SmoothScroll());
   const [mobileIdx, setMobileIdx] = useState(0);
   const [offsetHeight, setOffsetHeight] = useState(0);
   let debounce, previousWidth;
@@ -39,13 +39,7 @@ const DDNav = ({title}) => {
 
   const linksCnt = linksArr.length;
 
-  function updateMobileLinks(i){
-    const idxAdjust = (i === 1) ? 1 : -1;
-    const newIdx = mobileIdx + idxAdjust;
-    setMobileLinks(newIdx);
-  }
-
-  function setMobileLinks(idx){
+  const setMobileLinks = idx => {
     const mobileLinks = [];
 
     if(idx <= 0 || idx >= linksCnt - 1){
@@ -64,9 +58,13 @@ const DDNav = ({title}) => {
 
     setMobileIdx(idx);
     setLinks(mobileLinks);
-  }
+  };
 
-
+  const updateMobileLinks = i => {
+    const idxAdjust = (i === 1) ? 1 : -1;
+    const newIdx = mobileIdx + idxAdjust;
+    setMobileLinks(newIdx);
+  };
 
   useEffect(() => {
     d3.select('.' + styles.menu)

@@ -42,9 +42,8 @@ import {graphql, useStaticQuery} from "gatsby";
 import Footnote from "../../components/footnote/footnote";
 import AnchorText from "../../components/anchor-text/anchor-text";
 import { getAFGFootnotes } from "../../helpers/footnotes-helper/footnotes-helper";
-import Analytics from "../../utils/analytics/analytics";
 
-export const AmericasFinanceGuidePage = ({ width }) => {
+const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
     graphql`
         query {
@@ -80,13 +79,6 @@ export const AmericasFinanceGuidePage = ({ width }) => {
   const [debtDate, setDebtDate] = useState('month year');
   const [debtToPennyDate, setDebtToPennyDate] = useState('month DD, year');
 
-  const handleCitizensGuideClick = () => {
-    return Analytics.event({
-      category: 'Explainers',
-      action: 'Citation Click',
-      label: 'AFG Overview - DS&M'
-    });
-  }
 
   useEffect(() => {
     basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
@@ -130,7 +122,10 @@ export const AmericasFinanceGuidePage = ({ width }) => {
       if (res.data) {
         const mtsData = res.data[0];
         const mtsMonth = mtsData.record_calendar_month;
+
+        // eslint-disable-next-line max-len
         const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
+
         basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
           if (res.data) {
             const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
@@ -221,9 +216,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
     </CustomLink>
   );
   const citizensGuideLink = (
-    <CustomLink
-      url={"https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html"}
-    >
+    <CustomLink url="https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html">
       Citizen's Guide to the Financial Report of the U.S. Government
     </CustomLink>
   );
@@ -289,19 +282,18 @@ export const AmericasFinanceGuidePage = ({ width }) => {
 
           <AfgTopicSection
             heading={spendingHeading}
-            body="The federal government funds a variety of programs and services that support the American public. The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."
+            body={"The federal government funds a variety of programs and services that support the American public. " +
+              "The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds."}
             linkUrl="/americas-finance-guide/federal-spending/"
             linkText="Learn more about federal spending"
             linkColor={spendingExplainerPrimary}
-            eventNumber={'5'}
-            citationClickPage={'AfgOverview'}
-            id={'Federal Spending'}
-            pageName={'SpendingExplainer'}
+            eventNumber="5"
+            citationClickPage="AfgOverview"
+            id="Federal Spending"
+            pageName="SpendingExplainer"
             image="/topics-section-images/homepage_spending_1200x630.png"
-            imageAltText="The US Treasury building is placed next to a row of homes. A pair
-          of hands exchange money in the foreground. "
+            imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
           />
-
           <div className={styles.middleHeader}>
             <Grid container spacing={4}>
               <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
@@ -309,7 +301,7 @@ export const AmericasFinanceGuidePage = ({ width }) => {
                   faIcon={faMoneyBill1Wave}
                   backgroundColor={styles.dollarIconBackgroundColor}
                   iconColor={styles.dollarIconColor}
-                  altText={'Dark grey one dollar bill image overlaid on a grey circle.'}
+                  altText="Dark grey one dollar bill image overlaid on a grey circle."
                 />
               </Grid>
               <Grid
@@ -334,10 +326,10 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkUrl="/americas-finance-guide/national-deficit/"
             linkText="Learn more about national deficit"
             linkColor={deficitExplainerPrimary}
-            eventNumber={'6'}
-            citationClickPage={'AfgOverview'}
-            id={'National Deficit'}
-            pageName={'DeficitExplainer'}
+            eventNumber="6"
+            citationClickPage="AfgOverview"
+            id="National Deficit"
+            pageName="DeficitExplainer"
             image="/topics-section-images/homepage_deficit_1200x630.png"
             imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
           of the hand, including a pie chart, bar graph, and lit lightbulb."
@@ -349,10 +341,10 @@ export const AmericasFinanceGuidePage = ({ width }) => {
             linkUrl="/americas-finance-guide/national-debt/"
             linkText="Learn more about national debt"
             linkColor={debtExplainerPrimary}
-            eventNumber={'7'}
-            citationClickPage={'AfgOverview'}
-            id={'National Debt'}
-            pageName={'DebtExplainer'}
+            eventNumber="7"
+            citationClickPage="AfgOverview"
+            id="National Debt"
+            pageName="DebtExplainer"
             image="/topics-section-images/homepage_debt_1200x630.png"
             imageAltText="A variety of hands reach up with objects, including a magnifying
           glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."

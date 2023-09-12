@@ -22,8 +22,11 @@ type UserFilterProps = {
       dataUnmatchedMessage: string
     }
   },
-  onUserFilter: (selection: any) => void,
-  apiData: any
+  onUserFilter: (selection: { label: (string | number), value?: (string | number | null) }) => void,
+  apiData: {
+    data?: [{ [key: string]: string }],
+    meta?: { [key: string]: string | Record<string, unknown> }
+  }
 }
 
 // hopefully this TS workaround will no longer be needed with newer versions of FontAwesome
