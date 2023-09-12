@@ -1,6 +1,4 @@
-import { Bar } from 'recharts';
-import React from 'react';
-
+/* istanbul ignore file */
 export const totalDebtData = {
   data: [
     {
