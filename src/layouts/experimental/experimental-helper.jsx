@@ -1,7 +1,7 @@
 import { Bar } from 'recharts';
 import React from 'react';
 
-export const TotalDebtData = {
+export const totalDebtData = {
   data: [
     {
       year: '2019',
