@@ -5,8 +5,7 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
+  CartesianGrid
 } from 'recharts';
 
 const data = [
@@ -204,50 +203,13 @@ const data = [
 ];
 
 const PictorialChart = () => {
-  const [currentYear, setCurrentYear] = useState(2019);
-  const [currentBarIndex, setCurrentBarIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const yearData = data.find(entry => entry.year === currentYear);
-
-      if (yearData) {
-        if (currentBarIndex < Object.keys(yearData).length - 1) {
-          setCurrentBarIndex(prevIndex => prevIndex + 1);
-        } else {
-          setCurrentYear(prevYear => prevYear + 1);
-          setCurrentBarIndex(0);
-        }
-      }
-    }, 1000); // Adjust the delay as needed
-
-    return () => clearTimeout(timer);
-  }, [currentYear, currentBarIndex]);
-
-  const yearData = data.find(entry => entry.year === currentYear);
-
-  // Generate the Bar components dynamically based on the data
-  const bars = yearData
-    ? Object.keys(yearData)
-        .filter(key => key !== 'year') // Exclude the 'year' property
-        .map((key, index) => (
-          <Bar
-            key={key}
-            dataKey={key}
-            stackId="a"
-            fill={index % 2 === 0 ? 'red' : 'blue'} // Alternating colors
-            layout={'horizontal'}
-            opacity={currentBarIndex >= index ? 1 : 0}
-          />
-        ))
-    : null;
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
       <BarChart
         width={650}
         height={400}
-        data={yearData ? [yearData] : []}
+        data={data}
         layout="vertical"
         barGap={10}
         barSize={40}
@@ -259,9 +221,428 @@ const PictorialChart = () => {
           unit="T"
           tickFormatter={v => `$${v}`}
         />
-        <YAxis type="category" dataKey="year" reversed={true} />
-        <Tooltip />
-        {bars}
+        <YAxis type="category" dataKey="year" reversed="true" />
+
+        <Bar
+          dataKey="debt"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt2"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none2"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt3"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none3"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt4"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none4"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt5"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none5"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt6"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none6"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt7"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none7"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt8"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none8"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt9"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none9"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt10"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none10"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt11"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none11"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt12"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none12"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt13"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none13"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt14"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none14"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt15"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none15"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt16"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none16"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt17"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none17"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt18"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none18"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt19"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none19"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt20"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none20"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt21"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none21"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit2"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt22"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none22"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt23"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none23"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt24"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none24"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt25"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit3"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none25"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit4"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none26"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit5"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none27"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit6"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt26"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none28"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt27"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none29"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt28"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none30"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="debt29"
+          stackId="a"
+          fill="#4B1B79"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit7"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none31"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit8"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="none32"
+          stackId="a"
+          fill="#00000000"
+          layout={'horizontal'}
+        />
+        <Bar
+          dataKey="deficit9"
+          stackId="a"
+          fill="#BD4E12"
+          layout={'horizontal'}
+        />
       </BarChart>
     </div>
   );
