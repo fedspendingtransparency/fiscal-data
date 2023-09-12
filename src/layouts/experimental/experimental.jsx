@@ -10,6 +10,7 @@ import VisualizationCallout from "../../components/visualization-callout/visuali
 import InsightsDownload from "../../components/insights-download/insights-download";
 import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from "react-error-boundary";
+import PictorialChart from './charts/pictorialChart';
 
 const fallbackComponent = () => {
   return (
@@ -52,6 +53,11 @@ const ExperimentalPage = () => {
           fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque
           quam.
         </p>
+
+        <h2>
+          Pictorial Chart
+        </h2>
+        <PictorialChart />
         <br />
         <h3> ReCharts Composed Chart </h3>
         <AFGDeficitPOC />
