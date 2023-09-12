@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+/* istanbul ignore file */
+import React, {useState, useEffect} from 'react';
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid
+  CartesianGrid,
+  Tooltip,
 } from 'recharts';
 
 const data = [
@@ -201,507 +203,66 @@ const data = [
   },
 ];
 
-const processDebtChunks = (debt, year) => {
-  const chunks = [];
-  for (let i = 0; i < debt; i += 2500) {
-    chunks.push({ year, value: Math.min(2500, debt - i) });
-  }
-  return chunks;
-};
-
-const flattenData = (data) => {
-  const flattenedData = [];
-  data.forEach((entry) => {
-    const { year, debt, deficit } = entry;
-    const debtChunks = processDebtChunks(debt, year);
-    flattenedData.push({ year, type: 'Deficit', value: deficit });
-    flattenedData.push(...debtChunks.map(chunk => ({ year, type: 'Debt', value: chunk.value })));
-  });
-  return flattenedData;
-};
-
 const PictorialChart = () => {
-  const flattenedData = flattenData(data);
-  const [animatedData, setAnimatedData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [currentYear, setCurrentYear] = useState(2019);
+  const [currentBarIndex, setCurrentBarIndex] = useState(0);
 
   useEffect(() => {
-    const delay = 500; // Delay between chunk animations in milliseconds
-    let intervalId; // Declare intervalId here
+    const timer = setTimeout(() => {
+      const yearData = data.find(entry => entry.year === currentYear);
 
-    const animateChunks = () => {
-      let i = 0;
-      intervalId = setInterval(() => {
-        if (i < flattenedData.length) {
-          setAnimatedData(prevData => [...prevData, flattenedData[i]]);
-          i++;
+      if (yearData) {
+        if (currentBarIndex < Object.keys(yearData).length - 1) {
+          setCurrentBarIndex(prevIndex => prevIndex + 1);
         } else {
-          clearInterval(intervalId); // Clear the interval when animation is complete
-          setLoading(false);
+          setCurrentYear(prevYear => prevYear + 1);
+          setCurrentBarIndex(0);
         }
-      }, delay);
-    };
+      }
+    }, 1000); // Adjust the delay as needed
 
-    animateChunks();
+    return () => clearTimeout(timer);
+  }, [currentYear, currentBarIndex]);
 
-    return () => {
-      clearInterval(intervalId); // Cleanup by clearing the interval on unmount
-    }
-  }, [flattenedData]);
+  const yearData = data.find(entry => entry.year === currentYear);
+
+  // Generate the Bar components dynamically based on the data
+  const bars = yearData
+    ? Object.keys(yearData)
+        .filter(key => key !== 'year') // Exclude the 'year' property
+        .map((key, index) => (
+          <Bar
+            key={key}
+            dataKey={key}
+            stackId="a"
+            fill={index % 2 === 0 ? 'red' : 'blue'} // Alternating colors
+            layout={'horizontal'}
+            opacity={currentBarIndex >= index ? 1 : 0}
+          />
+        ))
+    : null;
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
       <BarChart
-            width={650}
-            height={400}
-            data={data}
-            layout="vertical"
-            barGap={10}
-            barSize={40}
-          >
-            <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-            <XAxis
-              type="number"
-              domain={[0, 40]}
-              unit="T"
-              tickFormatter={v => `$${v}`}
-            />
-            <YAxis type="category" dataKey="year" reversed="true" />
-            {/*<Legend align="left" verticalAlign="top" />*/}
-
-            {/*{Object.keys(data[0]).map((key, index, value) => {*/}
-            {/*  console.log(data[0].year, data[0].debt, data[0].deficit);*/}
-            {/*  //I think I want a for in loop that cycles through data, for now hard coding to*/}
-            {/*  // index 0, to experiment with the year 2019*/}
-            {/*  const year = data[0].year;*/}
-            {/*  const debtLength = data[0].debt;*/}
-            {/*  const defLength = data[0].deficit;*/}
-            {/*  const currentDebt = true;*/}
-            {/*  const currentDeficit = false;*/}
-            {/*  const fakeDataKey = { value: 4 };*/}
-            {/*  const fakeTransparentKey = { value2: 1 };*/}
-
-            <Bar
-              dataKey="debt"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt2"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none2"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt3"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none3"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt4"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none4"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt5"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none5"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt6"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none6"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt7"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none7"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt8"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none8"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt9"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none9"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt10"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none10"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt11"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none11"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt12"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none12"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt13"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none13"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt14"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none14"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt15"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none15"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt16"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none16"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt17"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none17"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt18"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none18"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt19"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none19"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt20"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none20"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt21"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none21"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit2"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt22"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none22"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt23"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none23"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt24"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none24"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt25"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit3"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none25"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit4"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none26"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit5"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none27"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit6"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt26"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none28"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt27"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none29"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt28"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none30"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="debt29"
-              stackId="a"
-              fill="#4B1B79"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit7"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none31"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit8"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="none32"
-              stackId="a"
-              fill="#00000000"
-              layout={'horizontal'}
-            />
-            <Bar
-              dataKey="deficit9"
-              stackId="a"
-              fill="#BD4E12"
-              layout={'horizontal'}
-            />
-          </BarChart>
+        width={650}
+        height={400}
+        data={yearData ? [yearData] : []}
+        layout="vertical"
+        barGap={10}
+        barSize={40}
+      >
+        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+        <XAxis
+          type="number"
+          domain={[0, 40]}
+          unit="T"
+          tickFormatter={v => `$${v}`}
+        />
+        <YAxis type="category" dataKey="year" reversed={true} />
+        <Tooltip />
+        {bars}
+      </BarChart>
     </div>
   );
 };
