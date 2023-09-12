@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import BarGraph from '../../components/charts/bar/bar';
-import {
-  uncompressedBarGraphData,
-  staggeredData,
-} from '../../components/charts/helpers/helpersData';
-import { reducer } from '../../components/charts/helpers/helpers';
+import LineGraphAnimation from './charts/lineGraphAnimation';
+import { uncompressedBarGraphData, staggeredData } from '../../components/charts/helpers/helpersData';
+import { reducer } from "../../components/charts/helpers/helpers";
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import { barDiv, linkDiv, fallback } from './experimental.module.scss';
 import CustomLink from '../../components/links/custom-link/custom-link';
@@ -64,7 +62,10 @@ const ExperimentalPage = () => {
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
       <SiteLayout>
-        <h2>FootNote Paragraph</h2>
+        <LineGraphAnimation />
+        <h2>
+          FootNote Paragraph
+        </h2>
         <p>
           empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna
           eleifend ut. Nulla facilisi. Ut tempus orci nibh, vitae tristique erat

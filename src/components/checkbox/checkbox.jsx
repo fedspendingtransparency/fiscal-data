@@ -8,9 +8,9 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
   const additionalData = checkboxData.filter(field => field?.default === false);
   if (defaultData.length && defaultData[0]?.label) {
     additionalData.sort((a, b) => {
-      function stripCommas(label) {
-        return label.replace(/[,]/g, ''); 
-      }      
+      const stripCommas = (label) => {
+        return label.replace(/[,]/g, '');
+      }
       return stripCommas(a.label).localeCompare(stripCommas(b.label));
     });
   }
@@ -39,7 +39,12 @@ const Checkbox = ({ onHover, changeHandler, checkboxData }) => {
 
         {currentCheckboxData.map((obj, index) => (
           <>
-          {(defaultData.length && defaultData.length === index) ? <div className={[styles.sectionHeading, styles.additionalSection].join(' ')}>ADDITIONAL</div> : ''}
+          {(defaultData.length && defaultData.length === index) ?
+            <div className={[styles.sectionHeading, styles.additionalSection].join(' ')}>
+              ADDITIONAL
+            </div>
+            : ''
+          }
             <React.Fragment key={index}>
               <label
                 className={styles.checkbox_label}

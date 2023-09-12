@@ -67,7 +67,7 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
 
   useEffect(() => {
     if (location && location.pathname) {
-      const segments = location.pathname.split(/[\/\?]+/).filter(part => part.length > 0);
+      const segments = location.pathname.split(/[/?]+/).filter(part => part.length > 0);
       // url paths with only one segment represent the pages that need spacers
       setNavSpacer(segments.length === 1);
     } else {

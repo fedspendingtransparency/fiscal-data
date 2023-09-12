@@ -3,6 +3,8 @@ const { freshExplainerPages } = require("./src/transform/explainer-pages-config"
 const { getEndpointConfigsById } = require( './src/transform/endpointConfig');
 const { sortPublishers } = require('./src/transform/filters/filterDefinitions');
 let { filters } = require('./src/transform/filters/filterDefinitions');
+const fs = require('fs');
+
 
 // TODO:  remove preprod holdover and give all environments and env config filename that directly
 //  matches the build-time process.env.BUILD_ENV
@@ -242,34 +244,35 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   }
 
-  const resultData = await getBLSData().then(res => res)
-    .catch(error => {
-      throw error
+  // use locally for BLS failures
+  // const getResultData = require('./static/data/CPI/bls-fallback-data.json');
+
+  let resultData;
+
+  fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
+    if (err) {
+      resultData = await getBLSData().then(res => res)
+        .catch(error => {
+          throw error
+        });
+      console.warn('USING BLS API RESPONSE');
+    } else {
+      resultData = JSON.parse(data);
+    }
+    resultData.Results.series[0].data.forEach((blsRow) => {
+      blsRow.id = createNodeId(blsRow.year + blsRow.period);
+      const node = {
+        ...blsRow,
+        parent: null,
+        children: [],
+        internal: {
+          type: `BLSPublicAPIData`,
+        }
+      };
+      node.internal.contentDigest = createContentDigest(node);
+      createNode(node);
     });
-
-
-  // if (blsFileData) {
-  //   console.log("******************");
-  //   console.log("BLS FILE DATA FOUND");
-  // }
-  // else {
-  //   console.log("NO BLS FILE DATA")
-  // }
-
-  resultData.Results.series[0].data.forEach((blsRow) => {
-    blsRow.id = createNodeId(blsRow.year + blsRow.period);
-    const node = {
-      ...blsRow,
-      parent: null,
-      children: [],
-      internal: {
-        type: `BLSPublicAPIData`,
-      }
-    };
-    node.internal.contentDigest = createContentDigest(node);
-    createNode(node);
-  });
-
+  })
 
   const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
 
@@ -409,7 +412,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           currentDateButton
           datePreset
           customRangePreset
-          bannerCallout
+          bannerCallout {
+            banner
+            startDate
+            endDate
+          }
           selectColumns
           relatedTopics
           filterTopics

@@ -1,11 +1,11 @@
-import React, { Fragment } from "react"
+import React from "react"
 import * as styles from './filterPublisher.module.scss'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 
-export default function FilterPublisher(props) {
-    const publisherCount = `${props.filterList.filter(r=>r.groupId === "publisher").length} Publishers`
+export default function FilterPublisher({ filterList, children }) {
+    const publisherCount = `${filterList.filter(r=>r.groupId === "publisher").length} Publishers`
   return (
     <div data-testid="publisher-filter-wrapper">
         <div className={styles.outer_container_label} data-testid="publisher-outer-container-label">
@@ -37,7 +37,7 @@ export default function FilterPublisher(props) {
               Bureau of the Fiscal Service
             </div>
             <div className={styles.publisher_checkbox_container}>
-             {props.children}
+             {children}
             </div>
           </div>
         </div>

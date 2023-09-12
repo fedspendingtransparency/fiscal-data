@@ -9,7 +9,6 @@ import {
 } from "./hero-image.module.scss";
 import { withWindowSize } from "react-fns";
 import { basicFetch } from "../../../utils/api-utils";
-import reactStringReplace from "react-string-replace";
 import { getShortForm } from "../../../utils/rounding-utils";
 const HeroImage: FunctionComponent<IHeroImage> = ({
   heading,

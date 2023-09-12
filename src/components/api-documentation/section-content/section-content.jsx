@@ -6,7 +6,7 @@ const SectionContent = ({id, children, className, headingLevel, title}) => {
   const [header, setHeader] = useState(null);
   const scHeadingLevel = headingLevel ? parseInt(headingLevel, 10) : 2;
 
-  function createHeader() {
+  const createHeader = () => {
     switch (scHeadingLevel) {
       case 2 :
         return <h2>{title}</h2>;

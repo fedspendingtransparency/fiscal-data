@@ -106,7 +106,7 @@ const NationalDeficitHero = ({glossary, glossaryClickHandler}): JSX.Element => {
       fiscal year (FY)
     </GlossaryPopoverDefinition>
 
-  const changeNationaDeficitFooter =
+  const changeNationalDeficitFooter =
     <p>Compared to the national deficit of ${desktopPriorDeficit} for the same period last year
       ({getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}),
       our national deficit has {deficitStatus} by ${deficitDif}.
@@ -133,7 +133,7 @@ const NationalDeficitHero = ({glossary, glossaryClickHandler}): JSX.Element => {
         </p>
       </div>
       <div className={footNotes}>
-        {changeNationaDeficitFooter}
+        {changeNationalDeficitFooter}
       </div>
       <div className={deficitBoxContainer}>
         {

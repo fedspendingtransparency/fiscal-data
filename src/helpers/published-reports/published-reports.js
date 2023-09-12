@@ -28,6 +28,7 @@ const whitelistDatasetIds = [
   '015-BFS-2014Q3-037',
   '015-BFS-2014Q3-098',
   '015-BFS-2014Q3-045',
+  '015-BFS-2014Q3-046',
 ];
 exports.whiteListIds = whitelistDatasetIds;
 

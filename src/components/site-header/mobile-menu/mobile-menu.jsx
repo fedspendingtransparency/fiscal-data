@@ -112,15 +112,16 @@ const MobileMenu = ({ setOpenGlossary }) => {
               </Link>
               <MenuButton clickHandler={toggleState} isOpen={activeState} />
             </div>
-            <MobileMenuDropdown header={'Topics'} sections={topics} defaultOpen />
-            <MobileMenuDropdown header={'Tools'} sections={tools} />
+            <MobileMenuDropdown header="Topics" sections={topics} defaultOpen />
+            <MobileMenuDropdown header="Tools" sections={tools} />
             <Link to="/datasets/" className={styles.pageLinks} onClick={() => clickHandler('Dataset Search')}>
               Dataset Search
             </Link>
-            <MobileMenuDropdown header={'Resources'}
+            <MobileMenuDropdown header="Resources"
                                 sections={resources}
                                 setOpenGlossary={setOpenGlossary}
-                                setActiveState={setActiveState} />
+                                setActiveState={setActiveState}
+            />
             <Link to="/about-us/" className={styles.pageLinks} onClick={() => clickHandler('About')}>
               About Us
             </Link>

@@ -64,7 +64,6 @@ workspace.xml
 # dotenv environment variables file
 .env
 
-
 # gatsby files
 .cache/
 public
@@ -77,8 +76,12 @@ dist
 yarn-error.log
 .pnp/
 .pnp.js
+
 # Yarn Integrity file
 .yarn-integrity
 
 # For VS Code users
 .vscode
+
+# scss type definitions
+*.scss.d.ts

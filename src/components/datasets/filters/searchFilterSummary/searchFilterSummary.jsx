@@ -20,18 +20,20 @@ export default function SearchFilterSummary({
     setFilters(updated);
   }, [activeFilters, allFilters]);
 
-  function clickHandler(option, filterConfig) {
+  const clickHandler = (option, filterConfig) => {
     return () => {
       option.active = false
       onIndividualReset(option);
     }
-  }
-  function handleClearAll() {
+  };
+
+  const handleClearAll = () => {
     const active = filters.filter(r => r.options.some(d => d.active))
     active.map(a => {
       return onGroupReset(a.key)
     })
-  }
+  };
+
   const searched = searchQuery.length > 0
   const filtered = activeFilters.length > 0
 

@@ -78,7 +78,8 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
     apiId: apiId,
     params: `?filter=${apiDateField}:gte:${dateRange.from},` +
       `${apiDateField}:lte:${dateRange.to}${filterAddendum}${tableColumnFilter}` +
-      `&sort=${tableColumnSort ? tableColumnSort : tableColumnFields !== '&fields=' ? defaultParamsWithColumnSelect : apiSortParams }&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
+      `&sort=${tableColumnSort ? tableColumnSort : tableColumnFields !== '&fields=' ?
+        defaultParamsWithColumnSelect : apiSortParams }&format=${fileType}${tableColumnFields !== '&fields=' ? tableColumnFields : ''}`
   }
 };
 

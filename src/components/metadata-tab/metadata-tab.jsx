@@ -1,35 +1,35 @@
 import React from 'react';
 import DtgTable from "../dtg-table/dtg-table";
 
-export default function MetadataTab(props) {
+export default function MetadataTab({ config }) {
   const theData = [
     {
       name: 'Title',
-      definition: props.config.name
+      definition: config.name
     },
     {
       name: 'Description (Long)',
-      definition: props.config.summaryText
+      definition: config.summaryText
     },
     {
       name: 'Description (Short)',
-      definition: props.config.tagLine
+      definition: config.tagLine
     },
     {
       name: 'Update Frequency',
-      definition: props.config.techSpecs.updateFrequency
+      definition: config.techSpecs.updateFrequency
     },
     {
       name: 'Date Range',
-      definition: props.config.techSpecs.earliestDate + ' - ' + props.config.techSpecs.latestDate
+      definition: config.techSpecs.earliestDate + ' - ' + config.techSpecs.latestDate
     },
     {
       name: 'Topics',
-      definition: props.config.relatedTopics ? props.config.relatedTopics.join(', ') : []
+      definition: config.relatedTopics ? config.relatedTopics.join(', ') : []
     },
     {
       name: 'Publisher',
-      definition: props.config.publisher
+      definition: config.publisher
     }
   ];
   const columnConfig = [
@@ -50,7 +50,7 @@ export default function MetadataTab(props) {
     data: theData,
     columnConfig,
     tableName: 'Metadata Tab',
-    aria: {"aria-label": `${props.config.name} metadata`}
+    aria: {"aria-label": `${config.name} metadata`}
   };
 
   return (

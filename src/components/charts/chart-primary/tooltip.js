@@ -16,27 +16,39 @@ const d3 = { select, selectAll },
     formatDate = utcFormat("%m/%d/%Y"),
     parseDate = utcParse("%Y-%m-%d");
 
-let dots = [], tooltipG, pointLayer;
+const dots = [];
+let tooltipG;
+let pointLayer;
 export const maxTooltipHitbox = 20;
 export const minTooltipHitbox = 7.5;
 
 
-function initTooltip({ data, currentScales, container, visibleContainer, visibleFields, dateField, chartDimensions, labels, dataType, toolTipDateKey}) {
+const initTooltip = (
+  {
+    data,
+    currentScales,
+    container,
+    visibleContainer,
+    visibleFields,
+    dateField,
+    chartDimensions,
+    labels,
+    dataType,
+    toolTipDateKey
+  }) => {
 
-  function mapData() {
-        return data.reduce((accumulator, r) => {
-            return accumulator.concat(visibleFields.map(f => {
-                return {
-                    value: r[f],
-                    field: f,
-                    date: r[dateField],
-                    displayDate: toolTipDateKey ? r[toolTipDateKey] : formatDate(parseDate(r[dateField]))
-                }
-            }));
-        }, []).filter(ttr => ttr.value !== null && ttr.value !== undefined && ttr.value !== 'null');
-    }
+  const mapData = () => data.reduce((accumulator, r) => {
+    return accumulator.concat(visibleFields.map(f => {
+      return {
+        value: r[f],
+        field: f,
+        date: r[dateField],
+        displayDate: toolTipDateKey ? r[toolTipDateKey] : formatDate(parseDate(r[dateField]))
+      }
+    }));
+  }, []).filter(ttr => ttr.value !== null && ttr.value !== undefined && ttr.value !== 'null');
 
-    function placeTooltip() {
+    const placeTooltip = function () {
         const box = visibleContainer.node().getBoundingClientRect(),
             yOffset = 15,
             limits = {
@@ -61,10 +73,10 @@ function initTooltip({ data, currentScales, container, visibleContainer, visible
         }
 
         return `translate(${x + chartDimensions.yAxisWidth}, ${y})`;
-    }
+    };
 
-    function placeTitle(d) {
-        let titleWidth, scaleFactor;
+    const placeTitle = d => {
+        let scaleFactor;
 
         const translateString = `translate(${tooltipPadding}, ${tooltipPadding})`
 
@@ -78,15 +90,15 @@ function initTooltip({ data, currentScales, container, visibleContainer, visible
             .attr('transform', translateString)
 
         //shrink the title if needed
-        titleWidth = title.node().getBoundingClientRect().width;
+        const titleWidth = title.node().getBoundingClientRect().width;
         if (titleWidth > maxContentWidth) {
             scaleFactor = maxContentWidth/titleWidth;
 
             title.attr('transform', `${translateString} scale(${scaleFactor})`)
         }
-    }
+    };
 
-    function placeDate(d) {
+    const placeDate = d => {
         tooltipG.append('text')
             .text(() => d.displayDate)
             .attr('data-testid', 'date')
@@ -94,9 +106,9 @@ function initTooltip({ data, currentScales, container, visibleContainer, visible
             .attr('font-weight', 'normal')
             .attr('fill', '#666666')
             .attr('transform', `translate(${tooltipPadding}, ${tooltipDimensions.height - tooltipPadding})`)
-    }
+    };
 
-    function placeValue(d) {
+    const placeValue = d => {
         tooltipG.append('text')
             .text(() => {
                 return formatForDataType(d.value, dataType)
@@ -107,18 +119,18 @@ function initTooltip({ data, currentScales, container, visibleContainer, visible
             .attr('fill', '#2272ce')
             .attr('text-anchor', 'end')
             .attr('transform', `translate(${tooltipDimensions.width - tooltipPadding}, ${tooltipDimensions.height - tooltipPadding})`)
-    }
+    };
 
-    function placeSeparator() {
+    const placeSeparator = () => {
         tooltipG.append('line')
             .attr('stroke', '#dddddd')
             .attr('x1', tooltipPadding)
             .attr('y1', tooltipDimensions.height / 2)
             .attr('x2', tooltipDimensions.width - tooltipPadding)
             .attr('y2', tooltipDimensions.height / 2)
-    }
+    };
 
-    function showPoint(d) {
+    const showPoint = d => {
         pointLayer.append('circle')
             .raise()
             .classed(pointClass, true)
@@ -128,9 +140,9 @@ function initTooltip({ data, currentScales, container, visibleContainer, visible
             .transition()
                 .duration(10)
                 .attr('fill', '#0071bc');
-    }
+    };
 
-    function showTooltip(d) {
+    const showTooltip = d => {
         tooltipG = container.append('g')
             .classed(tooltipClass, true)
             .attr('transform', placeTooltip.bind(d));
@@ -146,22 +158,22 @@ function initTooltip({ data, currentScales, container, visibleContainer, visible
         placeDate(d);
         placeValue(d);
         placeSeparator();
-    }
+    };
 
-    function onMouseOver(d) {
+    const onMouseOver = d => {
         showPoint(d);
         showTooltip(d);
-    }
+    };
 
-    function onMouseOut(d) {
+    const onMouseOut = () => {
         tooltipG.remove();
 
         d3.selectAll('.' + pointClass).remove();
 
         dots.forEach(curDots => curDots.transition().duration(10).attr('fill', 'transparent'));
-    }
+    };
 
-    function placeTooltips() {
+    const placeTooltips = () => {
         const layerClass = 'dots';
         const mappedData = mapData();
         const groupedData = groupBy(mappedData, 'field');
@@ -194,7 +206,7 @@ function initTooltip({ data, currentScales, container, visibleContainer, visible
             .on('mouseout', onMouseOut)
           );
         });
-    }
+    };
 
     placeTooltips();
 }

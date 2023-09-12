@@ -13,7 +13,7 @@ import surplus from "../../../../../../images/explainer/national-deficit/surplus
 import balancedBudget
   from "../../../../../../images/explainer/national-deficit/balanced-budget.png";
 import deficit from "../../../../../../images/explainer/national-deficit/deficit.png";
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {withWindowSize} from "react-fns";
 import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
@@ -102,17 +102,22 @@ const SurplusIllustration = ({glossary, width, glossaryClickHandler}) => {
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
    const balancedBudgetGlossary =
-     <GlossaryPopoverDefinition term={'Balanced Budget'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+     <GlossaryPopoverDefinition
+       term="Balanced Budget"
+       page="Deficit Explainer"
+       glossary={glossary}
+       glossaryClickHandler={glossaryClickHandler}
+     >
        balanced budget
      </GlossaryPopoverDefinition>
 
 
   return (
-    <div className={folderVisContainer} data-testid={'surplus-illustration'}>
+    <div className={folderVisContainer} data-testid="surplus-illustration">
       <div className={folderWhiteOutLine} />
       <Tabs>
         <TabList style={tabListStyle}>
-          <Tab style={tabStyle} data-testid={'surplus-tab'} selectedClassName={selectedTab}
+          <Tab style={tabStyle} data-testid="surplus-tab" selectedClassName={selectedTab}
                onClick={()=>handleClick("10")}
           >
             <div className={tabBaselineWhiteout} />
@@ -122,17 +127,17 @@ const SurplusIllustration = ({glossary, width, glossaryClickHandler}) => {
             </div>
             {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
           </Tab>
-              <Tab style={tabStyle} data-testid={'budget-tab'} selectedClassName={selectedTab}
+              <Tab style={tabStyle} data-testid="budget-tab" selectedClassName={selectedTab}
                    onClick={()=>handleClick("11")}
               >
-              <div className={tabBaselineWhiteout} />
-              {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
-              <div className={title}>
-                Balanced Budget
-              </div>
-              {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
-            </Tab>
-            <Tab style={tabStyle} data-testid={'deficit-tab'} selectedClassName={selectedTab}
+                <div className={tabBaselineWhiteout} />
+                {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft /> }
+                <div className={title}>
+                  Balanced Budget
+                </div>
+                {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight /> }
+              </Tab>
+            <Tab style={tabStyle} data-testid="deficit-tab" selectedClassName={selectedTab}
                  onClick={()=>handleClick("12")}
             >
               <div className={tabBaselineWhiteout} />
@@ -146,7 +151,7 @@ const SurplusIllustration = ({glossary, width, glossaryClickHandler}) => {
         <TabPanel>
           <div className={folderVis}>
             <div className={folderContent}>
-              <img src={surplus} alt="" data-testid={"surplus-image"} />
+              <img src={surplus} alt="" data-testid="surplus-image" />
               <div>
                 <p>
                   A <i>surplus</i> occurs when the government collects more money than it spends.
@@ -158,10 +163,10 @@ const SurplusIllustration = ({glossary, width, glossaryClickHandler}) => {
             </div>
           </div>
         </TabPanel>
-        <TabPanel data-testid={"budget-panel"}>
+        <TabPanel data-testid="budget-panel">
           <div className={folderVis}>
             <div className={folderContent}>
-              <img src={balancedBudget} alt="" data-testid={"balanced-budget-image"} />
+              <img src={balancedBudget} alt="" data-testid="balanced-budget-image" />
               <div>
                 <p>
                   A <i>{balancedBudgetGlossary}</i> occurs when the amount the government spends
@@ -178,7 +183,7 @@ const SurplusIllustration = ({glossary, width, glossaryClickHandler}) => {
         <TabPanel>
           <div className={folderVis}>
             <div className={folderContent}>
-              <img src={deficit} alt="" data-testid={"deficit-image"} />
+              <img src={deficit} alt="" data-testid="deficit-image" />
               <div>
                 <p>
                   A <i>deficit</i> occurs when the government spends more money than it collects.

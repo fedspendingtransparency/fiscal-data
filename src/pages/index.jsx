@@ -30,8 +30,6 @@ export const Index = () => {
       `,
   );
 
-  const topicsImages  = allFile;
-
   return (
     <>
       <SiteLayout isPreProd={ENV_ID === "preprod"}>
@@ -44,7 +42,7 @@ export const Index = () => {
             keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
           financial data, debt, Treasury, US government"
           />
-          <TopicsSection images={topicsImages} data-testid="topics-section" />
+          <TopicsSection images={allFile} data-testid="topics-section" />
           <HomeMainContent />
           <HomeFeatures />
         </div>
