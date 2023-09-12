@@ -5,24 +5,39 @@ $border-color: #D9D9D9;
 .currencyBox {
   width: 20rem;
   margin: 0 1rem 0 0;
-  border-radius: 2px;
-  border: solid 1px $border-color;
 
   button:disabled {
     opacity: 0.5;
   }
 
-  .currencyHeader {
-    background-color: #f1f1f1;
-    border-bottom: solid 1px $border-color;
+  .headerContainer {
+    display: flex;
+    span {
+      font-size: $font-size-12;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+      .headerIcon {
+        margin-right: .5rem;
+      }
+  }
+
+  .boxLabel {
+    font-size: $font-size-14;
+    margin: .5rem 0 .25rem;
+    &.activeLabel{
+      color: $primary;
+    }
+  }
+  .currencySelection {
+    background-color: $body-background;
     height: 2.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     span {
-      font-weight: $semi-bold-weight;
-      color: #555555;
+      color: $font-title;
       margin-left: .75rem
     }
 
@@ -34,36 +49,61 @@ $border-color: #D9D9D9;
     }
   }
 
-  .currencyBody {
-    height: 2.5rem;
+
+  .currencySelection, .currencyText,  {
+    border: solid 1px $border-color;
+    border-radius: 2px;
   }
+
+  .comboCurrencySelection {
+    border: solid 1px $border-color;
+    border-radius: 2px;
+    height: 2.75rem;
+  }
+
 
   .currencyText {
-    margin-left: 0.625rem;
-    padding-top: 0.5rem;
+    height: 2.75rem;
+    &:hover {
+      border: solid 1px $font-body-copy;
+    }
+
+    &.activeBorder {
+      border: solid 1px $primary;
+      box-shadow: 0 0 0 .25rem #e8f5ff;
+    }
+
+    input[type=number]
+    {
+      background-color: transparent;
+      border-radius: 2px;
+      border: none;
+      font-size: 1rem;
+      color: $font-body-copy;
+      width: 95%;
+      height: 2.75rem;
+      padding-left: .75rem;
+      &:focus {
+        outline: solid 1px transparent;
+      }
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
   }
 
 }
 
-input[type=number]
-{
-  border:none;
-  font-size: 1rem;
-  color: $font-body-copy;
-  width: 95%;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-}
 
-input[type=number] {
-  -moz-appearance: textfield;
-}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {
-    margin: 1rem 0 0;
+    margin: 1.5rem 0 0;
     width: 100%;
   }
 }
