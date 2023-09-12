@@ -1,3 +1,4 @@
+import React from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
 import { totalDebtData } from "./experimental-helper";
 
