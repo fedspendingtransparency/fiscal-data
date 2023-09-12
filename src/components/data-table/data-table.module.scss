@@ -9,10 +9,7 @@ $borderRadius: 5px;
   .tableContainer {
     position: relative;
     box-sizing: border-box;
-    border: 1px solid $dd-border-color;
     border-top: 0;
-    border-bottom-left-radius: $borderRadius;
-    border-bottom-right-radius: $borderRadius;
     background-color: white;
   }
 
@@ -67,6 +64,13 @@ $borderRadius: 5px;
   position: relative;
 }
 
+.overlayContainerNoFooter {
+  border: 1px solid $dd-border-color;
+  border-top: 0;
+  border-bottom-left-radius: $borderRadius;
+  border-bottom-right-radius: $borderRadius;
+}
+
 .selectColumnsWrapper {
   display: flex;
 
@@ -76,12 +80,12 @@ $borderRadius: 5px;
 
   .selectColumnPanelActive {
     display: block;
-    border-right: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
+    border-left: 1px solid $border-color;
+    margin-top: -2.75rem;
   }
 
   .selectColumnPanelActive, .selectColumnPanelInactive {
-    height: 521px;
+    height: 565px;
   }
 }
 
