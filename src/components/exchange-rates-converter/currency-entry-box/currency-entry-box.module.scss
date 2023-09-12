@@ -53,7 +53,6 @@ $border-color: #D9D9D9;
   .currencySelection, .currencyText,  {
     border: solid 1px $border-color;
     border-radius: 2px;
-    //padding: 12px 16px;
   }
 
   .comboCurrencySelection {
@@ -104,7 +103,7 @@ $border-color: #D9D9D9;
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {
-    margin: 1rem 0 0;
+    margin: 1.5rem 0 0;
     width: 100%;
   }
 }
