@@ -178,7 +178,6 @@ export const totalDebtData = {
       none202131: 0.25,
       deficit20218: 0.73,
       none202132: 0.25,
-      deficit20219: 0.4,
     },
     {
       year: '2022',
@@ -320,7 +319,6 @@ export const totalDebtData = {
       none38: 0.25,
       deficit13: 0.73,
       none39: 0.25,
-      deficit14: 0.15,
     },
   ],
 };
