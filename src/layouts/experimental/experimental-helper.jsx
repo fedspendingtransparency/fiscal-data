@@ -6,7 +6,7 @@ export const totalDebtData = {
     {
       year: '2019',
       // top
-      debt20190: 0.73,
+      debt: 0.73,
       none20190: 0.25,
       debt20191: 0.73,
       none20192: 0.25,
@@ -49,7 +49,7 @@ export const totalDebtData = {
       debt201921: 0.5625,
 
       //bottom
-      deficit20190: 0.1875,
+      deficit: 0.1875,
       none201921: 0.25,
       deficit20191: 0.6,
     },
@@ -253,7 +253,7 @@ export const totalDebtData = {
       year: '2023',
       // top
       // deficit: 1.2,
-      debt: 0.73,
+      debt2023: 0.73,
       none: 0.25,
       debt2: 0.73,
       none2: 0.25,

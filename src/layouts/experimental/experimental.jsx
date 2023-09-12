@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import BarGraph from '../../components/charts/bar/bar';
-import LineGraphAnimation from './charts/lineGraphAnimation';
-import {
-  uncompressedBarGraphData,
-  staggeredData,
-} from '../../components/charts/helpers/helpersData';
-import { reducer } from '../../components/charts/helpers/helpers';
-import SiteLayout from '../../components/siteLayout/siteLayout';
-import { barDiv, linkDiv, fallback } from './experimental.module.scss';
-import CustomLink from '../../components/links/custom-link/custom-link';
-import VisualizationCallout from '../../components/visualization-callout/visualization-callout';
-import InsightsDownload from '../../components/insights-download/insights-download';
-import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
-import { ErrorBoundary } from 'react-error-boundary';
-import {
-  Legend,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Label,
-  Customized,
-} from 'recharts';
-import { totalDebtData } from './experimental-helper';
+import React, { useEffect, useState } from "react";
+import BarGraph from "../../components/charts/bar/bar";
+import LineGraphAnimation from "./charts/lineGraphAnimation";
+import { staggeredData, uncompressedBarGraphData } from "../../components/charts/helpers/helpersData";
+import { reducer } from "../../components/charts/helpers/helpers";
+import SiteLayout from "../../components/siteLayout/siteLayout";
+import { barDiv, fallback, linkDiv } from "./experimental.module.scss";
+import CustomLink from "../../components/links/custom-link/custom-link";
+import VisualizationCallout from "../../components/visualization-callout/visualization-callout";
+import InsightsDownload from "../../components/insights-download/insights-download";
+import AFGDeficitPOC from "./charts/afgOverviewDeficitChartPOC";
+import { ErrorBoundary } from "react-error-boundary";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
+import { totalDebtData } from "./experimental-helper";
+
 const fallbackComponent = () => {
   return (
     <div className={fallback}>
@@ -74,26 +63,36 @@ const ExperimentalPage = () => {
     }
   }
 
+  const mapLegendType = (barType) => {
+    if (barType === 'debt') {
+      return 'circle';
+    }
+    else if (barType === 'deficit') {
+      return 'circle';
+    }
+    else {
+      return 'none';
+    }
+  }
+
   const generateBar = (sortedData) => {
-    const result = sortedData.map((dataObj, i) =>
+    return sortedData.map((dataObj, i) =>
       Object.keys(dataObj)
       .filter((propName) => {
         return propName !== "year";
       })
-      .map((trackName) => {
-          console.log(`year ${dataObj.year}`);
-            return (
-              <Bar
-                dataKey={trackName}
-                stackId={'a'}
-                fill={mapBarColors(trackName)}
-                name={`${trackName}`}
-              />
-            )
+      .map((valueName) => {
+        return (
+          <Bar
+            dataKey={valueName}
+            stackId={'a'}
+            fill={mapBarColors(valueName)}
+            name={valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : ''}
+            legendType={mapLegendType(valueName)}
+          />
+        )
       })
     );
-    console.log(result);
-    return result;
   }
 
   return (
@@ -229,7 +228,15 @@ const ExperimentalPage = () => {
               tickFormatter={v => `$${v}`}
             />
             <YAxis type="category" dataKey="year" reversed="true" />
+            <Legend align="left" verticalAlign="top" />
             {generateBar(totalDebtData.data)}
+            <Bar
+              name=" = $1T"
+              dataKey="null"
+              stackId="a"
+              fill="#555555"
+              legendType="square"
+            />
           </BarChart>
         }
       </SiteLayout>
