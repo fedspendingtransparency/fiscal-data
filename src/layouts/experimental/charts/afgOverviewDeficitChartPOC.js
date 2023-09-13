@@ -69,25 +69,29 @@ const AFGDeficitPOC = () => {
     const pixelMidPoint = (midPointValue * (cx - yAxisCx)) / payload.value + 80;
     const rectangleWidth = pixelMidPoint > cx ? pixelMidPoint - cx : cx - pixelMidPoint;
 
+    const animate = animationComplete;
+    setAnimationComplete(true);
+
     return (
       <>
         <rect
           height={6}
           width={rectangleWidth}
           x={pixelMidPoint > cx ? cx : pixelMidPoint}
-          z
           y={cy - 3}
           fill={deficitExplainerPrimary}
+          opacity={focusedYear === null || focusedYear === payload.year ? 1 : 0.5}
           stroke={deficitExplainerPrimary}
+          onMouseEnter={() => setFocusedYear(payload.year)}
         >
-          <animate attributeName="width" from={0} to={rectangleWidth} dur="1s" />
-          {cx < pixelMidPoint && <animate attributeName="x" from={pixelMidPoint} to={cx} dur="1s" />}
+          {!animate && <animate attributeName="width" from={0} to={rectangleWidth} dur="1s" />}
+          {!animate && cx < pixelMidPoint && <animate attributeName="x" from={pixelMidPoint} to={cx} dur="1s" />}
         </rect>
         <circle fill={'red'} r={r} strokeWidth={strokeWidth + 2} stroke="white" fillOpacity={1} cx={cx} cy={cy}>
-          <animate attributeName="cx" from={pixelMidPoint} to={cx} dur="1s" />
+          {!animate && <animate attributeName="cx" from={pixelMidPoint} to={cx} dur="1s" />}
         </circle>
         <circle fill={fill} r={r} strokeWidth={strokeWidth - 1} stroke={color} fillOpacity={1} cx={cx} cy={cy}>
-          <animate attributeName="cx" from={pixelMidPoint} to={cx} dur="1s" />
+          {!animate && <animate attributeName="cx" from={pixelMidPoint} to={cx} dur="1s" />}
         </circle>
       </>
     );
