@@ -50,12 +50,13 @@ export const totalDebtData = {
       deficit: 0.1875,
       none201921: 0.25,
       deficit20191: 0.6,
+      
     },
     {
       year: '2020',
       // top
       // debt: 23.9,
-      debt2019: 0.73,
+      debt2020: 0.73,
       none2020: 0.25,
       debt20202: 0.73,
       none20202: 0.25,
