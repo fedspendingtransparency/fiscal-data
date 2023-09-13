@@ -14,23 +14,15 @@ const PictorialChart = () => {
   const [currentBarIndex, setCurrentBarIndex] = useState(0);
 
   useEffect(() => {
-    let animationFrameId;
-
-    const animateBars = () => {
-      const maxBarIndex = totalDebtData.data[0]
-        ? Object.keys(totalDebtData.data[0]).length + 1
-        : 0;
-
-      if (currentBarIndex < maxBarIndex) {
-        setCurrentBarIndex((prevIndex) => prevIndex + 1);
-        animationFrameId = requestAnimationFrame(animateBars);
+    const barLoop = () => {
+        for (let i = 0; i < Object.keys(totalDebtData.data[4]).length + 1; i++) {
+          setTimeout(() => setCurrentBarIndex(i), 1);
       }
-    };
+    }
+    barLoop();
+  }, []);
 
-    animationFrameId = requestAnimationFrame(animateBars);
 
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [currentBarIndex]);
 
   const mapLegendType = (barType) => {
     if (barType === 'debt') {
@@ -42,37 +34,42 @@ const PictorialChart = () => {
     }
   };
 
-  const keysToRender = Object.keys(totalDebtData.data[0] || {}).filter(
-    (key) => key !== 'year'
-  );
+  const mapBarColors = (barType) => {
+    if (barType.includes('debt')) {
+      return '#4B1B79';
+    }
+    else if (barType.includes('none')) {
+      return '#00000000';
+    }
+    else if (barType.includes('deficit')) {
+      return '#BD4E12';
+    }
+  }
 
-  const renderedBars = keysToRender
-  .slice(0, currentBarIndex + 1)
-  .map((key) => (
-    <Bar
-      key={key}
-      dataKey={key}
-      stackId="a"
-      fill={
-        key.includes('deficit')
-          ? '#BD4E12'
-          : key.includes('debt')
-          ? '#4B1B79'
-          : 'white'
-      }
-      layout={'horizontal'}
-      name={
-        key.includes('deficit')
-          ? 'Deficit'
-          : key.includes('debt')
-          ? 'Debt'
-          : ''
-      }
-      legendType={mapLegendType(key)}
-    />
-  ));
+  const generateBar = (sortedData) => {
+    return sortedData.map((dataObj, i) =>
+      Object.keys(dataObj)
+      .filter((propName) => {
+        return propName !== "year";
+      }).slice(0, currentBarIndex + 1)
+      .map((valueName) => {
+        return (
+          <Bar
+            dataKey={valueName}
+            stackId={'a'}
+            fill={mapBarColors(valueName)}
+            name={valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : ''}
+            legendType={mapLegendType(valueName)}
+            isAnimationActive={false}
+          />
+        )
+      })
+    );
+  }
 
-  
+
+
+
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
@@ -81,7 +78,7 @@ const PictorialChart = () => {
         <XAxis type="number" domain={[0, 40]} unit="T" tickFormatter={v => `$${v}`} />
         <YAxis type="category" dataKey="year" reversed={true} />
         <Legend align="left" verticalAlign="top" />
-        {renderedBars}
+        {generateBar(totalDebtData.data)}
         <Bar
           name=" = $1T"
           dataKey="null"
