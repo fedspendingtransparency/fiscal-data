@@ -15,12 +15,14 @@ const PictorialChart = () => {
 
   useEffect(() => {
     const animationTimer = setTimeout(() => {
-      const maxBarIndex = totalDebtData.data[0] ? Object.keys(totalDebtData.data[0]).length - 1 : 0;
+      const maxBarIndex = totalDebtData.data[0]
+        ? Object.keys(totalDebtData.data[0]).length + 1
+        : 0;
 
       if (currentBarIndex < maxBarIndex) {
         setCurrentBarIndex((prevIndex) => prevIndex + 1);
       }
-    }, 20); // Adjust the delay as needed
+    }, 100); // Adjust the delay as needed
 
     return () => clearTimeout(animationTimer);
   }, [currentBarIndex]);
@@ -37,8 +39,11 @@ const PictorialChart = () => {
     }
   }
 
-  const renderedBars = Object.keys(totalDebtData.data[0] || {})
-    .filter((key) => key !== 'year')
+  const keysToRender = Object.keys(totalDebtData.data[0] || {}).filter(
+    (key) => key !== 'year'
+  );
+
+  const renderedBars = keysToRender
     .slice(0, currentBarIndex + 1)
     .map((key) => (
       <Bar
@@ -57,7 +62,7 @@ const PictorialChart = () => {
           key.includes('deficit')
             ? 'Deficit'
             : key.includes('debt')
-            ? 'Debt'
+            ? 'Debt' 
             : ''
         }
         legendType={mapLegendType(key)}
@@ -66,15 +71,8 @@ const PictorialChart = () => {
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
-      <BarChart
-        width={650}
-        height={400}
-        data={totalDebtData.data}
-        layout="vertical"
-        barGap={10}
-        barSize={40}
-      >
-        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+      <BarChart width={650} height={300} data={totalDebtData.data} layout="vertical" barGap={10} barSize={40}>
+        <CartesianGrid horizontal={false} />
         <XAxis type="number" domain={[0, 40]} unit="T" tickFormatter={v => `$${v}`} />
         <YAxis type="category" dataKey="year" reversed={true} />
         <Legend align="left" verticalAlign="top" />

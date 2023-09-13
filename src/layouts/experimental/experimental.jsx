@@ -13,6 +13,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
 import { totalDebtData } from "./experimental-helper";
 import PictorialChartAnimation from "./charts/pictorialChartAnimation";
+import PictorialChart from "./charts/pictorialChart";
 
 const fallbackComponent = () => {
   return (
@@ -112,6 +113,7 @@ const ExperimentalPage = () => {
           Pictorial Chart
         </h2>
         <PictorialChartAnimation />
+        <PictorialChart />
         
         <br />
         <h3> ReCharts Composed Chart </h3>

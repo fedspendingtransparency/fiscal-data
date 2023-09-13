@@ -3,7 +3,7 @@ import React from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
 import { totalDebtData } from "./experimental-helper";
 
-const PictoralChart = () => {
+const PictorialChart = () => {
   const mapBarColors = (barType) => {
     if (barType.includes('debt')) {
       return '#4B1B79';
@@ -29,7 +29,7 @@ const PictoralChart = () => {
   }
 
   const generateBar = (sortedData) => {
-    return sortedData.map((dataObj, i) =>
+    return sortedData.map((dataObj) =>
       Object.keys(dataObj)
       .filter((propName) => {
         return propName !== "year";
@@ -79,4 +79,4 @@ const PictoralChart = () => {
   );
 };
 
-export default PictoralChart;
+export default PictorialChart;
