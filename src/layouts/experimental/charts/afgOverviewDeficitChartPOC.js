@@ -58,7 +58,6 @@ const AFGDeficitPOC = () => {
   ]
 
   let yAxisCx = 0;
-  const chartWidth = 730;
   const midPointArray = [];
 
   testData.forEach((curData) => {
@@ -72,12 +71,10 @@ const AFGDeficitPOC = () => {
   const CustomDot = (props) => {
     const {cx, cy, payload, strokeWidth, r} = props;
 
-    let pixelMidPoint = null; 
-
     const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
     const fill =  payload?.latest ? null : color;
     const midPointValue = midPointArray.find(currentPoint => currentPoint.year === payload.year).value;
-    pixelMidPoint = ((midPointValue * (cx - yAxisCx)) / payload.value) + 80;
+    const pixelMidPoint = ((midPointValue * (cx - yAxisCx)) / payload.value) + 80;
     const rectangleWidth = pixelMidPoint > cx ? pixelMidPoint - cx : cx - pixelMidPoint;
 
     return (
@@ -144,9 +141,7 @@ const AFGDeficitPOC = () => {
   }
 
   const CustomShape = (props) => {
-    console.log(props)
     yAxisCx = props.cx
-    console.log(yAxisCx)
     return (
       <>
       </>
@@ -157,7 +152,7 @@ const AFGDeficitPOC = () => {
     <>
       <LineChart
         key={Math.random()}
-        width={chartWidth}
+        width={730}
         height={250}
         margin={{
           top: 20, right: 20, bottom: 20, left: 20,
