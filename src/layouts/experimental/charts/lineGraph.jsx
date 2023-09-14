@@ -80,6 +80,38 @@ const LineGraph = () => {
         enableSlices={'x'}
         onMouseEnter={(slice) => setMouseHover(slice.slicePoints[0].x)}
         onMouseLeave={() => setMouseHover(null)}
+        sliceTooltip={({ slice }) => {
+          // Customize the tooltip content to include x and y values with circular color indicators
+          return (
+            <div 
+              style={{ 
+                background: 'white', 
+                padding: '10px', 
+                border: '1px solid #ccc', 
+                transition: 'opacity 0.3s ease-in-out' }}
+            >
+              <div>
+                <div
+                  style={{
+                    width: '100px',
+                    height: '100px',
+                    backgroundColor: 'white',
+                    display: 'inline-block',
+                    opacity: mouseHover === null ? 1 : 0,
+                    transition: 'opacity 0.3s ease-in-out 0.3s'
+                  }}
+                >
+                  <div style={{fontSize: 24}}>x-value {slice.points[0].data.x}</div>
+                  {slice.points.map((point) => (
+                    <div key={point.serieId}>
+                      {point.serieId} : {point.data.y}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        }}
       />
       {mouseHover !== null && (
         <div
