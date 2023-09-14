@@ -78,10 +78,6 @@ const AFGDeficit = ({ testData, midPointArray, lineHover, color }) => {
     }, 3000);
   });
 
-  useEffect(() => {
-    console.log(animationComplete);
-  }, [animationComplete]);
-
   return (
     <>
       {!animationComplete && (
@@ -111,10 +107,6 @@ const AFGDeficit = ({ testData, midPointArray, lineHover, color }) => {
               strokeOpacity={0}
               dot={<CustomDot />}
               isAnimationActive={false}
-              // onMouseOver={() => {
-              //   lineHover(s.data);
-              //   console.log(s.data);
-              // }}
             />
           ))}
         </LineChart>
