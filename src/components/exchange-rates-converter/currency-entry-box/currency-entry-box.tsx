@@ -57,7 +57,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
         <div className={classNames([boxLabel, active ? activeLabel : null])}>Amount</div>
         <div className={classNames([currencyText, active ? activeBorder : null])}>
           {currencyValue === '--' ? (
-            <div>{currencyValue}</div>
+            <span>{currencyValue}</span>
           ) : (
             <input
               type="number"
