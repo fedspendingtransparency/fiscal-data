@@ -30,10 +30,7 @@ interface ICurrencyEntryBox {
 
 const noNonNumericChar = event => {
   // Prevents users from typing 'e', 'E', or '-'
-  return (
-    (event.key === 'e' || event.key === 'E' || event.key === '-') &&
-    event.preventDefault()
-  );
+  return (event.key === 'e' || event.key === 'E' || event.key === '-') && event.preventDefault();
 };
 
 const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
@@ -48,27 +45,17 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   header,
 }) => {
   const [active, setActive] = useState(false);
-  const ariaLabelValue =
-    header === 'U.S. DOLLAR' ? 'U.S. Dollar' : selectedCurrency?.label;
+  const ariaLabelValue = header === 'U.S. DOLLAR' ? 'U.S. Dollar' : selectedCurrency?.label;
 
   return (
     <>
       <div className={currencyBox} data-testid={testId}>
         <div className={headerContainer}>
-          <FontAwesomeIcon
-            icon={
-              (header === 'U.S. DOLLAR' ? faDollarSign : faGlobe) as IconProp
-            }
-            className={headerIcon}
-          />
+          <FontAwesomeIcon icon={(header === 'U.S. DOLLAR' ? faDollarSign : faGlobe) as IconProp} className={headerIcon} />
           <span>{header}</span>
         </div>
-        <div className={classNames([boxLabel, active ? activeLabel : null])}>
-          Amount
-        </div>
-        <div
-          className={classNames([currencyText, active ? activeBorder : null])}
-        >
+        <div className={classNames([boxLabel, active ? activeLabel : null])}>Amount</div>
+        <div className={classNames([currencyText, active ? activeBorder : null])}>
           {currencyValue === '--' ? (
             <div>{currencyValue}</div>
           ) : (
@@ -93,11 +80,12 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             <ComboCurrencySelect
               selectedOption={selectedCurrency}
               options={options}
-              labelDisplay={true}
+              labelDisplay
               changeHandler={onCurrencyChange}
-              isExchangeTool={true}
-              required={true}
+              isExchangeTool
+              required
               disabledMessage="This option has no data for the selected quarter."
+              containerBorder
             />
           </div>
         ) : (
