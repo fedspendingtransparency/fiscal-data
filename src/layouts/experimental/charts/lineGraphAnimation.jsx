@@ -1,11 +1,13 @@
 /* istanbul ignore file */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import LineGraph from './lineGraph';
 
 const LineGraphAnimation = () => {
   const animatedLineRef = useRef(null);
+  const [animationRunning, setAnimationRunning] = useState(true);
 
   useEffect(() => {
+    if (!animationRunning) return;
     const animatedLine = animatedLineRef.current;
     let direction = 1;
     let position = 0;
@@ -34,12 +36,13 @@ const LineGraphAnimation = () => {
 
       setTimeout(() => {
         fadeOut();
+        setAnimationRunning(false);
       }, 5000);
     }, 2000);
 
     moveLine();
-  }, []);
-
+  }, [animationRunning]);
+console.log('nana', animationRunning);
   return (
     <div
       style={{
@@ -64,7 +67,7 @@ const LineGraphAnimation = () => {
           opacity: '0',
           transition: 'opacity 1s ease-in-out',
         }}
-      ></div>
+      />
     </div>
   );
 };
