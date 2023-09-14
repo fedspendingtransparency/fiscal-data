@@ -54,8 +54,6 @@ const ComboCurrencySelect = ({
   const [mouseOverDropdown, setMouseOverDropdown] = useState(false);
   const [searchBarActive, setSearchBarActive] = useState(false);
 
-  console.log(required);
-
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
       XRAnalyticsHandler('Foreign Country-Currency Selected', selection.label);
