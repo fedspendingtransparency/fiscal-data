@@ -76,6 +76,7 @@ const LineGraph = () => {
         }}
         enableGridX={false}
         enableGridY={true}
+        enablePoints={false}
         enableSlices={'x'}
         onMouseEnter={(slice) => setMouseHover(slice.slicePoints[0].x)}
         onMouseLeave={() => setMouseHover(null)}
