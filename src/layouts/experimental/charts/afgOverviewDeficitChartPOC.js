@@ -6,6 +6,8 @@ import { deficitExplainerPrimary } from '../../explainer/sections/national-defic
 import { spendingExplainerPrimary } from '../../explainer/sections/federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../explainer/sections/government-revenue/revenue.module.scss';
 
+const animated = [];
+
 const AFGDeficitPOC = () => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [animationComplete, setAnimationComplete] = useState(null);
@@ -51,6 +53,7 @@ const AFGDeficitPOC = () => {
 
   let yAxisCx = 0;
   const midPointArray = [];
+  // let animate = 0;
 
   testData.forEach(curData => {
     const midPoint = {
@@ -60,17 +63,23 @@ const AFGDeficitPOC = () => {
     midPointArray.push(midPoint);
   });
 
-  const CustomDot = props => {
-    const { cx, cy, payload, strokeWidth, r } = props;
+  const CustomDotPreAnimation = ({ cx, cy, payload, strokeWidth, r, color, fill, rectangleWidth, pixelMidPoint, animate }) => {
+    // const { cx, cy, payload, strokeWidth, r, color, fill, rectangleWidth, pixelMidPoint, animate } = props;
 
-    const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
-    const fill = payload?.latest ? null : color;
-    const midPointValue = midPointArray.find(currentPoint => currentPoint.year === payload.year).value;
-    const pixelMidPoint = (midPointValue * (cx - yAxisCx)) / payload.value + 80;
-    const rectangleWidth = pixelMidPoint > cx ? pixelMidPoint - cx : cx - pixelMidPoint;
-
-    const animate = animationComplete;
-    setAnimationComplete(true);
+    // const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
+    // const fill = payload?.latest ? null : color;
+    // const midPointValue = midPointArray.find(currentPoint => currentPoint.year === payload.year).value;
+    // const pixelMidPoint = (midPointValue * (cx - yAxisCx)) / payload.value + 80;
+    // const rectangleWidth = pixelMidPoint > cx ? pixelMidPoint - cx : cx - pixelMidPoint;
+    // const dataValue = testData.find(x => x.data[0].year === payload.year);
+    // const animate = animated.includes(`${payload.year}-${payload.type}`);
+    // if (!animate) {
+    //   animated.push(`${payload.year}-${payload.type}`);
+    // }
+    // //dataValue.animationComplete;
+    // dataValue.animationComplete = true;
+    //
+    // console.log(animate);
 
     return (
       <>
@@ -82,17 +91,106 @@ const AFGDeficitPOC = () => {
           fill={deficitExplainerPrimary}
           opacity={focusedYear === null || focusedYear === payload.year ? 1 : 0.5}
           stroke={deficitExplainerPrimary}
-          onMouseEnter={() => setFocusedYear(payload.year)}
+          strokeWidth={0}
+          style={{ pointerEvents: 'none' }}
+          // onMouseEnter={() => setFocusedYear(payload.year)}
         >
           {!animate && <animate attributeName="width" from={0} to={rectangleWidth} dur="1s" />}
           {!animate && cx < pixelMidPoint && <animate attributeName="x" from={pixelMidPoint} to={cx} dur="1s" />}
         </rect>
-        <circle fill={'red'} r={r} strokeWidth={strokeWidth + 2} stroke="white" fillOpacity={1} cx={cx} cy={cy}>
+        <circle fill="white" r={r} strokeWidth={strokeWidth + 2} stroke="white" fillOpacity={1} cx={cx} cy={cy}>
           {!animate && <animate attributeName="cx" from={pixelMidPoint} to={cx} dur="1s" />}
         </circle>
         <circle fill={fill} r={r} strokeWidth={strokeWidth - 1} stroke={color} fillOpacity={1} cx={cx} cy={cy}>
           {!animate && <animate attributeName="cx" from={pixelMidPoint} to={cx} dur="1s" />}
         </circle>
+      </>
+    );
+  };
+  const CustomDotPostAnimation = ({ cx, cy, payload, strokeWidth, r, color, fill, rectangleWidth, pixelMidPoint }) => {
+    // const { cx, cy, payload, strokeWidth, r, color, fill, rectangleWidth, pixelMidPoint } = props;
+    //
+    // const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
+    // const fill = payload?.latest ? null : color;
+    // const midPointValue = midPointArray.find(currentPoint => currentPoint.year === payload.year).value;
+    // const pixelMidPoint = (midPointValue * (cx - yAxisCx)) / payload.value + 80;
+    // const rectangleWidth = pixelMidPoint > cx ? pixelMidPoint - cx : cx - pixelMidPoint;
+    // const dataValue = testData.find(x => x.data[0].year === payload.year);
+    // const animate = animated.includes(`${payload.year}-${payload.type}`);
+    // if (!animate) {
+    //   animated.push(`${payload.year}-${payload.type}`);
+    // }
+    // //dataValue.animationComplete;
+    // dataValue.animationComplete = true;
+    //
+    // console.log(animate);
+
+    return (
+      <>
+        <rect
+          height={6}
+          width={rectangleWidth}
+          x={pixelMidPoint > cx ? cx : pixelMidPoint}
+          y={cy - 3}
+          fill={deficitExplainerPrimary}
+          opacity={focusedYear === null || focusedYear === payload.year ? 1 : 0.5}
+          stroke={deficitExplainerPrimary}
+          strokeWidth={0}
+          style={{ pointerEvents: 'none' }}
+        />
+
+        <circle fill="white" r={r} strokeWidth={strokeWidth + 2} stroke="white" fillOpacity={1} cx={cx} cy={cy}></circle>
+        <circle fill={fill} r={r} strokeWidth={strokeWidth - 1} stroke={color} fillOpacity={1} cx={cx} cy={cy}></circle>
+      </>
+    );
+  };
+
+  const CustomDot = props => {
+    const { cx, cy, payload, strokeWidth, r } = props;
+
+    const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
+    const fill = payload?.latest ? null : color;
+    const midPointValue = midPointArray.find(currentPoint => currentPoint.year === payload.year).value;
+    const pixelMidPoint = (midPointValue * (cx - yAxisCx)) / payload.value + 80;
+    const rectangleWidth = pixelMidPoint > cx ? pixelMidPoint - cx : cx - pixelMidPoint;
+    const dataValue = testData.find(x => x.data[0].year === payload.year);
+    const animate = animated.includes(`${payload.year}-${payload.type}`);
+    if (!animate) {
+      animated.push(`${payload.year}-${payload.type}`);
+    }
+    //dataValue.animationComplete;
+    dataValue.animationComplete = true;
+
+    console.log(animate);
+
+    return (
+      <>
+        {animate ? (
+          <CustomDotPostAnimation
+            cx={cx}
+            cy={cy}
+            payload={payload}
+            strokeWidth={strokeWidth}
+            r={r}
+            fill={fill}
+            pixelMidPoint={pixelMidPoint}
+            color={color}
+            rectangleWidth={rectangleWidth}
+          />
+        ) : (
+          <CustomDotPreAnimation
+            cx={cx}
+            cy={cy}
+            payload={payload}
+            strokeWidth={strokeWidth}
+            r={r}
+            fill={fill}
+            pixelMidPoint={pixelMidPoint}
+            rectangleWidth={rectangleWidth}
+            animate={animate}
+            color={color}
+          />
+        )}
       </>
     );
   };
@@ -122,7 +220,19 @@ const AFGDeficitPOC = () => {
         <XAxis ticks={[0, 2, 4, 6, 8]} type="number" tickFormatter={value => `$${value}`} axisLine={false} tickLine={false} />
         <ReferenceDot x={0} y="2016" shape={<CustomShape />} />
         {testData.map(s => (
-          <Line dataKey="value" data={s.data} stroke="transparent" strokeWidth={6} strokeOpacity={0} dot={<CustomDot />} isAnimationActive={false} />
+          <Line
+            dataKey="value"
+            data={s.data}
+            stroke="transparent"
+            strokeWidth={6}
+            strokeOpacity={0}
+            dot={<CustomDot />}
+            isAnimationActive={false}
+            onMouseOver={() => {
+              console.log('here');
+              setFocusedYear(s.data[0].year);
+            }}
+          />
         ))}
       </LineChart>
     </>
