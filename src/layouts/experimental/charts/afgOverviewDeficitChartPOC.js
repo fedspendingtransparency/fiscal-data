@@ -6,11 +6,67 @@ import { deficitExplainerPrimary } from '../../explainer/sections/national-defic
 import { spendingExplainerPrimary } from '../../explainer/sections/federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../explainer/sections/government-revenue/revenue.module.scss';
 
-const animated = [];
-
-const AFGDeficit = ({ testData, midPointArray, lineHover, color }) => {
+const AFGDeficitPOC = () => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [animationComplete, setAnimationComplete] = useState(false);
+
+  const testData2 = [
+    {
+      data: [
+        { year: '2016', value: 0.5, type: 'revenue', opacity: 0 },
+        { year: '2016', value: 2, type: 'spending', opacity: 0 },
+      ],
+    },
+    {
+      data: [
+        { year: '2017', value: 1, type: 'revenue', opacity: 0 },
+        { year: '2017', value: 2.5, type: 'spending', opacity: 0 },
+      ],
+    },
+    {
+      data: [
+        { year: '2018', value: 2.4, type: 'revenue', opacity: 0 },
+        { year: '2018', value: 4, type: 'spending', opacity: 0 },
+      ],
+    },
+    {
+      data: [
+        { year: '2019', value: 3.5, type: 'revenue', opacity: 0 },
+        { year: '2019', value: 6, type: 'spending', opacity: 0 },
+      ],
+    },
+    {
+      data: [
+        { year: '2020', value: 5.5, type: 'revenue', opacity: 0 },
+        { year: '2020', value: 7, type: 'spending', opacity: 0 },
+      ],
+    },
+    {
+      data: [
+        { year: '2021', value: 6, type: 'revenue', latest: true, opacity: 0 },
+        { year: '2021', value: 8, type: 'spending', latest: true, opacity: 0 },
+      ],
+    },
+  ];
+
+  const [testData] = useState(testData2);
+  const [color, setColor] = useState('transparent');
+
+  useEffect(() => {
+    setTimeout(() => {
+      setColor(deficitExplainerPrimary);
+    }, 10000);
+  });
+
+  const midPointArray = [];
+
+  testData.forEach(curData => {
+    const midPoint = {
+      year: curData.data[0].year,
+      value: (curData.data[0]?.value + curData.data[1]?.value) / 2,
+    };
+    midPointArray.push(midPoint);
+  });
 
   let yAxisCx = 0;
   // let animate = 0;
@@ -139,7 +195,6 @@ const AFGDeficit = ({ testData, midPointArray, lineHover, color }) => {
               dot={<CustomDotNoAnimation />}
               isAnimationActive={false}
               onMouseOver={() => {
-                lineHover(s.data);
                 setFocusedYear(s.data[0].year);
               }}
             />
@@ -150,75 +205,4 @@ const AFGDeficit = ({ testData, midPointArray, lineHover, color }) => {
   );
 };
 
-const AFGDeficitPOC = () => {
-  const testData2 = [
-    {
-      data: [
-        { year: '2016', value: 0.5, type: 'revenue', opacity: 0 },
-        { year: '2016', value: 2, type: 'spending', opacity: 0 },
-      ],
-    },
-    {
-      data: [
-        { year: '2017', value: 1, type: 'revenue', opacity: 0 },
-        { year: '2017', value: 2.5, type: 'spending', opacity: 0 },
-      ],
-    },
-    {
-      data: [
-        { year: '2018', value: 2.4, type: 'revenue', opacity: 0 },
-        { year: '2018', value: 4, type: 'spending', opacity: 0 },
-      ],
-    },
-    {
-      data: [
-        { year: '2019', value: 3.5, type: 'revenue', opacity: 0 },
-        { year: '2019', value: 6, type: 'spending', opacity: 0 },
-      ],
-    },
-    {
-      data: [
-        { year: '2020', value: 5.5, type: 'revenue', opacity: 0 },
-        { year: '2020', value: 7, type: 'spending', opacity: 0 },
-      ],
-    },
-    {
-      data: [
-        { year: '2021', value: 6, type: 'revenue', latest: true, opacity: 0 },
-        { year: '2021', value: 8, type: 'spending', latest: true, opacity: 0 },
-      ],
-    },
-  ];
-
-  const [testData] = useState(testData2);
-  const [color, setColor] = useState('transparent');
-
-  useEffect(() => {
-    setTimeout(() => {
-      setColor(deficitExplainerPrimary);
-    }, 10000);
-  });
-
-  const midPointArray = [];
-
-  testData.forEach(curData => {
-    const midPoint = {
-      year: curData.data[0].year,
-      value: (curData.data[0]?.value + curData.data[1]?.value) / 2,
-    };
-    midPointArray.push(midPoint);
-  });
-
-  const lineHover = data => {
-    console.log('hover************************');
-    const dataValue = testData.find(x => x.data[0].year === data[0].year);
-    dataValue.data[0].opacity = 1;
-    dataValue.data[1].opacity = 1;
-
-    console.log(dataValue);
-    console.log(testData);
-  };
-
-  return <AFGDeficit testData={testData} midPointArray={midPointArray} lineHover={lineHover} color={color} />;
-};
 export default AFGDeficitPOC;
