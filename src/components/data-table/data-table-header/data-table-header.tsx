@@ -41,10 +41,11 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
     },
   }))(Tooltip);
 
-  const iconClick = (state, header) => {
-    header.column.toggleSorting();
-    setFiltersActive(state === 'asc' || state === 'false');
-    return;
+  const iconClick = (state, header, e) => {
+    if (e.key === undefined || e.key === 'Enter') {
+      header.column.toggleSorting();
+      setFiltersActive(state === 'asc' || state === 'false');
+    }
   };
 
   return (
@@ -76,8 +77,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                               className={sortArrowPill}
                               tabIndex={0}
                               role="button"
-                              onClick={() => iconClick('asc', header)}
-                              onKeyDown={e => e.key === 'Enter' && iconClick('asc', header)}
+                              onClick={e => iconClick('asc', header, e)}
+                              onKeyDown={e => iconClick('asc', header, e)}
                             >
                               <FontAwesomeIcon icon={faArrowUpShortWide as IconProp} className={sortArrow} />
                             </div>
@@ -87,8 +88,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                               className={sortArrowPill}
                               tabIndex={0}
                               role="button"
-                              onClick={() => iconClick('desc', header)}
-                              onKeyDown={e => e.key === 'Enter' && iconClick('desc', header)}
+                              onClick={e => iconClick('desc', header, e)}
+                              onKeyDown={e => iconClick('desc', header, e)}
                             >
                               <FontAwesomeIcon icon={faArrowDownWideShort as IconProp} className={sortArrow} />
                             </div>
@@ -98,8 +99,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                               className={defaultSortArrowPill}
                               tabIndex={0}
                               role="button"
-                              onClick={() => iconClick('false', header)}
-                              onKeyDown={e => e.key === 'Enter' && iconClick('false', header)}
+                              onClick={e => iconClick('false', header, e)}
+                              onKeyDown={e => iconClick('false', header, e)}
                             >
                               <FontAwesomeIcon icon={faArrowRightArrowLeft as IconProp} className={defaultSortArrow} rotation={90} />
                             </div>

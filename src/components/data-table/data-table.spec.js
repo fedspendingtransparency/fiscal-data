@@ -91,19 +91,9 @@ const mockTableData = {
   },
 };
 
-const defaultSelectedColumnsMock = [
-  'record_date',
-  'src_line_nbr',
-  'record_calendar_quarter',
-];
-const defaultColLabels = [
-  'Record Date',
-  'Source Line Number',
-  'Calendar Quarter Number',
-];
-const additionalColLabels = Object.values(mockTableData.meta.labels).filter(
-  label => !defaultColLabels.includes(label)
-);
+const defaultSelectedColumnsMock = ['record_date', 'src_line_nbr', 'record_calendar_quarter'];
+const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
+const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));
 const allColLabels = defaultColLabels.concat(additionalColLabels);
 
 describe('react-table', () => {
@@ -143,7 +133,7 @@ describe('react-table', () => {
   });
 
   it('Able to interact with headers for column sort', () => {
-    const { getAllByTestId, getByText, getByRole } = render(
+    const { getAllByTestId, getByRole } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
@@ -167,6 +157,31 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
   });
 
+  it('column sort keyboard accessibility', () => {
+    const { getAllByTestId, getByRole } = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={null}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    // Column header
+    expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
+    // Rows render
+    expect(getAllByTestId('row').length).toEqual(3);
+    const header = getByRole('columnheader', { name: 'Record Date' });
+    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
+    expect(sortButton).toHaveClass('defaultSortArrow');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    // Now sorted in desc order
+    expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
+  });
+
   it('Filter column by text search', () => {
     const { getAllByTestId, getByRole } = render(
       <DataTable
@@ -180,7 +195,7 @@ describe('react-table', () => {
       />
     );
     // Column header
-    const header = getByRole('columnheader', {name: 'Debt Held by the Public'});
+    const header = getByRole('columnheader', { name: 'Debt Held by the Public' });
     expect(header).toBeInTheDocument();
     // Rows render
     expect(getAllByTestId('row').length).toEqual(3);
@@ -192,7 +207,7 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('25633821130387.02');
 
     //clear results to view full table
-    const clearButton = within(header).getByRole('button', { hidden: true });
+    const clearButton = within(header).getAllByRole('button', { hidden: true })[1];
     expect(clearButton).toHaveClass('fa-circle-xmark');
     fireEvent.click(clearButton);
     expect(getAllByTestId('row').length).toEqual(3);
