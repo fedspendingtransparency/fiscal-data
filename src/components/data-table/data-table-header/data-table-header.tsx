@@ -72,33 +72,41 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                         </LightTooltip>
                         {{
                           asc: (
-                            <div className={sortArrowPill}>
-                              <FontAwesomeIcon icon={faArrowUpShortWide as IconProp} className={sortArrow} onClick={() => iconClick('asc', header)} />
+                            <div
+                              className={sortArrowPill}
+                              tabIndex={0}
+                              role="button"
+                              onClick={() => iconClick('asc', header)}
+                              onKeyDown={e => e.key === 'Enter' && iconClick('asc', header)}
+                            >
+                              <FontAwesomeIcon icon={faArrowUpShortWide as IconProp} className={sortArrow} />
                             </div>
                           ),
                           desc: (
-                            <div className={sortArrowPill}>
-                              <FontAwesomeIcon
-                                icon={faArrowDownWideShort as IconProp}
-                                className={sortArrow}
-                                onClick={() => iconClick('desc', header)}
-                              />
+                            <div
+                              className={sortArrowPill}
+                              tabIndex={0}
+                              role="button"
+                              onClick={() => iconClick('desc', header)}
+                              onKeyDown={e => e.key === 'Enter' && iconClick('desc', header)}
+                            >
+                              <FontAwesomeIcon icon={faArrowDownWideShort as IconProp} className={sortArrow} />
                             </div>
                           ),
                           false: (
-                            <div className={defaultSortArrowPill}>
-                              <FontAwesomeIcon
-                                icon={faArrowRightArrowLeft as IconProp}
-                                className={defaultSortArrow}
-                                rotation={90}
-                                onClick={() => iconClick('false', header)}
-                              />
+                            <div
+                              className={defaultSortArrowPill}
+                              tabIndex={0}
+                              role="button"
+                              onClick={() => iconClick('false', header)}
+                              onKeyDown={e => e.key === 'Enter' && iconClick('false', header)}
+                            >
+                              <FontAwesomeIcon icon={faArrowRightArrowLeft as IconProp} className={defaultSortArrow} rotation={90} />
                             </div>
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      {header.column.getCanFilter() &&
-                      header.id === 'record_date' ? (
+                      {header.column.getCanFilter() && header.id === 'record_date' ? (
                         <div className={columnMinWidth}>
                           <SingleDateFilter column={header.column} />
                         </div>
