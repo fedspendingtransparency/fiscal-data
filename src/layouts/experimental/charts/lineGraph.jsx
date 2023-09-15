@@ -1,54 +1,55 @@
 /* istanbul ignore file */
 import React, { useState } from 'react'; 
 import { ResponsiveLine } from '@nivo/line';
+import lineGraph from '../experimental.module.scss';
 
 const data = [
   {
     id: 'Line 1',
     data: [
-      { x: 0, y: 0 },
-      { x: 1, y: 0 },
-      { x: 2, y: 2 },
-      { x: 3, y: 3 },
-      { x: 4, y: 3 },
-      { x: 5, y: 6 },
-      { x: 6, y: 5 },
-      { x: 7, y: 6 },
-      { x: 8, y: 4 },
-      { x: 9, y: 3 },
-      { x: 10, y: 2 },
+      { x: 2013, y: 0 },
+      { x: 2014, y: 0 },
+      { x: 2015, y: 2 },
+      { x: 2016, y: 3 },
+      { x: 2017, y: 3 },
+      { x: 2018, y: 6 },
+      { x: 2019, y: 5 },
+      { x: 2020, y: 6 },
+      { x: 2021, y: 4 },
+      { x: 2022, y: 3 },
+      { x: 2023, y: 2 },
     ],
   },
   {
     id: 'Line 2',
     data: [
-      { x: 0, y: 0 },
-      { x: 1, y: 1 },
-      { x: 2, y: 3 },
-      { x: 3, y: 4 },
-      { x: 4, y: 5 },
-      { x: 5, y: 7 },
-      { x: 6, y: 8 },
-      { x: 7, y: 8 },
-      { x: 8, y: 8 },
-      { x: 9, y: 9 },
-      { x: 10, y: 1 },
+      { x: 2013, y: 0 },
+      { x: 2014, y: 1 },
+      { x: 2015, y: 3 },
+      { x: 2016, y: 4 },
+      { x: 2017, y: 5 },
+      { x: 2018, y: 7 },
+      { x: 2019, y: 8 },
+      { x: 2020, y: 8 },
+      { x: 2021, y: 8 },
+      { x: 2022, y: 9 },
+      { x: 2023, y: 1 },
     ],
   },
   {
     id: 'Line 3',
     data: [
-      { x: 0, y: 1 },
-      { x: 1, y: 0 },
-      { x: 2, y: 1 },
-      { x: 3, y: 2 },
-      { x: 4, y: 3 },
-      { x: 5, y: 4 },
-      { x: 6, y: 5 },
-      { x: 7, y: 6 },
-      { x: 8, y: 7 },
-      { x: 9, y: 9 },
-      { x: 10, y: 11 },
+      { x: 2013, y: 1 },
+      { x: 2014, y: 0 },
+      { x: 2015, y: 1 },
+      { x: 2016, y: 2 },
+      { x: 2017, y: 3 },
+      { x: 2018, y: 4 },
+      { x: 2019, y: 5 },
+      { x: 2020, y: 6 },
+      { x: 2021, y: 7 },
+      { x: 2022, y: 9 },
+      { x: 2023, y: 11 },
     ],
   },
 ];
@@ -62,7 +63,7 @@ const LineGraph = () => {
       <ResponsiveLine
         data={data}
         margin={{ top: 50, right: 50, bottom: 100, left: 100 }}
-        xScale={{ type: 'linear' }}
+        xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
         axisBottom={{
           legend: 'X to the Power of Axis',
@@ -93,7 +94,7 @@ const LineGraph = () => {
               <div>
                 <div
                   style={{
-                    width: '100px',
+                    width: '120px',
                     height: '100px',
                     backgroundColor: 'white',
                     display: 'inline-block',
@@ -101,10 +102,22 @@ const LineGraph = () => {
                     transition: 'opacity 0.3s ease-in-out 0.3s'
                   }}
                 >
-                  <div style={{fontSize: 24}}>x-value {slice.points[0].data.x}</div>
+                  <div style={{fontSize: 24}}>Year: {slice.points[0].data.x}</div>
                   {slice.points.map((point) => (
                     <div key={point.serieId}>
-                      {point.serieId} : {point.data.y}
+                      <div 
+                        style={{
+                            height: '10px', 
+                            width: '10px', 
+                            backgroundColor: point.serieColor, 
+                            display: 'inline-block', 
+                            borderRadius: '50%', 
+                            opacity: mouseHover === null ? 1 : 0,
+                            transition: 'opacity 0.3s ease-in-out 0.3s',
+                            marginRight: '5px'
+                            }}
+                      />
+                       {point.serieId} : {point.data.y}
                     </div>
                   ))}
                 </div>
@@ -115,13 +128,9 @@ const LineGraph = () => {
       />
       {mouseHover !== null && (
         <div
+          className={lineGraph}
           style={{
-            position: 'absolute',
             left: `${mouseHover * 100}%`,
-            top: '50px',
-            height: '100%',
-            width: '2px',
-            background: 'red',
           }}
         />
       )}

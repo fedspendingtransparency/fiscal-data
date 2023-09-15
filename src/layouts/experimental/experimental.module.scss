@@ -32,3 +32,17 @@
   background-color: red;
   font-size: larger;
 }
+
+.lineGraph {
+  position: 'absolute';
+  top: '50px';
+  height: '100%';
+  width: '2px';
+  background-color: 'red';
+  opacity: 0;
+  :hover{
+    transition: 'opacity 2.0s ease-in-out';
+    opacity: 1;
+  }
+
+}
