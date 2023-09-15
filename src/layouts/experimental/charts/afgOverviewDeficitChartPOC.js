@@ -1,10 +1,11 @@
 /* istanbul ignore file */
 
 import React, { useEffect, useState } from 'react';
-import { Line, XAxis, YAxis, LineChart, CartesianGrid, ReferenceDot } from 'recharts';
+import { Line, XAxis, YAxis, LineChart, CartesianGrid, ReferenceDot, Tooltip } from 'recharts';
 import { deficitExplainerPrimary } from '../../explainer/sections/national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../explainer/sections/federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../explainer/sections/government-revenue/revenue.module.scss';
+import { toolTip, dot } from '../experimental.module.scss';
 
 const AFGDeficitPOC = () => {
   const [focusedYear, setFocusedYear] = useState(null);
@@ -93,7 +94,6 @@ const AFGDeficitPOC = () => {
           stroke={deficitExplainerPrimary}
           strokeWidth={0}
           style={{ pointerEvents: 'none' }}
-          onMouseOver={() => console.log(payload)}
         >
           {!animate && <animate attributeName="width" from={0} to={rectangleWidth} dur="1s" />}
           {!animate && cx < pixelMidPoint && <animate attributeName="x" from={pixelMidPoint} to={cx} dur="1s" />}
@@ -128,6 +128,52 @@ const AFGDeficitPOC = () => {
     return <></>;
   };
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    const [opacity, setOpacity] = useState(0);
+    useEffect(() => {
+      if (active) {
+        setOpacity(1);
+      }
+    }, active);
+    if (payload && payload.length) {
+      setFocusedYear(payload[0].payload.year);
+
+      return (
+        <div style={{ opacity: opacity, transition: 'opacity 2s linear' }}>
+          {
+            <div className={toolTip} style={{ opacity: active ? 1 : 0, transition: 'opacity 2s linear' }}>
+              {label}
+              <table>
+                <tr>
+                  <td>Spending</td>
+                  <td>
+                    <span className={dot} style={{ backgroundColor: spendingExplainerPrimary }}></span>
+                    $X.XX T
+                  </td>
+                </tr>
+                <tr>
+                  <td>Revenue</td>
+                  <td>
+                    <span className={dot} style={{ backgroundColor: revenueExplainerPrimary }}></span>
+                    $X.XX T
+                  </td>
+                </tr>
+                <tr>
+                  <td>Deficit</td>
+                  <td>
+                    <span className={dot} style={{ backgroundColor: deficitExplainerPrimary }}></span>
+                    $X.XX T
+                  </td>
+                </tr>
+              </table>
+            </div>
+          }
+        </div>
+      );
+    }
+    return null;
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setAnimationComplete(true);
@@ -158,7 +204,7 @@ const AFGDeficitPOC = () => {
             <Line
               dataKey="value"
               data={s.data}
-              stroke={'transparent'}
+              stroke="transparent"
               strokeWidth={6}
               strokeOpacity={0}
               dot={<CustomDot />}
@@ -194,11 +240,10 @@ const AFGDeficitPOC = () => {
               strokeOpacity={focusedYear === s.data[0].year || focusedYear === null ? 1 : 0.5}
               dot={<CustomDotNoAnimation />}
               isAnimationActive={false}
-              onMouseOver={() => {
-                setFocusedYear(s.data[0].year);
-              }}
+              activeDot={false}
             />
           ))}
+          <Tooltip content={<CustomTooltip />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} style={{ opacity: 0 }} />
         </LineChart>
       )}
     </>

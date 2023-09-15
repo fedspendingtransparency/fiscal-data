@@ -25,6 +25,12 @@
   border: 1px solid #666666;
   border-radius: .25rem;
   box-shadow: 0.25rem 0.25rem lightgrey;
+  opacity: 1;
+  transition: opacity 2s linear;
+}
+
+.inActive {
+  opacity: 0;
 }
 
 .fallback {
