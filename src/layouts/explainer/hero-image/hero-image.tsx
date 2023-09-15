@@ -4,22 +4,16 @@ import { IHeroImage } from '../../../models/IHeroImage';
 import { mainContainer, heroImageHeading, heroImageSubHeading, heroBorder } from './hero-image.module.scss';
 import { withWindowSize } from 'react-fns';
 import { getShortForm } from '../../../utils/rounding-utils';
-import { useRecoilValueLoadable, useSetRecoilState } from 'recoil';
-import { debtToThePennyDataState, debtToThePennyURLState } from '../../../recoil/debtToThePennyDataState';
+import { useRecoilValueLoadable } from 'recoil';
+import { debtToThePennyDataState } from '../../../recoil/debtToThePennyDataState';
 const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
-  const setURL = useSetRecoilState(debtToThePennyURLState);
   const data = useRecoilValueLoadable(debtToThePennyDataState);
-  const debtUrl = `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date&page[size]=1`;
-
-  useEffect(() => {
-    setURL(debtUrl);
-  }, []);
 
   useEffect(() => {
     if (data.state === 'hasValue') {
       console.log(data);
-      setDebtAmount(data.contents.data[0]?.tot_pub_debt_out_amt);
+      setDebtAmount(data.contents[0]?.tot_pub_debt_out_amt);
     }
   }, [data.state]);
 

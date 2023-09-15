@@ -9,11 +9,10 @@ import {
   rectangle,
 } from './visualizing-the-debt-accordion.module.scss';
 import { debtAccordion } from '../../national-debt.module.scss';
-import { apiPrefix } from '../../../../../../utils/api-utils';
 import Accordion from '../../../../../../components/accordion/accordion';
 import { visualizingTheDebtTableContent } from '../../national-debt';
-import { useRecoilValueLoadable, useSetRecoilState } from 'recoil';
-import { debtToThePennyDataState, debtToThePennyURLState } from '../../../../../../recoil/debtToThePennyDataState';
+import { useRecoilValueLoadable } from 'recoil';
+import { debtToThePennyDataState } from '../../../../../../recoil/debtToThePennyDataState';
 
 export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +22,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const [nationalDebtValueInTenths, setNationalDebtValueInTenths] = useState('99999999999999.9');
   const [numberOfSquares, setNumberOfSquares] = useState('0');
   const [dynamicGaEventValue, setDynamicGaEventValue] = useState(null);
+  const data = useRecoilValueLoadable(debtToThePennyDataState);
   useEffect(() => {
     setIsLoading(false);
 
@@ -57,21 +57,9 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
     return <tbody>{table.map(tr => tr)}</tbody>;
   };
 
-  const fields = 'fields=tot_pub_debt_out_amt,record_date';
-  const sort = 'sort=-record_date';
-  const pagination = 'page[size]=1&page[number]=1';
-  const endpointUrl = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
-  const debtUrl = `${apiPrefix}${endpointUrl}`;
-  const setURL = useSetRecoilState(debtToThePennyURLState);
-  const data = useRecoilValueLoadable(debtToThePennyDataState);
-
-  useEffect(() => {
-    setURL(debtUrl);
-  }, []);
-
   useEffect(() => {
     if (data.state === 'hasValue') {
-      const totalPublicDebtOutstanding = Math.trunc(data.contents.data[0]['tot_pub_debt_out_amt']);
+      const totalPublicDebtOutstanding = Math.trunc(data.contents[0]['tot_pub_debt_out_amt']);
       const dividedDebt = totalPublicDebtOutstanding / 1000000000000;
       setNationalDebtValue(dividedDebt.toFixed());
       setNationalDebtValueInTenths(dividedDebt.toFixed(1));
