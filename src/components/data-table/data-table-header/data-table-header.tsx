@@ -50,13 +50,11 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
         if (!allActiveFilters.includes(`${header.column.id}-sort`)) {
           const currentFilters = allActiveFilters.filter(item => !item.includes('sort'));
           currentFilters.push(`${header.column.id}-sort`);
-          console.log(currentFilters);
           setAllActiveFilters(currentFilters);
         }
       } else {
         const currentFilters = allActiveFilters.filter(item => item !== `${header.column.id}-sort`);
         setAllActiveFilters(currentFilters);
-        console.log(currentFilters);
       }
     }
   };

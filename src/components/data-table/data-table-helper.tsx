@@ -34,7 +34,6 @@ export const Filter: FunctionComponent<any> = ({
     const val = event && event.target ? event.target.value : '';
     column.setFilterValue(val);
     setFilterDisplay(val);
-    console.log(column);
     if (val.length > 0) {
       if (!allActiveFilters.includes(column.id)) {
         setAllActiveFilters([...allActiveFilters, column.id]);

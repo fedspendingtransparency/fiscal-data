@@ -155,6 +155,10 @@ describe('react-table', () => {
     fireEvent.click(sortButton);
     // Now sorted in desc order
     expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
+    fireEvent.click(sortButton);
+    fireEvent.click(sortButton);
+    //Sorting should be reset
+    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
   });
 
   it('column sort keyboard accessibility', () => {
@@ -180,6 +184,10 @@ describe('react-table', () => {
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     // Now sorted in desc order
     expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    //Sorting should be reset
+    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
   });
 
   it('Filter column by text search', () => {
