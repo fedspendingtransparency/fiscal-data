@@ -6,13 +6,13 @@ import { withWindowSize } from 'react-fns';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtToThePennyDataState } from '../../../recoil/debtToThePennyDataState';
+
 const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
   const data = useRecoilValueLoadable(debtToThePennyDataState);
 
   useEffect(() => {
     if (data.state === 'hasValue') {
-      console.log(data);
       setDebtAmount(data.contents[0]?.tot_pub_debt_out_amt);
     }
   }, [data.state]);

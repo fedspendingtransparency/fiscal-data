@@ -1,14 +1,8 @@
-import { selector } from 'recoil';
-import { atom } from 'recoil';
+import { selector, atom } from 'recoil';
 import { apiPrefix, basicFetch } from '../utils/api-utils';
 
-export const debtToThePennyLastFetchedState = atom({
-  key: 'debtToThePennyLastCachedState',
-  default: '',
-});
-
-export const debtToThePennyDataState = selector({
-  key: 'debtToThePennyDataState',
+const debtToThePennyDataSelector = selector({
+  key: 'debtToThePennyDataSelector',
   get: async ({ get }) => {
     const fields = 'fields=tot_pub_debt_out_amt,record_date';
     const sort = 'sort=-record_date';
@@ -18,4 +12,9 @@ export const debtToThePennyDataState = selector({
     const response = await basicFetch(debtUrl);
     return response.data;
   },
+});
+
+export const debtToThePennyDataState = atom({
+  key: 'debtToThePennyDataState',
+  default: debtToThePennyDataSelector,
 });
