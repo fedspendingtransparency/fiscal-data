@@ -17,6 +17,10 @@ const mockTableData = {
       record_calendar_quarter: '3',
       record_calendar_month: '07',
       record_calendar_day: '12',
+      mock_percent_string: '45%',
+      mock_small_fraction: '0.00067898',
+      mock_percent: '4',
+      negative_currency: '-134.1',
     },
     {
       record_date: '2023-07-11',
@@ -30,6 +34,9 @@ const mockTableData = {
       record_calendar_quarter: '3',
       record_calendar_month: '07',
       record_calendar_day: '11',
+      mock_percent_string: '55%',
+      mock_small_fraction: '0.00067898',
+      mock_percent: '3',
     },
     {
       record_date: '2023-07-10',
@@ -43,6 +50,9 @@ const mockTableData = {
       record_calendar_quarter: '3',
       record_calendar_month: '07',
       record_calendar_day: '10',
+      mock_percent_string: '65%',
+      mock_small_fraction: '0.00067898',
+      mock_percent: '2',
     },
   ],
   meta: {
@@ -59,11 +69,15 @@ const mockTableData = {
       record_calendar_quarter: 'Calendar Quarter Number',
       record_calendar_month: 'Calendar Month Number',
       record_calendar_day: 'Calendar Day Number',
+      mock_small_fraction: 'Mock Small Fraction',
+      mock_percent_string: 'Mock Percent String',
+      mock_percent: 'Mock Percent',
+      negative_currency: 'Negative Currency',
     },
     dataTypes: {
       record_date: 'DATE',
       debt_held_public_amt: 'CURRENCY',
-      intragov_hold_amt: 'CURRENCY',
+      intragov_hold_amt: 'CURRENCY3',
       tot_pub_debt_out_amt: 'CURRENCY',
       src_line_nbr: 'NUMBER',
       record_fiscal_year: 'YEAR',
@@ -72,6 +86,10 @@ const mockTableData = {
       record_calendar_quarter: 'QUARTER',
       record_calendar_month: 'MONTH',
       record_calendar_day: 'DAY',
+      mock_small_fraction: 'SMALL_FRACTION',
+      mock_percent_string: 'STRING',
+      mock_percent: 'PERCENTAGE',
+      negative_currency: 'CURRENCY3',
     },
     dataFormats: {
       record_date: 'YYYY-MM-DD',
@@ -92,6 +110,15 @@ const mockTableData = {
 };
 
 const defaultSelectedColumnsMock = ['record_date', 'src_line_nbr', 'record_calendar_quarter'];
+const defaultColumnsTypeCheckMock = [
+  'record_date',
+  'intragov_hold_amt',
+  'src_line_nbr',
+  'mock_small_fraction',
+  'mock_percent',
+  'mock_percent_string',
+  'negative_currency',
+];
 const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
 const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));
 const allColLabels = defaultColLabels.concat(additionalColLabels);
@@ -151,14 +178,14 @@ describe('react-table', () => {
     const header = getByRole('columnheader', { name: 'Record Date' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
     fireEvent.click(sortButton);
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/10/2023');
     fireEvent.click(sortButton);
     fireEvent.click(sortButton);
     //Sorting should be reset
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
 
   it('column sort keyboard accessibility', () => {
@@ -180,14 +207,14 @@ describe('react-table', () => {
     const header = getByRole('columnheader', { name: 'Record Date' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/10/2023');
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     //Sorting should be reset
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/12/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
 
   it('Filter column by text search', () => {
@@ -212,7 +239,7 @@ describe('react-table', () => {
     fireEvent.change(columnFilter, { target: { value: '25633821130387.02' } });
     // Rows filtered down to 1
     expect(getAllByTestId('row').length).toEqual(1);
-    expect(getAllByTestId('row')[0].innerHTML).toContain('25633821130387.02');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('$25,633,821,130,387.02');
 
     //clear results to view full table
     const clearButton = within(header).getAllByRole('button', { hidden: true })[1];
@@ -245,7 +272,7 @@ describe('react-table', () => {
     fireEvent.change(columnFilter, { target: { value: '07/10/2023' } });
     // Rows filtered down to 1
     expect(getAllByTestId('row').length).toEqual(1);
-    expect(getAllByTestId('row')[0].innerHTML).toContain('07/10/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/10/2023');
   });
 
   it('pagination', () => {
@@ -312,5 +339,75 @@ describe('react-table', () => {
     additionalColLabels.forEach(index => {
       expect(instance.queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
     });
+  });
+  it('formats PERCENTAGE types correctly', () => {
+    const instance = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={defaultColumnsTypeCheckMock}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('4%');
+  });
+  it('formats SMALL_FRACTION types correctly', () => {
+    const instance = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={defaultColumnsTypeCheckMock}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('0.00067898');
+  });
+  it('formats STRING types that are percentage values correctly', () => {
+    const instance = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={defaultColumnsTypeCheckMock}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('45%');
+  });
+  it('formats CURRENCY3 types correctly', () => {
+    const instance = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={defaultColumnsTypeCheckMock}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('$6,884,574,686,385.150');
+  });
+  it('formats negative CURRENCY3 types correctly', () => {
+    const instance = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={defaultColumnsTypeCheckMock}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
   });
 });

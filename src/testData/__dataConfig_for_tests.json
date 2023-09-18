@@ -1,6 +1,14 @@
 {
   "topics": [
     {
+      "label": "Auctions",
+      "title": "Topics",
+      "slug": "auctions",
+      "datasetIds": [
+        "/record-setting-auction-data/"
+      ]
+    },
+    {
       "label": "Debt",
       "title": "Topics",
       "slug": "debt",

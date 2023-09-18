@@ -177,6 +177,16 @@ const filters = [
     active: false
   },
   {
+    id: 'auctions',
+    slug: 'auctions',
+    matcher: (dataset) => {
+      return dataset.filterTopics.some(topic => topic === 'auctions');
+    },
+    groupId: 'topics',
+    label: 'Auctions',
+    active: false
+  },
+  {
     id: 'debt',
     slug: 'debt',
     matcher: (dataset) => {
