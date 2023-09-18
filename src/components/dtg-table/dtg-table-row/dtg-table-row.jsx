@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  currencyFormatter,
-  numberFormatter,
-  dateFormatter,
-} from '../../../helpers/text-format/text-format';
+import { currencyFormatter, numberFormatter, dateFormatter } from '../../../helpers/text-format/text-format';
 import * as styles from '../dtg-table.module.scss';
 
 const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
@@ -17,12 +13,13 @@ const customFormat = (stringValue, decimalPlaces) => {
     returnString = '-' + returnString;
   }
   return returnString;
-}
+};
+
 export default function DtgTableRow({ columns, data }) {
   const cells = [];
 
   columns.forEach((column, index) => {
-    const {property, type} = column;
+    const { property, type } = column;
     const cellData = data[property];
     let formattedData = cellData;
 
@@ -42,17 +39,18 @@ export default function DtgTableRow({ columns, data }) {
       const date = new Date(cellData.replace(/-/g, '/'));
       formattedData = dateFormatter.format(date);
     } else if (type === 'SMALL_FRACTION') {
-      formattedData = new Intl.NumberFormat('en-US', {maximumSignificantDigits:5})
-        .format(cellData);
+      formattedData = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(cellData);
     } else if (type === 'STRING' && formattedData.includes('%')) {
       //replaces hyphens with a non-wrapping hyphen
       formattedData = cellData.replace(/-/g, '\u2011');
     }
 
-    cells.push(<td key={index} className={dataTypes.includes(type) ? styles.formattedCell : ''}>{formattedData}</td>);
+    cells.push(
+      <td key={index} className={dataTypes.includes(type) ? styles.formattedCell : ''}>
+        {formattedData}
+      </td>
+    );
   });
 
-  return (
-    <tr>{cells}</tr>
-  )
+  return <tr>{cells}</tr>;
 }

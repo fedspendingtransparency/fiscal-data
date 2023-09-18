@@ -1,13 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import {
-  ColumnDef,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  getFilteredRowModel,
-  SortingState,
-} from '@tanstack/react-table';
+import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, getFilteredRowModel, SortingState } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 
 import StickyTable from 'react-sticky-table-thead';
@@ -22,7 +14,7 @@ import {
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import moment from 'moment';
+import { columnsConstructor } from './data-table-helper';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -58,21 +50,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pageSize,
   setFiltersActive,
 }) => {
-  const allColumns = rawData.meta
-    ? Object.entries(rawData.meta.labels).map(([field, label]) => {
-      if (field === 'record_date') {
-        return {
-          accessorKey: field,
-          header: label,
-          filterFn: 'equalsString',
-          cell: ({ getValue }) => {
-            return moment(getValue()).format('MM/DD/YYYY');
-          },
-        } as ColumnDef<any, any>;
-      }
-      return { accessorKey: field, header: label } as ColumnDef<any, any>;
-    })
-    : [];
+  const allColumns = columnsConstructor(rawData);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {
