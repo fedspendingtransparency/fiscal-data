@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { SingleDateFilter, Filter, rightAlign } from '../data-table-helper';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -27,6 +27,8 @@ interface IDataTableHeader {
 }
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive }) => {
+  const [allActiveFilters, setAllActiveFilters] = useState([]);
+
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
@@ -44,9 +46,24 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
   const iconClick = (state, header, e) => {
     if (e.key === undefined || e.key === 'Enter') {
       header.column.toggleSorting();
-      setFiltersActive(state === 'asc' || state === 'false');
+      if (state === 'asc' || state === 'false') {
+        if (!allActiveFilters.includes(`${header.column.id}-sort`)) {
+          const currentFilters = allActiveFilters.filter(item => !item.includes('sort'));
+          currentFilters.push(`${header.column.id}-sort`);
+          console.log(currentFilters);
+          setAllActiveFilters(currentFilters);
+        }
+      } else {
+        const currentFilters = allActiveFilters.filter(item => item !== `${header.column.id}-sort`);
+        setAllActiveFilters(currentFilters);
+        console.log(currentFilters);
+      }
     }
   };
+
+  useEffect(() => {
+    setFiltersActive(allActiveFilters.length > 0);
+  }, [allActiveFilters]);
 
   return (
     <thead>
@@ -77,6 +94,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                               className={sortArrowPill}
                               tabIndex={0}
                               role="button"
+                              aria-label="Column sort"
                               onClick={e => iconClick('asc', header, e)}
                               onKeyDown={e => iconClick('asc', header, e)}
                             >
@@ -88,6 +106,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                               className={sortArrowPill}
                               tabIndex={0}
                               role="button"
+                              aria-label="Column sort"
                               onClick={e => iconClick('desc', header, e)}
                               onKeyDown={e => iconClick('desc', header, e)}
                             >
@@ -99,6 +118,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                               className={defaultSortArrowPill}
                               tabIndex={0}
                               role="button"
+                              aria-label="Column sort"
                               onClick={e => iconClick('false', header, e)}
                               onKeyDown={e => iconClick('false', header, e)}
                             >
@@ -113,7 +133,13 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                         </div>
                       ) : (
                         <div className={columnMinWidth}>
-                          <Filter column={header.column} table={table} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
+                          <Filter
+                            column={header.column}
+                            table={table}
+                            resetFilters={resetFilters}
+                            allActiveFilters={allActiveFilters}
+                            setAllActiveFilters={setAllActiveFilters}
+                          />
                         </div>
                       )}
                     </>

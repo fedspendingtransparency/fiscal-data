@@ -9,11 +9,13 @@ import moment from 'moment';
 export const Filter: FunctionComponent<any> = ({
   column,
   resetFilters,
-  setFiltersActive,
+  setAllActiveFilters,
+  allActiveFilters,
 }: {
   column: Column<any, any>;
   resetFilters: boolean;
-  setFiltersActive: (value: boolean) => void;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
 }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
@@ -32,7 +34,17 @@ export const Filter: FunctionComponent<any> = ({
     const val = event && event.target ? event.target.value : '';
     column.setFilterValue(val);
     setFilterDisplay(val);
-    setFiltersActive(val.length > 0);
+    console.log(column);
+    if (val.length > 0) {
+      if (!allActiveFilters.includes(column.id)) {
+        setAllActiveFilters([...allActiveFilters, column.id]);
+      }
+    } else {
+      if (allActiveFilters.includes(column.id)) {
+        const currentFilters = allActiveFilters.filter(value => value !== column.id);
+        setAllActiveFilters(currentFilters);
+      }
+    }
   };
 
   useEffect(() => {
@@ -47,11 +59,7 @@ export const rightAlign = (type: string): boolean => {
   return types.includes(type) || type?.includes('CURRENCY');
 };
 
-export const SingleDateFilter: FunctionComponent<any> = ({
-  column,
-}: {
-  column: Column<any, any>;
-}) => {
+export const SingleDateFilter: FunctionComponent<any> = ({ column }: { column: Column<any, any> }) => {
   const [date, setDate] = useState(null);
 
   useEffect(() => {
