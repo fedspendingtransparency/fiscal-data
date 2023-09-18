@@ -12,6 +12,7 @@ import AFGDeficitPOC from "./charts/afgOverviewDeficitChartPOC";
 import { ErrorBoundary } from "react-error-boundary";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
 import { totalDebtData } from "./experimental-helper";
+import LineGraph from "./charts/lineGraph";
 
 const fallbackComponent = () => {
   return (
@@ -98,7 +99,8 @@ const ExperimentalPage = () => {
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
       <SiteLayout>
-        <LineGraphAnimation />
+        {/* <LineGraphAnimation /> */}
+        <LineGraph />
         <h2>FootNote Paragraph</h2>
         <p>
           empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna

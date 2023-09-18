@@ -19,30 +19,42 @@
   margin-right: .5rem;
 }
 
-.toolTip {
-  background-color: white;
-  padding: .5rem;
-  border: 1px solid #666666;
-  border-radius: .25rem;
-  box-shadow: 0.25rem 0.25rem lightgrey;
-}
+// .toolTip {
+//   background-color: white;
+//   padding: .5rem;
+//   border: 1px solid #666666;
+//   border-radius: .25rem;
+//   box-shadow: 0.25rem 0.25rem lightgrey;
+// }
 
 .fallback {
   color: black;
   background-color: red;
   font-size: larger;
 }
-
-.lineGraph {
-  position: 'absolute';
-  top: '50px';
-  height: '100%';
-  width: '2px';
-  background-color: 'red';
-  opacity: 0;
-  :hover{
-    transition: 'opacity 2.0s ease-in-out';
+.fade {
+  transition: opacity 0.3s ease-in-out;
+  &.visible {
     opacity: 1;
   }
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+.tooltip:after {
+opacity: 0;
+-webkit-transition: opacity 1s ease-in-out;
+transition: opacity 1s ease-in-out;
 
+}
+.tooltip:hover:after {
+  opacity: 1;
+  }
+.lineGraph {
+  position: absolute;
+  top: 50px;
+  height: 100%;
+  width: 2px;
+  background-color: 'red';
 }

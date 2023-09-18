@@ -1,7 +1,8 @@
 /* istanbul ignore file */
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { ResponsiveLine } from '@nivo/line';
-import lineGraph from '../experimental.module.scss';
+import { lineGraph, tooltip } from '../experimental.module.scss';
+
 
 const data = [
   {
@@ -57,9 +58,33 @@ const data = [
 
 const LineGraph = () => {
   const [mouseHover, setMouseHover] = useState(null);
+  const [opacity, setOpacity] = useState(0);
+
+  useEffect (() => {
+    if (mouseHover !== null) {
+      fadeIn();
+    }
+    else {
+      fadeOut();
+    }
+
+  }, [mouseHover]);
+
+  const fadeIn = () => {
+    setOpacity(1);
+  }
+  const fadeOut = () => {
+    setOpacity(0);
+  }
 
   return (
-    <div style={{ height: '400px', position: 'relative', width: '600px' }}>
+    <div 
+    style={{ height: '400px', position: 'relative', width: '600px', opacity: mouseHover !== null ? 0 : 1,
+    transition: 'opacity 3s ease-in-out' }}
+    role='presentation'
+    onMouseEnter={fadeIn}
+    onMouseLeave={fadeOut}
+    >
       <ResponsiveLine
         data={data}
         margin={{ top: 50, right: 50, bottom: 100, left: 100 }}
@@ -79,17 +104,25 @@ const LineGraph = () => {
         enableGridY={true}
         enablePoints={false}
         enableSlices={'x'}
-        onMouseEnter={(slice) => setMouseHover(slice.slicePoints[0].x)}
-        onMouseLeave={() => setMouseHover(null)}
+        onMouseEnter={(slice) => {
+          console.log('Enter: ', setMouseHover(slice.slicePoints[0].x));
+          setMouseHover(slice.slicePoints[0].x);
+          }}
+        onMouseLeave={() => {
+          console.log('LEFT!!')
+          setMouseHover(null)
+        }}
         sliceTooltip={({ slice }) => {
-          // Customize the tooltip content to include x and y values with circular color indicators
           return (
             <div 
+            className={tooltip}
               style={{ 
                 background: 'white', 
                 padding: '10px', 
                 border: '1px solid #ccc', 
-                transition: 'opacity 0.3s ease-in-out' }}
+                opacity: opacity,
+                transition: 'opacity 3s ease-in-out'
+              }}
             >
               <div>
                 <div
@@ -98,8 +131,6 @@ const LineGraph = () => {
                     height: '100px',
                     backgroundColor: 'white',
                     display: 'inline-block',
-                    opacity: mouseHover === null ? 1 : 0,
-                    transition: 'opacity 0.3s ease-in-out 0.3s'
                   }}
                 >
                   <div style={{fontSize: 24}}>Year: {slice.points[0].data.x}</div>
@@ -112,8 +143,6 @@ const LineGraph = () => {
                             backgroundColor: point.serieColor, 
                             display: 'inline-block', 
                             borderRadius: '50%', 
-                            opacity: mouseHover === null ? 1 : 0,
-                            transition: 'opacity 0.3s ease-in-out 0.3s',
                             marginRight: '5px'
                             }}
                       />
@@ -126,14 +155,16 @@ const LineGraph = () => {
           );
         }}
       />
-      {mouseHover !== null && (
+      {/* {mouseHover === null && (
         <div
           className={lineGraph}
           style={{
             left: `${mouseHover * 100}%`,
+            opacity: opacity,
+            transition: 'opacity 3s ease-in-out'
           }}
         />
-      )}
+      )} */}
     </div>
   );
 };
