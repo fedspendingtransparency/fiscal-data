@@ -15,11 +15,11 @@ export const debtToThePennyData = selector({
     const endpointUrl = `v2/accounting/od/debt_to_penny?${fields}&${sort}&${pagination}`;
     const debtUrl = `${apiPrefix}${endpointUrl}`;
     const response = await basicFetch(debtUrl);
-    return response.data;
+    const timeStamp = Date.now();
+    console.log('Data fetched at: ', timeStamp);
+    return {
+      payload: response.data,
+      timeStamp: timeStamp,
+    };
   },
 });
-
-// export const debtToThePennyDataState = atom({
-//   key: 'debtToThePennyDataState',
-//   default: debtToThePennyDataSelector,
-// });

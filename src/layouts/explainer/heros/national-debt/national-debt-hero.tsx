@@ -3,38 +3,27 @@ import SplitFlapDisplay from '../../../../components/split-flap-display/split-fl
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../utils/analytics/analytics';
-import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable, useRecoilState } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../../recoil/debtToThePennyDataState';
+import useShouldRefreshCachedData from '../../../../recoil/useShouldRefreshCachedData';
 
 const NationalDebtHero = (): JSX.Element => {
   const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
-  const [lastCached, setLastCached] = useRecoilState(debtToThePennyLastCachedState);
   const data = useRecoilValueLoadable(debtToThePennyData);
-  const refreshData = useRecoilRefresher_UNSTABLE(debtToThePennyData);
+  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
   const getCurrentNationalDebt = () => {
     if (data.state === 'hasValue') {
-      const totalPublicDebtOutstanding: string = Math.trunc(data.contents[0]['tot_pub_debt_out_amt']).toString();
+      const totalPublicDebtOutstanding: string = Math.trunc(data.contents.payload[0]['tot_pub_debt_out_amt']).toString();
       setNationalDebtValue(totalPublicDebtOutstanding);
-      if (lastCached !== 0 && Math.abs(Date.now() - lastCached) >= 300000) {
-        console.log('It has been 5 minutes');
-        refreshData();
-        setLastCached(Date.now());
-      } else if (lastCached === 0) {
-        setLastCached(Date.now());
-      }
     }
   };
 
   useEffect(() => {
     getCurrentNationalDebt();
   }, [data.state]);
-
-  useEffect(() => {
-    console.log(lastCached);
-  }, [lastCached]);
 
   const clickHandler = () => {
     Analytics.event({

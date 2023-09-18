@@ -5,15 +5,17 @@ import { mainContainer, heroImageHeading, heroImageSubHeading, heroBorder } from
 import { withWindowSize } from 'react-fns';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { useRecoilValueLoadable } from 'recoil';
-import { debtToThePennyData } from '../../../recoil/debtToThePennyDataState';
+import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../recoil/debtToThePennyDataState';
+import useShouldRefreshCachedData from '../../../recoil/useShouldRefreshCachedData';
 
 const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
   const data = useRecoilValueLoadable(debtToThePennyData);
+  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
 
   useEffect(() => {
     if (data.state === 'hasValue') {
-      setDebtAmount(data.contents[0]?.tot_pub_debt_out_amt);
+      setDebtAmount(data.contents.payload[0]?.tot_pub_debt_out_amt);
     }
   }, [data.state]);
 

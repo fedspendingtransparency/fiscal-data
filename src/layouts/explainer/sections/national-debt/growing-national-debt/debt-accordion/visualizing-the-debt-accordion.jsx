@@ -12,7 +12,8 @@ import { debtAccordion } from '../../national-debt.module.scss';
 import Accordion from '../../../../../../components/accordion/accordion';
 import { visualizingTheDebtTableContent } from '../../national-debt';
 import { useRecoilValueLoadable } from 'recoil';
-import { debtToThePennyData } from '../../../../../../recoil/debtToThePennyDataState';
+import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../../../../recoil/debtToThePennyDataState';
+import useShouldRefreshCachedData from '../../../../../../recoil/useShouldRefreshCachedData';
 
 export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const [numberOfSquares, setNumberOfSquares] = useState('0');
   const [dynamicGaEventValue, setDynamicGaEventValue] = useState(null);
   const data = useRecoilValueLoadable(debtToThePennyData);
+  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
   useEffect(() => {
     setIsLoading(false);
 
@@ -59,7 +61,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
 
   useEffect(() => {
     if (data.state === 'hasValue') {
-      const totalPublicDebtOutstanding = Math.trunc(data.contents[0]['tot_pub_debt_out_amt']);
+      const totalPublicDebtOutstanding = Math.trunc(data.contents.payload[0]['tot_pub_debt_out_amt']);
       const dividedDebt = totalPublicDebtOutstanding / 1000000000000;
       setNationalDebtValue(dividedDebt.toFixed());
       setNationalDebtValueInTenths(dividedDebt.toFixed(1));
