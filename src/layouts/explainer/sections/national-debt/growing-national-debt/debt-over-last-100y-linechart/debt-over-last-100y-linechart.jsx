@@ -11,7 +11,6 @@ import { lineChart, container } from './debt-over-last-100y-linechart.module.scs
 import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import { lineChartCustomPoints } from './debt-over-last-100y-linechart-helper';
 import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
-import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,8 +21,6 @@ import { useInView } from 'react-intersection-observer';
 import { useRecoilValueLoadable } from 'recoil';
 import useShouldRefreshCachedData from '../../../../../../recoil/useShouldRefreshCachedData';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
-
-const chartDataEndPoint = apiPrefix + 'v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101';
 
 let gaTimerDebt100Yrs;
 let ga4Timer;
@@ -100,7 +97,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   useEffect(() => {
     if (data.state === 'hasValue') {
       processData();
-      setTimeout(() => applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString()), 1);
       addInnerChartAriaLabel(chartParent);
     }
   }, [data.state]);
@@ -111,7 +107,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-  }, []);
+  }, [isLoading]);
 
   const handleGroupOnMouseLeave = () => {
     setTotalDebtHeadingValues({

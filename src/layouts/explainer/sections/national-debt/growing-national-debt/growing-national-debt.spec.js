@@ -1,34 +1,22 @@
 import React from 'react';
-import {
-  render,
-  fireEvent
-} from '@testing-library/react';
-import {
-  nationalDebtSectionIds,
-  nationalDebtSectionConfigs,
-  visualizingTheDebtTableContent,
-} from "../national-debt";
-import { GrowingNationalDebtSection } from "./growing-national-debt";
-import { VisualizingTheDebtAccordion } from "./debt-accordion/visualizing-the-debt-accordion";
-import {
-  mockExplainerPageResponse,
-  mockBeaGDPData
-} from "../../../explainer-test-helper"
-import {
-  determineBEAFetchResponse
-} from "../../../../../utils/mock-utils"
+import { render, fireEvent } from '@testing-library/react';
+import { nationalDebtSectionIds, nationalDebtSectionConfigs, visualizingTheDebtTableContent } from '../national-debt';
+import { GrowingNationalDebtSection } from './growing-national-debt';
+import { VisualizingTheDebtAccordion } from './debt-accordion/visualizing-the-debt-accordion';
+import { mockExplainerPageResponse, mockBeaGDPData } from '../../../explainer-test-helper';
+import { determineBEAFetchResponse } from '../../../../../utils/mock-utils';
 import { getYear } from 'date-fns';
 import simplifyNumber from '../../../../../helpers/simplify-number/simplifyNumber';
 import { breakpointSm } from '../../../../variables.module.scss';
 
-import { growingNationalDebtSectionAccordion } from "./debt-accordion/visualizing-the-debt-accordion.module.scss";
-import { waitFor } from "@testing-library/dom"
-import Analytics from "../../../../../utils/analytics/analytics";
+import { growingNationalDebtSectionAccordion } from './debt-accordion/visualizing-the-debt-accordion.module.scss';
+import { waitFor } from '@testing-library/dom';
+import Analytics from '../../../../../utils/analytics/analytics';
+import { RecoilRoot } from 'recoil';
 
-
-jest.mock('./variables.module.scss', (content) => ({
+jest.mock('./variables.module.scss', content => ({
   ...content,
-  breakpointSm: 600
+  breakpointSm: 600,
 }));
 
 jest.mock('../../../../../hooks/useBeaGDP', () => {
@@ -37,21 +25,19 @@ jest.mock('../../../../../hooks/useBeaGDP', () => {
 
 describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];
-  const config = nationalDebtSectionConfigs[sectionId]
+  const config = nationalDebtSectionConfigs[sectionId];
   const glossary = [];
   const mockCpiDataset = {
-    "2011": "10",
-    "2012": "5",
-    "2013": "5",
-    "2020": "15",
-    "2021": "15"
+    '2011': '10',
+    '2012': '5',
+    '2013': '5',
+    '2020': '15',
+    '2021': '15',
   };
-
 
   beforeEach(() => {
     determineBEAFetchResponse(jest, mockExplainerPageResponse);
     jest.spyOn(console, 'warn').mockImplementation(() => {});
-
   });
 
   afterEach(() => {
@@ -61,53 +47,51 @@ describe('The Growing National Debt', () => {
 
   it('renders the Visualizing the Debt table inside an accordion', async () => {
     const { container } = render(
-      <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary}
-                                  cpiDataByYear={mockCpiDataset}
-      />
+      <RecoilRoot>
+        <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
+      </RecoilRoot>
     );
 
-    expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`))
-    .toBeInTheDocument();
-  })
+    expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`)).toBeInTheDocument();
+  });
 
   it('shows the correct amount of rows and columns for different screen sizes', async () => {
     const { findByTestId, findAllByTestId, rerender } = render(
-      <VisualizingTheDebtAccordion width={breakpointSm} />
+      <RecoilRoot>
+        <VisualizingTheDebtAccordion width={breakpointSm} />
+      </RecoilRoot>
     );
     fireEvent.click(await findByTestId('button'));
     const rowsDesktop = await findAllByTestId('accordion-table-row');
     expect(rowsDesktop).toHaveLength(visualizingTheDebtTableContent.desktop.rows);
     rerender(
-      <VisualizingTheDebtAccordion width={breakpointSm-1} />
+      <RecoilRoot>
+        <VisualizingTheDebtAccordion width={breakpointSm - 1} />
+      </RecoilRoot>
     );
 
     const rowsMobile = await findAllByTestId('accordion-table-row');
     expect(rowsMobile).toHaveLength(visualizingTheDebtTableContent.mobile.rows);
   });
 
-
   it('contains the two charts contained in this section', async () => {
     const { findAllByTestId } = render(
-      <GrowingNationalDebtSection sectionId={sectionId}
-                                  glossary={glossary}
-                                  cpiDataByYear={mockCpiDataset}
-      />
+      <RecoilRoot>
+        <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
+      </RecoilRoot>
     );
     const allCharts = await findAllByTestId('chart');
     expect(allCharts.length).toStrictEqual(2);
-  })
-
-
+  });
 
   it('displays the latest date and value', async () => {
     const latestDate = getYear(new Date(mockExplainerPageResponse.data[0][config.dateField]));
     const latestValue = simplifyNumber(mockExplainerPageResponse.data[0][config.valueField], true);
 
     const { findAllByText, findByText } = render(
-      <GrowingNationalDebtSection sectionId={sectionId}
-                                  glossary={glossary}
-                                  cpiDataByYear={mockCpiDataset}
-      />
+      <RecoilRoot>
+        <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
+      </RecoilRoot>
     );
 
     // Latest year is also the text content for the last value on the graph's x-axis
@@ -121,10 +105,9 @@ describe('The Growing National Debt', () => {
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByText, getAllByText } = render(
-      <GrowingNationalDebtSection sectionId={sectionId}
-                                  glossary={glossary}
-                                  cpiDataByYear={mockCpiDataset}
-      />
+      <RecoilRoot>
+        <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
+      </RecoilRoot>
     );
 
     const historicalDebt = await waitFor(() => getAllByText('Historical Debt Outstanding')[0]);
@@ -134,7 +117,7 @@ describe('The Growing National Debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
+      label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
     });
     spy.mockClear();
 
@@ -142,19 +125,8 @@ describe('The Growing National Debt', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years'
+      label: 'Debt - U.S. Federal Debt Trends Over the Last 100 Years',
     });
     spy.mockClear();
   });
 });
-
-
-
-
-
-
-
-
-
-
-

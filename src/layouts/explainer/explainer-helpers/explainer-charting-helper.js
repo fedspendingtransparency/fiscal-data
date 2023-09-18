@@ -2,10 +2,6 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {
-  console.log('Scaling chart', parent);
-  if (parent === 'totalDebtChartParent') {
-    console.log(chartWidth, chartHeight);
-  }
   // this function rewrites some element attribs after render to ensure Chart scales with container
   // which doesn't seem to happen naturally when nivo has a flex container
   const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);

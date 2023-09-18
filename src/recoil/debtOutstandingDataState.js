@@ -13,7 +13,6 @@ export const debtOutstandingData = selector({
     const debtUrl = `${apiPrefix}${endpointUrl}`;
     const response = await basicFetch(debtUrl);
     const timeStamp = Date.now();
-    console.log('Data fetched at: ', timeStamp);
     return {
       payload: response.data,
       timeStamp: timeStamp,
