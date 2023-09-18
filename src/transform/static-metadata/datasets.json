@@ -199,7 +199,7 @@
     "seoConfig": {
       "keywords": "treasury securities, treasury auctions, treasury bills, treasury notes, treasury bonds, TIPS, FRNs, CMBs, treasury rates, treasury offerings"
     },
-    "topics": ["interest-exchange-rates"],
+    "topics": ["auctions", "interest-exchange-rates"],
     "relatedDatasets": [
       "015-BFS-2014Q3-056",
       "015-BFS-2014Q1-03",
@@ -605,7 +605,7 @@
       "keywords": "treasury securities"
     },
     "topics": [
-      "debt", "savings-bonds"
+      "auctions", "debt", "savings-bonds"
     ],
     "relatedDatasets": [
       "015-BFS-2014Q1-14"
