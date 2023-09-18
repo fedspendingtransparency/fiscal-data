@@ -12,7 +12,7 @@ import { debtAccordion } from '../../national-debt.module.scss';
 import Accordion from '../../../../../../components/accordion/accordion';
 import { visualizingTheDebtTableContent } from '../../national-debt';
 import { useRecoilValueLoadable } from 'recoil';
-import { debtToThePennyDataState } from '../../../../../../recoil/debtToThePennyDataState';
+import { debtToThePennyData } from '../../../../../../recoil/debtToThePennyDataState';
 
 export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +22,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const [nationalDebtValueInTenths, setNationalDebtValueInTenths] = useState('99999999999999.9');
   const [numberOfSquares, setNumberOfSquares] = useState('0');
   const [dynamicGaEventValue, setDynamicGaEventValue] = useState(null);
-  const data = useRecoilValueLoadable(debtToThePennyDataState);
+  const data = useRecoilValueLoadable(debtToThePennyData);
   useEffect(() => {
     setIsLoading(false);
 
