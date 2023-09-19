@@ -24,7 +24,7 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
-import useShouldRefreshCachedData from '../../../../../../recoil/useShouldRefreshCachedData';
+import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 
 let gaTimerDebtTrends;
 let ga4Timer;

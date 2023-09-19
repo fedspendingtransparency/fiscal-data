@@ -19,7 +19,7 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { useInView } from 'react-intersection-observer';
 import { useRecoilValueLoadable } from 'recoil';
-import useShouldRefreshCachedData from '../../../../../../recoil/useShouldRefreshCachedData';
+import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
 
 let gaTimerDebt100Yrs;

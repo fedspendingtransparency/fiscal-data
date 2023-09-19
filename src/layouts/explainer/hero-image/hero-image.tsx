@@ -6,7 +6,7 @@ import { withWindowSize } from 'react-fns';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../recoil/debtToThePennyDataState';
-import useShouldRefreshCachedData from '../../../recoil/useShouldRefreshCachedData';
+import useShouldRefreshCachedData from '../../../recoil/hooks/useShouldRefreshCachedData';
 
 const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');

@@ -13,7 +13,7 @@ import Accordion from '../../../../../../components/accordion/accordion';
 import { visualizingTheDebtTableContent } from '../../national-debt';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../../../../recoil/debtToThePennyDataState';
-import useShouldRefreshCachedData from '../../../../../../recoil/useShouldRefreshCachedData';
+import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 
 export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);

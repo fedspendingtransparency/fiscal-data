@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../utils/analytics/analytics';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../../recoil/debtToThePennyDataState';
-import useShouldRefreshCachedData from '../../../../recoil/useShouldRefreshCachedData';
+import useShouldRefreshCachedData from '../../../../recoil/hooks/useShouldRefreshCachedData';
 
 const NationalDebtHero = (): JSX.Element => {
   const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
