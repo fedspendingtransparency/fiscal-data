@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
-import { mockBeaGDPData, mockExplainerPageResponse, mockSpendingHeroData, mockUseStaticBeaGDP } from './explainer-test-helper';
+import { mockBeaGDPData, mockExplainerPageResponse, mockRevenueHeroData, mockSpendingHeroData, mockUseStaticBeaGDP } from './explainer-test-helper';
 import { determineBEAFetchResponse, setGlobalFetchMatchingResponse, setGlobalFetchResponse } from '../../utils/mock-utils';
 import { understandingDeficitMatchers } from './explainer-helpers/national-deficit/national-deficit-test-helper';
 import fetchMock from 'fetch-mock';
@@ -11,62 +11,6 @@ import { useStaticQuery } from 'gatsby';
 import { RecoilRoot } from 'recoil';
 jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
-});
-describe('Explainer Page Layout', () => {
-  const pageName = 'national-debt';
-  const breadCrumbLinkName = 'mock link';
-  const seoConfig = {
-    pageTitle: 'mock title',
-    description: 'mock description',
-  };
-  const heroImage = {
-    heading: 'mock heading',
-    subHeading: 'mock subheading',
-  };
-  const glossary = [];
-
-  const mockPageContext = {
-    pageName,
-    breadCrumbLinkName,
-    seoConfig,
-    heroImage,
-    glossary,
-  };
-
-  beforeAll(() => {
-    useStaticQuery.mockReturnValue(mockUseStaticBeaGDP);
-  });
-
-  beforeEach(() => {
-    setGlobalFetchResponse(jest, [
-      {
-        matcher: url => url.match(/v2\/accounting\/od\/debt_to_penny/g),
-        jsonResponse: {
-          data: [
-            {
-              tot_pub_debt_out_amt: '28908004857445.12',
-              record_date: '2021-12-13',
-            },
-          ],
-        },
-      },
-      { matcher: url => true, jsonResponse: mockExplainerPageResponse },
-    ]);
-  });
-
-  it('renders the explainer page', async () => {
-    const { findAllByTestId, findByText } = render(
-      <RecoilRoot>
-        <ExplainerPageLayout pageContext={mockPageContext} />
-      </RecoilRoot>
-    );
-
-    const sectionHeadings = await findAllByTestId('section-heading');
-    expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
-
-    // const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
-    // expect(dataSourcesMethodologies).toBeInTheDocument();
-  });
 });
 
 describe('Deficit explainer', () => {
@@ -104,7 +48,11 @@ describe('Deficit explainer', () => {
       ...mockPageContext,
     };
 
-    const { findAllByTestId, findByText } = render(<ExplainerPageLayout pageContext={deficitPageContext} />);
+    const { findAllByTestId, findByText } = render(
+      <RecoilRoot>
+        <ExplainerPageLayout pageContext={deficitPageContext} />
+      </RecoilRoot>
+    );
 
     const sectionHeadings = await findAllByTestId('section-heading');
     expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
@@ -155,6 +103,7 @@ describe('Spending explainer', () => {
 
   afterEach(() => {
     jest.resetModules();
+    global.fetch.mockReset();
   });
   const breadCrumbLinkName = 'mock link';
   const seoConfig = {
@@ -191,7 +140,11 @@ describe('Spending explainer', () => {
       ...mockPageContext,
     };
 
-    const { findAllByTestId, findByText } = render(<ExplainerPageLayout pageContext={spendingPageContext} />);
+    const { findAllByTestId, findByText } = render(
+      <RecoilRoot>
+        <ExplainerPageLayout pageContext={spendingPageContext} />
+      </RecoilRoot>
+    );
 
     const sectionHeadings = await findAllByTestId('section-heading');
     expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
@@ -247,6 +200,64 @@ describe('Revenue explainer', () => {
     const { findAllByTestId, findByText } = render(
       <RecoilRoot>
         <ExplainerPageLayout pageContext={spendingPageContext} />
+      </RecoilRoot>
+    );
+
+    const sectionHeadings = await findAllByTestId('section-heading');
+    expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
+
+    const dataSourcesMethodologies = await findByText('Data Sources & Methodologies');
+    expect(dataSourcesMethodologies).toBeInTheDocument();
+  });
+});
+
+describe('Explainer Page Layout', () => {
+  const pageName = 'national-debt';
+  const breadCrumbLinkName = 'mock link';
+  const seoConfig = {
+    pageTitle: 'mock title',
+    description: 'mock description',
+  };
+  const heroImage = {
+    heading: 'mock heading',
+    subHeading: 'mock subheading',
+  };
+  const glossary = [];
+
+  const mockPageContext = {
+    pageName,
+    breadCrumbLinkName,
+    seoConfig,
+    heroImage,
+    glossary,
+  };
+
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(mockUseStaticBeaGDP);
+  });
+
+  beforeEach(() => {
+    setGlobalFetchMatchingResponse(jest, [
+      {
+        matcher: url => {
+          return url.includes('debt_to_penny?fields=');
+        },
+        jsonResponse: {
+          data: [
+            {
+              tot_pub_debt_out_amt: '28908004857445.12',
+              record_date: '2021-12-13',
+            },
+          ],
+        },
+      },
+    ]);
+  });
+
+  it('renders the explainer page', async () => {
+    const { findAllByTestId, findByText } = render(
+      <RecoilRoot>
+        <ExplainerPageLayout pageContext={mockPageContext} />
       </RecoilRoot>
     );
 
