@@ -1,11 +1,10 @@
-import { Column, ColumnDef } from '@tanstack/react-table';
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import SearchBar from '../search-bar/search-bar';
-import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import { ColumnDef } from '@tanstack/react-table';
+import React from 'react';
 import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
+import SingleDateFilter from './data-table-header/single-date-filter/single-date-filter';
+import TextFilter from './data-table-header/text-filter/text-filter';
+import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -98,80 +97,17 @@ export const columnsConstructor = (rawData: any): any => {
   }
 };
 
-export const Filter: FunctionComponent<any> = ({
-  column,
-  resetFilters,
-  setFiltersActive,
-}: {
-  column: Column<any, any>;
-  resetFilters: boolean;
-  setFiltersActive: (value: boolean) => void;
-}) => {
-  const [active, setActive] = useState(false);
-  const [filterDisplay, setFilterDisplay] = useState('');
-  const clearFilter = () => {
-    // fire artificial event to reset field
-    onFilterChange({
-      target: {
-        value: '',
-      },
-    });
-    column.setFilterValue('');
-    setFilterDisplay('');
-  };
-
-  const onFilterChange = event => {
-    const val = event && event.target ? event.target.value : '';
-    column.setFilterValue(val);
-    setFilterDisplay(val);
-    setFiltersActive(val.length > 0);
-  };
-
-  useEffect(() => {
-    clearFilter();
-  }, [resetFilters]);
-
-  return <SearchBar onChange={onFilterChange} filter={filterDisplay} handleClear={clearFilter} height="28px" active={active} setActive={setActive} />;
+export const getColumnFilter = (header, dateRangeColumns: string[], table, resetFilters: boolean, setFiltersActive: (val: boolean) => void) => {
+  if (header.column.getCanFilter() && header.id === 'record_date') {
+    return <SingleDateFilter column={header.column} />;
+  } else if (dateRangeColumns.includes(header.id)) {
+    return <DateRangeFilter column={header.column} />;
+  } else {
+    return <TextFilter column={header.column} table={table} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />;
+  }
 };
 
 export const rightAlign = (type: string): boolean => {
   const types = ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE'];
   return types.includes(type) || type?.includes('CURRENCY');
-};
-
-export const SingleDateFilter: FunctionComponent<any> = ({ column }: { column: Column<any, any> }) => {
-  const [date, setDate] = useState(null);
-
-  useEffect(() => {
-    if (date) {
-      if (!isNaN(date.toDate().getTime())) {
-        column.setFilterValue(moment(date.toDate()).format('YYYY-MM-DD'));
-      } else {
-        column.setFilterValue('');
-      }
-    } else {
-      column.setFilterValue('');
-    }
-  }, [date]);
-
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DesktopDatePicker
-        sx={{
-          '& .MuiInputBase-root': {
-            height: '28px',
-            fontSize: '14px',
-            marginTop: '0.25rem',
-          },
-          '& .MuiInputLabel-root': {
-            fontSize: '14px',
-          },
-        }}
-        value={date}
-        onChange={newValue => setDate(dayjs(newValue))}
-        views={['year', 'month', 'day']}
-        slotProps={{ textField: { size: 'small' } }}
-      />
-    </LocalizationProvider>
-  );
 };

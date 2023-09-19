@@ -32,6 +32,7 @@ type DataTableProps = {
   setResetFilters: (value: boolean) => void;
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
+  dateRangeColumns: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -49,6 +50,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideCellLinks,
   pageSize,
   setFiltersActive,
+  dateRangeColumns,
 }) => {
   const allColumns = columnsConstructor(rawData);
   const data = rawData.data;
@@ -174,7 +176,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
+                  <DataTableHeader
+                    table={table}
+                    dataTypes={dataTypes}
+                    resetFilters={resetFilters}
+                    setFiltersActive={setFiltersActive}
+                    dateRangeColumns={dateRangeColumns}
+                  />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>

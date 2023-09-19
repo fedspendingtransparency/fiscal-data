@@ -14,7 +14,7 @@ import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { SingleDateFilter, Filter, rightAlign } from '../data-table-helper';
+import { rightAlign, getColumnFilter } from '../data-table-helper';
 import React, { FunctionComponent } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
@@ -24,9 +24,10 @@ interface IDataTableHeader {
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;
+  dateRangeColumns: string[];
 }
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive }) => {
+const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive, dateRangeColumns }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
@@ -97,22 +98,13 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      {header.column.getCanFilter() &&
-                      header.id === 'record_date' ? (
-                        <div className={columnMinWidth}>
-                          <SingleDateFilter column={header.column} />
-                        </div>
-                      ) : (
-                        <div className={columnMinWidth}>
-                          <Filter column={header.column} table={table} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
-                        </div>
-                      )}
+                      <div className={columnMinWidth}>{getColumnFilter(header, dateRangeColumns, table, resetFilters, setFiltersActive)}</div>
                     </>
                   )}
-                  {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
                   <div
                     onMouseDown={header.getResizeHandler()}
                     onTouchStart={header.getResizeHandler()}
+                    role="presentation"
                     className={`${resizer} ${header.column.getIsResizing() ? isResizing : ''}`}
                   />
                 </th>
