@@ -1,8 +1,5 @@
 import React, { useRef, useState } from 'react';
-import {
-  selector_container,
-  selector_label,
-} from '../../select-control/select-control.module.scss';
+import { selector_container, selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -16,8 +13,10 @@ import {
   activeSearchBar,
   dropdownIcon,
   fullBorderContainer,
+  dropdownInputWeight,
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
+import classNames from 'classnames';
 
 let timeOutId;
 
@@ -81,10 +80,7 @@ const ComboCurrencySelect = ({
   const onBlurHandler = event => {
     if (event) {
       const mouseEvent = event.type !== 'blur' && !mouseOverDropdown;
-      if (
-        mouseEvent &&
-        !event.target?.parentElement.contains(event.relatedTarget)
-      ) {
+      if (mouseEvent && !event.target?.parentElement?.contains(event.relatedTarget)) {
         timeOutId = setTimeout(() => {
           setDropdownActive(false);
         });
@@ -97,11 +93,7 @@ const ComboCurrencySelect = ({
   };
 
   const onBlurAnalyticsHandler = event => {
-    if (
-      isExchangeTool &&
-      event &&
-      !event.target.parentElement.contains(event.relatedTarget)
-    ) {
+    if (isExchangeTool && event && !event.target.parentElement.contains(event.relatedTarget)) {
       XRAnalyticsHandler('Foreign Country-Currency Search', event.target.value);
     }
   };
@@ -109,9 +101,7 @@ const ComboCurrencySelect = ({
   const ref = React.useRef(null);
   useOnClickOutside(ref, onBlurHandler);
 
-  const labelText = yearFilter
-    ? `Year (${options[options.length - 1].label} - ${options[0].label})`
-    : label;
+  const labelText = yearFilter ? `Year (${options[options.length - 1].label} - ${options[0].label})` : label;
 
   const dropdownStyle = () => {
     let containerClasses;
@@ -142,34 +132,20 @@ const ComboCurrencySelect = ({
         role="presentation"
       >
         {labelText !== '' ? (
-          <div
-            className={`${selector_label} ${labelClass}`}
-            data-testid="label"
-          >
+          <div className={`${selector_label} ${labelClass}`} data-testid="label">
             {labelText}
             {required && <span className="required">*</span>}
           </div>
         ) : null}
         <div ref={ref} onFocus={onFocusHandler} role="presentation">
-          <div
-            className={dropdownStyle()}
-            data-testid="dropdown-button-container"
-          >
-            <button className={dropdownInput} onClick={toggleDropdown}>
+          <div className={dropdownStyle()} data-testid="dropdown-button-container">
+            <button className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])} onClick={toggleDropdown}>
               {selectedOption?.label}
               <div className={dropdownIcon}>
                 {dropdownActive ? (
-                  <FontAwesomeIcon
-                    icon={faChevronUp}
-                    data-testid="collapse-dropdown"
-                    aria-label="collapse dropdown"
-                  />
+                  <FontAwesomeIcon icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />
                 ) : (
-                  <FontAwesomeIcon
-                    icon={faChevronDown}
-                    data-testid="expand-dropdown"
-                    aria-label="expand dropdown"
-                  />
+                  <FontAwesomeIcon icon={faChevronDown} data-testid="expand-dropdown" aria-label="expand dropdown" />
                 )}
               </div>
             </button>

@@ -9,19 +9,16 @@ $border-color: #D9D9D9;
 
 .dropdownInputContainer {
   position: relative;
-  //border-bottom: solid 1px $border-color;
   border-radius: 0.125rem;
 }
 
 .fullBorderContainer {
   border: solid 1px $border-color;
-  margin: -1px -1px 0 -1px;
 }
 
 .hoverContainer {
   &:hover {
     border: solid 1px $font-body-copy;
-    margin: -1px -1px 0 -1px;
   }
 }
 
@@ -36,9 +33,12 @@ $border-color: #D9D9D9;
   color: $font-body-copy;
   border: none;
   font-size: $font-size-16;
-  //font-weight: $semi-bold-weight;
   line-height: unset;
   -webkit-appearance: none;
+}
+
+.dropdownInputWeight {
+  font-weight: $semi-bold-weight;
 }
 
 .activeDropdown {
@@ -47,5 +47,4 @@ $border-color: #D9D9D9;
 
 .activeSearchBar, .activeDropdown {
   border: solid 1px #0071bc;
-  margin: -1px -1px 0 -1px;
 }

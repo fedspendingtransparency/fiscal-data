@@ -1,5 +1,11 @@
 
 const topicsSource  = {
+  "auctions": {
+    label: "Auctions",
+    title: "Topics",
+    slug: "auctions",
+    datasetIds: new Set()
+  },
   "debt": {
     label: "Debt",
     title: "Topics",
