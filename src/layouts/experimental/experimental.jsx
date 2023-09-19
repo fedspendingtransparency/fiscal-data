@@ -12,7 +12,6 @@ import AFGDeficitPOC from "./charts/afgOverviewDeficitChartPOC";
 import { ErrorBoundary } from "react-error-boundary";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
 import { totalDebtData } from "./experimental-helper";
-import LineGraph from "./charts/lineGraph";
 
 const fallbackComponent = () => {
   return (
@@ -99,8 +98,6 @@ const ExperimentalPage = () => {
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
       <SiteLayout>
-        {/* <LineGraphAnimation /> */}
-        <LineGraph />
         <h2>FootNote Paragraph</h2>
         <p>
           empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna
@@ -109,8 +106,13 @@ const ExperimentalPage = () => {
           tortor. In ultrices justo lorem. Donec a scelerisque quam.
         </p>
         <br />
+        <br />
         <h3> ReCharts Composed Chart </h3>
         <AFGDeficitPOC />
+        <br />
+        <br />
+        <h3> ReCharts Line </h3>
+        <LineGraphAnimation />
         <h2>Basic Bar Graph, with labels visible on bars</h2>
         <BarGraph
           divClass={barDiv}

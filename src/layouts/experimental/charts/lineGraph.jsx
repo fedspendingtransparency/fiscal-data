@@ -100,10 +100,11 @@ const LineGraph = () => {
           legendOffset: -40,
           legendPosition: 'middle',
         }}
+        animate={true}
         enableGridX={false}
         enableGridY={true}
         enablePoints={false}
-        enableSlices={'x'}
+        crosshairType='x'
         onMouseEnter={(slice) => {
           console.log('Enter: ', setMouseHover(slice.slicePoints[0].x));
           setMouseHover(slice.slicePoints[0].x);
