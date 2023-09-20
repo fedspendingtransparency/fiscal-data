@@ -41,7 +41,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
   const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
 
   return (
-    // <RecoilRoot>
     <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
         pageTitle={seoConfig.pageTitle}
@@ -119,7 +118,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
         </div>
       </div>
     </SiteLayout>
-    // </RecoilRoot>
   );
 };
 
