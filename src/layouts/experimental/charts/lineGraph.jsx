@@ -106,11 +106,9 @@ const LineGraph = () => {
         enablePoints={false}
         crosshairType='x'
         onMouseEnter={(slice) => {
-          console.log('Enter: ', setMouseHover(slice.slicePoints[0].x));
           setMouseHover(slice.slicePoints[0].x);
           }}
         onMouseLeave={() => {
-          console.log('LEFT!!')
           setMouseHover(null)
         }}
         sliceTooltip={({ slice }) => {
@@ -156,16 +154,7 @@ const LineGraph = () => {
           );
         }}
       />
-      {/* {mouseHover === null && (
-        <div
-          className={lineGraph}
-          style={{
-            left: `${mouseHover * 100}%`,
-            opacity: opacity,
-            transition: 'opacity 3s ease-in-out'
-          }}
-        />
-      )} */}
+
     </div>
   );
 };
