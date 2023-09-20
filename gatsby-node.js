@@ -44,9 +44,11 @@ const releaseCalendarMockData = require('./src/testData/release-calendar.mock.da
 
 const envOne = process.env.GENERAL_ALERT_BANNER_PAGES;
 const envTwo = process.env.GENERAL_ALERT_BANNER_PATHS;
+const envThree = process.env.GENERAL_ALERT_BANNER;
 
 console.log('env one: ', envOne);
 console.log('env two: ', envTwo);
+console.log('env three: ', envThree);
 
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
   const { createNode } = actions;
