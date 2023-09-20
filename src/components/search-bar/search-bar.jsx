@@ -45,8 +45,9 @@ const SearchBar = ({ label, onChange, onBlur, filter, handleClear, active, setAc
         className={`${searchIcon} ${searchIconHover}`}
         role="button"
         onClick={clearBox}
-        onKeyPress={clearBox}
+        onKeyDown={clearBox}
         tabIndex={0}
+        aria-label="Clear search bar"
         border
       />
     ) : (
