@@ -1,12 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
-import PageHelmet from "../../components/page-helmet/page-helmet";
-import SiteLayout from "../../components/siteLayout/siteLayout";
-import explainerSections, {
-  explainerDataSources,
-  explainerDescriptionGenerators,
-} from "./sections/sections";
-import HeroImage from "./hero-image/hero-image";
-import { IExplainerPage } from "../../models/IExplainerPage";
+import PageHelmet from '../../components/page-helmet/page-helmet';
+import SiteLayout from '../../components/siteLayout/siteLayout';
+import explainerSections, { explainerDataSources, explainerDescriptionGenerators } from './sections/sections';
+import HeroImage from './hero-image/hero-image';
+import { IExplainerPage } from '../../models/IExplainerPage';
 import {
   explainerAnalyticsLabelMap,
   explainerClassMap,
@@ -14,7 +11,7 @@ import {
   explainerHeroMap,
   explainerRelatedDatasetMap,
   explainerSocialShareMap,
-} from "./explainer-helpers/explainer-helpers";
+} from './explainer-helpers/explainer-helpers';
 
 import {
   contentContainer,
@@ -28,24 +25,18 @@ import {
   socialShare,
   mobileSubNav,
   desktopSubNav,
-} from "./explainer.module.scss";
-import SecondaryNav from "../../components/secondary-nav/secondary-nav";
-import SocialShare from "../../components/social-share/social-share";
-import ExplainerRelatedDatasets from "./explainer-related-datasets/explainer-related-datasets";
-import DataSourcesMethodologies from "./data-sources-methodologies/data-sources-methodologies";
-import ComingSoon from "./explainer-components/highlighted-text/highlighted-text";
-import DeskTopSubNav from "./explainer-components/explainer-sub-nav/explainer-sub-nav";
-import MobileSubNav from "./explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav";
+} from './explainer.module.scss';
+import SecondaryNav from '../../components/secondary-nav/secondary-nav';
+import SocialShare from '../../components/social-share/social-share';
+import ExplainerRelatedDatasets from './explainer-related-datasets/explainer-related-datasets';
+import DataSourcesMethodologies from './data-sources-methodologies/data-sources-methodologies';
+import ComingSoon from './explainer-components/highlighted-text/highlighted-text';
+import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
+import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
+import { RecoilRoot } from 'recoil';
 
-const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext, }) => {
-  const {
-    pageName,
-    heroImage,
-    seoConfig,
-    relatedDatasets,
-    glossary,
-    cpiDataByYear,
-  } = pageContext;
+const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
+  const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
 
   const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
 
@@ -82,28 +73,20 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext, }
             activeClass={explainerClassMap[pageName].active}
             hoverClass={explainerClassMap[pageName].hover}
             analytics={true}
-            analyticsCategory={"Explainers"}
+            analyticsCategory={'Explainers'}
             analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
             tocScrollOffset={-32}
           >
             <div className={socialShareContainer}>
               <div className={socialShare}>
-                <SocialShare
-                  copy={explainerSocialShareMap[pageName]}
-                  pageName={explainerAnalyticsLabelMap[pageName]}
-                  displayStyle={'responsive'}
-                />
+                <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'responsive'} />
               </div>
               <div className={mainContent}>
                 {explainerSections[pageName].map(s => (
                   <React.Fragment key={s.index}>
                     <section id={s.id} className={section}>
                       {s.comingSoon && <ComingSoon />}
-                      <h2
-                        className={sectionHeading}
-                        style={{ color: explainerColorMap[pageName].primary }}
-                        data-testid="section-heading"
-                      >
+                      <h2 className={sectionHeading} style={{ color: explainerColorMap[pageName].primary }} data-testid="section-heading">
                         {s.title}
                       </h2>
                       {s.component(glossary, setGlossaryClickEvent, cpiDataByYear)}
@@ -111,8 +94,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext, }
                         <div
                           className={sectionBorder}
                           style={{
-                            backgroundColor:
-                              explainerColorMap[pageName].secondary,
+                            backgroundColor: explainerColorMap[pageName].secondary,
                           }}
                         />
                       )}
@@ -120,9 +102,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext, }
                   </React.Fragment>
                 ))}
                 <section className={section}>
-                  <DataSourcesMethodologies pageName={pageName}>
-                    {explainerDataSources[pageName]}
-                  </DataSourcesMethodologies>
+                  <DataSourcesMethodologies pageName={pageName}>{explainerDataSources[pageName]}</DataSourcesMethodologies>
                 </section>
               </div>
             </div>
