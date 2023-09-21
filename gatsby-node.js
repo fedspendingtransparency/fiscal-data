@@ -41,13 +41,13 @@ const datasetIdMap = require('./src/transform/static-metadata/datasets.json');
 // with an API call similar to what is in getMetaData below
 const releaseCalendarMockData = require('./src/testData/release-calendar.mock.data.json').data;
 
-const envOne = process.env.GENERAL_ALERT_BANNER_PAGES;
-const envTwo = process.env.GENERAL_ALERT_BANNER_PATHS;
-const envThree = process.env.GENERAL_ALERT_BANNER;
+const bannerPageNames = process.env.GENERAL_ALERT_BANNER_PAGES;
+const bannerPagePaths = process.env.GENERAL_ALERT_BANNER_PATHS;
+const isEventBanner = process.env.GENERAL_ALERT_BANNER;
 
-console.warn('env one: ', envOne);
-console.warn('env two: ', envTwo);
-console.warn('env three: ', envThree);
+console.warn('env one: ', bannerPageNames);
+console.warn('env two: ', bannerPagePaths);
+console.warn('env three: ', isEventBanner);
 
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
   const { createNode } = actions;
