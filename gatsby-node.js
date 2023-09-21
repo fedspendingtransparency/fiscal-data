@@ -32,7 +32,6 @@ console.info(`Using environment config: '${ENV_ID}'`);
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
 const path = require(`path`);
 const metadataTransform = require('./src/transform/metadata-transform').metadataTransform;
-
 const fetchUtil = require('make-fetch-happen');
 const authenticatingFetch = require('./src/utils/authenticating-fetch/authenticating-fetch');
 const fetch = apiKey ? authenticatingFetch(apiKey, fetchUtil) : fetchUtil;
@@ -46,9 +45,9 @@ const envOne = process.env.GENERAL_ALERT_BANNER_PAGES;
 const envTwo = process.env.GENERAL_ALERT_BANNER_PATHS;
 const envThree = process.env.GENERAL_ALERT_BANNER;
 
-console.log('env one: ', envOne);
-console.log('env two: ', envTwo);
-console.log('env three: ', envThree);
+console.info('env one: ', envOne);
+console.info('env two: ', envTwo);
+console.info('env three: ', envThree);
 
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
   const { createNode } = actions;
