@@ -1,0 +1,68 @@
+@import 'src/variables.module.scss';
+
+.dateEntryBox {
+  border: 1px solid #d9d9d9;
+  min-width: 146px;
+  height: 26px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: normal;
+  white-space: nowrap;
+  padding-left: 14px;
+
+  .dateText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .calendarIcon {
+    :not(svg root) {
+      width: 1.75rem;
+      height: 1.25rem;
+    }
+  }
+}
+
+.datePickerSelected {
+  background-color: $primary;
+  color: white;
+}
+.datePickerHover {
+  background-color: #CFE8FF;
+}
+
+.dropdown {
+  height: 320px;
+  position: absolute;
+  overflow: hidden;
+  box-shadow: .25rem .25rem #f1f1f1;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: white;
+  border-radius: 4px;
+  padding-bottom: 1rem;
+
+  .datePickerContainer {
+    td, th {
+      padding: 0;
+    }
+    th:hover {
+      background-color: $primary;
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    :first-child {
+      margin-right: 2rem;
+    }
+    .datePickerButton {
+      color: $primary;
+      text-decoration: underline;
+    }
+  }
+}
