@@ -45,9 +45,9 @@ const envOne = process.env.GENERAL_ALERT_BANNER_PAGES;
 const envTwo = process.env.GENERAL_ALERT_BANNER_PATHS;
 const envThree = process.env.GENERAL_ALERT_BANNER;
 
-console.info('env one: ', envOne);
-console.info('env two: ', envTwo);
-console.info('env three: ', envThree);
+console.warn('env one: ', envOne);
+console.warn('env two: ', envTwo);
+console.warn('env three: ', envThree);
 
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
   const { createNode } = actions;
