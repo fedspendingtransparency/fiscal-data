@@ -101,7 +101,7 @@ export const getColumnFilter = (header, dateRangeColumns: string[], table, reset
   if (header.column.getCanFilter() && header.id === 'record_date') {
     return <SingleDateFilter column={header.column} />;
   } else if (dateRangeColumns.includes(header.id)) {
-    return <DateRangeFilter column={header.column} />;
+    return <DateRangeFilter column={header.column} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />;
   } else {
     return <TextFilter column={header.column} table={table} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />;
   }

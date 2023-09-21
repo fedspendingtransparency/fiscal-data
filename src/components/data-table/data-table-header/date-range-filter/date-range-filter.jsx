@@ -6,9 +6,6 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import {
   dateEntryBox,
   dropdown,
@@ -20,13 +17,22 @@ import {
   datePickerSelected,
   datePickerHover,
 } from './date-range-filter.module.scss';
-const DateRangeFilter: FunctionComponent<any> = ({ column }: { column: Column<any, any> }) => {
+import DateTextEntry from './date-text-entry';
+
+const DateRangeFilter = ({ column, setFiltersActive, resetFilters }) => {
   const [visible, setVisible] = useState(false);
-  const [selectedText, setSelectedText] = useState('');
   const [selected, setSelected] = useState({
     from: undefined,
     to: undefined,
   });
+  const [filterDisplay, setFilterDisplay] = useState('');
+
+  const onFilterChange = event => {
+    const val = event && event.target ? event.target.value : '';
+    // column.setFilterValue(val);
+    setFilterDisplay(val);
+    setFiltersActive(val.length > 0);
+  };
 
   const todayOnClick = () => {
     const newDateRange = {
@@ -36,29 +42,51 @@ const DateRangeFilter: FunctionComponent<any> = ({ column }: { column: Column<an
     setSelected(newDateRange);
     const start = moment(new Date()).format('MM/DD/YYYY');
     const end = moment(new Date()).format('MM/DD/YYYY');
-    console.log(`${start} - ${end}`);
-    setSelectedText(`${start} - ${end}`);
+    // setSelectedText(`${start} - ${end}`);
+    onFilterChange({
+      target: {
+        value: `${start} - ${end}`,
+      },
+    });
   };
+
   const clearOnClick = () => {
     setSelected(undefined);
-    setSelectedText(``);
+    onFilterChange({
+      target: {
+        value: '',
+      },
+    });
   };
+
   useEffect(() => {
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from).format('MM/DD/YYYY');
       const end = moment(selected?.to).format('MM/DD/YYYY');
-      setSelectedText(`${start} - ${end}`);
+      onFilterChange({
+        target: {
+          value: `${start} - ${end}`,
+        },
+      });
     } else {
-      setSelectedText('');
+      onFilterChange({
+        target: {
+          value: '',
+        },
+      });
     }
   }, [selected]);
 
   return (
     <>
-      <div className={dateEntryBox}>
-        <div className={dateText}>{selectedText}</div>
-        <FontAwesomeIcon icon={faCalendarDay as IconProp} onClick={() => setVisible(!visible)} className={calendarIcon} />
-      </div>
+      <DateTextEntry
+        onFilterChange={onFilterChange}
+        resetFilters={resetFilters}
+        filter={filterDisplay}
+        setFilter={setFilterDisplay}
+        visible={visible}
+        setVisible={setVisible}
+      />
       {visible && (
         <div className={dropdown}>
           <div className={datePickerContainer}>
