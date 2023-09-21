@@ -42,7 +42,7 @@ const LineGraphAnimation = () => {
 
     moveLine();
   }, [animationRunning]);
-console.log('nana', animationRunning);
+
   return (
     <div
       style={{
