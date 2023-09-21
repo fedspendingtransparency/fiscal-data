@@ -154,7 +154,6 @@ const LineGraph = () => {
           );
         }}
       />
-
     </div>
   );
 };

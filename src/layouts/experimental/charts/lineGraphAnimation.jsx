@@ -42,6 +42,7 @@ const LineGraphAnimation = () => {
 
     moveLine();
   }, [animationRunning]);
+
   return (
     <div
       style={{
