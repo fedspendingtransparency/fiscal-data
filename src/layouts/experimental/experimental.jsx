@@ -98,7 +98,6 @@ const ExperimentalPage = () => {
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
       <SiteLayout>
-        <LineGraphAnimation />
         <h2>FootNote Paragraph</h2>
         <p>
           empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna
@@ -107,8 +106,13 @@ const ExperimentalPage = () => {
           tortor. In ultrices justo lorem. Donec a scelerisque quam.
         </p>
         <br />
+        <br />
         <h3> ReCharts Composed Chart </h3>
         <AFGDeficitPOC />
+        <br />
+        <br />
+        <h3> ReCharts Line </h3>
+        <LineGraphAnimation />
         <h2>Basic Bar Graph, with labels visible on bars</h2>
         <BarGraph
           divClass={barDiv}
