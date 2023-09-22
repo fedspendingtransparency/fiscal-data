@@ -56,7 +56,7 @@ const Preview = ({ selectedFile }) => {
           'value': selectedFile.path
         });
       } else if (txtTextBool)  {
-        fetch()(selectedFile.path).then(res => res.text()).then(textFile => {
+        fetch(selectedFile.path).then(res => res.text()).then(textFile => {
                   setReportTextContext(textFile);
                   });
         // GA4 Data Layer - Published Report Preview
