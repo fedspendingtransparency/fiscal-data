@@ -3,9 +3,9 @@ import { graphql } from "gatsby";
 import * as styles from "./notFound.module.scss";
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import PageHelmet from "../../components/page-helmet/page-helmet";
-import NotFoundText from '../../components/pageError/page-error-text';
-import NotFoundMd from "../../components/pageError/page-error-md"
+import PageErrorMd from "../../components/pageError/page-error-md"
 import Experimental from "../../components/experimental/experimental"
+import PageErrorText from "../../components/pageError/page-error-text";
 
 const NotFound = ({ pageContext, data }) => {
 
@@ -20,10 +20,10 @@ const NotFound = ({ pageContext, data }) => {
         />
         <div data-testid="notFoundWrapper" className={styles.notFoundWrapper}>
           <Experimental featureId="not-found-md" exclude>
-            <NotFoundText />
+            <PageErrorText />
           </Experimental>
           <Experimental featureId="not-found-md">
-            <NotFoundMd mdx={data['mdx']} />
+            <PageErrorMd mdx={data['mdx']} />
           </Experimental>
         </div>
       </div>

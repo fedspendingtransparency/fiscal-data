@@ -17,9 +17,9 @@ const SiteLayout = ({ children, isPreProd, glossaryEvent, glossaryClickEventHand
   return (
     <div>
       <SiteHeader lowerEnvMsg={lowerEnvMsg} glossaryEvent={glossaryEvent} glossaryClickEventHandler={glossaryClickEventHandler} />
-        <ErrorBoundary FallbackComponent={() => <PageErrorText fallback='true' />}>
-          {children}
-        </ErrorBoundary>
+      <ErrorBoundary FallbackComponent={() => <PageErrorText fallback='true' />}>
+        {children}
+      </ErrorBoundary>
       <SiteFooter />
     </div>
   )

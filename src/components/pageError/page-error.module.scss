@@ -6,6 +6,7 @@ $lead-text-max: 550px;
 .textBox {
     max-width: $lead-text-max;
     position: relative;
+    padding-left: 1rem;
 }
 
 .notFoundHeader {
@@ -48,9 +49,6 @@ $lead-text-max: 550px;
     width: 100vw;
   }
 
-  .fallbackGraphic {
-    margin: 1rem;
-  }
 
   @media screen and (max-width: $breakpoint-sm - 1px) {
     .graphicPlacement {

@@ -9,7 +9,7 @@ import { MDXProvider } from "@mdx-js/react"
 import FDGMdxProvider from "../mdx/FDGMdxProvider";
 import { NFComponents } from "./page-error-text";
 
-export interface NotFoundMdProps {
+export interface PageErrorMdProps {
   mdx: {
     frontmatter: {
       section_name: string,
@@ -20,7 +20,7 @@ export interface NotFoundMdProps {
   }
 }
 
-const NotFoundMd: FunctionComponent<NotFoundMdProps> = ({ mdx }: NotFoundMdProps) => {
+const PageErrorMd: FunctionComponent<PageErrorMdProps> = ({ mdx }: PageErrorMdProps) => {
   const { body } = mdx;
 
   return (
@@ -33,4 +33,4 @@ const NotFoundMd: FunctionComponent<NotFoundMdProps> = ({ mdx }: NotFoundMdProps
 
 }
 
-export default NotFoundMd;
+export default PageErrorMd;

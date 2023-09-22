@@ -31,9 +31,8 @@ const UlTag = ({children}) => {
   return <ul className={styles.linkList}>{children}</ul>
 };
 
-export const Wrapper = ({children, fallback}) => {
-  // LOOK AT STYLING
-  return <div className={`${fallback ? styles.fallback : ''} ${styles.textBox}}`}>{children}</div>
+export const Wrapper = ({children}) => {
+  return <div className={styles.textBox}>{children}</div>
 };
 
 const NotFoundText = () => {
@@ -71,19 +70,19 @@ const FallbackText = () => {
   );
 }
 
-const PageErrorText = (fallback) => (
-  <Wrapper fallback={fallback}>
-    <Header>Oops... there's been a glitch in the data.</Header>
-    {fallback ? <FallbackText /> : <NotFoundText />}
-    <PTag>
-      Want to get in touch or send in general comments about the site?
-      Send a message {' '}
-      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
-        via email
-      </CustomLink>, and our team will respond at our earliest opportunity.
-    </PTag>
-    <NotFoundGraphicHolder />
-  </Wrapper>
+const PageErrorText = ({fallback}) => (
+      <Wrapper>
+          <Header>Oops... there's been a glitch in the data.</Header>
+          {fallback ? <FallbackText /> : <NotFoundText />}
+          <PTag>
+            Want to get in touch or send in general comments about the site?
+            Send a message {' '}
+            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
+              via email
+            </CustomLink>, and our team will respond at our earliest opportunity.
+          </PTag>
+          <NotFoundGraphicHolder />
+      </Wrapper>
 );
 
 export const NFComponents = {
