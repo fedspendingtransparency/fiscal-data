@@ -7,7 +7,7 @@ import React, { FunctionComponent } from "react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { MDXProvider } from "@mdx-js/react"
 import FDGMdxProvider from "../mdx/FDGMdxProvider";
-import { NFComponents } from "./notFoundText";
+import { NFComponents } from "./page-error-text";
 
 export interface NotFoundMdProps {
   mdx: {

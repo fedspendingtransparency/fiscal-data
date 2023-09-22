@@ -3,8 +3,8 @@ import { graphql } from "gatsby";
 import * as styles from "./notFound.module.scss";
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import PageHelmet from "../../components/page-helmet/page-helmet";
-import NotFoundText from '../../components/notFound/notFoundText';
-import NotFoundMd from "../../components/notFound/notFoundMd"
+import NotFoundText from '../../components/pageError/page-error-text';
+import NotFoundMd from "../../components/pageError/page-error-md"
 import Experimental from "../../components/experimental/experimental"
 
 const NotFound = ({ pageContext, data }) => {

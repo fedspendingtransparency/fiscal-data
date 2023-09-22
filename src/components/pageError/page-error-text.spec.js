@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import notFoundGraphic from './notFoundGraphic';
-import NotFoundText from './notFoundText'
+import notFoundGraphic from './page-error-graphic';
+import NotFoundText from './page-error-text'
 
 describe("404 Not Found Text", ()=> {
     let instance;
