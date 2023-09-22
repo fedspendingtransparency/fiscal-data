@@ -77,6 +77,10 @@ $menuWidth: 318px;
   font-size: $font-size-16;
 }
 
+.bottomMostLink {
+  padding-bottom: 4rem;
+}
+
 :global(body) {
   max-width: 100%;
   overflow-x: hidden;
