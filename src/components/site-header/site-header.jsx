@@ -19,9 +19,6 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
-  console.log(NOTIFICATION_BANNER_DISPLAY_PATHS);
-  console.log(NOTIFICATION_BANNER_DISPLAY_PAGES);
-
   const displayBanner = () => {
     let display = false;
     display = NOTIFICATION_BANNER_DISPLAY_PAGES?.includes(location.pathname);
