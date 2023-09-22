@@ -52,7 +52,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   dateRangeColumns,
 }) => {
-  const allColumns = columnsConstructor(rawData);
+  const allColumns = columnsConstructor(rawData, dateRangeColumns);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {

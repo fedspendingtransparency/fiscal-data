@@ -16,7 +16,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any): any => {
+export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels).map(([field, label]) => {
       if (field === 'record_date') {
@@ -29,6 +29,16 @@ export const columnsConstructor = (rawData: any): any => {
           },
         } as ColumnDef<any, any>;
       } else if (rawData.meta.dataTypes[field] === 'DATE') {
+        if (dateRangeColumns.includes(field)) {
+          return {
+            accessorKey: field,
+            header: label,
+            filterFn: 'arrIncludesSome',
+            cell: ({ getValue }) => {
+              return moment(getValue()).format('M/D/YYYY');
+            },
+          } as ColumnDef<any, any>;
+        }
         return {
           accessorKey: field,
           header: label,
