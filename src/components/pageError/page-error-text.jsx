@@ -59,6 +59,7 @@ const NotFoundText = () => {
 }
 
 const FallbackText = () => {
+
   return (
     <>
       <Header2>This content is currently unavailable.</Header2>
@@ -71,18 +72,18 @@ const FallbackText = () => {
 }
 
 const PageErrorText = ({fallback}) => (
-      <Wrapper>
-          <Header>Oops... there's been a glitch in the data.</Header>
-          {fallback ? <FallbackText /> : <NotFoundText />}
-          <PTag>
-            Want to get in touch or send in general comments about the site?
-            Send a message {' '}
-            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
-              via email
-            </CustomLink>, and our team will respond at our earliest opportunity.
-          </PTag>
-          <NotFoundGraphicHolder />
-      </Wrapper>
+  <Wrapper>
+      <Header>Oops... there's been a glitch in the data.</Header>
+      {fallback ? <FallbackText /> : <NotFoundText />}
+      <PTag>
+        Want to get in touch or send in general comments about the site?
+        Send a message {' '}
+        <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">
+          via email
+        </CustomLink>, and our team will respond at our earliest opportunity.
+      </PTag>
+      <NotFoundGraphicHolder />
+  </Wrapper>
 );
 
 export const NFComponents = {

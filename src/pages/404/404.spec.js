@@ -38,3 +38,34 @@ describe("404 page", ()=> {
   });
 
 })
+
+describe("fallback page", ()=> {
+
+  it('renders page helmet with expected document title', async ()=> {
+    const data = {
+      mdx: {
+        body: "<div>Test</div>",
+        frontmatter: {
+          title: "Test Title"
+        }
+      }
+    };
+    render(<NotFoundPage pageContext={{}} data={data} fallback={true} />);
+    await waitFor(() => expect(document.title).toContain('Content Currently Unavailable'));
+  });
+
+  it("renders the fallback component", ()=> {
+    const data = {
+      mdx: {
+        body: "<div>Test</div>",
+        frontmatter: {
+          title: "Test Title"
+        }
+      }
+    };
+    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />);
+    const notFound = getByTestId('notFoundWrapper');
+    expect(notFound).toBeInTheDocument();
+  });
+
+})

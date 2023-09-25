@@ -1,34 +1,48 @@
 import React from "react";
 import { graphql } from "gatsby";
-import * as styles from "./notFound.module.scss";
+import * as styles from "../404/notFound.module.scss";
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import PageHelmet from "../../components/page-helmet/page-helmet";
 import PageErrorMd from "../../components/pageError/page-error-md"
 import Experimental from "../../components/experimental/experimental"
 import PageErrorText from "../../components/pageError/page-error-text";
 
-const NotFound = ({ pageContext, data }) => {
+const NotFound = ({ pageContext, data, fallback }) => {
 
-  const pageTitle = 'Page Not Found';
+  const pageTitle = fallback ? 'Content Currently Unavailable' : 'Page Not Found';
 
   return (
-    <SiteLayout>
-      <div className={styles.siteNotFound}>
-        <PageHelmet
-          data-testid="helmet"
-          pageTitle={pageTitle}
-        />
-        <div data-testid="notFoundWrapper" className={styles.notFoundWrapper}>
-          <Experimental featureId="not-found-md" exclude>
-            <PageErrorText />
-          </Experimental>
-          <Experimental featureId="not-found-md">
-            <PageErrorMd mdx={data['mdx']} />
-          </Experimental>
+    <>
+     {!fallback && 
+      <SiteLayout>
+        <div className={styles.siteNotFound}>
+          <PageHelmet
+            data-testid="helmet"
+            pageTitle={pageTitle}
+          />
+          <div data-testid="notFoundWrapper" className={styles.notFoundWrapper}>
+            <Experimental featureId="not-found-md" exclude>
+              <PageErrorText />
+            </Experimental>
+            <Experimental featureId="not-found-md">
+              <PageErrorMd mdx={data['mdx']} />
+            </Experimental>
+          </div>
         </div>
-      </div>
-
-    </SiteLayout>
+      </SiteLayout>}
+     {fallback && 
+        <div className={styles.siteNotFound}>
+          <PageHelmet
+            data-testid="helmet"
+            pageTitle={pageTitle}
+          />
+          <div data-testid="notFoundWrapper" className={styles.notFoundWrapper}>
+            <PageErrorText fallback={fallback}/>
+          </div>
+        </div>
+      }
+    </>
+    
   );
 };
 
