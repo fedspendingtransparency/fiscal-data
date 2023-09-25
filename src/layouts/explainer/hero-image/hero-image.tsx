@@ -1,41 +1,30 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { IHeroImage } from "../../../models/IHeroImage";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { IHeroImage } from '../../../models/IHeroImage';
 
-import {
-  mainContainer,
-  heroImageHeading,
-  heroImageSubHeading,
-  heroBorder,
-} from "./hero-image.module.scss";
-import { withWindowSize } from "react-fns";
-import { basicFetch } from "../../../utils/api-utils";
-import { getShortForm } from "../../../utils/rounding-utils";
-const HeroImage: FunctionComponent<IHeroImage> = ({
-  heading,
-  subHeading,
-  primaryColor,
-  secondaryColor,
-  width,
-  children,
-  pageName,
-}) => {
-  const [debtAmount, setDebtAmount] = useState("");
+import { mainContainer, heroImageHeading, heroImageSubHeading, heroBorder } from './hero-image.module.scss';
+import { withWindowSize } from 'react-fns';
+import { getShortForm } from '../../../utils/rounding-utils';
+import { useRecoilValueLoadable } from 'recoil';
+import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../recoil/debtToThePennyDataState';
+import useShouldRefreshCachedData from '../../../recoil/hooks/useShouldRefreshCachedData';
+
+const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
+  const [debtAmount, setDebtAmount] = useState('');
+  const data = useRecoilValueLoadable(debtToThePennyData);
+  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
+
   useEffect(() => {
-    const debtUrl = `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date&page[size]=1`;
-    basicFetch(`${debtUrl}`).then(res => {
-      if (!res?.data) return;
-      setDebtAmount(res?.data[0]?.tot_pub_debt_out_amt);
-    });
-  }, []);
+    if (data.state === 'hasValue') {
+      console.log(data.contents);
+      setDebtAmount(data.contents.payload[0]?.tot_pub_debt_out_amt);
+    }
+  }, [data.state]);
 
   const getSubHeading = subHeading => {
-    if (pageName === "national-debt") {
-      const match = "national debt";
+    if (pageName === 'national-debt') {
+      const match = 'national debt';
       if (debtAmount) {
-        return subHeading?.replace(
-          match,
-          `${match} ($${getShortForm(debtAmount)})`
-        );
+        return subHeading?.replace(match, `${match} ($${getShortForm(debtAmount)})`);
       }
       return subHeading;
     } else {
@@ -63,18 +52,11 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
         <h1 className={heroImageHeading} style={{ color: primaryColor }}>
           {heading}
         </h1>
-        {subHeading && (
-          <p className={heroImageSubHeading}>{getSubHeading(subHeading)}</p>
-        )}
+        {subHeading && <p className={heroImageSubHeading}>{getSubHeading(subHeading)}</p>}
         {children}
       </div>
       <div className={heroBorder} data-testid="hero-border">
-        <svg
-          height="28"
-          width="100%"
-          preserveAspectRatio="xMidYMid slice"
-          viewBox={`0 0 ${width} 28`}
-        >
+        <svg height="28" width="100%" preserveAspectRatio="xMidYMid slice" viewBox={`0 0 ${width} 28`}>
           <defs>
             <linearGradient id="Gradient">
               <stop offset="38%" stopColor={primaryColor} />
@@ -82,10 +64,7 @@ const HeroImage: FunctionComponent<IHeroImage> = ({
               <stop offset="62%" stopColor={primaryColor} />
             </linearGradient>
           </defs>
-          <path
-            d={"M0 0 " + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + " Z"}
-            fill="url(#Gradient)"
-          />
+          <path d={'M0 0 ' + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + ' Z'} fill="url(#Gradient)" />
         </svg>
       </div>
     </>
