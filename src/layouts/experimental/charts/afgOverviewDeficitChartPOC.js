@@ -139,9 +139,9 @@ const AFGDeficitPOC = () => {
       setFocusedYear(payload[0].payload.year);
 
       return (
-        <div style={{ opacity: opacity, transition: 'opacity 2s linear' }}>
+        <div>
           {
-            <div className={toolTip} style={{ opacity: active ? 1 : 0, transition: 'opacity 2s linear' }}>
+            <div className={toolTip}>
               {label}
               <table>
                 <tr>
