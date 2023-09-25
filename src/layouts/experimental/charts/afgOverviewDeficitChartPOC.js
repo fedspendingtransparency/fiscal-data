@@ -243,7 +243,7 @@ const AFGDeficitPOC = () => {
               activeDot={false}
             />
           ))}
-          <Tooltip content={<CustomTooltip />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} style={{ opacity: 0 }} />
+          <Tooltip content={<CustomTooltip />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
         </LineChart>
       )}
     </>
