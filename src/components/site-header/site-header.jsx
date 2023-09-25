@@ -74,8 +74,8 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
         <AnnouncementBanner closable={false}>
           <div className={styles.bannerHeading}>We're experiencing an issue with the {NOTIFICATION_BANNER_TEXT}</div>
           <div className={styles.bannerContent}>
-            Our team is working diligently to address the issue. Please check back later or contact us{' '}
-            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
+            Content Temporarily Unavailable: The Fiscal Data team is working diligently to address the current issue with this page. Please check back
+            later or contact us <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
           </div>
         </AnnouncementBanner>
       )}
