@@ -27,7 +27,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
           cell: ({ getValue }) => {
             return moment(getValue()).format('M/D/YYYY');
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, Date>;
       } else if (rawData.meta.dataTypes[field] === 'DATE') {
         if (dateRangeColumns.includes(field)) {
           return {
@@ -37,7 +37,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
             cell: ({ getValue }) => {
               return moment(getValue()).format('M/D/YYYY');
             },
-          } as ColumnDef<any, any>;
+          } as ColumnDef<string, Date>;
         }
         return {
           accessorKey: field,
@@ -45,7 +45,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
           cell: ({ getValue }) => {
             return moment(getValue()).format('M/D/YYYY');
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, Date>;
       } else if (rawData.meta.dataTypes[field] === 'NUMBER') {
         return {
           accessorKey: field,
@@ -53,7 +53,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
           cell: ({ getValue }) => {
             return numberFormatter.format(getValue());
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, number>;
       } else if (rawData.meta.dataTypes[field] === 'PERCENTAGE') {
         return {
           accessorKey: field,
@@ -61,7 +61,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
           cell: ({ getValue }) => {
             return `${getValue()}%`;
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, string>;
       } else if (rawData.meta.dataTypes[field] === 'SMALL_FRACTION') {
         return {
           accessorKey: field,
@@ -69,7 +69,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
           cell: ({ getValue }) => {
             return new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(getValue());
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, number>;
       } else if (rawData.meta.dataTypes[field] === 'CURRENCY') {
         return {
           accessorKey: field,
@@ -77,7 +77,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
           cell: ({ getValue }) => {
             return currencyFormatter.format(getValue());
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, string>;
       } else if (rawData.meta.dataTypes[field].includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[field].split('CURRENCY')[1])) {
         const decimalPlaces = parseInt(rawData.meta.dataTypes[field].split('CURRENCY')[1]);
         return {
@@ -86,7 +86,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
           cell: ({ getValue }) => {
             return customFormat(getValue(), decimalPlaces);
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, string>;
       } else if (rawData.meta.dataTypes[field] === 'STRING') {
         return {
           accessorKey: field,
@@ -98,9 +98,9 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
               return getValue();
             }
           },
-        } as ColumnDef<any, any>;
+        } as ColumnDef<string, string>;
       }
-      return { accessorKey: field, header: label } as ColumnDef<any, any>;
+      return { accessorKey: field, header: label } as ColumnDef<string, string>;
     });
   } else {
     return [];
@@ -111,9 +111,9 @@ export const getColumnFilter = (header, dateRangeColumns: string[], table, reset
   if (header.column.getCanFilter() && header.id === 'record_date') {
     return <SingleDateFilter column={header.column} />;
   } else if (dateRangeColumns.includes(header.id)) {
-    return <DateRangeFilter column={header.column} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />;
+    return <DateRangeFilter column={header.column} resetFilters={resetFilters} setFiltersActive={setFiltersActive} table={table} />;
   } else {
-    return <TextFilter column={header.column} table={table} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />;
+    return <TextFilter column={header.column} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />;
   }
 };
 

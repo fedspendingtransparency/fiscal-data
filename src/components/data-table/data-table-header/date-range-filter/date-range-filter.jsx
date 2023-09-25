@@ -1,7 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import moment from 'moment/moment';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import {
@@ -14,13 +12,13 @@ import {
   datePickerButton,
   datePickerSelected,
   datePickerHover,
+  glow,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
-import { glow, search } from '../../../search-bar/search-bar.module.scss';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 
-const DateRangeFilter = ({ column, setFiltersActive, resetFilters }) => {
+const DateRangeFilter = ({ column, setFiltersActive, resetFilters, table }) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState({
     from: undefined,
@@ -29,8 +27,6 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters }) => {
   const [filterDisplay, setFilterDisplay] = useState('');
   const [active, setActive] = useState(false);
 
-  let searchCleared = false;
-
   const onFilterChange = val => {
     setFilterDisplay(val);
     if (setFiltersActive) {
@@ -38,20 +34,36 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters }) => {
     }
   };
 
-  const todayOnClick = () => {
-    setSelected({
-      from: new Date(),
-      to: new Date(),
-    });
-    const start = moment(new Date()).format('M/D/YYYY');
-    const end = moment(new Date()).format('M/D/YYYY');
-    onFilterChange(`${start} - ${end}`);
+  const dropdownRef = useRef();
+  const todayOnClick = e => {
+    if (!e.key || e.key === 'Enter') {
+      setSelected({
+        from: new Date(),
+        to: new Date(),
+      });
+      const start = moment(new Date()).format('M/D/YYYY');
+      const end = moment(new Date()).format('M/D/YYYY');
+      onFilterChange(`${start} - ${end}`);
+    }
   };
 
-  const handleTextBoxClick = () => {
-    if (!searchCleared && setActive) {
-      setActive(true);
-      searchCleared = false;
+  const clearOnClick = e => {
+    if (!e.key || e.key === 'Enter') {
+      setSelected(undefined);
+    }
+  };
+
+  const handleTextBoxClick = e => {
+    if (!e.key || e.key === 'Enter') {
+      setVisible(!visible);
+      setActive(!active);
+    }
+  };
+
+  const handleTextBoxBlur = e => {
+    if (e && !dropdownRef.current?.contains(e.relatedTarget)) {
+      setVisible(false);
+      setActive(false);
     }
   };
 
@@ -79,46 +91,41 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters }) => {
     setSelected(undefined);
   }, [resetFilters]);
 
+  // TODO get max and min date from column data
+  // TODO Override style
   return (
-    <>
-      <div className={search}>
-        <div className={glow && active ? glow : null} onClick={handleTextBoxClick} onBlur={() => setActive(false)} role="presentation">
-          <div className={dateEntryBox}>
-            <div className={dateText}>{filterDisplay}</div>
-            <FontAwesomeIcon icon={faCalendarDay} onClick={() => setVisible(!visible)} className={calendarIcon} />
-          </div>
+    <div role="presentation" onBlur={handleTextBoxBlur}>
+      <div className={active ? glow : null}>
+        <div className={dateEntryBox} onClick={handleTextBoxClick} onKeyDown={e => handleTextBoxClick(e)} role="button" tabIndex={0}>
+          <div className={dateText}>{filterDisplay}</div>
+          <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
       {visible && (
-        <div className={dropdown}>
+        <div className={dropdown} role="presentation" data-testid="dropdown-test" ref={dropdownRef}>
           <div className={datePickerContainer}>
             <DayPicker
               mode="range"
               selected={selected}
               onSelect={setSelected}
               modifiersClassNames={{ selected: datePickerSelected, focus: datePickerHover }}
+              // modifiersStyles={ hover: {color: 'red' }}
               fromYear={2015}
               toYear={2024}
               captionLayout="dropdown-buttons"
             />
           </div>
           <div className={buttonContainer}>
-            <div role="button" onClick={todayOnClick} onKeyDown={todayOnClick} tabIndex={0} className={datePickerButton}>
+            <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton}>
               Today
             </div>
-            <div
-              role="button"
-              onClick={() => setSelected(undefined)}
-              onKeyDown={() => setSelected(undefined)}
-              tabIndex={0}
-              className={datePickerButton}
-            >
+            <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton}>
               Clear
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

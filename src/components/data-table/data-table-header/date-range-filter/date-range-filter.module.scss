@@ -1,21 +1,30 @@
 @import 'src/variables.module.scss';
 
+.glow {
+  box-shadow: 0 0 0 0.25rem #e8f5ff;
+  border-radius: 0.125rem;
+  .dateEntryBox {
+    border: 1px solid $primary;
+  }
+}
+
 .dateEntryBox {
   border: 1px solid #d9d9d9;
   min-width: 146px;
-  height: 26px;
-  border-radius: 4px;
+  height: 26.4px;
+  border-radius: 0.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
+  font-size: $font-size-14;
   font-weight: normal;
   white-space: nowrap;
-  padding-left: 14px;
+  margin-top: 0.25rem;
 
   .dateText {
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 10.5px 0 10.5px 14px;
   }
 
   .calendarIcon {
@@ -35,7 +44,6 @@
 }
 
 .dropdown {
-  height: 320px;
   position: absolute;
   overflow: hidden;
   box-shadow: .25rem .25rem #f1f1f1;
@@ -43,14 +51,26 @@
   font-weight: normal;
   background-color: white;
   border-radius: 4px;
-  padding-bottom: 1rem;
+  padding: 0.5rem 0 1rem;
+  margin-top: 0.5rem;
 
   .datePickerContainer {
+    .rdp {
+      --rdp-background-color: red;
+    }
     td, th {
       padding: 0;
     }
     th:hover {
       background-color: $primary;
+    }
+    select {
+      .rdp-dropdown {
+        color: red;
+      }
+    }
+    button:hover {
+      background-color: red;
     }
   }
 
@@ -66,3 +86,4 @@
     }
   }
 }
+
