@@ -12,7 +12,7 @@ import LocationAware from '../location-aware/location-aware';
 import Glossary from '../glossary/glossary';
 import DesktopMenu from './desktop-menu/desktop-menu';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
-import { NOTIFICATION_BANNER_TEXT, NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
+import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import CustomLink from '../links/custom-link/custom-link';
 
 const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHandler }) => {
@@ -72,7 +72,6 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
     <>
       {displayBanner() && (
         <AnnouncementBanner closable={false}>
-          <div className={styles.bannerHeading}>We're experiencing an issue with the {NOTIFICATION_BANNER_TEXT}</div>
           <div className={styles.bannerContent}>
             Content Temporarily Unavailable: The Fiscal Data team is working diligently to address the current issue with this page. Please check back
             later or contact us <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
