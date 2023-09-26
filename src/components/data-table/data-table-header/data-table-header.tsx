@@ -126,7 +126,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      <div className={columnMinWidth}>{getColumnFilter(header, dateRangeColumns, table, resetFilters, setFiltersActive)}</div>
+                      <div className={columnMinWidth}>
+                        {getColumnFilter(header, dateRangeColumns, table, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters)}
+                      </div>
                     </>
                   )}
                   <div

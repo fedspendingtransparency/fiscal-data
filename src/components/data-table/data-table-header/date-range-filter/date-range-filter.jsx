@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment/moment';
-import { DayPicker, ClassNames } from 'react-day-picker';
+import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import {
   dateEntryBox,
@@ -13,13 +13,12 @@ import {
   datePickerSelected,
   datePickerHover,
   glow,
-  testClass,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 
-const DateRangeFilter = ({ column, setFiltersActive, resetFilters, table }) => {
+const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters }) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState({
     from: undefined,
@@ -31,8 +30,15 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters, table }) => {
 
   const onFilterChange = val => {
     setFilterDisplay(val);
-    if (setFiltersActive) {
-      setFiltersActive(val?.length > 0);
+    if (val.length > 0) {
+      if (!allActiveFilters.includes(column.id)) {
+        setAllActiveFilters([...allActiveFilters, column.id]);
+      }
+    } else {
+      if (allActiveFilters.includes(column.id)) {
+        const currentFilters = allActiveFilters.filter(value => value !== column.id);
+        setAllActiveFilters(currentFilters);
+      }
     }
   };
 
@@ -41,18 +47,20 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters, table }) => {
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected({
-        from: new Date(),
-        to: new Date(),
+        from: Date.now(),
+        to: Date.now(),
       });
-      const start = moment(new Date()).format('M/D/YYYY');
-      const end = moment(new Date()).format('M/D/YYYY');
+      const start = moment(Date.now()).format('M/D/YYYY');
+      const end = moment(Date.now()).format('M/D/YYYY');
       onFilterChange(`${start} - ${end}`);
     }
   };
 
   const clearOnClick = e => {
     if (!e.key || e.key === 'Enter') {
+      console.log('*******************');
       setSelected(undefined);
+      onFilterChange(undefined);
     }
   };
 
@@ -64,12 +72,13 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters, table }) => {
   };
 
   const handleTextBoxBlur = e => {
-    console.log(e.target?.parentElement?.contains(e.relatedTarget));
-    console.log(e.relatedTarget);
-    console.log(e.target);
-    if (e && !dropdownRef.current?.contains(e.relatedTarget) && !(dropdownRef.current?.contains(e.target) && mouseOver)) {
-      // setVisible(false);
-      // setActive(false);
+    console.log(e);
+    console.log(e?.relatedTarget);
+    console.log(e?.target);
+    //&& !(dropdownRef.current?.contains(e.target) && mouseOver)
+    if (e && !dropdownRef.current?.contains(e?.relatedTarget)) {
+      setVisible(false);
+      setActive(false);
     }
   };
 
@@ -95,26 +104,27 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters, table }) => {
 
   useEffect(() => {
     setSelected(undefined);
+    setVisible(false);
+    setActive(false);
   }, [resetFilters]);
 
   return (
-    <div role="presentation" onBlur={handleTextBoxBlur} ref={dropdownRef}>
+    <div role="presentation" onBlur={() => !mouseOver && handleTextBoxBlur()} ref={dropdownRef}>
       <div className={active ? glow : null}>
-        <div
-          className={dateEntryBox}
-          onClick={handleTextBoxClick}
-          onKeyDown={e => handleTextBoxClick(e)}
-          role="button"
-          tabIndex={0}
-          ref={displayBoxRef}
-        >
+        <div className={dateEntryBox} onClick={handleTextBoxClick} onKeyDown={e => handleTextBoxClick(e)} role="button" tabIndex={0}>
           <div className={dateText}>{filterDisplay}</div>
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
       {visible && (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div className={dropdown} onMouseEnter={() => setMouseOver(true)} onMouseLeave={() => setMouseOver(false)}>
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+        <div
+          className={dropdown}
+          onMouseEnter={() => setMouseOver(true)}
+          onMouseLeave={() => setMouseOver(false)}
+          ref={displayBoxRef}
+          onClick={() => setVisible(true)}
+        >
           <div className={datePickerContainer}>
             <DayPicker
               mode="range"
@@ -124,14 +134,14 @@ const DateRangeFilter = ({ column, setFiltersActive, resetFilters, table }) => {
               fromYear={1900}
               toYear={2099}
               captionLayout="dropdown-buttons"
-              classNames={{ caption_label: testClass }}
+              // classNames={{ caption_label: testClass }}
             />
           </div>
           <div className={buttonContainer}>
-            <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton}>
+            <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">
               Today
             </div>
-            <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton}>
+            <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">
               Clear
             </div>
           </div>

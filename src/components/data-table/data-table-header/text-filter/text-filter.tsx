@@ -5,11 +5,13 @@ import SearchBar from '../../../search-bar/search-bar';
 const TextFilter: FunctionComponent<any> = ({
   column,
   resetFilters,
-  setFiltersActive,
+  setAllActiveFilters,
+  allActiveFilters,
 }: {
   column: Column<any, any>;
   resetFilters: boolean;
-  setFiltersActive: (value: boolean) => void;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
 }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
@@ -28,7 +30,16 @@ const TextFilter: FunctionComponent<any> = ({
     const val = event && event.target ? event.target.value : '';
     column.setFilterValue(val);
     setFilterDisplay(val);
-    setFiltersActive(val.length > 0);
+    if (val.length > 0) {
+      if (!allActiveFilters.includes(column.id)) {
+        setAllActiveFilters([...allActiveFilters, column.id]);
+      }
+    } else {
+      if (allActiveFilters.includes(column.id)) {
+        const currentFilters = allActiveFilters.filter(value => value !== column.id);
+        setAllActiveFilters(currentFilters);
+      }
+    }
   };
 
   useEffect(() => {

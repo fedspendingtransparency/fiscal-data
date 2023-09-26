@@ -7,6 +7,9 @@
   font-weight: $semi-bold-weight;
   display: flex;
   align-items: center;
+  &:focus {
+    border: 1px solid black;
+  }
 }
 
 .glow {
@@ -52,7 +55,7 @@
   }
 }
 .datePickerHover {
-  background-color: red;//#CFE8FF;
+  background-color: #CFE8FF;
 }
 
 .dropdown {
@@ -69,9 +72,6 @@
   .datePickerContainer {
     td, th {
       padding: 0;
-    }
-    th:hover {
-      background-color: $primary;
     }
   }
 
