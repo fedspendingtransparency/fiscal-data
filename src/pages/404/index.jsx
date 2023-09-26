@@ -1,34 +1,43 @@
 import React from "react";
 import { graphql } from "gatsby";
-import * as styles from "./notFound.module.scss";
+import * as styles from "../404/notFound.module.scss";
 import SiteLayout from "../../components/siteLayout/siteLayout";
 import PageHelmet from "../../components/page-helmet/page-helmet";
-import NotFoundText from '../../components/notFound/notFoundText';
-import NotFoundMd from "../../components/notFound/notFoundMd"
-import Experimental from "../../components/experimental/experimental"
+import PageErrorText from "../../components/pageError/page-error-text";
 
-const NotFound = ({ pageContext, data }) => {
+// TODO: Research why adding Error Boundary Package throws errors in Jest test
+// for Markdown imports on pages where siteLayout was called
 
-  const pageTitle = 'Page Not Found';
+const NotFoundContent = ({fallback}) => {
+
+  const pageTitle = fallback ? 'Content Currently Unavailable' : 'Page Not Found';
 
   return (
-    <SiteLayout>
-      <div className={styles.siteNotFound}>
-        <PageHelmet
-          data-testid="helmet"
-          pageTitle={pageTitle}
-        />
-        <div data-testid="notFoundWrapper" className={styles.notFoundWrapper}>
-          <Experimental featureId="not-found-md" exclude>
-            <NotFoundText />
-          </Experimental>
-          <Experimental featureId="not-found-md">
-            <NotFoundMd mdx={data['mdx']} />
-          </Experimental>
-        </div>
+    <div className={styles.siteNotFound}>
+      <PageHelmet
+        data-testid="helmet"
+        pageTitle={pageTitle}
+      />
+      <div data-testid="notFoundWrapper" className={styles.notFoundWrapper}>
+        <PageErrorText fallback={fallback} />
       </div>
+    </div>
+  )
+}
 
-    </SiteLayout>
+const NotFound = ({ pageContext, data, fallback }) => {
+
+  return (
+    <>
+     {!fallback && 
+      <SiteLayout>
+        <NotFoundContent fallback={fallback} />
+      </SiteLayout>}
+     {fallback && 
+        <NotFoundContent fallback={fallback} />
+     }
+    </>
+    
   );
 };
 

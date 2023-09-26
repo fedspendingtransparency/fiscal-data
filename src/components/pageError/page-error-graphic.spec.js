@@ -1,5 +1,5 @@
 import React from 'react'
-import NotFoundGraphic from './notFoundGraphic'
+import NotFoundGraphic from './page-error-graphic'
 import renderer from 'react-test-renderer'
 
 describe('Not Found Graphic', ()=> {
