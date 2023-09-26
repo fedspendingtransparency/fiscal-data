@@ -15,7 +15,6 @@ const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primary
 
   useEffect(() => {
     if (data.state === 'hasValue') {
-      console.log(data.contents);
       setDebtAmount(data.contents.payload[0]?.tot_pub_debt_out_amt);
     }
   }, [data.state]);
