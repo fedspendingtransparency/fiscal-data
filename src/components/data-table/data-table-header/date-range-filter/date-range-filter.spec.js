@@ -8,6 +8,8 @@ describe('date range filter', () => {
   const mockTable = {};
   const mockSetFiltersActive = jest.fn();
   const mockResetFilters = jest.fn();
+  const mockAllActiveFilters = [];
+  const mockSetAllActiveFilters = jest.fn();
 
   it('renders the filter', () => {
     const { getByRole } = render(
@@ -19,7 +21,13 @@ describe('date range filter', () => {
 
   it('renders today and clear buttons', () => {
     const { getByRole, getByText } = render(
-      <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} setFiltersActive={mockSetFiltersActive} table={mockTable} />
+      <DateRangeFilter
+        column={mockColumn}
+        resetFilters={mockResetFilters}
+        setFiltersActive={mockSetFiltersActive}
+        allActiveFilters={mockAllActiveFilters}
+        setAllActiveFilters={mockSetAllActiveFilters}
+      />
     );
     const dateRangeButton = getByRole('button');
     dateRangeButton.click();
@@ -33,7 +41,13 @@ describe('date range filter', () => {
 
   it('today and clear buttons keyboard accessibility', () => {
     const { getByRole, getByText } = render(
-      <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} setFiltersActive={mockSetFiltersActive} table={mockTable} />
+      <DateRangeFilter
+        column={mockColumn}
+        resetFilters={mockResetFilters}
+        setFiltersActive={mockSetFiltersActive}
+        allActiveFilters={mockAllActiveFilters}
+        setAllActiveFilters={mockSetAllActiveFilters}
+      />
     );
     const dateRangeButton = getByRole('button');
     fireEvent.keyDown(dateRangeButton, { key: 'Enter' });

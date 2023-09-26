@@ -30,11 +30,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const onFilterChange = val => {
     setFilterDisplay(val);
     if (val) {
-      if (!allActiveFilters.includes(column.id)) {
+      if (!allActiveFilters?.includes(column.id)) {
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
-      if (allActiveFilters.includes(column.id)) {
+      if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
       }
@@ -67,7 +67,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
   useEffect(() => {
-    document.getElementById('gatsby-focus-wrapper').addEventListener('click', () => {
+    document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', () => {
       if (!mouseOverDropdown) {
         setActive(false);
       }
@@ -108,7 +108,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   return (
     <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()}>
       <div className={active ? glow : null}>
-        <div className={dateEntryBox} onClick={handleTextBoxClick} onKeyDown={e => handleTextBoxClick(e)} role="button" tabIndex={0}>
+        <div
+          className={dateEntryBox}
+          onClick={handleTextBoxClick}
+          onKeyDown={e => handleTextBoxClick(e)}
+          role="button"
+          tabIndex={0}
+          aria-label={`Open ${column.id} Filter`}
+        >
           <div className={dateText}>{filterDisplay}</div>
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
