@@ -44,6 +44,7 @@ export default function DtgTable({
     columnConfig,
     caption,
     selectColumns,
+    dateRangeColumns,
     hasPublishedReports,
     publishedReports,
   } = tableProps;
@@ -427,6 +428,7 @@ export default function DtgTable({
             setResetFilters={setResetFilters}
             pageSize={10}
             setFiltersActive={setFiltersActive}
+            dateRangeColumns={dateRangeColumns}
           />
         )}
       </Experimental>

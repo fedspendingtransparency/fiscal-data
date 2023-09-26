@@ -350,7 +350,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       filters: [String!],
       seoConfig: SEOConfig,
       customRangePreset: String,
-      selectColumns: [String]
+      selectColumns: [String],
+      dateRangeColumns: [String]
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -405,6 +406,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             endDate
           }
           selectColumns
+          dateRangeColumns
           relatedTopics
           filterTopics
           publisher

@@ -1,0 +1,90 @@
+@import 'src/variables.module.scss';
+
+.testClass {
+  color: $font-body-copy;
+  padding-right: 1rem;
+  font-size: $font-size-18;
+  font-weight: $semi-bold-weight;
+  display: flex;
+  align-items: center;
+  &:focus {
+    border: 1px solid black;
+  }
+}
+
+.glow {
+  box-shadow: 0 0 0 0.25rem #e8f5ff;
+  border-radius: 0.125rem;
+  .dateEntryBox {
+    border: 1px solid $primary;
+  }
+}
+
+.dateEntryBox {
+  border: 1px solid #d9d9d9;
+  min-width: 146px;
+  height: 26.4px;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: $font-size-14;
+  font-weight: normal;
+  white-space: nowrap;
+  margin-top: 0.25rem;
+
+  .dateText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10.5px 0 10.5px 14px;
+  }
+
+  .calendarIcon {
+    :not(svg root) {
+      width: 1.75rem;
+      height: 1.25rem;
+    }
+  }
+}
+
+.datePickerSelected {
+  background-color: $primary;
+  color: white;
+  :hover {
+    color: #666666;
+  }
+}
+.datePickerHover {
+  background-color: #CFE8FF;
+}
+
+.dropdown {
+  position: absolute;
+  overflow: hidden;
+  box-shadow: .25rem .25rem #f1f1f1;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: white;
+  border-radius: 4px;
+  padding: 0.5rem 0 1rem;
+  margin-top: 0.5rem;
+
+  .datePickerContainer {
+    td, th {
+      padding: 0;
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    :first-child {
+      margin-right: 2rem;
+    }
+    .datePickerButton {
+      color: $primary;
+      text-decoration: underline;
+    }
+  }
+}
+

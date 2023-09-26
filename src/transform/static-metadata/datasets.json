@@ -51,7 +51,7 @@
       "startDate": "8/24/2023",
       "endDate": "9/14/2023"
     }
-    
+
   },
   "015-BFS-2014Q3-096": {
     "slug": "/savings-bonds-issues-redemptions-maturities-by-series/",
@@ -612,7 +612,8 @@
     ],
     "slug": "/auctions/",
     "currentDateButton": "byMonth",
-    "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
+    "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"],
+    "dateRangeColumns": ["auction_date", "issue_date", "maturity_date"]
   },
   "015-BFS-2014Q3-046": {
     "slug": "/treasury-bulletin/",

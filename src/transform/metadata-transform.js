@@ -1,24 +1,22 @@
-const { addDatasetToTopic, freshTopics } = require("./topics-config");
+const { addDatasetToTopic, freshTopics } = require('./topics-config');
 
 const camelcaseKeys = require('camelcase-keys');
-const { addMissingPublishers } = require("./filters/filterDefinitions");
+const { addMissingPublishers } = require('./filters/filterDefinitions');
 const DataTransform = require('node-json-transform').DataTransform;
-const {getDateRange} = require('./dates');
+const { getDateRange } = require('./dates');
 const { getConfigByApiId } = require('./endpointConfig');
 const { processFilters } = require('./filters/filterDefinitions');
 const { largeDatasetThreshold } = require('../helpers/largeDatasetThreshold');
 const matchedApiConfigs = [];
 
-const {getPublishedReports} =
-  require('../helpers/published-reports/published-reports');
+const { getPublishedReports } = require('../helpers/published-reports/published-reports');
 
 const getPrettyNameForColumn = (fields, columnName, apiId) => {
   const field = fields.find(field => field.columnName === columnName);
   if (field) {
     return field.prettyName;
   } else {
-    console.warn('No prettyName in metadata for API: ' + apiId + ' could be found' +
-      'for dimension field:', columnName);
+    console.warn('No prettyName in metadata for API: ' + apiId + ' could be found' + 'for dimension field:', columnName);
     return columnName;
   }
 };
@@ -41,16 +39,10 @@ const metadataSEOApprovedDS = [
   '015-BFS-2014Q3-094',
   '015-BFS-2014Q3-080',
   '015-BFS-2014Q3-058',
-  '015-BFS-2014Q1-07'
+  '015-BFS-2014Q1-07',
 ];
 
-const transformMapper = (datasetIdMap,
-                         endpointConfigIdMap,
-                         topics,
-                         filters,
-                         releaseCalendarEntries,
-                         API_BASE_URL,
-                         fetch) => {
+const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, releaseCalendarEntries, API_BASE_URL, fetch) => {
   return {
     item: {
       datasetId: 'datasetId',
@@ -66,34 +58,34 @@ const transformMapper = (datasetIdMap,
       slug: 'datasetPath',
       techSpecs: {
         updateFrequency: 'updateFrequency',
-        fileFormat: ''
+        fileFormat: '',
       },
       seoConfig: {
         pageTitle: 'title',
         description: 'shortDescription',
-        keywords: ''
+        keywords: '',
       },
-      apis: 'apis'
+      apis: 'apis',
     },
     operate: [
       {
-        run: (val) => val ? '/' + val + '/' : undefined,
-        on: 'slug'
+        run: val => (val ? '/' + val + '/' : undefined),
+        on: 'slug',
       },
       {
-        run: (val) => 'Updated ' + val,
-        on: 'techSpecs.updateFrequency'
+        run: val => 'Updated ' + val,
+        on: 'techSpecs.updateFrequency',
       },
       {
         run: () => 'JSON, CSV, XML',
-        on: 'techSpecs.fileFormat'
+        on: 'techSpecs.fileFormat',
       },
       {
-        run: (val) => val ? val : '',
-        on: 'publisher'
-      }
+        run: val => (val ? val : ''),
+        on: 'publisher',
+      },
     ],
-    each: async (dataset) => {
+    each: async dataset => {
       const mappedDataset = datasetIdMap[dataset.datasetId];
       if (dataset.apis === []) {
         console.warn(`Dataset without endpoints IN METADATA found.
@@ -112,18 +104,13 @@ const transformMapper = (datasetIdMap,
       });
 
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
-      dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets
-        ? mappedDataset.relatedDatasets : [];
-      dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton
-        ? mappedDataset.currentDateButton : null;
-      dataset.datePreset = mappedDataset && mappedDataset.datePreset
-        ? mappedDataset.datePreset : null;
-      dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset
-        ? mappedDataset.customRangePreset : null;
-      dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout
-        ? mappedDataset.bannerCallout : null;
-      dataset.selectColumns = mappedDataset && mappedDataset.selectColumns
-        ? mappedDataset.selectColumns : null;
+      dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets ? mappedDataset.relatedDatasets : [];
+      dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton ? mappedDataset.currentDateButton : null;
+      dataset.datePreset = mappedDataset && mappedDataset.datePreset ? mappedDataset.datePreset : null;
+      dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset ? mappedDataset.customRangePreset : null;
+      dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout ? mappedDataset.bannerCallout : null;
+      dataset.selectColumns = mappedDataset && mappedDataset.selectColumns ? mappedDataset.selectColumns : null;
+      dataset.dateRangeColumns = mappedDataset && mappedDataset.dateRangeColumns ? mappedDataset.dateRangeColumns : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {
@@ -150,7 +137,7 @@ const transformMapper = (datasetIdMap,
             console.info(`DatasetId:${dataset.datasetId} "${dataset.name}", API: ${api.apiId} has
             ${Number(api.rowCount)} rows`);
           }
-          if ((Number(api.rowCount) > largeDatasetThreshold) && (!api.userFilter)) {
+          if (Number(api.rowCount) > largeDatasetThreshold && !api.userFilter) {
             api.isLargeDataset = true;
             const aggregateLargeDatasetPivot = true; // TODO: set by environmental variable
 
@@ -161,12 +148,12 @@ const transformMapper = (datasetIdMap,
                   dd.aggregateOn = [
                     {
                       field: 'record_calendar_year',
-                      type: 'YEAR'
+                      type: 'YEAR',
                     },
                     {
                       field: 'record_calendar_month',
-                      type: 'MONTH'
-                    }
+                      type: 'MONTH',
+                    },
                   ];
                 }
               });
@@ -179,22 +166,23 @@ const transformMapper = (datasetIdMap,
         dataset.techSpecs.earliestDate = apiDateRange.earliestDate;
         dataset.techSpecs.lastUpdated = apiDateRange.lastUpdated;
       }
-      dataset.dataStartYear = dataset.techSpecs.earliestDate ?
-        dataset.techSpecs.earliestDate.substr(-4) : '1000';
+      dataset.dataStartYear = dataset.techSpecs.earliestDate ? dataset.techSpecs.earliestDate.substr(-4) : '1000';
 
       dataset.apis.sort(sortApisByOrder);
 
       dataset.apis.forEach(api => {
         if (api.fields) {
           api.fields.sort(sortFieldsByOrder);
-          api.dataDisplays.filter(disp => disp.dimensionField &&
-            disp.dimensionField.length && disp.title === undefined)
-          .forEach(disp => {
-            disp.title = 'By ' + getPrettyNameForColumn(api.fields, disp.dimensionField, api.apiId);
-          });
+          api.dataDisplays
+            .filter(disp => disp.dimensionField && disp.dimensionField.length && disp.title === undefined)
+            .forEach(disp => {
+              disp.title = 'By ' + getPrettyNameForColumn(api.fields, disp.dimensionField, api.apiId);
+            });
         }
         // convert tableName to kebab case
-        api.pathName = api.tableName.toLocaleLowerCase().replace(/[^a-z0-9]+/g, '-')
+        api.pathName = api.tableName
+          .toLocaleLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
           .replace(/-$/, ''); // remove any trailing hyphen
       });
 
@@ -203,12 +191,12 @@ const transformMapper = (datasetIdMap,
         pageTitle: seoConfig.pageTitle,
         description: seoConfig.description,
         // Keywords are not yet provided in the metadata (06/24/21)
-        keywords: mappedDataset && mappedDataset.seoConfig ? mappedDataset.seoConfig.keywords : ''
+        keywords: mappedDataset && mappedDataset.seoConfig ? mappedDataset.seoConfig.keywords : '',
       };
 
       dataset.relatedTopics = [];
       dataset.filterTopics = [];
-      topics.forEach((topic) => {
+      topics.forEach(topic => {
         if (topic.datasetIds.includes(dataset.datasetId)) {
           dataset.relatedTopics.push(topic.label);
           dataset.filterTopics.push(topic.slug);
@@ -221,8 +209,7 @@ const transformMapper = (datasetIdMap,
       // Add Upcoming dates to Release Calendar
       dataset.releases = [];
       if (releaseCalendarEntries && Array.isArray(releaseCalendarEntries)) {
-        dataset.releases = releaseCalendarEntries
-          .filter((rcEntry) => rcEntry.datasetId === dataset.datasetId);
+        dataset.releases = releaseCalendarEntries.filter(rcEntry => rcEntry.datasetId === dataset.datasetId);
         dataset.releases.sort((a, b) => {
           if (a.date > b.date) return 1;
           if (a.date < b.date) return -1;
@@ -231,7 +218,7 @@ const transformMapper = (datasetIdMap,
           return 0;
         });
       }
-    }
+    },
   };
 };
 
@@ -255,16 +242,18 @@ const vetApiMetadataAgainstWhitelist = (whitelistMap, datasets, minimumDatasetCo
 
   // make a note of non-whitelisted Datasets in the API response
   if (vettedList.length < datasets.length) {
-    datasets.filter(ds => !vettedList.includes(ds)).forEach(ignored => {
-      console.info(`NOTE: Api Metadata for Dataset "${ignored.title}" [${ignored.datasetId}]
+    datasets
+      .filter(ds => !vettedList.includes(ds))
+      .forEach(ignored => {
+        console.info(`NOTE: Api Metadata for Dataset "${ignored.title}" [${ignored.datasetId}]
       was not on the whitelist and is excluded from this build.`);
-    });
+      });
   }
   return vettedList;
 };
 
-const extractPublishedReportsType = function(reports){
-  if(!reports || !reports.length){
+const extractPublishedReportsType = function(reports) {
+  if (!reports || !reports.length) {
     return [];
   }
 
@@ -273,14 +262,16 @@ const extractPublishedReportsType = function(reports){
 
   reports.forEach(report => {
     const pathSplit = report.path.split('.');
-    const fileType = pathSplit[pathSplit.length - 1].match(/[a-zA-Z]/gi)
-      .join('').toUpperCase();
+    const fileType = pathSplit[pathSplit.length - 1]
+      .match(/[a-zA-Z]/gi)
+      .join('')
+      .toUpperCase();
     fileTypesSet.add(fileType);
   });
 
   const keys = fileTypesSet.keys();
   let curKey = keys.next();
-  while(!curKey.done){
+  while (!curKey.done) {
     fileTypesArr.push(curKey.value);
     curKey = keys.next();
   }
@@ -292,23 +283,22 @@ const extractPublishedReportsType = function(reports){
  * @type {{"015-BFS-2014Q1-11": string}}
  */
 const datasetPublishedReportsCustomSelectionTips = {
-  '015-BFS-2014Q1-13': 'Monthly Treasury Statement reports dated before 1998 are grouped ' +
-    'by year. Once inside the desired year, scroll to the specific month.',
-  '015-BFS-2014Q1-03': 'Daily Treasury Statement reports dated before FY 1998 are grouped ' +
-    'by fiscal year. Once inside the desired year, scroll to the specific month and day.'
+  '015-BFS-2014Q1-13':
+    'Monthly Treasury Statement reports dated before 1998 are grouped ' + 'by year. Once inside the desired year, scroll to the specific month.',
+  '015-BFS-2014Q1-03':
+    'Daily Treasury Statement reports dated before FY 1998 are grouped ' +
+    'by fiscal year. Once inside the desired year, scroll to the specific month and day.',
 };
 
 const determineSEO = (dataset, mappedDataset) => {
   const seoConfig = {
     pageTitle: '',
     description: '',
-    keywords: ''
+    keywords: '',
   };
-  const mappedSeoConfig = (mappedDataset && mappedDataset.seoConfig) ?
-    mappedDataset.seoConfig :
-    JSON.parse(JSON.stringify(seoConfig));
+  const mappedSeoConfig = mappedDataset && mappedDataset.seoConfig ? mappedDataset.seoConfig : JSON.parse(JSON.stringify(seoConfig));
 
-  if(metadataSEOApprovedDS.some(id => dataset.datasetId === id)){
+  if (metadataSEOApprovedDS.some(id => dataset.datasetId === id)) {
     // Some of the metadata fields are not SEO approved, so check to see if we set the values
     // ourselves before applying the values from the metadata.
     seoConfig.pageTitle = mappedSeoConfig.pageTitle || dataset.seoConfig.pageTitle || '';
@@ -326,18 +316,17 @@ const determineSEO = (dataset, mappedDataset) => {
  * @param datasetId
  * @returns {null|*}
  */
-const addPublishedReportsTip = (datasetId) => {
+const addPublishedReportsTip = datasetId => {
   if (!datasetPublishedReportsCustomSelectionTips[datasetId]) return null;
   return datasetPublishedReportsCustomSelectionTips[datasetId];
 };
 
-const reciprocateRelationships = (datasetIdMap) => {
+const reciprocateRelationships = datasetIdMap => {
   const relationshipSetsById = {};
 
-  Object.entries(datasetIdMap).forEach(([dsId, {relatedDatasets}]) => {
+  Object.entries(datasetIdMap).forEach(([dsId, { relatedDatasets }]) => {
     if (relatedDatasets) {
       relatedDatasets.forEach(relatedId => {
-
         // add the relationship to the deduped set for this dataset
         if (!relationshipSetsById[dsId]) {
           relationshipSetsById[dsId] = new Set();
@@ -359,9 +348,9 @@ const reciprocateRelationships = (datasetIdMap) => {
   });
 };
 
-const addDatasetsToTopics = (datasetIdMap) => {
+const addDatasetsToTopics = datasetIdMap => {
   Object.entries(datasetIdMap).forEach(([datasetId, dataset]) => {
-    dataset.topics.forEach((dsTopic) => addDatasetToTopic(dsTopic, datasetId));
+    dataset.topics.forEach(dsTopic => addDatasetToTopic(dsTopic, datasetId));
   });
 };
 
@@ -375,37 +364,40 @@ exports.metadataSEOApprovedDS = metadataSEOApprovedDS;
 exports.determineSEO = determineSEO;
 exports.reciprocateRelationships = reciprocateRelationships;
 
-exports.metadataTransform = async function(metadataObjectsFromApi,
-                                           datasetIdMap,
-                                           endpointConfigIdMap,
-                                           releaseCalendarEntries,
-                                           API_BASE_URL,
-                                           fetch,
-                                           minimumDatasetCount) {
+exports.metadataTransform = async function(
+  metadataObjectsFromApi,
+  datasetIdMap,
+  endpointConfigIdMap,
+  releaseCalendarEntries,
+  API_BASE_URL,
+  fetch,
+  minimumDatasetCount
+) {
   reciprocateRelationships(datasetIdMap);
   addDatasetsToTopics(datasetIdMap);
 
   const metadataObjects = camelcaseKeys(metadataObjectsFromApi, { deep: true });
-  const vettedDatasets =
-    vetApiMetadataAgainstWhitelist(datasetIdMap, metadataObjects, minimumDatasetCount);
-  console.info('EXCLUDED FOR LACK OF APIS:', vettedDatasets
-    .filter(dataset => !dataset.apis.length).map(ds => ds.title));
+  const vettedDatasets = vetApiMetadataAgainstWhitelist(datasetIdMap, metadataObjects, minimumDatasetCount);
+  console.info(
+    'EXCLUDED FOR LACK OF APIS:',
+    vettedDatasets.filter(dataset => !dataset.apis.length).map(ds => ds.title)
+  );
   const thinnedDatasets = vettedDatasets.filter(dataset => dataset.apis.length);
   const filters = await addMissingPublishers(thinnedDatasets);
 
   for (const d in thinnedDatasets) {
     const dataset = thinnedDatasets[d];
-    const publishedReports = await getPublishedReports(dataset.datasetId,
-      API_BASE_URL, fetch);
+    const publishedReports = await getPublishedReports(dataset.datasetId, API_BASE_URL, fetch);
     dataset.hasPublishedReports = !!publishedReports;
     dataset.publishedReports = publishedReports || [];
     dataset.fileTypes = extractPublishedReportsType(publishedReports);
     dataset.publishedReportsTip = addPublishedReportsTip(dataset.datasetId);
   }
 
-  const transformer = DataTransform(thinnedDatasets,
-    transformMapper(datasetIdMap, endpointConfigIdMap,
-      freshTopics(), filters, releaseCalendarEntries, API_BASE_URL, fetch));
+  const transformer = DataTransform(
+    thinnedDatasets,
+    transformMapper(datasetIdMap, endpointConfigIdMap, freshTopics(), filters, releaseCalendarEntries, API_BASE_URL, fetch)
+  );
   const transformed = await transformer.transform();
 
   Object.keys(endpointConfigIdMap).forEach(staticId => {

@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from "react";
-import BarGraph from "../../components/charts/bar/bar";
-import LineGraphAnimation from "./charts/lineGraphAnimation";
-import { staggeredData, uncompressedBarGraphData } from "../../components/charts/helpers/helpersData";
-import { reducer } from "../../components/charts/helpers/helpers";
-import SiteLayout from "../../components/siteLayout/siteLayout";
-import { barDiv, fallback, linkDiv } from "./experimental.module.scss";
-import CustomLink from "../../components/links/custom-link/custom-link";
-import VisualizationCallout from "../../components/visualization-callout/visualization-callout";
-import InsightsDownload from "../../components/insights-download/insights-download";
-import AFGDeficitPOC from "./charts/afgOverviewDeficitChartPOC";
-import { ErrorBoundary } from "react-error-boundary";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
-import { totalDebtData } from "./experimental-helper";
+import React, { useEffect, useState } from 'react';
+import BarGraph from '../../components/charts/bar/bar';
+import LineGraphAnimation from './charts/lineGraphAnimation';
+import { staggeredData, uncompressedBarGraphData } from '../../components/charts/helpers/helpersData';
+import { reducer } from '../../components/charts/helpers/helpers';
+import SiteLayout from '../../components/siteLayout/siteLayout';
+import { barDiv, fallback, linkDiv } from './experimental.module.scss';
+import CustomLink from '../../components/links/custom-link/custom-link';
+import VisualizationCallout from '../../components/visualization-callout/visualization-callout';
+import InsightsDownload from '../../components/insights-download/insights-download';
+import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
+import { totalDebtData } from './experimental-helper';
+import DateRangeFilter from '../../components/data-table/data-table-header/date-range-filter/date-range-filter';
 
 const fallbackComponent = () => {
-  return (
-    <div className={fallback}>
-      Something went wrong. Please refresh the page to try again.
-    </div>
-  );
+  return <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>;
 };
 
 /**
@@ -34,66 +31,57 @@ const ExperimentalPage = () => {
   const valueKeys = ['current_month_dfct_sur_amt'];
 
   useEffect(() => {
-    let reducedData = reducer(
-      uncompressedBarGraphData,
-      graphIndex,
-      valueKeys
-    ).slice();
+    let reducedData = reducer(uncompressedBarGraphData, graphIndex, valueKeys).slice();
     // Normalize data to billions as the figures in the legend and labels look big and ugly.
-    reducedData.forEach(
-      d =>
-        (d.current_month_dfct_sur_amt = (
-          d.current_month_dfct_sur_amt / 1000000000
-        ).toFixed(2))
-    );
+    reducedData.forEach(d => (d.current_month_dfct_sur_amt = (d.current_month_dfct_sur_amt / 1000000000).toFixed(2)));
     setGraphData(reducedData);
     reducedData = reducer(staggeredData, 'year', ['value', 'value2']).slice();
     setGraph2Data(reducedData);
   }, []);
 
-  const mapBarColors = (barType) => {
+  const mapBarColors = barType => {
     if (barType.includes('debt')) {
       return '#4B1B79';
-    }
-    else if (barType.includes('none')) {
+    } else if (barType.includes('none')) {
       return '#00000000';
-    }
-    else if (barType.includes('deficit')) {
+    } else if (barType.includes('deficit')) {
       return '#BD4E12';
     }
-  }
+  };
 
-  const mapLegendType = (barType) => {
+  const mapLegendType = barType => {
     if (barType === 'debt') {
       return 'circle';
-    }
-    else if (barType === 'deficit') {
+    } else if (barType === 'deficit') {
       return 'circle';
-    }
-    else {
+    } else {
       return 'none';
     }
-  }
+  };
 
-  const generateBar = (sortedData) => {
+  const generateBar = sortedData => {
     return sortedData.map((dataObj, i) =>
       Object.keys(dataObj)
-      .filter((propName) => {
-        return propName !== "year";
-      })
-      .map((valueName) => {
-        return (
-          <Bar
-            dataKey={valueName}
-            stackId={'a'}
-            fill={mapBarColors(valueName)}
-            name={valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : ''}
-            legendType={mapLegendType(valueName)}
-          />
-        )
-      })
+        .filter(propName => {
+          return propName !== 'year';
+        })
+        .map(valueName => {
+          return (
+            <Bar
+              dataKey={valueName}
+              stackId={'a'}
+              fill={mapBarColors(valueName)}
+              name={valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : ''}
+              legendType={mapLegendType(valueName)}
+            />
+          );
+        })
     );
-  }
+  };
+
+  const column = {
+    setFilterValue: () => console.log('setFilterValue'),
+  };
 
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
