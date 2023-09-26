@@ -32,7 +32,6 @@ console.info(`Using environment config: '${ENV_ID}'`);
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
 const path = require(`path`);
 const metadataTransform = require('./src/transform/metadata-transform').metadataTransform;
-
 const fetchUtil = require('make-fetch-happen');
 const authenticatingFetch = require('./src/utils/authenticating-fetch/authenticating-fetch');
 const fetch = apiKey ? authenticatingFetch(apiKey, fetchUtil) : fetchUtil;

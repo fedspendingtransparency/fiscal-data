@@ -107,6 +107,53 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
   }
 };
 
+export const Filter: FunctionComponent<any> = ({
+  column,
+  resetFilters,
+  setAllActiveFilters,
+  allActiveFilters,
+}: {
+  column: Column<any, any>;
+  resetFilters: boolean;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
+}) => {
+  const [active, setActive] = useState(false);
+  const [filterDisplay, setFilterDisplay] = useState('');
+  const clearFilter = () => {
+    // fire artificial event to reset field
+    onFilterChange({
+      target: {
+        value: '',
+      },
+    });
+    column.setFilterValue('');
+    setFilterDisplay('');
+  };
+
+  const onFilterChange = event => {
+    const val = event && event.target ? event.target.value : '';
+    column.setFilterValue(val);
+    setFilterDisplay(val);
+    if (val.length > 0) {
+      if (!allActiveFilters.includes(column.id)) {
+        setAllActiveFilters([...allActiveFilters, column.id]);
+      }
+    } else {
+      if (allActiveFilters.includes(column.id)) {
+        const currentFilters = allActiveFilters.filter(value => value !== column.id);
+        setAllActiveFilters(currentFilters);
+      }
+    }
+  };
+
+  useEffect(() => {
+    clearFilter();
+  }, [resetFilters]);
+
+  return <SearchBar onChange={onFilterChange} filter={filterDisplay} handleClear={clearFilter} height="28px" active={active} setActive={setActive} />;
+};
+
 export const getColumnFilter = (header, dateRangeColumns: string[], table, resetFilters: boolean, setFiltersActive: (val: boolean) => void) => {
   if (header.column.getCanFilter() && header.id === 'record_date') {
     return <SingleDateFilter column={header.column} />;

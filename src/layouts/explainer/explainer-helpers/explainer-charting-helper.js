@@ -1,6 +1,5 @@
-import {pxToNumber} from "../../../helpers/styles-helper/styles-helper";
-import {breakpointLg} from "../../../variables.module.scss";
-
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../variables.module.scss';
 
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {
   // this function rewrites some element attribs after render to ensure Chart scales with container
@@ -13,22 +12,22 @@ export const applyChartScaling = (parent, chartWidth, chartHeight) => {
   }
 };
 
-export const addInnerChartAriaLabel = ( parent ) => {
+export const addInnerChartAriaLabel = parent => {
   const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);
   if (svgChart) {
     svgChart.setAttribute('aria-label', 'Inner chart area');
   }
-}
+};
 
 export const applyTextScaling = (parent, chartWidth, pageWidth, fontSize) => {
   const svgChart = document.querySelector(`[data-testid= ${parent}] svg`);
   if (svgChart) {
-    if(pageWidth < pxToNumber(breakpointLg)) {
+    if (pageWidth < pxToNumber(breakpointLg)) {
       const containerWidth = document.querySelector(`[data-testid= ${parent}]`).offsetWidth;
       const ratio = chartWidth / containerWidth;
       const textElements = document.querySelectorAll(`[data-testid= ${parent}] text`);
       [...textElements].forEach(text => {
-        text.style.fontSize = `${parseFloat(fontSize) * ratio}rem`
+        text.style.fontSize = `${parseFloat(fontSize) * ratio}rem`;
       });
     }
   }
@@ -37,15 +36,13 @@ export const applyTextScaling = (parent, chartWidth, pageWidth, fontSize) => {
 export const formatCurrency = v => {
   if (parseFloat(v) < 0) {
     return `$${Math.abs(v)} T`;
-  }
-  else if (parseFloat(v) > 0){
+  } else if (parseFloat(v) > 0) {
     return `$${v} T`;
-  }
-  else {
+  } else {
     return `$${v}`;
   }
 };
 
 export const formatPercentage = v => {
-  return `${v}%`
-}
+  return `${v}%`;
+};
