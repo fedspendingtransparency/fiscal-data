@@ -26,11 +26,10 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   });
   const [filterDisplay, setFilterDisplay] = useState('');
   const [active, setActive] = useState(false);
-  const [mouseOver, setMouseOver] = useState(false);
 
   const onFilterChange = val => {
     setFilterDisplay(val);
-    if (val.length > 0) {
+    if (val) {
       if (!allActiveFilters.includes(column.id)) {
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
@@ -43,7 +42,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const dropdownRef = useRef();
-  const displayBoxRef = useRef();
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected({
@@ -58,7 +56,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const clearOnClick = e => {
     if (!e.key || e.key === 'Enter') {
-      console.log('*******************');
       setSelected(undefined);
       onFilterChange(undefined);
     }
@@ -75,11 +72,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     console.log(e);
     console.log(e?.relatedTarget);
     console.log(e?.target);
+
     //&& !(dropdownRef.current?.contains(e.target) && mouseOver)
-    if (e && !dropdownRef.current?.contains(e?.relatedTarget)) {
-      setVisible(false);
-      setActive(false);
-    }
+    setTimeout(() => {
+      if (e && !dropdownRef.current?.contains(e?.relatedTarget)) {
+        setVisible(false);
+        setActive(false);
+      }
+    });
   };
 
   const getDaysArray = (start, end) => {
@@ -109,7 +109,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [resetFilters]);
 
   return (
-    <div role="presentation" onBlur={() => !mouseOver && handleTextBoxBlur()} ref={dropdownRef}>
+    <div role="presentation" onBlur={handleTextBoxBlur} ref={dropdownRef}>
       <div className={active ? glow : null}>
         <div className={dateEntryBox} onClick={handleTextBoxClick} onKeyDown={e => handleTextBoxClick(e)} role="button" tabIndex={0}>
           <div className={dateText}>{filterDisplay}</div>
@@ -117,14 +117,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         </div>
       </div>
       {visible && (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
-        <div
-          className={dropdown}
-          onMouseEnter={() => setMouseOver(true)}
-          onMouseLeave={() => setMouseOver(false)}
-          ref={displayBoxRef}
-          onClick={() => setVisible(true)}
-        >
+        <div className={dropdown}>
           <div className={datePickerContainer}>
             <DayPicker
               mode="range"
@@ -134,7 +127,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
               fromYear={1900}
               toYear={2099}
               captionLayout="dropdown-buttons"
-              // classNames={{ caption_label: testClass }}
             />
           </div>
           <div className={buttonContainer}>
