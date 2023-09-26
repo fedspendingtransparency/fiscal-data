@@ -72,9 +72,10 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
     <>
       {displayBanner() && (
         <AnnouncementBanner closable={false}>
+          <div className={styles.bannerHeading}> Content Temporarily Unavailable: </div>
           <div className={styles.bannerContent}>
-            Content Temporarily Unavailable: The Fiscal Data team is working diligently to address the current issue with this page. Please check back
-            later or contact us <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
+            The Fiscal Data team is working diligently to address the current issue with this page. Please check back later or contact us{' '}
+            <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
           </div>
         </AnnouncementBanner>
       )}
