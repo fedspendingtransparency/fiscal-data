@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
-const SearchBar = ({ label, onChange, onBlur, filter, handleClear, active, setActive, inputRef, width, height }) => {
+const SearchBar = ({ label, ariaLabel, onChange, onBlur, filter, handleClear, active, setActive, inputRef, width, height }) => {
   let searchCleared = false;
 
   const clearBox = e => {
@@ -68,7 +68,7 @@ const SearchBar = ({ label, onChange, onBlur, filter, handleClear, active, setAc
               onChange={onChange}
               size="small"
               value={filter}
-              aria-label={label}
+              aria-label={ariaLabel ? ariaLabel : label}
               InputProps={{
                 endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
                 style: {

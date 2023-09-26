@@ -18,8 +18,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 
+let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters }) => {
-  const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState({
     from: undefined,
     to: undefined,
@@ -63,23 +63,21 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const handleTextBoxClick = e => {
     if (!e.key || e.key === 'Enter') {
-      setVisible(!visible);
       setActive(!active);
     }
   };
-
-  const handleTextBoxBlur = e => {
-    console.log(e);
-    console.log(e?.relatedTarget);
-    console.log(e?.target);
-
-    //&& !(dropdownRef.current?.contains(e.target) && mouseOver)
-    setTimeout(() => {
-      if (e && !dropdownRef.current?.contains(e?.relatedTarget)) {
-        setVisible(false);
+  useEffect(() => {
+    document.getElementById('gatsby-focus-wrapper').addEventListener('click', () => {
+      if (!mouseOverDropdown) {
         setActive(false);
       }
     });
+  }, [mouseOverDropdown]);
+
+  const handleTextBoxBlur = e => {
+    if (e && !dropdownRef.current?.contains(e?.relatedTarget) && e?.relatedTarget?.id !== 'gatsby-focus-wrapper') {
+      setActive(false);
+    }
   };
 
   const getDaysArray = (start, end) => {
@@ -104,20 +102,32 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   useEffect(() => {
     setSelected(undefined);
-    setVisible(false);
     setActive(false);
   }, [resetFilters]);
 
   return (
-    <div role="presentation" onBlur={handleTextBoxBlur} ref={dropdownRef}>
+    <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()}>
       <div className={active ? glow : null}>
         <div className={dateEntryBox} onClick={handleTextBoxClick} onKeyDown={e => handleTextBoxClick(e)} role="button" tabIndex={0}>
           <div className={dateText}>{filterDisplay}</div>
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
-      {visible && (
-        <div className={dropdown}>
+      {active && (
+        <div
+          className={dropdown}
+          onMouseOver={() => {
+            mouseOverDropdown = true;
+          }}
+          onFocus={() => {
+            mouseOverDropdown = true;
+          }}
+          onMouseLeave={() => {
+            mouseOverDropdown = false;
+          }}
+          onClick={e => e.stopPropagation()}
+          role="presentation"
+        >
           <div className={datePickerContainer}>
             <DayPicker
               mode="range"
