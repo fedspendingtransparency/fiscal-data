@@ -5,7 +5,23 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc'],
-  ADDITIONAL_DATASETS: {},
+  ADDITIONAL_DATASETS: {
+    "015-BFS-2014Q3-049": {
+      "slug": "/frn_daily_indexes/",
+      "seoConfig": {
+        "pageTitle": "FRN Daily Indexes",
+        "description": 'The FRN Daily Indexes dataset provides data on Floating Rate Notes. FRNs are relatively short-term investments which mature in two years, pay interest four times each year, and have an interest rate that may change or "float" over time. A person is able to hold an FRN until it matures or sell it before it matures. The FRN Daily Indexes provide information for specific CUSIPs, accrual periods, daily indexes, daily interest accrual rates, spread, and interest payment periods.',
+        "keywords": "Debt, Savings Bonds"
+      },
+      "topics": ["debt", "savings-bonds"],
+      "relatedDatasets": [
+        "015-BFS-2014Q1-14",
+        "015-BFS-2014Q3-045",
+        //"015-BFS-2014Q3-048", -- upcoming auctions -- add when upcoming is merged
+      ],
+      "currentDateButton": "byDay",
+    },
+  },
   ADDITIONAL_ENDPOINTS: {
     '27': {
       endpoint: 'v1/debt/mspd/mspd_table_1',
@@ -152,6 +168,11 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['securities_mil_amt'],
+    },
+    '263': {
+      endpoint: 'v1/accounting/od/frn_daily_indexes',
+      dateField: 'record_date',
+      downloadName: 'frn_daily_indexes'
     },
   },
 };
