@@ -58,4 +58,43 @@ describe('date range filter', () => {
     fireEvent.keyDown(clearButton, { key: 'Enter' });
     dateRangeButton.click();
   });
+
+  it('closes the dropdown on blur', () => {
+    const { getByRole, queryByRole } = render(
+      <DateRangeFilter
+        column={mockColumn}
+        resetFilters={mockResetFilters}
+        setFiltersActive={mockSetFiltersActive}
+        allActiveFilters={mockAllActiveFilters}
+        setAllActiveFilters={mockSetAllActiveFilters}
+      />
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const clearButton = getByRole('button', { name: 'Clear' });
+    clearButton.focus();
+    clearButton.blur();
+    expect(queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument();
+  });
+
+  it('mouse ', () => {
+    const { getByRole, queryByTestId } = render(
+      <DateRangeFilter
+        column={mockColumn}
+        resetFilters={mockResetFilters}
+        setFiltersActive={mockSetFiltersActive}
+        allActiveFilters={mockAllActiveFilters}
+        setAllActiveFilters={mockSetAllActiveFilters}
+      />
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const dropdown = queryByTestId('Date Picker Dropdown');
+    fireEvent.mouseOver(dropdown);
+    fireEvent.click(dropdown);
+    expect(dropdown).toBeInTheDocument();
+    fireEvent.mouseLeave(dropdown);
+    dateRangeButton.click();
+    expect(dropdown).not.toBeInTheDocument();
+  });
 });
