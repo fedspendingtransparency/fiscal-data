@@ -389,6 +389,7 @@ export default function DtgTable({
             >
               {selectColumns && (
                 <DtgTableColumnSelector
+                  tabIndex={0}
                   isVisible={true}
                   fields={columnSelectValues}
                   changeHandler={update => columnSelectChangeHandler(update)}
