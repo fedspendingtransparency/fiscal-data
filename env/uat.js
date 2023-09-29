@@ -11,9 +11,9 @@ module.exports = {
         pageTitle: 'Treasury Securities Upcoming Auctions Data',
         description:
           'The Treasury Securities Upcoming Auctions Data dataset provides information on auction announcements. Each announcement includes what securities are being auctioned, the announcement date, the auction date and issue date. This data provides a notification of what treasury securities will be auctioned in the upcoming week.',
-        keywords: 'treasury securities',
+        keywords: 'Treasury Securities, Debt, Savings Bonds, Auctions',
       },
-      topics: ['auctions', 'debt'],
+      topics: ['auctions', 'debt', 'savings-bonds'],
       relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045'],
       slug: '/upcoming_auctions/',
       currentDateButton: 'byDay',
