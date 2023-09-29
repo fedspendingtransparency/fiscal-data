@@ -144,6 +144,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           }}
           onClick={e => e.stopPropagation()}
           role="presentation"
+          data-testid="Date Picker Dropdown"
         >
           <div className={datePickerContainer}>
             <DayPicker

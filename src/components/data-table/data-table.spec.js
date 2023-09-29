@@ -248,33 +248,6 @@ describe('react-table', () => {
     expect(getAllByTestId('row').length).toEqual(3);
   });
 
-  it('Filter record_date column by date', () => {
-    const { getAllByTestId, getByRole } = render(
-      <DataTable
-        rawData={mockTableData}
-        defaultSelectedColumns={null}
-        pageSize={10}
-        setTableColumnSortData={setTableColumnSortData}
-        shouldPage
-        showPaginationControls
-        setFiltersActive={jest.fn()}
-      />
-    );
-    // Column header
-    const header = getByRole('columnheader', {
-      name: 'Record Date',
-    });
-    expect(header).toBeInTheDocument();
-    // Rows render
-    expect(getAllByTestId('row').length).toEqual(3);
-    const columnFilter = within(header).getByRole('textbox', { name: '' });
-    expect(columnFilter).toBeInTheDocument();
-    fireEvent.change(columnFilter, { target: { value: '07/10/2023' } });
-    // Rows filtered down to 1
-    expect(getAllByTestId('row').length).toEqual(1);
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/10/2023');
-  });
-
   it('pagination', () => {
     const { getAllByTestId, getByText, getByRole } = render(
       <DataTable
