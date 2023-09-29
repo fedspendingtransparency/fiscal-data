@@ -16,32 +16,14 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
+export const columnsConstructor = (rawData: any): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels).map(([field, label]) => {
-      if (field === 'record_date') {
+      if (rawData.meta.dataTypes[field] === 'DATE') {
         return {
           accessorKey: field,
           header: label,
-          filterFn: 'equalsString',
-          cell: ({ getValue }) => {
-            return moment(getValue()).format('M/D/YYYY');
-          },
-        } as ColumnDef<string, Date>;
-      } else if (rawData.meta.dataTypes[field] === 'DATE') {
-        if (dateRangeColumns?.includes(field)) {
-          return {
-            accessorKey: field,
-            header: label,
-            filterFn: 'arrIncludesSome',
-            cell: ({ getValue }) => {
-              return moment(getValue()).format('M/D/YYYY');
-            },
-          } as ColumnDef<string, Date>;
-        }
-        return {
-          accessorKey: field,
-          header: label,
+          filterFn: 'arrIncludesSome',
           cell: ({ getValue }) => {
             return moment(getValue()).format('M/D/YYYY');
           },
@@ -111,14 +93,13 @@ export const getColumnFilter = (
   header,
   dateRangeColumns: string[],
   table,
+  type: string,
   resetFilters: boolean,
   setFiltersActive: (val: boolean) => void,
   allActiveFilters: string[],
-  setAllActiveFilters: (val: boolean) => void
+  setAllActiveFilters: (val: string[]) => void
 ) => {
-  if (header.column.getCanFilter() && header.id === 'record_date') {
-    return <SingleDateFilter column={header.column} />;
-  } else if (dateRangeColumns?.includes(header.id)) {
+  if (type === 'DATE') {
     return (
       <DateRangeFilter
         column={header.column}

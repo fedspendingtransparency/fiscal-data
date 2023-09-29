@@ -42,6 +42,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   };
 
   const dropdownRef = useRef();
+  const displayRef = useRef();
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected({
@@ -66,16 +67,24 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setActive(!active);
     }
   };
+
+  const handleEventListener = event => {
+    if (!mouseOverDropdown && event.target !== displayRef.current) {
+      setActive(false);
+    }
+  };
+
   useEffect(() => {
-    document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', () => {
-      if (!mouseOverDropdown) {
-        setActive(false);
-      }
-    });
-  }, [mouseOverDropdown]);
+    if (active) {
+      document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
+    }
+    return () => {
+      document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
+    };
+  }, [active]);
 
   const handleTextBoxBlur = e => {
-    if (e && !dropdownRef.current?.contains(e?.relatedTarget) && e?.relatedTarget?.id !== 'gatsby-focus-wrapper') {
+    if (!dropdownRef.current?.contains(e?.relatedTarget) && e?.relatedTarget?.id !== 'gatsby-focus-wrapper') {
       setActive(false);
     }
   };
@@ -115,6 +124,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           role="button"
           tabIndex={0}
           aria-label={`Open ${column.id} Filter`}
+          ref={displayRef}
         >
           <div className={dateText}>{filterDisplay}</div>
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
