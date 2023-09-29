@@ -5,7 +5,20 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc'],
-  ADDITIONAL_DATASETS: {},
+  ADDITIONAL_DATASETS: {
+    '015-BFS-2014Q3-048': {
+      seoConfig: {
+        pageTitle: 'Treasury Securities Upcoming Auctions Data',
+        description:
+          'The Treasury Securities Upcoming Auctions Data dataset provides information on auction announcements. Each announcement includes what securities are being auctioned, the announcement date, the auction date and issue date. This data provides a notification of what treasury securities will be auctioned in the upcoming week.',
+        keywords: 'Treasury Securities, Debt, Savings Bonds, Auctions',
+      },
+      topics: ['auctions', 'debt', 'savings-bonds'],
+      relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045'],
+      slug: '/upcoming_auctions/',
+      currentDateButton: 'byDay',
+    },
+  },
   ADDITIONAL_ENDPOINTS: {
     '27': {
       endpoint: 'v1/debt/mspd/mspd_table_1',
@@ -33,11 +46,7 @@ module.exports = {
           ],
         },
       ],
-      valueFieldOptions: [
-        'debt_held_public_mil_amt',
-        'intragov_hold_mil_amt',
-        'total_mil_amt',
-      ],
+      valueFieldOptions: ['debt_held_public_mil_amt', 'intragov_hold_mil_amt', 'total_mil_amt'],
     },
     '28': {
       endpoint: 'v1/debt/mspd/mspd_table_3',
@@ -123,18 +132,14 @@ module.exports = {
       downloadName: 'TB_PDO1OfferingsRegularWeeklyTreasuryBills',
     },
     '207': {
-      endpoint:
-        'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
-      downloadName:
-        'TB_PDO2OfferingsMarketableSecuritiesOtherRegularWeeklyTreasuryBills',
+      endpoint: 'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
+      downloadName: 'TB_PDO2OfferingsMarketableSecuritiesOtherRegularWeeklyTreasuryBills',
       dateField: 'record_date',
     },
     '208': {
-      endpoint:
-        'v1/accounting/tb/ofs1_distribution_federal_securities_class_investors_type_issues',
+      endpoint: 'v1/accounting/tb/ofs1_distribution_federal_securities_class_investors_type_issues',
       dateField: 'record_date',
-      downloadName:
-        'TB_OFS1DistributionFederalSecuritiesClassInvestorsTypeIssues',
+      downloadName: 'TB_OFS1DistributionFederalSecuritiesClassInvestorsTypeIssues',
       // 'Pivot View' in UI; 'Pivot View (Field)' and 'Pivot View (Name)' on form
       dataDisplays: [
         {
@@ -152,6 +157,11 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['securities_mil_amt'],
+    },
+    '262': {
+      endpoint: 'v1/accounting/od/upcoming_auctions',
+      dateField: 'record_date',
+      downloadName: 'upcoming_auctions',
     },
   },
 };
