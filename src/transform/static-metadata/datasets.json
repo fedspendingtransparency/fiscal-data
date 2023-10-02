@@ -611,7 +611,7 @@
       "015-BFS-2014Q1-14"
     ],
     "slug": "/auctions/",
-    "currentDateButton": "byMonth",
+    "currentDateButton": "byLast30Days",
     "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"],
     "dateRangeColumns": ["auction_date", "issue_date", "maturity_date"]
   },

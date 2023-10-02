@@ -70,11 +70,23 @@ export default function determineDateRange(table, preset) {
       selectionPath: 'all_years'
     };
   } else if (preset.key === 'current') {
-    const dateForCurrentDateButton = convertDate(table.latestDate);
+    const toDateForCurrentDateButton = convertDate(table.latestDate);
+    let fromDateForCurrentDateButton;
+
+    if (preset.label === "Last 30 Days") {
+      const date = new Date(table.latestDate);  
+      // 30 days including the most recent data
+      const calculatedDate = date.setDate(date.getDate() - 29);
+      const newCalculatedDate = new Date(calculatedDate);
+      fromDateForCurrentDateButton = newCalculatedDate;
+
+    } else {
+      fromDateForCurrentDateButton = toDateForCurrentDateButton;
+    }
 
     dateRangeObj = {
-      from: dateForCurrentDateButton,
-      to: dateForCurrentDateButton,
+      from: fromDateForCurrentDateButton,
+      to: toDateForCurrentDateButton,
       min: table.earliestDate,
       selectionPath: 'current_report'
     };

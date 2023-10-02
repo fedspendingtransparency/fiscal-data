@@ -510,6 +510,31 @@ describe('Current report button available', () => {
 
   });
 
+  it(`adds a preset radio button for the latest report date labeled "Last 30 Days" when
+    currentDateButton is "byLast30Days"`, async () => {
+
+    renderer.act(() => {
+      component = renderer.create(
+        <RangePresets
+          selectedTable={selectedTable}
+          setIsFiltered={setIsFilteredMock}
+          setDateRange={setDateRangeMock}
+          setIsCustomDateRange={setIsCustomDateRangeMock}
+          currentDateButton={'byLast30Days'}
+        />
+      );
+    });
+    instance = component.root;
+    jest.runAllTimers();
+
+    const radioLabel = instance.findByProps({ 'data-test-id': 'preset-label-current' });
+    expect(radioLabel.props.children).toBe('Last 30 Days');
+    const currentRadioBtn = instance.findByProps({ 'data-test-id': 'preset-radio-current' });
+    renderer.act(() => {
+      currentRadioBtn.props.onChange();
+    })
+  });
+
   it('initiates Analytics.event with correct parameters for all buttons', async () => {
     const radioBtn = instance.findByProps({ 'data-test-id': 'preset-radio-all' });
     const spy = jest.spyOn(Analytics, 'event');
