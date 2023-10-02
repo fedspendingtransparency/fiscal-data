@@ -136,7 +136,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
-      <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()}>
+      <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
         {active && (
           <div
             className={dropdown}
@@ -149,7 +149,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             onMouseLeave={() => {
               mouseOverDropdown = false;
             }}
-            onClick={e => e.stopPropagation()}
             role="presentation"
             data-testid="Date Picker Dropdown"
           >
