@@ -14,6 +14,7 @@ import * as styles from './dtg-table.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
+import Experimental from '../experimental/experimental';
 
 const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
@@ -97,6 +98,8 @@ export default function DtgTable({
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
+
+  console.log(columns);
 
   const changeTableWidth = col => {
     if (selectColumns) {
@@ -311,8 +314,7 @@ export default function DtgTable({
               <div className={noBorder ? [styles.wrapper, styles.noBorder].join(' ') : styles.wrapper}>
                 {/* Empty Data Message */}
                 {emptyDataMessage && emptyDataMessage}
-
-                {/* Table */}
+                {/*Table*/}
                 {!emptyDataMessage && !selectColumns ? (
                   <table {...tableProps.aria} style={{ width: tableWidth }}>
                     {caption !== undefined && <caption className="sr-only">{caption}</caption>}
@@ -326,26 +328,26 @@ export default function DtgTable({
                     <tbody>{rows}</tbody>
                   </table>
                 )}
-
-                {/*React Table can now be plugged in to non raw data tables using the following kind of config / call*/}
-
-                {/*{tableProps.data && (*/}
-                {/*  <DataTable*/}
-                {/*    rawData={tableProps}*/}
-                {/*    nonRawDataColumns={columns}*/}
-                {/*    defaultSelectedColumns={selectColumns}*/}
-                {/*    hideCellLinks={true}*/}
-                {/*    shouldPage={shouldPage}*/}
-                {/*    pagingProps={pagingProps}*/}
-                {/*    showPaginationControls={showPaginationControls}*/}
-                {/*    setSelectColumnPanel={setSelectColumnPanel}*/}
-                {/*    selectColumnPanel={selectColumnPanel}*/}
-                {/*    resetFilters={resetFilters}*/}
-                {/*    setResetFilters={setResetFilters}*/}
-                {/*    pageSize={pagingProps.itemsPerPage}*/}
-                {/*    dateRangeColumns={dateRangeColumns}*/}
-                {/*  />*/}
-                {/*)}*/}
+                {/*React Table can now be plugged in to non raw data tables using the following kind of config*/}
+                {tableProps.data && (
+                  <Experimental featureId={'react-table-non-raw-data'}>
+                    <DataTable
+                      rawData={tableProps}
+                      nonRawDataColumns={columns}
+                      defaultSelectedColumns={selectColumns}
+                      hideCellLinks={true}
+                      shouldPage={shouldPage}
+                      pagingProps={pagingProps}
+                      showPaginationControls={showPaginationControls}
+                      setSelectColumnPanel={setSelectColumnPanel}
+                      selectColumnPanel={selectColumnPanel}
+                      resetFilters={resetFilters}
+                      setResetFilters={setResetFilters}
+                      pageSize={pagingProps.itemsPerPage}
+                      dateRangeColumns={dateRangeColumns}
+                    />
+                  </Experimental>
+                )}
               </div>
 
               <div
