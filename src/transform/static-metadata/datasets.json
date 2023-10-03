@@ -612,8 +612,7 @@
     ],
     "slug": "/auctions/",
     "currentDateButton": "byMonth",
-    "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"],
-    "excludeColumns": ["auction_date", "issue_date", "maturity_date"]
+    "selectColumns": ["cusip", "security_type", "security_term", "auction_date", "issue_date", "maturity_date", "price_per100"]
   },
   "015-BFS-2014Q3-046": {
     "slug": "/treasury-bulletin/",

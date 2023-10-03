@@ -34,7 +34,6 @@ type DataTableProps = {
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
   excludeCols: string[];
-  // dateRangeColumns: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -108,6 +107,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  //TODO: Chart_date case
   const getSortedColumnsData = table => {
     const columns = table.getVisibleFlatColumns();
     const mapped = columns.map(column => ({
@@ -115,7 +115,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-      allColumnsSelected: table.getIsAllColumnsVisible(),
+      allColumnsSelected: excludeCols ? false : table.getIsAllColumnsVisible(),
     }));
     setTableColumnSortData(mapped);
   };
@@ -136,14 +136,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [additionalColumns, setAdditionalColumns] = useState([]);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-  if (defaultSelectedColumns || excludeCols) {
+  if (defaultSelectedColumns) {
     for (const column of allColumns) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      if (
-        (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) ||
-        (excludeCols && excludeCols?.includes(column.accessorKey))
-      ) {
+      if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         defaultInvisibleColumns[column.accessorKey] = false;
