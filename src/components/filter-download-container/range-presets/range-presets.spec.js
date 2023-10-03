@@ -529,10 +529,6 @@ describe('Current report button available', () => {
 
     const radioLabel = instance.findByProps({ 'data-test-id': 'preset-label-current' });
     expect(radioLabel.props.children).toBe('Last 30 Days');
-    const currentRadioBtn = instance.findByProps({ 'data-test-id': 'preset-radio-current' });
-    renderer.act(() => {
-      currentRadioBtn.props.onChange();
-    })
   });
 
   it('initiates Analytics.event with correct parameters for all buttons', async () => {
