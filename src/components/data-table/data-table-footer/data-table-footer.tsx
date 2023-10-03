@@ -1,7 +1,4 @@
-import {
-  rowsShowing,
-  tableFooter,
-} from '../../dtg-table/dtg-table.module.scss';
+import { rowsShowing, tableFooter } from '../../dtg-table/dtg-table.module.scss';
 import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
@@ -10,14 +7,11 @@ import { range } from '../data-table.module.scss';
 interface IDataTableFooter {
   table: Table<any>;
   showPaginationControls: boolean;
+  pagingProps;
 }
 
-const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
-  table,
-  showPaginationControls,
-}) => {
+const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
-
   useEffect(() => {
     setFilteredRowLength(table.getSortedRowModel().rows.length);
   }, [table.getSortedRowModel()]);
@@ -39,6 +33,11 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
     );
   };
 
+  const handlePerPageChange = pageSize => {
+    table.setPageSize(pageSize);
+    pagingProps?.handlePerPageChange(pageSize);
+  };
+
   return (
     <div data-test-id="table-footer" className={tableFooter}>
       <div data-test-id="rows-showing" className={rowsShowing}>
@@ -47,8 +46,8 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
       {showPaginationControls && (
         <PaginationControls
           pagingProps={{
-            itemsPerPage: table.getState().pagination.pageSize,
-            handlePerPageChange: table.setPageSize,
+            itemsPerPage: pagingProps?.itemsPerPage,
+            handlePerPageChange: x => handlePerPageChange(x),
             handleJump: x => table.setPageIndex(x - 1),
             maxPage: table.getPageCount(),
             tableName: '',

@@ -26,6 +26,7 @@ type DataTableProps = {
   hideCellLinks: boolean;
   resetFilters: boolean;
   shouldPage: boolean;
+  pagingProps;
   showPaginationControls: boolean;
   setSelectColumnPanel;
   selectColumnPanel;
@@ -40,6 +41,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
+  pagingProps,
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
@@ -203,7 +205,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} />}
+      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
     </>
   );
 };
