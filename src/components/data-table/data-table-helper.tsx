@@ -78,7 +78,7 @@ export const columnsConstructor = (rawData: any, dateRangeColumns): any => {
             return currencyFormatter.format(getValue());
           },
         } as ColumnDef<string, string>;
-      } else if (rawData.meta.dataTypes[field].includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[field].split('CURRENCY')[1])) {
+      } else if (rawData.meta.dataTypes[field]?.includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[field].split('CURRENCY')[1])) {
         const decimalPlaces = parseInt(rawData.meta.dataTypes[field].split('CURRENCY')[1]);
         return {
           accessorKey: field,

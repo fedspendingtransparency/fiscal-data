@@ -12,11 +12,10 @@ import NotShownMessage from '../dataset-data/table-section-container/not-shown-m
 
 import * as styles from './dtg-table.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
-import Experimental from '../experimental/experimental';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 
-const defaultRowsPerPage = 5;
+const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({
@@ -50,7 +49,6 @@ export default function DtgTable({
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
-  // console.log('raw data', tableProps.rawData);
 
   useEffect(() => {
     if (tableProps) {
@@ -113,6 +111,7 @@ export default function DtgTable({
   };
 
   const handlePerPageChange = numRows => {
+    console.log('numRows', numRows);
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
     setRowsShowing({
@@ -358,7 +357,7 @@ export default function DtgTable({
           selectColumnPanel={selectColumnPanel}
           resetFilters={resetFilters}
           setResetFilters={setResetFilters}
-          pageSize={10}
+          pageSize={pagingProps.itemsPerPage}
           setFiltersActive={setFiltersActive}
           dateRangeColumns={dateRangeColumns}
         />
