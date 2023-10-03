@@ -14,11 +14,12 @@ import {
 import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
-import { columnsConstructor } from './data-table-helper';
+import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   rawData;
+  nonRawDataColumns;
   defaultSelectedColumns: string[];
   setTableColumnSortData;
   hasPublishedReports: boolean;
@@ -38,6 +39,7 @@ type DataTableProps = {
 
 const DataTable: FunctionComponent<DataTableProps> = ({
   rawData,
+  nonRawDataColumns,
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
@@ -54,7 +56,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   dateRangeColumns,
 }) => {
-  const allColumns = columnsConstructor(rawData, dateRangeColumns);
+  const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, dateRangeColumns);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {
@@ -78,7 +80,17 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }
   const [columns] = useState(() => [...allColumns]);
 
-  const dataTypes = rawData.meta.dataTypes;
+  let dataTypes;
+
+  if (rawData.meta) {
+    dataTypes = rawData.meta.dataTypes;
+  } else {
+    const tempDataTypes = {};
+    columns.forEach(column => {
+      tempDataTypes[column.property] = 'STRING';
+    });
+    dataTypes = tempDataTypes;
+  }
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -108,15 +120,17 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   });
 
   const getSortedColumnsData = table => {
-    const columns = table.getVisibleFlatColumns();
-    const mapped = columns.map(column => ({
-      id: column.id,
-      sorted: column.getIsSorted(),
-      filterValue: column.getFilterValue(),
-      rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-      allColumnsSelected: table.getIsAllColumnsVisible(),
-    }));
-    setTableColumnSortData(mapped);
+    if (setTableColumnSortData) {
+      const columns = table.getVisibleFlatColumns();
+      const mapped = columns.map(column => ({
+        id: column.id,
+        sorted: column.getIsSorted(),
+        filterValue: column.getFilterValue(),
+        rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
+        allColumnsSelected: table.getIsAllColumnsVisible(),
+      }));
+      setTableColumnSortData(mapped);
+    }
   };
 
   useEffect(() => {

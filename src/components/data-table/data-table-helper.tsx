@@ -2,7 +2,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
-import SingleDateFilter from './data-table-header/single-date-filter/single-date-filter';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 
@@ -16,7 +15,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any): any => {
+export const columnsConstructorData = (rawData: any): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels).map(([field, label]) => {
       if (rawData.meta.dataTypes[field] === 'DATE') {
@@ -87,6 +86,12 @@ export const columnsConstructor = (rawData: any): any => {
   } else {
     return [];
   }
+};
+
+export const columnsConstructorGeneric = (columns: any): any => {
+  return Object.entries(columns).map(([property, name]) => {
+    return { accessorKey: name.property, header: name.name } as ColumnDef<string, string>;
+  });
 };
 
 export const getColumnFilter = (

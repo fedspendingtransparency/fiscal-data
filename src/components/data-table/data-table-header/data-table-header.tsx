@@ -14,7 +14,7 @@ import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { rightAlign, SingleDateFilter, Filter, getColumnFilter } from '../data-table-helper';
+import { rightAlign, getColumnFilter } from '../data-table-helper';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
@@ -61,7 +61,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
   };
 
   useEffect(() => {
-    setFiltersActive(allActiveFilters.length > 0);
+    if (setFiltersActive) {
+      setFiltersActive(allActiveFilters.length > 0);
+    }
   }, [allActiveFilters]);
 
   return (
