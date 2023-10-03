@@ -174,7 +174,6 @@ module.exports = {
       endpoint: 'v1/accounting/od/upcoming_auctions',
       dateField: 'record_date',
       downloadName: 'upcoming_auctions',
-      alwaysSortWith: ['security_type', '-announcemt_date', '-auction_date', '-issue_date'],
     },
     '263': {
       endpoint: 'v1/accounting/od/frn_daily_indexes',
