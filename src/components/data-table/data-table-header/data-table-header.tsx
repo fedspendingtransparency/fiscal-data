@@ -24,10 +24,10 @@ interface IDataTableHeader {
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;
-  dateRangeColumns: string[];
+  // dateRangeColumns: string[];
 }
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive, dateRangeColumns }) => {
+const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive }) => {
   const [allActiveFilters, setAllActiveFilters] = useState([]);
 
   const LightTooltip = withStyles(() => ({
@@ -129,7 +129,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                       <div className={columnMinWidth}>
                         {getColumnFilter(
                           header,
-                          dateRangeColumns,
+                          // dateRangeColumns,
                           table,
                           dataTypes[header.id],
                           resetFilters,

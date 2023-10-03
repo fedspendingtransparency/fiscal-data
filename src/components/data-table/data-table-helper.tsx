@@ -91,7 +91,7 @@ export const columnsConstructor = (rawData: any): any => {
 
 export const getColumnFilter = (
   header,
-  dateRangeColumns: string[],
+  // dateRangeColumns: string[],
   table,
   type: string,
   resetFilters: boolean,

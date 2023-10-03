@@ -32,7 +32,8 @@ type DataTableProps = {
   setResetFilters: (value: boolean) => void;
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
-  dateRangeColumns: string[];
+  excludeCols: string[];
+  // dateRangeColumns: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -50,9 +51,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideCellLinks,
   pageSize,
   setFiltersActive,
-  dateRangeColumns,
+  excludeCols,
 }) => {
-  const allColumns = columnsConstructor(rawData, dateRangeColumns);
+  const allColumns = columnsConstructor(rawData);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {
@@ -133,14 +134,32 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [additionalColumns, setAdditionalColumns] = useState([]);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-  if (defaultSelectedColumns) {
+  if (defaultSelectedColumns || excludeCols) {
     for (const column of allColumns) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      if (!defaultSelectedColumns.includes(column.accessorKey)) {
+      if (
+        (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) ||
+        (excludeCols && excludeCols?.includes(column.accessorKey))
+      ) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         defaultInvisibleColumns[column.accessorKey] = false;
+      }
+    }
+    console.log('inv****', defaultInvisibleColumns);
+  }
+
+  console.log(excludeCols);
+  if (excludeCols) {
+    for (const column of allColumns) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (excludeCols.includes(column.accessorKey)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // defaultInvisibleColumns[column.accessorKey] = false;
+        console.log(column.accessorKey);
       }
     }
   }
@@ -163,7 +182,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   };
 
   useEffect(() => {
-    if (defaultSelectedColumns) {
+    if (defaultSelectedColumns || excludeCols) {
       constructDefaultColumnsFromTableData();
     }
   }, []);
@@ -176,13 +195,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader
-                    table={table}
-                    dataTypes={dataTypes}
-                    resetFilters={resetFilters}
-                    setFiltersActive={setFiltersActive}
-                    dateRangeColumns={dateRangeColumns}
-                  />
+                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>
