@@ -16,74 +16,78 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any): any => {
+export const columnsConstructor = (rawData: any, excludeCols: string[]): any => {
   if (rawData.meta) {
-    return Object.entries(rawData.meta.labels).map(([field, label]) => {
-      if (rawData.meta.dataTypes[field] === 'DATE') {
-        return {
-          accessorKey: field,
-          header: label,
-          filterFn: 'arrIncludesSome',
-          cell: ({ getValue }) => {
-            return moment(getValue()).format('M/D/YYYY');
-          },
-        } as ColumnDef<string, Date>;
-      } else if (rawData.meta.dataTypes[field] === 'NUMBER') {
-        return {
-          accessorKey: field,
-          header: label,
-          cell: ({ getValue }) => {
-            return numberFormatter.format(getValue());
-          },
-        } as ColumnDef<string, number>;
-      } else if (rawData.meta.dataTypes[field] === 'PERCENTAGE') {
-        return {
-          accessorKey: field,
-          header: label,
-          cell: ({ getValue }) => {
-            return `${getValue()}%`;
-          },
-        } as ColumnDef<string, string>;
-      } else if (rawData.meta.dataTypes[field] === 'SMALL_FRACTION') {
-        return {
-          accessorKey: field,
-          header: label,
-          cell: ({ getValue }) => {
-            return new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(getValue());
-          },
-        } as ColumnDef<string, number>;
-      } else if (rawData.meta.dataTypes[field] === 'CURRENCY') {
-        return {
-          accessorKey: field,
-          header: label,
-          cell: ({ getValue }) => {
-            return currencyFormatter.format(getValue());
-          },
-        } as ColumnDef<string, string>;
-      } else if (rawData.meta.dataTypes[field]?.includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[field].split('CURRENCY')[1])) {
-        const decimalPlaces = parseInt(rawData.meta.dataTypes[field].split('CURRENCY')[1]);
-        return {
-          accessorKey: field,
-          header: label,
-          cell: ({ getValue }) => {
-            return customFormat(getValue(), decimalPlaces);
-          },
-        } as ColumnDef<string, string>;
-      } else if (rawData.meta.dataTypes[field] === 'STRING') {
-        return {
-          accessorKey: field,
-          header: label,
-          cell: ({ getValue }) => {
-            if (getValue().includes('%')) {
-              return getValue().replace(/-/g, '\u2011');
-            } else {
-              return getValue();
-            }
-          },
-        } as ColumnDef<string, string>;
-      }
-      return { accessorKey: field, header: label } as ColumnDef<string, string>;
-    });
+    return Object.entries(rawData.meta.labels)
+      .filter(x => !excludeCols?.includes(x[0]))
+      .map(([field, label]) => {
+        if (!excludeCols?.includes(field)) {
+          if (rawData.meta.dataTypes[field] === 'DATE') {
+            return {
+              accessorKey: field,
+              header: label,
+              filterFn: 'arrIncludesSome',
+              cell: ({ getValue }) => {
+                return moment(getValue()).format('M/D/YYYY');
+              },
+            } as ColumnDef<string, Date>;
+          } else if (rawData.meta.dataTypes[field] === 'NUMBER') {
+            return {
+              accessorKey: field,
+              header: label,
+              cell: ({ getValue }) => {
+                return numberFormatter.format(getValue());
+              },
+            } as ColumnDef<string, number>;
+          } else if (rawData.meta.dataTypes[field] === 'PERCENTAGE') {
+            return {
+              accessorKey: field,
+              header: label,
+              cell: ({ getValue }) => {
+                return `${getValue()}%`;
+              },
+            } as ColumnDef<string, string>;
+          } else if (rawData.meta.dataTypes[field] === 'SMALL_FRACTION') {
+            return {
+              accessorKey: field,
+              header: label,
+              cell: ({ getValue }) => {
+                return new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(getValue());
+              },
+            } as ColumnDef<string, number>;
+          } else if (rawData.meta.dataTypes[field] === 'CURRENCY') {
+            return {
+              accessorKey: field,
+              header: label,
+              cell: ({ getValue }) => {
+                return currencyFormatter.format(getValue());
+              },
+            } as ColumnDef<string, string>;
+          } else if (rawData.meta.dataTypes[field]?.includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[field].split('CURRENCY')[1])) {
+            const decimalPlaces = parseInt(rawData.meta.dataTypes[field].split('CURRENCY')[1]);
+            return {
+              accessorKey: field,
+              header: label,
+              cell: ({ getValue }) => {
+                return customFormat(getValue(), decimalPlaces);
+              },
+            } as ColumnDef<string, string>;
+          } else if (rawData.meta.dataTypes[field] === 'STRING') {
+            return {
+              accessorKey: field,
+              header: label,
+              cell: ({ getValue }) => {
+                if (getValue().includes('%')) {
+                  return getValue().replace(/-/g, '\u2011');
+                } else {
+                  return getValue();
+                }
+              },
+            } as ColumnDef<string, string>;
+          }
+          return { accessorKey: field, header: label } as ColumnDef<string, string>;
+        }
+      });
   } else {
     return [];
   }

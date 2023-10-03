@@ -55,7 +55,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   excludeCols,
 }) => {
-  const allColumns = columnsConstructor(rawData);
+  const allColumns = columnsConstructor(rawData, excludeCols);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {
@@ -149,21 +149,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         defaultInvisibleColumns[column.accessorKey] = false;
       }
     }
-    console.log('inv****', defaultInvisibleColumns);
-  }
-
-  console.log(excludeCols);
-  if (excludeCols) {
-    for (const column of allColumns) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      if (excludeCols.includes(column.accessorKey)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // defaultInvisibleColumns[column.accessorKey] = false;
-        console.log(column.accessorKey);
-      }
-    }
   }
 
   const constructDefaultColumnsFromTableData = () => {
@@ -184,7 +169,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   };
 
   useEffect(() => {
-    if (defaultSelectedColumns || excludeCols) {
+    if (defaultSelectedColumns) {
       constructDefaultColumnsFromTableData();
     }
   }, []);

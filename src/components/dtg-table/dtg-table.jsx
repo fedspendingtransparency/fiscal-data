@@ -99,7 +99,6 @@ export default function DtgTable({
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
-  console.log(columns);
   const changeTableWidth = col => {
     if (selectColumns) {
       const colCount = col ? col.length : 0;
@@ -110,7 +109,6 @@ export default function DtgTable({
   };
 
   const handlePerPageChange = numRows => {
-    console.log('numRows', numRows);
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
     setRowsShowing({
