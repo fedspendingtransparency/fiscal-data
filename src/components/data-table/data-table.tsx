@@ -107,7 +107,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  //TODO: Chart_date case
   const getSortedColumnsData = table => {
     const columns = table.getVisibleFlatColumns();
     const mapped = columns.map(column => ({
