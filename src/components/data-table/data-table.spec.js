@@ -284,13 +284,35 @@ describe('react-table', () => {
       />
     );
 
-    allColLabels.forEach(index => {
-      expect(instance.getAllByRole('columnheader', { name: allColLabels[index] })[0]).toBeInTheDocument();
+    allColLabels.forEach(label => {
+      expect(instance.getAllByRole('columnheader', { name: label })[0]).toBeInTheDocument();
     });
   });
 
+  it('hides specified columns', () => {
+    const { getAllByRole, queryByRole } = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={null}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+        hideColumns={['src_line_nbr']}
+      />
+    );
+    const hiddenCol = 'Source Line Number';
+    expect(queryByRole('columnheader', { name: hiddenCol })).not.toBeInTheDocument();
+    allColLabels
+      .filter(x => x !== hiddenCol)
+      .forEach(label => {
+        expect(getAllByRole('columnheader', { name: label })[0]).toBeInTheDocument();
+      });
+  });
+
   it('initially renders only default columns showing when defaults specified', () => {
-    const instance = render(
+    const { getAllByRole, queryAllByRole } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultSelectedColumnsMock}
@@ -304,17 +326,17 @@ describe('react-table', () => {
 
     // default col in table
     defaultColLabels.forEach(index => {
-      expect(instance.getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
+      expect(getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
     });
 
     // additional col not in table
-    expect(instance.queryAllByRole('columnheader').length).toEqual(3);
+    expect(queryAllByRole('columnheader').length).toEqual(3);
     additionalColLabels.forEach(index => {
-      expect(instance.queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
+      expect(queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
     });
   });
   it('formats PERCENTAGE types correctly', () => {
-    const instance = render(
+    const { getAllByTestId } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
@@ -325,10 +347,10 @@ describe('react-table', () => {
         setFiltersActive={jest.fn()}
       />
     );
-    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('4%');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('4%');
   });
   it('formats SMALL_FRACTION types correctly', () => {
-    const instance = render(
+    const { getAllByTestId } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
@@ -339,10 +361,10 @@ describe('react-table', () => {
         setFiltersActive={jest.fn()}
       />
     );
-    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('0.00067898');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('0.00067898');
   });
   it('formats STRING types that are percentage values correctly', () => {
-    const instance = render(
+    const { getAllByTestId } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
@@ -353,10 +375,11 @@ describe('react-table', () => {
         setFiltersActive={jest.fn()}
       />
     );
-    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('45%');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('45%');
   });
+
   it('formats CURRENCY3 types correctly', () => {
-    const instance = render(
+    const { getAllByTestId } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
@@ -367,10 +390,10 @@ describe('react-table', () => {
         setFiltersActive={jest.fn()}
       />
     );
-    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('$6,884,574,686,385.150');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('$6,884,574,686,385.150');
   });
   it('formats negative CURRENCY3 types correctly', () => {
-    const instance = render(
+    const { getAllByTestId } = render(
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
@@ -381,6 +404,6 @@ describe('react-table', () => {
         setFiltersActive={jest.fn()}
       />
     );
-    expect(instance.getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
   });
 });
