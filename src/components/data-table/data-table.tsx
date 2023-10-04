@@ -33,7 +33,7 @@ type DataTableProps = {
   setResetFilters: (value: boolean) => void;
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
-  hideColumns: string[];
+  hideColumns?: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
