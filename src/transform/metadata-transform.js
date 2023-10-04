@@ -110,7 +110,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.customRangePreset = mappedDataset && mappedDataset.customRangePreset ? mappedDataset.customRangePreset : null;
       dataset.bannerCallout = mappedDataset && mappedDataset.bannerCallout ? mappedDataset.bannerCallout : null;
       dataset.selectColumns = mappedDataset && mappedDataset.selectColumns ? mappedDataset.selectColumns : null;
-      dataset.dateRangeColumns = mappedDataset && mappedDataset.dateRangeColumns ? mappedDataset.dateRangeColumns : null;
+      dataset.hideColumns = mappedDataset && mappedDataset.hideColumns ? mappedDataset.hideColumns : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {

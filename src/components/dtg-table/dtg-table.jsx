@@ -44,7 +44,7 @@ export default function DtgTable({
     columnConfig,
     caption,
     selectColumns,
-    dateRangeColumns,
+    hideColumns,
     hasPublishedReports,
     publishedReports,
   } = tableProps;
@@ -98,8 +98,6 @@ export default function DtgTable({
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
-
-  console.log(columns);
 
   const changeTableWidth = col => {
     if (selectColumns) {
@@ -288,7 +286,7 @@ export default function DtgTable({
           setResetFilters={setResetFilters}
           pageSize={pagingProps.itemsPerPage}
           setFiltersActive={setFiltersActive}
-          dateRangeColumns={dateRangeColumns}
+          hideColumns={hideColumns}
         />
       ) : (
         <>
@@ -344,7 +342,7 @@ export default function DtgTable({
                       resetFilters={resetFilters}
                       setResetFilters={setResetFilters}
                       pageSize={pagingProps.itemsPerPage}
-                      dateRangeColumns={dateRangeColumns}
+                      hideColumns={hideColumns}
                     />
                   </Experimental>
                 )}
