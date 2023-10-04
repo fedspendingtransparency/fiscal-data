@@ -14,7 +14,7 @@ import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft, faArrowUpShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { rightAlign, SingleDateFilter, Filter, getColumnFilter } from '../data-table-helper';
+import { rightAlign, getColumnFilter } from '../data-table-helper';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
@@ -24,10 +24,9 @@ interface IDataTableHeader {
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;
-  dateRangeColumns: string[];
 }
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive, dateRangeColumns }) => {
+const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive }) => {
   const [allActiveFilters, setAllActiveFilters] = useState([]);
 
   const LightTooltip = withStyles(() => ({
@@ -127,16 +126,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                       <div className={columnMinWidth}>
-                        {getColumnFilter(
-                          header,
-                          dateRangeColumns,
-                          table,
-                          dataTypes[header.id],
-                          resetFilters,
-                          setFiltersActive,
-                          allActiveFilters,
-                          setAllActiveFilters
-                        )}
+                        {getColumnFilter(header, dataTypes[header.id], resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters)}
                       </div>
                     </>
                   )}

@@ -33,7 +33,7 @@ type DataTableProps = {
   setResetFilters: (value: boolean) => void;
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
-  dateRangeColumns: string[];
+  hideColumns?: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -52,9 +52,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideCellLinks,
   pageSize,
   setFiltersActive,
-  dateRangeColumns,
+  hideColumns,
 }) => {
-  const allColumns = columnsConstructor(rawData, dateRangeColumns);
+  const allColumns = columnsConstructor(rawData, hideColumns);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {
@@ -114,7 +114,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-      allColumnsSelected: table.getIsAllColumnsVisible(),
+      allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
     }));
     setTableColumnSortData(mapped);
   };
@@ -139,7 +139,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     for (const column of allColumns) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      if (!defaultSelectedColumns.includes(column.accessorKey)) {
+      if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         defaultInvisibleColumns[column.accessorKey] = false;
@@ -178,13 +178,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader
-                    table={table}
-                    dataTypes={dataTypes}
-                    resetFilters={resetFilters}
-                    setFiltersActive={setFiltersActive}
-                    dateRangeColumns={dateRangeColumns}
-                  />
+                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>
