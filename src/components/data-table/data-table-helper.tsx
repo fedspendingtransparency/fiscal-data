@@ -2,7 +2,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
-import SingleDateFilter from './data-table-header/single-date-filter/single-date-filter';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
 
@@ -16,12 +15,12 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any, excludeCols: string[]): any => {
+export const columnsConstructor = (rawData: any, hideColumns: string[]): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels)
-      .filter(x => !excludeCols?.includes(x[0]))
+      .filter(x => !hideColumns?.includes(x[0]))
       .map(([field, label]) => {
-        if (!excludeCols?.includes(field)) {
+        if (!hideColumns?.includes(field)) {
           if (rawData.meta.dataTypes[field] === 'DATE') {
             return {
               accessorKey: field,
@@ -93,16 +92,14 @@ export const columnsConstructor = (rawData: any, excludeCols: string[]): any => 
   }
 };
 
-export const getColumnFilter = (
+export const getColumnFilter: (
   header,
-  // dateRangeColumns: string[],
-  table,
   type: string,
   resetFilters: boolean,
   setFiltersActive: (val: boolean) => void,
   allActiveFilters: string[],
   setAllActiveFilters: (val: string[]) => void
-) => {
+) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters) => {
   if (type === 'DATE') {
     return (
       <DateRangeFilter

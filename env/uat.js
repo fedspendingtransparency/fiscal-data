@@ -17,7 +17,7 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045'],
       slug: '/upcoming_auctions/',
       currentDateButton: 'byDay',
-      excludeColumns: [
+      hideColumns: [
         'record_date',
         'src_line_nbr',
         'record_fiscal_year',

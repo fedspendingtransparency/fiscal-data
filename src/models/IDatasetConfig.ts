@@ -8,7 +8,7 @@ export interface IDatasetConfig {
   customRangePreset: string | null;
   bannerCallout: Record<string, string> | null;
   selectColumns: string[] | null;
-  excludeColumns: string[] | null;
+  hideColumns: string[] | null;
   dataFormats: string[] | Record<string, unknown>[];
   dataStartYear: string;
   datasetId: string;

@@ -33,7 +33,7 @@ type DataTableProps = {
   setResetFilters: (value: boolean) => void;
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
-  excludeCols: string[];
+  hideColumns: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -52,9 +52,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideCellLinks,
   pageSize,
   setFiltersActive,
-  excludeCols,
+  hideColumns,
 }) => {
-  const allColumns = columnsConstructor(rawData, excludeCols);
+  const allColumns = columnsConstructor(rawData, hideColumns);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {
@@ -115,7 +115,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-      allColumnsSelected: excludeCols ? false : table.getIsAllColumnsVisible(),
+      allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
     }));
     setTableColumnSortData(mapped);
   };

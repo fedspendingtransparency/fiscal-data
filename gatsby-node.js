@@ -351,7 +351,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       seoConfig: SEOConfig,
       customRangePreset: String,
       selectColumns: [String],
-      excludeColumns: [String]
+      hideColumns: [String]
     }
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
@@ -406,7 +406,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             endDate
           }
           selectColumns
-          excludeColumns
+          hideColumns
           relatedTopics
           filterTopics
           publisher

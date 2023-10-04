@@ -43,6 +43,7 @@ export default function DtgTable({
     columnConfig,
     caption,
     selectColumns,
+    hideColumns,
     hasPublishedReports,
     publishedReports,
   } = tableProps;
@@ -356,7 +357,7 @@ export default function DtgTable({
           setResetFilters={setResetFilters}
           pageSize={pagingProps.itemsPerPage}
           setFiltersActive={setFiltersActive}
-          excludeCols={excludeCols}
+          hideColumns={hideColumns}
         />
       ) : (
         <>
