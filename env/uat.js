@@ -39,6 +39,16 @@ module.exports = {
       topics: ['auctions', 'debt', 'savings-bonds'],
       relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045', '015-BFS-2014Q3-048'],
       currentDateButton: 'byDay',
+      hideColumns: [
+        'record_date',
+        'src_line_nbr',
+        'record_fiscal_year',
+        'record_fiscal_quarter',
+        'record_calendar_year',
+        'record_calendar_quarter',
+        'record_calendar_month',
+        'record_calendar_day',
+      ],
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -190,6 +200,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/frn_daily_indexes',
       dateField: 'record_date',
       downloadName: 'frn_daily_indexes',
+      alwaysSortWith: ['cusip', 'start_of_accrual_period'],
     },
   },
 };
