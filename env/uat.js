@@ -17,6 +17,16 @@ module.exports = {
       relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045'],
       slug: '/upcoming_auctions/',
       currentDateButton: 'byDay',
+      hideColumns: [
+        'record_date',
+        'src_line_nbr',
+        'record_fiscal_year',
+        'record_fiscal_quarter',
+        'record_calendar_year',
+        'record_calendar_quarter',
+        'record_calendar_month',
+        'record_calendar_day',
+      ],
     },
     '015-BFS-2014Q3-049': {
       slug: '/frn_daily_indexes/',
@@ -174,6 +184,7 @@ module.exports = {
       endpoint: 'v1/accounting/od/upcoming_auctions',
       dateField: 'record_date',
       downloadName: 'upcoming_auctions',
+      alwaysSortWith: ['security_type', '-announcemt_date', '-auction_date', '-issue_date'],
     },
     '263': {
       endpoint: 'v1/accounting/od/frn_daily_indexes',

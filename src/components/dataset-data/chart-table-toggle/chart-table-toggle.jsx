@@ -160,11 +160,7 @@ const ChartTableToggle = ({
           )}
         </AntTabs>
       </div>
-      {selectedTab === 0 && (
-        <Experimental featureId="react-table-poc">
-          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} />
-        </Experimental>
-      )}
+      {selectedTab === 0 && <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} />}
       <TabPanel index={0} value={tabState}>
         {emptyDataMessage ? emptyDataMessage : table}
       </TabPanel>

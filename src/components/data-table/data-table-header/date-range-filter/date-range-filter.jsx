@@ -27,6 +27,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [filterDisplay, setFilterDisplay] = useState('');
   const [active, setActive] = useState(false);
 
+  const dropdownRef = useRef();
+  const displayRef = useRef();
+
   const onFilterChange = val => {
     setFilterDisplay(val);
     if (val) {
@@ -41,8 +44,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  const dropdownRef = useRef();
-  const displayRef = useRef();
+  const getDaysArray = (start, end) => {
+    const arr = [];
+    for (let dt = convertDate(start); dt <= convertDate(end); dt.setDate(dt.getDate() + 1)) {
+      arr.push(moment(new Date(dt)).format('YYYY-MM-DD'));
+    }
+    return arr;
+  };
+
   const todayOnClick = e => {
     if (!e.key || e.key === 'Enter') {
       setSelected({
@@ -68,12 +77,23 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     }
   };
 
-  const handleEventListener = event => {
-    if (!mouseOverDropdown && event.target !== displayRef.current) {
+  const handleTextBoxBlur = e => {
+    if (
+      !dropdownRef.current?.contains(e?.relatedTarget) &&
+      e?.relatedTarget?.id !== 'gatsby-focus-wrapper' &&
+      e.relatedTarget !== displayRef.current
+    ) {
       setActive(false);
     }
   };
 
+  const handleEventListener = e => {
+    if (!mouseOverDropdown && !displayRef.current?.contains(e?.target)) {
+      setActive(false);
+    }
+  };
+
+  // used to close dropdown when clicking outside
   useEffect(() => {
     if (active) {
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
@@ -82,20 +102,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
     };
   }, [active]);
-
-  const handleTextBoxBlur = e => {
-    if (!dropdownRef.current?.contains(e?.relatedTarget) && e?.relatedTarget?.id !== 'gatsby-focus-wrapper') {
-      setActive(false);
-    }
-  };
-
-  const getDaysArray = (start, end) => {
-    const arr = [];
-    for (let dt = convertDate(start); dt <= convertDate(end); dt.setDate(dt.getDate() + 1)) {
-      arr.push(moment(new Date(dt)).format('YYYY-MM-DD'));
-    }
-    return arr;
-  };
 
   useEffect(() => {
     if (selected?.from && selected?.to) {
@@ -115,7 +121,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   }, [resetFilters]);
 
   return (
-    <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()}>
+    <>
       <div className={active ? glow : null}>
         <div
           className={dateEntryBox}
@@ -130,44 +136,45 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
-      {active && (
-        <div
-          className={dropdown}
-          onMouseOver={() => {
-            mouseOverDropdown = true;
-          }}
-          onFocus={() => {
-            mouseOverDropdown = true;
-          }}
-          onMouseLeave={() => {
-            mouseOverDropdown = false;
-          }}
-          onClick={e => e.stopPropagation()}
-          role="presentation"
-          data-testid="Date Picker Dropdown"
-        >
-          <div className={datePickerContainer}>
-            <DayPicker
-              mode="range"
-              selected={selected}
-              onSelect={setSelected}
-              modifiersClassNames={{ selected: datePickerSelected, focus: datePickerHover }}
-              fromYear={1900}
-              toYear={2099}
-              captionLayout="dropdown-buttons"
-            />
-          </div>
-          <div className={buttonContainer}>
-            <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">
-              Today
+      <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
+        {active && (
+          <div
+            className={dropdown}
+            onMouseOver={() => {
+              mouseOverDropdown = true;
+            }}
+            onFocus={() => {
+              mouseOverDropdown = true;
+            }}
+            onMouseLeave={() => {
+              mouseOverDropdown = false;
+            }}
+            role="presentation"
+            data-testid="Date Picker Dropdown"
+          >
+            <div className={datePickerContainer}>
+              <DayPicker
+                mode="range"
+                selected={selected}
+                onSelect={setSelected}
+                modifiersClassNames={{ selected: datePickerSelected, focus: datePickerHover }}
+                fromYear={1900}
+                toYear={2099}
+                captionLayout="dropdown-buttons"
+              />
             </div>
-            <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">
-              Clear
+            <div className={buttonContainer}>
+              <div role="button" onClick={todayOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Today">
+                Today
+              </div>
+              <div role="button" onClick={clearOnClick} onKeyDown={e => clearOnClick(e)} tabIndex={0} className={datePickerButton} aria-label="Clear">
+                Clear
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
