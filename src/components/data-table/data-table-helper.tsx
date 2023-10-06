@@ -31,6 +31,7 @@ export const columnsConstructor = (rawData: any, hideColumns: string[], tableNam
               },
             } as ColumnDef<string, Date>;
           } else if (rawData.meta.dataTypes[field] === 'NUMBER') {
+
             return {
               accessorKey: field,
               header: label,
@@ -39,7 +40,7 @@ export const columnsConstructor = (rawData: any, hideColumns: string[], tableNam
                 let formattedValue;
 
                 if (tableName === 'FRN Daily Indexes' && (field === 'daily_index' || field === 'daily_int_accrual_rate' || field === 'spread')) {
-                  formattedValue = value;
+                  formattedValue = value ? value : '';
                 } else {
                   formattedValue = numberFormatter.format(value);
                 }

@@ -21,6 +21,9 @@ const mockTableData = {
       mock_small_fraction: '0.00067898',
       mock_percent: '4',
       negative_currency: '-134.1',
+      daily_index: '0.111111111',
+      daily_int_accrual_rate: '0.222222222',
+      spread: '-0.120',
     },
     {
       record_date: '2023-07-11',
@@ -73,6 +76,9 @@ const mockTableData = {
       mock_percent_string: 'Mock Percent String',
       mock_percent: 'Mock Percent',
       negative_currency: 'Negative Currency',
+      daily_index: 'Daily Index',
+      daily_int_accrual_rate: 'Daily Accrual Rate',
+      spread: 'Spread',
     },
     dataTypes: {
       record_date: 'DATE',
@@ -90,6 +96,9 @@ const mockTableData = {
       mock_percent_string: 'STRING',
       mock_percent: 'PERCENTAGE',
       negative_currency: 'CURRENCY3',
+      daily_index: 'NUMBER',
+      daily_int_accrual_rate: 'NUMBER',
+      spread: 'NUMBER',
     },
     dataFormats: {
       record_date: 'YYYY-MM-DD',
@@ -117,7 +126,7 @@ const defaultColumnsTypeCheckMock = [
   'mock_small_fraction',
   'mock_percent',
   'mock_percent_string',
-  'negative_currency',
+  'negative_currency'
 ];
 const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
 const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));
@@ -405,5 +414,24 @@ describe('react-table', () => {
       />
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
+  });
+
+  it('formats FRN Daily Index number values correctly', () => {
+    const { getAllByTestId } = render(
+      <DataTable
+        rawData={mockTableData}
+        defaultSelectedColumns={null}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+        tableName="FRN Daily Indexes"
+      />
+    );
+
+    expect(getAllByTestId('row')[0].innerHTML).toContain('0.111111111');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('0.222222222');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120');
   });
 });
