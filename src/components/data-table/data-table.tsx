@@ -26,14 +26,13 @@ type DataTableProps = {
   hideCellLinks: boolean;
   resetFilters: boolean;
   shouldPage: boolean;
-  pagingProps;
   showPaginationControls: boolean;
   setSelectColumnPanel;
   selectColumnPanel;
   setResetFilters: (value: boolean) => void;
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
-  hideColumns?: string[];
+  dateRangeColumns: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -41,7 +40,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
-  pagingProps,
   showPaginationControls,
   publishedReports,
   hasPublishedReports,
@@ -52,12 +50,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideCellLinks,
   pageSize,
   setFiltersActive,
-  hideColumns,
+  dateRangeColumns,
 }) => {
-  const allColumns = columnsConstructor(rawData, hideColumns);
+  const allColumns = columnsConstructor(rawData, dateRangeColumns);
   const data = rawData.data;
-
-
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -115,7 +111,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-      allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
+      allColumnsSelected: table.getIsAllColumnsVisible(),
     }));
     setTableColumnSortData(mapped);
   };
@@ -140,7 +136,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     for (const column of allColumns) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
+      if (!defaultSelectedColumns.includes(column.accessorKey)) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         defaultInvisibleColumns[column.accessorKey] = false;
@@ -170,7 +166,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       constructDefaultColumnsFromTableData();
     }
   }, []);
-  const dataTableRef = useRef(null);
+  const dataTableRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (defaultSelectedColumns) {
       dataTableRef.current?.focus();
@@ -179,13 +175,19 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   return (
     <>
-      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+      <div 
+        data-test-id="table-content" 
+        className={overlayContainerNoFooter}
+      >
         <div className={selectColumnsWrapper}>
-          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+          <div 
+            className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} 
+            data-testid="selectColumnsMainContainer"
+
+          >
               {defaultSelectedColumns && (
                 <DataTableColumnSelector
                   dataTableRef={dataTableRef}
-                  dataOnBlur={dataTableRef.current?.focus()}
                   fields={allColumns}
                   resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
                   setSelectColumnPanel={setSelectColumnPanel}
@@ -200,7 +202,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
+                  <DataTableHeader
+                    table={table}
+                    dataTypes={dataTypes}
+                    resetFilters={resetFilters}
+                    setFiltersActive={setFiltersActive}
+                    dateRangeColumns={dateRangeColumns}
+                  />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>
@@ -208,7 +216,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
+      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} />}
     </>
   );
 };

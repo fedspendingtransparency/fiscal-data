@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   closePanelIcon,
   closeButton,
@@ -36,8 +36,6 @@ const DataTableColumnSelector = ({
   defaultColumns,
   additionalColumns,
   dataTableRef,
-  dataOnBlur
-
 }) => {
 
   const CheckBoxList = columnList => (
@@ -64,18 +62,27 @@ const DataTableColumnSelector = ({
       })}
     </>
   );
+  const dataTableRef1 = useRef(null);
+  useEffect(() => {
+    setTimeout(() => {
+      if (defaultSelectedColumns) {
+        dataTableRef1.current?.focus();
+      }
+    }, 0)
+
+  }, [dataTableRef1]);
 
   return (
     <section 
       className={columnSelectContainer} 
-      ref={dataTableRef}
-      onBlur={dataOnBlur}
-      role='presentation'
     >
       <div className={headingWrapper}>
         <div className={heading}>
           <div className={title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
           <button
+            onBlur={() => dataTableRef1.current?.focus()}
+            ref={dataTableRef1}
+            tabIndex={0}
             onClick={() => setSelectColumnPanel(false)}
             onKeyDown={(e) => {
               if(e.key === 'Enter'){
