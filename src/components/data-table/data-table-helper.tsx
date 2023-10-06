@@ -21,6 +21,13 @@ export const columnsConstructor = (rawData: any, hideColumns: string[]): any => 
       .filter(x => !hideColumns?.includes(x[0]))
       .map(([field, label]) => {
         if (!hideColumns?.includes(field)) {
+          if (field === 'cusip') {
+            return {
+              accessorKey: field,
+              header: label,
+              sortingFn: 'basic',
+            } as ColumnDef<string, Date>;
+          }
           if (rawData.meta.dataTypes[field] === 'DATE') {
             return {
               accessorKey: field,
