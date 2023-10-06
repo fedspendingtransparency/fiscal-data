@@ -15,7 +15,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any, hideColumns: string[]): any => {
+export const columnsConstructor = (rawData: any, hideColumns: string[], tableName: string): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels)
       .filter(x => !hideColumns?.includes(x[0]))
@@ -35,7 +35,16 @@ export const columnsConstructor = (rawData: any, hideColumns: string[]): any => 
               accessorKey: field,
               header: label,
               cell: ({ getValue }) => {
-                return numberFormatter.format(getValue());
+                const value = getValue();
+                let formattedValue;
+
+                if (tableName === 'FRN Daily Indexes' && (field === 'daily_index' || field === 'daily_int_accrual_rate' || field === 'spread')) {
+                  formattedValue = value;
+                } else {
+                  formattedValue = numberFormatter.format(value);
+                }
+
+                return formattedValue;
               },
             } as ColumnDef<string, number>;
           } else if (rawData.meta.dataTypes[field] === 'PERCENTAGE') {

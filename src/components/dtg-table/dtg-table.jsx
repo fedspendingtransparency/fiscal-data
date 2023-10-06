@@ -358,6 +358,7 @@ export default function DtgTable({
           pageSize={pagingProps.itemsPerPage}
           setFiltersActive={setFiltersActive}
           hideColumns={hideColumns}
+          tableName={tableName}
         />
       ) : (
         <>
