@@ -83,7 +83,6 @@ const DataTableColumnSelector = ({
               }
             }
             className={closeButton}
-
             aria-label="Close select control panel"
           >
             <FontAwesomeIcon icon={faXmark} className={closePanelIcon} />

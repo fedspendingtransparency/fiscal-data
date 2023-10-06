@@ -179,15 +179,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   return (
     <>
-      <div 
-        data-test-id="table-content" 
-        className={overlayContainerNoFooter}
-      >
+      <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          <div 
-            className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} 
-            data-testid="selectColumnsMainContainer"
-          >
+          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
               {defaultSelectedColumns && (
                 <DataTableColumnSelector
                   dataTableRef={dataTableRef}
