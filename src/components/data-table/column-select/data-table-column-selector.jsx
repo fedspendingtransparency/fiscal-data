@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {
   closePanelIcon,
   closeButton,
@@ -35,21 +35,30 @@ const DataTableColumnSelector = ({
   table,
   defaultColumns,
   additionalColumns,
+  dataTableRef,
+  dataOnBlur
+
 }) => {
+
   const CheckBoxList = columnList => (
     <>
-      {columnList.map(column => {
+      {columnList.map(({id, getIsVisible, getToggleVisibilityHandler, columnDef}) => {
         return (
-          <label className={checkbox_label} key={column.id}>
+          <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
-              <input type="checkbox" checked={column.getIsVisible()} onChange={column.getToggleVisibilityHandler()} className={optionCheckbox} />
+              <input 
+                type="checkbox" 
+                checked={getIsVisible()} 
+                onChange={getToggleVisibilityHandler()}
+                className={optionCheckbox} 
+              />
               <span className={label_checkmark_container}>
                 <span className={label_checkmark_text}>
                   <FontAwesomeIcon icon={faCheck} size="sm" />
                 </span>
               </span>
             </div>
-            <span className={label_text}>{column.columnDef.header}</span>
+            <span className={label_text}>{columnDef.header}</span>
           </label>
         );
       })}
@@ -57,14 +66,24 @@ const DataTableColumnSelector = ({
   );
 
   return (
-    <section className={columnSelectContainer}>
+    <section 
+      className={columnSelectContainer} 
+      ref={dataTableRef}
+      onBlur={dataOnBlur}
+      role='presentation'
+    >
       <div className={headingWrapper}>
         <div className={heading}>
           <div className={title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
           <button
             onClick={() => setSelectColumnPanel(false)}
-            onKeyDown={() => setSelectColumnPanel(false)}
+            onKeyDown={(e) => {
+              if(e.key === 'Enter'){
+                setSelectColumnPanel(false)}
+              }
+            }
             className={closeButton}
+
             aria-label="Close select control panel"
           >
             <FontAwesomeIcon icon={faXmark} className={closePanelIcon} />

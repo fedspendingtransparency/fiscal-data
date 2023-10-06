@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, getFilteredRowModel, SortingState } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 
@@ -54,6 +54,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 }) => {
   const allColumns = columnsConstructor(rawData, dateRangeColumns);
   const data = rawData.data;
+
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -167,11 +168,38 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       constructDefaultColumnsFromTableData();
     }
   }, []);
+  const dataTableRef = useRef(null);
+  useEffect(() => {
+    if (defaultSelectedColumns) {
+      dataTableRef.current?.focus();
+    }
+  }, []);
 
   return (
     <>
-      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+      <div 
+        data-test-id="table-content" 
+        className={overlayContainerNoFooter}
+      >
         <div className={selectColumnsWrapper}>
+          <div 
+            className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} 
+            data-testid="selectColumnsMainContainer"
+          >
+              {defaultSelectedColumns && (
+                <DataTableColumnSelector
+                  dataTableRef={dataTableRef}
+                  dataOnBlur={dataTableRef.current?.focus()}
+                  fields={allColumns}
+                  resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
+                  setSelectColumnPanel={setSelectColumnPanel}
+                  defaultSelectedColumns={defaultSelectedColumns}
+                  table={table}
+                  additionalColumns={additionalColumns}
+                  defaultColumns={defaultColumns}
+                />
+              )}
+          </div>
           <div className={tableStyle}>
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
@@ -187,19 +215,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                 </table>
               </StickyTable>
             </div>
-          </div>
-          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
-            {defaultSelectedColumns && (
-              <DataTableColumnSelector
-                fields={allColumns}
-                resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
-                setSelectColumnPanel={setSelectColumnPanel}
-                defaultSelectedColumns={defaultSelectedColumns}
-                table={table}
-                additionalColumns={additionalColumns}
-                defaultColumns={defaultColumns}
-              />
-            )}
           </div>
         </div>
       </div>

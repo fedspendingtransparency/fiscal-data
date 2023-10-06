@@ -5,6 +5,7 @@ $borderRadius: 5px;
 .tableStyle {
   overflow-x: auto;
   width: 100%;
+  order: 1;
 
   .tableContainer {
     position: relative;
@@ -74,6 +75,7 @@ $borderRadius: 5px;
 .selectColumnsWrapper {
   display: flex;
 
+
   .selectColumnPanelInactive {
     display: none;
   }
@@ -86,6 +88,7 @@ $borderRadius: 5px;
 
   .selectColumnPanelActive, .selectColumnPanelInactive {
     height: 565px;
+    order: 2;
   }
 }
 
