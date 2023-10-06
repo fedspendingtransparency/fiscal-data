@@ -64,11 +64,9 @@ const DataTableColumnSelector = ({
   );
   const dataTableRef1 = useRef(null);
   useEffect(() => {
-    setTimeout(() => {
-      if (defaultSelectedColumns) {
+      if (defaultSelectedColumns && dataTableRef1.current) {
         dataTableRef1.current?.focus();
       }
-    }, 0)
 
   }, [dataTableRef1]);
 
@@ -80,7 +78,6 @@ const DataTableColumnSelector = ({
         <div className={heading}>
           <div className={title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
           <button
-            onBlur={() => dataTableRef1.current?.focus()}
             ref={dataTableRef1}
             tabIndex={0}
             onClick={() => setSelectColumnPanel(false)}
