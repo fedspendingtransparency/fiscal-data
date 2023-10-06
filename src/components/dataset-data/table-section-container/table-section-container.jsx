@@ -102,7 +102,7 @@ const TableSectionContainer = ({
       dateRange,
       apiError,
       selectColumns: config.selectColumns,
-      dateRangeColumns: config.dateRangeColumns,
+      hideColumns: config.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
     });
