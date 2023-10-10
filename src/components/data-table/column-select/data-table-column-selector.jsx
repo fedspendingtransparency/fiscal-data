@@ -35,10 +35,9 @@ const DataTableColumnSelector = ({
   table,
   defaultColumns,
   additionalColumns,
-  dataTableRef,
-  tabLocation,
-  setTabLocation
+  dataTableRef
 }) => {
+  const [tabLocation, setTabLocation] = useState(null);
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({id, getIsVisible, getToggleVisibilityHandler, columnDef}) => {
