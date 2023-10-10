@@ -15,7 +15,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any, hideColumns: string[]): any => {
+export const columnsConstructorData = (rawData: any, hideColumns: string[]): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels)
       .filter(x => !hideColumns?.includes(x[0]))
@@ -97,6 +97,12 @@ export const columnsConstructor = (rawData: any, hideColumns: string[]): any => 
   } else {
     return [];
   }
+};
+
+export const columnsConstructorGeneric = (columns: any): any => {
+  return Object.entries(columns).map(([property, name]) => {
+    return { accessorKey: name.property, header: name.name } as ColumnDef<string, string>;
+  });
 };
 
 export const getColumnFilter: (

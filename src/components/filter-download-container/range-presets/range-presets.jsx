@@ -199,6 +199,8 @@ const RangePresets = (
           buttonLabel = latestDate
             ? `${monthNames[month]} ${date}, ${fullYear}`
             : '';
+        } else if (currentDateButton === 'byLast30Days') {
+          buttonLabel = latestDate ? 'Last 30 Days' : '';
         } else {
           buttonLabel = latestDate
             ? monthNames[month] + ' ' + fullYear.toString()

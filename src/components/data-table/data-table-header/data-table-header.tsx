@@ -60,7 +60,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
   };
 
   useEffect(() => {
-    setFiltersActive(allActiveFilters.length > 0);
+    if (setFiltersActive) {
+      setFiltersActive(allActiveFilters.length > 0);
+    }
   }, [allActiveFilters]);
 
   return (
