@@ -15,12 +15,19 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructor = (rawData: any, hideColumns: string[], tableName: string): any => {
+export const columnsConstructorData = (rawData: any, hideColumns: string[], tableName: string): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels)
       .filter(x => !hideColumns?.includes(x[0]))
       .map(([field, label]) => {
         if (!hideColumns?.includes(field)) {
+          if (field === 'cusip') {
+            return {
+              accessorKey: field,
+              header: label,
+              sortingFn: 'basic',
+            } as ColumnDef<string, Date>;
+          }
           if (rawData.meta.dataTypes[field] === 'DATE') {
             return {
               accessorKey: field,
@@ -100,6 +107,12 @@ export const columnsConstructor = (rawData: any, hideColumns: string[], tableNam
   } else {
     return [];
   }
+};
+
+export const columnsConstructorGeneric = (columns: any): any => {
+  return Object.entries(columns).map(([property, name]) => {
+    return { accessorKey: name.property, header: name.name } as ColumnDef<string, string>;
+  });
 };
 
 export const getColumnFilter: (

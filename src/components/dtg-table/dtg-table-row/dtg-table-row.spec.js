@@ -11,6 +11,7 @@ describe('DtgTableRow', () => {
   const data6 = {row1: 0.00067898};
   const data7 = {row1: '3-3/8%'};
   const data8 = {row1: '-123'};
+
   const columns = [
     {name: 'row1', order: 1, property: 'row1', width: 12},
   ];
@@ -85,5 +86,38 @@ describe('DtgTableRow', () => {
       <DtgTableRow columns={cols} data={data8} />
     );
     expect(component.root.findByType('td').props.children).toBe('-$123.000');
+  });
+
+  it('formats FRN Daily Indexes Daily Index col data correctly', () => {
+    const dailyIndexData = {daily_index: 0.111111111};
+    const col = [
+      {name: 'daily_index', order: 1, property: 'daily_index', width: 12}
+    ];
+    const component = renderer.create(
+      <DtgTableRow columns={col} data={dailyIndexData} tableName={"FRN Daily Indexes"}/>
+    );
+    expect(component.root.findByType('td').props.children).toBe(0.111111111);
+  });
+
+  it('formats FRN Daily Indexes Daily Int Accrual Rate data correctly', () => {
+    const dailyIntAccrualRateData = {daily_int_accrual_rate: 0.222222222};
+    const cols = [
+      {name: 'daily_int_accrual_rate', order: 2, property: 'daily_int_accrual_rate', width: 12},
+    ];
+    const component = renderer.create(
+      <DtgTableRow columns={cols} data={dailyIntAccrualRateData} />
+    );
+    expect(component.root.findByType('td').props.children).toBe(0.222222222);
+  });
+
+  it('formats FRN Daily Indexes Spread data correctly', () => {
+    const spreadData = {spread: 0.0120};
+    const cols = [
+      {name: 'spread', order: 3, property: 'spread', width: 12},
+    ];
+    const component = renderer.create(
+      <DtgTableRow columns={cols} data={spreadData} />
+    );
+    expect(component.root.findByType('td').props.children).toBe(0.0120);
   });
 });

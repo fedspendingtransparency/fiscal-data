@@ -118,6 +118,58 @@ const mockTableData = {
   },
 };
 
+const mockGenericTableData = {
+  data: [
+    [
+      {
+        name: 'Title',
+        definition: '120 Day Delinquent Debt Referral Compliance Report',
+      },
+      {
+        name: 'Description (Long)',
+        definition:
+          "The 120 Day Delinquent Debt Referral Compliance Report provides tracking and benchmarking information on federal agencies' compliance with the Digital Accountability and Transparency Act of 2014 (the DATA Act). The DATA Act requires federal agencies to refer to the Treasury Offset Program legally enforceable non-tax debts that are greater than 120 days delinquent for Administrative Offset. This dataset was designed to increase transparency and provide quick insights into federal agency compliance rates, as well as information on the number of eligible debts, debts referred, and debts not referred each quarter, beginning in Fiscal Year 2016.",
+      },
+      {
+        name: 'Description (Short)',
+        definition:
+          'Tracking federal agency compliance with DATA Act requirements on referring delinquent debt and the number of eligible and referred debts quarterly. ',
+      },
+      {
+        name: 'Update Frequency',
+        definition: 'Updated Quarterly',
+      },
+      {
+        name: 'Date Range',
+        definition: '12/31/2015 - 06/30/2023',
+      },
+      {
+        name: 'Topics',
+        definition: 'Debt',
+      },
+      {
+        name: 'Publisher',
+        definition: 'Debt Management Services',
+      },
+    ],
+  ],
+};
+
+const mockGenericTableColumns = [
+  {
+    property: 'name',
+    name: 'Name',
+    order: 1,
+    width: 25,
+  },
+  {
+    property: 'definition',
+    name: 'Definition',
+    order: 2,
+    width: 18,
+  },
+];
+
 const defaultSelectedColumnsMock = ['record_date', 'src_line_nbr', 'record_calendar_quarter'];
 const defaultColumnsTypeCheckMock = [
   'record_date',
@@ -139,6 +191,22 @@ describe('react-table', () => {
     const instance = render(
       <DataTable
         rawData={mockTableData}
+        defaultSelectedColumns={null}
+        pageSize={10}
+        setTableColumnSortData={setTableColumnSortData}
+        shouldPage
+        showPaginationControls
+        setFiltersActive={jest.fn()}
+      />
+    );
+    expect(instance).toBeTruthy();
+  });
+
+  it('table renders generic non raw data table', () => {
+    const instance = render(
+      <DataTable
+        rawData={mockGenericTableData}
+        nonRawDataColumns={mockGenericTableColumns}
         defaultSelectedColumns={null}
         pageSize={10}
         setTableColumnSortData={setTableColumnSortData}
