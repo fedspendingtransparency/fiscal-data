@@ -35,6 +35,7 @@ type DataTableProps = {
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
+  tableName: string;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -55,8 +56,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pageSize,
   setFiltersActive,
   hideColumns,
+  tableName,
 }) => {
-  const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns);
+  const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
 
   if (hasPublishedReports && !hideCellLinks) {

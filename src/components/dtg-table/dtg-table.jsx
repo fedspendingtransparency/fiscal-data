@@ -99,7 +99,6 @@ export default function DtgTable({
 
   const getAllExcludedCols = () => {
     const allCols = [];
-    console.log(hideColumns);
     if (excludeCols !== undefined) {
       allCols.push(...excludeCols);
     }
@@ -226,7 +225,7 @@ export default function DtgTable({
   const populateRows = currentColumns => {
     const tableRows = [];
     tableData.forEach((row, index) => {
-      tableRows.push(<DtgTableRow columns={currentColumns} data={row} key={index} />);
+      tableRows.push(<DtgTableRow columns={currentColumns} data={row} key={index} tableName={tableName} />);
     });
     setRows(tableRows);
   };
@@ -438,9 +437,10 @@ export default function DtgTable({
             selectColumnPanel={selectColumnPanel}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
-            pageSize={10}
+            pageSize={pagingProps.itemsPerPage}
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
+            tableName={tableName}
           />
         )}
       </Experimental>
