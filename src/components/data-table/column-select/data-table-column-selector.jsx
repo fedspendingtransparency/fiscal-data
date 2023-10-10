@@ -35,7 +35,7 @@ const DataTableColumnSelector = ({
   table,
   defaultColumns,
   additionalColumns,
-  dataTableRef
+  dataTableRef,
 }) => {
   const [tabLocation, setTabLocation] = useState(null);
   const CheckBoxList = columnList => (
@@ -62,11 +62,11 @@ const DataTableColumnSelector = ({
       })}
     </>
   );
-
+  const closeButtonRef = useRef(null);
   useEffect(() => {
-    const selectColumnClose = document.querySelector(`[data-testid='selectColumns']`);
-    selectColumnClose.focus();
-    setTabLocation(false);
+    if(closeButtonRef.current){
+      closeButtonRef.current.focus();
+    }
   }, [tabLocation]);
 
   return (
@@ -84,9 +84,9 @@ const DataTableColumnSelector = ({
                 setSelectColumnPanel(false)}
               }
             }
-            className={closeButton}
+            className={closeButtonRef}
             aria-label="Close select control panel"
-            data-testid="selectColumns"
+            data-testid="selectColumnClose"
           >
             <FontAwesomeIcon icon={faXmark} className={closePanelIcon} />
           </button>
