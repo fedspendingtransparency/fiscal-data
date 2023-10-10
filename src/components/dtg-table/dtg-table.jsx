@@ -96,9 +96,22 @@ export default function DtgTable({
   const rowText = ['rows', 'rows'];
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
+
+  const getAllExcludedCols = () => {
+    const allCols = [];
+    console.log(hideColumns);
+    if (excludeCols !== undefined) {
+      allCols.push(...excludeCols);
+    }
+    if (hideColumns) {
+      allCols.push(...hideColumns);
+    }
+    return allCols;
+  };
+
   const dataProperties = {
     keys: tableData[0] ? Object.keys(tableData[0]) : [],
-    excluded: excludeCols !== undefined ? excludeCols : [],
+    excluded: getAllExcludedCols(),
   };
   const columns = setColumns(dataProperties, columnConfig);
 
