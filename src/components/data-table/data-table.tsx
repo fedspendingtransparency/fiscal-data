@@ -115,7 +115,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }));
     setTableColumnSortData(mapped);
   };
-
+  const [tabLocation, setTabLocation] = useState(false);
   useEffect(() => {
     getSortedColumnsData(table);
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
@@ -160,18 +160,23 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
-
+  const [activeState, setActiveState] = useState(null);
   useEffect(() => {
     if (defaultSelectedColumns) {
       constructDefaultColumnsFromTableData();
+      setActiveState(true);
     }
   }, []);
-  const dataTableRef = useRef<HTMLDivElement>(null);
+
+  const selectColumnsRef = useRef(null);
   useEffect(() => {
-    if (defaultSelectedColumns) {
-      dataTableRef.current?.focus();
+    if (activeState) {
+      const node = selectColumnsRef.current;
+      if (node) {
+        node.focus();
+      }
     }
-  }, []);
+  }, [activeState])
 
   return (
     <>
@@ -187,7 +192,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           >
               {defaultSelectedColumns && (
                 <DataTableColumnSelector
-                  dataTableRef={dataTableRef}
+                  dataTableRef={selectColumnsRef}
+                  tabLocation={tabLocation}
+                  setTabLocation={setTabLocation}
                   fields={allColumns}
                   resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
                   setSelectColumnPanel={setSelectColumnPanel}

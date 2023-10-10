@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   closePanelIcon,
   closeButton,
@@ -36,8 +36,9 @@ const DataTableColumnSelector = ({
   defaultColumns,
   additionalColumns,
   dataTableRef,
+  tabLocation,
+  setTabLocation
 }) => {
-
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({id, getIsVisible, getToggleVisibilityHandler, columnDef}) => {
@@ -62,13 +63,12 @@ const DataTableColumnSelector = ({
       })}
     </>
   );
-  const dataTableRef1 = useRef(null);
-  useEffect(() => {
-      if (defaultSelectedColumns && dataTableRef1.current) {
-        dataTableRef1.current?.focus();
-      }
 
-  }, [dataTableRef1]);
+  useEffect(() => {
+    const selectColumnClose = document.querySelector(`[data-testid='selectColumns']`);
+    selectColumnClose.focus();
+    setTabLocation(false);
+  }, [tabLocation]);
 
   return (
     <section 
@@ -78,8 +78,7 @@ const DataTableColumnSelector = ({
         <div className={heading}>
           <div className={title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
           <button
-            ref={dataTableRef1}
-            tabIndex={0}
+            ref={dataTableRef}
             onClick={() => setSelectColumnPanel(false)}
             onKeyDown={(e) => {
               if(e.key === 'Enter'){
@@ -88,6 +87,7 @@ const DataTableColumnSelector = ({
             }
             className={closeButton}
             aria-label="Close select control panel"
+            data-testid="selectColumns"
           >
             <FontAwesomeIcon icon={faXmark} className={closePanelIcon} />
           </button>
