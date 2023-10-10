@@ -33,7 +33,6 @@ type DataTableProps = {
   setResetFilters: (value: boolean) => void;
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
-  dateRangeColumns: string[];
   hideColumns?: string[];
   pagingProps;
 };
