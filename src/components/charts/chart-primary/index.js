@@ -5,7 +5,7 @@ import { extent } from 'd3-array';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { timeParse } from 'd3-time-format';
 import { line } from 'd3-shape';
-import { interpolateNumber} from 'd3-interpolate';
+import { interpolateNumber } from 'd3-interpolate';
 import setAxes from './setAxes';
 import initTooltip from './tooltip';
 
@@ -18,8 +18,8 @@ const d3 = {
   timeParse,
   line,
   transition,
-  interpolateNumber
-}
+  interpolateNumber,
+};
 
 const baseYAxisWidth = 66;
 
@@ -28,40 +28,30 @@ const chartDimensions = {
   xAxisHeight: 30,
   yAxisWidth: baseYAxisWidth,
   marginTop: 10,
-  marginRight: 13
-}
+  marginRight: 13,
+};
 const duration = 1000;
 const parseTime = d3.timeParse('%Y-%m-%d');
 
-let w,
-  data,
-  options,
-  el,
-  dateField,
-  fields,
-  lines,
-  y,
-  container,
-  dataType,
-  labels,
-  scales,
-  previousExtent,
-  toolTipDateKey,
-  svgDefs;
+let w, data, options, el, dateField, fields, lines, y, container, dataType, labels, scales, previousExtent, toolTipDateKey, svgDefs;
 
-const setWidth = (selection) => {
+const setWidth = selection => {
   w = selection.node().getBoundingClientRect().width;
   chartDimensions.width = w - chartDimensions.yAxisWidth - chartDimensions.marginRight;
-}
+};
 
-const setScales = (fields) => {
+const setScales = fields => {
   const scales = {};
 
   const extent = d3.extent(
     data.reduce((arr, r) => {
-      return arr.concat(d3.extent(fields.map(f => {
-        return parseFloat(r[f]);
-      })))
+      return arr.concat(
+        d3.extent(
+          fields.map(f => {
+            return parseFloat(r[f]);
+          })
+        )
+      );
     }, [])
   );
 
@@ -90,41 +80,41 @@ const setScales = (fields) => {
     .range([chartDimensions.yAxisWidth, chartDimensions.yAxisWidth + chartDimensions.width]);
 
   return scales;
-}
+};
 
 const lineFn = (field, scales) => {
   if (data) {
     return d3
       .line()
-      .x(function (d) {
-        return scales.x(parseTime(d[dateField]))
+      .x(function(d) {
+        return scales.x(parseTime(d[dateField]));
       })
-      .y(function (d) {
-        return scales.y(d[field])
-      })(data.filter(d => d[field] && d[field] !== 'null')) // remove nulls
+      .y(function(d) {
+        return scales.y(d[field]);
+      })(data.filter(d => d[field] && d[field] !== 'null')); // remove nulls
   }
-}
+};
 
 const draw = (container, scales, fields, _visibleFields) => {
   if (options && options.shading) {
-    lines = container.append('g')
-      .selectAll("path")
+    lines = container
+      .append('g')
+      .selectAll('path')
       .remove()
       .data(fields);
 
     const a1 = area()
-      .x((d) => scales.x(parseTime(d[dateField])))
+      .x(d => scales.x(parseTime(d[dateField])))
       .y0(options.shading.side === 'under' ? chartDimensions.height : 0)
-      .y1((d) => (
-        scales.y(d[fields[0]])
-      ))(data.filter(d => d[fields[0]] && d[fields[0]] !== 'null'))
+      .y1(d => scales.y(d[fields[0]]))(data.filter(d => d[fields[0]] && d[fields[0]] !== 'null'));
 
-    lines.enter()
+    lines
+      .enter()
       .append('path')
       .data([data])
-      .attr("class", "area")
-      .attr("d", a1)
-      .style('fill', options.shading.color || 'transparent')
+      .attr('class', 'area')
+      .attr('d', a1)
+      .style('fill', options.shading.color || 'transparent');
 
     // Second area needed for a pattern in addition to a fill
     if (options.shading.hatchDirection) {
@@ -132,13 +122,12 @@ const draw = (container, scales, fields, _visibleFields) => {
       const hatchDirectionDown = 'M2,-2 l4,-4 M0,8 l8,-8 M6,10 l4,-4';
 
       const a2 = area()
-        .x((d) => scales.x(parseTime(d[dateField])))
+        .x(d => scales.x(parseTime(d[dateField])))
         .y0(options.shading.side === 'under' ? chartDimensions.height : 0)
-        .y1((d) => (
-          scales.y(d[fields[0]])
-        ))(data.filter(d => d[fields[0]] && d[fields[0]] !== 'null'))
+        .y1(d => scales.y(d[fields[0]]))(data.filter(d => d[fields[0]] && d[fields[0]] !== 'null'));
 
-      svgDefs.append('pattern')
+      svgDefs
+        .append('pattern')
         .attr('id', 'gradient')
         .attr('patternUnits', 'userSpaceOnUse')
         .attr('width', 8)
@@ -148,32 +137,34 @@ const draw = (container, scales, fields, _visibleFields) => {
         .attr('stroke', '#000000')
         .attr('stroke-width', 0.5);
 
-      lines.enter()
+      lines
+        .enter()
         .append('path')
         .data([data])
-        .attr("class", "area")
-        .attr("d", a2)
-        .style('fill', 'url(#gradient)')
+        .attr('class', 'area')
+        .attr('d', a2)
+        .style('fill', 'url(#gradient)');
     }
 
-    lines.enter()
-      .append("path")
-      .attr("d", function (d) {
-        return lineFn(d, scales)
+    lines
+      .enter()
+      .append('path')
+      .attr('d', function(d) {
+        return lineFn(d, scales);
       })
-      .attr("data-name", function (d) {
+      .attr('data-name', function(d) {
         return d;
       })
       .classed('dataviz-line', true)
       .attr('data-testid', 'dataviz-line')
-      .attr("stroke", function (d, i) {
-        return options.shading?.color || '#4971b7'
+      .attr('stroke', function(d, i) {
+        return options.shading?.color || '#4971b7';
       })
       .attr('stroke-width', 1)
-      .attr("opacity", 1)
-      .attr("fill", function (d, i) {
-        return "none"
-      })
+      .attr('opacity', 1)
+      .attr('fill', function(d, i) {
+        return 'none';
+      });
 
     if (options.placeInitialMarker) {
       placeMarker(true);
@@ -182,50 +173,50 @@ const draw = (container, scales, fields, _visibleFields) => {
     // TODO: this code is very similar to creating the lines with shading, but D3 doesn't like
     // when the .data() function is separated from the rest of it. We should figure out a way to
     // consolidate these into one common function.
-    lines = container.append('g')
-      .selectAll("path")
+    lines = container
+      .append('g')
+      .selectAll('path')
       .remove()
       .data(fields)
       .enter()
-      .append("path")
-      .attr("d", function (d) {
-        return lineFn(d, scales)
+      .append('path')
+      .attr('d', function(d) {
+        return lineFn(d, scales);
       })
-      .attr("data-name", function (d) {
+      .attr('data-name', function(d) {
         return d;
       })
       .classed('dataviz-line', true)
       .attr('data-testid', 'dataviz-line')
-      .attr("stroke", function (d, i) {
-        return '#4971b7'
+      .attr('stroke', function(d, i) {
+        return '#4971b7';
       })
       .attr('stroke-width', (d, i) => {
         if (Array.isArray(_visibleFields)) {
           return _visibleFields.includes(d) ? 1 : 0;
         } else {
-          return 1
+          return 1;
         }
       })
-      .attr("opacity", 1)
-      .attr("fill", function (d, i) {
-        return "none"
+      .attr('opacity', 1)
+      .attr('fill', function(d, i) {
+        return 'none';
       });
   }
-}
+};
 
 const onHover = (on, item) => {
   const line = lines.filter(d => d === item);
 
-  line.attr('stroke-width', on ? 2 : 1)
-}
+  line.attr('stroke-width', on ? 2 : 1);
+};
 
-const onFieldUpdates = (fieldList) => {
+const onFieldUpdates = fieldList => {
   const scales = setScales(fieldList);
 
-  y.yAxis.scale(scales.y)
+  y.yAxis.scale(scales.y);
 
-  container.selectAll('.axis--y text')
-    .classed('nothing-selected', (fieldList.length === 0));
+  container.selectAll('.axis--y text').classed('nothing-selected', fieldList.length === 0);
 
   const yAxisDom = y.yAxisDom
     .transition()
@@ -233,16 +224,17 @@ const onFieldUpdates = (fieldList) => {
     .call(y.yAxis)
     .ease();
 
-  lines.transition()
+  lines
+    .transition()
     .duration(duration)
-    .attr('d', function (d) {
-      return lineFn(d, scales)
+    .attr('d', function(d) {
+      return lineFn(d, scales);
     })
-    .attr('opacity', function (d) {
-      return (fieldList.indexOf(d) !== -1) ? 1 : 0;
+    .attr('opacity', function(d) {
+      return fieldList.indexOf(d) !== -1 ? 1 : 0;
     })
-    .attr('stroke-width', function (d) {
-      return (fieldList.indexOf(d) !== -1) ? 1 : 0;
+    .attr('stroke-width', function(d) {
+      return fieldList.indexOf(d) !== -1 ? 1 : 0;
     })
     .call(yAxisDom)
     .ease();
@@ -250,7 +242,7 @@ const onFieldUpdates = (fieldList) => {
   setTooltips(fieldList, scales);
 
   container.selectAll('.domain').raise();
-}
+};
 
 const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   el = ref;
@@ -259,28 +251,25 @@ const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   y = setAxes(container, scales, chartDimensions, dataType);
   draw(container, scales, _fields, _visibleFields);
   setTooltips();
-}
+};
 
 const setContainer = () => {
   const parentSelection = d3.select(el);
-  parentSelection.select("svg").remove();
+  parentSelection.select('svg').remove();
 
   setWidth(parentSelection);
 
   container = parentSelection
-    .append("svg")
+    .append('svg')
     .attr('data-test-id', 'chartContainer')
-    .attr(
-      "height",
-      chartDimensions.height + chartDimensions.xAxisHeight + chartDimensions.marginTop
-    )
-    .attr("width", w)
+    .attr('height', chartDimensions.height + chartDimensions.xAxisHeight + chartDimensions.marginTop)
+    .attr('width', w)
     .append('g')
     .classed('secondary-container', true)
-    .attr('transform', `translate(0,${chartDimensions.marginTop})`)
+    .attr('transform', `translate(0,${chartDimensions.marginTop})`);
 
   svgDefs = parentSelection.select('svg').append('defs');
-}
+};
 
 const setTooltips = (fieldsToShow, currentScales) => {
   const visibleFields = fieldsToShow || fields;
@@ -288,7 +277,7 @@ const setTooltips = (fieldsToShow, currentScales) => {
   currentScales = currentScales || scales;
 
   if (data && !options.noTooltip) {
-    const visibleContainer = container.select('.shaders')
+    const visibleContainer = container.select('.shaders');
     initTooltip({
       data,
       currentScales,
@@ -299,10 +288,10 @@ const setTooltips = (fieldsToShow, currentScales) => {
       chartDimensions,
       labels,
       dataType,
-      toolTipDateKey
+      toolTipDateKey,
     });
   }
-}
+};
 
 const initChart = (_data, _el, _dateField, _fields, _labels, _options = {}) => {
   data = _data;
@@ -310,9 +299,9 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _options = {}) => {
   dateField = _dateField;
   fields = _fields;
   options = _options;
-  dataType = (options.format === true) ? 'CURRENCY' : options.format;
+  dataType = options.format === true ? 'CURRENCY' : options.format;
   labels = _labels;
-  markers = [_data[0]]
+  markers = [_data[0]];
   toolTipDateKey = options.toolTipDateKey;
   chartDimensions.height = options.forceHeight || chartDimensions.height;
   chartDimensions.yAxisWidth = options.forceYAxisWidth || baseYAxisWidth;
@@ -325,21 +314,21 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _options = {}) => {
     draw(container, scales, fields);
   }
 
-  setTooltips()
+  setTooltips();
 
   return {
     onHover: onHover,
     onFieldUpdates: onFieldUpdates,
-    onUpdateChartWidth: onUpdateChartWidth
+    onUpdateChartWidth: onUpdateChartWidth,
   };
-}
+};
 
 export default initChart;
 
 // Mouseover functions
 let hoverFunction, chartId, markers;
 
-const placeMarker = (initial) => {
+const placeMarker = initial => {
   clearMarkers();
 
   if (initial) {
@@ -347,63 +336,72 @@ const placeMarker = (initial) => {
       .append('circle')
       .attr('r', 8)
       .attr('fill', 'rgba(216,216,216,0.5)')
-      .attr('transform', `translate(
+      .attr(
+        'transform',
+        `translate(
         ${scales.x(parseTime(data[0][dateField]))},
         ${scales.y(Number(data[0][fields[0]]))}
-      )`)
+      )`
+      );
 
     d3.select('.secondary-container')
       .append('circle')
       .attr('r', 4)
       .attr('fill', '#000')
-      .attr('transform', `translate(
+      .attr(
+        'transform',
+        `translate(
         ${scales.x(parseTime(data[0][dateField]))},
         ${scales.y(Number(data[0][fields[0]]))}
-      )`)
+      )`
+      );
   }
 
   const m = container
     .select('.secondary-container')
     .selectAll('circle')
-    .data(markers)
+    .data(markers);
 
   m.enter()
     .append('circle')
     .attr('r', 8)
     .attr('fill', 'rgba(216,216,216,0.5)')
-    .attr('transform', d => (`translate(
+    .attr(
+      'transform',
+      d => `translate(
       ${scales.x(parseTime(d[dateField]))},
       ${scales.y(Number(d[fields[0]]))}
-    )`))
+    )`
+    );
 
   m.enter()
     .append('circle')
     .attr('r', 4)
     .attr('fill', '#000')
-    .attr('transform', d => (`translate(
+    .attr(
+      'transform',
+      d => `translate(
       ${scales.x(parseTime(d[dateField]))},
       ${scales.y(Number(d[fields[0]]))}
-    )`))
-}
+    )`
+    );
+};
 
 const clearMarkers = () => {
-  container.selectAll('circle')
-    .remove()
-}
+  container.selectAll('circle').remove();
+};
 
 const mouseout = function() {
   setTimeout(() => {
     markers = [data[0]];
     placeMarker();
     hoverFunction(null, 0);
-  }, 500)
-}
+  }, 500);
+};
 
 const mousemove = function() {
   // This index represents the x value closest to where the mouse is on the graph
-  const closestXIndex = data.length - Math.round(
-    (mouse(this)[0] / chartDimensions.width) * (data.length - 1)
-  );
+  const closestXIndex = data.length - Math.round((mouse(this)[0] / chartDimensions.width) * (data.length - 1));
   const selectedData = data[closestXIndex];
 
   if (selectedData && selectedData[fields[0]]) {
@@ -419,7 +417,7 @@ const mousemove = function() {
   } else {
     mouseout();
   }
-}
+};
 
 export const hoverEffectsId = 'line-chart-hover-effects';
 export const addHoverEffects = (_data, _chartId, _dateField, _fields, _hoverFunction) => {
@@ -440,9 +438,10 @@ export const addHoverEffects = (_data, _chartId, _dateField, _fields, _hoverFunc
   // can be duplicated. This removes potential duplicates of that <rect> before creating a new one.
   removeHoverEffects();
 
-  container.append('rect')
-    .style("fill", "none")
-    .style("pointer-events", "all")
+  container
+    .append('rect')
+    .style('fill', 'none')
+    .style('pointer-events', 'all')
     .attr('id', hoverEffectsId)
     .attr('cursor', 'pointer')
     .attr('width', chartDimensions.width)
@@ -451,8 +450,8 @@ export const addHoverEffects = (_data, _chartId, _dateField, _fields, _hoverFunc
     .on('click', mousemove)
     .on('mousemove', mousemove)
     .on('mouseout', mouseout);
-}
+};
 
 export const removeHoverEffects = () => {
   d3.select(`#${hoverEffectsId}`).remove();
-}
+};
