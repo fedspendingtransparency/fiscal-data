@@ -33,6 +33,7 @@ type DataTableProps = {
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
   dateRangeColumns: string[];
+  pagingProps;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -51,6 +52,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pageSize,
   setFiltersActive,
   dateRangeColumns,
+  pagingProps
 }) => {
   const allColumns = columnsConstructor(rawData, dateRangeColumns);
   const data = rawData.data;
@@ -214,7 +216,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                     dataTypes={dataTypes}
                     resetFilters={resetFilters}
                     setFiltersActive={setFiltersActive}
-                    dateRangeColumns={dateRangeColumns}
                   />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
@@ -223,7 +224,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} />}
+      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
     </>
   );
 };
