@@ -12,9 +12,9 @@ import NotShownMessage from '../dataset-data/table-section-container/not-shown-m
 
 import * as styles from './dtg-table.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
-import Experimental from '../experimental/experimental';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
+import Experimental from '../experimental/experimental';
 
 const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
@@ -275,7 +275,6 @@ export default function DtgTable({
     updateSmallFractionDataType();
     setCurrentPage(1);
     setApiError(false);
-
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
     return () => {
