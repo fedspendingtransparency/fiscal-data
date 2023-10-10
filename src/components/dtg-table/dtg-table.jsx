@@ -99,6 +99,7 @@ export default function DtgTable({
 
   const getAllExcludedCols = () => {
     const allCols = [];
+
     if (excludeCols !== undefined) {
       allCols.push(...excludeCols);
     }

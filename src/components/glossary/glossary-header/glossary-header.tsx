@@ -18,7 +18,7 @@ interface IGlossaryHeader {
   filterHandler: (e) => void,
   glossaryRef: any,
   tabReset: boolean,
-  setTabReset: (reset: boolean) => void,
+  setTabReset: (reset: boolean) => void,  
 }
 
 
