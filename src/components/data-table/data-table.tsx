@@ -56,6 +56,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   tableName,
   setFiltersActive,
   hideColumns,
+  pagingProps
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
