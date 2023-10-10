@@ -12,10 +12,11 @@ import NotShownMessage from '../dataset-data/table-section-container/not-shown-m
 
 import * as styles from './dtg-table.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
+import Experimental from '../experimental/experimental';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 
-const defaultRowsPerPage = 10;
+const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({
@@ -100,6 +101,7 @@ export default function DtgTable({
     excluded: excludeCols !== undefined ? excludeCols : [],
   };
   const columns = setColumns(dataProperties, columnConfig);
+
   const changeTableWidth = col => {
     if (selectColumns) {
       const colCount = col ? col.length : 0;
@@ -340,96 +342,97 @@ export default function DtgTable({
           </div>
         </>
       )}
-      {reactTableData ? (
-        <DataTable
-          rawData={reactTableData}
-          defaultSelectedColumns={selectColumns}
-          setTableColumnSortData={setTableColumnSortData}
-          hideCellLinks={true}
-          shouldPage={shouldPage}
-          pagingProps={pagingProps}
-          showPaginationControls={showPaginationControls}
-          hasPublishedReports={hasPublishedReports}
-          publishedReports={publishedReports}
-          setSelectColumnPanel={setSelectColumnPanel}
-          selectColumnPanel={selectColumnPanel}
-          resetFilters={resetFilters}
-          setResetFilters={setResetFilters}
-          pageSize={pagingProps.itemsPerPage}
-          setFiltersActive={setFiltersActive}
-          hideColumns={hideColumns}
-          tableName={tableName}
-        />
-      ) : (
-        <>
-          <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
-            {/* API Error Message */}
-            {(apiError || tableProps.apiError) && !emptyDataMessage && (
-              <>
-                <div data-test-id="error-overlay" className={styles.overlay} />
-                <div data-test-id="api-error" className={styles.apiError}>
-                  <p>
-                    <strong>Table failed to load.</strong>
-                  </p>
-                  <p>
-                    There was an error with our API and we are unable to load this table. Please try your request again or{' '}
-                    <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
-                  </p>
-                </div>
-              </>
-            )}
-
-            <div className={styles.selectColumnsWrapper}>
-              {/* Table Wrapper */}
-              <div className={noBorder ? [styles.wrapper, styles.noBorder].join(' ') : styles.wrapper}>
-                {/* Empty Data Message */}
-                {emptyDataMessage && emptyDataMessage}
-
-                {/* Table */}
-                {!emptyDataMessage && !selectColumns ? (
-                  <table {...tableProps.aria} style={{ width: tableWidth }}>
-                    {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                    <DtgTableHeading columns={columns} />
-                    <tbody>{rows}</tbody>
-                  </table>
-                ) : (
-                  <table {...tableProps.aria} style={{ width: selectColumnsTableWidth }}>
-                    {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-                    <DtgTableHeading columns={activeColumns} />
-                    <tbody>{rows}</tbody>
-                  </table>
-                )}
+      <Experimental exclude featureId="react-table-poc">
+        <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+          {/* API Error Message */}
+          {(apiError || tableProps.apiError) && !emptyDataMessage && (
+            <>
+              <div data-test-id="error-overlay" className={styles.overlay} />
+              <div data-test-id="api-error" className={styles.apiError}>
+                <p>
+                  <strong>Table failed to load.</strong>
+                </p>
+                <p>
+                  There was an error with our API and we are unable to load this table. Please try your request again or{' '}
+                  <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
+                </p>
               </div>
+            </>
+          )}
 
-              <div
-                data-testid="selectColumnsMainContainer"
-                className={selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}
-                style={{ height: `${itemsPerPage * 41 + 48.4}px` }}
-              >
-                {selectColumns && (
-                  <DtgTableColumnSelector
-                    isVisible={true}
-                    fields={columnSelectValues}
-                    changeHandler={update => columnSelectChangeHandler(update)}
-                    resetToDefault={setDefaultColumnsToSelect}
-                    setSelectColumnPanel={setSelectColumnPanel}
-                    isReset={isReset}
-                  />
-                )}
-              </div>
+          <div className={styles.selectColumnsWrapper}>
+            {/* Table Wrapper */}
+            <div className={noBorder ? [styles.wrapper, styles.noBorder].join(' ') : styles.wrapper}>
+              {/* Empty Data Message */}
+              {emptyDataMessage && emptyDataMessage}
+
+              {/* Table */}
+              {!emptyDataMessage && !selectColumns ? (
+                <table {...tableProps.aria} style={{ width: tableWidth }}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={columns} />
+                  <tbody>{rows}</tbody>
+                </table>
+              ) : (
+                <table {...tableProps.aria} style={{ width: selectColumnsTableWidth }}>
+                  {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+                  <DtgTableHeading columns={activeColumns} />
+                  <tbody>{rows}</tbody>
+                </table>
+              )}
+            </div>
+
+            <div
+              data-testid="selectColumnsMainContainer"
+              className={selectColumnPanel ? styles.selectColumnPanelActive : styles.selectColumnPanel}
+              style={{ height: `${itemsPerPage * 41 + 48.4}px` }}
+            >
+              {selectColumns && (
+                <DtgTableColumnSelector
+                  isVisible={true}
+                  fields={columnSelectValues}
+                  changeHandler={update => columnSelectChangeHandler(update)}
+                  resetToDefault={setDefaultColumnsToSelect}
+                  setSelectColumnPanel={setSelectColumnPanel}
+                  isReset={isReset}
+                />
+              )}
             </div>
           </div>
-          {/* Table Footer */}
-          {shouldPage && (
-            <div data-test-id="table-footer" className={styles.tableFooter}>
-              <div data-test-id="rows-showing" className={styles.rowsShowing}>
-                {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
-              </div>
-              {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
+        </div>
+        {/* Table Footer */}
+        {shouldPage && (
+          <div data-test-id="table-footer" className={styles.tableFooter}>
+            <div data-test-id="rows-showing" className={styles.rowsShowing}>
+              {`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}
             </div>
-          )}
-        </>
-      )}
+            {showPaginationControls && <PaginationControls pagingProps={pagingProps} />}
+          </div>
+        )}
+      </Experimental>
+      <Experimental featureId="react-table-poc">
+        {reactTableData && (
+          <DataTable
+            rawData={reactTableData}
+            defaultSelectedColumns={selectColumns}
+            setTableColumnSortData={setTableColumnSortData}
+            hideCellLinks={true}
+            shouldPage={shouldPage}
+            pagingProps={pagingProps}
+            showPaginationControls={showPaginationControls}
+            hasPublishedReports={hasPublishedReports}
+            publishedReports={publishedReports}
+            setSelectColumnPanel={setSelectColumnPanel}
+            selectColumnPanel={selectColumnPanel}
+            resetFilters={resetFilters}
+            setResetFilters={setResetFilters}
+            pageSize={pagingProps.itemsPerPage}
+            setFiltersActive={setFiltersActive}
+            hideColumns={hideColumns}
+            tableName={tableName}
+          />
+        )}
+      </Experimental>
     </div>
   );
 }
