@@ -33,6 +33,7 @@ type DataTableProps = {
   pageSize: number;
   setFiltersActive: (value: boolean) => void;
   dateRangeColumns: string[];
+  hideColumns?: string[];
   pagingProps;
 };
 
@@ -51,10 +52,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideCellLinks,
   pageSize,
   setFiltersActive,
-  dateRangeColumns,
+  hideColumns,
   pagingProps
 }) => {
-  const allColumns = columnsConstructor(rawData, dateRangeColumns);
+  const allColumns = columnsConstructor(rawData, hideColumns);
   const data = rawData.data;
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
@@ -113,7 +114,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
-      allColumnsSelected: table.getIsAllColumnsVisible(),
+      allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
     }));
     setTableColumnSortData(mapped);
   };
@@ -138,7 +139,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     for (const column of allColumns) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      if (!defaultSelectedColumns.includes(column.accessorKey)) {
+      if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         defaultInvisibleColumns[column.accessorKey] = false;

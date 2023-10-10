@@ -37,7 +37,6 @@ const DataTableColumnSelector = ({
   additionalColumns,
   dataTableRef,
 }) => {
-  const [tabLocation, setTabLocation] = useState(null);
   const CheckBoxList = columnList => (
     <>
       {columnList.map(({id, getIsVisible, getToggleVisibilityHandler, columnDef}) => {
@@ -64,11 +63,11 @@ const DataTableColumnSelector = ({
   );
   const closeButtonRef = useRef(null);
   useEffect(() => {
-    if(closeButtonRef.current){
-      closeButtonRef.current.focus();
-    }
-  }, [tabLocation]);
-
+        if(closeButtonRef.current){
+          closeButtonRef.current.focus();
+        }
+  }, );
+  dataTableRef = closeButtonRef;
   return (
     <section 
       className={columnSelectContainer} 
@@ -84,7 +83,7 @@ const DataTableColumnSelector = ({
                 setSelectColumnPanel(false)}
               }
             }
-            className={closeButtonRef}
+            className={closeButton}
             aria-label="Close select control panel"
             data-testid="selectColumnClose"
           >
