@@ -437,7 +437,7 @@ export default function DtgTable({
             selectColumnPanel={selectColumnPanel}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
-            pageSize={10}
+            pageSize={pagingProps.itemsPerPage}
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
             tableName={tableName}
