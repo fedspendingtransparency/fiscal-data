@@ -127,6 +127,18 @@ describe('DTG table component', () => {
     expect(rowsShowing.props.children).toMatch(`Showing 1 - 7 rows of ${maxRows} rows`);
   });
 
+  it('sets a timer for the loading indicator', async () => {
+    const spy = jest.spyOn(helpers, 'loadingTimeout');
+    spy.mockClear();
+    let newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent = renderer.create(<DtgTable tableProps={mockPaginatedTableProps} />);
+    });
+
+    jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
+    await expect(spy).toBeCalledTimes(1);
+  });
+
   it('sets table aria prop with a single attribute and value', () => {
     const aria = { 'aria-describedby': 'my-test-id' };
     const newComponent = renderer.create();
@@ -175,6 +187,40 @@ describe('DtgTable component - API Error', () => {
 
   it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
     expect(footer.children.find(e => e.type === PaginationControls)).toBeUndefined();
+  });
+
+  it('does render pagination Controls when the table is configured to load page-by-page, so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+    jest.useFakeTimers();
+    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(longerPaginatedDataResponse));
+
+    let newComponent = renderer.create();
+    await renderer.act(async () => {
+      newComponent = await renderer.create(<DtgTable tableProps={mockPaginatedTableProps} />);
+      jest.runAllTimers();
+    });
+    const updated = newComponent.root;
+    expect(requestSpy).toBeCalled();
+    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 12 rows');
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
+    requestSpy.mockClear();
+  });
+
+  it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+    jest.useFakeTimers();
+    const requestSpy = jest.spyOn(ApiUtils, 'pagedDatatableRequest').mockReturnValue(Promise.resolve(shortPaginatedDataResponse));
+
+    let newComponent = renderer.create();
+    await renderer.act(async () => {
+      newComponent = await renderer.create(<DtgTable tableProps={mockPaginatedTableProps} />);
+      jest.runAllTimers();
+    });
+    const updated = newComponent.root;
+    expect(requestSpy).toBeCalled();
+    const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(0);
+    requestSpy.mockClear();
   });
 });
 

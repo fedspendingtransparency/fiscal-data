@@ -90,6 +90,9 @@ export default function DtgTable({
 
   let loadCanceled = false;
 
+  let debounce;
+  let loadTimer;
+
   const rowText = ['rows', 'rows'];
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
@@ -118,6 +121,73 @@ export default function DtgTable({
     setCurrentPage(1);
     if (setPerPage) {
       setPerPage(numRows);
+    }
+  };
+
+  const getPagedData = resetPage => {
+    if (debounce || loadCanceled) {
+      clearTimeout(debounce);
+    }
+    if (!loadCanceled) {
+      debounce = setTimeout(() => {
+        makePagedRequest(resetPage);
+      }, 400);
+    }
+  };
+
+  const makePagedRequest = async resetPage => {
+    if (selectedTable && selectedTable.endpoint && !loadCanceled) {
+      loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
+
+      const from = formatDateForApi(dateRange.from);
+      const to = formatDateForApi(dateRange.to);
+      const startPage = resetPage ? 1 : currentPage;
+
+      pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage)
+        .then(res => {
+          if (!loadCanceled) {
+            setEmptyDataMessage(null);
+            if (res.data.length < 1) {
+              setIsLoading(false);
+              clearTimeout(loadTimer);
+              setEmptyDataMessage(
+                <NotShownMessage
+                  heading="Change selections in order to preview data"
+                  bodyText={`With the current Date Range selected we are unable to render a
+                    preview at this time.`}
+                />
+              );
+            }
+
+            const totalCount = res.meta['total-count'];
+            const start = startPage === 1 ? 0 : (startPage - 1) * itemsPerPage;
+            const rowsToShow = start + itemsPerPage;
+            const stop = rowsToShow > totalCount ? totalCount : rowsToShow;
+            setRowsShowing({
+              begin: start + 1,
+              end: stop,
+            });
+            setMaxPage(res.meta['total-pages']);
+            if (maxRows !== totalCount) setMaxRows(totalCount);
+            setTableData(res.data);
+          }
+        })
+        .catch(err => {
+          if (startPage === 1) {
+            setRowsShowing({ begin: 0, end: 0 });
+            setMaxRows(0);
+          }
+          console.error(err);
+          if (!loadCanceled) {
+            setApiError(err);
+          }
+        })
+        .finally(() => {
+          if (!loadCanceled) {
+            setIsLoading(false);
+            clearTimeout(loadTimer);
+          }
+        });
     }
   };
 
@@ -205,7 +275,8 @@ export default function DtgTable({
     updateSmallFractionDataType();
     setCurrentPage(1);
     setApiError(false);
-    getCurrentData();
+    const ssp = tableProps.serverSidePagination;
+    ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
     return () => {
       loadCanceled = true;
     };
@@ -213,7 +284,8 @@ export default function DtgTable({
 
   useEffect(() => {
     setApiError(false);
-    getCurrentData();
+    const ssp = tableProps.serverSidePagination;
+    ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
     return () => {
       loadCanceled = true;
     };
