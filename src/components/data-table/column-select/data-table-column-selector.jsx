@@ -38,9 +38,10 @@ const DataTableColumnSelector = ({
   dataTableRef,
   selectColumnPanel
 }) => {
+
   const CheckBoxList = columnList => (
     <>
-      {columnList.map(({id, getIsVisible, getToggleVisibilityHandler, columnDef}) => {
+      {columnList.map(({id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef}) => {
         return (
           <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
@@ -48,7 +49,7 @@ const DataTableColumnSelector = ({
                 type="checkbox" 
                 checked={getIsVisible()} 
                 onChange={getToggleVisibilityHandler()}
-                onKeyDown={(e) => e.key === 'Enter'}
+                onKeyDown={(e) => e.key === 'Enter' && toggleVisibility()}
                 className={optionCheckbox} 
               />
               <span className={label_checkmark_container}>
