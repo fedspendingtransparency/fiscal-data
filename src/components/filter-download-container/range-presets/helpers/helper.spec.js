@@ -29,6 +29,17 @@ describe('Range Presets Helpers - determineDateRange', () => {
     }
   });
 
+  it('sets range to the last 30 days when specified', () => {
+    const currentTable = {
+      earliestDate: '2001-01-01',
+      latestDate: '2021-01-06'
+    }
+    const expectedLast30DayDate = '2020-12-08';
+    
+    expect(determineDateRange(currentTable, { label: "Last 30 Days", key: 'current', years: null }).from)
+      .toEqual(new Date(expectedLast30DayDate));
+  });
+
   // it('sets the date range to the entire month of the most recent date available, ' +
   //   'when currentDateButton is set to byMonth', () => {
   //   expect(determineDateRange(TABLE_OBJ, PRESETS.current, 'byMonth').selectionPath)
