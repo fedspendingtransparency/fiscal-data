@@ -1,12 +1,10 @@
-
 // const + Object.freeze makes the globalConstants object immutable.
 const globalConstants = {
   API_BASE: 'https://api.fiscaldata.treasury.gov',
   BASE_SITE_URL: 'https://fiscaldata.treasury.gov',
   DATA_LAB_URL: 'https://datalab.usaspending.gov/',
   FISCAL_TREASURY_URL: 'https://fiscal.treasury.gov',
-  PROD_API_BASE_URL:
-    'https://api.fiscaldata.treasury.gov/services/api/fiscal_service',
+  PROD_API_BASE_URL: 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service',
   USA_SPENDING_URL: 'https://www.usaspending.gov/',
   METADATA_SUMMARY: '/services/dtg/metadata/summary',
   PUBLISHED_REPORTS: '/services/dtg/publishedfiles',
@@ -61,6 +59,7 @@ const globalConstants = {
         '015-BFS-2014Q3-098',
         '015-BFS-2014Q3-045',
         '015-BFS-2014Q3-046',
+        '015-BFS-2014Q3-048',
       ],
     },
     downloadService: {
