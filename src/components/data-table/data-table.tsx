@@ -32,6 +32,7 @@ type DataTableProps = {
   selectColumnPanel;
   setResetFilters: (value: boolean) => void;
   pageSize: number;
+  tableName: string;
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
@@ -52,6 +53,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setResetFilters,
   hideCellLinks,
   pageSize,
+  tableName,
   setFiltersActive,
   hideColumns,
 }) => {
