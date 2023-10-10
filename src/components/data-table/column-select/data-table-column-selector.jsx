@@ -36,6 +36,7 @@ const DataTableColumnSelector = ({
   defaultColumns,
   additionalColumns,
   dataTableRef,
+  selectColumnPanel
 }) => {
   const CheckBoxList = columnList => (
     <>
@@ -47,6 +48,7 @@ const DataTableColumnSelector = ({
                 type="checkbox" 
                 checked={getIsVisible()} 
                 onChange={getToggleVisibilityHandler()}
+                onKeyDown={(e) => e.key === 'Enter'}
                 className={optionCheckbox} 
               />
               <span className={label_checkmark_container}>
@@ -61,13 +63,13 @@ const DataTableColumnSelector = ({
       })}
     </>
   );
-  const closeButtonRef = useRef(null);
+const closeButtonRef = useRef(null);
   useEffect(() => {
         if(closeButtonRef.current){
           closeButtonRef.current.focus();
         }
-  }, );
-  dataTableRef = closeButtonRef;
+  }, [selectColumnPanel]);
+  dataTableRef = closeButtonRef
   return (
     <section 
       className={columnSelectContainer} 
@@ -85,7 +87,6 @@ const DataTableColumnSelector = ({
             }
             className={closeButton}
             aria-label="Close select control panel"
-            data-testid="selectColumnClose"
           >
             <FontAwesomeIcon icon={faXmark} className={closePanelIcon} />
           </button>

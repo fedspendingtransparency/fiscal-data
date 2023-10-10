@@ -185,10 +185,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   const selectColumnsRef = useRef(null);
   useEffect(() => {
-    if (defaultSelectedColumns) {
+    if (selectColumnPanel) {
        selectColumnsRef.current?.focus();
     }
-  }, [defaultSelectedColumns])
+  }, )
 
   return (
     <>
@@ -205,6 +205,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
               {defaultSelectedColumns && (
                 <DataTableColumnSelector
                   dataTableRef={selectColumnsRef}
+                  selectColumnPanel={selectColumnPanel}
                   fields={allColumns}
                   resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
                   setSelectColumnPanel={setSelectColumnPanel}
