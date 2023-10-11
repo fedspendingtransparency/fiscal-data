@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import SearchFilterSummary from './searchFilterSummary';
-import { sum } from 'd3';
 import { mockFilters } from '../../mockData/mockFilters';
 import filterTools from '../../../../transform/filters/filterDefinitions';
+import { render } from '@testing-library/react';
 
 describe('Search Filter Summary', () => {
   let component = renderer.create(),
@@ -87,11 +87,21 @@ describe('Search Filter Summary', () => {
   });
 
   it('clears all filters', () => {
-    const clearAll = summary.children[1].children[2].children[1].props;
-    expect(clearAll.children[0]).toEqual('Clear All Filters');
-    renderer.act(() => {
-      clearAll.onClick();
-    });
+    filters = mockFilters;
+    searchQuery = 'test';
+    activeFilters = ['startDateRangeThree', 'savingsBonds'];
+    const { getByRole } = render(
+      <SearchFilterSummary
+        searchQuery={searchQuery}
+        activeFilters={activeFilters}
+        onGroupReset={onGroupResetMock}
+        onIndividualReset={onIndividualResetMock}
+        allFilters={filters}
+      />
+    );
+    const clearAll = getByRole('button', { name: 'Clear All Filters' });
+    expect(clearAll).toBeInTheDocument();
+    clearAll.click();
     expect(onGroupResetSpy).toHaveBeenCalledWith('startDate');
     expect(onGroupResetSpy).toHaveBeenCalledWith('topics');
     expect(onGroupResetSpy).toHaveBeenCalledTimes(2);
