@@ -31,8 +31,13 @@ export default function DtgTableRow({ columns, data, tableName}) {
       const decimalPlaces = parseInt(type.split('CURRENCY')[1]);
       formattedData = customFormat(cellData, decimalPlaces);
     } else if (type === 'NUMBER') {
-      if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate' || property === 'spread')) {
-        formattedData = cellData ? cellData : '';
+      if (tableName === 'FRN Daily Indexes'){
+        if (property === 'daily_index' || property === 'daily_int_accrual_rate') {
+          formattedData = cellData;
+        }
+        if (property === 'spread') {
+          formattedData = Number(cellData).toFixed(3);
+        }
       } else {
         formattedData = numberFormatter.format(cellData);
       }

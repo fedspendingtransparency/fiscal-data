@@ -118,6 +118,6 @@ describe('DtgTableRow', () => {
     const component = renderer.create(
       <DtgTableRow columns={cols} data={spreadData} />
     );
-    expect(component.root.findByType('td').props.children).toBe(0.0120);
+    expect(component.root.findByType('td').props.children).toBe(0.012);
   });
 });

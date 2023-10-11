@@ -23,7 +23,7 @@ const mockTableData = {
       negative_currency: '-134.1',
       daily_index: '0.111111111',
       daily_int_accrual_rate: '0.222222222',
-      spread: '-0.120',
+      spread: '-0.1200',
     },
     {
       record_date: '2023-07-11',
