@@ -1,7 +1,7 @@
 @import '../../variables.module.scss';
 
 .wrapper {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   height: calc(100% - 2rem);
   box-shadow: 0 -10px 13px -8px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -31,10 +31,10 @@
 }
 
 .downloadDescription {
-  margin-bottom: 0.5rem
+  margin-bottom: 0.5rem;
 }
 
-@media (min-width: $breakpoint-sm){
+@media (min-width: $breakpoint-sm) {
   .wrapper {
     box-shadow: -10px 0 13px -8px rgba(0, 0, 0, 0.2);
     border-radius: 0 5px 5px 0;

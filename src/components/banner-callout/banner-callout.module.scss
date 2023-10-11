@@ -1,12 +1,12 @@
 @import '../../variables.module.scss';
 
 .banner {
-    max-width: $site-content-width;
-    min-height: 3rem;
-    display: flex;
-    align-items: stretch;
-    margin-top: 1rem;
-    padding-right: 2rem;
+  max-width: $site-content-width;
+  min-height: 3rem;
+  display: flex;
+  align-items: stretch;
+  margin-top: 1rem;
+  padding-right: 2rem;
 }
 
 .sideTab {
@@ -31,32 +31,32 @@
 }
 
 .calloutText {
-    width: 100%;
-    margin: 0.875rem .5rem 0.875rem 0;
-    display: flex;
-    flex-direction: row;
-    .header {
-      font-weight: $semi-bold-weight;
-    }
-    .suggestions {
-        margin-top: 1rem;
-        font-size: $font-size-14;
+  width: 100%;
+  margin: 0.875rem 0.5rem 0.875rem 0;
+  display: flex;
+  flex-direction: row;
+  .header {
+    font-weight: $semi-bold-weight;
+  }
+  .suggestions {
+    margin-top: 1rem;
+    font-size: $font-size-14;
 
-        ul {
-          margin-top: .5rem;
-          margin-bottom: .125rem;
-          li {
-            margin-bottom: .25rem;
-          }
-        }
+    ul {
+      margin-top: 0.5rem;
+      margin-bottom: 0.125rem;
+      li {
+        margin-bottom: 0.25rem;
+      }
     }
+  }
 }
 
 .icon {
-    width: 1rem;
-    height: 1rem;
-    padding-right: .5rem;
-    padding-top: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+  padding-right: 0.5rem;
+  padding-top: 0.125rem;
 }
 
 .updateList {
@@ -64,24 +64,22 @@
   margin: 0.5rem 0 0;
 }
 
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .sideTab {
+    margin-right: 0.875rem;
+  }
 
-@media screen and (max-width: $breakpoint-lg - 1){
-    .sideTab {
-        margin-right: 0.875rem;
-    }
+  .calloutText {
+    margin: 1.125rem 1.375rem 1.125rem 0;
+  }
 
-    .calloutText {
-        margin: 1.125rem 1.375rem 1.125rem 0;
-    }
-
-    .banner {
-        margin-bottom: -0.25rem;
-    }
+  .banner {
+    margin-bottom: -0.25rem;
+  }
 }
 
-@media screen and (min-width: $breakpoint-lg){
-
-    .banner {
-        margin-bottom: 0.25rem;
-    }
+@media screen and (min-width: $breakpoint-lg) {
+  .banner {
+    margin-bottom: 0.25rem;
+  }
 }

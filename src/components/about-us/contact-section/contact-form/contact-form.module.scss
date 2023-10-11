@@ -5,16 +5,18 @@
   overflow: hidden;
 }
 
-.textInput, .formElement div button {
+.textInput,
+.formElement div button {
   width: 100%;
   border: 1px solid #cacaca;
   min-height: 40px;
   box-sizing: border-box;
   border-radius: 0.2rem;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
-.label, .formElement label {
+.label,
+.formElement label {
   padding-bottom: 0.5rem;
 }
 
@@ -109,14 +111,15 @@
   float: left;
   font-size: 20px;
   vertical-align: top;
-  transform: translateY(6px)
+  transform: translateY(6px);
 }
 
 .responseTitle {
   @include headingStyle5;
 }
 
-.responseTitle, .responseBody {
+.responseTitle,
+.responseBody {
   margin-left: calc(1rem + 20px);
 }
 

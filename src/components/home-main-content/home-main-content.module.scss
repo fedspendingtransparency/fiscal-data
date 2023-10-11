@@ -7,7 +7,7 @@
     color: #555555;
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   h5 {
@@ -42,20 +42,20 @@
   margin-bottom: 5rem;
 }
 
-@media screen and (min-width: $breakpoint-md){
+@media screen and (min-width: $breakpoint-md) {
   .mainContentButton {
     width: 49%;
   }
 }
 
-@media screen and (min-width: $breakpoint-lg){
+@media screen and (min-width: $breakpoint-lg) {
   .mainContentButton {
     width: 32%;
     margin-bottom: 9rem;
   }
 }
 
-@media screen and (max-width: $breakpoint-md){
+@media screen and (max-width: $breakpoint-md) {
   .mainContentButton {
     max-width: 328px;
   }
