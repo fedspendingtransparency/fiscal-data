@@ -1,4 +1,4 @@
-import {testMDX,ulTestId} from './helpers';
+import { testMDX, ulTestId } from './helpers';
 
 describe('About Us - Helpers', () => {
   it('has a testMDX that provides a standard mdx tree structure for MDX methods', () => {

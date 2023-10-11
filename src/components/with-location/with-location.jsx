@@ -9,12 +9,7 @@ const withLocation = ComponentToWrap => props => (
       const dataParamKey = Object.keys(params).find(key => key.toLocaleLowerCase() === 'data');
       const dataParam = dataParamKey ? params[dataParamKey] : undefined;
       const isPreProd = dataParam && dataParam.toLocaleLowerCase() === 'preprod';
-      return (
-        <ComponentToWrap
-          {...props}
-          preProd={isPreProd}
-        />
-      )
+      return <ComponentToWrap {...props} preProd={isPreProd} />;
     }}
   </Location>
 );

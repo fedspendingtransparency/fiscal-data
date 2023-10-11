@@ -6,7 +6,7 @@ export const testGlossaryData = [
     site_page: 'debt',
     definition: 'A banana',
     urlDisplay: 'example.com',
-    urlPath: 'example.com'
+    urlPath: 'example.com',
   },
   {
     id: '2',
@@ -14,7 +14,7 @@ export const testGlossaryData = [
     site_page: 'debt',
     definition: 'A pear',
     urlDisplay: 'example.com',
-    urlPath: 'example.com'
+    urlPath: 'example.com',
   },
   {
     id: '3',
@@ -22,7 +22,7 @@ export const testGlossaryData = [
     site_page: 'spending',
     definition: 'An apple',
     urlDisplay: 'example.com',
-    urlPath: 'example.com'
+    urlPath: 'example.com',
   },
   {
     id: '4',
@@ -30,9 +30,9 @@ export const testGlossaryData = [
     site_page: 'spending',
     definition: 'An apple',
     urlDisplay: 'example.com',
-    urlPath: 'example.com'
-  }
-]
+    urlPath: 'example.com',
+  },
+];
 
 export const testSortedGlossaryData = [
   [
@@ -42,37 +42,41 @@ export const testSortedGlossaryData = [
       site_page: 'spending',
       definition: 'An apple',
       urlDisplay: 'example.com',
-      urlPath: 'example.com'
+      urlPath: 'example.com',
     },
     {
-    id: 3,
-    term: 'Apple',
-    site_page: 'spending',
-    definition: 'An apple',
-    urlDisplay: 'example.com',
-    urlPath: 'example.com'
-  },
+      id: 3,
+      term: 'Apple',
+      site_page: 'spending',
+      definition: 'An apple',
+      urlDisplay: 'example.com',
+      urlPath: 'example.com',
+    },
   ],
- [ {
-    id: 1,
-    term: 'Banana',
-    site_page: 'debt',
-    definition: 'A banana',
-    urlDisplay: 'example.com',
-    urlPath: 'example.com'
-  }],
-  [{
-    id: 2,
-    term: 'Pear',
-    site_page: 'debt',
-    definition: 'A pear',
-    urlDisplay: 'example.com',
-    urlPath: 'example.com'
-  }],
-]
+  [
+    {
+      id: 1,
+      term: 'Banana',
+      site_page: 'debt',
+      definition: 'A banana',
+      urlDisplay: 'example.com',
+      urlPath: 'example.com',
+    },
+  ],
+  [
+    {
+      id: 2,
+      term: 'Pear',
+      site_page: 'debt',
+      definition: 'A pear',
+      urlDisplay: 'example.com',
+      urlPath: 'example.com',
+    },
+  ],
+];
 
 export const mockUseStaticGlossaryData = {
   allGlossaryCsv: {
-    nodes: testGlossaryData
-  }
-}
+    nodes: testGlossaryData,
+  },
+};

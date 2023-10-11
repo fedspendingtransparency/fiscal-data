@@ -88,10 +88,8 @@ const ExperimentalPage = () => {
       <SiteLayout>
         <h2>FootNote Paragraph</h2>
         <p>
-          empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna
-          eleifend ut. Nulla facilisi. Ut tempus orci nibh, vitae tristique erat
-          finibus egestas. Nullam ut nisl fringilla, condimentum ex eu, suscipit
-          tortor. In ultrices justo lorem. Donec a scelerisque quam.
+          empus purus ac Curabitur eleifend rutrum est, sit amet vehicula urna eleifend ut. Nulla facilisi. Ut tempus orci nibh, vitae tristique erat
+          finibus egestas. Nullam ut nisl fringilla, condimentum ex eu, suscipit tortor. In ultrices justo lorem. Donec a scelerisque quam.
         </p>
         <br />
         <br />
@@ -128,57 +126,33 @@ const ExperimentalPage = () => {
           labelTextColor={'#ffffff'}
         />
         <h2>Bar Graph with Negative Values, no axes</h2>
-        <InsightsDownload
-          downloadLink={
-            '/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'
-          }
-          dataDate={'Oct 2022'}
-        />
+        <InsightsDownload downloadLink={'/data/insights-data/who-owns-debt/Top10_Owners_of_US_Debt.csv'} dataDate={'Oct 2022'} />
         <div className={barDiv}>
           <BarGraph
             graphData={graph2Data}
             graphIndex={'year'}
             valueKeys={['value']}
-            colors={d =>
-              Number(d.value) >= 0 ? 'rgb(1, 118, 198)' : 'rgb(242, 108, 98)'
-            }
+            colors={d => (Number(d.value) >= 0 ? 'rgb(1, 118, 198)' : 'rgb(242, 108, 98)')}
           />
         </div>
         <h2>Two graphs at once, no axes</h2>
         <div className={barDiv}>
-          <span>
-            {' '}
-            The following graphs are color coded even as they cross the x-axis
-            and stack at the end.{' '}
-          </span>
-          <BarGraph
-            graphData={graph2Data}
-            graphIndex={'year'}
-            valueKeys={['value', 'value2']}
-            colors={['rgb(1, 118, 198)', 'rgb(242, 108, 98)']}
-          />
+          <span> The following graphs are color coded even as they cross the x-axis and stack at the end. </span>
+          <BarGraph graphData={graph2Data} graphIndex={'year'} valueKeys={['value', 'value2']} colors={['rgb(1, 118, 198)', 'rgb(242, 108, 98)']} />
         </div>
         <h2>Graph with incomplete/invalid data</h2>
         <div className={barDiv}>
-          <span>
-            {' '}
-            The following placeholder avoids a page error by checking the params
-            on deciding not to render a broken chart{' '}
-          </span>
+          <span> The following placeholder avoids a page error by checking the params on deciding not to render a broken chart </span>
           <BarGraph graphData={[]} graphIndex={17} valueKeys={{}} />
         </div>
         <h2>Custom Link Component</h2>
         <div className={linkDiv}>
-          <CustomLink url="/">
-            This should open the homepage in the same tab
-          </CustomLink>
+          <CustomLink url="/">This should open the homepage in the same tab</CustomLink>
           <CustomLink url="/" external>
-            This should open the homepage in a new tab (since the "external"
-            prop is passed in)
+            This should open the homepage in a new tab (since the "external" prop is passed in)
           </CustomLink>
           <CustomLink url="https://example.com">
-            This link should open https://example.com/ in a new tab even without
-            the "external" prop since the url starts with http(s)
+            This link should open https://example.com/ in a new tab even without the "external" prop since the url starts with http(s)
           </CustomLink>
         </div>
         <div>
@@ -204,31 +178,13 @@ const ExperimentalPage = () => {
         />{' '}
         <h3>Total Debt: Last 4 Years and FYTD 2023 in Trillions of USD</h3>
         {
-          <BarChart
-            width={650}
-            height={300}
-            data={totalDebtData.data}
-            layout="vertical"
-            barGap={30}
-            barSize={30}
-          >
+          <BarChart width={650} height={300} data={totalDebtData.data} layout="vertical" barGap={30} barSize={30}>
             <CartesianGrid horizontal={false} />
-            <XAxis
-              type="number"
-              domain={[0, 40]}
-              unit="T"
-              tickFormatter={v => `$${v}`}
-            />
+            <XAxis type="number" domain={[0, 40]} unit="T" tickFormatter={v => `$${v}`} />
             <YAxis type="category" dataKey="year" reversed="true" />
             <Legend align="left" verticalAlign="top" />
             {generateBar(totalDebtData.data)}
-            <Bar
-              name=" = $1T"
-              dataKey="null"
-              stackId="a"
-              fill="#555555"
-              legendType="square"
-            />
+            <Bar name=" = $1T" dataKey="null" stackId="a" fill="#555555" legendType="square" />
           </BarChart>
         }
       </SiteLayout>

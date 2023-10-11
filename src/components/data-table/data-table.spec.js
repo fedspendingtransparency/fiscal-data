@@ -178,7 +178,7 @@ const defaultColumnsTypeCheckMock = [
   'mock_small_fraction',
   'mock_percent',
   'mock_percent_string',
-  'negative_currency'
+  'negative_currency',
 ];
 const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
 const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));

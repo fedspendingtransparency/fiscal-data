@@ -1,13 +1,9 @@
 import React from 'react';
-import {render} from '@testing-library/react';
-import InsightsImage from "./insights-image";
+import { render } from '@testing-library/react';
+import InsightsImage from './insights-image';
 
 describe('Insights Image', () => {
-
-
-
   it('renders the image on normal (desktop) screen width', () => {
-
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
@@ -21,7 +17,6 @@ describe('Insights Image', () => {
   });
 
   it('renders the image on smaller (mobile) screen width', () => {
-
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,

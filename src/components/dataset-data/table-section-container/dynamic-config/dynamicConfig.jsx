@@ -3,9 +3,9 @@
  * This code is used internally, so the coverage isn't "AS" important with this file.
  */
 import React, { useEffect, useState } from 'react';
-import * as styles from "./dynamicConfig.module.scss";
-import { Modal, Popover} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import * as styles from './dynamicConfig.module.scss';
+import { Modal, Popover } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { createJSONOutput, placeTablePivots } from './helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
@@ -27,7 +27,7 @@ const getModalStyle = () => {
   };
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     position: 'absolute',
     width: 400,
@@ -38,12 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DynamicConfig = ({
-  selectedTable,
-  handleIgnorePivots,
-  handlePivotsUpdated,
-  refreshTable
-}) => {
+const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated, refreshTable }) => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -67,14 +62,18 @@ const DynamicConfig = ({
   const setPivotOptions = () => {
     const completeTableObj = {
       aggregateOn: null,
-      chartType: "none",
+      chartType: 'none',
       dimensionField: null,
       filters: null,
-      title: "Complete Table"
+      title: 'Complete Table',
     };
     const curPivotViews = [completeTableObj];
-    const aggregate = selectedTable.isLargeDataset ? [{field: 'record_calendar_year', type: 'YEAR'},
-      {field: 'record_calendar_month', type: 'MONTH'}] : null;
+    const aggregate = selectedTable.isLargeDataset
+      ? [
+          { field: 'record_calendar_year', type: 'YEAR' },
+          { field: 'record_calendar_month', type: 'MONTH' },
+        ]
+      : null;
 
     selectedTable.valueFieldOptions = pivotValues.map(pivot => pivot.columnName);
 
@@ -85,8 +84,8 @@ const DynamicConfig = ({
         dimensionField: pivot.columnName,
         filters: pivot.filters,
         title: pivot.title || pivot.prettyName,
-        lastRowSnapshot: pivot.lastRowSnapshot
-      })
+        lastRowSnapshot: pivot.lastRowSnapshot,
+      });
     });
     selectedTable.dataDisplays = curPivotViews;
     handlePivotsUpdated();
@@ -100,44 +99,43 @@ const DynamicConfig = ({
     }
   };
 
-  const copyToClipboard = (event) => {
+  const copyToClipboard = event => {
     setSuccessMessageAnchor(event.currentTarget);
-    window.navigator.clipboard.writeText(
-      createJSONOutput(selectedTable, pivotViews, pivotValues)
-    ).then(() => {
-      setIsCopySuccessful(true);
-      setShowSuccessMessage(true);
-    }).catch(() => {
-      setIsCopySuccessful(false);
-      setShowSuccessMessage(true);
-    }).finally(() => {
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-        setSuccessMessageAnchor(null);
-      }, 1000);
-    });
+    window.navigator.clipboard
+      .writeText(createJSONOutput(selectedTable, pivotViews, pivotValues))
+      .then(() => {
+        setIsCopySuccessful(true);
+        setShowSuccessMessage(true);
+      })
+      .catch(() => {
+        setIsCopySuccessful(false);
+        setShowSuccessMessage(true);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+          setSuccessMessageAnchor(null);
+        }, 1000);
+      });
   };
 
   const createDropzone = (sourceList, type) => (
     <div
       data-test-id={`dropzone_${type.toLowerCase()}`}
       className={`${styles.dropzone} ${type.toLowerCase()}`}
-      onDragOver={(e) => e.preventDefault()}
+      onDragOver={e => e.preventDefault()}
       onDragEnter={highlightDropzone}
       onDragLeave={removeDropzoneHighlight}
-      onDrop={(e) => dropContent(e, type)}
+      onDrop={e => dropContent(e, type)}
       role={'presentation'}
     >
       {createPivotOptions(sourceList)}
     </div>
   );
 
-  const updatePivotViewConfig = (field) => {
-
+  const updatePivotViewConfig = field => {
     const localPivotViews = pivotViews.slice();
-    const updatedView = localPivotViews.find(pv => (
-      pv.columnName === field.columnName && pv.title === field.title
-    ));
+    const updatedView = localPivotViews.find(pv => pv.columnName === field.columnName && pv.title === field.title);
     updatedView.lastRowSnapshot = field.lastRowSnapshot;
     if (field.lastSavedTitle !== undefined) {
       updatedView.title = field.title;
@@ -155,7 +153,7 @@ const DynamicConfig = ({
     setIsConfigDirty(true);
   };
 
-  const savePivotViewTitle = (field) => {
+  const savePivotViewTitle = field => {
     updatePivotViewConfig(field);
     setFieldInEditMode(null);
   };
@@ -167,14 +165,14 @@ const DynamicConfig = ({
     field.title = value;
   };
 
-  const updateLastSavedSnapshot = (field) => {
+  const updateLastSavedSnapshot = field => {
     if (field.lastSavedSnapshot === undefined) {
       field.lastSavedSnapshot = field.lastRowSnapshot || false; // to ensure boolean, not undef
     }
     field.lastRowSnapshot = !field.lastRowSnapshot;
   };
 
-  const cancelPivotViewChanges = (field) => {
+  const cancelPivotViewChanges = field => {
     if (field.lastSavedTitle) {
       field.title = field.lastSavedTitle;
       delete field.lastSavedTitle;
@@ -186,77 +184,57 @@ const DynamicConfig = ({
     setFieldInEditMode(null);
   };
 
-  const createPivotOptions = (list) => (
+  const createPivotOptions = list =>
     list.map((field, i) => (
-        <div
-          role={'button'}
-          tabIndex={0}
-          key={`configField-${i}`}
-          className={`${styles.fieldOption} ${fieldInEditMode === field ? styles.edit : ''}`}
-          draggable
-          onDragStart={() => initiateDragStart(field, i)}
-        >
-          {field.columnName}
-          <span className={styles.pivotViewOnly}>
-            {' '} | {fieldInEditMode === field ? (
-              <>
-                <input
-                  defaultValue={field.title} data-testid="titleInput"
-                  onChange={(event) => editPivotViewTitle(field, event.target.value)}
-                />
-              </>
-            ) : (
-              <>
-                <span data-testid="pivotViewTitle">{field.title}</span>
-                <button
-                  className={styles.editButton}
-                  data-testid={`editButton-${field.title}`}
-                  onClick={() => setFieldInEditMode(field)}
-                >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-              </>
-            )}
-          </span>
-          {fieldInEditMode === field && (
+      <div
+        role={'button'}
+        tabIndex={0}
+        key={`configField-${i}`}
+        className={`${styles.fieldOption} ${fieldInEditMode === field ? styles.edit : ''}`}
+        draggable
+        onDragStart={() => initiateDragStart(field, i)}
+      >
+        {field.columnName}
+        <span className={styles.pivotViewOnly}>
+          {' '}
+          |{' '}
+          {fieldInEditMode === field ? (
             <>
-              <span className={styles.snapshotToggler}>
-                Use last row snapshot for values?
-                <input
-                  type="checkbox"
-                  onChange={() => updateLastSavedSnapshot(field)}
-                  defaultChecked={field.lastRowSnapshot}
-                />
-              </span>
-
-                <div className={styles.filtersContainer} data-testid="filterEditor">
-                  <FilterEditor
-                    filters={filtersInEdit}
-                    columnNames={selectedTable.fields.map(f => f.columnName)}
-                    onUpdate={setFiltersInEdit}
-                  />
-                </div>
-              <hr />
-              <button
-                onClick={() => savePivotViewTitle(field)}
-                data-testid="saveButton"
-              >
-                <FontAwesomeIcon icon={faCheck} /> Save Changes
-              </button>
-              <button
-                onClick={() => cancelPivotViewChanges(field)}
-                data-testid="cancelButton"
-              >
-                <FontAwesomeIcon icon={faTimes} /> Cancel
+              <input defaultValue={field.title} data-testid="titleInput" onChange={event => editPivotViewTitle(field, event.target.value)} />
+            </>
+          ) : (
+            <>
+              <span data-testid="pivotViewTitle">{field.title}</span>
+              <button className={styles.editButton} data-testid={`editButton-${field.title}`} onClick={() => setFieldInEditMode(field)}>
+                <FontAwesomeIcon icon={faEdit} />
               </button>
             </>
           )}
-        </div>
-    ))
-  );
+        </span>
+        {fieldInEditMode === field && (
+          <>
+            <span className={styles.snapshotToggler}>
+              Use last row snapshot for values?
+              <input type="checkbox" onChange={() => updateLastSavedSnapshot(field)} defaultChecked={field.lastRowSnapshot} />
+            </span>
+
+            <div className={styles.filtersContainer} data-testid="filterEditor">
+              <FilterEditor filters={filtersInEdit} columnNames={selectedTable.fields.map(f => f.columnName)} onUpdate={setFiltersInEdit} />
+            </div>
+            <hr />
+            <button onClick={() => savePivotViewTitle(field)} data-testid="saveButton">
+              <FontAwesomeIcon icon={faCheck} /> Save Changes
+            </button>
+            <button onClick={() => cancelPivotViewChanges(field)} data-testid="cancelButton">
+              <FontAwesomeIcon icon={faTimes} /> Cancel
+            </button>
+          </>
+        )}
+      </div>
+    ));
 
   const togglePivots = () => {
-    if(!ignorePivots){
+    if (!ignorePivots) {
       refreshTable();
     }
     setIgnorePivots(!ignorePivots);
@@ -264,24 +242,24 @@ const DynamicConfig = ({
   };
 
   const initiateDragStart = (pivot, i) => {
-    setDraggableContent({pivot, idx: i});
+    setDraggableContent({ pivot, idx: i });
   };
 
-  const highlightDropzone = (e) => {
+  const highlightDropzone = e => {
     e.currentTarget.style.opacity = 0.5;
   };
 
-  const removeDropzoneHighlight = (e) => {
+  const removeDropzoneHighlight = e => {
     e.currentTarget.style.opacity = 1;
   };
 
   const dropContent = (e, type) => {
     if (
-      !draggableContent
-      || !draggableContent.pivot
-      || type === draggableContent.pivot.from
-      || (type === 'PIVOT_BANK' && !draggableContent.pivot.from
-    )) {
+      !draggableContent ||
+      !draggableContent.pivot ||
+      type === draggableContent.pivot.from ||
+      (type === 'PIVOT_BANK' && !draggableContent.pivot.from)
+    ) {
       return;
     }
 
@@ -290,11 +268,9 @@ const DynamicConfig = ({
     let source = null;
     let sourceSetter = null;
 
-    const curPivot = type === 'VIEW'
-      ? Object.assign({}, draggableContent.pivot)
-      : draggableContent.pivot;
+    const curPivot = type === 'VIEW' ? Object.assign({}, draggableContent.pivot) : draggableContent.pivot;
 
-    switch(curPivot.from) {
+    switch (curPivot.from) {
       case 'VIEW':
         source = pivotViews;
         sourceSetter = setPivotViews;
@@ -313,7 +289,7 @@ const DynamicConfig = ({
     const sourceFields = source.slice();
 
     const uniquifyTitle = (pivot, title, count = 0) => {
-      const findTitle = count ? `${title.replace(/ \d+$/,'')} ${count}` : title;
+      const findTitle = count ? `${title.replace(/ \d+$/, '')} ${count}` : title;
       if (count > 20) return findTitle;
       if (pivotViews.some(p => p.title === findTitle)) {
         return uniquifyTitle(pivot, title, ++count);
@@ -321,7 +297,7 @@ const DynamicConfig = ({
       return findTitle;
     };
 
-    switch(type) {
+    switch (type) {
       case 'VIEW':
         curPivot.title = uniquifyTitle(curPivot, curPivot.title || curPivot.prettyName);
         curPivots = curPivots.concat(pivotViews);
@@ -367,12 +343,7 @@ const DynamicConfig = ({
 
   return (
     <>
-      <button
-        data-testid="launchConfigModal"
-        aria-label="Configure Chart"
-        className={styles.configButton}
-        onClick={launchConfig}
-      >
+      <button data-testid="launchConfigModal" aria-label="Configure Chart" className={styles.configButton} onClick={launchConfig}>
         Configure Chart
       </button>
       <label>
@@ -388,12 +359,7 @@ const DynamicConfig = ({
         {
           // TODO - Move the children of Modal into a new component along with any resulting logic
           // and unit test this separately from the modal
-          <div
-            data-testid="configModal"
-            id={styles.modal}
-            style={modalStyle}
-            className={classes.paper}
-          >
+          <div data-testid="configModal" id={styles.modal} style={modalStyle} className={classes.paper}>
             <header>
               <h1>Configure Chart</h1>
             </header>
@@ -426,25 +392,14 @@ const DynamicConfig = ({
                 open={showSuccessMessage}
                 anchorEl={successMessageAnchor}
               >
-                <div
-                  className={
-                    isCopySuccessful ? styles.successfulMessage : styles.unsuccessfulMessage
-                  }
-                >
+                <div className={isCopySuccessful ? styles.successfulMessage : styles.unsuccessfulMessage}>
                   {isCopySuccessful ? 'Success' : 'Something went wrong, please try again.'}
                 </div>
               </Popover>
-              <button
-                className={styles.configButton}
-                onClick={copyToClipboard}
-              >
+              <button className={styles.configButton} onClick={copyToClipboard}>
                 Copy JSON to Clipboard
               </button>
-              <button
-                data-test-id="closeConfigModal"
-                className={styles.configButton}
-                onClick={closeConfig}
-              >
+              <button data-test-id="closeConfigModal" className={styles.configButton} onClick={closeConfig}>
                 Close
               </button>
             </footer>
@@ -452,7 +407,7 @@ const DynamicConfig = ({
         }
       </Modal>
     </>
-  )
+  );
 };
 
 export default DynamicConfig;

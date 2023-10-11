@@ -8,16 +8,16 @@ import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
 
 interface IGlossary {
-  termList: IGlossaryTerm[],
-  activeState: boolean,
-  setActiveState: (boolean) => void,
-  glossaryEvent: boolean,
-  glossaryClickEventHandler: (boolean) => void,
+  termList: IGlossaryTerm[];
+  activeState: boolean;
+  setActiveState: (boolean) => void;
+  glossaryEvent: boolean;
+  glossaryClickEventHandler: (boolean) => void;
 }
 
-const getQueryTerm = (termList):IGlossaryTerm => {
+const getQueryTerm = (termList): IGlossaryTerm => {
   if (typeof window !== 'undefined') {
-    const queryParameters= new URLSearchParams(window.location.search);
+    const queryParameters = new URLSearchParams(window.location.search);
     const termSlug = queryParameters.get('glossary');
     if (termSlug) {
       return termList.find((element: IGlossaryTerm) => {
@@ -28,9 +28,9 @@ const getQueryTerm = (termList):IGlossaryTerm => {
       });
     }
   }
-}
+};
 
-const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState, glossaryEvent, glossaryClickEventHandler }) => {
+const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState, glossaryEvent, glossaryClickEventHandler }) => {
   const [filter, setFilter] = useState('');
 
   const sortedTermList = getSortedGlossaryList(termList);
@@ -45,7 +45,7 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
       setActiveState(queryTerm !== null && queryTerm !== undefined);
       removeAddressPathQuery(window.location);
     }
-  })
+  });
 
   useEffect(() => {
     if (glossaryEvent) {
@@ -68,25 +68,18 @@ const Glossary:FunctionComponent<IGlossary> = ({ termList, activeState, setActiv
         node.focus();
       }
     }
-  }, [activeState])
+  }, [activeState]);
 
-  const toggleState = (e) => {
+  const toggleState = e => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
       setQueryTerm(null);
     }
-  }
+  };
 
   return (
-    <div
-      className={`${glossaryContainer} ${activeState ? open : ''}`}
-      data-testid="glossaryContainer"
-    >
-      <div
-        className={overlay}
-        data-testid="overlay"
-        onClick={toggleState}
-      />
+    <div className={`${glossaryContainer} ${activeState ? open : ''}`} data-testid="glossaryContainer">
+      <div className={overlay} data-testid="overlay" onClick={toggleState} />
       <div className={`${tray} ${activeState ? open : ''}`}>
         {activeState && (
           <>

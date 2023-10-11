@@ -1,27 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import * as styles from './section-content.module.scss';
 
-const SectionContent = ({id, children, className, headingLevel, title}) => {
-
+const SectionContent = ({ id, children, className, headingLevel, title }) => {
   const [header, setHeader] = useState(null);
   const scHeadingLevel = headingLevel ? parseInt(headingLevel, 10) : 2;
 
   const createHeader = () => {
     switch (scHeadingLevel) {
-      case 2 :
+      case 2:
         return <h2>{title}</h2>;
-      case 3 :
+      case 3:
         return <h3>{title}</h3>;
-      case 4 :
+      case 4:
         return <h4>{title}</h4>;
-      case 5 :
+      case 5:
         return <h5>{title}</h5>;
-      case 6 :
+      case 6:
         return <h6>{title}</h6>;
-      default :
+      default:
         return <h2>{title}</h2>;
     }
-  }
+  };
 
   useEffect(() => {
     setHeader(createHeader());
@@ -32,6 +31,6 @@ const SectionContent = ({id, children, className, headingLevel, title}) => {
       {header}
       {children}
     </section>
-  )
-}
+  );
+};
 export default SectionContent;

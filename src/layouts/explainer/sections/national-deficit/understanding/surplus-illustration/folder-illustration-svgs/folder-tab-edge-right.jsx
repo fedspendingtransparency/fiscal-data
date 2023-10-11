@@ -1,6 +1,6 @@
-import {withWindowSize} from "react-fns";
-import React from "react";
-import {tabEdgeRight} from "../surplus-illustration.module.scss";
+import { withWindowSize } from 'react-fns';
+import React from 'react';
+import { tabEdgeRight } from '../surplus-illustration.module.scss';
 
 const FolderTabEdgeRight = () => {
   return (
@@ -23,19 +23,19 @@ const FolderTabEdgeRight = () => {
             strokeWidth="2"
           />
         </g>
-          <g strokeLinejoin="miter" transform="scale(-1,1)">
-            <path
-              d="M -11 32 L 2 32 C 2.9654 31.561 5 32 6 30 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
-              fill="none"
-              strokeLinecap="square"
-              stroke="#e0baab"
-              strokeMiterlimit="80"
-              strokeWidth="2"
-            />
-          </g>
+        <g strokeLinejoin="miter" transform="scale(-1,1)">
+          <path
+            d="M -11 32 L 2 32 C 2.9654 31.561 5 32 6 30 L 8.1914 2.3517 C 8.1914 1.0586 9.711 0 11.5816 0 L 12.5451 0"
+            fill="none"
+            strokeLinecap="square"
+            stroke="#e0baab"
+            strokeMiterlimit="80"
+            strokeWidth="2"
+          />
+        </g>
       </svg>
     </div>
-  )
-}
+  );
+};
 
 export default withWindowSize(FolderTabEdgeRight);

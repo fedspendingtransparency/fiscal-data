@@ -1,24 +1,24 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DatasetsPage from "./index";
+import DatasetsPage from './index';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { pageQueryMock } from '../../components/datasets/mockData/mockDatasets';
 import * as Gatsby from 'gatsby';
-import SearchField from "../../components/datasets/search-field/search-field";
+import SearchField from '../../components/datasets/search-field/search-field';
 import FilterSection from '../../components/datasets/filters/filters';
-import { MuiThemeProvider } from "@material-ui/core";
-import { mockFilters } from "../../components/datasets/mockData/mockFilters";
+import { MuiThemeProvider } from '@material-ui/core';
+import { mockFilters } from '../../components/datasets/mockData/mockFilters';
 
 const useStaticQueryMock = jest.spyOn(Gatsby, 'useStaticQuery');
-useStaticQueryMock.mockImplementation(() => (pageQueryMock));
+useStaticQueryMock.mockImplementation(() => pageQueryMock);
 jest.mock('../../helpers/metadata/use-metadata-updater-hook');
 jest.mock('../../components/truncate/truncate.jsx', () => () => 'Truncator');
 jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
-  useMetadataUpdater: jest.fn().mockImplementation((i) => {
+  useMetadataUpdater: jest.fn().mockImplementation(i => {
     return i;
-  })
+  }),
 }));
 
 describe('Dataset Page', () => {
@@ -30,17 +30,16 @@ describe('Dataset Page', () => {
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
   beforeAll(() => {
-
     renderer.act(() => {
       component = renderer.create(
-        <DatasetsPage pageContext={{
-          filters: mockFilters
-        }}
+        <DatasetsPage
+          pageContext={{
+            filters: mockFilters,
+          }}
         />
       );
       jest.runAllTimers();
-    }
-    );
+    });
     jest.runAllTimers();
     instance = component.root;
     filterComponent = instance.find(e => e.type === FilterSection);
@@ -51,7 +50,7 @@ describe('Dataset Page', () => {
     renderer.act(() => {
       searchField.props.changeHandler('');
     });
-  }
+  };
 
   it('lives within the site layout', () => {
     expect(instance.children[0].type).toBe(SiteLayout);
@@ -75,8 +74,7 @@ describe('Dataset Page', () => {
   });
 
   it('initially passes all datasets to the filter component', () => {
-    expect(filterComponent.props.searchResults.length)
-      .toBe(pageQueryMock.allDatasets.datasets.length);
+    expect(filterComponent.props.searchResults.length).toBe(pageQueryMock.allDatasets.datasets.length);
   });
 
   it('filters datasets when search is activated', async () => {
@@ -113,5 +111,4 @@ describe('Dataset Page', () => {
     // Revert search back to default state
     clearSearch();
   });
-
 });

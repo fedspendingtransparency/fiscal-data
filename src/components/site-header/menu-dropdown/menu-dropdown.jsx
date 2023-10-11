@@ -11,22 +11,14 @@ import {
   dropdownListItem,
   activeDropdownLink,
   resourcesDropDown,
-} from "./menu-dropdown.module.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretDown, faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import React, {useEffect, useState} from "react";
-import {Link} from "gatsby";
-import Analytics from "../../../utils/analytics/analytics";
+} from './menu-dropdown.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'gatsby';
+import Analytics from '../../../utils/analytics/analytics';
 
-const MenuDropdown = (
-  {
-    content,
-    activeDropdown,
-    setActiveDropdown,
-    glossaryClickHandler,
-    analyticsClickHandler,
-  }) => {
-
+const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler }) => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
 
@@ -38,46 +30,45 @@ const MenuDropdown = (
       Analytics.event({
         category: 'Sitewide Navigation',
         action: `Topics Click`,
-        label: pageName
-      })
+        label: pageName,
+      });
       window.dataLayer.push({
-        'event': 'topics-click',
-        'eventLabel': pageName,
+        event: 'topics-click',
+        eventLabel: pageName,
       });
     } else if (pageName === 'Glossary') {
       glossaryClickHandler(true);
       window.dataLayer.push({
-        'event': 'glossary-click',
+        event: 'glossary-click',
       });
     } else if (pageName === 'API Documentation') {
       analyticsClickHandler(pageName);
       window.dataLayer.push({
-        'event': 'api-doc-click-resources',
-        'eventLabel': document.title,
+        event: 'api-doc-click-resources',
+        eventLabel: document.title,
       });
     } else if (pageName === 'Release Calendar') {
       window.dataLayer.push({
-        'event': 'Release Calendar-click',
-        'eventLabel': document.title,
+        event: 'Release Calendar-click',
+        eventLabel: document.title,
       });
     } else if (title === 'Tools') {
       window.dataLayer.push({
-        'event': 'tools-click',
-        'eventLabel': pageName,
+        event: 'tools-click',
+        eventLabel: pageName,
       });
-    }
-    else {
+    } else {
       Analytics.event({
         category: 'Sitewide Navigation',
         action: `${pageName} Click`,
         label: pageName,
-      })
+      });
     }
-  }
+  };
 
   const handleMouseLeave = () => {
-    setActiveDropdown(null)
-  }
+    setActiveDropdown(null);
+  };
 
   const handleMouseEnter = () => {
     setTimeout(() => {
@@ -85,112 +76,85 @@ const MenuDropdown = (
       setActiveDropdown(title);
       setToggleDropdown(true);
       setTimeout(() => {
-        setToggleDropdown(false)
-      }, 10)
-    }, 20)
-  }
-  const handleBlur = (event) => {
-
+        setToggleDropdown(false);
+      }, 10);
+    }, 20);
+  };
+  const handleBlur = event => {
     const currentTarget = event.currentTarget;
     requestAnimationFrame(() => {
-      if(!currentTarget.contains(document.activeElement)) {
+      if (!currentTarget.contains(document.activeElement)) {
         handleMouseLeave();
       }
     });
-  }
+  };
 
   useEffect(() => {
-    if(activeDropdown !== title) {
+    if (activeDropdown !== title) {
       setExpanded(false);
       setToggleDropdown(true);
       setTimeout(() => {
         setToggleDropdown(false);
-      }, 10)
+      }, 10);
     }
-  }, [activeDropdown])
+  }, [activeDropdown]);
 
   const childLayout = () => {
     if (content.children[0].children) {
-      return content.children.map((section, index) =>{
+      return content.children.map((section, index) => {
         return (
           <div className={dropdownRow} key={index}>
             <div className={dropdownColumnOne}>
-              <div className={dropdownTitle}>
-                {section.header}
-              </div>
+              <div className={dropdownTitle}>{section.header}</div>
               <div>
-                {section.children.map((page) => {
+                {section.children.map(page => {
                   return (
-                    <div key={page.title}
-                         className={dropdownListItem}
-                    >
-                      <Link
-                        to={page.to}
-                        activeClassName={activeDropdownLink}
-                        onClick={() => handlePageClick(title, page.title)}
-                      >
+                    <div key={page.title} className={dropdownListItem}>
+                      <Link to={page.to} activeClassName={activeDropdownLink} onClick={() => handlePageClick(title, page.title)}>
                         {page.title}
                       </Link>
                     </div>
-                  )
+                  );
                 })}
               </div>
             </div>
           </div>
-        )
-      })
+        );
+      });
     } else {
       const primaryChildren = content.children;
       return (
         <div className={resourcesDropDown}>
-          {primaryChildren.map((link) => {
+          {primaryChildren.map(link => {
             if (link.to) {
               return (
-                <div
-                  key={link.title}
-                  className={dropdownListItem}
-                >
+                <div key={link.title} className={dropdownListItem}>
                   <Link
                     to={link.to}
                     activeClassName={activeDropdownLink}
-                    onClick={() => handlePageClick(title,  link.title)}
-                    style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
+                    onClick={() => handlePageClick(title, link.title)}
+                    style={{ minWidth: `${link.title.length * 7.5 + 28}px` }}
                   >
                     {link.title}
                   </Link>
                 </div>
-              )
+              );
             } else {
               return (
-                <button
-                  key={link.title}
-                  onClick={() => handlePageClick(title, link.title)}
-                  style={{minWidth:`${(link.title.length * 7.5)+28}px`}}
-                >
+                <button key={link.title} onClick={() => handlePageClick(title, link.title)} style={{ minWidth: `${link.title.length * 7.5 + 28}px` }}>
                   {link.title}
                 </button>
-              )
+              );
             }
-          })
-          }
+          })}
         </div>
-      )
+      );
     }
-  }
+  };
 
-  return(
-    <div
-      className={dropdown}
-      key={title}
-      onMouseEnter={handleMouseEnter}
-      onFocus={handleMouseEnter}
-      role={'button'}
-      tabIndex={0}
-    >
-      <div
-        className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`}
-        style={{minWidth:`${(title.length * 7.5)+28}px`}}
-      >
+  return (
+    <div className={dropdown} key={title} onMouseEnter={handleMouseEnter} onFocus={handleMouseEnter} role={'button'} tabIndex={0}>
+      <div className={`${isExpanded ? dropdownButtonExpanded : null} ${dropdownButton}`} style={{ minWidth: `${title.length * 7.5 + 28}px` }}>
         {title}
         <FontAwesomeIcon icon={isExpanded ? faCaretDown : faCaretRight} className={caret} />
       </div>
@@ -199,14 +163,14 @@ const MenuDropdown = (
           className={`${dropdownContent} ${toggleDropdown ? dropdownHidden : ''}`}
           data-testid={'dropdownContent'}
           onMouseLeave={handleMouseLeave}
-          onBlur={(e) => handleBlur(e)}
+          onBlur={e => handleBlur(e)}
           role={'presentation'}
         >
           {childLayout()}
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default MenuDropdown;

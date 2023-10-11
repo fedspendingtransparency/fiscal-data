@@ -1,12 +1,11 @@
 import React from 'react';
 
-import RelatedDatasets, {context, title} from "./related-datasets";
+import RelatedDatasets, { context, title } from './related-datasets';
 import renderer from 'react-test-renderer';
 import DatasetCard from '../dataset-card/dataset-card';
-import { render } from "@testing-library/react";
+import { render } from '@testing-library/react';
 
 describe('RelatedDatasets', () => {
-
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -30,9 +29,7 @@ describe('RelatedDatasets', () => {
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />
-    );
+    component = renderer.create(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
   });
 
   const instance = component.root;
@@ -42,16 +39,14 @@ describe('RelatedDatasets', () => {
     expect(getByTestId('sectionContainer').innerHTML).toContain(title);
   });
 
-  it('should show the appropriate number of cards, and they should be in alphabetical order',
-    () => {
-      const { queryAllByTestId } = render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
-      const datasetCards = queryAllByTestId('cardWrapper');
-      expect(datasetCards.length).toBe(3);
-      expect(datasetCards[0].innerHTML).toContain(sortedDataset1);
-      expect(datasetCards[1].innerHTML).toContain(sortedDataset2);
-      expect(datasetCards[2].innerHTML).toContain(sortedDataset3);
-    }
-  );
+  it('should show the appropriate number of cards, and they should be in alphabetical order', () => {
+    const { queryAllByTestId } = render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
+    const datasetCards = queryAllByTestId('cardWrapper');
+    expect(datasetCards.length).toBe(3);
+    expect(datasetCards[0].innerHTML).toContain(sortedDataset1);
+    expect(datasetCards[1].innerHTML).toContain(sortedDataset2);
+    expect(datasetCards[2].innerHTML).toContain(sortedDataset3);
+  });
 
   it('should pass along context and referrer props to the Dataset Card for analytics', () => {
     const cards = instance.findAllByType(DatasetCard);

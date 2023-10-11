@@ -1,20 +1,20 @@
-import { utcParse, utcFormat } from "d3-time-format"
-import { select, selectAll } from "d3-selection"
-import { formatForDataType } from "./utils";
-import {groupBy} from "../helpers/helpers";
+import { utcParse, utcFormat } from 'd3-time-format';
+import { select, selectAll } from 'd3-selection';
+import { formatForDataType } from './utils';
+import { groupBy } from '../helpers/helpers';
 
 const d3 = { select, selectAll },
-    tooltipClass = 'tooltip',
-    pointLayerClass = 'pointLayer',
-    pointClass = 'tooltipPoint',
-    tooltipDimensions = {
-        height: 110,
-        width: 300
-    },
-    tooltipPadding = 20,
-    maxContentWidth = tooltipDimensions.width - tooltipPadding * 2,
-    formatDate = utcFormat("%m/%d/%Y"),
-    parseDate = utcParse("%Y-%m-%d");
+  tooltipClass = 'tooltip',
+  pointLayerClass = 'pointLayer',
+  pointClass = 'tooltipPoint',
+  tooltipDimensions = {
+    height: 110,
+    width: 300,
+  },
+  tooltipPadding = 20,
+  maxContentWidth = tooltipDimensions.width - tooltipPadding * 2,
+  formatDate = utcFormat('%m/%d/%Y'),
+  parseDate = utcParse('%Y-%m-%d');
 
 const dots = [];
 let tooltipG;
@@ -22,194 +22,211 @@ let pointLayer;
 export const maxTooltipHitbox = 20;
 export const minTooltipHitbox = 7.5;
 
-
-const initTooltip = (
-  {
-    data,
-    currentScales,
-    container,
-    visibleContainer,
-    visibleFields,
-    dateField,
-    chartDimensions,
-    labels,
-    dataType,
-    toolTipDateKey
-  }) => {
-
-  const mapData = () => data.reduce((accumulator, r) => {
-    return accumulator.concat(visibleFields.map(f => {
-      return {
-        value: r[f],
-        field: f,
-        date: r[dateField],
-        displayDate: toolTipDateKey ? r[toolTipDateKey] : formatDate(parseDate(r[dateField]))
-      }
-    }));
-  }, []).filter(ttr => ttr.value !== null && ttr.value !== undefined && ttr.value !== 'null');
-
-    const placeTooltip = function () {
-        const box = visibleContainer.node().getBoundingClientRect(),
-            yOffset = 15,
-            limits = {
-                low: box.height - tooltipDimensions.height - yOffset,
-                left: tooltipDimensions.width / 2,
-                right: box.width - tooltipDimensions.width - chartDimensions.yAxisWidth
+const initTooltip = ({
+  data,
+  currentScales,
+  container,
+  visibleContainer,
+  visibleFields,
+  dateField,
+  chartDimensions,
+  labels,
+  dataType,
+  toolTipDateKey,
+}) => {
+  const mapData = () =>
+    data
+      .reduce((accumulator, r) => {
+        return accumulator.concat(
+          visibleFields.map(f => {
+            return {
+              value: r[f],
+              field: f,
+              date: r[dateField],
+              displayDate: toolTipDateKey ? r[toolTipDateKey] : formatDate(parseDate(r[dateField])),
             };
+          })
+        );
+      }, [])
+      .filter(ttr => ttr.value !== null && ttr.value !== undefined && ttr.value !== 'null');
 
-        let x = currentScales.x(parseDate(this.date)) - chartDimensions.yAxisWidth - tooltipDimensions.width / 2,
-            y = currentScales.y(this.value) + yOffset;
+  const placeTooltip = function() {
+    const box = visibleContainer.node().getBoundingClientRect(),
+      yOffset = 15,
+      limits = {
+        low: box.height - tooltipDimensions.height - yOffset,
+        left: tooltipDimensions.width / 2,
+        right: box.width - tooltipDimensions.width - chartDimensions.yAxisWidth,
+      };
 
-        // reposition x if needed
-        if (x > limits.right) {
-            x = limits.right;
-        } else if (x < 10) {
-            x = 10;
-        }
+    let x = currentScales.x(parseDate(this.date)) - chartDimensions.yAxisWidth - tooltipDimensions.width / 2,
+      y = currentScales.y(this.value) + yOffset;
 
-        // reposition y if needed
-        if (y > limits.low) {
-            y = currentScales.y(this.value) - 16 - tooltipDimensions.height;
-        }
+    // reposition x if needed
+    if (x > limits.right) {
+      x = limits.right;
+    } else if (x < 10) {
+      x = 10;
+    }
 
-        return `translate(${x + chartDimensions.yAxisWidth}, ${y})`;
-    };
+    // reposition y if needed
+    if (y > limits.low) {
+      y = currentScales.y(this.value) - 16 - tooltipDimensions.height;
+    }
 
-    const placeTitle = d => {
-        let scaleFactor;
+    return `translate(${x + chartDimensions.yAxisWidth}, ${y})`;
+  };
 
-        const translateString = `translate(${tooltipPadding}, ${tooltipPadding})`
+  const placeTitle = d => {
+    let scaleFactor;
 
-        const title = tooltipG.append('text')
-            .text(() => labels[d.field])
-            .attr('data-testid', 'title')
-            .attr('font-size', 18)
-            .attr('font-weight', 600)
-            .attr('fill', '#555555')
-            .attr('dy', 14)
-            .attr('transform', translateString)
+    const translateString = `translate(${tooltipPadding}, ${tooltipPadding})`;
 
-        //shrink the title if needed
-        const titleWidth = title.node().getBoundingClientRect().width;
-        if (titleWidth > maxContentWidth) {
-            scaleFactor = maxContentWidth/titleWidth;
+    const title = tooltipG
+      .append('text')
+      .text(() => labels[d.field])
+      .attr('data-testid', 'title')
+      .attr('font-size', 18)
+      .attr('font-weight', 600)
+      .attr('fill', '#555555')
+      .attr('dy', 14)
+      .attr('transform', translateString);
 
-            title.attr('transform', `${translateString} scale(${scaleFactor})`)
-        }
-    };
+    //shrink the title if needed
+    const titleWidth = title.node().getBoundingClientRect().width;
+    if (titleWidth > maxContentWidth) {
+      scaleFactor = maxContentWidth / titleWidth;
 
-    const placeDate = d => {
-        tooltipG.append('text')
-            .text(() => d.displayDate)
-            .attr('data-testid', 'date')
-            .attr('font-size', 16)
-            .attr('font-weight', 'normal')
-            .attr('fill', '#666666')
-            .attr('transform', `translate(${tooltipPadding}, ${tooltipDimensions.height - tooltipPadding})`)
-    };
+      title.attr('transform', `${translateString} scale(${scaleFactor})`);
+    }
+  };
 
-    const placeValue = d => {
-        tooltipG.append('text')
-            .text(() => {
-                return formatForDataType(d.value, dataType)
-            })
-            .attr('data-testid', 'value')
-            .attr('font-size', 16)
-            .attr('font-weight', 600)
-            .attr('fill', '#2272ce')
-            .attr('text-anchor', 'end')
-            .attr('transform', `translate(${tooltipDimensions.width - tooltipPadding}, ${tooltipDimensions.height - tooltipPadding})`)
-    };
+  const placeDate = d => {
+    tooltipG
+      .append('text')
+      .text(() => d.displayDate)
+      .attr('data-testid', 'date')
+      .attr('font-size', 16)
+      .attr('font-weight', 'normal')
+      .attr('fill', '#666666')
+      .attr('transform', `translate(${tooltipPadding}, ${tooltipDimensions.height - tooltipPadding})`);
+  };
 
-    const placeSeparator = () => {
-        tooltipG.append('line')
-            .attr('stroke', '#dddddd')
-            .attr('x1', tooltipPadding)
-            .attr('y1', tooltipDimensions.height / 2)
-            .attr('x2', tooltipDimensions.width - tooltipPadding)
-            .attr('y2', tooltipDimensions.height / 2)
-    };
+  const placeValue = d => {
+    tooltipG
+      .append('text')
+      .text(() => {
+        return formatForDataType(d.value, dataType);
+      })
+      .attr('data-testid', 'value')
+      .attr('font-size', 16)
+      .attr('font-weight', 600)
+      .attr('fill', '#2272ce')
+      .attr('text-anchor', 'end')
+      .attr('transform', `translate(${tooltipDimensions.width - tooltipPadding}, ${tooltipDimensions.height - tooltipPadding})`);
+  };
 
-    const showPoint = d => {
-        pointLayer.append('circle')
-            .raise()
-            .classed(pointClass, true)
-            .attr('r', 7.5)
-            .attr('transform', `translate(${currentScales.x(parseDate(d.date))}, ${currentScales.y(d.value)})`)
-            .attr('fill', 'transparent')
-            .transition()
-                .duration(10)
-                .attr('fill', '#0071bc');
-    };
+  const placeSeparator = () => {
+    tooltipG
+      .append('line')
+      .attr('stroke', '#dddddd')
+      .attr('x1', tooltipPadding)
+      .attr('y1', tooltipDimensions.height / 2)
+      .attr('x2', tooltipDimensions.width - tooltipPadding)
+      .attr('y2', tooltipDimensions.height / 2);
+  };
 
-    const showTooltip = d => {
-        tooltipG = container.append('g')
-            .classed(tooltipClass, true)
-            .attr('transform', placeTooltip.bind(d));
+  const showPoint = d => {
+    pointLayer
+      .append('circle')
+      .raise()
+      .classed(pointClass, true)
+      .attr('r', 7.5)
+      .attr('transform', `translate(${currentScales.x(parseDate(d.date))}, ${currentScales.y(d.value)})`)
+      .attr('fill', 'transparent')
+      .transition()
+      .duration(10)
+      .attr('fill', '#0071bc');
+  };
 
-        tooltipG.append('rect')
-            .attr('width', tooltipDimensions.width)
-            .attr('height', tooltipDimensions.height)
-            .attr('fill', 'white')
-            .attr('stroke', '#d6d7d9')
-            .attr('stroke-width', '1');
+  const showTooltip = d => {
+    tooltipG = container
+      .append('g')
+      .classed(tooltipClass, true)
+      .attr('transform', placeTooltip.bind(d));
 
-        placeTitle(d);
-        placeDate(d);
-        placeValue(d);
-        placeSeparator();
-    };
+    tooltipG
+      .append('rect')
+      .attr('width', tooltipDimensions.width)
+      .attr('height', tooltipDimensions.height)
+      .attr('fill', 'white')
+      .attr('stroke', '#d6d7d9')
+      .attr('stroke-width', '1');
 
-    const onMouseOver = d => {
-        showPoint(d);
-        showTooltip(d);
-    };
+    placeTitle(d);
+    placeDate(d);
+    placeValue(d);
+    placeSeparator();
+  };
 
-    const onMouseOut = () => {
-        tooltipG.remove();
+  const onMouseOver = d => {
+    showPoint(d);
+    showTooltip(d);
+  };
 
-        d3.selectAll('.' + pointClass).remove();
+  const onMouseOut = () => {
+    tooltipG.remove();
 
-        dots.forEach(curDots => curDots.transition().duration(10).attr('fill', 'transparent'));
-    };
+    d3.selectAll('.' + pointClass).remove();
 
-    const placeTooltips = () => {
-        const layerClass = 'dots';
-        const mappedData = mapData();
-        const groupedData = groupBy(mappedData, 'field');
-        const box = container.node().getBoundingClientRect();
-        const containerWidth = box.width - chartDimensions.yAxisWidth;
+    dots.forEach(curDots =>
+      curDots
+        .transition()
+        .duration(10)
+        .attr('fill', 'transparent')
+    );
+  };
 
-        container.select(`g.${layerClass}`).remove();
-        container.select(`g.${pointLayerClass}`).remove();
+  const placeTooltips = () => {
+    const layerClass = 'dots';
+    const mappedData = mapData();
+    const groupedData = groupBy(mappedData, 'field');
+    const box = container.node().getBoundingClientRect();
+    const containerWidth = box.width - chartDimensions.yAxisWidth;
 
-        pointLayer = container.append('g')
-            .raise()
-            .classed(pointLayerClass, true);
+    container.select(`g.${layerClass}`).remove();
+    container.select(`g.${pointLayerClass}`).remove();
 
-        dots.length = 0;
+    pointLayer = container
+      .append('g')
+      .raise()
+      .classed(pointLayerClass, true);
 
-        Object.keys(groupedData).forEach(key => {
-          const group = groupedData[key];
-          const radius = calculateRadius(containerWidth, group.length);
-          dots.push(container.append('g')
-            .classed(layerClass, true)
-            .selectAll('circle')
-            .data(group)
-            .enter()
-            .append('circle')
-            .classed('hitBox', true)
-            .attr('r', radius)
-            .attr('fill', 'transparent')
-            .attr('transform', d => `translate(${currentScales.x(parseDate(d.date))}, ${currentScales.y(d.value)})`)
-            .on('mouseover', onMouseOver)
-            .on('mouseout', onMouseOut)
-          );
-        });
-    };
+    dots.length = 0;
 
-    placeTooltips();
-}
+    Object.keys(groupedData).forEach(key => {
+      const group = groupedData[key];
+      const radius = calculateRadius(containerWidth, group.length);
+      dots.push(
+        container
+          .append('g')
+          .classed(layerClass, true)
+          .selectAll('circle')
+          .data(group)
+          .enter()
+          .append('circle')
+          .classed('hitBox', true)
+          .attr('r', radius)
+          .attr('fill', 'transparent')
+          .attr('transform', d => `translate(${currentScales.x(parseDate(d.date))}, ${currentScales.y(d.value)})`)
+          .on('mouseover', onMouseOver)
+          .on('mouseout', onMouseOut)
+      );
+    });
+  };
+
+  placeTooltips();
+};
 
 /**
  * Determines the radius of the hitbox for the data points drawn for the line graphs. Formula = (containerWidth / dataLen) / 2.
@@ -220,8 +237,8 @@ const initTooltip = (
  */
 export const calculateRadius = (containerWidth, dataLen) => {
   let radius = minTooltipHitbox;
-  if(dataLen && containerWidth) {
-    radius = (containerWidth / dataLen) / 2;
+  if (dataLen && containerWidth) {
+    radius = containerWidth / dataLen / 2;
     if (radius > maxTooltipHitbox) {
       radius = maxTooltipHitbox;
     } else if (radius < minTooltipHitbox) {

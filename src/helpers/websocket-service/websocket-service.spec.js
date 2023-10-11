@@ -1,4 +1,4 @@
-import WebsocketService from "./websocket-service";
+import WebsocketService from './websocket-service';
 
 describe('Websocket Service - ', () => {
   afterEach(() => {
@@ -52,9 +52,7 @@ describe('Websocket Service - ', () => {
     WebsocketService.connectWebsocket(url);
     expect(WebsocketService.currentConnectionsCount()).toEqual(1);
     WebsocketService.removeReferenceFromConnectionsObject(invalidUrl);
-    expect(global.console.warn).toHaveBeenCalledWith(
-      expect.stringContaining(invalidUrl)
-    );
+    expect(global.console.warn).toHaveBeenCalledWith(expect.stringContaining(invalidUrl));
     expect(WebsocketService.currentConnectionsCount()).toEqual(1);
     global.console.warn = consoleWarn;
   });
@@ -68,5 +66,4 @@ describe('Websocket Service - ', () => {
     WebsocketService.disconnectAllConnections();
     expect(WebsocketService.currentConnectionsCount()).toBe(0);
   });
-
 });

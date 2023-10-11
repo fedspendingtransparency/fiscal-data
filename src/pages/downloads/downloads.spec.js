@@ -5,19 +5,17 @@ import { from, throwError } from 'rxjs';
 import React from 'react';
 import globalConstants from '../../helpers/constants';
 import downloadService from '../../helpers/download-service/download-service';
-import {downloadPageTextContent} from '../../helpers/downloads/download-content-helper';
+import { downloadPageTextContent } from '../../helpers/downloads/download-content-helper';
 
-let mockStatusObservable = from(
-  [
-    {
-      status: "in-progress"
-    },
-    {
-      status: "completed",
-      file_path: 'mockDownloadFilePath.zip'
-    }
-  ]
-);
+let mockStatusObservable = from([
+  {
+    status: 'in-progress',
+  },
+  {
+    status: 'completed',
+    file_path: 'mockDownloadFilePath.zip',
+  },
+]);
 
 jest.mock('../../helpers/download-service/download-service', function() {
   return {
@@ -25,13 +23,13 @@ jest.mock('../../helpers/download-service/download-service', function() {
     default: {
       startPollingByRequestToken: jest.fn().mockImplementation(() => {
         return mockStatusObservable;
-      })
-    }
+      }),
+    },
   };
 });
 
 describe('downloads page', () => {
-  let statusPollingSpy
+  let statusPollingSpy;
   beforeEach(() => {
     jest.mock('../../helpers/download-service/download-service', function() {
       return {
@@ -39,8 +37,8 @@ describe('downloads page', () => {
         default: {
           startPollingByRequestToken: jest.fn().mockImplementation(() => {
             return mockStatusObservable;
-          })
-        }
+          }),
+        },
       };
     });
 
@@ -77,10 +75,10 @@ describe('downloads page', () => {
   });
 
   it('displays error messages when fetch errors', () => {
-    mockStatusObservable = throwError(() => new Error('Error!!') );
+    mockStatusObservable = throwError(() => new Error('Error!!'));
     jest.clearAllMocks();
     const mockToken = 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789';
-    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}`}} /> )
+    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
 
     expect(getByTestId('header')).toHaveTextContent(downloadPageTextContent.dlErrorHeader);
     expect(getByTestId('full-message')).toHaveTextContent(downloadPageTextContent.dlErrorText);
@@ -90,7 +88,7 @@ describe('downloads page', () => {
     mockStatusObservable = from([{ status: 'started' }]);
     jest.clearAllMocks();
     const mockToken = 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789';
-    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}`}} /> )
+    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
     expect(getByTestId('header')).toHaveTextContent(downloadPageTextContent.dlBeingPreparedHeader);
     expect(getByTestId('full-message')).toHaveTextContent(downloadPageTextContent.dlBeingPreparedText);
   });
@@ -99,15 +97,15 @@ describe('downloads page', () => {
     mockStatusObservable = from([{ status: 'completed', filePath: 'test-file-path.csv' }]);
     jest.clearAllMocks();
     const mockToken = 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789';
-    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}`}} /> )
+    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
     expect(getByTestId('header')).toHaveTextContent(downloadPageTextContent.dlReadyHeader);
     expect(getByTestId('full-message')).toHaveTextContent(downloadPageTextContent.dlReadyText);
   });
   it('displays proper messages when download has failed', () => {
-    mockStatusObservable = from([{ status: 'failed', filePath: 'test-file-path.csv', statusPath: "status.json", filesize_kb: 123.45 }]);
+    mockStatusObservable = from([{ status: 'failed', filePath: 'test-file-path.csv', statusPath: 'status.json', filesize_kb: 123.45 }]);
     jest.clearAllMocks();
     const mockToken = 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789';
-    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}`}} /> )
+    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
     expect(getByTestId('header')).toHaveTextContent(downloadPageTextContent.dlErrorHeader);
     expect(getByTestId('full-message')).toHaveTextContent(downloadPageTextContent.dlErrorText);
   });

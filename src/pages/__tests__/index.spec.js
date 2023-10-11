@@ -4,16 +4,16 @@ import ShallowRenderer from 'react-test-renderer/shallow';
 import { Index } from '../index';
 import HomeMainContent from '../../components/home-main-content/home-main-content';
 import HomeFeatures from '../../components/home-features/home-features';
-import * as Gatsby from "gatsby";
+import * as Gatsby from 'gatsby';
 
 const imageQueryMock = {
   allFile: {
-    topicsImages: []
-  }
-}
+    topicsImages: [],
+  },
+};
 
 const useStaticQueryMock = jest.spyOn(Gatsby, 'useStaticQuery');
-useStaticQueryMock.mockImplementation(() => (imageQueryMock));
+useStaticQueryMock.mockImplementation(() => imageQueryMock);
 
 describe('Site Home Index', () => {
   const renderer = new ShallowRenderer();
@@ -35,14 +35,10 @@ describe('Site Home Index', () => {
   });
 
   it('renders the HomeMainContent component', () => {
-    expect(siteHome.props.children).toContainEqual(
-      <HomeMainContent />
-    );
+    expect(siteHome.props.children).toContainEqual(<HomeMainContent />);
   });
 
   it('renders the HomeFeatures component', () => {
-    expect(siteHome.props.children).toContainEqual(
-      <HomeFeatures />
-    );
+    expect(siteHome.props.children).toContainEqual(<HomeFeatures />);
   });
 });

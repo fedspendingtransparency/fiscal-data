@@ -4,7 +4,6 @@ import Truncator from './truncate';
 import * as styles from './truncate.module.scss';
 
 describe('Truncate component', () => {
-
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -27,12 +26,8 @@ describe('Truncate component', () => {
   let componentWithButtons = renderer.create();
 
   renderer.act(() => {
-    component = renderer.create(
-        <Truncator>{textToTruncate}</Truncator>
-    );
-    componentWithButtons = renderer.create(
-      <Truncator showMore>{textToTruncate}</Truncator>
-    );
+    component = renderer.create(<Truncator>{textToTruncate}</Truncator>);
+    componentWithButtons = renderer.create(<Truncator showMore>{textToTruncate}</Truncator>);
   });
   const instance = component.root;
   const instanceWithButtons = componentWithButtons.root;
@@ -43,29 +38,29 @@ describe('Truncate component', () => {
    * jest as well as the css stylings that may or may not be applied.
    */
   it('shows the desired blob of text within the component', () => {
-    const displayText = instance.findByProps({'data-test-id': 'truncateDiv'});
-    const displayTextWithButton = instanceWithButtons.findByProps({'data-test-id': 'truncateDiv'});
+    const displayText = instance.findByProps({ 'data-test-id': 'truncateDiv' });
+    const displayTextWithButton = instanceWithButtons.findByProps({ 'data-test-id': 'truncateDiv' });
     expect(displayText.props.children).toStrictEqual(textToTruncate);
     expect(displayTextWithButton.props.children).toStrictEqual(textToTruncate);
   });
 
   it('does not create a "Show More" button on default.', () => {
-    const showMoreLessButtons = instance.findAllByProps({'data-test-id': 'showMoreLessButton'});
+    const showMoreLessButtons = instance.findAllByProps({ 'data-test-id': 'showMoreLessButton' });
     expect(showMoreLessButtons.length).toBe(0);
   });
 
   it('creates a "Show More" button when showMore prop is true', () => {
     const showMoreLessButtons = instanceWithButtons.findAllByProps({
-      'data-test-id': 'showMoreLessButton'
+      'data-test-id': 'showMoreLessButton',
     });
-    expect(showMoreLessButtons[0].children[0]).toBe("Show More");
+    expect(showMoreLessButtons[0].children[0]).toBe('Show More');
   });
 
-  it('adds the "expanded" class to the truncator when the show more button is clicked', async() => {
+  it('adds the "expanded" class to the truncator when the show more button is clicked', async () => {
     const showMoreLessButtons = instanceWithButtons.findAllByProps({
-      'data-test-id': 'showMoreLessButton'
+      'data-test-id': 'showMoreLessButton',
     });
-    const truncatorElement = instanceWithButtons.findByProps({'data-test-id': 'truncateDiv'});
+    const truncatorElement = instanceWithButtons.findByProps({ 'data-test-id': 'truncateDiv' });
 
     expect(truncatorElement.props.className).not.toContain(styles.expanded);
 
@@ -73,7 +68,6 @@ describe('Truncate component', () => {
       showMoreLessButtons[0].props.onClick();
     });
 
-    expect(truncatorElement.props.className).toContain(styles.expanded)
-
+    expect(truncatorElement.props.className).toContain(styles.expanded);
   });
 });

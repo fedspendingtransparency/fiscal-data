@@ -1,8 +1,7 @@
-
-import globalConstants from "../constants";
+import globalConstants from '../constants';
 
 // keeps gatsby happy with server side rendering not having window.localStorage
-const localStorage = typeof window !== "undefined" && window.localStorage;
+const localStorage = typeof window !== 'undefined' && window.localStorage;
 /**
  *
  * @param key - string
@@ -16,11 +15,11 @@ const set = (key, value, ttl) => {
 
   const obj = {
     value: value,
-    expires: ttl ? new Date().getTime() + Math.abs(ttl) : null
+    expires: ttl ? new Date().getTime() + Math.abs(ttl) : null,
   };
 
   localStorage && localStorage.setItem(key, JSON.stringify(obj));
-}
+};
 
 /**
  * Get an item from local storage. Will return null if key doesn't exist, or if the item requested
@@ -28,7 +27,7 @@ const set = (key, value, ttl) => {
  * @param key
  * @returns {null | any}
  */
-const get = (key) => {
+const get = key => {
   if (key === undefined) return null;
 
   const itemString = (localStorage && localStorage.getItem(key)) || null;
@@ -43,22 +42,22 @@ const get = (key) => {
   }
 
   return item.value;
-}
+};
 
 /**
  * Remove an item in local storage.
  * @param key
  */
-const remove = (key) => {
+const remove = key => {
   if (key === undefined) return;
 
   localStorage && localStorage.removeItem(key);
-}
+};
 
 const localStorageHelper = {
   set,
   get,
-  remove
-}
+  remove,
+};
 
 export default localStorageHelper;
