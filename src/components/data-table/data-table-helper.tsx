@@ -46,16 +46,10 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
                 const value = getValue();
                 let formattedValue;
 
-                if (tableName === 'FRN Daily Indexes') {
-                  if (field === 'daily_index' || field === 'daily_int_accrual_rate') {
+                if (tableName === 'FRN Daily Indexes' && (field === 'daily_index' || field === 'daily_int_accrual_rate')) {
                     formattedValue = value ? value : '';
-                  }
-                  else if (field === 'spread') {
+                } else if (tableName === 'FRN Daily Indexes' && field === 'spread') {
                     formattedValue = value ? Number(value).toFixed(3) : '';
-                  }
-                  else {
-                    formattedValue = '';
-                  }
                 } else {
                   formattedValue = numberFormatter.format(value);
                 }
