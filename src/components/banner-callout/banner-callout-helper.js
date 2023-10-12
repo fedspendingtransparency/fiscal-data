@@ -46,5 +46,12 @@ export const calloutConfig = {
             </li>
           </ul>
         </>,
-    }
+    },
+  "SavingsBondsDelay": {
+    copy:
+    <>
+      We're experiencing delays with publishing paper savings bonds redemption data for September 2023 due to system issues. 
+      We're working on a resolution and will publish the data as soon as possible.
+    </>
+  }
 }
