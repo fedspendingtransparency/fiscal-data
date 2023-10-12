@@ -9,7 +9,6 @@ import { IDataset } from '../../models/IDataset';
 import { card, card_headerLink, card_tagLine, card_link, card_withFocus, card_withFocus_FireFox } from './dataset-card.module.scss';
 import DatasetStats from './dataset-stats/dataset-stats';
 import Truncator from '../truncate/truncate';
-import DatasetTopicsSummary from './dataset-topics-summary/dataset-topics-summary';
 import { isFirefox } from 'react-device-detect';
 
 type DatasetCardProps = {
