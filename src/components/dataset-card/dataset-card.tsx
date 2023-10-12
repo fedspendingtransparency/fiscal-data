@@ -71,7 +71,6 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
             <Truncator>{dataset.tagLine}</Truncator>
           </div>
           <DatasetStats dataset={dataset} />
-          {/*<DatasetTopicsSummary relatedTopics={dataset.relatedTopics} />*/}
           <span className={card_link}>Dataset Details</span>
         </CardActionArea>
       </Card>
