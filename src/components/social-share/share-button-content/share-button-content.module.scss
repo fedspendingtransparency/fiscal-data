@@ -8,7 +8,7 @@
 
   .shareButtonText {
     color: #666;
-    margin: 0 0 0 .5rem;
+    margin: 0 0 0 0.5rem;
     height: 1.25rem;
   }
 
@@ -22,48 +22,49 @@
     color: #3a5997;
     width: 1.125rem;
     height: 1rem;
-    margin: .125rem .5rem .125rem 0;
+    margin: 0.125rem 0.5rem 0.125rem 0;
   }
 
   .twitterIcon {
     color: #54acee;
     width: 1.125rem;
     height: 1rem;
-    margin: .125rem .5rem .125rem 0;
+    margin: 0.125rem 0.5rem 0.125rem 0;
   }
 
   .linkedInIcon {
     color: #057ab5;
     width: 1.125rem;
     height: 1rem;
-    margin: .125rem .5rem .125rem 0;
+    margin: 0.125rem 0.5rem 0.125rem 0;
   }
 
   .redditIcon {
     color: #ff4500;
     width: 1.125rem;
     height: 1rem;
-    margin: .125rem .5rem .125rem 0;
+    margin: 0.125rem 0.5rem 0.125rem 0;
   }
 
   .emailIcon {
     color: #666;
     width: 1.125rem;
     height: 1rem;
-    margin: .125rem .5rem .125rem 0;
+    margin: 0.125rem 0.5rem 0.125rem 0;
   }
 }
 
-
-
 @media screen and (max-width: $breakpoint-lg - 1) {
   .shareButtonContent {
-    .facebookIcon, .twitterIcon,
-    .linkedInIcon, .redditIcon, .emailIcon {
+    .facebookIcon,
+    .twitterIcon,
+    .linkedInIcon,
+    .redditIcon,
+    .emailIcon {
       margin: 0;
     }
     .listShareButtonText {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
   }
 }

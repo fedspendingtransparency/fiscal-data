@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { accordion, accordionContainer, bodyContent, heading, wrapper }
-  from './notes-and-limitations.module.scss';
-import ReactMarkdown from "react-markdown";
-import Accordion from "../../accordion/accordion";
+import { accordion, accordionContainer, bodyContent, heading, wrapper } from './notes-and-limitations.module.scss';
+import ReactMarkdown from 'react-markdown';
+import Accordion from '../../accordion/accordion';
 // todo - Remove the following 2 imports after 11/24/21
-import { isAllowedInContext } from "../../experimental/experimental";
-import { siteContext } from "../../persist/persist";
+import { isAllowedInContext } from '../../experimental/experimental';
+import { siteContext } from '../../persist/persist';
 
 export const sectionTitle = 'Notes & Known Limitations';
 
 // todo - Remove after 11/24/21, the following function is only in place for testing the data table
 // level N&KL as none exist in our metadata at this time.
-const experimentalTesting = (apis) => {
+const experimentalTesting = apis => {
   let cntr = 0;
   // Large text blob with a markdown link included
   const dummyText = `"Lorem ipsum dolor sit amet, [Monthly Treasury Statement (MTS)]
@@ -80,7 +79,7 @@ const experimentalTesting = (apis) => {
   });
 };
 
-const NotesAndLimitations = ({apis, bodyText}) => {
+const NotesAndLimitations = ({ apis, bodyText }) => {
   const [tablesNKL, setTablesNKL] = useState([]);
   const { showExperimentalFeatures } = useContext(siteContext); // todo - Remove after 11/24/21
 
@@ -90,12 +89,18 @@ const NotesAndLimitations = ({apis, bodyText}) => {
       if (showExperimentalFeatures && isAllowedInContext('apiNKL')) {
         experimentalTesting(apis);
       }
-      setTablesNKL(apis.filter(api => api.apiNotesAndLimitations).map((api) => {
-        const key = `N&KL-${api.apiId}`;
-        return <Accordion containerClass={accordion} key={key} title={api.tableName}>
-          <ReactMarkdown source={api.apiNotesAndLimitations} />
-               </Accordion>
-      }));
+      setTablesNKL(
+        apis
+          .filter(api => api.apiNotesAndLimitations)
+          .map(api => {
+            const key = `N&KL-${api.apiId}`;
+            return (
+              <Accordion containerClass={accordion} key={key} title={api.tableName}>
+                <ReactMarkdown source={api.apiNotesAndLimitations} />
+              </Accordion>
+            );
+          })
+      );
     }
   }, []);
 
@@ -104,12 +109,7 @@ const NotesAndLimitations = ({apis, bodyText}) => {
       <h4 className={heading}>{sectionTitle}</h4>
       <div className={bodyContent}>
         <ReactMarkdown source={bodyText} />
-        {
-          !!tablesNKL.length &&
-          <div className={accordionContainer}>
-            {tablesNKL}
-          </div>
-        }
+        {!!tablesNKL.length && <div className={accordionContainer}>{tablesNKL}</div>}
       </div>
     </div>
   );

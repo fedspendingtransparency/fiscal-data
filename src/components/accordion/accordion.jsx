@@ -1,17 +1,9 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import {
-  container,
-  accordion,
-  open as openStyle,
-  closed,
-  heading,
-  toggle,
-  content,
-} from "./accordion.module.scss";
-import Analytics from "../../utils/analytics/analytics";
-import useGAEventTracking from "../../hooks/useGAEventTracking";
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { container, accordion, open as openStyle, closed, heading, toggle, content } from './accordion.module.scss';
+import Analytics from '../../utils/analytics/analytics';
+import useGAEventTracking from '../../hooks/useGAEventTracking';
 
 const Accordion = ({
   defaultOpen,
@@ -23,23 +15,24 @@ const Accordion = ({
   openEventNumber,
   closeEventNumber,
   explainerGAEvent,
-  ga4ID
+  ga4ID,
 }) => {
   const [open, setOpen] = useState(defaultOpen || false);
 
-  const {getGAEvent} = useGAEventTracking(null,explainerGAEvent);
+  const { getGAEvent } = useGAEventTracking(null, explainerGAEvent);
 
-  const triggerGAEvent = (isOpen) => {
-      const gaEvent =  isOpen ? getGAEvent(openEventNumber) : getGAEvent(closeEventNumber);
-      gaEvent && Analytics.event({
-        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
+  const triggerGAEvent = isOpen => {
+    const gaEvent = isOpen ? getGAEvent(openEventNumber) : getGAEvent(closeEventNumber);
+    gaEvent &&
+      Analytics.event({
+        category: gaEvent.eventCategory.replace('Fiscal Data - ', ''),
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
       });
-  }
+  };
 
   const onToggle = e => {
-    if (e.key === undefined || e.key === "Enter") {
+    if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       setOpen(prevState => !prevState);
       triggerGAEvent(!open);
@@ -47,15 +40,8 @@ const Accordion = ({
   };
 
   return (
-    <div
-      className={containerClass ? containerClass : container}
-    >
-      <section
-        data-testid="section"
-        className={`${accordion} ${
-          open ? `${openStyle} accordionOpen` : `${closed} accordionClosed`
-        }`}
-      >
+    <div className={containerClass ? containerClass : container}>
+      <section data-testid="section" className={`${accordion} ${open ? `${openStyle} accordionOpen` : `${closed} accordionClosed`}`}>
         <div
           data-testid="heading"
           onClick={onToggle}
@@ -67,15 +53,8 @@ const Accordion = ({
           id={`accordion-${open}-${ga4ID}`}
         >
           {title}
-          <div
-            data-testid="button"
-            className={`${toggle} accordionToggle`}
-          >
-            {open ? (
-              <FontAwesomeIcon icon={faMinus} style={altStyleIcon} />
-            ) : (
-              <FontAwesomeIcon icon={faPlus} style={altStyleIcon} />
-            )}
+          <div data-testid="button" className={`${toggle} accordionToggle`}>
+            {open ? <FontAwesomeIcon icon={faMinus} style={altStyleIcon} /> : <FontAwesomeIcon icon={faPlus} style={altStyleIcon} />}
             <span data-testid="sr-desc" className="sr-only">
               toggle contents
             </span>
@@ -86,11 +65,7 @@ const Accordion = ({
             {children}
           </div>
         ) : (
-          <div
-            data-testid="content"
-            className={`${content} accordionContent`}
-          >
-          </div>
+          <div data-testid="content" className={`${content} accordionContent`}></div>
         )}
       </section>
     </div>

@@ -21,23 +21,17 @@ describe('StickyFooter component', () => {
     expect(getByTestId('footer-childDiv')).toBeInTheDocument();
 
     // No hide after time is specified, so no closing transition or class is applied.
-    expect(getByTestId('sticky-footer-container')).not.toHaveStyle(
-      'transition: max-height 2000ms linear 4500ms, visibility 0ms linear 6500ms'
-    );
+    expect(getByTestId('sticky-footer-container')).not.toHaveStyle('transition: max-height 2000ms linear 4500ms, visibility 0ms linear 6500ms');
     expect(getByTestId('sticky-footer-container')).not.toHaveClass(styles.closing);
   });
 
   it('does not render if no children are present', () => {
-    const { queryAllByTestId } = render(
-      <StickyFooterComponent hideAfterTime={4500}></StickyFooterComponent>
-    );
+    const { queryAllByTestId } = render(<StickyFooterComponent hideAfterTime={4500}></StickyFooterComponent>);
     expect(queryAllByTestId('sticky-footer-container')).toStrictEqual([]);
   });
 
   it('does not render if hidden prop is true', () => {
-    const { queryAllByTestId } = render(
-      <StickyFooterComponent hidden={true}>test content</StickyFooterComponent>
-    );
+    const { queryAllByTestId } = render(<StickyFooterComponent hidden={true}>test content</StickyFooterComponent>);
     expect(queryAllByTestId('sticky-footer-container')).toStrictEqual([]);
   });
 
@@ -77,7 +71,6 @@ describe('StickyFooter component', () => {
   });
 
   it('executes an onClosed method if the component is unmounted before timed closure', () => {
-
     const mockOnClosedFn = jest.fn();
 
     const { unmount } = render(
@@ -103,8 +96,9 @@ describe('StickyFooter component', () => {
         <StickyFooterComponent hideAfterTime={4500}>
           <span data-testid="footer-childSpan">Some footer body text</span>
           <div data-testid="footer-childDiv">Some footer block</div>
-        </StickyFooterComponent>);
-        jest.advanceTimersByTime(100); // complete some initial render ticks
+        </StickyFooterComponent>
+      );
+      jest.advanceTimersByTime(100); // complete some initial render ticks
     });
     // closing should be in progress from point of initial render
     expect(component.getByTestId('sticky-footer-container')).toHaveStyle(footerStyle);
@@ -112,12 +106,13 @@ describe('StickyFooter component', () => {
 
     // interact (here using click, but component assigns same action to keyPress, touch and
     // focus events)
-    fireEvent(component.getByTestId('sticky-footer-container'),
+    fireEvent(
+      component.getByTestId('sticky-footer-container'),
       new MouseEvent('click', {
         bubbles: true,
         cancelable: true,
-      }
-      ));
+      })
+    );
 
     // closing momentarily no longer in progress
     expect(component.getByTestId('sticky-footer-container')).not.toHaveStyle(footerStyle);

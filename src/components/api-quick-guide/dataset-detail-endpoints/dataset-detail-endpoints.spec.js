@@ -13,40 +13,42 @@ const testData = [
     endpoint: 'sample/url/table_1',
     fields: [
       {
-        "columnName": "reporting_date",
-        "definition": "Reporting date for the data",
-        "prettyName": "Calendar Date",
-        "dataType": "DATE",
-        "isRequired": "yes"
+        columnName: 'reporting_date',
+        definition: 'Reporting date for the data',
+        prettyName: 'Calendar Date',
+        dataType: 'DATE',
+        isRequired: 'yes',
       },
       {
-        "columnName": "reporting_date",
-        "definition": "Reporting date for the data",
-        "prettyName": "Calendar Date",
-        "dataType": "DATE",
-        "isRequired": "yes"
+        columnName: 'reporting_date',
+        definition: 'Reporting date for the data',
+        prettyName: 'Calendar Date',
+        dataType: 'DATE',
+        isRequired: 'yes',
       },
-    ]
-  },{
+    ],
+  },
+  {
     tableName: 'table2',
     endpoint: 'sample/url/table_2',
     fields: [
       {
-        "columnName": "reporting_date",
-        "definition": "Reporting date for the data",
-        "prettyName": "Calendar Date",
-        "dataType": "DATE",
-        "isRequired": "yes"
+        columnName: 'reporting_date',
+        definition: 'Reporting date for the data',
+        prettyName: 'Calendar Date',
+        dataType: 'DATE',
+        isRequired: 'yes',
       },
       {
-        "columnName": "reporting_date",
-        "definition": "Reporting date for the data",
-        "prettyName": "Calendar Date",
-        "dataType": "DATE",
-        "isRequired": "yes"
+        columnName: 'reporting_date',
+        definition: 'Reporting date for the data',
+        prettyName: 'Calendar Date',
+        dataType: 'DATE',
+        isRequired: 'yes',
       },
-    ]
-  },{
+    ],
+  },
+  {
     tableName: 'table3',
   },
 ];
@@ -54,7 +56,7 @@ const testData = [
 const selectedTable = {
   name: 'Harry Potter',
   endpoint: 'v99/wingardium-leviosa',
-  tableName: "Test Table Name"
+  tableName: 'Test Table Name',
 };
 
 const baseURL = apiPrefix;
@@ -63,9 +65,7 @@ describe('DataSetDetailEndpoints multiple endpoints', () => {
   apis = testData;
   const endpoint = selectedTable.endpoint;
 
-  const component = renderer.create(
-    <DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />
-  );
+  const component = renderer.create(<DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />);
   const instance = component.root;
 
   it('displays the correct header', () => {
@@ -73,12 +73,11 @@ describe('DataSetDetailEndpoints multiple endpoints', () => {
   });
 
   it('displays the correct base url', () => {
-    expect(instance.findByProps({'id': 'endpoints-baseURL'}).props.children).toContain(baseURL);
+    expect(instance.findByProps({ id: 'endpoints-baseURL' }).props.children).toContain(baseURL);
   });
 
   it('displays the correct full url', () => {
-    expect(instance.findByProps({'id': 'endpoints-fullURL'}).props.children.join(''))
-      .toContain(`${baseURL}${endpoint}`);
+    expect(instance.findByProps({ id: 'endpoints-fullURL' }).props.children.join('')).toContain(`${baseURL}${endpoint}`);
   });
 
   it('displays a dtg-table with the expected column titles in the expected order', () => {
@@ -88,19 +87,15 @@ describe('DataSetDetailEndpoints multiple endpoints', () => {
     expect(config[0].name).toBe('Table Name');
     expect(config[1].name).toBe('Endpoint');
   });
-  it("sets aria-label to dataset name + API endpoints", ()=> {
-    expect(instance.findByType("table").props["aria-label"])
-      .toBe(`${selectedTable.tableName} API Endpoints`)
-  })
+  it('sets aria-label to dataset name + API endpoints', () => {
+    expect(instance.findByType('table').props['aria-label']).toBe(`${selectedTable.tableName} API Endpoints`);
+  });
 });
-
 
 describe('DataSetDetailEndpoints single endpoint', () => {
   apis = [testData[0]];
   const endpoint = selectedTable.endpoint;
-  const component = renderer.create(
-    <DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />
-  );
+  const component = renderer.create(<DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />);
   const instance = component.root;
 
   it('displays the correct header', () => {
@@ -108,16 +103,15 @@ describe('DataSetDetailEndpoints single endpoint', () => {
   });
 
   it('displays the correct base url', () => {
-    expect(instance.findByProps({'id': 'endpoints-baseURL'}).props.children).toContain(baseURL);
+    expect(instance.findByProps({ id: 'endpoints-baseURL' }).props.children).toContain(baseURL);
   });
 
   it('displays the correct endpoint', () => {
-    expect(instance.findByProps({'id': 'endpoints-endpoint'}).props.children).toContain(endpoint);
+    expect(instance.findByProps({ id: 'endpoints-endpoint' }).props.children).toContain(endpoint);
   });
 
   it('displays the correct full url', () => {
-    expect(instance.findByProps({'id': 'endpoints-fullURL'}).props.children.join(''))
-      .toContain(`${baseURL}${endpoint}`);
+    expect(instance.findByProps({ id: 'endpoints-fullURL' }).props.children.join('')).toContain(`${baseURL}${endpoint}`);
   });
 
   it('does not display a dtg-table', () => {

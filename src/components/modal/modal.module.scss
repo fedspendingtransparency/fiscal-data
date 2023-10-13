@@ -1,13 +1,21 @@
 @import '../../variables.module.scss';
 
 @keyframes slideIn {
-  0% {margin-top: 100px;}
-  100% {margin-top: 0;}
+  0% {
+    margin-top: 100px;
+  }
+  100% {
+    margin-top: 0;
+  }
 }
 
 @keyframes slideOut {
-  0% {margin-top: 0;}
-  100% {margin-top: 100px;}
+  0% {
+    margin-top: 0;
+  }
+  100% {
+    margin-top: 100px;
+  }
 }
 
 .modal {

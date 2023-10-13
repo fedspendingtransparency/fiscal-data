@@ -1,7 +1,6 @@
 @import '../../../../variables.module.scss';
-@import "../../../../styles";
+@import '../../../../styles';
 @import '../../../../zIndex.module.scss';
-
 
 .resetButton {
   @include primaryButton;
@@ -17,7 +16,7 @@
 }
 
 .resetIcon {
-    font-size: '1.25rem';
+  font-size: '1.25rem';
 }
 
 .floatingToggle {
@@ -42,7 +41,8 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
 
-    &.cancelButton, &.cancelButton:enabled:hover {
+    &.cancelButton,
+    &.cancelButton:enabled:hover {
       background-color: white;
       color: $primary;
     }

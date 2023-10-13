@@ -11,14 +11,7 @@ import * as styles from './modal.module.scss';
  * @param contentClass {Object} - class to be applied to the content container
  */
 
-const ModalComponent = ({
-  open = false,
-  onClose,
-  disableBackdropClick,
-  disableEscapeKey,
-  contentClass,
-  children
-}) => (
+const ModalComponent = ({ open = false, onClose, disableBackdropClick, disableEscapeKey, contentClass, children }) => (
   <Modal
     open={open}
     onClose={onClose}
@@ -28,20 +21,17 @@ const ModalComponent = ({
     disableEscapeKeyDown={disableEscapeKey}
     BackdropComponent={Backdrop}
     BackdropProps={{
-      "data-testid": "backdrop",
-      timeout: 500
+      'data-testid': 'backdrop',
+      timeout: 500,
     }}
     closeAfterTransition
   >
     <Fade in={open} timeout={500}>
-      <div
-        className={`${styles.content} ${contentClass} ${open ? styles.slideIn : styles.slideOut}`}
-        data-testid="content"
-      >
+      <div className={`${styles.content} ${contentClass} ${open ? styles.slideIn : styles.slideOut}`} data-testid="content">
         {children}
       </div>
     </Fade>
   </Modal>
 );
- 
+
 export default ModalComponent;

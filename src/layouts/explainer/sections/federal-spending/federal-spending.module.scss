@@ -9,7 +9,7 @@ $spending-explainer-light-secondary: #99c8c4;
     font-size: $font-size-18;
     color: $spending-explainer-primary;
     border: none;
-    padding: .75rem 1rem;
+    padding: 0.75rem 1rem;
   }
 
   :global(.accordionToggle) {
@@ -29,22 +29,21 @@ $spending-explainer-light-secondary: #99c8c4;
   }
 
   :global(.accordionContent) {
-    padding-right:1.25rem;
-    padding-left:1.25rem;
-    padding-bottom:1.5rem;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+    padding-bottom: 1.5rem;
     border: none;
   }
 
-  :global(.accordionOpen), :global(.accordionClosed) {
+  :global(.accordionOpen),
+  :global(.accordionClosed) {
     border: solid 0.06rem $spending-explainer-primary;
     border-radius: 0.13rem;
   }
 }
-
 
 :export {
   spendingExplainerPrimary: $spending-explainer-primary;
   spendingExplainerSecondary: $spending-explainer-secondary;
   spendingExplainerLightSecondary: $spending-explainer-light-secondary;
 }
-

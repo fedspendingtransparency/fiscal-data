@@ -1,37 +1,25 @@
-import React, {useState, useEffect} from 'react';
-import {
-  header,
-  presetContainer,
-  radio,
-  toggleButton,
-  selected
-} from './range-presets.module.scss';
+import React, { useState, useEffect } from 'react';
+import { header, presetContainer, radio, toggleButton, selected } from './range-presets.module.scss';
 import { monthNames } from '../../../utils/api-utils';
-import {addDays, subQuarters, differenceInYears} from 'date-fns';
-import determineDateRange, {
-  generateAnalyticsEvent,
-  generateFormattedDate,
-  prepAvailableDates
-} from './helpers/helper';
-import DatePickers from "../datepickers/datepickers";
-import UserFilter from "../user-filter/user-filter";
+import { addDays, subQuarters, differenceInYears } from 'date-fns';
+import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
+import DatePickers from '../datepickers/datepickers';
+import UserFilter from '../user-filter/user-filter';
 
-const RangePresets = (
-  {
-    currentDateButton,
-    datePreset,
-    customRangePreset,
-    selectedTable,
-    apiData,
-    onUserFilter,
-    setDateRange,
-    setIsFiltered,
-    setIsCustomDateRange,
-    allTablesSelected,
-    datasetDateRange,
-    finalDatesNotFound
-  }) => {
-
+const RangePresets = ({
+  currentDateButton,
+  datePreset,
+  customRangePreset,
+  selectedTable,
+  apiData,
+  onUserFilter,
+  setDateRange,
+  setIsFiltered,
+  setIsCustomDateRange,
+  allTablesSelected,
+  datasetDateRange,
+  finalDatesNotFound,
+}) => {
   const [activePresetKey, setActivePresetKey] = useState(null);
   const [availableDateRange, setAvailableDateRange] = useState(null);
   const [pickerDateRange, setPickerDateRange] = useState(null);
@@ -39,15 +27,15 @@ const RangePresets = (
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
 
-  const basePreset = [{ label: 'All', key: 'all', years: null}];
+  const basePreset = [{ label: 'All', key: 'all', years: null }];
   const possiblePresets = [
-    { label: '1 Year', key: '1yr', years: 1},
-    { label: '5 Years', key: '5yr', years: 5},
-    { label: '10 Years', key: '10yr', years: 10},
+    { label: '1 Year', key: '1yr', years: 1 },
+    { label: '5 Years', key: '5yr', years: 5 },
+    { label: '10 Years', key: '10yr', years: 10 },
   ];
-  const customPreset = {label: 'Custom', key: 'custom', years: null};
+  const customPreset = { label: 'Custom', key: 'custom', years: null };
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
-  let idealDefaultPreset = {key: '5yr', years: 5};
+  let idealDefaultPreset = { key: '5yr', years: 5 };
   // If a data table has less than 5 years of data, we need to find the next best option to select
   // by default.
   const fallbackPresets = ['1yr', 'current', 'all'];
@@ -57,7 +45,7 @@ const RangePresets = (
   /**
    * DATE RANGE
    */
-  const applyPreset = (preset) => {
+  const applyPreset = preset => {
     let isFiltered = true;
 
     let label = preset.label;
@@ -82,12 +70,12 @@ const RangePresets = (
     setIsFiltered(isFiltered);
   };
 
-  const prepUpdateDateRange = (preset) => {
+  const prepUpdateDateRange = preset => {
     const curDateRange = determineDateRange(availableDateRange, preset);
     updateDateRange(curDateRange);
   };
 
-  const updateDateRange = (curDateRange) => {
+  const updateDateRange = curDateRange => {
     if (curDateRange) {
       setPickerDateRange(availableDateRange);
       setCurDateRange(curDateRange);
@@ -99,7 +87,7 @@ const RangePresets = (
     const curPresets = basePreset.slice();
     const dateYearDifference = differenceInYears(to, from);
 
-    for (let i = possiblePresets.length; i--;) {
+    for (let i = possiblePresets.length; i--; ) {
       if (possiblePresets[i].years <= dateYearDifference) {
         possiblePresets.length = i + 1;
         curPresets.unshift(...possiblePresets);
@@ -129,18 +117,18 @@ const RangePresets = (
         }
         return;
       }
-      if(datePreset === 'current' && presets[0].key === 'current') {
+      if (datePreset === 'current' && presets[0].key === 'current') {
         idealDefaultPreset = presets[0];
       }
-      if(datePreset === 'custom' && customRangePreset === 'latestQuarter') {
-        idealDefaultPreset = presets.find(({key}) => key === 'custom');
+      if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
+        idealDefaultPreset = presets.find(({ key }) => key === 'custom');
 
         const dateObj = new Date(Date.parse(datasetDateRange.latestDate));
         const quarterRange = {
           userSelected: {
             from: subQuarters(addDays(dateObj, 1), 1),
-            to: dateObj
-          }
+            to: dateObj,
+          },
         };
 
         const adjRange = fitDateRangeToTable(quarterRange, availableDateRange);
@@ -181,9 +169,7 @@ const RangePresets = (
 
   useEffect(() => {
     if (!finalDatesNotFound) {
-      const availableRangeForSelection = allTablesSelected
-        ? allTablesDateRange
-        : prepAvailableDates(selectedTable);
+      const availableRangeForSelection = allTablesSelected ? allTablesDateRange : prepAvailableDates(selectedTable);
       setAvailableDateRange(availableRangeForSelection);
       const curPresets = placeApplicableYearPresets(availableRangeForSelection);
 
@@ -196,15 +182,11 @@ const RangePresets = (
         const fullYear = latestDate.getFullYear();
 
         if (currentDateButton === 'byDay') {
-          buttonLabel = latestDate
-            ? `${monthNames[month]} ${date}, ${fullYear}`
-            : '';
+          buttonLabel = latestDate ? `${monthNames[month]} ${date}, ${fullYear}` : '';
         } else if (currentDateButton === 'byLast30Days') {
           buttonLabel = latestDate ? 'Last 30 Days' : '';
         } else {
-          buttonLabel = latestDate
-            ? monthNames[month] + ' ' + fullYear.toString()
-            : '';
+          buttonLabel = latestDate ? monthNames[month] + ' ' + fullYear.toString() : '';
         }
         curPresets.unshift({ label: buttonLabel, key: 'current', years: null });
       }
@@ -213,11 +195,10 @@ const RangePresets = (
     }
   }, [selectedTable, allTablesSelected, finalDatesNotFound]);
 
-  const label = selectedTable && selectedTable.fields
-    ? ` (${selectedTable.fields.find(
-        field => field.columnName === selectedTable.dateField
-      ).prettyName})`
-    : null;
+  const label =
+    selectedTable && selectedTable.fields
+      ? ` (${selectedTable.fields.find(field => field.columnName === selectedTable.dateField).prettyName})`
+      : null;
   return (
     <>
       <h3 className={header} data-test-id={'header'}>
@@ -234,15 +215,15 @@ const RangePresets = (
                   className={radio}
                   checked={customPreset.key === activePresetKey}
                   id={`radio-${customPreset.key}`}
-                  onChange={() => {applyPreset(customPreset)}}
+                  onChange={() => {
+                    applyPreset(customPreset);
+                  }}
                   tabIndex={0}
                   data-test-id={`preset-radio-${customPreset.key}`}
                 />
                 <label
                   className={`
-                    ${toggleButton} ${activePresetKey === customPreset.key
-                      ? selected
-                      : ''}
+                    ${toggleButton} ${activePresetKey === customPreset.key ? selected : ''}
                   `}
                   htmlFor={`radio-${customPreset.key}`}
                   data-test-id={`preset-label-${customPreset.key}`}
@@ -258,15 +239,15 @@ const RangePresets = (
                   className={radio}
                   checked={preset.key === activePresetKey}
                   id={`radio-${preset.key}`}
-                  onChange={() => {applyPreset(preset);}}
+                  onChange={() => {
+                    applyPreset(preset);
+                  }}
                   tabIndex={0}
                   data-test-id={`preset-radio-${preset.key}`}
                 />
                 <label
                   className={`
-                    ${toggleButton} ${activePresetKey === preset.key
-                      ? selected
-                      : ''}
+                    ${toggleButton} ${activePresetKey === preset.key ? selected : ''}
                   `}
                   htmlFor={`radio-${preset.key}`}
                   data-test-id={`preset-label-${preset.key}`}
@@ -276,31 +257,19 @@ const RangePresets = (
               </>
             )}
           </React.Fragment>
-        )) }
+        ))}
       </div>
-      {(activePresetKey === customPreset.key) && (
-        <DatePickers
-          selectedDateRange={dateRange}
-          availableDateRange={pickerDateRange}
-          setSelectedDates={updateDateRange}
-        />
+      {activePresetKey === customPreset.key && (
+        <DatePickers selectedDateRange={dateRange} availableDateRange={pickerDateRange} setSelectedDates={updateDateRange} />
       )}
-      {(selectedTable.userFilter) && (
-        <UserFilter
-          selectedTable={selectedTable}
-          onUserFilter={onUserFilter}
-          apiData={apiData}
-        />
-      )}
-
+      {selectedTable.userFilter && <UserFilter selectedTable={selectedTable} onUserFilter={onUserFilter} apiData={apiData} />}
     </>
   );
-}
+};
 
 export default RangePresets;
 
 export const fitDateRangeToTable = (dateRange, availableRange) => {
-
   // if there's a userSelected range stored, start with that instead of whatever it was adjusted to
   const selectedRange = dateRange.userSelected ? dateRange.userSelected : dateRange;
   const adjRange = Object.assign({}, selectedRange);
@@ -308,7 +277,7 @@ export const fitDateRangeToTable = (dateRange, availableRange) => {
     // the whole selected range comes before new available range, so set both dates to the earliest
     // available
     adjRange.to = adjRange.from = availableRange.from;
-    adjRange.userSelected = selectedRange;  // store the range as it was when requested
+    adjRange.userSelected = selectedRange; // store the range as it was when requested
     return adjRange;
   }
   if (selectedRange.from > availableRange.to) {
@@ -318,14 +287,9 @@ export const fitDateRangeToTable = (dateRange, availableRange) => {
     adjRange.userSelected = selectedRange; // store the range as it was when requested
     return adjRange;
   }
-  adjRange.from = selectedRange.from > availableRange.from
-    ? selectedRange.from
-    : availableRange.from;
+  adjRange.from = selectedRange.from > availableRange.from ? selectedRange.from : availableRange.from;
   adjRange.to = selectedRange.to < availableRange.to ? selectedRange.to : availableRange.to;
-  if (
-    (adjRange.from.getTime() === selectedRange.from.getTime())
-      && (adjRange.to.getTime() === selectedRange.to.getTime())
-  ) {
+  if (adjRange.from.getTime() === selectedRange.from.getTime() && adjRange.to.getTime() === selectedRange.to.getTime()) {
     // able to use the full latest user selected range as-is, so don't store it separately
     delete adjRange.userSelected;
   } else {

@@ -50,7 +50,7 @@ const LineGraphAnimation = () => {
         height: '400px',
         maxWidth: '500px',
         width: '100%',
-        zIndex: 0
+        zIndex: 0,
       }}
     >
       <ReLineGraph />
@@ -67,7 +67,7 @@ const LineGraphAnimation = () => {
           transform: 'translateX(-50%)',
           opacity: '0',
           transition: 'opacity 1s ease-in-out',
-          zIndex: 100
+          zIndex: 100,
         }}
       />
     </div>

@@ -1,11 +1,10 @@
-
 export const sortOptions = [
   {
     id: 'date',
-    label: 'Date'
+    label: 'Date',
   },
   {
     id: 'name',
-    label: 'Name'
-  }
+    label: 'Name',
+  },
 ];

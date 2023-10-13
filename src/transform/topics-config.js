@@ -1,47 +1,46 @@
-
-const topicsSource  = {
-  "auctions": {
-    label: "Auctions",
-    title: "Topics",
-    slug: "auctions",
-    datasetIds: new Set()
+const topicsSource = {
+  auctions: {
+    label: 'Auctions',
+    title: 'Topics',
+    slug: 'auctions',
+    datasetIds: new Set(),
   },
-  "debt": {
-    label: "Debt",
-    title: "Topics",
-    slug: "debt",
-    datasetIds: new Set()
+  debt: {
+    label: 'Debt',
+    title: 'Topics',
+    slug: 'debt',
+    datasetIds: new Set(),
   },
-  "revenue": {
-    label: "Revenue",
-    title: "Topics",
-    slug: "revenue",
-    datasetIds: new Set()
+  revenue: {
+    label: 'Revenue',
+    title: 'Topics',
+    slug: 'revenue',
+    datasetIds: new Set(),
   },
-  "spending": {
-    label: "Spending",
-    title: "Topics",
-    slug: "spending",
-    datasetIds: new Set()
+  spending: {
+    label: 'Spending',
+    title: 'Topics',
+    slug: 'spending',
+    datasetIds: new Set(),
   },
-  "financial-summaries": {
-    label: "Financial Summaries",
-    title: "Topics",
-    slug: "financial-summaries",
-    datasetIds: new Set()
+  'financial-summaries': {
+    label: 'Financial Summaries',
+    title: 'Topics',
+    slug: 'financial-summaries',
+    datasetIds: new Set(),
   },
-  "interest-exchange-rates": {
-    label: "Interest & Exchange Rates",
-    title: "Topics",
-    slug: "interest-exchange-rates",
-    datasetIds: new Set()
+  'interest-exchange-rates': {
+    label: 'Interest & Exchange Rates',
+    title: 'Topics',
+    slug: 'interest-exchange-rates',
+    datasetIds: new Set(),
   },
-  "savings-bonds": {
-    label: "Savings Bonds",
-    title: "Topics",
-    slug: "savings-bonds",
-    datasetIds: new Set()
-  }
+  'savings-bonds': {
+    label: 'Savings Bonds',
+    title: 'Topics',
+    slug: 'savings-bonds',
+    datasetIds: new Set(),
+  },
 };
 
 /**
@@ -66,7 +65,7 @@ const freshTopics = () => {
   Object.entries(topicsSource).forEach(([topicId, topic]) => {
     output[output.length] = {
       ...topic,
-      datasetIds: Array.from(topic.datasetIds)
+      datasetIds: Array.from(topic.datasetIds),
     };
   });
 

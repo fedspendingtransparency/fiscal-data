@@ -5,12 +5,7 @@ const LocationAware = ComponentToWrap => props => {
   return (
     <Location>
       {({ location }) => {
-        return (
-          <ComponentToWrap
-            {...props}
-            location={location}
-          />
-        );
+        return <ComponentToWrap {...props} location={location} />;
       }}
     </Location>
   );

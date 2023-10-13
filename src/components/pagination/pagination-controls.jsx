@@ -8,27 +8,23 @@ import * as styles from './pagination-controls.module.scss';
 export const defaultPerPageOptions = [5, 10, 20, 50, 100];
 
 const PaginationControls = ({ pagingProps }) => {
-  const {
-    itemsPerPage,
-    handlePerPageChange,
-    handleJump,
-    maxPage,
-    tableName,
-    currentPage,
-    maxRows
-  } = pagingProps;
+  const { itemsPerPage, handlePerPageChange, handleJump, maxPage, tableName, currentPage, maxRows } = pagingProps;
   const perPageOptions = defaultPerPageOptions.slice();
   if (itemsPerPage && !perPageOptions.includes(itemsPerPage)) {
     perPageOptions.push(itemsPerPage);
-    perPageOptions.sort(function(a, b){return a-b});
+    perPageOptions.sort(function(a, b) {
+      return a - b;
+    });
   }
 
   const pagesArray = () => {
     const pagesArray = [];
-    for ( var i = 1; i <= maxPage; i++) {
+    for (var i = 1; i <= maxPage; i++) {
       pagesArray.push(i);
     }
-    return pagesArray.sort(function(a, b){return a-b});
+    return pagesArray.sort(function(a, b) {
+      return a - b;
+    });
   };
 
   const rowsPerProps = {
@@ -51,9 +47,7 @@ const PaginationControls = ({ pagingProps }) => {
   return (
     <div className={styles.paginationControls}>
       <PagingOptionsMenu menuProps={rowsPerProps} />
-      {maxRows > itemsPerPage &&
-        <PageButtons pageButtonProps={pageButtonProps} />
-      }
+      {maxRows > itemsPerPage && <PageButtons pageButtonProps={pageButtonProps} />}
     </div>
   );
 };

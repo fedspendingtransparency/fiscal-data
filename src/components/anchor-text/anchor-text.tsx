@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomLink from "../links/custom-link/custom-link";
+import CustomLink from '../links/custom-link/custom-link';
 
 type IAnchorText = {
   link: string;

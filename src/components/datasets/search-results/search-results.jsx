@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import SearchResultCount from '../search-result-count/search-result-count';
 import SearchResultCards from './search-result-cards/search-result-cards';
 import SortDatasets from './sort-datasets/sort-datasets';
 import { SortOptions, FilteredSortOptions } from './search-results-helper';
-import NotShownMessage
-  from "../../dataset-data/table-section-container/not-shown-message/not-shown-message";
-import Analytics from "../../../utils/analytics/analytics";
+import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
+import Analytics from '../../../utils/analytics/analytics';
 
-import {
-  noMargin,
-  datasetHeader,
-  datasetsSubtitle,
-  sortSelectionContainer
-} from './search-results.module.scss';
+import { noMargin, datasetHeader, datasetsSubtitle, sortSelectionContainer } from './search-results.module.scss';
 
 export const sortDatasetsAnalyticsObject = {
   category: 'Dataset Search Page',
-  action: 'Sort Click'
-}
+  action: 'Sort Click',
+};
 
 export const resultsHeaderText = 'Results:';
 
@@ -27,11 +21,11 @@ export const noResultsText = {
   bulletPoints: [
     'Double-check your spelling',
     'Broaden your search by using fewer or more general words',
-    'Remove some of your selected filters or topics, if applicable'
-  ]
-}
+    'Remove some of your selected filters or topics, if applicable',
+  ],
+};
 
-export const getApiCount = (datasets) => {
+export const getApiCount = datasets => {
   let totalCount = 0;
 
   for (const dataset of datasets) {
@@ -41,7 +35,7 @@ export const getApiCount = (datasets) => {
   }
 
   return totalCount;
-}
+};
 
 const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
   const filteredDatasetsLength = filteredDatasets.length;
@@ -52,22 +46,22 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
   const [totalApiLength, setTotalApiLength] = useState(0);
   const [filteredApiLength, setFilteredApiLength] = useState(0);
 
-  const sortCallback = (sort) => {
+  const sortCallback = sort => {
     if (sort.label !== activeSort.label) {
       setActiveSort(sort);
       Analytics.event({
         ...sortDatasetsAnalyticsObject,
-        label: sort.label
+        label: sort.label,
       });
 
       // GA4 event
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        'event': 'Sort Click',
-        'eventLabel': sort.label
+        event: 'Sort Click',
+        eventLabel: sort.label,
       });
     }
-  }
+  };
 
   const noResultBody = (
     <div>
@@ -80,12 +74,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
     </div>
   );
 
-  const noResultsMessage = (
-    <NotShownMessage
-      heading={noResultsText.heading}
-      bodyText={noResultBody}
-    />
-  );
+  const noResultsMessage = <NotShownMessage heading={noResultsText.heading} bodyText={noResultBody} />;
 
   useEffect(() => setActiveSort(sortOptions[0]), [sortOptions, searchIsActive]);
 
@@ -116,11 +105,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
         </div>
       </div>
       {filteredDatasetsLength ? (
-        <SearchResultCards
-          allDatasets={allDatasets}
-          filteredDatasets={filteredDatasets}
-          activeSort={activeSort}
-        />
+        <SearchResultCards allDatasets={allDatasets} filteredDatasets={filteredDatasets} activeSort={activeSort} />
       ) : (
         <div>{noResultsMessage}</div>
       )}
@@ -131,7 +116,7 @@ const SearchResults = ({ searchIsActive, filteredDatasets, allDatasets }) => {
         totalApiCount={totalApiLength}
       />
     </>
-  )
-}
+  );
+};
 
 export default SearchResults;

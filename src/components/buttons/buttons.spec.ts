@@ -1,5 +1,5 @@
-import buttons, {gaCopyLabelStr} from './buttons';
-import * as gaHelper from "../../layouts/dataset-detail/helper";
+import buttons, { gaCopyLabelStr } from './buttons';
+import * as gaHelper from '../../layouts/dataset-detail/helper';
 
 describe('Download Modal Buttons', () => {
   let consoleInfo;
@@ -12,7 +12,7 @@ describe('Download Modal Buttons', () => {
     downloadObj = {
       dataset: {
         datasetId: null,
-      }
+      },
     };
     cancelCallback = jest.fn();
 
@@ -20,8 +20,8 @@ describe('Download Modal Buttons', () => {
     global.console.info = jest.fn();
     Object.defineProperty(window.navigator, 'clipboard', {
       value: {
-        writeText: jest.fn(() => Promise.resolve())
-      }
+        writeText: jest.fn(() => Promise.resolve()),
+      },
     });
     writeTextSpy = jest.spyOn(window.navigator.clipboard, 'writeText');
   });
@@ -52,7 +52,7 @@ describe('Download Modal Buttons', () => {
     expect(copyButton.props.children).toStrictEqual(labelText);
   });
 
-  it('copy button copies the passed in text to the user\'s clipboard when clicked and fires a GA event', () => {
+  it("copy button copies the passed in text to the user's clipboard when clicked and fires a GA event", () => {
     const textToCopy = 'Dummy Text';
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
     const copyButton = buttons.copyToClipboardButton(textToCopy);
@@ -60,5 +60,4 @@ describe('Download Modal Buttons', () => {
     expect(writeTextSpy).toHaveBeenCalledWith(textToCopy);
     expect(gaSpy).toHaveBeenCalledWith(gaCopyLabelStr);
   });
-
 });

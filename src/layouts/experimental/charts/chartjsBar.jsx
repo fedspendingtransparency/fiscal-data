@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import React from 'react';
-import { Bar } from "react-chartjs-2";
+import { Bar } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 const ChartJSBar = () => {
@@ -9,7 +9,7 @@ const ChartJSBar = () => {
     elements: {
       bar: {
         borderWidth: 2,
-      }
+      },
     },
     responsive: true,
     scales: {
@@ -23,7 +23,7 @@ const ChartJSBar = () => {
         },
         ticks: {
           display: false,
-        }
+        },
       },
       y: {
         grid: {
@@ -32,13 +32,13 @@ const ChartJSBar = () => {
         },
         border: {
           display: false,
-        }
-      }
+        },
+      },
     },
     layout: {
       padding: {
         right: 25,
-      }
+      },
     },
 
     plugins: {
@@ -50,44 +50,45 @@ const ChartJSBar = () => {
       },
       datalabels: {
         display: true,
-        color: "#15366a",
+        color: '#15366a',
         align: 'end',
         anchor: 'end',
-      }
+      },
     },
-  }
+  };
 
-
-  const plugins = [{
-    datalabels: {
-      align: 'end',
-      anchor: 'end',
-      color: "#15366a",
-    }
-  }];
+  const plugins = [
+    {
+      datalabels: {
+        align: 'end',
+        anchor: 'end',
+        color: '#15366a',
+      },
+    },
+  ];
 
   const labels = ['U.S. Investors', 'Federal Reserve', 'Social Security', 'Department of Defense'];
   const data = {
     labels: labels,
     datasets: [
       {
-        backgroundColor: ["#15366a"],
-        borderColor: ["#15366a"],
+        backgroundColor: ['#15366a'],
+        borderColor: ['#15366a'],
         data: [15, 5, 9, 10],
         borderWidth: 0,
       },
-    ]
-  }
+    ],
+  };
 
   return (
     <>
-      <div style={{height: '300px', width: '400px'}}>
-        <div style={{height: '100%', width: '90%', position: 'relative'}}>
+      <div style={{ height: '300px', width: '400px' }}>
+        <div style={{ height: '100%', width: '90%', position: 'relative' }}>
           <Bar
-               data={data}
-               options={options}
-               plugins={[ChartDataLabels]}
-               // style={{marginRight: '1rem'}}
+            data={data}
+            options={options}
+            plugins={[ChartDataLabels]}
+            // style={{marginRight: '1rem'}}
           />
         </div>
       </div>

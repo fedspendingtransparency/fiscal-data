@@ -1,21 +1,18 @@
-import {aggregator, reducer} from './helpers';
-import testData, {staggeredData} from './helpersData';
+import { aggregator, reducer } from './helpers';
+import testData, { staggeredData } from './helpersData';
 
 describe('Chart helpers', () => {
-
   describe('aggregator function', () => {
-
     it('returns a blank object if input params are invalid', () => {
       const expectedReturn = {};
       expect(aggregator(null, null, null)).toStrictEqual(expectedReturn);
       expect(aggregator(staggeredData, '', testData.staggeredValueKeys)).toStrictEqual(expectedReturn);
       expect(aggregator([], testData.staggeredGroupKey, testData.staggeredValueKeys)).toStrictEqual(expectedReturn);
       expect(aggregator(staggeredData, testData.staggeredGroupKey, [])).toStrictEqual(expectedReturn);
-
     });
 
     it('groups an array of uncompressed data to an object of compressed data with groupKey value pairs', () => {
-      expect(aggregator(staggeredData,  testData.staggeredGroupKey, testData.staggeredValueKeys)).toStrictEqual(testData.staggeredGroupedData);
+      expect(aggregator(staggeredData, testData.staggeredGroupKey, testData.staggeredValueKeys)).toStrictEqual(testData.staggeredGroupedData);
     });
   });
 

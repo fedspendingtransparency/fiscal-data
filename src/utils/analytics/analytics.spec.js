@@ -1,6 +1,6 @@
 import Analytics from './analytics';
 import renderer from 'react-test-renderer';
-import { ENV_ID } from "gatsby-env-variables";
+import { ENV_ID } from 'gatsby-env-variables';
 
 jest.useFakeTimers();
 describe('Analytics Util', () => {
@@ -20,24 +20,33 @@ describe('Analytics Util', () => {
     process.env.GATSBY_ENV = originalEnv;
   });
 
-  it('calls window.gas and window.ga with expected arguments in Prod ' +
-    'environment', async () => {
+  it('calls window.gas and window.ga with expected arguments in Prod ' + 'environment', async () => {
     renderer.act(() => {
-      Analytics.event(
-        {
-          category: 'Glossary',
-          action: 'Opened Glossary',
-          label: 'Floating Glossary Button'
-        }
-      )
+      Analytics.event({
+        category: 'Glossary',
+        action: 'Opened Glossary',
+        label: 'Floating Glossary Button',
+      });
     });
     jest.runAllTimers();
 
-    expect(gasSpy).toHaveBeenCalledWith('send', 'event', 'Fiscal Data - Glossary',
-      'Opened Glossary', 'Floating Glossary Button', undefined, undefined);
-    expect(gaSpy).toHaveBeenCalledWith('send', 'event', 'Fiscal Data - Glossary',
-      'Opened Glossary', 'Floating Glossary Button', undefined, undefined);
+    expect(gasSpy).toHaveBeenCalledWith(
+      'send',
+      'event',
+      'Fiscal Data - Glossary',
+      'Opened Glossary',
+      'Floating Glossary Button',
+      undefined,
+      undefined
+    );
+    expect(gaSpy).toHaveBeenCalledWith(
+      'send',
+      'event',
+      'Fiscal Data - Glossary',
+      'Opened Glossary',
+      'Floating Glossary Button',
+      undefined,
+      undefined
+    );
   });
 });
-
-

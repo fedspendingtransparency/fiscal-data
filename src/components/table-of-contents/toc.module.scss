@@ -21,8 +21,7 @@
   width: auto;
 }
 
-@media screen and (min-width: $breakpoint-lg){
-
+@media screen and (min-width: $breakpoint-lg) {
   .tocWrapper {
     width: 260px;
     margin-right: 2rem;

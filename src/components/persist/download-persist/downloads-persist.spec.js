@@ -1,11 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import domUtils from 'react-dom/test-utils';
-import DownloadsPersist, {
-  downloadsContext,
-  DownloadsProvider,
-  getGreatestProgress
-} from './downloads-persist';
+import DownloadsPersist, { downloadsContext, DownloadsProvider, getGreatestProgress } from './downloads-persist';
 import { ReplaySubject } from 'rxjs';
 import downloadService from '../../../helpers/download-service/download-service';
 import * as progressHelpers from './download-progress-helper';
@@ -13,19 +9,17 @@ import * as progressHelpers from './download-progress-helper';
 let mockDownloadStatus = new ReplaySubject(1);
 mockDownloadStatus.next({
   status: 'started',
-  'dl_check_page_path': '/somelongaccesshashkey',
-  'final_file_name': '/someTable_someDateRange.type.zip',
+  dl_check_page_path: '/somelongaccesshashkey',
+  final_file_name: '/someTable_someDateRange.type.zip',
   progress: {
-    pct: 0
-  }
+    pct: 0,
+  },
 });
 
 const mockSpies = {
-  initiator: jest.fn().mockImplementation(
-    (datasetId, apis, dateRange, fileTypes, requestTime) => `${datasetId}::${requestTime}`
-  ),
+  initiator: jest.fn().mockImplementation((datasetId, apis, dateRange, fileTypes, requestTime) => `${datasetId}::${requestTime}`),
   inProgress: jest.fn().mockImplementation(() => {
-    return []
+    return [];
   }),
 };
 jest.mock('../../../helpers/download-service/download-service', function() {
@@ -39,14 +33,14 @@ jest.mock('../../../helpers/download-service/download-service', function() {
         return mockDownloadStatus;
       }),
       datasetsInOrder: jest.fn().mockImplementation(() => {
-        return []
+        return [];
       }),
       cancelDownload: jest.fn(),
       startProcessingIncompleteFileRequests: () => {},
       getStoredQueue: jest.fn().mockImplementation(() => {
-        return []
+        return [];
       }),
-    }
+    },
   };
 });
 
@@ -58,20 +52,19 @@ describe('Downloads Persist', () => {
   let persistedsiteContext;
 
   beforeEach(() => {
-
     mockDownloadStatus = new ReplaySubject(1);
     mockDownloadStatus.next({
       status: 'started',
-      'dl_check_page_path': '/somelongaccesshashkey',
-      'final_file_name': '/someTable_someDateRange.type.zip',
+      dl_check_page_path: '/somelongaccesshashkey',
+      final_file_name: '/someTable_someDateRange.type.zip',
       progress: {
-        pct: 0
-      }
+        pct: 0,
+      },
     });
 
     ReactDOM.render(
       DownloadsPersist({
-        element:
+        element: (
           <DownloadsProvider>
             <downloadsContext.Consumer>
               {context => {
@@ -79,7 +72,10 @@ describe('Downloads Persist', () => {
               }}
             </downloadsContext.Consumer>
           </DownloadsProvider>
-      }), document.createElement('div'));
+        ),
+      }),
+      document.createElement('div')
+    );
 
     jest.clearAllMocks();
   });
@@ -97,25 +93,25 @@ describe('Downloads Persist', () => {
       apis: [mockTable, mockAnotherTable],
       techSpecs: {
         earliestDate: '01-01-2020',
-        latestDate: '11-01-2020'
-      }
+        latestDate: '11-01-2020',
+      },
     };
     const mockDateRange = {
       from: new Date('01/01/2020'),
-      to: new Date('11/01/2020')
+      to: new Date('11/01/2020'),
     };
     const downloadRequest = {
-      "apis": mockTable,
-      "datasetId": mockDataset.datasetId,
-      "dateRange": mockDateRange,
-      "selectedFileType": "csv",
-      "requestTime": 1234567890
+      apis: mockTable,
+      datasetId: mockDataset.datasetId,
+      dateRange: mockDateRange,
+      selectedFileType: 'csv',
+      requestTime: 1234567890,
     };
     const downloadRequestForHash = {
       apis: [downloadRequest.apis.apiId],
       dateRange: downloadRequest.dateRange,
       selectedFileType: downloadRequest.selectedFileType,
-      requestTime: downloadRequest.requestTime
+      requestTime: downloadRequest.requestTime,
     };
 
     const updatePercentageSpy = jest.spyOn(progressHelpers, 'updatePercentage');
@@ -131,11 +127,11 @@ describe('Downloads Persist', () => {
     domUtils.act(() => {
       mockDownloadStatus.next({
         status: 'started',
-        'final_file_name': '/someTable_someDateRange.type.zip',
-        'dl_check_page_path': '/someTable_someDateRange.type.zip',
+        final_file_name: '/someTable_someDateRange.type.zip',
+        dl_check_page_path: '/someTable_someDateRange.type.zip',
         progress: {
-          pct: 0
-        }
+          pct: 0,
+        },
       });
     });
 
@@ -151,7 +147,7 @@ describe('Downloads Persist', () => {
     domUtils.act(() => {
       mockDownloadStatus.next({
         status: 'completed',
-        'final_file_name': '/someTable_someDateRange.type.zip'
+        final_file_name: '/someTable_someDateRange.type.zip',
       });
       jest.runAllTimers();
     });
@@ -166,38 +162,31 @@ describe('Downloads Persist', () => {
       expect(updatePercentageSpy).toHaveBeenCalledTimes(3);
     });
 
-    const expectedArgs = [
-      "Mock-Up-Dataset",
-      {"apiId": "100100"},
-      mockDateRange,
-      "csv",
-      downloadRequest.requestTime,
-      undefined,
-      undefined
-    ];
+    const expectedArgs = ['Mock-Up-Dataset', { apiId: '100100' }, mockDateRange, 'csv', downloadRequest.requestTime, undefined, undefined];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);
     expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
 
-    const expectedDownloadPreparedResult = [{
-      apis: mockTable,
-      datasetId: mockDataset.datasetId,
-      dateRange: mockDateRange,
-      downloadUrl: '/someTable_someDateRange.type.zip',
-      filename: 'someTable_someDateRange.type.zip',
-      fullFileUrl: '/someTable_someDateRange.type.zip',
-      originalRequestHash: JSON.stringify(downloadRequestForHash),
-      prepStarted: true,
-      readyForDownload: true,
-      status: 'completed',
-      progressPct: 100,
-      requestTime: 1234567890,
-      selectedFileType: 'csv',
-      statusPath: '/someTable_someDateRange.type.zip',
-      requestId: 'Mock-Up-Dataset::1234567890'
-    }];
+    const expectedDownloadPreparedResult = [
+      {
+        apis: mockTable,
+        datasetId: mockDataset.datasetId,
+        dateRange: mockDateRange,
+        downloadUrl: '/someTable_someDateRange.type.zip',
+        filename: 'someTable_someDateRange.type.zip',
+        fullFileUrl: '/someTable_someDateRange.type.zip',
+        originalRequestHash: JSON.stringify(downloadRequestForHash),
+        prepStarted: true,
+        readyForDownload: true,
+        status: 'completed',
+        progressPct: 100,
+        requestTime: 1234567890,
+        selectedFileType: 'csv',
+        statusPath: '/someTable_someDateRange.type.zip',
+        requestId: 'Mock-Up-Dataset::1234567890',
+      },
+    ];
 
     expect(persistedsiteContext.downloadsPrepared).toMatchObject(expectedDownloadPreparedResult);
-
   });
 
   it('is able to cancel an item', () => {
@@ -214,24 +203,24 @@ describe('Downloads Persist', () => {
       apis: [mockTable, mockAnotherTable],
       techSpecs: {
         earliestDate: '01-01-2020',
-        latestDate: '11-01-2020'
-      }
+        latestDate: '11-01-2020',
+      },
     };
     const mockDateRange = {
       from: new Date('01/01/2020'),
-      to: new Date('11/01/2020')
+      to: new Date('11/01/2020'),
     };
     const downloadRequest = {
-      "apis": mockTable,
-      "dataset": mockDataset,
-      "dateRange": mockDateRange,
-      "selectedFileType": "csv"
+      apis: mockTable,
+      dataset: mockDataset,
+      dateRange: mockDateRange,
+      selectedFileType: 'csv',
     };
     const downloadRequestForHash = {
       apis: [downloadRequest.apis.apiId],
       dateRange: downloadRequest.dateRange,
       selectedFileType: downloadRequest.selectedFileType,
-      datasetId: downloadRequest.dataset.datasetId
+      datasetId: downloadRequest.dataset.datasetId,
     };
 
     const expectedDownloadInProgressResult = {
@@ -247,7 +236,7 @@ describe('Downloads Persist', () => {
       readyForDownload: true,
       requestTime: undefined,
       selectedFileType: 'csv',
-      statusPath: '/someTable_someDateRange.type.zip'
+      statusPath: '/someTable_someDateRange.type.zip',
     };
 
     expect(persistedsiteContext.downloadsInProgress).toStrictEqual([]);
@@ -263,11 +252,11 @@ describe('Downloads Persist', () => {
     domUtils.act(() => {
       mockDownloadStatus.next({
         status: 'started',
-        'final_file_name': '/someTable_someDateRange.type.zip',
-        'dl_check_page_path': '/someTable_someDateRange.type.zip',
+        final_file_name: '/someTable_someDateRange.type.zip',
+        dl_check_page_path: '/someTable_someDateRange.type.zip',
         progress: {
-          pct: 0
-        }
+          pct: 0,
+        },
       });
     });
 
@@ -299,25 +288,25 @@ describe('Downloads Persist', () => {
       apis: [mockTable, mockAnotherTable],
       techSpecs: {
         earliestDate: '01-01-2020',
-        latestDate: '11-01-2020'
-      }
+        latestDate: '11-01-2020',
+      },
     };
     const mockDateRange = {
       from: new Date('01/01/2020'),
-      to: new Date('11/01/2020')
+      to: new Date('11/01/2020'),
     };
     const downloadRequest = {
-      "apis": mockTable,
-      "datasetId": mockDataset.datasetId,
-      "dateRange": mockDateRange,
-      "selectedFileType": "csv",
-      "requestTime": requestTime
+      apis: mockTable,
+      datasetId: mockDataset.datasetId,
+      dateRange: mockDateRange,
+      selectedFileType: 'csv',
+      requestTime: requestTime,
     };
     const downloadRequestForHash = {
       apis: [downloadRequest.apis.apiId],
       dateRange: downloadRequest.dateRange,
       selectedFileType: downloadRequest.selectedFileType,
-      requestTime: downloadRequest.requestTime
+      requestTime: downloadRequest.requestTime,
     };
 
     domUtils.act(() => {
@@ -327,51 +316,45 @@ describe('Downloads Persist', () => {
     domUtils.act(() => {
       mockDownloadStatus.next({
         status: 'started',
-        'final_file_name': '/someTable_someDateRange.type.zip',
-        'dl_check_page_path': '/someTable_someDateRange.type.zip',
+        final_file_name: '/someTable_someDateRange.type.zip',
+        dl_check_page_path: '/someTable_someDateRange.type.zip',
         progress: {
-          pct: 0
-        }
+          pct: 0,
+        },
       });
     });
 
     domUtils.act(() => {
       mockDownloadStatus.next({
         status: 'completed',
-        'final_file_name': '/someTable_someDateRange.type.zip'
+        final_file_name: '/someTable_someDateRange.type.zip',
       });
     });
 
-    const expectedArgs = [
-      "Mock-Up-Dataset",
-      {"apiId": "100100"},
-      mockDateRange,
-      "csv",
-      downloadRequest.requestTime,
-      undefined,
-      undefined
-    ];
+    const expectedArgs = ['Mock-Up-Dataset', { apiId: '100100' }, mockDateRange, 'csv', downloadRequest.requestTime, undefined, undefined];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);
     expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
 
-    const expectedDownloadPreparedResult = [{
-      apis: mockTable,
-      datasetId: mockDataset.datasetId,
-      dateRange: mockDateRange,
-      downloadUrl: '/someTable_someDateRange.type.zip',
-      filename: 'someTable_someDateRange.type.zip',
-      fullFileUrl: '/someTable_someDateRange.type.zip',
-      originalRequestHash: JSON.stringify(downloadRequestForHash),
-      prepStarted: true,
-      readyForDownload: true,
-      status: 'completed',
-      requestTime: requestTime,
-      progressPct: 100,
-      selectedFileType: 'csv',
-      statusPath: '/someTable_someDateRange.type.zip',
-      requestId: requestId,
-      totalPages: undefined
-    }];
+    const expectedDownloadPreparedResult = [
+      {
+        apis: mockTable,
+        datasetId: mockDataset.datasetId,
+        dateRange: mockDateRange,
+        downloadUrl: '/someTable_someDateRange.type.zip',
+        filename: 'someTable_someDateRange.type.zip',
+        fullFileUrl: '/someTable_someDateRange.type.zip',
+        originalRequestHash: JSON.stringify(downloadRequestForHash),
+        prepStarted: true,
+        readyForDownload: true,
+        status: 'completed',
+        requestTime: requestTime,
+        progressPct: 100,
+        selectedFileType: 'csv',
+        statusPath: '/someTable_someDateRange.type.zip',
+        requestId: requestId,
+        totalPages: undefined,
+      },
+    ];
     // should now have an item in downloadsPrepared
     expect(persistedsiteContext.downloadsPrepared).toMatchObject(expectedDownloadPreparedResult);
 
@@ -381,14 +364,13 @@ describe('Downloads Persist', () => {
       jest.runAllTimers();
     });
 
-    expect(downloadService.cancelDownload)
-      .toHaveBeenCalledWith(expectedDownloadPreparedResult[0].requestId);
+    expect(downloadService.cancelDownload).toHaveBeenCalledWith(expectedDownloadPreparedResult[0].requestId);
 
     // confirm the item's removal
     expect(persistedsiteContext.downloadsPrepared).toStrictEqual([]);
   });
 
-  it ('moves downloads that error into error list', () => {
+  it('moves downloads that error into error list', () => {
     jest.clearAllMocks();
     const mockTable = { apiId: '100100' };
     const mockAnotherTable = { apiId: '200200' };
@@ -401,25 +383,25 @@ describe('Downloads Persist', () => {
       apis: [mockTable, mockAnotherTable],
       techSpecs: {
         earliestDate: '01-01-2020',
-        latestDate: '11-01-2020'
-      }
+        latestDate: '11-01-2020',
+      },
     };
     const mockDateRange = {
       from: new Date('01/01/2020'),
-      to: new Date('11/01/2020')
+      to: new Date('11/01/2020'),
     };
     const downloadRequest = {
-      "apis": mockTable,
-      "datasetId": mockDataset.datasetId,
-      "dateRange": mockDateRange,
-      "selectedFileType": "csv",
-      "requestTime": requestTime
+      apis: mockTable,
+      datasetId: mockDataset.datasetId,
+      dateRange: mockDateRange,
+      selectedFileType: 'csv',
+      requestTime: requestTime,
     };
     const downloadRequestForHash = {
       apis: [downloadRequest.apis.apiId],
       dateRange: downloadRequest.dateRange,
       selectedFileType: downloadRequest.selectedFileType,
-      requestTime: downloadRequest.requestTime
+      requestTime: downloadRequest.requestTime,
     };
 
     domUtils.act(() => {
@@ -429,49 +411,45 @@ describe('Downloads Persist', () => {
     domUtils.act(() => {
       mockDownloadStatus.next({
         status: 'started',
-        'final_file_name': '/someTable_someDateRange.type.zip',
-        'dl_check_page_path': '/someTable_someDateRange.type.zip',
+        final_file_name: '/someTable_someDateRange.type.zip',
+        dl_check_page_path: '/someTable_someDateRange.type.zip',
         progress: {
-          pct: 0
-        }
+          pct: 0,
+        },
       });
     });
 
     domUtils.act(() => {
       mockDownloadStatus.error({
         status: 'failed',
-        error: { message: 'Internal Server Error' }
+        error: { message: 'Internal Server Error' },
       });
     });
 
-    const expectedDownloadFailedResult = [{
-      apis: mockTable,
-      datasetId: mockDataset.datasetId,
-      dateRange: JSON.parse(JSON.stringify(mockDateRange)),
-      downloadUrl: '/someTable_someDateRange.type.zip',
-      filename: 'someTable_someDateRange.type.zip',
-      originalRequestHash: JSON.stringify(downloadRequestForHash),
-      prepStarted: true,
-      status: 'failed',
-      error: { message: 'Internal Server Error' },
-      progressPct: 0,
-      requestTime: requestTime,
-      selectedFileType: 'csv',
-      statusPath: '/someTable_someDateRange.type.zip',
-      requestId: requestId
-    }];
+    const expectedDownloadFailedResult = [
+      {
+        apis: mockTable,
+        datasetId: mockDataset.datasetId,
+        dateRange: JSON.parse(JSON.stringify(mockDateRange)),
+        downloadUrl: '/someTable_someDateRange.type.zip',
+        filename: 'someTable_someDateRange.type.zip',
+        originalRequestHash: JSON.stringify(downloadRequestForHash),
+        prepStarted: true,
+        status: 'failed',
+        error: { message: 'Internal Server Error' },
+        progressPct: 0,
+        requestTime: requestTime,
+        selectedFileType: 'csv',
+        statusPath: '/someTable_someDateRange.type.zip',
+        requestId: requestId,
+      },
+    ];
 
     expect(persistedsiteContext.failedDownloads).toMatchObject(expectedDownloadFailedResult);
-
   });
 
   it('can return the largest progressPct from an array of objects with progressPct props', () => {
-    const mockObjs = [
-      { progressPct: 22 },
-      { progressPct: 0 },
-      { progressPct: 98 },
-      { progressPct: 45 }
-    ];
+    const mockObjs = [{ progressPct: 22 }, { progressPct: 0 }, { progressPct: 98 }, { progressPct: 45 }];
     expect(getGreatestProgress(mockObjs)).toStrictEqual(98);
   });
 });

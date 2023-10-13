@@ -1,7 +1,7 @@
 import React from 'react';
-import {fileSizeTranslator, fileSizeTranslator2, makeTheDataArray} from "./datatables-tab-helpers";
-import renderer from "react-test-renderer";
-import DataTablesTab from "./datatables-tab";
+import { fileSizeTranslator, fileSizeTranslator2, makeTheDataArray } from './datatables-tab-helpers';
+import renderer from 'react-test-renderer';
+import DataTablesTab from './datatables-tab';
 
 describe('DataTablesTabHelpers', () => {
   const mockData = [
@@ -9,22 +9,21 @@ describe('DataTablesTabHelpers', () => {
       tableName: 'table 1',
       tableDescription: 'table 1 description',
       rowCount: '9999',
-      rowDefinition: 'this row does this'
+      rowDefinition: 'this row does this',
     },
     {
       tableName: 'table 2',
       tableDescription: 'table 2 description',
       rowCount: '111',
-      rowDefinition: 'that row does that'
-    }
+      rowDefinition: 'that row does that',
+    },
   ];
 
   let component = renderer.create();
   let instance;
   beforeAll(() => {
     renderer.act(() => {
-      component = renderer.create(
-        <DataTablesTab apis={mockData} />);
+      component = renderer.create(<DataTablesTab apis={mockData} />);
     });
     instance = component.root;
   });

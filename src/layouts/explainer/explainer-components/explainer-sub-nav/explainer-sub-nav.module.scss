@@ -10,13 +10,21 @@ $chevronHeight: 1rem;
 $chevronWidth: $chevronHeight/3;
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .navContainer {
@@ -24,11 +32,11 @@ $chevronWidth: $chevronHeight/3;
   color: #fff;
   max-width: $breakpoint-lg;
   display: flex;
-  margin: .5rem auto 1rem auto;
+  margin: 0.5rem auto 1rem auto;
   justify-content: center;
 }
 
-ul.navBlockHidden{
+ul.navBlockHidden {
   display: none;
 }
 
@@ -58,124 +66,122 @@ ul.navBlockSticky {
   z-index: $desktop-menu-sticky;
 }
 
+li.navItem {
+  background-color: #767676;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  flex-grow: 1;
+  max-width: 8rem;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 
-  li.navItem {
-    background-color: #767676;
-    color: white;
-    font-size: 1rem;
+  .navLink {
     display: flex;
-    flex-grow: 1;
-    max-width: 8rem;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    color: #fff;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
 
-
-    .navLink {
-      display: flex;
+    .navIcon {
+      margin-right: 10px;
       color: #fff;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-
-      .navIcon {
-        margin-right: 10px;
-        color: #fff;
-      }
-    }
-    .navLink.active {
-      font-weight: bold;
-    }
-
-    .navLink:hover {
-      text-decoration: underline;
-      cursor: pointer;
     }
   }
-
-  li.navItem:first-child {
-    min-width: 9.125rem;
+  .navLink.active {
+    font-weight: bold;
   }
 
-  li.frontChevron {
-    width: 0px;
-    height: 0px;
-    border-top: $chevronHeight solid white;
-    border-bottom: $chevronHeight solid white;
-    justify-items: end;
+  .navLink:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
+}
 
-  li.backChevron {
-    width: 0px;
-    height: 0px;
-    border-left: $chevronWidth solid white;
-  }
+li.navItem:first-child {
+  min-width: 9.125rem;
+}
 
-  li.navItem:last-child {
-    border-start-end-radius: 1rem;
-    border-end-end-radius: 1rem;
-  }
+li.frontChevron {
+  width: 0px;
+  height: 0px;
+  border-top: $chevronHeight solid white;
+  border-bottom: $chevronHeight solid white;
+  justify-items: end;
+}
 
-  li.navItem:first-child {
-    border-start-start-radius: 1rem;
-    border-end-start-radius: 1rem;
-    background-color: $overviewPrimary;
-  }
+li.backChevron {
+  width: 0px;
+  height: 0px;
+  border-left: $chevronWidth solid white;
+}
 
-  .navItem.overview {
-    background-color: $overviewPrimary;
-  }
+li.navItem:last-child {
+  border-start-end-radius: 1rem;
+  border-end-end-radius: 1rem;
+}
 
-  .frontChevron.overview {
-    border-left: $chevronWidth solid $overviewPrimary;
-  }
+li.navItem:first-child {
+  border-start-start-radius: 1rem;
+  border-end-start-radius: 1rem;
+  background-color: $overviewPrimary;
+}
 
-  .navItem.revenue {
-    background-color: $revenuePrimary;
-  }
+.navItem.overview {
+  background-color: $overviewPrimary;
+}
 
-  .backChevron.revenue {
-    border-top: $chevronHeight solid $revenuePrimary;
-    border-bottom: $chevronHeight solid $revenuePrimary;
-  }
+.frontChevron.overview {
+  border-left: $chevronWidth solid $overviewPrimary;
+}
 
-  .frontChevron.revenue {
-    border-left: $chevronWidth solid $revenuePrimary;
-  }
+.navItem.revenue {
+  background-color: $revenuePrimary;
+}
 
-  .navItem.spending {
-    background-color: $spendingPrimary;
-  }
+.backChevron.revenue {
+  border-top: $chevronHeight solid $revenuePrimary;
+  border-bottom: $chevronHeight solid $revenuePrimary;
+}
 
-  .backChevron.spending {
-    border-top: $chevronHeight solid $spendingPrimary;
-    border-bottom: $chevronHeight solid $spendingPrimary;
-  }
+.frontChevron.revenue {
+  border-left: $chevronWidth solid $revenuePrimary;
+}
 
-  .frontChevron.spending {
-    border-left: $chevronWidth solid $spendingPrimary;
-  }
+.navItem.spending {
+  background-color: $spendingPrimary;
+}
 
-  .navItem.deficit {
-    background-color: $deficitPrimary;
-  }
+.backChevron.spending {
+  border-top: $chevronHeight solid $spendingPrimary;
+  border-bottom: $chevronHeight solid $spendingPrimary;
+}
 
-  .backChevron.deficit {
-    border-top: $chevronHeight solid $deficitPrimary;
-    border-bottom: $chevronHeight solid $deficitPrimary;
-  }
+.frontChevron.spending {
+  border-left: $chevronWidth solid $spendingPrimary;
+}
 
-  .frontChevron.deficit {
-    border-left: $chevronWidth solid $deficitPrimary;
-  }
+.navItem.deficit {
+  background-color: $deficitPrimary;
+}
 
-  .navItem.debt {
-    background-color: $debtPrimary;
-  }
+.backChevron.deficit {
+  border-top: $chevronHeight solid $deficitPrimary;
+  border-bottom: $chevronHeight solid $deficitPrimary;
+}
 
-  .backChevron.debt {
-    border-top: $chevronHeight solid $debtPrimary;
-    border-bottom: $chevronHeight solid $debtPrimary;
-  }
+.frontChevron.deficit {
+  border-left: $chevronWidth solid $deficitPrimary;
+}
+
+.navItem.debt {
+  background-color: $debtPrimary;
+}
+
+.backChevron.debt {
+  border-top: $chevronHeight solid $debtPrimary;
+  border-bottom: $chevronHeight solid $debtPrimary;
+}

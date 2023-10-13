@@ -1,15 +1,13 @@
 import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import * as styles from './debt-over-last-100y-linechart.module.scss';
-import numeral from "numeral";
+import numeral from 'numeral';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import {
-  Point
-} from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
+import { Point } from '../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
 
 const analyticsClickHandler = (action, section) => {
   Analytics.event({
-    category: "Explainers",
+    category: 'Explainers',
     action: action,
     label: `Debt - ${section}`,
   });
@@ -18,12 +16,7 @@ const analyticsClickHandler = (action, section) => {
 const hdoLink = (
   <CustomLink
     url={'/datasets/historical-debt-outstanding/'}
-    onClick={() =>
-      analyticsClickHandler(
-        "Citation Click",
-        "U.S. Federal Debt Trends Over the Last 100 Years"
-      )
-    }
+    onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
     id="Historical Debt Outstanding"
   >
     Historical Debt Outstanding
@@ -33,12 +26,7 @@ const hdoLink = (
 const bls = (
   <CustomLink
     url={'https://www.bls.gov/developers/'}
-    onClick={() =>
-      analyticsClickHandler(
-        "Citation Click",
-        "U.S. Federal Debt Trends Over the Last 100 Years"
-      )
-    }
+    onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
   >
     Bureau of Labor Statistics
   </CustomLink>
@@ -46,9 +34,7 @@ const bls = (
 
 const footer = (
   <p>
-    Visit the {hdoLink} dataset
-    to explore and download this data. The inflation data is
-    sourced from the {bls}.
+    Visit the {hdoLink} dataset to explore and download this data. The inflation data is sourced from the {bls}.
   </p>
 );
 
@@ -68,11 +54,15 @@ export const dataHeader = headingValues => {
   return (
     <div className={styles.headerContainer}>
       <div>
-        <div className={styles.header} data-testid="dynamic-year-header">{fiscalYear}</div>
+        <div className={styles.header} data-testid="dynamic-year-header">
+          {fiscalYear}
+        </div>
         <span className={styles.subHeader}>Fiscal Year</span>
       </div>
       <div>
-        <div className={styles.header} data-testid="dynamic-value-header">{totalDebt}</div>
+        <div className={styles.header} data-testid="dynamic-value-header">
+          {totalDebt}
+        </div>
         <span className={styles.subHeader}>Total Debt</span>
       </div>
     </div>
@@ -101,23 +91,17 @@ const chartTheme = {
   },
 };
 
-const layers = [
-  'grid',
-  'axes',
-  'lines',
-  'crosshair',
-  'markers',
-  'points',
-  'mesh',
-];
+const layers = ['grid', 'axes', 'lines', 'crosshair', 'markers', 'points', 'mesh'];
 
 export const chartConfigs = {
   theme: chartTheme,
   layers: layers,
   axisLeft: {
-    format: (value) => {
-      const newValue = numeral(value).format('0 a').toUpperCase();
-      return `$${newValue}`
+    format: value => {
+      const newValue = numeral(value)
+        .format('0 a')
+        .toUpperCase();
+      return `$${newValue}`;
     },
     orient: 'left',
     tickSize: 10,
@@ -135,19 +119,16 @@ export const chartConfigs = {
 };
 
 export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
+  const lastPoint = points
+    .filter(g => g.serieId === 'Total Debt')
+    .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }))
+    .pop();
 
-  const lastPoint = points.filter(g => g.serieId === 'Total Debt').sort((a,b) => a.id.localeCompare(b.id, undefined, {numeric: true})).pop();
-
-  const currentPrimaryPoint = currentSlice?.points?.length
-    ? currentSlice.points[0]
-    : lastPoint;
+  const currentPrimaryPoint = currentSlice?.points?.length ? currentSlice.points[0] : lastPoint;
 
   return (
     <g data-testid="customPoints">
-      {currentPrimaryPoint && (
-        <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />
-      )}
+      {currentPrimaryPoint && <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />}
     </g>
   );
 };
-

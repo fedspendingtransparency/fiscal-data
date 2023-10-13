@@ -5,56 +5,56 @@ describe('Date helper', () => {
     {
       dataset: {
         name: 'abc',
-        slug: '/abc'
+        slug: '/abc',
       },
       date: '2021-10-13',
       time: '1200',
-      released: false
+      released: false,
     },
     {
       dataset: {
         name: 'bcd',
-        slug: '/bcd'
+        slug: '/bcd',
       },
       date: '2021-10-15',
       time: '1800',
-      released: false
+      released: false,
     },
     {
       dataset: {
         name: 'cde',
-        slug: '/cde'
+        slug: '/cde',
       },
       date: '2021-11-13',
       time: '1900',
-      released: false
+      released: false,
     },
     {
       dataset: {
         name: 'az',
-        slug: '/az'
+        slug: '/az',
       },
       date: '2021-10-13',
       time: '1500',
-      released: false
+      released: false,
     },
     {
       dataset: {
         name: 'xyz',
-        slug: '/xyz'
+        slug: '/xyz',
       },
       date: '2021-12-13',
       time: '1159',
-      released: false
+      released: false,
     },
     {
       dataset: {
         name: 'ccc',
-        slug: '/ccc'
+        slug: '/ccc',
       },
       date: '2021-05-08',
       time: '1900',
-      released: false
+      released: false,
     },
   ];
 
@@ -63,64 +63,64 @@ describe('Date helper', () => {
       {
         dataset: {
           name: 'abc',
-          slug: '/abc'
+          slug: '/abc',
         },
         date: '2021-10-13',
         time: '1200',
-        released: false
+        released: false,
       },
       {
         dataset: {
           name: 'az',
-          slug: '/az'
+          slug: '/az',
         },
         date: '2021-10-13',
         time: '1500',
-        released: false
-      }
+        released: false,
+      },
     ],
     b: [
       {
         dataset: {
           name: 'bcd',
-          slug: '/bcd'
+          slug: '/bcd',
         },
         date: '2021-10-15',
         time: '1800',
-        released: false
-      }
+        released: false,
+      },
     ],
     c: [
       {
         dataset: {
           name: 'ccc',
-          slug: '/ccc'
+          slug: '/ccc',
         },
         date: '2021-05-08',
         time: '1900',
-        released: false
+        released: false,
       },
       {
         dataset: {
           name: 'cde',
-          slug: '/cde'
+          slug: '/cde',
         },
         date: '2021-11-13',
         time: '1900',
-        released: false
-      }
+        released: false,
+      },
     ],
     x: [
       {
         dataset: {
           name: 'xyz',
-          slug: '/xyz'
+          slug: '/xyz',
         },
         date: '2021-12-13',
         time: '1159',
-        released: false
-      }
-    ]
+        released: false,
+      },
+    ],
   };
 
   const sortedByDate = {
@@ -128,62 +128,62 @@ describe('Date helper', () => {
       {
         dataset: {
           name: 'abc',
-          slug: '/abc'
+          slug: '/abc',
         },
         date: '2021-10-13',
         time: '1200',
-        released: false
+        released: false,
       },
       {
         dataset: {
           name: 'az',
-          slug: '/az'
+          slug: '/az',
         },
         date: '2021-10-13',
         time: '1500',
-        released: false
-      }
+        released: false,
+      },
     ],
     'Friday October 15, 2021': [
       {
         dataset: {
           name: 'bcd',
-          slug: '/bcd'
+          slug: '/bcd',
         },
         date: '2021-10-15',
         time: '1800',
-        released: false
-      }
+        released: false,
+      },
     ],
     'Saturday November 13, 2021': [
       {
         dataset: {
           name: 'cde',
-          slug: '/cde'
+          slug: '/cde',
         },
         date: '2021-11-13',
         time: '1900',
-        released: false
-      }
+        released: false,
+      },
     ],
     'Monday December 13, 2021': [
       {
         dataset: {
           name: 'xyz',
-          slug: '/xyz'
+          slug: '/xyz',
         },
         date: '2021-12-13',
         time: '1159',
-        released: false
-      }
-    ]
+        released: false,
+      },
+    ],
   };
 
   it('separates the entries by name', () => {
-    expect(separateEntriesByName(entries)).toMatchObject(sortedByName)
+    expect(separateEntriesByName(entries)).toMatchObject(sortedByName);
   });
 
   it('separates the entries by date', () => {
-    expect(separateEntriesByDate(entries)).toMatchObject(sortedByDate)
+    expect(separateEntriesByDate(entries)).toMatchObject(sortedByDate);
   });
 });

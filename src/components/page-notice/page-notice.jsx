@@ -12,17 +12,14 @@ import * as styles from './page-notice.module.scss';
 const PageNotice = ({ children, warningLevel }) => {
   const [pageReady, setPageReady] = useState(false);
   let warningClass = '';
-  if(warningLevel){
-    if(warningLevel === 1){
+  if (warningLevel) {
+    if (warningLevel === 1) {
       warningClass = styles.basicWarning;
     }
   }
   useEffect(() => setPageReady(true), []);
   return (
-    <div
-      className={`${styles.pageNotice} ${warningClass} ${(pageReady && !warningClass) ? styles.active : ''}`}
-      data-testid="pageNoticeContent"
-    >
+    <div className={`${styles.pageNotice} ${warningClass} ${pageReady && !warningClass ? styles.active : ''}`} data-testid="pageNoticeContent">
       {children}
     </div>
   );

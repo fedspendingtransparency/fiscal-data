@@ -50,11 +50,9 @@
       :global(.navSectionLink):hover {
         text-decoration: none;
         font-weight: bold;
-        padding-right:0;
-
+        padding-right: 0;
       }
     }
-
 
     .socialShare {
       text-align: center;
@@ -82,17 +80,14 @@
   font-size: $font-size-16;
 }
 
-.mobileSubNav{
+.mobileSubNav {
   display: none;
 }
-.desktopSubNav{
+.desktopSubNav {
   display: block;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-
-
-
   .socialShareContainer {
     position: relative;
   }
@@ -171,7 +166,7 @@
     }
 
     section {
-      width: 100%
+      width: 100%;
     }
   }
 
@@ -179,12 +174,11 @@
     margin-top: 100px;
   }
 
-  .mobileSubNav{
+  .mobileSubNav {
     display: block;
     margin-top: 1rem;
-
   }
-  .desktopSubNav{
+  .desktopSubNav {
     display: none;
   }
 }
@@ -207,5 +201,4 @@
       padding: 0 0.75rem;
     }
   }
-;
 }

@@ -1,10 +1,10 @@
-import {filtersByGroupId} from "../../../transform/filters/filterDefinitions";
-import {renderHelper} from "../../../helpers/renderHelper";
-import Topics from "./topics";
+import { filtersByGroupId } from '../../../transform/filters/filterDefinitions';
+import { renderHelper } from '../../../helpers/renderHelper';
+import Topics from './topics';
 import Topic from './topic/topic';
 import FilterGroupReset from '../filters/filterGroupReset/filterGroupReset';
-import React from "react";
-import { mockFilters } from "../mockData/mockFilters"
+import React from 'react';
+import { mockFilters } from '../mockData/mockFilters';
 
 describe('Topics component', () => {
   const activeFilterId = 'interestExchangeRates';
@@ -29,7 +29,8 @@ describe('Topics component', () => {
         groupId="topics"
         onGroupReset={onGroupReset}
         topicIcons={[]}
-      />));
+      />
+    ));
     topics = instance.findAllByType(Topic);
   });
 
@@ -38,7 +39,7 @@ describe('Topics component', () => {
   });
 
   it('supplies a label to the filter topic', () => {
-    expect(topics[0].props.label).toBe(group[0].label)
+    expect(topics[0].props.label).toBe(group[0].label);
   });
 
   it('passes the slug to the filter topic', () => {
@@ -52,7 +53,7 @@ describe('Topics component', () => {
 
   it('passes filter changes up to the parent', () => {
     renderer.act(() => {
-      topics[0].props.onChange(mockChange)
+      topics[0].props.onChange(mockChange);
     });
     expect(mockChangeHandler).toHaveBeenCalledWith(mockChange);
   });

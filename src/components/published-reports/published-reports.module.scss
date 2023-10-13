@@ -10,7 +10,7 @@
 }
 
 .downloadWrapper {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   height: calc(100% - 2rem);
   box-shadow: 0 -10px 13px -8px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -32,7 +32,7 @@
   border-radius: 0 4px 4px 0;
 }
 
-@media (min-width: $breakpoint-sm){
+@media (min-width: $breakpoint-sm) {
   .container {
     flex-direction: row;
   }

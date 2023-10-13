@@ -7,7 +7,7 @@
  *                with aggregated data.
  */
 export const aggregator = (dataArr, groupKey, aggKeys) => {
-  if (!dataArr || !dataArr.length || !groupKey || !aggKeys || !aggKeys.length){
+  if (!dataArr || !dataArr.length || !groupKey || !aggKeys || !aggKeys.length) {
     return {};
   }
 
@@ -16,10 +16,10 @@ export const aggregator = (dataArr, groupKey, aggKeys) => {
 
   // Loop through all aggregate keys on the new object's key instance and set the initial values as Numberic values and aggregate on follow-up calls.
   const setAggregateValues = (obj, key, d, isInitial) => {
-    for(let i = aggKeys.length; i--;){
+    for (let i = aggKeys.length; i--; ) {
       const curKey = aggKeys[i];
       const aggVal = !isNaN(Number(d[curKey])) ? Number(d[curKey]) : 0;
-      if(isInitial) {
+      if (isInitial) {
         obj[key][curKey] = aggVal;
       } else {
         obj[key][curKey] += aggVal;
@@ -31,7 +31,7 @@ export const aggregator = (dataArr, groupKey, aggKeys) => {
   return arr.reduce((obj, d) => {
     const key = d[groupKey];
     let isInitial = true;
-    if(!obj[key]){
+    if (!obj[key]) {
       obj[key] = d;
     } else {
       isInitial = false;
@@ -50,7 +50,7 @@ export const aggregator = (dataArr, groupKey, aggKeys) => {
  */
 export const reducer = (dataArr, groupKey, aggKeys) => {
   let reducedArr = [];
-  if(!dataArr || !dataArr.length || !groupKey || !aggKeys || !aggKeys.length){
+  if (!dataArr || !dataArr.length || !groupKey || !aggKeys || !aggKeys.length) {
     return reducedArr;
   }
 

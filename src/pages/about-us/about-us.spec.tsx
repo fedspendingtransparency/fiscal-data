@@ -1,21 +1,23 @@
-import React from 'react'
+import React from 'react';
 import { render } from '@testing-library/react';
 import AboutUsPage from './index';
 import tocData from './toc-data.json';
 
-jest.mock("gatsby-plugin-mdx", () => {
-  return { MDXRenderer: ({children}) => {
+jest.mock('gatsby-plugin-mdx', () => {
+  return {
+    MDXRenderer: ({ children }) => {
       return <div>{children}</div>;
-    } }
+    },
+  };
 });
 
 describe('About Us page', () => {
   it('renders a table of contents with correct content', () => {
     const { getAllByText } = render(<AboutUsPage />);
 
-    tocData.forEach((item) => {
+    tocData.forEach(item => {
       expect(getAllByText(item.title)[0]).toBeInTheDocument();
-    })
+    });
   });
 
   it('renders the About section component', () => {
