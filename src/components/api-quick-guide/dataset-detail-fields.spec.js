@@ -18,63 +18,63 @@ describe('DataSetDetailFields', () => {
       tableName: 'table1',
       fields: [
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
-      ]
-    },{
+      ],
+    },
+    {
       tableName: 'table1',
       fields: [
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
-      ]
-    },{
-      tableName: 'table3'
+      ],
+    },
+    {
+      tableName: 'table3',
     },
   ];
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <DatasetDetailFields apis={apis} />
-    );
+    component = renderer.create(<DatasetDetailFields apis={apis} />);
   });
   let instance = component.root;
 
   const header = 'Fields';
 
   it('displays the correct header text', () => {
-    expect(instance.findByProps({'id': 'fields-header'}).props.children).toContain(header);
+    expect(instance.findByProps({ id: 'fields-header' }).props.children).toContain(header);
   });
 
   it('includes a link to the about section', () => {
-    expect(instance.findByProps({'data-testid': 'scroll-link'})).toBeDefined();
+    expect(instance.findByProps({ 'data-testid': 'scroll-link' })).toBeDefined();
   });
 
   it('includes data types section with header and body', () => {
-    const dataTypesSection = instance.findByProps({'id': 'fields-datatypes'});
+    const dataTypesSection = instance.findByProps({ id: 'fields-datatypes' });
     expect(dataTypesSection).toBeDefined();
     const header = dataTypesSection.props.children[0];
     const body = dataTypesSection.props.children[1];
@@ -93,8 +93,7 @@ describe('DataSetDetailFields', () => {
   });
 
   it('sends the concatenated table data to the table component', () => {
-    expect(instance.findByType(DtgTable).props.tableProps.data)
-      .toStrictEqual(apis[0].fields.concat(apis[1].fields));
+    expect(instance.findByType(DtgTable).props.tableProps.data).toStrictEqual(apis[0].fields.concat(apis[1].fields));
   });
 
   it('excludes the correct columns when multiple apis are represented', () => {
@@ -104,12 +103,9 @@ describe('DataSetDetailFields', () => {
   it('excludes the correct columns if only one api is represented', () => {
     excluded.push('tableName');
     renderer.act(() => {
-      component = renderer.create(
-        <DatasetDetailFields apis={[apis[0]]} />
-      );
+      component = renderer.create(<DatasetDetailFields apis={[apis[0]]} />);
     });
     instance = component.root;
     expect(instance.findByType(DtgTable).props.tableProps.excludeCols).toStrictEqual(excluded);
   });
-
 });

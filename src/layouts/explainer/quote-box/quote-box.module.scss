@@ -20,7 +20,7 @@
 }
 
 .quoteContainer {
-  border-radius: .125rem;
+  border-radius: 0.125rem;
   box-sizing: border-box;
   width: 100%;
   border-style: solid;
@@ -31,7 +31,6 @@
 
   p {
     margin: 0;
-
   }
 }
 
@@ -64,7 +63,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-
   .iconContainer {
     .iconBackground {
       height: 3rem;
@@ -72,7 +70,7 @@
       min-width: 3rem;
       border-radius: 1.5rem;
       transform: translate(-50%, 1.5rem);
-      margin-top: .5rem;
+      margin-top: 0.5rem;
 
       .iconBackdrop,
       .offsetIcon {
@@ -88,7 +86,7 @@
 
   .quoteContainer {
     p {
-      padding: 2.813rem .875rem 1.813rem 1.125rem;
+      padding: 2.813rem 0.875rem 1.813rem 1.125rem;
     }
   }
 }

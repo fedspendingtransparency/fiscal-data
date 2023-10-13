@@ -16,7 +16,8 @@
       display: none;
     }
 
-    .updateStatusIcon, .notYetUpdated {
+    .updateStatusIcon,
+    .notYetUpdated {
       height: $font-size-16 * 2;
       width: $font-size-16 * 2;
       margin-right: $font-size-24;
@@ -29,7 +30,8 @@
     display: flex;
     align-items: center;
 
-    .updateStatusIcon, .notYetUpdated {
+    .updateStatusIcon,
+    .notYetUpdated {
       height: $font-size-16;
       width: $font-size-16;
       margin-right: $font-size-16 / 2;

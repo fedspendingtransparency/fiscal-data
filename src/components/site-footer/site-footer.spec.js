@@ -1,16 +1,15 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import renderer from 'react-test-renderer'
-import SiteFooter, { siteFooterColumns } from "./site-footer";
+import renderer from 'react-test-renderer';
+import SiteFooter, { siteFooterColumns } from './site-footer';
 import DownloadSticky from '../download-sticky/download-sticky';
 import ResumeDownloadModal from '../download-modal/resume-download-modal/resume-download-modal';
 import Analytics from '../../utils/analytics/analytics';
 
 describe('SiteFooter', () => {
-
-/**
- * INTERNAL LINKS (Gatsby <Link/> uses props.to, not props.href)
- */
+  /**
+   * INTERNAL LINKS (Gatsby <Link/> uses props.to, not props.href)
+   */
 
   //logo
   it('contains the logo', () => {
@@ -53,9 +52,9 @@ describe('SiteFooter', () => {
     expect(subscribeLink).toBeDefined();
   });
 
-/**
- * EXTERNAL LINKS (<a> tag uses props.href, not props.to)
- */
+  /**
+   * EXTERNAL LINKS (<a> tag uses props.href, not props.to)
+   */
 
   //usaspending
   it('contains the link to the usaSpending page', () => {
@@ -97,7 +96,7 @@ describe('SiteFooter', () => {
 
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const pageTitle = 'test page title'
+    const pageTitle = 'test page title';
     const { getByTestId, getByText } = render(<SiteFooter />);
     document.title = pageTitle;
 
@@ -113,7 +112,7 @@ describe('SiteFooter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom Logo Click`,
-      label: pageTitle
+      label: pageTitle,
     });
     spy.mockClear();
 
@@ -121,7 +120,7 @@ describe('SiteFooter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom ${siteFooterColumns[0].links[0].title} Click`,
-      label: pageTitle
+      label: pageTitle,
     });
     spy.mockClear();
 
@@ -129,7 +128,7 @@ describe('SiteFooter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom ${siteFooterColumns[0].links[1].actionTitle} Click`,
-      label: pageTitle
+      label: pageTitle,
     });
     spy.mockClear();
 
@@ -137,7 +136,7 @@ describe('SiteFooter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom ${siteFooterColumns[1].links[0].actionTitle} Click`,
-      label: pageTitle
+      label: pageTitle,
     });
     spy.mockClear();
 
@@ -145,14 +144,14 @@ describe('SiteFooter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom ${siteFooterColumns[1].links[1].title} Click`,
-      label: pageTitle
+      label: pageTitle,
     });
 
     subscribeButton.click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom ${siteFooterColumns[1].links[2].actionTitle} Click`,
-      label: pageTitle
+      label: pageTitle,
     });
     spy.mockClear();
 
@@ -160,7 +159,7 @@ describe('SiteFooter', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Bottom ${siteFooterColumns[2].links[0].title} Click`,
-      label: pageTitle
+      label: pageTitle,
     });
     spy.mockClear();
   });

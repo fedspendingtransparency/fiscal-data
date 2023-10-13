@@ -13,7 +13,7 @@ describe('download progress helper', () => {
       pagesProcessed: 4,
       selectedFileType: 'csv',
       apis: 'justOne',
-      progressPct: 2
+      progressPct: 2,
     };
 
     updateProgress(mockDownload);
@@ -42,7 +42,6 @@ describe('download progress helper', () => {
 
   it(`it updates the percentage (progressPct) when it should be increased and calls a function
     passed in with the new percentage`, () => {
-
     const mockPercentageUpdater = jest.fn();
 
     const mockDownload = {
@@ -52,7 +51,7 @@ describe('download progress helper', () => {
       selectedFileType: 'csv',
       apis: 'mockApi',
       progressPct: 7,
-      estimatedFinishTime: 250000
+      estimatedFinishTime: 250000,
     };
     expect(mockPercentageUpdater).toHaveBeenCalledTimes(0);
     updatePercentage(mockDownload, mockPercentageUpdater);

@@ -20,7 +20,7 @@
   border-radius: 0 4px 4px 0;
 }
 
-@media (min-width: $breakpoint-sm){
+@media (min-width: $breakpoint-sm) {
   .container {
     flex-direction: row;
   }
@@ -34,7 +34,7 @@
   }
 }
 
-@media (min-width: $breakpoint-md){
+@media (min-width: $breakpoint-md) {
   .leftContent {
     padding: 1rem;
   }

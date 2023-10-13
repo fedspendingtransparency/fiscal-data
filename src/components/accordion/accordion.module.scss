@@ -49,7 +49,8 @@
  * an accordion with any of these properties set will override the accordion style and can be visible on the DOM
  */
 .closed .content {
-  &, * {
+  &,
+  * {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     padding-top: 0 !important;
@@ -66,7 +67,6 @@
 }
 
 .open {
-
   .heading {
     border-radius: 3px 3px 0 0;
   }
@@ -89,7 +89,7 @@
   position: absolute;
   height: 1px;
   width: 1px;
-  clip: rect(1px,1px,1px,1px);
+  clip: rect(1px, 1px, 1px, 1px);
   clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
   -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
   overflow: hidden !important;

@@ -15,15 +15,15 @@ export const siteFooterColumns = [
       {
         title: 'FAQ',
         to: '/about-us/#faq',
-        testId: 'faq'
+        testId: 'faq',
       },
       {
         title: 'Contact Us',
         to: 'mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us',
         actionTitle: 'Contact',
-        testId: 'contact'
-      }
-    ]
+        testId: 'contact',
+      },
+    ],
   },
   {
     title: 'About Us',
@@ -32,20 +32,20 @@ export const siteFooterColumns = [
         title: 'About Fiscal Data',
         to: '/about-us/#about-fiscal-data',
         actionTitle: 'About',
-        testId: 'about'
+        testId: 'about',
       },
       {
         title: 'Release Calendar',
         to: '/release-calendar/',
-        testId: 'release-calendar'
+        testId: 'release-calendar',
       },
       {
         title: 'Subscribe to Our Mailing List',
         to: '/about-us/#subscribe',
         actionTitle: 'Subscribe',
-        testId: 'subscribe'
-      }
-    ]
+        testId: 'subscribe',
+      },
+    ],
   },
   {
     title: 'Our Sites',
@@ -54,27 +54,27 @@ export const siteFooterColumns = [
         title: 'USAspending',
         to: globalConstants.USA_SPENDING_URL,
         testId: 'usaSpending',
-        isExternal: true
-      }
-    ]
+        isExternal: true,
+      },
+    ],
   },
 ];
 
 const SiteFooter = () => {
   const fiscalURL = globalConstants.FISCAL_TREASURY_URL;
 
-  const clickHandler = (action) => {
+  const clickHandler = action => {
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Bottom ${action} Click`,
-      label: document.title
+      label: document.title,
     });
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      'event': `${action}-click`,
-      'eventLabel':document.title
+      event: `${action}-click`,
+      eventLabel: document.title,
     });
-  }
+  };
 
   return (
     <>
@@ -100,21 +100,17 @@ const SiteFooter = () => {
             />
           </Link>
           <div className={styles.pageLinks}>
-            {siteFooterColumns.map((column) => {
+            {siteFooterColumns.map(column => {
               return (
                 <div className={styles.column} key={column.title}>
                   <div className={styles.columnTitle}>{column.title}</div>
-                  {column.links.map((link) => (
-                    <CustomLink
-                      key={link.testId}
-                      href={link.to}
-                      onClick={() => clickHandler(link.actionTitle || link.title)}
-                    >
+                  {column.links.map(link => (
+                    <CustomLink key={link.testId} href={link.to} onClick={() => clickHandler(link.actionTitle || link.title)}>
                       {link.title}
                     </CustomLink>
                   ))}
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -123,15 +119,9 @@ const SiteFooter = () => {
         <div className={styles.bottomContent}>
           <div className={styles.copyright}>&copy; 2020 Data Transparency</div>
           <div className={styles.footerBottomLinks}>
-            <CustomLink href={`${fiscalURL}/accessibility.html`}>
-              Accessibility
-            </CustomLink>
-            <CustomLink href={`${fiscalURL}/privacy.html`}>
-              Privacy Policy
-            </CustomLink>
-            <CustomLink href={`${fiscalURL}/foia.html`}>
-              Freedom of Information Act
-            </CustomLink>
+            <CustomLink href={`${fiscalURL}/accessibility.html`}>Accessibility</CustomLink>
+            <CustomLink href={`${fiscalURL}/privacy.html`}>Privacy Policy</CustomLink>
+            <CustomLink href={`${fiscalURL}/foia.html`}>Freedom of Information Act</CustomLink>
           </div>
         </div>
       </div>

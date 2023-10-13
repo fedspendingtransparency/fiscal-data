@@ -1,18 +1,15 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import TOCButton from "./toc-button";
+import TOCButton from './toc-button';
 
 describe('TocButton when tocIsOpen is false', () => {
-
   const mockHandlerFunction = jest.fn();
   // this must return undefined or a promise, or we get a console warning
   mockHandlerFunction.mockReturnValueOnce(undefined);
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <TOCButton handleToggle={mockHandlerFunction} state={false} />
-    );
+    component = renderer.create(<TOCButton handleToggle={mockHandlerFunction} state={false} />);
   });
 
   const instance = component.root;
@@ -30,12 +27,9 @@ describe('TocButton when tocIsOpen is false', () => {
 });
 
 describe('TocButton when tocIsOpen is true', () => {
-
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <TOCButton state />
-    );
+    component = renderer.create(<TOCButton state />);
   });
 
   const instance = component.root;

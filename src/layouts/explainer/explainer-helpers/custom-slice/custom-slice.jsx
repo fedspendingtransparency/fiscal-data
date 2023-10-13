@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
- const CustomSlices = (
-  {
-    slices,
-    data,
-    setCurrentSlice,
-    groupMouseLeave,
-    mouseMove,
-    inView,
-    duration,
-    customAnimationTriggeredOnce,
-    setCustomAnimationTriggeredOnce,
-  }) => {
-
+const CustomSlices = ({
+  slices,
+  data,
+  setCurrentSlice,
+  groupMouseLeave,
+  mouseMove,
+  inView,
+  duration,
+  customAnimationTriggeredOnce,
+  setCustomAnimationTriggeredOnce,
+}) => {
   const [style, setStyle] = useState({});
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
 
@@ -29,22 +27,23 @@ import React, { useEffect, useState } from 'react';
         setTimeout(() => {
           setCurrentSlice(slice);
           mouseMove(slice);
-        }, (stepDuration * index) + 550);
+        }, stepDuration * index + 550);
       });
 
       setTimeout(() => {
         setCurrentSlice(null);
-      }, (stepDuration * (slices.length + 1)) + 550);
+      }, stepDuration * (slices.length + 1) + 550);
     }
   }, [inView]);
 
   return (
-    <g data-testid="customSlices"
-       onMouseLeave={ () => {
-         if (groupMouseLeave) {
-           groupMouseLeave();
-         }
-       }}
+    <g
+      data-testid="customSlices"
+      onMouseLeave={() => {
+        if (groupMouseLeave) {
+          groupMouseLeave();
+        }
+      }}
     >
       {slices.map((slice, index) => (
         <rect
@@ -60,21 +59,21 @@ import React, { useEffect, useState } from 'react';
           style={style}
           onMouseEnter={() => setCurrentSlice(slice)}
           onFocus={() => {
-            setStyle({})
-            if(mouseMove) {
-              mouseMove(slice)
+            setStyle({});
+            if (mouseMove) {
+              mouseMove(slice);
             }
-            setCurrentSlice(slice)
+            setCurrentSlice(slice);
           }}
-          onMouseMove={() =>{
-            setStyle({outline: "none"})
-            if(mouseMove) {
-              mouseMove(slice)
+          onMouseMove={() => {
+            setStyle({ outline: 'none' });
+            if (mouseMove) {
+              mouseMove(slice);
             }
-            setCurrentSlice(slice)}
-          }
+            setCurrentSlice(slice);
+          }}
           onMouseLeave={() => {
-            setCurrentSlice(null)
+            setCurrentSlice(null);
           }}
         />
       ))}

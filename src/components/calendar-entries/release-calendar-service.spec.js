@@ -1,20 +1,16 @@
-import "@rxreact/jest-helpers";
-import { setGlobalFetchResponse } from "../../utils/mock-utils"
-import {
-  mockReleaseCalendarEntries,
-  updatedEntries,
-  mockUpdatedDatasets
-} from "./release-calendar.mockdata"
-import globalConstants from "../../helpers/constants"
-import { skip, take, shareReplay } from "rxjs"
-import { act } from "@testing-library/react";
+import '@rxreact/jest-helpers';
+import { setGlobalFetchResponse } from '../../utils/mock-utils';
+import { mockReleaseCalendarEntries, updatedEntries, mockUpdatedDatasets } from './release-calendar.mockdata';
+import globalConstants from '../../helpers/constants';
+import { skip, take, shareReplay } from 'rxjs';
+import { act } from '@testing-library/react';
 
 jest.useFakeTimers();
 
 describe('Release Calendar Service', () => {
   let releaseCalendarService, sub;
 
-  const watchSignal = (o$) => {
+  const watchSignal = o$ => {
     // Share so the signal records all values emitted.
     const hot$ = o$.pipe(shareReplay());
 
@@ -27,11 +23,10 @@ describe('Release Calendar Service', () => {
 
   beforeEach(() => {
     setGlobalFetchResponse(jest, []);
-    return import('./release-calendar-service').then((module) => {
+    return import('./release-calendar-service').then(module => {
       releaseCalendarService = module.releaseCalendarService;
       releaseCalendarService.setInitialReleaseCalendarData(mockReleaseCalendarEntries);
     });
-
   });
 
   afterEach(() => {
@@ -45,16 +40,14 @@ describe('Release Calendar Service', () => {
   });
 
   it('release calendar entries are formatted correctly', () => {
-
     const expectedOutput = [...mockReleaseCalendarEntries];
     act(() => {
       releaseCalendarService.setInitialReleaseCalendarData(mockReleaseCalendarEntries);
-    })
+    });
     expect(releaseCalendarService.entries).toStrictEqual(expectedOutput);
   });
 
   it('fetch is polled every interval time', () => {
-
     const intervalTime = globalConstants.config.releaseCalendar.pollingInterval;
 
     expect(global.fetch).toHaveBeenCalledTimes(1); // initial fetch on load
@@ -67,21 +60,15 @@ describe('Release Calendar Service', () => {
     // below: timer is at ((intervalTime - 1000) + 1005) + intervalTime + 1
     jest.advanceTimersByTime(intervalTime + 1);
     expect(global.fetch).toHaveBeenCalledTimes(3); // second polled update
-
   });
 
   it('updates cached release calendar entries on call to update endpoint', async () => {
-
     setGlobalFetchResponse(jest, updatedEntries);
 
-    const hot$ = watchSignal(
-      releaseCalendarService.entriesUpdated()
-        .pipe(skip(1), take(1))
-    );
+    const hot$ = watchSignal(releaseCalendarService.entriesUpdated().pipe(skip(1), take(1)));
 
     jest.advanceTimersByTime(1000 * 60 * 6);
 
     await expect(hot$).toEmitValue(mockUpdatedDatasets);
   });
-
 });

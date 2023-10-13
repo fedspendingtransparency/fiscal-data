@@ -1,13 +1,12 @@
-import { datatableRequest, pivotData } from "../../../utils/api-utils";
-import { addDays } from "date-fns";
-import {customTableSorts} from "../../custom-table-sorts";
+import { datatableRequest, pivotData } from '../../../utils/api-utils';
+import { addDays } from 'date-fns';
+import { customTableSorts } from '../../custom-table-sorts';
 
 export const loadTimerDelay = 500;
 
 let runOnce;
 
-const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot, setIsLoading,
-                        setApiData, setApiError, canceledObj, tableCache) => {
+const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache) => {
   if (res.data && (res.data.length || selectedTable.apiId !== 149)) {
     // if data [] exists (and it has records, or if it's empty but not for API 149, set the value)
     if (customTableSorts[selectedTable.apiId]) {
@@ -18,52 +17,44 @@ const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot,
     // if no data comes back from the API for id:149, see if there is data for tomorrow
     rangeRequested = {
       from: addDays(rangeRequested.from, 1),
-      to: addDays(rangeRequested.to, 1)
+      to: addDays(rangeRequested.to, 1),
     };
     canceledObj = {
-      isCanceled: false
+      isCanceled: false,
     };
 
     runOnce = true; // only try once
-    await makeApiCall(rangeRequested, selectedTable, selectedPivot, setIsLoading, setApiData,
-      setApiError, canceledObj, tableCache);
+    await makeApiCall(rangeRequested, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
   }
 };
 
-const makeApiCall = async (dateRange, selectedTable, selectedPivot, setIsLoading, setApiData,
-                           setApiError, canceledObj, tableCache) => {
+const makeApiCall = async (dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache) => {
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
   try {
-    const data = await datatableRequest(selectedTable, dateRange, selectedPivot, canceledObj,
-      tableCache);
+    const data = await datatableRequest(selectedTable, dateRange, selectedPivot, canceledObj, tableCache);
 
     if (!canceledObj.isCanceled) {
-      await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData,
-        setApiError, canceledObj, tableCache);
+      await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
     }
-  } catch(err) {
+  } catch (err) {
     if (err.name === 'AbortError') {
       console.info('Action cancelled.');
-    } else if(canceledObj && !canceledObj.isCanceled) {
+    } else if (canceledObj && !canceledObj.isCanceled) {
       console.error('API error', err);
       setApiError(err);
     }
   } finally {
-      clearTimeout(loadTimer);
+    clearTimeout(loadTimer);
 
-      if(canceledObj && !canceledObj.isCanceled) {
-        setIsLoading(false);
-      }
+    if (canceledObj && !canceledObj.isCanceled) {
+      setIsLoading(false);
     }
+  }
 };
 
-export const getApiData = async (_dateRange, _selectedTable, _selectedPivot,
-                                 _setIsLoading, _setApiData, _setApiError, _canceledObj,
-                                 _tableCache) => {
-  if (_dateRange && _dateRange.from && _dateRange.to && _selectedTable
-    && _selectedTable.endpoint && _selectedPivot) {
-    await makeApiCall(_dateRange, _selectedTable, _selectedPivot, _setIsLoading, _setApiData,
-      _setApiError, _canceledObj, _tableCache);
+export const getApiData = async (_dateRange, _selectedTable, _selectedPivot, _setIsLoading, _setApiData, _setApiError, _canceledObj, _tableCache) => {
+  if (_dateRange && _dateRange.from && _dateRange.to && _selectedTable && _selectedTable.endpoint && _selectedPivot) {
+    await makeApiCall(_dateRange, _selectedTable, _selectedPivot, _setIsLoading, _setApiData, _setApiError, _canceledObj, _tableCache);
   }
 };
 
@@ -93,10 +84,11 @@ export const pivotApiDataFn = (row, filters) => {
       case 'lte':
         return rowNum <= filterNum;
       case 'in':
-        return filterVal.split(',').some(fv => fv.replace(/&44;/gi,',') === rowVal);
+        return filterVal.split(',').some(fv => fv.replace(/&44;/gi, ',') === rowVal);
       case 'nin':
-        return filterVal.split(',').every(fv => fv.replace(/&44;/gi,',') !== rowVal);
-      default: // default 'eq'
+        return filterVal.split(',').every(fv => fv.replace(/&44;/gi, ',') !== rowVal);
+      default:
+        // default 'eq'
         return rowVal === filterVal;
     }
   });
@@ -107,16 +99,7 @@ export const pivotApiData = (table, pivot, apiData, from, to) => {
   if (Array.isArray(pivot.pivotView.filters)) {
     filterFn = row => pivotApiDataFn(row, pivot.pivotView.filters);
   }
-  return pivotData(
-    apiData,
-    table.dateField,
-    pivot.pivotView,
-    pivot.pivotValue.columnName,
-    pivot.pivotView.aggregateOn,
-    from,
-    to,
-    filterFn
-  );
+  return pivotData(apiData, table.dateField, pivot.pivotView, pivot.pivotValue.columnName, pivot.pivotView.aggregateOn, from, to, filterFn);
 };
 
 /**
@@ -127,7 +110,7 @@ export const pivotApiData = (table, pivot, apiData, from, to) => {
  * @param {Array} filters
  * @returns {[[], []]} serializableFilters, postLoadFilters
  */
-export const divvyUpFilters = (filters) => {
+export const divvyUpFilters = filters => {
   const serializableFilters = [];
   const postLoadFilters = [];
 
@@ -136,17 +119,21 @@ export const divvyUpFilters = (filters) => {
     // filters that use 'neq', 'nin', or test for 'null' or that have :in: values
     // with internal parentheses don't get serialized for an API param, but are applied in the
     // front end after load
-    if (fc.operator === 'neq' || fc.operator === 'nin' || fc.value === 'null' ||
-      (fc.operator === 'in' &&
-        (fc.value.split(',').some(v => v === 'null' || v.includes('(') || v.includes(')')) || fc.value.includes('&44;')))) {
+    if (
+      fc.operator === 'neq' ||
+      fc.operator === 'nin' ||
+      fc.value === 'null' ||
+      (fc.operator === 'in' && (fc.value.split(',').some(v => v === 'null' || v.includes('(') || v.includes(')')) || fc.value.includes('&44;')))
+    ) {
       postLoadFilters.push(fc);
     } else {
       serializableFilters.push(fc);
     }
   });
   return [serializableFilters, postLoadFilters];
-}
+};
 
 export const unitTestFunctions = {
-  onDataReturned, makeApiCall
+  onDataReturned,
+  makeApiCall,
 };

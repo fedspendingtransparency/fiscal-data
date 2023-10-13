@@ -1,9 +1,9 @@
 @import '../../variables.module.scss';
 
 .page_title {
-    @include pageTitle;
-    margin: 0 0 0.5rem;
-  }
+  @include pageTitle;
+  margin: 0 0 0.5rem;
+}
 
 .searchContainer {
   max-width: 1140px;

@@ -39,15 +39,17 @@
     height: 0;
   }
 
-  .currency, .magnitude {
+  .currency,
+  .magnitude {
     color: $hero-primary-text;
     font-size: $font-size-40;
-    margin-right: .25rem;
+    margin-right: 0.25rem;
     font-weight: 300;
     text-shadow: none;
   }
 
-  .currency, .blank {
+  .currency,
+  .blank {
     width: 1rem;
     user-select: none;
   }
@@ -57,4 +59,3 @@
     margin-right: 0;
   }
 }
-

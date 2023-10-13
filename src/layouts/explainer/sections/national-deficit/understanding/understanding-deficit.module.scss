@@ -14,13 +14,9 @@
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-
   .understandingDeficitContainer {
     :global(.vis-callout) {
       margin-top: calc(4rem);
     }
   }
 }
-
-
-

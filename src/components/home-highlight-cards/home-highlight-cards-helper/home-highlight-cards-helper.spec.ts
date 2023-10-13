@@ -12,8 +12,8 @@ describe('Home Highlight Cards Helper', () => {
   const prefix: string = 'test prefix';
   const colorCoding: ColorCoding = {
     primaryColor: 'gray',
-    secondaryColor: 'green'
-  }
+    secondaryColor: 'green',
+  };
 
   it('accepts a numeric value and returns a simplified number', () => {
     const { getByTestId } = render(formatCardValue(dollarValue));

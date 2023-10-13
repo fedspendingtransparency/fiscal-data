@@ -1,6 +1,6 @@
 @import 'src/variables.module';
 
-$border-color: #D9D9D9;
+$border-color: #d9d9d9;
 
 .currencyBox {
   width: 20rem;
@@ -20,15 +20,15 @@ $border-color: #D9D9D9;
       margin-bottom: 0.5rem;
       font-weight: 700;
     }
-      .headerIcon {
-        margin-right: .5rem;
-      }
+    .headerIcon {
+      margin-right: 0.5rem;
+    }
   }
 
   .boxLabel {
     font-size: $font-size-14;
-    margin: .5rem 0 .25rem;
-    &.activeLabel{
+    margin: 0.5rem 0 0.25rem;
+    &.activeLabel {
       color: $primary;
     }
   }
@@ -52,15 +52,14 @@ $border-color: #D9D9D9;
     }
   }
 
-
-  .currencySelection, .currencyText,  {
+  .currencySelection,
+  .currencyText {
     border-radius: 2px;
   }
 
   .comboCurrencySelection {
     height: 2.75rem;
   }
-
 
   .currencyText {
     border: solid 1px $border-color;
@@ -78,11 +77,10 @@ $border-color: #D9D9D9;
 
     &.activeBorder {
       border: solid 1px $primary;
-      box-shadow: 0 0 0 .25rem #e8f5ff;
+      box-shadow: 0 0 0 0.25rem #e8f5ff;
     }
 
-    input[type=number]
-    {
+    input[type='number'] {
       background-color: transparent;
       border-radius: 2px;
       border: none;
@@ -95,19 +93,16 @@ $border-color: #D9D9D9;
         outline: solid 1px transparent;
       }
     }
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
       -webkit-appearance: none;
     }
 
-    input[type=number] {
+    input[type='number'] {
       -moz-appearance: textfield;
     }
   }
-
 }
-
-
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .currencyBox {

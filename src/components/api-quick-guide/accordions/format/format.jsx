@@ -1,11 +1,6 @@
 import React from 'react';
 import Accordion from '../../../accordion/accordion';
-import {
-  list,
-  exampleTitle,
-  exampleParameters,
-  codeBlock
-} from "../accordions.module.scss";
+import { list, exampleTitle, exampleParameters, codeBlock } from '../accordions.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
 const FormatAccordion = ({ selectedTable }) => {
@@ -16,24 +11,21 @@ const FormatAccordion = ({ selectedTable }) => {
     fullUrl = `${baseApiUrl}/${selectedTable.endpoint}${formatExample}`;
   }
 
-  return(
+  return (
     <Accordion title="Format">
       <ul className={list}>
         <li>
-          <strong>Parameter: </strong><code className="inline">format=</code>
+          <strong>Parameter: </strong>
+          <code className="inline">format=</code>
         </li>
         <li>
           <strong>Definition: </strong>
-          <span>
-            The format parameter allows a user to define the output method of the
-            response (CSV, JSON, XML).
-          </span>
+          <span>The format parameter allows a user to define the output method of the response (CSV, JSON, XML).</span>
         </li>
         <li>
           <strong>Accepts: </strong>
           <span>
-            The <code className="inline">format=</code> parameter accepts{' '}
-            <code className="inline">xml</code>, <code className="inline">json</code>,
+            The <code className="inline">format=</code> parameter accepts <code className="inline">xml</code>, <code className="inline">json</code>,
             or <code className="inline">csv</code> as an input.
           </span>
         </li>
@@ -46,19 +38,13 @@ const FormatAccordion = ({ selectedTable }) => {
           <span>When no format is specified, the default response format is JSON.</span>
         </li>
       </ul>
-      <div className={exampleTitle}>
-        EXAMPLE
-      </div>
+      <div className={exampleTitle}>EXAMPLE</div>
       <code className={`${codeBlock} large`}>
-        <div className={exampleParameters}>
-          {formatExample}
-        </div>
-        <div data-testid="fullUrl">
-          {fullUrl}
-        </div>
+        <div className={exampleParameters}>{formatExample}</div>
+        <div data-testid="fullUrl">{fullUrl}</div>
       </code>
     </Accordion>
-  )
+  );
 };
 
 export default FormatAccordion;

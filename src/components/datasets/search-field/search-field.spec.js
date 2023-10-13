@@ -1,11 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SearchField, {lastUpdatedInfoTipAnalyticsObject, searchFieldAnalyticsObject} from "./search-field";
+import SearchField, { lastUpdatedInfoTipAnalyticsObject, searchFieldAnalyticsObject } from './search-field';
 import InfoTip from '../../info-tip/info-tip';
-import Analytics from "../../../utils/analytics/analytics";
+import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';
-import {fireEvent, render} from "@testing-library/react";
-
+import { fireEvent, render } from '@testing-library/react';
 
 jest.useFakeTimers();
 
@@ -15,7 +14,7 @@ const persistentTerms = 'my previous query';
 describe('Search Field', () => {
   const mockInfoIcon = {
     title: 'Dummy Title',
-    body: 'Dummy Body'
+    body: 'Dummy Body',
   };
 
   const gaSpy = jest.spyOn(Analytics, 'event');
@@ -23,19 +22,17 @@ describe('Search Field', () => {
   window.dataLayer = window.dataLayer || [];
   const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
-  const mockChangeHandler = (query) => {
+  const mockChangeHandler = query => {
     queryTerm = query;
-  }
+  };
 
   beforeEach(() => {
-    component = renderer.create(
-      <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
-    );
+    component = renderer.create(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
 
     instance = component.root;
     button = instance.findAllByType('button')[0];
     inputField = instance.findByType('input');
-  })
+  });
 
   it('places an input field', () => {
     expect(inputField).toBeDefined();
@@ -58,25 +55,23 @@ describe('Search Field', () => {
   });
 
   it(`displays a functional "clear" icon button (with screen-reader accessible label "clear")
-    when text is present in the field`,
-    () => {
-      renderer.act(() => {
-        inputField.props.onChange({ target: { value: testString } });
-      });
+    when text is present in the field`, () => {
+    renderer.act(() => {
+      inputField.props.onChange({ target: { value: testString } });
+    });
 
-      jest.runAllTimers();
+    jest.runAllTimers();
 
-      expect(button.props.disabled).toBeFalsy(); // button is present and not disabled
-      expect(button.props['aria-label']).toBe('clear'); // button has screen-reader accessible label
+    expect(button.props.disabled).toBeFalsy(); // button is present and not disabled
+    expect(button.props['aria-label']).toBe('clear'); // button has screen-reader accessible label
 
-      // test fails if button doesn't contain exactly 1 clear-search icon
-      button.findByProps({ 'data-test-id': 'clear-search-icon' });
+    // test fails if button doesn't contain exactly 1 clear-search icon
+    button.findByProps({ 'data-test-id': 'clear-search-icon' });
 
-      // fails if button contains search icon
-      const anyWrongIcons = button.findAllByProps({ 'data-test-id': 'search-icon' });
-      expect(anyWrongIcons.length).toBe(0);
-    }
-  );
+    // fails if button contains search icon
+    const anyWrongIcons = button.findAllByProps({ 'data-test-id': 'search-icon' });
+    expect(anyWrongIcons.length).toBe(0);
+  });
 
   it('clears the search when the button is clicked', () => {
     const testString = 'anything';
@@ -90,23 +85,18 @@ describe('Search Field', () => {
     expect(queryTerm).toBe(''); // search text cleared after button is clicked
   });
 
-  it(
-    'displays a search icon within a disabled button when no characters are present in the field',
-    () => {
-      const staticComponent = renderer.create(
-        <SearchField changeHandler={mockChangeHandler} searchTerm="" infoIcon={mockInfoIcon} />
-      );
-      const inst = staticComponent.root;
-      const button = inst.findAllByType('button')[0];
-      expect(button.props.disabled).toBeTruthy(); //button is disabled
+  it('displays a search icon within a disabled button when no characters are present in the field', () => {
+    const staticComponent = renderer.create(<SearchField changeHandler={mockChangeHandler} searchTerm="" infoIcon={mockInfoIcon} />);
+    const inst = staticComponent.root;
+    const button = inst.findAllByType('button')[0];
+    expect(button.props.disabled).toBeTruthy(); //button is disabled
 
-      // test fails if button doesn't contain exactly 1 search icon
-      button.findByProps({ 'data-test-id': 'search-icon' });
-      // test fails if button contains clear icon
-      const anyWrongIcons = button.findAllByProps({ 'data-test-id': 'clear-search-icon' });
-      expect(anyWrongIcons.length).toBe(0);
-    }
-  );
+    // test fails if button doesn't contain exactly 1 search icon
+    button.findByProps({ 'data-test-id': 'search-icon' });
+    // test fails if button contains clear icon
+    const anyWrongIcons = button.findAllByProps({ 'data-test-id': 'clear-search-icon' });
+    expect(anyWrongIcons.length).toBe(0);
+  });
 
   it('populates the tooltip', () => {
     const tooltip = instance.findByType(InfoTip);
@@ -125,12 +115,12 @@ describe('Search Field', () => {
     expect(queryTerm).toBe(testString);
     expect(gaSpy).toHaveBeenLastCalledWith({
       ...searchFieldAnalyticsObject,
-      label: testString
+      label: testString,
     });
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Keyword Search',
-      eventLabel: 'Testing123'
+      eventLabel: 'Testing123',
     });
   });
 });
@@ -146,7 +136,7 @@ describe('search field persistence', () => {
       <siteContext.Provider
         value={{
           keywords: persistentTerms,
-          setKeywords: setKeywordsSpy
+          setKeywords: setKeywordsSpy,
         }}
       >
         <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
@@ -155,13 +145,13 @@ describe('search field persistence', () => {
 
     instance = component.root;
     inputField = instance.findByType('input');
-  })
+  });
 
   it('sets previous keywords on page load', () => {
     jest.runAllTimers();
     expect(inputField.props.value).toBe(persistentTerms);
     expect(mockChangeHandler).toHaveBeenCalledWith(persistentTerms);
-  })
+  });
 
   it('stores keywords as they are entered', () => {
     renderer.act(() => {
@@ -171,22 +161,22 @@ describe('search field persistence', () => {
     jest.runAllTimers();
 
     expect(setKeywordsSpy).toHaveBeenCalledWith(testString);
-  })
+  });
 
-  it('Testing GA4 datalayer push for handleInfoTipClick',()=>{
+  it('Testing GA4 datalayer push for handleInfoTipClick', () => {
     window.dataLayer = window.dataLayer || [];
     const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
-    const{getByTestId} = render(
+    const { getByTestId } = render(
       <siteContext.Provider
         value={{
           keywords: persistentTerms,
-          setKeywords: setKeywordsSpy
+          setKeywords: setKeywordsSpy,
         }}
       >
         <SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />
       </siteContext.Provider>
-    )
+    );
 
     const infoTip = getByTestId('infoTipButton');
 
@@ -196,7 +186,7 @@ describe('search field persistence', () => {
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Info Button Click',
-      eventLabel: 'Keyword Search'
+      eventLabel: 'Keyword Search',
     });
   });
 });

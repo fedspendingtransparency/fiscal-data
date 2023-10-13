@@ -1,6 +1,5 @@
 @import '../../../../../variables.module.scss';
 
-
 @media screen and (min-width: $breakpoint-lg) {
   .debtBreakdownSectionGraphContainer {
     .title.simple {
@@ -79,7 +78,6 @@
 }
 
 .debtBreakdownSectionGraphContainer {
-
   .barChartContainer {
     width: 100%;
     max-width: 524px;
@@ -87,7 +85,6 @@
   }
 
   .multichartContainer {
-
     :global(.tick) line {
       stroke: #666666;
     }
@@ -133,7 +130,6 @@
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-
   .debtBreakdownSectionGraphContainer {
     padding-top: 22px;
     padding-left: 22px;
@@ -169,11 +165,9 @@
 
   .multichartContainer {
   }
-
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-
   .multichartWrapper .debtBreakdownSectionGraphContainer {
     padding: 0 14px 0 0;
 
@@ -182,7 +176,7 @@
     }
 
     .footerContainer {
-      padding: 1.5rem  0 1.625rem 0.875rem;
+      padding: 1.5rem 0 1.625rem 0.875rem;
     }
   }
 
@@ -220,8 +214,6 @@
     }
   }
 }
-
-
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(#interestToDebt .tick text) {

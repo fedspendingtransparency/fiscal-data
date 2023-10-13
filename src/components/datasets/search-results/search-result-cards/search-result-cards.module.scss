@@ -1,13 +1,13 @@
 @import '../../../../variables.module.scss';
 
 .cardContainer {
-    position: relative;
+  position: relative;
 }
 
 .cardPlacement {
-    position: absolute;
-    width: 100%;
-    transition: top 0.7s ease, left 0.7s ease;
+  position: absolute;
+  width: 100%;
+  transition: top 0.7s ease, left 0.7s ease;
 }
 
 .hiddenCard {
@@ -15,13 +15,13 @@
 }
 
 @media screen and (min-width: $breakpoint-sm) {
-    .cardPlacement {
-        width: 49%;
-    }
+  .cardPlacement {
+    width: 49%;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-    .cardPlacement {
-        width: 32%;
-    }
+  .cardPlacement {
+    width: 32%;
+  }
 }

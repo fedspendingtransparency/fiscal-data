@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SiteLayout, {preProdEnvMsg} from './siteLayout';
+import SiteLayout, { preProdEnvMsg } from './siteLayout';
 import SiteHeader from '../site-header/site-header';
 import SiteFooter from '../site-footer/site-footer';
 

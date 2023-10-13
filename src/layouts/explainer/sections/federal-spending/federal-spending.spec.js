@@ -1,4 +1,4 @@
-import federalSpendingSections from "./federal-spending";
+import federalSpendingSections from './federal-spending';
 
 describe('Federal spending explainer page sections', () => {
   it('returns 6 sections with headings and body components', () => {

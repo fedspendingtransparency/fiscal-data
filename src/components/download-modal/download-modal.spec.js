@@ -1,9 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import DownloadModal, {
-  downloadModalSubText,
-  downloadModalTitleMulti,
-} from "./download-modal"
+import DownloadModal, { downloadModalSubText, downloadModalTitleMulti } from './download-modal';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
 import { act, render } from '@testing-library/react';
 
@@ -13,59 +10,62 @@ const mockDataset = {
   apis: [mockTable],
   techSpecs: {
     earliestDate: '01-01-2020',
-    latestDate: '11-01-2020'
-  }
+    latestDate: '11-01-2020',
+  },
 };
 const mockDateRange = {
   from: new Date('01/01/2020'),
-  to: new Date('11/01/2020')
+  to: new Date('11/01/2020'),
 };
 
-const mockDownloadsInProgress = [{
-  apis: mockTable,
-  dataset: mockDataset,
-  dateRange: mockDateRange,
-  downloadUrl: '/mockFileKey/fiscalaccounts_20190101_20200101.zip',
-  filename: 'fiscalaccounts_20190101_20200101.zip',
-  prepStarted: true,
-  requestTime: 1000,
-  selectedFileType: 'csv',
-  statusPath: 'mockFileKey',
-  selectedUserFilter: { label: 'Atlantis-Aquabuck', value: 'Atlantis-Aquabuck' }
-}];
+const mockDownloadsInProgress = [
+  {
+    apis: mockTable,
+    dataset: mockDataset,
+    dateRange: mockDateRange,
+    downloadUrl: '/mockFileKey/fiscalaccounts_20190101_20200101.zip',
+    filename: 'fiscalaccounts_20190101_20200101.zip',
+    prepStarted: true,
+    requestTime: 1000,
+    selectedFileType: 'csv',
+    statusPath: 'mockFileKey',
+    selectedUserFilter: { label: 'Atlantis-Aquabuck', value: 'Atlantis-Aquabuck' },
+  },
+];
 
-const mockDownloadsQueued = [{
-  apis: mockTable,
-  dataset: mockDataset,
-  dateRange: mockDateRange,
-  downloadUrl: '/mockFileKey/queued_dataset_id_1',
-  filename: 'queued_dataset_id_1',
-  requestTime: 1000,
-  selectedFileType: 'csv',
-  selectedUserFilter: { label: 'Atlantis-Aquabuck', value: 'Atlantis-Aquabuck' }
-},
-{
-  apis: mockTable,
-  dataset: mockDataset,
-  dateRange: mockDateRange,
-  downloadUrl: 'queued_dataset_id_2',
-  filename: 'queued_dataset_id_2',
-  requestTime: 1000,
-  selectedFileType: 'csv'
-}];
+const mockDownloadsQueued = [
+  {
+    apis: mockTable,
+    dataset: mockDataset,
+    dateRange: mockDateRange,
+    downloadUrl: '/mockFileKey/queued_dataset_id_1',
+    filename: 'queued_dataset_id_1',
+    requestTime: 1000,
+    selectedFileType: 'csv',
+    selectedUserFilter: { label: 'Atlantis-Aquabuck', value: 'Atlantis-Aquabuck' },
+  },
+  {
+    apis: mockTable,
+    dataset: mockDataset,
+    dateRange: mockDateRange,
+    downloadUrl: 'queued_dataset_id_2',
+    filename: 'queued_dataset_id_2',
+    requestTime: 1000,
+    selectedFileType: 'csv',
+  },
+];
 const onClose = jest.fn();
 const mockSiteProviderValue = {
   downloadCount: 3,
-    setDownloadModalIsOpen: jest.fn().mockImplementation((v) => {
-      return true;
-    }),
+  setDownloadModalIsOpen: jest.fn().mockImplementation(v => {
+    return true;
+  }),
   downloadModalIsOpen: true,
   downloadsInProgress: mockDownloadsInProgress,
-  downloadQueue: mockDownloadsQueued
+  downloadQueue: mockDownloadsQueued,
 };
 
 describe('download modal', () => {
-
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -75,9 +75,7 @@ describe('download modal', () => {
     // with the context of what was created in render
     const { getByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal open={true}
-                       onClose={onClose}
-        />
+        <DownloadModal open={true} onClose={onClose} />
       </downloadsContext.Provider>
     );
     expect(mockSiteProviderValue.setDownloadModalIsOpen.mock.calls[0]).toBeTruthy();
@@ -90,9 +88,7 @@ describe('download modal', () => {
   it('calls the close function when the close button is clicked', () => {
     const { getByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal open={true}
-                       onClose={onClose}
-        />
+        <DownloadModal open={true} onClose={onClose} />
       </downloadsContext.Provider>
     );
     getByTestId('download-modal-close-button').click();
@@ -102,10 +98,7 @@ describe('download modal', () => {
   it('shows a download modal item for each dataset in progress or queued for download', () => {
     const { getByTestId } = render(
       <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal
-          open={true}
-          onClose={onClose}
-        />
+        <DownloadModal open={true} onClose={onClose} />
       </downloadsContext.Provider>
     );
 
@@ -119,23 +112,19 @@ describe('download modal', () => {
     const mockSetCancelDownloadRequest = jest.fn();
     const { getAllByText } = render(
       <downloadsContext.Provider value={mockSiteProviderValue}>
-        <DownloadModal
-          open={true}
-          onClose={onClose}
-          setCancelDownloadRequest={mockSetCancelDownloadRequest}
-        />
+        <DownloadModal open={true} onClose={onClose} setCancelDownloadRequest={mockSetCancelDownloadRequest} />
       </downloadsContext.Provider>
     );
     jest.advanceTimersByTime(1000);
     const cancelButtons = getAllByText('Cancel Download');
 
-    await act( async () => {
+    await act(async () => {
       cancelButtons[0].click();
     });
 
     expect(mockSetCancelDownloadRequest).toHaveBeenLastCalledWith(mockDownloadsInProgress[0]);
 
-    await act( async () => {
+    await act(async () => {
       cancelButtons[2].click();
     });
 

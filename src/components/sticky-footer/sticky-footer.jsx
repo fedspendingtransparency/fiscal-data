@@ -5,8 +5,7 @@ import LocationAware from '../location-aware/location-aware';
 // slow slide down transition, so the user can interrupt
 export const stickySlideDownTransitionMillis = 3000;
 
-export const StickyFooterComponent = ({children, hideAfterTime, hidden, location, onClosed}) => {
-
+export const StickyFooterComponent = ({ children, hideAfterTime, hidden, location, onClosed }) => {
   const [closing, setClosing] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [activityTimeout, setActivityTimeout] = useState(null);
@@ -17,18 +16,20 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
   const startCloserTimer = () => {
     let mounted = true;
     if (hideAfterTime && !closing) {
-      setCloserTimeout(setTimeout(() => {
-        if (mounted) {
-          setClosing(true);
-        }
-      }, 1));
+      setCloserTimeout(
+        setTimeout(() => {
+          if (mounted) {
+            setClosing(true);
+          }
+        }, 1)
+      );
     }
     return () => {
       mounted = false;
       if (closerTimeout) {
         clearTimeout(closerTimeout);
       }
-    }
+    };
   };
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
       }
       // run the function returned from startCloserTimer
       startCloserTimer()();
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -54,9 +55,7 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
     if (closing && !hovered && onClosed && hideAfterTime) {
       // shortly
       // after the hide delay and the transition have completed, run the onClosed callback
-      setCallbackTimer(
-        setTimeout(onClosed, (hideAfterTime + stickySlideDownTransitionMillis + 1000))
-      );
+      setCallbackTimer(setTimeout(onClosed, hideAfterTime + stickySlideDownTransitionMillis + 1000));
     } else {
       if (callbackTimer) {
         clearTimeout(callbackTimer);
@@ -76,11 +75,8 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
   }, [location]);
 
   const closingTransition = {
-    transition: `max-height ${
-      stickySlideDownTransitionMillis
-    }ms linear ${hideAfterTime}ms, visibility 0ms linear ${
-      stickySlideDownTransitionMillis + hideAfterTime
-    }ms`
+    transition: `max-height ${stickySlideDownTransitionMillis}ms linear ${hideAfterTime}ms, visibility 0ms linear ${stickySlideDownTransitionMillis +
+      hideAfterTime}ms`,
   };
 
   const reactivate = () => {
@@ -88,51 +84,47 @@ export const StickyFooterComponent = ({children, hideAfterTime, hidden, location
     if (activityTimeout) {
       clearTimeout(activityTimeout);
     }
-    setActivityTimeout(setTimeout(() => {
-      setClosing(true);
-      setActivityTimeout(null);
-    }, 500));
+    setActivityTimeout(
+      setTimeout(() => {
+        setClosing(true);
+        setActivityTimeout(null);
+      }, 500)
+    );
   };
 
   // don't render at all if empty or hidden is set to true
   // only render component with multiple event handlers when hideAfterTime is present
-  return (hidden || !children) ? null : (
-      hideAfterTime ? (
-        <div
-          className={`${styles.stickyFooterContainer} ${closing ? styles.closing : ''}`}
-          style={closing && !hovered ? closingTransition : {}}
-          data-testid="sticky-footer-container"
-          role="button"
-          tabIndex={0}
-          onFocus={reactivate}
-          onClick={reactivate}
-          onKeyPress={reactivate}
-          onTouchStart={reactivate}
-          onMouseEnter={() => { setHovered(true); }}
-          onMouseLeave={() => { setHovered(false); }}
-        >
-          <div className={styles.stickyFooterContent}
-               data-testid="sticky-footer-content"
-          >
-            {children}
-          </div>
-          {navSpacer && (<div className={styles.floatingNavSpacer}>&nbsp;</div>)}
-        </div>
-      )
-      :
-      (
-        <div className={styles.stickyFooterContainer}
-             data-testid="sticky-footer-container"
-        >
-          <div className={styles.stickyFooterContent}
-               data-testid="sticky-footer-content"
-          >
-            {children}
-          </div>
-          {navSpacer && (<div className={styles.floatingNavSpacer}>&nbsp;</div>)}
-        </div>
-      )
-    );
+  return hidden || !children ? null : hideAfterTime ? (
+    <div
+      className={`${styles.stickyFooterContainer} ${closing ? styles.closing : ''}`}
+      style={closing && !hovered ? closingTransition : {}}
+      data-testid="sticky-footer-container"
+      role="button"
+      tabIndex={0}
+      onFocus={reactivate}
+      onClick={reactivate}
+      onKeyPress={reactivate}
+      onTouchStart={reactivate}
+      onMouseEnter={() => {
+        setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+      }}
+    >
+      <div className={styles.stickyFooterContent} data-testid="sticky-footer-content">
+        {children}
+      </div>
+      {navSpacer && <div className={styles.floatingNavSpacer}>&nbsp;</div>}
+    </div>
+  ) : (
+    <div className={styles.stickyFooterContainer} data-testid="sticky-footer-container">
+      <div className={styles.stickyFooterContent} data-testid="sticky-footer-content">
+        {children}
+      </div>
+      {navSpacer && <div className={styles.floatingNavSpacer}>&nbsp;</div>}
+    </div>
+  );
 };
 
 export default LocationAware(StickyFooterComponent);

@@ -5,21 +5,18 @@ import FiltersAccordion from './filters/filters';
 import SortingAccordion from './sorting/sorting';
 import FormatAccordion from './format/format';
 import PaginationAccordion from './pagination/pagination';
-import CustomLink from "../../links/custom-link/custom-link";
+import CustomLink from '../../links/custom-link/custom-link';
 
 const Accordions = ({ selectedTable }) => {
-
   const numOfFields = 5;
   const methods = {
     title: 'Parameters',
-    desc: <>
-            Refer to{' '}
-            <CustomLink url={'#about-this-dataset'}>
-              About This Dataset
-            </CustomLink>
-            {' '}above for a data dictionary with field names and{' '}
-            descriptions as well as notes and known limitations
-          </>
+    desc: (
+      <>
+        Refer to <CustomLink url={'#about-this-dataset'}>About This Dataset</CustomLink> above for a data dictionary with field names and descriptions
+        as well as notes and known limitations
+      </>
+    ),
   };
 
   return (
@@ -30,7 +27,7 @@ const Accordions = ({ selectedTable }) => {
       <FormatAccordion selectedTable={selectedTable} />
       <PaginationAccordion selectedTable={selectedTable} />
     </ApiQuickGuideSection>
-  )
+  );
 };
 
 export default Accordions;

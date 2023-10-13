@@ -15,7 +15,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export default function DtgTableRow({ columns, data, tableName}) {
+export default function DtgTableRow({ columns, data, tableName }) {
   const cells = [];
 
   columns.forEach((column, index) => {
@@ -31,10 +31,10 @@ export default function DtgTableRow({ columns, data, tableName}) {
       const decimalPlaces = parseInt(type.split('CURRENCY')[1]);
       formattedData = customFormat(cellData, decimalPlaces);
     } else if (type === 'NUMBER') {
-      if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')){
+      if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
         formattedData = cellData;
       } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
-          formattedData = Number(cellData).toFixed(3);
+        formattedData = Number(cellData).toFixed(3);
       } else {
         formattedData = numberFormatter.format(cellData);
       }

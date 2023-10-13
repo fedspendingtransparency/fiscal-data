@@ -1,25 +1,28 @@
-const convertAPIDate = (dbDate) => {
+const convertAPIDate = dbDate => {
   const [yr, mo, day] = dbDate.split('-');
   return `${mo}/${day}/${yr}`;
 };
 
-const convertJSDateToAPI = (jsDate) => {
-  if(!jsDate || !(jsDate instanceof Date)){
+const convertJSDateToAPI = jsDate => {
+  if (!jsDate || !(jsDate instanceof Date)) {
     return null;
   }
 
   const yearStr = jsDate.getFullYear();
-  const monthStr = (jsDate.getMonth() + 1).toString().padStart(2,'0');
-  const dayStr = jsDate.getDate().toString().padStart(2,'0');
+  const monthStr = (jsDate.getMonth() + 1).toString().padStart(2, '0');
+  const dayStr = jsDate
+    .getDate()
+    .toString()
+    .padStart(2, '0');
 
   return `${yearStr}-${monthStr}-${dayStr}`;
 };
 
-const getDateRange = (apis) => {
+const getDateRange = apis => {
   const dateRange = {
     earliestDate: null,
     latestDate: null,
-    lastUpdated: null
+    lastUpdated: null,
   };
 
   if (apis) {
@@ -32,15 +35,11 @@ const getDateRange = (apis) => {
     if (apiLen > 1) {
       dateRange.earliestDate = apis.map(api => api[earliestDateStr]).sort()[0];
 
-      const latestDates = apis
-        .filter(api => api[latestDateStr])
-        .map(api => api[latestDateStr]);
+      const latestDates = apis.filter(api => api[latestDateStr]).map(api => api[latestDateStr]);
 
       dateRange.latestDate = latestDates.sort()[latestDates.length - 1];
 
-      const lastUpdatedDates = apis
-        .filter(api => api[lastUpdatedStr])
-        .map(api => api[lastUpdatedStr]);
+      const lastUpdatedDates = apis.filter(api => api[lastUpdatedStr]).map(api => api[lastUpdatedStr]);
 
       dateRange.lastUpdated = lastUpdatedDates.sort()[lastUpdatedDates.length - 1];
     } else {
@@ -49,7 +48,7 @@ const getDateRange = (apis) => {
       dateRange.lastUpdated = apis[0][lastUpdatedStr];
     }
   }
-  Object.keys(dateRange).forEach(obj => dateRange[obj] = convertAPIDate(dateRange[obj]));
+  Object.keys(dateRange).forEach(obj => (dateRange[obj] = convertAPIDate(dateRange[obj])));
 
   return dateRange;
 };

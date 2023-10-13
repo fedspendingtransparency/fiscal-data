@@ -1,9 +1,10 @@
-import React from "react";
-import FilterRow from "../filterRow/filterRow";
+import React from 'react';
+import FilterRow from '../filterRow/filterRow';
 
 const FilterGroup = ({ groupId, onChange, filterTally, currentFilters, analyticsObject = {} }) => (
   <>
-    {currentFilters.filter(filter => filter.groupId === groupId)
+    {currentFilters
+      .filter(filter => filter.groupId === groupId)
       .map(filter => (
         <FilterRow
           filterKey={filter.id}
@@ -13,15 +14,14 @@ const FilterGroup = ({ groupId, onChange, filterTally, currentFilters, analytics
           title={filter.label}
           filterTally={{
             count: filterTally[filter.id] ? filterTally[filter.id] : 0,
-            of: filterTally.total
+            of: filterTally.total,
           }}
           analyticsObject={analyticsObject}
         >
           {filter.label}
         </FilterRow>
-      ))
-    }
+      ))}
   </>
-)
+);
 
 export default FilterGroup;

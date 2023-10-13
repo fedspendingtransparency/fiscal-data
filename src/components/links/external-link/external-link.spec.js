@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from "@testing-library/react";
-import ExternalLink from "./external-link";
+import { render } from '@testing-library/react';
+import ExternalLink from './external-link';
 import globalConstants from '../../../helpers/constants';
 
 describe('External Link', () => {
@@ -14,8 +14,8 @@ describe('External Link', () => {
 
     expect(link).toBeInTheDocument();
     expect(getByText(text)).toBeInTheDocument();
-    expect(link.href).toBe(testUrl)
-    expect(link.target).toBe('_blank')
-    expect(link.rel).toBe(globalConstants.EXTERNAL_LINK_REL)
+    expect(link.href).toBe(testUrl);
+    expect(link.target).toBe('_blank');
+    expect(link.rel).toBe(globalConstants.EXTERNAL_LINK_REL);
   });
 });

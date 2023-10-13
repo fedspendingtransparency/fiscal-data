@@ -3,7 +3,7 @@
 $lead-text-max: 34.375rem;
 $max-img-width-desktop: 48.219rem;
 
-.topicsSectionContainer{
+.topicsSectionContainer {
   padding: 0 0 5.063rem;
 
   .sectionHeader {
@@ -13,14 +13,14 @@ $max-img-width-desktop: 48.219rem;
     margin-bottom: 1rem;
   }
   .tileContainer {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     overflow: hidden;
   }
 
   .topicsSectionHeader {
     font-weight: $semi-bold-weight;
     color: $primary;
-    margin: .5rem 0;
+    margin: 0.5rem 0;
     font-size: $font-size-24;
     display: flex;
     align-items: center;
@@ -39,10 +39,9 @@ $max-img-width-desktop: 48.219rem;
     width: 100%;
     margin: 1rem 0;
     border-bottom: solid 1px #d8d8d8;
-    bottom: .5rem;
+    bottom: 0.5rem;
   }
 }
-
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .topicsSectionContainer {
@@ -50,24 +49,23 @@ $max-img-width-desktop: 48.219rem;
     .topicsSectionHeader {
       align-items: start;
       svg {
-        margin-top: .25rem;
+        margin-top: 0.25rem;
       }
     }
 
     i {
-      padding: .5rem 0 .5rem;
+      padding: 0.5rem 0 0.5rem;
     }
 
     .line {
       width: 100%;
       margin: 1rem 0;
       border-bottom: solid 1px #d8d8d8;
-      bottom: .5rem;
+      bottom: 0.5rem;
     }
 
     .insightsSectionContainer {
       padding-bottom: 0;
     }
   }
-
 }

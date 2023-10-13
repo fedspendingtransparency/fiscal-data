@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   closePanelIcon,
   closeButton,
@@ -36,21 +36,20 @@ const DataTableColumnSelector = ({
   defaultColumns,
   additionalColumns,
   dataTableRef,
-  selectColumnPanel
+  selectColumnPanel,
 }) => {
-
   const CheckBoxList = columnList => (
     <>
-      {columnList.map(({id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef}) => {
+      {columnList.map(({ id, getIsVisible, toggleVisibility, getToggleVisibilityHandler, columnDef }) => {
         return (
           <label className={checkbox_label} key={id}>
             <div className={checkbox_wrapper}>
-              <input 
-                type="checkbox" 
-                checked={getIsVisible()} 
+              <input
+                type="checkbox"
+                checked={getIsVisible()}
                 onChange={getToggleVisibilityHandler()}
-                onKeyDown={(e) => e.key === 'Enter' && toggleVisibility()}
-                className={optionCheckbox} 
+                onKeyDown={e => e.key === 'Enter' && toggleVisibility()}
+                className={optionCheckbox}
               />
               <span className={label_checkmark_container}>
                 <span className={label_checkmark_text}>
@@ -64,28 +63,26 @@ const DataTableColumnSelector = ({
       })}
     </>
   );
-const closeButtonRef = useRef(null);
+  const closeButtonRef = useRef(null);
   useEffect(() => {
-        if(closeButtonRef.current){
-          closeButtonRef.current.focus();
-        }
+    if (closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
   }, [selectColumnPanel]);
-  dataTableRef = closeButtonRef
+  dataTableRef = closeButtonRef;
   return (
-    <section 
-      className={columnSelectContainer} 
-    >
+    <section className={columnSelectContainer}>
       <div className={headingWrapper}>
         <div className={heading}>
           <div className={title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
           <button
             ref={dataTableRef}
             onClick={() => setSelectColumnPanel(false)}
-            onKeyDown={(e) => {
-              if(e.key === 'Enter'){
-                setSelectColumnPanel(false)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                setSelectColumnPanel(false);
               }
-            }
+            }}
             className={closeButton}
             aria-label="Close select control panel"
           >

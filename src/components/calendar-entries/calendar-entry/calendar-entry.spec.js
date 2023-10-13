@@ -1,10 +1,10 @@
 import React from 'react';
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import CalendarEntry, { releaseCalendarDatasetClickEvent } from './calendar-entry';
 import Analytics from '../../../utils/analytics/analytics';
-import {releaseCalendarSortEvent} from "../calendar-entries";
-import {sortOptions} from "../calendar-helpers";
+import { releaseCalendarSortEvent } from '../calendar-entries';
+import { sortOptions } from '../calendar-helpers';
 
 describe('Calendar Entry', () => {
   const firstDate = '2000-01-01';
@@ -13,7 +13,7 @@ describe('Calendar Entry', () => {
     name: 'Test name',
     date: firstDate,
     time: '1300',
-    url: '/test-dataset-url/'
+    url: '/test-dataset-url/',
   };
 
   it('renders a calendar entry with the correct title, date, time and status', () => {
@@ -29,8 +29,8 @@ describe('Calendar Entry', () => {
     const modifiedDataset = {
       ...dataset,
       date: '2022-01-20',
-      time: '0000'
-    }
+      time: '0000',
+    };
 
     render(<CalendarEntry dataset={modifiedDataset} />);
 
@@ -53,12 +53,12 @@ describe('Calendar Entry', () => {
     window.dataLayer = window.dataLayer || [];
     const dataLayerSpy = jest.spyOn(window.dataLayer, 'push');
 
-    const {rerender} = render(<CalendarEntry dataset={dataset} earliestDate={firstDate} />);
+    const { rerender } = render(<CalendarEntry dataset={dataset} earliestDate={firstDate} />);
     fireEvent.click(screen.getByTestId('calendar-entry'));
 
     expect(analyticsSpy).toHaveBeenCalledWith({
       ...releaseCalendarDatasetClickEvent,
-      label: `${dataset.name} Current Date`
+      label: `${dataset.name} Current Date`,
     });
     analyticsSpy.mockClear();
     expect(dataLayerSpy).toHaveBeenCalledWith({
@@ -72,7 +72,7 @@ describe('Calendar Entry', () => {
 
     expect(analyticsSpy).toHaveBeenCalledWith({
       ...releaseCalendarDatasetClickEvent,
-      label: `${dataset.name} Future Date`
+      label: `${dataset.name} Future Date`,
     });
     expect(dataLayerSpy).toHaveBeenCalledWith({
       event: releaseCalendarDatasetClickEvent.action,

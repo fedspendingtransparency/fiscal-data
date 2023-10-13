@@ -1,7 +1,7 @@
-import { format } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
-export const separateEntriesByName = (entries) => {
+export const separateEntriesByName = entries => {
   const separators = {};
 
   for (const entry of entries) {
@@ -10,10 +10,9 @@ export const separateEntriesByName = (entries) => {
     const firstLetter = !isNaN(parseInt(entry.dataset.name[0])) ? '#' : entry.dataset.name[0];
 
     if (separators[firstLetter]) {
-      const newEntries = [...separators[firstLetter], entry]
+      const newEntries = [...separators[firstLetter], entry];
       // Sort individual sections by name
-      separators[firstLetter] = newEntries.sort((a, b) =>
-        a.dataset.name.localeCompare(b.dataset.name))
+      separators[firstLetter] = newEntries.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name));
     } else {
       separators[firstLetter] = [entry];
     }
@@ -22,16 +21,14 @@ export const separateEntriesByName = (entries) => {
   return separators;
 };
 
-export const separateEntriesByDate = (entries) => {
+export const separateEntriesByDate = entries => {
   const separators = {};
 
   for (const entry of entries) {
-    const date = format(
-      new Date(convertDateAndTimeToDateTime(entry.date, entry.time)),
-      'EEEE MMMM d, yyyy');
+    const date = format(new Date(convertDateAndTimeToDateTime(entry.date, entry.time)), 'EEEE MMMM d, yyyy');
 
     if (separators[date]) {
-      const newEntries = [...separators[date], entry]
+      const newEntries = [...separators[date], entry];
       // Sort individual sections by time and then name
       // TODO: update with time factored in
       separators[date] = newEntries;
@@ -44,9 +41,8 @@ export const separateEntriesByDate = (entries) => {
 };
 
 export const convertDateAndTimeToDateTime = (dateString, timeStringInUTC) => {
-  const time =
-    `${timeStringInUTC[0]}${timeStringInUTC[1]}:${timeStringInUTC[2]}${timeStringInUTC[3]}:00`;
+  const time = `${timeStringInUTC[0]}${timeStringInUTC[1]}:${timeStringInUTC[2]}${timeStringInUTC[3]}:00`;
   const dateTimeString = `${dateString}T${time}.000Z`;
   const utcDateTime = new Date(dateTimeString);
   return utcToZonedTime(utcDateTime, 'America/New_York');
-}
+};

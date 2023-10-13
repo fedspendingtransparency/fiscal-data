@@ -34,7 +34,9 @@
     display: inline-flex;
     width: 48.5%;
     margin-right: 2%;
-    &:nth-child(2n+1){margin-right: 0}
+    &:nth-child(2n + 1) {
+      margin-right: 0;
+    }
   }
 }
 
@@ -43,6 +45,8 @@
     display: inline-flex;
     width: 23.5%;
     margin-right: 2%;
-    &:nth-child(4n+1){margin-right: 0}
+    &:nth-child(4n + 1) {
+      margin-right: 0;
+    }
   }
 }
