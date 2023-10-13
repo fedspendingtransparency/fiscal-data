@@ -3,11 +3,10 @@ import * as styles from './dataset-stats.module.scss';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../../images/futureDateIcon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarWeek, faSyncAlt, faCalendarCheck, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
 
 export default function DatasetStats({ dataset }) {
   // TODO: clean some of these up a little
-  console.log(dataset);
   const earliestDate = dataset && dataset.techSpecs && dataset.techSpecs.earliestDate ? dataset.techSpecs.earliestDate : null;
   const latestDate = dataset && dataset.techSpecs && dataset.techSpecs.latestDate ? dataset.techSpecs.latestDate : null;
   const dateRange = earliestDate && latestDate ? `${earliestDate} - ${latestDate}` : undefined;
@@ -41,7 +40,7 @@ export default function DatasetStats({ dataset }) {
       </li>
       <li data-test-id={'lastUpdated'} aria-label={'last updated' + lastUpdated}>
         <div className={styles.statItem}>
-          <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={styles.icon} data-test-id={'calendarCheckIcon'} />
+          <FontAwesomeIcon icon={faPen} size="1x" className={styles.icon} data-test-id={'calendarCheckIcon'} />
           <div>
             <div className={styles.statHeaderText}> Last Updated </div>
             <div className={styles.stateSubHeaderText}> {lastUpdated} </div>
@@ -50,7 +49,7 @@ export default function DatasetStats({ dataset }) {
       </li>
       <li data-testid="updateFrequency-li" aria-label={frequency}>
         <div className={styles.statItem}>
-          <FontAwesomeIcon icon={faSyncAlt} size="1x" className={styles.icon} data-testid="sync-alt-icon" />
+          <FontAwesomeIcon icon={faRepeat} size="1x" className={styles.icon} data-testid="sync-alt-icon" />
           <div>
             <div className={styles.statHeaderText}> Release Frequency </div>
             <div className={styles.stateSubHeaderText}> {frequency} </div>
