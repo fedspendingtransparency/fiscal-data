@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip } from 'recharts';
+import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { deficitExplainerPrimary } from '../../../sections/national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../../sections/federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../../sections/government-revenue/revenue.module.scss';
-import { legend, legendItem, dot, chartContainer, chartTitle, surplusPrimary } from './deficit-chart.module.scss';
+import { legend, legendItem, dot, chartContainer, chartTitle, surplusPrimary, deficitChart } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 const AFGDefictChart = () => {
   const [focusedYear, setFocusedYear] = useState(null);
-  const [currentFY, setCurrentFY] = useState(null);
+  const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
   const [legendItems, setLegendItems] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
   const revenueEndpointUrl = '/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const spendingEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -70,8 +73,8 @@ const AFGDefictChart = () => {
       if (revenueFY === spendingFY) {
         chart_data.push({
           data: [
-            { year: revenueFY, value: round(revenueValue), type: 'revenue', opacity: 0, tooltip: toolTipContent, surplus: surplus },
-            { year: spendingFY, value: round(spendingValue), type: 'spending', opacity: 0, tooltip: toolTipContent, surplus: surplus },
+            { year: revenueFY, value: round(revenueValue), type: 'revenue', tooltip: toolTipContent, surplus: surplus },
+            { year: spendingFY, value: round(spendingValue), type: 'spending', tooltip: toolTipContent, surplus: surplus },
           ],
         });
       }
@@ -87,7 +90,10 @@ const AFGDefictChart = () => {
 
   useEffect(() => {
     if (!finalChartData && currentFY) {
-      getChartData().then(res => setFinalChartData(res));
+      getChartData().then(res => {
+        setFinalChartData(res);
+        setLoading(false);
+      });
     }
   }, [currentFY]);
 
@@ -99,63 +105,91 @@ const AFGDefictChart = () => {
     });
   }, []);
 
+  const getOpactity = year => {
+    console.log('*******');
+    return year.data[0]?.active === year.data[0].year ? 1 : 0.5;
+  };
+
+  const [chartClick, setChartClick] = useState(0);
+  let click = 0;
+  //
+  // useEffect(() => {
+  //   console.log(chartClick);
+  // }, [chartClick]);
+
   return (
-    <>
+    <div className={deficitChart}>
       <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
-      <div className={legend}>
-        {legendItems?.map(row => {
-          return (
-            <div className={legendItem}>
-              <span className={dot} style={{ backgroundColor: row.color }}></span>
-              {row.title}
+      {isLoading && (
+        <div>
+          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+        </div>
+      )}
+      {!isLoading && (
+        <>
+          <div className={legend}>
+            {legendItems?.map(row => {
+              return (
+                <div className={legendItem}>
+                  <span className={dot} style={{ backgroundColor: row.color }}></span>
+                  {row.title}
+                </div>
+              );
+            })}
+          </div>
+          <div>
+            <div className={chartContainer}>
+              <ResponsiveContainer height={164} width="99%">
+                <LineChart
+                  key={Math.random()}
+                  margin={{
+                    top: 8,
+                    right: 8,
+                    bottom: 8,
+                    left: -18,
+                  }}
+                  layout="vertical"
+                  onMouseLeave={() => setFocusedYear(null)}
+                  onClick={() => (click = click + 1)}
+                >
+                  <CartesianGrid horizontal={false} height={128} />
+                  <YAxis
+                    dataKey="year"
+                    padding={{ bottom: 2, top: 8 }}
+                    type="category"
+                    allowDuplicatedCategory={false}
+                    axisLine={false}
+                    tickLine={false}
+                    tickCount={5}
+                    tickMargin={8}
+                  />
+                  <XAxis tickMargin={16} type="number" tickFormatter={value => `$${value}`} axisLine={false} tickLine={false} unit={'T'} />
+                  {finalChartData.map((year, index) => {
+                    // console.log(year.data[0]?.active, year.data[0].year);
+
+                    return (
+                      <Line
+                        key={index}
+                        dataKey="value"
+                        data={year.data}
+                        stroke={year.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
+                        strokeWidth={4}
+                        strokeOpacity={getOpactity(year)}
+                        dot={<CustomDotNoAnimation />}
+                        isAnimationActive={false}
+                        activeDot={false}
+                        // onClick={() => console.log('test***', year.data[0]?.active, year.data[0].year)}
+                      />
+                    );
+                  })}
+                  <Tooltip content={<CustomTooltip />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-          );
-        })}
-      </div>
-      <div className={chartContainer}>
-        {finalChartData && (
-          <LineChart
-            key={Math.random()}
-            width={396}
-            height={164}
-            margin={{
-              top: 8,
-              right: 8,
-              bottom: 8,
-              left: -18,
-            }}
-            layout="vertical"
-            onMouseLeave={() => setFocusedYear(null)}
-          >
-            <CartesianGrid horizontal={false} height={128} />
-            <YAxis
-              dataKey="year"
-              padding={{ bottom: 4, top: 4 }}
-              type="category"
-              allowDuplicatedCategory={false}
-              axisLine={false}
-              tickLine={false}
-              tickCount={5}
-              tickMargin={8}
-            />
-            <XAxis tickMargin={16} type="number" tickFormatter={value => `$${value}`} axisLine={false} tickLine={false} />
-            {finalChartData.map(s => (
-              <Line
-                dataKey="value"
-                data={s.data}
-                stroke={s.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
-                strokeWidth={4}
-                strokeOpacity={focusedYear === s.data[0].year || focusedYear === null ? 1 : 0.5}
-                dot={<CustomDotNoAnimation />}
-                isAnimationActive={false}
-                activeDot={false}
-              />
-            ))}
-            <Tooltip content={<CustomTooltip setFocused={setFocusedYear} />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
-          </LineChart>
-        )}
-      </div>
-    </>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

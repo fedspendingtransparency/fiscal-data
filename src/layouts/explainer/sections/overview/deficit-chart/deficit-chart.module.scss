@@ -2,24 +2,33 @@
 $surplus-primary: #e5a000;
 
 
-.legend {
-  display: flex;
-  font-size: $font-size-14;
+.deficitChart {
+    font-size: $font-size-14;
   color: $font-body-copy;
-  margin-bottom: 1rem;
 
-  .legendItem {
+  .legend {
     display: flex;
-    align-items: center;
-    margin-right: 1rem;
-  }
-}
+    margin-bottom: 1rem;
 
-.chartTitle {
-  font-weight: $semi-bold-weight;
-  font-size: $font-size-14;
-  color: $font-body-copy;
-  margin-bottom: 1rem;
+    .legendItem {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+    }
+  }
+
+  .chartTitle {
+    font-weight: $semi-bold-weight;
+    margin-bottom: 1rem;
+  }
+
+  .chartContainer {
+    max-width: 396px;
+    tspan {
+      color: $font-body-copy;
+    }
+  }
+
 }
 
 .dot {
@@ -66,12 +75,7 @@ $surplus-primary: #e5a000;
   }
 }
 
-.chartContainer {
-  tspan {
-    font-size: $font-size-14;
-    color: $font-body-copy;
-  }
-}
+
 
 :export {
   surplusPrimary: $surplus-primary;
