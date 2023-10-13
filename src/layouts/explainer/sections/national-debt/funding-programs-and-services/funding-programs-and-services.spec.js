@@ -8,7 +8,6 @@ describe('Funding Programs & Services', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByText, getAllByText } = render(<FundingProgramsAndServices />);
 
-
     const accordion = getByText('What are some of the major spending categories?');
     accordion.click();
     const usaSpending = getAllByText('USAspending.gov');
@@ -19,7 +18,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - Funding Programs & Services'
+      label: 'Debt - Funding Programs & Services',
     });
     spy.mockClear();
 
@@ -27,7 +26,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - What are the major spending categories?'
+      label: 'Debt - What are the major spending categories?',
     });
     spy.mockClear();
 
@@ -35,7 +34,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - What are the major spending categories?'
+      label: 'Debt - What are the major spending categories?',
     });
     spy.mockClear();
 
@@ -43,7 +42,7 @@ describe('Funding Programs & Services', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Citation Click`,
-      label: 'Debt - What are the major spending categories?'
+      label: 'Debt - What are the major spending categories?',
     });
     spy.mockClear();
   });

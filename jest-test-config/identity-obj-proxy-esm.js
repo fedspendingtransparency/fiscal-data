@@ -15,5 +15,5 @@ module.exports = new Proxy(
       }
       return key;
     },
-  },
+  }
 );

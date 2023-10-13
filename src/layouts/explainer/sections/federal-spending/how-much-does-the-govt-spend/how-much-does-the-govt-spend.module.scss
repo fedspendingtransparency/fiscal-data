@@ -1,4 +1,4 @@
-@import "src/variables.module";
+@import 'src/variables.module';
 
 .footerStyle {
   margin-top: 32px;
@@ -75,7 +75,7 @@
 }
 
 .active .descContainer {
-  transition:opacity 0.5s ease 0.5s;
+  transition: opacity 0.5s ease 0.5s;
   opacity: 1;
 }
 

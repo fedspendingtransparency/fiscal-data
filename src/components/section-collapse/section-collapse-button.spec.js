@@ -1,10 +1,8 @@
 import React from 'react';
 import SectionCollapseButton from '../section-collapse/section-collapse-button';
-import { render, fireEvent } from "@testing-library/react";
-
+import { render, fireEvent } from '@testing-library/react';
 
 describe('SectionCollapseButton', () => {
-
   const sectionName = 'api-quick-guide';
 
   it('initializes with a button that displays Show More by default', () => {
@@ -18,5 +16,4 @@ describe('SectionCollapseButton', () => {
     fireEvent.click(getByTestId('collapse-button'));
     expect(getByTestId('collapse-span').innerHTML).toStrictEqual('Show Less');
   });
-
 });

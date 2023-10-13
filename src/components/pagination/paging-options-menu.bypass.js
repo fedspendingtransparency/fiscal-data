@@ -5,7 +5,7 @@ import { MenuItem } from '@material-ui/core';
 
 describe('Go to Page PagingOptionsMenu component', () => {
   const menuProps = {
-    options: [1,2,3,4,5],
+    options: [1, 2, 3, 4, 5],
     label: 'Go to Page',
     selected: 1,
     hideOnSm: false,
@@ -14,15 +14,13 @@ describe('Go to Page PagingOptionsMenu component', () => {
 
   const { options } = menuProps;
 
-  const component = renderer.create(
-    <PagingOptionsMenu menuProps={menuProps} />
-  );
+  const component = renderer.create(<PagingOptionsMenu menuProps={menuProps} />);
   const instance = component.root;
 
   it('renders visible and with correct label and number of options by default', () => {
     expect(instance.findByType(PagingOptionsMenu)).toBeDefined();
     expect(instance.findAllByType(MenuItem).length).toEqual(options.length);
-    expect(instance.findByProps({'className':'perPageLabel'}).text()).toContain(menuProps.label);
+    expect(instance.findByProps({ className: 'perPageLabel' }).text()).toContain(menuProps.label);
   });
 
   it('renders hidden if hideOnSm', () => {
@@ -31,10 +29,9 @@ describe('Go to Page PagingOptionsMenu component', () => {
   });
 });
 
-
 describe('Rows Per Page PagingOptionsMenu component', () => {
   const menuProps = {
-    options: [5,10,20,50,100],
+    options: [5, 10, 20, 50, 100],
     label: 'Rows Per Page',
     selected: 20,
     hideOnSm: false,
@@ -43,15 +40,12 @@ describe('Rows Per Page PagingOptionsMenu component', () => {
 
   const { options } = menuProps;
 
-  const component = renderer.create(
-    <PagingOptionsMenu menuProps={menuProps} />
-  );
+  const component = renderer.create(<PagingOptionsMenu menuProps={menuProps} />);
   const instance = component.root;
 
   it('renders visible and with correct label and number of options by default', () => {
     expect(instance.findByType(PagingOptionsMenu)).toBeDefined();
     expect(instance.findAllByType(MenuItem).length).toEqual(options.length);
-    expect(instance.findByProps({'className':'perPageLabel'}).text()).toContain(menuProps.label);
+    expect(instance.findByProps({ className: 'perPageLabel' }).text()).toContain(menuProps.label);
   });
-
 });

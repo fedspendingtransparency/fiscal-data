@@ -1,11 +1,10 @@
-@import "src/variables.module";
-
+@import 'src/variables.module';
 
 .sectionBorder {
-  border-bottom: #DDDDDD solid 1px;
-  border-right: #DDDDDD solid 1px;
-  border-left: #DDDDDD solid 1px;
-  padding: .5rem 1rem;
+  border-bottom: #dddddd solid 1px;
+  border-right: #dddddd solid 1px;
+  border-left: #dddddd solid 1px;
+  padding: 0.5rem 1rem;
   display: flex;
   justify-content: flex-end;
 }
@@ -13,11 +12,11 @@
 .resetButton {
   height: 28px;
   width: 125px;
-  padding: .25rem .5rem;
+  padding: 0.25rem 0.5rem;
   font-size: $font-size-16;
   color: $font-body-copy;
   font-weight: $semi-bold-weight;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   border: none;
   display: flex;
   align-items: center;
@@ -28,16 +27,14 @@
     .arrowIcon {
       color: white;
     }
-    &:hover{
+    &:hover {
       background-color: $slate-blue;
       cursor: pointer;
     }
-
   }
 }
 
-
 .arrowIcon {
   color: $font-body-copy;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }

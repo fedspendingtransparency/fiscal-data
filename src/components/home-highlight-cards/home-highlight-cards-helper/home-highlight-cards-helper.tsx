@@ -5,8 +5,8 @@ import { DatasetFieldDataType } from '../../../models/fdg-types';
 import * as styles from './home-highlight-cards-helper.module.scss';
 
 export interface ColorCoding {
-  primaryColor: string,
-  secondaryColor: string
+  primaryColor: string;
+  secondaryColor: string;
 }
 
 export const formatCardValue = (
@@ -16,27 +16,18 @@ export const formatCardValue = (
   colorCoding: ColorCoding = { primaryColor: '', secondaryColor: '' }
 ): JSX.Element => {
   const valueClassName = value < 0 ? styles.negative : styles.positive;
-  const label = dataType && dataType.indexOf('CURRENCY') > -1
-    ? simplifyNumber(value, dataType) : `${Math.round(+value * 100) / 100}%`;
+  const label = dataType && dataType.indexOf('CURRENCY') > -1 ? simplifyNumber(value, dataType) : `${Math.round(+value * 100) / 100}%`;
 
   return (
     <div className={styles.labelContainer}>
       {prefix ? (
-        <span
-          className={styles.labelPrefix}
-          style={{ color: colorCoding.primaryColor }}
-          data-testid="prefix"
-        >
+        <span className={styles.labelPrefix} style={{ color: colorCoding.primaryColor }} data-testid="prefix">
           {prefix}
         </span>
       ) : null}
-      <span
-        className={`${styles.value} ${valueClassName}`}
-        style={{ color: colorCoding.secondaryColor }}
-        data-testid="label"
-      >
+      <span className={`${styles.value} ${valueClassName}`} style={{ color: colorCoding.secondaryColor }} data-testid="label">
         {label}
       </span>
     </div>
-  )
-}
+  );
+};

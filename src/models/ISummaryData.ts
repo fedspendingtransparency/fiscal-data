@@ -1,5 +1,5 @@
-import { ISummaryDatasetData } from "./ISummaryDatasetData"
+import { ISummaryDatasetData } from './ISummaryDatasetData';
 
 export interface ISummaryData {
-  [key: string]: ISummaryDatasetData
+  [key: string]: ISummaryDatasetData;
 }

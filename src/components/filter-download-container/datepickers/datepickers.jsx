@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import * as styles from "./datepickers.module.scss";
-import { isBefore, isValid } from "date-fns";
-import { MuiThemeProvider } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import * as styles from './datepickers.module.scss';
+import { isBefore, isValid } from 'date-fns';
+import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from '../../../theme';
-import {generateAnalyticsEvent, generateFormattedDate} from "../range-presets/helpers/helper";
+import { generateAnalyticsEvent, generateFormattedDate } from '../range-presets/helpers/helper';
 
 const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }) => {
   const [beginDate, setBeginDate] = useState(null);
@@ -24,14 +24,14 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
     if (isPristine) {
       setIsPristine(false);
     }
-  }
+  };
 
   const swapDates = () => {
     const startDate = beginDate;
     setBeginDate(endDate);
     setEndDate(startDate);
     setSelecting(false);
-  }
+  };
 
   const prepDateFilterValue = () => {
     if (!isPristine && !selecting && endDate !== null && beginDate !== null) {
@@ -42,7 +42,7 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
         if (isValid(beginDate) && isValid(endDate)) {
           const curDateRange = {
             from: beginDate,
-            to: endDate
+            to: endDate,
           };
           generateAnalyticsEvent(generateFormattedDate(curDateRange));
           setSelectedDates(Object.assign({}, selectedDateRange, curDateRange));
@@ -57,8 +57,8 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
 
   useEffect(() => {
     if (availableDateRange) {
-      if(availableDateRange.from instanceof Date){
-        setEarliestDate(new Date(availableDateRange.from.setHours(0,0,0,0)));
+      if (availableDateRange.from instanceof Date) {
+        setEarliestDate(new Date(availableDateRange.from.setHours(0, 0, 0, 0)));
       } else {
         setEarliestDate(null);
       }
@@ -89,7 +89,7 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
               <KeyboardDatePicker
                 id="date-picker-from"
                 value={beginDate}
-                onChange={(dateVal) => handleSelectingDates(dateVal, setBeginDate)}
+                onChange={dateVal => handleSelectingDates(dateVal, setBeginDate)}
                 autoOk={true}
                 variant="inline"
                 inputVariant="outlined"
@@ -101,17 +101,17 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 maxDate={latestDate}
                 keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
                 KeyboardButtonProps={{
-                  "aria-label": "Open calendar view to pick date",
+                  'aria-label': 'Open calendar view to pick date',
                 }}
-                inputProps={{ "aria-label": "From Date" }}
+                inputProps={{ 'aria-label': 'From Date' }}
                 PopoverProps={{
                   anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "center",
+                    vertical: 'bottom',
+                    horizontal: 'center',
                   },
                   transformOrigin: {
-                    vertical: "top",
-                    horizontal: "center",
+                    vertical: 'top',
+                    horizontal: 'center',
                   },
                 }}
               />
@@ -124,7 +124,7 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 id="date-picker-to"
                 autoOk={true}
                 value={endDate}
-                onChange={(dateVal) => handleSelectingDates(dateVal, setEndDate)}
+                onChange={dateVal => handleSelectingDates(dateVal, setEndDate)}
                 variant="inline"
                 inputVariant="outlined"
                 placeholder="MM / DD / YYYY"
@@ -135,17 +135,17 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 maxDate={latestDate}
                 keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
                 KeyboardButtonProps={{
-                  "aria-label": "Open calendar view to pick date",
+                  'aria-label': 'Open calendar view to pick date',
                 }}
-                inputProps={{ "aria-label": "To Date" }}
+                inputProps={{ 'aria-label': 'To Date' }}
                 PopoverProps={{
                   anchorOrigin: {
-                    vertical: "bottom",
-                    horizontal: "center",
+                    vertical: 'bottom',
+                    horizontal: 'center',
                   },
                   transformOrigin: {
-                    vertical: "top",
-                    horizontal: "center",
+                    vertical: 'top',
+                    horizontal: 'center',
                   },
                 }}
               />
@@ -154,6 +154,6 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
         </div>
       </MuiPickersUtilsProvider>
     </MuiThemeProvider>
-  )
-}
+  );
+};
 export default DatePickers;

@@ -5,7 +5,6 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import * as styles from './pagination-controls.module.scss';
 
-
 const PagingOptionsMenu = ({ menuProps }) => {
   const { options, selected, updateSelected, label } = menuProps;
 
@@ -15,29 +14,25 @@ const PagingOptionsMenu = ({ menuProps }) => {
   useEffect(() => {
     if (label === 'Go to Page' && selected !== selectedOption) {
       setSelectedOption(1);
-    };
+    }
   }, [selected]);
 
-  const handleOpen = (event) => {
+  const handleOpen = event => {
     setAnchorElement(event.currentTarget);
   };
 
-  const handleCloseOrChange = (value) => {
+  const handleCloseOrChange = value => {
     setAnchorElement(null);
     setSelectedOption(value);
     updateSelected(value);
   };
 
   const renderMenuItems = () => {
-    return options.map((option) => (
-      <MenuItem
-        key={`${label} - ${option.toString()}`}
-        onClick={() => handleCloseOrChange(option)}
-      >
+    return options.map(option => (
+      <MenuItem key={`${label} - ${option.toString()}`} onClick={() => handleCloseOrChange(option)}>
         {option.toString()}
       </MenuItem>
-      )
-    );
+    ));
   };
 
   return (
@@ -63,6 +58,6 @@ const PagingOptionsMenu = ({ menuProps }) => {
       </Menu>
     </div>
   );
-}
+};
 
 export default PagingOptionsMenu;

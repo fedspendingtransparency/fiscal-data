@@ -1,9 +1,8 @@
 import React from 'react';
 import DatasetAbout, { title } from './dataset-about';
-import { render } from "@testing-library/react";
+import { render } from '@testing-library/react';
 
 describe('DatasetAbout', () => {
-
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -14,29 +13,29 @@ describe('DatasetAbout', () => {
       {
         fields: [
           {
-            'columnName': 'reporting_date',
-            'definition': 'Reporting date for the data',
-            'tableName': 'Summary of Treasury Securities Outstanding',
-            'prettyName': 'Calendar Date',
-            'dataType': 'DATE',
-            'isRequired': 'yes'
-          }
-        ]
-      }
+            columnName: 'reporting_date',
+            definition: 'Reporting date for the data',
+            tableName: 'Summary of Treasury Securities Outstanding',
+            prettyName: 'Calendar Date',
+            dataType: 'DATE',
+            isRequired: 'yes',
+          },
+        ],
+      },
     ],
     techSpecs: {
-      'updateFrequency': 'blank'
-    }
+      updateFrequency: 'blank',
+    },
   };
 
   it('renders the DatasetAbout component which has the expected title text', () => {
-    const { getByTestId } = render(<DatasetAbout config={mockConfig} test={true} /> );
+    const { getByTestId } = render(<DatasetAbout config={mockConfig} test={true} />);
     const titleEl = getByTestId('sectionHeader');
     expect(titleEl.innerHTML).toBe(title);
   });
 
   it('renders the summaryText description of a dataset"', () => {
-    const { getByTestId } = render(<DatasetAbout config={mockConfig} test={true} /> );
+    const { getByTestId } = render(<DatasetAbout config={mockConfig} test={true} />);
     const descriptionElement = getByTestId('description');
     expect(descriptionElement.innerHTML).toStrictEqual(mockConfig.summaryText);
   });

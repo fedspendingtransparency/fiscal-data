@@ -1,70 +1,67 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import { MultichartRenderer } from "../../../components/charts/chart-primary/multichart-renderer"
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { MultichartRenderer } from '../../../components/charts/chart-primary/multichart-renderer';
 
 type ChartOptions = {
-  forceHeight: number,
-  maxHeightToWidthRatio?: number,
-  forceYAxisWidth?: number,
-  forceLabelFontSize: string,
-  format: boolean,
-  yAxisTickNumber?: number,
-  xAxisTickValues?: any[],
-  showOuterXAxisTicks: boolean,
-  placeInitialMarker: boolean,
-  noTooltip: boolean,
-  noShaders: boolean,
-  noInnerXAxisTicks: boolean,
-  inverted?: boolean
+  forceHeight: number;
+  maxHeightToWidthRatio?: number;
+  forceYAxisWidth?: number;
+  forceLabelFontSize: string;
+  format: boolean;
+  yAxisTickNumber?: number;
+  xAxisTickValues?: any[];
+  showOuterXAxisTicks: boolean;
+  placeInitialMarker: boolean;
+  noTooltip: boolean;
+  noShaders: boolean;
+  noInnerXAxisTicks: boolean;
+  inverted?: boolean;
   shading?: {
-    side?: string,
-    color?: any,
-    hatchDirection?: string
-  },
+    side?: string;
+    color?: any;
+    hatchDirection?: string;
+  };
   marginLabelOptions?: {
-    fontSize?: number | string,
-    fontColor?: string,
-    fontWeight?: number | string,
-  }
-}
+    fontSize?: number | string;
+    fontColor?: string;
+    fontWeight?: number | string;
+  };
+};
 
 export type ChartConfig = {
-  name: string,
-  dataSourceUrl: string,
-  dateField: string,
-  fields: string[],
-  data?: any[],
-  options: ChartOptions,
-  chartDimensions?: any,
-  scales?: any,
-  segmentMinY?: number,
-  segmentMaxY?: number,
-  lines?: any,
-  previousExtent?: any,
-  markers?: any,
+  name: string;
+  dataSourceUrl: string;
+  dateField: string;
+  fields: string[];
+  data?: any[];
+  options: ChartOptions;
+  chartDimensions?: any;
+  scales?: any;
+  segmentMinY?: number;
+  segmentMaxY?: number;
+  lines?: any;
+  previousExtent?: any;
+  markers?: any;
   marginLabelFormatter?: any;
-  zeroMarginLabelLeft?: boolean,
-  zeroMarginLabelRight?: boolean,
-  marginLabelLeft?: boolean,
-  marginLabelRight?: boolean
-}
+  zeroMarginLabelLeft?: boolean;
+  zeroMarginLabelRight?: boolean;
+  marginLabelLeft?: boolean;
+  marginLabelRight?: boolean;
+};
 
 export type MultichartProperties = {
-  chartConfigs: ChartConfig[],
-  chartId: string,
-  hoverEffectHandler: (recordDate: string | null) => void
-}
+  chartConfigs: ChartConfig[];
+  chartId: string;
+  hoverEffectHandler: (recordDate: string | null) => void;
+};
 
-const Multichart: FunctionComponent<MultichartProperties> =
-  ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
+const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
+  const [chartRenderer, setChartRenderer] = useState(null);
+  const [animateChart, setAnimateChart] = useState(false);
 
-    const [chartRenderer, setChartRenderer] = useState(null);
-    const [animateChart, setAnimateChart] = useState(false);
-
-    const itemRef = useRef();
+  const itemRef = useRef();
   // you can access the elements with itemsRef.current[n]
 
-  const handleMouseEnter = (event) => {
-
+  const handleMouseEnter = event => {
     if (event.target['id'] === chartId && chartRenderer) {
       chartRenderer.addHoverEffects(hoverEffectHandler);
     }
@@ -73,7 +70,7 @@ const Multichart: FunctionComponent<MultichartProperties> =
   const handleMouseLeave = () => {
     setTimeout(() => {
       chartRenderer.removeHoverEffects();
-    }, 500)
+    }, 500);
   };
 
   useEffect(() => {
@@ -92,13 +89,13 @@ const Multichart: FunctionComponent<MultichartProperties> =
     setChartRenderer(new MultichartRenderer(chartConfigs, itemRef.current, chartId));
     let observer;
 
-    if(typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const config = {
         rootMargin: '-50% 0% -50% 0%',
-        threshold: 0
+        threshold: 0,
       };
       observer = new IntersectionObserver(entries => {
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             // animate data series display on chart upon initial scroll
             setAnimateChart(true);
@@ -111,16 +108,17 @@ const Multichart: FunctionComponent<MultichartProperties> =
 
   return (
     <>
-      <div ref={itemRef}
-           id={chartId}
-           style={{
-             display: 'block',
-             backgroundColor: '#f1f1f1'
-           }}
-           data-testid="multichart"
-           onMouseEnter={handleMouseEnter}
-           onMouseLeave={handleMouseLeave}
-           role="presentation"
+      <div
+        ref={itemRef}
+        id={chartId}
+        style={{
+          display: 'block',
+          backgroundColor: '#f1f1f1',
+        }}
+        data-testid="multichart"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        role="presentation"
       />
     </>
   );

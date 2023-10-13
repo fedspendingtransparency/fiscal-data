@@ -3,12 +3,13 @@
   white-space: nowrap;
 }
 
-.linkDiv, .linkSeparator {
+.linkDiv,
+.linkSeparator {
   display: inline-block;
 }
 
 .linkSeparator {
-  margin: 0 .625rem;
+  margin: 0 0.625rem;
 }
 
 .currentPage {

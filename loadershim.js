@@ -1,12 +1,12 @@
-import "mutationobserver-shim";
+import 'mutationobserver-shim';
 
 global.__loader = {
-  enqueue: jest.fn()
+  enqueue: jest.fn(),
 };
 
 // todo - Remove the following mock or update the API_BASE_URL.
-jest.mock("gatsby-env-variables", () => ({
+jest.mock('gatsby-env-variables', () => ({
   ENV_ID: 'production',
   API_BASE_URL: 'https://www.transparency.treasury.gov',
-  ADDITIONAL_DATASETS: {}
+  ADDITIONAL_DATASETS: {},
 }));

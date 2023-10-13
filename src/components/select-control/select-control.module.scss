@@ -69,7 +69,7 @@
 
       &:hover {
         background-color: $body-background;
-        transition: background-color 0.2s ease
+        transition: background-color 0.2s ease;
       }
 
       &:disabled {
@@ -106,7 +106,8 @@
   color: $font-body-copy;
   margin-right: 1rem;
 
-  &.textField { // prevents inconsistencies with iOS
+  &.textField {
+    // prevents inconsistencies with iOS
     box-sizing: content-box;
     height: 29.81px; // to match mui input height
     line-height: unset;

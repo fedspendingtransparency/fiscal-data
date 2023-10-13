@@ -18,14 +18,13 @@
         background-color: #fff1d2;
         color: #444444;
         font-size: $font-size-14;
-        padding: 2px .75rem;
-        margin-left: .25rem;
+        padding: 2px 0.75rem;
+        margin-left: 0.25rem;
       }
     }
 
     .comingSoonLink {
       padding-top: 4px !important;
-
     }
 
     .linkContainer {
@@ -83,7 +82,8 @@
   .mainContainer {
     flex-direction: column;
 
-    .navContainer, .navigableContent {
+    .navContainer,
+    .navigableContent {
       padding: 0;
       align-self: auto;
     }

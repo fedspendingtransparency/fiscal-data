@@ -3,7 +3,7 @@ import * as styles from './breadcrumbs.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 
 const BreadCrumbs = ({ links }) => {
-  const bcLinks = (links && links instanceof Array) ? links.slice() : [];
+  const bcLinks = links && links instanceof Array ? links.slice() : [];
   bcLinks.reverse();
   const currentPage = bcLinks.pop();
 
@@ -16,16 +16,12 @@ const BreadCrumbs = ({ links }) => {
         </div>
       ))}
       {currentPage && (
-        <div
-          className={`${styles.linkDiv} ${styles.currentPage}`}
-          data-test-id="breadCrumbCurrentPage"
-          title={currentPage.name}
-        >
+        <div className={`${styles.linkDiv} ${styles.currentPage}`} data-test-id="breadCrumbCurrentPage" title={currentPage.name}>
           {currentPage.name}
         </div>
       )}
     </div>
-  )
+  );
 };
 
 export default BreadCrumbs;

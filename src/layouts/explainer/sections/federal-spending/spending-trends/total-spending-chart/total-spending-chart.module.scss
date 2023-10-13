@@ -1,4 +1,4 @@
-@import "src/variables.module";
+@import 'src/variables.module';
 
 :global(.chartContainerHeader) {
   font-size: $font-size-14 !important;
@@ -60,7 +60,6 @@
     }
   }
 }
-
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerFooter) {

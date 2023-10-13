@@ -6,7 +6,7 @@ export const selectedTable = {
   endpoint: 'v99/guardwings',
   dateField: 'dummy_date',
   latestDate: '12/25/2050',
-  latestDateFormatted: '2050-12-25' // for test reference
+  latestDateFormatted: '2050-12-25', // for test reference
 };
 
 export const selectedTableWithDateException = {
@@ -15,5 +15,5 @@ export const selectedTableWithDateException = {
   endpoint: 'v99/guardwings',
   dateField: 'dummy_date',
   latestDate: '12/25/2050',
-  latestDateFormatted: '2050-12-25' // for test reference
+  latestDateFormatted: '2050-12-25', // for test reference
 };

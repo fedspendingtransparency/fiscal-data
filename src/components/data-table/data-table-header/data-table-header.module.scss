@@ -1,7 +1,7 @@
 @import '../../../variables.module.scss';
 
-
-.sortArrowPill, .defaultSortArrowPill {
+.sortArrowPill,
+.defaultSortArrowPill {
   height: 1.25rem;
   width: 1.75rem;
   min-width: 1.75rem;
@@ -18,10 +18,11 @@
 }
 
 .defaultSortArrowPill:hover {
-  background-color: #CFE8FF;
+  background-color: #cfe8ff;
 }
 
-.sortArrow, .defaultSortArrow {
+.sortArrow,
+.defaultSortArrow {
   width: 1rem !important;
 }
 
@@ -34,10 +35,10 @@
   color: $primary;
 }
 
-.colHeader{
+.colHeader {
   display: flex;
   align-items: center;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
   white-space: nowrap;
   &.rightAlignText {
     justify-content: flex-end;

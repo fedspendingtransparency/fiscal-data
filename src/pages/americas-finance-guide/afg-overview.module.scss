@@ -3,159 +3,153 @@
 @import '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
 
 //Variables
-$revenueExplainerPrimary: #0A2F5A;
+$revenueExplainerPrimary: #0a2f5a;
 $dollarIconColor: $font-body-copy;
-$dollarIconBackgroundColor: #F1F1F1;
+$dollarIconBackgroundColor: #f1f1f1;
 
-.mainContainer{
-    max-width: $site-content-width;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
+.mainContainer {
+  max-width: $site-content-width;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .topContainer {
-    max-width: 62rem;
-    overflow: hidden;
+  max-width: 62rem;
+  overflow: hidden;
 }
 
 .debtText {
-    color: $debt-explainer-primary;
+  color: $debt-explainer-primary;
 }
 
 .deficitText {
-    color: $deficit-explainer-primary;
+  color: $deficit-explainer-primary;
 }
 
 .middleHeader {
-    margin: 3.75rem 0;
+  margin: 3.75rem 0;
 
-    .middleHeaderHeading {
-        @include headingStyle4;
+  .middleHeaderHeading {
+    @include headingStyle4;
 
-        margin-left: 1rem;
-    }
+    margin-left: 1rem;
+  }
 }
 
 .quoteContainer {
-    background-color: $body-background;
-    max-width: $explainer-page-width;
+  background-color: $body-background;
+  max-width: $explainer-page-width;
+  margin-top: 2rem;
+
+  .quoteGrid {
+    max-width: $breakpoint-lg;
+    margin: 0 auto !important;
+    padding: 2rem;
+  }
+
+  .quoteIcon {
+    font-size: 4rem;
+    transform: scale(-1, 1);
+  }
+
+  .quote {
+    color: $font-body-copy;
+    font-size: $font-size-20;
+    line-height: 1.875rem;
+    font-style: italic;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    max-width: 35rem;
+  }
+
+  .citation {
+    font-size: $font-size-14;
+    line-height: 1rem;
+    margin-left: 1rem;
+  }
+
+  .quoteBar {
+    width: 6rem;
+    height: 0.5rem;
+    background-color: $card-body;
+    display: block;
+    margin-left: 1rem;
     margin-top: 2rem;
-
-    .quoteGrid {
-        max-width: $breakpoint-lg;
-        margin: 0 auto !important;
-        padding: 2rem;
-    }
-
-
-
-    .quoteIcon {
-        font-size: 4rem;
-        transform: scale(-1, 1);
-    }
-
-    .quote {
-        color: $font-body-copy;
-        font-size: $font-size-20;
-        line-height: 1.875rem;
-        font-style: italic;
-        margin-left: 1rem;
-        margin-top: 0.5rem;
-        max-width: 35rem;
-    }
-
-    .citation {
-        font-size: $font-size-14;
-        line-height: 1rem;
-        margin-left: 1rem;
-
-    }
-
-    .quoteBar {
-        width: 6rem;
-        height: 0.5rem;
-        background-color: $card-body;
-        display: block;
-        margin-left: 1rem;
-        margin-top: 2rem;
-    }
+  }
 }
 
 .bottomContainer {
-    max-width: $site-content-width;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+  max-width: $site-content-width;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 
-    .bottomHeading {
-        @include columnLabelCopy7;
-        display: block;
-        margin-top: 1rem !important;
-    }
+  .bottomHeading {
+    @include columnLabelCopy7;
+    display: block;
+    margin-top: 1rem !important;
+  }
 
-    .blueText {
-        color: $primary
-    }
+  .blueText {
+    color: $primary;
+  }
 
-    img {
-        margin: 2rem auto;
-        display: block;
-    }
-
+  img {
+    margin: 2rem auto;
+    display: block;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg) {
-    .mainContainer{
-        width: 100%
+  .mainContainer {
+    width: 100%;
+  }
+
+  .topContainer {
+    padding: 0 0.625rem !important;
+    margin: 0 !important;
+    left: 50%;
+  }
+
+  .middleHeader {
+    margin: 4rem 0 4.25rem 0 !important;
+
+    .middleHeaderIcon {
+      margin: 0 auto !important;
+      display: block;
     }
 
-    .topContainer {
-        padding: 0 .625rem !important;
-        margin: 0 !important;
-        left: 50%
+    .middleHeaderHeadingContainer {
+      margin: 0 4.625rem 0 4.625rem !important;
+      padding: 0 !important;
+    }
+    .middleHeaderHeading {
+      font-size: $font-size-32 !important;
+      margin-left: 0 !important;
+    }
+  }
+
+  .quoteContainer {
+    .quoteContainerIcon,
+    .quoteContainerImg {
+      margin: 0 auto !important;
+      display: block;
     }
 
-    .middleHeader {
-        margin: 4rem 0 4.25rem 0!important;
-
-        .middleHeaderIcon {
-            margin: 0 auto !important;
-            display: block
-        }
-
-        .middleHeaderHeadingContainer{
-            margin: 0 4.625rem 0 4.625rem !important;
-            padding: 0 !important
-        }
-        .middleHeaderHeading {
-            font-size: $font-size-32 !important;
-            margin-left: 0 !important;
-        }
-
+    .quoteBar {
+      width: 3.25rem !important;
     }
+  }
 
-    .quoteContainer {
-
-        .quoteContainerIcon, .quoteContainerImg{
-            margin: 0 auto !important;
-            display: block;
-        }
-
-        .quoteBar {
-            width: 3.25rem !important;
-        }
-    }
-
-    .bottomContainer img{
-        margin-top: 1rem !important;
-    }
+  .bottomContainer img {
+    margin-top: 1rem !important;
+  }
 }
 
-
 :export {
-    revenueExplainerPrimary : $revenueExplainerPrimary;
-    dollarIconColor: $dollarIconColor;
-    dollarIconBackgroundColor: $dollarIconBackgroundColor;
+  revenueExplainerPrimary: $revenueExplainerPrimary;
+  dollarIconColor: $dollarIconColor;
+  dollarIconBackgroundColor: $dollarIconBackgroundColor;
 }

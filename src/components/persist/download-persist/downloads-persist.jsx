@@ -3,7 +3,7 @@ import { DATA_DOWNLOAD_BASE_URL } from 'gatsby-env-variables';
 import downloadService from '../../../helpers/download-service/download-service';
 import { updatePercentage, updateProgress } from './download-progress-helper';
 
-export const getGreatestProgress = (downloads) => {
+export const getGreatestProgress = downloads => {
   let greatest = 0;
   if (downloads) {
     downloads.forEach(dnl => {
@@ -57,7 +57,7 @@ export const downloadsContext = React.createContext({
   displayForTestCase: false,
   resumedDownloadInitTimeout: null,
   resumedModalHasBeenOpen: null,
-  setResumedModalHasBeenOpen: () => {}
+  setResumedModalHasBeenOpen: () => {},
 });
 
 export const DownloadsProvider = ({ children }) => {
@@ -86,14 +86,13 @@ export const DownloadsProvider = ({ children }) => {
   // explicit 'undefined' value to help distinguish initial load
   const [resumeDownloadModalIsOpen, setResumeDownloadModalIsOpen] = useState(undefined);
   const [completedDownload, setCompletedDownload] = useState(null);
-  const [resumedModalHasBeenOpen, setResumedModalHasBeenOpen] =  useState(false);
+  const [resumedModalHasBeenOpen, setResumedModalHasBeenOpen] = useState(false);
   const [progressInterval, setProgressInterval] = useState(null);
   const displayForTestCase = false;
 
-  const fileFromPath = (path) => (path + '').substring(path.lastIndexOf('/') + 1);
+  const fileFromPath = path => (path + '').substring(path.lastIndexOf('/') + 1);
 
-  const getDownloadSubscription = (download) => {
-
+  const getDownloadSubscription = download => {
     const requestId = downloadService.initiateDownload(
       downloadRequest.datasetId,
       downloadRequest.apis,
@@ -101,13 +100,11 @@ export const DownloadsProvider = ({ children }) => {
       downloadRequest.selectedFileType,
       downloadRequest.requestTime,
       downloadRequest.selectedUserFilter,
-      downloadRequest.tableColumnSortData,
+      downloadRequest.tableColumnSortData
     );
 
-    return downloadService.downloadStatus(requestId)
-      .subscribe({
-        next: statusObj => {
-
+    return downloadService.downloadStatus(requestId).subscribe({
+      next: statusObj => {
         if (statusObj.status === 'started') {
           download.filename = fileFromPath(statusObj.final_file_name);
           download.downloadUrl = statusObj.final_file_name;
@@ -119,13 +116,9 @@ export const DownloadsProvider = ({ children }) => {
             download.totalPages = statusObj.progress.total;
           }
           if (statusObj.startedTable) {
-            download.tablesStarted = download.tablesStarted === undefined
-              ? 1
-              : download.tablesStarted + 1;
+            download.tablesStarted = download.tablesStarted === undefined ? 1 : download.tablesStarted + 1;
           } else if (statusObj.completedTable) {
-            download.tablesCompleted = download.tablesCompleted === undefined
-              ? 1
-              : download.tablesCompleted + 1;
+            download.tablesCompleted = download.tablesCompleted === undefined ? 1 : download.tablesCompleted + 1;
           } else if (download.pagesProcessed === undefined && statusObj.progress.current > 0) {
             download.pagesProcessed = 1;
           } else if (download.pagesProcessed !== undefined) {
@@ -133,48 +126,43 @@ export const DownloadsProvider = ({ children }) => {
           }
           // use newly created date obj to ensure an actual value change.
           updateProgress(download, setRefreshDownloadsInProgress);
-
         } else if (statusObj.status === 'completed' && statusObj.final_file_name) {
-            const fileUrl = DATA_DOWNLOAD_BASE_URL
-              ? `${DATA_DOWNLOAD_BASE_URL}${statusObj.final_file_name}`
-              : statusObj.final_file_name;
-            startDownloadIfResumedModalIsNotOpen(fileUrl);
+          const fileUrl = DATA_DOWNLOAD_BASE_URL ? `${DATA_DOWNLOAD_BASE_URL}${statusObj.final_file_name}` : statusObj.final_file_name;
+          startDownloadIfResumedModalIsNotOpen(fileUrl);
 
-            download.readyForDownload = true;
-            download.status = 'completed';
-            download.fullFileUrl = fileUrl;
-            download.progressPct = 100;
-            setCompletedDownload(download);
-            setActiveDownloadProgress(100);
-          }
-        },
-        error: (error) => {
-          console.error("%s preparing failed.", download.filename, error);
-          download.status = error.status;
-          download.error = error.error;
-          setFailedDownload(download);
-        },
-        complete: () => {}
-      });
-    };
+          download.readyForDownload = true;
+          download.status = 'completed';
+          download.fullFileUrl = fileUrl;
+          download.progressPct = 100;
+          setCompletedDownload(download);
+          setActiveDownloadProgress(100);
+        }
+      },
+      error: error => {
+        console.error('%s preparing failed.', download.filename, error);
+        download.status = error.status;
+        download.error = error.error;
+        setFailedDownload(download);
+      },
+      complete: () => {},
+    });
+  };
 
-  const startDownloadIfResumedModalIsNotOpen = (fileUrl) => {
+  const startDownloadIfResumedModalIsNotOpen = fileUrl => {
     if (!resumeDownloadModalIsOpen && !resumedDownloadInitTimeout) {
       window.location.assign(fileUrl);
     }
   };
 
-  const generateDownloadObjectHash = (downloadRequest) => {
+  const generateDownloadObjectHash = downloadRequest => {
     let apis;
-    const drApis = (downloadRequest['apis'] ? downloadRequest['apis'] : null) ||
-      downloadRequest.requested.apiIds;
+    const drApis = (downloadRequest['apis'] ? downloadRequest['apis'] : null) || downloadRequest.requested.apiIds;
     if (Array.isArray(drApis)) {
       apis = drApis.map(api => api.apiId);
     } else {
       apis = [drApis['apiId'] ? drApis['apiId'] : downloadRequest.requested['apis']];
     }
-    const datasetId = (downloadRequest?.dataset?.datasetId)
-      || (downloadRequest?.requested?.datasetId);
+    const datasetId = downloadRequest?.dataset?.datasetId || downloadRequest?.requested?.datasetId;
 
     const newObj = {
       apis: apis,
@@ -183,7 +171,7 @@ export const DownloadsProvider = ({ children }) => {
       datasetId: datasetId,
       requestTime: downloadRequest.requestTime,
       selectedUserFilter: downloadRequest.selectedUserFilter,
-      tableColumnSortData: downloadRequest.tableColumnSortData
+      tableColumnSortData: downloadRequest.tableColumnSortData,
     };
     return JSON.stringify(newObj);
   };
@@ -192,13 +180,12 @@ export const DownloadsProvider = ({ children }) => {
     if (downloadRequest) {
       downloadRequest.originalRequestHash = generateDownloadObjectHash(downloadRequest);
       if (!downloadsInProgressByDataset[downloadRequest.datasetId]) {
-
         const download = {
           datasetId: downloadRequest.datasetId,
           apis: downloadRequest.apis,
           dateRange: {
             from: new Date(downloadRequest.dateRange.from.getTime()),
-            to: new Date(downloadRequest.dateRange.to.getTime())
+            to: new Date(downloadRequest.dateRange.to.getTime()),
           },
           selectedFileType: downloadRequest.selectedFileType,
           filename: downloadRequest.filename,
@@ -208,8 +195,7 @@ export const DownloadsProvider = ({ children }) => {
           tableColumnSortData: downloadRequest.tableColumnSortData,
         };
         downloadsInProgressByDataset[downloadRequest.datasetId] = download;
-        setDownloadsInProgress(Object.values(downloadsInProgressByDataset)
-          .sort((a, b) => a.requestTime - b.requestTime));
+        setDownloadsInProgress(Object.values(downloadsInProgressByDataset).sort((a, b) => a.requestTime - b.requestTime));
         download.downloadStatusSubscription = getDownloadSubscription(download);
         download.progressPct = 0;
         download.prepStarted = true;
@@ -259,7 +245,7 @@ export const DownloadsProvider = ({ children }) => {
     });
   }, [refreshDownloadPercentages]);
 
-  const updateActiveDownloadPercentage = (updatedPercentage) => {
+  const updateActiveDownloadPercentage = updatedPercentage => {
     if (updatedPercentage < 100 && updatedPercentage > activeDownloadProgress) {
       setActiveDownloadProgress(updatedPercentage);
     }
@@ -269,9 +255,11 @@ export const DownloadsProvider = ({ children }) => {
     calculateDownloadCount(downloadQueue, downloadsInProgress);
     if (downloadsInProgress && downloadsInProgress.length) {
       if (!progressInterval) {
-        setProgressInterval(setInterval(() => {
-          setRefreshDownloadPercentages(new Date());
-        }, 1000));
+        setProgressInterval(
+          setInterval(() => {
+            setRefreshDownloadPercentages(new Date());
+          }, 1000)
+        );
       }
     } else if (progressInterval) {
       clearInterval(progressInterval);
@@ -280,9 +268,8 @@ export const DownloadsProvider = ({ children }) => {
     }
   }, [downloadQueue, downloadsInProgress]);
 
-  const removeFromDownloadQueue = (targetHash) => {
-    const queueIndex = downloadQueue.map((d) => d.originalRequestHash)
-      .indexOf(targetHash);
+  const removeFromDownloadQueue = targetHash => {
+    const queueIndex = downloadQueue.map(d => d.originalRequestHash).indexOf(targetHash);
 
     if (queueIndex === -1) return;
     downloadQueue.splice(queueIndex, 1);
@@ -290,13 +277,9 @@ export const DownloadsProvider = ({ children }) => {
 
   const removeFromDownloadQueueByDataset = (datasetId, targetHash) => {
     if (!downloadQueueByDataset[datasetId]) return;
-    const qByDIndex =
-      downloadQueueByDataset[datasetId]
-        .map(d => d.originalRequestHash)
-        .indexOf(targetHash);
+    const qByDIndex = downloadQueueByDataset[datasetId].map(d => d.originalRequestHash).indexOf(targetHash);
     if (qByDIndex === -1) return;
-    downloadQueueByDataset[datasetId]
-      .splice(qByDIndex, 1);
+    downloadQueueByDataset[datasetId].splice(qByDIndex, 1);
     if (downloadQueueByDataset[datasetId].length === 0) {
       delete downloadQueueByDataset[datasetId];
     }
@@ -310,25 +293,18 @@ export const DownloadsProvider = ({ children }) => {
       downloadsInProgressByDataset[datasetId] = null;
       delete downloadsInProgressByDataset[datasetId];
     }
-    setDownloadsInProgress(
-      Object.values(downloadsInProgressByDataset)
-        .sort((a, b) => a.requestTime - b.requestTime)
-    );
+    setDownloadsInProgress(Object.values(downloadsInProgressByDataset).sort((a, b) => a.requestTime - b.requestTime));
   };
 
-  const removeFromResumedDownloads = (download) => {
+  const removeFromResumedDownloads = download => {
     if (download && download.requestId && resumedDownloads && resumedDownloads.length) {
-      setResumedDownloads(
-        resumedDownloads.filter(resDnl => resDnl.requestId !== download.requestId)
-      );
+      setResumedDownloads(resumedDownloads.filter(resDnl => resDnl.requestId !== download.requestId));
     }
   };
 
-  const removeFromDownloadsPrepared = (download) => {
+  const removeFromDownloadsPrepared = download => {
     if (download && download.requestId && downloadsPrepared && downloadsPrepared.length) {
-      setDownloadsPrepared(
-        downloadsPrepared.filter(prepDnl => prepDnl.requestId !== download.requestId)
-      );
+      setDownloadsPrepared(downloadsPrepared.filter(prepDnl => prepDnl.requestId !== download.requestId));
     }
   };
 
@@ -338,7 +314,7 @@ export const DownloadsProvider = ({ children }) => {
     // handle cases where the download Object was reconstituted from local storage
     if (!cancelDownloadRequest.apis && cancelDownloadRequest.requested.apiIds) {
       cancelDownloadRequest.apis = cancelDownloadRequest.requested.apiIds;
-      cancelDownloadRequest.dataset = { datasetId: cancelDownloadRequest.datasetId};
+      cancelDownloadRequest.dataset = { datasetId: cancelDownloadRequest.datasetId };
     }
     const cancelRequest = generateDownloadObjectHash(cancelDownloadRequest);
     const cancelDatasetId = cancelDownloadRequest.datasetId;
@@ -346,15 +322,12 @@ export const DownloadsProvider = ({ children }) => {
     downloadService.cancelDownload(cancelDownloadRequest.requestId);
 
     removeFromDownloadQueue(cancelRequest);
-    removeFromDownloadQueueByDataset(
-      cancelDatasetId,
-      cancelRequest);
+    removeFromDownloadQueueByDataset(cancelDatasetId, cancelRequest);
     removeFromDownloadsInProgress(cancelDatasetId, cancelRequest);
     removeFromResumedDownloads(cancelDownloadRequest);
     removeFromDownloadsPrepared(cancelDownloadRequest);
 
     startNextDownload(cancelDatasetId);
-
   }, [cancelDownloadRequest]);
 
   useEffect(() => {
@@ -364,7 +337,7 @@ export const DownloadsProvider = ({ children }) => {
     setDownloadsInProgress(downloadsInProgress.slice());
   }, [refreshDownloadsInProgress]);
 
-  const startNextDownload = (datasetId) => {
+  const startNextDownload = datasetId => {
     if (downloadQueueByDataset[datasetId]) {
       if (downloadQueueByDataset[datasetId].length) {
         // we want to delay checking whether to pull up the sticky
@@ -377,14 +350,15 @@ export const DownloadsProvider = ({ children }) => {
         delete downloadQueueByDataset[datasetId];
       }
       setDownloadQueue(
-        Object.values(downloadQueueByDataset).flat().sort((a, b) => a.requestTime - b.requestTime)
+        Object.values(downloadQueueByDataset)
+          .flat()
+          .sort((a, b) => a.requestTime - b.requestTime)
       );
     }
   };
 
   useEffect(() => {
     if (downloadsPrepared && downloadsPrepared.length) {
-
       downloadsPrepared
         .filter(prep => prep.downloadStatusSubscription !== undefined)
         .forEach(prep => {
@@ -397,7 +371,6 @@ export const DownloadsProvider = ({ children }) => {
       if (Object.values(downloadsInProgressByDataset).length) {
         setActiveDownloadProgress(getGreatestProgress(Object.values(downloadsInProgressByDataset)));
       }
-
     }
   }, [downloadsPrepared]);
 
@@ -405,17 +378,24 @@ export const DownloadsProvider = ({ children }) => {
   downloadsInProgressRef.current = downloadsInProgress.length;
 
   useEffect(() => {
-    if (resumeDownloadModalIsOpen === undefined && !resumedModalHasBeenOpen &&
-      ((resumedDownloads && resumedDownloads.length) || resumedQueue !== null)) {
+    if (
+      resumeDownloadModalIsOpen === undefined &&
+      !resumedModalHasBeenOpen &&
+      ((resumedDownloads && resumedDownloads.length) || resumedQueue !== null)
+    ) {
       // give it time to make one status check before displaying the modal,
       // in case something in-progress from last session is now ready
       setResumedModalHasBeenOpen(true);
-      setResumedDownloadInitTimeout(setTimeout(() => {
-        setResumeDownloadModalIsOpen(true);
-        setResumedDownloadInitTimeout(undefined);
-        }, 3000));
+      setResumedDownloadInitTimeout(
+        setTimeout(() => {
+          setResumeDownloadModalIsOpen(true);
+          setResumedDownloadInitTimeout(undefined);
+        }, 3000)
+      );
     }
-    return(() => { clearTimeout(resumedDownloadInitTimeout); });
+    return () => {
+      clearTimeout(resumedDownloadInitTimeout);
+    };
   }, [resumedDownloads]);
 
   // saves a snapshot of the stored Queue into the resumedQueue state var at load time
@@ -442,23 +422,20 @@ export const DownloadsProvider = ({ children }) => {
   }, [resumedQueue]);
 
   useEffect(() => {
-    if (resumedDownloads && resumedDownloads.length
-      && resumeDownloadModalIsOpen === undefined
-      && resumedDownloadInitTimeout === undefined) {
+    if (resumedDownloads && resumedDownloads.length && resumeDownloadModalIsOpen === undefined && resumedDownloadInitTimeout === undefined) {
       // give it time to make one status check before displaying the modal,
       // in case something in-progress from last session is now ready
-      setResumedDownloadInitTimeout(setTimeout(() => {
-        setResumeDownloadModalIsOpen(true);
-      }, 3000));
-
+      setResumedDownloadInitTimeout(
+        setTimeout(() => {
+          setResumeDownloadModalIsOpen(true);
+        }, 3000)
+      );
     } else if (resumedDownloads && resumedDownloads.length) {
       const completed = resumedDownloads.filter(rd => rd.status === 'completed');
 
       if (completed.length === 0) return;
-      completed.forEach((c) => {
-        const fileUrl = DATA_DOWNLOAD_BASE_URL
-          ? `${DATA_DOWNLOAD_BASE_URL}${c.final_file_name}`
-          : c.final_file_name;
+      completed.forEach(c => {
+        const fileUrl = DATA_DOWNLOAD_BASE_URL ? `${DATA_DOWNLOAD_BASE_URL}${c.final_file_name}` : c.final_file_name;
         const prepped = downloadsPrepared.slice();
         c.readyForDownload = true;
         c.fullFileUrl = fileUrl;
@@ -467,7 +444,9 @@ export const DownloadsProvider = ({ children }) => {
       });
       setResumedDownloads(resumedDownloads.filter(rd => rd.status !== 'completed'));
     }
-    return(() => { clearTimeout(resumedDownloadInitTimeout); });
+    return () => {
+      clearTimeout(resumedDownloadInitTimeout);
+    };
   }, [resumedDownloads]);
 
   useEffect(() => {
@@ -480,7 +459,7 @@ export const DownloadsProvider = ({ children }) => {
       if (progressInterval) {
         clearInterval(progressInterval);
       }
-    }
+    };
   }, []);
 
   return (
@@ -514,20 +493,16 @@ export const DownloadsProvider = ({ children }) => {
         displayForTestCase,
         resumedQueue,
         failedDownloads,
-        resumedDownloadInitTimeout
+        resumedDownloadInitTimeout,
       }}
     >
       {children}
     </downloadsContext.Provider>
-  )
+  );
 };
 
 const DownloadsPersist = ({ element }) => {
-  return (
-    <DownloadsProvider>
-      {element}
-    </DownloadsProvider>
-  )
+  return <DownloadsProvider>{element}</DownloadsProvider>;
 };
 
 export default DownloadsPersist;

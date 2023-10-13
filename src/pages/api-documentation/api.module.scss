@@ -86,7 +86,7 @@ code.code {
   padding-bottom: 100px;
 }
 
-@media screen and (min-width: $breakpoint-lg){
+@media screen and (min-width: $breakpoint-lg) {
   .apiPageWrapper {
     display: flex;
   }
@@ -100,11 +100,9 @@ code.code {
     }
   }
 
-
   #toc {
     &.tocClosed {
       display: block;
     }
   }
 }
-

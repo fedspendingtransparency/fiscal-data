@@ -1,6 +1,6 @@
 import Analytics from '../../utils/analytics/analytics';
-import { analyticsCategory, getAnalyticsFields, generateAnalyticsEvent } from "./helper";
-import {IAnalyticsEvents} from "../../models/IAnalyticsEvents";
+import { analyticsCategory, getAnalyticsFields, generateAnalyticsEvent } from './helper';
+import { IAnalyticsEvents } from '../../models/IAnalyticsEvents';
 
 describe('Dataset Detail Helper - getAnalyticsFields', () => {
   const analyticsEventsObj: IAnalyticsEvents = {
@@ -9,11 +9,10 @@ describe('Dataset Detail Helper - getAnalyticsFields', () => {
     label: null,
   };
 
-  it('returns the analytics events object with empty string values if params are invalid',
-    () => {
-      const returnObj = getAnalyticsFields('');
-      expect(Object.values(returnObj).every((value) => value === '')).toBeTruthy();
-    });
+  it('returns the analytics events object with empty string values if params are invalid', () => {
+    const returnObj = getAnalyticsFields('');
+    expect(Object.values(returnObj).every(value => value === '')).toBeTruthy();
+  });
 
   it(`returns the analytics events object with desired values`, () => {
     const label = `Testing label`;
@@ -39,11 +38,11 @@ describe('Dataset Detail Helper - getAnalyticsFields', () => {
 
 describe('Dataset Detail Helper - generateAnalyticsEvent', () => {
   const eventsSpy = jest.spyOn(Analytics, 'event');
-  const analyticsEventsObj: IAnalyticsEvents = new class implements IAnalyticsEvents {
+  const analyticsEventsObj: IAnalyticsEvents = new (class implements IAnalyticsEvents {
     action: string;
     category: string;
     label: string;
-  }();
+  })();
 
   beforeEach(() => {
     eventsSpy.mockClear();
@@ -71,5 +70,4 @@ describe('Dataset Detail Helper - generateAnalyticsEvent', () => {
     analyticsEventsObj.action = action;
     expect(eventsSpy).toHaveBeenCalledWith(analyticsEventsObj);
   });
-
 });

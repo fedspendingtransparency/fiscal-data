@@ -1,42 +1,35 @@
-import { basicFetch } from "../../utils/api-utils"
-import { API_BASE_URL } from "gatsby-env-variables";
-import globalConstants from "../constants";
-import { ISummaryDatasetAPIData } from "../../models/ISummaryDatasetAPIData"
-import { ISummaryDatasetDataJson } from "../../models/ISummaryDatasetDataJson"
-import { ISummaryData } from "../../models/ISummaryData"
-import { IDatasetDates } from "../../models/IDatasetDates"
-import { from, Observable, ReplaySubject, Subject, tap } from "rxjs"
-import { IPublishedReportDataJson } from "../../models/IPublishedReportDataJson"
-import { map } from "rxjs/operators"
-import { IPublishedReport } from "../../models/IPublishedReport"
-import { IPublishedReports } from "../../models/IPublishedReports"
-import { isAfter, isBefore, parseISO } from "date-fns"
+import { basicFetch } from '../../utils/api-utils';
+import { API_BASE_URL } from 'gatsby-env-variables';
+import globalConstants from '../constants';
+import { ISummaryDatasetAPIData } from '../../models/ISummaryDatasetAPIData';
+import { ISummaryDatasetDataJson } from '../../models/ISummaryDatasetDataJson';
+import { ISummaryData } from '../../models/ISummaryData';
+import { IDatasetDates } from '../../models/IDatasetDates';
+import { from, Observable, ReplaySubject, Subject, tap } from 'rxjs';
+import { IPublishedReportDataJson } from '../../models/IPublishedReportDataJson';
+import { map } from 'rxjs/operators';
+import { IPublishedReport } from '../../models/IPublishedReport';
+import { IPublishedReports } from '../../models/IPublishedReports';
+import { isAfter, isBefore, parseISO } from 'date-fns';
 
 export class MetadataService {
+  private readonly METADATA_SUMMARY_URL: string = globalConstants.METADATA_SUMMARY;
+  private readonly PUBLISHED_REPORT_URL: string = globalConstants.PUBLISHED_REPORTS;
 
-  private readonly METADATA_SUMMARY_URL: string =
-    globalConstants.METADATA_SUMMARY;
-  private readonly PUBLISHED_REPORT_URL: string =
-    globalConstants.PUBLISHED_REPORTS;
-
-  private readonly METADATA_POLLING_INTERVAL: number =
-    globalConstants.config.metadataUpdateService.pollingInterval;
-  private readonly PUBLISHED_REPORT_CACHE_MAX_AGE: number =
-    globalConstants.config.metadataUpdateService.publishedReportsMaxCacheAge;
-  private readonly PUBLISHED_REPORTS_DATASET_ALLOW_LIST: string[] =
-    globalConstants.config.publishedReports.datasets;
+  private readonly METADATA_POLLING_INTERVAL: number = globalConstants.config.metadataUpdateService.pollingInterval;
+  private readonly PUBLISHED_REPORT_CACHE_MAX_AGE: number = globalConstants.config.metadataUpdateService.publishedReportsMaxCacheAge;
+  private readonly PUBLISHED_REPORTS_DATASET_ALLOW_LIST: string[] = globalConstants.config.publishedReports.datasets;
   private readonly SUMMARY_DATES = {
     earliestDate: parseISO('9999-12-31'),
     latestDate: parseISO('1900-01-01'),
-    lastUpdated: parseISO('1900-01-01')
+    lastUpdated: parseISO('1900-01-01'),
   };
 
   private _summaryData: ISummaryData;
   private _publishedReportsData: IPublishedReports = {};
   private _intervalId: number;
   private _summaryUpdated: Subject<ISummaryData> = new ReplaySubject<ISummaryData>(1);
-  private _publishedReportsUpdated: Subject<IPublishedReports>
-    = new ReplaySubject<IPublishedReports>(1);
+  private _publishedReportsUpdated: Subject<IPublishedReports> = new ReplaySubject<IPublishedReports>(1);
 
   constructor() {
     // Updates shouldn't occur for the build (server-side). Updates use
@@ -75,29 +68,28 @@ export class MetadataService {
   }
 
   public updatedPublishedReports(datasetId: string): Observable<IPublishedReportDataJson[] | null> {
-    const output: Subject<IPublishedReportDataJson[]>
-      = new ReplaySubject<IPublishedReportDataJson[]>(1);
+    const output: Subject<IPublishedReportDataJson[]> = new ReplaySubject<IPublishedReportDataJson[]>(1);
 
     if (!this._datasetPublishedReportsAllowed(datasetId)) {
       output.next(null);
-    }
-    else if (this._cachedIsValid(datasetId)) {
+    } else if (this._cachedIsValid(datasetId)) {
       output.next(this._publishedReportsData[datasetId].reports);
     } else {
       // will need to request published reports for dataset id and cache
       from(this._fetchPublishedReportsForDataset(datasetId))
         .pipe(
           map((rawJson): IPublishedReportDataJson[] => {
-            return rawJson.map((report) => {
+            return rawJson.map(report => {
               let curDate = report.report_date;
               if (typeof curDate === 'string') {
-                const [year,month,day] = curDate.split('-');
-                curDate = new Date(Number(year),Number(month)-1,Number(day),0,0,0);
+                const [year, month, day] = curDate.split('-');
+                curDate = new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
               }
               return {
                 ...report,
-                report_date: curDate
-              } as IPublishedReportDataJson});
+                report_date: curDate,
+              } as IPublishedReportDataJson;
+            });
           }),
           // update cache for future use
           tap((datasetReports: IPublishedReportDataJson[]) => {
@@ -105,13 +97,13 @@ export class MetadataService {
           })
         )
         .subscribe({
-          next: (data) => {
+          next: data => {
             output.next(data);
           },
-          error: (err) => {
+          error: err => {
             console.error('An error occurred while fetching the published reports', err);
             output.error(err);
-          }
+          },
         });
     }
 
@@ -127,7 +119,7 @@ export class MetadataService {
       return false;
     }
 
-    return (this._publishedReportsData[datasetId].expiration > Date.now());
+    return this._publishedReportsData[datasetId].expiration > Date.now();
   };
 
   /**
@@ -143,7 +135,7 @@ export class MetadataService {
 
     this._publishedReportsData[datasetId] = {
       expiration: Date.now() + this.PUBLISHED_REPORT_CACHE_MAX_AGE,
-      reports: reportData
+      reports: reportData,
     } as IPublishedReport;
   }
 
@@ -153,10 +145,7 @@ export class MetadataService {
    * @private
    */
   private _polledUpdates(): void {
-    this._intervalId = window.setInterval(
-        this._updateSummaryData.bind(this),
-        this.METADATA_POLLING_INTERVAL
-      );
+    this._intervalId = window.setInterval(this._updateSummaryData.bind(this), this.METADATA_POLLING_INTERVAL);
   }
 
   /**
@@ -169,7 +158,7 @@ export class MetadataService {
         const indexedApiData = this._indexApiData(dataset.apis);
         const curDatasetObj = this._summaryData && this._summaryData[dataset.dataset_id];
         const curDatasetDates: IDatasetDates = Object.assign(this.SUMMARY_DATES);
-        if(curDatasetObj){
+        if (curDatasetObj) {
           curDatasetDates.earliestDate = curDatasetObj.earliestDate;
           curDatasetDates.latestDate = curDatasetObj.latestDate;
           curDatasetDates.lastUpdated = curDatasetObj.lastUpdated;
@@ -178,11 +167,11 @@ export class MetadataService {
         const updatedDates = this._collectDates(indexedApiData, curDatasetDates);
         if (updatedDates) {
           hasDatesUpdated = true;
-        obj[dataset.dataset_id] = {
-          datasetId: dataset.dataset_id,
-          apis: indexedApiData,
-          ...updatedDates
-        };
+          obj[dataset.dataset_id] = {
+            datasetId: dataset.dataset_id,
+            apis: indexedApiData,
+            ...updatedDates,
+          };
         }
         return obj;
       }, {});
@@ -209,21 +198,21 @@ export class MetadataService {
         ...api,
         earliest_date: parseISO(`${api.earliest_date}`),
         latest_date: parseISO(`${api.latest_date}`),
-        last_updated: parseISO(`${api.last_updated}`)
+        last_updated: parseISO(`${api.last_updated}`),
       };
     });
 
     return output;
   }
 
-  private _collectDates(indexedApiData: Record<number, ISummaryDatasetAPIData>,
-                        curDatasetDates = JSON.parse(JSON.stringify(this.SUMMARY_DATES)))
-    : IDatasetDates | null {
-
+  private _collectDates(
+    indexedApiData: Record<number, ISummaryDatasetAPIData>,
+    curDatasetDates = JSON.parse(JSON.stringify(this.SUMMARY_DATES))
+  ): IDatasetDates | null {
     const output: IDatasetDates = {
       earliestDate: curDatasetDates.earliestDate,
       latestDate: curDatasetDates.latestDate,
-      lastUpdated: curDatasetDates.lastUpdated
+      lastUpdated: curDatasetDates.lastUpdated,
     };
     // Keep track of whether the dates have updated or not.
     let haveDatesUpdated = false;
@@ -246,7 +235,7 @@ export class MetadataService {
 
     // If nothing has changed from the summary metadata call,
     // then don't trigger any further actions or changes.
-    if(!haveDatesUpdated){
+    if (!haveDatesUpdated) {
       return null;
     }
 
@@ -271,9 +260,7 @@ export class MetadataService {
       return;
     }
 
-    return basicFetch(
-      `${API_BASE_URL}${this.PUBLISHED_REPORT_URL}?dataset_id=${datasetId}`
-    );
+    return basicFetch(`${API_BASE_URL}${this.PUBLISHED_REPORT_URL}?dataset_id=${datasetId}`);
   }
 }
 

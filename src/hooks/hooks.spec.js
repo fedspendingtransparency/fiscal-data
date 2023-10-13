@@ -1,30 +1,27 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { StaticQuery, useStaticQuery } from 'gatsby'
+import { StaticQuery, useStaticQuery } from 'gatsby';
 import useBEAGDP from './useBeaGDP';
-import {mockBEAGDPData} from "./hookDataMocks/mockBEAGDPData";
-
+import { mockBEAGDPData } from './hookDataMocks/mockBEAGDPData';
 
 const mockBEAData = {
   allBeaGdp: {
-    nodes: mockBEAGDPData
-  }
+    nodes: mockBEAGDPData,
+  },
 };
 
 describe('useBEAGDP', () => {
-
   beforeEach(() => {
     StaticQuery.mockImplementation(({ render }) => render({ mockBEAData }));
     useStaticQuery.mockImplementation(() => {
       return {
-        ...mockBEAData
+        ...mockBEAData,
       };
     });
   });
 
-
   const mockCpiDataset = {
-    "1952": "10",
-    "1984": "5",
+    '1952': '10',
+    '1984': '5',
   };
 
   test('First and last entry of finalGDPData after data render will match mocked values given', () => {
@@ -35,13 +32,20 @@ describe('useBEAGDP', () => {
 
   test('1952 and 1984 data is adjusted according to mocks', () => {
     const { result } = renderHook(() => useBEAGDP(mockCpiDataset, true));
-    expect(result.current.finalGDPData.find((entry) => { return entry.fiscalYear === '1952' }).actual).toBe(178551625000);
-    expect(result.current.finalGDPData.find((entry) => { return entry.fiscalYear === '1984' }).actual).toBe(3949152750000);
+    expect(
+      result.current.finalGDPData.find(entry => {
+        return entry.fiscalYear === '1952';
+      }).actual
+    ).toBe(178551625000);
+    expect(
+      result.current.finalGDPData.find(entry => {
+        return entry.fiscalYear === '1984';
+      }).actual
+    ).toBe(3949152750000);
   });
 
   test('Hook completes', () => {
     const { result } = renderHook(() => useBEAGDP(mockCpiDataset, true));
     expect(result.current.isGDPLoading).toBe(false);
   });
-
 });

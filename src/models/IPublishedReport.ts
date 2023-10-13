@@ -1,6 +1,6 @@
-import { IPublishedReportDataJson } from "./IPublishedReportDataJson"
+import { IPublishedReportDataJson } from './IPublishedReportDataJson';
 
 export interface IPublishedReport {
-  expiration: number,
-  reports: IPublishedReportDataJson[]
+  expiration: number;
+  reports: IPublishedReportDataJson[];
 }

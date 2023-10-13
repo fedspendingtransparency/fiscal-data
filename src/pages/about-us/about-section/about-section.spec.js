@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {render} from "@testing-library/react";
+import { render } from '@testing-library/react';
 import globalConstants from '../../../helpers/constants';
 
 import About from './about-section';
@@ -15,7 +15,7 @@ const h3Headers = [
   'about-understanding',
   'about-dev',
   'about-licensing',
-  'about-more'
+  'about-more',
 ];
 
 describe('About section', () => {
@@ -33,14 +33,13 @@ describe('About section', () => {
   });
 
   it('renders the correct number of SectionContent components with headingLevel 3', () => {
-    const headers = instance.findAllByProps({'headingLevel' : 3});
+    const headers = instance.findAllByProps({ headingLevel: 3 });
     expect(headers.length).toEqual(h3Headers.length);
   });
 
   it('provides a link to Fiscal Service About Us', () => {
     const { getByTestId } = render(<About />);
 
-    expect(getByTestId('fsLink'))
-      .toHaveAttribute('href', `${globalConstants.FISCAL_TREASURY_URL}/about.html`);
+    expect(getByTestId('fsLink')).toHaveAttribute('href', `${globalConstants.FISCAL_TREASURY_URL}/about.html`);
   });
 });

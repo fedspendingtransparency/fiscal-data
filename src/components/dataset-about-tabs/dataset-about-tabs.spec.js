@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import DatasetAboutTabs from "./dataset-about-tabs";
+import DatasetAboutTabs from './dataset-about-tabs';
 
 describe('DatasetAboutTabs', () => {
   const tabData = {
@@ -10,21 +10,21 @@ describe('DatasetAboutTabs', () => {
       {
         fields: [
           {
-            "columnName": "reporting_date",
-            "definition": "Reporting date for the data",
-            "tableName": "Summary of Treasury Securities Outstanding",
-            "prettyName": "Calendar Date",
-            "dataType": "DATE",
-            "isRequired": "yes"
-          }
-        ]
-      }
+            columnName: 'reporting_date',
+            definition: 'Reporting date for the data',
+            tableName: 'Summary of Treasury Securities Outstanding',
+            prettyName: 'Calendar Date',
+            dataType: 'DATE',
+            isRequired: 'yes',
+          },
+        ],
+      },
     ],
     techSpecs: {
-      'updateFrequency': 'blank'
-    }
+      updateFrequency: 'blank',
+    },
   };
-  
+
   it('contains a NotesAndLimitations component with expected props', () => {
     const { getByText } = render(<DatasetAboutTabs config={tabData} test />);
     expect(getByText(tabData.notesAndKnownLimitations)).toBeInTheDocument();
@@ -34,7 +34,7 @@ describe('DatasetAboutTabs', () => {
     const { getByTestId } = render(<DatasetAboutTabs config={tabData} test />);
     expect(getByTestId('tabsContainer')).toBeDefined();
   });
-  
+
   it('creates a tab label for each tab property', () => {
     const { getByLabelText } = render(<DatasetAboutTabs config={tabData} test />);
     expect(getByLabelText('Data Dictionary')).toBeInTheDocument();

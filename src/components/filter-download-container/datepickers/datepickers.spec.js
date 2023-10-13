@@ -2,12 +2,11 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import DatePickers from './datepickers';
 import { subYears } from 'date-fns';
-import {KeyboardDatePicker} from "@material-ui/pickers";
-import {dateRange} from "../../datasets/filters/test-helpers";
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import { dateRange } from '../../datasets/filters/test-helpers';
 
 jest.useFakeTimers();
 describe('DDP Datepickers', () => {
-
   let component = renderer.create();
   let datePickers = [];
   let instance;
@@ -16,23 +15,19 @@ describe('DDP Datepickers', () => {
 
   const availableDates = {
     from: subYears(latestDate, 21),
-    to: latestDate
+    to: latestDate,
   };
 
   const selectedDates = {
     from: subYears(latestDate, 5),
-    to: latestDate
+    to: latestDate,
   };
 
   const setSelectedDates = jest.fn();
 
   beforeAll(() => {
     component = renderer.create(
-      <DatePickers
-        availableDateRange={availableDates}
-        selectedDateRange={selectedDates}
-        setSelectedDates={setSelectedDates}
-      />
+      <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
     instance = component.root;
     datePickers = instance.findAllByType(KeyboardDatePicker);
@@ -86,16 +81,10 @@ describe('DDP Datepickers', () => {
     passed (different table)`, () => {
     const newTableDates = {
       from: new Date(1800, 9, 15),
-      to: new Date(2018, 3, 2)
+      to: new Date(2018, 3, 2),
     };
     renderer.act(() => {
-      component.update(
-        <DatePickers
-          availableDateRange={newTableDates}
-          selectedDateRange={selectedDates}
-          setSelectedDates={setSelectedDates}
-        />
-      );
+      component.update(<DatePickers availableDateRange={newTableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />);
     });
     jest.runAllTimers();
 
@@ -108,7 +97,7 @@ describe('DDP Datepickers', () => {
     setSelectedDates.mockClear();
 
     renderer.act(() => {
-      datePickers[0].props.onChange(new Date(2000,1,1))
+      datePickers[0].props.onChange(new Date(2000, 1, 1));
     });
     jest.runAllTimers();
 
@@ -116,15 +105,11 @@ describe('DDP Datepickers', () => {
   });
 
   it('creates KeyboardDatePicker with default settings if no/invalid params are passed in', () => {
-    let curComponent = renderer.create(), curInstance, curDatePickers;
+    let curComponent = renderer.create(),
+      curInstance,
+      curDatePickers;
     renderer.act(() => {
-      curComponent = renderer.create(
-        <DatePickers
-          availableDateRange={null}
-          selectedDateRange={null}
-          setSelectedDates={setSelectedDates}
-        />
-      );
+      curComponent = renderer.create(<DatePickers availableDateRange={null} selectedDateRange={null} setSelectedDates={setSelectedDates} />);
     });
     curInstance = curComponent.root;
     jest.runAllTimers();
@@ -138,13 +123,7 @@ describe('DDP Datepickers', () => {
     expect(curDatePickers[1].props.maxDate).toEqual(null);
 
     renderer.act(() => {
-      curComponent = renderer.create(
-        <DatePickers
-          availableDateRange={{}}
-          selectedDateRange={{}}
-          setSelectedDates={setSelectedDates}
-        />
-      );
+      curComponent = renderer.create(<DatePickers availableDateRange={{}} selectedDateRange={{}} setSelectedDates={setSelectedDates} />);
     });
     curInstance = curComponent.root;
     jest.runAllTimers();

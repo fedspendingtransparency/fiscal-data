@@ -18,17 +18,9 @@ export const downloadModalSubText = 'Your download progress status will show on 
  * @param setCancelDownloadRequest {Function} - method to call to cancel a download/queued download
  */
 
-const DownloadModal = ({ open,
-                         onClose, setCancelDownloadRequest }) => {
-
+const DownloadModal = ({ open, onClose, setCancelDownloadRequest }) => {
   const siteDownloads = useContext(downloadsContext);
-  const {
-    setDownloadModalIsOpen,
-    downloadModalIsOpen,
-    downloadsInProgress,
-    downloadQueue,
-    resumedDownloads
-  } = siteDownloads;
+  const { setDownloadModalIsOpen, downloadModalIsOpen, downloadsInProgress, downloadQueue, resumedDownloads } = siteDownloads;
 
   const [resumedPrepared, setResumedPrepared] = useState([]);
   const [resumedInProgress, setResumedInProgress] = useState([]);
@@ -40,61 +32,48 @@ const DownloadModal = ({ open,
 
   useEffect(() => {
     let count = downloadsInProgress ? downloadsInProgress.length : 0;
-    count += (downloadQueue ? downloadQueue.length : 0);
+    count += downloadQueue ? downloadQueue.length : 0;
     setDownloadCount(count);
-  }, [downloadsInProgress, downloadQueue])
+  }, [downloadsInProgress, downloadQueue]);
 
   useEffect(() => {
     if (resumedDownloads) {
-      setResumedPrepared(resumedDownloads.filter((dnl) => dnl.status === 'completed'));
-      setResumedInProgress(resumedDownloads.filter((dnl) => dnl.status === 'started'));
+      setResumedPrepared(resumedDownloads.filter(dnl => dnl.status === 'completed'));
+      setResumedInProgress(resumedDownloads.filter(dnl => dnl.status === 'started'));
     }
   }, [resumedDownloads]);
 
   return (
-    <Modal
-      open={downloadModalIsOpen}
-      onClose={onClose}
-      contentClass={styles.container}
-    >
-      <div className={styles.title} data-testid="download-modal-title">{downloadCount >  1 ? downloadModalTitleMulti : downloadModalTitle}</div>
-      <div className={styles.downloadItemsContainer} data-testid="download-items-container">
-        {resumedPrepared && resumedPrepared.map((download, index) => (
-          <DownloadModalItem key={index}
-                             download={download}
-                             cancelDownloadRequest={setCancelDownloadRequest}
-                             resumed
-          />
-        ))}
-        {downloadsInProgress && downloadsInProgress.map((download, index) =>
-          <DownloadModalItem download={download}
-                             key={index}
-                             cancelDownloadRequest={setCancelDownloadRequest}
-          />)}
-        {resumedInProgress && resumedInProgress.map((download, index) => (
-          <DownloadModalItem key={index}
-                             download={download}
-                             cancelDownloadRequest={setCancelDownloadRequest}
-                             resumed
-          />
-        ))}
-        {downloadQueue && downloadQueue.map((download, index) =>
-          <DownloadModalItem download={download}
-                             key={index}
-                             cancelDownloadRequest={setCancelDownloadRequest}
-          />)}
+    <Modal open={downloadModalIsOpen} onClose={onClose} contentClass={styles.container}>
+      <div className={styles.title} data-testid="download-modal-title">
+        {downloadCount > 1 ? downloadModalTitleMulti : downloadModalTitle}
       </div>
-      <button
-        onClick={onClose}
-        className= { `${styles.closeButton} closeDownloadButton` }
-        data-testid="download-modal-close-button"
-        aria-label="Close"
-      >
+      <div className={styles.downloadItemsContainer} data-testid="download-items-container">
+        {resumedPrepared &&
+          resumedPrepared.map((download, index) => (
+            <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed />
+          ))}
+        {downloadsInProgress &&
+          downloadsInProgress.map((download, index) => (
+            <DownloadModalItem download={download} key={index} cancelDownloadRequest={setCancelDownloadRequest} />
+          ))}
+        {resumedInProgress &&
+          resumedInProgress.map((download, index) => (
+            <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed />
+          ))}
+        {downloadQueue &&
+          downloadQueue.map((download, index) => (
+            <DownloadModalItem download={download} key={index} cancelDownloadRequest={setCancelDownloadRequest} />
+          ))}
+      </div>
+      <button onClick={onClose} className={`${styles.closeButton} closeDownloadButton`} data-testid="download-modal-close-button" aria-label="Close">
         Close
       </button>
-      <div className={styles.subText} data-testid="download-modal-subtext">{downloadModalSubText}</div>
+      <div className={styles.subText} data-testid="download-modal-subtext">
+        {downloadModalSubText}
+      </div>
     </Modal>
-  )
+  );
 };
 
 export default DownloadModal;

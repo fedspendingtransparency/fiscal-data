@@ -1,24 +1,24 @@
-import { render } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import ExperimentalSwitch from './experimental-switch';
 import React from 'react';
-import "gatsby-env-variables";
+import 'gatsby-env-variables';
 import Experimental from '../experimental';
 import { siteContext } from '../../persist/persist';
 
-jest.mock("gatsby-env-variables", () => ({
+jest.mock('gatsby-env-variables', () => ({
   ENV_ID: 'dev',
   API_BASE_URL: 'https://www.transparency.treasury.gov',
   ADDITIONAL_DATASETS: {},
-  EXPERIMENTAL_WHITELIST: ['mock experimental feature']
+  EXPERIMENTAL_WHITELIST: ['mock experimental feature'],
 }));
 
 const container = (
   <>
     <ExperimentalSwitch />
-    <Experimental featureId='mock experimental feature'>
-       <span>Some EXPERIMENTAL content</span>
-       <div>And some more content.</div>
+    <Experimental featureId="mock experimental feature">
+      <span>Some EXPERIMENTAL content</span>
+      <div>And some more content.</div>
     </Experimental>
   </>
 );
@@ -36,11 +36,7 @@ describe('Experimental wrapper component', () => {
   });
 
   it('renders experimental components when switch is on', () => {
-    const { queryByText } = render(
-      <siteContext.Provider value={{ showExperimentalFeatures: true }}>
-        {container}
-      </siteContext.Provider>
-    );
+    const { queryByText } = render(<siteContext.Provider value={{ showExperimentalFeatures: true }}>{container}</siteContext.Provider>);
     expect(queryByText('Some EXPERIMENTAL content')).toBeInTheDocument();
     expect(queryByText('And some more content.')).toBeInTheDocument();
   });
