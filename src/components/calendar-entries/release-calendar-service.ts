@@ -1,28 +1,22 @@
-import { basicFetch } from "../../utils/api-utils"
-import { API_BASE_URL } from "gatsby-env-variables";
-import globalConstants from "../../helpers/constants";
-import { addDays, lightFormat } from "date-fns"
-import { Observable, ReplaySubject } from "rxjs"
-import { IReleaseCalendarEntry } from "../../models/IReleaseCalendarEntry"
+import { basicFetch } from '../../utils/api-utils';
+import { API_BASE_URL } from 'gatsby-env-variables';
+import globalConstants from '../../helpers/constants';
+import { addDays, lightFormat } from 'date-fns';
+import { Observable, ReplaySubject } from 'rxjs';
+import { IReleaseCalendarEntry } from '../../models/IReleaseCalendarEntry';
 
 export class ReleaseCalendarService {
-
-  private readonly RELEASE_CALENDAR_URL: string =
-    globalConstants.RELEASE_CALENDAR;
-  private readonly API_DATE_FORMAT: string =
-    globalConstants.config.formats.apiDate;
-  private readonly DAYS_TO_REQUEST: number =
-    globalConstants.config.releaseCalendar.daysToRequestFutureEntries;
-  private readonly RELEASE_CALENDAR_POLLING_INTERVAL: number =
-    globalConstants.config.releaseCalendar.pollingInterval;
+  private readonly RELEASE_CALENDAR_URL: string = globalConstants.RELEASE_CALENDAR;
+  private readonly API_DATE_FORMAT: string = globalConstants.config.formats.apiDate;
+  private readonly DAYS_TO_REQUEST: number = globalConstants.config.releaseCalendar.daysToRequestFutureEntries;
+  private readonly RELEASE_CALENDAR_POLLING_INTERVAL: number = globalConstants.config.releaseCalendar.pollingInterval;
 
   private _dateToRequest: Date;
   private _lastReleasedCheck: IReleaseCalendarEntry[];
   private _releaseCalendarData: IReleaseCalendarEntry[];
   private _indexedReleases: Record<string, IReleaseCalendarEntry> = {};
   private _intervalId: number;
-  private _releaseCalendarUpdated: ReplaySubject<IReleaseCalendarEntry[]>
-    = new ReplaySubject<IReleaseCalendarEntry[]>(1);
+  private _releaseCalendarUpdated: ReplaySubject<IReleaseCalendarEntry[]> = new ReplaySubject<IReleaseCalendarEntry[]>(1);
   private _releaseCalendarObservable: Observable<IReleaseCalendarEntry[]> = this._releaseCalendarUpdated.asObservable();
 
   constructor() {
@@ -74,10 +68,7 @@ export class ReleaseCalendarService {
   }
 
   private _polledUpdates(): void {
-    this._intervalId = window.setInterval(
-      this._updateReleaseCalendarEntries.bind(this),
-      this.RELEASE_CALENDAR_POLLING_INTERVAL
-    );
+    this._intervalId = window.setInterval(this._updateReleaseCalendarEntries.bind(this), this.RELEASE_CALENDAR_POLLING_INTERVAL);
   }
 
   private _updateReleaseCalendarEntries(): void {
@@ -88,7 +79,7 @@ export class ReleaseCalendarService {
         this._lastReleasedCheck = releasedEntries;
         this._updateIndexedData(releasedEntries);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('An error occurred while fetching release calendar entries.', error);
       });
   }
@@ -110,9 +101,7 @@ export class ReleaseCalendarService {
   }
 
   private _updateCache(): void {
-    this._releaseCalendarData = [
-      ...Object.values(this._indexedReleases)
-    ];
+    this._releaseCalendarData = [...Object.values(this._indexedReleases)];
     this._releaseCalendarUpdated.next(this._releaseCalendarData);
   }
 
@@ -121,11 +110,8 @@ export class ReleaseCalendarService {
    */
   private _fetchReleaseCalendarEntries(date: Date): Promise<IReleaseCalendarEntry[]> {
     const releasedByDate: string = lightFormat(date, this.API_DATE_FORMAT);
-    return basicFetch(
-      `${API_BASE_URL}${this.RELEASE_CALENDAR_URL}?released_by_date=${releasedByDate}`
-    );
+    return basicFetch(`${API_BASE_URL}${this.RELEASE_CALENDAR_URL}?released_by_date=${releasedByDate}`);
   }
-
 }
 
 export const releaseCalendarService = new ReleaseCalendarService();

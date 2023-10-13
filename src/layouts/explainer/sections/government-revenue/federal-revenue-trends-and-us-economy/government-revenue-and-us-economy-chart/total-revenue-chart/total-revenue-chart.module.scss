@@ -1,4 +1,4 @@
-@import "src/variables.module";
+@import 'src/variables.module';
 
 .container {
   overflow: hidden;
@@ -21,7 +21,7 @@
 
   .lineChart {
     width: 100%;
-    margin-top: .625rem;
+    margin-top: 0.625rem;
   }
 
   .headerContainer {
@@ -34,11 +34,11 @@
       width: 450px;
       justify-content: center;
       margin-bottom: 2rem;
-      margin-top: .25rem;
+      margin-top: 0.25rem;
     }
 
     .headerData {
-      margin-bottom: .75rem;
+      margin-bottom: 0.75rem;
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -73,12 +73,12 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerHeader) {
-    margin-top: .125rem;
+    margin-top: 0.125rem;
   }
 
   :global(.chartContainerFooter) {
     p {
-      margin-top: .75rem;
+      margin-top: 0.75rem;
     }
   }
 
@@ -92,7 +92,7 @@
       }
 
       .headerData {
-        margin-bottom: .75rem;
+        margin-bottom: 0.75rem;
         display: flex;
         flex-direction: row;
         justify-content: center;

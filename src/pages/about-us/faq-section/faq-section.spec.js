@@ -4,16 +4,7 @@ import renderer from 'react-test-renderer';
 import GLOBALS from '../../../helpers/constants';
 import FAQ from './faq-section';
 
-const h3Headers = [
-  'who',
-  'when',
-  'why',
-  'how',
-  'get-updates',
-  'new-to-apis',
-  'taxes-stimulus-inquiries',
-  'update-frequency'
-];
+const h3Headers = ['who', 'when', 'why', 'how', 'get-updates', 'new-to-apis', 'taxes-stimulus-inquiries', 'update-frequency'];
 
 // jest.mock("gatsby-plugin-mdx", () => {
 //   return { MDXRenderer: ({children}) => {
@@ -61,5 +52,4 @@ describe('FAQ section', () => {
     });
     expect(instance.findAllByType('mark').length).toBe(0);
   });
-
-})
+});

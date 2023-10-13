@@ -1,25 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {fetchAPI} from '../../../utils/api-utils';
+import React, { useEffect, useState } from 'react';
+import { fetchAPI } from '../../../utils/api-utils';
 import ApiQuickGuideSection from '../api-quick-guide-section';
 import * as componentStyles from './dataset-detail-examples.module.scss';
 import * as styles from '../accordions/accordions.module.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSpinner} from '@fortawesome/free-solid-svg-icons';
-import {makeStyles} from '@material-ui/core/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { makeStyles } from '@material-ui/core/styles';
 import GLOBALS from '../../../helpers/constants';
 
 const useStyles = makeStyles(() => ({
   loadingIcon: {
-    "& path": {
-      fill: '#3d70b2'
-    }
-  }
+    '& path': {
+      fill: '#3d70b2',
+    },
+  },
 }));
 
-export const errorMessage = 'Our examples are temporarily unavailable. ' +
-  'Please refresh the page to try again.';
+export const errorMessage = 'Our examples are temporarily unavailable. ' + 'Please refresh the page to try again.';
 
-const DatasetDetailExamples = ({isAccordionOpen, selectedTable}) => {
+const DatasetDetailExamples = ({ isAccordionOpen, selectedTable }) => {
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const themeStyles = useStyles();
@@ -29,30 +28,31 @@ const DatasetDetailExamples = ({isAccordionOpen, selectedTable}) => {
   const sortStr = `sort=-${selectedTable.dateField}`;
   const formatStr = 'format=json';
   const paginationStr = 'page[number]=1&page[size]=1';
-  const fullRequestStr =
-    `${baseURL}/${selectedTable.endpoint}?${sortStr}&${formatStr}&${paginationStr}`;
+  const fullRequestStr = `${baseURL}/${selectedTable.endpoint}?${sortStr}&${formatStr}&${paginationStr}`;
 
   let loadCanceled = false;
 
   const retrieveResponse = () => {
     if (!loadCanceled) {
       setIsLoading(true);
-      fetchAPI(fullRequestStr).then(response => {
-        if (!loadCanceled) {
-          if (response && response.data) {
-            setIsLoading(false);
-            setResponse(JSON.stringify(response, null, 1));
-          } else {
-            setResponse(errorMessage);
+      fetchAPI(fullRequestStr)
+        .then(response => {
+          if (!loadCanceled) {
+            if (response && response.data) {
+              setIsLoading(false);
+              setResponse(JSON.stringify(response, null, 1));
+            } else {
+              setResponse(errorMessage);
+            }
           }
-        }
-      }).catch((error) => {
-        if (!loadCanceled) {
-          setIsLoading(false);
-          setResponse(errorMessage);
-          console.error('error:', error);
-        }
-      });
+        })
+        .catch(error => {
+          if (!loadCanceled) {
+            setIsLoading(false);
+            setResponse(errorMessage);
+            console.error('error:', error);
+          }
+        });
     }
   };
 
@@ -87,35 +87,29 @@ const DatasetDetailExamples = ({isAccordionOpen, selectedTable}) => {
       <ul>
         <li>Specifying the endpoint</li>
         <li>Requesting the JSON response format</li>
-        <li>Sorting the data by <code>{selectedTable.dateField}</code> in descending order</li>
+        <li>
+          Sorting the data by <code>{selectedTable.dateField}</code> in descending order
+        </li>
         <li>Setting pagination parameters</li>
       </ul>
-      <div className={styles.exampleTitle}>
-        EXAMPLE REQUEST
-      </div>
+      <div className={styles.exampleTitle}>EXAMPLE REQUEST</div>
       <code data-testid="exampleRequest" className={`${styles.codeBlock} large`}>
         {fullRequestStr}
       </code>
-      <div className={styles.exampleTitle}>
-        EXPECTED RESPONSE
-      </div>
+      <div className={styles.exampleTitle}>EXPECTED RESPONSE</div>
       <code className={`${styles.codeBlock} ${componentStyles.responseBlock} large`}>
-        {!!response ?
-            <pre data-testid="exampleResponse">{response}</pre>
-          :
-            <div className={componentStyles.loadingIcon} data-testid={'loadingIcon'} >
-              <FontAwesomeIcon className={themeStyles.loadingIcon}
-                               icon={faSpinner}
-                               spin
-                               pulse
-              />
-              Loading...
-            </div>
-        }
+        {!!response ? (
+          <pre data-testid="exampleResponse">{response}</pre>
+        ) : (
+          <div className={componentStyles.loadingIcon} data-testid={'loadingIcon'}>
+            <FontAwesomeIcon className={themeStyles.loadingIcon} icon={faSpinner} spin pulse />
+            Loading...
+          </div>
+        )}
       </code>
     </>
   );
 
-  return <ApiQuickGuideSection title={title} children={children} />
+  return <ApiQuickGuideSection title={title} children={children} />;
 };
 export default DatasetDetailExamples;

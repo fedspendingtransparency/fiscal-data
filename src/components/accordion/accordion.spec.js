@@ -1,10 +1,9 @@
 import React from 'react';
 import Accordion from './accordion';
 import * as styles from './accordion.module.scss';
-import {fireEvent, render} from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 describe('Accordion', () => {
-
   const titleText = 'Placeholder Title';
   const bodyText = 'Placeholder Body';
 
@@ -24,7 +23,7 @@ describe('Accordion', () => {
     expect(getByTestId('content')).toHaveTextContent(bodyText);
   });
 
-  it('expects the accordion to toggle the "open" class when the heading is clicked', async() => {
+  it('expects the accordion to toggle the "open" class when the heading is clicked', async () => {
     const { getByTestId } = render(<Accordion title={titleText}>{bodyText}</Accordion>);
     const accordion = getByTestId('section');
     expect(accordion).not.toHaveClass(styles.open);

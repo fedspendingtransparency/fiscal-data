@@ -4,7 +4,8 @@
   padding-bottom: 1.25rem;
 }
 
-.diveDeeperQuoteRight, .diveDeeperQuoteLeft {
+.diveDeeperQuoteRight,
+.diveDeeperQuoteLeft {
   .diveDeeperQuote {
     font-size: $font-size-20;
     padding-bottom: 1rem;
@@ -36,9 +37,9 @@
   }
 }
 
-
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .diveDeeperQuoteLeft, .diveDeeperQuoteRight {
+  .diveDeeperQuoteLeft,
+  .diveDeeperQuoteRight {
     .diveDeeperQuote {
       font-size: 0.781rem;
     }
@@ -73,4 +74,3 @@
     }
   }
 }
-

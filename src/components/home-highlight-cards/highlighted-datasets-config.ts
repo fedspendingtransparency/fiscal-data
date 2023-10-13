@@ -37,24 +37,17 @@ export interface IDataChartConfig {
 }
 export type IDatasetChartConfigs = IDataChartConfig[];
 
-export const filterUniqueValues: (arr: [], field: string) => any[] = (
-  arr,
-  field
-) => {
+export const filterUniqueValues: (arr: [], field: string) => any[] = (arr, field) => {
   if (!arr || !field) {
     return arr || [];
   }
 
-  return arr
-    .map(d => d[field])
-    .filter((value, index, self) => self.indexOf(value) === index);
+  return arr.map(d => d[field]).filter((value, index, self) => self.indexOf(value) === index);
 };
 
 export const api120UniqueAggregation = d => {
   const curMonthVal = Number(d.current_month_budget_amt);
-  return d.classification_desc.toUpperCase() === 'TOTAL OUTLAYS'
-    ? curMonthVal
-    : -curMonthVal;
+  return d.classification_desc.toUpperCase() === 'TOTAL OUTLAYS' ? curMonthVal : -curMonthVal;
 };
 
 /**
@@ -66,13 +59,13 @@ export const api120UniqueAggregation = d => {
  * @param _aggFunction {function} - (optional) A unique function to calculate the aggregation (eg.
  *                                  add or subtract given data value under a certain condition).
  */
-export const annualAggregation: (
-  res: any,
-  yearField: string,
-  monthField: string,
-  aggregationField: string,
-  _aggFunction: any
-) => any[] = (res, yearField, monthField, aggregationField, _aggFunction) => {
+export const annualAggregation: (res: any, yearField: string, monthField: string, aggregationField: string, _aggFunction: any) => any[] = (
+  res,
+  yearField,
+  monthField,
+  aggregationField,
+  _aggFunction
+) => {
   if (!res || !res.data || !yearField || !monthField || !aggregationField) {
     console.warn('annualAggregation called with invalid params');
     return [];
@@ -120,9 +113,7 @@ export const transformAPI143: (res: any) => any[] = res => {
 
   const data = res.data;
   const years = filterUniqueValues(data, 'record_calendar_year');
-  const dataArr = data.filter(d =>
-    years.some(val => val === d.record_calendar_year)
-  );
+  const dataArr = data.filter(d => years.some(val => val === d.record_calendar_year));
 
   // Date range should span from 5 years before this month of current year
   const mostRecentMonth = dataArr[dataArr.length - 1].record_calendar_month;
@@ -152,16 +143,10 @@ export const transformAPI143: (res: any) => any[] = res => {
  * This process also normalizes the data die
  * @param res
  */
-export const transformAPI130 = (res: {
-  data: any[];
-  links: Record<string, never>;
-  meta: Record<string, never>;
-}): any[] => {
+export const transformAPI130 = (res: { data: any[]; links: Record<string, never>; meta: Record<string, never> }): any[] => {
   const combinedValueForYear = (yearMonth, array) => {
     return array
-      .filter(
-        e => `${e.record_calendar_year}${e.record_calendar_month}` === yearMonth
-      )
+      .filter(e => `${e.record_calendar_year}${e.record_calendar_month}` === yearMonth)
       .reduce((total: number, currElement: number) => {
         return total + currElement['transaction_today_amt'];
       }, 0);
@@ -179,11 +164,7 @@ export const transformAPI130 = (res: {
   // make 6 digit string of year and month
   const currentYearMonth = `${getYear(nowDate) * 100 + getMonth(nowDate) + 1}`;
   res.data
-    .filter(
-      e =>
-        `${e.record_calendar_year}${e.record_calendar_month}` !==
-        currentYearMonth
-    )
+    .filter(e => `${e.record_calendar_year}${e.record_calendar_month}` !== currentYearMonth)
     .forEach(e => {
       const yearMonth = `${e.record_calendar_year}${e.record_calendar_month}`;
 
@@ -224,11 +205,7 @@ export const transformAPI130 = (res: {
  * and returns them as snapshots for each of the last 6 months, not counting this one.
  * @param res
  */
-export const transformAPI129 = (res: {
-  data: any[];
-  links: Record<string, never>;
-  meta: Record<string, never>;
-}): any[] => {
+export const transformAPI129 = (res: { data: any[]; links: Record<string, never>; meta: Record<string, never> }): any[] => {
   const valuesPerMonth: any = {};
   const nowDate = new Date(Date.now());
   const curYear = nowDate.getFullYear();
@@ -237,10 +214,7 @@ export const transformAPI129 = (res: {
   res.data.reverse().forEach(row => {
     const [year, month] = row.record_date.split('-');
     const monthNum = Number(month.charAt(0) === '0' ? month.charAt(1) : month);
-    if (
-      Number(year) < curYear ||
-      (Number(year) === curYear && monthNum < curMonth)
-    ) {
+    if (Number(year) < curYear || (Number(year) === curYear && monthNum < curMonth)) {
       const lastDay = lastDayOfMonth(convertDate(row.record_date)).getDate();
       const monthKey = `${year}-${month}-${lastDay}`;
       if (valuesPerMonth[monthKey] === undefined) {
@@ -263,9 +237,7 @@ export const transformAPI129 = (res: {
       open_today_bal: `${valObj['total']}000000`,
     };
   });
-  const sorted = data.sort((a, b) =>
-    a.record_date.localeCompare(b.record_date)
-  );
+  const sorted = data.sort((a, b) => a.record_date.localeCompare(b.record_date));
   return sorted.slice(-6); // only take the latest 6 complete months
 };
 
@@ -275,20 +247,12 @@ export const transformAPI129 = (res: {
  * for each
  * @param res
  */
-export const transformAPI146 = (res: {
-  data: any[];
-  links: Record<string, never>;
-  meta: Record<string, never>;
-}): any[] => {
+export const transformAPI146 = (res: { data: any[]; links: Record<string, never>; meta: Record<string, never> }): any[] => {
   const dataByYear: { [key: string]: number[] } = {};
 
   const sortedData = res.data
     .slice()
-    .sort((a, b) =>
-      `${a.record_calendar_year}${a.record_calendar_month}`.localeCompare(
-        `${b.record_calendar_year}${b.record_calendar_month}`
-      )
-    );
+    .sort((a, b) => `${a.record_calendar_year}${a.record_calendar_month}`.localeCompare(`${b.record_calendar_year}${b.record_calendar_month}`));
   const currentYear = Number(new Date(Date.now()).getFullYear());
   sortedData
     .filter(r => Number(r.record_calendar_year) < currentYear)
@@ -307,14 +271,10 @@ export const transformAPI146 = (res: {
       record_date: `${yearKey}-12-31`,
 
       // compute the average across records for each calendar year
-      avg_interest_rate_amt: (
-        rates.reduce((a, b) => Number(a) + Number(b)) / rates.length
-      ).toFixed(3),
+      avg_interest_rate_amt: (rates.reduce((a, b) => Number(a) + Number(b)) / rates.length).toFixed(3),
     });
   });
-  const yearRows = data.sort((a, b) =>
-    a.record_date.localeCompare(b.record_date)
-  );
+  const yearRows = data.sort((a, b) => a.record_date.localeCompare(b.record_date));
   return yearRows.slice(-5); // make sure to not pick up any more than 5 year records.
 };
 
@@ -323,11 +283,7 @@ export const transformAPI146 = (res: {
  * Returns the sum of the value of gold held at various location
  * @param res
  */
-export const transformAPI144 = (res: {
-  data: any[];
-  links: Record<string, never>;
-  meta: Record<string, never>;
-}): any[] => {
+export const transformAPI144 = (res: { data: any[]; links: Record<string, never>; meta: Record<string, never> }): any[] => {
   let sum = 0;
   const latestDate = res.data[0].record_date;
   for (const record of res.data) {
@@ -352,12 +308,7 @@ const datasets: IDatasetChartConfigs = [
     data: {
       api_id: 143,
       chartType: 'LINE',
-      fields: [
-        'tot_pub_debt_out_amt',
-        'record_calendar_day',
-        'record_calendar_year',
-        'record_calendar_month',
-      ],
+      fields: ['tot_pub_debt_out_amt', 'record_calendar_day', 'record_calendar_year', 'record_calendar_month'],
       index: 'record_calendar_year',
       filters: [
         {
@@ -379,12 +330,7 @@ const datasets: IDatasetChartConfigs = [
     data: {
       api_id: 120,
       chartType: 'BAR',
-      fields: [
-        'current_month_budget_amt',
-        'classification_desc',
-        'record_calendar_year',
-        'record_calendar_month',
-      ],
+      fields: ['current_month_budget_amt', 'classification_desc', 'record_calendar_year', 'record_calendar_month'],
       index: 'record_calendar_year',
       filters: [
         {
@@ -398,18 +344,10 @@ const datasets: IDatasetChartConfigs = [
       limit: 142,
       // "transform" takes the data from the API and transforms it to be read into the desired chart
       transform: res =>
-        annualAggregation(
-          res,
-          'record_calendar_year',
-          'record_calendar_month',
-          'current_month_budget_amt',
-          d => {
-            const curMonthVal = Number(d.current_month_budget_amt);
-            return d.classification_desc.toUpperCase() === 'TOTAL OUTLAYS'
-              ? curMonthVal
-              : -curMonthVal;
-          }
-        ),
+        annualAggregation(res, 'record_calendar_year', 'record_calendar_month', 'current_month_budget_amt', d => {
+          const curMonthVal = Number(d.current_month_budget_amt);
+          return d.classification_desc.toUpperCase() === 'TOTAL OUTLAYS' ? curMonthVal : -curMonthVal;
+        }),
       // indicates which colors are to be used with charting (currently used with Nivo's bar graphs)
       colors: d => (Number(d.value) >= 0 ? primaryColor : negativeColor),
       // indicates which fields in the data array will be used to chart the values in the graphs
@@ -425,12 +363,7 @@ const datasets: IDatasetChartConfigs = [
       api_id: 220,
       chartType: 'BAR',
       noRecordDateInFields: true,
-      fields: [
-        'transaction_type',
-        'transaction_today_amt',
-        'record_calendar_month',
-        'record_calendar_year',
-      ],
+      fields: ['transaction_type', 'transaction_today_amt', 'record_calendar_month', 'record_calendar_year'],
       filters: [
         {
           key: 'transaction_type',
@@ -496,12 +429,7 @@ const datasets: IDatasetChartConfigs = [
     data: {
       api_id: 219,
       chartType: 'LINE',
-      fields: [
-        'open_today_bal',
-        'record_calendar_day',
-        'account_type',
-        'record_date',
-      ],
+      fields: ['open_today_bal', 'record_calendar_day', 'account_type', 'record_date'],
       filters: [
         {
           key: 'record_calendar_day',
@@ -522,18 +450,13 @@ const datasets: IDatasetChartConfigs = [
   },
   {
     datasetId: '015-BFS-2014Q3-056',
-    title:
-      'How has the average interest rate on national debt changed over time?',
+    title: 'How has the average interest rate on national debt changed over time?',
     displayOrder: 6,
     data: {
       api_id: 146,
       chartType: 'LINE',
       noRecordDateInFields: true,
-      fields: [
-        'avg_interest_rate_amt',
-        'record_calendar_year',
-        'record_calendar_month',
-      ],
+      fields: ['avg_interest_rate_amt', 'record_calendar_year', 'record_calendar_month'],
       filters: [
         {
           key: 'security_type_desc',
@@ -555,12 +478,7 @@ const datasets: IDatasetChartConfigs = [
     data: {
       api_id: 120,
       chartType: 'LINE',
-      fields: [
-        'current_month_budget_amt',
-        'classification_desc',
-        'record_calendar_year',
-        'record_calendar_month',
-      ],
+      fields: ['current_month_budget_amt', 'classification_desc', 'record_calendar_year', 'record_calendar_month'],
       index: 'record_calendar_year',
       filters: [
         {
@@ -581,12 +499,7 @@ const datasets: IDatasetChartConfigs = [
     data: {
       api_id: 109,
       chartType: 'BAR',
-      fields: [
-        'record_date',
-        'current_month_gross_outly_amt',
-        'record_calendar_year',
-        'record_calendar_month',
-      ],
+      fields: ['record_date', 'current_month_gross_outly_amt', 'record_calendar_year', 'record_calendar_month'],
       filters: [
         {
           key: 'classification_desc',

@@ -9,7 +9,8 @@
   margin-top: -2.5rem;
 }
 
-.scrollGradient, .scrollContainerTop {
+.scrollGradient,
+.scrollContainerTop {
   height: 2.5rem;
   position: sticky;
   margin-top: 1.5rem;
@@ -18,9 +19,9 @@
 }
 
 .scrollGradient {
-  background: linear-gradient(white, rgba(255,255,255,0));
+  background: linear-gradient(white, rgba(255, 255, 255, 0));
 }
 
 .scrollContainerTop {
-  background: rgba(255,255,255,0);
+  background: rgba(255, 255, 255, 0);
 }

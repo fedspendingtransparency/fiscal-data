@@ -20,21 +20,12 @@ import { faXmark, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 const desktop = 1015;
 
-const DtgTableColumnSelector = ({
-  fields,
-  isVisible,
-  changeHandler,
-  resetToDefault,
-  setSelectColumnPanel,
-  isReset,
-}) => {
+const DtgTableColumnSelector = ({ fields, isVisible, changeHandler, resetToDefault, setSelectColumnPanel, isReset }) => {
   return (
     <section className={columnSelectContainer}>
       <div className={headingWrapper}>
         <div className={heading}>
-          <div className={title}>
-            {window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}
-          </div>
+          <div className={title}>{window.innerWidth < desktop ? 'Columns' : 'Visible Columns'}</div>
           <button
             onClick={() => setSelectColumnPanel(false)}
             onKeyPress={() => setSelectColumnPanel(false)}
@@ -45,32 +36,19 @@ const DtgTableColumnSelector = ({
           </button>
         </div>
         <div className={selectedValues}>
-          {fields.filter(field => field.active === true).length} selected of{' '}
-          {fields.length}
+          {fields.filter(field => field.active === true).length} selected of {fields.length}
         </div>
       </div>
       <div className={selectAllContainer}>
-        <SelectAll
-          className={selectAllColumns}
-          fields={fields}
-          isVisible={isVisible}
-          onUpdateFields={changeHandler}
-          resetToFalse={isReset}
-        />
-        <button
-          className={reset}
-          onClick={resetToDefault}
-          onKeyDown={resetToDefault}
-        >
+        <SelectAll className={selectAllColumns} fields={fields} isVisible={isVisible} onUpdateFields={changeHandler} resetToFalse={isReset} />
+        <button className={reset} onClick={resetToDefault} onKeyDown={resetToDefault}>
           <FontAwesomeIcon className={resetIcon} icon={faUndo} />
           Reset
         </button>
       </div>
       <div className={buttonContainer}>
         <Checkbox
-          checkboxData={fields
-            .filter(field => field.default === true)
-            .concat(fields.filter(field => field.default !== true))}
+          checkboxData={fields.filter(field => field.default === true).concat(fields.filter(field => field.default !== true))}
           changeHandler={changeHandler}
         />
       </div>

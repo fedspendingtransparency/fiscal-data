@@ -64,8 +64,8 @@
   margin-bottom: 1.5rem;
   border: solid 1px #d9d9d9;
   border-radius: 2px;
-  background: var(--primary-white, #FFF);
-  box-shadow: 0 .25rem .5rem 0 rgba(0, 0, 0, 0.10);
+  background: var(--primary-white, #fff);
+  box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.1);
 }
 
 .selector {
@@ -91,7 +91,6 @@
   .icon {
     height: 0.875rem;
   }
-
 }
 
 .effectiveDateText {
@@ -106,23 +105,22 @@
   justify-content: center;
   align-items: center;
 
-    span {
-      font-size: 1rem;
-      display: table;
-      color: #555555;
-      padding-top: 1.8rem;
-      margin-left: 9.375rem;
-      font-weight: $semi-bold-weight;
-    }
+  span {
+    font-size: 1rem;
+    display: table;
+    color: #555555;
+    padding-top: 1.8rem;
+    margin-left: 9.375rem;
+    font-weight: $semi-bold-weight;
+  }
 
-    p {
-      margin: 12px 9.375rem 0;
-      font-size: 0.875rem;
-      max-width: 71.25rem;
-      padding-bottom: 2rem;
-    }
+  p {
+    margin: 12px 9.375rem 0;
+    font-size: 0.875rem;
+    max-width: 71.25rem;
+    padding-bottom: 2rem;
+  }
 }
-
 
 @media screen and (max-width: $breakpoint-sm - 1) {
   .selectorContainer {
@@ -177,7 +175,6 @@
     p {
       margin: 20px 20px 37px 1.25rem;
     }
-
   }
   .currencyBoxContainer {
     width: 100%;

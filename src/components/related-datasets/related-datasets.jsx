@@ -1,6 +1,6 @@
 import React from 'react';
-import DatasetSectionContainer from "../dataset-section-container/dataset-section-container";
-import DatasetCard from "../dataset-card/dataset-card";
+import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
+import DatasetCard from '../dataset-card/dataset-card';
 import * as styles from './related-datasets.module.scss';
 
 export const title = 'Related Datasets';
@@ -22,22 +22,14 @@ const RelatedDatasets = ({ datasets, referrer }) => {
   return (
     <DatasetSectionContainer id="related-datasets" data-testid="section-container" title={title}>
       <div className={styles.paddingAdjust}>
-      {sortedDatasets.map((dataset, i) => (
-        <div
-          data-testid="cardWrapper"
-          className={styles.cardWrapper}
-          key={i}
-        >
-          <DatasetCard
-            dataset={dataset}
-            context={context}
-            referrer={referrer}
-          />
-        </div>
-      ))}
+        {sortedDatasets.map((dataset, i) => (
+          <div data-testid="cardWrapper" className={styles.cardWrapper} key={i}>
+            <DatasetCard dataset={dataset} context={context} referrer={referrer} />
+          </div>
+        ))}
       </div>
     </DatasetSectionContainer>
-  )
-}
+  );
+};
 
 export default RelatedDatasets;

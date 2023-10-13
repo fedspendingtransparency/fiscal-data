@@ -1,9 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Preview from './preview';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import NotShownMessage from
-    '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import Analytics from '../../../utils/analytics/analytics';
 
 describe('Preview component', () => {
@@ -12,30 +11,27 @@ describe('Preview component', () => {
   const spy = jest.spyOn(Analytics, 'event');
 
   const mockTestReport = 'This is a text report';
-  global.fetch = jest.fn(() =>
-    Promise.resolve({ ok: true, text: () => Promise.resolve(mockTestReport) }));
+  global.fetch = jest.fn(() => Promise.resolve({ ok: true, text: () => Promise.resolve(mockTestReport) }));
 
   beforeEach(() => {
     renderer.act(() => {
-      component = renderer.create(
-        <Preview />
-      )
+      component = renderer.create(<Preview />);
     });
     instance = component.root;
   });
 
   it('contains an icon in the header section', () => {
-    const icon = instance.findByProps({'data-testid': 'tableIcon'});
+    const icon = instance.findByProps({ 'data-testid': 'tableIcon' });
     expect(icon.type).toBe(FontAwesomeIcon);
   });
 
   it('contains a title', () => {
-    const title = instance.findByProps({'data-testid': 'title'});
+    const title = instance.findByProps({ 'data-testid': 'title' });
     expect(title).toBeDefined();
   });
 
   it('contains a content section', () => {
-    const content = instance.findByProps({'data-testid': 'previewContent'});
+    const content = instance.findByProps({ 'data-testid': 'previewContent' });
     expect(content.children[0]).toBeDefined();
   });
 
@@ -50,15 +46,17 @@ describe('Preview component', () => {
 
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
-    })
+        />
+      );
+    });
 
     const objectTag = instance.findByType('embed');
-    const title = instance.findByProps({'data-testid': 'title'});
+    const title = instance.findByProps({ 'data-testid': 'title' });
 
     expect(objectTag.props.src).toBe(file);
     expect(title.props.children).toBe(groupName);
@@ -75,21 +73,23 @@ describe('Preview component', () => {
 
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
+        />
+      );
     });
     expect(spy).toHaveBeenCalledWith({
-      'action': 'load pdf preview',
-      'category': 'Published Report Preview',
-      'value': 'helloAgain.pdf'
+      action: 'load pdf preview',
+      category: 'Published Report Preview',
+      value: 'helloAgain.pdf',
     });
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Published Report Preview',
-      eventLabel: 'helloAgain.pdf'
+      eventLabel: 'helloAgain.pdf',
     });
   });
 
@@ -104,21 +104,23 @@ describe('Preview component', () => {
 
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
+        />
+      );
     });
     expect(spy).toHaveBeenCalledWith({
-      'action': 'load text preview',
-      'category': 'Published Report Preview',
-      'value': 'helloAgain.txt'
+      action: 'load text preview',
+      category: 'Published Report Preview',
+      value: 'helloAgain.txt',
     });
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Published Report Preview',
-      eventLabel: 'helloAgain.txt'
+      eventLabel: 'helloAgain.txt',
     });
   });
 
@@ -131,11 +133,13 @@ describe('Preview component', () => {
 
     await renderer.act(async () => {
       await component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: textFilename,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
+        />
+      );
     });
 
     expect(fetchSpy).toHaveBeenCalledWith(textFilename);
@@ -150,11 +154,13 @@ describe('Preview component', () => {
 
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />)
+        />
+      );
     });
     expect(spy).not.toHaveBeenCalled();
   });
@@ -165,17 +171,17 @@ describe('Preview component', () => {
 
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
-    })
-
+        />
+      );
+    });
 
     let message = instance.findByType(NotShownMessage);
-    expect(message.props.heading)
-      .toStrictEqual('Preview cannot be displayed for this file type.');
+    expect(message.props.heading).toStrictEqual('Preview cannot be displayed for this file type.');
     expect(message.props.bodyText).toStrictEqual('The selected file type is .xlsx');
 
     file = 'hello.pdf.zip';
@@ -183,59 +189,60 @@ describe('Preview component', () => {
 
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
-    })
+        />
+      );
+    });
 
     message = instance.findByType(NotShownMessage);
-    expect(message.props.heading)
-      .toStrictEqual('Preview cannot be displayed for this file type.');
+    expect(message.props.heading).toStrictEqual('Preview cannot be displayed for this file type.');
     expect(message.props.bodyText).toStrictEqual('The selected file type is .pdf.zip');
   });
 
   it(`reads the filetype extension from the path if it is unavailable in the
   group description`, () => {
-
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
-          path: 'hello.xls',
-          report_group_desc: 'Announcements'
-        }}
-        />);
+        <Preview
+          selectedFile={{
+            path: 'hello.xls',
+            report_group_desc: 'Announcements',
+          }}
+        />
+      );
     });
 
     const message = instance.findByType(NotShownMessage);
-    expect(message.props.heading)
-      .toStrictEqual('Preview cannot be displayed for this file type.');
+    expect(message.props.heading).toStrictEqual('Preview cannot be displayed for this file type.');
     expect(message.props.bodyText).toStrictEqual('The selected file type is .xls');
   });
 
   it(`indicates "unknown" for the filetype extension if it cannot be
   parsed from the filename OR from the report group description`, () => {
-
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
-          path: 'ReadMe',
-          report_group_desc: 'Documentation'
-        }}
-        />);
+        <Preview
+          selectedFile={{
+            path: 'ReadMe',
+            report_group_desc: 'Documentation',
+          }}
+        />
+      );
     });
 
     const message = instance.findByType(NotShownMessage);
-    expect(message.props.heading)
-      .toStrictEqual('Preview cannot be displayed for this file type.');
+    expect(message.props.heading).toStrictEqual('Preview cannot be displayed for this file type.');
     expect(message.props.bodyText).toStrictEqual('The selected file type is unknown');
   });
 
   it('sets the alt text to the correct string depending on if the dataset is MSPD or MTS', () => {
-    const altTextMSPD = 'Preview the downloadable PDF report of the MSPD ' +
-      'for the selected month and year for the previous five years.';
-    const altTextMTS = 'Preview the downloadable PDF report of the MTS Receipts and Outlays ' +
+    const altTextMSPD = 'Preview the downloadable PDF report of the MSPD ' + 'for the selected month and year for the previous five years.';
+    const altTextMTS =
+      'Preview the downloadable PDF report of the MTS Receipts and Outlays ' +
       'of the U.S. Government for the selected month and year for the previous five years.';
 
     const file = 'hello.pdf';
@@ -243,24 +250,28 @@ describe('Preview component', () => {
 
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
-    })
+        />
+      );
+    });
 
-    expect(instance.findByProps({'data-test-id': 'embedElement'}).props.title).toBe(altTextMSPD);
+    expect(instance.findByProps({ 'data-test-id': 'embedElement' }).props.title).toBe(altTextMSPD);
 
     groupName = 'Monthly Treasury Statement (.pdf)';
     renderer.act(() => {
       component.update(
-        <Preview selectedFile={{
+        <Preview
+          selectedFile={{
             path: file,
-            report_group_desc: groupName
+            report_group_desc: groupName,
           }}
-        />);
-    })
-    expect(instance.findByProps({'data-test-id': 'embedElement'}).props.title).toBe(altTextMTS);
+        />
+      );
+    });
+    expect(instance.findByProps({ 'data-test-id': 'embedElement' }).props.title).toBe(altTextMTS);
   });
 });

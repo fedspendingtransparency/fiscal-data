@@ -28,18 +28,18 @@ $secondary-feature-body: $font-size-16;
 
     &.mainTitle {
       font-size: $main-feature-title;
-      padding: 1rem 0 .5rem;
+      padding: 1rem 0 0.5rem;
       display: flex;
       align-items: flex-start;
     }
 
     &.secondaryTitle {
       font-size: $secondary-feature-title;
-      padding-bottom: .5rem;
+      padding-bottom: 0.5rem;
     }
 
     &.rightTile {
-      padding-top: .5rem;
+      padding-top: 0.5rem;
     }
   }
 
@@ -50,13 +50,13 @@ $secondary-feature-body: $font-size-16;
   }
 
   .tileContainer {
-    padding-top: .5rem;
+    padding-top: 0.5rem;
   }
 
-  .afgBookIcon{
+  .afgBookIcon {
     width: 3rem;
     height: 2rem;
-    padding: 1.4375rem .5rem 0.2rem 0;
+    padding: 1.4375rem 0.5rem 0.2rem 0;
     vertical-align: text-bottom;
   }
 }
@@ -79,11 +79,12 @@ $secondary-feature-body: $font-size-16;
       padding-top: 0;
     }
     h5 {
-      &.secondaryTitle, &.mainTitle {
-        padding-top: .5rem;
+      &.secondaryTitle,
+      &.mainTitle {
+        padding-top: 0.5rem;
       }
     }
-    .afgBookIcon{
+    .afgBookIcon {
       padding-top: 1.03125rem;
     }
   }

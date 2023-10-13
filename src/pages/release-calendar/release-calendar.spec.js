@@ -1,39 +1,38 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { useStaticQuery } from "gatsby";
+import { useStaticQuery } from 'gatsby';
 
 import ReleaseCalendar from './index';
-import SiteLayout from "../../components/siteLayout/siteLayout";
+import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import internalData from '../../testData/__dataConfig_for_tests.json';
-import {tagLineText} from "../../helpers/release-calendar/release-calendar-content-helper";
+import { tagLineText } from '../../helpers/release-calendar/release-calendar-content-helper';
 
-jest.mock(
-  '../../components/calendar-entries/use-release-calendar-entries-updater-hook',
-  () => ({ useReleaseCalendarEntriesUpdater: (i) => { return i;} }));
+jest.mock('../../components/calendar-entries/use-release-calendar-entries-updater-hook', () => ({
+  useReleaseCalendarEntriesUpdater: i => {
+    return i;
+  },
+}));
 
 jest.useFakeTimers();
 describe('Release Calendar', () => {
-
   let component = renderer.create();
   let instance;
 
   const profilerConfigMockData = {
     allDatasets: {
-      datasets: internalData.datasets
+      datasets: internalData.datasets,
     },
     allReleases: {
-      releases: internalData.releases
-    }
+      releases: internalData.releases,
+    },
   };
 
   beforeAll(() => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
     renderer.act(() => {
-      component = renderer.create(
-        <ReleaseCalendar />
-      )
+      component = renderer.create(<ReleaseCalendar />);
     });
     instance = component.root;
   });
@@ -56,10 +55,9 @@ describe('Release Calendar', () => {
   });
 
   it('includes the page title and tagline', () => {
-    const pageTitle = instance.findByProps({'data-testid': 'page-title'});
-    const tagline = instance.findByProps({'data-testid': 'tag-line'});
+    const pageTitle = instance.findByProps({ 'data-testid': 'page-title' });
+    const tagline = instance.findByProps({ 'data-testid': 'tag-line' });
     expect(pageTitle.props.children).toBe('Release Calendar');
     expect(tagline.props.children).toBe(tagLineText);
   });
-
 });

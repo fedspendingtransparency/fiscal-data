@@ -20,9 +20,9 @@ $table-container-margin: 8rem;
   z-index: $table-loading-section;
   min-height: calc(#{$loading-icon-size} + #{$table-container-margin});
   height: 100%;
-  width: calc(100% + .15rem);
+  width: calc(100% + 0.15rem);
   position: absolute;
-  left: -.15rem;
+  left: -0.15rem;
   background-color: rgba(255, 255, 255, 0.85);
   transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
   display: block;
@@ -65,7 +65,7 @@ $table-container-margin: 8rem;
   flex-grow: 1;
 }
 
-@media screen and (min-width: $breakpoint-md){
+@media screen and (min-width: $breakpoint-md) {
   .headerWrapper {
     padding: 0.5rem 1rem 0;
   }

@@ -1,11 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import BreadCrumbs from './breadcrumbs';
-import {Link} from 'gatsby';
-import * as styles from "./breadcrumbs.module.scss";
+import { Link } from 'gatsby';
+import * as styles from './breadcrumbs.module.scss';
 
 describe('BreadCrumbs', () => {
-
   let component = renderer.create();
   let instance;
 
@@ -17,37 +16,33 @@ describe('BreadCrumbs', () => {
     {
       name: 'Current Page',
       // while provided, this is ignored as we don't present a link for the current page.
-      link: '/parent/child'
+      link: '/parent/child',
     },
     {
       name: 'Parent Page',
-      link: '/parent'
+      link: '/parent',
     },
     {
       name: 'Home',
-      link: '/'
-    }
+      link: '/',
+    },
   ];
 
   beforeEach(() => {
     renderer.act(() => {
-      component = renderer.create(
-        <BreadCrumbs links={linksArr} />
-      )
+      component = renderer.create(<BreadCrumbs links={linksArr} />);
     });
     instance = component.root;
   });
 
   it('loads the section successfully even if no props are sent in', () => {
     renderer.act(() => {
-      component = renderer.create(
-        <BreadCrumbs />
-      )
+      component = renderer.create(<BreadCrumbs />);
     });
     instance = component.root;
 
     const breadCrumbs = instance.findByType(BreadCrumbs);
-    const containerDiv = instance.findByProps({'className': styles.container});
+    const containerDiv = instance.findByProps({ className: styles.container });
 
     expect(breadCrumbs.props.links).toBeFalsy();
     expect(breadCrumbs).toBeTruthy();
@@ -57,16 +52,14 @@ describe('BreadCrumbs', () => {
   it('does not error out even if wrong param type is sent in for links prop', () => {
     const falsyTypes = [1, 0, true, false, 'wrong', undefined, null, {}];
 
-    for (let i = falsyTypes.length; i--;) {
+    for (let i = falsyTypes.length; i--; ) {
       renderer.act(() => {
-        component = renderer.create(
-          <BreadCrumbs links={falsyTypes[i]} />
-        )
+        component = renderer.create(<BreadCrumbs links={falsyTypes[i]} />);
       });
       instance = component.root;
 
       const breadCrumbs = instance.findByType(BreadCrumbs);
-      const containerDiv = instance.findByProps({'className': styles.container});
+      const containerDiv = instance.findByProps({ className: styles.container });
 
       expect(breadCrumbs).toBeTruthy();
       expect(containerDiv.children.length).toBe(0);
@@ -83,12 +76,12 @@ describe('BreadCrumbs', () => {
     expect(pageLinks.length).toBe(2);
 
     let parentLinksFound = true;
-    for (let i = pageLinks.length; i--;) {
+    for (let i = pageLinks.length; i--; ) {
       const pageLinkName = pageLinks[i].props.children;
       switch (pageLinkName) {
         case 'Parent Page':
         case 'Home':
-          const to = pageLinks[i].props.to ;
+          const to = pageLinks[i].props.to;
           if (pageLinkName === 'Parent Page') {
             expect(to).toBe('/parent');
           }
@@ -106,7 +99,7 @@ describe('BreadCrumbs', () => {
   });
 
   it('displays the current page name as plain text within the breadcrumbs', () => {
-    const currentPage = instance.findByProps({'data-test-id': 'breadCrumbCurrentPage'});
+    const currentPage = instance.findByProps({ 'data-test-id': 'breadCrumbCurrentPage' });
     expect(currentPage.children[0]).toBe(linksArr[0].name);
     expect(currentPage.children[0].type).not.toBe(Link);
   });

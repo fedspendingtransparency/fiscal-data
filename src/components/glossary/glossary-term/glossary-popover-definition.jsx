@@ -6,9 +6,10 @@ import {
   glossaryLink,
   glossaryText,
   header,
-  mobileFA, termNameText,
+  mobileFA,
+  termNameText,
   bookIcon,
-  glossaryHover
+  glossaryHover,
 } from './glossary-popover-definition.module.scss';
 import Popover from '@material-ui/core/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,33 +25,32 @@ const style = {
     border: 'none',
     boxShadow: 'none',
     height: '20px',
-    marginLeft: "3px",
+    marginLeft: '3px',
     minWidth: '20px',
     top: '-2px',
     width: '20px',
     padding: 0,
-    "&:hover, &.Mui-focusVisible, &:active": {
+    '&:hover, &.Mui-focusVisible, &:active': {
       backgroundColor: 'transparent',
       border: 'none',
       boxShadow: 'none',
-    }
+    },
   },
-  popOver : {
-    "& .MuiPopover-paper": {
+  popOver: {
+    '& .MuiPopover-paper': {
       backgroundColor: 'rgba(255, 253, 253, 0.96)',
       boxShadow: '0 2px 30px 0 rgba(0, 0, 0, 0.16)',
       maxWidth: '90%',
       width: '17rem',
       margin: '0.5rem 0',
-    }
+    },
   },
   secondarySvgColor: {
-    "& path": {
-      fill: '#000'
-    }
+    '& path': {
+      fill: '#000',
+    },
   },
 };
-
 
 const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler, children, width }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -61,14 +61,12 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page);
 
-  const useStyles = makeStyles(theme => (
-    {
-      ...style,
-      popupContainer: {
-        padding: theme.spacing(2),
-      },
-    }
-  ))
+  const useStyles = makeStyles(theme => ({
+    ...style,
+    popupContainer: {
+      padding: theme.spacing(2),
+    },
+  }));
 
   const { popOver, popupContainer } = useStyles();
   const handleScroll = () => {
@@ -82,21 +80,20 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [scrollPosition]);
 
-  const handleGlossaryClick = (e) => {
+  const handleGlossaryClick = e => {
     if (e.key === undefined || e.key === 'Enter') {
       e.stopPropagation();
       setButtonFocus(true);
       setAnchorEl(e.currentTarget);
     }
   };
-
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -109,14 +106,14 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
   const glossaryNavigation = () => {
     if (window.history.pushState) {
       if (glossaryClickHandler) {
-      const newurl = new URL(window.location.href);
-      newurl.searchParams.set('glossary', slug);
-      window.history.pushState(null, '', newurl);
+        const newurl = new URL(window.location.href);
+        newurl.searchParams.set('glossary', slug);
+        window.history.pushState(null, '', newurl);
         glossaryClickHandler(true);
       }
       handleClose();
     }
-  }
+  };
 
   return (
     <span data-testid="infoTipContainer">
@@ -146,31 +143,15 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
           horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
         }}
       >
-        <div
-          className={popupContainer}
-          data-testid="popupContainer"
-          role={'presentation'}
-        >
+        <div className={popupContainer} data-testid="popupContainer" role={'presentation'}>
           <div className={glossaryText}>
             <div className={header}>
-              <FontAwesomeIcon
-                className={mobileFA}
-                icon={faXmark}
-                onClick={handleClose}
-                onKeyPress={handleClose}
-                tabIndex={0}
-                size="lg"
-              />
+              <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyPress={handleClose} tabIndex={0} size="lg" />
               <span>Definition</span>
             </div>
             <div className={termNameText}>{termName}</div>
             <div>{definition}</div>
-            <div className={glossaryButton}
-                 role="button"
-                 onClick={glossaryNavigation}
-                 onKeyPress={glossaryNavigation}
-                 tabIndex={0}
-            >
+            <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyPress={glossaryNavigation} tabIndex={0}>
               <div>View in glossary</div>
               <FontAwesomeIcon icon={faArrowRight} className={arrowIcon} />
             </div>
@@ -179,6 +160,6 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
       </Popover>
     </span>
   );
-}
+};
 
 export default withWindowSize(GlossaryPopoverDefinition);

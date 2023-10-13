@@ -1,19 +1,14 @@
 import React from 'react';
 import beautify from 'js-beautify';
-import SectionContent from "../../section-content/section-content";
+import SectionContent from '../../section-content/section-content';
 import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
 import * as styles from './links-object.module.scss';
 
 const LinksObject = () => (
-  <SectionContent
-    id="responses-links-object"
-    headingLevel={3}
-    title="Links Object"
-  >
+  <SectionContent id="responses-links-object" headingLevel={3} title="Links Object">
     <p>
-      The links object is an API argument to access the current (self), first, previous, next, and
-      last page of data. It is suitable for creating URLs under user interface elements such as
-      pagination buttons.
+      The links object is an API argument to access the current (self), first, previous, next, and last page of data. It is suitable for creating URLs
+      under user interface elements such as pagination buttons.
     </p>
     <p>
       <strong>Example Links Object:</strong>
@@ -27,7 +22,8 @@ const LinksObject = () => (
             "prev":null,
             "next":null,
             "last":"&page%5Bnumber%5D=1&page%5Bsize%5D=-1"
-          }`, {indent_size: 2}
+          }`,
+          { indent_size: 2 }
         )}
       </pre>
     </code>

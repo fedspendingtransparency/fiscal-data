@@ -1,24 +1,24 @@
 @import '../../../variables.module.scss';
 
 .heading {
-    @include headingStyle6;
-    padding: 0.75rem 1rem;
-    margin: 0;
-    background: $pale-bg;
-    border-bottom: 1px solid $border-color;
+  @include headingStyle6;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  background: $pale-bg;
+  border-bottom: 1px solid $border-color;
 }
 
 .selectAllContainer {
-    border-bottom: solid 1px #dddddd;
+  border-bottom: solid 1px #dddddd;
 }
 
 .buttonContainer {
-    padding: 1rem;
-    max-height: 470px;
-    overflow-y: auto;
+  padding: 1rem;
+  max-height: 470px;
+  overflow-y: auto;
 }
 
 .toggleButton {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 }

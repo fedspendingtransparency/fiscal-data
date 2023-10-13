@@ -65,11 +65,11 @@
 
   .complete {
     font-size: 2.5rem;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     color: $dark-green;
 
     &.minimized {
-      margin-top: .1rem;
+      margin-top: 0.1rem;
       font-size: 2rem;
     }
   }
@@ -158,7 +158,8 @@
   -webkit-appearance: button;
 }
 
-.noticeButton, .noticeButtonContainer button {
+.noticeButton,
+.noticeButtonContainer button {
   color: #fff;
   font-size: $font-size-16;
   line-height: 11px;
@@ -194,7 +195,7 @@
   ul {
     list-style-type: none;
     padding: 0;
-    margin: .5rem 0;
+    margin: 0.5rem 0;
   }
 }
 
@@ -216,7 +217,8 @@
   white-space: nowrap;
   max-width: 100%;
 
-  .status, .progress {
+  .status,
+  .progress {
     min-width: 3.5rem;
     font-weight: bold;
     vertical-align: top;
@@ -226,7 +228,7 @@
 
   .progress {
     font-size: $font-size-20;
-    color: $dark-green
+    color: $dark-green;
   }
 
   .rightSegment {
@@ -247,7 +249,8 @@
     padding: 0.5rem;
   }
 
-  .noticeButton, .noticeButtonContainer button {
+  .noticeButton,
+  .noticeButtonContainer button {
     margin-bottom: 0.5rem;
     height: 2.25rem;
     line-height: 1.5rem;
@@ -258,7 +261,6 @@
 }
 
 @media screen and (min-width: $breakpoint-sm) {
-
   .statusHeading {
     font-size: $font-size-16;
   }
@@ -270,30 +272,29 @@
     width: unset;
   }
   .expandedSection {
-    margin-left: 5.45rem
+    margin-left: 5.45rem;
   }
   .queueRow .filename {
     padding: 0.5rem 1.25rem;
   }
 
   .progressIndicatorContainer {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     margin-right: 1rem;
 
     .complete {
       width: 3rem;
-      margin-top: .25rem;
+      margin-top: 0.25rem;
 
       &.minimized {
         width: 2rem;
-        margin-top: .1rem;
+        margin-top: 0.1rem;
       }
     }
   }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-
   .toggleTab {
     height: 2.5rem;
     top: -2.375rem;
@@ -305,7 +306,7 @@
   }
 
   .progressIndicatorContainer {
-    margin-left: .75rem;
+    margin-left: 0.75rem;
     margin-right: 1.25rem;
     width: 6em;
 
@@ -336,12 +337,10 @@
   }
 
   .expandedSection {
-    margin-left: 8.5rem
+    margin-left: 8.5rem;
   }
 
   .downloadNoticeContainer {
     max-width: calc(26% + 6rem);
   }
 }
-
-

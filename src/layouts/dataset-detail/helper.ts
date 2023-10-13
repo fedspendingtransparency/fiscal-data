@@ -1,4 +1,4 @@
-import {IAnalyticsEvents} from "../../models/IAnalyticsEvents";
+import { IAnalyticsEvents } from '../../models/IAnalyticsEvents';
 import Analytics from '../../utils/analytics/analytics';
 
 /**
@@ -11,14 +11,14 @@ export const trackedDatesArr = [
     queriedField: 'latestDate',
     summaryAPIField: 'latest_date',
     maxDate: '',
-    isUpdated: false
+    isUpdated: false,
   },
   {
     queriedField: 'lastUpdated',
     summaryAPIField: 'last_updated',
     maxDate: '',
-    isUpdated: false
-  }
+    isUpdated: false,
+  },
 ];
 
 export const analyticsCategory = 'Data Download'; // Can be made into a key-value pair object if
@@ -29,7 +29,7 @@ export const analyticsCategory = 'Data Download'; // Can be made into a key-valu
  * @param label {string} - Use for both the action and label field, unless _action is specified
  * @param _action {string} - Allows for a unique action field on the analytics event.
  */
-export const getAnalyticsFields = (label : string, _action? : string): IAnalyticsEvents => {
+export const getAnalyticsFields = (label: string, _action?: string): IAnalyticsEvents => {
   const analyticsFields: IAnalyticsEvents = {
     action: '',
     category: '',
@@ -53,8 +53,7 @@ export const getAnalyticsFields = (label : string, _action? : string): IAnalytic
  * @param label {string} - Use for both the action and label field, unless _action is specified
  * @param _action {string} - Allows for a unique action field on the analytics event.
  */
-export const generateAnalyticsEvent
-  = (label: string, _action? : string): IAnalyticsEvents | null => {
+export const generateAnalyticsEvent = (label: string, _action?: string): IAnalyticsEvents | null => {
   if (!label) {
     return null; // No need to console this out as we won't see a ga "collect"
     // event called in the network activity
@@ -79,16 +78,17 @@ export const generateAnalyticsEvent
 export const updateDates = (
   summaryDataset: Record<string, unknown | Array<unknown>>,
   apis: Record<string, unknown>,
-  pageContextDataset: Record<string, unknown | unknown[]>): boolean => {
+  pageContextDataset: Record<string, unknown | unknown[]>
+): boolean => {
   let requiresUpdate = false;
-  const trackedDates = JSON.parse(JSON.stringify((trackedDatesArr)));
+  const trackedDates = JSON.parse(JSON.stringify(trackedDatesArr));
 
   if (!summaryDataset || !summaryDataset.apis || !apis || !pageContextDataset) {
     console.warn('updateDates called with improper params');
     return requiresUpdate;
   }
 
-  for (let i = trackedDates.length; i--;) {
+  for (let i = trackedDates.length; i--; ) {
     const curDateField = trackedDates[i];
     const queriedField = curDateField.queriedField;
     if (pageContextDataset[queriedField]) {
@@ -109,7 +109,7 @@ export const updateDates = (
     if (metadataAPI) {
       // Check all of the "tracked" dates between the cached metadata fields and the summary
       // metadata values
-      for (let i = trackedDates.length; i--;) {
+      for (let i = trackedDates.length; i--; ) {
         const curDateField = trackedDates[i];
         const queriedField = curDateField.queriedField;
         const summaryField = curDateField.summaryAPIField;
@@ -130,7 +130,7 @@ export const updateDates = (
     }
   });
 
-  for (let i = trackedDates.length; i--;) {
+  for (let i = trackedDates.length; i--; ) {
     const curDateField = trackedDates[i];
     if (curDateField.isUpdated) {
       const [year, month, day] = curDateField.maxDate.split('-');
@@ -145,7 +145,7 @@ export const mockMaxDates = {
   lastUpdated: '2025-01-01',
   lastUpdatedTechSpecs: '01/01/2025',
   latestDate: '2022-01-01',
-  latestDateTechSpecs: '01/01/2022'
+  latestDateTechSpecs: '01/01/2022',
 };
 
 export const mockSummaryDataset = {
@@ -154,60 +154,62 @@ export const mockSummaryDataset = {
     {
       api_id: '1',
       last_updated: mockMaxDates.lastUpdated,
-      latest_date: '2021-11-30'
+      latest_date: '2021-11-30',
     },
     {
       api_id: '2',
       last_updated: '2022-01-01',
-      latest_date: mockMaxDates.latestDate
+      latest_date: mockMaxDates.latestDate,
     },
     {
       api_id: '3',
       last_updated: '',
-      latest_date: ''
-    }
-  ]
+      latest_date: '',
+    },
+  ],
 };
 
 // The following uses the same setup and dates and the mockAPIs below. Only the field names
 // differ because of the real-life setup.
 export const mockSummaryDatasetNoUpdates = {
-  apis: [{
-    api_id: '1',
-    last_updated: '2022-01-01',
-    latest_date: '2022-01-01'
-  },
+  apis: [
+    {
+      api_id: '1',
+      last_updated: '2022-01-01',
+      latest_date: '2022-01-01',
+    },
     {
       api_id: '2',
       last_updated: '2022-01-01',
-      latest_date: '2022-01-01'
+      latest_date: '2022-01-01',
     },
     {
       api_id: '3',
       last_updated: '2022-01-01',
-      latest_date: '2022-01-01'
-    }]
+      latest_date: '2022-01-01',
+    },
+  ],
 };
 
 export const mockAPIs = [
   {
     apiId: '1',
     lastUpdated: '2022-01-01',
-    latestDate: '2022-01-01'
+    latestDate: '2022-01-01',
   },
   {
     apiId: '2',
     lastUpdated: '2022-01-01',
-    latestDate: '2022-01-01'
+    latestDate: '2022-01-01',
   },
   {
     apiId: '3',
     lastUpdated: '2022-01-01',
-    latestDate: '2022-01-01'
-  }
+    latestDate: '2022-01-01',
+  },
 ];
 
 export const mockTechSpecs = {
   lastUpdated: '01/01/2022',
-  latestDate: '01/01/2022'
+  latestDate: '01/01/2022',
 };

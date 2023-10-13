@@ -1,7 +1,7 @@
 @import '../../../../../../variables.module.scss';
 
 .fundingProgramAccordion {
-  margin-bottom:0;
+  margin-bottom: 0;
   margin-top: 2rem;
 }
 
@@ -45,13 +45,12 @@
 @media screen and (min-width: $breakpoint-lg) {
   .spendingCategoriesAccordionContent {
     .spendingCategoriesTable {
-
       .firstColumn {
         padding-right: 31px;
       }
 
       .row {
-        padding-bottom: .5rem;
+        padding-bottom: 0.5rem;
       }
 
       .row:not(:last-child) {

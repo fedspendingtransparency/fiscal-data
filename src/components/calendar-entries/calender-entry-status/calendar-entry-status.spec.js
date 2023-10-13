@@ -1,10 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import CalendarEntryStatus from './calendar-entry-status';
-import {render, cleanup, screen} from "@testing-library/react"
+import { render, cleanup, screen } from '@testing-library/react';
 
 describe('calendar entry status', () => {
-
   it('shows correct text when is updated', () => {
     // destructuring allows for specific query functions to be made available
     // with the context of what was created in render

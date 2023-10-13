@@ -19,12 +19,7 @@ describe('Calendar Entries Pages', () => {
   beforeEach(() => {
     renderer.act(() => {
       component = renderer.create(
-        <CalendarEntryPages
-          entries={entries}
-          entriesPerPage={entriesPerPage}
-          activePage={activePage}
-          selectedOption={selectedOption}
-        />
+        <CalendarEntryPages entries={entries} entriesPerPage={entriesPerPage} activePage={activePage} selectedOption={selectedOption} />
       );
     });
     instance = component.root;

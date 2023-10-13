@@ -14,8 +14,8 @@ describe('Custom Bar Component', () => {
 
   const data = {
     index,
-    value
-  }
+    value,
+  };
 
   const bar = {
     x,
@@ -23,8 +23,8 @@ describe('Custom Bar Component', () => {
     width,
     height,
     color,
-    data
-  }
+    data,
+  };
 
   const setActiveIndex = jest.fn();
   const handleTempValueChange = jest.fn();
@@ -34,25 +34,15 @@ describe('Custom Bar Component', () => {
   beforeEach(() => {
     BarComponent = (
       <svg>
-        <CustomBarComponent
-          bar={bar}
-          activeIndex={0}
-          setActiveIndex={setActiveIndex}
-          handleTempValueChange={handleTempValueChange}
-        />
+        <CustomBarComponent bar={bar} activeIndex={0} setActiveIndex={setActiveIndex} handleTempValueChange={handleTempValueChange} />
       </svg>
     );
-  })
+  });
 
   it('renders a <rect> inside a <g> with the proper dimensions', () => {
     BarComponent = (
       <svg>
-        <CustomBarComponent
-          bar={bar}
-          activeIndex={-1}
-          setActiveIndex={setActiveIndex}
-          handleTempValueChange={handleTempValueChange}
-        />
+        <CustomBarComponent bar={bar} activeIndex={-1} setActiveIndex={setActiveIndex} handleTempValueChange={handleTempValueChange} />
       </svg>
     );
     const { getByTestId } = render(BarComponent);

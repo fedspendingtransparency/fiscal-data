@@ -1,6 +1,6 @@
 import React from 'react';
 import PivotToggle from './pivot-toggle';
-import { render, fireEvent } from "@testing-library/react"
+import { render, fireEvent } from '@testing-library/react';
 
 describe('PivotToggle component', () => {
   let handlerTracker = null;
@@ -25,5 +25,4 @@ describe('PivotToggle component', () => {
     fireEvent.click(getByTestId('pivotToggle'));
     expect(handlerTracker).toEqual('called');
   });
-
 });

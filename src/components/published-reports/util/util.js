@@ -1,4 +1,4 @@
-export const getYearReportOptions = (reports) => {
+export const getYearReportOptions = reports => {
   const yearsFound = [];
 
   const options = [];
@@ -10,28 +10,27 @@ export const getYearReportOptions = (reports) => {
       yearsFound.push(year);
       options.push({
         label: year,
-        value: year
-      })
+        value: year,
+      });
     }
   });
 
-
   options.sort((a, b) => {
     if (!a.value) {
-      return -1
+      return -1;
     } else if (a.value > b.value) {
-      return -1
+      return -1;
     } else if (a.value < b.value) {
-      return 1
+      return 1;
     } else {
       return 0;
     }
-  })
+  });
 
   options.unshift({
     label: 'Select A Year',
-    value: null
-  })
+    value: null,
+  });
 
   return options;
 };
@@ -48,41 +47,30 @@ export const filterYearOptions = (yearOptions, filterDigits) => {
     filteredList = matchingYearsFilter(yearOptions, filterDigits);
     if (filteredList.length === 0) {
       // No reports for years matching ${filterDigits}
-      filteredList = [{
-        label: `Please refine your search between the years ${yearOptions[yearOptions.length - 1].label} and ${yearOptions[0].label}.`,
-        value: null
-      }];
+      filteredList = [
+        {
+          label: `Please refine your search between the years ${yearOptions[yearOptions.length - 1].label} and ${yearOptions[0].label}.`,
+          value: null,
+        },
+      ];
     }
   }
   return filteredList;
 };
 
-export const getDayOptions = (reports) => {
+export const getDayOptions = reports => {
   const options = reports.map(report => {
     return { label: report.report_date.getDate(), value: report };
   });
   options.unshift({
     label: 'Select A Day',
-    value: null
-  })
+    value: null,
+  });
   return options;
 };
 
-export const getMonthOptions = (reports) => {
-  const shortMonths = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
+export const getMonthOptions = reports => {
+  const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const options = [];
 
@@ -91,26 +79,26 @@ export const getMonthOptions = (reports) => {
     if (!options.some(option => option.value === i)) {
       options.push({
         label: shortMonths[i],
-        value: i
+        value: i,
       });
     }
   });
 
   options.sort((a, b) => {
     if (!a.value) {
-      return -1
+      return -1;
     } else if (a.value < b.value) {
-      return -1
+      return -1;
     } else if (a.value > b.value) {
-      return 1
+      return 1;
     } else {
       return 0;
     }
-  })
+  });
 
   options.unshift({
     label: 'Select A Month',
-    value: null
-  })
+    value: null,
+  });
   return options;
-}
+};
