@@ -61,7 +61,7 @@
   text-decoration: none;
   color: #acb0b8;
   font-size: $font-size-18;
-  &:not(:last-of-type){
+  &:not(:last-of-type) {
     padding-bottom: 1rem;
   }
 }
@@ -94,14 +94,14 @@
   padding: 0 0.5rem;
 }
 
-.copyright, .footerBottomLinks a {
+.copyright,
+.footerBottomLinks a {
   text-decoration: none;
   color: #c2c2c2;
   font-size: $font-size-12;
 }
 
 @media screen and (min-width: $breakpoint-sm) {
-
   .footerMain {
     padding: 0 2rem;
   }
@@ -132,7 +132,7 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-lg){
+@media screen and (min-width: $breakpoint-lg) {
   .content {
     padding-bottom: 6.75rem;
   }

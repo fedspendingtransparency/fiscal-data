@@ -1,9 +1,9 @@
 import React from 'react';
-import {fireEvent, render} from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import NotesAndLimitations, { sectionTitle } from './notes-and-limitations';
-import ReactMarkdown from "react-markdown";
-import Accordion from "../../accordion/accordion";
+import ReactMarkdown from 'react-markdown';
+import Accordion from '../../accordion/accordion';
 
 describe('Notes and Limitations (N&KL) - Only dataset level N&KL', () => {
   let instance;
@@ -14,7 +14,7 @@ describe('Notes and Limitations (N&KL) - Only dataset level N&KL', () => {
   });
 
   it('provides the section title', () => {
-    const {getByText} = render(<NotesAndLimitations bodyText={text} />);
+    const { getByText } = render(<NotesAndLimitations bodyText={text} />);
     expect(getByText(sectionTitle)).toBeInTheDocument();
   });
 
@@ -32,29 +32,30 @@ describe('Notes and Limitations (N&KL) - Only dataset level N&KL', () => {
 
 describe('Notes and Limitations (N&KL) - Dataset and data table level N&KL', () => {
   const dsText = 'This is a dataset level N&KL, which helps give information about all its tables';
-  const apis = [{
+  const apis = [
+    {
       apiId: 1,
-      tableName: 'Fred Flintstone'
+      tableName: 'Fred Flintstone',
     },
     {
       apiId: 2,
       tableName: 'Thanos',
-      apiNotesAndLimitations: 'Don\'t believe everything you\'ve read on the internet.'
+      apiNotesAndLimitations: "Don't believe everything you've read on the internet.",
     },
     {
       apiId: 3,
       tableName: 'Abraham Lincoln',
-      apiNotesAndLimitations: 'Perfectly balanced as all things should be.'
-    }
+      apiNotesAndLimitations: 'Perfectly balanced as all things should be.',
+    },
   ];
 
   it('includes the dataset level N&KL', () => {
-    const {getByText} = render(<NotesAndLimitations apis={apis} bodyText={dsText} />);
+    const { getByText } = render(<NotesAndLimitations apis={apis} bodyText={dsText} />);
     expect(getByText(dsText)).toBeInTheDocument();
   });
 
   it('includes the title and N&KL for any data table that have their own', () => {
-    const {getByText, getAllByTestId} = render(<NotesAndLimitations apis={apis} bodyText={dsText} />);
+    const { getByText, getAllByTestId } = render(<NotesAndLimitations apis={apis} bodyText={dsText} />);
     fireEvent.click(getAllByTestId('button')[0]);
     expect(getByText(apis[1].apiNotesAndLimitations)).toBeInTheDocument();
     expect(getByText(apis[1].tableName)).toBeInTheDocument();
@@ -73,7 +74,4 @@ describe('Notes and Limitations (N&KL) - Dataset and data table level N&KL', () 
     const numAccordions = apis.filter(api => api.apiNotesAndLimitations).length;
     expect(instance.findAllByType(Accordion).length).toStrictEqual(numAccordions);
   });
-
 });
-
-

@@ -1,20 +1,21 @@
 import { getDateLabelForReport, getLatestReport, getPublishedDates } from './report-helpers';
 
 const mockReports = [
-    {
-      path: '/penny-report-01.pdf',
-      report_date: '2020-07-31'
-    },
-    {
-      path: '/penny-report-02.pdf',
-      report_date: '2020-09-30'
-    }];
+  {
+    path: '/penny-report-01.pdf',
+    report_date: '2020-07-31',
+  },
+  {
+    path: '/penny-report-02.pdf',
+    report_date: '2020-09-30',
+  },
+];
 
 describe('report-group helpers library', () => {
   let reports;
 
-  beforeEach( () => {
-    reports = (mockReports);
+  beforeEach(() => {
+    reports = mockReports;
   });
 
   it(`exposes a function that asynchronously returns an array of downloadable object
@@ -30,10 +31,10 @@ describe('report-group helpers library', () => {
 
   it('properly translates dates without doing a timezone offset', () => {
     const dateString = '2022-02-01';
-    const [year,month,day] = dateString.split('-');
-    const desiredDate = new Date(year,month-1,day,0,0,0);
+    const [year, month, day] = dateString.split('-');
+    const desiredDate = new Date(year, month - 1, day, 0, 0, 0);
     //const offsetDate = new Date(dateString);
-    const reportObj = [{report_date: dateString}];
+    const reportObj = [{ report_date: dateString }];
 
     // todo - We'll need to verify that the current environment has a timezone other than GMT to run the statement below
     //expect(desiredDate).not.toEqual(offsetDate);

@@ -19,16 +19,16 @@
 }
 
 .templateContent {
-
   position: relative;
   margin: 0 auto 2.5rem;
 
-  h1, h2 {
+  h1,
+  h2 {
     font-size: 3rem;
     font-weight: bold;
     color: $info-header-focal;
     line-height: 1.25;
-    margin: .75rem 0 1rem;
+    margin: 0.75rem 0 1rem;
   }
 
   h3 {
@@ -54,7 +54,10 @@
     letter-spacing: normal;
   }
 
-  h3, h4, h5, h6 {
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: $semi-bold-weight;
     color: #555555;
   }
@@ -104,7 +107,7 @@
         font-weight: normal;
       }
     }
-    .heroSocialShare{
+    .heroSocialShare {
       height: 2rem;
     }
   }
@@ -116,7 +119,7 @@
     margin-bottom: 2rem;
     height: 28rem;
   }
-  
+
   hr {
     border-top: 1px solid #eaeaea;
     margin: 4rem 0 2rem;
@@ -135,11 +138,19 @@
 }
 
 @media screen and (min-width: $breakpoint-md) {
-
   .templateContainer .templateContent {
     width: 83%;
 
-    h1, h2, h3, h4, h5, h6, p, .vis, blockquote, .byLine {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    .vis,
+    blockquote,
+    .byLine {
       width: 80%;
       margin-left: auto;
       margin-right: auto;
@@ -173,10 +184,10 @@
 }
 
 @media screen and (max-width: $breakpoint-md - 1px) {
-
   .templateContainer .templateContent {
     width: 100%;
-    h1, h2 {
+    h1,
+    h2 {
       margin: 2rem 0 1rem;
     }
     h6 {

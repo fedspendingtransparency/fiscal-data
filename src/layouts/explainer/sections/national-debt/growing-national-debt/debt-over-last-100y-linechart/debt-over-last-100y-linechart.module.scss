@@ -1,4 +1,4 @@
-@import "src/variables.module";
+@import 'src/variables.module';
 
 :global(.chartContainerHeader) {
   font-size: $font-size-14 !important;
@@ -11,7 +11,7 @@
 
   .lineChart {
     width: 100%;
-    margin-top: .625rem;
+    margin-top: 0.625rem;
   }
 
   .headerContainer {
@@ -38,13 +38,13 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   :global(.chartContainerHeader) {
-    margin-top: .125rem;
+    margin-top: 0.125rem;
     margin-bottom: 0 !important;
   }
 
   :global(.chartContainerFooter) {
     p {
-      margin-top: .75rem;
+      margin-top: 0.75rem;
     }
   }
   .container {
@@ -52,22 +52,21 @@
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-bottom: .75rem !important;
+      margin-bottom: 0.75rem !important;
 
       div {
         text-align: center;
         min-width: 110px !important;
 
-          .header {
-            font-size: $font-size-24;
-            line-height: $font-size-24;
-          }
+        .header {
+          font-size: $font-size-24;
+          line-height: $font-size-24;
+        }
 
-          .subHeader {
-            font-size: $font-size-10;
-            margin: 0 1rem;
-          }
-
+        .subHeader {
+          font-size: $font-size-10;
+          margin: 0 1rem;
+        }
       }
     }
   }

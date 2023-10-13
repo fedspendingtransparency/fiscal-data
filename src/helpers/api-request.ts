@@ -2,28 +2,21 @@ import * as queryString from 'querystring';
 import { apiPrefix } from '../utils/api-utils';
 
 export type ApiRequestUrl = {
-  endpointPath: string,
-  fields?: string,
-  filter?: string,
-  sort?: string,
-  pagination?: string,
-}
+  endpointPath: string;
+  fields?: string;
+  filter?: string;
+  sort?: string;
+  pagination?: string;
+};
 
-export default class ApiRequest  {
+export default class ApiRequest {
   endpointPath: string;
   fields?: string;
   filter?: string;
   sort?: string;
   pagination?: string;
 
-  constructor(
-    {
-      endpointPath,
-      fields,
-      filter,
-      sort = '-record_date',
-      pagination = 'page[size]=1'
-    }: ApiRequestUrl) {
+  constructor({ endpointPath, fields, filter, sort = '-record_date', pagination = 'page[size]=1' }: ApiRequestUrl) {
     this.endpointPath = endpointPath;
     this.fields = fields;
     this.filter = filter;
@@ -32,12 +25,11 @@ export default class ApiRequest  {
   }
 
   appendToFilter = (appendage: string): void => {
-    this.filter = (this.filter ? `${this.filter},` : '');
+    this.filter = this.filter ? `${this.filter},` : '';
     this.filter += appendage;
-  }
+  };
 
   getUrl = (): string => {
-
     const params: any = {};
     if (this.fields) {
       params.fields = this.fields;
@@ -49,19 +41,18 @@ export default class ApiRequest  {
       params.sort = this.sort;
     }
 
-    let urlParameters = params !== {} ? ('?' + queryString.stringify(params)) : '';
+    let urlParameters = params !== {} ? '?' + queryString.stringify(params) : '';
 
     if (this.pagination) {
       urlParameters += urlParameters ? '&' : '?';
-      urlParameters += this.pagination
+      urlParameters += this.pagination;
     }
     return `${apiPrefix}${this.endpointPath}${urlParameters}`;
-  }
+  };
 
   forEndOfFiscalYear = (fiscalYear: string): ApiRequest => {
     const priorYearAppend = `record_calendar_month:eq:09,record_fiscal_year:eq:${fiscalYear}`;
     this.appendToFilter(priorYearAppend);
     return this;
-  }
-
+  };
 }

@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import PublishedReports from './published-reports';
 import FilterSection from './filter-section/filter-section';
 import Preview from './preview/preview';
-import {reports, dataset} from './test-helper';
+import { reports, dataset } from './test-helper';
 import DownloadReport from './download-report/download-report';
 
 describe('Published Reports', () => {
@@ -13,9 +13,7 @@ describe('Published Reports', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({ ok: true }));
     renderer.act(() => {
-      component = renderer.create(
-        <PublishedReports reports={reports} dataset={dataset} />
-      );
+      component = renderer.create(<PublishedReports reports={reports} dataset={dataset} />);
     });
     instance = component.root;
     previewSection = instance.findByType(Preview);
@@ -28,7 +26,7 @@ describe('Published Reports', () => {
   });
 
   it('displays the download section with a DownloadReport button instance', () => {
-    const downloadSection = instance.findByProps({'data-testid': 'downloadSection'});
+    const downloadSection = instance.findByProps({ 'data-testid': 'downloadSection' });
     expect(downloadSection.findByType(DownloadReport)).toBeDefined();
   });
 

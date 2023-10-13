@@ -1,14 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import MetaObject from './meta-object';
-import SectionContent from "../../section-content/section-content";
+import SectionContent from '../../section-content/section-content';
 
 describe('Meta Object', () => {
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <MetaObject />
-    );
+    component = renderer.create(<MetaObject />);
   });
   const instance = component.root;
 
@@ -18,7 +16,7 @@ describe('Meta Object', () => {
 
   it('has a defined title', () => {
     const titleText = 'Meta Object';
-    const title = instance.findByProps({'id': 'responses-meta-object'}).findByType('h3');
+    const title = instance.findByProps({ id: 'responses-meta-object' }).findByType('h3');
     expect(title.children[0]).toEqual(titleText);
   });
 });

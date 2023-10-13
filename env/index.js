@@ -16,5 +16,5 @@
 module.exports = {
   ENV_ID: 'production',
   API_BASE_URL: 'https://api.fiscaldata.treasury.gov',
-  WEB_SOCKET_BASE_URL: 'wss://api.fiscaldata.treasury.gov'
+  WEB_SOCKET_BASE_URL: 'wss://api.fiscaldata.treasury.gov',
 };

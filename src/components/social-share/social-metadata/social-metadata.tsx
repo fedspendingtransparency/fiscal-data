@@ -1,8 +1,8 @@
-import React, {FunctionComponent} from "react";
-import { Helmet } from "react-helmet"
-import {ISocialMetaData} from "../../../models/ISocialMetaData";
+import React, { FunctionComponent } from 'react';
+import { Helmet } from 'react-helmet';
+import { ISocialMetaData } from '../../../models/ISocialMetaData';
 
-const SocialMetaData:FunctionComponent<ISocialMetaData> = ({ image, title, description, url }) => {
+const SocialMetaData: FunctionComponent<ISocialMetaData> = ({ image, title, description, url }) => {
   return (
     <>
       <Helmet>
@@ -17,7 +17,7 @@ const SocialMetaData:FunctionComponent<ISocialMetaData> = ({ image, title, descr
         <meta name="twitter:image" content={image} />
       </Helmet>
     </>
-  )
-}
+  );
+};
 
 export default SocialMetaData;

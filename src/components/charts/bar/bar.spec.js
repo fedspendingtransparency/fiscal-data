@@ -1,20 +1,19 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import BarGraph from './bar';
-import {staggeredData} from '../helpers/helpersData';
-import {ResponsiveBar} from "@nivo/bar";
+import { staggeredData } from '../helpers/helpersData';
+import { ResponsiveBar } from '@nivo/bar';
 import helpers from './helpers/helpers';
 
 describe('BarGraph component', () => {
-
   it('does not render anything if invalid params are detected', () => {
-    const {queryByTestId} = render(<BarGraph />);
+    const { queryByTestId } = render(<BarGraph />);
     expect(queryByTestId('barGraph')).toBeNull();
   });
 
   it('renders a bar graph if valid params are detected', () => {
-    const {queryByTestId} = render(<BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']} />);
+    const { queryByTestId } = render(<BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']} />);
     expect(queryByTestId('barGraph')).toBeDefined();
   });
 
@@ -22,8 +21,7 @@ describe('BarGraph component', () => {
     let component = renderer.create();
     let instance = null;
     await renderer.act(async () => {
-      component = await renderer.create(
-        <BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']} />);
+      component = await renderer.create(<BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']} />);
       instance = component.root;
     });
 
@@ -50,7 +48,7 @@ describe('BarGraph component - Custom bar graph', () => {
 
   it('triggers mouseEnter and mouseLeave events', () => {
     jest.clearAllMocks();
-    const {getByTestId} = render(barGraph);
+    const { getByTestId } = render(barGraph);
     const container = getByTestId('barGraph');
     fireEvent.mouseEnter(container);
     expect(mouseEnterSpy).toHaveBeenCalledTimes(1);
@@ -58,5 +56,4 @@ describe('BarGraph component - Custom bar graph', () => {
     fireEvent.mouseLeave(container);
     expect(mouseLeaveSpy).toHaveBeenCalledTimes(1);
   });
-
 });

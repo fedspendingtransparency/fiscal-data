@@ -1,6 +1,6 @@
-import { ISummaryDatasetAPIData } from "./ISummaryDatasetAPIData"
+import { ISummaryDatasetAPIData } from './ISummaryDatasetAPIData';
 
 export interface ISummaryDatasetDataJson {
-  dataset_id: string,
-  apis: ISummaryDatasetAPIData[]
+  dataset_id: string;
+  apis: ISummaryDatasetAPIData[];
 }

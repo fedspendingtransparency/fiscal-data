@@ -1,5 +1,5 @@
 export const paramsErrorMsg = `tocBuilder - Incorrect params passed into function`;
-export const classLevelErrorMsg = `tocBuilder - Not enough classes in classLevelArr`
+export const classLevelErrorMsg = `tocBuilder - Not enough classes in classLevelArr`;
 /**
  * For content that is created using mdx markup where the content is built out as seen below, this works to parse
  * the mdxAST to determine the sections in the toc and what level heading is used for the section.
@@ -29,7 +29,7 @@ export const tocBuilder = (mdxAST, classLevelArr) => {
     id: '',
     className: '',
     headingLevel: '',
-    title: ''
+    title: '',
   };
   const tocArr = [];
   let isBuildingLink = false;
@@ -39,7 +39,7 @@ export const tocBuilder = (mdxAST, classLevelArr) => {
     const type = node.type;
     if (type === 'jsx') {
       let value = node.value;
-      if (value.substr(0,8) === '<section') {
+      if (value.substr(0, 8) === '<section') {
         value = value.split("'");
         curSection.id = value.length > 1 ? value[1] : '';
         isBuildingLink = true;
@@ -60,4 +60,4 @@ export const tocBuilder = (mdxAST, classLevelArr) => {
   }
 
   return tocArr;
-}
+};

@@ -1,15 +1,14 @@
-import { addDays, isAfter, isBefore, isEqual, subDays } from "date-fns";
+import { addDays, isAfter, isBefore, isEqual, subDays } from 'date-fns';
 import { formatDateForApi } from '../../../utils/api-utils';
 import { pivotApiData } from '../dataset-data-api-helper/dataset-data-api-helper';
 
 export class TableCache {
-
   constructor() {
     this.dataCache = [];
     this.dataDisplayCache = {};
   }
 
-  updateDataCache = (fetchedRecordSets) => {
+  updateDataCache = fetchedRecordSets => {
     this.dataCache.push(...fetchedRecordSets);
     // keep recordSet segments in date-descending order
     return this.dataCache.sort((a, b) => b.range.from - a.range.from);
@@ -19,10 +18,10 @@ export class TableCache {
     const unaccountedRange = Object.assign({}, requestedRange);
 
     // check to see if we already have coverage at the end of the range
-    const cachedRangeWithSomeEndCoverage = this.dataCache.find(cache => !isBefore(cache.range.to, requestedRange.to) &&
-      !isAfter(cache.range.from, requestedRange.to));
+    const cachedRangeWithSomeEndCoverage = this.dataCache.find(
+      cache => !isBefore(cache.range.to, requestedRange.to) && !isAfter(cache.range.from, requestedRange.to)
+    );
     if (cachedRangeWithSomeEndCoverage) {
-
       // if the cached range that covers the end also reached to the beginning of the requested range, we're done.
       if (!isAfter(cachedRangeWithSomeEndCoverage.range.from, requestedRange.from)) {
         return neededRanges;
@@ -32,10 +31,10 @@ export class TableCache {
         return this.findUncachedDateRanges(unaccountedRange, neededRanges);
       }
     } else {
-
       // no coverage at the front of the range, so see if there's any coverage in the cache starting after the requested from date
-      const cachedRangeWithSomeEarlierCoverage = this.dataCache.find(cache => !isBefore(cache.range.to, requestedRange.from) &&
-        !isAfter(cache.range.from, requestedRange.to));
+      const cachedRangeWithSomeEarlierCoverage = this.dataCache.find(
+        cache => !isBefore(cache.range.to, requestedRange.from) && !isAfter(cache.range.from, requestedRange.to)
+      );
       if (cachedRangeWithSomeEarlierCoverage) {
         // if the coverage extends to the beginning of the range requested, set requested from-date
         // to the day after coverage ends; return the needed ranges
@@ -46,12 +45,14 @@ export class TableCache {
         } else {
           // chop the requested range into 2 parts. Add the part that comes after coverage to the neededRanges
           // array and use the part that comes before as the new requested range
-          neededRanges.push({from: addDays(cachedRangeWithSomeEarlierCoverage.range.to, 1), to: requestedRange.to});
+          neededRanges.push({ from: addDays(cachedRangeWithSomeEarlierCoverage.range.to, 1), to: requestedRange.to });
           return this.findUncachedDateRanges(
             {
               from: requestedRange.from,
-              to: subDays(cachedRangeWithSomeEarlierCoverage.range.from, 1)
-            }, neededRanges);
+              to: subDays(cachedRangeWithSomeEarlierCoverage.range.from, 1),
+            },
+            neededRanges
+          );
         }
       } else {
         // couldn't find any coverage at all, so add the latest requested range as one that will need
@@ -77,9 +78,10 @@ export class TableCache {
     const rangeFrom = formatDateForApi(dateRange.from);
     const rangeTo = formatDateForApi(dateRange.to);
     const rangeKey = `${rangeFrom}:${rangeTo}`;
-    const pivotKey = (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.dimensionField) ?
-      `${selectedPivot.pivotView.title}:${selectedPivot.pivotValue.columnName}` :
-      'all';
+    const pivotKey =
+      selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.dimensionField
+        ? `${selectedPivot.pivotView.title}:${selectedPivot.pivotValue.columnName}`
+        : 'all';
 
     this.dataDisplayCache[rangeKey] = this.dataDisplayCache[rangeKey] || {};
 
@@ -96,16 +98,15 @@ export class TableCache {
 
   getRecordSetForRange = (dateRange, dateField) => {
     // use this for quick numeric comparisons when performing row-level filtering
-    const numerifyRecordDate = dateValueString => dateValueString ? Number(dateValueString.replace(/-/g, '')) : 0;
+    const numerifyRecordDate = dateValueString => (dateValueString ? Number(dateValueString.replace(/-/g, '')) : 0);
 
     // filter out cached segments whose records fall completely outside the current target date range
-    const relevantSegments = this.dataCache.filter(segment => !isBefore(segment.range.to, dateRange.from) &&
-      !isAfter(segment.range.from, dateRange.to));
+    const relevantSegments = this.dataCache.filter(
+      segment => !isBefore(segment.range.to, dateRange.from) && !isAfter(segment.range.from, dateRange.to)
+    );
 
     let recordsForRange;
-    if (isEqual(relevantSegments[relevantSegments.length - 1].range.from, dateRange.from) &&
-      isEqual(relevantSegments[0].range.to, dateRange.to)) {
-
+    if (isEqual(relevantSegments[relevantSegments.length - 1].range.from, dateRange.from) && isEqual(relevantSegments[0].range.to, dateRange.to)) {
       // the relevant segments constitute and exact match for the dateRange, so skip row-level date filtering
       recordsForRange = [].concat(...relevantSegments.map(rs => rs.data));
     } else {
@@ -123,7 +124,7 @@ export class TableCache {
     // bundle the data with metadata and return it
     return {
       data: recordsForRange,
-      meta: artificialMeta
+      meta: artificialMeta,
     };
-  }
+  };
 }

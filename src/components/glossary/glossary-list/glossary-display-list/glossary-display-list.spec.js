@@ -3,7 +3,6 @@ import { testSortedGlossaryData } from '../../test-helper';
 import GlossaryDisplayList from './glossary-display-list';
 import React from 'react';
 
-
 describe('glossary display list', () => {
   const mockSectionTermHandler = jest.fn();
   it('renders a header for every letter containing a term', () => {
@@ -27,7 +26,5 @@ describe('glossary display list', () => {
     expect(getByText('Pear')).toBeInTheDocument();
   });
 
-  it('underlines the substring that matches the filter', () => {
-
-  })
-})
+  it('underlines the substring that matches the filter', () => {});
+});

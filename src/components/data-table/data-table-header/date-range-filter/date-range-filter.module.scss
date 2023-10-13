@@ -55,13 +55,13 @@
   }
 }
 .datePickerHover {
-  background-color: #CFE8FF;
+  background-color: #cfe8ff;
 }
 
 .dropdown {
   position: absolute;
   overflow: hidden;
-  box-shadow: .25rem .25rem #f1f1f1;
+  box-shadow: 0.25rem 0.25rem #f1f1f1;
   font-size: 14px;
   font-weight: normal;
   background-color: white;
@@ -70,7 +70,8 @@
   margin-top: 0.5rem;
 
   .datePickerContainer {
-    td, th {
+    td,
+    th {
       padding: 0;
     }
   }
@@ -87,4 +88,3 @@
     }
   }
 }
-

@@ -19,22 +19,22 @@ describe('ApiDocumentationPage', () => {
   const internalData = require('../../testData/__dataConfig_for_tests.json');
   const profilerConfigMockData = {
     allDatasets: {
-      datasets: internalData.datasets
+      datasets: internalData.datasets,
     },
     allTopics: {
-      topics: internalData.topics
-    }
+      topics: internalData.topics,
+    },
   };
-  const scrollToTopSpy = jest.spyOn(animateScroll, "scrollToTop");
-  const scrollToSpy = jest.spyOn(animateScroll, "scrollTo");
+  const scrollToTopSpy = jest.spyOn(animateScroll, 'scrollToTop');
+  const scrollToSpy = jest.spyOn(animateScroll, 'scrollTo');
   document.querySelector = jest.fn(() => {
     return {
       appendChild: jest.fn(),
       getAttribute: jest.fn(),
       getBoundingClientRect: jest.fn(() => {
-        return {height: 0}
-      })
-    }
+        return { height: 0 };
+      }),
+    };
   });
 
   let component;
@@ -43,7 +43,7 @@ describe('ApiDocumentationPage', () => {
   beforeAll(() => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
     renderer.act(() => {
-      component = renderer.create(<ApiDocumentationPage />)
+      component = renderer.create(<ApiDocumentationPage />);
     });
 
     instance = component.root;
@@ -77,7 +77,7 @@ describe('ApiDocumentationPage', () => {
   });
 
   it('expects links to exist within the toc', () => {
-    const toc = instance.findByProps({'id': styles.toc});
+    const toc = instance.findByProps({ id: styles.toc });
     const links = toc.findAllByType('a');
     expect(links.length).toBeGreaterThan(0);
   });
@@ -89,8 +89,8 @@ describe('ApiDocumentationPage', () => {
 
   it('assigns the class "tocClosed" to the content and toc elements when tocIsOpen is false', () => {
     // and it is false on page load
-    const content = instance.findByProps({'id': 'content'});
-    const toc = instance.findByProps({'id': 'toc'});
+    const content = instance.findByProps({ id: 'content' });
+    const toc = instance.findByProps({ id: 'toc' });
     expect(content.props.className).toContain('tocClosed');
     expect(toc.props.className).toContain('tocClosed');
   });
@@ -100,15 +100,15 @@ describe('ApiDocumentationPage', () => {
     const tocButton = instance.findByType(TOCButton);
     const buttonElement = tocButton.findByType('button');
     renderer.act(() => buttonElement.props.onClick());
-    const content = instance.findByProps({'id': 'content'});
-    const toc = instance.findByProps({'id': 'toc'});
+    const content = instance.findByProps({ id: 'content' });
+    const toc = instance.findByProps({ id: 'toc' });
     expect(content.props.className).toContain('tocOpen');
     expect(toc.props.className).toContain('tocOpen');
     //Closing toc
     renderer.act(() => buttonElement.props.onClick());
   });
 
-  it('Sets the proper scroll positions when toc is opened and closed ', async() =>{
+  it('Sets the proper scroll positions when toc is opened and closed ', async () => {
     const testYOffset = 547;
     const tocButton = instance.findByType(TOCButton);
     const buttonElement = tocButton.findByType('button');
@@ -116,9 +116,9 @@ describe('ApiDocumentationPage', () => {
     scrollToTopSpy.mockClear();
     scrollToSpy.mockClear();
     renderer.act(() => {
-      global.window.dispatchEvent(new Event("scroll"))
-      return undefined
-    })
+      global.window.dispatchEvent(new Event('scroll'));
+      return undefined;
+    });
     renderer.act(() => buttonElement.props.onClick());
     expect(scrollToTopSpy).toHaveBeenCalledWith(scrollOptionsSmooth);
     expect(scrollToSpy).not.toHaveBeenCalled();
@@ -126,11 +126,11 @@ describe('ApiDocumentationPage', () => {
     expect(scrollToSpy).toHaveBeenCalledWith(testYOffset, scrollOptionsSmooth);
   });
 
-  it('calls updateAddressPath to update the url when a toc element is clicked' , () => {
+  it('calls updateAddressPath to update the url when a toc element is clicked', () => {
     // in order to make it true, need to click the button
     const updateAddressPathSpy = jest.spyOn(addressBar, 'updateAddressPath');
     updateAddressPathSpy.mockClear();
-    const tocElement = instance.findByProps({'data-test-id': 'tocLink1'});
+    const tocElement = instance.findByProps({ 'data-test-id': 'tocLink1' });
     renderer.act(() => tocElement.props.onClick());
     jest.runAllTimers();
     expect(updateAddressPathSpy).toHaveBeenCalledTimes(1);

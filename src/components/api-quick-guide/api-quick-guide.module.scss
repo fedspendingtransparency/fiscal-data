@@ -21,7 +21,7 @@
   @include headingStyle5;
   width: 100%;
   box-sizing: inherit;
-  margin-bottom: .75rem;
+  margin-bottom: 0.75rem;
   margin-top: 2rem;
 }
 
@@ -56,12 +56,12 @@
   padding: 0.75rem 1rem;
   cursor: pointer;
   text-align: center;
-  transition: background-color .25s ease-in;
+  transition: background-color 0.25s ease-in;
 
   &:hover {
     background-color: $primary;
     color: white;
-    transition: background-color .25s ease-out;
+    transition: background-color 0.25s ease-out;
   }
 }
 

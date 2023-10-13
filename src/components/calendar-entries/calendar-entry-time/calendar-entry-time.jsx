@@ -1,13 +1,12 @@
 import React from 'react';
-import { useEffect, useState } from "react"
-import { convertDateAndTimeToDateTime } from "../calendar-entry-sort-helper/calendar-entry-sort-helper"
+import { useEffect, useState } from 'react';
+import { convertDateAndTimeToDateTime } from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
 import { getMinutes, getHours, format } from 'date-fns';
 
 const CalendarEntryTime = ({ dateString, timeInUTC }) => {
   const [timeDisplay, setTimeDisplay] = useState();
 
-  const generalTimeWindow = (etTime) => {
-
+  const generalTimeWindow = etTime => {
     if (getMinutes(etTime) !== 59) {
       return `${format(etTime, 'h:mm aaa')}`;
     }
@@ -27,10 +26,7 @@ const CalendarEntryTime = ({ dateString, timeInUTC }) => {
     setTimeDisplay(calculateTime(dateString, timeInUTC));
   }, []);
 
-  return (
-    <span data-testid="time-display">{timeDisplay}</span>
-  );
-
+  return <span data-testid="time-display">{timeDisplay}</span>;
 };
 
 export default CalendarEntryTime;

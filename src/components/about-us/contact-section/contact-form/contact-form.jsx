@@ -1,41 +1,41 @@
 import React, { useState } from 'react';
 import { scroller } from 'react-scroll';
-import { API_BASE_URL } from "gatsby-env-variables";
+import { API_BASE_URL } from 'gatsby-env-variables';
 import * as styles from './contact-form.module.scss';
-import SelectControl from "../../../select-control/select-control";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faExclamationCircle, faCheckCircle} from "@fortawesome/free-solid-svg-icons";
-import {postAPI} from "../../../../utils/api-utils";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import ReCAPTCHA from "react-google-recaptcha";
+import SelectControl from '../../../select-control/select-control';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { postAPI } from '../../../../utils/api-utils';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import GLOBALS from '../../../../helpers/constants';
 const smoothScrollConfig = GLOBALS.config.smooth_scroll;
 
-const ContactForm = ({onUnsupportedSubject = () => {}}) => {
+const ContactForm = ({ onUnsupportedSubject = () => {} }) => {
   const dropdownOptions = [
     {
-      label: 'Datasets/Reports'
+      label: 'Datasets/Reports',
     },
     {
-      label: 'Media Inquiries'
+      label: 'Media Inquiries',
     },
     {
-      label: 'Provide Feedback'
+      label: 'Provide Feedback',
     },
     {
-      label: 'Technical Issues'
+      label: 'Technical Issues',
     },
     {
       label: 'My Stimulus Payment / Tax Return',
-      disableFields: true
+      disableFields: true,
     },
     {
-      label: 'Other'
+      label: 'Other',
     },
   ];
 
-  const initialOption = {label: 'Select Option'};
+  const initialOption = { label: 'Select Option' };
 
   const [subjectType, setSubjectType] = useState(initialOption);
   const [isValid, setIsValid] = useState(false);
@@ -53,9 +53,9 @@ const ContactForm = ({onUnsupportedSubject = () => {}}) => {
 
   const recaptchaRef = React.useRef(null);
   let timeOutIdx;
-  const submitFeedback = async (e) => {
+  const submitFeedback = async e => {
     e.preventDefault();
-    timeOutIdx = setTimeout(function () {
+    timeOutIdx = setTimeout(function() {
       setIsLongResponse(true);
     }, 1000);
 
@@ -71,35 +71,39 @@ const ContactForm = ({onUnsupportedSubject = () => {}}) => {
       name: name,
       email: email,
       comment: comment,
-      token: recaptchaValue
-    }
+      token: recaptchaValue,
+    };
 
     const JSONedParams = JSON.stringify(params);
 
-    const url =
-      `${API_BASE_URL}/services/api/v2/fiscal-data-contact-us/`
+    const url = `${API_BASE_URL}/services/api/v2/fiscal-data-contact-us/`;
 
-    await postAPI(url, {method: 'POST', body: JSONedParams, headers: {
-        'Content-Type': 'application/json'
-      }}).then(() => {
-      setIsResponseSuccessful(true);
-      clearForm();
-      afterAPICall();
-    }).catch(() => {
-      setIsResponseSuccessful(false);
-      afterAPICall();
-    });
+    await postAPI(url, {
+      method: 'POST',
+      body: JSONedParams,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        setIsResponseSuccessful(true);
+        clearForm();
+        afterAPICall();
+      })
+      .catch(() => {
+        setIsResponseSuccessful(false);
+        afterAPICall();
+      });
 
     recaptchaRef.current.reset();
-
-  }
+  };
 
   const afterAPICall = () => {
     setIsCallingAPI(false);
     setShowResponseMessage(true);
     clearTimeout(timeOutIdx);
     setIsLongResponse(false);
-  }
+  };
 
   const clearForm = () => {
     const name = document.getElementById('contactUsName');
@@ -111,9 +115,9 @@ const ContactForm = ({onUnsupportedSubject = () => {}}) => {
     comment.value = '';
 
     setIsValid(false);
-  }
+  };
 
-  const setIsDirty = (e) => {
+  const setIsDirty = e => {
     const curEl = e.target;
     const id = curEl.id;
     if (id.toLowerCase().indexOf('email') !== -1) {
@@ -122,34 +126,32 @@ const ContactForm = ({onUnsupportedSubject = () => {}}) => {
       setIsCommentDirty(true);
     }
     checkValidity();
-  }
+  };
 
-  const subjectValueChange = (value) => {
+  const subjectValueChange = value => {
     setSubjectType(value);
-    const shouldBeDisabled =
-      !(value['disableFields'] === undefined || value['disableFields'] === false);
+    const shouldBeDisabled = !(value['disableFields'] === undefined || value['disableFields'] === false);
     setIsDisabled(shouldBeDisabled);
     if (shouldBeDisabled) {
       onUnsupportedSubject();
       scroller.scrollTo('who-can-i-contact', {
         smooth: true,
         duration: smoothScrollConfig.duration,
-        delay: smoothScrollConfig.delay
+        delay: smoothScrollConfig.delay,
       });
-
     }
   };
 
-  const checkForErrors = (e) => {
+  const checkForErrors = e => {
     const curEl = e.target;
     const id = curEl.id;
     if (id.toLowerCase().indexOf('email') !== -1) {
       if (isEmailDirty) {
         setEmailError(!curEl.checkValidity());
         if (!curEl.value) {
-          setEmailErrorMsg('Required Field')
+          setEmailErrorMsg('Required Field');
         } else {
-          setEmailErrorMsg('Please enter a valid email address')
+          setEmailErrorMsg('Please enter a valid email address');
         }
       } else {
         setEmailErrorMsg('');
@@ -161,145 +163,118 @@ const ContactForm = ({onUnsupportedSubject = () => {}}) => {
         setCommentError(isCommentError);
       }
     }
-  }
+  };
 
   const checkValidity = () => {
     const comment = document.getElementById('contactUsComment');
     const email = document.getElementById('contactUsEmail');
     setIsValid(comment.checkValidity() && email.checkValidity());
-  }
+  };
 
-  const onChange = (value) => {
+  const onChange = value => {
     setRecaptchaValue(value);
-  }
+  };
 
   return (
     <div className={styles.contactUsForm}>
       <div className={styles.formElement}>
-        <SelectControl options={dropdownOptions}
-                       label="Subject"
-                       optionLabelKey="label"
-                       selectedOption={subjectType}
-                       changeHandler={subjectValueChange}
+        <SelectControl
+          options={dropdownOptions}
+          label="Subject"
+          optionLabelKey="label"
+          selectedOption={subjectType}
+          changeHandler={subjectValueChange}
         />
       </div>
       <div className={styles.formElement}>
         <label htmlFor="contactUsName" className={styles.label}>
           Name
         </label>
-        <input id="contactUsName"
-               type="text"
-               placeholder="Name"
-               className={styles.textInput}
-               disabled={(disabled) ? 'disabled': ''}
-        />
+        <input id="contactUsName" type="text" placeholder="Name" className={styles.textInput} disabled={disabled ? 'disabled' : ''} />
       </div>
-      <form name="contactUsForm"
-            noValidate
-      >
+      <form name="contactUsForm" noValidate>
         <div className={styles.commentBoxSpacing}>
-          <label htmlFor="contactUsEmail"
-                 className={styles.label}
-          >
+          <label htmlFor="contactUsEmail" className={styles.label}>
             Email <span className={styles.required}>*</span>
           </label>
-          {
-            emailError &&
+          {emailError && (
             <div className={styles.errorIcon}>
               <FontAwesomeIcon icon={faExclamationCircle} />
             </div>
-          }
-          <input onBlur={checkForErrors}
-                 onChange={setIsDirty}
-                 required id="contactUsEmail"
-                 type="email"
-                 placeholder="Email"
-                 disabled={(disabled) ? 'disabled': ''}
-                 className={`${styles.textInput} ${emailError ? styles.error : ''}`}
+          )}
+          <input
+            onBlur={checkForErrors}
+            onChange={setIsDirty}
+            required
+            id="contactUsEmail"
+            type="email"
+            placeholder="Email"
+            disabled={disabled ? 'disabled' : ''}
+            className={`${styles.textInput} ${emailError ? styles.error : ''}`}
           />
-          {
-            emailError &&
+          {emailError && (
             <div className={styles.errorMsg}>
-              <span className={styles.required}>*</span>{' '}
-              {emailErrorMsg}
+              <span className={styles.required}>*</span> {emailErrorMsg}
             </div>
-          }
+          )}
         </div>
         <div className={styles.commentBoxSpacing}>
           <label htmlFor="contactUsComment" className={styles.label}>
             Comment <span className={styles.required}>*</span>
           </label>
-          {
-            commentError &&
+          {commentError && (
             <div className={styles.errorIcon}>
               <FontAwesomeIcon icon={faExclamationCircle} />
             </div>
-          }
-          <textarea onBlur={checkForErrors}
-                    onChange={setIsDirty}
-                    required
-                    id="contactUsComment"
-                    disabled={(disabled) ? 'disabled': ''}
-                    className={
-                      `${styles.textInput} ${styles.comment} ${commentError ?
-                        styles.error : ""}`}
+          )}
+          <textarea
+            onBlur={checkForErrors}
+            onChange={setIsDirty}
+            required
+            id="contactUsComment"
+            disabled={disabled ? 'disabled' : ''}
+            className={`${styles.textInput} ${styles.comment} ${commentError ? styles.error : ''}`}
           />
-          {
-            commentError &&
+          {commentError && (
             <div className={styles.errorMsg}>
               <span className={styles.required}>*</span> Required Field
             </div>
-          }
+          )}
         </div>
-        <ReCAPTCHA sitekey="6LdyvrEZAAAAAPtSTHjmXgJ2oU8tVhBfpuMzHqa4"
-                   className={styles.recaptcha}
-                   ref={recaptchaRef}
-                   onChange={onChange}
-        />
-        {
-          (!isCallingAPI && showResponseMessage) && (isResponseSuccessful ?
-            <div data-test-id="successfulResponse"
-                 className={`${styles.responseMessage} ${styles.success}`}
-            >
+        <ReCAPTCHA sitekey="6LdyvrEZAAAAAPtSTHjmXgJ2oU8tVhBfpuMzHqa4" className={styles.recaptcha} ref={recaptchaRef} onChange={onChange} />
+        {!isCallingAPI &&
+          showResponseMessage &&
+          (isResponseSuccessful ? (
+            <div data-test-id="successfulResponse" className={`${styles.responseMessage} ${styles.success}`}>
               <div>
                 <FontAwesomeIcon icon={faCheckCircle} className={styles.responseIcon} />
                 <div className={styles.responseTitle}>Thank you!</div>
               </div>
               <div className={styles.responseBody}>
-                Your message has been received and will be reviewed. We appreciate{' '}
-                your input, but please know that we{' '}
-                may not be able to respond to every submission.
+                Your message has been received and will be reviewed. We appreciate your input, but please know that we may not be able to respond to
+                every submission.
               </div>
             </div>
-            :
-            <div data-test-id="failedResponse"
-                 className={`${styles.responseMessage} ${styles.error}`}
-            >
+          ) : (
+            <div data-test-id="failedResponse" className={`${styles.responseMessage} ${styles.error}`}>
               <div>
                 <FontAwesomeIcon icon={faExclamationCircle} className={styles.responseIcon} />
                 <div className={styles.responseTitle}>Unable to Send Message</div>
               </div>
               <div className={styles.responseBody}>
-                Your message could not be sent at this time. Please ensure that all{' '}
-                required fields have been filled out and try again.
+                Your message could not be sent at this time. Please ensure that all required fields have been filled out and try again.
               </div>
-            </div>)
-        }
-        {
-          !isLongResponse ?
-            <button disabled={!isValid || isCallingAPI || !recaptchaValue || disabled }
-                    className={styles.submit}
-                    onClick={submitFeedback}
-            >
-              Submit
-            </button>
-            :
-            <button disabled={true}
-                    className={`${styles.submit} ${styles.loading}`}
-            >
-              <CircularProgress size={17} />
-            </button>
-        }
+            </div>
+          ))}
+        {!isLongResponse ? (
+          <button disabled={!isValid || isCallingAPI || !recaptchaValue || disabled} className={styles.submit} onClick={submitFeedback}>
+            Submit
+          </button>
+        ) : (
+          <button disabled={true} className={`${styles.submit} ${styles.loading}`}>
+            <CircularProgress size={17} />
+          </button>
+        )}
       </form>
     </div>
   );

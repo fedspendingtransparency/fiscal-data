@@ -1,18 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import HomeFeatures, {featuresSrc as features} from './home-features';
+import HomeFeatures, { featuresSrc as features } from './home-features';
 
 describe('HomeFeatures component', () => {
-
   let instance;
   let component = renderer.create();
   renderer.act(() => {
-      component = renderer.create(
-        <HomeFeatures />
-      )
-    }
-  );
+    component = renderer.create(<HomeFeatures />);
+  });
   instance = component.root;
 
   it('includes an h2 header', () => {
@@ -27,7 +23,7 @@ describe('HomeFeatures component', () => {
     const imagesArray = instance.findAllByType('img');
     const featuresArr = features.slice();
     // Loops through all of the images found in the virtual dom
-    imagesArray.forEach((img) => {
+    imagesArray.forEach(img => {
       expect(img.props['aria-hidden']).toBe('true');
       const imgAlt = img.props.alt;
       // Compares the alt text on the virtual dom images to the alt text supplied

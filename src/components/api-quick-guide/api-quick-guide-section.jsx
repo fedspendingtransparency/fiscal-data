@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  sectionContainer,
-  sectionHeaderContainer,
-  sectionHeader,
-  sectionBodyContainer
-} from './api-quick-guide.module.scss';
+import { sectionContainer, sectionHeaderContainer, sectionHeader, sectionBodyContainer } from './api-quick-guide.module.scss';
 
 const ApiQuickGuideSection = ({ title, description, children }) => (
   <section className={sectionContainer}>
@@ -15,9 +10,7 @@ const ApiQuickGuideSection = ({ title, description, children }) => (
       {description}
     </div>
 
-    <div className={sectionBodyContainer}>
-      {children}
-    </div>
+    <div className={sectionBodyContainer}>{children}</div>
   </section>
 );
 

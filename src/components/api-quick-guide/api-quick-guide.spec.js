@@ -1,18 +1,17 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import ApiQuickGuide from "./api-quick-guide";
+import ApiQuickGuide from './api-quick-guide';
 import Accordions from './accordions/accordions';
 import DatasetDetailEndpoints from './dataset-detail-endpoints/dataset-detail-endpoints';
-import DatasetSectionContainer from "../dataset-section-container/dataset-section-container";
+import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DatasetDetailFields from './dataset-detail-fields';
 import DatasetDetailExamples from './dataset-detail-examples/dataset-detail-examples';
 import SectionCollapseButton from '../section-collapse/section-collapse-button';
 
-import {selectedTable} from './test-helpers/test-helpers';
-require("jest-fetch-mock");
+import { selectedTable } from './test-helpers/test-helpers';
+require('jest-fetch-mock');
 
 describe('API Quick Guide', () => {
-
   const titleText = 'API Quick Guide';
   const config = {
     apis: [
@@ -21,31 +20,29 @@ describe('API Quick Guide', () => {
         endpoint: 'sample/url/table_1',
         fields: [
           {
-            "columnName": "reporting_date",
-            "definition": "Reporting date for the data",
-            "prettyName": "Calendar Date",
-            "dataType": "DATE",
-            "isRequired": "yes"
+            columnName: 'reporting_date',
+            definition: 'Reporting date for the data',
+            prettyName: 'Calendar Date',
+            dataType: 'DATE',
+            isRequired: 'yes',
           },
           {
-            "columnName": "reporting_date",
-            "definition": "Reporting date for the data",
-            "prettyName": "Calendar Date",
-            "dataType": "DATE",
-            "isRequired": "yes"
+            columnName: 'reporting_date',
+            definition: 'Reporting date for the data',
+            prettyName: 'Calendar Date',
+            dataType: 'DATE',
+            isRequired: 'yes',
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   };
 
   jest.spyOn(document, 'getElementById').mockReturnValueOnce({ scrollHeight: 100 });
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <ApiQuickGuide config={config} selectedTable={selectedTable} />
-    );
+    component = renderer.create(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
   });
 
   const instance = component.root;
@@ -56,8 +53,8 @@ describe('API Quick Guide', () => {
   });
 
   it('should present an ApiQuickGuideSection for Methods with a title and description', () => {
-    expect(instance.findByProps({'id': 'method-section'}).props.title).toBeDefined();
-    expect(instance.findByProps({'id': 'method-section'}).props.description).toBeDefined();
+    expect(instance.findByProps({ id: 'method-section' }).props.title).toBeDefined();
+    expect(instance.findByProps({ id: 'method-section' }).props.description).toBeDefined();
   });
 
   it('should pass along its api config to the DatasetDetailFields component', () => {
@@ -81,12 +78,11 @@ describe('API Quick Guide', () => {
   });
 
   it('displays as collapsed by default', () => {
-    expect(instance.findByProps({'className': 'sectionWrapper collapsed'})).toBeDefined();
+    expect(instance.findByProps({ className: 'sectionWrapper collapsed' })).toBeDefined();
   });
 
   it('displays a toggle button', () => {
     const toggleButton = instance.findByType(SectionCollapseButton);
     expect(toggleButton).toBeDefined();
   });
-
 });

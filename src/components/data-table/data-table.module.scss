@@ -20,7 +20,8 @@ $borderRadius: 5px;
     width: fit-content;
   }
 
-  th, .th {
+  th,
+  .th {
     cursor: default;
     background-color: white;
     position: relative;
@@ -35,17 +36,19 @@ $borderRadius: 5px;
     display: flex;
   }
 
-  tr, .tr {
+  tr,
+  .tr {
     width: fit-content;
     height: 1.875rem;
   }
 
-  td, .td {
+  td,
+  .td {
     padding: 0.25rem 0.5rem;
     white-space: nowrap;
   }
 
-  #th-parent{
+  #th-parent {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -61,7 +64,8 @@ $borderRadius: 5px;
   }
 }
 
-.overlayContainer, .overlayContainerNoFooter {
+.overlayContainer,
+.overlayContainerNoFooter {
   position: relative;
 }
 
@@ -75,7 +79,6 @@ $borderRadius: 5px;
 .selectColumnsWrapper {
   display: flex;
 
-
   .selectColumnPanelInactive {
     display: none;
   }
@@ -86,9 +89,9 @@ $borderRadius: 5px;
     margin-top: -2.75rem;
   }
 
-  .selectColumnPanelActive, .selectColumnPanelInactive {
+  .selectColumnPanelActive,
+  .selectColumnPanelInactive {
     height: 565px;
     order: 2;
   }
 }
-

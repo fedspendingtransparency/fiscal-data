@@ -2,7 +2,7 @@
 @import '../../../zIndex.module.scss';
 
 $flap-border-radius: 3px;
-$flap-padding: .5rem;
+$flap-padding: 0.5rem;
 
 @mixin mid-card-line($zIndex) {
   &:after {
@@ -23,7 +23,7 @@ $flap-padding: .5rem;
   user-select: none;
   display: block;
   position: relative;
-  margin: 0 .1875rem;
+  margin: 0 0.1875rem;
 
   font-size: $font-size-40;
   line-height: 1.25em;
@@ -55,18 +55,17 @@ $flap-padding: .5rem;
 
       &.top {
         border-radius: $flap-border-radius $flap-border-radius 0 0;
-        height: .626em;
+        height: 0.626em;
         overflow: hidden;
         z-index: $half-panel-top;
         transform-origin: bottom;
-
       }
 
       &.bottom {
         border-radius: 0 0 $flap-border-radius $flap-border-radius;
-        top: .626em;
-        height: .625em;
-        margin-top: -.625em;
+        top: 0.626em;
+        height: 0.625em;
+        margin-top: -0.625em;
         z-index: $half-panel-bottom;
         transform-origin: top;
         overflow: hidden;
@@ -86,12 +85,9 @@ $flap-padding: .5rem;
         }
 
         &.flip-out {
-          margin-top: -.625em;
+          margin-top: -0.625em;
           z-index: $half-panel-flip-out;
-          background: linear-gradient(
-              $hero-split-flap-background 50%,
-              darken($hero-split-flap-background, 10%)
-          );
+          background: linear-gradient($hero-split-flap-background 50%, darken($hero-split-flap-background, 10%));
           background-size: 200% 200%;
         }
       }
@@ -130,5 +126,3 @@ $flap-padding: .5rem;
     background-position: 100% 100%;
   }
 }
-
-

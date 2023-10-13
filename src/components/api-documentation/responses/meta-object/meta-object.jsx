@@ -1,17 +1,11 @@
 import React from 'react';
-import SectionContent from "../../section-content/section-content";
+import SectionContent from '../../section-content/section-content';
 import beautify from 'js-beautify';
 import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
 
 const MetaObject = () => (
-  <SectionContent id="responses-meta-object"
-                  headingLevel={3}
-                  title="Meta Object"
-  >
-    <p>
-      The meta object provides metadata about the resulting payload from your API request. The
-      object will contain the following:
-    </p>
+  <SectionContent id="responses-meta-object" headingLevel={3} title="Meta Object">
+    <p>The meta object provides metadata about the resulting payload from your API request. The object will contain the following:</p>
     <ul>
       <li>
         <code className="inline">count:</code> Record count for the response.
@@ -29,8 +23,7 @@ const MetaObject = () => (
         <code className="inline">total-count:</code> Total number of rows available in the dataset.
       </li>
       <li>
-        <code className="inline">total-pages:</code> Total number of pages of data available based
-        on the page size in the meta count response.
+        <code className="inline">total-pages:</code> Total number of pages of data available based on the page size in the meta count response.
       </li>
     </ul>
     <p>
@@ -58,7 +51,8 @@ const MetaObject = () => (
             },
             "total-count":3790,
             "total-pages":1
-          }`, {indent_size: 2}
+          }`,
+          { indent_size: 2 }
         )}
       </pre>
     </code>

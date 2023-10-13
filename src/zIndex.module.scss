@@ -1,4 +1,3 @@
-
 $base: 0;
 $above: 1;
 $below: -1;
@@ -25,7 +24,6 @@ $mobile-menu-sticky: $above + $mobile-menu-list;
 // desktop sub nav
 $desktop-menu-sticky: $above + $backdrop;
 
-
 // dataset detail
 // table
 $dtg-table: $backdrop;
@@ -40,7 +38,7 @@ $dynamic-config-edit-pivot: $above + $backdrop;
 $pivot-options-form-first-child: $above + $dynamic-config-edit-pivot;
 // filter download
 $filter-download-left-content: $above + $table-loading-icon; // parent of select-control dropdown
-                                                             // table-loading-icon highest on table which select control must overlay
+// table-loading-icon highest on table which select control must overlay
 // published reports
 $published-reports-preview: $above + $backdrop;
 $published-reports-left-content: $above + $published-reports-preview;

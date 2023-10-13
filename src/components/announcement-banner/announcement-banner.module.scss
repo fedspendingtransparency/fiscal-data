@@ -14,7 +14,7 @@
   margin: 0 auto;
 }
 
-.infoIcon{
+.infoIcon {
   font-size: 1rem;
   align-self: flex-start;
   padding: 5px 0px;
@@ -44,20 +44,21 @@
   }
 
   .closeIcon {
-    margin-left: .25rem;
+    margin-left: 0.25rem;
   }
 
   .infoIcon {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-  .infoIcon, .closeIcon {
-    margin-right: .5rem;
+  .infoIcon,
+  .closeIcon {
+    margin-right: 0.5rem;
   }
 
   .closeIcon {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 }

@@ -5,7 +5,7 @@
   max-width: 85%;
   margin-bottom: 1rem;
   position: relative;
-  
+
   .searchInput_textField {
     background-color: white;
     border-radius: 3px;
@@ -34,7 +34,7 @@
     right: 2.8rem;
     top: 3px;
     @include focus-outline;
-    
+
     &:enabled {
       cursor: pointer;
     }

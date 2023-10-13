@@ -8,11 +8,11 @@ export const fivePrior = format(testDate, 'yyyy-MM-dd');
 
 const mockYears = {
   from: 2019,
-  to: 2020
+  to: 2020,
 };
 export const mockDateRange = {
   from: new Date(mockYears.from, 0, 1),
-  to: new Date(mockYears.to, 0, 1)
+  to: new Date(mockYears.to, 0, 1),
 };
 
 export const mockEndpoint = 'mock/end/point';
@@ -20,20 +20,20 @@ export const mockEndpoint = 'mock/end/point';
 export const mockSelectedTable = {
   endpoint: mockEndpoint,
   fields: [
-    {columnName: 'first', dummyProp: 'dummy'},
-    {columnName: 'second', dummyProp: 'dummy'},
-    {columnName: 'third', dummyProp: 'dummy'},
-  ]
+    { columnName: 'first', dummyProp: 'dummy' },
+    { columnName: 'second', dummyProp: 'dummy' },
+    { columnName: 'third', dummyProp: 'dummy' },
+  ],
 };
 
 export const mockSelectedPivot = {
   pivotValue: null,
   pivotView: {
-    chartType: "none",
+    chartType: 'none',
     dimensionField: null,
     filters: null,
-    title: "Complete Table"
-  }
+    title: 'Complete Table',
+  },
 };
 
 export const mockApiData = {
@@ -42,23 +42,23 @@ export const mockApiData = {
     labels: {
       first: 'First',
       middle: 'Middle',
-      last: 'Last'
+      last: 'Last',
     },
     dataTypes: {
-      first: 'string'
-    }
-  }
+      first: 'string',
+    },
+  },
 };
 
 export const mockApiDataEmpty = {
   data: [],
-  meta: {}
+  meta: {},
 };
 
 export const config = {
   slug: '/mock-dataset/',
   datasetId: 'MOCK-DATASET-ID-0',
-  apis : [
+  apis: [
     {
       tableName: 'Table 1',
       pathName: 'table-1',
@@ -69,15 +69,15 @@ export const config = {
       dateField: 'record_date',
       dataDisplays: [
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+        { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
       ],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date",
-        }
-      ]
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+      ],
     },
     {
       tableName: 'Table 2',
@@ -89,26 +89,26 @@ export const config = {
       dateField: 'record_date',
       dataDisplays: [
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+        { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
       ],
       valueFieldOptions: ['hot_dog'],
       fields: [
         {
           columnName: 'facility_desc',
           dataType: 'STRING',
-          prettyName: 'Facility'
+          prettyName: 'Facility',
         },
         {
           columnName: 'published_count',
           dataType: 'NUMBER',
-          prettyName: 'Or Perish'
+          prettyName: 'Or Perish',
         },
         {
           columnName: 'record_date',
           dataType: 'DATE',
-          prettyName: 'Record Date'
+          prettyName: 'Record Date',
         },
-      ]
+      ],
     },
     {
       tableName: 'Table 3',
@@ -120,26 +120,26 @@ export const config = {
       dateField: 'record_date',
       dataDisplays: [
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+        { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
       ],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date",
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
         },
         {
-          columnName: "book_value_amt",
-          dataType: "NUMBER",
-          prettyName: "Book Value Amount",
+          columnName: 'book_value_amt',
+          dataType: 'NUMBER',
+          prettyName: 'Book Value Amount',
         },
         {
-          columnName: "facility_desc",
-          dataType: "DESK",
+          columnName: 'facility_desc',
+          dataType: 'DESK',
           prettyName: "Facilities' Desk",
-        }
+        },
       ],
-      valueFieldOptions: ['book_value_amt']
+      valueFieldOptions: ['book_value_amt'],
     },
     {
       tableName: 'Table 4',
@@ -152,15 +152,15 @@ export const config = {
       dateField: 'record_date',
       dataDisplays: [
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+        { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
       ],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date",
-        }
-      ]
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+      ],
     },
     {
       tableName: 'Table 5',
@@ -172,37 +172,39 @@ export const config = {
       dateField: 'record_date',
       dataDisplays: [
         {
-          chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility',
+          chartType: null,
+          dimensionField: 'facility_desc',
+          title: 'By Facility',
           aggregateOn: [
             {
               field: 'record_calendar_year',
-              type: 'YEAR'
+              type: 'YEAR',
             },
             {
               field: 'record_calendar_month',
-              type: 'MONTH'
-            }
-          ]
-        }
+              type: 'MONTH',
+            },
+          ],
+        },
       ],
       valueFieldOptions: ['hot_dog'],
       fields: [
         {
           columnName: 'facility_desc',
           dataType: 'STRING',
-          prettyName: 'Facility'
+          prettyName: 'Facility',
         },
         {
           columnName: 'hot_dog',
           dataType: 'STRING',
-          prettyName: 'Hot Diggity Dog'
+          prettyName: 'Hot Diggity Dog',
         },
         {
           columnName: 'record_date',
           dataType: 'DATE',
-          prettyName: 'Record Date'
+          prettyName: 'Record Date',
         },
-      ]
+      ],
     },
     {
       tableName: 'Table 6',
@@ -213,16 +215,14 @@ export const config = {
       rowCount: 8001,
       isLargeDataset: true,
       dateField: 'record_date',
-      dataDisplays: [
-        { chartType: 'none', dimensionField: null, title: 'Complete Table' }
-      ],
+      dataDisplays: [{ chartType: 'none', dimensionField: null, title: 'Complete Table' }],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date"
-        }
-      ]
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+      ],
     },
     {
       tableName: 'Table 7',
@@ -233,16 +233,14 @@ export const config = {
       rowCount: 9001,
       isLargeDataset: true,
       dateField: 'record_date',
-      dataDisplays: [
-        { chartType: 'none', dimensionField: null, title: 'Complete Table' }
-      ],
+      dataDisplays: [{ chartType: 'none', dimensionField: null, title: 'Complete Table' }],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date"
-        }
-      ]
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+      ],
     },
     {
       tableName: 'Table 8',
@@ -255,26 +253,26 @@ export const config = {
       dateField: 'record_date',
       dataDisplays: [
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+        { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
       ],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date",
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
         },
         {
-          columnName: "book_value_amt",
-          dataType: "NUMBER",
-          prettyName: "Book Value Amount",
+          columnName: 'book_value_amt',
+          dataType: 'NUMBER',
+          prettyName: 'Book Value Amount',
         },
         {
-          columnName: "facility_desc",
-          dataType: "DESK",
+          columnName: 'facility_desc',
+          dataType: 'DESK',
           prettyName: "Facilities' Desk",
-        }
+        },
       ],
-      valueFieldOptions: ['book_value_amt']
+      valueFieldOptions: ['book_value_amt'],
     },
     {
       tableName: 'Table 9',
@@ -285,16 +283,14 @@ export const config = {
       rowCount: 8601,
       isLargeDataset: true,
       dateField: 'record_date',
-      dataDisplays: [
-        { chartType: null, dimensionField: null, title: 'Complete Table' }
-      ],
+      dataDisplays: [{ chartType: null, dimensionField: null, title: 'Complete Table' }],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date",
-        }
-      ]
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+      ],
     },
     {
       tableName: 'Table 10',
@@ -307,253 +303,254 @@ export const config = {
       dateField: 'record_date',
       dataDisplays: [
         { chartType: 'none', dimensionField: null, title: 'Complete Table' },
-        { chartType: null, 'dimensionField': 'facility_desc', title: 'By Facility' }
+        { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
       ],
       fields: [
         {
-          columnName: "record_date",
-          dataType: "DATE",
-          prettyName: "Record Date",
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
         },
         {
-          columnName: "book_value_amt",
-          dataType: "NUMBER",
-          prettyName: "Book Value Amount",
+          columnName: 'book_value_amt',
+          dataType: 'NUMBER',
+          prettyName: 'Book Value Amount',
         },
         {
-          columnName: "facility_desc",
-          dataType: "DESK",
+          columnName: 'facility_desc',
+          dataType: 'DESK',
           prettyName: "Facilities' Desk",
-        }
+        },
       ],
-      valueFieldOptions: ['book_value_amt']
-    }
+      valueFieldOptions: ['book_value_amt'],
+    },
   ],
   techSpecs: {
     earliestDate: '2002-01-01',
     latestDate,
-  }
+  },
 };
 
 export const mockLocation = {
-  pathname: '/datasets/mock-dataset/'
+  pathname: '/datasets/mock-dataset/',
 };
 
 export const mockLocationWithTablePathName = {
-  pathname: '/datasets/mock-dataset/table-3'
+  pathname: '/datasets/mock-dataset/table-3',
 };
 
 export const mockPivotableData = {
   data: [
     {
-      reporting_date: "2020-04-30",
-      security_desc: "Federal Financing Bank",
-      avg_interest_rate_amt: "2.685"
+      reporting_date: '2020-04-30',
+      security_desc: 'Federal Financing Bank',
+      avg_interest_rate_amt: '2.685',
     },
     {
-      reporting_date: "2020-04-30",
-      security_desc: "Total Marketable",
-      avg_interest_rate_amt: "1.964"
+      reporting_date: '2020-04-30',
+      security_desc: 'Total Marketable',
+      avg_interest_rate_amt: '1.964',
     },
     {
-      reporting_date: "2020-04-30",
-      security_desc: "Treasury Bills",
-      avg_interest_rate_amt: "0.596"
+      reporting_date: '2020-04-30',
+      security_desc: 'Treasury Bills',
+      avg_interest_rate_amt: '0.596',
     },
     {
-      reporting_date: "2020-04-30",
-      security_desc: "Treasury Bonds",
-      avg_interest_rate_amt: "3.764"
+      reporting_date: '2020-04-30',
+      security_desc: 'Treasury Bonds',
+      avg_interest_rate_amt: '3.764',
     },
     {
-      reporting_date: "2020-04-30",
-      security_desc: "Treasury Floating Rate Note (FRN)",
-      avg_interest_rate_amt: "0.285"
+      reporting_date: '2020-04-30',
+      security_desc: 'Treasury Floating Rate Note (FRN)',
+      avg_interest_rate_amt: '0.285',
     },
     {
-      reporting_date: "2020-04-30",
-      security_desc: "Treasury Inflation-Protected Securities (TIPS)",
-      avg_interest_rate_amt: "0.751"
+      reporting_date: '2020-04-30',
+      security_desc: 'Treasury Inflation-Protected Securities (TIPS)',
+      avg_interest_rate_amt: '0.751',
     },
     {
-      reporting_date: "2020-04-30",
-      security_desc: "Treasury Notes",
-      avg_interest_rate_amt: "2.069"
+      reporting_date: '2020-04-30',
+      security_desc: 'Treasury Notes',
+      avg_interest_rate_amt: '2.069',
     },
     {
-      reporting_date: "2020-05-31",
-      security_desc: "Federal Financing Bank",
-      avg_interest_rate_amt: "2.385"
+      reporting_date: '2020-05-31',
+      security_desc: 'Federal Financing Bank',
+      avg_interest_rate_amt: '2.385',
     },
     {
-      reporting_date: "2020-05-31",
-      security_desc: "Total Marketable",
-      avg_interest_rate_amt: "1.264"
+      reporting_date: '2020-05-31',
+      security_desc: 'Total Marketable',
+      avg_interest_rate_amt: '1.264',
     },
     {
-      reporting_date: "2020-05-31",
-      security_desc: "Treasury Bills",
-      avg_interest_rate_amt: "1.596"
+      reporting_date: '2020-05-31',
+      security_desc: 'Treasury Bills',
+      avg_interest_rate_amt: '1.596',
     },
     {
-      reporting_date: "2020-05-31",
-      security_desc: "Treasury Bonds",
-      avg_interest_rate_amt: "3.164"
+      reporting_date: '2020-05-31',
+      security_desc: 'Treasury Bonds',
+      avg_interest_rate_amt: '3.164',
     },
     {
-      reporting_date: "2020-05-31",
-      security_desc: "Treasury Nickels",
-      avg_interest_rate_amt: "3.864"
-    }],
+      reporting_date: '2020-05-31',
+      security_desc: 'Treasury Nickels',
+      avg_interest_rate_amt: '3.864',
+    },
+  ],
   meta: {
     dataTypes: {
-      reporting_date: "DATE",
-      avg_interest_rate_amt: "PERCENTAGE",
-      security_desc: "STRING"
+      reporting_date: 'DATE',
+      avg_interest_rate_amt: 'PERCENTAGE',
+      security_desc: 'STRING',
     },
     labels: {
-      reporting_date: "Calendar Date",
-      avg_interest_rate_amt: "Average Interest Rate Amount",
-      security_desc: "Security Description"
-    }
-  }
+      reporting_date: 'Calendar Date',
+      avg_interest_rate_amt: 'Average Interest Rate Amount',
+      security_desc: 'Security Description',
+    },
+  },
 };
 
 export const mockAccumulableData = {
   data: [
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Federal Bank",
-      cost: "1000.0000"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Federal Bank',
+      cost: '1000.0000',
     },
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Medical Safe",
-      cost: "1000002.000"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Medical Safe',
+      cost: '1000002.000',
     },
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Federal Bank",
-      cost: "1000.0010"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Federal Bank',
+      cost: '1000.0010',
     },
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Medical Safe",
-      cost: "1000200"
-    },
-
-    {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Federal Bank",
-      cost: "1000.1000"
-    },
-    {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Medical Safe",
-      cost: "1020000"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Medical Safe',
+      cost: '1000200',
     },
 
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Federal Bank",
-      cost: "1010.0000"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Federal Bank',
+      cost: '1000.1000',
     },
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Medical Safe",
-      cost: null
-    },
-
-    {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Federal Bank",
-      cost: "-3000"
-    },
-    {
-      record_calendar_year: "2020",
-      record_calendar_month: "05",
-      class_desc: "Medical Safe",
-      cost: "0.0"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Medical Safe',
+      cost: '1020000',
     },
 
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "04",
-      class_desc: "Federal Bank",
-      cost: "-"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Federal Bank',
+      cost: '1010.0000',
     },
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "04",
-      class_desc: "Medical Safe",
-      cost: "2000000"
-    },
-
-    {
-      record_calendar_year: "2020",
-      record_calendar_month: "04",
-      class_desc: "Federal Bank",
-      cost: "1000.0001"
-    },
-    {
-      record_calendar_year: "2020",
-      record_calendar_month: "04",
-      class_desc: "Medical Safe",
-      cost: ".20"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Medical Safe',
+      cost: null,
     },
 
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "04",
-      class_desc: "Federal Bank",
-      cost: "*"
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Federal Bank',
+      cost: '-3000',
     },
     {
-      record_calendar_year: "2020",
-      record_calendar_month: "04",
-      class_desc: "Medical Safe",
-      cost: "1000000.5"
-    }
+      record_calendar_year: '2020',
+      record_calendar_month: '05',
+      class_desc: 'Medical Safe',
+      cost: '0.0',
+    },
+
+    {
+      record_calendar_year: '2020',
+      record_calendar_month: '04',
+      class_desc: 'Federal Bank',
+      cost: '-',
+    },
+    {
+      record_calendar_year: '2020',
+      record_calendar_month: '04',
+      class_desc: 'Medical Safe',
+      cost: '2000000',
+    },
+
+    {
+      record_calendar_year: '2020',
+      record_calendar_month: '04',
+      class_desc: 'Federal Bank',
+      cost: '1000.0001',
+    },
+    {
+      record_calendar_year: '2020',
+      record_calendar_month: '04',
+      class_desc: 'Medical Safe',
+      cost: '.20',
+    },
+
+    {
+      record_calendar_year: '2020',
+      record_calendar_month: '04',
+      class_desc: 'Federal Bank',
+      cost: '*',
+    },
+    {
+      record_calendar_year: '2020',
+      record_calendar_month: '04',
+      class_desc: 'Medical Safe',
+      cost: '1000000.5',
+    },
   ],
   meta: {
     dataTypes: {
-      record_calendar_year: "YEAR",
-      record_calendar_MONTH: "MONTH",
-      cost: "CURRENCY",
-      Class_desc: "STRING"
+      record_calendar_year: 'YEAR',
+      record_calendar_MONTH: 'MONTH',
+      cost: 'CURRENCY',
+      Class_desc: 'STRING',
     },
     labels: {
-      reporting_date: "Calendar Date",
-      record_calendar_year: "Calendar Year",
-      record_calendar_month: "Calendar Month",
-      cost: "Expended Cost",
-      security_desc: "Classification"
-    }
-  }
+      reporting_date: 'Calendar Date',
+      record_calendar_year: 'Calendar Year',
+      record_calendar_month: 'Calendar Month',
+      cost: 'Expended Cost',
+      security_desc: 'Classification',
+    },
+  },
 };
 
 export const createFilter = (operator, value) => {
-  return [{ key: 'testVal', operator, value}];
-}
+  return [{ key: 'testVal', operator, value }];
+};
 
 export const filteringOperators = {
-  eq10:    createFilter('eq', '10'),
-  neq10:   createFilter('neq', '10'),
-  gt10:    createFilter('gt', '10'),
-  gte10:   createFilter('gte', '10'),
-  lt10:    createFilter('lt', '10'),
-  lte10:   createFilter('lte', '10'),
-  in812:   createFilter('in', '8,12'),
-  in8910:  createFilter('in','8,9,10'),
-  nin8910: createFilter('nin','8,9,10'),
-  noOperator10: [{ key: 'testVal', value: '10' }]
+  eq10: createFilter('eq', '10'),
+  neq10: createFilter('neq', '10'),
+  gt10: createFilter('gt', '10'),
+  gte10: createFilter('gte', '10'),
+  lt10: createFilter('lt', '10'),
+  lte10: createFilter('lte', '10'),
+  in812: createFilter('in', '8,12'),
+  in8910: createFilter('in', '8,9,10'),
+  nin8910: createFilter('nin', '8,9,10'),
+  noOperator10: [{ key: 'testVal', value: '10' }],
 };
