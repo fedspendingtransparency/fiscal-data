@@ -70,7 +70,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
             <Truncator>{dataset.tagLine}</Truncator>
           </div>
           <DatasetStats dataset={dataset} />
-          <span className={card_link}>Dataset Details</span>
+          {/*<span className={card_link}>Dataset Details</span>*/}
         </CardActionArea>
       </Card>
     </MuiThemeProvider>

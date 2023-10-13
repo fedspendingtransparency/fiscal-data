@@ -4,27 +4,48 @@
   list-style: none;
   padding: 0;
   margin-top: 0.875rem;
+  margin-bottom: 0;
 
   li {
-    color: $card-body;
     font-size: $font-size-14;
     svg.icon {
       font-size: $font-size-14;
       width: 14px;
       transform: translateY(-2px);
     }
+    margin-top: 1rem;
   }
 }
 
+.statItem {
+  display: flex;
+  flex-direction: row;
+}
+
+.dataTableText {
+  padding-top: 0.345rem;
+  color: #2E2E2E;
+}
+
+.statHeaderText {
+  color: #2E2E2E;
+}
+
+.stateSubHeaderText {
+  color: #666;
+}
+
 .icon {
-  padding-right: 0.4em;
+  padding-right: 1rem;
   vertical-align: middle;
+  padding-top: 0.625rem;
 }
 
 .futureDateIcon {
   width: 14px;
   height: 15px;
-  padding-right: 0.4em;
+  padding-right: 1rem;
+  padding-top: 0.625rem;
   vertical-align: top;
   transform: translateY(1px);
 }
