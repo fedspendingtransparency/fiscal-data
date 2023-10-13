@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Line, XAxis, YAxis, LineChart, CartesianGrid, ReferenceDot, Tooltip } from 'recharts';
+import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip } from 'recharts';
 import { deficitExplainerPrimary } from '../../../sections/national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../../sections/federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../../sections/government-revenue/revenue.module.scss';
-import { legend, legendItem, toolTip, dot, chartContainer, chartTitle, tooltipRow, tooltipLabel, value, title } from './deficit-chart.module.scss';
+import { legend, legendItem, dot, chartContainer, chartTitle, surplusPrimary } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import { getShortForm } from '../../../../../utils/rounding-utils';
-
+import CustomTooltip from './custom-tooltip';
 const AFGDefictChart = () => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState(null);
   const [finalChartData, setFinalChartData] = useState(null);
+  const [legendItems, setLegendItems] = useState(null);
 
   const revenueEndpointUrl = '/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const spendingEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -30,40 +30,12 @@ const AFGDefictChart = () => {
     );
   };
 
-  const CustomTooltip = ({ payload, label, setFocused }) => {
-    if (payload && payload.length) {
-      setFocused(payload[0].payload.year);
-      return (
-        <div>
-          {
-            <div className={toolTip}>
-              <div className={tooltipLabel}>{label}</div>
-              <div>
-                {payload[0].payload.tooltip?.map(row => {
-                  return (
-                    <div className={tooltipRow}>
-                      <div className={value}>
-                        <span className={dot} style={{ backgroundColor: row.color }}></span>
-                        <span className={title}>{row.title}</span>
-                      </div>
-                      <span className={value}>{getShortForm(row.value)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          }
-        </div>
-      );
-    }
-    return null;
-  };
-
   const getChartData = async () => {
     const chart_data = [];
     const round = x => x / 1000000000000;
     let allSpending;
     let allRevenue;
+    let allSurplus = false;
     await basicFetch(`${apiPrefix}${spendingEndpointUrl}`).then(async spendingRes => {
       const currentFYSpending = spendingRes.data[0];
       const priorSpending = spendingRes.data.filter(
@@ -78,31 +50,38 @@ const AFGDefictChart = () => {
         allRevenue = [currentFYRevenue, ...priorRevenue];
       });
     });
+    //Construct chart data
     for (let i = 0; i < allRevenue.length; i++) {
-      const rev = allRevenue[i];
-      const spend = allSpending[i];
-      const tooltip = {
-        spending: round(spend.current_fytd_net_outly_amt),
-        revenue: round(rev.current_fytd_net_rcpt_amt),
-        deficit: round(Math.abs(rev.current_fytd_net_rcpt_amt - spend.current_fytd_net_outly_amt)),
-      };
-
+      const { current_fytd_net_rcpt_amt: revenueValue, record_fiscal_year: revenueFY } = allRevenue[i];
+      const { current_fytd_net_outly_amt: spendingValue, record_fiscal_year: spendingFY } = allSpending[i];
+      const surplus = Number(revenueValue) > Number(spendingValue);
+      if (surplus) {
+        allSurplus = true;
+      }
       const toolTipContent = [
-        { title: 'Spending', color: spendingExplainerPrimary, value: spend.current_fytd_net_outly_amt },
-        { title: 'Revenue', color: revenueExplainerPrimary, value: rev.current_fytd_net_rcpt_amt },
+        { title: 'Spending', color: spendingExplainerPrimary, value: spendingValue },
+        { title: 'Revenue', color: revenueExplainerPrimary, value: revenueValue },
         {
-          title: 'Deficit',
-          color: deficitExplainerPrimary,
-          value: Math.abs(rev.current_fytd_net_rcpt_amt - spend.current_fytd_net_outly_amt),
+          title: surplus ? 'Surplus' : 'Deficit',
+          color: surplus ? surplusPrimary : deficitExplainerPrimary,
+          value: Math.abs(revenueValue - spendingValue),
         },
       ];
-      chart_data.push({
-        data: [
-          { year: rev.record_fiscal_year, value: tooltip.revenue, type: 'revenue', opacity: 0, tooltip: toolTipContent },
-          { year: spend.record_fiscal_year, value: tooltip.spending, type: 'spending', opacity: 0, tooltip: toolTipContent },
-        ],
-      });
+      if (revenueFY === spendingFY) {
+        chart_data.push({
+          data: [
+            { year: revenueFY, value: round(revenueValue), type: 'revenue', opacity: 0, tooltip: toolTipContent, surplus: surplus },
+            { year: spendingFY, value: round(spendingValue), type: 'spending', opacity: 0, tooltip: toolTipContent, surplus: surplus },
+          ],
+        });
+      }
     }
+    const legendBase = [
+      { title: 'Spending', color: spendingExplainerPrimary },
+      { title: 'Revenue', color: revenueExplainerPrimary },
+      { title: 'Deficit', color: deficitExplainerPrimary },
+    ];
+    setLegendItems(allSurplus ? [...legendBase, { title: 'Surplus', color: surplusPrimary }] : [...legendBase]);
     return chart_data;
   };
 
@@ -122,10 +101,9 @@ const AFGDefictChart = () => {
 
   return (
     <>
-      <CustomTooltip setFocused={setFocusedYear} rows={toolTipContent} />
       <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
       <div className={legend}>
-        {toolTipContent.map(row => {
+        {legendItems?.map(row => {
           return (
             <div className={legendItem}>
               <span className={dot} style={{ backgroundColor: row.color }}></span>
@@ -165,7 +143,7 @@ const AFGDefictChart = () => {
               <Line
                 dataKey="value"
                 data={s.data}
-                stroke={deficitExplainerPrimary}
+                stroke={s.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
                 strokeWidth={4}
                 strokeOpacity={focusedYear === s.data[0].year || focusedYear === null ? 1 : 0.5}
                 dot={<CustomDotNoAnimation />}

@@ -1,4 +1,6 @@
 @import "src/variables.module";
+$surplus-primary: #e5a000;
+
 
 .legend {
   display: flex;
@@ -69,4 +71,8 @@
     font-size: $font-size-14;
     color: $font-body-copy;
   }
+}
+
+:export {
+  surplusPrimary: $surplus-primary;
 }
