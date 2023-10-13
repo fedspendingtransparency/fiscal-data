@@ -5,6 +5,7 @@ import { spendingExplainerPrimary } from '../../../sections/federal-spending/fed
 import { revenueExplainerPrimary } from '../../../sections/government-revenue/revenue.module.scss';
 import { legend, legendItem, toolTip, dot, chartContainer, chartTitle, tooltipRow, tooltipLabel, value, title } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
+import { getShortForm } from '../../../../../utils/rounding-utils';
 
 const AFGDefictChart = () => {
   const [focusedYear, setFocusedYear] = useState(null);
@@ -29,13 +30,7 @@ const AFGDefictChart = () => {
     );
   };
 
-  const toolTipContent = [
-    { title: 'Spending', color: spendingExplainerPrimary, value: '$X.XX T' },
-    { title: 'Revenue', color: revenueExplainerPrimary, value: '$X.XX T' },
-    { title: 'Deficit', color: deficitExplainerPrimary, value: '$X.XX T' },
-  ];
-
-  const CustomTooltip = ({ active, payload, label, setFocused, rows }) => {
+  const CustomTooltip = ({ payload, label, setFocused }) => {
     if (payload && payload.length) {
       setFocused(payload[0].payload.year);
       return (
@@ -44,14 +39,14 @@ const AFGDefictChart = () => {
             <div className={toolTip}>
               <div className={tooltipLabel}>{label}</div>
               <div>
-                {rows?.map(row => {
+                {payload[0].payload.tooltip?.map(row => {
                   return (
                     <div className={tooltipRow}>
                       <div className={value}>
                         <span className={dot} style={{ backgroundColor: row.color }}></span>
                         <span className={title}>{row.title}</span>
                       </div>
-                      <span className={value}>{row.value}</span>
+                      <span className={value}>{getShortForm(row.value)}</span>
                     </div>
                   );
                 })}
@@ -86,14 +81,28 @@ const AFGDefictChart = () => {
     for (let i = 0; i < allRevenue.length; i++) {
       const rev = allRevenue[i];
       const spend = allSpending[i];
+      const tooltip = {
+        spending: round(spend.current_fytd_net_outly_amt),
+        revenue: round(rev.current_fytd_net_rcpt_amt),
+        deficit: round(Math.abs(rev.current_fytd_net_rcpt_amt - spend.current_fytd_net_outly_amt)),
+      };
+
+      const toolTipContent = [
+        { title: 'Spending', color: spendingExplainerPrimary, value: spend.current_fytd_net_outly_amt },
+        { title: 'Revenue', color: revenueExplainerPrimary, value: rev.current_fytd_net_rcpt_amt },
+        {
+          title: 'Deficit',
+          color: deficitExplainerPrimary,
+          value: Math.abs(rev.current_fytd_net_rcpt_amt - spend.current_fytd_net_outly_amt),
+        },
+      ];
       chart_data.push({
         data: [
-          { year: rev.record_fiscal_year, value: round(rev.current_fytd_net_rcpt_amt), type: 'revenue', opacity: 0 },
-          { year: spend.record_fiscal_year, value: round(spend.current_fytd_net_outly_amt), type: 'spending', opacity: 0 },
+          { year: rev.record_fiscal_year, value: tooltip.revenue, type: 'revenue', opacity: 0, tooltip: toolTipContent },
+          { year: spend.record_fiscal_year, value: tooltip.spending, type: 'spending', opacity: 0, tooltip: toolTipContent },
         ],
       });
     }
-    console.log(chart_data);
     return chart_data;
   };
 
@@ -164,11 +173,7 @@ const AFGDefictChart = () => {
                 activeDot={false}
               />
             ))}
-            <Tooltip
-              content={<CustomTooltip setFocused={setFocusedYear} rows={toolTipContent} />}
-              cursor={{ strokeWidth: 0 }}
-              isAnimationActive={false}
-            />
+            <Tooltip content={<CustomTooltip setFocused={setFocusedYear} />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
           </LineChart>
         )}
       </div>
