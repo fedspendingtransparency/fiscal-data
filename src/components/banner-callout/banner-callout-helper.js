@@ -25,17 +25,24 @@ export const calloutConfig = {
     ),
     customMargin: '1.5rem',
   },
-  DTSAPIUpdate: {
-    copy: (
-      <>
-        <b>Updates are coming soon!</b>
-        <ul className={updateList}>
-          <li>The Daily Treasury Statement (DTS) dataset will be updated to match the published DTS.</li>
-          <li>All DTS API endpoints will be renamed to show DTS table names.</li>
-          <li>The Federal Tax Deposits and Short-Term Cash Investments tables will contain historical data only (through Feb. 13, 2023).</li>
-          <li>There will be a new API endpoint for the Inter-Agency Tax Transfers table, which started on Feb. 14, 2023.</li>
-        </ul>
-      </>
-    ),
-  },
-};
+  DTSAPIUpdate:
+    {
+      copy:
+        <>
+          <b>Updates are coming soon!</b>
+          <ul className={updateList}>
+            <li>The Daily Treasury Statement (DTS) dataset will be updated to match the published DTS.</li>
+            <li>All DTS API endpoints will be renamed to show DTS table names.</li>
+            <li>The Federal Tax Deposits and Short-Term Cash Investments tables will contain historical data only (through Feb. 13, 2023).</li>
+            <li>There will be a new API endpoint for the Inter-Agency Tax Transfers table, which started on Feb. 14, 2023.</li>
+          </ul>
+        </>,
+    },
+  SavingsBondsDelay: {
+    copy:
+    <>
+      We're experiencing delays with publishing paper savings bonds redemption data for September 2023 due to system issues.
+      We're working on a resolution and will publish the data as soon as possible.
+    </>
+  }
+}

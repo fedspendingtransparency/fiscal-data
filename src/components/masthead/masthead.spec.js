@@ -28,6 +28,14 @@ describe('Masthead component', () => {
 });
 
 describe('Masthead - banner callout', () => {
+  const testBanner = {
+    'banner': "XRCallout"
+  }
+
+  const savingsBondsDelayBanner = {
+    'banner': "SavingsBondsDelay"
+  }
+
   it('renders callout when specified', () => {
     const { queryByTestId } = render(
       <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout="Text for Callout" />
@@ -36,10 +44,23 @@ describe('Masthead - banner callout', () => {
     expect(queryByTestId('callout')).not.toBeNull();
   });
 
+  it('renders warning callout when SavingsBondsDelay banner specified', () => {
+    const {queryByTestId} = render(
+      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={savingsBondsDelayBanner} />);
+
+    expect(queryByTestId('callout')).not.toBeNull();
+  });
+
+  it('renders warning callout when not SavingsBondsDelay banner specified', () => {
+    const {queryByTestId} = render(
+      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={testBanner} />);
+
+    expect(queryByTestId('callout')).not.toBeNull();
+  });
+
   it('does not render callout when callout is null', () => {
-    const { queryByTestId } = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={null} />
-    );
+    const {queryByTestId} = render(
+      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={null} />);
 
     expect(queryByTestId('callout')).toBeNull();
   });
