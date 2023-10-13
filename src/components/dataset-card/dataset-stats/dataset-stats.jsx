@@ -3,7 +3,7 @@ import * as styles from './dataset-stats.module.scss';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../../images/futureDateIcon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCode, faCheckCircle, faTimesCircle, faCalendarWeek, faSyncAlt, faCalendarCheck, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek, faSyncAlt, faCalendarCheck, faDatabase } from '@fortawesome/free-solid-svg-icons';
 
 export default function DatasetStats({ dataset }) {
   // TODO: clean some of these up a little
