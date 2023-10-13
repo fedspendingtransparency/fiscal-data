@@ -1,7 +1,7 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import DatasetStats from './dataset-stats';
 import { add, format } from 'date-fns';
+import { render } from '@testing-library/react';
 
 describe('DatasetStats', () => {
   const mockDataset = {
@@ -11,17 +11,11 @@ describe('DatasetStats', () => {
       lastUpdated: '12/12/19',
       updateFrequency: 'Updated Monthly',
     },
-  };
-  const mockDataset2 = {
-    techSpecs: {
-      lastUpdated: '12/12/19',
-      updateFrequency: 'Updated Monthly',
-    },
-    dictionary: true,
+    apis: [1, 2, 3, 4, 5],
   };
   const tomorrowObj = add(new Date(), { days: 1 });
   const tomorrowString = format(tomorrowObj, 'MM/dd/yyyy');
-  const mockDataset3 = {
+  const mockDataset2 = {
     name: 'Future Dataset',
     techSpecs: {
       latestDate: tomorrowString,
@@ -30,41 +24,48 @@ describe('DatasetStats', () => {
       fileFormat: 'JSON, CSV, XML',
       updateFrequency: 'Updated Daily',
     },
+    apis: [1, 2, 3, 4, 5],
   };
-  const tree = renderer.create(<DatasetStats dataset={mockDataset} />);
-  const instance = tree.root;
-
-  it('renders a ul element', () => {
-    const ul = instance.findByType('ul');
-    expect(ul).toBeDefined();
-  });
 
   it('should contain an li that displays the date range with a calendar week icon', () => {
-    const lastUpdatedLi = instance.findByProps({ 'data-test-id': 'dateRange-li' });
-    const calendarWeekIcon = lastUpdatedLi.findByProps({ 'data-test-id': 'calendar-week-icon' });
+    const instance = render(<DatasetStats dataset={mockDataset} />);
+    const lastUpdatedLi = instance.getByTestId('dateRange-li');
+    const calendarWeekIcon = instance.getByTestId('calendar-week-icon');
     expect(lastUpdatedLi).toBeDefined();
-    expect(lastUpdatedLi.children[0]).toEqual(calendarWeekIcon);
-    expect(lastUpdatedLi.children[1]).toEqual('12/12/2019 - 02/07/2020');
+    expect(calendarWeekIcon).toBeDefined();
+    expect(instance.getByText('12/12/2019 - 02/07/2020')).toBeInTheDocument();
   });
 
   it('should show the futureDateIcon when the latestDate is in the future', () => {
-    const tree3 = renderer.create(<DatasetStats dataset={mockDataset3} />);
-    const instance3 = tree3.root;
-    const lastUpdatedLi = instance3.findByProps({ 'data-test-id': 'dateRange-li' });
-    expect(lastUpdatedLi.findByProps({ 'data-test-id': 'futureDateIcon' })).toBeDefined();
+    const instance = render(<DatasetStats dataset={mockDataset2} />);
+    const lastUpdatedLi = instance.getByTestId('futureDateIcon');
+    expect(lastUpdatedLi).toBeDefined();
   });
 
   it('should contain an li that displays the update frequency with a sync-alt icon', () => {
-    const fileTypeLi = instance.findByProps({ 'data-testid': 'updateFrequency-li' });
-    const syncAltIcon = instance.findByProps({ 'data-testid': 'sync-alt-icon' });
-    expect(fileTypeLi.children[0]).toEqual(syncAltIcon);
-    expect(fileTypeLi.children[1]).toEqual('Updated Monthly');
+    const instance = render(<DatasetStats dataset={mockDataset} />);
+    const fileTypeLi = instance.getByTestId('updateFrequency-li');
+    const repeatIcon = instance.getByTestId('repeat-icon');
+    expect(fileTypeLi).toBeDefined();
+    expect(repeatIcon).toBeDefined();
+    expect(instance.getByText('Updated Monthly')).toBeInTheDocument();
   });
 
   it('should contain an li that displays the lastUpdated date with a calendarCheck icon', () => {
-    const lastUpdatedLi = instance.findByProps({ 'data-test-id': 'lastUpdated' });
-    const calendarCheckIcon = instance.findByProps({ 'data-test-id': 'calendarCheckIcon' });
-    expect(lastUpdatedLi.children[0]).toEqual(calendarCheckIcon);
-    expect(lastUpdatedLi.children[1]).toEqual('Last Updated 12/12/19');
+    const instance = render(<DatasetStats dataset={mockDataset} />);
+    const lastUpdatedLi = instance.getByTestId('lastUpdated');
+    const penIcon = instance.getByTestId('pen-icon');
+    expect(lastUpdatedLi).toBeDefined();
+    expect(penIcon).toBeDefined();
+    expect(instance.getByText('12/12/19')).toBeInTheDocument();
+  });
+
+  it('should contain an li that displays the number of tables with a database icon', () => {
+    const instance = render(<DatasetStats dataset={mockDataset} />);
+    const numTables = instance.getByTestId('numTables-li');
+    const databaseIcon = instance.getByTestId('database-icon');
+    expect(numTables).toBeDefined();
+    expect(databaseIcon).toBeDefined();
+    expect(instance.getByText('5 Data Tables')).toBeInTheDocument();
   });
 });

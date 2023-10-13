@@ -17,19 +17,19 @@ export default function DatasetStats({ dataset }) {
 
   return (
     <ul className={styles.list}>
-      <li data-test-id="dateRange-li" aria-label={'Date Range: ' + dateRange}>
+      <li data-testid="dateRange-li" aria-label={'Date Range: ' + dateRange}>
         <div className={styles.statItem}>
           <div>
             {dateRange && useFutureIcon ? (
               <img
                 src={futureDateIcon}
                 className={styles.futureDateIcon}
-                data-test-id={'futureDateIcon'}
+                data-testid={'futureDateIcon'}
                 alt={'future date icon'}
                 aria-hidden={'true'}
               />
             ) : (
-              <FontAwesomeIcon icon={faCalendarWeek} size="1x" className={styles.icon} data-test-id="calendar-week-icon" />
+              <FontAwesomeIcon icon={faCalendarWeek} size="1x" className={styles.icon} data-testid="calendar-week-icon" />
             )}
           </div>
           <div>
@@ -38,9 +38,9 @@ export default function DatasetStats({ dataset }) {
           </div>
         </div>
       </li>
-      <li data-test-id={'lastUpdated'} aria-label={'last updated' + lastUpdated}>
+      <li data-testid={'lastUpdated'} aria-label={'last updated' + lastUpdated}>
         <div className={styles.statItem}>
-          <FontAwesomeIcon icon={faPen} size="1x" className={styles.icon} data-test-id={'calendarCheckIcon'} />
+          <FontAwesomeIcon icon={faPen} size="1x" className={styles.icon} data-testid={'pen-icon'} />
           <div>
             <div className={styles.statHeaderText}> Last Updated </div>
             <div className={styles.stateSubHeaderText}> {lastUpdated} </div>
@@ -49,7 +49,7 @@ export default function DatasetStats({ dataset }) {
       </li>
       <li data-testid="updateFrequency-li" aria-label={frequency}>
         <div className={styles.statItem}>
-          <FontAwesomeIcon icon={faRepeat} size="1x" className={styles.icon} data-testid="sync-alt-icon" />
+          <FontAwesomeIcon icon={faRepeat} size="1x" className={styles.icon} data-testid="repeat-icon" />
           <div>
             <div className={styles.statHeaderText}> Release Frequency </div>
             <div className={styles.stateSubHeaderText}> {frequency} </div>
@@ -57,7 +57,7 @@ export default function DatasetStats({ dataset }) {
         </div>
       </li>
       {dataset.apis && (
-        <li data-testid="numTables-li" aria-label={frequency}>
+        <li data-testid="numTables-li" aria-label={'number of data tables: ' + dataset.apis.length}>
           <div className={styles.statItem}>
             <FontAwesomeIcon icon={faDatabase} size="1x" className={styles.icon} data-testid="database-icon" />
             <div className={styles.dataTableText}>
