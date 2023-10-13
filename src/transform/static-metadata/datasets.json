@@ -62,7 +62,11 @@
     },
     "topics": ["debt", "savings-bonds"],
     "relatedDatasets": [],
-    "currentDateButton": "byMonth"
+    "currentDateButton": "byMonth",
+    "bannerCallout": {
+      "banner": "SavingsBondsDelay",
+      "startDate": "10/16/2023" 
+    }
   },
   "015-BFS-2014Q3-074": {
     "slug": "/redemption-tables/",
