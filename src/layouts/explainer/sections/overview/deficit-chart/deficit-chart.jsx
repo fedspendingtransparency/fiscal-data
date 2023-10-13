@@ -8,6 +8,8 @@ import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+// const apiPrefix = 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service/';
 const AFGDefictChart = () => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
@@ -105,18 +107,6 @@ const AFGDefictChart = () => {
     });
   }, []);
 
-  const getOpactity = year => {
-    console.log('*******');
-    return year.data[0]?.active === year.data[0].year ? 1 : 0.5;
-  };
-
-  const [chartClick, setChartClick] = useState(0);
-  let click = 0;
-  //
-  // useEffect(() => {
-  //   console.log(chartClick);
-  // }, [chartClick]);
-
   return (
     <div className={deficitChart}>
       <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
@@ -128,9 +118,9 @@ const AFGDefictChart = () => {
       {!isLoading && (
         <>
           <div className={legend}>
-            {legendItems?.map(row => {
+            {legendItems?.map((row, index) => {
               return (
-                <div className={legendItem}>
+                <div className={legendItem} key={index}>
                   <span className={dot} style={{ backgroundColor: row.color }}></span>
                   {row.title}
                 </div>
@@ -141,7 +131,6 @@ const AFGDefictChart = () => {
             <div className={chartContainer}>
               <ResponsiveContainer height={164} width="99%">
                 <LineChart
-                  key={Math.random()}
                   margin={{
                     top: 8,
                     right: 8,
@@ -150,7 +139,7 @@ const AFGDefictChart = () => {
                   }}
                   layout="vertical"
                   onMouseLeave={() => setFocusedYear(null)}
-                  onClick={() => (click = click + 1)}
+                  onBlur={() => setFocusedYear(null)}
                 >
                   <CartesianGrid horizontal={false} height={128} />
                   <YAxis
@@ -163,10 +152,8 @@ const AFGDefictChart = () => {
                     tickCount={5}
                     tickMargin={8}
                   />
-                  <XAxis tickMargin={16} type="number" tickFormatter={value => `$${value}`} axisLine={false} tickLine={false} unit={'T'} />
+                  <XAxis tickMargin={16} type="number" tickFormatter={value => `$${value}`} axisLine={false} tickLine={false} allowDecimals={false} />
                   {finalChartData.map((year, index) => {
-                    // console.log(year.data[0]?.active, year.data[0].year);
-
                     return (
                       <Line
                         key={index}
@@ -174,15 +161,14 @@ const AFGDefictChart = () => {
                         data={year.data}
                         stroke={year.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
                         strokeWidth={4}
-                        strokeOpacity={getOpactity(year)}
+                        strokeOpacity={focusedYear === year.data[0].year || focusedYear === null ? 1 : 0.5}
                         dot={<CustomDotNoAnimation />}
                         isAnimationActive={false}
                         activeDot={false}
-                        // onClick={() => console.log('test***', year.data[0]?.active, year.data[0].year)}
                       />
                     );
                   })}
-                  <Tooltip content={<CustomTooltip />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} setFocused={setFocusedYear} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

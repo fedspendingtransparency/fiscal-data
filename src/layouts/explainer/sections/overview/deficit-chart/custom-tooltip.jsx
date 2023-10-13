@@ -2,14 +2,9 @@ import React from 'react';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { toolTip, dot, tooltipLabel, tooltipRow, value, title } from './deficit-chart.module.scss';
 
-const CustomTooltip = ({ active, payload, label, setFocused }) => {
+const CustomTooltip = ({ payload, label, setFocused }) => {
   if (payload && payload.length) {
-    // console.log(active);
-    payload[0].payload.active = label;
-    // console.log(payload);
-    // if ()
-    // payload[1].payload.active = label;
-    // setFocused(payload[0].payload.year);
+    setFocused(payload[0].payload.year);
     return (
       <div className={toolTip}>
         <div className={tooltipLabel}>{label}</div>
