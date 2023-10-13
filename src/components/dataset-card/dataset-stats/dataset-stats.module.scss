@@ -2,9 +2,10 @@
 
 .list {
   list-style: none;
-  padding: 0;
   margin-top: 0.875rem;
   margin-bottom: 0;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
 
   li {
     font-size: $font-size-14;

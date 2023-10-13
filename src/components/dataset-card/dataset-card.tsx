@@ -6,10 +6,12 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from '../../theme';
 import { IDataset } from '../../models/IDataset';
-import { card, card_headerLink, card_tagLine, card_link, card_withFocus, card_withFocus_FireFox } from './dataset-card.module.scss';
+import { card, card_withFocus, card_withFocus_FireFox, cardHeroImage, datasetName } from './dataset-card.module.scss';
 import DatasetStats from './dataset-stats/dataset-stats';
-import Truncator from '../truncate/truncate';
 import { isFirefox } from 'react-device-detect';
+import heroImage from '../../../static/images/dataset-search-hero-images/Hero-8.png';
+
+console.log(heroImage);
 
 type DatasetCardProps = {
   dataset: IDataset;
@@ -62,15 +64,12 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
   return (
     <MuiThemeProvider theme={theme}>
       <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
-        <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)}>
-          <div className={card_headerLink}>
-            <Truncator>{dataset.name}</Truncator>
-          </div>
-          <div className={card_tagLine}>
-            <Truncator>{dataset.tagLine}</Truncator>
+        <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)} style={{ padding: 0 }}>
+          <div>
+            <img src={heroImage} alt={'hero'} className={cardHeroImage} />
+            <div className={datasetName}>{dataset.name}</div>
           </div>
           <DatasetStats dataset={dataset} />
-          {/*<span className={card_link}>Dataset Details</span>*/}
         </CardActionArea>
       </Card>
     </MuiThemeProvider>
