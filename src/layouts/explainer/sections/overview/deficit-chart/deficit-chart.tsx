@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { deficitExplainerPrimary } from '../../../sections/national-deficit/national-deficit.module.scss';
-import { spendingExplainerPrimary } from '../../../sections/federal-spending/federal-spending.module.scss';
-import { revenueExplainerPrimary } from '../../../sections/government-revenue/revenue.module.scss';
+import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
+import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
+import { revenueExplainerPrimary } from '../../government-revenue/revenue.module.scss';
 import { legend, legendItem, dot, chartContainer, chartTitle, surplusPrimary, deficitChart } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import CustomDotNoAnimation from './custom-dot/custom-dot';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-const AFGDeficitChart = () => {
+const AFGDeficitChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
@@ -24,57 +25,59 @@ const AFGDeficitChart = () => {
   const tickCountXAxis = 5;
 
   const getChartData = async () => {
-    const chart_data = [];
-    const round = x => x / 1000000000000;
-    let allSpending;
-    let allRevenue;
-    let surplusLegend = false;
-    const getPastValues = record =>
-      record.record_calendar_month === '09' && record.record_fiscal_year !== currentFY && record.record_fiscal_year >= currentFY - 4;
+    if (currentFY) {
+      const chart_data = [];
+      const round = x => x / 1000000000000;
+      let allSpending;
+      let allRevenue;
+      let surplusLegend = false;
+      const getPastValues = record =>
+        record.record_calendar_month === '09' && record.record_fiscal_year !== currentFY && record.record_fiscal_year >= currentFY - 4;
 
-    await basicFetch(`${apiPrefix}${spendingEndpointUrl}`)?.then(async spendingRes => {
-      const currentFYSpending = spendingRes.data[0];
-      const priorSpending = spendingRes.data.filter(record => getPastValues(record));
-      allSpending = [currentFYSpending, ...priorSpending];
-      await basicFetch(`${apiPrefix}${revenueEndpointUrl}`)?.then(async revenueRes => {
-        const currentFYRevenue = revenueRes.data[0];
-        const priorRevenue = revenueRes.data.filter(record => getPastValues(record));
-        allRevenue = [currentFYRevenue, ...priorRevenue];
-      });
-    });
-    //Construct chart data
-    for (let i = 0; i < allRevenue.length; i++) {
-      const { current_fytd_net_rcpt_amt: revenueValue, record_fiscal_year: revenueFY } = allRevenue[i];
-      const { current_fytd_net_outly_amt: spendingValue, record_fiscal_year: spendingFY } = allSpending[i];
-      const surplus = Number(revenueValue) > Number(spendingValue);
-      if (surplus) {
-        surplusLegend = true;
-      }
-      const toolTipContent = [
-        { title: 'Spending', color: spendingExplainerPrimary, value: spendingValue },
-        { title: 'Revenue', color: revenueExplainerPrimary, value: revenueValue },
-        {
-          title: surplus ? 'Surplus' : 'Deficit',
-          color: surplus ? surplusPrimary : deficitExplainerPrimary,
-          value: Math.abs(revenueValue - spendingValue),
-        },
-      ];
-      if (revenueFY === spendingFY) {
-        chart_data.push({
-          data: [
-            { year: revenueFY, value: round(revenueValue), type: 'revenue', tooltip: toolTipContent, surplus: surplus },
-            { year: spendingFY, value: round(spendingValue), type: 'spending', tooltip: toolTipContent, surplus: surplus },
-          ],
+      await basicFetch(`${apiPrefix}${spendingEndpointUrl}`)?.then(async spendingRes => {
+        const currentFYSpending = spendingRes.data[0];
+        const priorSpending = spendingRes.data.filter(record => getPastValues(record));
+        allSpending = [currentFYSpending, ...priorSpending];
+        await basicFetch(`${apiPrefix}${revenueEndpointUrl}`)?.then(async revenueRes => {
+          const currentFYRevenue = revenueRes.data[0];
+          const priorRevenue = revenueRes.data.filter(record => getPastValues(record));
+          allRevenue = [currentFYRevenue, ...priorRevenue];
         });
+      });
+      //Construct chart data
+      for (let i = 0; i < allRevenue.length; i++) {
+        const { current_fytd_net_rcpt_amt: revenueValue, record_fiscal_year: revenueFY } = allRevenue[i];
+        const { current_fytd_net_outly_amt: spendingValue, record_fiscal_year: spendingFY } = allSpending[i];
+        const surplus = Number(revenueValue) > Number(spendingValue);
+        if (surplus) {
+          surplusLegend = true;
+        }
+        const toolTipContent = [
+          { title: 'Spending', color: spendingExplainerPrimary, value: spendingValue },
+          { title: 'Revenue', color: revenueExplainerPrimary, value: revenueValue },
+          {
+            title: surplus ? 'Surplus' : 'Deficit',
+            color: surplus ? surplusPrimary : deficitExplainerPrimary,
+            value: Math.abs(revenueValue - spendingValue),
+          },
+        ];
+        if (revenueFY === spendingFY) {
+          chart_data.push({
+            data: [
+              { year: revenueFY, value: round(revenueValue), type: 'revenue', tooltip: toolTipContent, surplus: surplus },
+              { year: spendingFY, value: round(spendingValue), type: 'spending', tooltip: toolTipContent, surplus: surplus },
+            ],
+          });
+        }
       }
+      const legendBase = [
+        { title: 'Spending', color: spendingExplainerPrimary },
+        { title: 'Revenue', color: revenueExplainerPrimary },
+        { title: 'Deficit', color: deficitExplainerPrimary },
+      ];
+      setLegendItems(surplusLegend ? [...legendBase, { title: 'Surplus', color: surplusPrimary }] : [...legendBase]);
+      return chart_data;
     }
-    const legendBase = [
-      { title: 'Spending', color: spendingExplainerPrimary },
-      { title: 'Revenue', color: revenueExplainerPrimary },
-      { title: 'Deficit', color: deficitExplainerPrimary },
-    ];
-    setLegendItems(surplusLegend ? [...legendBase, { title: 'Surplus', color: surplusPrimary }] : [...legendBase]);
-    return chart_data;
   };
 
   useEffect(() => {
@@ -107,7 +110,7 @@ const AFGDeficitChart = () => {
       <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
       {isLoading && (
         <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+          <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
         </div>
       )}
       {!isLoading && (
@@ -123,7 +126,13 @@ const AFGDeficitChart = () => {
             })}
           </div>
           <div>
-            <div className={chartContainer} data-testid="chartContainer">
+            <div
+              className={chartContainer}
+              data-testid="chartContainer"
+              onMouseLeave={() => setFocusedYear(null)}
+              onBlur={() => setFocusedYear(null)}
+              role="presentation"
+            >
               <ResponsiveContainer height={164} width="99%">
                 <LineChart
                   margin={{
@@ -133,8 +142,6 @@ const AFGDeficitChart = () => {
                     left: -18,
                   }}
                   layout="vertical"
-                  onMouseLeave={() => setFocusedYear(null)}
-                  onBlur={() => setFocusedYear(null)}
                 >
                   <CartesianGrid horizontal={false} height={128} />
                   <YAxis
@@ -171,7 +178,7 @@ const AFGDeficitChart = () => {
                       />
                     );
                   })}
-                  <Tooltip content={<CustomTooltip />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} setFocused={setFocusedYear} />
+                  <Tooltip content={<CustomTooltip setFocused={setFocusedYear} />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

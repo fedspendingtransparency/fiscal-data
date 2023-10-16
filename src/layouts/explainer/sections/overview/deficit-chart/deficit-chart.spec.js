@@ -1,5 +1,5 @@
 import DeficitChart from './deficit-chart';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import {
@@ -23,6 +23,16 @@ describe('AFG Deficit Chart', () => {
   afterEach(() => {
     jest.resetModules();
     global.fetch.mockReset();
+  });
+
+  it('renders chart container with mouse events', async () => {
+    const { findByTestId } = render(<DeficitChart />);
+    const chart = await findByTestId('chartContainer');
+    expect(chart).toBeInTheDocument();
+    fireEvent.mouseOver(chart);
+    fireEvent.mouseLeave(chart);
+    fireEvent.focus(chart);
+    fireEvent.blur(chart);
   });
 
   it('renders legend', async () => {

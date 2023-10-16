@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { spendingExplainerPrimary } from '../../../federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../../government-revenue/revenue.module.scss';
 
-const CustomDotNoAnimation = ({ cx, cy, payload, r }) => {
+interface ICustomDot {
+  cx?: number;
+  cy?: number;
+  r?: number;
+  payload?;
+}
+const CustomDotNoAnimation: FunctionComponent<ICustomDot> = ({ cx, cy, payload, r }) => {
   const color = payload?.type === 'spending' ? spendingExplainerPrimary : revenueExplainerPrimary;
 
   return (
