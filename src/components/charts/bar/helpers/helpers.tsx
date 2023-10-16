@@ -3,12 +3,12 @@ const timeout = {};
 export const delay = 500;
 
 export const mouseLeaveEvent = (cardId: string, callback: () => void): void => {
-  if(!cardId || !callback){
+  if (!cardId || !callback) {
     return;
   }
   const graphTimeout = timeout[cardId];
 
-  if(graphTimeout){
+  if (graphTimeout) {
     clearTimeout(graphTimeout);
   }
 
@@ -18,11 +18,11 @@ export const mouseLeaveEvent = (cardId: string, callback: () => void): void => {
 };
 
 export const mouseEnterEvent = (cardId: string): void => {
-  if(!cardId){
+  if (!cardId) {
     return;
   }
   const graphTimeout = timeout[cardId];
-  if(graphTimeout){
+  if (graphTimeout) {
     clearTimeout(graphTimeout);
     timeout[cardId] = null;
   }
@@ -30,7 +30,7 @@ export const mouseEnterEvent = (cardId: string): void => {
 
 const helpers = {
   mouseEnterEvent,
-  mouseLeaveEvent
+  mouseLeaveEvent,
 };
 
 export default helpers;

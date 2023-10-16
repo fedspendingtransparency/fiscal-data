@@ -1,42 +1,42 @@
-@import "../../../../variables.module.scss";
+@import '../../../../variables.module.scss';
 
 .time_range_filter {
+  box-sizing: border-box;
+  font-size: 14px;
+  padding-bottom: 6px;
 
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 87);
+  }
+
+  .time_range_filter_label {
+    display: block;
+    padding: 0 0 6px 0; // 6px to offset position of popup calendar
     box-sizing: border-box;
-    font-size: 14px;
-    padding-bottom: 6px;
-  
-    ::placeholder, ::-webkit-input-placeholder {
-      color: rgba(0,0,0,87);
+    margin: 0 -1rem;
+    &:first-child .time_range_filter_label_text {
+      margin-top: 0;
     }
-  
-    .time_range_filter_label {
-      display: block;
-      padding: 0 0 6px 0; // 6px to offset position of popup calendar
-      box-sizing: border-box;
-      margin: 0 -1rem;
-      &:first-child .time_range_filter_label_text {
-        margin-top: 0;
-      }
-  
+
     .time_range_filter_datePicker {
       margin: 0 1rem;
     }
-  
+
     .time_range_filter_label_text {
       margin: 4px 1rem 9px;
     }
   }
-  .time_range_filter_checkbox_container  {
+  .time_range_filter_checkbox_container {
     display: flex;
     margin-bottom: 0.5rem;
     justify-content: space-between;
     align-items: center;
-  
+
     &:last-of-type {
       margin-bottom: 0;
     }
-  
+
     label {
       display: flex;
       cursor: pointer;
@@ -44,17 +44,17 @@
       color: $font-body-copy;
       transition: color ease 0.2s;
       position: relative;
-      
+
       &:hover {
         color: darken($font-body-copy, 40%);
       }
     }
-  
+
     .checkbox_wrapper {
-        position: relative;
+      position: relative;
     }
-  
-  [type="checkbox"] {
+
+    [type='checkbox'] {
       position: absolute;
       display: inline-block;
       max-width: 1px;
@@ -62,13 +62,13 @@
       opacity: 0;
       overflow: hidden;
     }
-    
-    [type="checkbox"]:checked + span {
+
+    [type='checkbox']:checked + span {
       background: $primary -19px top no-repeat;
       border: 1px solid $primary;
     }
-    
-    [type="checkbox"] + span {
+
+    [type='checkbox'] + span {
       display: inline-block;
       position: relative;
       top: -1px;
@@ -86,21 +86,19 @@
     margin-top: 1rem;
     display: inline-flex;
   }
-    .labelCheckmarkContainer {
-      position: relative;
-      color: white;
-    }
-    
-    .labelCheckmarkText {
-      position: absolute;
-      bottom: -1px;
-      left: 2px;
-      font-size: 0.9rem;
-    }
-  
-  
+  .labelCheckmarkContainer {
+    position: relative;
+    color: white;
   }
-  .time_range_filter_checkbox {
-    margin-top: calc(1rem - 6px);
-    display: inline-flex;
+
+  .labelCheckmarkText {
+    position: absolute;
+    bottom: -1px;
+    left: 2px;
+    font-size: 0.9rem;
   }
+}
+.time_range_filter_checkbox {
+  margin-top: calc(1rem - 6px);
+  display: inline-flex;
+}

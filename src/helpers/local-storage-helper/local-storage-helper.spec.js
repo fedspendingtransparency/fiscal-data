@@ -1,24 +1,19 @@
-
-import localStorageHelper from "./local-storage-helper";
-import globalConstants from "../constants";
+import localStorageHelper from './local-storage-helper';
+import globalConstants from '../constants';
 
 describe('Local Storage Helper', () => {
-
   const staticTestDate = 1487076708000;
 
-  const key = 'testKey', key2 = 'testKey2', value = 'testValue', value2 = 'testValue2';
+  const key = 'testKey',
+    key2 = 'testKey2',
+    value = 'testValue',
+    value2 = 'testValue2';
 
   beforeAll(() => {
     const values = {};
-    window.localStorage.__proto__.setItem = jest.fn().mockImplementation(
-      (k, v) => values[k] = v
-    );
-    window.localStorage.__proto__.getItem = jest.fn().mockImplementation(
-      (k) => values[k] ? values[k] : null
-    );
-    window.localStorage.__proto__.removeItem = jest.fn().mockImplementation(
-      (k) => delete values[k]
-    );
+    window.localStorage.__proto__.setItem = jest.fn().mockImplementation((k, v) => (values[k] = v));
+    window.localStorage.__proto__.getItem = jest.fn().mockImplementation(k => (values[k] ? values[k] : null));
+    window.localStorage.__proto__.removeItem = jest.fn().mockImplementation(k => delete values[k]);
     jest.spyOn(Date.prototype, 'getTime').mockImplementation(() => staticTestDate);
   });
 
@@ -29,10 +24,10 @@ describe('Local Storage Helper', () => {
   it('set adds a value to storage with default ttl', () => {
     const testValue = JSON.stringify({
       value: value,
-      expires: staticTestDate + globalConstants.config.localStorage.ttl
+      expires: staticTestDate + globalConstants.config.localStorage.ttl,
     });
     localStorageHelper.set(key, value);
-    expect(window.localStorage.setItem).toHaveBeenCalledWith( key, testValue );
+    expect(window.localStorage.setItem).toHaveBeenCalledWith(key, testValue);
   });
 
   it('set adds a value to storage with a null ttl', () => {
@@ -48,7 +43,7 @@ describe('Local Storage Helper', () => {
   });
 
   it('gets a value that was added to storage', () => {
-    localStorageHelper.set('keyToGet', 'valueToGet')
+    localStorageHelper.set('keyToGet', 'valueToGet');
     const returnValue = localStorageHelper.get('keyToGet');
     expect(returnValue).toEqual('valueToGet');
   });
@@ -59,7 +54,7 @@ describe('Local Storage Helper', () => {
   });
 
   it('get returns null if value is expired', () => {
-    localStorageHelper.set('keyForExpired','valueForExpired', 5000);
+    localStorageHelper.set('keyForExpired', 'valueForExpired', 5000);
     jest.spyOn(Date.prototype, 'getTime').mockImplementation(() => staticTestDate + 50000);
     expect(localStorageHelper.get('keyForExpired')).toBeNull();
   });
@@ -70,5 +65,4 @@ describe('Local Storage Helper', () => {
     localStorageHelper.remove(key);
     expect(localStorageHelper.get(key)).toBeNull();
   });
-
 });

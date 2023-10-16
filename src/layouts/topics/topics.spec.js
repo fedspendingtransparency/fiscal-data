@@ -4,20 +4,17 @@ import Topics from './topics';
 import SiteHeader from '../../components/site-header/site-header';
 import SiteFooter from '../../components/site-footer/site-footer';
 import MastHead from './masthead/masthead';
-import {config} from './test-helpers';
-import RelatedDatasets from "../../components/related-datasets/related-datasets";
+import { config } from './test-helpers';
+import RelatedDatasets from '../../components/related-datasets/related-datasets';
 
 describe('Topics Layout', () => {
-
   let component;
   let instance;
 
   const preProdInd = true;
 
   beforeEach(() => {
-    component = renderer.create(
-      <Topics pageContext={{config: config, isPreProd: preProdInd}} />
-    );
+    component = renderer.create(<Topics pageContext={{ config: config, isPreProd: preProdInd }} />);
     instance = component.root;
   });
 
@@ -35,8 +32,7 @@ describe('Topics Layout', () => {
 
   it('contains the Highlights section with the title Debt', () => {
     // this test is temporary, while the Debt part is hard-coded for the demo
-    expect(instance.findByProps({'id': 'highlights'}).props.title).toBe('Debt Highlights');
-
+    expect(instance.findByProps({ id: 'highlights' }).props.title).toBe('Debt Highlights');
   });
 
   it('contains a Related Datasets component', () => {
@@ -44,7 +40,6 @@ describe('Topics Layout', () => {
   });
 
   it('contains a Related Analyses section', () => {
-    expect(instance.findByProps({'id': 'related-analyses'}).props.title).toBe('Related Analyses');
+    expect(instance.findByProps({ id: 'related-analyses' }).props.title).toBe('Related Analyses');
   });
-
 });

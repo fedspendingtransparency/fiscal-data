@@ -2,7 +2,7 @@
 import React from 'react';
 
 //Custom tool tip example from chartjs
-const getOrCreateTooltip = (chart) => {
+const getOrCreateTooltip = chart => {
   console.log(chart);
   let tooltipEl = chart.canvas.parentNode.querySelector('div');
 
@@ -27,9 +27,9 @@ const getOrCreateTooltip = (chart) => {
   return tooltipEl;
 };
 
-export const externalTooltipHandler = (context) => {
+export const externalTooltipHandler = context => {
   // Tooltip Element
-  const {chart, tooltip} = context;
+  const { chart, tooltip } = context;
   const tooltipEl = getOrCreateTooltip(chart);
 
   // Hide if no tooltip
@@ -98,7 +98,7 @@ export const externalTooltipHandler = (context) => {
     tableRoot.appendChild(tableBody);
   }
 
-  const {offsetLeft: positionX, offsetTop: positionY} = chart.canvas;
+  const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
 
   // Display, position, and set styles for font
   tooltipEl.style.opacity = 1;
@@ -109,14 +109,7 @@ export const externalTooltipHandler = (context) => {
 };
 
 const CustomTooltip = () => {
-
-
-
-  return (
-    <>
-
-    </>
-  )
-}
+  return <></>;
+};
 
 export default CustomTooltip;

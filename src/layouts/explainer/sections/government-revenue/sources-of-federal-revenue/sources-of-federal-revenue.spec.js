@@ -1,17 +1,17 @@
-import SourcesOfFederalRevenue from "./sources-of-federal-revenue";
-import { render, waitFor } from "@testing-library/react";
-import React from "react";
-import fetchMock from "fetch-mock";
+import SourcesOfFederalRevenue from './sources-of-federal-revenue';
+import { render, waitFor } from '@testing-library/react';
+import React from 'react';
+import fetchMock from 'fetch-mock';
 
-describe("Sources of Federal Revenue", () => {
+describe('Sources of Federal Revenue', () => {
   const mockData = {
     data: [
       {
-        current_fytd_rcpt_outly_amt: "2404419075372.07",
-        record_calendar_month: "06",
-        record_calendar_year: "2022",
-        record_date: "2022-06-30",
-        record_fiscal_year: "2022",
+        current_fytd_rcpt_outly_amt: '2404419075372.07',
+        record_calendar_month: '06',
+        record_calendar_year: '2022',
+        record_date: '2022-06-30',
+        record_fiscal_year: '2022',
       },
     ],
   };
@@ -19,11 +19,11 @@ describe("Sources of Federal Revenue", () => {
   const mockDataSupplementary = {
     data: [
       {
-        current_fytd_rcpt_outly_amt: "4408451733324.00",
-        record_calendar_month: "06",
-        record_calendar_year: "2022",
-        record_date: "2022-06-30",
-        record_fiscal_year: "2022",
+        current_fytd_rcpt_outly_amt: '4408451733324.00',
+        record_calendar_month: '06',
+        record_calendar_year: '2022',
+        record_date: '2022-06-30',
+        record_fiscal_year: '2022',
       },
     ],
   };
@@ -31,25 +31,25 @@ describe("Sources of Federal Revenue", () => {
   const mockDataSocSec = {
     data: [
       {
-        current_fytd_rcpt_outly_amt: "1284877566101.73",
-        record_calendar_month: "06",
-        record_calendar_year: "2022",
-        record_date: "2022-06-30",
-        record_fiscal_year: "2022",
+        current_fytd_rcpt_outly_amt: '1284877566101.73',
+        record_calendar_month: '06',
+        record_calendar_year: '2022',
+        record_date: '2022-06-30',
+        record_fiscal_year: '2022',
       },
       {
-        current_fytd_rcpt_outly_amt: "66097914778.76",
-        record_calendar_month: "06",
-        record_calendar_year: "2022",
-        record_date: "2022-06-30",
-        record_fiscal_year: "2022",
+        current_fytd_rcpt_outly_amt: '66097914778.76',
+        record_calendar_month: '06',
+        record_calendar_year: '2022',
+        record_date: '2022-06-30',
+        record_fiscal_year: '2022',
       },
       {
-        current_fytd_rcpt_outly_amt: "5667980667.19",
-        record_calendar_month: "06",
-        record_calendar_year: "2022",
-        record_date: "2022-06-30",
-        record_fiscal_year: "2022",
+        current_fytd_rcpt_outly_amt: '5667980667.19',
+        record_calendar_month: '06',
+        record_calendar_year: '2022',
+        record_date: '2022-06-30',
+        record_fiscal_year: '2022',
       },
     ],
   };
@@ -96,31 +96,27 @@ describe("Sources of Federal Revenue", () => {
     );
   });
 
-  it("renders the category sub header", () => {
+  it('renders the category sub header', () => {
     const { getByRole } = render(<SourcesOfFederalRevenue />);
-    expect(
-      getByRole("heading", { name: "Social Security and Medicare Taxes" })
-    ).toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Social Security and Medicare Taxes' })).toBeInTheDocument();
   });
 
-  it("render the quote box", () => {
+  it('render the quote box', () => {
     const { getByTestId, getByRole } = render(<SourcesOfFederalRevenue />);
-    expect(getByRole("link", { name: "IRS.gov" })).toBeInTheDocument();
-    expect(getByTestId("quote-box")).toBeInTheDocument();
+    expect(getByRole('link', { name: 'IRS.gov' })).toBeInTheDocument();
+    expect(getByTestId('quote-box')).toBeInTheDocument();
   });
 
-  it("renders the data in the section", async () => {
-    const fetchSpy = jest.spyOn(global, "fetch");
+  it('renders the data in the section', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<SourcesOfFederalRevenue />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await getByText("56", { exact: false })).toBeInTheDocument();
-    expect(await getByText("100", { exact: false })).toBeInTheDocument();
+    expect(await getByText('56', { exact: false })).toBeInTheDocument();
+    expect(await getByText('100', { exact: false })).toBeInTheDocument();
   });
 
   it('renders the accordion', () => {
-    const {getByText} = render(
-      <SourcesOfFederalRevenue />);
-    expect(getByText('Why does the Federal Reserve send money to the federal government?'))
-      .toBeInTheDocument();
+    const { getByText } = render(<SourcesOfFederalRevenue />);
+    expect(getByText('Why does the Federal Reserve send money to the federal government?')).toBeInTheDocument();
   });
 });

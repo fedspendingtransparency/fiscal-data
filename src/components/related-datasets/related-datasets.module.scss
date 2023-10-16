@@ -8,23 +8,29 @@
   margin-bottom: 1em;
 }
 
-@media screen and (min-width: $breakpoint-md){
+@media screen and (min-width: $breakpoint-md) {
   .cardWrapper {
     display: inline-flex;
     width: 49%;
     margin-right: 2%;
 
-    &:nth-child(2n+2){margin-right: 0}
+    &:nth-child(2n + 2) {
+      margin-right: 0;
+    }
   }
 }
 
-@media screen and (min-width: $breakpoint-lg){
+@media screen and (min-width: $breakpoint-lg) {
   .cardWrapper {
     display: inline-flex;
     width: 23.5%;
     margin-right: 2%;
 
-    &:nth-child(2n+2){margin-right: 2%}
-    &:nth-child(4n+4){margin-right: 0}
+    &:nth-child(2n + 2) {
+      margin-right: 2%;
+    }
+    &:nth-child(4n + 4) {
+      margin-right: 0;
+    }
   }
 }

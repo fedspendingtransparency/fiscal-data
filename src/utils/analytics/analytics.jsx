@@ -33,14 +33,8 @@ const Analytics = {
     if (!args || !args.hitType) {
       return;
     }
-    this._execute(
-      'send',
-      'hit',
-      args.hitType,
-      args.page || undefined
-    );
-  }
-
+    this._execute('send', 'hit', args.hitType, args.page || undefined);
+  },
 };
 
 // no hack approaches allowed

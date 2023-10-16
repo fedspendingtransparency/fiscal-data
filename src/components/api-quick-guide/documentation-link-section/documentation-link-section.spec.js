@@ -1,9 +1,8 @@
 import React from 'react';
-import DocumentationLinkSection from "./documentation-link-section";
-import { render } from "@testing-library/react";
+import DocumentationLinkSection from './documentation-link-section';
+import { render } from '@testing-library/react';
 
 describe('Documentation Link Section', () => {
-
   it('renders the header if the "type" prop is not set', () => {
     const { getByTestId } = render(<DocumentationLinkSection />);
     const headerSection = getByTestId('header');
@@ -11,7 +10,7 @@ describe('Documentation Link Section', () => {
   });
 
   it('renders the footer section as expected', () => {
-    const { getByTestId } = render(<DocumentationLinkSection type={"footer"} />);
+    const { getByTestId } = render(<DocumentationLinkSection type={'footer'} />);
     const leftFooterSection = getByTestId('footer');
     expect(leftFooterSection).toBeInTheDocument();
   });
@@ -21,5 +20,5 @@ describe('Documentation Link Section', () => {
     const button = getByTestId('button-link');
     expect(button).toBeInTheDocument();
     expect(button.outerHTML).toContain('/api-documentation/');
-  })
+  });
 });

@@ -1,8 +1,8 @@
 import React from 'react';
-import { format } from "date-fns";
+import { format } from 'date-fns';
 import globalConstants from '../../../../helpers/constants';
 import * as styles from './chart-citation.module.scss';
-import CustomLink from "../../../links/custom-link/custom-link";
+import CustomLink from '../../../links/custom-link/custom-link';
 
 export const chartCitationTitle = 'Suggested Citation:';
 export const chartCitationText = ', retrieved from Fiscal Data';
@@ -13,19 +13,19 @@ const ChartCitation = ({ currentTableName, slug }) => {
 
   return (
     <div className={styles.outerContainer}>
-      <div className={styles.title}>
-        {chartCitationTitle}
-      </div>
+      <div className={styles.title}>{chartCitationTitle}</div>
       <div className={styles.container}>
         <div className={styles.text}>
-          {currentTableName}{chartCitationText}
+          {currentTableName}
+          {chartCitationText}
         </div>
         <div className={styles.text}>
-          <CustomLink url={fullUrl}>{fullUrl}</CustomLink>{today}
+          <CustomLink url={fullUrl}>{fullUrl}</CustomLink>
+          {today}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default ChartCitation;

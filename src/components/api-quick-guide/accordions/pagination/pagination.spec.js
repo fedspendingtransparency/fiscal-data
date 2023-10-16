@@ -1,13 +1,13 @@
 import React from 'react';
 import PaginationAccordion from './pagination';
 import * as accordionStyles from '../../../accordion/accordion.module.scss';
-import {fireEvent, render, within} from "@testing-library/react";
+import { fireEvent, render, within } from '@testing-library/react';
 
 describe('Pagination Accordion', () => {
   const titleText = 'Pagination';
   const mockEndpoint = 'mock/end/point';
   const mockSelectedTable = {
-    endpoint: mockEndpoint
+    endpoint: mockEndpoint,
   };
 
   it('expects the title to be rendered.', () => {
@@ -29,7 +29,6 @@ describe('Pagination Accordion', () => {
   it('displays the dynamic endpoint in the example shown', () => {
     const { getByTestId } = render(<PaginationAccordion selectedTable={mockSelectedTable} />);
     fireEvent.click(getByTestId('button'));
-    expect(within(getByTestId('fullUrl'))
-      .getByText(mockEndpoint, {exact: false})).toBeInTheDocument();
+    expect(within(getByTestId('fullUrl')).getByText(mockEndpoint, { exact: false })).toBeInTheDocument();
   });
 });

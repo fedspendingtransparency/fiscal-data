@@ -1,7 +1,7 @@
 import React from 'react';
 import Topic from './topic/topic';
-import * as styles from "./topics.module.scss";
-import FilterGroupReset from "../filters/filterGroupReset/filterGroupReset";
+import * as styles from './topics.module.scss';
+import FilterGroupReset from '../filters/filterGroupReset/filterGroupReset';
 
 const Topics = ({ activeFilters, groupId, onChange, onGroupReset, availableFilters, topicIcons }) => (
   <>
@@ -16,22 +16,24 @@ const Topics = ({ activeFilters, groupId, onChange, onGroupReset, availableFilte
       onGroupReset={onGroupReset}
     />
     <div className={styles.topicsLayout}>
-      {availableFilters.filter(filter => filter.groupId === groupId).map(filter => {
-        const image = topicIcons.find(icon => icon.name === filter.slug)
-        return (
-          <Topic
-            active={filter.active}
-            filterKey={filter.id}
-            key={filter.id}
-            label={filter.label}
-            onChange={onChange}
-            slug={filter.slug}
-            image={image}
-          />
-        )
-      })}
+      {availableFilters
+        .filter(filter => filter.groupId === groupId)
+        .map(filter => {
+          const image = topicIcons.find(icon => icon.name === filter.slug);
+          return (
+            <Topic
+              active={filter.active}
+              filterKey={filter.id}
+              key={filter.id}
+              label={filter.label}
+              onChange={onChange}
+              slug={filter.slug}
+              image={image}
+            />
+          );
+        })}
     </div>
   </>
-)
+);
 
 export default Topics;

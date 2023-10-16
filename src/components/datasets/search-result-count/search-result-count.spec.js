@@ -12,12 +12,7 @@ describe('SearchResultCount', () => {
     const text = getSearchResultText(testCount, testTotal, testApiCount, testApiTotal);
 
     const { getByText } = render(
-      <SearchResultCount
-        filteredCount={testCount}
-        totalCount={testTotal}
-        filteredApiCount={testApiCount}
-        totalApiCount={testApiTotal}
-      />
+      <SearchResultCount filteredCount={testCount} totalCount={testTotal} filteredApiCount={testApiCount} totalApiCount={testApiTotal} />
     );
 
     expect(getByText(text)).toBeInTheDocument();

@@ -1,5 +1,5 @@
 export interface IShareButtonContent {
-  name: string,
-  width: number,
-  displayStyle?: string,
+  name: string;
+  width: number;
+  displayStyle?: string;
 }

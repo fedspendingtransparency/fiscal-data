@@ -1,13 +1,13 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef } from 'react';
 import * as styles from './search-field.module.scss';
-import { faSearch, faTimesCircle } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import InfoTip, { infoTipAnalyticsObject } from "../../info-tip/info-tip";
+import InfoTip, { infoTipAnalyticsObject } from '../../info-tip/info-tip';
 import Analytics from '../../../utils/analytics/analytics';
-import { siteContext } from "../../persist/persist";
-import { useContext } from "react";
-import { useEffect } from "react";
+import { siteContext } from '../../persist/persist';
+import { useContext } from 'react';
+import { useEffect } from 'react';
 
 const infoIcon = {
   title: 'Dataset Keyword Search',
@@ -22,7 +22,7 @@ const infoIcon = {
         <li>Column Field Name (must be exact)</li>
       </ul>
     </>
-  )
+  ),
 };
 
 let qtUpdate = null;
@@ -30,24 +30,22 @@ let analyticsUpdate = null;
 
 export const searchFieldAnalyticsObject = {
   category: 'Dataset Search Page',
-  action: 'Keyword Search'
-}
+  action: 'Keyword Search',
+};
 
 export const lastUpdatedInfoTipAnalyticsObject = {
   ...infoTipAnalyticsObject,
-  label: 'Keyword Search'
-}
+  label: 'Keyword Search',
+};
 
 const SearchField = ({ changeHandler, finalDatesNotFound }) => {
   const context = useContext(siteContext);
-  const {keywords, setKeywords} = context;
+  const { keywords, setKeywords } = context;
   const [localText, setLocalText] = useState(context ? keywords : '');
-  const [searchIsEmpty, setSearchIsEmpty] = useState(
-    !context || !keywords || !keywords.length
-  );
+  const [searchIsEmpty, setSearchIsEmpty] = useState(!context || !keywords || !keywords.length);
   const searchField = useRef();
 
-  const processInput = (event) => {
+  const processInput = event => {
     const searchFieldVal = event.target.value;
     setSearchIsEmpty(searchFieldVal.length === 0);
     setLocalText(searchFieldVal);
@@ -72,18 +70,18 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
       if (localText && localText.replace(/\s*/, '').length) {
         Analytics.event({
           ...searchFieldAnalyticsObject,
-          label: localText
+          label: localText,
         });
 
         // GA4 event
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          'event': 'Keyword Search',
-          'eventLabel': localText
+          event: 'Keyword Search',
+          eventLabel: localText,
         });
       }
-    }, 2000)
-  }
+    }, 2000);
+  };
 
   const clear = () => {
     setSearchIsEmpty(true);
@@ -96,13 +94,13 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
     // GA4 event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      'event': 'Info Button Click',
-      'eventLabel': 'Keyword Search'
+      event: 'Info Button Click',
+      eventLabel: 'Keyword Search',
     });
-  }
+  };
 
   useEffect(() => {
-    if(!finalDatesNotFound){
+    if (!finalDatesNotFound) {
       throttleChange();
     }
   }, [localText, finalDatesNotFound]);
@@ -136,21 +134,18 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
           aria-hidden={searchIsEmpty}
           aria-label={!searchIsEmpty ? 'clear' : ''}
         >
-          {searchIsEmpty
-            ? <FontAwesomeIcon icon={faSearch} data-test-id="search-icon" />
-            : <FontAwesomeIcon icon={faTimesCircle} data-test-id="clear-search-icon" />
-          }
+          {searchIsEmpty ? (
+            <FontAwesomeIcon icon={faSearch} data-test-id="search-icon" />
+          ) : (
+            <FontAwesomeIcon icon={faTimesCircle} data-test-id="clear-search-icon" />
+          )}
         </button>
-        <InfoTip
-          secondary={true}
-          title={infoIcon.title}
-          clickEvent={handleInfoTipClick}
-        >
+        <InfoTip secondary={true} title={infoIcon.title} clickEvent={handleInfoTipClick}>
           {infoIcon.body}
         </InfoTip>
       </div>
     </>
   );
-}
+};
 
 export default SearchField;

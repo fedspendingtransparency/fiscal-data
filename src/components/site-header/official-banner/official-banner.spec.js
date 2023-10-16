@@ -1,9 +1,8 @@
 import React from 'react';
-import { render } from "@testing-library/react";
-import OfficialBanner from "./official-banner";
+import { render } from '@testing-library/react';
+import OfficialBanner from './official-banner';
 
 describe('OfficialBanner', () => {
-
   const officialText = 'An official website of the U.S. government';
 
   it('renders the containing div for the component', () => {

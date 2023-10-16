@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import DatasetSectionContainer from "../dataset-section-container/dataset-section-container";
+import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DocumentationLinkSection from './documentation-link-section/documentation-link-section';
 import DatasetDetailFields from './dataset-detail-fields';
 import Accordions from './accordions/accordions';
 import DatasetDetailEndpoints from './dataset-detail-endpoints/dataset-detail-endpoints';
 import ApiQuickGuideSection from './api-quick-guide-section';
-import DatasetDetailExamples from "./dataset-detail-examples/dataset-detail-examples";
+import DatasetDetailExamples from './dataset-detail-examples/dataset-detail-examples';
 import SectionCollapseButton from '../section-collapse/section-collapse-button';
 
 import * as style from './api-quick-guide.module.scss';
@@ -81,9 +81,7 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
   }, []);
 
   const title = 'API Quick Guide';
-  const expandStyles = !isCollapsed
-    ? style.sectionWrapper
-    : `${style.sectionWrapper} ${style.collapsed}`;
+  const expandStyles = !isCollapsed ? style.sectionWrapper : `${style.sectionWrapper} ${style.collapsed}`;
 
   return (
     <DatasetSectionContainer id="api-quick-guide" title={title}>
@@ -95,15 +93,8 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
             <div id="collapse-scroll-target" />
             <DatasetDetailFields apis={config.apis} />
             <Accordions selectedTable={selectedTable} />
-            <ApiQuickGuideSection
-              id="method-section"
-              title={methods.title}
-              description={methods.desc}
-            />
-            <DatasetDetailExamples
-              isAccordionOpen={!isCollapsed}
-              selectedTable={selectedTable}
-            />
+            <ApiQuickGuideSection id="method-section" title={methods.title} description={methods.desc} />
+            <DatasetDetailExamples isAccordionOpen={!isCollapsed} selectedTable={selectedTable} />
             <DocumentationLinkSection type="FOOTER" />
           </div>
         </div>
@@ -112,7 +103,7 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
         <SectionCollapseButton sectionName="api-quick-guide" handleToggle={handleCollapse} />
       </div>
     </DatasetSectionContainer>
-  )
-}
+  );
+};
 
 export default ApiQuickGuide;

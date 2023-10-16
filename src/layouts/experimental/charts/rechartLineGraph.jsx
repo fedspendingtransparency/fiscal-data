@@ -9,7 +9,7 @@ const data = [
     color: '#00796B',
     duration: 1300,
     data: [
-      { category: 'Oct', value: 0.00 },
+      { category: 'Oct', value: 0.0 },
       { category: 'Nov', value: 0.25 },
       { category: 'Dec', value: 0.35 },
       { category: 'Jan', value: 0.65 },
@@ -17,7 +17,6 @@ const data = [
       { category: 'Mar', value: 0.95 },
       { category: 'Arp', value: 1.15 },
       { category: 'May', value: 1.25 },
-
     ],
   },
   {
@@ -36,7 +35,7 @@ const data = [
       { category: 'Jun', value: 1.22 },
       { category: 'Jul', value: 1.22 },
       { category: 'Aug', value: 1.35 },
-      { category: 'Sep', value: 1.40 },
+      { category: 'Sep', value: 1.4 },
     ],
   },
   {
@@ -119,14 +118,13 @@ useEffect(() => {
 console.log("current ",currentFiscalYear);
 console.log("pfy ", priorFiscalYear);
   return (
-    <div style={{width: '800px', height: '600px'}}>
+    <div style={{ width: '800px', height: '600px' }}>
       <ResponsiveContainer width="100%" aspect={3}>
         <LineChart width={500} height={300} cursor="pointer">
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} tick={<TickCount />} />
+            <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
             <YAxis type="number" domain={[0, 10]} tickCount={9} />
             <Tooltip 
-              content={<CustomTooltip />}
               isAnimationActive={true} 
               animationEasing=';inear' 
             />
@@ -147,7 +145,6 @@ console.log("pfy ", priorFiscalYear);
       </ResponsiveContainer>
     </div>
   );
-}
+};
 
 export default ReLineGraph;
-

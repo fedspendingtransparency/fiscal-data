@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import * as styles from './download-toggle.module.scss';
 
-const DownloadToggle = ({onChange}) => {
+const DownloadToggle = ({ onChange }) => {
   const [activeState, setActiveState] = useState('csv');
 
-  const changeState = (value) => {
+  const changeState = value => {
     setActiveState(value);
     onChange(value);
   };
@@ -20,13 +20,10 @@ const DownloadToggle = ({onChange}) => {
         name="downloadToggle"
         onChange={() => changeState('csv')}
       />
-      <label
-        className={`${styles.toggleButton} ${activeState === 'csv' ? styles.selected : ''}`}
-        htmlFor="csv"
-      >
+      <label className={`${styles.toggleButton} ${activeState === 'csv' ? styles.selected : ''}`} htmlFor="csv">
         CSV
       </label>
-      <input 
+      <input
         type="radio"
         checked={activeState === 'json' ? 'checked' : ''}
         className={styles.radio}
@@ -35,13 +32,10 @@ const DownloadToggle = ({onChange}) => {
         name="downloadToggle"
         onChange={() => changeState('json')}
       />
-      <label
-        className={`${styles.toggleButton} ${activeState === 'json' ? styles.selected : ''}`}
-        htmlFor="json"
-      >
+      <label className={`${styles.toggleButton} ${activeState === 'json' ? styles.selected : ''}`} htmlFor="json">
         JSON
       </label>
-      <input 
+      <input
         type="radio"
         checked={activeState === 'xml' ? 'checked' : ''}
         className={styles.radio}
@@ -50,15 +44,11 @@ const DownloadToggle = ({onChange}) => {
         name="downloadToggle"
         onChange={() => changeState('xml')}
       />
-      <label
-        className={`${styles.toggleButton} ${activeState === 'xml' ? styles.selected : ''}`}
-        htmlFor="xml"
-      >
+      <label className={`${styles.toggleButton} ${activeState === 'xml' ? styles.selected : ''}`} htmlFor="xml">
         XML
       </label>
     </div>
-
-  )
-}
+  );
+};
 
 export default DownloadToggle;

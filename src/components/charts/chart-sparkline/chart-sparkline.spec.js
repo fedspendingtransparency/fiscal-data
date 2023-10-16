@@ -4,7 +4,7 @@ import drawChart, { addHoverEffects, hoverEffectsId } from './index';
 describe('Sparkline Chart', () => {
   const testId = 'test-chart-id';
 
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   container.setAttribute('id', testId);
 
   document.body.appendChild(container);

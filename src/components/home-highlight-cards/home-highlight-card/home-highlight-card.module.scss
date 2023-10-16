@@ -76,7 +76,8 @@ a {
   margin-bottom: 1rem;
 }
 
-.statLower, .statUpper {
+.statLower,
+.statUpper {
   display: flex;
   flex-direction: column;
 }
@@ -101,7 +102,7 @@ a {
 }
 
 .sparkLine {
-  margin: .5rem 0 3rem;
+  margin: 0.5rem 0 3rem;
   height: 100px;
   font-size: 24px;
   font-weight: $semi-bold-weight;
@@ -119,7 +120,7 @@ a {
 }
 
 .datasetName {
-  margin-bottom: .25rem;
+  margin-bottom: 0.25rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -127,7 +128,7 @@ a {
 }
 
 .datasetIcon {
-  margin: 0 .25rem 0.05rem 0;
+  margin: 0 0.25rem 0.05rem 0;
 }
 
 .tooltip {
@@ -160,7 +161,8 @@ a {
 }
 
 // The following styles the x-axis for non-d3 charts to match that of our d3 line charts
-.xAxis, .x-label-text {
+.xAxis,
+.x-label-text {
   margin-top: 0.75rem;
   padding-top: 0.5rem;
   border-top: 1px solid #666;

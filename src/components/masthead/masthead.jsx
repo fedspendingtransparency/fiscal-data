@@ -4,19 +4,20 @@ import DetailPills from '../detail-pills/detail-pills';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 import BannerCallout from '../banner-callout/banner-callout';
 
-const Masthead = ({title, tagLine, techSpecs, dictionary, bannerCallout}) => {
+const Masthead = ({ title, tagLine, techSpecs, dictionary, bannerCallout }) => {
+
   const breadCrumbLinks = [
     {
-      name: title
+      name: title,
     },
     {
       name: 'Dataset Search',
-      link: '/datasets/'
+      link: '/datasets/',
     },
     {
       name: 'Home',
-      link: '/'
-    }
+      link: '/',
+    },
   ];
 
   return (
@@ -28,12 +29,12 @@ const Masthead = ({title, tagLine, techSpecs, dictionary, bannerCallout}) => {
         <p className={styles.tagLine} data-test-id="tagLine">{tagLine}</p>
         {bannerCallout &&
         <div data-testid="callout">
-          <BannerCallout bannerCallout={bannerCallout} />
+          <BannerCallout bannerCallout={bannerCallout} bannerType={bannerCallout.banner === 'SavingsBondsDelay' ? 'warning' : 'info'} />
         </div>
       }
       </div>
     </section>
-  )
+  );
 };
 
 export default Masthead;

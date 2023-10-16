@@ -1,21 +1,15 @@
 import React from 'react';
-import DatasetChart, {
-  determineFormat,
-  dataTableChartNotesText,
-  callbacks,
-  chartHooks
-} from './dataset-chart';
+import DatasetChart, { determineFormat, dataTableChartNotesText, callbacks, chartHooks } from './dataset-chart';
 import globalConstants from '../../../helpers/constants';
 import { chartCitationText } from './chart-citation/chart-citation';
 import * as Helpers from '../dataset-data-helper/dataset-data-helper';
 import { fireEvent, render } from '@testing-library/react';
 
-
 jest.mock('../../charts/chart-primary', () => () => {
   return {
     __esModule: true,
     default: jest.fn(),
-    onUpdateChartWidth: jest.fn()
+    onUpdateChartWidth: jest.fn(),
   };
 });
 jest.useFakeTimers();
@@ -24,54 +18,56 @@ const mockDateField = 'reporting_date';
 
 const mockYears = {
   from: 2019,
-  to: 2020
+  to: 2020,
 };
 
 const mockDateRange = {
   from: new Date(mockYears.from, 0, 1),
-  to: new Date(mockYears.to, 0, 1)
+  to: new Date(mockYears.to, 0, 1),
 };
 
 const mockData = {
-  data: [{
-    reporting_date: `${mockYears.from}-01-01`,
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 4
-  },
-  {
-    reporting_date: `${mockYears.to}-01-01`,
-    a: 11,
-    b: 12,
-    c: 13,
-    d: 14
-  }],
+  data: [
+    {
+      reporting_date: `${mockYears.from}-01-01`,
+      a: 1,
+      b: 2,
+      c: 3,
+      d: 4,
+    },
+    {
+      reporting_date: `${mockYears.to}-01-01`,
+      a: 11,
+      b: 12,
+      c: 13,
+      d: 14,
+    },
+  ],
   meta: {
     dataTypes: {
       a: 'CURRENCY',
       b: 'not currency',
       c: 'NUMBER',
-      d: 'PERCENTAGE'
+      d: 'PERCENTAGE',
     },
     labels: {
       a: 'A',
       b: 'B',
       c: 'C',
-      d: 'D'
-    }
-  }
+      d: 'D',
+    },
+  },
 };
 
 const mockConfig = {
-  name: 'my name'
+  name: 'my name',
 };
 
 const mockPivot = { pivotView: { title: 'my selection' } };
 
 const mockSlug = 'mock/slug/here';
 
-const mockTable = { 'tableName': 'TableOne' };
+const mockTable = { tableName: 'TableOne' };
 
 describe('Dataset Chart', () => {
   it('shows date range as years and the selected pivot', () => {
@@ -134,8 +130,7 @@ describe('Dataset Chart', () => {
     expect(determineFormat(['d'], mockData.meta.dataTypes)).toBe('RATE');
   });
 
-  it('contains a ChartCitation component and passes slug and currentTableName props to it',
-    () => {
+  it('contains a ChartCitation component and passes slug and currentTableName props to it', () => {
     const { getByText } = render(
       <DatasetChart
         config={mockConfig}
@@ -171,12 +166,7 @@ describe('Dataset Chart', () => {
       />
     );
 
-    expect(thinnerSpy).toHaveBeenCalledWith(
-      mockData.data,
-      mockSlug,
-      mockDateField,
-      mockTable
-    );
+    expect(thinnerSpy).toHaveBeenCalledWith(mockData.data, mockSlug, mockDateField, mockTable);
   });
 
   // Currently only Debt to the Penny and Historical QTC has chart notes.

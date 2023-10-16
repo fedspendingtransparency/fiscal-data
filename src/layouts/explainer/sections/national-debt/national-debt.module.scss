@@ -35,7 +35,7 @@
   margin-top: 1rem;
 }
 
-.DebtOverLast100yContainer{
+.DebtOverLast100yContainer {
   margin-bottom: 1rem;
 }
 
@@ -108,7 +108,7 @@
     font-size: $font-size-18;
     color: $debt-explainer-primary;
     border: none;
-    padding: .75rem 1rem;
+    padding: 0.75rem 1rem;
   }
 
   :global(.accordionToggle) {
@@ -124,13 +124,14 @@
   }
 
   :global(.accordionContent) {
-    padding-right:1.25rem;
-    padding-left:1.25rem;
-    padding-bottom:1.5rem;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+    padding-bottom: 1.5rem;
     border: none;
   }
 
-  :global(.accordionOpen), :global(.accordionClosed) {
+  :global(.accordionOpen),
+  :global(.accordionClosed) {
     border: solid 0.06rem $debt-explainer-primary;
     border-radius: 0.13rem;
   }
@@ -144,7 +145,8 @@
       min-width: 4rem;
       border-radius: 2rem;
 
-      .icon, .offsetIcon {
+      .icon,
+      .offsetIcon {
         font-size: 2.313rem;
         transform: translate(1.125rem, -0.563rem);
       }
@@ -201,15 +203,14 @@
       min-width: 52px;
       border-radius: 26px;
 
-      .icon, .offsetIcon {
+      .icon,
+      .offsetIcon {
         font-size: 1.813rem;
         transform: translate(0.75rem, -0.563rem);
-
       }
 
       .offsetIcon {
         transform: translate(0.938rem, -0.75rem);
-
       }
     }
 
@@ -221,7 +222,7 @@
   .postGraphContent {
     h3 {
       font-size: $font-size-24;
-      padding-bottom: .5rem;
+      padding-bottom: 0.5rem;
     }
   }
 

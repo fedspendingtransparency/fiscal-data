@@ -1,26 +1,26 @@
-import {fireEvent, render} from "@testing-library/react";
-import MobileMenuDropdown from "./mobile-menu-dropdown";
-import React from "react";
-import Analytics from "../../../../utils/analytics/analytics";
+import { fireEvent, render } from '@testing-library/react';
+import MobileMenuDropdown from './mobile-menu-dropdown';
+import React from 'react';
+import Analytics from '../../../../utils/analytics/analytics';
 
 const testSections = [
   {
-    sectionHeader: 'AMERICA\'S FINANCE GUIDE',
+    sectionHeader: "AMERICA'S FINANCE GUIDE",
     analyticsAction: 'Topics Click',
     children: [
       {
         to: '/americas-finance-guide/',
-        name: 'Overview'
+        name: 'Overview',
       },
       {
         to: '/americas-finance-guide/government-revenue/',
-        name: 'Revenue'
+        name: 'Revenue',
       },
       {
         to: '/americas-finance-guide/federal-spending/',
-        name: 'Spending'
+        name: 'Spending',
       },
-    ]
+    ],
   },
   {
     sectionHeader: 'ANOTHER SECTION',
@@ -28,19 +28,19 @@ const testSections = [
     children: [
       {
         to: '/americas-finance-guide/',
-        name: 'Test Section'
+        name: 'Test Section',
       },
       {
         to: '/americas-finance-guide/government-revenue/',
-        name: 'A Second Test Section'
+        name: 'A Second Test Section',
       },
       {
         to: '/',
-        name: 'Glossary'
-      }
-    ]
-  }
-]
+        name: 'Glossary',
+      },
+    ],
+  },
+];
 
 describe('Mobile Menu Dropdown', () => {
   it('contains provided header', () => {
@@ -51,18 +51,18 @@ describe('Mobile Menu Dropdown', () => {
   it('dropdown is closed by default', () => {
     const { getByText, getByRole } = render(<MobileMenuDropdown header={'Header'} sections={testSections} />);
     expect(getByText('Header')).not.toHaveClass('headerExpanded');
-    expect(getByRole('img', {hidden: true})).toHaveClass('fa-caret-right');
+    expect(getByRole('img', { hidden: true })).toHaveClass('fa-caret-right');
   });
 
   it('dropdown is open by default when defaultOpen is true', () => {
     const { getByText, getByRole } = render(<MobileMenuDropdown header={'Header'} sections={testSections} defaultOpen />);
     expect(getByText('Header')).toHaveClass('headerExpanded');
-    expect(getByRole('img', {hidden: true})).toHaveClass('fa-caret-down');
+    expect(getByRole('img', { hidden: true })).toHaveClass('fa-caret-down');
   });
 
   it('opens dropdown on click', () => {
     const { getByText } = render(<MobileMenuDropdown header={'Header'} sections={testSections} />);
-    const header =getByText('Header');
+    const header = getByText('Header');
     expect(getByText('Header')).not.toHaveClass('headerExpanded');
     fireEvent.click(header);
     expect(getByText('Header')).toHaveClass('headerExpanded');
@@ -70,23 +70,23 @@ describe('Mobile Menu Dropdown', () => {
 
   it('opens/closes dropdown on enter key press', () => {
     const { getByText } = render(<MobileMenuDropdown header={'Header'} sections={testSections} />);
-    const header =getByText('Header');
+    const header = getByText('Header');
     expect(getByText('Header')).not.toHaveClass('headerExpanded');
-    fireEvent.keyPress(header, {key: 'Enter', code: 'Enter', charCode: 13})
+    fireEvent.keyPress(header, { key: 'Enter', code: 'Enter', charCode: 13 });
     expect(getByText('Header')).toHaveClass('headerExpanded');
-    fireEvent.keyPress(header, {key: 'Enter', code: 'Enter', charCode: 13})
+    fireEvent.keyPress(header, { key: 'Enter', code: 'Enter', charCode: 13 });
     expect(getByText('Header')).not.toHaveClass('headerExpanded');
   });
 
   it('renders all section headers', () => {
     const { getByText } = render(<MobileMenuDropdown header={'Header'} sections={testSections} defaultOpen />);
-    expect(getByText('AMERICA\'S FINANCE GUIDE')).toBeInTheDocument();
+    expect(getByText("AMERICA'S FINANCE GUIDE")).toBeInTheDocument();
     expect(getByText('ANOTHER SECTION')).toBeInTheDocument();
   });
 
   it('renders all section links', () => {
     const { getByText } = render(<MobileMenuDropdown header={'Header'} sections={testSections} defaultOpen />);
-    expect(getByText('AMERICA\'S FINANCE GUIDE')).toBeInTheDocument();
+    expect(getByText("AMERICA'S FINANCE GUIDE")).toBeInTheDocument();
     expect(getByText('Overview')).toBeInTheDocument();
     expect(getByText('Revenue')).toBeInTheDocument();
     expect(getByText('Spending')).toBeInTheDocument();
@@ -104,7 +104,7 @@ describe('Mobile Menu Dropdown', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Sitewide Navigation',
       action: `Topics Click`,
-      label: 'Spending'
+      label: 'Spending',
     });
     spy.mockClear();
   });
@@ -112,15 +112,19 @@ describe('Mobile Menu Dropdown', () => {
   it('sets open state for glossary and closed state for menu when glossary selected', () => {
     const setGlossaryOpenMock = jest.fn();
     const setActiveStateMock = jest.fn();
-    const { getByText } = render(<MobileMenuDropdown header={'Header'}
-                                                     sections={testSections}
-                                                     defaultOpen
-                                                     setActiveState={setActiveStateMock}
-                                                     setOpenGlossary={setGlossaryOpenMock} />);
+    const { getByText } = render(
+      <MobileMenuDropdown
+        header={'Header'}
+        sections={testSections}
+        defaultOpen
+        setActiveState={setActiveStateMock}
+        setOpenGlossary={setGlossaryOpenMock}
+      />
+    );
 
     getByText('Glossary').click();
 
     expect(setGlossaryOpenMock).toHaveBeenCalledWith(true);
     expect(setActiveStateMock).toHaveBeenCalledWith(false);
   });
-})
+});

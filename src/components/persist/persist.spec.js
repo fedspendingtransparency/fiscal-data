@@ -8,7 +8,7 @@ describe('components.persist', () => {
   beforeEach(() => {
     ReactDOM.render(
       Persist({
-        element:
+        element: (
           <Provider>
             <siteContext.Consumer>
               {context => {
@@ -16,7 +16,10 @@ describe('components.persist', () => {
               }}
             </siteContext.Consumer>
           </Provider>
-      }), document.createElement('div'));
+        ),
+      }),
+      document.createElement('div')
+    );
   });
 
   it('exposes a getter and setter for persistent search keywords', () => {

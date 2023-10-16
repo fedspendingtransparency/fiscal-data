@@ -1,9 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {SmoothScroll} from './smooth-scroll';
+import { SmoothScroll } from './smooth-scroll';
 
 describe('smooth scroll', () => {
-
   const scrollInstance = new SmoothScroll();
   const globalScrollTo = global.window.scrollTo;
 
@@ -16,7 +15,7 @@ describe('smooth scroll', () => {
           Jump to scroll section
         </a>
       </>
-    )
+    );
   });
   const instance = component.root;
 
@@ -25,15 +24,15 @@ describe('smooth scroll', () => {
       nodeName: 'A',
       getAttribute: () => '#scrollHere',
     },
-    preventDefault: () => {}
+    preventDefault: () => {},
   };
 
   document.querySelector = jest.fn(() => {
     return {
       getBoundingClientRect: jest.fn(() => {
-        return {top: 0}
-      })
-    }
+        return { top: 0 };
+      }),
+    };
   });
 
   beforeAll(() => {
@@ -44,8 +43,7 @@ describe('smooth scroll', () => {
     global.window.scrollTo = globalScrollTo;
   });
 
-  it('expects scrollTo within onLinkClick to have been called on anchor that ' +
-    'attaches the SmoothScroll handlers', async () => {
+  it('expects scrollTo within onLinkClick to have been called on anchor that ' + 'attaches the SmoothScroll handlers', async () => {
     const link = instance.findByType('a');
     link.addEventListener = jest.fn();
 
@@ -63,5 +61,5 @@ describe('smooth scroll', () => {
 
     // This verifies that onLinkClick has been executed all the way through
     expect(global.window.scrollTo).toHaveBeenCalled();
-  })
+  });
 });

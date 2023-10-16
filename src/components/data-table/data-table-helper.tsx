@@ -38,7 +38,6 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
               },
             } as ColumnDef<string, Date>;
           } else if (rawData.meta.dataTypes[field] === 'NUMBER') {
-
             return {
               accessorKey: field,
               header: label,
@@ -47,9 +46,9 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
                 let formattedValue;
 
                 if (tableName === 'FRN Daily Indexes' && (field === 'daily_index' || field === 'daily_int_accrual_rate')) {
-                    formattedValue = value ? value : '';
+                  formattedValue = value ? value : '';
                 } else if (tableName === 'FRN Daily Indexes' && field === 'spread') {
-                    formattedValue = value ? Number(value).toFixed(3) : '';
+                  formattedValue = value ? Number(value).toFixed(3) : '';
                 } else {
                   formattedValue = numberFormatter.format(value);
                 }

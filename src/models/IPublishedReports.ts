@@ -1,5 +1,5 @@
-import { IPublishedReport } from "./IPublishedReport"
+import { IPublishedReport } from './IPublishedReport';
 
 export interface IPublishedReports {
-  [key: string]: IPublishedReport
+  [key: string]: IPublishedReport;
 }

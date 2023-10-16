@@ -1,6 +1,6 @@
-import {withWindowSize} from "react-fns";
-import React from "react";
-import {tabEdgeRight} from "../../surplus-illustration.module.scss";
+import { withWindowSize } from 'react-fns';
+import React from 'react';
+import { tabEdgeRight } from '../../surplus-illustration.module.scss';
 
 const FolderTabEdgeRightMobile = () => {
   return (
@@ -35,7 +35,7 @@ const FolderTabEdgeRightMobile = () => {
         </g>
       </svg>
     </div>
-  )
-}
+  );
+};
 
 export default withWindowSize(FolderTabEdgeRightMobile);
