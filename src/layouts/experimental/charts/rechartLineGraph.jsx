@@ -103,20 +103,21 @@ const TickCount = (props) => {
 
 const ReLineGraph = () => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState("");
+  const [priorFiscalYear, setPriorFiscalYear] = useState("");
+  const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date&page[size]=1';
+  const priorYearUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691,record_calendar_month:eq:09,record_fiscal_year:eq:{prior_fiscal_year}&sort=-record_date&page[size]=1'
 
-  useEffect(() => { 
-    const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date&page[size]=1';
-
-    basicFetch(`${apiPrefix}${endpointUrl}`)
-    .then((res) => {
-      if (res.data) {
-        const fiscalYear = res.data[0].current_fiscal_year;
-        setCurrentFiscalYear(fiscalYear);
-        console.log(fiscalYear);
-      }
+useEffect(() => {
+  basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
+    if (result?.data) {
+      setCurrentFiscalYear(result.data[0].record_fiscal_year);
+      setPriorFiscalYear(result.data[0].current_fiscal_year-2);
+    }
   });
 }, []);
 
+console.log("current ",currentFiscalYear);
+console.log("pfy ", priorFiscalYear);
   return (
     <div style={{width: '800px', height: '600px'}}>
       <ResponsiveContainer width="100%" aspect={3}>
