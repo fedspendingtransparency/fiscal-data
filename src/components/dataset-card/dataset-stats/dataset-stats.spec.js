@@ -67,25 +67,4 @@ describe('DatasetStats', () => {
     expect(lastUpdatedLi.children[0]).toEqual(calendarCheckIcon);
     expect(lastUpdatedLi.children[1]).toEqual('Last Updated 12/12/19');
   });
-
-  it('should contain an li that displays the hard-coded text "CSV, JSON, XML" with a page icon', () => {
-    const fileTypeLi = instance.findByProps({ 'data-testid': 'fileType-li' });
-    const pageIcon = instance.findByProps({ 'data-testid': 'page-icon' });
-    expect(fileTypeLi.children[0]).toEqual(pageIcon);
-    expect(fileTypeLi.children[1]).toEqual('CSV, JSON, XML');
-  });
-
-  it(`should contain an li that displays the hard-coded text "Data Dictionary",
-    and an icon depending on the presence of a data dictionary in the dataset`, () => {
-    const dictionaryLi = instance.findByProps({ 'data-testid': 'dictionary-li' });
-    const dictionaryIcon = instance.findByProps({ 'data-testid': 'dictionary-icon' });
-    expect(dictionaryLi.children[0]).toEqual(dictionaryIcon);
-    expect(dictionaryLi.children[1]).toBe('Data Dictionary');
-    // make new instance with the dictionary prop true
-    const tree2 = renderer.create(<DatasetStats dataset={mockDataset2} />);
-    const instance2 = tree2.root;
-    const dictionary2Li = instance2.findByProps({ 'data-testid': 'dictionary-li' });
-    const dictionary2Icon = instance2.findByProps({ 'data-testid': 'dictionary-icon' });
-    expect(dictionary2Li.children[0]).toEqual(dictionary2Icon);
-  });
 });

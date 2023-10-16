@@ -35,19 +35,6 @@ export default function DatasetStats({ dataset }) {
         <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={styles.icon} data-test-id={'calendarCheckIcon'} />
         {'Last Updated ' + lastUpdated}
       </li>
-      <li data-testid="fileType-li" aria-label={'CSV, JSON, XML'}>
-        <FontAwesomeIcon icon={faFileCode} size="1x" className={styles.icon} data-testid="page-icon" />
-        CSV, JSON, XML
-      </li>
-      <li data-testid="dictionary-li" aria-label={dataDictionaryText}>
-        <FontAwesomeIcon
-          icon={dataDictionaryPresent ? faCheckCircle : faTimesCircle}
-          size="1x"
-          className={`${styles.icon} ${dataDictionaryPresent ? styles.dictionary_yes : styles.dictionary_no}`}
-          data-testid="dictionary-icon"
-        />
-        Data Dictionary
-      </li>
     </ul>
   );
 }
