@@ -32,8 +32,7 @@ const Contact = () => {
         <p>
           Want to stay up to date about new features and datasets? Sign up for email updates by sending an email to{' '}
           <CustomLink
-            url={`mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov?
-            subject=Yes, I’d like to receive updates from Fiscal Data!`}
+            url={`mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov?subject=Yes, I'd like to receive updates from Fiscal Data!`}
           >
             join-fiscal-data-gov@lists.fiscal.treasury.gov
           </CustomLink>
