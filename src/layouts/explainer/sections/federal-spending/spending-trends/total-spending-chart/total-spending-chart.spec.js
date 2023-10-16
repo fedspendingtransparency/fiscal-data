@@ -1,32 +1,32 @@
-import { render, waitFor } from "@testing-library/react";
-import React from "react";
-import TotalSpendingChart from "./total-spending-chart";
-import fetchMock from "fetch-mock";
-import { determineBEAFetchResponse } from "../../../../../../utils/mock-utils";
-import {mockBeaGDPData} from "../../../../explainer-test-helper";
+import { render, waitFor } from '@testing-library/react';
+import React from 'react';
+import TotalSpendingChart from './total-spending-chart';
+import fetchMock from 'fetch-mock';
+import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
+import { mockBeaGDPData } from '../../../../explainer-test-helper';
 
-describe("Total Spending Chart", () => {
+describe('Total Spending Chart', () => {
   const mockCpiDataset = {
-    "2015": "237.945",
-    "2016": "241.428",
-    "2017": "246.819",
-    "2018": "252.439",
-    "2019": "256.759",
-    "2020": "260.280",
-    "2021": "274.310",
-    "2022": "296.808",
+    '2015': '237.945',
+    '2016': '241.428',
+    '2017': '246.819',
+    '2018': '252.439',
+    '2019': '256.759',
+    '2020': '260.280',
+    '2021': '274.310',
+    '2022': '296.808',
   };
 
   const mockPageFunction = () => {
     return null;
-  }
+  };
 
   const mockCallOutData = {
     data: [
       {
-        current_fytd_net_outly_amt: "3687622059038.44",
-        record_date: "2015-09-30",
-        record_fiscal_year: "2015",
+        current_fytd_net_outly_amt: '3687622059038.44',
+        record_date: '2015-09-30',
+        record_fiscal_year: '2015',
       },
     ],
   };
@@ -34,45 +34,45 @@ describe("Total Spending Chart", () => {
   const mockSpendingData = {
     data: [
       {
-        current_fytd_net_outly_amt: "3687622059038.44",
-        record_date: "2015-09-30",
-        record_fiscal_year: "2015",
+        current_fytd_net_outly_amt: '3687622059038.44',
+        record_date: '2015-09-30',
+        record_fiscal_year: '2015',
       },
       {
-        current_fytd_net_outly_amt: "3854100140609.65",
-        record_date: "2016-09-30",
-        record_fiscal_year: "2016",
+        current_fytd_net_outly_amt: '3854100140609.65',
+        record_date: '2016-09-30',
+        record_fiscal_year: '2016',
       },
       {
-        current_fytd_net_outly_amt: "3980605417586.44",
-        record_date: "2017-09-30",
-        record_fiscal_year: "2017",
+        current_fytd_net_outly_amt: '3980605417586.44',
+        record_date: '2017-09-30',
+        record_fiscal_year: '2017',
       },
       {
-        current_fytd_net_outly_amt: "4107741496584.31",
-        record_date: "2018-09-30",
-        record_fiscal_year: "2018",
+        current_fytd_net_outly_amt: '4107741496584.31',
+        record_date: '2018-09-30',
+        record_fiscal_year: '2018',
       },
       {
-        current_fytd_net_outly_amt: "4446583636480.58",
-        record_date: "2019-09-30",
-        record_fiscal_year: "2019",
+        current_fytd_net_outly_amt: '4446583636480.58',
+        record_date: '2019-09-30',
+        record_fiscal_year: '2019',
       },
       {
-        current_fytd_net_outly_amt: "6551872254653.64",
-        record_date: "2020-09-30",
-        record_fiscal_year: "2020",
+        current_fytd_net_outly_amt: '6551872254653.64',
+        record_date: '2020-09-30',
+        record_fiscal_year: '2020',
       },
       {
-        current_fytd_net_outly_amt: "6818157647016.83",
-        record_date: "2021-09-30",
-        record_fiscal_year: "2021",
+        current_fytd_net_outly_amt: '6818157647016.83',
+        record_date: '2021-09-30',
+        record_fiscal_year: '2021',
       },
       {
-        current_fytd_net_outly_amt: "6271507596876.00",
-        record_date: "2022-09-30",
-        record_fiscal_year: "2022"
-      }
+        current_fytd_net_outly_amt: '6271507596876.00',
+        record_date: '2022-09-30',
+        record_fiscal_year: '2022',
+      },
     ],
   };
 
@@ -92,90 +92,53 @@ describe("Total Spending Chart", () => {
     determineBEAFetchResponse(jest, mockSpendingData);
   });
 
-  it("renders the calloutText", async () => {
-    const fetchSpy = jest.spyOn(global, "fetch");
-    const { getByText } = render(
-      <TotalSpendingChart
-        cpiDataByYear={mockCpiDataset}
-        beaGDPData={mockBeaGDPData}
-        copyPageData={mockPageFunction}
-      />
-    );
+  it('renders the calloutText', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
-    expect(await getByText("Since 2015, the Spending to GDP ratio has increased from 20% to 25%",
-      { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Spending to GDP ratio has increased from 20% to 25%', { exact: false })).toBeInTheDocument();
   });
 
-  it("renders the chart", async () => {
-    const fetchSpy = jest.spyOn(global, "fetch");
-    const { getByTestId } = render(
-      <TotalSpendingChart
-        cpiDataByYear={mockCpiDataset}
-        beaGDPData={mockBeaGDPData}
-        copyPageData={mockPageFunction}
-      />
-    );
+  it('renders the chart', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getByTestId("chartParent")).toBeInTheDocument();
+    expect(await getByTestId('chartParent')).toBeInTheDocument();
   });
 
-  it("renders the chart markers and data header labels", async () => {
-    const fetchSpy = jest.spyOn(global, "fetch");
+  it('renders the chart markers and data header labels', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
     const { getAllByText, getByText } = render(
-      <TotalSpendingChart
-        cpiDataByYear={mockCpiDataset}
-        beaGDPData={mockBeaGDPData}
-        copyPageData={mockPageFunction}
-      />
+      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(getAllByText("Total Spending")).toHaveLength(3);
-    expect(getAllByText("GDP")).toHaveLength(2);
-    expect(await getByText("Fiscal Year")).toBeInTheDocument();
+    expect(getAllByText('Total Spending')).toHaveLength(3);
+    expect(getAllByText('GDP')).toHaveLength(2);
+    expect(await getByText('Fiscal Year')).toBeInTheDocument();
   });
 
-  it("renders the CustomPoints layer", async () => {
-    const fetchSpy = jest.spyOn(global, "fetch");
-    const { getByTestId } = render(
-      <TotalSpendingChart
-        cpiDataByYear={mockCpiDataset}
-        beaGDPData={mockBeaGDPData}
-        copyPageData={mockPageFunction}
-      />
-    );
+  it('renders the CustomPoints layer', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getByTestId("customPoints")).toBeInTheDocument();
-    expect(await getByTestId("customPoints").querySelector('circle').length === 4 );
+    expect(await getByTestId('customPoints')).toBeInTheDocument();
+    expect((await getByTestId('customPoints').querySelector('circle').length) === 4);
   });
 
-  it("renders the CustomSlices layer", async () => {
-    const fetchSpy = jest.spyOn(global, "fetch");
-    const { getByTestId } = render(
-      <TotalSpendingChart
-        cpiDataByYear={mockCpiDataset}
-        beaGDPData={mockBeaGDPData}
-        copyPageData={mockPageFunction}
-      />
-    );
+  it('renders the CustomSlices layer', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getByTestId("customSlices")).toBeInTheDocument();
-    expect(await getByTestId("customSlices")?.querySelector('rect')?.length === 8 );
+    expect(await getByTestId('customSlices')).toBeInTheDocument();
+    expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 8);
   });
 
-  it("renders the chart headers", async () => {
-    const fetchSpy = jest.spyOn(global, "fetch");
-    const { getByText } = render(
-      <TotalSpendingChart
-        cpiDataByYear={mockCpiDataset}
-        beaGDPData={mockBeaGDPData}
-        copyPageData={mockPageFunction}
-      />
-    );
+  it('renders the chart headers', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getByText("Government Spending and the U.S. Economy (GDP), FY 2015 – 2022",
-      { exact: false })).toBeInTheDocument();
-    expect(await getByText("Inflation Adjusted - 2022 Dollars",
-      { exact: false })).toBeInTheDocument();
+    expect(await getByText('Government Spending and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
   });
 });

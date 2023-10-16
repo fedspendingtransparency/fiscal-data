@@ -5,34 +5,36 @@ import Masthead from '../../components/masthead/masthead';
 import DatasetAbout from '../../components/dataset-about/dataset-about';
 import DatasetData from '../../components/dataset-data/dataset-data';
 import ApiQuickGuide from '../../components/api-quick-guide/api-quick-guide';
-import RelatedDatasets from "../../components/related-datasets/related-datasets";
-import { graphql } from "gatsby";
+import RelatedDatasets from '../../components/related-datasets/related-datasets';
+import { graphql } from 'gatsby';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import LocationAware from '../../components/location-aware/location-aware';
-import { useMetadataUpdater } from "../../helpers/metadata/use-metadata-updater-hook";
+import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
 
-export const query =
-  graphql`
-      query relatedDatasets($relatedDatasets: [String]) {
-        allDatasets(filter: {datasetId: {in: $relatedDatasets}}) {
-          datasets: nodes {
-            datasetId
-            slug
-            name
-            tagLine
-            relatedTopics
-            techSpecs {
-              earliestDate
-              latestDate
-              updateFrequency
-              lastUpdated
-              fileFormat
-            }
-            dictionary
-          }
+export const query = graphql`
+  query relatedDatasets($relatedDatasets: [String]) {
+    allDatasets(filter: { datasetId: { in: $relatedDatasets } }) {
+      datasets: nodes {
+        datasetId
+        slug
+        name
+        apis {
+          apiId
         }
+        tagLine
+        relatedTopics
+        techSpecs {
+          earliestDate
+          latestDate
+          updateFrequency
+          lastUpdated
+          fileFormat
+        }
+        dictionary
       }
-    `;
+    }
+  }
+`;
 
 const DatasetDetail = ({ data, pageContext, location, test }) => {
   const [pageConfig, setPageConfig] = useState(pageContext.config);
@@ -41,7 +43,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   const updatedPageConfig = useMetadataUpdater(pageContext);
   const updatedDatasetData = useMetadataUpdater(data.allDatasets.datasets);
 
-  const canonical= `/datasets${pageContext.config.slug}`;
+  const canonical = `/datasets${pageContext.config.slug}`;
 
   useEffect(() => {
     setPageConfig(updatedPageConfig.config);
@@ -50,11 +52,12 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
 
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
-      <PageHelmet datasetDetails={pageContext?.config}
-                  pageTitle={pageContext?.seoConfig?.pageTitle || ''}
-                  description={pageContext?.seoConfig?.description || ''}
-                  keywords={pageContext?.seoConfig?.keywords || ''}
-                  canonical={canonical}
+      <PageHelmet
+        datasetDetails={pageContext?.config}
+        pageTitle={pageContext?.seoConfig?.pageTitle || ''}
+        description={pageContext?.seoConfig?.description || ''}
+        keywords={pageContext?.seoConfig?.keywords || ''}
+        canonical={canonical}
       />
       <Masthead
         title={pageContext.config.name}
@@ -67,18 +70,18 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
       <DDNav title={pageContext.config.name} />
       <div className="bodyBackground">
         <DatasetAbout config={pageContext.config} test={test} />
-        <DatasetData setSelectedTableProp={setSelectedTable}
-                     finalDatesNotFound={finalDatesNotFound}
-                     config={pageConfig}
-                     location={location}
-                     publishedReportsProp={pageConfig.publishedReports}
+        <DatasetData
+          setSelectedTableProp={setSelectedTable}
+          finalDatesNotFound={finalDatesNotFound}
+          config={pageConfig}
+          location={location}
+          publishedReportsProp={pageConfig.publishedReports}
         />
         <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
         <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
       </div>
     </SiteLayout>
-
-  )
+  );
 };
 
 export default LocationAware(DatasetDetail);

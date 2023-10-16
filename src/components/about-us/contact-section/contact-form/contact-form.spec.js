@@ -1,46 +1,47 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SelectControl from "../../../../components/select-control/select-control";
+import SelectControl from '../../../../components/select-control/select-control';
 import * as styles from './contact-form.module.scss';
-import {scroller} from 'react-scroll';
+import { scroller } from 'react-scroll';
 import Contact from './contact-form';
-import {ReCAPTCHA} from "react-google-recaptcha";
-import { API_BASE_URL } from "gatsby-env-variables";
+import { ReCAPTCHA } from 'react-google-recaptcha';
+import { API_BASE_URL } from 'gatsby-env-variables';
 
 jest.mock('react-scroll');
 jest.useFakeTimers();
 
-jest.mock("gatsby-plugin-mdx", () => {
-  return { MDXRenderer: ({children}) => {
+jest.mock('gatsby-plugin-mdx', () => {
+  return {
+    MDXRenderer: ({ children }) => {
       return <div>{children}</div>;
-    } }
+    },
+  };
 });
 
 describe('About Us - Contact Form', () => {
   let component = renderer.create();
 
   renderer.act(() => {
-    component = renderer.create(<Contact />)
+    component = renderer.create(<Contact />);
   });
   const instance = component.root;
 
   document.getElementById = jest.fn(() => {
     return {
-      checkValidity: function () {
+      checkValidity: function() {
         return true;
-      }
-    }
+      },
+    };
   });
 
   describe('form interaction', () => {
-
     const nameId = 'contactUsName';
     const emailId = 'contactUsEmail';
     const commentId = 'contactUsComment';
-    const nameInput = instance.findByProps({ 'id': nameId });
-    const emailInput = instance.findByProps({ 'id': emailId });
-    const commentInput = instance.findByProps({ 'id': commentId });
-    const submitButton = instance.findByProps({'className': styles.submit});
+    const nameInput = instance.findByProps({ id: nameId });
+    const emailInput = instance.findByProps({ id: emailId });
+    const commentInput = instance.findByProps({ id: commentId });
+    const submitButton = instance.findByProps({ className: styles.submit });
 
     const testString = 'testing';
 
@@ -48,17 +49,21 @@ describe('About Us - Contact Form', () => {
       renderer.act(() => {
         emailInput.props.onChange({
           target: {
-            id: emailId, value: testString, checkValidity: function () {
+            id: emailId,
+            value: testString,
+            checkValidity: function() {
               return false;
-            }
-          }
+            },
+          },
         });
         commentInput.props.onChange({
           target: {
-            id: commentId, value: testString, checkValidity: function () {
+            id: commentId,
+            value: testString,
+            checkValidity: function() {
               return true;
-            }
-          }
+            },
+          },
         });
       });
 
@@ -66,17 +71,21 @@ describe('About Us - Contact Form', () => {
       renderer.act(() => {
         emailInput.props.onBlur({
           target: {
-            id: emailId, value: testString, checkValidity: function () {
+            id: emailId,
+            value: testString,
+            checkValidity: function() {
               return true;
-            }
-          }
+            },
+          },
         });
         commentInput.props.onBlur({
           target: {
-            id: commentId, value: testString, checkValidity: function () {
+            id: commentId,
+            value: testString,
+            checkValidity: function() {
               return true;
-            }
-          }
+            },
+          },
         });
       });
       jest.runAllTimers();
@@ -84,7 +93,7 @@ describe('About Us - Contact Form', () => {
 
     it('selectValueChange scrollTo called and fields disabled when value has disableFields set to true', async () => {
       scroller.scrollTo.mockImplementation(() => {});
-      const value = {label: 'Test Label', disableFields: true};
+      const value = { label: 'Test Label', disableFields: true };
       const selectInstance = instance.findByType(SelectControl);
 
       await renderer.act(async () => {
@@ -99,7 +108,7 @@ describe('About Us - Contact Form', () => {
 
     it('selectValueChange scrollTo not called and fields enabled when value does not have disableFields', async () => {
       scroller.scrollTo.mockImplementation(() => {});
-      const value = {label: 'Test Label'};
+      const value = { label: 'Test Label' };
       const selectInstance = instance.findByType(SelectControl);
 
       await renderer.act(async () => {
@@ -107,45 +116,48 @@ describe('About Us - Contact Form', () => {
       });
 
       expect(scroller.scrollTo).toHaveBeenCalled();
-      expect(emailInput.props['disabled']).toBe("");
-      expect(nameInput.props['disabled']).toBe("");
-      expect(commentInput.props['disabled']).toBe("");
+      expect(emailInput.props['disabled']).toBe('');
+      expect(nameInput.props['disabled']).toBe('');
+      expect(commentInput.props['disabled']).toBe('');
     });
 
     it('provides the error validations upon user input+blur', () => {
-
-      expect(instance.findAllByProps({ 'className': styles.errorIcon }).length).toBe(0);
+      expect(instance.findAllByProps({ className: styles.errorIcon }).length).toBe(0);
 
       // Both inputs have errors
       renderer.act(() => {
         emailInput.props.onBlur({
           target: {
-            id: emailId, value: testString, checkValidity: function () {
+            id: emailId,
+            value: testString,
+            checkValidity: function() {
               return false;
-            }
-          }
+            },
+          },
         });
         commentInput.props.onBlur({
           target: {
-            id: commentId, value: '', checkValidity: function () {
+            id: commentId,
+            value: '',
+            checkValidity: function() {
               return false;
-            }
-          }
+            },
+          },
         });
       });
       jest.runAllTimers();
 
-      expect(instance.findAllByProps({ 'className': styles.errorIcon }).length).toBe(2);
+      expect(instance.findAllByProps({ className: styles.errorIcon }).length).toBe(2);
     });
 
     it('calls the environment specific API for Contact Us', async () => {
       const callArgs = {
-        "body": "{\"subject\":\"Test Label\",\"name\":\"param val\",\"email\":\"param val\",\"comment\":\"param val\",\"token\":null}",
-        "headers": {
-          "Content-Type": "application/json",
+        body: '{"subject":"Test Label","name":"param val","email":"param val","comment":"param val","token":null}',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        "method": "POST",
-      }
+        method: 'POST',
+      };
       global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ data: [] }) }));
 
       await renderer.act(async () => {
@@ -179,43 +191,47 @@ describe('recaptcha component', () => {
   let component = renderer.create();
 
   renderer.act(() => {
-    component = renderer.create(<Contact />)
+    component = renderer.create(<Contact />);
   });
   const instance = component.root;
 
   const emailId = 'contactUsEmail';
-  const emailInput = instance.findByProps({ 'id': emailId });
+  const emailInput = instance.findByProps({ id: emailId });
   const testString = 'testing';
   const commentId = 'contactUsComment';
-  const commentInput = instance.findByProps({ 'id': commentId });
+  const commentInput = instance.findByProps({ id: commentId });
 
   document.getElementById = jest.fn(() => {
     return {
       value: 'param val',
-      checkValidity: function () {
+      checkValidity: function() {
         return true;
-      }
-    }
+      },
+    };
   });
 
   renderer.act(() => {
     emailInput.props.onChange({
       target: {
-        id: emailId, value: testString, checkValidity: function () {
+        id: emailId,
+        value: testString,
+        checkValidity: function() {
           return true;
-        }
-      }
+        },
+      },
     });
     commentInput.props.onChange({
       target: {
-        id: commentId, value: testString, checkValidity: function () {
+        id: commentId,
+        value: testString,
+        checkValidity: function() {
           return true;
-        }
-      }
+        },
+      },
     });
   });
 
-  const submitButton = instance.findByProps({'className': styles.submit});
+  const submitButton = instance.findByProps({ className: styles.submit });
 
   it('activates the submit button when the recaptcha quest is successful', () => {
     const recaptchaElement = instance.findByType(ReCAPTCHA);

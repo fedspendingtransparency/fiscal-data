@@ -1,6 +1,5 @@
-@import "src/variables.module";
-@import "../../../../zIndex.module.scss";
-
+@import 'src/variables.module';
+@import '../../../../zIndex.module.scss';
 
 .MenuList {
   background-color: #0a2f5a;
@@ -13,7 +12,6 @@
   padding-right: 0 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-
 }
 
 @mixin afg-menu-item($backgroundColor) {
@@ -22,35 +20,31 @@
   border-radius: 2px;
   padding-left: 2rem;
   min-height: 2.25rem;
-  line-height: .5rem;
-  margin-top: .063rem !important;
-  margin-bottom: .063rem !important;
-  font-family: "Source Sans Pro" !important;
+  line-height: 0.5rem;
+  margin-top: 0.063rem !important;
+  margin-bottom: 0.063rem !important;
+  font-family: 'Source Sans Pro' !important;
 
-  span{
+  span {
     line-height: 2.25rem !important;
-    font-family: "Source Sans Pro" !important;
+    font-family: 'Source Sans Pro' !important;
   }
 }
 
 .revenue {
   @include afg-menu-item(#0a2f5a);
-
 }
 
 .spending {
   @include afg-menu-item(#00766c);
-
 }
 
 .deficit {
   @include afg-menu-item(#b3532d);
-
 }
 
 .debt {
   @include afg-menu-item(#4a0072);
-
 }
 
 .buttonOverview {
@@ -71,9 +65,9 @@
     margin-left: 1.438rem;
   }
 }
-.activeMenu span{
+.activeMenu span {
   font-weight: $semi-bold-weight !important;
-  font-family: "Source Sans Pro" !important;
+  font-family: 'Source Sans Pro' !important;
 }
 .mainContainer {
   display: flex;
@@ -83,18 +77,17 @@
 .mainContainerShow {
   display: flex;
   justify-content: center;
-
 }
-.mainContainerSticky{
+.mainContainerSticky {
   position: fixed;
   top: 0;
   z-index: $mobile-menu-sticky;
   margin-top: 2rem !important;
 }
-.mainContainerHidden{
+.mainContainerHidden {
   display: none;
 }
-.mainListSticky{
+.mainListSticky {
   position: fixed;
   top: 0;
   z-index: $mobile-menu-sticky;
@@ -104,18 +97,15 @@
 }
 
 .faHouse {
-  padding-right: .5rem;
-
+  padding-right: 0.5rem;
 }
 
 .stylingStyledMenu {
-
   border-color: white;
 
   :global(.MuiList-padding) {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     border: none;
-
   }
 }

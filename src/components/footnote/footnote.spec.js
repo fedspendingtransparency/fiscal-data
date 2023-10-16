@@ -10,19 +10,15 @@ const mockFootnotes = [
     ],
     definition: 'Mock Definition',
   },
-  {       
-    anchors: [          
-      { text: ['3'], link: ['mock-link3'] },
-    ],
+  {
+    anchors: [{ text: ['3'], link: ['mock-link3'] }],
     definition: 'Mock Definition2',
   },
 ];
 
 describe('Footnote Section', () => {
   it('it renders the footnote section and items', () => {
-    const { getByTestId, getAllByTestId } = render(
-      <Footnote footnotes={mockFootnotes} />
-    );
+    const { getByTestId, getAllByTestId } = render(<Footnote footnotes={mockFootnotes} />);
     expect(getByTestId('footnote-section')).toBeInTheDocument();
     expect(getAllByTestId('footnote-item')).toHaveLength(2);
   });

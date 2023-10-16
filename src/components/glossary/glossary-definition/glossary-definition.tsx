@@ -1,19 +1,14 @@
 import React from 'react';
 import { FunctionComponent } from 'react';
 import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
-import {
-  termName,
-  officialDefinition,
-  definitionContainer
-} from './glossary-definition.module.scss';
+import { termName, officialDefinition, definitionContainer } from './glossary-definition.module.scss';
 
 interface IGlossaryDefinition {
-  glossaryTerm: IGlossaryTerm
+  glossaryTerm: IGlossaryTerm;
 }
 
-
-const GlossaryDefinition:FunctionComponent<IGlossaryDefinition> = ({glossaryTerm}) => {
-  const {term, definition} = glossaryTerm;
+const GlossaryDefinition: FunctionComponent<IGlossaryDefinition> = ({ glossaryTerm }) => {
+  const { term, definition } = glossaryTerm;
 
   return (
     <div className={definitionContainer}>
@@ -21,7 +16,7 @@ const GlossaryDefinition:FunctionComponent<IGlossaryDefinition> = ({glossaryTerm
       <span className={officialDefinition}>Official Definition</span>
       <span>{definition}</span>
     </div>
-  )
-}
+  );
+};
 
 export default GlossaryDefinition;

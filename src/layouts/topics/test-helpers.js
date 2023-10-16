@@ -1,3 +1,3 @@
 export const config = {
-  label: 'Harry Potter'
+  label: 'Harry Potter',
 };

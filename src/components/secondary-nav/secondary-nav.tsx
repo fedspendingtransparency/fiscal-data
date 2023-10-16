@@ -19,10 +19,10 @@ import {
   headingLevel3,
   comingSoon,
   comingSoonContainer,
-  comingSoonLink
+  comingSoonLink,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
-import Analytics from "../../utils/analytics/analytics";
+import Analytics from '../../utils/analytics/analytics';
 
 export const scrollDelay: number = globalConstants.config.smooth_scroll.delay;
 export const scrollDuration: number = globalConstants.config.smooth_scroll.duration;
@@ -31,7 +31,7 @@ export const scrollOptions = {
   smooth: false,
   spy: false,
   duration: 0,
-  delay: 0
+  delay: 0,
 };
 
 export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
@@ -45,7 +45,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   width,
   headerComponent,
   children,
-  tocScrollOffset
+  tocScrollOffset,
 }) => {
   const [hoveredSection, setHoveredSection] = useState<number>(-1);
   const [tocIsOpen, setTocIsOpen] = useState<boolean>(false);
@@ -56,21 +56,21 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   const ScrollTarget = Scroll.Element;
   const scrollToTop = tocScrollOffset === undefined; // no offset, so scroll to TOP for TOC
 
-  const analyticsClickHandler = (section) => {
+  const analyticsClickHandler = section => {
     Analytics.event({
       category: analyticsCategory,
       action: `Left Nav Click`,
-      label: `${analyticsPageLabel} - ${section}`
+      label: `${analyticsPageLabel} - ${section}`,
     });
-  }
+  };
 
-  const handleMouseEnter: (index: number) => void = (index) => {
+  const handleMouseEnter: (index: number) => void = index => {
     setHoveredSection(index);
-  }
+  };
 
   const handleMouseLeave: () => void = () => {
     setHoveredSection(-1);
-  }
+  };
 
   const handleInteraction = (e, id?, title?) => {
     if (analytics) {
@@ -82,20 +82,23 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       return;
     }
 
-    if (id) { // navigate to page section
+    if (id) {
+      // navigate to page section
       setTocIsOpen(false);
       updateAddressPath(id, window.location);
       setScrollToId(id);
-    } else if (!tocIsOpen) { // scroll to and open TOC
-        if (!scrollToTop) {
-          // opening TOC on page with TOC scrollTo target (i.e. AFG Explainers)
-          setScrollToId('table-of-contents');
-        } else {
-          // no TOC target element so just scroll to top of page
-          setTocIsOpen(true);
-          Scroll.animateScroll.scrollToTop(scrollOptions);
-        }
-    } else { // no target ID and TOC is open so cancel and return to last position
+    } else if (!tocIsOpen) {
+      // scroll to and open TOC
+      if (!scrollToTop) {
+        // opening TOC on page with TOC scrollTo target (i.e. AFG Explainers)
+        setScrollToId('table-of-contents');
+      } else {
+        // no TOC target element so just scroll to top of page
+        setTocIsOpen(true);
+        Scroll.animateScroll.scrollToTop(scrollOptions);
+      }
+    } else {
+      // no target ID and TOC is open so cancel and return to last position
       setTocIsOpen(false);
       Scroll.animateScroll.scrollTo(lastScrollPosition, scrollOptions);
     }
@@ -103,7 +106,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   };
 
   useEffect(() => {
-    const handleSelectLink: (e) => void = (e) => {
+    const handleSelectLink: (e) => void = e => {
       const { target, key, className } = e.target;
       if (target && key === 'Enter' && className.includes(sectionLink)) {
         target.click();
@@ -114,7 +117,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       setScrollPosition(window.pageYOffset);
     };
 
-    window.addEventListener('scroll',  handleScroll);
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('keyup', handleSelectLink);
 
     return () => {
@@ -129,10 +132,11 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
       const targetId = scrollToId; // local variable not impacted by state change
       setScrollToId(null);
 
-      if (scrollToId === 'table-of-contents') { // configure instant scroll for opening TOC
+      if (scrollToId === 'table-of-contents') {
+        // configure instant scroll for opening TOC
         Scroll.scroller.scrollTo(targetId, {
           offset: tocScrollOffset - 5,
-          ...scrollOptions
+          ...scrollOptions,
         });
         // don't toggle TOC/Content until scrolling starts to prevent jarring UX
         setTimeout(() => {
@@ -143,86 +147,77 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           const scroll = Scroll.animateScroll;
           scroll.scrollMore(5);
         }, 10);
-
-      } else { // scroll with animation duration to navigate away from TOC
+      } else {
+        // scroll with animation duration to navigate away from TOC
         Scroll.scroller.scrollTo(targetId, {
           smooth: true,
           spy: true,
           duration: scrollDuration,
-          delay: scrollDelay
+          delay: scrollDelay,
         });
         setTocIsOpen(false);
       }
     }
   }, [scrollToId]);
 
-  const shouldTocShow: boolean = (
-    width >= pxToNumber(breakpointLg) ||
-    (width < pxToNumber(breakpointLg) && tocIsOpen)
-  );
-  const shouldContentShow: boolean = (
-    width >= pxToNumber(breakpointLg) ||
-    (width < pxToNumber(breakpointLg) && !tocIsOpen)
-  );
+  const shouldTocShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && tocIsOpen);
+  const shouldContentShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && !tocIsOpen);
 
   return (
     <div className={mainContainer}>
       <div className={`${navContainer} secondaryNavContainer`}>
-        {!scrollToTop && (
-          <ScrollTarget name="table-of-contents" />
-        )}
+        {!scrollToTop && <ScrollTarget name="table-of-contents" />}
         {shouldTocShow && headerComponent}
-        {shouldTocShow && sections.map((s) => {
-          let headingClass = '';
-          if (s.headingLevel === 2) {
-            headingClass = headingLevel2;
-          } else if (s.headingLevel === 3) {
-            headingClass = headingLevel3;
-          }
+        {shouldTocShow &&
+          sections.map(s => {
+            let headingClass = '';
+            if (s.headingLevel === 2) {
+              headingClass = headingLevel2;
+            } else if (s.headingLevel === 3) {
+              headingClass = headingLevel3;
+            }
 
-          return (
-            <div key={s.index}>
-              {s.comingSoon ? (
-              <div className={comingSoonContainer}>
-                <i className={comingSoon}>COMING SOON!</i>
-              </div>
-              ) : undefined}
-              <div
-                role={'button'}
-                tabIndex={-1}
-                onMouseEnter={() => handleMouseEnter(s.index)}
-                onMouseLeave={handleMouseLeave}
-                className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
-              >
-                <Link
-                  className={
-                    `${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
-                    ${s.comingSoon ? comingSoonLink : undefined}`
-                  }
-                  title={s.title}
-                  activeClass={activeClass}
-                  tabIndex={0}
-                  to={s.id}
-                  smooth
-                  spy
-                  duration={scrollDuration}
-                  delay={scrollDelay}
-                  onClick={() => handleInteraction(null, s.id, s.title)}
-                  onKeyPress={(e) => handleInteraction(e, s.id, s.title)}
+            return (
+              <div key={s.index}>
+                {s.comingSoon ? (
+                  <div className={comingSoonContainer}>
+                    <i className={comingSoon}>COMING SOON!</i>
+                  </div>
+                ) : (
+                  undefined
+                )}
+                <div
+                  role={'button'}
+                  tabIndex={-1}
+                  onMouseEnter={() => handleMouseEnter(s.index)}
+                  onMouseLeave={handleMouseLeave}
+                  className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
                 >
-                  {s.title}
-                </Link>
+                  <Link
+                    className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
+                    ${s.comingSoon ? comingSoonLink : undefined}`}
+                    title={s.title}
+                    activeClass={activeClass}
+                    tabIndex={0}
+                    to={s.id}
+                    smooth
+                    spy
+                    duration={scrollDuration}
+                    delay={scrollDelay}
+                    onClick={() => handleInteraction(null, s.id, s.title)}
+                    onKeyPress={e => handleInteraction(e, s.id, s.title)}
+                  >
+                    {s.title}
+                  </Link>
+                </div>
               </div>
-            </div>
-          )
-        })}
+            );
+          })}
       </div>
-      <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>
-        {children}
-      </div>
+      <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>{children}</div>
       <TOCButton handleToggle={handleInteraction} state={tocIsOpen} />
     </div>
-  )
-}
+  );
+};
 
 export default withWindowSize(SecondaryNav);

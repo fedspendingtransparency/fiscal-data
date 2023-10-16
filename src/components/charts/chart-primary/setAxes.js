@@ -1,33 +1,37 @@
-import { axisBottom, axisLeft, timeDay, timeMonth, timeFormat } from "d3";
+import { axisBottom, axisLeft, timeDay, timeMonth, timeFormat } from 'd3';
 import { differenceInCalendarDays } from 'date-fns';
-import { formatForDataType } from "./utils";
+import { formatForDataType } from './utils';
 
-let container, scales, chartDimensions, dataType, options = {};
+let container,
+  scales,
+  chartDimensions,
+  dataType,
+  options = {};
 const y = {};
 
 const complexDate = (d, i) => {
-  if ((timeFormat('%d')(d) === '01') && (timeFormat('%m')(d) === '01')) {
+  if (timeFormat('%d')(d) === '01' && timeFormat('%m')(d) === '01') {
     return timeFormat('%Y')(d);
   } else if (i === 0) {
     return timeFormat('%b %d, %Y')(d);
   } else {
     return timeFormat('%b %d')(d);
   }
-}
+};
 
 const markMonths = (d, i) => {
   return timeFormat('%b')(d);
-}
+};
 
-const thinXLabels = (xAxis) => {
-  const days = differenceInCalendarDays(scales.x.domain()[1], scales.x.domain()[0])
+const thinXLabels = xAxis => {
+  const days = differenceInCalendarDays(scales.x.domain()[1], scales.x.domain()[0]);
 
   xAxis.ticks(5);
 
   if (options.xAxisTickValues) {
-    xAxis.tickValues(options.xAxisTickValues)
+    xAxis.tickValues(options.xAxisTickValues);
   } else if (days < 10) {
-    xAxis.ticks(timeDay.every(1))
+    xAxis.ticks(timeDay.every(1));
   } else if (days < 32) {
     xAxis.ticks(timeDay.every(10));
   } else if (days < 400) {
@@ -47,8 +51,7 @@ const thinXLabels = (xAxis) => {
   } else {
     xAxis.tickFormat(timeFormat('%Y'));
   }
-
-}
+};
 
 const setXAxis = () => {
   let innerTickSize = 0;
@@ -61,29 +64,31 @@ const setXAxis = () => {
 
   thinXLabels(xAxis);
   if (!options.excludeYAxis) {
-    container.append('g')
+    container
+      .append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + chartDimensions.height + ')')
       .call(xAxis);
   } else {
-    container.append('g')
+    container
+      .append('g')
       .attr('class', 'axis axis--x')
-      .attr('transform', 'translate(0,' +
-        (Number(chartDimensions.height) - (Number(chartDimensions.xAxisHeight))) + ')')
+      .attr('transform', 'translate(0,' + (Number(chartDimensions.height) - Number(chartDimensions.xAxisHeight)) + ')')
       .call(xAxis);
   }
-}
+};
 
 const setYAxis = () => {
   y.yAxis = axisLeft(scales.y)
     .ticks(options.yAxisTickNumber || 10)
     .tickSizeInner(0 - chartDimensions.width)
     .tickFormat(d => {
-      return formatForDataType(d, dataType)
+      return formatForDataType(d, dataType);
     })
     .tickSizeOuter(0);
 
-  y.yAxisDom = container.append('g')
+  y.yAxisDom = container
+    .append('g')
     .attr('class', 'axis axis--y')
     .attr('transform', `translate(${chartDimensions.yAxisWidth}, 0)`)
     .call(y.yAxis);
@@ -91,41 +96,40 @@ const setYAxis = () => {
   if (options.forceLabelFontSize) {
     container
       .selectAll('.axis--y > .tick > text')
-      .attr('dx', options.forceYAxisWidth * .25 || '0.32em')
-      .style('font-size', options.forceLabelFontSize)
+      .attr('dx', options.forceYAxisWidth * 0.25 || '0.32em')
+      .style('font-size', options.forceLabelFontSize);
 
-    container
-      .selectAll('.axis--x > .tick > text')
-      .style('font-size', options.forceLabelFontSize)
+    container.selectAll('.axis--x > .tick > text').style('font-size', options.forceLabelFontSize);
   }
-}
+};
 
-const createShaders = (noShaders) => {
+const createShaders = noShaders => {
   const tickValues = [];
 
-  container.selectAll('.axis--y g.tick')
-    .each(d => tickValues.push(d));
+  container.selectAll('.axis--y g.tick').each(d => tickValues.push(d));
 
   const rectCount = Math.floor(tickValues.length / 2);
 
-  const shadersContainer = container.append('g')
+  const shadersContainer = container
+    .append('g')
     .classed('shaders', true)
     .attr('transform', `translate(${chartDimensions.yAxisWidth}, 0)`)
     .lower()
     .selectAll('rect')
-    .data(new Array(rectCount))
+    .data(new Array(rectCount));
 
   if (!noShaders) {
     const rectHeight = scales.y(tickValues[0]) - scales.y(tickValues[1]);
 
-    shadersContainer.enter()
+    shadersContainer
+      .enter()
       .append('rect')
       .attr('width', chartDimensions.width)
       .attr('height', rectHeight)
-      .attr('transform', (d, i) => `translate(0, ${scales.y(tickValues[(i * 2) + 1])})`)
-      .attr('fill', '#f8f8f8')
+      .attr('transform', (d, i) => `translate(0, ${scales.y(tickValues[i * 2 + 1])})`)
+      .attr('fill', '#f8f8f8');
   }
-}
+};
 
 const setAxes = (_container, _scales, _chartDimensions, _dataType, _options = {}) => {
   container = _container;
@@ -147,6 +151,6 @@ const setAxes = (_container, _scales, _chartDimensions, _dataType, _options = {}
   container.selectAll('.axis--x text').attr('y', '16');
 
   return y;
-}
+};
 
 export default setAxes;

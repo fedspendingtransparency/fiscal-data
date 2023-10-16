@@ -11,7 +11,8 @@
   cursor: pointer;
   margin-bottom: 0.25rem;
 
-  &:hover, &.open {
+  &:hover,
+  &.open {
     background-color: $primary-darker;
   }
 }

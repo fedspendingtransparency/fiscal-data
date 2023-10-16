@@ -1,9 +1,7 @@
-import { ensureDoubleDigitDate, formatDate } from "./helpers";
+import { ensureDoubleDigitDate, formatDate } from './helpers';
 
 describe('Download Wrapper Helpers', () => {
-
-  it('has function ensureDoubleDigitDate that ensures a 2 digit number from a 1 to 2 ' +
-    'digit param', () => {
+  it('has function ensureDoubleDigitDate that ensures a 2 digit number from a 1 to 2 ' + 'digit param', () => {
     let expectedValue = '05';
     let curValue = 5;
     expect(ensureDoubleDigitDate(curValue)).toStrictEqual(expectedValue);
@@ -16,7 +14,7 @@ describe('Download Wrapper Helpers', () => {
   });
 
   it('formats dates into mm/dd/yyyy form even if the month or day are single digits', () => {
-    let curDate = new Date(2021,0,1);
+    let curDate = new Date(2021, 0, 1);
     let expectedDate = '01/01/2021';
     expect(formatDate(curDate)).toStrictEqual(expectedDate);
 
@@ -24,5 +22,4 @@ describe('Download Wrapper Helpers', () => {
     expectedDate = '11/29/2021';
     expect(formatDate(curDate)).toStrictEqual(expectedDate);
   });
-
 });

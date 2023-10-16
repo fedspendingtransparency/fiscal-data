@@ -1,8 +1,7 @@
 /* istanbul ignore file */
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { lineGraph, tooltip } from '../experimental.module.scss';
-
 
 const data = [
   {
@@ -55,35 +54,31 @@ const data = [
   },
 ];
 
-
 const LineGraph = () => {
   const [mouseHover, setMouseHover] = useState(null);
   const [opacity, setOpacity] = useState(0);
 
-  useEffect (() => {
+  useEffect(() => {
     if (mouseHover !== null) {
       fadeIn();
-    }
-    else {
+    } else {
       fadeOut();
     }
-
   }, [mouseHover]);
 
   const fadeIn = () => {
     setOpacity(1);
-  }
+  };
   const fadeOut = () => {
     setOpacity(0);
-  }
+  };
 
   return (
-    <div 
-    style={{ height: '400px', position: 'relative', width: '600px', opacity: mouseHover !== null ? 0 : 1,
-    transition: 'opacity 3s ease-in-out' }}
-    role='presentation'
-    onMouseEnter={fadeIn}
-    onMouseLeave={fadeOut}
+    <div
+      style={{ height: '400px', position: 'relative', width: '600px', opacity: mouseHover !== null ? 0 : 1, transition: 'opacity 3s ease-in-out' }}
+      role="presentation"
+      onMouseEnter={fadeIn}
+      onMouseLeave={fadeOut}
     >
       <ResponsiveLine
         data={data}
@@ -104,23 +99,23 @@ const LineGraph = () => {
         enableGridX={false}
         enableGridY={true}
         enablePoints={false}
-        crosshairType='x'
-        onMouseEnter={(slice) => {
+        crosshairType="x"
+        onMouseEnter={slice => {
           setMouseHover(slice.slicePoints[0].x);
-          }}
+        }}
         onMouseLeave={() => {
-          setMouseHover(null)
+          setMouseHover(null);
         }}
         sliceTooltip={({ slice }) => {
           return (
-            <div 
-            className={tooltip}
-              style={{ 
-                background: 'white', 
-                padding: '10px', 
-                border: '1px solid #ccc', 
+            <div
+              className={tooltip}
+              style={{
+                background: 'white',
+                padding: '10px',
+                border: '1px solid #ccc',
                 opacity: opacity,
-                transition: 'opacity 3s ease-in-out'
+                transition: 'opacity 3s ease-in-out',
               }}
             >
               <div>
@@ -132,20 +127,20 @@ const LineGraph = () => {
                     display: 'inline-block',
                   }}
                 >
-                  <div style={{fontSize: 24}}>Year: {slice.points[0].data.x}</div>
-                  {slice.points.map((point) => (
+                  <div style={{ fontSize: 24 }}>Year: {slice.points[0].data.x}</div>
+                  {slice.points.map(point => (
                     <div key={point.serieId}>
-                      <div 
+                      <div
                         style={{
-                            height: '10px', 
-                            width: '10px', 
-                            backgroundColor: point.serieColor, 
-                            display: 'inline-block', 
-                            borderRadius: '50%', 
-                            marginRight: '5px'
-                            }}
+                          height: '10px',
+                          width: '10px',
+                          backgroundColor: point.serieColor,
+                          display: 'inline-block',
+                          borderRadius: '50%',
+                          marginRight: '5px',
+                        }}
                       />
-                       {point.serieId} : {point.data.y}
+                      {point.serieId} : {point.data.y}
                     </div>
                   ))}
                 </div>
@@ -159,4 +154,3 @@ const LineGraph = () => {
 };
 
 export default LineGraph;
-

@@ -14,35 +14,37 @@ $paddingOffset: 87px;
 }
 
 .datasetStats {
-    @include headingStyle6;
-    margin: 0.5rem 0 2.5rem;
+  @include headingStyle6;
+  margin: 0.5rem 0 2.5rem;
 }
 
 .chartLegendWrapper {
-    display: flex;
-    align-items: stretch;
-    min-width: calc(#{$breakpoint-lg} - #{$paddingOffset});
+  display: flex;
+  align-items: stretch;
+  min-width: calc(#{$breakpoint-lg} - #{$paddingOffset});
 }
 
 .viz {
-    width: 100%;
-    padding: 1rem 2rem;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
 }
 
 .legendActive {
-  .legend {display: block}
+  .legend {
+    display: block;
+  }
   .viz {
     width: calc(100% - #{$legendWidth});
   }
 }
 
 .legend {
-    display: none;
-    width: $legendWidth;
-    box-sizing: border-box;
-    border-left: 1px solid $border-color;
-    transition: width 250ms ease-in;
+  display: none;
+  width: $legendWidth;
+  box-sizing: border-box;
+  border-left: 1px solid $border-color;
+  transition: width 250ms ease-in;
 }
 
 .info {

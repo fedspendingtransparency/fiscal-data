@@ -34,7 +34,7 @@
 .pagingButtons .arrow {
   padding: 0;
   @include datasetDetailContainerBorder;
-  border-radius: 0!important;
+  border-radius: 0 !important;
 }
 
 .pagingButtons .active {
@@ -48,8 +48,8 @@
 
 .optionsMenuLabel {
   vertical-align: middle;
-  margin-top: 0!important;
-  margin-bottom: 0!important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .perPageLabel {
@@ -69,7 +69,7 @@
 }
 
 .pageButtons {
-  margin: 0 .5rem;
+  margin: 0 0.5rem;
 }
 
 .ellipsis svg {
@@ -81,6 +81,6 @@
     display: flex;
   }
   .pagingButtons {
-    margin: 0 0 .5rem 2rem;
+    margin: 0 0 0.5rem 2rem;
   }
 }

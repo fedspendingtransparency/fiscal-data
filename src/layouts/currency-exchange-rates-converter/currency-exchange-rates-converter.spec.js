@@ -31,44 +31,32 @@ describe('exchange rates converter', () => {
 
     await waitFor(() => getAllByText('Currency Exchange Rates Converter'));
 
-    expect(
-      getAllByText('Currency Exchange Rates Converter').length
-    ).toBeGreaterThan(0);
+    expect(getAllByText('Currency Exchange Rates Converter').length).toBeGreaterThan(0);
   });
 
   it('Selecting year from year dropdown changes available quarters and defaults to correct value', async () => {
-    const { getByTestId, getByText } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('Year'));
 
-    const yearSelector = within(getByTestId('year-selector')).getByTestId(
-      'toggle-button'
-    );
+    const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
     expect(yearSelector).toBeDefined();
 
     // Click on parent selector
     fireEvent.click(yearSelector);
 
-    const yearSelectorOptions = within(
-      getByTestId('year-selector')
-    ).getAllByTestId('selector-option');
+    const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
     expect(yearSelectorOptions[0]).toBeDefined();
 
     // Click on '2022'
     fireEvent.click(yearSelectorOptions[1]);
 
     // Make sure that quarters have changed to '2nd' and '1st'
-    const quarterSelector2022 = within(
-      getByTestId('quarter-selector')
-    ).getByTestId('toggle-button');
+    const quarterSelector2022 = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
     expect(quarterSelector2022).toBeDefined();
     // Make sure it defaults to latest quarter '2nd'
     expect(quarterSelector2022.innerHTML).toContain('2nd');
     fireEvent.click(quarterSelector2022);
-    const quarterSelectorOptions2022 = within(
-      getByTestId('quarter-selector')
-    ).getAllByTestId('selector-option');
+    const quarterSelectorOptions2022 = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
     expect(quarterSelectorOptions2022.length).toEqual(2);
     // Make sure quarters are in ascending order
     expect(quarterSelectorOptions2022[0].innerHTML).toContain('1st');
@@ -76,101 +64,72 @@ describe('exchange rates converter', () => {
   });
 
   it('year dropdown selected for year with 1 available quarter', async () => {
-    const { getByTestId, getByText } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('Year'));
 
-    const yearSelector = within(getByTestId('year-selector')).getByTestId(
-      'toggle-button'
-    );
+    const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
     expect(yearSelector).toBeDefined();
 
     fireEvent.click(yearSelector);
 
-    const yearSelectorOptions = within(
-      getByTestId('year-selector')
-    ).getAllByTestId('selector-option');
+    const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
     expect(yearSelectorOptions[0]).toBeDefined();
 
     // Click on 2023
     fireEvent.click(yearSelectorOptions[0]);
 
     // Make sure that quarters have changed to '2nd'
-    const quarterSelector2023 = within(
-      getByTestId('quarter-selector')
-    ).getByTestId('toggle-button');
+    const quarterSelector2023 = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
     expect(quarterSelector2023).toBeDefined();
     // Make sure it defaults to latest quarter '2nd'
     expect(quarterSelector2023.innerHTML).toContain('2nd');
     fireEvent.click(quarterSelector2023);
-    const quarterSelectorOptions2023 = within(
-      getByTestId('quarter-selector')
-    ).getAllByTestId('selector-option');
+    const quarterSelectorOptions2023 = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
     expect(quarterSelectorOptions2023.length).toEqual(1);
     expect(quarterSelectorOptions2023[0].innerHTML).toContain('2nd');
   });
 
   it('quarter selector changes exchange rate and effective date values, changing year value also updates to latest quarter', async () => {
-    const { getByTestId, getByText } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('Quarter'));
 
-    const yearSelector = within(getByTestId('year-selector')).getByTestId(
-      'toggle-button'
-    );
+    const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
 
     fireEvent.click(yearSelector);
 
-    const yearSelectorOptions = within(
-      getByTestId('year-selector')
-    ).getAllByTestId('selector-option');
+    const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
 
     // Checking displayed exchange rate
-    expect(getByTestId('exchange-values').innerHTML).toContain(
-      '1.00 U.S. Dollar = 43.60 Euro Zone-Euro'
-    );
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 43.60 Euro Zone-Euro');
     // Checking displayed effective date
     expect(getByText('December 31, 2023')).toBeInTheDocument();
 
     // Click on 2022
     fireEvent.click(yearSelectorOptions[1]);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain(
-      '1.00 U.S. Dollar = 89.11 Euro Zone-Euro'
-    );
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 89.11 Euro Zone-Euro');
     expect(getByText('December 31, 2022')).toBeInTheDocument();
 
-    const quarterSelector = within(getByTestId('quarter-selector')).getByTestId(
-      'toggle-button'
-    );
+    const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
     expect(quarterSelector).toBeDefined();
     expect(quarterSelector.innerHTML).toContain('2nd');
     fireEvent.click(quarterSelector);
-    const quarterSelectorOptions = within(
-      getByTestId('quarter-selector')
-    ).getAllByTestId('selector-option');
+    const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
     fireEvent.click(quarterSelectorOptions[0]);
     expect(getByTestId('exchange-values').innerHTML).toContain('99.11');
     expect(getByText('January 31, 2022')).toBeInTheDocument();
   });
 
   it('input boxes do not allow letters', async () => {
-    const { getByTestId, getByText } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
     const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
       name: 'Enter U.S. Dollar Amount',
     });
-    const nonUSBox = within(getByTestId('box-container')).getByRole(
-      'spinbutton',
-      {
-        name: 'Enter Euro Zone-Euro Amount',
-      }
-    );
+    const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+      name: 'Enter Euro Zone-Euro Amount',
+    });
 
     expect(usBox.value).toBe('1.00');
     expect(nonUSBox.value).toBe('43.60');
@@ -185,9 +144,7 @@ describe('exchange rates converter', () => {
   });
 
   it('typing in the US Dollar box changes the non US currency exchange value appropriately', async () => {
-    const { getByTestId, getByText } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
     const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -195,12 +152,9 @@ describe('exchange rates converter', () => {
     });
     fireEvent.change(usBox, { target: { value: '2.00' } });
 
-    const nonUSBox = within(getByTestId('box-container')).getByRole(
-      'spinbutton',
-      {
-        name: 'Enter Euro Zone-Euro Amount',
-      }
-    );
+    const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+      name: 'Enter Euro Zone-Euro Amount',
+    });
 
     // Prev value was 43.60
     expect(nonUSBox.value).toBe('87.2');
@@ -212,17 +166,12 @@ describe('exchange rates converter', () => {
   });
 
   it('typing in the non US currency box changes the US dollar exchange value appropriately', async () => {
-    const { getByTestId, getByText } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
-    const nonUSBox = within(getByTestId('box-container')).getByRole(
-      'spinbutton',
-      {
-        name: 'Enter Euro Zone-Euro Amount',
-      }
-    );
+    const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+      name: 'Enter Euro Zone-Euro Amount',
+    });
 
     fireEvent.change(nonUSBox, { target: { value: '2' } });
 
@@ -240,14 +189,10 @@ describe('exchange rates converter', () => {
   });
 
   it('try to select a currency other than euro that is greyed out', async () => {
-    const { getByTestId, getByText, getByRole } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText, getByRole } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
-    const nonUSBox = within(getByTestId('box-container')).getByTestId(
-      'non-us-box'
-    );
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
 
     const comboBox = within(nonUSBox).getByRole('button');
 
@@ -264,20 +209,14 @@ describe('exchange rates converter', () => {
 
     fireEvent.click(option);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain(
-      '1.00 U.S. Dollar = 43.60 Euro Zone-Euro'
-    );
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 43.60 Euro Zone-Euro');
   });
 
   it('select a currency other than euro that is not greyed out', async () => {
-    const { getByTestId, getByText, getByRole } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByTestId, getByText, getByRole } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
-    const nonUSBox = within(getByTestId('box-container')).getByTestId(
-      'non-us-box'
-    );
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
 
     const comboBox = within(nonUSBox).getByRole('button');
 
@@ -294,30 +233,22 @@ describe('exchange rates converter', () => {
 
     fireEvent.click(option);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain(
-      '1.00 U.S. Dollar = 150 Other OtherDollar2'
-    );
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
   });
 
   it('renders the most recent effective date', async () => {
     const { getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
-    expect(
-      getByText('December 31, 2022 to December 31, 2023', { exact: false })
-    ).toBeInTheDocument();
+    expect(getByText('December 31, 2022 to December 31, 2023', { exact: false })).toBeInTheDocument();
   });
 
   it('displays an error message when an invalid date is selected for the current currency', async () => {
-    const { getByText, queryByText, getByTestId, getByRole } = render(
-      <CurrencyExchangeRatesConverter />
-    );
+    const { getByText, queryByText, getByTestId, getByRole } = render(<CurrencyExchangeRatesConverter />);
 
     await waitFor(() => getByText('U.S. Dollar'));
 
-    const nonUSBox = within(getByTestId('box-container')).getByTestId(
-      'non-us-box'
-    );
+    const nonUSBox = within(getByTestId('box-container')).getByTestId('non-us-box');
     const comboBox = within(nonUSBox).getByRole('button');
 
     fireEvent.click(comboBox);
@@ -332,47 +263,31 @@ describe('exchange rates converter', () => {
 
     fireEvent.click(option);
 
-    expect(getByTestId('exchange-values').innerHTML).toContain(
-      '1.00 U.S. Dollar = 150 Other OtherDollar2'
-    );
+    expect(getByTestId('exchange-values').innerHTML).toContain('1.00 U.S. Dollar = 150 Other OtherDollar2');
 
     //Change year to 2022
-    let yearSelector = within(getByTestId('year-selector')).getByTestId(
-      'toggle-button'
-    );
+    let yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
 
     fireEvent.click(yearSelector);
 
-    let yearSelectorOptions = within(
-      getByTestId('year-selector')
-    ).getAllByTestId('selector-option');
+    let yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
     fireEvent.click(yearSelectorOptions[1]);
 
     //Banner should appear
     await waitFor(() => getByTestId('banner'));
-    expect(
-      within(getByTestId('banner')).getByText(
-        'No exchange rate available for this date range.'
-      )
-    ).toBeInTheDocument();
+    expect(within(getByTestId('banner')).getByText('No exchange rate available for this date range.')).toBeInTheDocument();
     expect(queryByText('1.00 U.S. Dollar')).not.toBeInTheDocument();
 
     // Change selection to a valid option
-    yearSelector = within(getByTestId('year-selector')).getByTestId(
-      'toggle-button'
-    );
+    yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
     fireEvent.click(yearSelector);
 
-    yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId(
-      'selector-option'
-    );
+    yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
     fireEvent.click(yearSelectorOptions[0]);
 
     // Banner should be gone
     await waitFor(() => getByText('1.00 U.S. Dollar', { exact: false }));
-    expect(
-      queryByText('No exchange rate available for this date range.')
-    ).not.toBeInTheDocument();
+    expect(queryByText('No exchange rate available for this date range.')).not.toBeInTheDocument();
   });
 });
 
@@ -381,14 +296,10 @@ it('calls the appropriate analytics event when year selector is set and current 
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('year-selector'));
 
-  const yearSelector = within(getByTestId('year-selector')).getByTestId(
-    'toggle-button'
-  );
+  const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
   fireEvent.click(yearSelector);
 
-  const yearSelectorOptions = within(
-    getByTestId('year-selector')
-  ).getAllByTestId('selector-option');
+  const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
   fireEvent.click(yearSelectorOptions[1]);
 
   expect(spy).toHaveBeenCalledWith({
@@ -404,33 +315,21 @@ it('calls the appropriate analytics event when year selector is set and current 
   await waitFor(() => getByTestId('year-selector'));
 
   // set year to 2022
-  const yearSelector = within(getByTestId('year-selector')).getByTestId(
-    'toggle-button'
-  );
+  const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
   fireEvent.click(yearSelector);
-  const yearSelectorOptions = within(
-    getByTestId('year-selector')
-  ).getAllByTestId('selector-option');
+  const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
   fireEvent.click(yearSelectorOptions[1]);
 
   // set quarter to 1st
-  const quarterSelector = within(getByTestId('quarter-selector')).getByTestId(
-    'toggle-button'
-  );
+  const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
   fireEvent.click(quarterSelector);
-  const quarterSelectorOptions = within(
-    getByTestId('quarter-selector')
-  ).getAllByTestId('selector-option');
+  const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
   fireEvent.click(quarterSelectorOptions[0]);
 
   // set year back to 2023
-  const yearSelector2 = within(getByTestId('year-selector')).getByTestId(
-    'toggle-button'
-  );
+  const yearSelector2 = within(getByTestId('year-selector')).getByTestId('toggle-button');
   fireEvent.click(yearSelector2);
-  const yearSelectorOptions2 = within(
-    getByTestId('year-selector')
-  ).getAllByTestId('selector-option');
+  const yearSelectorOptions2 = within(getByTestId('year-selector')).getAllByTestId('selector-option');
   fireEvent.click(yearSelectorOptions2[0]);
 
   expect(spy).toHaveBeenCalledWith({
@@ -445,24 +344,16 @@ it('calls the appropriate analytics event when quarter selector is set', async (
   const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByText('U.S. Dollar'));
 
-  const yearSelector = within(getByTestId('year-selector')).getByTestId(
-    'toggle-button'
-  );
+  const yearSelector = within(getByTestId('year-selector')).getByTestId('toggle-button');
   fireEvent.click(yearSelector);
 
-  const yearSelectorOptions = within(
-    getByTestId('year-selector')
-  ).getAllByTestId('selector-option');
+  const yearSelectorOptions = within(getByTestId('year-selector')).getAllByTestId('selector-option');
   fireEvent.click(yearSelectorOptions[1]);
 
-  const quarterSelector = within(getByTestId('quarter-selector')).getByTestId(
-    'toggle-button'
-  );
+  const quarterSelector = within(getByTestId('quarter-selector')).getByTestId('toggle-button');
   fireEvent.click(quarterSelector);
 
-  const quarterSelectorOptions = within(
-    getByTestId('quarter-selector')
-  ).getAllByTestId('selector-option');
+  const quarterSelectorOptions = within(getByTestId('quarter-selector')).getAllByTestId('selector-option');
   fireEvent.click(quarterSelectorOptions[1]);
 
   expect(spy).toHaveBeenCalledWith({
@@ -598,9 +489,7 @@ it('calls the appropriate analytics event when Treasury Financial Manual link is
   const { getByText } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByText('U.S. Dollar'));
 
-  const treasuryFinancialManualLink = getByText(
-    'Treasury Financial Manual, volume 1, part 2, section 3235'
-  );
+  const treasuryFinancialManualLink = getByText('Treasury Financial Manual, volume 1, part 2, section 3235');
   fireEvent.click(treasuryFinancialManualLink);
 
   expect(spy).toHaveBeenCalledWith({
@@ -615,12 +504,9 @@ it('calls the appropriate analytics event when new value is entered into non US 
   const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByText('U.S. Dollar'));
 
-  const nonUSBox = within(getByTestId('box-container')).getByRole(
-    'spinbutton',
-    {
-      name: 'Enter Euro Zone-Euro Amount',
-    }
-  );
+  const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+    name: 'Enter Euro Zone-Euro Amount',
+  });
   fireEvent.change(nonUSBox, { target: { value: '1.11' } });
 
   jest.advanceTimersByTime(5000);
@@ -638,12 +524,9 @@ it('does not call analytic event when new value is entered into non US currency 
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
-  const nonUSBox = within(getByTestId('box-container')).getByRole(
-    'spinbutton',
-    {
-      name: 'Enter Euro Zone-Euro Amount',
-    }
-  );
+  const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+    name: 'Enter Euro Zone-Euro Amount',
+  });
   fireEvent.change(nonUSBox, { target: { value: '2.22' } });
 
   jest.advanceTimersByTime(1000);
@@ -661,12 +544,9 @@ it('does not call analytic event when non US currency field is empty', async () 
   const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
-  const nonUSBox = within(getByTestId('box-container')).getByRole(
-    'spinbutton',
-    {
-      name: 'Enter Euro Zone-Euro Amount',
-    }
-  );
+  const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
+    name: 'Enter Euro Zone-Euro Amount',
+  });
   fireEvent.change(nonUSBox, { target: { value: '' } });
 
   jest.advanceTimersByTime(5000);

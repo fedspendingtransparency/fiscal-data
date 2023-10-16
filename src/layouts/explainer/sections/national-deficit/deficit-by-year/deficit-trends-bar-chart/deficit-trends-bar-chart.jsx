@@ -1,21 +1,10 @@
 import { Bar } from '@nivo/bar';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import React, { useEffect, useState } from 'react';
-import {
-  barChart,
-  container,
-  headerTitle,
-  subHeader,
-} from './deficit-trends-bar-chart.module.scss';
+import { barChart, container, headerTitle, subHeader } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import {
-  breakpointLg,
-  fontBodyCopy,
-  fontSize_12,
-  fontSize_16,
-  fontTitle,
-} from '../../../../../../variables.module.scss';
+import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_16, fontTitle } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
@@ -25,11 +14,7 @@ import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-ba
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import {
-  addInnerChartAriaLabel,
-  applyChartScaling,
-  applyTextScaling,
-} from '../../../../explainer-helpers/explainer-charting-helper';
+import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomBar from './custom-bar/custom-bar';
 import { useInView } from 'react-intersection-observer';
 
@@ -37,10 +22,10 @@ let gaTimerChart;
 let ga4Timer;
 
 export const DeficitTrendsBarChart = ({ width }) => {
-  const {getGAEvent} = useGAEventTracking(null, "Deficit");
+  const { getGAEvent } = useGAEventTracking(null, 'Deficit');
 
   const desktop = width >= pxToNumber(breakpointLg);
-  const [date, setDate] = useState(new Date ());
+  const [date, setDate] = useState(new Date());
   const [chartData, setChartData] = useState([]);
   const [tickValuesX, setTickValuesX] = useState([]);
   const [tickValuesY, setTickValuesY] = useState([]);
@@ -55,8 +40,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
       return `-$${Math.abs(v)} T`;
-    }
-    else {
+    } else {
       return `$${v} T`;
     }
   };
@@ -71,53 +55,52 @@ export const DeficitTrendsBarChart = ({ width }) => {
       fontFamily: 'Source Sans Pro',
       textColor: fontBodyCopy,
     },
-    axisBottom:{
+    axisBottom: {
       tickSize: 0,
       tickPadding: 5,
       tickRotation: 0,
-      tickValues: tickValuesX
+      tickValues: tickValuesX,
     },
-    axisLeft:{
+    axisLeft: {
       format: formatCurrency,
       tickSize: 0,
       tickPadding: 5,
       tickRotation: 0,
-      tickValues: tickValuesY
+      tickValues: tickValuesY,
     },
     highlightColor: fontTitle,
     animationDuration: 2000,
-  }
+  };
   const startingYear = '2001';
   const delayIncrement = 1250;
 
   const setAnimationDurations = (data, totalValues, totalDuration) => {
     if (data) {
       data.forEach(value => {
-        value["duration"] = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
-        value["delay"] = 100;
-      })
+        value['duration'] = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
+        value['delay'] = 100;
+      });
     }
     return data;
-  }
+  };
 
   const getChartData = () => {
     const apiData = [];
-    basicFetch(`${apiPrefix}${endpointUrl}`)
-    .then((result) => {
+    basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
       let deficitSum = 0;
-      result.data.forEach((entry) => {
-       const deficitValue = (Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000);
+      result.data.forEach(entry => {
+        const deficitValue = Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000;
         deficitSum += deficitValue;
         apiData.push({
-          "year": entry.record_fiscal_year,
-          "deficit": deficitValue.toFixed(2),
-          "deficitColor": deficitExplainerPrimary,
-        })
-      })
+          year: entry.record_fiscal_year,
+          deficit: deficitValue.toFixed(2),
+          deficitColor: deficitExplainerPrimary,
+        });
+      });
       preAPIData.forEach(entry => {
         deficitSum += Math.abs(entry.deficit);
-      })
-      setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length -1].record_date)));
+      });
+      setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
       const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, chartConfigs.animationDuration);
       const latestYear = newData[newData.length - 1].year;
       const latestDeficit = newData[newData.length - 1].deficit;
@@ -127,15 +110,14 @@ export const DeficitTrendsBarChart = ({ width }) => {
       setHeaderDeficit(latestDeficit);
       setChartData(newData);
     });
-  }
+  };
 
   const resetHeaderValues = () => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
 
-    if (lastBar)
-      lastBar.style.fill = chartConfigs.highlightColor;
-  }
+    if (lastBar) lastBar.style.fill = chartConfigs.highlightColor;
+  };
 
   const onBarMouseEnter = (data, event) => {
     if (data && event && data.data.year >= startingYear) {
@@ -151,35 +133,36 @@ export const DeficitTrendsBarChart = ({ width }) => {
       setHeaderYear(data.data.year);
       setHeaderDeficit(data.data.deficit);
     }
-  }
+  };
 
   const onBarMouseLeave = (data, event) => {
     if (event.target) {
       event.target.parentNode.children[0].style.fill = deficitExplainerPrimary;
     }
-  }
+  };
 
-  const handleGoogleAnalyticsMouseEnter = () =>{
-    const gaEvent = getGAEvent("30");
-    gaTimerChart = setTimeout(() =>{
-      gaEvent && Analytics.event({
-        category: gaEvent.eventCategory.replace("Fiscal Data - ", ""),
-        action: gaEvent.eventAction,
-        label: gaEvent.eventLabel,
-      });
+  const handleGoogleAnalyticsMouseEnter = () => {
+    const gaEvent = getGAEvent('30');
+    gaTimerChart = setTimeout(() => {
+      gaEvent &&
+        Analytics.event({
+          category: gaEvent.eventCategory.replace('Fiscal Data - ', ''),
+          action: gaEvent.eventAction,
+          label: gaEvent.eventLabel,
+        });
     }, 3000);
     ga4Timer = setTimeout(() => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        'event': 'chart-hover-deficit-trends',
+        event: 'chart-hover-deficit-trends',
       });
     }, 3000);
-  }
+  };
 
-  const handleGoogleAnalyticsMouseLeave = () =>{
+  const handleGoogleAnalyticsMouseLeave = () => {
     clearTimeout(gaTimerChart);
     clearTimeout(ga4Timer);
-  }
+  };
 
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -190,39 +173,37 @@ export const DeficitTrendsBarChart = ({ width }) => {
     const initialDelay = delayIncrement + 500;
     let headerDelay = initialDelay;
     let barDelay = initialDelay;
-    const barSVGs = Array.from(
-      document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children
-    );
+    const barSVGs = Array.from(document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children);
     barSVGs.splice(0, 5);
 
     // Run bar highlight wave
-    barSVGs.forEach((element) => {
+    barSVGs.forEach(element => {
       const finalBar = barSVGs[barSVGs.length - 1].children[0];
       const bar = element.children[0];
 
-      if(inView) {
+      if (inView) {
         setTimeout(() => {
           bar.style.fill = chartConfigs.highlightColor;
-        }, barDelay += delayIncrement / barSVGs.length)
+        }, (barDelay += delayIncrement / barSVGs.length));
 
         if (bar !== finalBar) {
           setTimeout(() => {
-            bar.style.fill = deficitExplainerPrimary
-          }, barDelay + delayIncrement / barSVGs.length)
+            bar.style.fill = deficitExplainerPrimary;
+          }, barDelay + delayIncrement / barSVGs.length);
         }
       }
-    })
+    });
 
     //Run animation for header values
-    chartData.forEach((element) => {
+    chartData.forEach(element => {
       if (inView && element.year >= startingYear) {
         setTimeout(() => {
           setHeaderYear(element.year);
           setHeaderDeficit(element.deficit);
-        }, headerDelay += delayIncrement / chartData.length )
+        }, (headerDelay += delayIncrement / chartData.length));
       }
-    })
-  }, [inView, chartData])
+    });
+  }, [inView, chartData]);
 
   useEffect(() => {
     applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
@@ -233,7 +214,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   useEffect(() => {
     setTimeout(() => {
       applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
-    })
+    });
   }, [width, chartData]);
 
   useEffect(() => {
@@ -242,77 +223,79 @@ export const DeficitTrendsBarChart = ({ width }) => {
     setMaxValue(tickValues[1][tickValues[1].length - 1]);
     setTickValuesX(tickValues[0]);
     setTickValuesY(tickValues[1]);
-  }, [chartData])
+  }, [chartData]);
 
   const slug = `/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government`;
-  const mts =
+  const mts = (
     <CustomLink url={slug} eventNumber="18" id="Monthly Treasury Statement">
       Monthly Treasury Statement (MTS)
     </CustomLink>
+  );
 
-  const footer =
+  const footer = (
     <div>
-      Visit the {mts} dataset to explore and
-      download this data.
+      Visit the {mts} dataset to explore and download this data.
       <p>Please note: This data visual only includes completed fiscal years.</p>
     </div>
+  );
 
-  const header =
+  const header = (
     <>
       <div>
-        <div className={headerTitle} data-testid="deficitFiscalYearHeader">{headerYear}</div>
+        <div className={headerTitle} data-testid="deficitFiscalYearHeader">
+          {headerYear}
+        </div>
         <span className={subHeader}>Fiscal Year</span>
       </div>
       <div>
-        <div className={headerTitle} data-testid="deficitTotalHeader">${headerDeficit} T</div>
+        <div className={headerTitle} data-testid="deficitTotalHeader">
+          ${headerDeficit} T
+        </div>
         <span className={subHeader}>Total Deficit</span>
       </div>
     </>
-
+  );
 
   return (
     <>
-      { chartData !== [] ? (
-        <div className={container}
-          onMouseEnter={handleGoogleAnalyticsMouseEnter}
-          onMouseLeave={handleGoogleAnalyticsMouseLeave}
-          role="presentation"
-        >
+      {chartData !== [] ? (
+        <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
           <ChartContainer
             title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
-            altText={`Bar graph that shows the federal deficit trend from ${startingYear} to `
-            + `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`}
+            altText={
+              `Bar graph that shows the federal deficit trend from ${startingYear} to ` +
+              `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`
+            }
             header={header}
             footer={footer}
             date={date}
           >
-            <div className={barChart}
-                 onMouseLeave={resetHeaderValues}
-                 data-testid="deficitTrendsChartParent"
-                 role="presentation"
-                 ref={ref}
-            >
+            <div className={barChart} onMouseLeave={resetHeaderValues} data-testid="deficitTrendsChartParent" role="presentation" ref={ref}>
               <Bar
                 barComponent={CustomBar}
                 width={chartConfigs.width}
                 height={chartConfigs.height}
                 data={chartData}
-                keys={["deficit"]}
+                keys={['deficit']}
                 indexBy="year"
-                margin={{top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55}}
-                padding={desktop ? 0.30 : 0.35}
-                colors={({id, data}) =>  String(data[`${id}Color`])}
+                margin={{ top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55 }}
+                padding={desktop ? 0.3 : 0.35}
+                colors={({ id, data }) => String(data[`${id}Color`])}
                 axisBottom={chartConfigs.axisBottom}
                 axisLeft={chartConfigs.axisLeft}
                 enableGridX={true}
                 theme={chartConfigs.theme}
-                layers={["grid", "axes", "bars"]}
+                layers={['grid', 'axes', 'bars']}
                 minValue={minValue}
                 maxValue={maxValue}
                 gridXValues={tickValuesX}
                 gridYValues={tickValuesY}
-                onMouseEnter={(data, event) => {onBarMouseEnter(data, event)}}
-                onMouseLeave={(data, event) => {onBarMouseLeave(data, event)}}
+                onMouseEnter={(data, event) => {
+                  onBarMouseEnter(data, event);
+                }}
+                onMouseLeave={(data, event) => {
+                  onBarMouseLeave(data, event);
+                }}
               />
             </div>
           </ChartContainer>
@@ -321,10 +304,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
         <div>
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
-      )
-      }
+      )}
     </>
-  )
+  );
 };
 
 export default withWindowSize(DeficitTrendsBarChart);

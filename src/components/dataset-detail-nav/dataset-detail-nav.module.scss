@@ -4,7 +4,7 @@
 #container {
   height: 3rem;
   background-color: $dark-slate-blue;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 0.75rem 1rem;
   box-sizing: border-box;
   position: sticky;
@@ -33,11 +33,11 @@
   transition: flex 0.2s ease;
 
   &.mobile > :first-child {
-      margin-right: 0.5rem;
+    margin-right: 0.5rem;
   }
 
   a {
-    color: #FFFFFF;
+    color: #ffffff;
     text-decoration: none;
   }
 }
@@ -51,7 +51,7 @@
 }
 
 .mobileIcon {
-  border: 2px solid #FFFFFF;
+  border: 2px solid #ffffff;
   border-radius: 100px;
   padding: 0.2rem 0.285rem;
 }
@@ -60,8 +60,7 @@
   opacity: 0.3;
 }
 
-@media screen and (min-width: $breakpoint-lg){
-
+@media screen and (min-width: $breakpoint-lg) {
   #container {
     padding: 0 1rem 0 0;
   }
@@ -81,7 +80,7 @@
     align-items: center;
 
     a {
-      color: #FFFFFF;
+      color: #ffffff;
       text-decoration: none;
       overflow-x: hidden;
       padding: 0.8125rem 0.75rem 0.75rem 0.75rem;

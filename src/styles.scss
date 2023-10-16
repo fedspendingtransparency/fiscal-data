@@ -1,10 +1,24 @@
 @import './section.scss';
-@import "./variables.module.scss";
-@import "./chartStyles.scss";
+@import './variables.module.scss';
+@import './chartStyles.scss';
 @import '~typeface-roboto/index.css';
 @import '~typeface-roboto-mono/index.css';
 
-body, h1, h2, h3, h4, h5, p, button, label, div, form, span, li, ul, input {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+button,
+label,
+div,
+form,
+span,
+li,
+ul,
+input {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -20,7 +34,7 @@ a.primary {
   text-decoration: underline;
 
   &:active {
-    color: #4C2C92;
+    color: #4c2c92;
   }
 
   &:hover {
@@ -39,8 +53,9 @@ code {
     margin: 0;
   }
 
-  &, * {
-    font-family: "Roboto mono", monospace;
+  &,
+  * {
+    font-family: 'Roboto mono', monospace;
     background-color: $body-background;
     color: darken($dark-pink, 4%);
     line-height: 1.38;
@@ -117,7 +132,8 @@ h1 {
   border: 2px solid #cccccc;
 }
 
-.copyButton, .downloadLink {
+.copyButton,
+.downloadLink {
   display: inline-block;
   margin: 0.5rem 1.5rem;
   cursor: pointer;
@@ -133,14 +149,15 @@ h1 {
     margin-right: 2rem;
   }
   div:last-child {
-    margin-right:0;
+    margin-right: 0;
   }
-  dt, dd {
+  dt,
+  dd {
     display: inline-block;
     margin: 0;
   }
   dt:after {
-    content:': ';
+    content: ': ';
   }
 }
 
@@ -149,7 +166,6 @@ h1 {
 }
 
 .previewSection {
-
   h2 {
     display: inline-block;
     margin: 0.3rem 0;
@@ -212,7 +228,7 @@ h1 {
 }
 
 @media screen and (min-width: $breakpoint-sm) {
-  .pageHeader .content{
+  .pageHeader .content {
     padding: 1rem 2rem 2rem 2rem;
   }
 
@@ -221,7 +237,7 @@ h1 {
   }
 }
 
-@media screen and (min-width: $breakpoint-md){
+@media screen and (min-width: $breakpoint-md) {
   .bodyBackground {
     padding-left: 1rem;
     padding-right: 1rem;

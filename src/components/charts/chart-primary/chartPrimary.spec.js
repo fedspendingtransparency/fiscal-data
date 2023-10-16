@@ -1,33 +1,25 @@
 import { mockData, fields, dateField } from './mockData';
-import {calculateRadius, minTooltipHitbox, maxTooltipHitbox} from "./tooltip";
+import { calculateRadius, minTooltipHitbox, maxTooltipHitbox } from './tooltip';
 import drawChart from './index';
 
 describe('Primary Chart', () => {
-  const container = document.createElement("div");
+  const container = document.createElement('div');
 
-  const chart = drawChart(
-    mockData.data,
-    container,
-    dateField,
-    fields,
-    mockData.meta.labels,
-    {
-      format: mockData.meta.dataTypes.a
-    }
-  );
+  const chart = drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, {
+    format: mockData.meta.dataTypes.a,
+  });
 
   it('displays the expected number of lines on the chart', () => {
-    expect(container.querySelectorAll('[data-testid="dataviz-line"]').length).toBe(3)
-  })
+    expect(container.querySelectorAll('[data-testid="dataviz-line"]').length).toBe(3);
+  });
 
   it('places x and y axes', () => {
-    expect(container.querySelectorAll('.axis--x').length).toBe(1)
-    expect(container.querySelectorAll('.axis--y').length).toBe(1)
-  })
+    expect(container.querySelectorAll('.axis--x').length).toBe(1);
+    expect(container.querySelectorAll('.axis--y').length).toBe(1);
+  });
 
   it('places the expected number of tooltip targets', () => {
-    expect(container.querySelectorAll('.dots circle').length)
-      .toBe(mockData.data.length * fields.length)
+    expect(container.querySelectorAll('.dots circle').length).toBe(mockData.data.length * fields.length);
   });
 
   it('shows tooltip with desired attributes when moused over', () => {
@@ -62,10 +54,10 @@ describe('Primary Chart', () => {
 
   it('places no tooltips when configured not to', () => {
     drawChart(mockData.data, container, dateField, fields, mockData.labels, {
-      noTooltip: true
-    }) // drawChart clears the container; previous tests should not interfere
+      noTooltip: true,
+    }); // drawChart clears the container; previous tests should not interfere
 
-    expect(container.querySelectorAll('.dots circle').length).toBe(0)
+    expect(container.querySelectorAll('.dots circle').length).toBe(0);
   });
 
   it('resizes chart to expected size when onUpdateChartWidth is called', () => {
@@ -79,18 +71,16 @@ describe('Primary Chart', () => {
         top: 0,
         left: 0,
         width: '400px',
-        height: '400px'
-      }
+        height: '400px',
+      };
     });
 
     chart.onUpdateChartWidth(container, fields);
     chartContainer = container.querySelector('svg[data-test-id="chartContainer"]');
     expect(chartContainer.getAttribute('width')).toBe('400px');
-
   });
 });
 describe('Tooltip calculateRadius', () => {
-
   it('returns the minimum hitbox size if input parameters are bad', () => {
     expect(calculateRadius(0, 0)).toStrictEqual(minTooltipHitbox);
     expect(calculateRadius(80, 0)).toStrictEqual(minTooltipHitbox);
@@ -100,7 +90,7 @@ describe('Tooltip calculateRadius', () => {
   it('calculates an expected radius given proper inputs without exceeding the boundaries', () => {
     let containerWidth = 400;
     let dataLen = 20;
-    let radius = 10;// Radius = (400/20) / 2 = 10.
+    let radius = 10; // Radius = (400/20) / 2 = 10.
     expect(calculateRadius(containerWidth, dataLen)).toStrictEqual(radius);
 
     containerWidth = 500;
@@ -122,5 +112,4 @@ describe('Tooltip calculateRadius', () => {
     radius = maxTooltipHitbox;
     expect(calculateRadius(containerWidth, dataLen)).toStrictEqual(radius);
   });
-
 });

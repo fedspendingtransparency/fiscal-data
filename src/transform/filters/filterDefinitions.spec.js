@@ -1,28 +1,20 @@
-import { mockFilters } from "../../components/datasets/mockData/mockFilters"
-import { addMissingPublishers } from "./filterDefinitions"
-const {
-  processFilters,
-  filtersByGroupId,
-  filterByDateRange,
-  filtersByGroupKeyWithName
-} = require("./filterDefinitions");
-const {subDays, subYears, format, parse} = require("date-fns");
+import { mockFilters } from '../../components/datasets/mockData/mockFilters';
+import { addMissingPublishers } from './filterDefinitions';
+const { processFilters, filtersByGroupId, filterByDateRange, filtersByGroupKeyWithName } = require('./filterDefinitions');
+const { subDays, subYears, format, parse } = require('date-fns');
 
 const baseMockObject = () => {
   return {
     filterTopics: [],
     techSpecs: {
-      lastUpdated: '01/01/1800'
-    }
+      lastUpdated: '01/01/1800',
+    },
   };
 };
 
 const buildMockTechSpecs = (prop, date) => {
   const mock = baseMockObject();
-  mock.techSpecs[prop] = format(
-    date,
-    'MM/dd/yyyy'
-  );
+  mock.techSpecs[prop] = format(date, 'MM/dd/yyyy');
 
   return mock;
 };
@@ -34,14 +26,14 @@ const buildMockObj = (prop, value) => {
   return mock;
 };
 
-const lastUpdatedMockDatasets = (compare) => {
+const lastUpdatedMockDatasets = compare => {
   const datasetOne = buildMockTechSpecs('lastUpdated', compare);
   const datasetTwo = buildMockTechSpecs('lastUpdated', subDays(compare, 1));
 
   processFilters(datasetOne);
   processFilters(datasetTwo);
 
-  return {datasetOne, datasetTwo};
+  return { datasetOne, datasetTwo };
 };
 
 describe('filterDefinitions', () => {
@@ -49,7 +41,7 @@ describe('filterDefinitions', () => {
 
   it('matches datasets updated in the last year', () => {
     const aYearAgo = subYears(new Date(), 1);
-    const {datasetOne, datasetTwo} = lastUpdatedMockDatasets(aYearAgo);
+    const { datasetOne, datasetTwo } = lastUpdatedMockDatasets(aYearAgo);
 
     expect(datasetOne.filters).toContain('lastYear');
     expect(datasetTwo.filters).not.toContain('lastYear');
@@ -57,7 +49,7 @@ describe('filterDefinitions', () => {
 
   it('matches datasets updated in the last 90 days', () => {
     const ninetyDaysAgo = subDays(new Date(), 90);
-    const {datasetOne, datasetTwo} = lastUpdatedMockDatasets(ninetyDaysAgo);
+    const { datasetOne, datasetTwo } = lastUpdatedMockDatasets(ninetyDaysAgo);
 
     expect(datasetOne.filters).toContain('ninetyDays');
     expect(datasetTwo.filters).not.toContain('ninetyDays');
@@ -65,7 +57,7 @@ describe('filterDefinitions', () => {
 
   it('matches datasets updated in the last 30 days', () => {
     const thirtyDaysAgo = subDays(new Date(), 30);
-    const {datasetOne, datasetTwo} = lastUpdatedMockDatasets(thirtyDaysAgo);
+    const { datasetOne, datasetTwo } = lastUpdatedMockDatasets(thirtyDaysAgo);
 
     expect(datasetOne.filters).toContain('thirtyDays');
     expect(datasetTwo.filters).not.toContain('thirtyDays');
@@ -73,7 +65,7 @@ describe('filterDefinitions', () => {
 
   it('matches datasets updated in the last 7 days', () => {
     const sevenDaysAgo = subDays(new Date(), 7);
-    const {datasetOne, datasetTwo} = lastUpdatedMockDatasets(sevenDaysAgo);
+    const { datasetOne, datasetTwo } = lastUpdatedMockDatasets(sevenDaysAgo);
 
     expect(datasetOne.filters).toContain('sevenDays');
     expect(datasetTwo.filters).not.toContain('sevenDays');
@@ -81,14 +73,13 @@ describe('filterDefinitions', () => {
 
   it('matches datasets updated in the last 24 hours', () => {
     const yesterday = subDays(new Date(), 1);
-    const {datasetOne, datasetTwo} = lastUpdatedMockDatasets(yesterday);
+    const { datasetOne, datasetTwo } = lastUpdatedMockDatasets(yesterday);
 
     expect(datasetOne.filters).toContain('oneDay');
     expect(datasetTwo.filters).not.toContain('oneDay');
   });
 
   it('establishes the last updated group', () => {
-
     expect(filtersByGroupId('lastUpdated', mockFilters).length).toBe(5);
     expect(filtersByGroupId('lastUpdated', mockFilters).length).toBe(5);
   });
@@ -247,35 +238,25 @@ describe('filterDefinitions', () => {
   });
 
   it('matches dataset with earliest and latest dates falling in specified date ranges', () => {
-    const datasetOne = buildMockObj(
-      'techSpecs',
-      {
-        "earliestDate": "01/01/1999",
-        "latestDate": "09/01/2020"
-      }
-    );
-    const datasetTwo = buildMockObj(
-      'techSpecs',
-      {
-        "earliestDate": "01/01/1993",
-        "latestDate": "09/01/2003"
-      }
-    );
-    const from = parse("01/01/2019", "MM/dd/yyyy", new Date()).setHours(12);
-    const to = parse("01/01/2020", "MM/dd/yyyy", new Date()).setHours(12);
-    const options = {"startDate": from, "endDate": to, exactRange: false};
-    const datasetA = filterByDateRange({dataset: datasetOne, options: options});
-    const datasetB = filterByDateRange({dataset: datasetTwo, options: options});
+    const datasetOne = buildMockObj('techSpecs', {
+      earliestDate: '01/01/1999',
+      latestDate: '09/01/2020',
+    });
+    const datasetTwo = buildMockObj('techSpecs', {
+      earliestDate: '01/01/1993',
+      latestDate: '09/01/2003',
+    });
+    const from = parse('01/01/2019', 'MM/dd/yyyy', new Date()).setHours(12);
+    const to = parse('01/01/2020', 'MM/dd/yyyy', new Date()).setHours(12);
+    const options = { startDate: from, endDate: to, exactRange: false };
+    const datasetA = filterByDateRange({ dataset: datasetOne, options: options });
+    const datasetB = filterByDateRange({ dataset: datasetTwo, options: options });
     expect(datasetA).toBeTruthy();
     expect(datasetB).toBeFalsy();
   });
 
   it('groups filters by id while including filter name with active/inactive options', () => {
-    const filterGroups = filtersByGroupKeyWithName([
-      "revenue",
-      "startDateRangeTwo",
-      "startDateRangeThree"
-    ]);
+    const filterGroups = filtersByGroupKeyWithName(['revenue', 'startDateRangeTwo', 'startDateRangeThree']);
     expect(filterGroups.length).toBe(6);
     // out of the 6 filter groups, only the ones containing a filter with the id revenue
     // and both filter with id startDateRangeTwo and id startDateRangeThree
@@ -283,7 +264,7 @@ describe('filterDefinitions', () => {
       return f.options.some(o => o.active);
     });
     expect(activeFilterGroups.length).toBe(2);
-    expect(activeFilterGroups[0].key).toEqual("startDate");
-    expect(activeFilterGroups[1].key).toEqual("topics");
+    expect(activeFilterGroups[0].key).toEqual('startDate');
+    expect(activeFilterGroups[1].key).toEqual('topics');
   });
 });

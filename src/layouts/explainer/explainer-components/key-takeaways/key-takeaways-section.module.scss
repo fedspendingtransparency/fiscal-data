@@ -1,6 +1,5 @@
 @import 'src/variables.module';
 
-
 .keyTakeawaysContent {
   display: flex;
   align-items: center;
@@ -38,7 +37,8 @@
       min-width: 4rem;
       border-radius: 2rem;
 
-      .icon, .offsetIcon {
+      .icon,
+      .offsetIcon {
         font-size: 2.313rem;
         transform: translate(1.125rem, -0.563rem);
       }
@@ -62,15 +62,14 @@
       min-width: 52px;
       border-radius: 26px;
 
-      .icon, .offsetIcon {
+      .icon,
+      .offsetIcon {
         font-size: 1.813rem;
         transform: translate(0.75rem, -0.563rem);
-
       }
 
       .offsetIcon {
         transform: translate(0.938rem, -0.75rem);
-
       }
     }
 

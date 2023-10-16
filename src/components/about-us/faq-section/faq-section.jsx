@@ -1,18 +1,18 @@
 /* istanbul ignore file */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react';
 import '../../../styles.scss';
 import * as styles from '../../../pages/about-us/about-us.module.scss';
 import GLOBALS from '../../../helpers/constants';
-import {graphql, useStaticQuery} from "gatsby";
-import {MDXProvider} from "@mdx-js/react";
-import {aboutUsComponents} from "../helpers/helpers";
-import {MDXRenderer} from "gatsby-plugin-mdx";
-import FDGMdxProvider from "../../../components/mdx/FDGMdxProvider";
+import { graphql, useStaticQuery } from 'gatsby';
+import { MDXProvider } from '@mdx-js/react';
+import { aboutUsComponents } from '../helpers/helpers';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
+import FDGMdxProvider from '../../../components/mdx/FDGMdxProvider';
 
-const FAQ = ({triggerHighlight = 0}) => {
+const FAQ = ({ triggerHighlight = 0 }) => {
   const faqMDX = useStaticQuery(graphql`
     query {
-      mdx(frontmatter: {id: {eq: "faq"}}) {
+      mdx(frontmatter: { id: { eq: "faq" } }) {
         body
       }
     }
@@ -35,16 +35,15 @@ const FAQ = ({triggerHighlight = 0}) => {
     highlightWhoCanIContactText();
   }, [triggerHighlight]);
 
-
   return (
     <div className={`${styles.section} ${styles.noBullets}`}>
-      {faqMDX && faqMDX.mdx && faqMDX.mdx.body &&
+      {faqMDX && faqMDX.mdx && faqMDX.mdx.body && (
         <FDGMdxProvider>
           <MDXProvider components={aboutUsComponents}>
             <MDXRenderer children={faqMDX.mdx.body} />
           </MDXProvider>
         </FDGMdxProvider>
-      }
+      )}
     </div>
   );
 };
