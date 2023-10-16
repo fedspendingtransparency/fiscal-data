@@ -1,5 +1,5 @@
 import DeficitChart from './deficit-chart';
-import { render, waitFor, act, fireEvent, within } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import {
@@ -32,23 +32,9 @@ describe('AFG Deficit Chart', () => {
     expect(await findByText('Deficit')).toBeInTheDocument();
     expect(await queryByText('Surplus')).not.toBeInTheDocument();
   });
-
-  it('triggers tooltip on hover', async () => {
-    const { getByTestId } = render(<DeficitChart />);
-    let chart;
-    await waitFor(() => {
-      chart = getByTestId('chartContainer');
-    });
-    console.log(chart);
-    fireEvent.mouseOver(chart);
-    // expect(within(chart).getByTestId('CustomTooltip')).toBeInTheDocument();
-    fireEvent.mouseLeave(chart);
-  });
-
-  it('removes tooltip on hover', () => {});
 });
 
-describe('surplus', () => {
+describe('AFG Deficit Chart with Surplus Year', () => {
   class ResizeObserver {
     observe() {}
     unobserve() {}

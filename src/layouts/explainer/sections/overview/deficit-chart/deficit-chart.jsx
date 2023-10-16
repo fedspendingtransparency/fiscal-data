@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import CustomDotNoAnimation from './custom-dot/custom-dot';
 
-const AFGDefictChart = () => {
+const AFGDeficitChart = () => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
@@ -182,4 +182,4 @@ const AFGDefictChart = () => {
   );
 };
 
-export default AFGDefictChart;
+export default AFGDeficitChart;
