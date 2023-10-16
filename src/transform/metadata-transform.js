@@ -73,7 +73,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
         on: 'slug',
       },
       {
-        run: val => 'Updated ' + val,
+        run: val => val,
         on: 'techSpecs.updateFrequency',
       },
       {
