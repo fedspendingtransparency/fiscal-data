@@ -1,11 +1,12 @@
 /* istanbul ignore file */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 
 const data = [
   {
     name: '2023',
-    color: '#0A2F5A',
+    color: '#00796B',
     duration: 1300,
     data: [
       { category: 'Oct', value: 0.00 },
@@ -21,7 +22,7 @@ const data = [
   },
   {
     name: '2022',
-    color: '#9DABBD',
+    color: '#99C8C4',
     duration: 2000,
     data: [
       { category: 'Oct', value: 0 },
@@ -59,17 +60,72 @@ const data = [
   },
 ];
 
+const TickCount = (props) => {
+  const {x ,y, payload } = props;
+  const index = payload.index;
+  return (
+    <g transform={`translate(${x}, ${y})`}>
+      <text x={0} y={0} dy={16} textAnchor='middle' fill='#666'>
+        {index % 3 === 0 ? payload.value : ''}
+      </text>
+    </g>
+  )
+};
 
+ const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div>
+        <p>{label}</p>
+
+        {payload.map((entry, index) => (
+          <p key={`item-${index}`} style={{color: entry.stroke }}>
+            <span 
+              style={{
+                display: 'inline-block',
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: entry.stroke,
+                marginRight: '5px',
+              }} 
+            />
+              {`${entry.name}: $${entry.value}`}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <div>asasasas</div>
+  );
+ };
 
 const ReLineGraph = () => {
+  const [currentFiscalYear, setCurrentFiscalYear] = useState("");
+
+  useEffect(() => { 
+    const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date&page[size]=1';
+
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+    .then((res) => {
+      if (res.data) {
+        const fiscalYear = res.data[0].current_fiscal_year;
+        setCurrentFiscalYear(fiscalYear);
+        console.log(fiscalYear);
+      }
+  });
+}, []);
+
   return (
     <div style={{width: '800px', height: '600px'}}>
       <ResponsiveContainer width="100%" aspect={3}>
         <LineChart width={500} height={300} cursor="pointer">
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
+            <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} tick={<TickCount />} />
             <YAxis type="number" domain={[0, 10]} tickCount={9} />
             <Tooltip 
+              content={<CustomTooltip />}
               isAnimationActive={true} 
               animationEasing=';inear' 
             />
