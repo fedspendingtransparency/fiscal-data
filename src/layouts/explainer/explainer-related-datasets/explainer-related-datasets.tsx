@@ -7,9 +7,11 @@ export const title = 'Related Datasets';
 export const context = 'Related Datasets';
 
 const ExplainerRelatedDatasets: FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer, header, explainer }) => {
-  datasets.forEach(dataset => {
-    dataset.heroNumber = Math.floor(Math.random() * 8);
-  });
+  if (datasets) {
+    datasets.forEach(dataset => {
+      dataset.heroNumber = Math.floor(Math.random() * 8);
+    });
+  }
 
   return (
     <div className={paddingAdjust}>
