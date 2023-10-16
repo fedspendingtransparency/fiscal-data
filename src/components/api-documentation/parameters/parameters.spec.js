@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Parameters from "./parameters";
-import SectionContent from "../section-content/section-content";
-import Fields from "../fields/fields";
-import Filters from "../filters/filters";
+import Parameters from './parameters';
+import SectionContent from '../section-content/section-content';
+import Fields from '../fields/fields';
+import Filters from '../filters/filters';
 import Sorting from './sorting/sorting';
 import Format from './format/format';
 import Pagination from './pagination/pagination';
@@ -11,9 +11,7 @@ import Pagination from './pagination/pagination';
 describe('Parameters', () => {
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <Parameters />
-    )
+    component = renderer.create(<Parameters />);
   });
   const instance = component.root;
 
@@ -38,7 +36,7 @@ describe('Parameters', () => {
 
   it('creates the Parameters section with the desired id, heading tag and title', () => {
     const title = 'Parameters';
-    const heading = instance.findByProps({'id': 'parameters'}).findByType('h2');
+    const heading = instance.findByProps({ id: 'parameters' }).findByType('h2');
     expect(heading.children[0]).toBe(title);
   });
 });

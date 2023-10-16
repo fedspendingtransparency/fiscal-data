@@ -1,13 +1,17 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
-import InfoTip from "./info-tip";
+import InfoTip from './info-tip';
 
 describe('InfoTip', () => {
   const title = 'Dataset Keyword Search';
   const body = 'Dataset Keyword Search body content.';
   const clickEvent = jest.fn();
 
-  const InfoTipComponent = <InfoTip title={title} clickEvent={clickEvent}>{body}</InfoTip>
+  const InfoTipComponent = (
+    <InfoTip title={title} clickEvent={clickEvent}>
+      {body}
+    </InfoTip>
+  );
 
   it('does not render the popup without user interaction with the infographic button', () => {
     const { queryByTestId } = render(InfoTipComponent);
@@ -30,10 +34,14 @@ describe('InfoTip', () => {
 
     expect(getByTestId('popupContainer')).toBeInTheDocument();
     expect(clickEvent).toHaveBeenCalled();
-  })
+  });
 
   it('shows the popup on hover when hover is true', () => {
-    const { getByTestId } = render(<InfoTip title={title} hover>{body}</InfoTip>);
+    const { getByTestId } = render(
+      <InfoTip title={title} hover>
+        {body}
+      </InfoTip>
+    );
     const button = getByTestId('infoTipButton');
 
     act(() => {
@@ -41,8 +49,5 @@ describe('InfoTip', () => {
     });
 
     expect(getByTestId('popupContainer')).toBeInTheDocument();
-  })
-
-
+  });
 });
-

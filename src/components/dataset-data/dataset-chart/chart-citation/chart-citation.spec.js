@@ -12,9 +12,7 @@ describe('ChartCitation', () => {
   let getByText;
 
   beforeEach(() => {
-    ({ getByText } = render(
-      <ChartCitation slug={mockSlug} currentTableName={mockDatasetName} />
-    ));
+    ({ getByText } = render(<ChartCitation slug={mockSlug} currentTableName={mockDatasetName} />));
   });
 
   it('should display the title in the citation', () => {
@@ -26,7 +24,7 @@ describe('ChartCitation', () => {
   });
 
   it('should display the dataset slug in the full url and current date in the citation', () => {
-      expect(getByText(today)).toBeInTheDocument();
-      expect(getByText(`${globalConstants.BASE_SITE_URL}/datasets${mockSlug}`)).toBeInTheDocument();
+    expect(getByText(today)).toBeInTheDocument();
+    expect(getByText(`${globalConstants.BASE_SITE_URL}/datasets${mockSlug}`)).toBeInTheDocument();
   });
 });

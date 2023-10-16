@@ -1,9 +1,8 @@
 import React from 'react';
-import {render} from '@testing-library/react';
-import GlossaryPopoverDefinition from "./glossary-popover-definition";
+import { render } from '@testing-library/react';
+import GlossaryPopoverDefinition from './glossary-popover-definition';
 
-
-describe('glossary term',() => {
+describe('glossary term', () => {
   const testGlossary = [
     {
       id: 1,
@@ -11,7 +10,7 @@ describe('glossary term',() => {
       site_page: 'Test Page',
       definition: 'A greeting',
       url_display: '',
-      url_path: ''
+      url_path: '',
     },
     {
       id: 2,
@@ -19,7 +18,7 @@ describe('glossary term',() => {
       site_page: 'Another Test Page',
       definition: 'A different greeting',
       url_display: '',
-      url_path: ''
+      url_path: '',
     },
     {
       id: 3,
@@ -27,16 +26,16 @@ describe('glossary term',() => {
       site_page: 'Test Page',
       definition: 'Test for term with link.',
       url_display: 'link',
-      url_path: 'example.com'
-    }
-  ]
+      url_path: 'example.com',
+    },
+  ];
 
   beforeEach(() => {
     Object.defineProperty(window, 'history', {
       value: {
         pathname: '',
-      }
-    })
+      },
+    });
   });
 
   it('renders a button for the glossary term', () => {
@@ -48,7 +47,7 @@ describe('glossary term',() => {
         {termText}
       </GlossaryPopoverDefinition>
     );
-    const glossaryTermButton = getByRole('button', {name: termText});
+    const glossaryTermButton = getByRole('button', { name: termText });
     expect(glossaryTermButton).toBeInTheDocument();
   });
 
@@ -62,7 +61,7 @@ describe('glossary term',() => {
         {termText}
       </GlossaryPopoverDefinition>
     );
-    const glossaryTermButton = getByRole('button', {name: termText});
+    const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
 
     const definition = getByText(termDefinition);
@@ -80,10 +79,10 @@ describe('glossary term',() => {
         {termText}
       </GlossaryPopoverDefinition>
     );
-    const glossaryTermButton = getByRole('button', {name: termText});
+    const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
 
-    const definitionSplit = getByText('Test for term', {exact:false});
+    const definitionSplit = getByText('Test for term', { exact: false });
 
     expect(definitionSplit.textContent).toEqual(glossaryDefinition);
   });
@@ -100,14 +99,14 @@ describe('glossary term',() => {
       </GlossaryPopoverDefinition>
     );
 
-    const glossaryTermButton = getByRole('button', {name: termText});
+    const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
 
     const definition = getByText(termDefinition);
 
     expect(definition).toBeInTheDocument();
     expect(queryByText(differentPageTermDefinition)).toBeNull();
-  })
+  });
 
   it('Adds query to window.history when View in Glossary button is clicked ', () => {
     const termText = 'Hello';
@@ -125,10 +124,10 @@ describe('glossary term',() => {
     const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
 
-    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' })
+    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' });
     viewInGlossaryButton.click();
     expect(window.history.pushState).toHaveBeenCalled();
-  })
+  });
 
   it('closes the popover when the full glossary tab is opened', () => {
     const termText = 'Hello';
@@ -146,10 +145,9 @@ describe('glossary term',() => {
     const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
 
-    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' })
+    const viewInGlossaryButton = getByRole('button', { name: 'View in glossary' });
     viewInGlossaryButton.click();
 
     expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
-  })
-
+  });
 });

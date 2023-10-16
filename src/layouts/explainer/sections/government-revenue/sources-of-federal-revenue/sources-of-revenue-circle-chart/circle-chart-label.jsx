@@ -1,7 +1,7 @@
-import {pxToNumber} from "../../../../../../helpers/styles-helper/styles-helper";
-import {breakpointLg, semiBoldWeight} from "../../../../../../variables.module.scss";
-import React from "react";
-import { useNodeMouseHandlers } from "@nivo/circle-packing"
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import { breakpointLg, semiBoldWeight } from '../../../../../../variables.module.scss';
+import React from 'react';
+import { useNodeMouseHandlers } from '@nivo/circle-packing';
 
 const labelFormatTable = {
   'Individual Income Taxes': {
@@ -9,7 +9,7 @@ const labelFormatTable = {
       lines: ['Individual Income Taxes'],
     },
     mobile: {
-      lines: ['Individual Income','Taxes'],
+      lines: ['Individual Income', 'Taxes'],
     },
   },
   'Corporate Income Taxes': {
@@ -17,7 +17,7 @@ const labelFormatTable = {
       lines: ['Corporate', 'Income Taxes'],
     },
     mobile: {
-      lines: ['Corporate ','Income', 'Taxes'],
+      lines: ['Corporate ', 'Income', 'Taxes'],
     },
   },
   'Social Security and Medicare Taxes': {
@@ -31,63 +31,61 @@ const labelFormatTable = {
   'Miscellaneous Income': {
     desktop: {
       lines: ['Miscellaneous', 'Income'],
-      horizontalOffset: 0
+      horizontalOffset: 0,
     },
     mobile: {
       lines: ['Miscellaneous', 'Income'],
-      horizontalOffset: -2
+      horizontalOffset: -2,
     },
-    external: true
+    external: true,
   },
   'Customs Duties': {
     desktop: {
       lines: ['Customs Duties'],
-      horizontalOffset: 16
+      horizontalOffset: 16,
     },
     mobile: {
       lines: ['Customs Duties'],
-      horizontalOffset: 8
+      horizontalOffset: 8,
     },
-    external: true
+    external: true,
   },
   'Estate & Gift Taxes': {
     desktop: {
       lines: ['Estate & Gift Taxes'],
-      horizontalOffset: 30
+      horizontalOffset: 30,
     },
     mobile: {
       lines: ['Estate & Gift Taxes'],
-      horizontalOffset: 20
+      horizontalOffset: 20,
     },
-    external: true
+    external: true,
   },
   'Excise Taxes': {
     desktop: {
       lines: ['Excise Taxes'],
-      horizontalOffset: 8
+      horizontalOffset: 8,
     },
     mobile: {
       lines: ['Excise Taxes'],
-      horizontalOffset: 6
+      horizontalOffset: 6,
     },
     external: true,
   },
-}
+};
 
-const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, HandleMouseLeave}) => {
-
+const LabelComponent = ({ node, label, width, HandleClick, HandleMouseEnter, HandleMouseLeave }) => {
   const handlers = useNodeMouseHandlers(node, {
     onMouseEnter: HandleMouseEnter,
     onMouseLeave: HandleMouseLeave,
-    onClick: HandleClick
+    onClick: HandleClick,
   });
 
-  const labelFormat = width < pxToNumber(breakpointLg) ?
-    labelFormatTable[label].mobile : labelFormatTable[label].desktop;
+  const labelFormat = width < pxToNumber(breakpointLg) ? labelFormatTable[label].mobile : labelFormatTable[label].desktop;
   const lines = labelFormat.lines;
 
   const lineSpaceOffset = width < pxToNumber(breakpointLg) ? 12.5 : 16.5;
-  const yStartPoint = node.y - ((lines.length / 2) * lineSpaceOffset) + 9;
+  const yStartPoint = node.y - (lines.length / 2) * lineSpaceOffset + 9;
 
   const flipPoint = width < pxToNumber(breakpointLg) ? 175 : 200;
 
@@ -95,25 +93,24 @@ const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, Hand
   const yOffsetMultiplier = () => {
     //add additional offset for small bubbles
     if (width < pxToNumber(breakpointLg)) {
-      return node.radius < 15 ? 1.25 : .9
+      return node.radius < 15 ? 1.25 : 0.9;
     } else {
-      return node.radius < 20 ? 1.5 : .8
+      return node.radius < 20 ? 1.5 : 0.8;
     }
-  }
+  };
   const flipLabel = node.y > flipPoint ? -1 : 1;
 
   const handleInteraction = e => {
     // only proceed on mouse click or Enter key press
-    if (e?.key && e.key !== "Enter") {
+    if (e?.key && e.key !== 'Enter') {
       return;
     }
-    const prevFocusedElementId =
-      e?.key === "Enter" ? document?.activeElement?.getAttribute("id") : null;
+    const prevFocusedElementId = e?.key === 'Enter' ? document?.activeElement?.getAttribute('id') : null;
     HandleMouseEnter(node, e, prevFocusedElementId);
   };
   const textElementStyle = {
     fontSize: width < pxToNumber(breakpointLg) ? 10 : 14,
-    fontWeight: semiBoldWeight
+    fontWeight: semiBoldWeight,
   };
 
   if (!labelFormatTable[label].external) {
@@ -129,45 +126,31 @@ const LabelComponent = ({node, label, width, HandleClick, HandleMouseEnter, Hand
         onClick={handlers.onClick}
         onMouseEnter={handlers.onMouseEnter}
         onMouseLeave={handlers.onMouseLeave}
-        onKeyPress={(e) => handleInteraction(e)}
+        onKeyPress={e => handleInteraction(e)}
         tabIndex={0}
-        textAnchor={"middle"}
+        textAnchor={'middle'}
         id={label}
       >
         {lines.map((line, index) => (
-            <React.Fragment key={index} >
-              {labelFormatTable[label].external ?
-                (
-                  <tspan
-                    x={
-                      node.x +
-                      flipLabel * (node.radius * xOffsetMultiplier) +
-                      flipLabel * labelFormat.horizontalOffset
-                    }
-                    y={
-                      yStartPoint +
-                      flipLabel * ((lineSpaceOffset * index) - node.radius * yOffsetMultiplier())
-                    }
-                    fill={'#666666'}
-                  >
-                    {line}
-                  </tspan>
-                )
-                :
-                <tspan
-                  x={node.x}
-                  y={yStartPoint + lineSpaceOffset * index}
-                  fill={'#FFFFFF'}
-                >
-                  {line}
-                </tspan>
-              }
-            </React.Fragment>
-          )
-        )}
+          <React.Fragment key={index}>
+            {labelFormatTable[label].external ? (
+              <tspan
+                x={node.x + flipLabel * (node.radius * xOffsetMultiplier) + flipLabel * labelFormat.horizontalOffset}
+                y={yStartPoint + flipLabel * (lineSpaceOffset * index - node.radius * yOffsetMultiplier())}
+                fill={'#666666'}
+              >
+                {line}
+              </tspan>
+            ) : (
+              <tspan x={node.x} y={yStartPoint + lineSpaceOffset * index} fill={'#FFFFFF'}>
+                {line}
+              </tspan>
+            )}
+          </React.Fragment>
+        ))}
       </text>
     </>
-  )
-}
+  );
+};
 
 export default LabelComponent;

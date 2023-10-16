@@ -11,7 +11,8 @@ $borderRadius: 5px;
   }
 }
 
-.overlayContainer, .overlayContainerNoFooter {
+.overlayContainer,
+.overlayContainerNoFooter {
   position: relative;
 }
 
@@ -43,7 +44,7 @@ $borderRadius: 5px;
       font-weight: $semi-bold-weight;
       vertical-align: top;
 
-      @include side-padding
+      @include side-padding;
     }
 
     tbody {
@@ -93,16 +94,16 @@ $borderRadius: 5px;
 }
 
 .rowsShowing {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .overlay {
   z-index: $dtg-table-overlay;
   min-height: calc(64px + 8rem); // height of icon + top and bottom margin
   height: 100%;
-  width: calc(100% + .15rem);
+  width: calc(100% + 0.15rem);
   position: absolute;
-  left: -.15rem;
+  left: -0.15rem;
   background-color: rgba(255, 255, 255, 0.85);
   transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
   display: block;

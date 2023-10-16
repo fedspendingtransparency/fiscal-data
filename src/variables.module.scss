@@ -39,7 +39,7 @@ $link-color: #2272ce;
 $primary: #0071bc;
 $primary-darker: #205493;
 $primary-inactive: rgba(8, 114, 185, 0.4);
-$primary-glass: rgba(0,113,188,0.3);
+$primary-glass: rgba(0, 113, 188, 0.3);
 $primary-light-background: #a9ddf3;
 $dark-pink: #d72d79;
 $dropdown-active-background: #dff2f7;
@@ -70,11 +70,11 @@ $info-header-focal: $deep-blue;
 $info-header: $near-black;
 
 // Explainer pages
-$debt-explainer-primary: #4A0072;
-$debt-explainer-secondary: #3B005B;
-$debt-explainer-light-secondary: #B699C6;
-$debt-explainer-light-secondary-split-flap-background: #5355ad;// rgba($debt-explainer-light-secondary, .25);
-$focus: #2B71B8;
+$debt-explainer-primary: #4a0072;
+$debt-explainer-secondary: #3b005b;
+$debt-explainer-light-secondary: #b699c6;
+$debt-explainer-light-secondary-split-flap-background: #5355ad; // rgba($debt-explainer-light-secondary, .25);
+$focus: #2b71b8;
 $card-body: #555555;
 $main-width: 1140px;
 $dd-border-color: #d6d7d9;
@@ -113,7 +113,7 @@ $pale-bg: #f8f8f8;
 }
 
 @mixin headingStyle3 {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: $font-size-40; //40px
   font-weight: $semi-bold-weight;
   font-stretch: normal;
@@ -136,7 +136,7 @@ $pale-bg: #f8f8f8;
 }
 
 @mixin headingStyle6 {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: $font-size-18; //18px
   font-weight: $semi-bold-weight;
   font-stretch: normal;
@@ -147,14 +147,14 @@ $pale-bg: #f8f8f8;
 }
 
 @mixin columnLabelCopy7 {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: $font-size-16;
   font-weight: 600;
   line-height: 20px;
 }
 
 @mixin bodySmallStyle {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: $font-size-12;
   font-weight: normal;
   font-stretch: normal;
@@ -187,7 +187,7 @@ $pale-bg: #f8f8f8;
   cursor: pointer;
   text-align: center;
   background-color: $primary;
-  transition: background-color .25s ease-out;
+  transition: background-color 0.25s ease-out;
   color: white;
   text-decoration: none;
 
@@ -196,7 +196,8 @@ $pale-bg: #f8f8f8;
     border-color: $primary-darker;
   }
 
-  &:disabled, &disabled:hover {
+  &:disabled,
+  &disabled:hover {
     background-color: $disabled-button-bg;
     border-color: $disabled-button-bg;
     cursor: default;
@@ -229,23 +230,26 @@ $pale-bg: #f8f8f8;
     position: relative;
     display: inline-block;
     border: 1px solid #cacaca;
-    padding: .75rem 1rem;
+    padding: 0.75rem 1rem;
     outline: 1px transparent;
     transition: outline 0.2s ease;
     background-color: #ffffff;
     border-radius: 3px;
     margin: 0 0.25rem 0.25rem 0;
-    *, & {
+    *,
+    & {
       cursor: pointer;
     }
     &.selected {
       color: $primary;
       border: 1px solid $primary;
     }
-    &.selected, &:hover {
+    &.selected,
+    &:hover {
       background-color: #edf5fa;
     }
-    &:focus, &:focus-within {
+    &:focus,
+    &:focus-within {
       outline: 1px solid $focus;
       z-index: $radio-button;
     }
@@ -256,7 +260,7 @@ $pale-bg: #f8f8f8;
     margin-left: 0.625rem;
   }
 
-  .innerButton{
+  .innerButton {
     padding: 0.75rem 1rem;
   }
 
@@ -269,7 +273,7 @@ $pale-bg: #f8f8f8;
     }
   }
 
-  @media screen and (min-width: $breakpoint-md){
+  @media screen and (min-width: $breakpoint-md) {
     .toggleButton {
       margin: 0;
       border-radius: 0;
@@ -282,11 +286,12 @@ $pale-bg: #f8f8f8;
       &:last-of-type {
         border-radius: 0 3px 3px 0;
       }
-      &.selected + input.radio + label.toggleButton, &.selected + label.toggleButton {
+      &.selected + input.radio + label.toggleButton,
+      &.selected + label.toggleButton {
         border-left: 0;
       }
     }
-    .radio{
+    .radio {
       &:checked + label + .toggleButton {
         border-left: 0;
       }

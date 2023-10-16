@@ -1,16 +1,16 @@
-import React, { useState, useEffect, FunctionComponent } from "react"
-import { Link } from "gatsby";
+import React, { useState, useEffect, FunctionComponent } from 'react';
+import { Link } from 'gatsby';
 import Card from '@material-ui/core/Card';
-import { MuiThemeProvider } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faSpinner, faTable } from "@fortawesome/free-solid-svg-icons"
+import { MuiThemeProvider } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
-import Analytics from "../../../utils/analytics/analytics";
+import Analytics from '../../../utils/analytics/analytics';
 import { fetchHighlights } from '../../../utils/api-utils';
 import drawSparkline, { addHoverEffects, removeHoverEffects } from '../../charts/chart-sparkline';
-import globalConstants from "../../../helpers/constants";
-import { theme } from "../../../theme";
+import globalConstants from '../../../helpers/constants';
+import { theme } from '../../../theme';
 import {
   card,
   cardActionArea,
@@ -29,57 +29,57 @@ import {
   statLower,
   statUpper,
   viewDataset,
-  xAxis
+  xAxis,
 } from './home-highlight-card.module.scss';
-import { IDatasetApi } from "../../../models/IDatasetApi";
-import { IDataset } from "../../../models/IDataset";
-import { DatasetFieldDataType } from "../../../models/fdg-types";
-import { formatCardValue } from "../home-highlight-cards-helper/home-highlight-cards-helper";
+import { IDatasetApi } from '../../../models/IDatasetApi';
+import { IDataset } from '../../../models/IDataset';
+import { DatasetFieldDataType } from '../../../models/fdg-types';
+import { formatCardValue } from '../home-highlight-cards-helper/home-highlight-cards-helper';
 import BarGraph from '../../charts/bar/bar';
-import Sparkler from "./sparkler/sparkler"
+import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const cardStyles = {
   root: {
     fontSize: '1rem',
-  }
+  },
 };
 
 interface ApiData {
-  data?: [{ [key: string]: string }],
-  meta?: { [key: string]: string | Record<string, unknown> }
+  data?: [{ [key: string]: string }];
+  meta?: { [key: string]: string | Record<string, unknown> };
 }
 interface Stats {
-  upperDate: string,
-  lowerDate: string,
-  format: DatasetFieldDataType,
-  value: number
+  upperDate: string;
+  lowerDate: string;
+  format: DatasetFieldDataType;
+  value: number;
 }
 type HighlightCardProps = {
-  cardId?: string,
-  dataset: IDataset,
-  cardButtonOverrides: any,
-  hidden: boolean,
-  primary: boolean,
-  title: string,
-  mainHighlightValue: number,
-  mainHighlightValueDataType: DatasetFieldDataType,
-  visual: Record<string, unknown>
+  cardId?: string;
+  dataset: IDataset;
+  cardButtonOverrides: any;
+  hidden: boolean;
+  primary: boolean;
+  title: string;
+  mainHighlightValue: number;
+  mainHighlightValueDataType: DatasetFieldDataType;
+  visual: Record<string, unknown>;
 };
 
 const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, dataset, hidden }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [apiError, setApiError] = useState<boolean>(false);
   const [apiData, setApiData] = useState<ApiData>({});
-  const [hoverDelayHandler, setHoverDelayHandler] =  useState(null);
+  const [hoverDelayHandler, setHoverDelayHandler] = useState(null);
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [chartHoverDelayHandler, setChartHoverDelayHandler] =  useState(null);
+  const [chartHoverDelayHandler, setChartHoverDelayHandler] = useState(null);
   const [graphType, setGraphType] = useState('LINE');
   const [stats, setStats] = useState<Stats>({
     upperDate: 'Jan XXXX',
     lowerDate: 'Jan XXXX',
     format: 'NUMBER',
-    value: null
+    value: null,
   });
   const [tempValue, setTempValue] = useState(null);
   const [tempDate, setTempDate] = useState(null);
@@ -87,53 +87,42 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   const { data, title, name, slug, apis, displayOrder } = dataset;
   const api: IDatasetApi = apis.find(api => api.apiId === data.api_id);
   let cardSlug = `/datasets${slug}`;
-  if(api && api.pathName) {
+  if (api && api.pathName) {
     cardSlug += api.pathName;
   }
-  const ANALYTICS_EVENT_DELAY: number = globalConstants.config
-    .homepage.highlightAnalyticsHoverDelay;
-  const ANALYTICS_CARD_ACTION: string = globalConstants.config
-    .homepage.analyticsActions.card;
-  const ANALYTICS_CHART_ACTION: string = globalConstants.config
-    .homepage.analyticsActions.chart;
-  const ANALYTICS_CLICK_ACTION: string = globalConstants.config
-    .homepage.analyticsActions.click;
+  const ANALYTICS_EVENT_DELAY: number = globalConstants.config.homepage.highlightAnalyticsHoverDelay;
+  const ANALYTICS_CARD_ACTION: string = globalConstants.config.homepage.analyticsActions.card;
+  const ANALYTICS_CHART_ACTION: string = globalConstants.config.homepage.analyticsActions.chart;
+  const ANALYTICS_CLICK_ACTION: string = globalConstants.config.homepage.analyticsActions.click;
 
   const getApiData = async () => {
-    const dateField = (api ? api.dateField : '');
+    const dateField = api ? api.dateField : '';
     const sorts = data?.sorts ? data.sorts : undefined;
     if (api) {
-      fetchHighlights(
-        api.endpoint,
-        data.filters,
-        data.fields,
-        dateField,
-        data.limit,
-        sorts,
-        data.noRecordDateInFields
-      ).then(res => {
-        res.data = res.data.sort((a, b) => {
-          const aDate = a[dateField];
-          const bDate = b[dateField];
-          if (aDate && bDate) {
-            return aDate.localeCompare(bDate);
-          }
-          if (aDate) {
-            return 1;
-          } else if(bDate){
-            return -1;
-          }
-          return 0;
-        });
+      fetchHighlights(api.endpoint, data.filters, data.fields, dateField, data.limit, sorts, data.noRecordDateInFields)
+        .then(res => {
+          res.data = res.data.sort((a, b) => {
+            const aDate = a[dateField];
+            const bDate = b[dateField];
+            if (aDate && bDate) {
+              return aDate.localeCompare(bDate);
+            }
+            if (aDate) {
+              return 1;
+            } else if (bDate) {
+              return -1;
+            }
+            return 0;
+          });
 
-        if (data.transform) {
-          res.data = data.transform.call(data, res);
-        }
-        setApiData(res);
-      })
+          if (data.transform) {
+            res.data = data.transform.call(data, res);
+          }
+          setApiData(res);
+        })
         .catch(err => {
           console.error('API error', err);
-          setApiError(err)
+          setApiError(err);
         })
         .finally(() => setIsLoading(false));
     }
@@ -147,14 +136,14 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     Analytics.event({
       category: 'Fiscal Data - Homepage Cards',
       action: `${action}`,
-      label: `${title}`
+      label: `${title}`,
     });
 
-    if(action && title) {
+    if (action && title) {
       (window as any).dataLayer = (window as any).dataLayer || [];
       (window as any).dataLayer.push({
-        'event': action,
-        'eventLabel': title,
+        event: action,
+        eventLabel: title,
       });
     }
   };
@@ -164,37 +153,34 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     setTempDate(d);
   };
 
-  const handleCardMouseOver: (
+  const handleCardMouseOver: (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => void = (
     event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>
-  ) => void = (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
+  ) => {
     const { target } = event;
     if (target['id'] === `chart-${displayOrder}`) {
       if (graphType === 'LINE') {
-        addHoverEffects(
-          apiData.data,
-          `chart-${displayOrder}`,
-          (api ? api.dateField : ''),
-          data.fields[0],
-          setTempValueAndDate
-        );
+        addHoverEffects(apiData.data, `chart-${displayOrder}`, api ? api.dateField : '', data.fields[0], setTempValueAndDate);
       }
 
       if (!chartHoverDelayHandler) {
         handleCardLeave();
-        setChartHoverDelayHandler(setTimeout(() => {
-          analyticsEvent(ANALYTICS_CHART_ACTION);
-          setChartHoverDelayHandler(null);
-        }, ANALYTICS_EVENT_DELAY));
+        setChartHoverDelayHandler(
+          setTimeout(() => {
+            analyticsEvent(ANALYTICS_CHART_ACTION);
+            setChartHoverDelayHandler(null);
+          }, ANALYTICS_EVENT_DELAY)
+        );
       }
     } else if (!hoverDelayHandler) {
       // For bar charts, check that the target is not a chart component
       if (graphType !== 'BAR' || (target['nodeName'] !== 'rect' && target['nodeName'] !== 'svg')) {
         handleChartMouseLeave();
-        setHoverDelayHandler(setTimeout(() => {
-          analyticsEvent(ANALYTICS_CARD_ACTION);
-          setHoverDelayHandler(null);
-        }, ANALYTICS_EVENT_DELAY));
-
+        setHoverDelayHandler(
+          setTimeout(() => {
+            analyticsEvent(ANALYTICS_CARD_ACTION);
+            setHoverDelayHandler(null);
+          }, ANALYTICS_EVENT_DELAY)
+        );
       }
     }
   };
@@ -202,11 +188,12 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   const barChartMouseEnter: () => void = () => {
     if (!chartHoverDelayHandler) {
       handleCardLeave();
-      setChartHoverDelayHandler(setTimeout(() => {
-        analyticsEvent(ANALYTICS_CHART_ACTION);
-        setChartHoverDelayHandler(null);
-      }, ANALYTICS_EVENT_DELAY));
-
+      setChartHoverDelayHandler(
+        setTimeout(() => {
+          analyticsEvent(ANALYTICS_CHART_ACTION);
+          setChartHoverDelayHandler(null);
+        }, ANALYTICS_EVENT_DELAY)
+      );
     }
   };
 
@@ -233,9 +220,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     }
   };
 
-  const handleClick: (
-    event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>
-  ) => void = () => {
+  const handleClick: (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => void = () => {
     handleMouseLeave();
     analyticsEvent(ANALYTICS_CLICK_ACTION);
   };
@@ -247,11 +232,11 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
       label = 'Net: ';
     }
 
-    return formatCardValue(value, label, datatype)
+    return formatCardValue(value, label, datatype);
   };
 
   const loadCardData = () => {
-    if(!hidden && !hasLoaded){
+    if (!hidden && !hasLoaded) {
       setHasLoaded(true);
       getApiData();
     }
@@ -267,19 +252,18 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
 
   useEffect(() => {
     if (apiData.data && apiData.data.length) {
-
       const statField = data['valueField'] || data.fields[0];
 
       const first = apiData.data[0];
 
-      let firstDate = `${first[`${(api ? api.dateField : '')}`]}`;
+      let firstDate = `${first[`${api ? api.dateField : ''}`]}`;
 
       const last = apiData.data[apiData.data.length - 1];
       const lastValue = Number(last.chartedValue || last[`${statField}`]);
-      let lastDate = last[`${(api ? api.dateField : '')}`];
+      let lastDate = last[`${api ? api.dateField : ''}`];
 
       // Swap dates as needed
-      if(firstDate > lastDate){
+      if (firstDate > lastDate) {
         const tempDate = firstDate;
         firstDate = lastDate;
         lastDate = tempDate;
@@ -292,20 +276,12 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
         upperDate,
         lowerDate,
         format: data.format || stats.format,
-        value: lastValue
+        value: lastValue,
       });
 
       const showXLabel = true;
       if (graphType === 'LINE') {
-        drawSparkline(
-          apiData.data,
-          `chart-${displayOrder}`,
-          (api ? api.dateField : ''),
-          data.fields[0],
-          showXLabel,
-          lowerDate,
-          upperDate
-        );
+        drawSparkline(apiData.data, `chart-${displayOrder}`, api ? api.dateField : '', data.fields[0], showXLabel, lowerDate, upperDate);
       }
     }
   }, [apiData, dataset]);
@@ -315,15 +291,10 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card data-testid="highlight-card"
-            className={card}
-      >
+      <Card data-testid="highlight-card" className={card}>
         <div className={cardActionArea}>
           <div className={cardContent}>
-            <div
-              data-testid="highlight-title"
-              className={`${header} ${cardHeaderLink}`}
-            >
+            <div data-testid="highlight-title" className={`${header} ${cardHeaderLink}`}>
               {title}
             </div>
             {graphType === 'IMAGE' && (
@@ -335,21 +306,17 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 onMouseLeave={handleChartMouseLeave}
                 role={'presentation'}
               >
-                {isLoading ?
+                {isLoading ? (
                   <div data-testid="loadingSection">
                     <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
                     Loading...
-                  </div> :
-                  <div style={{position: 'relative'}}>
-                    <img
-                      src={data.image.src}
-                      alt={data.image.alt}
-                    />
-                    {data.image.sparklePoints && (
-                      <Sparkler coordinates={data.image.sparklePoints} />
-                    )}
                   </div>
-                }
+                ) : (
+                  <div style={{ position: 'relative' }}>
+                    <img src={data.image.src} alt={data.image.alt} />
+                    {data.image.sparklePoints && <Sparkler coordinates={data.image.sparklePoints} />}
+                  </div>
+                )}
               </div>
             )}
             {graphType === 'LINE' && (
@@ -362,12 +329,12 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 role={'presentation'}
               >
                 {apiError && <p>API Error</p>}
-                {isLoading &&
-                <div data-testid="loadingSection">
-                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                  Loading...
-                </div>
-                }
+                {isLoading && (
+                  <div data-testid="loadingSection">
+                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
+                    Loading...
+                  </div>
+                )}
               </div>
             )}
             {graphType === 'BAR' && (
@@ -381,51 +348,41 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               >
                 <BarGraph
                   cardId={cardId}
-                  graphData={apiData.data as [{[key: string]: string | number }]}
+                  graphData={apiData.data as [{ [key: string]: string | number }]}
                   graphIndex={data.index}
                   valueKeys={data.value_fields}
                   colors={data.colors || null}
                   isInteractive={false}
                   setTempValue={setTempValue}
                   setTempDate={setTempDate}
-                  dateField={(api ? api.dateField : '')}
+                  dateField={api ? api.dateField : ''}
                   useCustomBarComponent
                   mouseEnter={barChartMouseEnter}
                 />
                 <div className={xAxis}>
                   <div data-testid="highlight-stats" className={statsContainer}>
                     <div data-testid="highlight-stats-lower" className={statLower}>
-                      <span className={statDate}>
-                        {stats.lowerDate}
-                      </span>
+                      <span className={statDate}>{stats.lowerDate}</span>
                     </div>
                     <div data-testid="highlight-stats-upper" className={statUpper}>
-                      <span className={statDate}>
-                        {stats.upperDate}
-                      </span>
+                      <span className={statDate}>{stats.upperDate}</span>
                     </div>
                   </div>
                 </div>
                 {apiError && <p>API Error</p>}
-                {isLoading &&
-                <div data-testid="loadingSection">
-                  <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                  Loading...
-                </div>
-                }
+                {isLoading && (
+                  <div data-testid="loadingSection">
+                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
+                    Loading...
+                  </div>
+                )}
               </div>
             )}
-            <div
-              data-testid="highlight-name"
-              className={datasetName}
-              title={name}
-            >
+            <div data-testid="highlight-name" className={datasetName} title={name}>
               <FontAwesomeIcon icon={faTable as IconProp} className={datasetIcon} />
               {name}
             </div>
-            <div data-testid="highlight-hero-value">
-              {displayValue(stats.format, value)}
-            </div>
+            <div data-testid="highlight-hero-value">{displayValue(stats.format, value)}</div>
             <div data-testid="highlight-hero-value-date" className={statDate}>
               {date}
             </div>
@@ -449,7 +406,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
         </Link>
       </Card>
     </MuiThemeProvider>
-  )
-}
+  );
+};
 
 export default withStyles(cardStyles)(HomeHighlightCard);

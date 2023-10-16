@@ -1,31 +1,29 @@
-import { ReplaySubject } from "rxjs"
+import { ReplaySubject } from 'rxjs';
 import { take, filter, shareReplay } from 'rxjs/operators';
-import "@rxreact/jest-helpers"
-import localStorageHelper from "../local-storage-helper/local-storage-helper";
-import WebsocketService from "../websocket-service/websocket-service"
-import globalConstants from "../constants";
-import { exportsForUnitTests, removeFromCompleted } from "./download-service";
-import { setGlobalFetchResponse } from "../../utils/mock-utils";
+import '@rxreact/jest-helpers';
+import localStorageHelper from '../local-storage-helper/local-storage-helper';
+import WebsocketService from '../websocket-service/websocket-service';
+import globalConstants from '../constants';
+import { exportsForUnitTests, removeFromCompleted } from './download-service';
+import { setGlobalFetchResponse } from '../../utils/mock-utils';
 
 const mockConnectWebsocketNext = jest.fn();
 let mockWebsocket = new ReplaySubject(1);
 mockWebsocket.next({ status: 'processed' });
 
-jest.mock('../websocket-service/websocket-service',() => ({
-  connectWebsocket: jest.fn().mockImplementation((key) => {
+jest.mock('../websocket-service/websocket-service', () => ({
+  connectWebsocket: jest.fn().mockImplementation(key => {
     return {
       key: key,
-      socket: mockWebsocket
+      socket: mockWebsocket,
     };
   }),
-
 }));
-jest.mock('../local-storage-helper/local-storage-helper',() => ({
+jest.mock('../local-storage-helper/local-storage-helper', () => ({
   set: jest.fn(),
   get: jest.fn(),
-  remove: jest.fn()
+  remove: jest.fn(),
 }));
-
 
 jest.useFakeTimers();
 
@@ -34,10 +32,9 @@ const inProgressKey = `${globalConstants.config.downloadService.localStorageKeys
 const completedKey = `${globalConstants.config.downloadService.localStorageKeys.completed}`;
 
 describe('Dataset Download Service', () => {
-
   let sub, downloadService;
 
-  const watchSignal = (o$) => {
+  const watchSignal = o$ => {
     // Share so the signal records all values emitted.
     const hot$ = o$.pipe(shareReplay());
 
@@ -49,7 +46,7 @@ describe('Dataset Download Service', () => {
   };
 
   beforeAll(() => {
-    return import('./download-service').then((module) => {
+    return import('./download-service').then(module => {
       downloadService = module.default;
       jest.resetModules();
     });
@@ -62,9 +59,11 @@ describe('Dataset Download Service', () => {
     localStorageHelper.set.mockClear();
     localStorageHelper.get.mockClear();
 
-    mockWebsocket = new ReplaySubject(1).pipe(filter((msg) => {
-      return !msg.hasOwnProperty('apis');
-    }));
+    mockWebsocket = new ReplaySubject(1).pipe(
+      filter(msg => {
+        return !msg.hasOwnProperty('apis');
+      })
+    );
     mockConnectWebsocketNext.mockClear();
   });
 
@@ -74,13 +73,7 @@ describe('Dataset Download Service', () => {
   });
 
   it('initiates connection and requests data', async () => {
-
-    await downloadService.initiateDownload(
-      '123-45678',
-      ['123'],
-      { from: '2005-10-03', to: '2021-02-17' },
-      'zip'
-    );
+    await downloadService.initiateDownload('123-45678', ['123'], { from: '2005-10-03', to: '2021-02-17' }, 'zip');
     await expect(WebsocketService.connectWebsocket).toHaveBeenCalled();
 
     jest.runAllTimers();
@@ -90,14 +83,9 @@ describe('Dataset Download Service', () => {
     const mockDataRequested = {
       apis: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
-    const requestId = downloadService.initiateDownload(
-      '123-45678',
-      mockDataRequested.apis,
-      mockDataRequested.dateRange,
-      mockDataRequested.fileTypes
-    );
+    const requestId = downloadService.initiateDownload('123-45678', mockDataRequested.apis, mockDataRequested.dateRange, mockDataRequested.fileTypes);
     mockWebsocket.next({ status: 'started', status_path: 'test/status/path/hash/statusfile' });
 
     const hot$ = watchSignal(downloadService.datasetInProgress(requestId));
@@ -108,15 +96,10 @@ describe('Dataset Download Service', () => {
     const mockDataRequested = {
       apis: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
 
-    const requestId = downloadService.initiateDownload(
-      '123-45678',
-      mockDataRequested.apis,
-      mockDataRequested.dateRange,
-      mockDataRequested.fileTypes
-    );
+    const requestId = downloadService.initiateDownload('123-45678', mockDataRequested.apis, mockDataRequested.dateRange, mockDataRequested.fileTypes);
     mockWebsocket.next({ status: 'started', status_path: 'test/status/path/hash/statusfile' });
 
     const hot$ = watchSignal(downloadService.downloadStatus(requestId));
@@ -131,9 +114,9 @@ describe('Dataset Download Service', () => {
 
   it('datasetId is added to messages', async () => {
     const mockDataRequested = {
-      apiIds: [ '123' ],
+      apiIds: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
 
     const statusPath = '/status/path/path2/hash/file';
@@ -159,7 +142,7 @@ describe('Dataset Download Service', () => {
       statusPath: 'http://localhost/downloads/hash',
       dateRange: mockDataRequested.dateRange,
       selectedFileType: mockDataRequested.fileTypes,
-      prepStarted: true
+      prepStarted: true,
     };
 
     mockWebsocket.next({ status: 'started', status_path: statusPath });
@@ -176,29 +159,28 @@ describe('Dataset Download Service', () => {
     const mockDataRequested = {
       apiIds: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
 
     const requestId = downloadService.initiateDownload(
       '123-456711',
       mockDataRequested.apiIds,
       mockDataRequested.dateRange,
-      mockDataRequested.fileTypes);
+      mockDataRequested.fileTypes
+    );
 
     const expectedEmit = {
       datasetId: '123-456711',
       requestId: requestId,
       status: 'started',
       progress: { current: 0, total: 30, pct: 0, apis: {} },
-      dl_check_page_path:
-        `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
+      dl_check_page_path: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
       status_path: statusPath,
       final_file_name: filePath,
       requested: mockDataRequested,
       filename: 'file',
       downloadUrl: filePath,
-      statusPath:
-        `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
+      statusPath: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
       dateRange: mockDataRequested.dateRange,
       selectedFileType: mockDataRequested.fileTypes,
       requestTime: undefined,
@@ -213,15 +195,14 @@ describe('Dataset Download Service', () => {
     mockWebsocket.next({
       status: 'started',
       status_path: statusPath,
-      file_path: filePath
+      file_path: filePath,
     });
     await expect(hot$).toEmitValue(expectedEmit);
     const expectedObject = {};
     expectedObject[requestId] = expectedEmit;
 
     expect(localStorageHelper.set.mock.calls[0][0]).toBe(inProgressKey);
-    expect(localStorageHelper.set.mock.calls[0][1])
-      .toStrictEqual(expectedObject);
+    expect(localStorageHelper.set.mock.calls[0][1]).toStrictEqual(expectedObject);
 
     jest.runAllTimers();
   });
@@ -229,66 +210,52 @@ describe('Dataset Download Service', () => {
   it('can remove completed downloads from local storage', () => {
     const nowTS = new Date().getTime();
     const mockCompletedLocalStorage = {
-      'MY-DATASET-XX': [
-        {requestId: `mockRequest_A::${nowTS}`},
-        {requestId: `mockRequest_B::${nowTS}`}
-      ],
-      'MY-DATASET-YY': [
-        {requestId: `mockRequest_C::${nowTS}`}
-      ]
+      'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }, { requestId: `mockRequest_B::${nowTS}` }],
+      'MY-DATASET-YY': [{ requestId: `mockRequest_C::${nowTS}` }],
     };
-    localStorageHelper.get = jest.fn().mockImplementationOnce(() => {
-      return mockCompletedLocalStorage;
-    }).mockImplementationOnce(() => {
-      return mockCompletedLocalStorage;
-    });
+    localStorageHelper.get = jest
+      .fn()
+      .mockImplementationOnce(() => {
+        return mockCompletedLocalStorage;
+      })
+      .mockImplementationOnce(() => {
+        return mockCompletedLocalStorage;
+      });
     const withoutB = {
-      'MY-DATASET-XX': [
-        {requestId: `mockRequest_A::${nowTS}`}
-      ],
-      'MY-DATASET-YY': [
-        {requestId: `mockRequest_C::${nowTS}`}
-      ]
+      'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }],
+      'MY-DATASET-YY': [{ requestId: `mockRequest_C::${nowTS}` }],
     };
     const withoutC = {
-      'MY-DATASET-XX': [
-        {requestId: `mockRequest_A::${nowTS}`},
-        {requestId: `mockRequest_B::${nowTS}`}
-      ]
+      'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }, { requestId: `mockRequest_B::${nowTS}` }],
     };
     removeFromCompleted(`mockRequest_B::${nowTS}`);
     expect(localStorageHelper.set).toHaveBeenLastCalledWith(completedKey, withoutB);
 
     removeFromCompleted(`mockRequest_C::${nowTS}`);
     expect(localStorageHelper.set).toHaveBeenLastCalledWith(completedKey, withoutC);
-  })
+  });
 
   it('can purge old downloads from local storage', () => {
     const nowTS = new Date().getTime();
-    const aDayAgoTS = nowTS - (1000 * 60 * 60 * 24);
+    const aDayAgoTS = nowTS - 1000 * 60 * 60 * 24;
     const mockCompletedLocalStorage = {
-      'MY-DATASET-XX': [
-        {requestId: `mockRequest_A::${nowTS}`},
-        {requestId: `mockRequest_B::${aDayAgoTS}`}
-      ],
-      'MY-DATASET-YY': [
-        {requestId: `mockRequest_C::${aDayAgoTS}`}
-      ]
+      'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }, { requestId: `mockRequest_B::${aDayAgoTS}` }],
+      'MY-DATASET-YY': [{ requestId: `mockRequest_C::${aDayAgoTS}` }],
     };
-    localStorageHelper.get = jest.fn().mockImplementationOnce(() => {
-      return mockCompletedLocalStorage;
-    }).mockImplementationOnce(() => {
-      return mockCompletedLocalStorage;
-    });
+    localStorageHelper.get = jest
+      .fn()
+      .mockImplementationOnce(() => {
+        return mockCompletedLocalStorage;
+      })
+      .mockImplementationOnce(() => {
+        return mockCompletedLocalStorage;
+      });
     const withoutB = {
-      'MY-DATASET-XX': [
-        {requestId: `mockRequest_A::${nowTS}`}
-      ]
+      'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }],
     };
     downloadService.purgeOldRequests();
 
     expect(localStorageHelper.set).toHaveBeenLastCalledWith(completedKey, withoutB);
-
   });
 
   it('cancelled requests remove from local storage', async () => {
@@ -299,7 +266,7 @@ describe('Dataset Download Service', () => {
       apiIds: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
       fileTypes: 'zip',
-      requestTime: 1234567890
+      requestTime: 1234567890,
     };
 
     const requestId = downloadService.initiateDownload(
@@ -308,30 +275,28 @@ describe('Dataset Download Service', () => {
       mockDataRequested.dateRange,
       mockDataRequested.fileTypes,
       mockDataRequested.requestTime
-      );
+    );
 
     const expectedEmit = {
       datasetId: '123-456711',
       requestId: requestId,
       status: 'started',
       progress: { current: 0, total: 30, pct: 0, apis: {} },
-      dl_check_page_path:
-        `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
+      dl_check_page_path: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
       status_path: statusPath,
       final_file_name: filePath,
       requested: {
         apiIds: mockDataRequested.apiIds,
         dateRange: mockDataRequested.dateRange,
-        fileTypes: mockDataRequested.fileTypes
+        fileTypes: mockDataRequested.fileTypes,
       },
       filename: 'file',
       downloadUrl: filePath,
-      statusPath:
-        `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
+      statusPath: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
       selectedFileType: mockDataRequested.fileTypes,
       prepStarted: true,
-      requestTime: undefined
+      requestTime: undefined,
     };
 
     mockWebsocket.next({ status: 'started', status_path: statusPath, file_path: filePath });
@@ -342,7 +307,7 @@ describe('Dataset Download Service', () => {
     mockWebsocket.next({
       status: 'started',
       status_path: statusPath,
-      file_path: filePath
+      file_path: filePath,
     });
     await expect(hot$).toEmitValue(expectedEmit);
 
@@ -351,7 +316,7 @@ describe('Dataset Download Service', () => {
     expected[requestId] = expectedEmit;
     expect(localStorageHelper.set.mock.calls[0][1]).toStrictEqual(expected);
 
-    localStorageHelper.get = jest.fn().mockImplementation((datasetId) => {
+    localStorageHelper.get = jest.fn().mockImplementation(datasetId => {
       return expected;
     });
 
@@ -370,39 +335,38 @@ describe('Dataset Download Service', () => {
     const mockDataRequested = {
       apiIds: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
 
     const requestId = downloadService.initiateDownload(
       '123-456712',
       mockDataRequested.apiIds,
       mockDataRequested.dateRange,
-      mockDataRequested.fileTypes);
+      mockDataRequested.fileTypes
+    );
 
     const expectedEmit = {
       datasetId: '123-456712',
       requestId: requestId,
       status: 'completed',
       progress: { current: 0, total: 30, pct: 0, apis: {} },
-      dl_check_page_path:
-        `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
+      dl_check_page_path: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
       final_file_name: filePath,
       status_path: statusPath,
       requested: mockDataRequested,
       filename: filePath.substring(filePath.lastIndexOf('/') + 1),
       downloadUrl: filePath,
-      statusPath:
-        `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
+      statusPath: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/hash`,
       dateRange: mockDataRequested.dateRange,
       selectedFileType: mockDataRequested.fileTypes,
       prepStarted: true,
-      requestTime: undefined
+      requestTime: undefined,
     };
 
     mockWebsocket.next({
       status: 'started',
       status_path: statusPath,
-      file_path: filePath
+      file_path: filePath,
     });
 
     const hot$ = watchSignal(downloadService.downloadStatus(requestId).pipe());
@@ -413,7 +377,7 @@ describe('Dataset Download Service', () => {
       status: 'completed',
       status_path: statusPath,
       file_path: filePath,
-      filesize_kb: '123'
+      filesize_kb: '123',
     };
 
     mockWebsocket.next(completeMsg);
@@ -433,19 +397,20 @@ describe('Dataset Download Service', () => {
     const mockDataRequested = {
       apiIds: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
 
     const requestId = downloadService.initiateDownload(
       '123-456712',
       mockDataRequested.apiIds,
       mockDataRequested.dateRange,
-      mockDataRequested.fileTypes);
+      mockDataRequested.fileTypes
+    );
 
     mockWebsocket.next({
       status: 'started',
       status_path: statusPath,
-      file_path: filePath
+      file_path: filePath,
     });
 
     const hot$ = watchSignal(downloadService.downloadStatus(requestId).pipe());
@@ -455,16 +420,16 @@ describe('Dataset Download Service', () => {
       status: 'completed',
       status_path: statusPath,
       file_path: filePath,
-      filesize_kb: '123'
+      filesize_kb: '123',
     };
     let completed = false;
 
     mockWebsocket.subscribe({
       next: () => {},
-      error: (err) => {},
+      error: err => {},
       complete: () => {
         completed = true;
-      }
+      },
     });
 
     mockWebsocket.next(completeMsg);
@@ -477,17 +442,12 @@ describe('Dataset Download Service', () => {
     const statusPath = 'this/isalongpath/string';
     const filePath = 'this/isanotherlongpath/string';
 
-    const requestId = downloadService
-      .initiateDownload(
-        '123-45678',
-        ['123'],
-        { from: '2005-10-03', to: '2021-02-17' },
-        'zip');
+    const requestId = downloadService.initiateDownload('123-45678', ['123'], { from: '2005-10-03', to: '2021-02-17' }, 'zip');
 
     mockWebsocket.next({
       status: 'started',
       status_path: statusPath,
-      file_path: filePath
+      file_path: filePath,
     });
 
     watchSignal(downloadService.downloadStatus(requestId).pipe());
@@ -496,38 +456,33 @@ describe('Dataset Download Service', () => {
       status_path: statusPath,
       file_path: filePath,
       filesize_kb: '123',
-      error: { code: 1234, message: 'error message' }
+      error: { code: 1234, message: 'error message' },
     };
     let completed = false;
 
     mockWebsocket.subscribe({
       next: () => {},
-      error: (err) => {},
+      error: err => {},
       complete: () => {
         completed = true;
-      }
+      },
     });
     mockWebsocket.next(errorMsg);
     expect(completed).toBe(true);
     // rxjs throws error messages when an error is passed to the websocket
-   expect(() => jest.runAllTimers()).toThrowError();
+    expect(() => jest.runAllTimers()).toThrowError();
   });
 
   it('error message creates console error', async () => {
     const statusPath = 'this/isalongpath/string';
     const filePath = 'this/isanotherlongpath/string';
 
-    const requestId = downloadService
-      .initiateDownload(
-        '123-45678',
-        ['123'],
-        { from: '2005-10-03', to: '2021-02-17' },
-        'zip');
+    const requestId = downloadService.initiateDownload('123-45678', ['123'], { from: '2005-10-03', to: '2021-02-17' }, 'zip');
 
     mockWebsocket.next({
       status: 'started',
       status_path: statusPath,
-      file_path: filePath
+      file_path: filePath,
     });
 
     watchSignal(downloadService.downloadStatus(requestId).pipe(take(1)));
@@ -536,7 +491,7 @@ describe('Dataset Download Service', () => {
       status_path: statusPath,
       file_path: filePath,
       filesize_kb: '123',
-      error: { code: 1234, message: "error message" }
+      error: { code: 1234, message: 'error message' },
     };
 
     mockWebsocket.next(errorMsg);
@@ -546,18 +501,18 @@ describe('Dataset Download Service', () => {
   });
 
   describe('download updates via polling', () => {
-    let  localStorageHelper;
+    let localStorageHelper;
     const mockDataRequested = {
       apiIds: ['123'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
 
     const completedMsg = {
       status: 'completed',
       status_path: 'this/isalongpath/string',
       file_path: 'this/isanotherlongpath/string',
-      filesize_kb: '123'
+      filesize_kb: '123',
     };
     const testDatasetId = '123-45672020';
     const nowTS = new Date().getTime();
@@ -573,7 +528,7 @@ describe('Dataset Download Service', () => {
       requestId: `${testRequestId}`,
       requested: mockDataRequested,
       resumed: true,
-      readyForDownload: true
+      readyForDownload: true,
     };
 
     beforeAll(() => {
@@ -581,22 +536,21 @@ describe('Dataset Download Service', () => {
     });
 
     beforeEach(async () => {
-
       global.fetch = jest.fn(() => {
         return Promise.resolve({
           ok: true,
           ready: true,
           json: () => {
             return Promise.resolve(completedMsg);
-          }
+          },
         });
       });
 
       // setGlobalFetchResponse(completedMsg);
 
-      jest.doMock('../local-storage-helper/local-storage-helper',() => ({
+      jest.doMock('../local-storage-helper/local-storage-helper', () => ({
         set: jest.fn(),
-        get: jest.fn().mockImplementation(((key) => {
+        get: jest.fn().mockImplementation(key => {
           const output = {};
           output[inProgressKey] = {};
           output[inProgressKey][testRequestId] = {
@@ -607,19 +561,18 @@ describe('Dataset Download Service', () => {
             final_file_name: 'this/isanotherlongpath/string',
             datasetId: `${testDatasetId}`,
             requestId: `${testRequestId}`,
-            requested: mockDataRequested
+            requested: mockDataRequested,
           };
           return output[key];
-        })),
-        remove: jest.fn()
+        }),
+        remove: jest.fn(),
       }));
-      import('../local-storage-helper/local-storage-helper').then((module) => {
-        localStorageHelper = module.default
+      import('../local-storage-helper/local-storage-helper').then(module => {
+        localStorageHelper = module.default;
       });
-      import('./download-service').then((module) => {
+      import('./download-service').then(module => {
         downloadService = module.default;
       });
-
     });
 
     it('creates status subject for updates to status and makes an ', async () => {
@@ -634,9 +587,7 @@ describe('Dataset Download Service', () => {
       jest.runOnlyPendingTimers();
       await expect(hot$).toEmit();
       expect(localStorageHelper.set.mock.calls[2][1]).toStrictEqual(expected);
-
     });
-
   });
 
   describe('processing messages', () => {
@@ -646,9 +597,9 @@ describe('Dataset Download Service', () => {
     const mockDataRequested = {
       apiIds: ['1', '2', '3'],
       dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip'
+      fileTypes: 'zip',
     };
-    const hashcode = 'hashcode'
+    const hashcode = 'hashcode';
     const statusPath = `/test/status/path/${hashcode}/status.json`;
     const filePath = `/test/file/zip/${hashcode}/a_real_file.zip`;
     let expectedObject;
@@ -656,20 +607,20 @@ describe('Dataset Download Service', () => {
     let requestId;
 
     beforeEach(async () => {
-      currentDatasetId = `${datasetId}${runCount++}`
+      currentDatasetId = `${datasetId}${runCount++}`;
       progressObject = {
         current: 0,
-        total: globalConstants.config.downloadService.APITotalPagesStartValue
-          * mockDataRequested.apiIds.length,
+        total: globalConstants.config.downloadService.APITotalPagesStartValue * mockDataRequested.apiIds.length,
         pct: 0,
-        apis: {}
+        apis: {},
       };
 
       requestId = downloadService.initiateDownload(
         currentDatasetId,
         mockDataRequested.apiIds,
         mockDataRequested.dateRange,
-        mockDataRequested.fileTypes);
+        mockDataRequested.fileTypes
+      );
 
       expectedObject = {
         status: 'started',
@@ -677,44 +628,39 @@ describe('Dataset Download Service', () => {
         final_file_name: filePath,
         datasetId: currentDatasetId,
         requestId: requestId,
-        dl_check_page_path:
-          `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/${hashcode}`,
+        dl_check_page_path: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/${hashcode}`,
         requested: mockDataRequested,
         progress: progressObject,
         downloadUrl: filePath,
         filename: filePath.substring(filePath.lastIndexOf('/') + 1),
-        statusPath:
-          `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/${hashcode}`,
+        statusPath: `${exportsForUnitTests.baseSiteUrl}${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}/${hashcode}`,
         dateRange: mockDataRequested.dateRange,
         prepStarted: true,
         selectedFileType: mockDataRequested.fileTypes,
-        startedTable: true
+        startedTable: true,
       };
 
       mockWebsocket.next({
         status: 'started',
         status_path: statusPath,
-        file_path: filePath
+        file_path: filePath,
       });
-
     });
 
     it('update totals', async () => {
-
       const hot$ = watchSignal(downloadService.downloadStatus(requestId).pipe());
 
       mockWebsocket.next({
         apiId: 1,
         totalPages: 5,
-        status: 'started'
+        status: 'started',
       });
 
       progressObject = {
         current: 0,
-        total: globalConstants.config.downloadService.APITotalPagesStartValue
-          * (mockDataRequested.apiIds.length - 1) + 5,
+        total: globalConstants.config.downloadService.APITotalPagesStartValue * (mockDataRequested.apiIds.length - 1) + 5,
         pct: 0,
-        apis: { "1": { total: 5, processed: 0, error: null } }
+        apis: { '1': { total: 5, processed: 0, error: null } },
       };
       expectedObject = { ...expectedObject, progress: progressObject };
 
@@ -723,18 +669,17 @@ describe('Dataset Download Service', () => {
       mockWebsocket.next({
         apiId: 2,
         totalPages: 10,
-        status: 'started'
+        status: 'started',
       });
 
       progressObject = {
         current: 0,
-        total: globalConstants.config.downloadService.APITotalPagesStartValue
-          * (mockDataRequested.apiIds.length - 2) + 5 + 10,
+        total: globalConstants.config.downloadService.APITotalPagesStartValue * (mockDataRequested.apiIds.length - 2) + 5 + 10,
         pct: 0,
         apis: {
-          "1": { total: 5, processed: 0, error: null },
-          "2": { total: 10, processed: 0, error: null }
-        }
+          '1': { total: 5, processed: 0, error: null },
+          '2': { total: 10, processed: 0, error: null },
+        },
       };
       expectedObject = { ...expectedObject, progress: progressObject };
 
@@ -743,19 +688,18 @@ describe('Dataset Download Service', () => {
       mockWebsocket.next({
         apiId: 3,
         totalPages: 15,
-        status: 'started'
+        status: 'started',
       });
 
       progressObject = {
         current: 0,
-        total: globalConstants.config.downloadService.APITotalPagesStartValue
-          * (mockDataRequested.apiIds.length - 3) + 5 + 10 + 15,
+        total: globalConstants.config.downloadService.APITotalPagesStartValue * (mockDataRequested.apiIds.length - 3) + 5 + 10 + 15,
         pct: 0,
         apis: {
-          "1": { total: 5, processed: 0, error: null },
-          "2": { total: 10, processed: 0, error: null },
-          "3": { total: 15, processed: 0, error: null }
-        }
+          '1': { total: 5, processed: 0, error: null },
+          '2': { total: 10, processed: 0, error: null },
+          '3': { total: 15, processed: 0, error: null },
+        },
       };
       expectedObject = { ...expectedObject, progress: progressObject };
 
@@ -763,27 +707,25 @@ describe('Dataset Download Service', () => {
     });
 
     it('update progress', async () => {
-
       const hot$ = watchSignal(downloadService.downloadStatus(requestId).pipe());
 
       mockWebsocket.next({ apiId: 1, totalPages: 5, status: 'started' });
       mockWebsocket.next({ apiId: 2, totalPages: 10, status: 'started' });
       mockWebsocket.next({ apiId: 3, totalPages: 15, status: 'started' });
 
-      const total = (globalConstants.config.downloadService.APITotalPagesStartValue
-        * (mockDataRequested.apiIds.length - 3)) + 5 + 10 + 15;
+      const total = globalConstants.config.downloadService.APITotalPagesStartValue * (mockDataRequested.apiIds.length - 3) + 5 + 10 + 15;
 
       mockWebsocket.next({ apiId: 1, page: 1, status: 'processed' });
 
       progressObject = {
         current: 1,
         total: total,
-        pct: (1 / total),
+        pct: 1 / total,
         apis: {
-          "1": { total: 5, processed: 1, error: null },
-          "2": { total: 10, processed: 0, error: null },
-          "3": { total: 15, processed: 0, error: null }
-        }
+          '1': { total: 5, processed: 1, error: null },
+          '2': { total: 10, processed: 0, error: null },
+          '3': { total: 15, processed: 0, error: null },
+        },
       };
       expectedObject = { ...expectedObject, progress: progressObject };
 
@@ -795,17 +737,16 @@ describe('Dataset Download Service', () => {
       progressObject = {
         current: 3,
         total: total,
-        pct: (3 / total),
+        pct: 3 / total,
         apis: {
-          "1": { total: 5, processed: 2, error: null },
-          "2": { total: 10, processed: 1, error: null },
-          "3": { total: 15, processed: 0, error: null }
-        }
+          '1': { total: 5, processed: 2, error: null },
+          '2': { total: 10, processed: 1, error: null },
+          '3': { total: 15, processed: 0, error: null },
+        },
       };
       expectedObject = { ...expectedObject, progress: progressObject };
 
       await expect(hot$).toEmitValue(expectedObject);
-
 
       for (let i = 0; i < 3; i++) {
         mockWebsocket.next({ apiId: 1, page: i, status: 'processed' });
@@ -824,87 +765,84 @@ describe('Dataset Download Service', () => {
       progressObject = {
         current: 30,
         total: total,
-        pct: (30 / total),
+        pct: 30 / total,
         apis: {
-          "1": { total: 5, processed: 5, error: null },
-          "2": { total: 10, processed: 10, error: null },
-          "3": { total: 15, processed: 15, error: null }
-        }
+          '1': { total: 5, processed: 5, error: null },
+          '2': { total: 10, processed: 10, error: null },
+          '3': { total: 15, processed: 15, error: null },
+        },
       };
       expectedObject = { ...expectedObject, progress: progressObject };
 
       await expect(hot$).toEmitValue(expectedObject);
-
     });
   });
 
-  describe("startPollingByRequestToken", () => {
+  describe('startPollingByRequestToken', () => {
     beforeEach(() => {
       jest.useFakeTimers();
     });
 
-    const requestToken = "210387c27e72a73d4d5cfbfd11f5f811264c5a1f442e7f484af4ee082755d538";
-    const failedRequestToken = "a282fb48850e4f8eae5df293694006fabd592c1e58bf3a1046e3417c5a6df45f";
+    const requestToken = '210387c27e72a73d4d5cfbfd11f5f811264c5a1f442e7f484af4ee082755d538';
+    const failedRequestToken = 'a282fb48850e4f8eae5df293694006fabd592c1e58bf3a1046e3417c5a6df45f';
 
-    it("gets status from json file", async () => {
+    it('gets status from json file', async () => {
       const expectedResponse = {
-        status: "complete",
-        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`
+        status: 'complete',
+        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`,
       };
       setGlobalFetchResponse(jest, expectedResponse);
-      const hot$ = watchSignal(
-        downloadService
-          .startPollingByRequestToken(requestToken));
+      const hot$ = watchSignal(downloadService.startPollingByRequestToken(requestToken));
 
       jest.advanceTimersByTime(30);
       await expect(hot$).toEmitValue(expectedResponse);
     });
 
-    it("checked repeatedly until complete", async () => {
+    it('checked repeatedly until complete', async () => {
       setGlobalFetchResponse(jest, {
-        status: "started",
-        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`
+        status: 'started',
+        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`,
       });
       const hot$ = watchSignal(downloadService.startPollingByRequestToken(requestToken));
       jest.advanceTimersByTime(1000);
       await expect(hot$).toEmitValue({
-        status: "in-progress",
-        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`
+        status: 'in-progress',
+        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`,
       });
 
       jest.advanceTimersByTime(30001);
       await expect(hot$).toEmitValue({
-        status: "in-progress",
-        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`
+        status: 'in-progress',
+        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`,
       });
 
       setGlobalFetchResponse(jest, {
-        status: "complete",
-        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`
+        status: 'complete',
+        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`,
       });
 
       jest.advanceTimersByTime(30001);
       await expect(hot$).toEmitValue({
-        status: "complete",
-        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`
+        status: 'complete',
+        file_path: `zip/${requestToken}/HstDebt_20010201_20210131.zip`,
       });
     });
 
-    it("stops checking status on failed", async () => {
+    it('stops checking status on failed', async () => {
       setGlobalFetchResponse(jest, {
-        status: "failed",
+        status: 'failed',
         file_path: `zip/${failedRequestToken}/TOP_FedClct_20131101_20181001.zip`,
         status_path: `zip/${failedRequestToken}/status.json`,
-        filesize_kb: 12806.95
+        filesize_kb: 12806.95,
       });
       const hot$ = watchSignal(downloadService.startPollingByRequestToken(requestToken));
       jest.advanceTimersByTime(1000);
       await expect(global.fetch).toBeCalledTimes(1);
       await expect(hot$).toEmitValue({
-        "file_path": `zip/${failedRequestToken}/TOP_FedClct_20131101_20181001.zip`,
-        "status": "failed",
-        "status_path": `zip/${failedRequestToken}/status.json`,
-        "filesize_kb": 12806.95
+        file_path: `zip/${failedRequestToken}/TOP_FedClct_20131101_20181001.zip`,
+        status: 'failed',
+        status_path: `zip/${failedRequestToken}/status.json`,
+        filesize_kb: 12806.95,
       });
 
       // We're running the timers long enough to give it a chance to call again.

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import DatasetStructuredData from './build-dataset-structured-data.helper';
-import globalConstants from "../../helpers/constants";
+import globalConstants from '../../helpers/constants';
 import { ENV_ID } from 'gatsby-env-variables';
 import { graphql, useStaticQuery } from 'gatsby';
 
-
 const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, image, canonical, datasetDetails }) => {
-
   let versionInfo = useStaticQuery(graphql`
     {
       gitCommit(latest: { eq: true }) {
@@ -26,7 +24,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
 
   // protecting against null and undefined values mainly for unit tests
   // where version info is not supplied
-  versionInfo = (versionInfo && versionInfo.gitCommit) ? versionInfo : {};
+  versionInfo = versionInfo && versionInfo.gitCommit ? versionInfo : {};
   const latestTag = versionInfo.gitTag ? versionInfo.gitTag.name : '';
   const latestCommit = versionInfo.gitCommit || {};
   const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
@@ -35,14 +33,12 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
   const [dapAnalytics, setDapAnalytics] = useState(null);
   const [finalDescription, setFinalDescription] = useState(description);
   const baseUrl = globalConstants.BASE_SITE_URL;
-  const title = pageTitle
-    ? `${pageTitle} | U.S. Treasury Fiscal Data`
-    : 'U.S. Treasury Fiscal Data';
+  const title = pageTitle ? `${pageTitle} | U.S. Treasury Fiscal Data` : 'U.S. Treasury Fiscal Data';
 
   useEffect(() => {
     if (descriptionGenerator) {
       descriptionGenerator().then(res => {
-        setFinalDescription(res)
+        setFinalDescription(res);
       });
     }
     setDapAnalytics(
@@ -52,7 +48,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
         src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
         id="_fed_an_ua_tag"
       />
-    )
+    );
   }, []);
 
   return (
@@ -79,7 +75,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}
 
-      {(latestCommit && latestCommit.hash) && (
+      {latestCommit && latestCommit.hash && (
         <script id="version-info">
           {`/*
             TAG: ${latestTag}
@@ -99,10 +95,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
       <meta name="description" content={finalDescription || description} />
       <meta property="og:description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta
-        property="og:image"
-        content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`}
-      />
+      <meta property="og:image" content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`} />
       {dapAnalytics}
       {canonical && <link rel="canonical" href={`${baseUrl}${canonical}`} />}
       {datasetDetails && (

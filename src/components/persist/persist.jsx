@@ -14,7 +14,7 @@ export const siteContext = React.createContext({
   dateRangeTab: 0,
   setDateRangeTab: () => {},
   showExperimentalFeatures: false,
-  setShowExperimentalFeatures: () => {}
+  setShowExperimentalFeatures: () => {},
 });
 
 export const Provider = ({ children }) => {
@@ -39,20 +39,14 @@ export const Provider = ({ children }) => {
         dateRangeTab,
         setDateRangeTab,
         showExperimentalFeatures,
-        setShowExperimentalFeatures
+        setShowExperimentalFeatures,
       }}
     >
-      <DownloadsProvider>
-        {children}
-      </DownloadsProvider>
+      <DownloadsProvider>{children}</DownloadsProvider>
     </siteContext.Provider>
-  )
+  );
 };
 
-const Persist = ({ element }) => (
-  <Provider>
-    {element}
-  </Provider>
-);
+const Persist = ({ element }) => <Provider>{element}</Provider>;
 
 export default Persist;

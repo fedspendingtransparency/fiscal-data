@@ -2,16 +2,8 @@ import localStorageHelper from '../local-storage-helper/local-storage-helper';
 import WebsocketService from '../websocket-service/websocket-service';
 import { buildDownloadRequestArray } from '../../utils/api-utils-helper';
 import { WEB_SOCKET_BASE_URL, DATA_DOWNLOAD_BASE_URL } from 'gatsby-env-variables';
-import {
-  ReplaySubject,
-  from,
-  of,
-  throwError,
-  Subject,
-  timer,
-  Observable
-} from 'rxjs'
-import { map, switchMap, filter, takeUntil } from 'rxjs/operators'
+import { ReplaySubject, from, of, throwError, Subject, timer, Observable } from 'rxjs';
+import { map, switchMap, filter, takeUntil } from 'rxjs/operators';
 import globalConstants from '../constants';
 
 /*
@@ -38,61 +30,58 @@ import globalConstants from '../constants';
 */
 
 export type StatusMessage = {
-  status: 'started' | 'in-progress' | 'processed' | 'complete' | 'failed',
-  apiId: number | string,
-  status_path?: string,
-  file_path?: string,
-  totalPages?: number,
-  page?: number,
-  filesize_kb?: number,
+  status: 'started' | 'in-progress' | 'processed' | 'complete' | 'failed';
+  apiId: number | string;
+  status_path?: string;
+  file_path?: string;
+  totalPages?: number;
+  page?: number;
+  filesize_kb?: number;
   error?: {
-    code: number,
-    message: string
-  }
-}
-
-export type DownloadStatus = {
-  datasetId: string,
-  requestId?: string,
-  requestTime?: number,
-  status: 'in-progress' | 'error' | 'complete' | 'completed',
-  progress: {
-    current: number,
-    total: number,
-    pct: number,
-    apis: {
-      [key: string] : {
-        total: number,
-        processed: number
-      }
-    }
-  },
-  dl_check_page_path: string,
-  final_file_name: string,
-  status_path: string,
-  error: null | { message: string, code: number },
-  requested: {
-    apiIds: string[],
-    date_range: { from: string, to: string },
-    file_type: string
-  }
+    code: number;
+    message: string;
+  };
 };
 
-export type ResponseBody = { status: string, [key: string]: unknown };
+export type DownloadStatus = {
+  datasetId: string;
+  requestId?: string;
+  requestTime?: number;
+  status: 'in-progress' | 'error' | 'complete' | 'completed';
+  progress: {
+    current: number;
+    total: number;
+    pct: number;
+    apis: {
+      [key: string]: {
+        total: number;
+        processed: number;
+      };
+    };
+  };
+  dl_check_page_path: string;
+  final_file_name: string;
+  status_path: string;
+  error: null | { message: string; code: number };
+  requested: {
+    apiIds: string[];
+    date_range: { from: string; to: string };
+    file_type: string;
+  };
+};
+
+export type ResponseBody = { status: string; [key: string]: unknown };
 
 const websocketUrl = WEB_SOCKET_BASE_URL;
 const downloadServiceConfig = globalConstants.config.downloadService;
 const pollingInterval_ms = downloadServiceConfig.pollingIntervalInMilliseconds;
-const baseSiteUrl = (typeof window !== 'undefined') ?
-  `${window.location.protocol}//${window.location.host}`
-  : 'https://notarealurl';
+const baseSiteUrl = typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : 'https://notarealurl';
 const downloadCheckPage = `${globalConstants.DOWNLOAD_CHECK_PAGE_PATH}`;
 const apiTotalPagesStartValue = downloadServiceConfig.APITotalPagesStartValue;
 const queuedKey = `${downloadServiceConfig.localStorageKeys.queued}`;
 const inProgress = `${downloadServiceConfig.localStorageKeys.inProgress}`;
 const complete = `${downloadServiceConfig.localStorageKeys.completed}`;
-const requestMaxAgeInMilliseconds =
-  downloadServiceConfig.requestMaxAgeInMilliseconds;
+const requestMaxAgeInMilliseconds = downloadServiceConfig.requestMaxAgeInMilliseconds;
 const requestIdDelimiter = '::';
 
 const currentConnections = {};
@@ -104,14 +93,13 @@ const resumedDownloads: Array<unknown> = [];
  * When the UI loads, this should be called to check for incomplete download requests.
  * As of 23 June 2021, this is run by the downloadsContext (downloads-persist.jsx).
  */
-const startProcessingIncompleteFileRequests =
-  (setterFn: (resDownloads: unknown[]) => void): undefined => {
+const startProcessingIncompleteFileRequests = (setterFn: (resDownloads: unknown[]) => void): undefined => {
   if (!hasInProgressRequests()) {
-    console.info("There are no in-progress download requests to check");
+    console.info('There are no in-progress download requests to check');
     return;
   }
 
-  console.info("Checking for download request updates");
+  console.info('Checking for download request updates');
   beginPollingInProgressFileRequests(setterFn);
 };
 /**
@@ -120,7 +108,7 @@ const startProcessingIncompleteFileRequests =
  */
 const hasInProgressRequests = () => {
   return Object.keys(localStorageHelper.get(inProgress) || {}).length > 0;
-}
+};
 
 /**
  * Accepts the token that appears in the status and file download paths
@@ -135,8 +123,7 @@ const startPollingByRequestToken = (requestToken: string): Observable<StatusMess
   //
   const response$ = new ReplaySubject<StatusMessage>(1);
   const unsubscribe$ = new Subject<void>();
-  const statusUrl =
-    `${DATA_DOWNLOAD_BASE_URL}/static-data/downloads/zip/${requestToken}/status.json`;
+  const statusUrl = `${DATA_DOWNLOAD_BASE_URL}/static-data/downloads/zip/${requestToken}/status.json`;
 
   const unsubscribe = () => {
     unsubscribe$.next();
@@ -146,44 +133,41 @@ const startPollingByRequestToken = (requestToken: string): Observable<StatusMess
   timer(0, pollingInterval_ms)
     .pipe(
       switchMap(() =>
-        fetchAsObservable(statusUrl)
-          .pipe(
-            switchMap(response => {
-              if (response.ok) {
-                return response.json() as Promise<StatusMessage>;
-              } else if (!response.ok) {
-                return throwError(() => new Error(response.toString()));
-              } else {
-                return of({ status: "unknown" });
-              }
-            })
-          )
+        fetchAsObservable(statusUrl).pipe(
+          switchMap(response => {
+            if (response.ok) {
+              return response.json() as Promise<StatusMessage>;
+            } else if (!response.ok) {
+              return throwError(() => new Error(response.toString()));
+            } else {
+              return of({ status: 'unknown' });
+            }
+          })
+        )
       ),
       takeUntil(unsubscribe$)
     )
-    .subscribe(
-      {
-        next: (statusObject: StatusMessage) => {
-          if (statusObject['status'] && statusObject['status'] === 'started') {
-            response$.next({ ...statusObject, status: 'in-progress'});
-          } else if (statusObject['status']) {
-            response$.next({ ...statusObject });
-            unsubscribe();
-          } else {
-            response$.error({ status: 404, message: "Not Found" });
-            unsubscribe();
-          }
-        },
-        error: (error) => {
-          console.error("An error occurred while checking the status of a request token.", error);
-          response$.error(error);
+    .subscribe({
+      next: (statusObject: StatusMessage) => {
+        if (statusObject['status'] && statusObject['status'] === 'started') {
+          response$.next({ ...statusObject, status: 'in-progress' });
+        } else if (statusObject['status']) {
+          response$.next({ ...statusObject });
           unsubscribe();
-        },
-        complete: () => {
-          response$.complete();
+        } else {
+          response$.error({ status: 404, message: 'Not Found' });
+          unsubscribe();
         }
-      }
-    );
+      },
+      error: error => {
+        console.error('An error occurred while checking the status of a request token.', error);
+        response$.error(error);
+        unsubscribe();
+      },
+      complete: () => {
+        response$.complete();
+      },
+    });
 
   return response$.asObservable();
 };
@@ -191,12 +175,12 @@ const startPollingByRequestToken = (requestToken: string): Observable<StatusMess
 /**
  * Starts polling all requests in the in-progress object
  */
-const beginPollingInProgressFileRequests = (setterFn) => {
+const beginPollingInProgressFileRequests = setterFn => {
   const inProgressRequests = localStorageHelper.get(inProgress);
   downloadStatuses = inProgressRequests;
   const inProgressRequestIds = Object.keys(inProgressRequests);
 
-  inProgressRequestIds.forEach((requestId) => {
+  inProgressRequestIds.forEach(requestId => {
     if (!currentStatuses[requestId]) {
       currentStatuses[requestId] = new ReplaySubject(1);
     }
@@ -211,12 +195,9 @@ const beginPollingInProgressFileRequests = (setterFn) => {
   }
 };
 
-const fetchDataset = (datasetMsg) => {
-  return fetchAsObservable(
-    `${DATA_DOWNLOAD_BASE_URL}${datasetMsg.status_path.charAt(0) === '/' ? '' : '/'}`
-    + `${datasetMsg.status_path}`
-  );
-}
+const fetchDataset = datasetMsg => {
+  return fetchAsObservable(`${DATA_DOWNLOAD_BASE_URL}${datasetMsg.status_path.charAt(0) === '/' ? '' : '/'}` + `${datasetMsg.status_path}`);
+};
 
 const updateViaPolling = (datasetMsg, setterFn) => {
   const unsubscribe$ = new Subject<void>();
@@ -229,36 +210,34 @@ const updateViaPolling = (datasetMsg, setterFn) => {
   timer(0, pollingInterval_ms)
     .pipe(
       switchMap(() =>
-        fetchDataset(datasetMsg)
-          .pipe(
-            switchMap(response => {
-              if (response.ok) {
-                return response.json() as Promise<DownloadStatus>;
-              } else if (!response.ok) {
-                return throwError(() => new Error(response.toString()));
-              } else {
-                return of({ status: "unknown" });
-              }
-            })
-          )),
-      map((msg) => {
+        fetchDataset(datasetMsg).pipe(
+          switchMap(response => {
+            if (response.ok) {
+              return response.json() as Promise<DownloadStatus>;
+            } else if (!response.ok) {
+              return throwError(() => new Error(response.toString()));
+            } else {
+              return of({ status: 'unknown' });
+            }
+          })
+        )
+      ),
+      map(msg => {
         return {
           ...msg,
           datasetId: datasetMsg.datasetId,
           requestId: datasetMsg.requestId,
-          requested: datasetMsg.requested
+          requested: datasetMsg.requested,
         };
-      } ),
+      }),
       // We're filtering on completed & status path so that subscribe only fires
       // when we see a fully completed message (no progress updates)
-      filter((msg) =>
-          (msg.status === 'completed' && msg['status_path']) ||
-        (msg.status === 'failed')),
-      map((msg) => generateDownloadStatusObject(msg)),
+      filter(msg => (msg.status === 'completed' && msg['status_path']) || msg.status === 'failed'),
+      map(msg => generateDownloadStatusObject(msg)),
       takeUntil(unsubscribe$)
     )
     .subscribe({
-      next: (failedOrCompletedMsg) => {
+      next: failedOrCompletedMsg => {
         if (failedOrCompletedMsg.status === 'completed') {
           datasetMsg.status = 'completed';
           datasetMsg.readyForDownload = true;
@@ -274,13 +253,12 @@ const updateViaPolling = (datasetMsg, setterFn) => {
         }
         unsubscribe();
       },
-      error: (error) => {
-        console.error("An error occurred while polling for an incomplete request [%s]",
-          datasetMsg.datasetId, error);
+      error: error => {
+        console.error('An error occurred while polling for an incomplete request [%s]', datasetMsg.datasetId, error);
       },
-      complete: function () {
+      complete: function() {
         // do nothing
-      }
+      },
     });
 };
 
@@ -299,12 +277,15 @@ const fetchAsObservable = (url: string): Observable<Response> => {
  * @param userFilter {null|{label: string, field: string, notice: string}} - userFilter
  * @param tableColumnSortData
  */
-const initiateDownload = (datasetId: string, apis: string | string[],
-                          dateRange: { from: string, to: string },
-                          fileTypes: string, requestTime: number,
-                          userFilter?: {label: string, value: string},
-                          tableColumnSortData?: []): string => {
-
+const initiateDownload = (
+  datasetId: string,
+  apis: string | string[],
+  dateRange: { from: string; to: string },
+  fileTypes: string,
+  requestTime: number,
+  userFilter?: { label: string; value: string },
+  tableColumnSortData?: []
+): string => {
   const downloadRequestMessage = buildDownloadRequestArray(apis, dateRange, fileTypes, userFilter, tableColumnSortData);
   const newRequestId = `${datasetId}${requestIdDelimiter}${requestTime}`;
   connect(datasetId, apis, dateRange, fileTypes, newRequestId);
@@ -317,20 +298,17 @@ const initiateDownload = (datasetId: string, apis: string | string[],
  * @returns {Observable<any>}
  * @param requestId
  */
-const downloadStatus = (requestId: string):Observable<DownloadStatus> => {
+const downloadStatus = (requestId: string): Observable<DownloadStatus> => {
   return currentStatuses[requestId] ? currentStatuses[requestId].asObservable() : of(null);
-}
+};
 
 /**
  * Lists all dataset ids that are in progress.
  * @returns {string[]}
  */
 const datasetIdsInProgress = (): string[] => {
-  return [
-    ...new Set(Object.keys(currentStatuses)
-      .map((rqId) => rqId.split(requestIdDelimiter)[0]))
-  ];
-}
+  return [...new Set(Object.keys(currentStatuses).map(rqId => rqId.split(requestIdDelimiter)[0]))];
+};
 
 /**
  * Check if a specific dataset is in progress.
@@ -338,10 +316,7 @@ const datasetIdsInProgress = (): string[] => {
  * @returns {boolean}
  */
 const isDatasetInProgress = (datasetId: string): boolean => {
-  return (
-    !!Object.keys(currentStatuses)
-      .some((rqId) => rqId.split(requestIdDelimiter)[0] === datasetId)
-  );
+  return !!Object.keys(currentStatuses).some(rqId => rqId.split(requestIdDelimiter)[0] === datasetId);
 };
 
 /**
@@ -350,12 +325,9 @@ const isDatasetInProgress = (datasetId: string): boolean => {
  * @param requestId
  */
 const datasetInProgress = (requestId: string): Observable<boolean> => {
-  if (!currentStatuses[requestId]) return of (false);
-  return downloadStatus(requestId)
-    .pipe(
-      map((statusUpdate) => (statusUpdate.status !== 'completed'))
-    );
-}
+  if (!currentStatuses[requestId]) return of(false);
+  return downloadStatus(requestId).pipe(map(statusUpdate => statusUpdate.status !== 'completed'));
+};
 
 /**
  * Observable that returns true if dataset has passed the "started" phase of the download and
@@ -364,11 +336,8 @@ const datasetInProgress = (requestId: string): Observable<boolean> => {
  * @param requestId
  */
 const getDatasetStatus = (requestId: string): Observable<string | boolean> => {
-  if (!currentStatuses[requestId]) return of (false);
-  return downloadStatus(requestId)
-    .pipe(
-      map((statusUpdate) => statusUpdate.status)
-    )
+  if (!currentStatuses[requestId]) return of(false);
+  return downloadStatus(requestId).pipe(map(statusUpdate => statusUpdate.status));
 };
 
 /**
@@ -377,7 +346,7 @@ const getDatasetStatus = (requestId: string): Observable<string | boolean> => {
  * @param apis
  * @returns {*}
  */
-const getApiIds = (apis) => {
+const getApiIds = apis => {
   if (!Array.isArray(apis)) {
     if (apis.hasOwnProperty('apiId')) {
       return [apis.apiId];
@@ -404,31 +373,31 @@ const connect = (datasetId, apis, dateRange, fileTypes, requestId) => {
   const curWS = WebsocketService.connectWebsocket(websocketUrl);
   currentConnections[requestId] = curWS.socket;
   currentStatuses[requestId] = new ReplaySubject(1);
-  currentConnections[requestId].pipe(
-    map((msg: ResponseBody) => ({
-      ...msg,
-      datasetId,
-      requestId,
-      requested: {
-        apiIds: getApiIds(apis),
-        dateRange,
-        fileTypes
-      }
-    }))
-  )
+  currentConnections[requestId]
+    .pipe(
+      map((msg: ResponseBody) => ({
+        ...msg,
+        datasetId,
+        requestId,
+        requested: {
+          apiIds: getApiIds(apis),
+          dateRange,
+          fileTypes,
+        },
+      }))
+    )
     .subscribe(
-      (msg) => processIncomingMessage(msg),
-      (err) => handleWebsocketError(requestId, err),
+      msg => processIncomingMessage(msg),
+      err => handleWebsocketError(requestId, err),
       () => handleWebsocketComplete(requestId, fileTypes, apis, dateRange)
     );
-}
+};
 
 /**
  * Cancel tracking for datasetId requested and
  * @param requestId
  */
-const cancelDownload = (requestId: string):void => {
-
+const cancelDownload = (requestId: string): void => {
   if (currentConnections[requestId]) {
     // disconnect websocket connection
     currentConnections[requestId].complete();
@@ -451,13 +420,13 @@ const cancelDownload = (requestId: string):void => {
  */
 const sendInitialRequestMessage = (requestId, downloadRequestObject) => {
   currentConnections[requestId].next(downloadRequestObject);
-}
+};
 
 /**
  * Process all incoming messages from the websocket connection and update what needs to be updated.
  * @param msg
  */
-const processIncomingMessage = (msg) => {
+const processIncomingMessage = msg => {
   switch (msg.status) {
     case 'started':
       // NOTE: Might have an 'error' property (Object). Will want to decide how to handle that.
@@ -470,8 +439,8 @@ const processIncomingMessage = (msg) => {
     case 'Received':
       break; // ignore receipt confirmation
     case 'processed':
-      // api progress messages should be 'processed'. Leaving 'complete' for
-      // compatibility with previous message version - 01 July 2021.
+    // api progress messages should be 'processed'. Leaving 'complete' for
+    // compatibility with previous message version - 01 July 2021.
     // eslint-disable-next-line no-fallthrough
     case 'complete':
       processApiMessage(msg);
@@ -479,10 +448,11 @@ const processIncomingMessage = (msg) => {
     case 'completed':
       if (msg['status_path']) {
         processCompletedMessage(msg);
-      } else if (msg['totalPages']) { // Will be an API Progress message.
+      } else if (msg['totalPages']) {
+        // Will be an API Progress message.
         processApiMessage(msg);
       } else {
-        console.warn('Received "completed" status but no status_path.')
+        console.warn('Received "completed" status but no status_path.');
       }
       break;
     case 'failed':
@@ -493,27 +463,26 @@ const processIncomingMessage = (msg) => {
       }
       break;
     default:
-      console.warn("Unexpected Status Value from download [%s]",
-        msg['status'] ? msg.status : undefined);
+      console.warn('Unexpected Status Value from download [%s]', msg['status'] ? msg.status : undefined);
   }
-}
+};
 /**
  * Processes the first message back from the connection after the initial request.
  * @param startedMsg {{
  * datasetId: string, requestId: string, status: string, status_path: string, file_path: string
  * }}
  */
-const processStartedMessage = (startedMsg) => {
+const processStartedMessage = startedMsg => {
   const inProgressStatuses = localStorageHelper.get(inProgress) || {};
   const newDownloadStatusObject = generateDownloadStatusObject(startedMsg);
   const updatedInProgressStatuses = {
     ...inProgressStatuses,
-    [startedMsg.requestId]: newDownloadStatusObject
+    [startedMsg.requestId]: newDownloadStatusObject,
   };
   downloadStatuses = updatedInProgressStatuses;
   localStorageHelper.set(inProgress, updatedInProgressStatuses);
   updateDownloadProgress(startedMsg.requestId, newDownloadStatusObject);
-}
+};
 
 /**
  * Persists a newly queuedDownload request to local storage
@@ -528,12 +497,10 @@ const storeQueuedDownload = (download: DownloadStatus): void => {
 
 const getStoredQueue = (): unknown => Object.values(localStorageHelper.get(queuedKey) || {});
 
-const processApiMessage = (rawWSMessage) => {
-  const update = updateDownloadStatusProgress(
-    downloadStatuses[rawWSMessage.requestId], rawWSMessage
-  );
+const processApiMessage = rawWSMessage => {
+  const update = updateDownloadStatusProgress(downloadStatuses[rawWSMessage.requestId], rawWSMessage);
   updateDownloadProgress(update.requestId, update);
-}
+};
 
 const updateDownloadStatusProgress = (downloadStatusObj, rawWSMessage) => {
   const progress = downloadStatusObj.progress;
@@ -559,13 +526,13 @@ const updateDownloadStatusProgress = (downloadStatusObj, rawWSMessage) => {
     progress.current++;
   }
 
-  progress.pct = (progress.current / progress.total);
+  progress.pct = progress.current / progress.total;
 
   apis[rawWSMessage.apiId] = api;
   progress.apis = apis;
 
   return { ...downloadStatusObj, progress };
-}
+};
 
 const updateDownloadStatusObjectStatus = (downloadStatusObj, rawWSMessage) => {
   const status = rawWSMessage.status;
@@ -574,10 +541,10 @@ const updateDownloadStatusObjectStatus = (downloadStatusObj, rawWSMessage) => {
     output = { ...output, error: rawWSMessage.error };
   }
   return output;
-}
-const fileFromPath = (path) => (path + '').substring(path.lastIndexOf('/') + 1);
+};
+const fileFromPath = path => (path + '').substring(path.lastIndexOf('/') + 1);
 
-const generateDownloadStatusObject = (rawWSMessage) => {
+const generateDownloadStatusObject = rawWSMessage => {
   const len = rawWSMessage.requested.apiIds.length || 1;
   const checkPath = createDLCheckPagePath(rawWSMessage.status_path);
   return {
@@ -588,7 +555,7 @@ const generateDownloadStatusObject = (rawWSMessage) => {
       current: 0,
       total: apiTotalPagesStartValue * len,
       pct: 0,
-      apis: {}
+      apis: {},
     },
     dl_check_page_path: checkPath,
     final_file_name: `${rawWSMessage.file_path}`,
@@ -600,25 +567,23 @@ const generateDownloadStatusObject = (rawWSMessage) => {
     selectedFileType: rawWSMessage.requested.fileTypes,
     prepStarted: true,
     requestTime: rawWSMessage.requested.requestTime,
-    requested: rawWSMessage.requested // entire requested object
+    requested: rawWSMessage.requested, // entire requested object
   };
+};
 
-}
-
-const createDLCheckPagePath = (statusPath) => {
+const createDLCheckPagePath = statusPath => {
   const requestHash = statusPath.split('/')[4];
   return `${baseSiteUrl}${downloadCheckPage}/${requestHash}`;
-}
+};
 
 /**
  * Processes messages that are completed. This function assumes that completeMsg
  * represents a completed file message.
  * @param rawWSMessage
  */
-const processCompletedMessage = (rawWSMessage) => {
+const processCompletedMessage = rawWSMessage => {
   const completedStatuses = localStorageHelper.get(complete) || {};
-  const updatedStatusObj = updateDownloadStatusObjectStatus(
-    downloadStatuses[rawWSMessage.requestId], rawWSMessage);
+  const updatedStatusObj = updateDownloadStatusObjectStatus(downloadStatuses[rawWSMessage.requestId], rawWSMessage);
 
   removeFromInProgress(rawWSMessage.requestId);
 
@@ -633,7 +598,7 @@ const processCompletedMessage = (rawWSMessage) => {
   }
 
   updateDownloadProgress(updatedStatusObj.requestId, updatedStatusObj);
-}
+};
 
 /**
  * Remove entry by requestId from root level of object stored locally by storageKey
@@ -652,7 +617,7 @@ const removeFromLocallyStoredObjectByKey = (storageKey, requestId) => {
  * Remove requestId from in progress local storage.
  * @param requestId
  */
-const removeFromInProgress = (requestId) => {
+const removeFromInProgress = requestId => {
   removeFromLocallyStoredObjectByKey(inProgress, requestId);
 };
 
@@ -673,8 +638,7 @@ export const removeFromCompleted = (requestId: string): void => {
   const updatedCompletedStatuses = {};
   // iterate through current stored statuses and rebuild without cancellations
   Object.entries(completedStatuses).forEach(([datasetId, downloads]) => {
-    const filteredDownloads = (downloads as DownloadStatus[])
-      .filter(dnl => dnl.requestId !== requestId);
+    const filteredDownloads = (downloads as DownloadStatus[]).filter(dnl => dnl.requestId !== requestId);
     if (filteredDownloads.length) {
       updatedCompletedStatuses[datasetId] = filteredDownloads;
     }
@@ -682,7 +646,7 @@ export const removeFromCompleted = (requestId: string): void => {
   localStorageHelper.set(complete, updatedCompletedStatuses);
 };
 
-const processApiFailedMessage = (failedMsg) => {
+const processApiFailedMessage = failedMsg => {
   /*
   error?: {
       code: {number},
@@ -692,9 +656,9 @@ const processApiFailedMessage = (failedMsg) => {
   currentStatuses[failedMsg.requestId].error(failedMsg);
   console.error('An error occurred while requesting table data', failedMsg.error);
   currentConnections[failedMsg.requestId].complete();
-}
+};
 
-const processFailedMessage = (failedMsg) => {
+const processFailedMessage = failedMsg => {
   /*
   error?: {
       code: {number},
@@ -705,16 +669,16 @@ const processFailedMessage = (failedMsg) => {
   // disconnect websocket
   currentConnections[failedMsg.requestId].complete();
   console.error('An error occurred while creating the zip file', failedMsg.error);
-}
+};
 
 const updateDownloadProgress = (requestId, message) => {
   if (!currentStatuses[requestId]) return;
   currentStatuses[requestId].next(message);
-}
+};
 
 const handleWebsocketError = (requestId, error) => {
   console.error('Websocket Error: ', error);
-}
+};
 
 const handleWebsocketComplete = (requestId, fileType, apis, dateRange) => {
   delete currentConnections[requestId];
@@ -726,14 +690,21 @@ const handleWebsocketComplete = (requestId, fileType, apis, dateRange) => {
     if (apis && fileType && dateRange.from) {
       (window as any).dataLayer = (window as any).dataLayer || [];
       (window as any).dataLayer.push({
-        'event': 'raw-data-download',
-        'eventLabel': 'Table Name: ' + apis.tableName + ', Type: ' + fileType + ', Date Range: ' +
-          from.toLocaleDateString("en-US") + ' - ' + to.toLocaleDateString("en-US")
+        event: 'raw-data-download',
+        eventLabel:
+          'Table Name: ' +
+          apis.tableName +
+          ', Type: ' +
+          fileType +
+          ', Date Range: ' +
+          from.toLocaleDateString('en-US') +
+          ' - ' +
+          to.toLocaleDateString('en-US'),
       });
     }
   }
   delete currentStatuses[requestId];
-}
+};
 
 /**
  * Purge old download requests (in-progress or completed) that are older than
@@ -751,12 +722,12 @@ const purgeOldRequests = (): void => {
   purgeComplete(maxAgeTimestamp);
 };
 const getRequestIDsToPurge = (source, maxAgeTimestamp) => {
-  return source.filter((requestID) => {
+  return source.filter(requestID => {
     const ts = Number(requestID.split(requestIdDelimiter)[1]);
-    return (ts <= maxAgeTimestamp);
+    return ts <= maxAgeTimestamp;
   });
 };
-const purgeInProgress = (maxAgeTimestamp) => {
+const purgeInProgress = maxAgeTimestamp => {
   const inProgressRequests = localStorageHelper.get(inProgress);
 
   // if there's nothing in-progress, bailout.
@@ -765,30 +736,26 @@ const purgeInProgress = (maxAgeTimestamp) => {
   const inProgressRequestIDs = Object.keys(inProgressRequests);
 
   // collect requestIds that have a timestamp token older than the max
-  const requestIDsToPurge =
-    getRequestIDsToPurge(inProgressRequestIDs, maxAgeTimestamp);
+  const requestIDsToPurge = getRequestIDsToPurge(inProgressRequestIDs, maxAgeTimestamp);
 
-  requestIDsToPurge.forEach((requestId) => {
+  requestIDsToPurge.forEach(requestId => {
     delete inProgressRequests[requestId];
   });
   localStorageHelper.set(inProgress, inProgressRequests);
 };
-const purgeComplete = (maxAgeTimestamp) => {
-
+const purgeComplete = maxAgeTimestamp => {
   const completedRequests = localStorageHelper.get(complete);
 
   // if there's nothing completed, bailout.
   if (!completedRequests) return;
 
-  Object.keys(completedRequests).forEach((datasetId) => {
+  Object.keys(completedRequests).forEach(datasetId => {
     let datasetCompleted = completedRequests[datasetId];
     // filter returns only requests that aren't too old yet.
-    datasetCompleted = datasetCompleted
-      .filter((completedRequest) => {
-        const ts =
-          Number(completedRequest.requestId.split(requestIdDelimiter)[1]);
-        return (ts > maxAgeTimestamp);
-      });
+    datasetCompleted = datasetCompleted.filter(completedRequest => {
+      const ts = Number(completedRequest.requestId.split(requestIdDelimiter)[1]);
+      return ts > maxAgeTimestamp;
+    });
     if (datasetCompleted.length === 0) {
       delete completedRequests[datasetId];
     } else {
@@ -796,7 +763,6 @@ const purgeComplete = (maxAgeTimestamp) => {
     }
   });
   localStorageHelper.set(complete, completedRequests);
-
 };
 
 const downloadService = {
@@ -812,14 +778,14 @@ const downloadService = {
   cancelDownload,
   storeQueuedDownload,
   getStoredQueue,
-  removeFromStoredQueue
-}
+  removeFromStoredQueue,
+};
 
 // run this as early as possible. (when download-service.js gets initiated)
 purgeOldRequests();
 
 export const exportsForUnitTests = {
-  baseSiteUrl
-}
+  baseSiteUrl,
+};
 
 export default downloadService;

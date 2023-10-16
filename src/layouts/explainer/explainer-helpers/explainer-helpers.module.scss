@@ -18,36 +18,34 @@
   border-left-color: $deficit-explainer-secondary !important;
   color: $deficit-explainer-primary !important;
   font-weight: bold;
-  padding-right:0 !important;
+  padding-right: 0 !important;
 }
 
-.nationalDeficitHover{
+.nationalDeficitHover {
   color: $deficit-explainer-secondary !important;
   font-weight: bold;
- }
+}
 
 .federalSpendingActive {
   border-left-color: $spending-explainer-secondary !important;
   color: $spending-explainer-primary !important;
   font-weight: bold;
-  padding-right:0 !important;
+  padding-right: 0 !important;
 }
 
-.federalSpendingHover{
+.federalSpendingHover {
   color: $spending-explainer-secondary !important;
   font-weight: bold;
- }
+}
 
- .revenueActive {
+.revenueActive {
   border-left-color: $revenue-explainer-secondary !important;
   color: $revenue-explainer-primary !important;
   font-weight: bold;
-  padding-right:0 !important;
+  padding-right: 0 !important;
 }
 
 .revenueHover {
   color: $revenue-explainer-secondary !important;
   font-weight: bold;
- }
-
-
+}

@@ -1,4 +1,4 @@
-import nationalDeficitSections from "./national-deficit";
+import nationalDeficitSections from './national-deficit';
 
 describe('National Deficit explainer page sections', () => {
   it('returns 6 sections with headings and body components', () => {

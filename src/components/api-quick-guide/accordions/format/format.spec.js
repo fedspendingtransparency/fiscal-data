@@ -1,13 +1,13 @@
 import React from 'react';
 import FormatAccordion from './format';
 import * as accordionStyles from '../../../accordion/accordion.module.scss';
-import {fireEvent, render} from "@testing-library/react";
+import { fireEvent, render } from '@testing-library/react';
 
 describe('Format Accordion', () => {
   const titleText = 'Format';
   const mockEndpoint = 'mock/endpoint/here';
   const mockSelectedTable = {
-    endpoint: mockEndpoint
+    endpoint: mockEndpoint,
   };
 
   it('expects the title to be rendered.', () => {

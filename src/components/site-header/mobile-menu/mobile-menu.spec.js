@@ -1,12 +1,15 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
-import MobileMenu from "./mobile-menu";
+import MobileMenu from './mobile-menu';
 
-const triggerClickEvent = (itemToClick) => {
-  fireEvent(itemToClick, new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-  }));
+const triggerClickEvent = itemToClick => {
+  fireEvent(
+    itemToClick,
+    new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    })
+  );
 };
 
 describe('MobileMenu actions', () => {
@@ -29,7 +32,6 @@ describe('MobileMenu actions', () => {
     triggerClickEvent(menuButton);
     expect(theContainer).toHaveClass('open');
 
-
     const expandedTopicsContent = getAllByTestId('expandedContent');
     expect(expandedTopicsContent[0]).toBeInTheDocument();
 
@@ -38,7 +40,6 @@ describe('MobileMenu actions', () => {
 
     triggerClickEvent(menuButton);
     expect(theContainer).not.toHaveClass('open');
-
   });
 
   it('after the menu is open, closes the menu when the overlay is clicked', () => {
@@ -47,7 +48,6 @@ describe('MobileMenu actions', () => {
     const theOverlay = getByTestId('overlay');
     const theContainer = getByTestId('menuContainer');
     const menuButton = getByTestId('button');
-
 
     triggerClickEvent(menuButton);
     expect(theContainer).toHaveClass('open');
@@ -87,15 +87,14 @@ describe('MobileMenu actions', () => {
     expect(getByText('Topics')).toBeDefined();
     expect(getByText('Tools')).toBeDefined();
     expect(getByText('Resources')).toBeDefined();
-
   });
 
   it('only opens topics dropdown by default', () => {
     const { getByText, getByTestId } = render(<MobileMenu />);
     const menuButton = getByTestId('button');
     triggerClickEvent(menuButton);
-    expect(getByText('Topics')).toHaveClass('headerExpanded')
-    expect(getByText('Tools')).not.toHaveClass('headerExpanded')
-    expect(getByText('Resources')).not.toHaveClass('headerExpanded')
+    expect(getByText('Topics')).toHaveClass('headerExpanded');
+    expect(getByText('Tools')).not.toHaveClass('headerExpanded');
+    expect(getByText('Resources')).not.toHaveClass('headerExpanded');
   });
 });

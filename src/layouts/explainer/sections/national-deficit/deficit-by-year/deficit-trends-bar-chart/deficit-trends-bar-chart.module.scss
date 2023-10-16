@@ -1,7 +1,7 @@
 @import 'src/variables.module';
 
 .container {
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .barChart {
@@ -21,7 +21,7 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .barChart{
+  .barChart {
     margin: 2rem 0;
   }
   .headerTitle {

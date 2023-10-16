@@ -9,7 +9,7 @@ $deficit-explainer-light-secondary: #e0baab;
     font-size: $font-size-18;
     color: $deficit-explainer-primary;
     border: none;
-    padding: .563rem 1rem;
+    padding: 0.563rem 1rem;
   }
 
   :global(.accordionToggle) {
@@ -29,7 +29,8 @@ $deficit-explainer-light-secondary: #e0baab;
     border: none;
   }
 
-  :global(.accordionOpen), :global(.accordionClosed) {
+  :global(.accordionOpen),
+  :global(.accordionClosed) {
     border: solid 0.06rem $deficit-explainer-primary;
     border-radius: 0.13rem;
   }
@@ -46,7 +47,7 @@ $deficit-explainer-light-secondary: #e0baab;
     margin-top: 2rem;
 
     :global(.accordionHeading) {
-      padding: .75rem .875rem;
+      padding: 0.75rem 0.875rem;
     }
 
     :global(.accordionContent) {
@@ -60,4 +61,3 @@ $deficit-explainer-light-secondary: #e0baab;
   deficitExplainerSecondary: $deficit-explainer-secondary;
   deficitExplainerLightSecondary: $deficit-explainer-light-secondary;
 }
-

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  cancelButton,
-  container,
-  floatingToggle,
-  toggleButton
-} from './toc-button.module.scss';
+import { cancelButton, container, floatingToggle, toggleButton } from './toc-button.module.scss';
 
 /**
  *
@@ -17,14 +12,11 @@ const TOCButton = ({ state, handleToggle }) => {
   return (
     <div className={floatingToggle}>
       <div className={container}>
-        <button
-          className={`${toggleButton} ${!tocIsOpen ? '' : cancelButton}`}
-          onClick={(event) => handleToggle && handleToggle(event)}
-        >
+        <button className={`${toggleButton} ${!tocIsOpen ? '' : cancelButton}`} onClick={event => handleToggle && handleToggle(event)}>
           {tocIsOpen ? 'Cancel' : 'Table of Contents'}
         </button>
       </div>
     </div>
-  )
+  );
 };
 export default TOCButton;

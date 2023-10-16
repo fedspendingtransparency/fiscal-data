@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {withStyles} from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHouseChimney} from "@fortawesome/free-solid-svg-icons";
-import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
-import {faCaretRight} from "@fortawesome/free-solid-svg-icons";
-import {navigate} from 'gatsby';
-import Analytics from "../../../../utils/analytics/analytics";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { navigate } from 'gatsby';
+import Analytics from '../../../../utils/analytics/analytics';
 import {
   MenuList,
   buttonOverview,
@@ -25,25 +25,25 @@ import {
   mainContainerHidden,
   mainContainerShow,
   activeMenu,
-  mainListSticky
-} from "./mobile-explainer-sub-nav.module.scss";
+  mainListSticky,
+} from './mobile-explainer-sub-nav.module.scss';
 
 const StyledMenu = withStyles({
   paper: {
-    width: "288px",
-    backgroundColor: "transparent",
+    width: '288px',
+    backgroundColor: 'transparent',
   },
 })(props => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "center",
+      vertical: 'bottom',
+      horizontal: 'center',
     }}
     transformOrigin={{
-      vertical: "top",
-      horizontal: "center",
+      vertical: 'top',
+      horizontal: 'center',
     }}
     {...props}
   />
@@ -51,13 +51,13 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles(() => ({
   root: {
-    "&:focus": {
-      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {},
+    '&:focus': {
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {},
     },
   },
 }))(MenuItem);
 
-export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
+export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [navBlockStyle, setNavBlockStyle] = useState(mainContainerShow);
   const [isRevenue, setIsRevenue] = useState(false);
@@ -69,12 +69,11 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleScroll = () => {
-    const prevScrollPosition = scrollPosition
+    const prevScrollPosition = scrollPosition;
     const currPosition = window.pageYOffset; //TODO: replace
     setScrollPosition(currPosition);
 
     if (currPosition > hidePosition) {
-
       if (prevScrollPosition < currPosition) {
         setNavBlockStyle(mainContainerHidden);
         handleClose();
@@ -88,28 +87,26 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
     }
   };
 
-  const analyticsEvent = (title) => {
+  const analyticsEvent = title => {
     Analytics.event({
       category: 'Explainers',
       action: `Sub Nav Click`,
-      label: title
+      label: title,
     });
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      'event': 'Sub Nav Click',
-      'eventLabel': title,
+      event: 'Sub Nav Click',
+      eventLabel: title,
     });
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [scrollPosition]);
-
-
 
   const handleClick = event => {
     setDefaultOpen(false);
@@ -145,7 +142,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           color="#0a2f5a"
           onClick={handleClick}
           onKeyPress={handleClick}
-          className={`${isOverview ? [buttonOverview, activeMenu].join(" ") : buttonOverview}`}
+          className={`${isOverview ? [buttonOverview, activeMenu].join(' ') : buttonOverview}`}
           data-testid="mobileSubNavBlockButton"
         >
           <span
@@ -157,7 +154,8 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
               analyticsEvent('Overview');
               navigate('/americas-finance-guide/');
             }}
-            className={overviewStyle} id="home"
+            className={overviewStyle}
+            id="home"
             role={'button'}
             tabIndex={0}
             data-testid="afgSpan"
@@ -165,7 +163,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
             <FontAwesomeIcon className={faHouse} icon={faHouseChimney} />
             Overview
           </span>
-          <FontAwesomeIcon className={carrot} icon={anchorEl ? faCaretDown: faCaretRight} />
+          <FontAwesomeIcon className={carrot} icon={anchorEl ? faCaretDown : faCaretRight} />
         </button>
         <StyledMenu
           anchorEl={anchorEl}
@@ -173,15 +171,15 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           disableScrollLock={true}
           open={defaultOpen || Boolean(anchorEl)}
           onClose={handleClose}
-          className={[mainListSticky, stylingStyledMenu].join(" ")}
+          className={[mainListSticky, stylingStyledMenu].join(' ')}
           id="styled-menu"
         >
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isRevenue ? [revenue, activeMenu].join(" ") : revenue}`}
+              className={`${isRevenue ? [revenue, activeMenu].join(' ') : revenue}`}
               onClick={() => {
                 analyticsEvent('Revenue');
-                navigate("/americas-finance-guide/government-revenue/");
+                navigate('/americas-finance-guide/government-revenue/');
               }}
               primary="Revenue"
               data-testid="revenueButton"
@@ -189,10 +187,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isSpending ? [spending, activeMenu].join(" ") : spending}`}
+              className={`${isSpending ? [spending, activeMenu].join(' ') : spending}`}
               onClick={() => {
                 analyticsEvent('Spending');
-                navigate("/americas-finance-guide/federal-spending/");
+                navigate('/americas-finance-guide/federal-spending/');
               }}
               primary="Spending"
               data-testid="spendingButton"
@@ -200,10 +198,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDeficit ? [deficit, activeMenu].join(" ") : deficit}`}
+              className={`${isDeficit ? [deficit, activeMenu].join(' ') : deficit}`}
               onClick={() => {
                 analyticsEvent('Deficit');
-                navigate("/americas-finance-guide/national-deficit/");
+                navigate('/americas-finance-guide/national-deficit/');
               }}
               primary="Deficit"
               data-testid="deficitButton"
@@ -211,10 +209,10 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = ''}) {
           </StyledMenuItem>
           <StyledMenuItem className={MenuList}>
             <ListItemText
-              className={`${isDebt ? [debt, activeMenu].join(" ") : debt}`}
+              className={`${isDebt ? [debt, activeMenu].join(' ') : debt}`}
               onClick={() => {
                 analyticsEvent('Debt');
-                navigate("/americas-finance-guide/national-debt/");
+                navigate('/americas-finance-guide/national-debt/');
               }}
               primary="Debt"
               data-testid="debtButton"

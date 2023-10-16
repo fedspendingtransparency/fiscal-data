@@ -4,23 +4,24 @@ import DatasetDetailHeader from '../dataset-detail-header';
 
 describe('DatasetDetailHeader', () => {
   const tree = renderer.create(
-    <DatasetDetailHeader pageTitle={'My Page Title'}
-                         summaryText={"This is a sample descriptive summaryText blurb."}
-                         techSpecs={{
-                           lastUpdated: '12/12/2019',
-                           fileFormat: 'JSON',
-                           unmapped: 0,
-                           valueForMeIsNull: null,
-                           valueForMeIsEmptyString: ''
-                         }}
+    <DatasetDetailHeader
+      pageTitle={'My Page Title'}
+      summaryText={'This is a sample descriptive summaryText blurb.'}
+      techSpecs={{
+        lastUpdated: '12/12/2019',
+        fileFormat: 'JSON',
+        unmapped: 0,
+        valueForMeIsNull: null,
+        valueForMeIsEmptyString: '',
+      }}
     />
   );
   const instance = tree.root;
   let section;
 
-  it('contains its content within a "header" element and applies a reusable sectionclass' , () => {
+  it('contains its content within a "header" element and applies a reusable sectionclass', () => {
     const header = instance.findByType('header');
-    section = header.findByProps({className: 'sectionContainer'});
+    section = header.findByProps({ className: 'sectionContainer' });
     expect(section).toBeDefined();
   });
 
@@ -30,11 +31,10 @@ describe('DatasetDetailHeader', () => {
   });
 
   it('renders an the summaryText Content', () => {
-    expect(section.children.some(child => child.props.children === ('This is a sample descriptive summaryText blurb.'))).toEqual(true);
+    expect(section.children.some(child => child.props.children === 'This is a sample descriptive summaryText blurb.')).toEqual(true);
   });
 
   it('renders DT and DD elements reflecting valid techSpecs labels and values', () => {
-
     const labels = section.findAllByType('dt');
     expect(labels[0].children[0]).toEqual('Last updated');
     expect(labels[1].children[0]).toEqual('File format');

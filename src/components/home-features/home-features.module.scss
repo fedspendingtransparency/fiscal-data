@@ -15,7 +15,7 @@
 .feature {
   width: calc(50vw - 2rem);
   text-align: center;
-  
+
   img {
     max-width: 143px;
     width: inherit;
@@ -24,7 +24,7 @@
 
 .content {
   h2 {
-    margin: 0 0 .5rem;
+    margin: 0 0 0.5rem;
     @include headingStyle2-1;
   }
 }
@@ -35,7 +35,7 @@
 }
 
 .label {
-  padding: 0 .75rem;
+  padding: 0 0.75rem;
   @include headingStyle6;
 }
 
@@ -46,7 +46,9 @@
 
   .feature {
     width: calc(32vw - 2rem);
-    &:nth-child(-n +3) { margin-bottom: 2.5rem; }
+    &:nth-child(-n + 3) {
+      margin-bottom: 2.5rem;
+    }
   }
 
   .content {

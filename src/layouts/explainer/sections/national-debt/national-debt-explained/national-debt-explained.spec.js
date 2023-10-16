@@ -1,12 +1,8 @@
 import React from 'react';
-import {render} from "@testing-library/react";
-import {
-  nationalDebtExplainedTable
-} from '../national-debt.module.scss';
-import NationalDebtExplained from "./national-debt-explained";
-import {
-  nationalDebtExplainedTableContent
-} from "./national-debt-explained-table/national-debt-explained-table";
+import { render } from '@testing-library/react';
+import { nationalDebtExplainedTable } from '../national-debt.module.scss';
+import NationalDebtExplained from './national-debt-explained';
+import { nationalDebtExplainedTableContent } from './national-debt-explained-table/national-debt-explained-table';
 describe('National Debt Explained', () => {
   const glossary = [];
   beforeEach(() => {
@@ -17,13 +13,12 @@ describe('National Debt Explained', () => {
 
     expect(container.querySelector(`.${nationalDebtExplainedTable}`)).toBeInTheDocument();
 
-    nationalDebtExplainedTableContent.body.forEach((row) => {
-      row.forEach((col) => {
+    nationalDebtExplainedTableContent.body.forEach(row => {
+      row.forEach(col => {
         if (col !== null) {
           expect(getByText(col)).toBeInTheDocument();
         }
       });
     });
   });
-
 });

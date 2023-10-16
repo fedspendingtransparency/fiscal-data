@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ResponsiveBar } from "@nivo/bar";
+import { ResponsiveBar } from '@nivo/bar';
 import * as styles from './bar.module.scss';
 import CustomBarComponent from './bar-component/bar-component';
 import helpers from './helpers/helpers';
@@ -46,8 +46,7 @@ const BarGraph = ({
 
   const checkIfValidChart = (data, keys, index) => {
     let isValid = false;
-    if (data && data instanceof Array && data.length && index
-      && keys && keys instanceof Array && keys.length) {
+    if (data && data instanceof Array && data.length && index && keys && keys instanceof Array && keys.length) {
       isValid = true;
     }
     setIsValidChart(isValid);
@@ -59,7 +58,7 @@ const BarGraph = ({
     if (!value) {
       setTempValue(null);
       setTempDate(null);
-    // The bar chart has two bars combining for a net value, which is the value that should
+      // The bar chart has two bars combining for a net value, which is the value that should
       // be displayed
     } else if (data[i].combinedValue) {
       setTempValue(data[i].combinedValue);
@@ -83,43 +82,42 @@ const BarGraph = ({
     checkIfValidChart(graphData, valueKeys, graphIndex);
   }, [graphData, valueKeys, graphIndex]);
 
-  const BarComponent = (props) => useCustomBarComponent && (
-    <CustomBarComponent
-      setActiveIndex={setActiveBarIndex}
-      activeIndex={activeBarIndex}
-      handleTempValueChange={handleTempValueChange}
-      {...props}
-    />
-  );
+  const BarComponent = props =>
+    useCustomBarComponent && (
+      <CustomBarComponent setActiveIndex={setActiveBarIndex} activeIndex={activeBarIndex} handleTempValueChange={handleTempValueChange} {...props} />
+    );
 
-  const onMouseEnter = (cardId) => {
+  const onMouseEnter = cardId => {
     helpers.mouseEnterEvent(cardId);
     if (mouseEnter) {
       mouseEnter();
     }
-  }
+  };
 
-  return isValidChart && (
-    <div
-      data-testid="barGraph" className={divClass || styles.barDiv}
-      onMouseLeave={() => helpers.mouseLeaveEvent(cardId, resetValue)}
-      onMouseEnter={() => onMouseEnter(cardId)}
-      role={'presentation'}
-    >
-      <ResponsiveBar
-        data={data}
-        keys={keys}
-        indexBy={index}
-        colors={colors}
-        enableGridY={enableGridY}
-        enableLabel={enableLabel}
-        isInteractive={isInteractive}
-        axisBottom={axisBottom}
-        axisLeft={axisLeft}
-        barComponent={useCustomBarComponent && BarComponent}
-        {...props}
-      />
-    </div>
+  return (
+    isValidChart && (
+      <div
+        data-testid="barGraph"
+        className={divClass || styles.barDiv}
+        onMouseLeave={() => helpers.mouseLeaveEvent(cardId, resetValue)}
+        onMouseEnter={() => onMouseEnter(cardId)}
+        role={'presentation'}
+      >
+        <ResponsiveBar
+          data={data}
+          keys={keys}
+          indexBy={index}
+          colors={colors}
+          enableGridY={enableGridY}
+          enableLabel={enableLabel}
+          isInteractive={isInteractive}
+          axisBottom={axisBottom}
+          axisLeft={axisLeft}
+          barComponent={useCustomBarComponent && BarComponent}
+          {...props}
+        />
+      </div>
+    )
   );
 };
 

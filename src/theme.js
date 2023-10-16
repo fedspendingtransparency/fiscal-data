@@ -1,83 +1,83 @@
-import { createTheme } from "@material-ui/core/styles";
-import * as variables from "./variables.module.scss";
+import { createTheme } from '@material-ui/core/styles';
+import * as variables from './variables.module.scss';
 
 const baseTheme = {
   palette: {
     primary: {
-      '500': '#0071bc'
+      '500': '#0071bc',
     },
     secondary: {
-      main: '#2272ce'
+      main: '#2272ce',
     },
     // does not have a corresponding variable in variable.modules.scss
-    background: 'rgba(0, 113, 188, 0.1)'
+    background: 'rgba(0, 113, 188, 0.1)',
   },
   overrides: {
     MuiTabs: {
       root: {
-        minHeight: 0
+        minHeight: 0,
       },
       flexContainer: {
         borderBottomColor: variables.borderColor,
         borderBottomWidth: 2,
-        borderBottomStyle: 'solid'
+        borderBottomStyle: 'solid',
       },
       indicator: {
-        height: 4
+        height: 4,
       },
       fixed: {
-        marginBottom: variables.fontSize_14
+        marginBottom: variables.fontSize_14,
       },
     },
     MuiPaper: {
       root: {
         color: variables.fontBodyCopy,
-        backgroundColor: 'white'
-      }
+        backgroundColor: 'white',
+      },
     },
     MuiFormControl: {
       root: {
-        width: '100%'
-      }
+        width: '100%',
+      },
     },
     MuiInputBase: {
       root: {
         color: variables.fontBodyCopy,
-        fontSize: variables.fontSize_15
+        fontSize: variables.fontSize_15,
       },
       input: {
-        color: variables.fontBodyCopy
-      }
+        color: variables.fontBodyCopy,
+      },
     },
     MuiOutlinedInput: {
       root: {
         borderRadius: 3,
-        borderColor: variables.borderColor
+        borderColor: variables.borderColor,
       },
       input: {
-        padding: 10
+        padding: 10,
       },
       adornedEnd: {
-        paddingRight: 0
-      }
+        paddingRight: 0,
+      },
     },
     MuiCard: {
       root: {
         border: `1px solid ${variables.ddBorderColor}`,
         boxShadow: 'none',
-        fontSize: variables.fontSize_16
-      }
+        fontSize: variables.fontSize_16,
+      },
     },
     MuiCardActionArea: {
       root: {
-        padding: variables.fontSize_16
+        padding: variables.fontSize_16,
       },
       focusHighlight: {
-        backgroundColor: variables.contentSectionBackground
-      }
-    }
-  }
-}
+        backgroundColor: variables.contentSectionBackground,
+      },
+    },
+  },
+};
 
 const datasetSearchTheme = {
   ...baseTheme,
@@ -86,7 +86,7 @@ const datasetSearchTheme = {
     MuiTab: {
       root: {
         '@media (min-width: 0px)': {
-          minWidth: 0
+          minWidth: 0,
         },
         textTransform: 'none',
         lineHeight: 'normal',
@@ -101,17 +101,17 @@ const datasetSearchTheme = {
         },
         '&:hover': {
           // does not have a corresponding variable in variable.modules.scss
-          backgroundColor: 'rgba(0, 113, 188, 0.1)'
-       }
+          backgroundColor: 'rgba(0, 113, 188, 0.1)',
+        },
       },
       wrapper: {
         flexDirection: 'row',
-        fontSize: variables.fontSize_16
+        fontSize: variables.fontSize_16,
       },
-      selected:{}
-    }
-  }
-}
+      selected: {},
+    },
+  },
+};
 
 export const theme = createTheme(baseTheme);
 export const dsTheme = createTheme(datasetSearchTheme);

@@ -1,15 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import {
-  unmatchedTerm,
-  suggestions,
-  noMatchContainer,
-  suggestionsList
-} from './no-glossary-match.module.scss';
+import { unmatchedTerm, suggestions, noMatchContainer, suggestionsList } from './no-glossary-match.module.scss';
 interface NoMatchI {
-  filter: string
+  filter: string;
 }
 
-const NoGlossaryMatch:FunctionComponent<NoMatchI> = ({filter}) => {
+const NoGlossaryMatch: FunctionComponent<NoMatchI> = ({ filter }) => {
   return (
     <div className={noMatchContainer}>
       <div>
@@ -22,7 +17,7 @@ const NoGlossaryMatch:FunctionComponent<NoMatchI> = ({filter}) => {
         <li>Try again with a different term.</li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default NoGlossaryMatch;

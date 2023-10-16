@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { lastUpdatedHelper } from "../../../transform/filters/filterDefinitions";
+import { lastUpdatedHelper } from '../../../transform/filters/filterDefinitions';
 const { subYears, subDays } = require('date-fns');
 
 export const mockFilters = [
@@ -7,173 +7,173 @@ export const mockFilters = [
     id: 'lastYear',
     label: 'lastYear',
     groupId: 'lastUpdated',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const aYearAgo = subYears(new Date(), 1);
       return lastUpdatedHelper(dataset, aYearAgo);
     },
-    active: false
+    active: false,
   },
   {
     id: 'oneDay',
     label: 'oneDay',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const yesterday = subDays(new Date(), 1);
       return lastUpdatedHelper(dataset, yesterday);
     },
     groupId: 'lastUpdated',
-    active: false
+    active: false,
   },
   {
     id: 'sevenDays',
     label: 'sevenDays',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const sevenDaysAgo = subDays(new Date(), 7);
       return lastUpdatedHelper(dataset, sevenDaysAgo);
     },
     groupId: 'lastUpdated',
-    active: false
+    active: false,
   },
   {
     id: 'thirtyDays',
     label: 'thirtyDays',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const thirtyDaysAgo = subDays(new Date(), 30);
       return lastUpdatedHelper(dataset, thirtyDaysAgo);
     },
     groupId: 'lastUpdated',
-    active: false
+    active: false,
   },
   {
     id: 'ninetyDays',
     label: 'ninetyDays',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const ninetyDaysAgo = subDays(new Date(), 90);
       return lastUpdatedHelper(dataset, ninetyDaysAgo);
     },
     groupId: 'lastUpdated',
-    active: false
+    active: false,
   },
   {
     id: 'startDateRangeOne',
     label: 'startDateRangeOne',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const startYear = parseInt(dataset.dataStartYear, 10);
       const earliestYear = 1790;
       const latestYear = 1989;
-      return (startYear >= earliestYear && startYear <= latestYear);
+      return startYear >= earliestYear && startYear <= latestYear;
     },
     groupId: 'startDate',
-    active: false
+    active: false,
   },
   {
     id: 'startDateRangeTwo',
     label: 'startDateRangeTwo',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const startYear = parseInt(dataset.dataStartYear, 10);
       const earliestYear = 1990;
       const latestYear = 1999;
-      return (startYear >= earliestYear && startYear <= latestYear);
+      return startYear >= earliestYear && startYear <= latestYear;
     },
     groupId: 'startDate',
-    active: false
+    active: false,
   },
   {
     id: 'startDateRangeThree',
     label: 'startDateRangeThree',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const startYear = parseInt(dataset.dataStartYear, 10);
       const earliestYear = 2000;
       const latestYear = 2009;
-      return (startYear >= earliestYear && startYear <= latestYear);
+      return startYear >= earliestYear && startYear <= latestYear;
     },
     groupId: 'startDate',
-    active: false
+    active: false,
   },
   {
     id: 'startDateRangeFour',
     label: 'startDateRangeFour',
-    matcher: (dataset) => {
+    matcher: dataset => {
       const startYear = parseInt(dataset.dataStartYear, 10);
       const earliestYear = 2010;
-      return (startYear >= earliestYear);
+      return startYear >= earliestYear;
     },
     groupId: 'startDate',
-    active: false
+    active: false,
   },
   {
     id: 'csv',
     label: 'csv',
-    matcher: (dataset) => true,
+    matcher: dataset => true,
     groupId: 'dataFormat',
-    active: false
+    active: false,
   },
   {
     id: 'api',
     label: 'api',
-    matcher: (dataset) => true,
+    matcher: dataset => true,
     groupId: 'dataFormat',
-    active: false
+    active: false,
   },
   {
     id: 'json',
     label: 'json',
-    matcher: (dataset) => true,
+    matcher: dataset => true,
     groupId: 'dataFormat',
-    active: false
+    active: false,
   },
   {
     id: 'xml',
     label: 'xml',
-    matcher: (dataset) => true,
+    matcher: dataset => true,
     groupId: 'dataFormat',
-    active: false
+    active: false,
   },
   {
     id: 'pdf',
     label: 'pdf',
-    matcher: (dataset) => true,
+    matcher: dataset => true,
     groupId: 'dataFormat',
-    active: false
+    active: false,
   },
   {
     id: 'xls',
     label: 'xls',
-    matcher: (dataset) => true,
+    matcher: dataset => true,
     groupId: 'dataFormat',
-    active: false
+    active: false,
   },
   {
     id: 'customDateRange',
     label: 'customDateRange',
-    matcher: (dataset) => true,
+    matcher: dataset => true,
     groupId: 'dateRange',
-    active: false
+    active: false,
   },
   {
     id: 'savingsBonds',
     label: 'savingsBonds',
-    matcher: (dataset) => {
+    matcher: dataset => {
       return dataset.filterTopics.some(topic => topic === 'savings-bonds');
     },
     groupId: 'topics',
-    active: false
+    active: false,
   },
   {
     id: 'interestExchangeRates',
     label: 'interestExchangeRates',
-    matcher: (dataset) => {
+    matcher: dataset => {
       return dataset.filterTopics.some(topic => topic === 'interest-exchange-rates');
     },
     groupId: 'topics',
-    active: false
+    active: false,
   },
   {
     id: 'debt',
     label: 'debt',
-    matcher: (dataset) => {
+    matcher: dataset => {
       return dataset.filterTopics.some(topic => topic === 'debt');
     },
     groupId: 'topics',
-    active: false
+    active: false,
   },
 ];

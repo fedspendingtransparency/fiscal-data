@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
-import DataTableSelect from "../datatable-select/datatable-select";
+import DataTableSelect from '../datatable-select/datatable-select';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
 import TableSectionContainer from './table-section-container/table-section-container';
 import ReportDataToggle from './report-data-toggle/report-data-toggle';
 import PublishedReports from '../published-reports/published-reports';
-import {
-  matchTableFromApiTables,
-  parseTableSelectionFromUrl,
-  rewriteUrl
-} from './dataset-data-helper/dataset-data-helper';
+import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { getApiData } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
@@ -23,14 +19,7 @@ import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
 
-export const DatasetDataComponent = ({
-  config,
-  finalDatesNotFound,
-  location,
-  publishedReportsProp,
-  setSelectedTableProp,
-  width
-}) => {
+export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   const title = width >= pxToNumber(breakpointSm) ? desktopTitle : tabletMobileTitle;
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
@@ -58,10 +47,8 @@ export const DatasetDataComponent = ({
 
   let loadByPage;
 
-  const shouldUseLoadByPage = (pivot) => {
-    return selectedTable && selectedTable.isLargeDataset && pivot &&
-      pivot.pivotView &&
-      pivot.pivotView.chartType === 'none';
+  const shouldUseLoadByPage = pivot => {
+    return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
 
   const clearDisplayData = () => {
@@ -77,12 +64,12 @@ export const DatasetDataComponent = ({
     setApiError(false);
   };
 
-  const updateDataDisplay = (data) => {
+  const updateDataDisplay = data => {
     clearDisplayData();
     setTimeout(() => setApiData(data)); // then on the next tick, setup the new data
   };
 
-  const handleSelectedTableChange = (table) => {
+  const handleSelectedTableChange = table => {
     if (table.allDataTables) {
       setAllTablesSelected(true);
     } else {
@@ -93,17 +80,12 @@ export const DatasetDataComponent = ({
     Analytics.event({
       category: 'Data Table Selector',
       action: 'Pick Table Click',
-      label: table.tableName
+      label: table.tableName,
     });
   };
 
-  const handleDateRangeChange = (range) => {
-    if (range && isValidDateRange(
-      range.from,
-      range.to,
-      config.techSpecs.earliestDate,
-      config.techSpecs.latestDate
-    )) {
+  const handleDateRangeChange = range => {
+    if (range && isValidDateRange(range.from, range.to, config.techSpecs.earliestDate, config.techSpecs.latestDate)) {
       setDateRange(range);
     }
   };
@@ -126,10 +108,8 @@ export const DatasetDataComponent = ({
   // called. If new dates are available, then we should be updating the page to reflect the
   // newest dates.
   useEffect(() => {
-    const idealSelectedTable =
-      matchTableFromApiTables(selectedTable, apis)
-      || parseTableSelectionFromUrl(location, apis);
-    if(idealSelectedTable && idealSelectedTable.tableName){
+    const idealSelectedTable = matchTableFromApiTables(selectedTable, apis) || parseTableSelectionFromUrl(location, apis);
+    if (idealSelectedTable && idealSelectedTable.tableName) {
       setSelectedTable(idealSelectedTable);
     }
   }, [apis]);
@@ -160,8 +140,7 @@ export const DatasetDataComponent = ({
 
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) &&
-      dateRange && !allTablesSelected) {
+    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
       const cache = tableCaches[selectedTable.apiId];
       const cachedDisplay = cache.getCachedDataDisplay(dateRange, selectedPivot, selectedTable);
       if (cachedDisplay) {
@@ -171,8 +150,16 @@ export const DatasetDataComponent = ({
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
 
         if (!loadByPage || ignorePivots) {
-          getApiData(dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError,
-            canceledObj, tableCaches[selectedTable.apiId]).then(() => {
+          getApiData(
+            dateRange,
+            selectedTable,
+            selectedPivot,
+            setIsLoading,
+            setApiData,
+            setApiError,
+            canceledObj,
+            tableCaches[selectedTable.apiId]
+          ).then(() => {
             // nothing to cancel if the request completes normally.
             canceledObj = null;
           });
@@ -190,8 +177,7 @@ export const DatasetDataComponent = ({
     <DatasetSectionContainer id="preview-and-download" title={title}>
       <ReportDataToggle onChange={setActiveTab} reports={publishedReports} />
       <div className={activeTab === 1 ? '' : 'hidden'}>
-        {
-          tableColumnSortData &&
+        {tableColumnSortData && (
           <FilterAndDownload
             data-testid="filterAndDownload"
             dateRange={dateRange}
@@ -211,61 +197,58 @@ export const DatasetDataComponent = ({
               earliestDate={config.techSpecs.earliestDate}
               latestDate={config.techSpecs.latestDate}
             />
-            {selectedTable &&
-            <RangePresets
-              setDateRange={handleDateRangeChange}
-              selectedTable={selectedTable}
-              apiData={apiData}
-              onUserFilter={setUserFilterSelection}
-              setIsFiltered={setIsFiltered}
-              currentDateButton={config.currentDateButton}
-              datePreset={config.datePreset}
-              customRangePreset={config.customRangePreset}
-              setIsCustomDateRange={setIsCustomDateRange}
-              allTablesSelected={allTablesSelected}
-              datasetDateRange={{
-                earliestDate: config.techSpecs.earliestDate,
-                latestDate: config.techSpecs.latestDate
-              }
-              }
-              finalDatesNotFound={finalDatesNotFound}
-            />
-            }
+            {selectedTable && (
+              <RangePresets
+                setDateRange={handleDateRangeChange}
+                selectedTable={selectedTable}
+                apiData={apiData}
+                onUserFilter={setUserFilterSelection}
+                setIsFiltered={setIsFiltered}
+                currentDateButton={config.currentDateButton}
+                datePreset={config.datePreset}
+                customRangePreset={config.customRangePreset}
+                setIsCustomDateRange={setIsCustomDateRange}
+                allTablesSelected={allTablesSelected}
+                datasetDateRange={{
+                  earliestDate: config.techSpecs.earliestDate,
+                  latestDate: config.techSpecs.latestDate,
+                }}
+                finalDatesNotFound={finalDatesNotFound}
+              />
+            )}
           </FilterAndDownload>
-        }
-        {dateRange &&
-        <TableSectionContainer
-          config={config}
-          dateRange={dateRange}
-          selectedTable={selectedTable}
-          userFilterSelection={userFilterSelection}
-          apiData={apiData}
-          isLoading={isLoading}
-          apiError={apiError}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={setSelectedPivot}
-          serverSidePagination={serverSidePagination}
-          selectedTab={selectedTab}
-          tabChangeHandler={setSelectedTab}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          handleIgnorePivots={setIgnorePivots}
-          allTablesSelected={allTablesSelected}
-          handleConfigUpdate={() => setConfigUpdated(true)}
-          setTableColumnSortData={setTableColumnSortData}
-          hasPublishedReports={!!publishedReports}
-          publishedReports={publishedReports}
-        />
-        }
+        )}
+        {dateRange && (
+          <TableSectionContainer
+            config={config}
+            dateRange={dateRange}
+            selectedTable={selectedTable}
+            userFilterSelection={userFilterSelection}
+            apiData={apiData}
+            isLoading={isLoading}
+            apiError={apiError}
+            selectedPivot={selectedPivot}
+            setSelectedPivot={setSelectedPivot}
+            serverSidePagination={serverSidePagination}
+            selectedTab={selectedTab}
+            tabChangeHandler={setSelectedTab}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            handleIgnorePivots={setIgnorePivots}
+            allTablesSelected={allTablesSelected}
+            handleConfigUpdate={() => setConfigUpdated(true)}
+            setTableColumnSortData={setTableColumnSortData}
+            hasPublishedReports={!!publishedReports}
+            publishedReports={publishedReports}
+          />
+        )}
       </div>
       <div className={activeTab === 2 ? '' : 'hidden'}>
-        {selectedTable && initReports &&
-        <PublishedReports reports={publishedReports} dataset={config} />
-        }
+        {selectedTable && initReports && <PublishedReports reports={publishedReports} dataset={config} />}
       </div>
     </DatasetSectionContainer>
-  )
-}
+  );
+};
 
 // Despite the default export below, the bare component is exported separately above so
 // that the [location] prop can easily be directly specified in unit test renders without any

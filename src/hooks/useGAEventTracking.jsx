@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { graphql, useStaticQuery } from "gatsby";
+import { useState, useEffect } from 'react';
+import { graphql, useStaticQuery } from 'gatsby';
 
 const setDynamicValue = (gaEvent, dynamicValue) => {
   if (!gaEvent) return null;
-  gaEvent.Trigger = gaEvent.Trigger.replace("$XX", `$${dynamicValue}`);
-  gaEvent.eventLabel = gaEvent.eventLabel.replace("$XX", `$${dynamicValue}`);
+  gaEvent.Trigger = gaEvent.Trigger.replace('$XX', `$${dynamicValue}`);
+  gaEvent.eventLabel = gaEvent.eventLabel.replace('$XX', `$${dynamicValue}`);
   return gaEvent;
 };
 
@@ -63,14 +63,12 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
     `
   );
 
-  const getGAEvent = (eventNumber) => {
-    if(eventNumber && eventTrackingCsvs){
+  const getGAEvent = eventNumber => {
+    if (eventNumber && eventTrackingCsvs) {
       const lookupTypeQuery = `all${type}EventTrackingCsv`;
       const typeToLower = type[0].toLowerCase() + type.slice(1);
       const lookupTypeNode = `${typeToLower}EventTrackingCsv`;
-      const lookup =
-        eventTrackingCsvs[lookupTypeQuery] &&
-        eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
+      const lookup = eventTrackingCsvs[lookupTypeQuery] && eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
       const gaEvent = lookup
         ?.filter(eventTrack => eventTrack.Number === eventNumber)
         ?.map(eventInfo => {
@@ -80,22 +78,19 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
           return eventInfo;
         });
 
-        if (gaEvent) {
-          return (gaEvent[0] ? gaEvent[0] : null);
-        }
+      if (gaEvent) {
+        return gaEvent[0] ? gaEvent[0] : null;
+      }
     }
     return null;
-
-  }
+  };
 
   useEffect(() => {
     if (type && eventTrackingCsvs) {
       const lookupTypeQuery = `all${type}EventTrackingCsv`;
       const typeToLower = type[0].toLowerCase() + type.slice(1);
       const lookupTypeNode = `${typeToLower}EventTrackingCsv`;
-      const lookup =
-        eventTrackingCsvs[lookupTypeQuery] &&
-        eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
+      const lookup = eventTrackingCsvs[lookupTypeQuery] && eventTrackingCsvs[lookupTypeQuery][lookupTypeNode];
       const gaEvent = lookup
         ?.filter(eventTrack => eventTrack.Number === evNumber)
         ?.map(eventInfo => {
@@ -105,13 +100,12 @@ const useGAEventTracking = (evNumber, type, dynamicValue) => {
           return eventInfo;
         });
 
-
       if (gaEvent) {
         setGaEvent(gaEvent[0] ? gaEvent[0] : null);
       }
     }
   }, [evNumber, type, eventTrackingCsvs, dynamicValue]);
-  return {gaEvent, getGAEvent};
+  return { gaEvent, getGAEvent };
 };
 
 export default useGAEventTracking;
