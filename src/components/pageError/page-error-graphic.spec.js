@@ -1,18 +1,16 @@
-import React from 'react'
-import NotFoundGraphic from './page-error-graphic'
-import renderer from 'react-test-renderer'
+import React from 'react';
+import NotFoundGraphic from './page-error-graphic';
+import renderer from 'react-test-renderer';
 
-describe('Not Found Graphic', ()=> {
-    let instance
-    let component =renderer.create()
-    renderer.act(()=> {
-        component=renderer.create(
-            <NotFoundGraphic />
-        )
-    })
-    instance=component.root
+describe('Not Found Graphic', () => {
+  let instance;
+  let component = renderer.create();
+  renderer.act(() => {
+    component = renderer.create(<NotFoundGraphic />);
+  });
+  instance = component.root;
 
-    it('renders an image', ()=> {
-        expect(instance.findByType('img')).toBeDefined()
-    })
-})
+  it('renders an image', () => {
+    expect(instance.findByType('img')).toBeDefined();
+  });
+});

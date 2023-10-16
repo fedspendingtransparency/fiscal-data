@@ -5,12 +5,11 @@ import {
   transformAPI130,
   transformAPI129,
   transformAPI146,
-  transformAPI144
-} from "./highlighted-datasets-config";
+  transformAPI144,
+} from './highlighted-datasets-config';
 import testHelpers from './test-helpers';
 
 describe('Highlighted Datasets Config', () => {
-
   const consoleWarn = console.warn;
   beforeAll(() => {
     console.warn = jest.fn();
@@ -22,7 +21,7 @@ describe('Highlighted Datasets Config', () => {
 
   describe('filterUniqueValues', () => {
     it('returns the array param, or an empty array, if input params are invalid', () => {
-      const testArray = [1,2,3];
+      const testArray = [1, 2, 3];
       expect(filterUniqueValues()).toStrictEqual([]);
       expect(filterUniqueValues(testArray)).toStrictEqual(testArray);
       expect(filterUniqueValues(null, 'testField')).toStrictEqual([]);
@@ -30,12 +29,16 @@ describe('Highlighted Datasets Config', () => {
 
     it('returns an array of unique value keys', () => {
       const testArray = [
-        {make: 'Ford', model: 'Taurus'}, {make: 'Ford', model: 'Fusion'}, {make: 'Honda', model: 'Accord'},
-        {make: 'Chevy', model: 'Impala'}, {make: 'Ford', model: 'F-150'}, {make: 'Honda', model: 'Pilot'}
+        { make: 'Ford', model: 'Taurus' },
+        { make: 'Ford', model: 'Fusion' },
+        { make: 'Honda', model: 'Accord' },
+        { make: 'Chevy', model: 'Impala' },
+        { make: 'Ford', model: 'F-150' },
+        { make: 'Honda', model: 'Pilot' },
       ];
       const field = 'make';
       expect(filterUniqueValues(testArray, field)).toStrictEqual(['Ford', 'Honda', 'Chevy']);
-    })
+    });
   });
 
   describe('annualAggregation', () => {
@@ -52,7 +55,9 @@ describe('Highlighted Datasets Config', () => {
       const apiArray = api120DataArr.resArray;
       const fields = api120DataArr.fields;
 
-      expect(annualAggregation({data: apiArray}, fields.year, fields.month, fields.aggregationField, null)).toStrictEqual(api120DataArr.transformedArray);
+      expect(annualAggregation({ data: apiArray }, fields.year, fields.month, fields.aggregationField, null)).toStrictEqual(
+        api120DataArr.transformedArray
+      );
     });
 
     it('allows a unique aggregation function to return a summed array on innermost years of data when outermost years are incomplete', () => {
@@ -61,7 +66,9 @@ describe('Highlighted Datasets Config', () => {
       const apiArray = api120DataArr.resArray;
       const fields = api120DataArr.fields;
 
-      expect(annualAggregation({data: apiArray}, fields.year, fields.month, fields.aggregationField, api120UniqueAggregation)).toStrictEqual(api120DataArr.transformedUniqueAggArray);
+      expect(annualAggregation({ data: apiArray }, fields.year, fields.month, fields.aggregationField, api120UniqueAggregation)).toStrictEqual(
+        api120DataArr.transformedUniqueAggArray
+      );
     });
 
     it('allows a unique aggregation function to return a summed array on all years of data when outermost years are complete', () => {
@@ -70,7 +77,9 @@ describe('Highlighted Datasets Config', () => {
       const apiArray = api120DataArr.resArray;
       const fields = api120DataArr.fields;
 
-      expect(annualAggregation({data: apiArray}, fields.year, fields.month, fields.aggregationField, api120UniqueAggregation)).toStrictEqual(api120DataArr.transformedUniqueAggArray);
+      expect(annualAggregation({ data: apiArray }, fields.year, fields.month, fields.aggregationField, api120UniqueAggregation)).toStrictEqual(
+        api120DataArr.transformedUniqueAggArray
+      );
     });
   });
 
@@ -84,7 +93,6 @@ describe('Highlighted Datasets Config', () => {
   });
 
   it('transform for API 129 (DTS) transform', () => {
-
     jest.spyOn(global.Date, 'now').mockImplementation(() => {
       return new Date(new Date(2021, 7, 31, 12).valueOf());
     });

@@ -1,32 +1,23 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import * as styles from './truncate.module.scss';
-import { PropTypes } from "prop-types";
+import { PropTypes } from 'prop-types';
 
-const Truncator = ({
-  moreLessClass = styles.moreLessButton,
-  numberOfLines = 2,
-  showMore,
-  children
-}) => {
+const Truncator = ({ moreLessClass = styles.moreLessButton, numberOfLines = 2, showMore, children }) => {
   const [expanded, setExpanded] = useState(false);
 
   let showMoreButton, showLessButton;
 
-  const generateToggleButton = (innerText) => (
-    <button
-      className={moreLessClass}
-      onClick={toggleTruncation}
-      data-test-id="showMoreLessButton"
-    >
+  const generateToggleButton = innerText => (
+    <button className={moreLessClass} onClick={toggleTruncation} data-test-id="showMoreLessButton">
       {innerText}
     </button>
-  )
+  );
 
   const toggleTruncation = () => {
     setExpanded(!expanded);
-  }
+  };
 
-  if(showMore){
+  if (showMore) {
     showMoreButton = generateToggleButton('Show More');
     showLessButton = generateToggleButton('Show Less');
   }
@@ -35,19 +26,19 @@ const Truncator = ({
     <>
       <div
         className={`${styles.truncateWrapper} ${expanded ? styles.expanded : ''}`}
-        style={{WebkitLineClamp: (!expanded && numberOfLines) ? numberOfLines : 'none'}}
+        style={{ WebkitLineClamp: !expanded && numberOfLines ? numberOfLines : 'none' }}
         data-test-id="truncateDiv"
       >
         {children}
       </div>
       {showMore && (expanded ? showLessButton : showMoreButton)}
     </>
-  )
-}
+  );
+};
 
 Truncator.propTypes = {
   numberOfLines: PropTypes.number,
-  showMore: PropTypes.bool
+  showMore: PropTypes.bool,
 };
 
 export default Truncator;

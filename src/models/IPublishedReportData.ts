@@ -1,7 +1,7 @@
 export interface IPublishedReportData {
-  reportDate: Date,
-  path: string,
-  reportGroupId: string,
-  reportGroupDesc: string,
-  reportGroupSortOrderNumber: string
+  reportDate: Date;
+  path: string;
+  reportGroupId: string;
+  reportGroupDesc: string;
+  reportGroupSortOrderNumber: string;
 }

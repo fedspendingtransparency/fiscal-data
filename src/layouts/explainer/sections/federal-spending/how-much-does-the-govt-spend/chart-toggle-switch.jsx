@@ -1,13 +1,7 @@
-import Switch from "react-switch";
-import React from "react";
+import Switch from 'react-switch';
+import React from 'react';
 
-export const ToggleSwitch = ({
-  checked,
-  handleChange,
-  customStyles,
-  setPercentDollarToggleChecked,
-  percentDollarToggleChecked,
-}) => {
+export const ToggleSwitch = ({ checked, handleChange, customStyles, setPercentDollarToggleChecked, percentDollarToggleChecked }) => {
   return (
     <label htmlFor="material-switch">
       <Switch
@@ -23,12 +17,12 @@ export const ToggleSwitch = ({
         width={48}
         id="material-switch"
         onKeyDown={e => {
-          if (e.key === "Enter") {
-            setPercentDollarToggleChecked(!percentDollarToggleChecked)
+          if (e.key === 'Enter') {
+            setPercentDollarToggleChecked(!percentDollarToggleChecked);
           }
         }}
         data-testid={'switch'}
       />
     </label>
-  )
-}
+  );
+};

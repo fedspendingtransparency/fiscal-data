@@ -1,35 +1,35 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
-import {fireEvent, waitFor, render, within} from "@testing-library/react";
+import { fireEvent, waitFor, render, within } from '@testing-library/react';
 import ComboSelect from './combo-select';
-import {mockOptions} from "./combo-select-test-helper";
-import Analytics from "../../utils/analytics/analytics";
-import userEvent from '@testing-library/user-event'
-import ComboCurrencySelect from "./combo-currency-select/combo-currency-select";
+import { mockOptions } from './combo-select-test-helper';
+import Analytics from '../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
+import ComboCurrencySelect from './combo-currency-select/combo-currency-select';
 
 describe('The ComboSelect Component for Published Report year filtering', () => {
   let component = renderer.create();
   let instance;
   const mockYearOptions = [];
   for (let i = 2020; i > 1995; i--) {
-    mockYearOptions.push({label: i, value: i});
+    mockYearOptions.push({ label: i, value: i });
   }
 
   const changeHandlerSpy = jest.fn();
 
   beforeEach(() => {
     component = renderer.create(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockYearOptions}
-                   selectedOption={null}
-                   yearFilter={true}
-                   required={true}
+      <ComboSelect
+        changeHandler={changeHandlerSpy}
+        optionLabelKey={'label'}
+        options={mockYearOptions}
+        selectedOption={null}
+        yearFilter={true}
+        required={true}
       />
     );
     instance = component.root;
   });
-
 
   it('renders an input field that opens a dropdown list of all options on focus', () => {
     const inputField = instance.findByType('input');
@@ -53,14 +53,14 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     const inputField = instance.findByType('input');
 
     renderer.act(() => {
-      inputField.props.onChange({target: {value: '01'}});
+      inputField.props.onChange({ target: { value: '01' } });
     });
     let optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(11);
     expect(optionButtons[0].children).toEqual(['2019']);
     expect(optionButtons[9].children).toEqual(['2010']);
     renderer.act(() => {
-      inputField.props.onChange({target: {value: '019'}});
+      inputField.props.onChange({ target: { value: '019' } });
     });
     optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(1);
@@ -68,24 +68,25 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
   });
 
   it('only allows numeric entries', () => {
-    const mockKeyPresses = ['a','Z','-','1',',','.','2','+','e','3','0'];
+    const mockKeyPresses = ['a', 'Z', '-', '1', ',', '.', '2', '+', 'e', '3', '0'];
     let charsRejected = '';
     let charsAccepted = '';
 
-    const mockUpKeyPressEvent = (press, currenValue) =>{
+    const mockUpKeyPressEvent = (press, currenValue) => {
       return {
-        target:
-          {
-            value: currenValue
-          },
+        target: {
+          value: currenValue,
+        },
         key: press,
-        preventDefault: () => { charsRejected += press; }
-      }
+        preventDefault: () => {
+          charsRejected += press;
+        },
+      };
     };
 
     const inputField = instance.findByType('input');
     renderer.act(() => {
-      mockKeyPresses.forEach((kp) => {
+      mockKeyPresses.forEach(kp => {
         const rejectedSoFar = charsRejected;
         inputField.props.onKeyPress(mockUpKeyPressEvent(kp, charsAccepted));
         if (rejectedSoFar === charsRejected) {
@@ -101,7 +102,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     const inputField = instance.findByType('input');
 
     // no option list rendered initially
-    const mockInputEvent = {target: {value: '-1.5+e109'}};
+    const mockInputEvent = { target: { value: '-1.5+e109' } };
 
     // cleans up numeric entry that is pasted in
     renderer.act(() => {
@@ -128,7 +129,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
       optionButtons[5].props.onClick();
     });
 
-    expect(changeHandlerSpy).toHaveBeenNthCalledWith(1, {label: 2015, value: 2015});
+    expect(changeHandlerSpy).toHaveBeenNthCalledWith(1, { label: 2015, value: 2015 });
   });
 });
 
@@ -141,11 +142,7 @@ describe('The ComboSelect Component for general text use', () => {
 
   beforeEach(() => {
     component = renderer.create(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-      />
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} />
     );
     instance = component.root;
   });
@@ -172,7 +169,7 @@ describe('The ComboSelect Component for general text use', () => {
     const inputField = instance.findByType('input');
 
     renderer.act(() => {
-      inputField.props.onChange({target: {value: ''}});
+      inputField.props.onChange({ target: { value: '' } });
     });
 
     // with no entry value, there should be no circle-X (clear-entry) icon
@@ -182,7 +179,7 @@ describe('The ComboSelect Component for general text use', () => {
     expect(instance.findByProps({ 'data-testid': 'dropdown-button' })).toBeDefined();
 
     renderer.act(() => {
-      inputField.props.onChange({target: {value: 'guess'}});
+      inputField.props.onChange({ target: { value: 'guess' } });
     });
 
     // with an entry value present, there should be no chevron icon (clear-entry) icon
@@ -190,13 +187,12 @@ describe('The ComboSelect Component for general text use', () => {
 
     // and there should be a circle-X (clear-entry) icon
     expect(instance.findByProps({ 'data-testid': 'clear-button' })).toBeDefined();
-
   });
 
   it('clears any existing entry when the clear-entry/circle-x icon is clicked', () => {
     const inputField = instance.findByType('input');
     renderer.act(() => {
-      inputField.props.onChange({target: {value: 'guess'}});
+      inputField.props.onChange({ target: { value: 'guess' } });
     });
     expect(inputField.props.value).toStrictEqual('guess');
 
@@ -209,7 +205,6 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('toggles the dropdown when the chevron icon is clicked', () => {
-
     // the option list is initially not in view
     expect(instance.findAllByProps({ 'data-testid': 'selectorList' }).length).toStrictEqual(0);
 
@@ -238,14 +233,14 @@ describe('The ComboSelect Component for general text use', () => {
     const inputField = instance.findByType('input');
 
     renderer.act(() => {
-      inputField.props.onChange({target: {value: 'Blue'}});
+      inputField.props.onChange({ target: { value: 'Blue' } });
     });
     let optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(3);
     expect(optionButtons[0].children).toEqual(['Blue-greenstuff']);
     expect(optionButtons[2].children).toEqual(['Blue3-greenstuff']);
     renderer.act(() => {
-      inputField.props.onChange({target: {value: '2-'}});
+      inputField.props.onChange({ target: { value: '2-' } });
     });
     optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(5);
@@ -254,7 +249,7 @@ describe('The ComboSelect Component for general text use', () => {
 
     // not case-sensitive, and can limit to a single matching result
     renderer.act(() => {
-      inputField.props.onChange({target: {value: 'nice2-Let'}});
+      inputField.props.onChange({ target: { value: 'nice2-Let' } });
     });
     optionButtons = instance.findByType('ul').findAllByType('button');
     expect(optionButtons.length).toEqual(1);
@@ -262,12 +257,9 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('collapses dropdown when not focused', async () => {
-    const {getByTestId, queryByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-      />);
+    const { getByTestId, queryByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} />
+    );
     const dropdownButton = getByTestId('down-arrow');
     expect(queryByTestId('selectorList')).not.toBeInTheDocument();
 
@@ -283,13 +275,10 @@ describe('The ComboSelect Component for general text use', () => {
     });
   });
 
-  it('dropdown remains open when clicked on',  () => {
-    const {getByTestId, queryByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-      />);
+  it('dropdown remains open when clicked on', () => {
+    const { getByTestId, queryByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} />
+    );
     const dropdownButton = getByTestId('down-arrow');
     expect(queryByTestId('selectorList')).not.toBeInTheDocument();
 
@@ -300,13 +289,10 @@ describe('The ComboSelect Component for general text use', () => {
     expect(getByTestId('selectorList')).toBeInTheDocument();
   });
 
-  it('closes dropdown after mouse leave and focus is removed',  async () => {
-    const {getByTestId, queryByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-      />);
+  it('closes dropdown after mouse leave and focus is removed', async () => {
+    const { getByTestId, queryByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} />
+    );
     const dropdownButton = getByTestId('down-arrow');
     expect(queryByTestId('selectorList')).not.toBeInTheDocument();
 
@@ -321,12 +307,9 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('collapses dropdown when an item is selected', async () => {
-    const {getByTestId, queryByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-      />);
+    const { getByTestId, queryByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} />
+    );
     const dropdownButton = getByTestId('down-arrow');
     expect(queryByTestId('selectorList')).not.toBeInTheDocument();
 
@@ -342,60 +325,54 @@ describe('The ComboSelect Component for general text use', () => {
     });
   });
 
-  it('calls the appropriate analytics event when combo box input is updated within XR tool', async() => {
+  it('calls the appropriate analytics event when combo box input is updated within XR tool', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const {getByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-                   isExchangeTool={true}
-      />);
+    const { getByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} isExchangeTool={true} />
+    );
 
     const comboBox = getByTestId('combo-box');
 
-    fireEvent.change(comboBox, {target: { value:'Abcd'}});
+    fireEvent.change(comboBox, { target: { value: 'Abcd' } });
     fireEvent.focusOut(comboBox);
 
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Country-Currency Search`,
-      label: 'Abcd'
+      label: 'Abcd',
     });
   });
 
-  it('calls the appropriate GA4 datalayer push when combo box input is updated within XR tool', async() => {
-    const {getByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-                   isExchangeTool={true}
-      />);
+  it('calls the appropriate GA4 datalayer push when combo box input is updated within XR tool', async () => {
+    const { getByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} isExchangeTool={true} />
+    );
 
     window.dataLayer = window.dataLayer || [];
     const spy = jest.spyOn(window.dataLayer, 'push');
 
     const comboBox = getByTestId('combo-box');
 
-    fireEvent.change(comboBox, {target: { value:'Abcd'}});
+    fireEvent.change(comboBox, { target: { value: 'Abcd' } });
     fireEvent.focusOut(comboBox);
 
     expect(spy).toHaveBeenCalledWith({
       event: `Foreign Country-Currency Search`,
-      eventLabel: 'Abcd'
+      eventLabel: 'Abcd',
     });
   });
 
-  it('does not call analytic event when combo box is initially clicked then cleared with x icon', async() => {
+  it('does not call analytic event when combo box is initially clicked then cleared with x icon', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const {getByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={mockOptions[1]}
-                   isExchangeTool={true}
-      />);
+    const { getByTestId } = render(
+      <ComboSelect
+        changeHandler={changeHandlerSpy}
+        optionLabelKey={'label'}
+        options={mockOptions}
+        selectedOption={mockOptions[1]}
+        isExchangeTool={true}
+      />
+    );
 
     const comboBox = getByTestId('combo-box');
     await userEvent.click(comboBox);
@@ -406,56 +383,48 @@ describe('The ComboSelect Component for general text use', () => {
     expect(spy).not.toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Country-Currency Search`,
-      label: 'Abcd-money'
+      label: 'Abcd-money',
     });
 
     expect(spy).not.toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Country-Currency Selected`,
-      label: 'Abcd-money'
+      label: 'Abcd-money',
     });
   });
 
-  it('does not call analytic event when combo box input is empty', async() => {
+  it('does not call analytic event when combo box input is empty', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const {getByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-                   isExchangeTool={true}
-      />);
+    const { getByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} isExchangeTool={true} />
+    );
 
     const comboBox = getByTestId('combo-box');
 
-    fireEvent.change(comboBox, {target: { value:''}});
+    fireEvent.change(comboBox, { target: { value: '' } });
     fireEvent.focusOut(comboBox);
 
     expect(spy).not.toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Country-Currency Search`,
-      label: ''
+      label: '',
     });
 
     expect(spy).not.toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Country-Currency Selected`,
-      label: ''
+      label: '',
     });
   });
 
-  it('calls the appropriate analytics event when country is selected from drop down', async() => {
+  it('calls the appropriate analytics event when country is selected from drop down', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const {getByTestId} = render(
-      <ComboSelect changeHandler={changeHandlerSpy}
-                   optionLabelKey={'label'}
-                   options={mockOptions}
-                   selectedOption={null}
-                   isExchangeTool={true}
-      />);
+    const { getByTestId } = render(
+      <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={null} isExchangeTool={true} />
+    );
 
     const comboBox = getByTestId('combo-box');
-    fireEvent.change(comboBox, {target: { value:'A'}});
+    fireEvent.change(comboBox, { target: { value: 'A' } });
 
     const optionList = getByTestId('selectorList');
     const option = within(optionList).getByText('Abcd-money');
@@ -465,7 +434,7 @@ describe('The ComboSelect Component for general text use', () => {
     expect(spy).toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',
       action: `Foreign Country-Currency Selected`,
-      label: 'Abcd-money'
+      label: 'Abcd-money',
     });
   });
 });

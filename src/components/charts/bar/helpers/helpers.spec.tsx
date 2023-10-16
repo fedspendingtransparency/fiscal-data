@@ -1,4 +1,4 @@
-import { delay, mouseEnterEvent, mouseLeaveEvent } from "./helpers";
+import { delay, mouseEnterEvent, mouseLeaveEvent } from './helpers';
 
 jest.useFakeTimers();
 describe('Bar Component Helpers', () => {
@@ -33,7 +33,7 @@ describe('Bar Component Helpers', () => {
     expect(setTimeoutSpy).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledTimes(1);
   });
-  
+
   it('cancels a time out when mouseLeaveEvent is called again before the delay occurs', () => {
     mouseLeaveEvent(firstId, callback); // Trigger first mouse leave
     jest.advanceTimersByTime(testDelay / 2);
@@ -76,5 +76,4 @@ describe('Bar Component Helpers', () => {
     expect(clearTimeoutSpy).not.toHaveBeenCalled();
     expect(callback).toHaveBeenCalledTimes(1);
   });
-
 });

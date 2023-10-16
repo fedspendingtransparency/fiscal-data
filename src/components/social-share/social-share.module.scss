@@ -32,7 +32,8 @@
   margin-left: 48px;
 }
 
-.socialShareContent, .listSocialShareContent {
+.socialShareContent,
+.listSocialShareContent {
   h3 {
     color: #666666;
     font-weight: $semi-bold-weight;
@@ -42,13 +43,13 @@
   }
 }
 
-.shareButton, .listShareButton {
+.shareButton,
+.listShareButton {
   display: flex;
   align-items: center;
   margin-top: 1rem;
-  margin-bottom:0;
+  margin-bottom: 0;
 }
-
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .horizontalShareButtonContainer {

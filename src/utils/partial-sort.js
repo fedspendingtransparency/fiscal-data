@@ -13,10 +13,10 @@ const partialSort = (sourceArray, keyToFilter, valueToFilter, sorter) => {
   let _sourceArray = sourceArray.slice();
 
   // get array entries to sort.
-  const workingList = _sourceArray.filter((i) => i[keyToFilter] === valueToFilter);
+  const workingList = _sourceArray.filter(i => i[keyToFilter] === valueToFilter);
 
   // remove those entries from the sourceArray.
-  _sourceArray = _sourceArray.filter((i) => i[keyToFilter] !== valueToFilter);
+  _sourceArray = _sourceArray.filter(i => i[keyToFilter] !== valueToFilter);
 
   // sort the items we're looking for
   workingList.sort(sorter);

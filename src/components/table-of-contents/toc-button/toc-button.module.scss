@@ -23,7 +23,8 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
 
-    &.cancelButton, &.cancelButton:enabled:hover {
+    &.cancelButton,
+    &.cancelButton:enabled:hover {
       background-color: white;
       color: $primary;
     }

@@ -1,15 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DownloadToggle from "./download-toggle";
+import DownloadToggle from './download-toggle';
 
 describe('DownloadToggle', () => {
   const toggleFn = jest.fn();
   let component = renderer.create();
   let instance, radioButtons, toggleSpy;
   beforeEach(() => {
-    component = renderer.create(
-      <DownloadToggle onChange={toggleFn} />
-    );
+    component = renderer.create(<DownloadToggle onChange={toggleFn} />);
     instance = component.root;
     toggleSpy = jest.spyOn(instance.props, 'onChange');
     radioButtons = instance.findAllByType('input');

@@ -1,24 +1,17 @@
-import {setGlobalFetchResponse, testVariables} from "../../utils/mock-utils";
-import "@rxreact/jest-helpers";
-import {
-  mockPublishedReportsAPIResponse,
-  mockSummaryFormattedData,
-  mockSummaryFormattedDataWithMod
-} from "./metadata.mockdata";
-import globalConstants from "../constants";
-import { API_BASE_URL } from "gatsby-env-variables";
-import { shareReplay, tap, take } from "rxjs/operators";
-import {
-  metadataSummaryData,
-  metadataSummaryDataWithMod
-} from "../../components/datasets/mockData/mockDatasets";
+import { setGlobalFetchResponse, testVariables } from '../../utils/mock-utils';
+import '@rxreact/jest-helpers';
+import { mockPublishedReportsAPIResponse, mockSummaryFormattedData, mockSummaryFormattedDataWithMod } from './metadata.mockdata';
+import globalConstants from '../constants';
+import { API_BASE_URL } from 'gatsby-env-variables';
+import { shareReplay, tap, take } from 'rxjs/operators';
+import { metadataSummaryData, metadataSummaryDataWithMod } from '../../components/datasets/mockData/mockDatasets';
 
 jest.useFakeTimers();
 
 describe('Metadata Service', () => {
   let metadataService, sub;
 
-  const watchSignal = (o$) => {
+  const watchSignal = o$ => {
     // Share so the signal records all values emitted.
     const hot$ = o$.pipe(shareReplay());
 
@@ -31,7 +24,7 @@ describe('Metadata Service', () => {
 
   beforeEach(() => {
     setGlobalFetchResponse(jest, metadataSummaryData);
-    return import('./metadata-service').then((module) => {
+    return import('./metadata-service').then(module => {
       metadataService = module.metadataService;
     });
   });
@@ -51,13 +44,12 @@ describe('Metadata Service', () => {
     expect(metadataService.summaryData).toStrictEqual(mockSummaryFormattedData);
   });
 
-  it('updates the summaryData if the new dates observed indicate an update', async() => {
+  it('updates the summaryData if the new dates observed indicate an update', async () => {
     const hot$ = watchSignal(metadataService.summaryUpdated().pipe());
     await expect(hot$).toEmit();
   });
 
-  it('does not update the summaryData if the new dates observed do not indicate an update',
-    async() => {
+  it('does not update the summaryData if the new dates observed do not indicate an update', async () => {
     let counter = 0;
     const hot$ = watchSignal(metadataService.summaryUpdated().pipe(tap(() => counter++)));
     await expect(hot$).toEmit();
@@ -67,8 +59,7 @@ describe('Metadata Service', () => {
   });
 
   it('fetch is called every interval time', () => {
-    const intervalTime = globalConstants.config
-      .metadataUpdateService.pollingInterval;
+    const intervalTime = globalConstants.config.metadataUpdateService.pollingInterval;
     expect(global.fetch).toHaveBeenCalledTimes(1); // from initial call
     jest.advanceTimersByTime(intervalTime - 1000); // timer is at intervalTime - 1000
     expect(global.fetch).toHaveBeenCalledTimes(1); // shouldn't have called just yet
@@ -81,8 +72,7 @@ describe('Metadata Service', () => {
     expect(global.fetch).toHaveBeenCalledTimes(3); // should make a second call
   });
 
-  it('when a change occurs all the changed dataset is updated and all datasets are returned',
-    async () => {
+  it('when a change occurs all the changed dataset is updated and all datasets are returned', async () => {
     setGlobalFetchResponse(jest, metadataSummaryDataWithMod);
     const hot$ = watchSignal(metadataService.summaryUpdated().pipe());
 
@@ -97,25 +87,20 @@ describe('Metadata Service', () => {
   });
 
   it('update published report returns null if dataset id not allowed', async () => {
-
-    const hot$ = watchSignal(
-      metadataService.updatedPublishedReports('test-dataset-id')
-        .pipe(take(1))
-    );
+    const hot$ = watchSignal(metadataService.updatedPublishedReports('test-dataset-id').pipe(take(1)));
 
     await expect(hot$).toEmitValue(null);
   });
 
   it('fetches published reports for dataset when dataset is valid and is not cached', async () => {
-
-    const datasetIdToTestWith= '015-BFS-2014Q1-11'; // chosen from published reports allow list
-    const fetchUrl =
-      `${API_BASE_URL}${globalConstants.PUBLISHED_REPORTS}?dataset_id=${datasetIdToTestWith}`;
+    const datasetIdToTestWith = '015-BFS-2014Q1-11'; // chosen from published reports allow list
+    const fetchUrl = `${API_BASE_URL}${globalConstants.PUBLISHED_REPORTS}?dataset_id=${datasetIdToTestWith}`;
 
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockPublishedReportsAPIResponse),
-      }));
+      })
+    );
 
     const hot$ = watchSignal(metadataService.updatedPublishedReports(datasetIdToTestWith).pipe());
     await expect(hot$).toEmit();
@@ -123,19 +108,17 @@ describe('Metadata Service', () => {
     const fetchCount = global.fetch.mock.calls.filter(call => call[0] === fetchUrl).length;
 
     expect(fetchCount).toBe(1);
-
   });
 
   it('uses cached published reports for dataset when data is not too old', async () => {
-
-    const datasetIdToTestWith= '015-BFS-2014Q1-11'; // chosen from published reports allow list
-    const fetchUrl =
-      `${API_BASE_URL}${globalConstants.PUBLISHED_REPORTS}?dataset_id=${datasetIdToTestWith}`;
+    const datasetIdToTestWith = '015-BFS-2014Q1-11'; // chosen from published reports allow list
+    const fetchUrl = `${API_BASE_URL}${globalConstants.PUBLISHED_REPORTS}?dataset_id=${datasetIdToTestWith}`;
 
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockPublishedReportsAPIResponse),
-      }));
+      })
+    );
 
     const hot$ = watchSignal(metadataService.updatedPublishedReports(datasetIdToTestWith).pipe());
 
@@ -150,20 +133,18 @@ describe('Metadata Service', () => {
 
     jest.advanceTimersByTime(8000);
 
-    await expect(global.fetch.mock.calls.filter(call => call[0] === fetchUrl).length)
-      .toBe(1); // not called again with a second request for data
+    await expect(global.fetch.mock.calls.filter(call => call[0] === fetchUrl).length).toBe(1); // not called again with a second request for data
   });
 
   it('fetches published reports for dataset when data is too old', async () => {
-
-    const datasetIdToTestWith= '015-BFS-2014Q1-11'; // chosen from published reports allow list
-    const fetchUrl =
-      `${API_BASE_URL}${globalConstants.PUBLISHED_REPORTS}?dataset_id=${datasetIdToTestWith}`;
+    const datasetIdToTestWith = '015-BFS-2014Q1-11'; // chosen from published reports allow list
+    const fetchUrl = `${API_BASE_URL}${globalConstants.PUBLISHED_REPORTS}?dataset_id=${datasetIdToTestWith}`;
 
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockPublishedReportsAPIResponse),
-      }));
+      })
+    );
 
     const hot$ = watchSignal(metadataService.updatedPublishedReports(datasetIdToTestWith).pipe());
 
@@ -177,13 +158,13 @@ describe('Metadata Service', () => {
     const hot2$ = watchSignal(metadataService.updatedPublishedReports(datasetIdToTestWith).pipe());
     await expect(hot2$).toEmit();
 
-    expect(global.fetch.mock.calls.filter(call => call[0] === fetchUrl).length)
-      .toBe(1); // not called again with a second request for data
+    expect(global.fetch.mock.calls.filter(call => call[0] === fetchUrl).length).toBe(1); // not called again with a second request for data
 
     global.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockPublishedReportsAPIResponse),
-      }));
+      })
+    );
 
     sub.unsubscribe();
 
@@ -194,5 +175,4 @@ describe('Metadata Service', () => {
     const callCount = global.fetch.mock.calls.filter(call => call[0] === fetchUrl).length;
     expect(callCount).toBe(1); // called again with a second request for data (fetch mock reset)
   });
-
 });

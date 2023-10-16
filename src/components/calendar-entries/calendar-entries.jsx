@@ -1,40 +1,42 @@
-import React, { useState, useEffect } from 'react'
-import { graphql, useStaticQuery } from "gatsby";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from 'react';
+import { graphql, useStaticQuery } from 'gatsby';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import * as styles from './calendar-entries.module.scss';
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';
 import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
-import { useReleaseCalendarEntriesUpdater } from "./use-release-calendar-entries-updater-hook"
-import { sortOptions } from "./calendar-helpers";
-import Analytics from "../../utils/analytics/analytics"
+import { useReleaseCalendarEntriesUpdater } from './use-release-calendar-entries-updater-hook';
+import { sortOptions } from './calendar-helpers';
+import Analytics from '../../utils/analytics/analytics';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
   category: 'Release Calendar',
-  action: 'Sort By Click'
-}
+  action: 'Sort By Click',
+};
 
 const CalendarEntriesList = () => {
   const { allReleases } = useStaticQuery(
     graphql`
       query {
         allReleases {
-        releases: nodes {
-          datasetId
-          date
-          dataset: parent {
-            ... on Datasets {
-              name
-              slug
+          releases: nodes {
+            datasetId
+            date
+            dataset: parent {
+              ... on Datasets {
+                name
+                slug
+              }
             }
+            released
+            time
           }
-          released
-          time
         }
       }
-    }`);
+    `
+  );
 
   const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
   const earliestDate = releases[0].date;
@@ -43,7 +45,7 @@ const CalendarEntriesList = () => {
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const sortByName = (e) => {
+  const sortByName = e => {
     return e.sort((a, b) => {
       const nameSort = a.dataset.name.localeCompare(b.dataset.name);
       if (nameSort !== 0) {
@@ -53,25 +55,26 @@ const CalendarEntriesList = () => {
     });
   };
 
-  const sortByDate = (e) => {
+  const sortByDate = e => {
     return e.sort(dateSorter);
   };
 
   const dateSorter = (a, b) => {
-    const aSortValue = `${a.date}-${a.time}`, bSortValue = `${b.date}-${b.time}`;
+    const aSortValue = `${a.date}-${a.time}`,
+      bSortValue = `${b.date}-${b.time}`;
     if (aSortValue > bSortValue) return 1;
     if (aSortValue < bSortValue) return -1;
     return 0;
   };
 
-  const handleSelectedOptionChange = (option) => {
+  const handleSelectedOptionChange = option => {
     setSelectedOption(option);
     setCurrentPage(1);
 
     if (option.id === 'name') {
       // if entries are sorted by name, only the next release date for each dataset should be shown
       const releasesMap = new Map();
-      releases.forEach((r) => {
+      releases.forEach(r => {
         if (!releasesMap.has(r.datasetId)) {
           releasesMap.set(r.datasetId, r);
         }
@@ -85,13 +88,13 @@ const CalendarEntriesList = () => {
 
     Analytics.event({
       ...releaseCalendarSortEvent,
-      label: option.label
+      label: option.label,
     });
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      'event': releaseCalendarSortEvent.action,
-      'eventLabel': option.label,
+      event: releaseCalendarSortEvent.action,
+      eventLabel: option.label,
     });
   };
 
@@ -104,11 +107,11 @@ const CalendarEntriesList = () => {
 
   const pagesArray = [];
   for (let i = 1; i <= maxPage; i++) {
-      pagesArray.push(i);
+    pagesArray.push(i);
   }
   pagesArray.sort((a, b) => a - b);
 
-  const handleJump = (page) => {
+  const handleJump = page => {
     setCurrentPage(page);
   };
 
@@ -117,7 +120,7 @@ const CalendarEntriesList = () => {
     maxPage,
     pagesArray,
     currentPage,
-    handleJump
+    handleJump,
   };
 
   return loading ? (
@@ -128,12 +131,7 @@ const CalendarEntriesList = () => {
     <div className={styles.mainContainer}>
       <div className={styles.dropdownContainer}>
         <div className={styles.dropdown}>
-          <SelectControl
-            label="Sort By:"
-            options={sortOptions}
-            selectedOption={selectedOption}
-            changeHandler={handleSelectedOptionChange}
-          />
+          <SelectControl label="Sort By:" options={sortOptions} selectedOption={selectedOption} changeHandler={handleSelectedOptionChange} />
         </div>
       </div>
       <div className={styles.entriesContainer}>

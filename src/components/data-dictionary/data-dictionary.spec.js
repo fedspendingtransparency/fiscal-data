@@ -1,57 +1,56 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DataDictionary from "./data-dictionary";
+import DataDictionary from './data-dictionary';
 import DtgTable from '../dtg-table/dtg-table';
 
 describe('DataDictionary', () => {
-
   const apis = [
     {
       tableName: 'table1',
       fields: [
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
-      ]
-    },{
+      ],
+    },
+    {
       tableName: 'table1',
       fields: [
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
         {
-          "columnName": "reporting_date",
-          "definition": "Reporting date for the data",
-          "prettyName": "Calendar Date",
-          "dataType": "DATE",
-          "isRequired": "yes"
+          columnName: 'reporting_date',
+          definition: 'Reporting date for the data',
+          prettyName: 'Calendar Date',
+          dataType: 'DATE',
+          isRequired: 'yes',
         },
-      ]
-    },{
-      tableName: 'table3'
+      ],
+    },
+    {
+      tableName: 'table3',
     },
   ];
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <DataDictionary apis={apis} />
-    );
+    component = renderer.create(<DataDictionary apis={apis} />);
   });
   const instance = component.root;
 
@@ -67,8 +66,7 @@ describe('DataDictionary', () => {
   });
 
   it('sends the concatenated table data to the table component', () => {
-    expect(instance.findByType(DtgTable).props.tableProps.data)
-      .toStrictEqual(apis[0].fields.concat(apis[1].fields));
+    expect(instance.findByType(DtgTable).props.tableProps.data).toStrictEqual(apis[0].fields.concat(apis[1].fields));
   });
 
   it('sets the table component width', () => {
@@ -78,16 +76,16 @@ describe('DataDictionary', () => {
   it('adds table name to each row', () => {
     expect(apis[0].fields[0].tableName).toBe(apis[0].tableName);
     expect(apis[1].fields[0].tableName).toBe(apis[1].tableName);
-  })
+  });
 
-  it('sets aria-label to dataset name', ()=> {
-    const name='test-dataset'
-    const newComponent=renderer.create()
-    renderer.act(()=> {
-      newComponent.update(<DataDictionary apis={apis} datasetName={name} />)
-    })
-    const updated=newComponent.root
-    const table=updated.findByType("table")
-    expect(table.props['aria-label']).toBe(`${name} data dictionary`)
-  })
+  it('sets aria-label to dataset name', () => {
+    const name = 'test-dataset';
+    const newComponent = renderer.create();
+    renderer.act(() => {
+      newComponent.update(<DataDictionary apis={apis} datasetName={name} />);
+    });
+    const updated = newComponent.root;
+    const table = updated.findByType('table');
+    expect(table.props['aria-label']).toBe(`${name} data dictionary`);
+  });
 });

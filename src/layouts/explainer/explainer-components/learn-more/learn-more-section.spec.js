@@ -1,24 +1,23 @@
-import React from "react";
+import React from 'react';
 import { render } from '@testing-library/react';
-import LearnMoreSection from "./learn-more-section";
-
+import LearnMoreSection from './learn-more-section';
 
 describe('Learn more section', () => {
   const mockResources = [
     {
       title: 'sample title',
-      url: 'url'
+      url: 'url',
     },
     {
       title: 'another title',
-      url: 'url2'
-    }
+      url: 'url2',
+    },
   ];
 
   const mockDescription = 'Test Description';
 
   it('renders the title and url for each specified resource', () => {
-    const { getByText } = render(<LearnMoreSection links={mockResources} /> );
+    const { getByText } = render(<LearnMoreSection links={mockResources} />);
     expect(getByText('sample title')).toBeInTheDocument();
     expect(getByText('another title')).toBeInTheDocument();
     expect(getByText('url')).toBeInTheDocument();
@@ -26,11 +25,7 @@ describe('Learn more section', () => {
   });
 
   it('renders the description', () => {
-    const { getByText } = render(
-      <LearnMoreSection
-        links={mockResources}
-        description={mockDescription}
-      /> );
+    const { getByText } = render(<LearnMoreSection links={mockResources} description={mockDescription} />);
     expect(getByText(mockDescription)).toBeInTheDocument();
-  })
-})
+  });
+});

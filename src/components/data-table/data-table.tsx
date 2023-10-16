@@ -56,7 +56,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   tableName,
   setFiltersActive,
   hideColumns,
-  pagingProps
+  pagingProps,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -187,46 +187,34 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const selectColumnsRef = useRef(null);
   useEffect(() => {
     if (selectColumnPanel) {
-       selectColumnsRef.current?.focus();
+      selectColumnsRef.current?.focus();
     }
-  }, )
+  });
 
   return (
     <>
-      <div 
-        data-test-id="table-content" 
-        className={overlayContainerNoFooter}
-      >
+      <div data-test-id="table-content" className={overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
-          <div 
-            className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} 
-            data-testid="selectColumnsMainContainer"
-
-          >
-              {defaultSelectedColumns && (
-                <DataTableColumnSelector
-                  dataTableRef={selectColumnsRef}
-                  selectColumnPanel={selectColumnPanel}
-                  fields={allColumns}
-                  resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
-                  setSelectColumnPanel={setSelectColumnPanel}
-                  defaultSelectedColumns={defaultSelectedColumns}
-                  table={table}
-                  additionalColumns={additionalColumns}
-                  defaultColumns={defaultColumns}
-                />
-              )}
+          <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+            {defaultSelectedColumns && (
+              <DataTableColumnSelector
+                dataTableRef={selectColumnsRef}
+                selectColumnPanel={selectColumnPanel}
+                fields={allColumns}
+                resetToDefault={() => setColumnVisibility(defaultInvisibleColumns)}
+                setSelectColumnPanel={setSelectColumnPanel}
+                defaultSelectedColumns={defaultSelectedColumns}
+                table={table}
+                additionalColumns={additionalColumns}
+                defaultColumns={defaultColumns}
+              />
+            )}
           </div>
           <div className={tableStyle}>
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader
-                    table={table}
-                    dataTypes={dataTypes}
-                    resetFilters={resetFilters}
-                    setFiltersActive={setFiltersActive}
-                  />
+                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>

@@ -1,61 +1,54 @@
 @import 'src/variables.module';
 
 .iconBackground {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 
+  .icon {
+    color: #fff;
+  }
 
-
-    .icon {
-        color: #fff;
-    }
-
-    .offsetIcon {
-        position: absolute;
-    }
+  .offsetIcon {
+    position: absolute;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-    .iconBackground {
-        height: 4rem;
-        width: 4rem;
-        min-width: 4rem;
-        border-radius: 2rem;
+  .iconBackground {
+    height: 4rem;
+    width: 4rem;
+    min-width: 4rem;
+    border-radius: 2rem;
 
-        .icon,
-        .offsetIcon {
-            font-size: 2.313rem;
-            transform: translate(1.125rem, -0.563rem);
-        }
-
-        .offsetIcon {
-            transform: translate(1.313rem, -0.75rem);
-        }
+    .icon,
+    .offsetIcon {
+      font-size: 2.313rem;
+      transform: translate(1.125rem, -0.563rem);
     }
 
-
+    .offsetIcon {
+      transform: translate(1.313rem, -0.75rem);
+    }
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-    .iconBackground {
-        height: 52px;
-        width: 52px;
-        min-width: 52px;
-        border-radius: 26px;
+  .iconBackground {
+    height: 52px;
+    width: 52px;
+    min-width: 52px;
+    border-radius: 26px;
 
-        .icon,
-        .offsetIcon {
-            font-size: 1.813rem;
-            transform: translate(0.75rem, -0.563rem);
-
-        }
-
-        .offsetIcon {
-            transform: translate(0.938rem, -0.75rem);
-
-        }
+    .icon,
+    .offsetIcon {
+      font-size: 1.813rem;
+      transform: translate(0.75rem, -0.563rem);
     }
 
+    .offsetIcon {
+      transform: translate(0.938rem, -0.75rem);
+    }
+  }
 }

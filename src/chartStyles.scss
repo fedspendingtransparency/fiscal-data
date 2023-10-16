@@ -1,4 +1,4 @@
-@import "./variables.module.scss";
+@import './variables.module.scss';
 
 .tick text {
   fill: $font-body-copy;
@@ -12,13 +12,13 @@
 }
 
 .tick line {
-    stroke: rgba(102,102,102,0.11);
+  stroke: rgba(102, 102, 102, 0.11);
 }
 
 .axis--y text {
-    transform: translateX(-16px);
+  transform: translateX(-16px);
 }
 
 .domain {
-    stroke: $font-body-copy
+  stroke: $font-body-copy;
 }

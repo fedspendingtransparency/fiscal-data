@@ -7,7 +7,7 @@
   align-items: center;
   color: #666666;
   text-align: center;
-  padding: 2.25rem .625rem 2.813rem;
+  padding: 2.25rem 0.625rem 2.813rem;
 
   .heroImageHeading {
     margin: 0;
@@ -36,9 +36,9 @@
     margin-top: 1rem;
     display: flex;
     align-items: flex-start;
-    border: solid .063rem #f1f1f1;
-    box-shadow: .25rem .25rem #f1f1f1;
-    padding: .7rem 2rem .7rem 2rem;
+    border: solid 0.063rem #f1f1f1;
+    box-shadow: 0.25rem 0.25rem #f1f1f1;
+    padding: 0.7rem 2rem 0.7rem 2rem;
     max-width: 71.25rem;
 
     .icon {
@@ -46,7 +46,7 @@
       height: 2.5rem;
       width: 2.25rem;
       padding-right: 1rem;
-      padding-top: .2rem;
+      padding-top: 0.2rem;
     }
 
     p {
@@ -81,11 +81,10 @@
 
     font-size: $font-size-14;
 
-    >a {
+    > a {
       color: $hero-primary-link;
     }
   }
-
 
   .flapWrapper {
     text-align: center;
@@ -94,7 +93,7 @@
 
   .footNotes {
     font-size: $font-size-14;
-    margin-top: .25rem;
+    margin-top: 0.25rem;
 
     .footNotesPillData {
       margin-top: 2rem;
@@ -143,7 +142,6 @@
     color: #666666;
     padding-top: 0.25rem;
   }
-
 }
 
 .heroBorder {
@@ -160,23 +158,22 @@
   .heroBorder {
     margin-bottom: 2rem;
   }
-
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .mainContainer {
-    padding: 1.188rem .625rem 1.75rem;
+    padding: 1.188rem 0.625rem 1.75rem;
     margin-bottom: 0;
     width: calc(100% - 30px);
 
     .heroImageCallout {
-      padding: .938rem .5rem .938rem .563rem;
+      padding: 0.938rem 0.5rem 0.938rem 0.563rem;
 
       .icon {
         height: 1.5rem;
-        padding-right: .875rem;
-        padding-top: .5rem;
-        padding-left: .281rem;
+        padding-right: 0.875rem;
+        padding-top: 0.5rem;
+        padding-left: 0.281rem;
       }
     }
 
@@ -196,5 +193,4 @@
   .heroBorder {
     margin-bottom: 0;
   }
-
 }

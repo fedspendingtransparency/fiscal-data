@@ -1,14 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import ErrorObject from './error-object';
-import SectionContent from "../../section-content/section-content";
+import SectionContent from '../../section-content/section-content';
 
 describe('Error Object', () => {
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(
-      <ErrorObject />
-    );
+    component = renderer.create(<ErrorObject />);
   });
   const instance = component.root;
 
@@ -18,7 +16,7 @@ describe('Error Object', () => {
 
   it('has a defined title', () => {
     const titleText = 'Error Object';
-    const title = instance.findByProps({'id': 'responses-error-object'}).findByType('h3');
+    const title = instance.findByProps({ id: 'responses-error-object' }).findByType('h3');
     expect(title.children[0]).toEqual(titleText);
   });
 });

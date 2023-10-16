@@ -4,20 +4,20 @@ import DetailPills from '../detail-pills/detail-pills';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 import BannerCallout from '../banner-callout/banner-callout';
 
-const Masthead = ({title, tagLine, techSpecs, dictionary, bannerCallout}) => {
+const Masthead = ({ title, tagLine, techSpecs, dictionary, bannerCallout }) => {
 
   const breadCrumbLinks = [
     {
-      name: title
+      name: title,
     },
     {
       name: 'Dataset Search',
-      link: '/datasets/'
+      link: '/datasets/',
     },
     {
       name: 'Home',
-      link: '/'
-    }
+      link: '/',
+    },
   ];
 
   return (
@@ -34,7 +34,7 @@ const Masthead = ({title, tagLine, techSpecs, dictionary, bannerCallout}) => {
       }
       </div>
     </section>
-  )
+  );
 };
 
 export default Masthead;

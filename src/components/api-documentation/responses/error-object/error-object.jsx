@@ -1,17 +1,13 @@
 import React from 'react';
 import beautify from 'js-beautify';
-import SectionContent from "../../section-content/section-content";
+import SectionContent from '../../section-content/section-content';
 import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
 
 const ErrorObject = () => (
-  <SectionContent
-    id="responses-error-object"
-    headingLevel={3}
-    title="Error Object"
-  >
+  <SectionContent id="responses-error-object" headingLevel={3} title="Error Object">
     <p>
-      If something goes wrong while creating the API response, an error object will be returned to
-      the user. The error object will contain the following information:
+      If something goes wrong while creating the API response, an error object will be returned to the user. The error object will contain the
+      following information:
     </p>
     <ul>
       <li>
@@ -20,8 +16,7 @@ const ErrorObject = () => (
     </ul>
     <ul>
       <li>
-        <code className="inline">Message:</code> A detailed explanation of why the error occurred
-        and how to resolve it.
+        <code className="inline">Message:</code> A detailed explanation of why the error occurred and how to resolve it.
       </li>
     </ul>
     <p>

@@ -6,10 +6,12 @@ div.aboutPageWrapper {
 }
 
 .section section {
-  &.noBullets, .noBullets {
+  &.noBullets,
+  .noBullets {
     list-style: none;
   }
-  &:last-child, &.lastChild {
+  &:last-child,
+  &.lastChild {
     padding-bottom: 7.25rem;
   }
 }
@@ -29,7 +31,8 @@ div.aboutPageWrapper {
 }
 
 .title {
-  &, h2 {
+  &,
+  h2 {
     margin-top: 0;
     @include headingStyle2-1;
   }
@@ -48,7 +51,7 @@ div.aboutPageWrapper {
 }
 
 .linkClass {
-  display:block;
+  display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

@@ -51,7 +51,6 @@ $remaining-container-width: calc(100% - 1rem - 20px);
  * Styles specific to the footer
  */
 
-
 .footer svg.infoIcon {
   transform: translateY(6px);
 }
@@ -63,10 +62,10 @@ $remaining-container-width: calc(100% - 1rem - 20px);
 }
 
 .footerList ul {
-    margin: 0 0 1rem 0;
+  margin: 0 0 1rem 0;
 }
 
-@media screen and (min-width: $breakpoint-md){
+@media screen and (min-width: $breakpoint-md) {
   .header {
     display: flex;
     align-items: center;

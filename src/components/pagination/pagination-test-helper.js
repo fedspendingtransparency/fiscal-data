@@ -5,5 +5,5 @@ export const PAGING_PROPS = {
   tableName: 'Ariandel',
   currentPage: 1,
   maxRows: 50,
-  itemsPerPage: 5
+  itemsPerPage: 5,
 };

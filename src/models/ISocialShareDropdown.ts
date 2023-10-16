@@ -1,4 +1,4 @@
-import {ISocialShareCopy} from "./ISocialShareCopy";
+import { ISocialShareCopy } from './ISocialShareCopy';
 
 export interface ISocialShareDropdown {
   copy: ISocialShareCopy;
