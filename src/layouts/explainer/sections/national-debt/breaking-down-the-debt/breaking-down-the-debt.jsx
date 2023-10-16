@@ -1,4 +1,5 @@
 import {withWindowSize} from "react-fns";
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import GlossaryPopoverDefinition from "../../../../../components/glossary/glossary-term/glossary-popover-definition";
 import {pxToNumber} from "../../../../../helpers/styles-helper/styles-helper";
 import {apiPrefix, basicFetch} from "../../../../../utils/api-utils";
@@ -20,6 +21,7 @@ import {
   fontSize_10,
   fontSize_14,
   debtExplainerPrimary,
+  debtExplainerLightSecondary
 
 } from "../../../../../variables.module.scss";
 import {chartBackdrop, visWithCallout} from "../../../explainer.module.scss";
@@ -45,6 +47,7 @@ import {
 import IntragovernmentalHoldingsChart
   from "./intragovernmental-holdings-chart/intragovernmental-holdings-chart";
 import {getDateWithoutOffset} from "../../../explainer-helpers/explainer-helpers";
+import QuoteBox from "../../../quote-box/quote-box";
 export const percentageFormatter = value =>
   (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + "%";
 export const trillionsFormatter = value =>
@@ -392,11 +395,14 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
           depends on the total national debt and the various securities’{" "}
           {glossaryTerms.interestRates}.
         </p>
-        <p>
+        <QuoteBox
+        icon={faDollarSign} primaryColor={debtExplainerPrimary} secondaryColor={debtExplainerLightSecondary} customTopMargin={'-16'}>
+          <p>
           As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs $
           {shortenedDebtExpense} billion to maintain the debt, which is{" "}
           {debtExpensePercent} of the total {spendingLink('federal spending')}.
-        </p>
+          </p>
+        </QuoteBox>
         <p>
           The national debt has increased every year over the past ten years.
           Interest expenses during this period have remained fairly stable due
