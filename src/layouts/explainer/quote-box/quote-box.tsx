@@ -8,10 +8,11 @@ type QuoteBoxProps = {
   primaryColor: string;
   secondaryColor: string;
   customTopMargin: string;
+  customBottomMargin: string;
   children: ReactElement;
 };
 
-const QuoteBox: FunctionComponent<QuoteBoxProps> = ({ icon, primaryColor, secondaryColor, customTopMargin, children }) => {
+const QuoteBox: FunctionComponent<QuoteBoxProps> = ({ icon, primaryColor, secondaryColor, customTopMargin, children, customBottomMargin }) => {
   return (
     <>
       <div className={iconContainer} style={{ marginTop: customTopMargin }} data-testid="quote-box">
@@ -25,6 +26,7 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = ({ icon, primaryColor, second
         style={{
           borderColor: secondaryColor,
           boxShadow: `.25rem .25rem ${secondaryColor}`,
+          marginBottom: customBottomMargin 
         }}
       >
         {children}
