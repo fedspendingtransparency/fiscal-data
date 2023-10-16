@@ -9,7 +9,6 @@ import { IDataset } from '../../models/IDataset';
 import { card, card_headerLink, card_tagLine, card_link, card_withFocus, card_withFocus_FireFox } from './dataset-card.module.scss';
 import DatasetStats from './dataset-stats/dataset-stats';
 import Truncator from '../truncate/truncate';
-import DatasetTopicsSummary from './dataset-topics-summary/dataset-topics-summary';
 import { isFirefox } from 'react-device-detect';
 
 type DatasetCardProps = {
@@ -71,7 +70,6 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
             <Truncator>{dataset.tagLine}</Truncator>
           </div>
           <DatasetStats dataset={dataset} />
-          <DatasetTopicsSummary relatedTopics={dataset.relatedTopics} />
           <span className={card_link}>Dataset Details</span>
         </CardActionArea>
       </Card>
