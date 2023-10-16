@@ -395,8 +395,7 @@ const BreakingDownTheDebt = ({ sectionId, glossary, glossaryClickHandler, width 
           depends on the total national debt and the various securities’{" "}
           {glossaryTerms.interestRates}.
         </p>
-        <QuoteBox
-        icon={faDollarSign} primaryColor={debtExplainerPrimary} secondaryColor={debtExplainerLightSecondary} customTopMargin={'-16'}>
+        <QuoteBox icon={faDollarSign} primaryColor={debtExplainerPrimary} secondaryColor={debtExplainerLightSecondary} customTopMargin={'-16'}>
           <p>
           As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs $
           {shortenedDebtExpense} billion to maintain the debt, which is{" "}
