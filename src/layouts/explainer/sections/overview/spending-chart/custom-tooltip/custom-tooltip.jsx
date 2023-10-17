@@ -1,24 +1,16 @@
 import React from 'react';
+import { tooltip, tooltipLabel, dot } from '../spending-chart.module.scss';
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div>
-        <p>{label}</p>
+      <div className={tooltip}>
+        <div className={tooltipLabel}>{label}</div>
         {payload.map((entry, index) => (
-          <p key={`item-${index}`} style={{color: entry.stroke }}>
-            <span 
-              style={{
-                display: 'inline-block',
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                backgroundColor: entry.stroke,
-                marginRight: '5px',
-              }} 
-            />
+          <div key={`item-${index}`} style={{color: entry.stroke }}>
+            <span className={dot} style={{ backgroundColor: entry.stroke }} />
               {`${entry.name}: $${Math.round(entry.value *100) / 100}T`}
-          </p>
+          </div>
         ))}
       </div>
     );

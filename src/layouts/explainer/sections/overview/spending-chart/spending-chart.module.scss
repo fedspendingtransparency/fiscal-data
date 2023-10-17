@@ -1,4 +1,33 @@
-.toolTip {
+@import "src/variables.module";
+.deficitChart {
+  font-size: $font-size-14;
+color: $font-body-copy;
+
+.legend {
+  display: flex;
+  margin-bottom: 1rem;
+
+  .legendItem {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+  }
+}
+
+.chartTitle {
+  font-weight: $semi-bold-weight;
+  margin-bottom: 1rem;
+}
+
+.chartContainer {
+  max-width: 396px;
+  tspan {
+    color: $font-body-copy;
+  }
+}
+
+}
+.tolltip {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
@@ -32,4 +61,12 @@
       }
     }
   }
+}
+
+.dot {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: .5rem;
 }
