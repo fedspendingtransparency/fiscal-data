@@ -74,6 +74,12 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   setCardPositionVars();
 
   useEffect(() => {
+    allDatasets.forEach(dataset => {
+      dataset.heroNumber = Math.floor(Math.random() * 8);
+    });
+  }, []);
+
+  useEffect(() => {
     if (allDatasets.length) {
       updateSort();
     }

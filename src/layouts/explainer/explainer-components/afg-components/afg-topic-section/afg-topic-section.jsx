@@ -6,8 +6,9 @@ import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import * as styles from './afg-topic-section.module.scss';
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
+import AFGDefictChart from '../../../sections/overview/deficit-chart/deficit-chart';
 
-export default function AfgTopicSection({ heading, body, linkUrl, linkText, linkColor, image, imageAltText, eventNumber, citationClickPage, id }) {
+const AfgTopicSection = ({ heading, body, linkUrl, linkText, linkColor, image, imageAltText, eventNumber, citationClickPage, id }) => {
   const { gaEvent } = useGAEventTracking(eventNumber, citationClickPage);
 
   const onClickEventHandler = () => {
@@ -17,6 +18,15 @@ export default function AfgTopicSection({ heading, body, linkUrl, linkText, link
         action: gaEvent.eventAction,
         label: gaEvent.eventLabel,
       });
+    }
+  };
+
+  const getChart = () => {
+    switch (id) {
+      case 'National Deficit':
+        return <AFGDefictChart />;
+      default:
+        return <ChartPlaceholder />;
     }
   };
 
@@ -37,8 +47,10 @@ export default function AfgTopicSection({ heading, body, linkUrl, linkText, link
         </a>
       </Grid>
       <Grid item md classes={{ root: styles.imageContainer }}>
-        {image ? <img src={image} alt={imageAltText} /> : <ChartPlaceholder />}
+        {image ? <img src={image} alt={imageAltText} /> : getChart()}
       </Grid>
     </Grid>
   );
-}
+};
+
+export default AfgTopicSection;

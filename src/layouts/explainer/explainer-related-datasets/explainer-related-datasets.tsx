@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import DatasetCard from '../../../components/dataset-card/dataset-card';
 import { IExplainerRelatedDatasets } from '../../../models/IExplainerRelatedDatasets';
 import { paddingAdjust, cardWrapper, titleStyle } from './explainer-related-datasets.module.scss';
@@ -7,6 +7,12 @@ export const title = 'Related Datasets';
 export const context = 'Related Datasets';
 
 const ExplainerRelatedDatasets: FunctionComponent<IExplainerRelatedDatasets> = ({ datasets, referrer, header, explainer }) => {
+  if (datasets) {
+    datasets.forEach(dataset => {
+      dataset.heroNumber = Math.floor(Math.random() * 8);
+    });
+  }
+
   return (
     <div className={paddingAdjust}>
       <h1 className={`${titleStyle} relatedDatasetTitle`}> {header} </h1>

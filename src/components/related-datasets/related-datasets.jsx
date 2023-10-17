@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DatasetCard from '../dataset-card/dataset-card';
 import * as styles from './related-datasets.module.scss';
@@ -8,6 +8,12 @@ export const context = 'Related Dataset';
 
 const RelatedDatasets = ({ datasets, referrer }) => {
   let sortedDatasets = [];
+
+  useEffect(() => {
+    datasets.forEach(dataset => {
+      dataset.heroNumber = Math.floor(Math.random() * 8);
+    });
+  }, []);
 
   const sortByName = (a, b) => {
     const nameA = a.name;

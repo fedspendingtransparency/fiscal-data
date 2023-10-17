@@ -18,6 +18,9 @@ export const query = graphql`
         datasetId
         slug
         name
+        apis {
+          apiId
+        }
         tagLine
         relatedTopics
         techSpecs {

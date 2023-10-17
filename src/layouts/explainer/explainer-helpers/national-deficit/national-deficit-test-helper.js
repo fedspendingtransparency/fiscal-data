@@ -47,6 +47,15 @@ const mockMtsSpendingData = [
   },
 ];
 
+const mockMtsSpendingData_surplus = [
+  {
+    current_fytd_net_outly_amt: '2970000000000',
+    record_calendar_month: '09',
+    record_date: '2021-09-30',
+    record_fiscal_year: '2021',
+  },
+];
+
 const mockMtsDeficitResponse = {
   data: mockMtsDeficitData_decrease,
   links: {},
@@ -84,6 +93,13 @@ const mockMtsSpendingResponse = {
   links: {},
   meta: {
     count: mockMtsSpendingData.length,
+  },
+};
+const mockMtsSpendingResponse_surplus = {
+  data: mockMtsSpendingData_surplus,
+  links: {},
+  meta: {
+    count: mockMtsSpendingData_surplus.length,
   },
 };
 
@@ -140,4 +156,25 @@ export const understandingDeficitMatchers_noChange = [
     jsonResponse: mockMtsDeficitResponse_noChange,
   },
   ...understandingDeficit_RevenueSpendingMatchers,
+];
+
+export const afgOverviewDeficitChart_surplus = [
+  {
+    matcher: url => {
+      return url.includes('filter=line_code_nbr:eq:830');
+    },
+    jsonResponse: mockMtsRevenueResponse,
+  },
+  {
+    matcher: url => {
+      return url.includes('filter=line_code_nbr:eq:5691');
+    },
+    jsonResponse: mockMtsSpendingResponse_surplus,
+  },
+  {
+    matcher: url => {
+      return url.includes('filter=line_code_nbr:eq:5694');
+    },
+    jsonResponse: mockMtsDeficitResponse_noChange,
+  },
 ];

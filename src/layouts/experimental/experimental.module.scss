@@ -20,13 +20,12 @@
 }
 
 .toolTip {
-  background-color: white;
-  padding: 0.5rem;
-  border: 1px solid #666666;
-  border-radius: 0.25rem;
-  box-shadow: 0.25rem 0.25rem lightgrey;
-  opacity: 1;
-  transition: opacity 2s linear;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 2px;
+  opacity: 0.95;
+  background: #FFF;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 .inActive {

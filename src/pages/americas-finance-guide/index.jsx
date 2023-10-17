@@ -28,6 +28,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import Footnote from '../../components/footnote/footnote';
 import AnchorText from '../../components/anchor-text/anchor-text';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
+import Experimental from '../../components/experimental/experimental';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -235,7 +236,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <div className={styles.mainContainer}>
         <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-
           <AfgTopicSection
             heading={revenueHeading}
             body={revenueBody}
@@ -286,21 +286,35 @@ const AmericasFinanceGuidePage = ({ width }) => {
               </Grid>
             </Grid>
           </div>
-
-          <AfgTopicSection
-            heading={deficitHeading}
-            body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-            linkUrl="/americas-finance-guide/national-deficit/"
-            linkText="Learn more about national deficit"
-            linkColor={deficitExplainerPrimary}
-            eventNumber="6"
-            citationClickPage="AfgOverview"
-            id="National Deficit"
-            pageName="DeficitExplainer"
-            image="/topics-section-images/homepage_deficit_1200x630.png"
-            imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
-          of the hand, including a pie chart, bar graph, and lit lightbulb."
-          />
+          <Experimental exclude featureId="afg-overview">
+            <AfgTopicSection
+              heading={deficitHeading}
+              body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
+              linkUrl="/americas-finance-guide/national-deficit/"
+              linkText="Learn more about national deficit"
+              linkColor={deficitExplainerPrimary}
+              eventNumber="6"
+              citationClickPage="AfgOverview"
+              id="National Deficit"
+              pageName="DeficitExplainer"
+              image="/topics-section-images/homepage_deficit_1200x630.png"
+              imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
+              of the hand, including a pie chart, bar graph, and lit lightbulb."
+            />
+          </Experimental>
+          <Experimental featureId="afg-overview">
+            <AfgTopicSection
+              heading={deficitHeading}
+              body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
+              linkUrl="/americas-finance-guide/national-deficit/"
+              linkText="Learn more about national deficit"
+              linkColor={deficitExplainerPrimary}
+              eventNumber="6"
+              citationClickPage="AfgOverview"
+              id="National Deficit"
+              pageName="DeficitExplainer"
+            />
+          </Experimental>
 
           <AfgTopicSection
             heading={debtHeading}
