@@ -57,7 +57,8 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
     const i = fauxIndex[name] || 0;
 
     const x = (i % cardsPerRow) * (cardWidth + gutter.x);
-    const y = Math.floor(i / cardsPerRow) * (cardHeight + gutter.y);
+    // increase vertical gap between cards by 2 rem (32) to compensate for higher card width with hero image
+    const y = Math.floor(i / cardsPerRow) * (cardHeight + gutter.y + 32);
 
     return {
       left: `${x}%`,
@@ -67,7 +68,8 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
 
   const setContainerHeight = count => {
     return {
-      height: `${Math.ceil(count / cardsPerRow) * (cardHeight + gutter.y)}px`,
+      // Increase container height by 1.33x regular card height to compensate for increased card height due to hero image
+      height: `${Math.ceil(count / cardsPerRow) * (cardHeight + gutter.y) + cardHeight * 1.33}px`,
     };
   };
 
