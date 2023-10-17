@@ -251,8 +251,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
           holding money, hand holding gold coin, woman looking at check, and man looking
           at building."
           />
-
-          <AfgTopicSection
+        <Experimental  featureId="afg-overview">
+        <AfgTopicSection
             heading={spendingHeading}
             body={
               'The federal government funds a variety of programs and services that support the American public. ' +
@@ -268,6 +268,24 @@ const AmericasFinanceGuidePage = ({ width }) => {
             image="/topics-section-images/homepage_spending_1200x630.png"
             imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
           />
+        </Experimental>
+        <Experimental exclude featureId="afg-overview">
+        <AfgTopicSection
+            heading={spendingHeading}
+            body={
+              'The federal government funds a variety of programs and services that support the American public. ' +
+              'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
+            }
+            linkUrl="/americas-finance-guide/federal-spending/"
+            linkText="Learn more about federal spending"
+            linkColor={spendingExplainerPrimary}
+            eventNumber="5"
+            citationClickPage="AfgOverview"
+            id="Federal Spending"
+            pageName="SpendingExplainer"
+          />
+        </Experimental>
+
           <div className={styles.middleHeader}>
             <Grid container spacing={4}>
               <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
@@ -286,7 +304,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
               </Grid>
             </Grid>
           </div>
-          <Experimental exclude featureId="afg-overview">
+          <Experimental  featureId="afg-overview">
             <AfgTopicSection
               heading={deficitHeading}
               body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
@@ -302,7 +320,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
               of the hand, including a pie chart, bar graph, and lit lightbulb."
             />
           </Experimental>
-          <Experimental featureId="afg-overview">
+          <Experimental exclude featureId="afg-overview">
             <AfgTopicSection
               heading={deficitHeading}
               body="A budget deficit occurs when the money spent exceeds the money collected for a given period."

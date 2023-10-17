@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import CustomTooltip from '../../explainer/sections/overview/spending-chart/custom-tooltip/custom-tooltip'
+import { chartTitle, spendingChart } from '../../../layouts/explainer/sections/overview/spending-chart/spending-chart.module.scss'
 
 const TickCount = (props) => {
   const {x ,y, payload } = props;
@@ -97,18 +98,19 @@ const ReLineGraph = () => {
 
 
   return (
-    <div style={{ width: '800px', height: '600px' }}>
+    <div className={spendingChart}>
         {console.log('chartData', data)}
         {console.log('chartData', data2)}
+        <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       <ResponsiveContainer width="100%" aspect={3}>
         <LineChart width={500} height={300} cursor="pointer" data={data}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={ <TickCount /> } />
-            <YAxis tickFormatter={(tickItem) => `$${tickItem}`} />
+            <YAxis tickFormatter={(tickItem) => `$${tickItem}T`} />
             <Tooltip 
               content={<CustomTooltip />}
             />
-            <Legend type="circle" />
+            <Legend verticalAlign="top" iconType="circle" width="100%" align='left' />
               <Line 
                 dataKey="2021"  
                 dot={false}
@@ -127,7 +129,7 @@ const ReLineGraph = () => {
                 dataKey="2015-2019"  
                 dot={false}
                 strokeWidth={3}
-                name="5 Year Average"
+                name="5 Year Average (2016-2021)"
                 stroke="#555"
               />
         </LineChart>

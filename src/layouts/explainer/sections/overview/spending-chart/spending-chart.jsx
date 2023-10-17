@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
+import { chartTitle, chartContainer, spendingChart } from './spending-chart.module.scss';
 
 const TickCount = (props) => {
   const {x ,y, payload } = props;
@@ -17,16 +18,15 @@ const TickCount = (props) => {
 };
 
 
-const ReLineGraph = () => {
+const AFGSpendingChart = () => {
   const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
-  const [data2, setData2] = useState(null);
-
+  const [isLoading, setLoading] = useState(true);
+  const [currentFY, setCurrentFY] = useState();
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
-        setData2(res.data);
         let processedData = processData(res.data);
         setData(processedData);
       })
@@ -52,18 +52,7 @@ const ReLineGraph = () => {
       rollingTotals[year] += currentMonthValue;
       yearlyData[year][month] = rollingTotals[year];
     });
-  
-    // for (let year in yearlyData) {
-    //   let lastKnownValue = 0;
-    //   for (let i = 0; i < 12; i++) {
-    //     if (yearlyData[year][i] !== null) {
-    //       lastKnownValue = yearlyData[year][i];
-    //     } else if (i > 0 && yearlyData[year][i - 1] !== null) {
-    //       yearlyData[year][i] = lastKnownValue;
-    //     }
-    //   }
-    // }
-  
+
     let avgData = Array(12).fill(0);
     for (let i = 0; i < 12; i++) {
       let sum = 0;
@@ -94,46 +83,61 @@ const ReLineGraph = () => {
     return finalData;
   };
 
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
+      if (result?.data) {
+        setCurrentFY(result.data[0].record_fiscal_year);
+      }
+    });
+  }, []);
+
   return (
-    <div style={{ width: '800px', height: '600px' }}>
-        {console.log('chartData', data)}
-        {console.log('chartData', data2)}
-      <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart width={500} height={300} cursor="pointer" data={data}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={ <TickCount /> } />
-            <YAxis tickFormatter={(tickItem) => `${tickItem}`} />
-            <Tooltip 
-              content={<CustomTooltip />}
-              isAnimationActive={true} 
-              animationEasing=';inear' 
-            />
-            <Legend type="circle" />
-              <Line 
-                dataKey="2021"  
-                dot={false}
-                name="2021"
-                strokeWidth={3}
-                stroke="#00796B"
-              />
-              <Line 
-                dataKey="2020"  
-                dot={false}
-                name="2020"
-                strokeWidth={3}
-                stroke="#99C8C4"
-              />
-              <Line 
-                dataKey="2015-2019"  
-                dot={false}
-                strokeWidth={3}
-                name="5 Year Average"
-                stroke="#555"
-              />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className={spendingChart}>
+      {console.log('happy', currentFY)}
+      <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
+        <div className={chartContainer} >
+          <ResponsiveContainer width="100%" height={209}>
+            <LineChart cursor="pointer" data={data}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={ <TickCount /> } />
+                <YAxis 
+                  tickFormatter={(tickItem) => `$${tickItem}T`} 
+                  padding={{ bottom: 2, top: 8 }}
+                  axisLine={false}
+                  tickLine={false}
+                  tickCount={5}
+                  tickMargin={8}
+                />
+                <Tooltip 
+                  content={<CustomTooltip />}
+                />
+                <Legend verticalAlign="top" iconType="circle" width="100%" align='center' />
+                  <Line 
+                    dataKey={currentFY}  
+                    dot={false}
+                    name={`${currentFY} FYTD`}
+                    strokeWidth={3}
+                    stroke="#00796B"
+                  />
+                  <Line 
+                    dataKey={currentFY -1}   
+                    dot={false}
+                    name={currentFY -1}   
+                    strokeWidth={3}
+                    stroke="#99C8C4"
+                  />
+                  <Line 
+                    dataKey="2015-2019"  
+                    dot={false}
+                    strokeWidth={3}
+                    name="5 Year Average (2016-2021)"
+                    stroke="#555"
+                  />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
     </div>
   );
 };
 
-export default ReLineGraph;
+export default AFGSpendingChart;
