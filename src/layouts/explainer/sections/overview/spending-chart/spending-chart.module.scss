@@ -21,6 +21,9 @@ color: $font-body-copy;
 
 .chartContainer {
   max-width: 396px;
+  right: 36px;
+  top: 16px;
+  position: relative;
   tspan {
     color: $font-body-copy;
   }

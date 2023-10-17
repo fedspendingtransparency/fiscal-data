@@ -82,6 +82,14 @@ const AFGSpendingChart = () => {
   
     return finalData;
   };
+  const tickCountXAxis = 5;
+  const axisFormatter = (value, index) => {
+    let ret = value.toString();
+    if (index >= tickCountXAxis - 1) {
+      ret = ret + 'T';
+    }
+    return `$${ret}`;
+  };
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
@@ -96,22 +104,33 @@ const AFGSpendingChart = () => {
       {console.log('happy', currentFY)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
         <div className={chartContainer} >
-          <ResponsiveContainer width="100%" height={209}>
+          <ResponsiveContainer width="100%" height={164}>
             <LineChart cursor="pointer" data={data}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={ <TickCount /> } />
+                <CartesianGrid vertical={false} />
+                <XAxis 
+                  dataKey="month" 
+                  type="category" 
+                  allowDuplicatedCategory={false} 
+                  tick={ <TickCount /> } 
+                  axisLine={false}
+                />
                 <YAxis 
-                  tickFormatter={(tickItem) => `$${tickItem}T`} 
-                  padding={{ bottom: 2, top: 8 }}
+                  tickFormatter={(value, index) => axisFormatter(value, index)}
                   axisLine={false}
                   tickLine={false}
-                  tickCount={5}
-                  tickMargin={8}
+                  TickCount={5}
                 />
                 <Tooltip 
                   content={<CustomTooltip />}
                 />
-                <Legend verticalAlign="top" iconType="circle" width="100%" align='center' />
+                <Legend 
+                  wrapperStyle={{top: -16}} 
+                  verticalAlign="top" 
+                  iconType="circle" 
+                  iconSize='16px'
+                  width="100%" 
+                  align='center' 
+                />
                   <Line 
                     dataKey={currentFY}  
                     dot={false}
