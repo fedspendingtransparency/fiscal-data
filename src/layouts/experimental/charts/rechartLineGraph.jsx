@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
+import CustomTooltip from '../../explainer/sections/overview/spending-chart/custom-tooltip/custom-tooltip'
 
 const TickCount = (props) => {
   const {x ,y, payload } = props;
@@ -15,34 +16,7 @@ const TickCount = (props) => {
   )
 };
 
- const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    return (
-      <div>
-        <p>{label}</p>
 
-        {payload.map((entry, index) => (
-          <p key={`item-${index}`} style={{color: entry.stroke }}>
-            <span 
-              style={{
-                display: 'inline-block',
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                backgroundColor: entry.stroke,
-                marginRight: '5px',
-              }} 
-            />
-              {`${entry.name}: $${Math.round(entry.value *100) / 100}`}
-          </p>
-        ))}
-      </div>
-    );
-  }
-  return (
-    <div>asasasas</div>
-  );
- };
 
 const ReLineGraph = () => {
   const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -75,7 +49,7 @@ const ReLineGraph = () => {
         rollingTotals[year] = 0;
       }
   
-      let currentMonthValue = parseFloat(record["current_month_gross_outly_amt"]) / 1e12;
+      let currentMonthValue =  + parseFloat(record["current_month_gross_outly_amt"]) / 1e12;
       rollingTotals[year] += currentMonthValue;
       yearlyData[year][month] = rollingTotals[year];
     });
@@ -121,7 +95,6 @@ const ReLineGraph = () => {
     return finalData;
   };
 
-  const keyFilter = data.length > 0 ? Object.keys(data[0]).filter(key => key !== "month") : [];
 
   return (
     <div style={{ width: '800px', height: '600px' }}>
@@ -131,11 +104,9 @@ const ReLineGraph = () => {
         <LineChart width={500} height={300} cursor="pointer" data={data}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={ <TickCount /> } />
-            <YAxis tickFormatter={(tickItem) => `${tickItem}`} />
+            <YAxis tickFormatter={(tickItem) => `$${tickItem}`} />
             <Tooltip 
               content={<CustomTooltip />}
-              isAnimationActive={true} 
-              animationEasing=';inear' 
             />
             <Legend type="circle" />
               <Line 
