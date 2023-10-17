@@ -62,7 +62,14 @@ const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, widt
 
   return (
     <>
-      <div className={shareButtonContent} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} role={'button'} tabIndex={-1}>
+      <div
+        className={shareButtonContent}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        role={'button'}
+        tabIndex={-1}
+        aria-label={`${name} content`}
+      >
         <FontAwesomeIcon className={shareButtonContentMap[name].className} icon={shareButtonContentMap[name].icon} style={style} />
         {displayText && (
           <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style}>

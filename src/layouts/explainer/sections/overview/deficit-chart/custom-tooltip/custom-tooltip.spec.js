@@ -16,11 +16,11 @@ describe('AFG Deficit Tooltip', () => {
     const { getByTestId, getByText } = render(<CustomTooltip payload={mockPayload} label={2020} setFocused={jest.fn()} />);
     expect(getByTestId('CustomTooltip')).toBeInTheDocument();
     expect(getByText('2020')).toBeInTheDocument();
-    expect(getByText(getShortForm(mockPayload[0].payload.tooltip[0].value))).toBeInTheDocument();
+    expect(getByText(`$${getShortForm(mockPayload[0].payload.tooltip[0].value)}`)).toBeInTheDocument();
   });
 
   it('does not render the tooltip when it is inactive', () => {
-    const { queryByTestId } = render(<CustomTooltip />);
+    const { queryByTestId } = render(<CustomTooltip setFocused={jest.fn()} />);
     expect(queryByTestId('CustomTooltip')).not.toBeInTheDocument();
   });
 });

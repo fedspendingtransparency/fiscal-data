@@ -88,7 +88,9 @@ const FAQ = ({ triggerHighlight = 0 }) => {
       >
         <p>
           Please check back regularly for updates to the site including new features and additional datasets. You can also{' '}
-          <CustomLink url="mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov">sign up to receive updates via email.</CustomLink>
+          <CustomLink url="mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov?subject=Yes, I’d like to receive updates from Fiscal Data!">
+            sign up to receive updates via email.
+          </CustomLink>
         </p>
       </SectionContent>
       <SectionContent id="when-is-new-data-uploaded-to-site" headingLevel={commonSectionHeadingLevel} title="When is new data uploaded to the site?">
