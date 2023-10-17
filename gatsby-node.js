@@ -325,12 +325,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       }
     });
   });
-
-  // const beaResults = await fetchBEA()
-  //   .then(res => res)
-  //   .catch(error => {
-  //     throw error;
-  //   });
 };
 
 exports.createSchemaCustomization = ({ actions }) => {
