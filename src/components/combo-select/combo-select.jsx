@@ -105,7 +105,6 @@ export default function ComboSelect({
     }
 
     if ((!event || !event.target.parentElement.contains(event.relatedTarget)) && (!mouseOverDropdown || !parentIsSelectControl)) {
-
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
           if (isExchangeTool) {
