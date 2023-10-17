@@ -3,62 +3,6 @@ import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 
-const data = [
-  {
-    name: '2023',
-    color: '#00796B',
-    duration: 1300,
-    data: [
-      { category: 'Oct', value: 0.0 },
-      { category: 'Nov', value: 0.25 },
-      { category: 'Dec', value: 0.35 },
-      { category: 'Jan', value: 0.65 },
-      { category: 'Feb', value: 0.75 },
-      { category: 'Mar', value: 0.95 },
-      { category: 'Arp', value: 1.15 },
-      { category: 'May', value: 1.25 },
-    ],
-  },
-  {
-    name: '2022',
-    color: '#99C8C4',
-    duration: 2000,
-    data: [
-      { category: 'Oct', value: 0 },
-      { category: 'Nov', value: 0.15 },
-      { category: 'Dec', value: 0.33 },
-      { category: 'Jan', value: 0.48 },
-      { category: 'Feb', value: 0.69 },
-      { category: 'Mar', value: 0.88 },
-      { category: 'Arp', value: 1.12 },
-      { category: 'May', value: 1.13 },
-      { category: 'Jun', value: 1.22 },
-      { category: 'Jul', value: 1.22 },
-      { category: 'Aug', value: 1.35 },
-      { category: 'Sep', value: 1.4 },
-    ],
-  },
-  {
-    name: '5 year average (2017-2022)',
-    color: '#555',
-    duration: 2000,
-    data: [
-      { category: 'Oct', value: 0 },
-      { category: 'Nov', value: 0.22 },
-      { category: 'Dec', value: 0.63 },
-      { category: 'Jan', value: 0.85 },
-      { category: 'Feb', value: 0.95 },
-      { category: 'Mar', value: 1.25 },
-      { category: 'Arp', value: 1.66 },
-      { category: 'May', value: 1.75 },
-      { category: 'Jun', value: 1.99 },
-      { category: 'Jul', value: 2.23 },
-      { category: 'Aug', value: 2.55 },
-      { category: 'Sep', value: 2.95 },
-    ],
-  },
-];
-
 const TickCount = (props) => {
   const {x ,y, payload } = props;
   const index = payload.index;
@@ -89,7 +33,7 @@ const TickCount = (props) => {
                 marginRight: '5px',
               }} 
             />
-              {`${entry.name}: $${entry.value}`}
+              {`${entry.name}: $${Math.round(entry.value *100) / 100}`}
           </p>
         ))}
       </div>
@@ -101,46 +45,120 @@ const TickCount = (props) => {
  };
 
 const ReLineGraph = () => {
-  const [currentFiscalYear, setCurrentFiscalYear] = useState("");
-  const [priorFiscalYear, setPriorFiscalYear] = useState("");
-  const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date&page[size]=1';
-  const priorYearUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691,record_calendar_month:eq:09,record_fiscal_year:eq:{prior_fiscal_year}&sort=-record_date&page[size]=1'
+  const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
+  const [data, setData] = useState(null);
+  const [data2, setData2] = useState(null);
 
-useEffect(() => {
-  basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
-    if (result?.data) {
-      setCurrentFiscalYear(result.data[0].record_fiscal_year);
-      setPriorFiscalYear(result.data[0].current_fiscal_year-2);
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        setData2(res.data);
+        let processedData = processData(res.data);
+        setData(processedData);
+      })
+  }, []);
+
+  const processData = (data) => {
+    let yearlyData = {};
+    let rollingTotals = {};
+  
+    data.sort((dateOne, dateTwo) => new Date(dateOne["record_date"]) - new Date(dateTwo["record_date"]));
+  
+    data.forEach((record) => {
+      let date = new Date(record["record_date"]);
+      let year = date.getFullYear();
+      let month = date.getMonth();
+  
+      if (!yearlyData[year]) {
+        yearlyData[year] = Array(12).fill(null);
+        rollingTotals[year] = 0;
+      }
+  
+      let currentMonthValue = parseFloat(record["current_month_gross_outly_amt"]) / 1e12;
+      rollingTotals[year] += currentMonthValue;
+      yearlyData[year][month] = rollingTotals[year];
+    });
+  
+    // for (let year in yearlyData) {
+    //   let lastKnownValue = 0;
+    //   for (let i = 0; i < 12; i++) {
+    //     if (yearlyData[year][i] !== null) {
+    //       lastKnownValue = yearlyData[year][i];
+    //     } else if (i > 0 && yearlyData[year][i - 1] !== null) {
+    //       yearlyData[year][i] = lastKnownValue;
+    //     }
+    //   }
+    // }
+  
+    let avgData = Array(12).fill(0);
+    for (let i = 0; i < 12; i++) {
+      let sum = 0;
+      let count = 0;
+      for (let year = 2015; year <= 2019; year++) {
+        if (yearlyData[year] && yearlyData[year][i] !== null) {
+          sum += yearlyData[year][i];
+          count++;
+        }
+      }
+      avgData[i] = sum / (count || 1);
     }
-  });
-}, []);
+  
+    let finalData = [];
+    const months = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
+  
+    months.forEach((month, idx) => {
+      let entry = { month: month };
+      for (let year = 2020; year <= 2021; year++) {
+        if (yearlyData[year]) {
+          entry[year.toString()] = yearlyData[year][idx];
+        }
+      }
+      entry["2015-2019"] = avgData[idx];
+      finalData.push(entry);
+    });
+  
+    return finalData;
+  };
 
-console.log("current ",currentFiscalYear);
-console.log("pfy ", priorFiscalYear);
+  const keyFilter = data.length > 0 ? Object.keys(data[0]).filter(key => key !== "month") : [];
+
   return (
     <div style={{ width: '800px', height: '600px' }}>
+        {console.log('chartData', data)}
+        {console.log('chartData', data2)}
       <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart width={500} height={300} cursor="pointer">
+        <LineChart width={500} height={300} cursor="pointer" data={data}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
-            <YAxis type="number" domain={[0, 10]} tickCount={9} />
+            <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={ <TickCount /> } />
+            <YAxis tickFormatter={(tickItem) => `${tickItem}`} />
             <Tooltip 
+              content={<CustomTooltip />}
               isAnimationActive={true} 
               animationEasing=';inear' 
             />
             <Legend type="circle" />
-            {data.map((e) => (
               <Line 
-                dataKey="value" 
-                data={e.data} 
-                name={e.name} 
-                key={e.name} 
-                stroke={e.color}
+                dataKey="2021"  
+                dot={false}
+                name="2021"
+                strokeWidth={3}
+                stroke="#00796B"
+              />
+              <Line 
+                dataKey="2020"  
+                dot={false}
+                name="2020"
+                strokeWidth={3}
+                stroke="#99C8C4"
+              />
+              <Line 
+                dataKey="2015-2019"  
                 dot={false}
                 strokeWidth={3}
-                animationDuration={e.duration}
+                name="5 Year Average"
+                stroke="#555"
               />
-            ))}
         </LineChart>
       </ResponsiveContainer>
     </div>

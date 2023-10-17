@@ -1,162 +1,168 @@
 /* istanbul ignore file */
-import React, { useState, useEffect } from 'react'; 
-import { ResponsiveLine } from '@nivo/line';
-import { lineGraph, tooltip } from '../experimental.module.scss';
+import React, {useEffect, useState} from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 
+const TickCount = (props) => {
+  const {x ,y, payload } = props;
+  const index = payload.index;
+  return (
+    <g transform={`translate(${x}, ${y})`}>
+      <text x={0} y={0} dy={16} textAnchor='middle' fill='#666'>
+        {index % 3 === 0 ? payload.value : ''}
+      </text>
+    </g>
+  )
+};
 
-const data = [
-  {
-    id: 'Line 1',
-    data: [
-      { x: 2013, y: 0 },
-      { x: 2014, y: 0 },
-      { x: 2015, y: 2 },
-      { x: 2016, y: 3 },
-      { x: 2017, y: 3 },
-      { x: 2018, y: 6 },
-      { x: 2019, y: 5 },
-      { x: 2020, y: 6 },
-      { x: 2021, y: 4 },
-      { x: 2022, y: 3 },
-      { x: 2023, y: 2 },
-    ],
-  },
-  {
-    id: 'Line 2',
-    data: [
-      { x: 2013, y: 0 },
-      { x: 2014, y: 1 },
-      { x: 2015, y: 3 },
-      { x: 2016, y: 4 },
-      { x: 2017, y: 5 },
-      { x: 2018, y: 7 },
-      { x: 2019, y: 8 },
-      { x: 2020, y: 8 },
-      { x: 2021, y: 8 },
-      { x: 2022, y: 9 },
-      { x: 2023, y: 1 },
-    ],
-  },
-  {
-    id: 'Line 3',
-    data: [
-      { x: 2013, y: 1 },
-      { x: 2014, y: 0 },
-      { x: 2015, y: 1 },
-      { x: 2016, y: 2 },
-      { x: 2017, y: 3 },
-      { x: 2018, y: 4 },
-      { x: 2019, y: 5 },
-      { x: 2020, y: 6 },
-      { x: 2021, y: 7 },
-      { x: 2022, y: 9 },
-      { x: 2023, y: 11 },
-    ],
-  },
-];
+ const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div>
+        <p>{label}</p>
 
-
-const LineGraph = () => {
-  const [mouseHover, setMouseHover] = useState(null);
-  const [opacity, setOpacity] = useState(0);
-
-  useEffect (() => {
-    if (mouseHover !== null) {
-      fadeIn();
-    }
-    else {
-      fadeOut();
-    }
-
-  }, [mouseHover]);
-
-  const fadeIn = () => {
-    setOpacity(1);
+        {payload.map((entry, index) => (
+          <p key={`item-${index}`} style={{color: entry.stroke }}>
+            <span 
+              style={{
+                display: 'inline-block',
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: entry.stroke,
+                marginRight: '5px',
+              }} 
+            />
+              {`${entry.name}: $${Math.round(entry.value *100) / 100}`}
+          </p>
+        ))}
+      </div>
+    );
   }
-  const fadeOut = () => {
-    setOpacity(0);
-  }
+  return (
+    <div>asasasas</div>
+  );
+ };
+
+const ReLineGraph = () => {
+  const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
+  const [data, setData] = useState(null);
+  const [data2, setData2] = useState(null);
+
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then((res) => {
+        setData2(res.data);
+        let processedData = processData(res.data);
+        setData(processedData);
+      })
+  }, []);
+
+  const processData = (data) => {
+    let yearlyData = {};
+    let rollingTotals = {};
+  
+    data.sort((dateOne, dateTwo) => new Date(dateOne["record_date"]) - new Date(dateTwo["record_date"]));
+  
+    data.forEach((record) => {
+      let date = new Date(record["record_date"]);
+      let year = date.getFullYear();
+      let month = date.getMonth();
+  
+      if (!yearlyData[year]) {
+        yearlyData[year] = Array(12).fill(null);
+        rollingTotals[year] = 0;
+      }
+  
+      let currentMonthValue = parseFloat(record["current_month_gross_outly_amt"]) / 1e12;
+      rollingTotals[year] += currentMonthValue;
+      yearlyData[year][month] = rollingTotals[year];
+    });
+  
+    // for (let year in yearlyData) {
+    //   let lastKnownValue = 0;
+    //   for (let i = 0; i < 12; i++) {
+    //     if (yearlyData[year][i] !== null) {
+    //       lastKnownValue = yearlyData[year][i];
+    //     } else if (i > 0 && yearlyData[year][i - 1] !== null) {
+    //       yearlyData[year][i] = lastKnownValue;
+    //     }
+    //   }
+    // }
+  
+    let avgData = Array(12).fill(0);
+    for (let i = 0; i < 12; i++) {
+      let sum = 0;
+      let count = 0;
+      for (let year = 2015; year <= 2019; year++) {
+        if (yearlyData[year] && yearlyData[year][i] !== null) {
+          sum += yearlyData[year][i];
+          count++;
+        }
+      }
+      avgData[i] = sum / (count || 1);
+    }
+  
+    let finalData = [];
+    const months = ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"];
+  
+    months.forEach((month, idx) => {
+      let entry = { month: month };
+      for (let year = 2020; year <= 2021; year++) {
+        if (yearlyData[year]) {
+          entry[year.toString()] = yearlyData[year][idx];
+        }
+      }
+      entry["2015-2019"] = avgData[idx];
+      finalData.push(entry);
+    });
+  
+    return finalData;
+  };
+
+  const keyFilter = data.length > 0 ? Object.keys(data[0]).filter(key => key !== "month") : [];
 
   return (
-    <div 
-    style={{ height: '400px', position: 'relative', width: '600px', opacity: mouseHover !== null ? 0 : 1,
-    transition: 'opacity 3s ease-in-out' }}
-    role='presentation'
-    onMouseEnter={fadeIn}
-    onMouseLeave={fadeOut}
-    >
-      <ResponsiveLine
-        data={data}
-        margin={{ top: 50, right: 50, bottom: 100, left: 100 }}
-        xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
-        yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
-        axisBottom={{
-          legend: 'X to the Power of Axis',
-          legendOffset: 36,
-          legendPosition: 'middle',
-        }}
-        axisLeft={{
-          legend: 'Y to the Power of Axis',
-          legendOffset: -40,
-          legendPosition: 'middle',
-        }}
-        animate={true}
-        enableGridX={false}
-        enableGridY={true}
-        enablePoints={false}
-        crosshairType='x'
-        onMouseEnter={(slice) => {
-          setMouseHover(slice.slicePoints[0].x);
-          }}
-        onMouseLeave={() => {
-          setMouseHover(null)
-        }}
-        sliceTooltip={({ slice }) => {
-          return (
-            <div 
-            className={tooltip}
-              style={{ 
-                background: 'white', 
-                padding: '10px', 
-                border: '1px solid #ccc', 
-                opacity: opacity,
-                transition: 'opacity 3s ease-in-out'
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    width: '120px',
-                    height: '100px',
-                    backgroundColor: 'white',
-                    display: 'inline-block',
-                  }}
-                >
-                  <div style={{fontSize: 24}}>Year: {slice.points[0].data.x}</div>
-                  {slice.points.map((point) => (
-                    <div key={point.serieId}>
-                      <div 
-                        style={{
-                            height: '10px', 
-                            width: '10px', 
-                            backgroundColor: point.serieColor, 
-                            display: 'inline-block', 
-                            borderRadius: '50%', 
-                            marginRight: '5px'
-                            }}
-                      />
-                       {point.serieId} : {point.data.y}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          );
-        }}
-      />
+    <div style={{ width: '800px', height: '600px' }}>
+        {console.log('chartData', data)}
+        {console.log('chartData', data2)}
+      <ResponsiveContainer width="100%" aspect={3}>
+        <LineChart width={500} height={300} cursor="pointer" data={data}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={ <TickCount /> } />
+            <YAxis tickFormatter={(tickItem) => `${tickItem}`} />
+            <Tooltip 
+              content={<CustomTooltip />}
+              isAnimationActive={true} 
+              animationEasing=';inear' 
+            />
+            <Legend type="circle" />
+              <Line 
+                dataKey="2021"  
+                dot={false}
+                name="2021"
+                strokeWidth={3}
+                stroke="#00796B"
+              />
+              <Line 
+                dataKey="2020"  
+                dot={false}
+                name="2020"
+                strokeWidth={3}
+                stroke="#99C8C4"
+              />
+              <Line 
+                dataKey="2015-2019"  
+                dot={false}
+                strokeWidth={3}
+                name="5 Year Average"
+                stroke="#555"
+              />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };
 
-export default LineGraph;
-
+export default ReLineGraph;
