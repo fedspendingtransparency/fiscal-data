@@ -22,7 +22,7 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setF
                   <span className={dot} style={{ backgroundColor: row.color }}></span>
                   <span className={title}>{row.title}</span>
                 </div>
-                <span className={value}>{getShortForm(row.value)}</span>
+                <span className={value}>${getShortForm(row.value)}</span>
               </div>
             );
           })}
