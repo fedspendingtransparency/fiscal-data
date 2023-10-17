@@ -13,7 +13,7 @@ describe('Social Share component', () => {
   it('renders the social share button with icon and text', () => {
     const { getByRole } = render(<ShareButtonContent name={'facebook'} width={breakpointLg} displayStyle={'responsive'} />);
 
-    const facebook = getByRole('button', { name: 'facebook' });
+    const facebook = getByRole('button', { name: 'facebook content' });
     const icon = getByRole('img', { hidden: true });
 
     expect(facebook).toBeInTheDocument();
