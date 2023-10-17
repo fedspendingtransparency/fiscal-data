@@ -96,7 +96,15 @@ export default function ComboSelect({
   };
   /* accessibility-enabling event handlers for interpreting focus state on control */
   const onBlurHandler = event => {
-    if ((!event || !event.target.parentElement.contains(event.relatedTarget)) && !mouseOverDropdown) {
+    let parentIsSelectControl = true;
+    if (mouseOverDropdown) {
+      const parentClassName = event.target.parentElement.className;
+      if (!parentClassName.includes('select-control')) {
+        parentIsSelectControl = false;
+      }
+    }
+
+    if ((!event || !event.target.parentElement.contains(event.relatedTarget)) && (!mouseOverDropdown || !parentIsSelectControl)) {
       timeOutId = setTimeout(() => {
         if (selectedOption && selectedOption.value) {
           if (isExchangeTool) {
