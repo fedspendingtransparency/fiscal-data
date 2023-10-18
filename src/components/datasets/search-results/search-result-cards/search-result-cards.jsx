@@ -67,7 +67,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
 
   const setContainerHeight = count => {
     return {
-      height: `${Math.ceil(count / cardsPerRow) * (cardHeight + gutter.y) + cardHeight}px`,
+      height: `${Math.ceil(count / cardsPerRow) * (cardHeight + gutter.y)}px`,
     };
   };
 
