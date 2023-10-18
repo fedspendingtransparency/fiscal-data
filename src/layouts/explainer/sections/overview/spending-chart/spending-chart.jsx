@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import CustomTooltip from './custom-tooltip/custom-tooltip.spec';
+import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { chartTitle, chartContainer, spendingChart } from './spending-chart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -21,14 +21,16 @@ const TickCount = (props) => {
 const AFGSpendingChart = () => {
   const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
+  const [data2, setData2] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then((res) => {
-        let processedData = processData(res.data);
+        const processedData = processData(res.data);
         setData(processedData);
+        setData2(res.data);
       })
   }, []);
 
@@ -115,6 +117,8 @@ const AFGSpendingChart = () => {
       )}
       {!isLoading && (
         <div className={chartContainer} >
+          {console.log('dataa', data)}
+          {console.log('dataa2', data2)}
           <ResponsiveContainer width="100%" height={164}>
             <LineChart cursor="pointer" data={data}>
                 <CartesianGrid vertical={false} />
