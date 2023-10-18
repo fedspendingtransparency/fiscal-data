@@ -9,7 +9,7 @@ import { currentFontSize } from '../../../../utils/browser-font-size';
   currentFontSize is divided by 16 because 16px is the standard (medium) browser font-size. That
    portion of the mathing below acts as a scalar for the standard card height of 337px.
 */
-const cardHeight = Math.floor((337 * currentFontSize) / 16) + Math.ceil(currentFontSize !== 16 ? currentFontSize * (currentFontSize / 16) : 0); // account for
+const cardHeight = Math.floor((368 * currentFontSize) / 16) + Math.ceil(currentFontSize !== 16 ? currentFontSize * (currentFontSize / 16) : 0); // account for
 // line wrapping
 
 const gutter = {
@@ -58,7 +58,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
 
     const x = (i % cardsPerRow) * (cardWidth + gutter.x);
     // increase vertical gap between cards by 2 rem (32) to compensate for higher card width with hero image
-    const y = Math.floor(i / cardsPerRow) * (cardHeight + gutter.y + 32);
+    const y = Math.floor(i / cardsPerRow) * (cardHeight + gutter.y);
 
     return {
       left: `${x}%`,
@@ -69,7 +69,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   const setContainerHeight = count => {
     return {
       // Increase container height by 1.33x regular card height to compensate for increased card height due to hero image
-      height: `${Math.ceil(count / cardsPerRow) * (cardHeight + gutter.y) + cardHeight * 1.33}px`,
+      height: `${Math.ceil(count / cardsPerRow) * (cardHeight + gutter.y) + cardHeight}px`,
     };
   };
 
