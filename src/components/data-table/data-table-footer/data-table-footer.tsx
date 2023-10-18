@@ -16,7 +16,6 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
   useEffect(() => {
     setFilteredRowLength(table.getSortedRowModel().rows.length);
   }, [table.getSortedRowModel()]);
-  console.log(pagingProps);
 
   const visibleRows = table => {
     const rowsVisible = table?.getRowModel().flatRows.length;
@@ -30,28 +29,28 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
         <span className={range}>
           {minRow} - {maxRow}
         </span>{' '}
-        rows of {largeDataset ? pagingProps.maxRows : filteredRowLength} rows
+        rows of {filteredRowLength} rows
       </>
     );
   };
 
-  // const visibleRows = table => {
-  //   const rowsVisible = table?.getRowModel().flatRows.length;
-  //   const pageSize = table.getState().pagination.pageSize;
-  //   const pageIndex = table.getState().pagination.pageIndex;
-  //   const minRow = pageIndex * pageSize + 1;
-  //   const maxRow = pageIndex * pageSize + rowsVisible;
-  //   return (
-  //     <>
-  //       Showing <span className={range}>{prepaginated ? `${rowsShowing.begin} : ${rowsShowing.end}` : `${minRow} - ${maxRow}`}</span> rows of{' '}
-  //       {prepaginated ? filteredRowLength : maxRows} rows
-  //     </>
-  //   );
-  // };
-
   const handlePerPageChange = pageSize => {
     table.setPageSize(pageSize);
     pagingProps?.handlePerPageChange(pageSize);
+  };
+
+  const paging = {
+    itemsPerPage: pagingProps?.itemsPerPage,
+    handlePerPageChange: x => {
+      handlePerPageChange(x);
+    },
+    handleJump: x => {
+      table.setPageIndex(x - 1);
+    },
+    maxPage: pagingProps?.maxPage, //table.getPageCount(),
+    tableName: '',
+    currentPage: table.getState().pagination.pageIndex + 1,
+    maxRows: filteredRowLength,
   };
 
   return (
@@ -59,24 +58,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>
-      {showPaginationControls && (
-        <PaginationControls
-          pagingProps={
-            largeDataset
-              ? pagingProps
-              : {
-                  itemsPerPage: pagingProps?.itemsPerPage,
-                  handlePerPageChange: x => handlePerPageChange(x),
-                  handleJump: x => table.setPageIndex(x - 1),
-                  maxPage: table.getPageCount(),
-                  tableName: '',
-                  currentPage: table.getState().pagination.pageIndex + 1,
-                  maxRows: filteredRowLength,
-                  table: table,
-                }
-          }
-        />
-      )}
+      {showPaginationControls && <PaginationControls pagingProps={paging} />}
     </div>
   );
 };

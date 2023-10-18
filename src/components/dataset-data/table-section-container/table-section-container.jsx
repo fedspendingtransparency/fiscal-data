@@ -53,33 +53,6 @@ const TableSectionContainer = ({
 
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
-  const [maxPage, setMaxPage] = useState(undefined);
-  const [paginatedMeta, setPaginatedMeta] = useState(undefined);
-  const [data, setData] = useState(undefined);
-
-  // Investigate why this is being called twice?
-  // const getDepaginatedData = async () => {
-  //   const from = formatDateForApi(dateRange.from);
-  //   const to = formatDateForApi(dateRange.to);
-  //   const sortParam = buildSortParams(selectedTable, selectedPivot);
-  //   const data = await basicFetch(
-  //     `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-  //       `:lte:${to}&sort=${sortParam}`
-  //   ).then(async res => {
-  //     const totalCount = res.meta['total-count'];
-  //     const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
-  //     // console.log('pageSize', pageSize);
-  //     return res.meta;
-  //     // const totalCount = res.meta['total-count'];
-  //     // const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
-  //     // return await basicFetch(
-  //     //   `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-  //     //     `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`
-  //     // );
-  //   });
-  //   setMaxPage(data);
-  //   return data;
-  // };
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -90,9 +63,8 @@ const TableSectionContainer = ({
         `:lte:${to}&sort=${sortParam}`
     ).then(async res => {
       const totalCount = res.meta['total-count'];
-      const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
-      if (totalCount > 10000) {
-        const data1 = await basicFetch(
+      if (totalCount > MAX_PAGE_SIZE) {
+        return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
             `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
         ).then(async res2 => {
@@ -103,12 +75,10 @@ const TableSectionContainer = ({
           res2.data = res2.data.concat(data2.data);
           return res2;
         });
-        console.log(data1);
-        return data1;
       } else {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`
+            `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
         );
       }
     });

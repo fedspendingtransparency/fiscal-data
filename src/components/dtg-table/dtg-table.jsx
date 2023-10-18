@@ -69,6 +69,12 @@ export default function DtgTable({
     }
   }, [tableProps]);
 
+  useEffect(() => {
+    if (dePaginated) {
+      setReactTableData(dePaginated);
+    }
+  }, [dateRange]);
+
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
@@ -438,7 +444,6 @@ export default function DtgTable({
             selectColumnPanel={selectColumnPanel}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
-            pageSize={pagingProps.itemsPerPage}
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
             tableName={tableName}
