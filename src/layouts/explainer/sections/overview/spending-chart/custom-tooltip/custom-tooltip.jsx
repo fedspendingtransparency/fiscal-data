@@ -25,8 +25,9 @@ const fiveYear = (name) => {
   return shortName[name] || name;
 }
 
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
+const CustomTooltip = ({ payload, label, setFocused }) => {
+  if (payload && payload.length && label) {
+    setFocused(payload[0].payload.name);
     return (
       <div className={tooltip} data-testid="CustomTooltip">
         <div className={tooltipLabel}>{`${longVersionMonth(label)}`}</div>

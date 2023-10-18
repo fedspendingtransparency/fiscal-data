@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BarGraph from '../../components/charts/bar/bar';
 import LineGraphAnimation from './charts/lineGraphAnimation';
-import ReLineGraph from './charts/rechartLineGraph';
 import { staggeredData, uncompressedBarGraphData } from '../../components/charts/helpers/helpersData';
 import { reducer } from '../../components/charts/helpers/helpers';
 import SiteLayout from '../../components/siteLayout/siteLayout';
@@ -99,10 +98,7 @@ const ExperimentalPage = () => {
         <br />
         <br />
         <h3> ReCharts Line </h3>
-        <div style={{width: '600px', height: '500px'}}>
-        <ReLineGraph />
-        </div>
-
+        <LineGraphAnimation />
         <h2>Basic Bar Graph, with labels visible on bars</h2>
         <BarGraph
           divClass={barDiv}
