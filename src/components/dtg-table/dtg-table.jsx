@@ -354,7 +354,7 @@ export default function DtgTable({
           </div>
         </>
       )}
-      <Experimental exclude featureId="react-table-poc">
+      <Experimental featureId="react-table-poc">
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
@@ -422,7 +422,7 @@ export default function DtgTable({
           </div>
         )}
       </Experimental>
-      <Experimental featureId="react-table-poc">
+      <Experimental exclude featureId="react-table-poc">
         {reactTableData && (
           <DataTable
             rawData={reactTableData}
@@ -442,6 +442,7 @@ export default function DtgTable({
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
             tableName={tableName}
+            largeDataset={!!dePaginated}
           />
         )}
       </Experimental>

@@ -36,6 +36,7 @@ type DataTableProps = {
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
+  largeDataset: boolean;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -57,6 +58,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   hideColumns,
   pagingProps,
+  largeDataset,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -222,7 +224,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
+      {shouldPage && (
+        <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} largeDataset={largeDataset} />
+      )}
     </>
   );
 };
