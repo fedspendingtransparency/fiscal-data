@@ -251,7 +251,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
           holding money, hand holding gold coin, woman looking at check, and man looking
           at building."
           />
-        <Experimental  featureId="afg-overview">
+        <Experimental exclude featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
@@ -269,7 +269,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
           />
         </Experimental>
-        <Experimental exclude featureId="afg-overview">
+        <Experimental featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
@@ -304,7 +304,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
               </Grid>
             </Grid>
           </div>
-          <Experimental  featureId="afg-overview">
+          <Experimental exclude featureId="afg-overview">
             <AfgTopicSection
               heading={deficitHeading}
               body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
@@ -320,7 +320,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
               of the hand, including a pie chart, bar graph, and lit lightbulb."
             />
           </Experimental>
-          <Experimental exclude featureId="afg-overview">
+          <Experimental featureId="afg-overview">
             <AfgTopicSection
               heading={deficitHeading}
               body="A budget deficit occurs when the money spent exceeds the money collected for a given period."

@@ -18,7 +18,6 @@ const TickCount = (props) => {
   )
 };
 
-
 const AFGSpendingChart = () => {
   const endpointUrl ='v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);

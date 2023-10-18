@@ -1,48 +1,29 @@
-import React from 'react';
-import { tooltip, tooltipLabel, dot, title, value, tooltipRow } from '../spending-chart.module.scss';
 
-const longVersionMonth = (month) => {
-  const monthNames = {
-    Jan: 'Janurary',
-    Feb: 'Feburary',
-    Mar: 'March',
-    Apr: 'April',
-    May: 'May',
-    Jun: 'June',
-    Jul: 'July',
-    Aug: 'August',
-    Sep: 'September',
-    Oct: 'October',
-    Nov: 'November',
-    Dec: 'Decmber'
-  }
-  return monthNames[month] || month;
-}
-const fiveYear = (name) => {
-  const shortName = {
-    '5 Year Average (2016-2021)': '5 Yr Avg',
-  }
-  return shortName[name] || name;
-}
 
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className={tooltip}>
-        <div className={tooltipLabel}>{`${longVersionMonth(label)}`}</div>
-        {payload.map((entry, index) => (
-          <div className={tooltipRow} key={`item-${index}`} style={{color: entry.stroke }}>
-            <div className={value}>
-              <span className={dot} style={{ backgroundColor: entry.stroke }} />
-              <span className={title}>{`${fiveYear(entry.name)}: `}</span>
-            </div>
-            <span className={value}>{`$${Math.round(entry.value *100) / 100}T`}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  return null;
- };
+ import React from 'react';
+import { render } from '@testing-library/react'; 
+import CustomTooltip from './custom-tooltip';
 
- export default CustomTooltip;
+describe('Spending Tooltip', () => {
+const mockPayload = [
+  {
+    payload: {
+      tooltip: [{label: 'October', value: 125000000, name: 2020}]
+    }
+  }
+]
+
+
+it('renders the tooltip', () => {
+  const { getByTestId, getByText } = render(<CustomTooltip payload={mockPayload} label={2020} setFocused={jest.fn()} />);
+  expect(getByTestId('CustomTooltip')).toBeInTheDocument();
+  expect(getByText('2020')).toBeInTheDocument();
+  expect(getByText(`$mockPayload[0].payload.tooltip[0].value)`)).toBeInTheDocument();
+});
+
+it('does not render the tooltip when it is inactive', () => {
+  const { queryByTestId } = render(<CustomTooltip setFocused={jest.fn()} />);
+  expect(queryByTestId('CustomTooltip')).not.toBeInTheDocument();
+});
+
+});
