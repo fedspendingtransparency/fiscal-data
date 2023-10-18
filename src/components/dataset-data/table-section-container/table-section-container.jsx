@@ -67,13 +67,13 @@ const TableSectionContainer = ({
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
             `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
-        ).then(async res2 => {
-          const data2 = await basicFetch(
+        ).then(async page1res => {
+          const page2res = await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
               `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
           );
-          res2.data = res2.data.concat(data2.data);
-          return res2;
+          page1res.data = page1res.data.concat(page2res.data);
+          return page1res;
         });
       } else {
         return await basicFetch(

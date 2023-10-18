@@ -51,30 +51,6 @@ export default function DtgTable({
 
   const [reactTableData, setReactTableData] = useState(null);
 
-  useEffect(() => {
-    if (tableProps) {
-      if (dePaginated !== undefined) {
-        if (dePaginated !== null) {
-          if (reactTableData === null) {
-            setReactTableData(dePaginated);
-          }
-        } else {
-          if (rawData !== null) {
-            if (reactTableData === null) {
-              setReactTableData(rawData);
-            }
-          }
-        }
-      }
-    }
-  }, [tableProps]);
-
-  useEffect(() => {
-    if (dePaginated) {
-      setReactTableData(dePaginated);
-    }
-  }, [dateRange]);
-
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
@@ -349,6 +325,30 @@ export default function DtgTable({
     maxRows,
   };
 
+  useEffect(() => {
+    if (tableProps) {
+      if (dePaginated !== undefined) {
+        if (dePaginated !== null) {
+          if (reactTableData === null) {
+            setReactTableData(dePaginated);
+          }
+        } else {
+          if (rawData !== null) {
+            if (reactTableData === null) {
+              setReactTableData(rawData);
+            }
+          }
+        }
+      }
+    }
+  }, [tableProps]);
+
+  useEffect(() => {
+    if (dePaginated) {
+      setReactTableData(dePaginated);
+    }
+  }, [dateRange]);
+
   return (
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
@@ -447,7 +447,6 @@ export default function DtgTable({
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
             tableName={tableName}
-            largeDataset={!!dePaginated}
           />
         )}
       </Experimental>
