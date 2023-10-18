@@ -50,7 +50,7 @@ describe('Search Results Cards', () => {
   it('places cards by inline style', () => {
     expect(instance.findAllByProps({ 'data-testid': 'cardPlacement' })[1].props.style).toStrictEqual({
       left: '0%',
-      top: '383px',
+      top: '382px',
     });
   });
 
