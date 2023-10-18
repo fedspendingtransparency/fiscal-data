@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
-import CustomTooltip from '../../explainer/sections/overview/spending-chart/custom-tooltip/custom-tooltip'
+import CustomTooltip from '../../explainer/sections/overview/spending-chart/custom-tooltip/custom-tooltip.spec'
 import { chartTitle, spendingChart } from '../../../layouts/explainer/sections/overview/spending-chart/spending-chart.module.scss'
 
 const TickCount = (props) => {

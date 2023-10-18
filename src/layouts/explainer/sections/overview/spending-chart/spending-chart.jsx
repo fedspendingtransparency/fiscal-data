@@ -1,17 +1,18 @@
-/* istanbul ignore file */
 import React, {useEffect, useState} from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import CustomTooltip from './custom-tooltip/custom-tooltip';
+import CustomTooltip from './custom-tooltip/custom-tooltip.spec';
 import { chartTitle, chartContainer, spendingChart } from './spending-chart.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const TickCount = (props) => {
   const {x ,y, payload } = props;
-  const index = payload.index;
+  const monthsDisplayed = ['Oct', 'Jan', 'Apr', 'Jul'];
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <text x={0} y={0} dy={16} textAnchor='middle' fill='#666'>
-        {index % 3 === 0 ? payload.value : ''}
+      <text x={0} y={0} dy={16} textAnchor='middle'>
+        {monthsDisplayed.includes(payload.value) ? payload.value : ''}
       </text>
     </g>
   )
@@ -98,11 +99,22 @@ const AFGSpendingChart = () => {
       }
     });
   }, []);
+  
+  useEffect(() => {
+    if(currentFY) {
+      setLoading(false);
+    }
+  }, [currentFY]);
 
   return (
     <div className={spendingChart}>
-      {console.log('happy', currentFY)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
+      {isLoading && (
+        <div>
+          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
+        </div>
+      )}
+      {!isLoading && (
         <div className={chartContainer} >
           <ResponsiveContainer width="100%" height={164}>
             <LineChart cursor="pointer" data={data}>
@@ -118,13 +130,12 @@ const AFGSpendingChart = () => {
                   tickFormatter={(value, index) => axisFormatter(value, index)}
                   axisLine={false}
                   tickLine={false}
-                  TickCount={5}
                 />
                 <Tooltip 
                   content={<CustomTooltip />}
                 />
                 <Legend 
-                  wrapperStyle={{top: -16}} 
+                  wrapperStyle={{top: -16, right: 12}} 
                   verticalAlign="top" 
                   iconType="circle" 
                   iconSize='16px'
@@ -155,6 +166,7 @@ const AFGSpendingChart = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
+      )}
     </div>
   );
 };
