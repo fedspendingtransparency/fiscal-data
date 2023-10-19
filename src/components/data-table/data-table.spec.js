@@ -192,7 +192,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -208,7 +208,7 @@ describe('react-table', () => {
         rawData={mockGenericTableData}
         nonRawDataColumns={mockGenericTableColumns}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -224,7 +224,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -241,7 +241,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -270,7 +270,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -299,7 +299,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -330,7 +330,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={2}
+        pagingProps={{ itemsPerPage: 2 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -353,7 +353,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -371,7 +371,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -393,7 +393,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultSelectedColumnsMock}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -417,7 +417,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -431,7 +431,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -445,7 +445,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -460,7 +460,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
@@ -474,11 +474,11 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={defaultColumnsTypeCheckMock}
-        pageSize={10}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
         setFiltersActive={jest.fn()}
+        pagingProps={{ itemsPerPage: 10 }}
       />
     );
     expect(getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
@@ -489,7 +489,7 @@ describe('react-table', () => {
       <DataTable
         rawData={mockTableData}
         defaultSelectedColumns={null}
-        pageSize={10}
+        pagingProps={{ itemsPerPage: 10 }}
         setTableColumnSortData={setTableColumnSortData}
         shouldPage
         showPaginationControls
