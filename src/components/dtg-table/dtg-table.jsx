@@ -15,8 +15,10 @@ import CustomLink from '../links/custom-link/custom-link';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 import Experimental from '../experimental/experimental';
+import { useRecoilState } from 'recoil';
+import { reactTableDataState } from '../../recoil/reactTableDataState';
 
-const defaultRowsPerPage = 5;
+const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({
@@ -49,7 +51,9 @@ export default function DtgTable({
     publishedReports,
   } = tableProps;
 
-  const [reactTableData, setReactTableData] = useState(null);
+  // const [reactTableData, setReactTableData] = useState(null);
+
+  const [reactTableData, setReactTableData] = useRecoilState(reactTableDataState);
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
   const [currentPage, setCurrentPage] = useState(1);
@@ -329,9 +333,9 @@ export default function DtgTable({
     if (tableProps) {
       if (dePaginated !== undefined) {
         if (dePaginated !== null) {
-          if (reactTableData === null) {
-            setReactTableData(dePaginated);
-          }
+          // if (reactTableData === null) {
+          setReactTableData(dePaginated);
+          // }
         } else {
           if (rawData !== null) {
             if (reactTableData === null) {

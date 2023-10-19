@@ -3,6 +3,8 @@ import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
 import { range } from '../data-table.module.scss';
+import { useSetRecoilState } from 'recoil';
+import { reactTablePageState } from '../../../recoil/reactTableDataState';
 
 interface IDataTableFooter {
   table: Table<any>;
@@ -12,6 +14,7 @@ interface IDataTableFooter {
 
 const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
+  const setPageValue = useSetRecoilState(reactTablePageState);
   useEffect(() => {
     setFilteredRowLength(table.getSortedRowModel().rows.length);
   }, [table.getSortedRowModel()]);
@@ -51,6 +54,17 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
     currentPage: table.getState().pagination.pageIndex + 1,
     maxRows: filteredRowLength,
   };
+
+  useEffect(() => {
+    // console.log(pagingProps?.maxPage);
+    // console.log(table.getState().pagination.pageIndex + 1);
+
+    setPageValue(table.getState().pagination.pageIndex + 1);
+
+    if (table.getState().pagination.pageIndex + 1 > 15700) {
+      table.setPageIndex(1999);
+    }
+  }, [table.getState().pagination.pageIndex]);
 
   return (
     <div data-test-id="table-footer" className={tableFooter}>
