@@ -1,70 +1,57 @@
-
 import React from 'react';
-import { render, waitFor } from '@testing-library/react'; 
+import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
-import AFGSpendingChart from './spending-chart'; 
-import { basicFetch } from '../../../../../utils/api-utils'; 
-
-jest.mock('../../../../../utils/api-utils');
+import AFGSpendingChart, { TickCount } from './spending-chart';
 
 describe('AFGSpendingChart Component', () => {
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver = ResizeObserver;
 
-  const mockCallOutData = {
+  const mockData = {
     data: [
       {
-        record_date: "2019-10-30",
-        current_month_gross_outly_amt: "12000000000000",
+        record_fiscal_year: '2019',
+        record_date: '2019-11-15',
+        current_month_gross_outly_amt: '11000000000000',
       },
     ],
   };
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it('renders without crashing', () => {
-    render(<AFGSpendingChart />);
-  });
-
-  it('processes data correctly', async () => {
-    const mockData = [
-      {
-        record_date: "2021-11-15",
-        current_month_gross_outly_amt: "11000000000000",
-      },
-    ];
-
-    render(<AFGSpendingChart />);
-    await waitFor(() => expect(basicFetch).toHaveBeenCalledTimes(1));
-    const expectedProcessedData = [
-      {
-        month: "Oct",
-        "2021": 1.2,
-      },
-      {
-        month: "Nov",
-        "2021": 2.3,
-      },
-    ];
-  });
-
-
-  beforeAll(() => {
+  beforeEach(() => {
     fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date`,
-      mockCallOutData,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date`,
+      mockData,
       { overwriteRoutes: true },
       { repeat: 0 }
     );
   });
-  it('fetches current fiscal year and sets it', async () => {
-    const mockData = [
-      {
-        record_fiscal_year: "2022",
-      },
-    ];
-    basicFetch.mockResolvedValueOnce({ data: mockData });
-    render(<AFGSpendingChart />);
-    await waitFor(() => expect(basicFetch).toHaveBeenCalledTimes(1));
+
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  it('renders the chart', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const instance = render(<AFGSpendingChart />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(instance).toBeDefined();
+  });
+
+  it('user can see chart title', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const instance = render(<AFGSpendingChart />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(instance.getByText('Cumulative Spending by Month in trillions of USD')).toBeInTheDocument();
+  });
+
+  it('renders TickCount', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const instance = render(<TickCount />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    expect(instance).toBeDefined();
   });
 });
