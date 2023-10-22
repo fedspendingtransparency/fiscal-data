@@ -48,10 +48,22 @@ describe('AFGSpendingChart Component', () => {
     expect(instance.getByText('Cumulative Spending by Month in trillions of USD')).toBeInTheDocument();
   });
 
-  it('renders TickCount', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const instance = render(<TickCount />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(instance).toBeDefined();
+  it('should render the correct month when month is in monthsDisplayed', () => {
+    const { queryByText } = render(
+      <svg>
+        <TickCount x={10} y={9} payload={{ value: 'Jan' }} />
+      </svg>
+    );
+    expect(queryByText('Jan')).toBeInTheDocument();
   });
+
+  it('should not render the month when month is not in monthsDisplayed', () => {
+    const { queryByText } = render(
+      <svg>
+        <TickCount x={10} y={9} payload={{ value: 'Feb' }} />
+      </svg>
+    );
+    expect(queryByText('Feb')).not.toBeInTheDocument();
+  });
+
 });
