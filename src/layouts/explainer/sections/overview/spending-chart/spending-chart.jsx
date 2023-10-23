@@ -21,39 +21,34 @@ export const TickCount = props => {
 const AFGSpendingChart = () => {
   const endpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
-  const [data2, setData2] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
 
-  const previousYear =  currentFY -1;
-  const previousFiveYearStart =  currentFY - 6;
+  const previousYear = currentFY - 1;
+  const previousFiveYearStart = currentFY - 6;
   const previousFiveYearEnd = currentFY - 2;
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
-      if (result?.data) {
-        setCurrentFY(result.data[0].record_fiscal_year);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (currentFY) {
+    if (data) {
+      console.log(data);
       setLoading(false);
     }
-  }, [currentFY]);
+  }, [data]);
+
   useEffect(() => {
-    basicFetch(`${apiPrefix}${endpointUrl}`)?.then(res => {
-      const processedData = processData(res.data);
-      setData(processedData);
-      setData2(res.data);
+    basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
+      if (res?.data) {
+        setCurrentFY(res.data[0].record_fiscal_year);
+        console.log(res.data);
+        const processedData = processData(res.data);
+        setData(processedData);
+      }
     });
-  }, []);
+  }, [isLoading]);
 
   const processData = data => {
     const yearlyData = {};
     const rollingTotals = {};
-
 
     data.sort((dateOne, dateTwo) => new Date(dateOne['record_date']) - new Date(dateTwo['record_date']));
 
@@ -112,25 +107,48 @@ const AFGSpendingChart = () => {
 
   return (
     <div className={spendingChart}>
-      {console.log('dadata :', data2)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       {isLoading && (
         <div>
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       )}
-      {!isLoading && (
+      {data && (
         <div className={chartContainer}>
           <ResponsiveContainer width="99%" height={164}>
-            <LineChart cursor="pointer" data={data} strokeDasharray='3 3'>
+            <LineChart cursor="pointer" data={data} strokeDasharray="3 3">
               <CartesianGrid vertical={false} />
               <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
               <YAxis tickFormatter={(value, index) => axisFormatter(value, index)} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ top: -16, right: 12 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
-              <Line dataKey={currentFY} strokeDasharray={0} dot={false} name={`${currentFY} FYTD`} strokeWidth={3} isAnimationActive={false} stroke="#00796B" />
-              <Line dataKey={previousYear} strokeDasharray={0} dot={false} name={previousYear} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
-              <Line dataKey="fiveYearAvg" dot={false} strokeDasharray={0} strokeWidth={3} name={`${previousFiveYearStart}-${previousFiveYearEnd}`} isAnimationActive={false} stroke="#555" />
+              <Line
+                dataKey={currentFY}
+                strokeDasharray={0}
+                dot={false}
+                name={`${currentFY} FYTD`}
+                strokeWidth={3}
+                isAnimationActive={false}
+                stroke="#00796B"
+              />
+              <Line
+                dataKey={previousYear}
+                strokeDasharray={0}
+                dot={false}
+                name={previousYear}
+                strokeWidth={3}
+                isAnimationActive={false}
+                stroke="#99C8C4"
+              />
+              <Line
+                dataKey="fiveYearAvg"
+                dot={false}
+                strokeDasharray={0}
+                strokeWidth={3}
+                name={`${previousFiveYearStart}-${previousFiveYearEnd}`}
+                isAnimationActive={false}
+                stroke="#555"
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
