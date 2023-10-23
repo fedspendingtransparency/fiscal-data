@@ -35,6 +35,7 @@ const AFGSpendingChart = () => {
     const yearlyData = {};
     const rollingTotals = {};
 
+
     data.sort((dateOne, dateTwo) => new Date(dateOne['record_date']) - new Date(dateTwo['record_date']));
 
     data.forEach(record => {
@@ -56,7 +57,7 @@ const AFGSpendingChart = () => {
     for (let i = 0; i < 12; i++) {
       let sum = 0;
       let count = 0;
-      for (let year = 2015; year <= 2019; year++) {
+      for (let year = previousFiveYearStart; year <= previousFiveYearEnd; year++) {
         if (yearlyData[year] && yearlyData[year][i] !== null) {
           sum += yearlyData[year][i];
           count++;
@@ -70,12 +71,12 @@ const AFGSpendingChart = () => {
 
     months.forEach((month, idx) => {
       const entry = { month: month };
-      for (let year = 2020; year <= 2021; year++) {
+      for (let year = previousYear; year <= currentFY; year++) {
         if (yearlyData[year]) {
           entry[year.toString()] = yearlyData[year][idx];
         }
       }
-      entry['2015-2019'] = avgData[idx];
+      entry['fiveYearAvg'] = avgData[idx];
       finalData.push(entry);
     });
 
@@ -97,6 +98,10 @@ const AFGSpendingChart = () => {
       }
     });
   }, []);
+
+  const previousYear =  currentFY -1;
+  const previousFiveYearStart =  currentFY - 6;
+  const previousFiveYearEnd = currentFY - 2
 
   useEffect(() => {
     if (currentFY) {
@@ -123,7 +128,7 @@ const AFGSpendingChart = () => {
               <Legend wrapperStyle={{ top: -16, right: 12 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
               <Line dataKey={currentFY} dot={false} name={`${currentFY} FYTD`} strokeWidth={3} stroke="#00796B" />
               <Line dataKey={currentFY - 1} dot={false} name={currentFY - 1} strokeWidth={3} stroke="#99C8C4" />
-              <Line dataKey="2015-2019" dot={false} strokeWidth={3} name="5 Year Average (2016-2021)" stroke="#555" />
+              <Line dataKey="fiveYearAvg" dot={false} strokeWidth={3} name={`${previousFiveYearStart}-${previousFiveYearEnd}`} stroke="#555" />
             </LineChart>
           </ResponsiveContainer>
         </div>
