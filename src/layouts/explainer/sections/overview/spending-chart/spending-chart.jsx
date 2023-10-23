@@ -19,7 +19,7 @@ export const TickCount = props => {
 };
 
 const AFGSpendingChart = () => {
-  const endpointUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
+  const endpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
   const [data2, setData2] = useState(null);
   const [isLoading, setLoading] = useState(true);
@@ -27,7 +27,15 @@ const AFGSpendingChart = () => {
 
   const previousYear =  currentFY -1;
   const previousFiveYearStart =  currentFY - 6;
-  const previousFiveYearEnd = currentFY - 2
+  const previousFiveYearEnd = currentFY - 2;
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
+      if (result?.data) {
+        setCurrentFY(result.data[0].record_fiscal_year);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (currentFY) {
@@ -102,16 +110,9 @@ const AFGSpendingChart = () => {
     return `$${ret}`;
   };
 
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
-      if (result?.data) {
-        setCurrentFY(result.data[0].record_fiscal_year);
-      }
-    });
-  }, []);
-
   return (
     <div className={spendingChart}>
+      {console.log('dadata :', data2)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       {isLoading && (
         <div>
@@ -121,7 +122,6 @@ const AFGSpendingChart = () => {
       {!isLoading && (
         <div className={chartContainer}>
           <ResponsiveContainer width="99%" height={164}>
-            {console.log('dadata :', data2)}
             <LineChart cursor="pointer" data={data} strokeDasharray='3 3'>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
@@ -129,7 +129,7 @@ const AFGSpendingChart = () => {
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ top: -16, right: 12 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
               <Line dataKey={currentFY} strokeDasharray={0} dot={false} name={`${currentFY} FYTD`} strokeWidth={3} isAnimationActive={false} stroke="#00796B" />
-              <Line dataKey={currentFY - 1} strokeDasharray={0} dot={false} name={currentFY - 1} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
+              <Line dataKey={previousYear} strokeDasharray={0} dot={false} name={previousYear} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
               <Line dataKey="fiveYearAvg" dot={false} strokeDasharray={0} strokeWidth={3} name={`${previousFiveYearStart}-${previousFiveYearEnd}`} isAnimationActive={false} stroke="#555" />
             </LineChart>
           </ResponsiveContainer>
