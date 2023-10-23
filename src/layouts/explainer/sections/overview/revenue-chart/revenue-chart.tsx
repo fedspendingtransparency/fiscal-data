@@ -43,9 +43,7 @@ const AFGRevenueChart = (): ReactElement => {
         const setData = (data, i) => {
           const entry = { month: monthNames[i - 1] };
           let fiveYrAvg = 0;
-          console.log(data);
           data.forEach(record => {
-            console.log(record, curFY);
             const year = parseFloat(record.record_fiscal_year);
             if (year === curFY) {
               entry['currentFYValue'] = parseFloat(record.current_fytd_net_rcpt_amt) / 1e12;
@@ -66,7 +64,6 @@ const AFGRevenueChart = (): ReactElement => {
         }
 
         for (let i = 1; i <= 9; i++) {
-          console.log(res.data);
           const filteredMonth = res.data.filter(record => record.record_calendar_month === '0' + i.toString());
           chartData.push(setData(filteredMonth, i));
         }

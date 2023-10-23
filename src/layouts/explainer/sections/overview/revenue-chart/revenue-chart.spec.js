@@ -1,8 +1,9 @@
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
-import { understandingDeficitMatchers } from '../../../explainer-helpers/national-deficit/national-deficit-test-helper';
 import RevenueChart from './revenue-chart';
+import { revenueTrendsMatcher } from '../../../explainer-helpers/government-revenue/government-revenue-test-helper';
+
 describe('AFG Revenue Chart', () => {
   class ResizeObserver {
     observe() {}
@@ -13,7 +14,7 @@ describe('AFG Revenue Chart', () => {
 
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
-    setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
+    setGlobalFetchMatchingResponse(jest, revenueTrendsMatcher);
     jest.useFakeTimers();
   });
 
@@ -31,8 +32,8 @@ describe('AFG Revenue Chart', () => {
 
   it('renders legend', async () => {
     const { findByText } = render(<RevenueChart />);
-    expect(await findByText('2021 FYTD')).toBeInTheDocument();
-    expect(await findByText('2020')).toBeInTheDocument();
-    expect(await findByText('5 Year Average (2015-2019)')).toBeInTheDocument();
+    expect(await findByText('2015 FYTD')).toBeInTheDocument();
+    expect(await findByText('2014')).toBeInTheDocument();
+    expect(await findByText('5 Year Average (2009-2013)')).toBeInTheDocument();
   });
 });
