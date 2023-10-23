@@ -19,10 +19,10 @@ const longVersionMonth = (month) => {
   return monthNames[month] || month;
 }
 const fiveYear = (name) => {
-  const shortName = {
-    '5 Year Average (2015-2020)': '5 Yr Avg',
-  }
-  return shortName[name] || name;
+    if (typeof name === 'string' && name.includes('5 Year Average')){
+      return '5 Yr Avg';
+    } 
+  return name;
 }
 
 const CustomTooltip = ({ payload, label }) => {
