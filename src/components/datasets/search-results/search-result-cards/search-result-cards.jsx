@@ -9,7 +9,7 @@ import { currentFontSize } from '../../../../utils/browser-font-size';
   currentFontSize is divided by 16 because 16px is the standard (medium) browser font-size. That
    portion of the mathing below acts as a scalar for the standard card height of 337px.
 */
-const cardHeight = Math.floor((337 * currentFontSize) / 16) + Math.ceil(currentFontSize !== 16 ? currentFontSize * (currentFontSize / 16) : 0); // account for
+const cardHeight = Math.floor((368 * currentFontSize) / 16) + Math.ceil(currentFontSize !== 16 ? currentFontSize * (currentFontSize / 16) : 0); // account for
 // line wrapping
 
 const gutter = {
@@ -72,6 +72,12 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   };
 
   setCardPositionVars();
+
+  useEffect(() => {
+    allDatasets.forEach(dataset => {
+      dataset.heroNumber = Math.floor(Math.random() * 8);
+    });
+  }, []);
 
   useEffect(() => {
     if (allDatasets.length) {

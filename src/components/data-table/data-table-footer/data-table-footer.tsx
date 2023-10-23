@@ -38,25 +38,26 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
     pagingProps?.handlePerPageChange(pageSize);
   };
 
+  const paging = {
+    itemsPerPage: pagingProps?.itemsPerPage,
+    handlePerPageChange: x => {
+      handlePerPageChange(x);
+    },
+    handleJump: x => {
+      table.setPageIndex(x - 1);
+    },
+    maxPage: pagingProps?.maxPage, //table.getPageCount(),
+    tableName: '',
+    currentPage: table.getState().pagination.pageIndex + 1,
+    maxRows: filteredRowLength,
+  };
+
   return (
     <div data-test-id="table-footer" className={tableFooter}>
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>
-      {showPaginationControls && (
-        <PaginationControls
-          pagingProps={{
-            itemsPerPage: pagingProps?.itemsPerPage,
-            handlePerPageChange: x => handlePerPageChange(x),
-            handleJump: x => table.setPageIndex(x - 1),
-            maxPage: table.getPageCount(),
-            tableName: '',
-            currentPage: table.getState().pagination.pageIndex + 1,
-            maxRows: filteredRowLength,
-            table: table,
-          }}
-        />
-      )}
+      {showPaginationControls && <PaginationControls pagingProps={paging} />}
     </div>
   );
 };

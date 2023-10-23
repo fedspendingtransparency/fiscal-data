@@ -54,7 +54,6 @@ const TableSectionContainer = ({
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
 
-  // Investigate why this is being called twice?
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
@@ -64,11 +63,24 @@ const TableSectionContainer = ({
         `:lte:${to}&sort=${sortParam}`
     ).then(async res => {
       const totalCount = res.meta['total-count'];
-      const pageSize = totalCount >= MAX_PAGE_SIZE ? MAX_PAGE_SIZE : totalCount;
-      return await basicFetch(
-        `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-          `:lte:${to}&sort=${sortParam}&page[size]=${pageSize}`
-      );
+      if (totalCount > MAX_PAGE_SIZE) {
+        return await basicFetch(
+          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+            `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+        ).then(async page1res => {
+          const page2res = await basicFetch(
+            `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+              `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+          );
+          page1res.data = page1res.data.concat(page2res.data);
+          return page1res;
+        });
+      } else {
+        return await basicFetch(
+          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+            `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
+        );
+      }
     });
   };
 

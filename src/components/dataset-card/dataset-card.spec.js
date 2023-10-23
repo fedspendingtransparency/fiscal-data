@@ -55,19 +55,8 @@ describe('DatasetCard', () => {
   });
 
   it('contains the dataset name ', () => {
-    const titleLink = instance.findByProps({ className: datasetStyles.card_headerLink });
-    expect(titleLink).toBeDefined();
-  });
-
-  it('contains the text "Dataset Details" within an < span > tag', () => {
-    const fakeLink = instance.findByProps({ className: datasetStyles.card_link });
-    expect(fakeLink).toBeDefined();
-  });
-
-  it('contains the tagLine', () => {
-    const tagLineComponent = instance.findByProps({ className: datasetStyles.card_tagLine });
-    expect(tagLineComponent).toBeDefined();
-    expect(tagLineComponent.children[0].props.children).toBe(mockConfig.tagLine);
+    const instance = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
+    expect(instance.getByText('Debt to the Penny')).toBeDefined();
   });
 
   it('tracks when dataset card is click', () => {

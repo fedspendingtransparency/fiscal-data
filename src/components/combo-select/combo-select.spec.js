@@ -5,7 +5,6 @@ import ComboSelect from './combo-select';
 import { mockOptions } from './combo-select-test-helper';
 import Analytics from '../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
-import ComboCurrencySelect from './combo-currency-select/combo-currency-select';
 
 describe('The ComboSelect Component for Published Report year filtering', () => {
   let component = renderer.create();
@@ -298,7 +297,6 @@ describe('The ComboSelect Component for general text use', () => {
 
     fireEvent.click(dropdownButton);
     const list = getByTestId('selectorList');
-    // fireEvent.click(list);
     fireEvent.mouseLeave(list);
     fireEvent.blur(list);
     await waitFor(() => {
