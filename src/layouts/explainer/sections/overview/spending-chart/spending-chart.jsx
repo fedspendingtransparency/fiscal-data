@@ -118,16 +118,16 @@ const AFGSpendingChart = () => {
       )}
       {!isLoading && (
         <div className={chartContainer}>
-          <ResponsiveContainer width="100%" height={164}>
+          <ResponsiveContainer width="99%" height={164}>
             <LineChart cursor="pointer" data={data} strokeDasharray='3 3'>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
               <YAxis tickFormatter={(value, index) => axisFormatter(value, index)} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ top: -16, right: 12 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
-              <Line dataKey={currentFY} dot={false} name={`${currentFY} FYTD`} strokeWidth={3} stroke="#00796B" />
-              <Line dataKey={currentFY - 1} dot={false} name={currentFY - 1} strokeWidth={3} stroke="#99C8C4" />
-              <Line dataKey="fiveYearAvg" dot={false} strokeWidth={3} name={`${previousFiveYearStart}-${previousFiveYearEnd}`} stroke="#555" />
+              <Line dataKey={currentFY} strokeDasharray={0} dot={false} name={`${currentFY} FYTD`} strokeWidth={3} isAnimationActive={false} stroke="#00796B" />
+              <Line dataKey={currentFY - 1} strokeDasharray={0} dot={false} name={currentFY - 1} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
+              <Line dataKey="fiveYearAvg" dot={false} strokeDasharray={0} strokeWidth={3} name={`${previousFiveYearStart}-${previousFiveYearEnd}`} isAnimationActive={false} stroke="#555" />
             </LineChart>
           </ResponsiveContainer>
         </div>
