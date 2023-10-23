@@ -251,7 +251,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
           holding money, hand holding gold coin, woman looking at check, and man looking
           at building."
           />
-        <Experimental  featureId="afg-overview">
+        <Experimental featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
