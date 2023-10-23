@@ -21,9 +21,18 @@ export const TickCount = props => {
 const AFGSpendingChart = () => {
   const endpointUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [currentFY, setCurrentFY] = useState();
 
+  const previousYear =  currentFY -1;
+  const previousFiveYearStart =  currentFY - 6;
+  const previousFiveYearEnd = currentFY - 2
+
+  useEffect(() => {
+    if (currentFY) {
+      setLoading(false);
+    }
+  }, [currentFY]);
   useEffect(() => {
     basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
       const processedData = processData(res.data);
@@ -99,15 +108,6 @@ const AFGSpendingChart = () => {
     });
   }, []);
 
-  const previousYear =  currentFY -1;
-  const previousFiveYearStart =  currentFY - 6;
-  const previousFiveYearEnd = currentFY - 2
-
-  useEffect(() => {
-    if (currentFY) {
-      setLoading(false);
-    }
-  }, [currentFY]);
 
   return (
     <div className={spendingChart}>
