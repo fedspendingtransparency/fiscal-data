@@ -141,7 +141,7 @@ const AFGSpendingChart = () => {
                 dot={false}
                 strokeDasharray={0}
                 strokeWidth={3}
-                name={`${prevFiveYearStart}-${prevFiveYearEnd}`}
+                name={`5 Year Average ${prevFiveYearStart}-${prevFiveYearEnd}`}
                 isAnimationActive={false}
                 stroke="#555"
               />
