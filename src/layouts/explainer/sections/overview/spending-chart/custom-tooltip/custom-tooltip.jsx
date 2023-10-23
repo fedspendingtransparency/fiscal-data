@@ -3,8 +3,8 @@ import { tooltip, tooltipLabel, dot, title, value, tooltipRow } from '../spendin
 
 const longVersionMonth = (month) => {
   const monthNames = {
-    Jan: 'Janurary',
-    Feb: 'Feburary',
+    Jan: 'January',
+    Feb: 'February',
     Mar: 'March',
     Apr: 'April',
     May: 'May',
@@ -14,7 +14,7 @@ const longVersionMonth = (month) => {
     Sep: 'September',
     Oct: 'October',
     Nov: 'November',
-    Dec: 'Decmber'
+    Dec: 'December'
   }
   return monthNames[month] || month;
 }
