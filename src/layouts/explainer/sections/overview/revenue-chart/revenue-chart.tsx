@@ -2,19 +2,20 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import CustomTooltip from '../spending-chart/custom-tooltip/custom-tooltip';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import CustomTooltip from './custom-tooltip';
 import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { monthNames } from '../../../../../utils/api-utils';
 import ChartLegend from '../chart-components/chart-legend';
-import { monthAxisFormatter, yearAxisFormatter } from '../chart-helper';
+import { monthAxisFormatter, trillionAxisFormatter } from '../chart-helper';
 
 const AFGRevenueChart = (): ReactElement => {
   const endpointUrl = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const [finalChartData, setFinalChartData] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [legend, setLegend] = useState([]);
+  const [currentFY, setCurrentFY] = useState(null);
 
   const curFYColor = '#0A2F5A';
   const priorFYColor = '#9DABBD';
@@ -32,6 +33,7 @@ const AFGRevenueChart = (): ReactElement => {
     await basicFetch(`${apiPrefix}${endpointUrl}`)?.then(async res => {
       if (res.data) {
         curFY = parseFloat(res.data[0].record_fiscal_year);
+        setCurrentFY(curFY);
         priorFY = curFY - 1;
         fiveYrAvgMin = curFY - 6;
         fiveYrAvgMax = curFY - 2;
@@ -44,14 +46,15 @@ const AFGRevenueChart = (): ReactElement => {
           data.forEach(record => {
             const year = parseFloat(record.record_fiscal_year);
             if (year === curFY) {
-              entry['currentFY'] = parseFloat(record.current_fytd_net_rcpt_amt) / 1e12;
+              entry['currentFYValue'] = parseFloat(record.current_fytd_net_rcpt_amt) / 1e12;
+              entry['currentFY'] = curFY;
             } else if (year === priorFY) {
-              entry['priorFY'] = parseFloat(record.current_fytd_net_rcpt_amt) / 1e12;
+              entry['priorFYValue'] = parseFloat(record.current_fytd_net_rcpt_amt) / 1e12;
             } else if (year >= fiveYrAvgMin) {
               fiveYrAvg += parseFloat(record.current_fytd_net_rcpt_amt);
             }
           });
-          entry['fiveYearAvg'] = fiveYrAvg / 5 / 1e12;
+          entry['fiveYearAvgValue'] = fiveYrAvg / 5 / 1e12;
           return entry;
         };
 
@@ -105,7 +108,7 @@ const AFGRevenueChart = (): ReactElement => {
                   tickMargin={4}
                 />
                 <YAxis
-                  tickFormatter={(value, index) => yearAxisFormatter(value, index, tickCountYAxis)}
+                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountYAxis)}
                   tickCount={tickCountYAxis}
                   allowDecimals={false}
                   axisLine={false}
@@ -115,33 +118,33 @@ const AFGRevenueChart = (): ReactElement => {
                   domain={[0, dataMax => (dataMax > 10 ? 'auto' : 10)]}
                 />
                 <Line
-                  dataKey="fiveYearAvg"
+                  dataKey="fiveYearAvgValue"
                   isAnimationActive={false}
                   dot={false}
                   activeDot={false}
-                  name="Five Year Average"
+                  name="5 Yr Avg"
                   strokeWidth={2}
                   stroke={avgFYColor}
                 />
                 <Line
-                  dataKey="priorFY"
+                  dataKey="priorFYValue"
                   isAnimationActive={false}
                   dot={false}
                   activeDot={false}
-                  name="Prior FY"
+                  name={`${currentFY - 1}`}
                   strokeWidth={2}
                   stroke={priorFYColor}
                 />
                 <Line
-                  dataKey="currentFY"
+                  dataKey="currentFYValue"
                   isAnimationActive={false}
                   dot={false}
                   activeDot={false}
-                  name="Current FY"
+                  name={`${currentFY} FYTD`}
                   strokeWidth={2}
                   stroke={curFYColor}
                 />
-                <Tooltip cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} allowEscapeViewBox={{ y: true }} />
+                <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

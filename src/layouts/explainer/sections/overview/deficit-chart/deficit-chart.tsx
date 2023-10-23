@@ -3,7 +3,7 @@ import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContai
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../government-revenue/revenue.module.scss';
-import { legend, legendItem, dot, chartContainer, chartTitle, surplusPrimary, deficitChart } from './deficit-chart.module.scss';
+import { chartContainer, chartTitle, surplusPrimary, deficitChart } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +11,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import CustomDotNoAnimation from './custom-dot/custom-dot';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
+import { trillionAxisFormatter } from '../chart-helper';
 
 const AFGDeficitChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
@@ -28,7 +29,7 @@ const AFGDeficitChart = (): ReactElement => {
   const getChartData = async () => {
     if (currentFY) {
       const chart_data = [];
-      const round = x => x / 1000000000000;
+      const round = x => x / 1e12;
       let allSpending;
       let allRevenue;
       let surplusLegend = false;
@@ -98,14 +99,6 @@ const AFGDeficitChart = (): ReactElement => {
     });
   }, []);
 
-  const axisFormatter = (value, index) => {
-    let ret = value.toString();
-    if (index >= tickCountXAxis - 1) {
-      ret = ret + 'T';
-    }
-    return `$${ret}`;
-  };
-
   return (
     <div className={deficitChart} data-testid="AFGDeficitChart">
       <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
@@ -149,7 +142,7 @@ const AFGDeficitChart = (): ReactElement => {
                   <XAxis
                     tickMargin={16}
                     type="number"
-                    tickFormatter={(value, index) => axisFormatter(value, index)}
+                    tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountXAxis)}
                     axisLine={false}
                     tickLine={false}
                     allowDecimals={false}
