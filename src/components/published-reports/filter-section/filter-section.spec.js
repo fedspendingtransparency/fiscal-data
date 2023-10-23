@@ -1,12 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import FilterSection from './filter-section';
-import { dailyReports, reports } from '../test-helper';
+import { dailyReports, reports, largeSetReports } from '../test-helper';
 import SelectControl from '../../select-control/select-control';
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
 import * as styles from './filter-section.module.scss';
 import ComboSelect from '../../combo-select/combo-select';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
+import { fireEvent, waitFor, render, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 
@@ -253,5 +255,37 @@ describe('Filter Section', () => {
     renderer.act(() => monthSelector.props.changeHandler(monthSelector.props.options[0]));
     daySelectorWrapper = dayInstance.findAllByProps({ 'data-testid': 'day-wrapper' });
     expect(daySelectorWrapper.length).toBe(0);
+  });
+
+  it('collapses year combo select dropdown when parent of target is outside of the dropdown by class', async () => {
+    const { getByTestId, queryByTestId, getByRole } = render(<FilterSection reports={largeSetReports} setSelectedFile={selectedFileMock} />);
+
+    const previousToggle = getByRole('radio', { name: 'Previous' });
+    fireEvent.click(previousToggle);
+
+    const yearInput = getByRole('spinbutton', { name: 'Enter a year' });
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+
+    userEvent.click(yearInput);
+    const list = getByTestId('selectorList');
+    expect(list).toBeInTheDocument();
+
+    const button = within(list).getAllByRole('button')[0];
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+    });
+
+    userEvent.click(yearInput);
+    fireEvent.change(yearInput, { target: { value: '' } });
+    expect(getByTestId('selectorList')).toBeInTheDocument();
+
+    const reportDropdown = getByTestId('expand-dropdown');
+    userEvent.click(reportDropdown);
+
+    await waitFor(() => {
+      expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+    });
   });
 });

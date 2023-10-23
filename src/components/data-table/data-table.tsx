@@ -31,7 +31,6 @@ type DataTableProps = {
   setSelectColumnPanel;
   selectColumnPanel;
   setResetFilters: (value: boolean) => void;
-  pageSize: number;
   tableName: string;
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
@@ -52,7 +51,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   resetFilters,
   setResetFilters,
   hideCellLinks,
-  pageSize,
   tableName,
   setFiltersActive,
   hideColumns,
@@ -105,7 +103,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     initialState: {
       pagination: {
         pageIndex: 0,
-        pageSize: pageSize,
+        pageSize: pagingProps.itemsPerPage,
       },
     },
     state: {
@@ -178,6 +176,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
+
   useEffect(() => {
     if (defaultSelectedColumns) {
       constructDefaultColumnsFromTableData();
