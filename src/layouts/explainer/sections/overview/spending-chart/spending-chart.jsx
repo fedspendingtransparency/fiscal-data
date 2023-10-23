@@ -125,7 +125,7 @@ const AFGSpendingChart = () => {
               <XAxis interval={0} dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
               <YAxis domain={[0, 10]} ticks={[0,2,4,6,8,10]} interval={0} tickFormatter={(value, index) => axisFormatter(value, index)} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ top: -16, right: 12 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
+              <Legend wrapperStyle={{ top: -16, right: 16 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
               <Line
                 dataKey={currentFY}
                 strokeDasharray={0}
