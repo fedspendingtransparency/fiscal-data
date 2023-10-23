@@ -2003,6 +2003,12 @@ const endpointConfig = {
     ],
     valueFieldOptions: ['today_amt', 'mtd_amt', 'fytd_amt'],
   },
+  '263': {
+    endpoint: 'v1/accounting/od/frn_daily_indexes',
+    dateField: 'record_date',
+    downloadName: 'frn_daily_indexes',
+    alwaysSortWith: ['cusip', 'start_of_accrual_period'],
+  },
 };
 
 const setCompleteTableDisplayItem = response => {

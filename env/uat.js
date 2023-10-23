@@ -28,28 +28,6 @@ module.exports = {
         'record_calendar_day',
       ],
     },
-    '015-BFS-2014Q3-049': {
-      slug: '/frn_daily_indexes/',
-      seoConfig: {
-        pageTitle: 'FRN Daily Indexes',
-        description:
-          'The FRN Daily Indexes dataset provides data on Floating Rate Notes. FRNs are relatively short-term investments which mature in two years, pay interest four times each year, and have an interest rate that may change or "float" over time. A person is able to hold an FRN until it matures or sell it before it matures. The FRN Daily Indexes provide information for specific CUSIPs, accrual periods, daily indexes, daily interest accrual rates, spread, and interest payment periods.',
-        keywords: 'Debt, Savings Bonds, Auctions',
-      },
-      topics: ['auctions', 'debt', 'savings-bonds'],
-      relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045', '015-BFS-2014Q3-048'],
-      currentDateButton: 'byDay',
-      hideColumns: [
-        'record_date',
-        'src_line_nbr',
-        'record_fiscal_year',
-        'record_fiscal_quarter',
-        'record_calendar_year',
-        'record_calendar_quarter',
-        'record_calendar_month',
-        'record_calendar_day',
-      ],
-    },
   },
   ADDITIONAL_ENDPOINTS: {
     '27': {
@@ -195,12 +173,6 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'upcoming_auctions',
       alwaysSortWith: ['security_type', '-announcemt_date', '-auction_date', '-issue_date'],
-    },
-    '263': {
-      endpoint: 'v1/accounting/od/frn_daily_indexes',
-      dateField: 'record_date',
-      downloadName: 'frn_daily_indexes',
-      alwaysSortWith: ['cusip', 'start_of_accrual_period'],
     },
   },
 };
