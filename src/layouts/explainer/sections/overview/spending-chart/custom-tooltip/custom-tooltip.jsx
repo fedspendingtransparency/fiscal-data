@@ -20,7 +20,7 @@ const longVersionMonth = (month) => {
 }
 const fiveYear = (name) => {
   const shortName = {
-    '5 Year Average (2016-2021)': '5 Yr Avg',
+    '5 Year Average (2015-2020)': '5 Yr Avg',
   }
   return shortName[name] || name;
 }

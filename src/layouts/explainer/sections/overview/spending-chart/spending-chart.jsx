@@ -108,7 +108,6 @@ const AFGSpendingChart = () => {
     });
   }, []);
 
-
   return (
     <div className={spendingChart}>
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
@@ -120,7 +119,7 @@ const AFGSpendingChart = () => {
       {!isLoading && (
         <div className={chartContainer}>
           <ResponsiveContainer width="100%" height={164}>
-            <LineChart cursor="pointer" data={data}>
+            <LineChart cursor="pointer" data={data} strokeDasharray='3 3'>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
               <YAxis tickFormatter={(value, index) => axisFormatter(value, index)} axisLine={false} tickLine={false} />

@@ -251,7 +251,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
           holding money, hand holding gold coin, woman looking at check, and man looking
           at building."
           />
-        <Experimental exclude featureId="afg-overview">
+        <Experimental  featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
@@ -269,7 +269,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
           />
         </Experimental>
-        <Experimental  featureId="afg-overview">
+        <Experimental exclude featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
