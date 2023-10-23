@@ -123,7 +123,7 @@ const AFGSpendingChart = () => {
             <LineChart cursor="pointer" data={data} strokeDasharray="3 3">
               <CartesianGrid vertical={false} />
               <XAxis interval={0} dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
-              <YAxis tickFormatter={(value, index) => axisFormatter(value, index)} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 10]} ticks={[0,2,4,6,8,10]} interval={0} tickFormatter={(value, index) => axisFormatter(value, index)} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ top: -16, right: 12 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
               <Line
