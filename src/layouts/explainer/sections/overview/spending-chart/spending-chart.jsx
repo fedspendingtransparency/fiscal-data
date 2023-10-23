@@ -23,14 +23,12 @@ const AFGSpendingChart = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
-
-  const previousYear = currentFY - 1;
-  const previousFiveYearStart = currentFY - 6;
-  const previousFiveYearEnd = currentFY - 2;
+  const [prevYear, setPrevYear] = useState();
+  const [prevFiveYearStart, setPrevFiveYearStart] = useState();
+  const [prevFiveYearEnd, setPrevFiveYearEnd] = useState();
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setLoading(false);
     }
   }, [data]);
@@ -39,16 +37,22 @@ const AFGSpendingChart = () => {
     basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
       if (res?.data) {
         setCurrentFY(res.data[0].record_fiscal_year);
-        console.log(res.data);
+        setPrevYear(res.data[0].record_fiscal_year - 1);
+        setPrevFiveYearStart(res.data[0].record_fiscal_year - 6);
+        setPrevFiveYearEnd(res.data[0].record_fiscal_year - 2);
         const processedData = processData(res.data);
         setData(processedData);
       }
     });
-  }, [isLoading]);
+  }, []);
 
   const processData = data => {
     const yearlyData = {};
     const rollingTotals = {};
+    const previousYear = data[0].record_fiscal_year - 1;
+    const currentYear = data[0].record_fiscal_year;
+    const previousFiveYearStart = data[0].record_fiscal_year - 6;
+    const previousFiveYearEnd = data[0].record_fiscal_year - 2;
 
     data.sort((dateOne, dateTwo) => new Date(dateOne['record_date']) - new Date(dateTwo['record_date']));
 
@@ -85,7 +89,7 @@ const AFGSpendingChart = () => {
 
     months.forEach((month, idx) => {
       const entry = { month: month };
-      for (let year = previousYear; year <= currentFY; year++) {
+      for (let year = previousYear; year <= currentYear; year++) {
         if (yearlyData[year]) {
           entry[year.toString()] = yearlyData[year][idx];
         }
@@ -131,21 +135,13 @@ const AFGSpendingChart = () => {
                 isAnimationActive={false}
                 stroke="#00796B"
               />
-              <Line
-                dataKey={previousYear}
-                strokeDasharray={0}
-                dot={false}
-                name={previousYear}
-                strokeWidth={3}
-                isAnimationActive={false}
-                stroke="#99C8C4"
-              />
+              <Line dataKey={prevYear} strokeDasharray={0} dot={false} name={prevYear} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
               <Line
                 dataKey="fiveYearAvg"
                 dot={false}
                 strokeDasharray={0}
                 strokeWidth={3}
-                name={`${previousFiveYearStart}-${previousFiveYearEnd}`}
+                name={`${prevFiveYearStart}-${prevFiveYearEnd}`}
                 isAnimationActive={false}
                 stroke="#555"
               />
