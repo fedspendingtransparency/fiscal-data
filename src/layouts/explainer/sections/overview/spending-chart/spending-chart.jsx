@@ -19,9 +19,10 @@ export const TickCount = props => {
 };
 
 const AFGSpendingChart = () => {
-  const endpointUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
+  const endpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+  const [data2, setData2] = useState(null);
+  const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
 
   const previousYear =  currentFY -1;
@@ -37,6 +38,7 @@ const AFGSpendingChart = () => {
     basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
       const processedData = processData(res.data);
       setData(processedData);
+      setData2(res.data);
     });
   }, []);
 
@@ -119,6 +121,7 @@ const AFGSpendingChart = () => {
       {!isLoading && (
         <div className={chartContainer}>
           <ResponsiveContainer width="99%" height={164}>
+            {console.log('dadata :', data2)}
             <LineChart cursor="pointer" data={data} strokeDasharray='3 3'>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
