@@ -6,6 +6,7 @@ import { chartTitle, chartContainer, deficitChart } from '../deficit-chart/defic
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ChartLegend from '../chart-components/chart-legend';
+import { trillionAxisFormatter } from '../chart-helper';
 
 export const TickCount = props => {
   const { x, y, payload } = props;
@@ -76,14 +77,8 @@ const AFGSpendingChart = () => {
     setLegend(legendItems);
     return chartData;
   };
-  const tickCountXAxis = 6;
-  const axisFormatter = (value, index) => {
-    let ret = value.toString();
-    if (index >= tickCountXAxis - 1) {
-      ret = ret + 'T';
-    }
-    return `$${ret}`;
-  };
+  const tickCountYAxis = 6;
+
   useEffect(() => {
     if (!finalChartData) {
       getChartData().then(res => {
@@ -121,7 +116,8 @@ const AFGSpendingChart = () => {
                   ticks={[0,2,4,6,8,10]} 
                   interval={0}
                   width={32}
-                  tickFormatter={(value, index) => axisFormatter(value, index)} 
+                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountYAxis)} 
+                  tickCount={tickCountYAxis}
                   axisLine={false} 
                   tickLine={false} 
                 />
