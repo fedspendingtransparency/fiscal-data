@@ -12,7 +12,7 @@ export const TickCount = props => {
   const monthsDisplayed = ['Oct', 'Jan', 'Apr', 'Jul'];
   return (
     <g transform={`translate(${x}, ${y})`} data-testid="tickCount">
-      <text x={0} y={0} dy={16} textAnchor="middle" style={{color: '#666666'}}>
+      <text x={0} y={0} dy={16} textAnchor="middle" fill='#666666'>
         {monthsDisplayed.includes(payload.value) ? payload.value : ''}
       </text>
     </g>
@@ -22,6 +22,7 @@ export const TickCount = props => {
 const AFGSpendingChart = () => {
   const endpointUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
+  const [data2, setData2] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
   const [prevYear, setPrevYear] = useState();
@@ -40,6 +41,7 @@ const AFGSpendingChart = () => {
         setPrevYear(res.data[0].record_fiscal_year - 1);
         const processedData = processData(res.data);
         setData(processedData);
+        setData2(res.data);
       }
     });
   }, []);
@@ -51,13 +53,6 @@ const AFGSpendingChart = () => {
     const currentYear = data[0].record_fiscal_year;
     const previousFiveYearStart = data[0].record_fiscal_year - 6;
     const previousFiveYearEnd = data[0].record_fiscal_year - 2;
-
-    data.sort((dateOne, dateTwo) => {
-      const yearDiff = dateOne['record_fiscal_year'] - dateTwo['record_fiscal_year'];
-      if(yearDiff !== 0) return yearDiff;
-      
-      return dateOne['record_calendar_month'] - dateTwo['record_calendar_month']
-    });
 
     data.forEach(record => {
 
@@ -119,6 +114,7 @@ const AFGSpendingChart = () => {
 
   return (
     <div className={deficitChart}>
+      {console.log(data2)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       {isLoading && (
         <div>
