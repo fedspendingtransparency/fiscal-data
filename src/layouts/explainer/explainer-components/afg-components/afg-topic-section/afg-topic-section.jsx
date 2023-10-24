@@ -7,6 +7,7 @@ import * as styles from './afg-topic-section.module.scss';
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import AFGDefictChart from '../../../sections/overview/deficit-chart/deficit-chart';
+import AFGSpendingChart from '../../../sections/overview/spending-chart/spending-chart';
 import AFGRevenueChart from '../../../sections/overview/revenue-chart/revenue-chart';
 
 const AfgTopicSection = ({ heading, body, linkUrl, linkText, linkColor, image, imageAltText, eventNumber, citationClickPage, id }) => {
@@ -26,6 +27,8 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, linkColor, image, i
     switch (id) {
       case 'National Deficit':
         return <AFGDefictChart />;
+      case 'Federal Spending':
+        return <AFGSpendingChart />;
       case 'Government Revenue':
         return <AFGRevenueChart />;
       default:

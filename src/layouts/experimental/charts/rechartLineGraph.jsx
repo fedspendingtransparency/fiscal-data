@@ -58,11 +58,16 @@ const data = [
   },
 ];
 
+const CustomCursor = props => {
+  const { x, y, width, height, stroke } = props;
+  return <line fill="red" stroke="red" x={x} y={y} width={width} height={height} />;
+};
+
 const ReLineGraph = () => {
   return (
     <div style={{ width: '800px', height: '600px' }}>
       <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart width={500} height={300} cursor="pointer">
+        <LineChart width={500} height={300}  >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis dataKey="category" type="category" allowDuplicatedCategory={false} />
           <YAxis type="number" domain={[0, 10]} tickCount={9} />
