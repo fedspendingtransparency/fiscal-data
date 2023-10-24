@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
+import { apiPrefix, basicFetch, monthNames } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { chartTitle, chartContainer, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,94 +21,60 @@ export const TickCount = props => {
 
 const AFGSpendingChart = () => {
   const endpointUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
-  const [data, setData] = useState(null);
-  const [data2, setData2] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
-  const [prevYear, setPrevYear] = useState();
   const [legend, setLegend] = useState([]);
+  const [finalChartData, setFinalChartData] = useState(null);
 
-  useEffect(() => {
-    if (data) {
-      setLoading(false);
-    }
-  }, [data]);
 
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
-      if (res?.data) {
-        setCurrentFY(res.data[0].record_fiscal_year);
-        setPrevYear(res.data[0].record_fiscal_year - 1);
-        const processedData = processData(res.data);
-        setData(processedData);
-        setData2(res.data);
-      }
-    });
-  }, []);
-
-  const processData = data => {
-    const yearlyData = {};
-    const rollingTotals = {};
-    const previousYear = data[0].record_fiscal_year - 1;
-    const currentYear = data[0].record_fiscal_year;
-    const previousFiveYearStart = data[0].record_fiscal_year - 6;
-    const previousFiveYearEnd = data[0].record_fiscal_year - 2;
-
-    data.sort((dateOne, dateTwo) => {
-      const yearDiff = dateOne['record_fiscal_year'] - dateTwo['record_fiscal_year'];
-      if(yearDiff !== 0) return yearDiff;
-      
-      return dateOne['record_calendar_month'] - dateTwo['record_calendar_month']
-    });
-
-    data.forEach(record => {
-
-      const year = record['record_fiscal_year']
-      const month = record['record_calendar_month'] - 1;
-
-      if (!yearlyData[year]) {
-        yearlyData[year] = Array(12).fill(null);
-        rollingTotals[year] = 0;
-      }
-
-      const currentMonthValue = parseFloat(record['current_month_net_outly_amt']) / 1e12;
-      rollingTotals[year] += currentMonthValue;
-      yearlyData[year][month] = rollingTotals[year];
-    });
-
-    const avgData = Array(12).fill(0);
-    for (let i = 0; i < 12; i++) {
-      let sum = 0;
-      let count = 0;
-      for (let year = previousFiveYearStart; year <= previousFiveYearEnd; year++) {
-        if (yearlyData[year] && yearlyData[year][i] !== null) {
-          sum += yearlyData[year][i];
-          count++;
-        }
-      }
-      avgData[i] = sum / (count || 1);
-    }
-
-    const finalData = [];
-    const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
-
-    months.forEach((month, idx) => {
-      const entry = { month: month };
-      for (let year = previousYear; year <= currentYear; year++) {
-        if (yearlyData[year]) {
-          entry[year.toString()] = yearlyData[year][idx];
-        }
-      }
-      entry['fiveYearAvg'] = avgData[idx];
-      finalData.push(entry);
-    });
-
+  const getChartData = async () => {
+    const chartData = [];
     const legendItems = [];
-    legendItems.push({ title: `${currentYear} FYTD`, color: '#00796B' });
-    legendItems.push({ title: previousYear, color: '#99C8C4' });
-    legendItems.push({ title: `5 Year Average (${previousFiveYearStart}-${previousFiveYearEnd})`, color: '#555' });
-    setLegend(legendItems)
-    return finalData;
+    let curFY;
+    let priorFY;
+    let fiveYrAvgMin;
+    let fiveYrAvgMax;
+    await basicFetch(`${apiPrefix}${endpointUrl}`)?.then(async res => {
+      if (res.data) {
+        curFY = parseFloat(res.data[0].record_fiscal_year);
+        setCurrentFY(curFY);
+        priorFY = curFY - 1;
+        fiveYrAvgMin = curFY - 6;
+        fiveYrAvgMax = curFY - 2;
+        legendItems.push({ title: `${curFY} FYTD`, color: '#00796B' });
+        legendItems.push({ title: priorFY, color: '#99C8C4' });
+        legendItems.push({ title: `5 Year Average (${fiveYrAvgMin}-${fiveYrAvgMax})`, color: '#555' });
+        const setData = (data, i) => {
+          const entry = { month: monthNames[i - 1] };
+          let fiveYrAvg = 0;
+          data.forEach(record => {
+            const year = parseFloat(record.record_fiscal_year);
+            if (year === curFY) {
+              entry['currentFYValue'] = parseFloat(record.current_fytd_net_outly_amt) / 1e12;
+              entry['currentFY'] = curFY;
+            } else if (year === priorFY) {
+              entry['priorFYValue'] = parseFloat(record.current_fytd_net_outly_amt) / 1e12;
+            } else if (year >= fiveYrAvgMin) {
+              fiveYrAvg += parseFloat(record.current_fytd_net_outly_amt);
+            }
+          });
+          entry['fiveYearAvgValue'] = fiveYrAvg / 5 / 1e12;
+          return entry;
+        };
+
+        for (let i = 10; i <= 12; i++) {
+          const filteredMonth = res.data.filter(record => record.record_calendar_month === i.toString());
+          chartData.push(setData(filteredMonth, i));
+        }
+
+        for (let i = 1; i <= 9; i++) {
+          const filteredMonth = res.data.filter(record => record.record_calendar_month === '0' + i.toString());
+          chartData.push(setData(filteredMonth, i));
+        }
+      }
+    });
+    setLegend(legendItems);
+    return chartData;
   };
   const tickCountXAxis = 6;
   const axisFormatter = (value, index) => {
@@ -118,22 +84,29 @@ const AFGSpendingChart = () => {
     }
     return `$${ret}`;
   };
+  useEffect(() => {
+    if (!finalChartData) {
+      getChartData().then(res => {
+        setFinalChartData(res);
+        setLoading(false);
+      });
+    }
+  }, []);
 
   return (
     <div className={deficitChart}>
-      {console.log(data2)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       {isLoading && (
         <div>
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
         </div>
       )}
-      {data && (
+      {!isLoading && (
         <>
           <ChartLegend legendItems={legend} />
           <div className={chartContainer}>
             <ResponsiveContainer width="99%" height={164}>
-              <LineChart cursor="pointer" data={data} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
+              <LineChart cursor="pointer" data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
                 <CartesianGrid vertical={false} />
                 <XAxis 
                   interval={0} 
@@ -153,24 +126,27 @@ const AFGSpendingChart = () => {
                 />
                 <Tooltip content={<CustomTooltip />}  cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
                 <Line
-                  dataKey="fiveYearAvg"
+                  dataKey="fiveYearAvgValue"
                   dot={false}
                   activeDot={false}
                   strokeDasharray={0}
                   strokeWidth={3}
-                  name={`5 Yr Avg`}
+                  name="5 Yr Avg"
                   isAnimationActive={false}
                   stroke="#555"
                 />
                 <Line 
-                  dataKey={prevYear} 
+                  dataKey="priorFYValue"
                   activeDot={false} 
                   strokeDasharray={0} 
-                  dot={false} name={prevYear} strokeWidth={3} 
-                  isAnimationActive={false} stroke="#99C8C4" 
+                  dot={false} 
+                  name={`${currentFY - 1}`}
+                  strokeWidth={3} 
+                  isAnimationActive={false} 
+                  stroke="#99C8C4" 
                 />
                 <Line
-                  dataKey={currentFY}
+                  dataKey="currentFYValue"
                   strokeDasharray={0}
                   dot={false}
                   name={`${currentFY} FYTD`}
