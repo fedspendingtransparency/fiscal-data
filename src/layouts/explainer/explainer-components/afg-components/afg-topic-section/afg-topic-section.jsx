@@ -7,6 +7,7 @@ import * as styles from './afg-topic-section.module.scss';
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import AFGDefictChart from '../../../sections/overview/deficit-chart/deficit-chart';
+import AFGRevenueChart from '../../../sections/overview/revenue-chart/revenue-chart';
 
 const AfgTopicSection = ({ heading, body, linkUrl, linkText, linkColor, image, imageAltText, eventNumber, citationClickPage, id }) => {
   const { gaEvent } = useGAEventTracking(eventNumber, citationClickPage);
@@ -25,6 +26,8 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, linkColor, image, i
     switch (id) {
       case 'National Deficit':
         return <AFGDefictChart />;
+      case 'Government Revenue':
+        return <AFGRevenueChart />;
       default:
         return <ChartPlaceholder />;
     }
