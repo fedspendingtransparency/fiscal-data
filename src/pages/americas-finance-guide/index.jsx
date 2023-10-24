@@ -236,7 +236,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <div className={styles.mainContainer}>
         <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-        <Experimental  featureId="afg-overview">
+        <Experimental exclude featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
@@ -254,7 +254,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
         />
         </Experimental>
-        <Experimental exclude featureId="afg-overview">
+        <Experimental featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
