@@ -19,8 +19,9 @@ export const TickCount = props => {
 };
 
 const AFGSpendingChart = () => {
-  const endpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
+  const endpointUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [data, setData] = useState(null);
+  const [data2, setData2] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
   const [prevYear, setPrevYear] = useState();
@@ -42,6 +43,7 @@ const AFGSpendingChart = () => {
         setPrevFiveYearEnd(res.data[0].record_fiscal_year - 2);
         const processedData = processData(res.data);
         setData(processedData);
+        setData2(res.data);
       }
     });
   }, []);
@@ -111,6 +113,7 @@ const AFGSpendingChart = () => {
 
   return (
     <div className={spendingChart}>
+      {console.log(data2)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       {isLoading && (
         <div>
