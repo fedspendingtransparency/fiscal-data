@@ -149,7 +149,6 @@ const AFGSpendingChart = () => {
                   tickLine={false} 
                 />
                 <Tooltip content={<CustomTooltip />}  cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
-                {/* <Legend wrapperStyle={{ top: -22 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="left" /> */}
                 <Line
                   dataKey={currentFY}
                   strokeDasharray={0}
