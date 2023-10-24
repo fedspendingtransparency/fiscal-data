@@ -27,10 +27,10 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, linkColor, image, i
     switch (id) {
       case 'National Deficit':
         return <AFGDefictChart />;
+      case 'Government Revenue':
+          return <AFGRevenueChart />;
       case 'Federal Spending':
         return <AFGSpendingChart />;
-      case 'Government Revenue':
-        return <AFGRevenueChart />;
       default:
         return <ChartPlaceholder />;
     }
