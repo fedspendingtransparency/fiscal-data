@@ -12,7 +12,7 @@ export const TickCount = props => {
   const monthsDisplayed = ['Oct', 'Jan', 'Apr', 'Jul'];
   return (
     <g transform={`translate(${x}, ${y})`} data-testid="tickCount">
-      <text x={0} y={0} dy={16} textAnchor="middle" fill='#666666'>
+      <text x={0} y={0} dy={16} textAnchor="middle" fill="#666666">
         {monthsDisplayed.includes(payload.value) ? payload.value : ''}
       </text>
     </g>
@@ -54,6 +54,13 @@ const AFGSpendingChart = () => {
     const previousFiveYearStart = data[0].record_fiscal_year - 6;
     const previousFiveYearEnd = data[0].record_fiscal_year - 2;
 
+    data.sort((dateOne, dateTwo) => {
+      const yearDiff = dateOne['record_fiscal_year'] - dateTwo['record_fiscal_year'];
+      if(yearDiff !== 0) return yearDiff;
+      
+      return dateOne['record_calendar_month'] - dateTwo['record_calendar_month']
+    });
+
     data.forEach(record => {
 
       const year = record['record_fiscal_year']
@@ -64,7 +71,7 @@ const AFGSpendingChart = () => {
         rollingTotals[year] = 0;
       }
 
-      const currentMonthValue = parseFloat(record['current_month_gross_outly_amt']) / 1e12;
+      const currentMonthValue = parseFloat(record['current_month_net_outly_amt']) / 1e12;
       rollingTotals[year] += currentMonthValue;
       yearlyData[year][month] = rollingTotals[year];
     });
