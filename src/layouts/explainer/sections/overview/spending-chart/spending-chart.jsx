@@ -26,8 +26,6 @@ const AFGSpendingChart = () => {
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
   const [prevYear, setPrevYear] = useState();
-  const [prevFiveYearStart, setPrevFiveYearStart] = useState();
-  const [prevFiveYearEnd, setPrevFiveYearEnd] = useState();
   const [legend, setLegend] = useState([]);
 
   useEffect(() => {
@@ -41,8 +39,6 @@ const AFGSpendingChart = () => {
       if (res?.data) {
         setCurrentFY(res.data[0].record_fiscal_year);
         setPrevYear(res.data[0].record_fiscal_year - 1);
-        setPrevFiveYearStart(res.data[0].record_fiscal_year - 6);
-        setPrevFiveYearEnd(res.data[0].record_fiscal_year - 2);
         const processedData = processData(res.data);
         setData(processedData);
         setData2(res.data);
