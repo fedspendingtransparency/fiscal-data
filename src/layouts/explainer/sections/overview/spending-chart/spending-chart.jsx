@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
-import { chartTitle, chartContainer, spendingChart } from './spending-chart.module.scss';
+import { chartTitle, chartContainer, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import ChartLegend from '../chart-components/chart-legend';
 
 export const TickCount = props => {
   const { x, y, payload } = props;
@@ -27,6 +28,7 @@ const AFGSpendingChart = () => {
   const [prevYear, setPrevYear] = useState();
   const [prevFiveYearStart, setPrevFiveYearStart] = useState();
   const [prevFiveYearEnd, setPrevFiveYearEnd] = useState();
+  const [legend, setLegend] = useState([]);
 
   useEffect(() => {
     if (data) {
@@ -100,6 +102,11 @@ const AFGSpendingChart = () => {
       finalData.push(entry);
     });
 
+    const legendItems = [];
+    legendItems.push({ title: `${currentYear} FYTD`, color: '#00796B' });
+    legendItems.push({ title: previousYear, color: '#99C8C4' });
+    legendItems.push({ title: `5 Year Average (${previousFiveYearStart}-${previousFiveYearEnd})`, color: '#555' });
+    setLegend(legendItems)
     return finalData;
   };
   const tickCountXAxis = 5;
@@ -112,7 +119,7 @@ const AFGSpendingChart = () => {
   };
 
   return (
-    <div className={spendingChart}>
+    <div className={deficitChart}>
       {console.log(data2)}
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       {isLoading && (
@@ -121,36 +128,53 @@ const AFGSpendingChart = () => {
         </div>
       )}
       {data && (
-        <div className={chartContainer}>
-          <ResponsiveContainer width="99%" height={164}>
-            <LineChart cursor="pointer" data={data} strokeDasharray="3 3">
-              <CartesianGrid vertical={false} />
-              <XAxis interval={0} dataKey="month" type="category" allowDuplicatedCategory={false} tick={<TickCount />} axisLine={false} />
-              <YAxis domain={[0, 10]} ticks={[0,2,4,6,8,10]} interval={0} tickFormatter={(value, index) => axisFormatter(value, index)} axisLine={false} tickLine={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ top: -16, right: 16 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="center" />
-              <Line
-                dataKey={currentFY}
-                strokeDasharray={0}
-                dot={false}
-                name={`${currentFY} FYTD`}
-                strokeWidth={3}
-                isAnimationActive={false}
-                stroke="#00796B"
-              />
-              <Line dataKey={prevYear} strokeDasharray={0} dot={false} name={prevYear} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
-              <Line
-                dataKey="fiveYearAvg"
-                dot={false}
-                strokeDasharray={0}
-                strokeWidth={3}
-                name={`5 Year Average ${prevFiveYearStart}-${prevFiveYearEnd}`}
-                isAnimationActive={false}
-                stroke="#555"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        <>
+          <ChartLegend legendItems={legend} />
+          <div className={chartContainer}>
+            <ResponsiveContainer width="99%" height={164}>
+              <LineChart cursor="pointer" data={data} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
+                <CartesianGrid vertical={false} />
+                <XAxis 
+                  interval={0} 
+                  dataKey="month" 
+                  type="category" 
+                  allowDuplicatedCategory={false} 
+                  tick={<TickCount />} axisLine={false} 
+                />
+                <YAxis 
+                  domain={[0, 10]} 
+                  ticks={[0,2,4,6,8,10]} 
+                  interval={0}
+                  width={32}
+                  tickFormatter={(value, index) => axisFormatter(value, index)} 
+                  axisLine={false} 
+                  tickLine={false} 
+                />
+                <Tooltip content={<CustomTooltip />}  cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
+                {/* <Legend wrapperStyle={{ top: -22 }} verticalAlign="top" iconType="circle" iconSize="16px" width="100%" align="left" /> */}
+                <Line
+                  dataKey={currentFY}
+                  strokeDasharray={0}
+                  dot={false}
+                  name={`${currentFY} FYTD`}
+                  strokeWidth={3}
+                  isAnimationActive={false}
+                  stroke="#00796B"
+                />
+                <Line dataKey={prevYear} strokeDasharray={0} dot={false} name={prevYear} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
+                <Line
+                  dataKey="fiveYearAvg"
+                  dot={false}
+                  strokeDasharray={0}
+                  strokeWidth={3}
+                  name={`5 Year Average ${prevFiveYearStart}-${prevFiveYearEnd}`}
+                  isAnimationActive={false}
+                  stroke="#555"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react'; 
-import CustomTooltip from './custom-tooltip';
+import CustomTooltip from './custom-tooltip1';
 
 describe('AFG Spending Tooltip', () => {
 const mockPayload = [

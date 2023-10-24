@@ -3,17 +3,6 @@
   font-size: $font-size-14;
 color: $font-body-copy;
 
-.legend {
-  display: flex;
-  margin-bottom: 1rem;
-
-  .legendItem {
-    display: flex;
-    align-items: center;
-    margin-right: 1rem;
-  }
-}
-
 .chartTitle {
   font-weight: $semi-bold-weight;
   margin-bottom: 1rem;
@@ -21,8 +10,7 @@ color: $font-body-copy;
 
 .chartContainer {
   max-width: 430px;
-  right: 36px;
-  top: 16px;
+  top: 22px;
   position: relative;
   tspan {
     color: $font-body-copy;
