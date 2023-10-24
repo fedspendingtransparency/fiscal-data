@@ -109,7 +109,7 @@ const AFGSpendingChart = () => {
     setLegend(legendItems)
     return finalData;
   };
-  const tickCountXAxis = 5;
+  const tickCountXAxis = 6;
   const axisFormatter = (value, index) => {
     let ret = value.toString();
     if (index >= tickCountXAxis - 1) {
