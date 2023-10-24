@@ -251,7 +251,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
           holding money, hand holding gold coin, woman looking at check, and man looking
           at building."
           />
-        <Experimental featureId="afg-overview">
+        <Experimental exclude featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
@@ -267,9 +267,9 @@ const AmericasFinanceGuidePage = ({ width }) => {
             pageName="SpendingExplainer"
             image="/topics-section-images/homepage_spending_1200x630.png"
             imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
-          />
+        />
         </Experimental>
-        <Experimental exclude featureId="afg-overview">
+        <Experimental featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
             body={
@@ -283,7 +283,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             citationClickPage="AfgOverview"
             id="Federal Spending"
             pageName="SpendingExplainer"
-          />
+        />
         </Experimental>
 
           <div className={styles.middleHeader}>
