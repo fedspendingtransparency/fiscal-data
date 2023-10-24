@@ -12,7 +12,7 @@ export const TickCount = props => {
   const monthsDisplayed = ['Oct', 'Jan', 'Apr', 'Jul'];
   return (
     <g transform={`translate(${x}, ${y})`} data-testid="tickCount">
-      <text x={0} y={0} dy={16} textAnchor="middle">
+      <text x={0} y={0} dy={16} textAnchor="middle" style={{color: '#666666'}}>
         {monthsDisplayed.includes(payload.value) ? payload.value : ''}
       </text>
     </g>
