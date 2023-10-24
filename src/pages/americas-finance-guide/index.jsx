@@ -236,21 +236,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <div className={styles.mainContainer}>
         <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-          <AfgTopicSection
-            heading={revenueHeading}
-            body={revenueBody}
-            linkUrl="/americas-finance-guide/government-revenue/"
-            eventNumber={'4'}
-            citationClickPage={'AfgOverview'}
-            id={'Government Revenue'}
-            pageName={'RevenueExplainer'}
-            linkText="Learn more about government revenue"
-            linkColor={styles.revenueExplainerPrimary}
-            image="/topics-section-images/homepage_revenue_1200x630.png"
-            imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
-          holding money, hand holding gold coin, woman looking at check, and man looking
-          at building."
-          />
         <Experimental  featureId="afg-overview">
         <AfgTopicSection
             heading={spendingHeading}
@@ -285,7 +270,36 @@ const AmericasFinanceGuidePage = ({ width }) => {
             pageName="SpendingExplainer"
         />
         </Experimental>
-
+          <Experimental exclude featureId="afg-overview">
+            <AfgTopicSection
+              heading={revenueHeading}
+              body={revenueBody}
+              linkUrl="/americas-finance-guide/government-revenue/"
+              eventNumber="4"
+              citationClickPage="AfgOverview"
+              id="Government Revenue"
+              pageName="RevenueExplainer"
+              linkText="Learn more about government revenue"
+              linkColor={styles.revenueExplainerPrimary}
+              image="/topics-section-images/homepage_revenue_1200x630.png"
+              imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
+            holding money, hand holding gold coin, woman looking at check, and man looking
+            at building."
+            />
+          </Experimental>
+          <Experimental featureId="afg-overview">
+            <AfgTopicSection
+              heading={revenueHeading}
+              body={revenueBody}
+              linkUrl="/americas-finance-guide/government-revenue/"
+              eventNumber="4"
+              citationClickPage="AfgOverview"
+              id="Government Revenue"
+              pageName="RevenueExplainer"
+              linkText="Learn more about government revenue"
+              linkColor={styles.revenueExplainerPrimary}
+            />
+          </Experimental>
           <div className={styles.middleHeader}>
             <Grid container spacing={4}>
               <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
