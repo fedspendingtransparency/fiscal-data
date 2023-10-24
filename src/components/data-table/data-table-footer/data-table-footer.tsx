@@ -72,6 +72,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
         {visibleRows(table)}
       </div>
       {showPaginationControls && <PaginationControls pagingProps={paging} />}
+      <button onClick={() => table.setPageIndex(1999)}> Click to go to row 2000</button>
     </div>
   );
 };
