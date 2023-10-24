@@ -156,13 +156,21 @@ const AFGSpendingChart = () => {
                   dot={false}
                   name={`${currentFY} FYTD`}
                   strokeWidth={3}
+                  activeDot={false}
                   isAnimationActive={false}
                   stroke="#00796B"
                 />
-                <Line dataKey={prevYear} strokeDasharray={0} dot={false} name={prevYear} strokeWidth={3} isAnimationActive={false} stroke="#99C8C4" />
+                <Line 
+                  dataKey={prevYear} 
+                  activeDot={false} 
+                  strokeDasharray={0} 
+                  dot={false} name={prevYear} strokeWidth={3} 
+                  isAnimationActive={false} stroke="#99C8C4" 
+                />
                 <Line
                   dataKey="fiveYearAvg"
                   dot={false}
+                  activeDot={false}
                   strokeDasharray={0}
                   strokeWidth={3}
                   name={`5 Yr Avg`}
