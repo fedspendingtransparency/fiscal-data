@@ -242,11 +242,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
               body={revenueBody}
               linkUrl="/americas-finance-guide/government-revenue/"
               eventNumber="4"
-              citationClickPage="AfgOverview"
-              id="Government Revenue"
-              pageName="RevenueExplainer"
+              id="government-revenue"
               linkText="Learn more about government revenue"
-              linkColor={styles.revenueExplainerPrimary}
               image="/topics-section-images/homepage_revenue_1200x630.png"
               imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
             holding money, hand holding gold coin, woman looking at check, and man looking
@@ -259,47 +256,38 @@ const AmericasFinanceGuidePage = ({ width }) => {
               body={revenueBody}
               linkUrl="/americas-finance-guide/government-revenue/"
               eventNumber="4"
-              citationClickPage="AfgOverview"
-              id="Government Revenue"
-              pageName="RevenueExplainer"
+              id="government-revenue"
               linkText="Learn more about government revenue"
-              linkColor={styles.revenueExplainerPrimary}
             />
           </Experimental>
           <Experimental exclude featureId="afg-overview">
             <AfgTopicSection
-                heading={spendingHeading}
-                body={
-                  'The federal government funds a variety of programs and services that support the American public. ' +
-                  'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
-                }
-                linkUrl="/americas-finance-guide/federal-spending/"
-                linkText="Learn more about federal spending"
-                linkColor={spendingExplainerPrimary}
-                eventNumber="5"
-                citationClickPage="AfgOverview"
-                id="Federal Spending"
-                pageName="SpendingExplainer"
-                image="/topics-section-images/homepage_spending_1200x630.png"
-                imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
+              heading={spendingHeading}
+              body={
+                'The federal government funds a variety of programs and services that support the American public. ' +
+                'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
+              }
+              linkUrl="/americas-finance-guide/federal-spending/"
+              linkText="Learn more about federal spending"
+              eventNumber="5"
+              id="federal-spending"
+              image="/topics-section-images/homepage_spending_1200x630.png"
+              imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
             />
-        </Experimental>
-        <Experimental featureId="afg-overview">
-        <AfgTopicSection
-            heading={spendingHeading}
-            body={
-              'The federal government funds a variety of programs and services that support the American public. ' +
-              'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
-            }
-            linkUrl="/americas-finance-guide/federal-spending/"
-            linkText="Learn more about federal spending"
-            linkColor={spendingExplainerPrimary}
-            eventNumber="5"
-            citationClickPage="AfgOverview"
-            id="Federal Spending"
-            pageName="SpendingExplainer"
-        />
-        </Experimental>
+          </Experimental>
+          <Experimental featureId="afg-overview">
+            <AfgTopicSection
+              heading={spendingHeading}
+              body={
+                'The federal government funds a variety of programs and services that support the American public. ' +
+                'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
+              }
+              linkUrl="/americas-finance-guide/federal-spending/"
+              linkText="Learn more about federal spending"
+              eventNumber="5"
+              id="federal-spending"
+            />
+          </Experimental>
           <div className={styles.middleHeader}>
             <Grid container spacing={4}>
               <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
@@ -324,11 +312,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
               body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
               linkUrl="/americas-finance-guide/national-deficit/"
               linkText="Learn more about national deficit"
-              linkColor={deficitExplainerPrimary}
               eventNumber="6"
-              citationClickPage="AfgOverview"
-              id="National Deficit"
-              pageName="DeficitExplainer"
+              id="national-deficit"
               image="/topics-section-images/homepage_deficit_1200x630.png"
               imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
               of the hand, including a pie chart, bar graph, and lit lightbulb."
@@ -342,9 +327,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
               linkText="Learn more about national deficit"
               linkColor={deficitExplainerPrimary}
               eventNumber="6"
-              citationClickPage="AfgOverview"
-              id="National Deficit"
-              pageName="DeficitExplainer"
+              id="national-deficit"
             />
           </Experimental>
 
@@ -353,11 +336,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
             body={debtBody}
             linkUrl="/americas-finance-guide/national-debt/"
             linkText="Learn more about national debt"
-            linkColor={debtExplainerPrimary}
             eventNumber="7"
-            citationClickPage="AfgOverview"
-            id="National Debt"
-            pageName="DebtExplainer"
+            id="national-debt"
             image="/topics-section-images/homepage_debt_1200x630.png"
             imageAltText="A variety of hands reach up with objects, including a magnifying
           glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
