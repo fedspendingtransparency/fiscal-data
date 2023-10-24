@@ -58,7 +58,12 @@ const AFGSpendingChart = () => {
 
     data.forEach(record => {
       const date = new Date(record['record_date']);
-      const year = date.getFullYear();
+      let year = date.getFullYear();
+
+      if(date.getMonth() >= 9) {
+        year -= 1;
+      }
+
       const month = date.getMonth();
 
       if (!yearlyData[year]) {
