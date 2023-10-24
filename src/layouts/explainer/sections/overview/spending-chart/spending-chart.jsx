@@ -112,6 +112,7 @@ const AFGSpendingChart = () => {
                   interval={0} 
                   dataKey="month" 
                   type="category" 
+                  tickSize={4}
                   allowDuplicatedCategory={false} 
                   tick={<TickCount />} axisLine={false} 
                 />
@@ -130,7 +131,7 @@ const AFGSpendingChart = () => {
                   dot={false}
                   activeDot={false}
                   strokeDasharray={0}
-                  strokeWidth={3}
+                  strokeWidth={2}
                   name="5 Yr Avg"
                   isAnimationActive={false}
                   stroke="#555"
@@ -141,7 +142,7 @@ const AFGSpendingChart = () => {
                   strokeDasharray={0} 
                   dot={false} 
                   name={`${currentFY - 1}`}
-                  strokeWidth={3} 
+                  strokeWidth={2} 
                   isAnimationActive={false} 
                   stroke="#99C8C4" 
                 />
@@ -150,7 +151,7 @@ const AFGSpendingChart = () => {
                   strokeDasharray={0}
                   dot={false}
                   name={`${currentFY} FYTD`}
-                  strokeWidth={3}
+                  strokeWidth={2}
                   activeDot={false}
                   isAnimationActive={false}
                   stroke="#00796B"
