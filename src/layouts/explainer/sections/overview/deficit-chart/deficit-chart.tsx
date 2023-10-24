@@ -109,7 +109,7 @@ const AFGDeficitChart = (): ReactElement => {
       )}
       {!isLoading && (
         <>
-          <ChartLegend legendItems={legendItems} />
+          <ChartLegend legendItems={legendItems} mobileDotSpacing={false} />
           <div>
             <div
               className={chartContainer}

@@ -27,7 +27,6 @@ const AFGSpendingChart = () => {
   const [legend, setLegend] = useState([]);
   const [finalChartData, setFinalChartData] = useState(null);
 
-
   const getChartData = async () => {
     const chartData = [];
     const legendItems = [];
@@ -98,30 +97,31 @@ const AFGSpendingChart = () => {
       )}
       {!isLoading && (
         <>
-          <ChartLegend legendItems={legend} />
+          <ChartLegend legendItems={legend} mobileDotSpacing />
           <div className={chartContainer}>
             <ResponsiveContainer width="99%" height={164}>
               <LineChart cursor="pointer" data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
                 <CartesianGrid vertical={false} />
-                <XAxis 
-                  interval={0} 
-                  dataKey="month" 
-                  type="category" 
+                <XAxis
+                  interval={0}
+                  dataKey="month"
+                  type="category"
                   tickSize={4}
-                  allowDuplicatedCategory={false} 
-                  tick={<TickCount />} axisLine={false} 
+                  allowDuplicatedCategory={false}
+                  tick={<TickCount />}
+                  axisLine={false}
                 />
-                <YAxis 
-                  domain={[0, 10]} 
-                  ticks={[0,2,4,6,8,10]} 
+                <YAxis
+                  domain={[0, 10]}
+                  ticks={[0, 2, 4, 6, 8, 10]}
                   interval={0}
                   width={32}
-                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountYAxis)} 
+                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountYAxis)}
                   tickCount={tickCountYAxis}
-                  axisLine={false} 
-                  tickLine={false} 
+                  axisLine={false}
+                  tickLine={false}
                 />
-                <Tooltip content={<CustomTooltip />}  cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
+                <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
                 <Line
                   dataKey="fiveYearAvgValue"
                   dot={false}
@@ -132,15 +132,15 @@ const AFGSpendingChart = () => {
                   isAnimationActive={false}
                   stroke="#555"
                 />
-                <Line 
+                <Line
                   dataKey="priorFYValue"
-                  activeDot={false} 
-                  strokeDasharray={0} 
-                  dot={false} 
+                  activeDot={false}
+                  strokeDasharray={0}
+                  dot={false}
                   name={`${currentFY - 1}`}
-                  strokeWidth={2} 
-                  isAnimationActive={false} 
-                  stroke="#99C8C4" 
+                  strokeWidth={2}
+                  isAnimationActive={false}
+                  stroke="#99C8C4"
                 />
                 <Line
                   dataKey="currentFYValue"
