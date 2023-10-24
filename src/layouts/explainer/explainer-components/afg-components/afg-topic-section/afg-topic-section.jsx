@@ -58,7 +58,7 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText
           <p className={body}>{body}</p>
           <a
             href={linkUrl}
-            style={{ color: explainerColorMap[id].primary }} // TODO: Move marginTop to afgTopicsLink class
+            style={{ color: explainerColorMap[id].primary }}
             className={`${link} afgTopicsLink`}
             onClick={onClickEventHandler}
             id={explainerNameMap[id]}
