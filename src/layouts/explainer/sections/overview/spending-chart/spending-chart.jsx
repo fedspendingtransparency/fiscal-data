@@ -52,17 +52,17 @@ const AFGSpendingChart = () => {
     const previousFiveYearStart = data[0].record_fiscal_year - 6;
     const previousFiveYearEnd = data[0].record_fiscal_year - 2;
 
-    data.sort((dateOne, dateTwo) => new Date(dateOne['record_date']) - new Date(dateTwo['record_date']));
+    data.sort((dateOne, dateTwo) => {
+      const yearDiff = dateOne['record_fiscal_year'] - dateTwo['record_fiscal_year'];
+      if(yearDiff !== 0) return yearDiff;
+      
+      return dateOne['record_calendar_month'] - dateTwo['record_calendar_month']
+    });
 
     data.forEach(record => {
-      const date = new Date(record['record_date']);
-      let year = date.getFullYear();
 
-      if(date.getMonth() >= 9) {
-        year -= 1;
-      }
-
-      const month = date.getMonth();
+      const year = record['record_fiscal_year']
+      const month = record['record_calendar_month'] - 1;
 
       if (!yearlyData[year]) {
         yearlyData[year] = Array(12).fill(null);
@@ -150,14 +150,14 @@ const AFGSpendingChart = () => {
                 />
                 <Tooltip content={<CustomTooltip />}  cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
                 <Line
-                  dataKey={currentFY}
-                  strokeDasharray={0}
+                  dataKey="fiveYearAvg"
                   dot={false}
-                  name={`${currentFY} FYTD`}
-                  strokeWidth={3}
                   activeDot={false}
+                  strokeDasharray={0}
+                  strokeWidth={3}
+                  name={`5 Yr Avg`}
                   isAnimationActive={false}
-                  stroke="#00796B"
+                  stroke="#555"
                 />
                 <Line 
                   dataKey={prevYear} 
@@ -167,14 +167,14 @@ const AFGSpendingChart = () => {
                   isAnimationActive={false} stroke="#99C8C4" 
                 />
                 <Line
-                  dataKey="fiveYearAvg"
-                  dot={false}
-                  activeDot={false}
+                  dataKey={currentFY}
                   strokeDasharray={0}
+                  dot={false}
+                  name={`${currentFY} FYTD`}
                   strokeWidth={3}
-                  name={`5 Yr Avg`}
+                  activeDot={false}
                   isAnimationActive={false}
-                  stroke="#555"
+                  stroke="#00796B"
                 />
               </LineChart>
             </ResponsiveContainer>
