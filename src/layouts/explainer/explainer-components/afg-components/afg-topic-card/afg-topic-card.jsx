@@ -57,7 +57,7 @@ const AfgTopicCard = ({ heading, body, linkText, linkUrl, image, imageAltText, e
           </a>
         </Grid>
         <Grid item md classes={{ root: imageContainer }}>
-          {image ? <img src={image} alt={imageAltText} /> : getChart()}
+          <div style={{ display: 'flex', alignItems: 'flex-end' }}>{image ? <img src={image} alt={imageAltText} /> : getChart()}</div>
         </Grid>
       </Grid>
     </>

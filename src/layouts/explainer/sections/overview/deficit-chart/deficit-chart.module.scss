@@ -6,6 +6,7 @@ $surplus-primary: #e5a000;
 .deficitChart {
   font-size: $font-size-14;
   color: $font-body-copy;
+  width: 100%;
 
   .chartTitle {
     font-weight: $semi-bold-weight;
@@ -14,6 +15,7 @@ $surplus-primary: #e5a000;
 
   .chartContainer {
     max-width: 396px;
+
 
     tspan {
       color: $font-body-copy;
