@@ -7,7 +7,7 @@ import * as styles from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../src/variables.module.scss';
-import { spendingExplainerPrimary } from '../../layouts/explainer/sections/federal-spending/federal-spending.module.scss';
+import { spendingExplainerPrimary, primary } from '../../layouts/explainer/sections/federal-spending/federal-spending.module.scss';
 import { debtExplainerPrimary } from '../../layouts/explainer/sections/national-debt/national-debt.module.scss';
 import { deficitExplainerPrimary } from '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -246,7 +246,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
               id="Government Revenue"
               pageName="RevenueExplainer"
               linkText="Learn more about government revenue"
-              linkColor={styles.revenueExplainerPrimary}
               image="/topics-section-images/homepage_revenue_1200x630.png"
               imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
             holding money, hand holding gold coin, woman looking at check, and man looking
@@ -263,7 +262,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
               id="Government Revenue"
               pageName="RevenueExplainer"
               linkText="Learn more about government revenue"
-              linkColor={styles.revenueExplainerPrimary}
             />
           </Experimental>
           <Experimental exclude featureId="afg-overview">
@@ -275,7 +273,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
                 }
                 linkUrl="/americas-finance-guide/federal-spending/"
                 linkText="Learn more about federal spending"
-                linkColor={spendingExplainerPrimary}
                 eventNumber="5"
                 citationClickPage="AfgOverview"
                 id="Federal Spending"
@@ -293,7 +290,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
             }
             linkUrl="/americas-finance-guide/federal-spending/"
             linkText="Learn more about federal spending"
-            linkColor={spendingExplainerPrimary}
             eventNumber="5"
             citationClickPage="AfgOverview"
             id="Federal Spending"
@@ -324,7 +320,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
               body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
               linkUrl="/americas-finance-guide/national-deficit/"
               linkText="Learn more about national deficit"
-              linkColor={deficitExplainerPrimary}
               eventNumber="6"
               citationClickPage="AfgOverview"
               id="National Deficit"
@@ -340,7 +335,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
               body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
               linkUrl="/americas-finance-guide/national-deficit/"
               linkText="Learn more about national deficit"
-              linkColor={deficitExplainerPrimary}
               eventNumber="6"
               citationClickPage="AfgOverview"
               id="National Deficit"
@@ -353,7 +347,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
             body={debtBody}
             linkUrl="/americas-finance-guide/national-debt/"
             linkText="Learn more about national debt"
-            linkColor={debtExplainerPrimary}
             eventNumber="7"
             citationClickPage="AfgOverview"
             id="National Debt"

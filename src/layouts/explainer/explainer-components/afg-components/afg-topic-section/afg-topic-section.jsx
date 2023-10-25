@@ -43,7 +43,7 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, linkColor, image, i
         <p className={styles.body}>{body}</p>
         <a
           href={linkUrl}
-          style={{ color: linkColor, marginTop: '2rem' }} // TODO: Move marginTop to afgTopicsLink class
+          style={{ marginTop: '2rem' }} // TODO: Move marginTop to afgTopicsLink class
           className={`${styles.link} afgTopicsLink`}
           onClick={onClickEventHandler}
           id={id}
