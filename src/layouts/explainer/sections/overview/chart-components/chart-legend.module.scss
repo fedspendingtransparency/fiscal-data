@@ -1,0 +1,31 @@
+@import "src/variables.module";
+
+
+.legend {
+  display: flex;
+  margin-bottom: 1rem;
+
+  .legendItem:not(:last-child) {
+    margin-right: 1rem;
+  }
+
+  .legendItem {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dot {
+  height: 1rem;
+  width: 1rem;
+  min-width: 1rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: .5rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .dotMobile {
+    margin-right: .25rem;
+  }
+}

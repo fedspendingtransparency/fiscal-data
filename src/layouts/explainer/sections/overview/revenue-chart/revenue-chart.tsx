@@ -92,7 +92,7 @@ const AFGRevenueChart = (): ReactElement => {
       )}
       {!isLoading && (
         <>
-          <ChartLegend legendItems={legend} />
+          <ChartLegend legendItems={legend} mobileDotSpacing />
           <div className={chartContainer} data-testid="chartContainer" role="presentation">
             <ResponsiveContainer height={164} width="99%">
               <LineChart data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
