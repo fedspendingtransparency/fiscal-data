@@ -190,7 +190,7 @@ const TableSectionContainer = ({
 
   useEffect(async () => {
     if (depaginatedDataState) {
-      if (pageValue > depaginatedDataState.data.length / 10 - 1) {
+      if (pageValue > depaginatedDataState.data.length / perPage - 1) {
         const appendedData = await getDepaginatedDataIncremental();
         setDepaginatedDataState(prev => ({ ...prev, data: prev.data.concat(appendedData) }));
       }
