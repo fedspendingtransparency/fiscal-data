@@ -87,8 +87,20 @@ const AFGSpendingChart = () => {
     }
   }, []);
 
+  const ariaLabel =
+    'A graph demonstrating the cumulative spending by month of the United States government. A dark green line represents the ' +
+    'current cumulative spending of FY ' +
+    currentFY +
+    ', a light green line represents the cumulative spending of the previous fiscal year ' +
+    (currentFY - 1) +
+    ')} , and a bolded gray line represents the 5-year average spending from ' +
+    (currentFY - 6) +
+    '-' +
+    (currentFY - 2) +
+    '.';
+
   return (
-    <div className={deficitChart}>
+    <div className={deficitChart} role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
       {isLoading && (
         <div>

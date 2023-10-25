@@ -26,6 +26,12 @@ const AFGDeficitChart = (): ReactElement => {
 
   const tickCountXAxis = 5;
 
+  const ariaLabel =
+    'A chart demonstrating the yearly deficit or surplus  caused by gaps between revenue and spending. ' +
+    'Spending and revenue are represented on the graph as two different colored dots corresponding to the total in trillions of ' +
+    'USD for each respective category. The deficit/surplus is then represented as a line connecting the two dots, exhibiting how ' +
+    'the deficit/surplus is calculated as the difference between revenue and spending. ';
+
   const getChartData = async () => {
     if (currentFY) {
       const chart_data = [];
@@ -100,7 +106,7 @@ const AFGDeficitChart = (): ReactElement => {
   }, []);
 
   return (
-    <div className={deficitChart} data-testid="AFGDeficitChart">
+    <div className={deficitChart} data-testid="AFGDeficitChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
       {isLoading && (
         <div>
@@ -110,63 +116,61 @@ const AFGDeficitChart = (): ReactElement => {
       {!isLoading && (
         <>
           <ChartLegend legendItems={legendItems} mobileDotSpacing={false} />
-          <div>
-            <div
-              className={chartContainer}
-              data-testid="chartContainer"
-              onMouseLeave={() => setFocusedYear(null)}
-              onBlur={() => setFocusedYear(null)}
-              role="presentation"
-            >
-              <ResponsiveContainer height={164} width="99%">
-                <LineChart
-                  margin={{
-                    top: 8,
-                    right: 12,
-                    bottom: 8,
-                    left: -18,
-                  }}
-                  layout="vertical"
-                >
-                  <CartesianGrid horizontal={false} height={128} />
-                  <YAxis
-                    dataKey="year"
-                    padding={{ bottom: 2, top: 8 }}
-                    type="category"
-                    allowDuplicatedCategory={false}
-                    axisLine={false}
-                    tickLine={false}
-                    tickCount={5}
-                    tickMargin={8}
-                  />
-                  <XAxis
-                    tickMargin={16}
-                    type="number"
-                    tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountXAxis)}
-                    axisLine={false}
-                    tickLine={false}
-                    allowDecimals={false}
-                    tickCount={tickCountXAxis}
-                  />
-                  {finalChartData.map((year, index) => {
-                    return (
-                      <Line
-                        key={index}
-                        dataKey="value"
-                        data={year.data}
-                        stroke={year.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
-                        strokeWidth={4}
-                        strokeOpacity={focusedYear === year.data[0].year || focusedYear === null ? 1 : 0.5}
-                        dot={<CustomDotNoAnimation />}
-                        isAnimationActive={false}
-                        activeDot={false}
-                      />
-                    );
-                  })}
-                  <Tooltip content={<CustomTooltip setFocused={setFocusedYear} />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+          <div
+            className={chartContainer}
+            data-testid="chartContainer"
+            onMouseLeave={() => setFocusedYear(null)}
+            onBlur={() => setFocusedYear(null)}
+            role="presentation"
+          >
+            <ResponsiveContainer height={164} width="99%">
+              <LineChart
+                margin={{
+                  top: 8,
+                  right: 12,
+                  bottom: 8,
+                  left: -18,
+                }}
+                layout="vertical"
+              >
+                <CartesianGrid horizontal={false} height={128} />
+                <YAxis
+                  dataKey="year"
+                  padding={{ bottom: 2, top: 8 }}
+                  type="category"
+                  allowDuplicatedCategory={false}
+                  axisLine={false}
+                  tickLine={false}
+                  tickCount={5}
+                  tickMargin={8}
+                />
+                <XAxis
+                  tickMargin={16}
+                  type="number"
+                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountXAxis)}
+                  axisLine={false}
+                  tickLine={false}
+                  allowDecimals={false}
+                  tickCount={tickCountXAxis}
+                />
+                {finalChartData.map((year, index) => {
+                  return (
+                    <Line
+                      key={index}
+                      dataKey="value"
+                      data={year.data}
+                      stroke={year.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
+                      strokeWidth={4}
+                      strokeOpacity={focusedYear === year.data[0].year || focusedYear === null ? 1 : 0.5}
+                      dot={<CustomDotNoAnimation />}
+                      isAnimationActive={false}
+                      activeDot={false}
+                    />
+                  );
+                })}
+                <Tooltip content={<CustomTooltip setFocused={setFocusedYear} />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </>
       )}
