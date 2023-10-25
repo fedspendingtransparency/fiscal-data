@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { toolTip, dot, tooltipLabel, tooltipRow, value, title } from '../../deficit-chart/deficit-chart.module.scss';
+import { toolTip, tooltipLabel, tooltipRow, value, title } from '../../deficit-chart/deficit-chart.module.scss';
 import { longVersionMonth } from '../../chart-helper';
+import { dot } from '../../chart-components/chart-legend.module.scss';
 
 interface ICustomTooltip {
   label?: string;

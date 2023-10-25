@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
-import { toolTip, dot, tooltipLabel, tooltipRow, value, title } from '../deficit-chart.module.scss';
+import { toolTip, tooltipLabel, tooltipRow, value, title } from '../deficit-chart.module.scss';
+import { dot } from '../../chart-components/chart-legend.module.scss';
 
 interface ICustomTooltip {
   label?: string;
