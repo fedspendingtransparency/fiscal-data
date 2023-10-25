@@ -3,28 +3,40 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import { Container, Grid } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
-import * as styles from './afg-overview.module.scss';
+import {
+  header,
+  quoteIcon,
+  bottomHeading,
+  icon,
+  quoteContainerIcon,
+  bottomContainer,
+  quote,
+  quoteBar,
+  title,
+  citation,
+  quoteGrid,
+  topContainer,
+  mainContainer,
+  quoteContainer,
+  quoteContainerImg,
+  bottomBody,
+} from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../src/variables.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyBill1Wave, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
-import AfgIcon from '../../layouts/explainer/explainer-components/afg-components/afg-icon/afg-icon';
-import CompareSection from '../../layouts/explainer/explainer-components/afg-components/compare-section/compare-section';
+import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import DeskTopSubNav from '../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav';
 import MobileSubNav from '../../layouts/explainer/explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
-import { apiPrefix, basicFetch } from '../../utils/api-utils';
-import { getShortForm } from '../../utils/rounding-utils';
-import AfgTopicSection from '../../layouts/explainer/explainer-components/afg-components/afg-topic-section/afg-topic-section';
+import { basicFetch } from '../../utils/api-utils';
 import AfgHero from '../../layouts/explainer/explainer-components/afg-components/afg-hero/afg-hero';
 import ApiRequest from '../../helpers/api-request';
-import { debtRequest, deficitRequest, revenueRequest, spendingRequest } from '../../layouts/explainer/explainer-helpers/afg-overview-helpers';
+import { revenueRequest } from '../../layouts/explainer/explainer-helpers/afg-overview-helpers';
 import CustomLink from '../../components/links/custom-link/custom-link';
-import GlossaryPopoverDefinition from '../../components/glossary/glossary-term/glossary-popover-definition';
 import { graphql, useStaticQuery } from 'gatsby';
 import Footnote from '../../components/footnote/footnote';
-import AnchorText from '../../components/anchor-text/anchor-text';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
+import TopicSection from '../../layouts/explainer/explainer-components/afg-components/topic-section/topic-section';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -54,128 +66,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
   );
   const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
   const [fiscalYear, setFiscalYear] = useState('');
-  const [yearToDateRevenue, setYearToDateRevenue] = useState('');
-  const [yearToDateSpending, setYearToDateSpending] = useState('');
-  const [yearToDateDeficit, setYearToDateDeficit] = useState('');
-  const [debt, setDebt] = useState('');
-  const [latestDebt, setLatestDebt] = useState('');
-  const [revenueHas, setRevenueHas] = useState('has collected');
-  const [spendingHas, setSpendingHas] = useState('has');
-  const [midPageHas, setMidPageHas] = useState('has');
-  const [midPageAffect, setMidPageAffect] = useState('affected');
-  const [deficitExceeds, setDeficitExceeds] = useState('exceeds');
-  const [debtContributed, setDebtContributed] = useState('has contributed');
-  const [debtDate, setDebtDate] = useState('month year');
-  const [debtToPennyDate, setDebtToPennyDate] = useState('month DD, year');
 
-  useEffect(() => {
-    basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        setYearToDateRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), false));
-        setFiscalYear(data.record_fiscal_year);
-        if (data.record_calendar_month === '09') {
-          setRevenueHas('collected');
-        }
-      }
-    });
-    basicFetch(new ApiRequest(spendingRequest).getUrl()).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        setYearToDateSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
-        if (data.record_calendar_month === '09') {
-          setSpendingHas('');
-          setMidPageHas('did');
-          setMidPageAffect('affect');
-        }
-      }
-    });
-    basicFetch(new ApiRequest(deficitRequest).getUrl()).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
-        const formattedAmount = getShortForm(deficitAmount.toString(), false);
-        setYearToDateDeficit(formattedAmount);
-        if (data.record_calendar_month === '09') {
-          setDeficitExceeds('exceeded');
-        }
-      }
-    });
-    const mtsDebtEndpoint = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date&page[size]=1';
-    basicFetch(`${apiPrefix}${mtsDebtEndpoint}`).then(res => {
-      if (res.data) {
-        const mtsData = res.data[0];
-        const mtsMonth = mtsData.record_calendar_month;
-
-        // eslint-disable-next-line max-len
-        const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
-
-        basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
-          if (res.data) {
-            const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
-            if (mspdData.record_calendar_month === '09') {
-              setDebtContributed('contributed');
-            }
-            setLatestDebt(getShortForm((mspdData.total_mil_amt * 1000000).toString(), false));
-            const date = new Date(mtsData.record_date);
-            const monthName = date.toLocaleString('default', { month: 'long' });
-            const year = mtsData.record_calendar_year;
-            setDebtDate(`${monthName} ${year}`);
-          }
-        });
-      }
-    });
-    basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
-        const date = new Date(data.record_date);
-        const monthName = date.toLocaleString('default', { month: 'long' });
-        const debtToThePennyDay = data.record_calendar_day;
-        setDebtToPennyDate(`${monthName} ${debtToThePennyDay}, ${data.record_calendar_year}`);
-      }
-    });
-  }, []);
-
-  const revenueHeading = (
-    <>
-      In fiscal year {fiscalYear}, the federal government {revenueHas} ${yearToDateRevenue} in <span style={{ fontStyle: 'italic' }}>revenue.</span>
-    </>
-  );
-
-  const spendingHeading = (
-    <>
-      In fiscal year {fiscalYear}, the federal government {spendingHas} <span style={{ fontStyle: 'italic' }}>spent</span> ${yearToDateSpending}.
-    </>
-  );
-
-  const anchorTextLatestFY = (FY, idx, anchorIdx) => {
-    const anchor = getAFGFootnotes(FY + 1)[idx];
-    return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />;
-  };
-
-  const deficitHeading = (
-    <>
-      The amount by which spending {deficitExceeds} revenue, ${yearToDateDeficit} in {fiscalYear}
-      {anchorTextLatestFY(fiscalYear, 0, 1)}, is referred to as <span style={{ fontStyle: 'italic' }}>deficit</span> spending.
-    </>
-  );
-  const debtHeading = (
-    <>
-      The deficit this year {debtContributed} to a national <span style={{ fontStyle: 'italic' }}>debt</span> of ${latestDebt} through {debtDate}.
-    </>
-  );
-
-  const exciseTaxes = (
-    <GlossaryPopoverDefinition
-      term="Excise"
-      page="Revenue Explainer & AFG Overview Page"
-      glossary={glossary}
-      glossaryClickHandler={setGlossaryClickEvent}
-    >
-      excise
-    </GlossaryPopoverDefinition>
-  );
   const mts = (
     <CustomLink
       url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
@@ -190,29 +81,28 @@ const AmericasFinanceGuidePage = ({ width }) => {
       Debt to the Penny
     </CustomLink>
   );
+  const mspd = (
+    <CustomLink
+      url="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding"
+      id="U.S. Treasury Monthly Statement of the Public Debt"
+    >
+      U.S. Treasury Monthly Statement of the Public Debt
+    </CustomLink>
+  );
   const citizensGuideLink = (
     <CustomLink url="https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html">
       Citizen's Guide to the Financial Report of the U.S. Government
     </CustomLink>
   );
 
-  const revenueBody = (
-    <>
-      The federal government collects revenue from a variety of sources, including individual income taxes, payroll taxes, corporate income taxes, and{' '}
-      {exciseTaxes} taxes. It also collects revenue from services like admission to national parks and customs duties.
-    </>
-  );
-  const debtBody = (
-    <>
-      The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for a
-      deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal debt,
-      such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the US through {debtToPennyDate} is $
-      {debt}.
-      <br />
-      <br />
-      Are federal debt and deficit the same thing? No, but they do affect one another
-    </>
-  );
+  useEffect(() => {
+    basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
+      if (res.data) {
+        setFiscalYear(res.data[0].record_fiscal_year);
+      }
+    });
+  }, []);
+
   return (
     <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
@@ -228,84 +118,35 @@ const AmericasFinanceGuidePage = ({ width }) => {
         datasetDetails=""
       />
       <AfgHero />
-
-      <div className={styles.mainContainer}>
-        <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
+      <div className={mainContainer}>
+        <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-          <AfgTopicSection
-            heading={revenueHeading}
-            body={revenueBody}
-            linkUrl="/americas-finance-guide/government-revenue/"
-            eventNumber="4"
-            id="government-revenue"
-            linkText="Learn more about government revenue"
-          />
-          <AfgTopicSection
-            heading={spendingHeading}
-            body={
-              'The federal government funds a variety of programs and services that support the American public. ' +
-              'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
-            }
-            linkUrl="/americas-finance-guide/federal-spending/"
-            linkText="Learn more about federal spending"
-            eventNumber="5"
-            id="federal-spending"
-          />
-          <AfgTopicSection
-            heading={deficitHeading}
-            body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-            linkUrl="/americas-finance-guide/national-deficit/"
-            linkText="Learn more about national deficit"
-            eventNumber="6"
-            id="national-deficit"
-          />
-
-          <AfgTopicSection
-            heading={debtHeading}
-            body={debtBody}
-            linkUrl="/americas-finance-guide/national-debt/"
-            linkText="Learn more about national debt"
-            eventNumber="7"
-            id="national-debt"
-            image="/topics-section-images/homepage_debt_1200x630.png"
-            imageAltText="A variety of hands reach up with objects, including a magnifying
-          glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
-          />
+          <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} />
           {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
           <DataSourcesMethodologies pageName={'afg-overview'}>
-            Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {debtToThePenny} dataset
-            is the data source for federal debt.
+            Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {mspd} and the{' '}
+            {debtToThePenny} datasets are the data sources for federal debt.
           </DataSourcesMethodologies>
         </Container>
       </div>
-      <Container classes={{ root: styles.quoteContainer }} data-testid="quoteContainer">
-        <Grid classes={{ root: styles.quoteGrid }} container spacing={2}>
-          <Grid item md={2} classes={{ root: styles.quoteContainerImg }}>
+      <Container classes={{ root: quoteContainer }} data-testid="quoteContainer">
+        <Grid classes={{ root: quoteGrid }} container spacing={2}>
+          <Grid item md={2} classes={{ root: quoteContainerImg }}>
             <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
           </Grid>
           <Grid item md={8}>
-            <p className={styles.quote}>
-              We might hope to see the finances of the Union as clear and intelligible as a merchant’s books, so that every member of Congress, and
-              every person of any mind in the Union should be able to comprehend them, to investigate abuses, and consequently to control them.
+            <p className={quote}>
+              “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
             </p>
-            <p className={styles.citation}>Thomas Jefferson to Albert Gallatin, 1802 (edited)</p>
-            <div className={styles.quoteBar} />
+            <p className={citation}>U.S. Constitution, Article 1, Section 9</p>
+            <div className={quoteBar} />
           </Grid>
-          <Grid item md={2} classes={{ root: styles.quoteContainerIcon }}>
-            <FontAwesomeIcon icon={faQuoteLeft} className={styles.quoteIcon} />
+          <Grid item md={2} classes={{ root: quoteContainerIcon }}>
+            <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
           </Grid>
         </Grid>
       </Container>
-
-      <Container classes={{ root: styles.bottomContainer }} data-testid="bottomContainer">
-        <p className={styles.bottomHeading}>Americans asked. We listened.</p>
-        <p className={styles.bottomBody}>
-          Your Guide to America's Finances is a re-invention of the {citizensGuideLink}. This site was created in response to the public's desire to
-          learn more about the financial picture of the United States. Where does the money come from? Where does it go? What are the trends over
-          time? This guide was created to make federal financial information open and accessible to all - reflecting the very principles that our
-          founding fathers set forth when the United States was formed.
-        </p>
-
+      <Container classes={{ root: bottomContainer }} data-testid="bottomContainer">
         <p style={{ textAlign: 'center' }}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
         <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
       </Container>

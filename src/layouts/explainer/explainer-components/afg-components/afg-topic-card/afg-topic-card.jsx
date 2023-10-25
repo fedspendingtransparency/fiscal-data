@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import { ChartPlaceholder } from '../../../explainer-helpers/national-deficit/national-deficit-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
-import { topicSection, link, topicHeading, textContainer, imageContainer, arrow } from './afg-topic-section.module.scss';
+import { topicSection, link, topicHeading, textContainer, imageContainer, arrow } from './afg-topic-card.module.scss';
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import AFGDefictChart from '../../../sections/overview/deficit-chart/deficit-chart';
@@ -12,7 +12,7 @@ import AFGRevenueChart from '../../../sections/overview/revenue-chart/revenue-ch
 import HeaderChip from '../../../sections/overview/components/header-chip/header-chip';
 import { explainerAnalyticsLabelMap, explainerColorMap } from '../../../explainer-helpers/explainer-helpers';
 
-const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText, eventNumber, citationClickPage = 'AfgOverview', id }) => {
+const AfgTopicCard = ({ heading, body, linkText, linkUrl, image, imageAltText, eventNumber, citationClickPage = 'AfgOverview', id, pageName }) => {
   const { gaEvent } = useGAEventTracking(eventNumber, citationClickPage);
 
   const onClickEventHandler = () => {
@@ -23,13 +23,6 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText
         label: gaEvent.eventLabel,
       });
     }
-  };
-
-  const explainerNameMap = {
-    'national-debt': 'National Debt',
-    'national-deficit': 'National Deficit',
-    'federal-spending': 'Federal Spending',
-    'government-revenue': 'Government Revenue',
   };
 
   const getChart = () => {
@@ -51,13 +44,13 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText
       <Grid classes={{ root: topicSection }} container spacing={0} data-testid="topic-section" key={linkUrl}>
         <Grid item md classes={{ root: textContainer }}>
           <h5 className={topicHeading}>{heading}</h5>
-          <p className={body}>{body}</p>
+          <div className={body}>{body}</div>
           <a
             href={linkUrl}
             style={{ color: explainerColorMap[id].primary }}
             className={`${link} afgTopicsLink`}
             onClick={onClickEventHandler}
-            id={explainerNameMap[id]}
+            id={pageName}
           >
             {linkText}
             <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
@@ -71,4 +64,4 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText
   );
 };
 
-export default AfgTopicSection;
+export default AfgTopicCard;
