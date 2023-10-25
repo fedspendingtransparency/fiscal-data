@@ -11,6 +11,8 @@ const useBeaGDP = (cpiData, inflationAdjust) => {
   const [gdpMaxAmount, setGDPMaxAmount] = useState(0);
   const [isGDPLoading, setIsGDPLoading] = useState(true);
 
+  const currentMonth = new Date().getMonth();
+
   const queryData = useStaticQuery(
     graphql`
       query {
@@ -51,15 +53,17 @@ const useBeaGDP = (cpiData, inflationAdjust) => {
               entry.timePeriod.includes((year - 1).toString() + 'Q4')
           );
         }
-        if (year >= 1977 && allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))) {
+        if (year >= 1977 && (allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3')) || currentMonth === 9)) {
           let totalGDP = 0;
           allQuartersForGivenYear.forEach(quarter => {
             totalGDP += parseFloat(quarter.dataValue.replace(/,/g, ''));
           });
+
+          const totalQuarters = allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3')) ? 4 : 3;
           GDPYearlyData.push({
             x: year,
             // Correct BEA data to display in trillions
-            actual: parseInt(String(totalGDP) + '000000') / 4,
+            actual: parseInt(String(totalGDP) + '000000') / totalQuarters,
             fiscalYear: String(year),
           });
         } else if (year <= 1976) {
