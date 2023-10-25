@@ -97,6 +97,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
 
   const table = useReactTable({
+    autoResetPageIndex: false,
     columns,
     data,
     columnResizeMode: 'onChange',

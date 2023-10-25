@@ -7,5 +7,5 @@ export const reactTablePageState = atom({
 
 export const reactTableDePaginatedDataState = atom({
   key: 'reactTableDePaginatedDataState',
-  default: [],
+  default: null,
 });

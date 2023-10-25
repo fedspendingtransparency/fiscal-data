@@ -94,11 +94,14 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
               accessorKey: field,
               header: label,
               cell: ({ getValue }) => {
-                if (getValue().includes('%')) {
-                  return getValue().replace(/-/g, '\u2011');
-                } else {
-                  return getValue();
+                if (getValue() !== undefined) {
+                  if (getValue().includes('%')) {
+                    return getValue().replace(/-/g, '\u2011');
+                  } else {
+                    return getValue();
+                  }
                 }
+                return getValue();
               },
             } as ColumnDef<string, string>;
           }

@@ -70,11 +70,11 @@ const TableSectionContainer = ({
       if (totalCount > MAX_PAGE_SIZE) {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+            `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${5000}`
         ).then(async page1res => {
           const page2res = await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[number]=${3}&page[size]=${10000}`
+              `:lte:${to}&sort=${sortParam}&page[number]=${3}&page[size]=${5000}`
           );
           page1res.data = page1res.data.concat(page2res.data);
           return page1res;
@@ -130,8 +130,6 @@ const TableSectionContainer = ({
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
 
-    console.log(depageData);
-
     let displayData = apiData ? apiData.data : null;
     if (userFilterSelection?.value && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
@@ -183,7 +181,6 @@ const TableSectionContainer = ({
     // only refresh the table on date range changes if server side pagination is in effect
     // this hook is the culprit for the unneeded loading for react table.
     if (serverSidePagination && depaginatedDataState) {
-      console.log(depaginatedDataState);
       refreshTable(depaginatedDataState);
     }
     if (userFilterSelection) {
@@ -193,7 +190,7 @@ const TableSectionContainer = ({
 
   useEffect(async () => {
     if (depaginatedDataState) {
-      if (pageValue > depaginatedDataState.data.length / 10) {
+      if (pageValue > depaginatedDataState.data.length / 10 - 1) {
         const appendedData = await getDepaginatedDataIncremental();
         setDepaginatedDataState(prev => ({ ...prev, data: prev.data.concat(appendedData) }));
       }
