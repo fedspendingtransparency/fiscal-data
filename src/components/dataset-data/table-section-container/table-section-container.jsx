@@ -102,11 +102,11 @@ const TableSectionContainer = ({
       if (totalCount > MAX_PAGE_SIZE) {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+            `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${5000}`
         ).then(async page1res => {
           const page2res = await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+              `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${5000}`
           );
           page1res.data = page1res.data.concat(page2res.data);
           return page1res;
@@ -192,9 +192,11 @@ const TableSectionContainer = ({
   }, [dateRange, depaginatedDataState]);
 
   useEffect(async () => {
-    if (pageValue > depaginatedDataState.data.length / 10) {
-      const appendedData = await getDepaginatedDataIncremental();
-      setDepaginatedDataState(prev => ({ ...prev, data: prev.data.concat(appendedData) }));
+    if (depaginatedDataState) {
+      if (pageValue > depaginatedDataState.data.length / 10) {
+        const appendedData = await getDepaginatedDataIncremental();
+        setDepaginatedDataState(prev => ({ ...prev, data: prev.data.concat(appendedData) }));
+      }
     }
   }, [pageValue]);
 

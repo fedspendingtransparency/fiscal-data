@@ -51,9 +51,9 @@ export default function DtgTable({
     publishedReports,
   } = tableProps;
 
-  // const [reactTableData, setReactTableData] = useState(null);
+  const [reactTableData, setReactTableData] = useState(null);
 
-  const [reactTableData, setReactTableData] = useRecoilState(reactTableDataState);
+  // const [reactTableData, setReactTableData] = useRecoilState(reactTableDataState);
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
   const [currentPage, setCurrentPage] = useState(1);
@@ -364,7 +364,7 @@ export default function DtgTable({
           </div>
         </>
       )}
-      <Experimental featureId="react-table-poc">
+      <Experimental exclude featureId="react-table-poc">
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
@@ -432,7 +432,7 @@ export default function DtgTable({
           </div>
         )}
       </Experimental>
-      <Experimental exclude featureId="react-table-poc">
+      <Experimental featureId="react-table-poc">
         {reactTableData && (
           <DataTable
             rawData={reactTableData}
