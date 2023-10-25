@@ -4,7 +4,6 @@ import { ChartPlaceholder } from '../../../explainer-helpers/national-deficit/na
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import { topicSection, link, topicHeading, textContainer, imageContainer, arrow } from './afg-topic-section.module.scss';
-
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import AFGDefictChart from '../../../sections/overview/deficit-chart/deficit-chart';
@@ -12,7 +11,6 @@ import AFGSpendingChart from '../../../sections/overview/spending-chart/spending
 import AFGRevenueChart from '../../../sections/overview/revenue-chart/revenue-chart';
 import HeaderChip from '../../../sections/overview/components/header-chip/header-chip';
 import { explainerAnalyticsLabelMap, explainerColorMap } from '../../../explainer-helpers/explainer-helpers';
-import Experimental from '../../../../../components/experimental/experimental';
 
 const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText, eventNumber, citationClickPage = 'AfgOverview', id }) => {
   const { gaEvent } = useGAEventTracking(eventNumber, citationClickPage);
@@ -49,9 +47,7 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText
 
   return (
     <>
-      <Experimental featureId="afg-overview">
-        <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />
-      </Experimental>
+      <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />
       <Grid classes={{ root: topicSection }} container spacing={0} data-testid="topic-section" key={linkUrl}>
         <Grid item md classes={{ root: textContainer }}>
           <h5 className={topicHeading}>{heading}</h5>
@@ -64,7 +60,7 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText
             id={explainerNameMap[id]}
           >
             {linkText}
-            <FontAwesomeIcon icon={faArrowRightLong} title={'right arrow'} className={arrow} />
+            <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
           </a>
         </Grid>
         <Grid item md classes={{ root: imageContainer }}>

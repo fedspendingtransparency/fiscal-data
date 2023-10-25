@@ -7,9 +7,6 @@ import * as styles from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../src/variables.module.scss';
-import { spendingExplainerPrimary } from '../../layouts/explainer/sections/federal-spending/federal-spending.module.scss';
-import { debtExplainerPrimary } from '../../layouts/explainer/sections/national-debt/national-debt.module.scss';
-import { deficitExplainerPrimary } from '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBill1Wave, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import AfgIcon from '../../layouts/explainer/explainer-components/afg-components/afg-icon/afg-icon';
@@ -28,7 +25,6 @@ import { graphql, useStaticQuery } from 'gatsby';
 import Footnote from '../../components/footnote/footnote';
 import AnchorText from '../../components/anchor-text/anchor-text';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
-import Experimental from '../../components/experimental/experimental';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -172,8 +168,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
 
   const exciseTaxes = (
     <GlossaryPopoverDefinition
-      term={'Excise'}
-      page={'Revenue Explainer & AFG Overview Page'}
+      term="Excise"
+      page="Revenue Explainer & AFG Overview Page"
       glossary={glossary}
       glossaryClickHandler={setGlossaryClickEvent}
     >
@@ -236,100 +232,33 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <div className={styles.mainContainer}>
         <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-          <Experimental exclude featureId="afg-overview">
-            <AfgTopicSection
-              heading={revenueHeading}
-              body={revenueBody}
-              linkUrl="/americas-finance-guide/government-revenue/"
-              eventNumber="4"
-              id="government-revenue"
-              linkText="Learn more about government revenue"
-              image="/topics-section-images/homepage_revenue_1200x630.png"
-              imageAltText="U.S. Capitol dome surrounded in circle by hand holding plant, hand
-            holding money, hand holding gold coin, woman looking at check, and man looking
-            at building."
-            />
-          </Experimental>
-          <Experimental featureId="afg-overview">
-            <AfgTopicSection
-              heading={revenueHeading}
-              body={revenueBody}
-              linkUrl="/americas-finance-guide/government-revenue/"
-              eventNumber="4"
-              id="government-revenue"
-              linkText="Learn more about government revenue"
-            />
-          </Experimental>
-          <Experimental exclude featureId="afg-overview">
-            <AfgTopicSection
-              heading={spendingHeading}
-              body={
-                'The federal government funds a variety of programs and services that support the American public. ' +
-                'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
-              }
-              linkUrl="/americas-finance-guide/federal-spending/"
-              linkText="Learn more about federal spending"
-              eventNumber="5"
-              id="federal-spending"
-              image="/topics-section-images/homepage_spending_1200x630.png"
-              imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
-            />
-          </Experimental>
-          <Experimental featureId="afg-overview">
-            <AfgTopicSection
-              heading={spendingHeading}
-              body={
-                'The federal government funds a variety of programs and services that support the American public. ' +
-                'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
-              }
-              linkUrl="/americas-finance-guide/federal-spending/"
-              linkText="Learn more about federal spending"
-              eventNumber="5"
-              id="federal-spending"
-            />
-          </Experimental>
-          <div className={styles.middleHeader}>
-            <Grid container spacing={4}>
-              <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
-                <AfgIcon
-                  faIcon={faMoneyBill1Wave}
-                  backgroundColor={styles.dollarIconBackgroundColor}
-                  iconColor={styles.dollarIconColor}
-                  altText="Dark grey one dollar bill image overlaid on a grey circle."
-                />
-              </Grid>
-              <Grid item md={11} classes={{ root: styles.middleHeaderHeadingContainer }}>
-                <h3 className={styles.middleHeaderHeading}>
-                  How {midPageHas} federal revenue and spending {midPageAffect} the <span className={styles.deficitText}>deficit</span> and{' '}
-                  <span className={styles.debtText}>debt</span> in fiscal year {fiscalYear}?
-                </h3>
-              </Grid>
-            </Grid>
-          </div>
-          <Experimental exclude featureId="afg-overview">
-            <AfgTopicSection
-              heading={deficitHeading}
-              body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-              linkUrl="/americas-finance-guide/national-deficit/"
-              linkText="Learn more about national deficit"
-              eventNumber="6"
-              id="national-deficit"
-              image="/topics-section-images/homepage_deficit_1200x630.png"
-              imageAltText="A hand reaches up to grab a $ coin. Other objects appear to the left
-              of the hand, including a pie chart, bar graph, and lit lightbulb."
-            />
-          </Experimental>
-          <Experimental featureId="afg-overview">
-            <AfgTopicSection
-              heading={deficitHeading}
-              body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
-              linkUrl="/americas-finance-guide/national-deficit/"
-              linkText="Learn more about national deficit"
-              linkColor={deficitExplainerPrimary}
-              eventNumber="6"
-              id="national-deficit"
-            />
-          </Experimental>
+          <AfgTopicSection
+            heading={revenueHeading}
+            body={revenueBody}
+            linkUrl="/americas-finance-guide/government-revenue/"
+            eventNumber="4"
+            id="government-revenue"
+            linkText="Learn more about government revenue"
+          />
+          <AfgTopicSection
+            heading={spendingHeading}
+            body={
+              'The federal government funds a variety of programs and services that support the American public. ' +
+              'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
+            }
+            linkUrl="/americas-finance-guide/federal-spending/"
+            linkText="Learn more about federal spending"
+            eventNumber="5"
+            id="federal-spending"
+          />
+          <AfgTopicSection
+            heading={deficitHeading}
+            body="A budget deficit occurs when the money spent exceeds the money collected for a given period."
+            linkUrl="/americas-finance-guide/national-deficit/"
+            linkText="Learn more about national deficit"
+            eventNumber="6"
+            id="national-deficit"
+          />
 
           <AfgTopicSection
             heading={debtHeading}
@@ -342,9 +271,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
             imageAltText="A variety of hands reach up with objects, including a magnifying
           glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone."
           />
-
-          {fiscalYear && <CompareSection currentFiscalYear={fiscalYear} />}
-
           {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
           <DataSourcesMethodologies pageName={'afg-overview'}>
             Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {debtToThePenny} dataset
