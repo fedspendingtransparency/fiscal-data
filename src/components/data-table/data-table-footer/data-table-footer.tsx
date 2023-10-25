@@ -56,9 +56,6 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
   };
 
   useEffect(() => {
-    // console.log(pagingProps?.maxPage);
-    // console.log(table.getState().pagination.pageIndex + 1);
-
     setPageValue(table.getState().pagination.pageIndex + 1);
 
     if (table.getState().pagination.pageIndex + 1 > 15700) {
@@ -72,7 +69,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
         {visibleRows(table)}
       </div>
       {showPaginationControls && <PaginationControls pagingProps={paging} />}
-      <button onClick={() => table.setPageIndex(999)}> Click to go to row 1000</button>
+      <button onClick={() => table.setPageIndex(10000 / paging.itemsPerPage - 1)}> Click to go to data partition</button>
     </div>
   );
 };
