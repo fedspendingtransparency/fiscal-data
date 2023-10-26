@@ -2,6 +2,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import AFGSpendingChart, { TickCount } from './spending-chart';
+import { mockSpendingChartData } from '../../../explainer-helpers/afg-overview-test-helper';
 
 describe('AFGSpendingChart Component', () => {
   class ResizeObserver {
@@ -11,33 +12,10 @@ describe('AFGSpendingChart Component', () => {
   }
   window.ResizeObserver = ResizeObserver;
 
-  const mockData = {
-    data: [
-      {
-        record_fiscal_year: '2019',
-        record_date: '2019-11-15',
-        record_calender_month: '11',
-        current_fytd_net_outly_amt: '11000000000000',
-      },
-      {
-        record_fiscal_year: '2017',
-        record_date: '2017-11-15',
-        record_calender_month: '11',
-        current_fytd_net_outly_amt: '11000000030000',
-      },
-      {
-        record_fiscal_year: '2020',
-        record_date: '2020-11-15',
-        record_calender_month: '11',
-        current_fytd_net_outly_amt: '11000000010000',
-      },
-    ],
-  };
-
   beforeEach(() => {
     fetchMock.get(
       `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date`,
-      mockData,
+      mockSpendingChartData,
       { overwriteRoutes: true },
       { repeat: 0 }
     );
@@ -46,7 +24,6 @@ describe('AFGSpendingChart Component', () => {
   afterEach(() => {
     jest.resetModules();
   });
-
 
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
@@ -86,5 +63,4 @@ describe('AFGSpendingChart Component', () => {
     );
     expect(queryByText('Feb')).not.toBeInTheDocument();
   });
-
 });
