@@ -1,9 +1,10 @@
 import React from 'react';
 import TopicSection from '../topic-section/topic-section';
-import { render, waitFor } from '@testing-library/react';
+import { act, render, RenderResult, waitFor } from '@testing-library/react';
 import { useStaticQuery } from 'gatsby';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
-import { mockEndpointResponseMap } from '../../../explainer-helpers/afg-overview-test-helper';
+import { mockEndpointResponseMap, mockEndpointResponseMapAltDates } from '../../../explainer-helpers/afg-overview-test-helper';
+import AmericasFinanceGuide from '../../../../../pages/americas-finance-guide';
 describe('Compare Section Component', () => {
   class ResizeObserver {
     observe() {}
@@ -66,6 +67,47 @@ describe('Compare Section Component', () => {
       expect(getAllByText('2022', { exact: false }).length).toBe(5);
       expect(getAllByText('2021', { exact: false }).length).toBe(4);
       expect(getAllByText('2020', { exact: false }).length).toBeGreaterThan(1);
+    });
+  });
+});
+
+describe('Americas Finance Guide regular language', () => {
+  const glossaryMock = {
+    allGlossaryCsv: {
+      glossaryCsv: [
+        {
+          term: 'Excise',
+          definition:
+            'A tax collected on certain goods and commodities produced or sold within the country (i.e. alcohol and tobacco, gasoline) and on licenses granted for certain activities (i.e. import/export license).',
+          site_page: 'Revenue Explainer & AFG Overview Page',
+          id: '12',
+          url_display: '',
+          url_path: '',
+        },
+      ],
+    },
+    extensions: {},
+  };
+
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
+  beforeEach(() => {
+    // mock all data endpoints for inline evergreen values
+    setGlobalFetchMatchingResponse(jest, mockEndpointResponseMapAltDates);
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+  });
+
+  it('correctly uses language when not in september', async () => {
+    const { getByText } = render(<TopicSection glossary={[]} fiscalYear={2022} setGlossaryClickEvent={jest.fn()} />);
+
+    await waitFor(() => {
+      getByText('The federal government has collected', { exact: false });
+      getByText('the amount by which spending exceeds', { exact: false });
+      getByText('the deficit this year has contributed', { exact: false });
     });
   });
 });

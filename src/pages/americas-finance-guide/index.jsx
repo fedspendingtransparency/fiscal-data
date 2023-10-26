@@ -4,22 +4,17 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import { Container, Grid } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
 import {
-  header,
   quoteIcon,
-  bottomHeading,
-  icon,
   quoteContainerIcon,
   bottomContainer,
   quote,
   quoteBar,
-  title,
   citation,
   quoteGrid,
   topContainer,
   mainContainer,
   quoteContainer,
   quoteContainerImg,
-  bottomBody,
 } from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -87,11 +82,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
       id="U.S. Treasury Monthly Statement of the Public Debt"
     >
       U.S. Treasury Monthly Statement of the Public Debt
-    </CustomLink>
-  );
-  const citizensGuideLink = (
-    <CustomLink url="https://www.fiscal.treasury.gov/reports-statements/financial-report/current-report.html">
-      Citizen's Guide to the Financial Report of the U.S. Government
     </CustomLink>
   );
 

@@ -269,6 +269,19 @@ export const mockEndpointResponseMapAltDates = [
       ],
     },
   },
+
+  {
+    matcher: (url: string): boolean => {
+      return url.includes('filter=line_code_nbr:eq:830');
+    },
+    jsonResponse: mockRevenueChartData,
+  },
+  {
+    matcher: (url: string): boolean => {
+      return url.includes('mts_table_5?filter=line_code_nbr:eq:5691');
+    },
+    jsonResponse: mockSpendingChartData,
+  },
   {
     // debt mts
     matcher: (url: string): boolean => url.includes('v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date&page[size]=1'),
