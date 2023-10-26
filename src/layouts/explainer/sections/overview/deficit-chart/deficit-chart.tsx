@@ -157,13 +157,18 @@ const AFGDeficitChart = (): ReactElement => {
                         stroke={year.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
                         strokeWidth={4}
                         strokeOpacity={focusedYear === year.data[0].year || focusedYear === null ? 1 : 0.5}
-                        dot={<CustomDotNoAnimation />}
+                        dot={<CustomDotNoAnimation focusedYear={focusedYear} />}
                         isAnimationActive={false}
                         activeDot={false}
                       />
                     );
                   })}
-                  <Tooltip content={<CustomTooltip setFocused={setFocusedYear} />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} />
+                  <Tooltip
+                    content={<CustomTooltip setFocused={setFocusedYear} />}
+                    cursor={{ strokeWidth: 0 }}
+                    isAnimationActive={false}
+                    allowEscapeViewBox={{ x: true }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
