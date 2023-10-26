@@ -3,7 +3,7 @@ import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContai
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../government-revenue/revenue.module.scss';
-import { chartContainer, chartTitle, surplusPrimary, deficitChart } from './deficit-chart.module.scss';
+import { chartContainer, chartTitle, surplusPrimary, deficitChart, breakpointLg } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,8 +12,9 @@ import CustomDotNoAnimation from './custom-dot/custom-dot';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
 import { trillionAxisFormatter } from '../chart-helper';
+import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 
-const AFGDeficitChart = (): ReactElement => {
+const AFGDeficitChart = ({ width }): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
@@ -168,7 +169,12 @@ const AFGDeficitChart = (): ReactElement => {
                     />
                   );
                 })}
-                <Tooltip content={<CustomTooltip setFocused={setFocusedYear} />} cursor={{ strokeWidth: 0 }} isAnimationActive={false} allowEscapeViewBox={{ x: true }} />
+                <Tooltip
+                  content={<CustomTooltip setFocused={setFocusedYear} />}
+                  cursor={{ strokeWidth: 0 }}
+                  isAnimationActive={false}
+                  allowEscapeViewBox={width > pxToNumber(breakpointLg) ? { x: true } : { y: true }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
