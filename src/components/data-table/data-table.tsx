@@ -138,6 +138,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
 
   useEffect(() => {
+    table.setPageIndex(0);
+  }, [sorting, table.getFilteredRowModel()]);
+
+  useEffect(() => {
     if (resetFilters) {
       table.resetColumnFilters();
       table.resetSorting();
