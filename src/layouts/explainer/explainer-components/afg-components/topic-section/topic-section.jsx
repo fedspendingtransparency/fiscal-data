@@ -300,7 +300,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent }) => {
   ];
 
   return (
-    <>
+    <div data-testid="topic-section">
       {topicSectionMap.map((section, index) => {
         return (
           <React.Fragment key={index}>
@@ -318,7 +318,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent }) => {
           </React.Fragment>
         );
       })}
-    </>
+    </div>
   );
 };
 

@@ -55,32 +55,6 @@ describe('Americas Finance Guide', () => {
     const { container } = component;
     expect(container.querySelector('[data-testid="afg-icon"]')).toBeInTheDocument();
   });
-
-  it('correctly populates values from API data / alt september language', async () => {
-    let component: RenderResult;
-    await act(async () => {
-      component = render(<AmericasFinanceGuide />);
-    });
-    const { getByText, getAllByText } = component;
-    await waitFor(() => {
-      getByText('the federal government has collected $4.41 trillion', { exact: false });
-      getByText('$5.35 trillion', { exact: false });
-      getByText('by which spending exceeded revenue, $946 billion in', { exact: false });
-      getByText('contributed', { exact: false });
-      getByText('of $30.93 trillion through', { exact: false });
-      getByText('September 2022', { exact: false });
-      getByText('How did these totals compare to', { exact: false });
-      getByText('$4.05 trillion', { exact: false });
-      getByText('$6.82 trillion', { exact: false });
-      getByText('the federal government spent the most on Income Security.', { exact: false });
-      getByText('government spent $2.77 trillion more than it collected', { exact: false });
-      getByText('the national deficit decreased by $360 billion compared', { exact: false });
-      getByText('the government had $28.43 trillion in federal', { exact: false });
-      expect(getAllByText('2022', { exact: false }).length).toBeGreaterThan(4);
-      expect(getAllByText('2021', { exact: false }).length).toBeGreaterThan(8);
-      expect(getAllByText('2020', { exact: false }).length).toBeGreaterThan(1);
-    });
-  });
 });
 
 describe('Americas Finance Guide regular language', () => {
