@@ -6,8 +6,7 @@ $surplus-primary: #e5a000;
 .deficitChart {
   font-size: $font-size-14;
   color: $font-body-copy;
-  width: 100%;
-
+  min-width: 24.75rem;
   .chartTitle {
     font-weight: $semi-bold-weight;
     margin-bottom: 1rem;
@@ -21,7 +20,6 @@ $surplus-primary: #e5a000;
       color: $font-body-copy;
     }
   }
-
 }
 
 .toolTip {

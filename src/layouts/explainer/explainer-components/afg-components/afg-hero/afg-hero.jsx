@@ -39,17 +39,11 @@ export default function AfgHero() {
   return (
     <div className={styles.heroContainer} style={{ height: `${containerHeight}px` }} data-testid="afg-hero">
       <div className={styles.heroGrayBox} />
-      <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky.">
-        <h3 className={styles.heroQuote}>
-          “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
-        </h3>
-        <p className={styles.heroCitation}>U.S. Constitution, Article 1, Section 9</p>
-      </div>
+      <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky."></div>
       <div className={styles.heroWhiteBox}>
         <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
-        <h1 className={styles.heroHeading}>
-          How much money {headingTense} the federal government {headingTenseCollect} and {headingTenseSpend} in fiscal year {fiscalYear}?
-        </h1>
+        <h1 className={styles.heroHeading}>The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt</h1>
+        <h3 className={styles.heroGuideText}>Understand the Basics of Federal Finances from the U.S. Treasury Department</h3>
         <div className={styles.heroSocialShare} ref={refSocialShare}>
           <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'horizontal'} />
         </div>

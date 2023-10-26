@@ -41,8 +41,8 @@ const AfgTopicCard = ({ heading, body, linkText, linkUrl, image, imageAltText, e
   return (
     <>
       <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />
-      <Grid classes={{ root: topicSection }} container spacing={0} data-testid="topic-section" key={linkUrl}>
-        <Grid item md classes={{ root: textContainer }}>
+      <div className={topicSection}>
+        <div className={textContainer}>
           <h5 className={topicHeading}>{heading}</h5>
           <div className={body}>{body}</div>
           <a
@@ -55,11 +55,11 @@ const AfgTopicCard = ({ heading, body, linkText, linkUrl, image, imageAltText, e
             {linkText}
             <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
           </a>
-        </Grid>
-        <Grid item md classes={{ root: imageContainer }}>
-          <div style={{ display: 'flex', alignItems: 'flex-end' }}>{image ? <img src={image} alt={imageAltText} /> : getChart()}</div>
-        </Grid>
-      </Grid>
+        </div>
+        <div className={imageContainer}>
+          <div>{image ? <img src={image} alt={imageAltText} /> : getChart()}</div>
+        </div>
+      </div>
     </>
   );
 };

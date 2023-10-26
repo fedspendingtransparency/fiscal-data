@@ -3,6 +3,8 @@
 .topicSection {
   margin-top: 1rem;
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
 
   img {
     width: 100%;
@@ -27,7 +29,7 @@
     margin-left: 1rem;
   }
   .textContainer {
-    padding-right: 94px;
+    max-width: 28.5rem;
   }
 }
 
