@@ -20,8 +20,12 @@
   }
   .link {
     @include columnLabelCopy7;
+    color: $primary;
     display: block;
     margin-top: 1rem !important;
+    &:hover {
+      color: $slate-blue;
+    }
   }
   .arrow {
     margin-left: 1rem;

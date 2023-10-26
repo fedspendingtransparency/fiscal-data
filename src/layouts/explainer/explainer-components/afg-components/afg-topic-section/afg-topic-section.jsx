@@ -57,11 +57,11 @@ const AfgTopicSection = ({ heading, body, linkUrl, linkText, image, imageAltText
           <h5 className={topicHeading}>{heading}</h5>
           <p className={body}>{body}</p>
           <a
-            href={linkUrl}
-            style={{ color: explainerColorMap[id].primary }}
-            className={`${link} afgTopicsLink`}
-            onClick={onClickEventHandler}
-            id={explainerNameMap[id]}
+          href={linkUrl}
+          style={{ marginTop: '2rem' }} // TODO: Move marginTop to afgTopicsLink class
+          className={`${link} afgTopicsLink`}
+          onClick={onClickEventHandler}
+          id={id}
           >
             {linkText}
             <FontAwesomeIcon icon={faArrowRightLong} title={'right arrow'} className={arrow} />
