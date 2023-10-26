@@ -305,6 +305,7 @@ const TableSectionContainer = ({
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
                   setFiltersActive={setFiltersActive}
+                  filtersActive={filtersActive}
                 />
               ) : (
                 ''

@@ -35,6 +35,7 @@ type DataTableProps = {
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
+  filtersActive: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -55,6 +56,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   hideColumns,
   pagingProps,
+  filtersActive,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -139,7 +141,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   useEffect(() => {
     table.setPageIndex(0);
-  }, [sorting, table.getFilteredRowModel()]);
+  }, [sorting, filtersActive]);
 
   useEffect(() => {
     if (resetFilters) {
