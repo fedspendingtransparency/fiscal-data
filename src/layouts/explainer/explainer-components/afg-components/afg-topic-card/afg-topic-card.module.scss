@@ -36,7 +36,8 @@
 @media screen and (max-width: $breakpoint-lg) {
   .imageContainer {
     order: 1;
-    padding-bottom: 0 !important;
+    padding-bottom: 0.5rem;
+    padding-top: .5rem;
   }
   .textContainer {
     order: 2;
@@ -45,5 +46,8 @@
   .topicSection {
     margin-bottom: 2rem !important;
     flex-direction: column;
+  }
+  .link {
+    margin-top: 10px;
   }
 }

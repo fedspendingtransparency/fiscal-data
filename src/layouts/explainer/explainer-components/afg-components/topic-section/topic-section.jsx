@@ -15,7 +15,7 @@ import {
 } from '../../../explainer-helpers/afg-overview-helpers';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 
-const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent }) => {
+const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) => {
   const [fytdRevenue, setFytdRevenue] = useState('');
   const [priorFyRevenue, setPriorFyRevenue] = useState('');
   const [revenueCategory, setRevenueCategory] = useState('');
@@ -314,6 +314,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent }) => {
               pageName={section.pageName}
               image={section.image}
               imageAltText={section.imageAltText}
+              width={width}
             />
           </React.Fragment>
         );

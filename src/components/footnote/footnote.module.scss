@@ -32,3 +32,9 @@
     width: 100% !important;
   }
 }
+@media screen and (max-width: $breakpoint-lg - 1px) {
+  .footnoteContainer {
+    margin: 1.5rem 0;
+    padding-top: 1.5rem;
+  }
+}

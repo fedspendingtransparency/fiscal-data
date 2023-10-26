@@ -6,7 +6,6 @@ $surplus-primary: #e5a000;
 .deficitChart {
   font-size: $font-size-14;
   color: $font-body-copy;
-  min-width: 24.75rem;
   .chartTitle {
     font-weight: $semi-bold-weight;
     margin-bottom: 1rem;
@@ -57,6 +56,12 @@ $surplus-primary: #e5a000;
         margin-right: .75rem;
       }
     }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .deficitChart {
+    min-width: 24.75rem;
   }
 }
 

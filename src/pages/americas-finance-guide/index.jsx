@@ -111,9 +111,9 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <div className={mainContainer}>
         <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-          <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} />
+          <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} width={width} />
           {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
-          <DataSourcesMethodologies pageName={'afg-overview'}>
+          <DataSourcesMethodologies pageName="afg-overview">
             Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {mspd} and the{' '}
             {debtToThePenny} datasets are the data sources for federal debt.
           </DataSourcesMethodologies>

@@ -10,8 +10,22 @@ import AFGSpendingChart from '../../../sections/overview/spending-chart/spending
 import AFGRevenueChart from '../../../sections/overview/revenue-chart/revenue-chart';
 import HeaderChip from '../../../sections/overview/components/header-chip/header-chip';
 import { explainerAnalyticsLabelMap, explainerColorMap } from '../../../explainer-helpers/explainer-helpers';
+import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../../../variables.module.scss';
 
-const AfgTopicCard = ({ heading, body, linkText, linkUrl, image, imageAltText, eventNumber, citationClickPage = 'AfgOverview', id, pageName }) => {
+const AfgTopicCard = ({
+  heading,
+  body,
+  linkText,
+  linkUrl,
+  image,
+  imageAltText,
+  eventNumber,
+  citationClickPage = 'AfgOverview',
+  id,
+  pageName,
+  width,
+}) => {
   const { gaEvent } = useGAEventTracking(eventNumber, citationClickPage);
 
   const onClickEventHandler = () => {
@@ -37,28 +51,52 @@ const AfgTopicCard = ({ heading, body, linkText, linkUrl, image, imageAltText, e
     }
   };
 
+  const chart = image ? <img src={image} alt={imageAltText} /> : getChart();
+
   return (
     <>
       <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />
-      <div className={topicSection}>
-        <div className={textContainer}>
-          <h5 className={topicHeading}>{heading}</h5>
-          <div className={body}>{body}</div>
-          <a
-            href={linkUrl}
-            style={{ color: explainerColorMap[id].primary }}
-            className={`${link} afgTopicsLink`}
-            onClick={onClickEventHandler}
-            id={pageName}
-          >
-            {linkText}
-            <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
-          </a>
+      {width >= pxToNumber(breakpointLg) ? (
+        <div className={topicSection}>
+          <div className={textContainer}>
+            <h5 className={topicHeading}>{heading}</h5>
+            <div className={body}>{body}</div>
+            <a
+              href={linkUrl}
+              style={{ color: explainerColorMap[id].primary }}
+              className={`${link} afgTopicsLink`}
+              onClick={onClickEventHandler}
+              id={pageName}
+            >
+              {linkText}
+              <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
+            </a>
+          </div>
+          <div className={imageContainer}>
+            <div>{chart}</div>
+          </div>
         </div>
-        <div className={imageContainer}>
-          <div>{image ? <img src={image} alt={imageAltText} /> : getChart()}</div>
+      ) : (
+        <div className={topicSection}>
+          <div className={textContainer}>
+            <h5 className={topicHeading}>{heading}</h5>
+            <div className={imageContainer}>
+              <div>{chart}</div>
+            </div>
+            <div className={body}>{body}</div>
+            <a
+              href={linkUrl}
+              style={{ color: explainerColorMap[id].primary }}
+              className={`${link} afgTopicsLink`}
+              onClick={onClickEventHandler}
+              id={pageName}
+            >
+              {linkText}
+              <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
+            </a>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
