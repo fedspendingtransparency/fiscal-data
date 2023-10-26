@@ -78,13 +78,7 @@ const AfgTopicCard = ({
               <div>{chart}</div>
             </div>
             <div className={body}>{body}</div>
-            <a
-              href={linkUrl}
-              style={{ color: explainerColorMap[id].primary }}
-              className={`${link} afgTopicsLink`}
-              onClick={onClickEventHandler}
-              id={pageName}
-            >
+            <a href={linkUrl} className={`${link} afgTopicsLink`} onClick={onClickEventHandler} id={pageName}>
               {linkText}
               <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
             </a>

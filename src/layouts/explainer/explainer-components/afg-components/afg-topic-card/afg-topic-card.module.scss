@@ -32,26 +32,37 @@
   .arrow {
     margin-left: 1rem;
   }
-  .textContainer {
-    max-width: 28.5rem;
+}
+@media screen and (min-width: $breakpoint-lg) {
+  .topicSection {
+
+    .textContainer {
+      max-width: 28.5rem;
+    }
   }
 }
-
-@media screen and (max-width: $breakpoint-lg) {
-  .imageContainer {
-    order: 1;
-    padding-bottom: 0.5rem;
-    padding-top: .5rem;
-  }
-  .textContainer {
-    order: 2;
-    padding: 0 !important;
-  }
+@media screen and (max-width: $breakpoint-lg - 1) {
   .topicSection {
-    margin-bottom: 2rem !important;
-    flex-direction: column;
-  }
-  .link {
-    margin-top: 10px;
+    justify-content: center;
+
+    .imageContainer {
+      order: 1;
+      padding-bottom: 0.5rem;
+      padding-top: .5rem;
+    }
+
+    .textContainer {
+      order: 2;
+      padding: 0 !important;
+    }
+
+    .topicSection {
+      margin-bottom: 2rem !important;
+      flex-direction: column;
+    }
+
+    .link {
+      margin-top: 10px;
+    }
   }
 }

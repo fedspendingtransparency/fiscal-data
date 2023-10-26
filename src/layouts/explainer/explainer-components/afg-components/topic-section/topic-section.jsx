@@ -51,122 +51,125 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
   const mtsDebtEndpoint = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date&page[size]=1';
 
   useEffect(() => {
-    basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setFytdRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), false));
-        if (data.record_calendar_month === '09') {
-          setRevenueHas('collected');
+    if (fiscalYear) {
+      basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
+        if (res.data && res.data.length > 0) {
+          const data = res.data[0];
+          console.log(data);
+          setFytdRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), false));
+          if (data.record_calendar_month === '09') {
+            setRevenueHas('collected');
+          }
         }
-      }
-    });
-    basicFetch(priorRevenueRequest.getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setPriorFyRevenue(getShortForm(data?.current_fytd_net_rcpt_amt.toString(), false));
-      }
-    });
-    basicFetch(priorRevenueCategoryRequest.getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setRevenueCategory(data.classification_desc);
-      }
-    });
-    basicFetch(new ApiRequest(spendingRequest).getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setFytdSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
-        if (data.record_calendar_month === '09') {
-          setSpendingHas('');
+      });
+      basicFetch(priorRevenueRequest.getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setPriorFyRevenue(getShortForm(data?.current_fytd_net_rcpt_amt.toString(), false));
         }
-      }
-    });
-    basicFetch(priorSpendingRequest.getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setPriorFySpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
-      }
-    });
-    basicFetch(priorSpendingCategoryRequest.getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setSpendingCategory(data?.classification_desc);
-      }
-    });
-    basicFetch(new ApiRequest(deficitRequest).getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
-        const formattedAmount = getShortForm(deficitAmount.toString(), false);
-        setFytdDeficit(formattedAmount);
-        if (data.record_calendar_month === '09') {
-          setDeficitExceeds('exceeded');
+      });
+      basicFetch(priorRevenueCategoryRequest.getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setRevenueCategory(data.classification_desc);
         }
-      }
-    });
-    basicFetch(priorDeficitRequest.getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        const deficitAmount = Number(data.current_fytd_net_outly_amt);
-        const priorDeficitAmount = Number(data.prior_fytd_net_outly_amt);
-        const formattedAmount = getShortForm(Math.abs(deficitAmount).toString(), false);
-        setPriorFyDeficit(formattedAmount);
-        const difference = deficitAmount - priorDeficitAmount;
-        setDeficitDirection(difference < 0 ? 'increased' : 'decreased');
-        const formattedChange = getShortForm(Math.abs(difference).toString(), false);
-        setDeficitChange(formattedChange);
-      }
-    });
-    basicFetch(`${apiPrefix}${mtsDebtEndpoint}`).then(res => {
-      if (res.data && res.data.length > 0) {
-        const mtsData = res.data[0];
-        const mtsMonth = mtsData.record_calendar_month;
+      });
+      basicFetch(new ApiRequest(spendingRequest).getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setFytdSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
+          if (data.record_calendar_month === '09') {
+            setSpendingHas('');
+          }
+        }
+      });
+      basicFetch(priorSpendingRequest.getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setPriorFySpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
+        }
+      });
+      basicFetch(priorSpendingCategoryRequest.getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setSpendingCategory(data?.classification_desc);
+        }
+      });
+      basicFetch(new ApiRequest(deficitRequest).getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
+          const formattedAmount = getShortForm(deficitAmount.toString(), false);
+          setFytdDeficit(formattedAmount);
+          if (data.record_calendar_month === '09') {
+            setDeficitExceeds('exceeded');
+          }
+        }
+      });
+      basicFetch(priorDeficitRequest.getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          const deficitAmount = Number(data.current_fytd_net_outly_amt);
+          const priorDeficitAmount = Number(data.prior_fytd_net_outly_amt);
+          const formattedAmount = getShortForm(Math.abs(deficitAmount).toString(), false);
+          setPriorFyDeficit(formattedAmount);
+          const difference = deficitAmount - priorDeficitAmount;
+          setDeficitDirection(difference < 0 ? 'increased' : 'decreased');
+          const formattedChange = getShortForm(Math.abs(difference).toString(), false);
+          setDeficitChange(formattedChange);
+        }
+      });
+      basicFetch(`${apiPrefix}${mtsDebtEndpoint}`).then(res => {
+        if (res.data) {
+          const mtsData = res.data[0];
+          const mtsMonth = mtsData.record_calendar_month;
 
-        // eslint-disable-next-line max-len
-        const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
+          // eslint-disable-next-line max-len
+          const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
 
-        basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
-          if (res.data) {
-            const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
-            if (mspdData.record_calendar_month === '09') {
-              setDebtContributed('contributed');
+          basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
+            if (res.data) {
+              const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
+              if (mspdData.record_calendar_month === '09') {
+                setDebtContributed('contributed');
+              }
+              setLatestDebt(getShortForm((mspdData.total_mil_amt * 1000000).toString(), false));
+              const date = new Date(mtsData.record_date);
+              const monthName = date.toLocaleString('default', { month: 'long' });
+              const year = mtsData.record_calendar_year;
+              setDebtDate(`${monthName} ${year}`);
             }
-            setLatestDebt(getShortForm((mspdData.total_mil_amt * 1000000).toString(), false));
-            const date = new Date(mtsData.record_date);
-            const monthName = date.toLocaleString('default', { month: 'long' });
-            const year = mtsData.record_calendar_year;
-            setDebtDate(`${monthName} ${year}`);
-          }
-        });
-      }
-    });
-    basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
-        const date = new Date(data.record_date);
-        const monthName = date.toLocaleString('default', { month: 'long' });
-        const debtToThePennyDay = data.record_calendar_day;
-        setDebtToPennyDate(`${monthName} ${debtToThePennyDay}, ${data.record_calendar_year}`);
-      }
-    });
-    basicFetch(priorDebtRequest.getUrl()).then(res => {
-      if (res.data && res.data.length > 0) {
-        const data = res.data[0];
-        setPriorFyDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
-        basicFetch(priorPriorDebtRequest.getUrl()).then(priorRes => {
-          if (priorRes.data) {
-            const priorData = priorRes.data[0];
+          });
+        }
+      });
+      basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
+          const date = new Date(data.record_date);
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          const debtToThePennyDay = data.record_calendar_day;
+          setDebtToPennyDate(`${monthName} ${debtToThePennyDay}, ${data.record_calendar_year}`);
+        }
+      });
+      basicFetch(priorDebtRequest.getUrl()).then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setPriorFyDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
+          basicFetch(priorPriorDebtRequest.getUrl()).then(priorRes => {
+            if (priorRes.data) {
+              const priorData = priorRes.data[0];
 
-            const difference = Number(data.tot_pub_debt_out_amt) - Number(priorData.tot_pub_debt_out_amt);
+              const difference = Number(data.tot_pub_debt_out_amt) - Number(priorData.tot_pub_debt_out_amt);
 
-            setDebtDirection(difference > 0 ? 'increased' : 'decreased');
-            setDebtChange(getShortForm(Math.abs(difference).toString(), false));
-          }
-        });
-      }
-    });
-  }, []);
+              setDebtDirection(difference > 0 ? 'increased' : 'decreased');
+              setDebtChange(getShortForm(Math.abs(difference).toString(), false));
+            }
+          });
+        }
+      });
+    }
+  }, [fiscalYear]);
   const anchorTextLatestFY = (FY, idx, anchorIdx) => {
     const anchor = getAFGFootnotes(FY + 1)[idx];
     return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />;

@@ -93,7 +93,7 @@ const AFGSpendingChart = () => {
     currentFY +
     ', a light green line represents the cumulative spending of the previous fiscal year ' +
     (currentFY - 1) +
-    ')} , and a bolded gray line represents the 5-year average spending from ' +
+    ', and a bolded gray line represents the 5-year average spending from ' +
     (currentFY - 6) +
     '-' +
     (currentFY - 2) +
@@ -101,7 +101,7 @@ const AFGSpendingChart = () => {
 
   return (
     <div className={deficitChart} role="figure" aria-label={ariaLabel}>
-      <div className={chartTitle}>Cumulative Spending by Month in trillions of USD</div>
+      <div className={chartTitle}>Cumulative Spending by Month in Trillions of USD</div>
       {isLoading && (
         <div>
           <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...

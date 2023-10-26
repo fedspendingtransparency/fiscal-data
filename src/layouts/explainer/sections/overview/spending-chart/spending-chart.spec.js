@@ -36,7 +36,7 @@ describe('AFGSpendingChart Component', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const instance = render(<AFGSpendingChart />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(instance.getByText('Cumulative Spending by Month in trillions of USD')).toBeInTheDocument();
+    expect(instance.getByText('Cumulative Spending by Month in Trillions of USD')).toBeInTheDocument();
   });
 
   it('renders legend', async () => {
