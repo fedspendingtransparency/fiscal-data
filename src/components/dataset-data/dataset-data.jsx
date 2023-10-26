@@ -38,7 +38,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [publishedReports, setPublishedReports] = useState([]);
   const [selectedPivot, setSelectedPivot] = useState();
   const [initReports, setInitReports] = useState(null);
-  const [perPage, setPerPage] = useState(null);
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
   const [userFilterSelection, setUserFilterSelection] = useState(null);
@@ -232,8 +231,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             serverSidePagination={serverSidePagination}
             selectedTab={selectedTab}
             tabChangeHandler={setSelectedTab}
-            perPage={perPage}
-            setPerPage={setPerPage}
             handleIgnorePivots={setIgnorePivots}
             allTablesSelected={allTablesSelected}
             handleConfigUpdate={() => setConfigUpdated(true)}

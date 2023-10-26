@@ -24,10 +24,8 @@ const TableSectionContainer = ({
   selectedTable,
   apiData,
   apiError,
-  perPage,
   userFilterSelection,
   selectedPivot,
-  setPerPage,
   setSelectedPivot,
   serverSidePagination,
   isLoading,
@@ -52,11 +50,14 @@ const TableSectionContainer = ({
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-
+  const [perPage, setPerPage] = useState(null);
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
   const pageValue = useRecoilValue(reactTablePageState);
   const [depaginatedDataState, setDepaginatedDataState] = useRecoilState(reactTableDePaginatedDataState);
+  const [totalCount, setTotalCount] = useState(0);
+  const [incrementValue1, setIncrementValue1] = useState(3);
+  const [incrementValue2, setIncrementValue2] = useState(4);
 
   const getDepaginatedDataIncremental = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -66,15 +67,15 @@ const TableSectionContainer = ({
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
         `:lte:${to}&sort=${sortParam}`
     ).then(async res => {
-      const totalCount = res.meta['total-count'];
-      if (totalCount > MAX_PAGE_SIZE) {
+      const rowCount = res.meta['total-count'];
+      if (rowCount > MAX_PAGE_SIZE) {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${5000}`
+            `:lte:${to}&sort=${sortParam}&page[number]=${incrementValue1}&page[size]=${5000}`
         ).then(async page1res => {
           const page2res = await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[number]=${3}&page[size]=${5000}`
+              `:lte:${to}&sort=${sortParam}&page[number]=${incrementValue2}&page[size]=${5000}`
           );
           page1res.data = page1res.data.concat(page2res.data);
           return page1res;
@@ -82,7 +83,7 @@ const TableSectionContainer = ({
       } else {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
+            `:lte:${to}&sort=${sortParam}&page[size]=${rowCount}`
         );
       }
     });
@@ -99,6 +100,7 @@ const TableSectionContainer = ({
         `:lte:${to}&sort=${sortParam}`
     ).then(async res => {
       const totalCount = res.meta['total-count'];
+      setTotalCount(Number(totalCount));
       if (totalCount > MAX_PAGE_SIZE) {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
@@ -190,9 +192,11 @@ const TableSectionContainer = ({
 
   useEffect(async () => {
     if (depaginatedDataState) {
-      if (pageValue > depaginatedDataState.data.length / perPage - 1) {
+      if (pageValue > depaginatedDataState.data.length / 10 - 1 && depaginatedDataState.data.length < totalCount) {
         const appendedData = await getDepaginatedDataIncremental();
         setDepaginatedDataState(prev => ({ ...prev, data: prev.data.concat(appendedData) }));
+        setIncrementValue1(prev => prev + 2);
+        setIncrementValue2(prev => prev + 2);
       }
     }
   }, [pageValue]);
