@@ -27,7 +27,7 @@ const AFGDeficitChart = (): ReactElement => {
   const tickCountXAxis = 5;
 
   const ariaLabel =
-    'A chart demonstrating the yearly deficit or surplus  caused by gaps between revenue and spending. ' +
+    'A chart demonstrating the yearly deficit or surplus caused by gaps between revenue and spending. ' +
     'Spending and revenue are represented on the graph as two different colored dots corresponding to the total in trillions of ' +
     'USD for each respective category. The deficit/surplus is then represented as a line connecting the two dots, exhibiting how ' +
     'the deficit/surplus is calculated as the difference between revenue and spending. ';
