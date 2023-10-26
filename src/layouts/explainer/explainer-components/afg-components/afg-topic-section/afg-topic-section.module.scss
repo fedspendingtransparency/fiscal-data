@@ -1,8 +1,8 @@
 @import 'src/variables.module';
 
 .topicSection {
-  margin-top: 1.5rem !important;
-  margin-bottom: 1.5rem !important;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 
   img {
     width: 100%;
@@ -11,11 +11,12 @@
   .topicHeading {
     @include headingStyle5;
     color: #555;
-    margin: 1rem 0rem;
+    margin-bottom: 1rem;
+    margin-top: 0;
   }
   .body {
     @include bodyStyleRegular;
-    margin: 0rem;
+    margin: 0;
   }
   .link {
     @include columnLabelCopy7;
@@ -37,11 +38,11 @@
 @media screen and (max-width: $breakpoint-lg) {
   .imageContainer {
     order: 1;
-    padding-bottom: 0rem !important;
+    padding-bottom: 0 !important;
   }
   .textContainer {
     order: 2;
-    padding: 0rem !important;
+    padding: 0 !important;
   }
   .topicSection {
     margin-bottom: 2rem !important;
