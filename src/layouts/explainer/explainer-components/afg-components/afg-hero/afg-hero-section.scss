@@ -1,0 +1,177 @@
+@import 'src/variables.module';
+
+.heroContainer {
+  max-width: $site-content-width;
+  margin: 0 auto;
+  position: relative;
+  min-height: 47.875rem;
+
+  .heroGrayBox {
+    max-width: 1075px;
+    width: 95%;
+    height: 661px;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background-color: $body-background;
+    position: absolute;
+  }
+
+  .heroImageBox {
+    max-width: 1075px;
+    width: 95%;
+    height: 45rem;
+    bottom: 0;
+    left: 4rem;
+    background-image: url('/images/statue-of-liberty_1075x717px.png');
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+
+    h3.heroQuote {
+      font-style: italic;
+      font-weight: $light-weight;
+      font-size: $font-size-24;
+      color: #ffffff;
+      width: 50%;
+      margin-left: 2rem;
+      margin-top: 2.25rem;
+    }
+    p.heroCitation {
+      font-size: $font-size-16;
+      color: #ffffff;
+      margin-left: 2rem;
+      margin-top: 1rem;
+    }
+  }
+
+  .heroWhiteBox {
+    max-width: 1072px;
+    width: calc(100% - 4rem);
+    background-color: #ffffff;
+    bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 2rem;
+
+    h4.heroGuideText {
+      font-size: $font-size-16;
+      color: $font-body-copy;
+      font-weight: $semi-bold-weight;
+      margin-left: 4rem;
+      margin-top: 2rem;
+      margin-bottom: 0;
+    }
+
+    h1.heroHeading {
+      font-size: $font-size-56;
+      color: $font-title;
+      margin-left: 4rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0px;
+      font-weight: $light-weight;
+    }
+
+    .heroSocialShare {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      height: 2rem;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .heroWhiteBox {
+    .heroSocialShare {
+      padding-left: 39px;
+      padding-right: 39px;
+    }
+  }
+}
+
+@media (min-width: 997px) and (max-width: 1035px) {
+  h1.heroHeading {
+    padding-right: 6rem;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 992px) {
+  .heroImageBox {
+    background-position: right -100px top 10px;
+  }
+}
+
+@media (max-width: 960px) {
+  .heroImageBox {
+    background-position: right -125px top 10px !important;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .heroContainer {
+    margin: 0;
+    width: 100%;
+    height: 63.125rem;
+
+    .heroGrayBox {
+      width: 100%;
+      left: 0px;
+    }
+
+    .heroImageBox {
+      width: calc(100% - 10px);
+      left: 10px;
+      top: 0.5rem;
+
+      h3.heroQuote {
+        width: 19rem;
+        margin-left: 1rem;
+        margin-top: 2.5rem;
+        font-size: $font-size-24;
+      }
+
+      p.heroCitation {
+        margin-left: 1rem;
+        margin-top: 0;
+      }
+    }
+
+    .heroWhiteBox {
+      top: 28rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: calc(100% - 20px);
+
+      h4.heroGuideText {
+        font-size: $font-size-16;
+        margin-left: 1rem;
+        margin-top: 1.5rem;
+        display: flex;
+      }
+
+      h1.heroHeading {
+        font-size: $font-size-48;
+        margin-left: 1rem;
+        margin-top: 1.5rem;
+        padding-right: 1rem;
+      }
+
+      .heroSocialShare {
+        position: relative;
+        bottom: -1rem;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2rem;
+      }
+    }
+  }
+}
