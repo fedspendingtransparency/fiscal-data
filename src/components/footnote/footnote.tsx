@@ -25,9 +25,9 @@ const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%' }
         footnotes.map((footnote, idx) => {
           return (
             <div className={styles.footnoteBody} style={{ width: width }} key={idx} data-testid="footnote-item">
-              {footnote.anchors.map(anchor => (
+              {footnote.anchors.map((anchor, index) => (
                 <sup>
-                  <CustomLink url={`#${anchor.link}`} href={`#${anchor.link}`}>
+                  <CustomLink url={`#${anchor.link}`} href={`#${anchor.link}`} key={index}>
                     {anchor.text}
                   </CustomLink>
                 </sup>
