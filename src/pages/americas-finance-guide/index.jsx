@@ -29,6 +29,7 @@ import Footnote from '../../components/footnote/footnote';
 import AnchorText from '../../components/anchor-text/anchor-text';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
 import Experimental from '../../components/experimental/experimental';
+import AfgHeroSection from '../../layouts/explainer/explainer-components/afg-components/afg-hero/afg-hero-section';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -231,7 +232,12 @@ const AmericasFinanceGuidePage = ({ width }) => {
         canonical=""
         datasetDetails=""
       />
-      <AfgHero />
+      <Experimental exclude featureId="afg-overview">
+        <AfgHero />
+      </Experimental>
+      <Experimental exclude featureId="afg-overview">
+        <AfgHeroSection />
+      </Experimental>
 
       <div className={styles.mainContainer}>
         <Container classes={{ root: styles.topContainer }} maxWidth={false} data-testid="topContainer">

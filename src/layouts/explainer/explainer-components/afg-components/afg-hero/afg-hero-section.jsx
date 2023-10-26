@@ -9,7 +9,7 @@ import { basicFetch } from '../../../../../utils/api-utils';
 import { getAFGFootnotes } from '../../../../../helpers/footnotes-helper/footnotes-helper';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
 
-export default function AfgHero() {
+export default function AfgHeroSection() {
   const [fiscalYear, setFiscalYear] = useState(0);
   const [width, height] = useWindowSize();
   const [containerHeight, setContainerHeight] = useState(765);
