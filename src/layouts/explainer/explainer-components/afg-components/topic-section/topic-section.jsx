@@ -63,19 +63,19 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
         }
       });
       basicFetch(priorRevenueRequest.getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           setPriorFyRevenue(getShortForm(data?.current_fytd_net_rcpt_amt.toString(), false));
         }
       });
       basicFetch(priorRevenueCategoryRequest.getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           setRevenueCategory(data.classification_desc);
         }
       });
       basicFetch(new ApiRequest(spendingRequest).getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           setFytdSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
           if (data.record_calendar_month === '09') {
@@ -84,19 +84,19 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
         }
       });
       basicFetch(priorSpendingRequest.getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           setPriorFySpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
         }
       });
       basicFetch(priorSpendingCategoryRequest.getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           setSpendingCategory(data?.classification_desc);
         }
       });
       basicFetch(new ApiRequest(deficitRequest).getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
           const formattedAmount = getShortForm(deficitAmount.toString(), false);
@@ -107,7 +107,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
         }
       });
       basicFetch(priorDeficitRequest.getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           const deficitAmount = Number(data.current_fytd_net_outly_amt);
           const priorDeficitAmount = Number(data.prior_fytd_net_outly_amt);
@@ -120,7 +120,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
         }
       });
       basicFetch(`${apiPrefix}${mtsDebtEndpoint}`).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const mtsData = res.data[0];
           const mtsMonth = mtsData.record_calendar_month;
 
@@ -143,7 +143,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
         }
       });
       basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
           const date = new Date(data.record_date);
@@ -153,7 +153,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
         }
       });
       basicFetch(priorDebtRequest.getUrl()).then(res => {
-        if (res.data && res.data.length > 0) {
+        if (res.data) {
           const data = res.data[0];
           setPriorFyDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
           basicFetch(priorPriorDebtRequest.getUrl()).then(priorRes => {
