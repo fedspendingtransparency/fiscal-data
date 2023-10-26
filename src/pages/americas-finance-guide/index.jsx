@@ -277,22 +277,22 @@ const AmericasFinanceGuidePage = ({ width }) => {
                 image="/topics-section-images/homepage_spending_1200x630.png"
                 imageAltText="The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground. "
             />
-        </Experimental>
-        <Experimental featureId="afg-overview">
-        <AfgTopicSection
-            heading={spendingHeading}
-            body={
-              'The federal government funds a variety of programs and services that support the American public. ' +
-              'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
-            }
-            linkUrl="/americas-finance-guide/federal-spending/"
-            linkText="Learn more about federal spending"
-            eventNumber="5"
-            citationClickPage="AfgOverview"
-            id="Federal Spending"
-            pageName="SpendingExplainer"
-        />
-        </Experimental>
+          </Experimental>
+          <Experimental featureId="afg-overview">
+            <AfgTopicSection
+                heading={spendingHeading}
+                body={
+                  'The federal government funds a variety of programs and services that support the American public. ' +
+                  'The government also spends money on interest it has incurred on outstanding federal debt, including Treasury notes and bonds.'
+                }
+                linkUrl="/americas-finance-guide/federal-spending/"
+                linkText="Learn more about federal spending"
+                eventNumber="5"
+                citationClickPage="AfgOverview"
+                id="Federal Spending"
+                pageName="SpendingExplainer"
+            />
+          </Experimental>
           <div className={styles.middleHeader}>
             <Grid container spacing={4}>
               <Grid item md={1} classes={{ root: styles.middleHeaderIcon }}>
