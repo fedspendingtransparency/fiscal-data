@@ -64,6 +64,12 @@ $surplus-primary: #e5a000;
     min-width: 24.75rem;
   }
 }
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .deficitChart {
+    max-width: 24.75rem;
+    margin: auto;
+  }
+}
 
 
 :export {
