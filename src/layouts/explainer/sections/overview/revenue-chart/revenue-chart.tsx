@@ -87,7 +87,7 @@ const AFGRevenueChart = (): ReactElement => {
     currentFY +
     ', a light blue line represents the cumulative revenue of the previous fiscal year ' +
     (currentFY - 1) +
-    ', and a dark brown line represents the 5-year average revenue from' +
+    ', and a dark brown line represents the 5-year average revenue from ' +
     (currentFY - 6) +
     '-' +
     (currentFY - 2) +
@@ -95,7 +95,7 @@ const AFGRevenueChart = (): ReactElement => {
 
   return (
     <div className={deficitChart} data-testid="AFGDeficitChart" role="figure" aria-label={ariaLabel}>
-      <div className={chartTitle}>Cumulative Revenue by Month in trillions of USD</div>
+      <div className={chartTitle}>Cumulative Revenue by Month in Trillions of USD</div>
       {isLoading && (
         <div>
           <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
