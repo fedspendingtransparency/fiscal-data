@@ -3,34 +3,14 @@ import * as styles from './afg-hero.module.scss';
 import { useWindowSize } from '../../../../../hooks/windowResize';
 import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../../explainer-helpers/explainer-helpers';
 import SocialShare from '../../../../../components/social-share/social-share';
-import ApiRequest from '../../../../../helpers/api-request';
-import { revenueRequest } from '../../../explainer-helpers/afg-overview-helpers';
-import { basicFetch } from '../../../../../utils/api-utils';
 
 export default function AfgHero() {
-  const [fiscalYear, setFiscalYear] = useState(0);
   const [width, height] = useWindowSize();
   const [containerHeight, setContainerHeight] = useState(765);
-  const [headingTense, setHeadingTense] = useState('has');
-  const [headingTenseCollect, setHeadingTenseCollect] = useState('collected');
-  const [headingTenseSpend, setHeadingTenseSpend] = useState('spent');
+
   const pageName = 'americas-finance-guide';
 
   const refSocialShare = useRef(0);
-
-  useEffect(() => {
-    basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        setFiscalYear(data.record_fiscal_year);
-        if (data.record_calendar_month === '09') {
-          setHeadingTense('did');
-          setHeadingTenseCollect('collect');
-          setHeadingTenseSpend('spend');
-        }
-      }
-    });
-  }, []);
 
   useEffect(() => {
     setContainerHeight(refSocialShare.current.offsetTop + 466);
