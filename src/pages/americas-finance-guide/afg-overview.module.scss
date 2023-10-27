@@ -21,6 +21,13 @@ $dollarIconBackgroundColor: #f1f1f1;
   overflow: hidden;
 }
 
+.socialShare {
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0rem;
+}
+
 .debtText {
   color: $debt-explainer-primary;
 }

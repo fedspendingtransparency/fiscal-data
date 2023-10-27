@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import { Container, Grid } from '@material-ui/core';
@@ -15,6 +15,7 @@ import {
   mainContainer,
   quoteContainer,
   quoteContainerImg,
+  socialShare,
 } from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -32,6 +33,9 @@ import { graphql, useStaticQuery } from 'gatsby';
 import Footnote from '../../components/footnote/footnote';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
 import TopicSection from '../../layouts/explainer/explainer-components/afg-components/topic-section/topic-section';
+import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../layouts/explainer/explainer-helpers/explainer-helpers';
+import SocialShare from '../../components/social-share/social-share';
+import { useWindowSize } from '../../hooks/windowResize';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const allGlossary = useStaticQuery(
@@ -50,7 +54,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
       }
     `
   );
-
+  const pageName = 'americas-finance-guide';
   const glossary = allGlossary.allGlossaryCsv.glossaryCsv;
   glossary.map(
     term =>
@@ -61,6 +65,9 @@ const AmericasFinanceGuidePage = ({ width }) => {
   );
   const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
   const [fiscalYear, setFiscalYear] = useState('');
+  const [height] = useWindowSize();
+  const [containerHeight, setContainerHeight] = useState(765);
+  const refSocialShare = useRef(0);
 
   const mts = (
     <CustomLink
@@ -93,6 +100,10 @@ const AmericasFinanceGuidePage = ({ width }) => {
     });
   }, []);
 
+  useEffect(() => {
+    setContainerHeight(refSocialShare.current.offsetTop + 466);
+  }, [width, height, containerHeight]);
+
   return (
     <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
       <PageHelmet
@@ -111,6 +122,9 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <div className={mainContainer}>
         <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
+          <div className={socialShare} ref={refSocialShare}>
+            <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'horizontal'} />
+          </div>
           <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} width={width} />
           {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
           <DataSourcesMethodologies pageName="afg-overview">
