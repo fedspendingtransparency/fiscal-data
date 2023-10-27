@@ -3,20 +3,13 @@ import AfgHero from './afg-hero';
 import { render } from '@testing-library/react';
 
 describe('AFG Hero Component', () => {
-  it('renders the Component and Social Share', () => {
-    const { getByTestId, getByRole } = render(<AfgHero />);
+  it('renders the Component', () => {
+    const { getByTestId, getByText, getByAltText } = render(<AfgHero />);
     expect(getByTestId('afg-hero')).toBeInTheDocument();
+    expect(getByText("YOUR GUIDE TO AMERICA'S FINANCES")).toBeInTheDocument();
+    expect(getByText("The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt")).toBeInTheDocument();
+    expect(getByText("Understand the Basics of Federal Finances from the U.S. Treasury Department")).toBeInTheDocument();
+    expect(getByAltText("An open book with a coin above the pages.")).toBeInTheDocument();
 
-    const facebook = getByRole('button', { name: 'facebook' });
-    const twitter = getByRole('button', { name: 'twitter' });
-    const linkedIn = getByRole('button', { name: 'linkedin' });
-    const reddit = getByRole('button', { name: 'reddit' });
-    const email = getByRole('button', { name: 'email' });
-
-    expect(facebook).toBeInTheDocument();
-    expect(twitter).toBeInTheDocument();
-    expect(linkedIn).toBeInTheDocument();
-    expect(reddit).toBeInTheDocument();
-    expect(email).toBeInTheDocument();
   });
 });
