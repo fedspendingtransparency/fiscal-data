@@ -83,7 +83,7 @@
 @media screen and (max-width: $breakpoint-xl) {
   .heroContainer {
     .textContainer{
-      margin-left: 4rem;
+      margin-left: .625rem;
     }
   }
 
@@ -93,7 +93,7 @@
     position: relative;
     min-height: 20.75rem;
     .textContainer{
-      margin: 2.5rem .5rem;
+      margin: 2.5rem .625rem;
       color:$content-section-background;
       width: 28.687rem;
       display: block;
@@ -103,7 +103,7 @@
 @media screen and (max-width: $breakpoint-sm - 1) {
   .heroContainer {
     position: relative;
-    height: 22.8125;
+    height: 22.8125rem;
     .heroSkyImage {
       width: 100%;
       height: 100%;
@@ -114,7 +114,7 @@
     .textContainer{
       width: 100%;
       height: 100%;
-      margin: 2.5rem .5rem;
+      margin: 2.5rem .625rem;
       .heroSubText {
         font-style: italic;
         font-size:  $font-size-18;
