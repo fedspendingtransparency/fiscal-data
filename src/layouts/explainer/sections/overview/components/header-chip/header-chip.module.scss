@@ -1,0 +1,11 @@
+@import "src/variables.module";
+
+.chip {
+  color: white;
+  padding: 6px 8px;
+  border-radius: 3px;
+  font-size: $font-size-12;
+  width: fit-content;
+  font-weight: 700;
+  text-transform: uppercase;
+}

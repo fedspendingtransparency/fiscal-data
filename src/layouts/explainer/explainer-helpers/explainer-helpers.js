@@ -30,7 +30,6 @@ import {
 import FederalSpendingHero from '../heros/federal-spending/federal-spending-hero';
 import GovernmentRevenueHero from '../heros/government-revenue/government-revenue-hero';
 import { BASE_URL } from 'gatsby-env-variables';
-import { ErrorBoundary } from 'react-error-boundary';
 
 const envBaseUrl = BASE_URL;
 

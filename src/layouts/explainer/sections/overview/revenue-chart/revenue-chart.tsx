@@ -22,7 +22,6 @@ const AFGRevenueChart = (): ReactElement => {
   const avgFYColor = '#555';
 
   const tickCountYAxis = 6;
-
   const getChartData = async () => {
     const chartData = [];
     const legendItems = [];
@@ -82,9 +81,21 @@ const AFGRevenueChart = (): ReactElement => {
     }
   }, []);
 
+  const ariaLabel =
+    'A graph demonstrating the cumulative spending by month of the United States government. A dark blue line represents the ' +
+    'current cumulative revenue of FY ' +
+    currentFY +
+    ', a light blue line represents the cumulative revenue of the previous fiscal year ' +
+    (currentFY - 1) +
+    ', and a dark brown line represents the 5-year average revenue from ' +
+    (currentFY - 6) +
+    '-' +
+    (currentFY - 2) +
+    '.';
+
   return (
-    <div className={deficitChart} data-testid="AFGDeficitChart">
-      <div className={chartTitle}>Cumulative Revenue by Month in trillions of USD</div>
+    <div className={deficitChart} data-testid="AFGDeficitChart" role="figure" aria-label={ariaLabel}>
+      <div className={chartTitle}>Cumulative Revenue by Month in Trillions of USD</div>
       {isLoading && (
         <div>
           <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
@@ -93,7 +104,7 @@ const AFGRevenueChart = (): ReactElement => {
       {!isLoading && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />
-          <div className={chartContainer} data-testid="chartContainer" role="presentation">
+          <div className={chartContainer} data-testid="chartContainer">
             <ResponsiveContainer height={164} width="99%">
               <LineChart data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
                 <CartesianGrid vertical={false} />
