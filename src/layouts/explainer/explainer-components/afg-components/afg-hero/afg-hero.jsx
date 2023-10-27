@@ -18,9 +18,7 @@ export default function AfgHero() {
   return (
     <div className={heroContainer} data-testid="afg-hero">
       <div className={heroSkyImage} aria-label="Blue Sky." >
-        <div>
           <div className={heroLibertyImage} aria-label="Statue of Liberty." />
-        </div>
         <div className={textContainer}>
           <span className={heroAFG}>
             <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />

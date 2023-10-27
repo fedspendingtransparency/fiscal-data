@@ -15,7 +15,7 @@
   .textContainer{
     margin-bottom: 2.5rem;
     margin-top: 2.5rem;
-    margin-left: 15rem;
+    margin-left: 20rem;
     max-width: 28.687rem;
     color:$content-section-background;
     .heroMainText{
@@ -57,30 +57,46 @@
   }
 }
 
-@media screen and (max-width: $explainer-page-width){
-  .heroLibertyImage {
-    width: 43%;
-    height: 20rem;
-    background-image: url('/images/cutout-statue-of-liberty.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-    float: right;
-  }
-  .textContainer{
-    margin-left: 15;
-  }
-}
-
 @media screen and (max-width: 1024px) {
   .heroLibertyImage {
       display: none;
   }
 }
-@media screen and (max-width: $breakpoint-xl) {
-  .textContainer{
-    margin-left: 10rem;
+@media screen and (min-width: 1600px) {
+  .heroContainer{
+    .heroLibertyImage {
+      width: 36%;
   }
+  .textContainer{
+    margin-left: 20rem;
+  }
+  }
+}
+
+@media screen and (max-width: $explainer-page-width){
+  .heroContainer {
+    .textContainer{
+    margin-left: 10rem;
+    }
+    .heroLibertyImage {
+      width: 49%;
+      height: 20.75;
+      background-image: url('/images/cutout-statue-of-liberty.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      float: right;
+    }
+  }
+}
+
+@media screen and (max-width: $breakpoint-xl) {
+  .heroContainer {
+    .textContainer{
+      margin-left: 5rem;
+    }
+  }
+
 }
 @media screen and (max-width: $breakpoint-md - 1) {
   .heroContainer {
@@ -98,26 +114,8 @@
     .textContainer{
       margin: 2.5rem .5rem;
       color:$content-section-background;
-      max-width: 20.75;
       width: 28.687rem;
       display: block;
-      .heroMainText{
-        font-size: $font-size-40;
-        color:$content-section-background;
-        font-weight: 400;
-        line-height: normal;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-      }
-      .heroSubText {
-        font-style: italic;
-        font-size:  $font-size-20;
-        font-weight: 400;
-      }
-      .heroHeadText{
-        font-weight: $semi-bold-weight;
-        font-size: $font-size-16;
-      }
     }
   }
 }
@@ -155,14 +153,5 @@
         font-size: $font-size-14;
       }
     }
-
-  }
-}
-@media screen and (min-width: 1600px) {
-  .heroLibertyImage {
-      width: 36%;
-  }
-  .textContainer{
-    margin-left: 20rem;
   }
 }
