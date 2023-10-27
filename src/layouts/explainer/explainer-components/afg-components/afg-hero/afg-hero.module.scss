@@ -92,7 +92,8 @@
 
   }
   .heroLibertyImage {
-    width: 42%;
+    left: 10vw;
+    width: 53%;
     height: 20.75rem;
     background-repeat: no-repeat;
     background-size: cover;
@@ -116,7 +117,16 @@
 
 @media screen and (max-width: $explainer-page-width){
   .heroContainer {
-
+    .heroLibertyImage {
+      left: 7.865vw;
+      width: 53%;
+      height: 20.75rem;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      float: right;
+      bottom: 2.5rem;
+    }
   }
 }
 
@@ -124,6 +134,16 @@
   .heroContainer {
     .heroXContainer{
       padding-left: .625rem;
+      }
+      .heroLibertyImage {
+        left: 1vw;
+        width: 53%;
+        height: 20.75rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        float: right;
+        bottom: 2.5rem;
       }
   }
 
@@ -140,7 +160,7 @@
 @media screen and (max-width: $breakpoint-sm - 1) {
   .heroContainer {
     position: relative;
-    height: 22.8125rem;
+    height: 25.8125rem;
     .heroSkyImage {
       width: 100%;
       height: 100%;
