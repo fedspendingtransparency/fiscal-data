@@ -54,10 +54,10 @@ export default function AfgHeroSection() {
   return (
     <div className={heroContainer} data-testid="afg-hero">
       <div className={heroSkyImage} aria-label="Blue Sky." >
-        <span>
+        <div>
           <div className={heroLibertyImage} aria-label="Statue of Liberty." />
-        </span>
-        <span className={textContainer}>
+        </div>
+        <div className={textContainer}>
           <span className={heroAFG}>
             <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />
             <div className={heroHeadText}>YOUR GUIDE TO AMERICA'S FINANCES</div>
@@ -66,7 +66,7 @@ export default function AfgHeroSection() {
             The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt
           </div>
           <div className={heroSubText}>Understand the Basics of Federal Finances from the U.S. Treasury Department</div>
-        </span>
+        </div>
       </div>
     </div>
   );
