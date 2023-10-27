@@ -13,12 +13,11 @@ import {
 
 export default function AfgHero() {
 
-  const afgIcon = '/images/AFG-icon-overview.svg';
-
+  const afgIcon = '/images/AFG-icon-white.svg';
   return (
     <div className={heroContainer} data-testid="afg-hero">
       <div className={heroSkyImage} aria-label="Blue Sky." >
-          <div className={heroLibertyImage} aria-label="Statue of Liberty." />
+        <img src={'/images/cutout-statue-of-liberty.png'} aria-label="Statue of Liberty." className={heroLibertyImage} />
         <div className={textContainer}>
           <span className={heroAFG}>
             <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />
