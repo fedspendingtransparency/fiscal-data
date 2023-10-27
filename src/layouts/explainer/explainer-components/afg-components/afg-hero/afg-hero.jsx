@@ -8,7 +8,9 @@ import {
   heroSubText,
   heroAFG ,
   heroHeadText,
-  heroIcon
+  heroIcon,
+  heroInfoContainer,
+  heroXContainer
   } from './afg-hero.module.scss';
 
 export default function AfgHero() {
@@ -17,16 +19,20 @@ export default function AfgHero() {
   return (
     <div className={heroContainer} data-testid="afg-hero">
       <div className={heroSkyImage} aria-label="Blue Sky." >
-        <img src={'/images/cutout-statue-of-liberty.png'} aria-label="Statue of Liberty." className={heroLibertyImage} />
-        <div className={textContainer}>
-          <span className={heroAFG}>
-            <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />
-            <div className={heroHeadText}>YOUR GUIDE TO AMERICA'S FINANCES</div>
-          </span>
-          <div className={heroMainText}>
-            The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt
+        <div className={heroInfoContainer}>
+          <div className={heroXContainer}>
+            <img src={'/images/cutout-statue-of-liberty.png'} aria-label="Statue of Liberty." className={heroLibertyImage} />
+            <div className={textContainer}>
+              <span className={heroAFG}>
+                <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />
+                <div className={heroHeadText}>YOUR GUIDE TO AMERICA'S FINANCES</div>
+              </span>
+              <div className={heroMainText}>
+                The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt
+              </div>
+              <div className={heroSubText}>Understand the Basics of Federal Finances from the U.S. Treasury Department</div>
+            </div>
           </div>
-          <div className={heroSubText}>Understand the Basics of Federal Finances from the U.S. Treasury Department</div>
         </div>
       </div>
     </div>
