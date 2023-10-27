@@ -235,7 +235,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <Experimental exclude featureId="afg-overview">
         <AfgHero />
       </Experimental>
-      <Experimental exclude featureId="afg-overview">
+      <Experimental featureId="afg-overview">
         <AfgHeroSection />
       </Experimental>
 

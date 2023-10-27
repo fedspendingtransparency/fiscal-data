@@ -1,13 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
-import * as styles from './afg-hero.module.scss';
+import { 
+  heroSkyImage, 
+  heroContainer, 
+  textContainer, 
+  heroMainText, 
+  heroLibertyImage,
+  heroSubText,
+  heroAFG ,
+  heroHeadText,
+  heroIcon
+  } from './afg-hero-section.module.scss';
 import { useWindowSize } from '../../../../../hooks/windowResize';
-import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../../explainer-helpers/explainer-helpers';
-import SocialShare from '../../../../../components/social-share/social-share';
 import ApiRequest from '../../../../../helpers/api-request';
 import { revenueRequest } from '../../../explainer-helpers/afg-overview-helpers';
 import { basicFetch } from '../../../../../utils/api-utils';
-import { getAFGFootnotes } from '../../../../../helpers/footnotes-helper/footnotes-helper';
-import AnchorText from '../../../../../components/anchor-text/anchor-text';
+import AfgIcon from '../afg-icon/afg-icon';
 
 export default function AfgHeroSection() {
   const [fiscalYear, setFiscalYear] = useState(0);
@@ -34,33 +41,32 @@ export default function AfgHeroSection() {
     });
   }, []);
 
-  useEffect(() => {
-    setContainerHeight(refSocialShare.current.offsetTop + 466);
-  }, [width, height, containerHeight]);
+  // useEffect(() => {
+  //   setContainerHeight(refSocialShare.current.offsetTop + 466);
+  // }, [width, height, containerHeight]);
 
-  const anchorTextCurrentFY = (FY, idx, anchorIdx) => {
-    const anchor = getAFGFootnotes(FY + 1)[idx];
-    return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />;
-  };
+  // const anchorTextCurrentFY = (FY, idx, anchorIdx) => {
+  //   const anchor = getAFGFootnotes(FY + 1)[idx];
+  //   return <AnchorText link={anchor.anchors[anchorIdx].link} text={anchor.anchors[anchorIdx].text} />;
+  // };
+  const afgIcon = '/images/AFG-icon.svg';
 
   return (
-    <div className={styles.heroContainer} style={{ height: `${containerHeight}px` }} data-testid="afg-hero">
-      <div className={styles.heroGrayBox} />
-      <div className={styles.heroImageBox} aria-label="Statue of Liberty with blue sky.">
-        <h3 className={styles.heroQuote}>
-          “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
-        </h3>
-        <p className={styles.heroCitation}>U.S. Constitution, Article 1, Section 9</p>
-      </div>
-      <div className={styles.heroWhiteBox}>
-        <h4 className={styles.heroGuideText}>YOUR GUIDE TO AMERICA’S FINANCES</h4>
-        <h1 className={styles.heroHeading}>
-          How much money {headingTense} the federal government {headingTenseCollect} and {headingTenseSpend} in fiscal year {fiscalYear}
-          {anchorTextCurrentFY(fiscalYear, 0, 0)}?
-        </h1>
-        <div className={styles.heroSocialShare} ref={refSocialShare}>
-          <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'horizontal'} />
-        </div>
+    <div className={heroContainer} data-testid="afg-hero">
+      <div className={heroSkyImage} aria-label="Blue Sky." >
+        <span>
+          <div className={heroLibertyImage} aria-label="Statue of Liberty." />
+        </span>
+        <span className={textContainer}>
+          <span className={heroAFG}>
+            <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />
+            <div className={heroHeadText}>YOUR GUIDE TO AMERICA'S FINANCES</div>
+          </span>
+          <div className={heroMainText}>
+            The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt
+          </div>
+          <div className={heroSubText}>Understand the Basics of Federal Finances from the U.S. Treasury Department</div>
+        </span>
       </div>
     </div>
   );
