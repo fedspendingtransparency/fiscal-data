@@ -17,6 +17,8 @@
   max-width: $site-content-width;
   margin: 0 auto;
   height: 20.75rem;
+  position: relative;
+  bottom: 2.5rem;
   .heroContextContainer{
   padding-left: 24px;
   max-width: 62rem;
@@ -29,6 +31,8 @@
     margin-top: 2.5rem;
     max-width: 28.687rem;
     width: 100%;
+    top: 2.5rem;
+    position: relative;
     color:$content-section-background;
     .heroMainText{
       font-size: $font-size-40;
@@ -67,7 +71,7 @@
     background-size: cover;
     position: relative;
     float: right;
-    bottom: 20.75rem;
+    bottom: 18.25rem;
   }
 }
 @media screen and (max-width: 1024px) {
