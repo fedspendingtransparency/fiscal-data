@@ -11,6 +11,7 @@ const h3Headers = [
   'about-difference',
   'about-background',
   'about-open-data',
+  'about-international',
   'about-sources',
   'about-understanding',
   'about-dev',
