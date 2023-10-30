@@ -133,7 +133,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
   }, []);
 
   return (
-    <div className={mainContainer} data-testid="mobileSubNav">
+    <div className={mainContainer}  style={{marginTop: isOverview ? '1.5rem': '2rem'}} data-testid="mobileSubNav">
       <div className={navBlockStyle} data-testid="mobileSubNavBlock">
         <button
           aria-controls="customized-menu"
