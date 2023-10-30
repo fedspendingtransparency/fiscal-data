@@ -28,7 +28,7 @@ export default function AfgHero() {
               <div className={heroMainText}>The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt</div>
               <div className={heroSubText}>Understand the Basics of Federal Finances from the U.S. Treasury Department</div>
             </div>
-            <img src={'/images/cutout-statue-of-liberty.png'} aria-label="Statue of Liberty." className={heroLibertyImage} />
+            <img src={'/images/AFG-Hero-Statue-of-Liberty.png'} aria-label="Statue of Liberty." className={heroLibertyImage} />
           </div>
         </div>
       </div>
