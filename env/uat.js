@@ -33,7 +33,7 @@ module.exports = {
       seoConfig: {
         pageTitle: 'FRN Daily Indexes',
         description:
-          'The FRN Daily Indexes dataset provides data on Floating Rate Notes. FRNs are relatively short-term investments which mature in two years, pay interest four times each year, and have an interest rate that may change or "float" over time. A person is able to hold an FRN until it matures or sell it before it matures. The FRN Daily Indexes provide information for specific CUSIPs, accrual periods, daily indexes, daily interest accrual rates, spread, and interest payment periods.',
+          'The FRN Daily Indexes dataset provides data on Floating Rate Notes. For floating rate notes, the index is the highest accepted discount rate on 13-week bills determined by Treasury auctions of those securities. We auction the 13-week Treasury bill every week, so the index rate of an FRN is reset every week. The FRN Daily Indexes provide information for specific CUSIPs, accrual periods, daily indexes, daily interest accrual rates, spread, and interest payment periods.',
         keywords: 'Debt, Savings Bonds, Auctions',
       },
       topics: ['auctions', 'debt', 'savings-bonds'],
