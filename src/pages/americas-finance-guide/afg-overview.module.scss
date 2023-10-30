@@ -20,6 +20,12 @@ $dollarIconBackgroundColor: #f1f1f1;
   max-width: 62rem;
 }
 
+.socialShare {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0rem;
+}
+
 .debtText {
   color: $debt-explainer-primary;
 }

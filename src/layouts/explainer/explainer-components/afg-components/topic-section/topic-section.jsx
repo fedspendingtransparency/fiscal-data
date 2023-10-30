@@ -14,6 +14,8 @@ import {
   spendingRequest,
 } from '../../../explainer-helpers/afg-overview-helpers';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import { breakpointLg } from '../../../../../variables.module.scss';
+import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 
 const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) => {
   const [fytdRevenue, setFytdRevenue] = useState('');
@@ -303,7 +305,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
   ];
 
   return (
-    <div data-testid="topic-section">
+    <div style={width < pxToNumber(breakpointLg) ? { paddingTop: '1.5rem' } : { paddingTop: '2rem' }} data-testid="topic-section">
       {topicSectionMap.map((section, index) => {
         return (
           <React.Fragment key={index}>
