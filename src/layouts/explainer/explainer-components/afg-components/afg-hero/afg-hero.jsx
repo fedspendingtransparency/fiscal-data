@@ -24,7 +24,7 @@ export default function AfgHero() {
             <div className={textContainer}>
               <span className={heroAFG}>
                 <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />
-                <div className={heroHeadText}>YOUR GUIDE TO AMERICA'S FINANCES</div>
+                <div className={heroHeadText}>YOUR GUIDE TO AMERICA’S FINANCES</div>
               </span>
               <div className={heroMainText}>
                 The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt
