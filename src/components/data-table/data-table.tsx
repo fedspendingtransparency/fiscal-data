@@ -35,6 +35,7 @@ type DataTableProps = {
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
+  manualPagination: boolean;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -55,6 +56,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   hideColumns,
   pagingProps,
+  manualPagination,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -116,6 +118,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    manualPagination: manualPagination,
   });
 
   const getSortedColumnsData = table => {

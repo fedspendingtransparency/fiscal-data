@@ -53,16 +53,19 @@ const TableSectionContainer = ({
 
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
+  const [tableMeta, setTableMeta] = useState(null);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
     const sortParam = buildSortParams(selectedTable, selectedPivot);
-    return await basicFetch(
+    let meta;
+    const res0 = await basicFetch(
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
         `:lte:${to}&sort=${sortParam}`
     ).then(async res => {
       const totalCount = res.meta['total-count'];
+      meta = res.meta;
       if (totalCount > MAX_PAGE_SIZE) {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
@@ -82,6 +85,8 @@ const TableSectionContainer = ({
         );
       }
     });
+    setTableMeta(meta);
+    return res0;
   };
 
   const refreshTable = async () => {
@@ -119,6 +124,9 @@ const TableSectionContainer = ({
       aria: { 'aria-labelledby': 'main-data-table-title' },
     });
   };
+  useEffect(() => {
+    console.log('apiData', apiData);
+  }, [apiData]);
 
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
@@ -243,6 +251,7 @@ const TableSectionContainer = ({
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
                   setFiltersActive={setFiltersActive}
+                  tableMeta={tableMeta}
                 />
               ) : (
                 ''

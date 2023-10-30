@@ -29,6 +29,7 @@ export default function DtgTable({
   resetFilters,
   setResetFilters,
   setFiltersActive,
+  tableMeta,
 }) {
   const {
     dePaginated,
@@ -165,6 +166,7 @@ export default function DtgTable({
             setMaxPage(res.meta['total-pages']);
             if (maxRows !== totalCount) setMaxRows(totalCount);
             setTableData(res.data);
+            // setTableMeta(res.meta);
           }
         })
         .catch(err => {
@@ -324,30 +326,41 @@ export default function DtgTable({
     currentPage,
     maxRows,
   };
+  //
+  // useEffect(() => {
+  //   if (tableProps) {
+  //     if (dePaginated !== undefined) {
+  //       if (dePaginated !== null) {
+  //         if (reactTableData === null) {
+  //           setReactTableData(dePaginated);
+  //         }
+  //       } else {
+  //         if (rawData !== null) {
+  //           if (reactTableData === null) {
+  //             setReactTableData(rawData);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }, [tableProps]);
 
   useEffect(() => {
     if (tableProps) {
-      if (dePaginated !== undefined) {
-        if (dePaginated !== null) {
-          if (reactTableData === null) {
-            setReactTableData(dePaginated);
-          }
-        } else {
-          if (rawData !== null) {
-            if (reactTableData === null) {
-              setReactTableData(rawData);
-            }
-          }
+      if (rawData !== null) {
+        if (reactTableData === null) {
+          setReactTableData(rawData);
         }
       }
     }
   }, [tableProps]);
 
   useEffect(() => {
-    if (dePaginated) {
-      setReactTableData(dePaginated);
+    if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null) {
+      console.log({ data: tableData, meta: tableMeta });
+      setReactTableData({ data: tableData, meta: tableMeta });
     }
-  }, [dateRange]);
+  }, [tableData, tableMeta]);
 
   return (
     <div className={styles.overlayContainer}>
@@ -447,6 +460,7 @@ export default function DtgTable({
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
             tableName={tableName}
+            manualPagination={false}
           />
         )}
       </Experimental>
