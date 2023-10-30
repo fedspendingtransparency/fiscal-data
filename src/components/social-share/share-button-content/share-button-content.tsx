@@ -3,12 +3,12 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faFacebookF, faTwitter, faLinkedinIn, faRedditAlien } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faXTwitter, faLinkedin, faReddit } from '@fortawesome/free-brands-svg-icons';
 
 import {
   shareButtonContent,
   facebookIcon,
-  twitterIcon,
+  xTwitterIcon,
   linkedInIcon,
   redditIcon,
   emailIcon,
@@ -21,22 +21,22 @@ const shareButtonContentMap = {
   facebook: {
     className: facebookIcon,
     text: 'Facebook',
-    icon: faFacebookF,
+    icon: faFacebook,
   },
   twitter: {
-    className: twitterIcon,
-    text: 'Twitter',
-    icon: faTwitter,
+    className: xTwitterIcon,
+    text: 'X (Twitter)',
+    icon: faXTwitter,
   },
   linkedin: {
     className: linkedInIcon,
     text: 'LinkedIn',
-    icon: faLinkedinIn,
+    icon: faLinkedin,
   },
   reddit: {
     className: redditIcon,
     text: 'Reddit',
-    icon: faRedditAlien,
+    icon: faReddit,
   },
   email: {
     className: emailIcon,

@@ -42,7 +42,7 @@ describe('Social Share component', () => {
 
     const header = getByRole('heading', { name: 'Share this page:' });
     const facebookText = getByText('Facebook');
-    const twitterText = getByText('Twitter');
+    const twitterText = getByText('X (Twitter)');
 
     expect(header).toBeInTheDocument();
     expect(facebookText).toBeInTheDocument();
@@ -61,7 +61,7 @@ describe('Social Share component', () => {
 
     expect(queryByRole('heading', { name: 'Share this page:' })).not.toBeInTheDocument();
     expect(getByText('Facebook')).toBeInTheDocument();
-    expect(getByText('Twitter')).toBeInTheDocument();
+    expect(getByText('X (Twitter)')).toBeInTheDocument();
   });
 
   it('renders only the icons in mobile view, and not the header or button text', () => {

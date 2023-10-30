@@ -8,7 +8,7 @@
 
   .shareButtonText {
     color: #666;
-    margin: 0 0 0 0.5rem;
+    margin: 0 0 0 0.25rem;
     height: 1.25rem;
   }
 
@@ -19,45 +19,45 @@
   }
 
   .facebookIcon {
-    color: #3a5997;
+    color: #1877F2;
     width: 1.125rem;
     height: 1rem;
-    margin: 0.125rem 0.5rem 0.125rem 0;
+    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
-  .twitterIcon {
-    color: #54acee;
+  .xTwitterIcon {
+    color: #000000;
     width: 1.125rem;
     height: 1rem;
-    margin: 0.125rem 0.5rem 0.125rem 0;
+    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
   .linkedInIcon {
-    color: #057ab5;
+    color: #0077B5;
     width: 1.125rem;
     height: 1rem;
-    margin: 0.125rem 0.5rem 0.125rem 0;
+    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
   .redditIcon {
     color: #ff4500;
     width: 1.125rem;
     height: 1rem;
-    margin: 0.125rem 0.5rem 0.125rem 0;
+    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
   .emailIcon {
     color: #666;
     width: 1.125rem;
     height: 1rem;
-    margin: 0.125rem 0.5rem 0.125rem 0;
+    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .shareButtonContent {
     .facebookIcon,
-    .twitterIcon,
+    .xTwitterIcon,
     .linkedInIcon,
     .redditIcon,
     .emailIcon {
