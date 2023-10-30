@@ -53,18 +53,20 @@
     }
     .heroAFG{
       display: flex;
+      align-items: center;
     }
     .heroIcon{
       fill: $content-section-background !important;
       height: 1rem;
       width: 1rem;
       padding-right: .5rem;
+      position: relative;
+      top: .75px;
     }
 
   }
   .heroLibertyImage {
     left: 14.75vw;
-    width: 53%;
     height: 20.75rem;
     background-repeat: no-repeat;
     background-size: cover;
