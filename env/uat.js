@@ -10,7 +10,7 @@ module.exports = {
       seoConfig: {
         pageTitle: 'Treasury Securities Upcoming Auctions Data',
         description:
-          'The Treasury Securities Upcoming Auctions Data dataset provides information on auction announcements. Each announcement includes what securities are being auctioned, the announcement date, the auction date and issue date. This data provides a notification of what treasury securities will be auctioned in the upcoming week.',
+          'The Treasury Securities Upcoming Auctions Data dataset provides information on auction announcements. Each announcement includes what securities are being auctioned, the announcement date, the auction date and issue date. This data provides a notification of what Treasury Marketable securities will be announced and or auctioned in the upcoming week.',
         keywords: 'Treasury Securities, Debt, Savings Bonds, Auctions',
       },
       topics: ['auctions', 'debt', 'savings-bonds'],
