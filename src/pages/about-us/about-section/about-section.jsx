@@ -78,6 +78,63 @@ const AboutUs = () => {
             accessible on Fiscal Data. Please visit us regularly for updates to the Open Data Policy.
           </p>
         </SectionContent>
+        <SectionContent
+          id="International-Monetary-Fund-Special-Data-Dissemination-Standard"
+          headingLevel={3}
+          title="International Monetary Fund Special Data Dissemination Standard"
+        >
+          <p>
+            Fiscal Data helps the U.S. government satisfy its transparency commitments as a member nation of the{' '}
+            <CustomLink className="primary" href="https://www.imf.org/en/home">
+              International Monetary Fund (IMF)
+            </CustomLink>{' '}
+            through the publication of financial data on the national debt and central government operations following its{' '}
+            <CustomLink
+              className="primary"
+              href="https://www.imf.org/en/About/Factsheets/Sheets/2023/Standards-for-data-dissemination#:~:text=The%20Special%20Data%20Dissemination%20System,access%20to%20international%20capital%20markets."
+            >
+              Special Data Dissemination Standard (SDDS)
+            </CustomLink>
+            . We derive the IMF data from other datasets on our site, specifically the{' '}
+            <CustomLink className="primary" href="/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding">
+              Monthly Statement of the Public Debt (MSPD)
+            </CustomLink>{' '}
+              and the {' '}
+            <CustomLink
+              className="primary"
+              href="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+            >
+              Monthly Treasury Statement (MTS)
+            </CustomLink>
+              . If you're interested in the data provided to the IMF, the two XML pages are as follows:
+            
+          </p>
+          <ul className={styles.list}>
+            <li>Consolidated Government Debt (CGD) file: {' '}
+              <CustomLink
+                className="primary"
+                href="https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml"
+              >https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml
+              </CustomLink>
+            </li>
+            <li>Consolidated Government Operations (CGO) file: {' '}
+              <CustomLink
+                className="primary"
+                href="https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgo.xml"
+              >https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgo.xml
+              </CustomLink>
+            </li>
+          </ul>
+          <p>
+          To learn more about IMF SDDS requirements, please visit the {' '}
+          <CustomLink
+              className="primary"
+              href="https://www.imf.org/en/About/Factsheets/Sheets/2023/Standards-for-data-dissemination#:~:text=The%20Special%20Data%20Dissemination%20System,access%20to%20international%20capital%20markets."
+          >
+              IMF SDDS website
+          </CustomLink>.
+          </p>
+        </SectionContent>
         <SectionContent id="data-sources" headingLevel={3} title="Data Sources">
           <p>
             The mission of Fiscal Service is to promote the financial integrity and operational efficiency of the federal government through
