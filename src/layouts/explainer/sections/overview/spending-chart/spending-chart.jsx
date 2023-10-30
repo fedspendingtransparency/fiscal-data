@@ -112,7 +112,7 @@ const AFGSpendingChart = () => {
           <ChartLegend legendItems={legend} mobileDotSpacing />
           <div className={chartContainer}>
             <ResponsiveContainer width="99%" height={164}>
-              <LineChart cursor="pointer" data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
+              <LineChart data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }}>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   interval={0}
