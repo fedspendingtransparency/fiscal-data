@@ -3,20 +3,36 @@
 .heroContainer {
   position: relative;
   min-height: 20.75rem;
+  margin: 0 auto;
 
   .heroSkyImage {
     width: 100%;
-    height: 20.75rem;
+    height: 100%;
     background-image: url('/images/overview-sky.png');
-    background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
   }
+}
+.heroInfoContainer{
+  max-width: $site-content-width;
+  margin: 0 auto;
+  height: 20.75rem;
+  position: relative;
+  bottom: 2.5rem;
+  .heroContextContainer{
+  padding-left: 24px;
+  max-width: 62rem;
+  margin: 0 auto;
+  height: 20.75rem;
+  }
+
   .textContainer{
     margin-bottom: 2.5rem;
     margin-top: 2.5rem;
-    margin-left: 15rem;
     max-width: 28.687rem;
+    width: 100%;
+    top: 2.5rem;
+    position: relative;
     color:$content-section-background;
     .heroMainText{
       font-size: $font-size-40;
@@ -47,74 +63,60 @@
 
   }
   .heroLibertyImage {
-    width: 42%;
+    left: 14.75vw;
+    width: 53%;
     height: 20.75rem;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
     float: right;
+    bottom: 18.25rem;
   }
 }
-
 @media screen and (max-width: 1024px) {
   .heroLibertyImage {
       display: none;
   }
 }
-@media screen and (min-width: 1600px) {
-  .heroContainer{
-    .heroLibertyImage {
-      width: 36%;
-  }
-  .textContainer{
-    margin-left: 20rem;
-  }
-  }
-}
 
 @media screen and (max-width: $explainer-page-width){
   .heroContainer {
-    .textContainer{
-    margin-left: 9rem;
+    .heroLibertyImage {
+      left: 7.865vw;
+      height: 20.75rem;
     }
   }
 }
 
 @media screen and (max-width: $breakpoint-xl) {
   .heroContainer {
-    .textContainer{
-      margin-left: 4rem;
-    }
+    .heroContextContainer{
+      padding-left: .625rem;
+      }
+    .heroLibertyImage{
+      left: 5vw;
+      }
   }
 
 }
 @media screen and (max-width: $breakpoint-md - 1) {
   .heroContainer {
     position: relative;
-    min-height: 20.75rem;
-    .textContainer{
-      margin: 2.5rem .5rem;
-      color:$content-section-background;
-      width: 28.687rem;
-      display: block;
-    }
   }
 }
 @media screen and (max-width: $breakpoint-sm - 1) {
   .heroContainer {
-    position: relative;
-    height: 22.8125;
+    height: 25.8125rem;
     .heroSkyImage {
       width: 100%;
       height: 100%;
-      background-repeat: no-repeat;
-      background-size: cover;
-      position: absolute;
     }
     .textContainer{
       width: 100%;
       height: 100%;
-      margin: 2.5rem .5rem;
+      margin: 2.5rem 0;
+      flex-wrap: wrap;
+      display: flex;
       .heroSubText {
         font-style: italic;
         font-size:  $font-size-18;
