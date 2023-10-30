@@ -128,6 +128,10 @@ const TableSectionContainer = ({
     console.log('apiData', apiData);
   }, [apiData]);
 
+  useEffect(() => {
+    console.log(selectedTable);
+  }, [selectedTable]);
+
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
     handleConfigUpdate();

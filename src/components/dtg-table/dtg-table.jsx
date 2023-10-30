@@ -349,6 +349,7 @@ export default function DtgTable({
     if (tableProps) {
       if (rawData !== null) {
         if (reactTableData === null) {
+          console.log(rawData);
           setReactTableData(rawData);
         }
       }
@@ -460,7 +461,7 @@ export default function DtgTable({
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
             tableName={tableName}
-            manualPagination={false}
+            manualPagination={true}
           />
         )}
       </Experimental>

@@ -224,7 +224,14 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
+      {shouldPage && (
+        <DataTableFooter
+          table={table}
+          showPaginationControls={showPaginationControls}
+          pagingProps={pagingProps}
+          manualPagination={manualPagination}
+        />
+      )}
     </>
   );
 };

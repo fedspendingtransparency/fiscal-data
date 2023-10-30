@@ -8,9 +8,10 @@ interface IDataTableFooter {
   table: Table<any>;
   showPaginationControls: boolean;
   pagingProps;
+  manualPagination: boolean;
 }
 
-const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps }) => {
+const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps, manualPagination }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
   useEffect(() => {
     setFilteredRowLength(table.getSortedRowModel().rows.length);
@@ -28,7 +29,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
         <span className={range}>
           {minRow} - {maxRow}
         </span>{' '}
-        rows of {filteredRowLength} rows
+        rows of {manualPagination ? pagingProps.maxRows : filteredRowLength} rows
       </>
     );
   };
@@ -38,26 +39,29 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
     pagingProps?.handlePerPageChange(pageSize);
   };
 
-  const paging = {
-    itemsPerPage: pagingProps?.itemsPerPage,
-    handlePerPageChange: x => {
-      handlePerPageChange(x);
-    },
-    handleJump: x => {
-      table.setPageIndex(x - 1);
-    },
-    maxPage: pagingProps?.maxPage, //table.getPageCount(),
-    tableName: '',
-    currentPage: table.getState().pagination.pageIndex + 1,
-    maxRows: filteredRowLength,
-  };
+  // For serverside paginated data (unfiltered datasets > 20000 rows), use paging props
+  const tablePagingProps = manualPagination
+    ? pagingProps
+    : {
+        itemsPerPage: pagingProps?.itemsPerPage,
+        handlePerPageChange: x => {
+          handlePerPageChange(x);
+        },
+        handleJump: x => {
+          table.setPageIndex(x - 1);
+        },
+        maxPage: pagingProps?.maxPage, //table.getPageCount(),
+        tableName: '',
+        currentPage: table.getState().pagination.pageIndex + 1,
+        maxRows: filteredRowLength,
+      };
 
   return (
     <div data-test-id="table-footer" className={tableFooter}>
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>
-      {showPaginationControls && <PaginationControls pagingProps={paging} />}
+      {showPaginationControls && <PaginationControls pagingProps={tablePagingProps} />}
     </div>
   );
 };
