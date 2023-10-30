@@ -305,7 +305,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
   ];
 
   return (
-    <div style={width < pxToNumber(breakpointLg) ? { paddingTop: 12 } : { paddingTop: 16 }} data-testid="topic-section">
+    <div style={width < pxToNumber(breakpointLg) ? { paddingTop: '1.5rem' } : { paddingTop: '2rem' }} data-testid="topic-section">
       {topicSectionMap.map((section, index) => {
         return (
           <React.Fragment key={index}>
