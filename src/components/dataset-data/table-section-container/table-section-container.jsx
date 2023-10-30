@@ -14,7 +14,7 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import { apiPrefix, basicFetch, buildSortParams, fetchAllPages, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 
 const TableSectionContainer = ({
   config,
@@ -89,6 +89,17 @@ const TableSectionContainer = ({
     setTableMeta(meta);
     return res0;
   };
+
+  useEffect(async () => {
+    const from = formatDateForApi(dateRange.from);
+    const to = formatDateForApi(dateRange.to);
+    const sortParam = buildSortParams(selectedTable, selectedPivot);
+    const data = await fetchAllPages(
+      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}:lte:${to}&sort=${sortParam}`,
+      { isCanceled: false, abortController: { signal: null } }
+    );
+
+  }, []);
 
   const refreshTable = async () => {
     if (allTablesSelected) return;

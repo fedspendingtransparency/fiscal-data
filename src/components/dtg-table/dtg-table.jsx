@@ -16,7 +16,7 @@ import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 import Experimental from '../experimental/experimental';
 
-const defaultRowsPerPage = 5;
+const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({
