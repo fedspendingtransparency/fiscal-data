@@ -327,63 +327,27 @@ export default function DtgTable({
     currentPage,
     maxRows,
   };
-  //
-  // useEffect(() => {
-  //   if (tableProps) {
-  //     if (dePaginated !== undefined) {
-  //       if (dePaginated !== null) {
-  //         if (reactTableData === null) {
-  //           setReactTableData(dePaginated);
-  //         }
-  //       } else {
-  //         if (rawData !== null) {
-  //           if (reactTableData === null) {
-  //             setReactTableData(rawData);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }, [tableProps]);
 
   useEffect(() => {
     if (tableProps) {
       if (dePaginated !== undefined) {
         if (dePaginated !== null) {
-          if (reactTableData === null) {
-            setReactTableData(dePaginated);
-          }
+          setReactTableData(dePaginated);
+          setManualPagination(false);
         } else {
           if (rawData !== null) {
-            if (reactTableData === null) {
-              setReactTableData(rawData);
-            }
+            setReactTableData(rawData);
+            setManualPagination(false);
           }
         }
-        setManualPagination(false);
       }
     }
   }, [tableProps]);
-  //
-  // useEffect(() => {
-  //   if (tableProps) {
-  //     if (rawData !== null) {
-  //       if (reactTableData === null) {
-  //         console.log('***********', rawData);
-  //         setReactTableData(rawData);
-  //         setManualPagination(false);
-  //       }
-  //     }
-  //   }
-  // }, [tableProps]);
 
   useEffect(() => {
     if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000) {
-      console.log({ data: tableData, meta: tableMeta });
-      console.log(selectedTable);
       setReactTableData({ data: tableData, meta: tableMeta });
       setManualPagination(true);
-    } else {
     }
   }, [tableData, tableMeta]);
 
@@ -490,6 +454,7 @@ export default function DtgTable({
             hideColumns={hideColumns}
             tableName={tableName}
             manualPagination={manualPagination}
+            maxRows={maxRows}
           />
         )}
       </Experimental>

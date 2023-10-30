@@ -9,13 +9,18 @@ interface IDataTableFooter {
   showPaginationControls: boolean;
   pagingProps;
   manualPagination: boolean;
+  maxRows: number;
 }
 
-const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps, manualPagination }) => {
+const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps, manualPagination, maxRows }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
   useEffect(() => {
-    setFilteredRowLength(table.getSortedRowModel().rows.length);
-  }, [table.getSortedRowModel()]);
+    console.log(manualPagination);
+    setFilteredRowLength(table.getFilteredRowModel().rows.length);
+  }, [table]);
+  useEffect(() => {
+    console.log(pagingProps);
+  }, pagingProps);
 
   const visibleRows = table => {
     const rowsVisible = table?.getRowModel().flatRows.length;

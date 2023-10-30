@@ -36,6 +36,7 @@ type DataTableProps = {
   hideColumns?: string[];
   pagingProps;
   manualPagination: boolean;
+  maxRows: number;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -57,6 +58,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideColumns,
   pagingProps,
   manualPagination,
+  maxRows,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -194,7 +196,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   });
 
   useEffect(() => {
-    console.log(rawData);
+    console.log('React table data: ', rawData);
   }, [rawData]);
 
   return (
@@ -234,6 +236,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           showPaginationControls={showPaginationControls}
           pagingProps={pagingProps}
           manualPagination={manualPagination}
+          maxRows={maxRows}
         />
       )}
     </>
