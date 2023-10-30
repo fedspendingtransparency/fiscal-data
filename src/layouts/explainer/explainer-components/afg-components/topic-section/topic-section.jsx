@@ -267,7 +267,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
       body: revenueBody,
       linkUrl: '/americas-finance-guide/government-revenue/',
       linkText: 'Learn more about government revenue',
-      eventNumber: '4',
+      eventNumber: '5',
     },
     {
       id: 'federal-spending',
