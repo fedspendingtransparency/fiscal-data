@@ -10,7 +10,7 @@ import {
   heroHeadText,
   heroIcon,
   heroInfoContainer,
-  heroXContainer
+  heroContextContainer
   } from './afg-hero.module.scss';
 
 export default function AfgHero() {
@@ -20,7 +20,7 @@ export default function AfgHero() {
     <div className={heroContainer} data-testid="afg-hero">
       <div className={heroSkyImage} aria-label="Blue Sky." >
         <div className={heroInfoContainer}>
-          <div className={heroXContainer}>
+          <div className={heroContextContainer}>
             <div className={textContainer}>
               <span className={heroAFG}>
                 <img src={afgIcon} alt="An open book with a coin above the pages." className={heroIcon} />

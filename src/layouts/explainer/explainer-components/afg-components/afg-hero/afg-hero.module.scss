@@ -1,36 +1,5 @@
 @import 'src/variables.module';
 
-// .heroContainer {
-//   max-width: $site-content-width;
-//   margin: 0 auto;
-//   position: relative;
-//   min-height: 47.875rem;
-
- 
-
-//   .heroWhiteBox {
-//     max-width: 1072px;
-//     width: calc(100% - 4rem);
-//     background-color: #ffffff;
-//     bottom: 0;
-//     position: absolute;
-//     left: 0;
-//     right: 0;
-//     margin-left: auto;
-//     margin-right: auto;
-//     padding-bottom: 2rem;
-
-//     h4.heroGuideText {
-//       font-size: $font-size-16;
-//       color: $font-body-copy;
-//       font-weight: $semi-bold-weight;
-//       margin-left: 4rem;
-//       margin-top: 2rem;
-//       margin-bottom: 0;
-//     }
-//   }
-// }
-
 .heroContainer {
   position: relative;
   min-height: 20.75rem;
@@ -38,7 +7,7 @@
 
   .heroSkyImage {
     width: 100%;
-    height: 20.75rem;
+    height: 100%;
     background-image: url('/images/overview-sky.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -49,7 +18,7 @@
   max-width: $site-content-width;
   margin: 0 auto;
   height: 20.75rem;
-  .heroXContainer{
+  .heroContextContainer{
   padding-left: 24px;
   max-width: 62rem;
   margin: 0 auto;
@@ -136,7 +105,6 @@
 @media screen and (max-width: $breakpoint-md - 1) {
   .heroContainer {
     position: relative;
-    min-height: 20.75rem;
     .heroXContainer{
       padding-left: .625rem;
       }
