@@ -18,7 +18,7 @@ const AboutUs = () => {
           </p>
         </SectionContent>
         <SectionContent id="mission" headingLevel={3} title="Mission">
-          <p>Our mission is to inspire trust in the government by providing access to federal financial data in one easy-to-use platform.</p>
+          <p>Our mission is to inspire trust in the government by providing access to fiscal data in one easy-to-use platform.</p>
         </SectionContent>
         <SectionContent id="who-we-are" headingLevel={3} title="Who We Are">
           <p>
