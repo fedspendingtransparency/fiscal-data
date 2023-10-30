@@ -124,13 +124,6 @@ const TableSectionContainer = ({
       aria: { 'aria-labelledby': 'main-data-table-title' },
     });
   };
-  useEffect(() => {
-    console.log('apiData', apiData);
-  }, [apiData]);
-
-  useEffect(() => {
-    console.log(selectedTable);
-  }, [selectedTable]);
 
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);

@@ -193,6 +193,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   });
 
+  useEffect(() => {
+    console.log(rawData);
+  }, [rawData]);
+
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
