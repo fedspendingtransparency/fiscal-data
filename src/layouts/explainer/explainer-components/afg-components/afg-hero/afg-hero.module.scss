@@ -99,7 +99,7 @@
     background-size: cover;
     position: relative;
     float: right;
-    bottom: 2.5rem;
+    bottom: 20.75rem;
   }
 }
 @media screen and (max-width: 1024px) {
@@ -107,25 +107,17 @@
       display: none;
   }
 }
-@media screen and (min-width: 1600px) {
-  .heroContainer{
-    .heroLibertyImage {
-      width: 36%;
-  }
-  }
-}
 
 @media screen and (max-width: $explainer-page-width){
   .heroContainer {
     .heroLibertyImage {
       left: 7.865vw;
-      width: 53%;
       height: 20.75rem;
       background-repeat: no-repeat;
       background-size: cover;
       position: relative;
       float: right;
-      bottom: 2.5rem;
+      bottom: 20.75rem;
     }
   }
 }
@@ -135,15 +127,8 @@
     .heroXContainer{
       padding-left: .625rem;
       }
-      .heroLibertyImage {
-        left: 1vw;
-        width: 53%;
-        height: 20.75rem;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-        float: right;
-        bottom: 2.5rem;
+    .heroLibertyImage{
+      left: 5vw;
       }
   }
 
