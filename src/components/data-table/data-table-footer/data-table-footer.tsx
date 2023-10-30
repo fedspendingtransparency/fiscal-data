@@ -15,9 +15,9 @@ interface IDataTableFooter {
 const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps, manualPagination, maxRows }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
   useEffect(() => {
-    console.log(manualPagination);
+    console.log(table.getFilteredRowModel());
     setFilteredRowLength(table.getFilteredRowModel().rows.length);
-  }, [table]);
+  }, [table.getFilteredRowModel(), pagingProps]);
   useEffect(() => {
     console.log(pagingProps);
   }, pagingProps);
@@ -55,7 +55,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
         handleJump: x => {
           table.setPageIndex(x - 1);
         },
-        maxPage: pagingProps?.maxPage, //table.getPageCount(),
+        maxPage: table.getPageCount(),
         tableName: '',
         currentPage: table.getState().pagination.pageIndex + 1,
         maxRows: filteredRowLength,

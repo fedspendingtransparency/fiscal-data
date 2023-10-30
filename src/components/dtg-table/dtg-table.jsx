@@ -351,10 +351,6 @@ export default function DtgTable({
     }
   }, [tableData, tableMeta]);
 
-  useEffect(() => {
-    console.log(manualPagination);
-  }, [manualPagination]);
-
   return (
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
