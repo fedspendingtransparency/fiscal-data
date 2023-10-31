@@ -344,7 +344,7 @@ export default function DtgTable({
   useEffect(() => {
     if (tableProps) {
       if (dePaginated !== undefined) {
-        if (dePaginated !== null) {
+        if (dePaginated !== null && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
           setReactTableData(dePaginated);
           setManualPagination(false);
         } else {
