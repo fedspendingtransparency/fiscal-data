@@ -104,13 +104,13 @@ export const mockDebtChartData = {
 };
 export const mockDebtChartResponseMap = [
   {
-    matcher: url => {
+    matcher: (url: string): boolean => {
       return url.includes('mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date');
     },
     jsonResponse: mockDeficitChartData,
   },
   {
-    matcher: url => {
+    matcher: (url: string): boolean => {
       return url.includes('mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date');
     },
     jsonResponse: mockDebtChartData,

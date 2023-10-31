@@ -11,7 +11,7 @@ import HeaderChip from '../../../sections/overview/components/header-chip/header
 import { explainerAnalyticsLabelMap, explainerColorMap } from '../../../explainer-helpers/explainer-helpers';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
-import AFGDebtChart from '../../../sections/overview/debt-chart/debt-chat';
+import AFGDebtChart from '../../../sections/overview/debt-chart/debt-chart';
 
 const AfgTopicCard = ({
   heading,
