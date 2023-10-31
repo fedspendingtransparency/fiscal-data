@@ -64,6 +64,59 @@ export const mockSpendingChartData = {
   ],
 };
 
+export const mockDeficitChartData = {
+  data: [
+    {
+      current_fytd_net_outly_amt: '-1515067070149.23',
+      prior_fytd_net_outly_amt: '-2237949464925.20',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+    {
+      current_fytd_net_outly_amt: '-22772178788289.42',
+      prior_fytd_net_outly_amt: '-3131917245643.30',
+      record_date: '2021-09-30',
+      record_calendar_month: '09',
+      record_calendar_year: '2021',
+      record_fiscal_year: '2021',
+    },
+  ],
+};
+export const mockDebtChartData = {
+  data: [
+    {
+      total_mil_amt: '15150674.23',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+    {
+      total_mil_amt: '227721789.42',
+      record_date: '2021-09-30',
+      record_calendar_month: '09',
+      record_calendar_year: '2021',
+      record_fiscal_year: '2021',
+    },
+  ],
+};
+export const mockDebtChartResponseMap = [
+  {
+    matcher: url => {
+      return url.includes('mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date');
+    },
+    jsonResponse: mockDeficitChartData,
+  },
+  {
+    matcher: url => {
+      return url.includes('mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date');
+    },
+    jsonResponse: mockDebtChartData,
+  },
+];
+
 export const mockEndpointResponseMap = [
   {
     // revenueEndpointUrl

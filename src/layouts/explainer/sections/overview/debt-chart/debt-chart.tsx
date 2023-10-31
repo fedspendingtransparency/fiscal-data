@@ -1,19 +1,14 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
-import { revenueExplainerPrimary } from '../../government-revenue/revenue.module.scss';
-import { chartContainer, chartTitle, deficitChart, surplusPrimary } from '../deficit-chart/deficit-chart.module.scss';
+import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { trillionAxisFormatter } from '../chart-helper';
-import CustomDotNoAnimation from '../deficit-chart/custom-dot/custom-dot';
-import CustomTooltip from '../deficit-chart/custom-tooltip/custom-tooltip';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
-import { rectangle } from '../../national-debt/growing-national-debt/debt-accordion/visualizing-the-debt-accordion.module.scss';
 
 const AFGDebtChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
@@ -23,7 +18,7 @@ const AFGDebtChart = (): ReactElement => {
   const [isLoading, setLoading] = useState(true);
 
   const debtEndpointUrl = '/v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date';
-  const currentFYEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date';
+  const deficitEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date';
   const tickCountXAxis = 5;
 
   const legendItems = [
@@ -33,10 +28,11 @@ const AFGDebtChart = (): ReactElement => {
   ];
 
   const ariaLabel =
-    'A chart demonstrating the yearly deficit or surplus caused by gaps between revenue and spending. ' +
-    'Spending and revenue are represented on the graph as two different colored dots corresponding to the total in trillions of ' +
-    'USD for each respective category. The deficit/surplus is then represented as a line connecting the two dots, exhibiting how ' +
-    'the deficit/surplus is calculated as the difference between revenue and spending. ';
+    'A chart demonstrating the total debt as it accumulated to ' +
+    currentFY +
+    ' over the four prior years. The chart presents the total debt for each year in purple bars divided into $1T tabs, ' +
+    'and the deficit for each year as an orange highlight against the yearly purple bars in order to represent the ' +
+    'relationship between the two concepts.';
   const mapBarColors = barType => {
     if (barType.includes('debt')) {
       return debtExplainerPrimary;
@@ -71,18 +67,17 @@ const AFGDebtChart = (): ReactElement => {
   const getChartData = async () => {
     const chart_data = [];
     let curFY;
-    await basicFetch(`${apiPrefix}${currentFYEndpointUrl}`).then(async result => {
-      if (result) {
-        curFY = result.data[0].record_fiscal_year;
+    await basicFetch(`${apiPrefix}${deficitEndpointUrl}`).then(async deficitRes => {
+      if (deficitRes) {
+        curFY = deficitRes.data[0].record_fiscal_year;
         setCurrentFY(curFY);
-        await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async res => {
-          if (res) {
-            const debtData = res.data;
-            const deficitData = result.data;
+        await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async debtRes => {
+          if (debtRes) {
+            const debtData = debtRes.data;
+            const deficitData = deficitRes.data;
             const fytdDeficitData = deficitData.filter(x => x.record_fiscal_year === curFY)[0];
             const latestMonth = fytdDeficitData.record_calendar_month;
             const fytdDebtData = debtData.filter(x => x.record_fiscal_year === curFY && x.record_calendar_month === latestMonth)[0];
-            //todo find programmatic way to calculate values
             const barSize = 0.75;
             const barGap = 0.225;
             const yearlyDebtData = [
@@ -145,7 +140,7 @@ const AFGDebtChart = (): ReactElement => {
 
   return (
     <div className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
-      <div className={chartTitle}>{`Total Debt: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
+      <div className={chartTitle}>National Debt: Last 5 Years in Trillions of USD</div>
       {isLoading && (
         <div>
           <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
