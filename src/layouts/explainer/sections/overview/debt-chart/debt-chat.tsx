@@ -8,13 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
-import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { trillionAxisFormatter } from '../chart-helper';
 import CustomDotNoAnimation from '../deficit-chart/custom-dot/custom-dot';
 import CustomTooltip from '../deficit-chart/custom-tooltip/custom-tooltip';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import { rectangle } from '../../national-debt/growing-national-debt/debt-accordion/visualizing-the-debt-accordion.module.scss';
-import { totalDebtData } from '../../../../experimental/experimental-helper';
 
 const AFGDebtChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
@@ -59,8 +58,9 @@ const AFGDebtChart = (): ReactElement => {
           return (
             <Bar
               dataKey={valueName}
-              stackId={'a'}
+              stackId="a"
               fill={mapBarColors(valueName)}
+              strokeWidth={0}
               name={valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : ''}
               barSize={16}
             />
@@ -68,12 +68,55 @@ const AFGDebtChart = (): ReactElement => {
         })
     );
   };
+
   const getChartData = async () => {
     if (currentFY) {
       const chart_data = [];
 
       await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async res => {
-        console.log(res);
+        if (res) {
+          const data = res.data;
+          const fytdData = data.filter(x => x.record_fiscal_year === currentFY)[0];
+          //todo find programmatic way to calculate values
+          const barSize = 0.75;
+          const barGap = 0.225;
+          const yearlyData = [
+            fytdData,
+            ...data.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= currentFY - 4 && x.record_fiscal_year < currentFY),
+          ];
+          yearlyData.forEach(year => {
+            let debtVal = year.total_mil_amt * 1000000;
+            const bars = {};
+            let index = 0;
+            while (debtVal > 1e12) {
+              bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 && index !== 0 ? barGap * 2 : barGap;
+              bars[`debt${year.record_fiscal_year}${index}`] = barSize;
+              debtVal -= 1e12;
+              index++;
+            }
+            const remainingDebt = debtVal / 1e12;
+            const startingDeficit = (1e12 - debtVal) / 1e12;
+            console.log('debt', remainingDebt, 'deficit', startingDeficit, remainingDebt + startingDeficit);
+            bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
+            bars[`debt${year.record_fiscal_year}${index}`] = remainingDebt * barSize;
+            index++;
+            let deficitVal = 2.2 * 1e12;
+            bars[`deficit${year.record_fiscal_year}${index}`] = startingDeficit * barSize;
+            bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
+            deficitVal = deficitVal - startingDeficit * 1e12;
+            index++;
+            while (deficitVal > 1e12) {
+              bars[`deficit${year.record_fiscal_year}${index}`] = barSize;
+              bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
+              deficitVal -= 1e12;
+              index++;
+            }
+            bars[`deficit${year.record_fiscal_year}${index}`] = (deficitVal / 1e12) * barSize;
+
+            bars['year'] = year.record_fiscal_year;
+            chart_data.push(bars);
+          });
+        }
       });
       return chart_data;
     }
@@ -98,7 +141,7 @@ const AFGDebtChart = (): ReactElement => {
 
   return (
     <div className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
-      <div className={chartTitle}>National Debt: Last 5 Years in Trillions of USD</div>
+      <div className={chartTitle}>{`Total Debt: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
       {isLoading && (
         <div>
           <FontAwesomeIcon icon={faSpinner as IconProp} spin pulse /> Loading...
@@ -116,10 +159,8 @@ const AFGDebtChart = (): ReactElement => {
           >
             <ResponsiveContainer height={164} width="99%">
               <BarChart
-                data={totalDebtData.data}
+                data={finalChartData}
                 layout="vertical"
-                barGap={30}
-                barSize={30}
                 margin={{
                   top: 6,
                   right: 14,
@@ -147,7 +188,7 @@ const AFGDebtChart = (): ReactElement => {
                   tickCount={5}
                   tickMargin={8}
                 />
-                {generateBar(totalDebtData.data)}
+                {generateBar(finalChartData)}
               </BarChart>
             </ResponsiveContainer>
           </div>
