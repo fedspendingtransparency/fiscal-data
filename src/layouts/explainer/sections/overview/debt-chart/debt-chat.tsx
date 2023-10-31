@@ -48,7 +48,6 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const generateBar = sortedData => {
-    console.log(sortedData);
     return sortedData.map((dataObj, i) =>
       Object.keys(dataObj)
         .filter(propName => {
@@ -74,22 +73,27 @@ const AFGDebtChart = (): ReactElement => {
     let curFY;
     await basicFetch(`${apiPrefix}${currentFYEndpointUrl}`).then(async result => {
       if (result) {
-        console.log(result);
         curFY = result.data[0].record_fiscal_year;
         setCurrentFY(curFY);
         await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async res => {
           if (res) {
-            console.log(res);
-            const data = res.data;
-            const fytdData = data.filter(x => x.record_fiscal_year === curFY)[0];
+            const debtData = res.data;
+            const deficitData = result.data;
+            const fytdDeficitData = deficitData.filter(x => x.record_fiscal_year === curFY)[0];
+            const latestMonth = fytdDeficitData.record_calendar_month;
+            const fytdDebtData = debtData.filter(x => x.record_fiscal_year === curFY && x.record_calendar_month === latestMonth)[0];
             //todo find programmatic way to calculate values
             const barSize = 0.75;
             const barGap = 0.225;
-            const yearlyData = [
-              fytdData,
-              ...data.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= curFY - 4 && x.record_fiscal_year < curFY),
+            const yearlyDebtData = [
+              fytdDebtData,
+              ...debtData.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= curFY - 4 && x.record_fiscal_year < curFY),
             ];
-            yearlyData.forEach(year => {
+            const yearlyDeficitData = [
+              fytdDeficitData,
+              ...deficitData.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= curFY - 4 && x.record_fiscal_year < curFY),
+            ];
+            yearlyDebtData.forEach(year => {
               let debtVal = year.total_mil_amt * 1000000;
               const bars = {};
               let index = 0;
@@ -104,7 +108,9 @@ const AFGDebtChart = (): ReactElement => {
               bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
               bars[`debt${year.record_fiscal_year}${index}`] = remainingDebt * barSize;
               index++;
-              let deficitVal = 2.2 * 1e12;
+              let deficitVal = Math.abs(
+                yearlyDeficitData.filter(x => x.record_fiscal_year === year.record_fiscal_year)[0].current_fytd_net_outly_amt
+              );
               bars[`deficit${year.record_fiscal_year}${index}`] = startingDeficit * barSize;
               bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
               deficitVal = deficitVal - startingDeficit * 1e12;
