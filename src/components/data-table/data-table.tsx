@@ -229,7 +229,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
+                  <DataTableHeader
+                    table={table}
+                    dataTypes={dataTypes}
+                    resetFilters={resetFilters}
+                    setFiltersActive={setFiltersActive}
+                    maxRows={maxRows}
+                  />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>

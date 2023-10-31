@@ -125,8 +125,9 @@ export const getColumnFilter: (
   resetFilters: boolean,
   setFiltersActive: (val: boolean) => void,
   allActiveFilters: string[],
-  setAllActiveFilters: (val: string[]) => void
-) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters) => {
+  setAllActiveFilters: (val: string[]) => void,
+  maxRows: number
+) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters, maxRows) => {
   if (type === 'DATE') {
     return (
       <DateRangeFilter
@@ -136,7 +137,7 @@ export const getColumnFilter: (
         setAllActiveFilters={setAllActiveFilters}
       />
     );
-  } else {
+  } else if (maxRows <= 20000) {
     return (
       <TextFilter
         column={header.column}
