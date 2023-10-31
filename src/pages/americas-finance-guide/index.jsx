@@ -135,10 +135,15 @@ const AmericasFinanceGuidePage = ({ width }) => {
       </div>
       <Container classes={{ root: quoteContainer }} data-testid="quoteContainer">
         <Grid classes={{ root: quoteGrid }} container spacing={2}>
-          <Grid item md={2} classes={{ root: quoteContainerImg }}>
-            <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
+          <Grid item md={4} classes={{ root: quoteContainerImg }}>
+            <img
+              src="../images/treasury-reports.png"
+              alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background. 
+              Next to the spread is a quote from Article 1, Section 9, which reads 
+              “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”"
+            />
           </Grid>
-          <Grid item md={8}>
+          <Grid item md={6}>
             <p className={quote}>
               “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
             </p>

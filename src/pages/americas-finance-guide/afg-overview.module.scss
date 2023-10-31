@@ -45,14 +45,13 @@ $dollarIconBackgroundColor: #f1f1f1;
 }
 
 .quoteContainer {
-  background-color: $body-background;
-  max-width: $explainer-page-width;
+  max-width: 100%;
   margin-top: 0.5rem;
+  background-image: url('../../../static/images/constitution-background.png');
+  background-size: cover;
 
   .quoteGrid {
-    max-width: $breakpoint-lg;
     margin: 0 auto !important;
-    padding: 2rem;
   }
 
   .quoteIcon {
