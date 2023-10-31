@@ -296,7 +296,7 @@ export default function DtgTable({
   useEffect(() => {
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
+    ssp !== undefined && ssp !== null && selectedTable.rowCount > 20000 ? getPagedData(false) : getCurrentData();
     return () => {
       loadCanceled = true;
     };
