@@ -25,7 +25,7 @@ const AboutUs = () => {
         <SectionContent id="mission" headingLevel={3} title="Vision">
           <p>The American public regularly uses and relies on our data and resources to better understand their government.</p>
         </SectionContent>
-        <SectionContent id="mission" headingLevel={3} title="Value">
+        <SectionContent id="mission" headingLevel={3} title="Values">
           <p>
             We are committed to providing authoritative, objective, trusted data in a manner that aligns with the core values of the Fiscal Service: integrity, collaboration, accountability, learning, and excellence.
           </p>
