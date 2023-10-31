@@ -23,8 +23,7 @@ const AFGDebtChart = (): ReactElement => {
   const [isLoading, setLoading] = useState(true);
 
   const debtEndpointUrl = '/v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date';
-  const currentFYEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date&page[size]=1';
-
+  const currentFYEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694&sort=-record_date';
   const tickCountXAxis = 5;
 
   const legendItems = [
@@ -49,6 +48,7 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const generateBar = sortedData => {
+    console.log(sortedData);
     return sortedData.map((dataObj, i) =>
       Object.keys(dataObj)
         .filter(propName => {
@@ -70,73 +70,71 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const getChartData = async () => {
-    if (currentFY) {
-      const chart_data = [];
-
-      await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async res => {
-        if (res) {
-          const data = res.data;
-          const fytdData = data.filter(x => x.record_fiscal_year === currentFY)[0];
-          //todo find programmatic way to calculate values
-          const barSize = 0.75;
-          const barGap = 0.225;
-          const yearlyData = [
-            fytdData,
-            ...data.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= currentFY - 4 && x.record_fiscal_year < currentFY),
-          ];
-          yearlyData.forEach(year => {
-            let debtVal = year.total_mil_amt * 1000000;
-            const bars = {};
-            let index = 0;
-            while (debtVal > 1e12) {
-              bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 && index !== 0 ? barGap * 2 : barGap;
-              bars[`debt${year.record_fiscal_year}${index}`] = barSize;
-              debtVal -= 1e12;
-              index++;
-            }
-            const remainingDebt = debtVal / 1e12;
-            const startingDeficit = (1e12 - debtVal) / 1e12;
-            console.log('debt', remainingDebt, 'deficit', startingDeficit, remainingDebt + startingDeficit);
-            bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
-            bars[`debt${year.record_fiscal_year}${index}`] = remainingDebt * barSize;
-            index++;
-            let deficitVal = 2.2 * 1e12;
-            bars[`deficit${year.record_fiscal_year}${index}`] = startingDeficit * barSize;
-            bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
-            deficitVal = deficitVal - startingDeficit * 1e12;
-            index++;
-            while (deficitVal > 1e12) {
-              bars[`deficit${year.record_fiscal_year}${index}`] = barSize;
+    const chart_data = [];
+    let curFY;
+    await basicFetch(`${apiPrefix}${currentFYEndpointUrl}`).then(async result => {
+      if (result) {
+        console.log(result);
+        curFY = result.data[0].record_fiscal_year;
+        setCurrentFY(curFY);
+        await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async res => {
+          if (res) {
+            console.log(res);
+            const data = res.data;
+            const fytdData = data.filter(x => x.record_fiscal_year === curFY)[0];
+            //todo find programmatic way to calculate values
+            const barSize = 0.75;
+            const barGap = 0.225;
+            const yearlyData = [
+              fytdData,
+              ...data.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= curFY - 4 && x.record_fiscal_year < curFY),
+            ];
+            yearlyData.forEach(year => {
+              let debtVal = year.total_mil_amt * 1000000;
+              const bars = {};
+              let index = 0;
+              while (debtVal > 1e12) {
+                bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 && index !== 0 ? barGap * 2 : barGap;
+                bars[`debt${year.record_fiscal_year}${index}`] = barSize;
+                debtVal -= 1e12;
+                index++;
+              }
+              const remainingDebt = debtVal / 1e12;
+              const startingDeficit = (1e12 - debtVal) / 1e12;
               bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
-              deficitVal -= 1e12;
+              bars[`debt${year.record_fiscal_year}${index}`] = remainingDebt * barSize;
               index++;
-            }
-            bars[`deficit${year.record_fiscal_year}${index}`] = (deficitVal / 1e12) * barSize;
+              let deficitVal = 2.2 * 1e12;
+              bars[`deficit${year.record_fiscal_year}${index}`] = startingDeficit * barSize;
+              bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
+              deficitVal = deficitVal - startingDeficit * 1e12;
+              index++;
+              while (deficitVal > 1e12) {
+                bars[`deficit${year.record_fiscal_year}${index}`] = barSize;
+                bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
+                deficitVal -= 1e12;
+                index++;
+              }
+              bars[`deficit${year.record_fiscal_year}${index}`] = (deficitVal / 1e12) * barSize;
 
-            bars['year'] = year.record_fiscal_year;
-            chart_data.push(bars);
-          });
-        }
-      });
-      return chart_data;
-    }
+              bars['year'] = year.record_fiscal_year;
+              chart_data.push(bars);
+            });
+          }
+        });
+      }
+    });
+
+    return chart_data;
   };
 
   useEffect(() => {
-    if (!finalChartData && currentFY) {
+    if (!finalChartData) {
       getChartData().then(res => {
         setFinalChartData(res);
         setLoading(false);
       });
     }
-  }, [currentFY]);
-
-  useEffect(() => {
-    basicFetch(`${apiPrefix}${currentFYEndpointUrl}`).then(result => {
-      if (result?.data) {
-        setCurrentFY(result.data[0].record_fiscal_year);
-      }
-    });
   }, []);
 
   return (
