@@ -15,6 +15,8 @@ import CustomLink from '../links/custom-link/custom-link';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 import Experimental from '../experimental/experimental';
+import { useRecoilValue } from 'recoil';
+import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
 
 const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
@@ -71,6 +73,7 @@ export default function DtgTable({
   const [isReset, setIsReset] = useState(false);
   const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
   const [manualPagination, setManualPagination] = useState(false);
+  const isReactTableFiltered = useRecoilValue(reactTableFilteredState);
 
   let loadCanceled = false;
 
@@ -350,6 +353,17 @@ export default function DtgTable({
       setManualPagination(true);
     }
   }, [tableData, tableMeta]);
+
+  useEffect(() => {
+    console.log(isReactTableFiltered);
+    if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000 && isReactTableFiltered) {
+      setReactTableData(dePaginated);
+      setManualPagination(false);
+    } else if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000 && !isReactTableFiltered) {
+      setReactTableData({ data: tableData, meta: tableMeta });
+      setManualPagination(true);
+    }
+  }, [tableData, tableMeta, isReactTableFiltered]);
 
   return (
     <div className={styles.overlayContainer}>

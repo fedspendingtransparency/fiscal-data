@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Column } from '@tanstack/react-table';
 import SearchBar from '../../../search-bar/search-bar';
+import { useSetRecoilState } from 'recoil';
+import { reactTableFilteredState } from '../../../../recoil/reactTableFilteredState';
 
 const TextFilter: FunctionComponent<any> = ({
   column,
@@ -15,6 +17,7 @@ const TextFilter: FunctionComponent<any> = ({
 }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
+  const setTableFilteredState = useSetRecoilState(reactTableFilteredState);
   const clearFilter = () => {
     // fire artificial event to reset field
     onFilterChange({
@@ -24,9 +27,13 @@ const TextFilter: FunctionComponent<any> = ({
     });
     column.setFilterValue('');
     setFilterDisplay('');
+    setTableFilteredState(false);
   };
 
   const onFilterChange = event => {
+    if (event.target.value !== '') {
+      setTableFilteredState(true);
+    }
     const val = event && event.target ? event.target.value : '';
     column.setFilterValue(val);
     setFilterDisplay(val);
