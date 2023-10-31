@@ -16,7 +16,7 @@ import DataTableColumnSelector from './column-select/data-table-column-selector'
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
 import { useSetRecoilState } from 'recoil';
-import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -61,7 +61,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pagingProps,
   manualPagination,
   maxRows,
-  setFilteredDateRange,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -99,6 +98,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }
 
   const [sorting, setSorting] = useState<SortingState>([]);
+  const setTableSorting = useSetRecoilState(reactTableSortingState);
 
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
@@ -143,6 +143,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     getSortedColumnsData(table);
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
+
+  useEffect(() => {
+    setTableSorting(sorting);
+  }, [sorting]);
 
   useEffect(() => {
     if (resetFilters) {
@@ -198,9 +202,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   });
 
-  useEffect(() => {
-    console.log('React table data: ', rawData);
-  }, [rawData]);
+  // useEffect(() => {
+  //   console.log('React table data: ', rawData);
+  // }, [rawData]);
 
   return (
     <>

@@ -37,6 +37,7 @@ const TableSectionContainer = ({
   ignorePivots,
   allTablesSelected,
   handleConfigUpdate,
+  tableColumnSortData,
   setTableColumnSortData,
   hasPublishedReports,
   publishedReports,
@@ -259,6 +260,7 @@ const TableSectionContainer = ({
                   tableProps={tableProps}
                   perPage={perPage}
                   setPerPage={setPerPage}
+                  tableColumnSortData={tableColumnSortData}
                   setTableColumnSortData={setTableColumnSortData}
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}

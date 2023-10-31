@@ -17,9 +17,6 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
   useEffect(() => {
     setFilteredRowLength(table.getFilteredRowModel().rows.length);
   }, [table.getFilteredRowModel(), pagingProps]);
-  useEffect(() => {
-    console.log(pagingProps);
-  }, pagingProps);
 
   const visibleRows = table => {
     const rowsVisible = table?.getRowModel().flatRows.length;

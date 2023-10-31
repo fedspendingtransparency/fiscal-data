@@ -234,6 +234,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             handleIgnorePivots={setIgnorePivots}
             allTablesSelected={allTablesSelected}
             handleConfigUpdate={() => setConfigUpdated(true)}
+            tableColumnSortData={tableColumnSortData}
             setTableColumnSortData={setTableColumnSortData}
             hasPublishedReports={!!publishedReports}
             publishedReports={publishedReports}

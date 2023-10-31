@@ -16,7 +16,7 @@ import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 import Experimental from '../experimental/experimental';
 import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState, reactTableFilteredState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredDateRangeState, reactTableFilteredState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
 
 const defaultRowsPerPage = 10;
@@ -33,6 +33,7 @@ export default function DtgTable({
   setResetFilters,
   setFiltersActive,
   tableMeta,
+  tableColumnSortData,
 }) {
   const {
     dePaginated,
@@ -75,8 +76,8 @@ export default function DtgTable({
   const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
   const [manualPagination, setManualPagination] = useState(false);
   const isReactTableFiltered = useRecoilValue(reactTableFilteredState);
-  // const [filteredDateRange, setFilteredDateRange] = useState(null);
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const sorting = useRecoilValue(reactTableSortingState);
 
   let loadCanceled = false;
 
@@ -152,7 +153,7 @@ export default function DtgTable({
           : formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
 
-      pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage)
+      pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage, tableColumnSortData)
         .then(res => {
           if (!loadCanceled) {
             setEmptyDataMessage(null);
@@ -293,14 +294,13 @@ export default function DtgTable({
   }, [selectedTable, dateRange]);
 
   useEffect(() => {
-    console.log(filteredDateRange);
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
     return () => {
       loadCanceled = true;
     };
-  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage, filteredDateRange]);
+  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage, filteredDateRange, sorting]);
 
   useEffect(() => {
     if (selectColumns && activeColumns) {
@@ -365,7 +365,6 @@ export default function DtgTable({
   }, [tableData, tableMeta]);
 
   useEffect(() => {
-    console.log(isReactTableFiltered);
     if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000 && isReactTableFiltered) {
       setReactTableData(dePaginated);
       setManualPagination(false);
