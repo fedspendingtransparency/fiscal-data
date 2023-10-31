@@ -15,7 +15,6 @@ interface IDataTableFooter {
 const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps, manualPagination, maxRows }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
   useEffect(() => {
-    console.log(table.getFilteredRowModel());
     setFilteredRowLength(table.getFilteredRowModel().rows.length);
   }, [table.getFilteredRowModel(), pagingProps]);
   useEffect(() => {

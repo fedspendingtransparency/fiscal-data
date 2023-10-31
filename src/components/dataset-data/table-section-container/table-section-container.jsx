@@ -15,6 +15,8 @@ import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { apiPrefix, basicFetch, buildSortParams, fetchAllPages, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { reactTableFilteredState } from '../../../recoil/reactTableFilteredState';
 
 const TableSectionContainer = ({
   config,
@@ -54,6 +56,7 @@ const TableSectionContainer = ({
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
+  const setTableFilteredState = useSetRecoilState(reactTableFilteredState);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -90,16 +93,11 @@ const TableSectionContainer = ({
     return res0;
   };
 
-  useEffect(async () => {
-    const from = formatDateForApi(dateRange.from);
-    const to = formatDateForApi(dateRange.to);
-    const sortParam = buildSortParams(selectedTable, selectedPivot);
-    const data = await fetchAllPages(
-      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}:lte:${to}&sort=${sortParam}`,
-      { isCanceled: false, abortController: { signal: null } }
-    );
-
-  }, []);
+  useEffect(() => {
+    if (filtersActive === false) {
+      setTableFilteredState(false);
+    }
+  }, [filtersActive]);
 
   const refreshTable = async () => {
     if (allTablesSelected) return;
