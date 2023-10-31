@@ -17,6 +17,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
+import { useSetRecoilState } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters }) => {
@@ -26,6 +28,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   });
   const [filterDisplay, setFilterDisplay] = useState('');
   const [active, setActive] = useState(false);
+  const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -107,10 +110,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (selected?.from && selected?.to) {
       const start = moment(selected?.from);
       const end = moment(selected?.to);
+      setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
     } else {
       column.setFilterValue([]);
+      setFilteredDateRange(null);
       onFilterChange('');
     }
   }, [selected]);

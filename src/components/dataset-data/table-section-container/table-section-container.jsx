@@ -14,8 +14,8 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { apiPrefix, basicFetch, buildSortParams, fetchAllPages, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredState } from '../../../recoil/reactTableFilteredState';
 
 const TableSectionContainer = ({

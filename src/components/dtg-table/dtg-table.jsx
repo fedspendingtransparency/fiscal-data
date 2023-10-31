@@ -16,7 +16,8 @@ import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 import Experimental from '../experimental/experimental';
 import { useRecoilValue } from 'recoil';
-import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredDateRangeState, reactTableFilteredState } from '../../recoil/reactTableFilteredState';
+import moment from 'moment/moment';
 
 const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
@@ -74,6 +75,8 @@ export default function DtgTable({
   const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
   const [manualPagination, setManualPagination] = useState(false);
   const isReactTableFiltered = useRecoilValue(reactTableFilteredState);
+  // const [filteredDateRange, setFilteredDateRange] = useState(null);
+  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadCanceled = false;
 
@@ -139,8 +142,14 @@ export default function DtgTable({
     if (selectedTable && selectedTable.endpoint && !loadCanceled) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
-      const from = formatDateForApi(dateRange.from);
-      const to = formatDateForApi(dateRange.to);
+      const from =
+        filteredDateRange?.from && moment(dateRange.from).diff(filteredDateRange?.from) <= 0
+          ? filteredDateRange?.from.format('YYYY-MM-DD')
+          : formatDateForApi(dateRange.from);
+      const to =
+        filteredDateRange?.from && moment(dateRange.to).diff(filteredDateRange?.to) >= 0
+          ? filteredDateRange?.to.format('YYYY-MM-DD')
+          : formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
 
       pagedDatatableRequest(selectedTable, from, to, selectedPivot, startPage, itemsPerPage)
@@ -284,13 +293,14 @@ export default function DtgTable({
   }, [selectedTable, dateRange]);
 
   useEffect(() => {
+    console.log(filteredDateRange);
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
     return () => {
       loadCanceled = true;
     };
-  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
+  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage, filteredDateRange]);
 
   useEffect(() => {
     if (selectColumns && activeColumns) {
