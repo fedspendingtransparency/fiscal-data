@@ -7,7 +7,7 @@ import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
 import DtgTableRow from './dtg-table-row/dtg-table-row';
 import { loadingTimeout, netLoadingDelay, setColumns } from './dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
-import { pagedDatatableRequest, formatDateForApi } from '../../utils/api-utils';
+import { pagedDatatableRequest, formatDateForApi, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 
 import * as styles from './dtg-table.module.scss';
@@ -358,17 +358,29 @@ export default function DtgTable({
   }, [tableProps]);
 
   useEffect(() => {
-    if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000) {
+    if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setReactTableData({ data: tableData, meta: tableMeta });
       setManualPagination(true);
     }
   }, [tableData, tableMeta]);
 
   useEffect(() => {
-    if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000 && isReactTableFiltered) {
+    if (
+      tableData.length > 0 &&
+      tableMeta !== undefined &&
+      tableMeta !== null &&
+      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
+      isReactTableFiltered
+    ) {
       setReactTableData(dePaginated);
       setManualPagination(false);
-    } else if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000 && !isReactTableFiltered) {
+    } else if (
+      tableData.length > 0 &&
+      tableMeta !== undefined &&
+      tableMeta !== null &&
+      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
+      !isReactTableFiltered
+    ) {
       setReactTableData({ data: tableData, meta: tableMeta });
       setManualPagination(true);
     }

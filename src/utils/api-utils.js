@@ -14,6 +14,7 @@ export const apiPrefix = `${API_BASE_URL}/services/api/fiscal_service/`;
 export const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const MAX_PAGE_SIZE = 10000;
+export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = 20000;
 
 export const formatDateForApi = d => {
   return format(d, 'yyyy-MM-dd');
