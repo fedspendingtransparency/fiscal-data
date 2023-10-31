@@ -18,7 +18,17 @@ const AboutUs = () => {
           </p>
         </SectionContent>
         <SectionContent id="mission" headingLevel={3} title="Mission">
-          <p>Our mission is to inspire trust in the government by providing access to federal financial data in one easy-to-use platform.</p>
+          <p>
+            To provide accessible, easy-to-use federal financial data and resources to inform the American public and inspire trust in government.
+          </p>
+        </SectionContent>
+        <SectionContent id="mission" headingLevel={3} title="Vision">
+          <p>The American public regularly uses and relies on our data and resources to better understand their government.</p>
+        </SectionContent>
+        <SectionContent id="mission" headingLevel={3} title="Values">
+          <p>
+            We are committed to providing authoritative, objective, trusted data in a manner that aligns with the core values of the Fiscal Service: integrity, collaboration, accountability, learning, and excellence.
+          </p>
         </SectionContent>
         <SectionContent id="who-we-are" headingLevel={3} title="Who We Are">
           <p>
