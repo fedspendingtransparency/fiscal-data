@@ -35,7 +35,8 @@ type DataTableProps = {
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
-  filtersActive: string[];
+  manualPagination: boolean;
+  maxRows: number;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -56,7 +57,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   hideColumns,
   pagingProps,
-  filtersActive,
+  manualPagination,
+  maxRows,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -99,7 +101,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
 
   const table = useReactTable({
-    autoResetPageIndex: false,
     columns,
     data,
     columnResizeMode: 'onChange',
@@ -119,6 +120,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    manualPagination: manualPagination,
   });
 
   const getSortedColumnsData = table => {
@@ -138,10 +140,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   useEffect(() => {
     getSortedColumnsData(table);
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
-
-  useEffect(() => {
-    table.setPageIndex(0);
-  }, [sorting, filtersActive]);
 
   useEffect(() => {
     if (resetFilters) {
@@ -197,6 +195,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   });
 
+  useEffect(() => {
+    console.log('React table data: ', rawData);
+  }, [rawData]);
+
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
@@ -228,7 +230,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
+      {shouldPage && (
+        <DataTableFooter
+          table={table}
+          showPaginationControls={showPaginationControls}
+          pagingProps={pagingProps}
+          manualPagination={manualPagination}
+          maxRows={maxRows}
+        />
+      )}
     </>
   );
 };

@@ -15,8 +15,6 @@ import CustomLink from '../links/custom-link/custom-link';
 import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 import Experimental from '../experimental/experimental';
-import { useRecoilState } from 'recoil';
-import { reactTableDataState } from '../../recoil/reactTableDataState';
 
 const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
@@ -31,7 +29,7 @@ export default function DtgTable({
   resetFilters,
   setResetFilters,
   setFiltersActive,
-  filtersActive,
+  tableMeta,
 }) {
   const {
     dePaginated,
@@ -54,8 +52,6 @@ export default function DtgTable({
 
   const [reactTableData, setReactTableData] = useState(null);
 
-  // const [reactTableData, setReactTableData] = useRecoilState(reactTableDataState);
-
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
@@ -74,6 +70,7 @@ export default function DtgTable({
   const [activeColumns, setActiveColumns] = useState([]);
   const [isReset, setIsReset] = useState(false);
   const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
+  const [manualPagination, setManualPagination] = useState(false);
 
   let loadCanceled = false;
 
@@ -170,6 +167,7 @@ export default function DtgTable({
             setMaxPage(res.meta['total-pages']);
             if (maxRows !== totalCount) setMaxRows(totalCount);
             setTableData(res.data);
+            // setTableMeta(res.meta);
           }
         })
         .catch(err => {
@@ -334,14 +332,12 @@ export default function DtgTable({
     if (tableProps) {
       if (dePaginated !== undefined) {
         if (dePaginated !== null) {
-          // if (reactTableData === null) {
           setReactTableData(dePaginated);
-          // }
+          setManualPagination(false);
         } else {
           if (rawData !== null) {
-            if (reactTableData === null) {
-              setReactTableData(rawData);
-            }
+            setReactTableData(rawData);
+            setManualPagination(false);
           }
         }
       }
@@ -349,10 +345,11 @@ export default function DtgTable({
   }, [tableProps]);
 
   useEffect(() => {
-    if (dePaginated) {
-      setReactTableData(dePaginated);
+    if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > 20000) {
+      setReactTableData({ data: tableData, meta: tableMeta });
+      setManualPagination(true);
     }
-  }, [dateRange]);
+  }, [tableData, tableMeta]);
 
   return (
     <div className={styles.overlayContainer}>
@@ -449,10 +446,11 @@ export default function DtgTable({
             selectColumnPanel={selectColumnPanel}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
-            filtersActive={filtersActive}
             setFiltersActive={setFiltersActive}
             hideColumns={hideColumns}
             tableName={tableName}
+            manualPagination={manualPagination}
+            maxRows={maxRows}
           />
         )}
       </Experimental>

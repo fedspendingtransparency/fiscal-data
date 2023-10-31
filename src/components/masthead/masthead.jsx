@@ -5,7 +5,6 @@ import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 import BannerCallout from '../banner-callout/banner-callout';
 
 const Masthead = ({ title, tagLine, techSpecs, dictionary, bannerCallout }) => {
-
   const breadCrumbLinks = [
     {
       name: title,
@@ -26,12 +25,17 @@ const Masthead = ({ title, tagLine, techSpecs, dictionary, bannerCallout }) => {
         <BreadCrumbs links={breadCrumbLinks} />
         <h1 className={styles.pageTitle}>{title}</h1>
         <DetailPills techSpecs={techSpecs} dictionary={dictionary} />
-        <p className={styles.tagLine} data-test-id="tagLine">{tagLine}</p>
-        {bannerCallout &&
-        <div data-testid="callout">
-          <BannerCallout bannerCallout={bannerCallout} bannerType={bannerCallout.banner === 'SavingsBondsDelay' ? 'warning' : 'info'} />
-        </div>
-      }
+        <p className={styles.tagLine} data-test-id="tagLine">
+          {tagLine}
+        </p>
+        {bannerCallout && (
+          <div data-testid="callout">
+            <BannerCallout
+              bannerCallout={bannerCallout}
+              bannerType={bannerCallout.banner === 'SavingsBondsDelay' || bannerCallout.banner === 'TreasuryDirectDelay' ? 'warning' : 'info'}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

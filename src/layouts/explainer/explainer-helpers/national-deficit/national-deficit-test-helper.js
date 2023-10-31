@@ -35,6 +35,7 @@ const mockMtsRevenueData = [
     current_fytd_net_rcpt_amt: '4220000000000',
     record_date: '2021-09-30',
     record_fiscal_year: '2021',
+    record_calendar_month: '09',
   },
 ];
 

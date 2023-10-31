@@ -1,29 +1,27 @@
 import React, { FunctionComponent } from 'react';
-import { getShortForm } from '../../../../../../utils/rounding-utils';
-import { toolTip, tooltipLabel, tooltipRow, value, title } from '../deficit-chart.module.scss';
+import { toolTip, tooltipLabel, tooltipRow, value, title } from '../../deficit-chart/deficit-chart.module.scss';
+import { longVersionMonth } from '../../chart-helper';
 import { dot } from '../../chart-components/chart-legend.module.scss';
 
 interface ICustomTooltip {
   label?: string;
-  setFocused: (value: number) => void;
   payload?;
 }
 
-const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused }) => {
+const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label }) => {
   if (payload && payload.length && label) {
-    setFocused(payload[0].payload.year);
     return (
       <div className={toolTip} data-testid="CustomTooltip">
-        <div className={tooltipLabel}>{label}</div>
+        <div className={tooltipLabel}>{longVersionMonth(label)}</div>
         <div>
-          {payload[0].payload.tooltip?.map((row, index) => {
+          {payload.reverse().map((row, index) => {
             return (
               <div className={tooltipRow} key={index}>
                 <div className={value}>
                   <span className={dot} style={{ backgroundColor: row.color }}></span>
-                  <span className={title}>{row.title}</span>
+                  <span className={title}>{row.name}</span>
                 </div>
-                <span className={value}>${getShortForm(row.value)}</span>
+                <span className={value}>${row.value.toFixed(2)}T</span>
               </div>
             );
           })}

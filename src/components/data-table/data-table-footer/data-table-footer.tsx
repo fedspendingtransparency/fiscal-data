@@ -3,21 +3,24 @@ import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
 import { range } from '../data-table.module.scss';
-import { useSetRecoilState } from 'recoil';
-import { reactTablePageState } from '../../../recoil/reactTableDataState';
 
 interface IDataTableFooter {
   table: Table<any>;
   showPaginationControls: boolean;
   pagingProps;
+  manualPagination: boolean;
+  maxRows: number;
 }
 
-const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps }) => {
+const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps, manualPagination, maxRows }) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
-  const setPageValue = useSetRecoilState(reactTablePageState);
   useEffect(() => {
-    setFilteredRowLength(table.getSortedRowModel().rows.length);
-  }, [table.getSortedRowModel()]);
+    console.log(table.getFilteredRowModel());
+    setFilteredRowLength(table.getFilteredRowModel().rows.length);
+  }, [table.getFilteredRowModel(), pagingProps]);
+  useEffect(() => {
+    console.log(pagingProps);
+  }, pagingProps);
 
   const visibleRows = table => {
     const rowsVisible = table?.getRowModel().flatRows.length;
@@ -31,7 +34,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
         <span className={range}>
           {minRow} - {maxRow}
         </span>{' '}
-        rows of {filteredRowLength} rows
+        rows of {manualPagination ? pagingProps.maxRows : filteredRowLength} rows
       </>
     );
   };
@@ -41,35 +44,29 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
     pagingProps?.handlePerPageChange(pageSize);
   };
 
-  const paging = {
-    itemsPerPage: pagingProps?.itemsPerPage,
-    handlePerPageChange: x => {
-      handlePerPageChange(x);
-    },
-    handleJump: x => {
-      table.setPageIndex(x - 1);
-    },
-    maxPage: pagingProps?.maxPage, //table.getPageCount(),
-    tableName: '',
-    currentPage: table.getState().pagination.pageIndex + 1,
-    maxRows: filteredRowLength,
-  };
-
-  useEffect(() => {
-    setPageValue(table.getState().pagination.pageIndex + 1);
-
-    if (table.getState().pagination.pageIndex + 1 > 15700) {
-      table.setPageIndex(1999);
-    }
-  }, [table.getState().pagination.pageIndex]);
+  // For serverside paginated data (unfiltered datasets > 20000 rows), use paging props
+  const tablePagingProps = manualPagination
+    ? pagingProps
+    : {
+        itemsPerPage: pagingProps?.itemsPerPage,
+        handlePerPageChange: x => {
+          handlePerPageChange(x);
+        },
+        handleJump: x => {
+          table.setPageIndex(x - 1);
+        },
+        maxPage: table.getPageCount(),
+        tableName: '',
+        currentPage: table.getState().pagination.pageIndex + 1,
+        maxRows: filteredRowLength,
+      };
 
   return (
     <div data-test-id="table-footer" className={tableFooter}>
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>
-      {showPaginationControls && <PaginationControls pagingProps={paging} />}
-      <button onClick={() => table.setPageIndex(10000 / paging.itemsPerPage - 1)}> Click to go to data partition</button>
+      {showPaginationControls && <PaginationControls pagingProps={tablePagingProps} />}
     </div>
   );
 };

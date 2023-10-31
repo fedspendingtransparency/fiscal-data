@@ -205,6 +205,27 @@ const mockRevenueTrendsData = {
       record_date: '2015-06-30',
       record_fiscal_year: '2015',
     },
+    {
+      current_fytd_net_rcpt_amt: '22379494649.20',
+      record_calendar_month: '10',
+      record_calendar_year: '2014',
+      record_date: '2014-06-30',
+      record_fiscal_year: '2015',
+    },
+    {
+      current_fytd_net_rcpt_amt: '22379494649.20',
+      record_calendar_month: '09',
+      record_calendar_year: '2014',
+      record_date: '2014-06-30',
+      record_fiscal_year: '2014',
+    },
+    {
+      current_fytd_net_rcpt_amt: '22379494649.20',
+      record_calendar_month: '06',
+      record_calendar_year: '2009',
+      record_date: '2009-06-30',
+      record_fiscal_year: '2009',
+    },
   ],
 };
 

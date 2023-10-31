@@ -14,9 +14,7 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { reactTableDePaginatedDataState, reactTablePageState } from '../../../recoil/reactTableDataState';
+import { apiPrefix, basicFetch, buildSortParams, fetchAllPages, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 
 const TableSectionContainer = ({
   config,
@@ -24,8 +22,10 @@ const TableSectionContainer = ({
   selectedTable,
   apiData,
   apiError,
+  perPage,
   userFilterSelection,
   selectedPivot,
+  setPerPage,
   setSelectedPivot,
   serverSidePagination,
   isLoading,
@@ -50,84 +50,58 @@ const TableSectionContainer = ({
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  const [perPage, setPerPage] = useState(null);
+
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
-  const pageValue = useRecoilValue(reactTablePageState);
-  const [depaginatedDataState, setDepaginatedDataState] = useRecoilState(reactTableDePaginatedDataState);
-  const [totalCount, setTotalCount] = useState(0);
-  const [incrementValue1, setIncrementValue1] = useState(3);
-  const [incrementValue2, setIncrementValue2] = useState(4);
+  const [tableMeta, setTableMeta] = useState(null);
 
-  const getDepaginatedDataIncremental = async () => {
+  const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
     const sortParam = buildSortParams(selectedTable, selectedPivot);
-    const data = await basicFetch(
-      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-        `:lte:${to}&sort=${sortParam}`
-    ).then(async res => {
-      const rowCount = res.meta['total-count'];
-      if (rowCount > MAX_PAGE_SIZE) {
-        return await basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${incrementValue1}&page[size]=${5000}`
-        ).then(async page1res => {
-          const page2res = await basicFetch(
-            `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[number]=${incrementValue2}&page[size]=${5000}`
-          );
-          page1res.data = page1res.data.concat(page2res.data);
-          return page1res;
-        });
-      } else {
-        return await basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[size]=${rowCount}`
-        );
-      }
-    });
-    return data.data;
-  };
-
-  const getDepaginatedDataInitial = async () => {
-    const from = formatDateForApi(dateRange.from);
-    const to = formatDateForApi(dateRange.to);
-    const sortParam = buildSortParams(selectedTable, selectedPivot);
-
-    const data = await basicFetch(
+    let meta;
+    const res0 = await basicFetch(
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
         `:lte:${to}&sort=${sortParam}`
     ).then(async res => {
       const totalCount = res.meta['total-count'];
-      setTotalCount(Number(totalCount));
+      meta = res.meta;
       if (totalCount > MAX_PAGE_SIZE) {
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${5000}`
+            `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
         ).then(async page1res => {
           const page2res = await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${5000}`
+              `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
           );
           page1res.data = page1res.data.concat(page2res.data);
           return page1res;
         });
       } else {
+        //Todo: verify if this fetch is necessary
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
             `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
         );
       }
     });
-    return data;
+    setTableMeta(meta);
+    return res0;
   };
 
   useEffect(async () => {
-    setDepaginatedDataState(await getDepaginatedDataInitial());
+    const from = formatDateForApi(dateRange.from);
+    const to = formatDateForApi(dateRange.to);
+    const sortParam = buildSortParams(selectedTable, selectedPivot);
+    const data = await fetchAllPages(
+      `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}:lte:${to}&sort=${sortParam}`,
+      { isCanceled: false, abortController: { signal: null } }
+    );
+
   }, []);
 
-  const refreshTable = async depageData => {
+  const refreshTable = async () => {
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
@@ -141,7 +115,7 @@ const TableSectionContainer = ({
     }
 
     setTableProps({
-      dePaginated: selectedTable.isLargeDataset === true ? depageData : null,
+      dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
       hasPublishedReports,
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
@@ -182,35 +156,21 @@ const TableSectionContainer = ({
   useEffect(() => {
     // only refresh the table on date range changes if server side pagination is in effect
     // this hook is the culprit for the unneeded loading for react table.
-    if (serverSidePagination && depaginatedDataState) {
-      refreshTable(depaginatedDataState);
-    }
-    if (userFilterSelection) {
+    console.log('date range refresh');
+    if (serverSidePagination || userFilterSelection) {
+      console.log('date range refresh2');
       refreshTable();
     }
-  }, [dateRange, depaginatedDataState]);
-
-  useEffect(async () => {
-    if (depaginatedDataState) {
-      console.log(totalCount);
-      if (pageValue > depaginatedDataState.data.length / 10 - 1 && depaginatedDataState.data.length < totalCount) {
-        const appendedData = await getDepaginatedDataIncremental();
-        setDepaginatedDataState(prev => ({ ...prev, data: prev.data.concat(appendedData) }));
-        setIncrementValue1(prev => prev + 2);
-        setIncrementValue2(prev => prev + 2);
-      }
-    }
-  }, [pageValue]);
-
-  useEffect(() => {
-    console.log(depaginatedDataState);
-  }, [depaginatedDataState]);
+  }, [dateRange]);
 
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
   }, [selectedTable]);
 
+  useEffect(() => {
+    console.log(tableProps);
+  }, [tableProps]);
   const legendToggler = e => {
     if (e.key === undefined || e.key === 'Enter') {
       e.preventDefault();
@@ -305,7 +265,7 @@ const TableSectionContainer = ({
                   resetFilters={resetFilters}
                   setResetFilters={setResetFilters}
                   setFiltersActive={setFiltersActive}
-                  filtersActive={filtersActive}
+                  tableMeta={tableMeta}
                 />
               ) : (
                 ''

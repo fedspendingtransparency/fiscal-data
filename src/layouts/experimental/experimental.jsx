@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BarGraph from '../../components/charts/bar/bar';
 import LineGraphAnimation from './charts/lineGraphAnimation';
+import ReLineGraph from './charts/rechartLineGraph';
 import { staggeredData, uncompressedBarGraphData } from '../../components/charts/helpers/helpersData';
 import { reducer } from '../../components/charts/helpers/helpers';
 import SiteLayout from '../../components/siteLayout/siteLayout';
@@ -13,6 +14,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
 import { totalDebtData } from './experimental-helper';
 import DateRangeFilter from '../../components/data-table/data-table-header/date-range-filter/date-range-filter';
+import AnnouncementBanner from '../../components/announcement-banner/announcement-banner';
+import * as styles from '../../components/site-header/site-header.module.scss';
 
 const fallbackComponent = () => {
   return <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>;
@@ -85,6 +88,13 @@ const ExperimentalPage = () => {
 
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
+      <AnnouncementBanner>
+        <div className={styles.bannerHeading}> Content Temporarily Unavailable: </div>
+        <div className={styles.bannerContent}>
+          The Fiscal Data team is working diligently to address the current issue with this page. Please check back later or contact us{' '}
+          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov">via email</CustomLink> for further assistance. Thank you.
+        </div>
+      </AnnouncementBanner>
       <SiteLayout>
         <h2>FootNote Paragraph</h2>
         <p>
@@ -98,7 +108,7 @@ const ExperimentalPage = () => {
         <br />
         <br />
         <h3> ReCharts Line </h3>
-        <LineGraphAnimation />
+        <ReLineGraph />
         <h2>Basic Bar Graph, with labels visible on bars</h2>
         <BarGraph
           divClass={barDiv}
