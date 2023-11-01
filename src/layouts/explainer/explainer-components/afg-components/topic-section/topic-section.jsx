@@ -57,7 +57,6 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
       basicFetch(new ApiRequest(revenueRequest).getUrl()).then(res => {
         if (res.data && res.data.length > 0) {
           const data = res.data[0];
-          console.log(data);
           setFytdRevenue(getShortForm(data.current_fytd_net_rcpt_amt.toString(), false));
           if (data.record_calendar_month === '09') {
             setRevenueHas('collected');
@@ -298,9 +297,6 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
       linkUrl: '/americas-finance-guide/national-debt/',
       linkText: 'Learn more about national debt',
       eventNumber: '7',
-      image: '/topics-section-images/homepage_debt_1200x630.png',
-      imageAltText:
-        'A variety of hands reach up with objects, including a magnifying glass, a gold coin, a calculator, a pencil, a dollar bill, a clock, and a megaphone.',
     },
   ];
 

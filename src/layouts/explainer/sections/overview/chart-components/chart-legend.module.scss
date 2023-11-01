@@ -23,6 +23,12 @@
   display: inline-block;
   margin-right: .5rem;
 }
+.rectangle {
+  height: 1rem;
+  width: 6.5px;
+  display: inline-block;
+  margin-right: 5px;
+}
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .dotMobile {

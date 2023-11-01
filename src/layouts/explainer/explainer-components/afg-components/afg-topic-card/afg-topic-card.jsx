@@ -1,5 +1,4 @@
 import React from 'react';
-import { ChartPlaceholder } from '../../../explainer-helpers/national-deficit/national-deficit-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import { topicSection, link, topicHeading, textContainer, imageContainer, arrow } from './afg-topic-card.module.scss';
@@ -12,6 +11,7 @@ import HeaderChip from '../../../sections/overview/components/header-chip/header
 import { explainerAnalyticsLabelMap, explainerColorMap } from '../../../explainer-helpers/explainer-helpers';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
+import AFGDebtChart from '../../../sections/overview/debt-chart/debt-chart';
 
 const AfgTopicCard = ({
   heading,
@@ -46,8 +46,10 @@ const AfgTopicCard = ({
         return <AFGRevenueChart />;
       case 'federal-spending':
         return <AFGSpendingChart />;
+      case 'national-debt':
+        return <AFGDebtChart />;
       default:
-        return <ChartPlaceholder />;
+        return <div />;
     }
   };
 
