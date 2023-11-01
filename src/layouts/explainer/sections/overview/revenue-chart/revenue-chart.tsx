@@ -82,12 +82,12 @@ const AFGRevenueChart = (): ReactElement => {
   }, []);
 
   const ariaLabel =
-    'A graph demonstrating the cumulative spending by month of the United States government. A dark blue line represents the ' +
+    'A graph demonstrating the cumulative revenue by month of the United States government. A dark blue line represents the ' +
     'current cumulative revenue of FY ' +
     currentFY +
     ', a light blue line represents the cumulative revenue of the previous fiscal year ' +
     (currentFY - 1) +
-    ', and a dark brown line represents the 5-year average revenue from ' +
+    ', and a dark gray line represents the 5-year average revenue from ' +
     (currentFY - 6) +
     '-' +
     (currentFY - 2) +
