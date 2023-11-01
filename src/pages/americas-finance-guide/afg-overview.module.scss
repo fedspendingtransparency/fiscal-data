@@ -46,12 +46,24 @@ $dollarIconBackgroundColor: #f1f1f1;
 
 .quoteContainer {
   max-width: 100%;
+  max-height: 300px;
   margin-top: 0.5rem;
   background-image: url('../../../static/images/constitution-background.png');
   background-size: cover;
 
   .quoteGrid {
-    margin: 0 auto !important;
+    //margin: 0 auto !important;
+    //padding-top: 0.87rem;
+  }
+
+  // .quoteContainerQuote {
+  //   color: red;
+  //   // align-self: flex-end; // flex includes the treasury seal
+  // }
+
+  .quoteContainerImg {
+    height: 16.75rem;
+    overflow: hidden;
   }
 
   .quoteIcon {
