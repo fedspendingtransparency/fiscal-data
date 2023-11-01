@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import ApiQuickGuide from './api-quick-guide';
 import { selectedTable } from './test-helpers/test-helpers';
 import React from 'react';
+import { RecoilRoot } from 'recoil';
 
 describe('API Quick Guide Tab Index', () => {
   const config = {
@@ -36,7 +37,12 @@ describe('API Quick Guide Tab Index', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     ReactTestUtils.act(() => {
-      ReactDom.render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, container);
+      ReactDom.render(
+        <RecoilRoot>
+          <ApiQuickGuide config={config} selectedTable={selectedTable} />
+        </RecoilRoot>,
+        container
+      );
       jest.runAllTimers();
     });
     const collapse = document.querySelector('#api-quick-guide-expandable');

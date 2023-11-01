@@ -17,8 +17,7 @@ import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
 import * as helpers from './dtg-table-helper';
 import userEvent from '@testing-library/user-event';
-
-const defaultRowsPer = 5;
+import { RecoilRoot } from 'recoil';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -27,7 +26,11 @@ describe('DTG table component', () => {
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(<DtgTable tableProps={{ data: TestData }} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: TestData }} />
+      </RecoilRoot>
+    );
   });
   const instance = component.root;
 
@@ -44,7 +47,11 @@ describe('DTG table component', () => {
   });
 
   it('does not blow up when a column config is not provided', () => {
-    const liteComponent = renderer.create(<DtgTable tableProps={{ data: TestData }} />);
+    const liteComponent = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: TestData }} />
+      </RecoilRoot>
+    );
     const liteInstance = liteComponent.root;
 
     expect(liteInstance.findByType('thead')).toBeDefined();
@@ -54,14 +61,22 @@ describe('DTG table component', () => {
   });
   it('caption is added to table when provided in config', () => {
     const testCaption = 'Test Caption Value';
-    const captionComponent = renderer.create(<DtgTable tableProps={{ data: TestDataOneRow, caption: testCaption }} />);
+    const captionComponent = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: TestDataOneRow, caption: testCaption }} />
+      </RecoilRoot>
+    );
     const captionInstance = captionComponent.root;
     expect(captionInstance.findByType('table').findAllByType('caption')[0]).toBeDefined();
     expect(captionInstance.findByType('caption').props.children).toMatch(testCaption);
   });
 
   it('does not blow up when there is no data in a table', () => {
-    const noDataComponent = renderer.create(<DtgTable tableProps={{}} />);
+    const noDataComponent = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{}} />
+      </RecoilRoot>
+    );
     const noDataInstance = noDataComponent.root;
 
     expect(noDataInstance);
@@ -75,7 +90,11 @@ describe('DTG table component', () => {
     const width = 2000;
 
     renderer.act(() => {
-      component.update(<DtgTable tableProps={{ data: TestData, width }} />);
+      component.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData, width }} />
+        </RecoilRoot>
+      );
     });
 
     expect(instance.findByType('table').props.style.width).toBe(`${width}px`);
@@ -87,7 +106,11 @@ describe('DTG table component', () => {
     expect(table.children[0].children.filter(e => e.props.className.includes('noBorder')).length).toEqual(0);
 
     renderer.act(() => {
-      component.update(<DtgTable tableProps={{ data: TestData, noBorder: true }} />);
+      component.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData, noBorder: true }} />
+        </RecoilRoot>
+      );
     });
 
     const updatedJSON = component.toJSON();
@@ -107,7 +130,11 @@ describe('DTG table component', () => {
     const perPage = 3;
     const newComponent = renderer.create();
     renderer.act(() => {
-      newComponent.update(<DtgTable tableProps={{ data: TestData }} perPage={perPage} />);
+      newComponent.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData }} perPage={perPage} />
+        </RecoilRoot>
+      );
     });
 
     const updated = newComponent.root;
@@ -117,14 +144,18 @@ describe('DTG table component', () => {
   it('renders the defaultRowsPer if shouldPage === true but perPage is not specified and shows range of rows showing out of total number of rows with correct default itemsPerPage', () => {
     const newComponent = renderer.create();
     renderer.act(() => {
-      newComponent.update(<DtgTable tableProps={{ data: TestData, shouldPage: true }} />);
+      newComponent.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData, shouldPage: true }} />
+        </RecoilRoot>
+      );
     });
 
     const updated = newComponent.root;
-    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(defaultRowsPer);
+    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(7);
     const maxRows = TestData.length;
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch(`Showing 1 - 5 rows of ${maxRows} rows`);
+    expect(rowsShowing.props.children).toMatch(`Showing 1 - 7 rows of ${maxRows} rows`);
   });
 
   it('sets a timer for the loading indicator', async () => {
@@ -132,7 +163,11 @@ describe('DTG table component', () => {
     spy.mockClear();
     let newComponent = renderer.create();
     renderer.act(() => {
-      newComponent = renderer.create(<DtgTable tableProps={mockPaginatedTableProps} />);
+      newComponent = renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} />
+        </RecoilRoot>
+      );
     });
 
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
@@ -144,12 +179,14 @@ describe('DTG table component', () => {
     const newComponent = renderer.create();
     renderer.act(() => {
       newComponent.update(
-        <DtgTable
-          tableProps={{
-            data: TestData,
-            aria: aria,
-          }}
-        />
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              data: TestData,
+              aria: aria,
+            }}
+          />
+        </RecoilRoot>
       );
     });
     const updated = newComponent.root;
@@ -160,7 +197,11 @@ describe('DTG table component', () => {
   it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
     const newComponent = renderer.create();
     renderer.act(() => {
-      newComponent.update(<DtgTable tableProps={{ data: TestData, shouldPage: true }} />);
+      newComponent.update(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: TestData, shouldPage: true }} />
+        </RecoilRoot>
+      );
     });
     const updated = newComponent.root;
     expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
@@ -172,13 +213,17 @@ describe('DTG table component', () => {
 
     let newComponent = renderer.create();
     await renderer.act(async () => {
-      newComponent = await renderer.create(<DtgTable tableProps={mockPaginatedTableProps} />);
+      newComponent = await renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} />
+        </RecoilRoot>
+      );
       jest.runAllTimers();
     });
     const updated = newComponent.root;
     expect(requestSpy).toBeCalled();
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch('Showing 1 - 5 rows of 6 rows');
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 6 rows of 6 rows');
     expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
     requestSpy.mockClear();
   });
@@ -189,14 +234,18 @@ describe('DTG table component', () => {
 
     let newComponent = renderer.create();
     await renderer.act(async () => {
-      newComponent = await renderer.create(<DtgTable tableProps={mockPaginatedTableProps} />);
+      newComponent = await renderer.create(
+        <RecoilRoot>
+          <DtgTable tableProps={mockPaginatedTableProps} />
+        </RecoilRoot>
+      );
       jest.runAllTimers();
     });
     const updated = newComponent.root;
     expect(requestSpy).toBeCalled();
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
     expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
-    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(0);
+    expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
     requestSpy.mockClear();
   });
 });
@@ -204,13 +253,17 @@ describe('DTG table component', () => {
 describe('DtgTable component - API Error', () => {
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(<DtgTable tableProps={{ data: TestData, apiError: 'Error', shouldPage: true }} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: TestData, apiError: 'Error', shouldPage: true }} />{' '}
+      </RecoilRoot>
+    );
   });
   const componentJSON = component.toJSON();
-  const footer = componentJSON.children.find(e => e.props['data-test-id'] === 'table-footer');
+  const footer = componentJSON[0].children.find(e => e.props['data-test-id'] === 'table-footer');
 
   it('shows an apiError message when apiError exists', () => {
-    const table = componentJSON.children.find(e => e.props['data-test-id'] === 'table-content');
+    const table = componentJSON[0].children.find(e => e.props['data-test-id'] === 'table-content');
     expect(table.children.filter(e => e.props['data-test-id'] === 'api-error').length).toEqual(1);
   });
 
@@ -227,7 +280,11 @@ describe('DtgTable component - API Error', () => {
 describe('DtgTable component with shouldPage property and tableData with only one row', () => {
   let component19 = renderer.create();
   renderer.act(() => {
-    component19 = renderer.create(<DtgTable tableProps={{ data: TestDataOneRow, shouldPage: true }} />);
+    component19 = renderer.create(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: TestDataOneRow, shouldPage: true }} />
+      </RecoilRoot>
+    );
   });
   const instance19 = component19.root;
 
@@ -239,7 +296,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
   });
 
   it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
-    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(0);
+    expect(instance19.findAllByType(PaginationControls).length).toStrictEqual(1);
   });
 });
 
@@ -249,29 +306,37 @@ describe('DtgTable component - Select Columns', () => {
 
   it('displays the select columns menu', () => {
     const { getByText } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     expect(getByText('Visible Columns')).toBeInTheDocument();
   });
 
   it('does not displays the select columns menu when no select column', () => {
-    const { queryByText } = render(<DtgTable tableProps={{ data: ColSelectTestData }} />);
+    const { queryByText } = render(
+      <RecoilRoot>
+        <DtgTable tableProps={{ data: ColSelectTestData }} />
+      </RecoilRoot>
+    );
 
     expect(queryByText('Visible Columns')).not.toBeInTheDocument();
   });
 
   it('displays the default active columns and content', () => {
     const { getByText, queryByText, getByRole } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     expect(getByText(ColSelectTestData[0].date)).toBeInTheDocument();
@@ -293,11 +358,13 @@ describe('DtgTable component - Select Columns', () => {
 
   it('should display 10 rows by default when dataset has selected columns enabled', () => {
     const { getAllByRole } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestDataRowCount, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestDataRowCount, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     const rowCount = 10;
@@ -308,11 +375,13 @@ describe('DtgTable component - Select Columns', () => {
 
   it('should close the side panel when x is clicked', async () => {
     const { getByRole, getByText, queryByText } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     const closeButton = getByRole('button', { name: 'Close select control panel' });
@@ -326,11 +395,13 @@ describe('DtgTable component - Select Columns', () => {
 
   it('should display all columns when select all', async () => {
     const { getByRole, getByText } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     const selectAllButton = getByRole('checkbox', { name: 'Select All' });
@@ -350,11 +421,13 @@ describe('DtgTable component - Select Columns', () => {
 
   it('should display zero columns when select all has been deselected', async () => {
     const { getByRole, getByText, queryByText } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     const selectAllButton = getByRole('checkbox', { name: 'Select All' });
@@ -387,11 +460,13 @@ describe('DtgTable component - Select Columns', () => {
 
   it('should display selected columns when changed from default', async () => {
     const { getByText, getByRole, queryByText } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     // Data column checkbox
@@ -417,11 +492,13 @@ describe('DtgTable component - Select Columns', () => {
 
   it('should display default columns when reset button clicked', () => {
     const { getByRole } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     // default options
@@ -448,11 +525,13 @@ describe('DtgTable component - Select Columns', () => {
 
   it('should display all columns when select all, reset then select all again', () => {
     const { getByRole, getByText } = render(
-      <DtgTable
-        tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
-        selectColumnPanel={selectColumnPanel}
-        setSelectColumnPanel={setSelectColumnPanelMock}
-      />
+      <RecoilRoot>
+        <DtgTable
+          tableProps={{ data: ColSelectTestData, columnConfig: ColSelectColConfig, selectColumns: DefaultColSelectTestColumns }}
+          selectColumnPanel={selectColumnPanel}
+          setSelectColumnPanel={setSelectColumnPanelMock}
+        />
+      </RecoilRoot>
     );
 
     // default options
