@@ -9,6 +9,7 @@ import {
   rightAlignText,
   sortArrow,
   sortArrowPill,
+  noFilter,
 } from './data-table-header.module.scss';
 import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +19,7 @@ import { rightAlign, getColumnFilter } from '../data-table-helper';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
+import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
 
 interface IDataTableHeader {
   table: Table<any>;
@@ -29,7 +31,6 @@ interface IDataTableHeader {
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive, maxRows }) => {
   const [allActiveFilters, setAllActiveFilters] = useState([]);
-
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
@@ -72,6 +73,10 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
         return (
           <tr key={headerGroup.id} data-testid="header-row">
             {headerGroup.headers.map(header => {
+              const displayTextFilters = maxRows <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
+              const columnDataType = dataTypes[header.id];
+              const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
+              const displayFilterStyle = !displayTextFilters && columnDataType !== 'DATE' ? noFilter : null;
               return (
                 <th
                   key={header.id}
@@ -83,7 +88,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                   {header.isPlaceholder ? null : (
                     <>
                       <div
-                        className={header.column.getCanSort() ? `${colHeader} ${rightAlign(dataTypes[header.id]) ? rightAlignText : null}` : ''}
+                        className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle} ${displayFilterStyle}` : ''}
                         data-testid={`header-sorter-${header.id}`}
                       >
                         <LightTooltip title={header.column.columnDef.header} placement="bottom-start">
@@ -131,12 +136,12 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes
                       <div className={columnMinWidth}>
                         {getColumnFilter(
                           header,
-                          dataTypes[header.id],
+                          columnDataType,
                           resetFilters,
                           setFiltersActive,
                           allActiveFilters,
                           setAllActiveFilters,
-                          maxRows
+                          displayTextFilters
                         )}
                       </div>
                     </>

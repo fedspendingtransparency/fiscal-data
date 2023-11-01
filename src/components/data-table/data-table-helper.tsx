@@ -127,8 +127,8 @@ export const getColumnFilter: (
   setFiltersActive: (val: boolean) => void,
   allActiveFilters: string[],
   setAllActiveFilters: (val: string[]) => void,
-  maxRows: number
-) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters, maxRows) => {
+  displayTextFilters: boolean
+) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters, displayTextFilters) => {
   if (type === 'DATE') {
     return (
       <DateRangeFilter
@@ -138,7 +138,7 @@ export const getColumnFilter: (
         setAllActiveFilters={setAllActiveFilters}
       />
     );
-  } else if (maxRows <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+  } else if (displayTextFilters) {
     return (
       <TextFilter
         column={header.column}
