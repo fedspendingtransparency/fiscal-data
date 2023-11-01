@@ -155,9 +155,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     // only refresh the table on date range changes if server side pagination is in effect
     // this hook is the culprit for the unneeded loading for react table.
-    console.log('date range refresh');
     if (serverSidePagination || userFilterSelection) {
-      console.log('date range refresh2');
       refreshTable();
     }
   }, [dateRange]);
@@ -167,9 +165,6 @@ const TableSectionContainer = ({
     setHasPivotOptions(hasPivotOptions);
   }, [selectedTable]);
 
-  useEffect(() => {
-    console.log(tableProps);
-  }, [tableProps]);
   const legendToggler = e => {
     if (e.key === undefined || e.key === 'Enter') {
       e.preventDefault();
