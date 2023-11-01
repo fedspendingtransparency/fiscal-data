@@ -10,7 +10,7 @@ import {
   heroHeadText,
   heroIcon,
   heroInfoContainer,
-  heroContextContainer,
+  heroContextContainer
 } from './afg-hero.module.scss';
 
 export default function AfgHero() {
