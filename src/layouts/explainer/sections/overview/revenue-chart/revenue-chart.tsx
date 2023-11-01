@@ -9,8 +9,10 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { monthNames } from '../../../../../utils/api-utils';
 import ChartLegend from '../chart-components/chart-legend';
 import { monthAxisFormatter, trillionAxisFormatter } from '../chart-helper';
+import { useIsMounted } from '../../../../../utils/useIsMounted';
 
 const AFGRevenueChart = (): ReactElement => {
+  const isMounted = useIsMounted();
   const endpointUrl = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const [finalChartData, setFinalChartData] = useState(null);
   const [isLoading, setLoading] = useState(false);
@@ -32,7 +34,7 @@ const AFGRevenueChart = (): ReactElement => {
     await basicFetch(`${apiPrefix}${endpointUrl}`)?.then(async res => {
       if (res.data) {
         curFY = parseFloat(res.data[0].record_fiscal_year);
-        setCurrentFY(curFY);
+        if (isMounted.current) setCurrentFY(curFY);
         priorFY = curFY - 1;
         fiveYrAvgMin = curFY - 6;
         fiveYrAvgMax = curFY - 2;
@@ -68,15 +70,15 @@ const AFGRevenueChart = (): ReactElement => {
         }
       }
     });
-    setLegend(legendItems);
+    if (isMounted.current) setLegend(legendItems);
     return chartData;
   };
 
   useEffect(() => {
     if (!finalChartData) {
       getChartData().then(res => {
-        setFinalChartData(res);
-        setLoading(false);
+        if (isMounted.current) setFinalChartData(res);
+        if (isMounted.current) setLoading(false);
       });
     }
   }, []);

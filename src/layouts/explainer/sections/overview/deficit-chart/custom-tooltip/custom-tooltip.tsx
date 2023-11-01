@@ -7,7 +7,7 @@ interface ICustomTooltip {
   label?: string;
   payload?;
   setFocused: (value: number) => void;
-  labelByYear: boolean;
+  labelByYear?: boolean;
 }
 
 const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused, labelByYear }) => {
