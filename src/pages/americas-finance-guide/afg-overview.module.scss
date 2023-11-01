@@ -52,6 +52,7 @@ $dollarIconBackgroundColor: #f1f1f1;
   background-size: cover;
 
   .quoteGrid {
+    //max-width: $explainer-page-width;
     //margin: 0 auto !important;
     //padding-top: 0.87rem;
   }
@@ -64,11 +65,19 @@ $dollarIconBackgroundColor: #f1f1f1;
   .quoteContainerImg {
     height: 16.75rem;
     overflow: hidden;
+
+    .treasuryReportImg {
+      position: relative;
+      float: right;
+    }
   }
 
   .quoteIcon {
     font-size: 4rem;
     transform: scale(-1, 1);
+    // left: 3.5rem;
+    // position: relative;
+    //float: left;
   }
 
   .quote {
