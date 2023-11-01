@@ -10,8 +10,10 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Toolti
 import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../deficit-chart/custom-tooltip/custom-tooltip';
+import { useIsMounted } from '../../../../../utils/useIsMounted';
 
 const AFGDebtChart = (): ReactElement => {
+  const isMounted = useIsMounted();
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
@@ -72,7 +74,7 @@ const AFGDebtChart = (): ReactElement => {
     await basicFetch(`${apiPrefix}${deficitEndpointUrl}`).then(async deficitRes => {
       if (deficitRes) {
         curFY = deficitRes.data[0].record_fiscal_year;
-        setCurrentFY(curFY);
+        if (isMounted.current) setCurrentFY(curFY);
         await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async debtRes => {
           if (debtRes) {
             const debtData = debtRes.data;
@@ -131,15 +133,14 @@ const AFGDebtChart = (): ReactElement => {
         });
       }
     });
-
     return chart_data;
   };
 
   useEffect(() => {
     if (!finalChartData) {
       getChartData().then(res => {
-        setFinalChartData(res);
-        setLoading(false);
+        if (isMounted.current) setFinalChartData(res);
+        if (isMounted.current) setLoading(false);
       });
     }
   }, []);
