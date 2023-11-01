@@ -229,7 +229,7 @@ export default function DtgTable({
     setRows(tableRows);
   };
 
-  const isPaginationControlNeeded = () => currentPage > 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
+  const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
 
   const updateSmallFractionDataType = () => {
     //Overwrite type for special case number format handling
