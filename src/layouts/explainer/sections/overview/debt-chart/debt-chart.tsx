@@ -14,7 +14,6 @@ const AFGDebtChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
-  // const [legendItems, setLegendItems] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
   const debtEndpointUrl = '/v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding&sort=-record_date';
@@ -176,7 +175,7 @@ const AFGDebtChart = (): ReactElement => {
                   tickLine={false}
                   allowDecimals={false}
                   tickCount={tickCountXAxis}
-                  domain={[0, 40]}
+                  ticks={[0, 10, 20, 30, 40]}
                 />
                 <YAxis
                   dataKey="year"
