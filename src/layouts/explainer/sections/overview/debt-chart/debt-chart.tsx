@@ -64,6 +64,7 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const getChartData = async () => {
+    console.log('**************************');
     const chart_data = [];
     let curFY;
     await basicFetch(`${apiPrefix}${deficitEndpointUrl}`).then(async deficitRes => {
@@ -88,7 +89,11 @@ const AFGDebtChart = (): ReactElement => {
               ...deficitData.filter(x => x.record_calendar_month === '09' && x.record_fiscal_year >= curFY - 4 && x.record_fiscal_year < curFY),
             ];
             yearlyDebtData.forEach(year => {
-              let debtVal = year.total_mil_amt * 1000000;
+              let deficitVal = Math.abs(
+                yearlyDeficitData.filter(x => x.record_fiscal_year === year.record_fiscal_year)[0].current_fytd_net_outly_amt
+              );
+              let debtVal = year.total_mil_amt * 1000000 - deficitVal;
+              console.log(year.record_fiscal_year, debtVal, deficitVal, (deficitVal + debtVal) / 1e12);
               const bars = {};
               let index = 0;
               while (debtVal > 1e12) {
@@ -102,9 +107,6 @@ const AFGDebtChart = (): ReactElement => {
               bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
               bars[`debt${year.record_fiscal_year}${index}`] = remainingDebt * barSize;
               index++;
-              let deficitVal = Math.abs(
-                yearlyDeficitData.filter(x => x.record_fiscal_year === year.record_fiscal_year)[0].current_fytd_net_outly_amt
-              );
               bars[`deficit${year.record_fiscal_year}${index}`] = startingDeficit * barSize;
               bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 ? barGap * 2 : barGap;
               deficitVal = deficitVal - startingDeficit * 1e12;
