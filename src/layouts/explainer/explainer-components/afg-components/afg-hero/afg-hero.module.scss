@@ -18,12 +18,10 @@
   margin: 0 auto;
   height: 20.75rem;
   position: relative;
-  bottom: 2.5rem;
   .heroContextContainer{
     display: flex;
     justify-content: space-between;
     position: relative;
-    top: 2.5rem;
     box-sizing: border-box;
     padding-left: 24px;
     max-width: 62rem;
@@ -67,9 +65,6 @@
       position: relative;
       top: .75px;
     }
-
-  }
-  .imageContainer{
 
   }
   .heroLibertyImage {
