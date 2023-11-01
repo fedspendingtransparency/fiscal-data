@@ -316,6 +316,7 @@ describe('react-table', () => {
           shouldPage
           showPaginationControls
           setFiltersActive={jest.fn()}
+          maxRows={5}
         />
       </RecoilRoot>
     );

@@ -202,10 +202,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   });
 
-  // useEffect(() => {
-  //   console.log('React table data: ', rawData);
-  // }, [rawData]);
-
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
