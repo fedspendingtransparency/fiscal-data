@@ -14,6 +14,8 @@ import {
   spendingRequest,
 } from '../../../explainer-helpers/afg-overview-helpers';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import { breakpointLg } from '../../../../../variables.module.scss';
+import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 
 const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) => {
   const [fytdRevenue, setFytdRevenue] = useState('');
@@ -249,7 +251,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
       <p>
         The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for
         a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal
-        debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the US through {debtToPennyDate}{' '}
+        debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the U.S. through {debtToPennyDate}{' '}
         is ${debt}.
       </p>
       <p>
@@ -299,7 +301,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
   ];
 
   return (
-    <div data-testid="topic-section">
+    <div style={width < pxToNumber(breakpointLg) ? { paddingTop: '1.5rem' } : { paddingTop: '2rem' }} data-testid="topic-section">
       {topicSectionMap.map((section, index) => {
         return (
           <React.Fragment key={index}>

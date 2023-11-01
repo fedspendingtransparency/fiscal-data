@@ -18,7 +18,12 @@ $dollarIconBackgroundColor: #f1f1f1;
 
 .topContainer {
   max-width: 62rem;
-  overflow: hidden;
+}
+
+.socialShare {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0rem;
 }
 
 .debtText {
@@ -102,9 +107,12 @@ $dollarIconBackgroundColor: #f1f1f1;
   }
 }
 
-@media screen and (max-width: $breakpoint-lg) {
+@media screen and (max-width: $breakpoint-lg - 1) {
   .mainContainer {
     width: 100%;
+  }
+  .topContainer {
+    overflow: hidden;
   }
 
   .topContainer {

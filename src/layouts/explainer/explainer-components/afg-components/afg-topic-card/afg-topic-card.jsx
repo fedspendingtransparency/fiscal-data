@@ -41,7 +41,7 @@ const AfgTopicCard = ({
   const getChart = () => {
     switch (id) {
       case 'national-deficit':
-        return <AFGDefictChart />;
+        return <AFGDefictChart width={width} />;
       case 'government-revenue':
         return <AFGRevenueChart />;
       case 'federal-spending':
