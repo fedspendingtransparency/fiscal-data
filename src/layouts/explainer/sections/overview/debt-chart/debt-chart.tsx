@@ -6,9 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
+import CustomTooltip from '../deficit-chart/custom-tooltip/custom-tooltip';
 
 const AFGDebtChart = (): ReactElement => {
   const [focusedYear, setFocusedYear] = useState(null);
@@ -43,24 +44,26 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const generateBar = sortedData => {
-    return sortedData.map((dataObj, i) =>
-      Object.keys(dataObj)
+    return sortedData.map(yearlyData => {
+      const dataYear = yearlyData.year;
+      return Object.keys(yearlyData)
         .filter(propName => {
-          return propName !== 'year';
+          return propName !== 'year' && propName !== 'tooltip';
         })
         .map(valueName => {
           return (
             <Bar
               dataKey={valueName}
-              stackId="a"
+              stackId="debtBar"
               fill={mapBarColors(valueName)}
+              fillOpacity={focusedYear === dataYear || focusedYear === null ? 1 : 0.5}
               strokeWidth={0}
               name={valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : ''}
               barSize={16}
             />
           );
-        })
-    );
+        });
+    });
   };
 
   const getChartData = async () => {
@@ -93,6 +96,10 @@ const AFGDebtChart = (): ReactElement => {
               );
               let debtVal = year.total_mil_amt * 1000000 - deficitVal;
               const bars = {};
+              bars[`tooltip`] = [
+                { title: 'Debt', value: year.total_mil_amt * 1000000, color: debtExplainerPrimary },
+                { title: 'Deficit', value: deficitVal, color: deficitExplainerPrimary },
+              ];
               let index = 0;
               while (debtVal > 1e12) {
                 bars[`none${year.record_fiscal_year}${index}`] = index % 10 === 0 && index !== 0 ? barGap * 2 : barGap;
@@ -187,6 +194,7 @@ const AFGDebtChart = (): ReactElement => {
                   tickMargin={8}
                 />
                 {generateBar(finalChartData)}
+                <Tooltip content={<CustomTooltip setFocused={setFocusedYear} labelByYear />} cursor={{ fillOpacity: 0 }} shared={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
