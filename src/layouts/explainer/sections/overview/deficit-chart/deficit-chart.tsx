@@ -13,8 +13,10 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
 import { trillionAxisFormatter } from '../chart-helper';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
+import { useIsMounted } from '../../../../../utils/useIsMounted';
 
 const AFGDeficitChart = ({ width }): ReactElement => {
+  const isMounted = useIsMounted();
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();
   const [finalChartData, setFinalChartData] = useState(null);
@@ -84,7 +86,7 @@ const AFGDeficitChart = ({ width }): ReactElement => {
         { title: 'Revenue', color: revenueExplainerPrimary },
         { title: 'Deficit', color: deficitExplainerPrimary },
       ];
-      setLegendItems(surplusLegend ? [...legendBase, { title: 'Surplus', color: surplusPrimary }] : [...legendBase]);
+      if (isMounted.current) setLegendItems(surplusLegend ? [...legendBase, { title: 'Surplus', color: surplusPrimary }] : [...legendBase]);
       return chart_data;
     }
   };
@@ -92,8 +94,8 @@ const AFGDeficitChart = ({ width }): ReactElement => {
   useEffect(() => {
     if (!finalChartData && currentFY) {
       getChartData().then(res => {
-        setFinalChartData(res);
-        setLoading(false);
+        if (isMounted.current) setFinalChartData(res);
+        if (isMounted.current) setLoading(false);
       });
     }
   }, [currentFY]);
@@ -101,7 +103,7 @@ const AFGDeficitChart = ({ width }): ReactElement => {
   useEffect(() => {
     basicFetch(`${apiPrefix}${currentFYEndpointUrl}`).then(result => {
       if (result?.data) {
-        setCurrentFY(result.data[0].record_fiscal_year);
+        if (isMounted.current) setCurrentFY(result.data[0].record_fiscal_year);
       }
     });
   }, []);
