@@ -64,7 +64,6 @@ const AFGDebtChart = (): ReactElement => {
   };
 
   const getChartData = async () => {
-    console.log('**************************');
     const chart_data = [];
     let curFY;
     await basicFetch(`${apiPrefix}${deficitEndpointUrl}`).then(async deficitRes => {
@@ -93,7 +92,6 @@ const AFGDebtChart = (): ReactElement => {
                 yearlyDeficitData.filter(x => x.record_fiscal_year === year.record_fiscal_year)[0].current_fytd_net_outly_amt
               );
               let debtVal = year.total_mil_amt * 1000000 - deficitVal;
-              console.log(year.record_fiscal_year, debtVal, deficitVal, (deficitVal + debtVal) / 1e12);
               const bars = {};
               let index = 0;
               while (debtVal > 1e12) {
