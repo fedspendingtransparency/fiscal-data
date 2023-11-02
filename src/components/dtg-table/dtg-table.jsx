@@ -129,7 +129,6 @@ export default function DtgTable({
   };
 
   const getPagedData = resetPage => {
-    console.log('paged data call', resetPage);
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
     }
@@ -288,7 +287,6 @@ export default function DtgTable({
     setCurrentPage(1);
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
-    // console.log(ssp);
     ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
     return () => {
       loadCanceled = true;
