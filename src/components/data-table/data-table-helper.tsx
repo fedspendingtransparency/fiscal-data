@@ -104,6 +104,7 @@ export const columnsConstructorData = (rawData: Record<string, Record<string, un
           }
           return { accessorKey: field, header: label } as ColumnDef<string, string>;
         }
+        return null;
       });
   } else {
     return [];

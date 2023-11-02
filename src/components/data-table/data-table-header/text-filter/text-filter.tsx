@@ -3,7 +3,7 @@ import { Column } from '@tanstack/react-table';
 import SearchBar from '../../../search-bar/search-bar';
 
 interface ITextFilter {
-  column: Column<any, any>;
+  column: Column<unknown>;
   resetFilters: boolean;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;

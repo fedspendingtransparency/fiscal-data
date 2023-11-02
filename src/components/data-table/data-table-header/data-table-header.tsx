@@ -20,7 +20,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
 
 interface IDataTableHeader {
-  table: Table<any>;
+  table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;

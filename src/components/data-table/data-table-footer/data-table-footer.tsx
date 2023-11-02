@@ -5,7 +5,7 @@ import { Table } from '@tanstack/react-table';
 import { range } from '../data-table.module.scss';
 
 interface IDataTableFooter {
-  table: Table<any>;
+  table: Table<Record<string, unknown>>;
   showPaginationControls: boolean;
   pagingProps;
 }
