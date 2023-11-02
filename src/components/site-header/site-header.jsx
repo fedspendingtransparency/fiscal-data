@@ -15,7 +15,7 @@ import AnnouncementBanner from '../announcement-banner/announcement-banner';
 import { NOTIFICATION_BANNER_DISPLAY_PAGES, NOTIFICATION_BANNER_DISPLAY_PATHS } from 'gatsby-env-variables';
 import CustomLink from '../links/custom-link/custom-link';
 
-const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHandler }) => {
+const SiteHeader = ({ lowerEnvMsg, location }) => {
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -104,13 +104,7 @@ const SiteHeader = ({ lowerEnvMsg, location, glossaryEvent, glossaryClickEventHa
               setActiveDropdown={setActiveDropdown}
             />
           </div>
-          <Glossary
-            termList={glossaryData}
-            activeState={openGlossary}
-            setActiveState={setOpenGlossary}
-            glossaryEvent={glossaryEvent}
-            glossaryClickEventHandler={glossaryClickEventHandler}
-          />
+          <Glossary termList={glossaryData} activeState={openGlossary} setActiveState={setOpenGlossary} />
           <MobileMenu setOpenGlossary={setOpenGlossary} />
         </div>
         {lowerEnvMsg && (
