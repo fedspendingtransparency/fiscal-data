@@ -20,6 +20,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
 import Analytics from '../../../../utils/analytics/analytics';
+import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';
 
 export default function ExplainerSubNav({ hidePosition }) {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -48,8 +49,7 @@ export default function ExplainerSubNav({ hidePosition }) {
       action: `Sub Nav Click`,
       label: title,
     });
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
+    ga4DataLayerPush({
       event: 'Sub Nav Click',
       eventLabel: title,
     });

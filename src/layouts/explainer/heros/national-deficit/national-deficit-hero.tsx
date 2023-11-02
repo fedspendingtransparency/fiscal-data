@@ -80,7 +80,7 @@ const NationalDeficitHero = ({
 
   const mtsLink = (
     <CustomLink
-      url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays' + '-of-the-u-s-government'}
+      url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
       eventNumber="2"
       id="Monthly Treasury Statement"
     >
@@ -89,7 +89,7 @@ const NationalDeficitHero = ({
   );
 
   const fiscalYear = (
-    <GlossaryPopoverDefinition term={'fiscal year'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="fiscal year" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       fiscal year (FY)
     </GlossaryPopoverDefinition>
   );

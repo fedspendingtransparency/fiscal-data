@@ -17,6 +17,7 @@ import {
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 let timeOutId;
 
@@ -27,8 +28,7 @@ const XRAnalyticsHandler = (action, label) => {
       action: action,
       label: label,
     });
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
+    ga4DataLayerPush({
       event: action,
       eventLabel: label,
     });

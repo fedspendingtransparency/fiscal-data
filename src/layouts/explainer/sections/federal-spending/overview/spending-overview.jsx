@@ -56,7 +56,7 @@ export const SpendingOverview = ({ glossary, glossaryClickHandler }) => {
 
   useEffect(() => {
     const fields =
-      'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' + 'record_calendar_month,record_calendar_year,record_fiscal_year';
+      'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
     const filter = 'filter=line_code_nbr:eq:5691,record_calendar_month:eq:09';
     const sort = 'sort=-record_date';
     const pagination = 'page[size]=1';
