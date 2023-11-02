@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ChartLegend from '../chart-components/chart-legend';
 import { trillionAxisFormatter } from '../chart-helper';
+import { useIsMounted } from '../../../../../utils/useIsMounted';
 
 export const TickCount = props => {
   const { x, y, payload } = props;
@@ -21,6 +22,7 @@ export const TickCount = props => {
 };
 
 const AFGSpendingChart = () => {
+  const isMounted = useIsMounted();
   const endpointUrl = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
   const [isLoading, setLoading] = useState(true);
   const [currentFY, setCurrentFY] = useState();
@@ -37,7 +39,7 @@ const AFGSpendingChart = () => {
     await basicFetch(`${apiPrefix}${endpointUrl}`)?.then(async res => {
       if (res.data) {
         curFY = parseFloat(res.data[0].record_fiscal_year);
-        setCurrentFY(curFY);
+        if (isMounted.current) setCurrentFY(curFY);
         priorFY = curFY - 1;
         fiveYrAvgMin = curFY - 6;
         fiveYrAvgMax = curFY - 2;
@@ -73,7 +75,7 @@ const AFGSpendingChart = () => {
         }
       }
     });
-    setLegend(legendItems);
+    if (isMounted.current) setLegend(legendItems);
     return chartData;
   };
   const tickCountYAxis = 6;
@@ -81,8 +83,8 @@ const AFGSpendingChart = () => {
   useEffect(() => {
     if (!finalChartData) {
       getChartData().then(res => {
-        setFinalChartData(res);
-        setLoading(false);
+        if (isMounted.current) setFinalChartData(res);
+        if (isMounted.current) setLoading(false);
       });
     }
   }, []);

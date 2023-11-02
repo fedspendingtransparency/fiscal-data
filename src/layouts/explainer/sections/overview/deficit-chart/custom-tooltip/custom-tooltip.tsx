@@ -5,16 +5,18 @@ import { dot } from '../../chart-components/chart-legend.module.scss';
 
 interface ICustomTooltip {
   label?: string;
-  setFocused: (value: number) => void;
   payload?;
+  setFocused: (value: number) => void;
+  labelByYear?: boolean;
 }
 
-const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused }) => {
-  if (payload && payload.length && label) {
-    setFocused(payload[0].payload.year);
+const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused, labelByYear }) => {
+  if (payload && payload.length) {
+    const year = payload[0].payload.year;
+    setFocused(year);
     return (
       <div className={toolTip} data-testid="CustomTooltip">
-        <div className={tooltipLabel}>{label}</div>
+        <div className={tooltipLabel}>{labelByYear ? year : label}</div>
         <div>
           {payload[0].payload.tooltip?.map((row, index) => {
             return (
