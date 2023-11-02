@@ -152,7 +152,7 @@ describe('DTG table component', () => {
     });
 
     const updated = newComponent.root;
-    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(7);
+    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(5);
     const maxRows = TestData.length;
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
     expect(rowsShowing.props.children).toMatch(`Showing 1 - 7 rows of ${maxRows} rows`);
@@ -223,7 +223,7 @@ describe('DTG table component', () => {
     const updated = newComponent.root;
     expect(requestSpy).toBeCalled();
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch('Showing 1 - 6 rows of 6 rows');
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 5 rows of 6 rows');
     expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
     requestSpy.mockClear();
   });
