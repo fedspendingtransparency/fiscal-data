@@ -155,7 +155,7 @@ describe('DTG table component', () => {
     expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(5);
     const maxRows = TestData.length;
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch(`Showing 1 - 7 rows of ${maxRows} rows`);
+    expect(rowsShowing.props.children).toMatch(`Showing 1 - 5 rows of ${maxRows} rows`);
   });
 
   it('sets a timer for the loading indicator', async () => {

@@ -496,7 +496,7 @@ describe('DatasetData', () => {
     });
 
     jest.runAllTimers();
-
+    // TODO: Will revisit and update with react table pivot funcitonality
     // expect(tableSectionContainer.props.perPage).toBe(2);
   });
 
