@@ -44,7 +44,7 @@ export const filterUniqueValues: (arr: [], field: string) => any[] = (arr, field
   return arr.map(d => d[field]).filter((value, index, self) => self.indexOf(value) === index);
 };
 
-export const api120UniqueAggregation = d => {
+export const api120UniqueAggregation = (d: Record<string, string>): number => {
   const curMonthVal = Number(d.current_month_budget_amt);
   return d.classification_desc.toUpperCase() === 'TOTAL OUTLAYS' ? curMonthVal : -curMonthVal;
 };
