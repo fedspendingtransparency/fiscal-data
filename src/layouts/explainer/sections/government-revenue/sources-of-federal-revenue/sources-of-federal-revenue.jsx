@@ -16,9 +16,8 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
   const [ssPercent, setSSPercent] = useState('');
 
   useEffect(() => {
-    const endpointURL =
-      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,' + 'sequence_number_cd:eq:1.1&sort=-record_date&page%5bsize%5d=1';
-    const supplementaryEndpointURL = 'v1/accounting/mts/mts_table_9?' + 'filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
+    const endpointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page%5bsize%5d=1';
+    const supplementaryEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
     const socialSecurityEndpointURL = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:in:(50,60,70)&sort=-record_date&page[size]=3';
     basicFetch(`${apiPrefix}${endpointURL}`).then(res => {
       if (res.data[0]) {

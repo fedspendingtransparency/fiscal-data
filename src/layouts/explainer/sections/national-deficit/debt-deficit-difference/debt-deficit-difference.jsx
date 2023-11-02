@@ -36,6 +36,7 @@ export const DebtDeficitDifference = ({ width, glossary, glossaryClickHandler })
         <p>
           To pay for a deficit, the federal government borrows money by selling Treasury {bonds}, {bills}, and other securities. The national debt is
           the accumulation of this borrowing along with associated interest owed to the investors who purchased these securities. As the federal
+          {/* eslint-disable-next-line max-len */}
           government experiences reoccurring deficits, which are common, the national debt grows. To learn more about the national debt, visit the{' '}
           {nationalDebtLink}.
         </p>

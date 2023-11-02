@@ -16,12 +16,11 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
   const [revenueTag, setRevenueTag] = useState('');
   const [highestCollectionYear, setHighestCollectionYear] = useState('');
   useEffect(() => {
-    const endpointURLFirst =
-      'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,' + 'record_calendar_month:eq:09&sort=record_date&page[size]=1';
+    const endpointURLFirst = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date&page[size]=1';
     basicFetch(`${apiPrefix}${endpointURLFirst}`).then(res => {
       if (res.data[0]) {
         const endpointURLLast =
-          'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,' + 'record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+          'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
         basicFetch(`${apiPrefix}${endpointURLLast}`).then(resLast => {
           if (resLast.data[0]) {
             let concatData = res.data.concat(resLast.data);

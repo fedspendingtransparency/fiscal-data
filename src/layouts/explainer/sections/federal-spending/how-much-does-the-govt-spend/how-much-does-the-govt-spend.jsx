@@ -93,9 +93,7 @@ const HowMuchDoesTheGovtSpend = () => {
   };
   const getChartData = () => {
     Promise.all([
-      basicFetch(
-        apiPrefix + 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F' + '&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19'
-      ),
+      basicFetch(apiPrefix + 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19'),
       basicFetch(
         apiPrefix +
           'v1/accounting/mts/mts_table_5?filter=data_type_cd:eq:T,' +

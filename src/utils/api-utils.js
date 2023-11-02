@@ -56,7 +56,7 @@ export const fetchHighlights = (endpoint, filters, fields, dateField, limit, sor
   const filterString = filters && Object.keys(filters).length ? `&filter=${serializeFilters(filters)}` : '';
   const fieldsString = fields !== undefined ? `fields=${fields.join()}${!doNotAddDateFieldToFields ? `,${dateField}` : ''}` : '';
   const sortsString = `sort=${sorts !== undefined ? `${sorts.join(',')}` : `-${dateField}`}`;
-  const url = `${apiPrefix}${endpoint}?format=json${filterString}&${fieldsString}&${sortsString}` + `&page[size]=${limit}`;
+  const url = `${apiPrefix}${endpoint}?format=json${filterString}&${fieldsString}&${sortsString}&page[size]=${limit}`;
   return fetch_retry(url, 3).then(response => response.json());
 };
 
@@ -145,7 +145,7 @@ export const datatableRequest = async (table, dateRange, selectedPivot, canceled
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
-        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}` + `:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
+        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}&sort=${sortParamValue}`;
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;
@@ -477,8 +477,8 @@ export const serializeFilters = filters => {
   filters.forEach(filter => {
     param = param !== '' ? (param += ',') : param;
     if (filter.operator === 'between') {
-      param += `${filter.key}:${filter.range.low.inclusive ? 'gte' : 'gt'}` + `:${filter.range.low.value}`;
-      param += `,${filter.key}:${filter.range.high.inclusive ? 'lte' : 'lt'}` + `:${filter.range.high.value}`;
+      param += `${filter.key}:${filter.range.low.inclusive ? 'gte' : 'gt'}:${filter.range.low.value}`;
+      param += `,${filter.key}:${filter.range.high.inclusive ? 'lte' : 'lt'}:${filter.range.high.value}`;
     } else if (filter.operator === 'mostRecentDatePeriod') {
       const currentDate = new Date(Date.now());
       let startDate;

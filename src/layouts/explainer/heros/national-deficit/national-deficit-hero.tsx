@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { counterSourceInfo, footNotes, deficitBoxContainer, heroImageSubHeading, deficit } from '../../hero-image/hero-image.module.scss';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
@@ -6,10 +6,17 @@ import SplitFlapDisplay from '../../../../components/split-flap-display/split-fl
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { getFootNotesDateRange, getPillData } from '../hero-helper';
 import { getShortForm } from '../../../../utils/rounding-utils';
+import { IGlossaryTerm } from '../../../../models/IGlossaryTerm';
 
-const NationalDeficitHero = ({ glossary, glossaryClickHandler }): JSX.Element => {
+const NationalDeficitHero = ({
+  glossary,
+  glossaryClickHandler,
+}: {
+  glossary: IGlossaryTerm[];
+  glossaryClickHandler: (value: boolean) => void;
+}): ReactElement => {
   const fields: string =
-    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' + 'record_calendar_month,record_calendar_year,record_fiscal_year';
+    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
   const sort: string = 'sort=-record_date';
   const filter: string = 'filter=line_code_nbr:eq:5694';
   const pagination: string = 'page[size]=13';

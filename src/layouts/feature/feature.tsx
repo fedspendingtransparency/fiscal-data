@@ -108,7 +108,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data, pageContext }) => 
               'each browsing on laptop computers.'
             }
             style={{ backgroundImage: `url(${frontMatter.heroImagePath})` }}
-          ></div>
+          />
           <FDGMdxProvider>
             <MDXProvider components={featuresComponents}>
               <MDXRenderer children={post.body} />

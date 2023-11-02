@@ -1,6 +1,5 @@
 import { getMonth, getYear, lastDayOfMonth } from 'date-fns';
 import { convertDate } from '../dataset-data/dataset-data-helper/dataset-data-helper';
-import { ENV_ID } from 'gatsby-env-variables';
 
 const primaryColor = 'rgb(1, 118, 198)';
 const negativeColor = 'rgb(242, 108, 98)';

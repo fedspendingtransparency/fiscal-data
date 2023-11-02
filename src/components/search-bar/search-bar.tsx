@@ -5,9 +5,22 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import React, { FunctionComponent } from 'react';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-const SearchBar = ({ label, onChange, onBlur, filter, handleClear, active, setActive, inputRef, width, height }) => {
+interface ISearchBar {
+  label?: string;
+  onChange: (event) => void;
+  onBlur?: () => void;
+  filter: string;
+  handleClear: () => void;
+  active: boolean;
+  setActive: (value: boolean) => void;
+  inputRef?;
+  width?: string;
+  height?: string;
+}
+const SearchBar: FunctionComponent<ISearchBar> = ({ label, onChange, onBlur, filter, handleClear, active, setActive, inputRef, width, height }) => {
   let searchCleared = false;
 
   const clearBox = e => {
@@ -41,7 +54,7 @@ const SearchBar = ({ label, onChange, onBlur, filter, handleClear, active, setAc
   const icon =
     filter?.length > 0 && handleClear ? (
       <FontAwesomeIcon
-        icon={faTimesCircle}
+        icon={faTimesCircle as IconProp}
         className={`${searchIcon} ${searchIconHover}`}
         role="button"
         onClick={clearBox}
@@ -51,7 +64,7 @@ const SearchBar = ({ label, onChange, onBlur, filter, handleClear, active, setAc
         border
       />
     ) : (
-      <FontAwesomeIcon icon={faMagnifyingGlass} className={searchIcon} />
+      <FontAwesomeIcon icon={faMagnifyingGlass as IconProp} className={searchIcon} />
     );
 
   return (

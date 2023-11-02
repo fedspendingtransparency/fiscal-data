@@ -15,7 +15,7 @@ import { trillionAxisFormatter } from '../chart-helper';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
 
-const AFGDeficitChart = ({ width }): ReactElement => {
+const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const isMounted = useIsMounted();
   const [focusedYear, setFocusedYear] = useState(null);
   const [currentFY, setCurrentFY] = useState();

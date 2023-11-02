@@ -78,7 +78,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
 
   const chartCopy = {
     title: 'U.S. Deficit Compared to Revenue and Spending, FY ',
-    altText: 'Bar chart comparing the differences between the U.S. government’s spending and ' + 'revenue, resulting in a deficit for FY ',
+    altText: 'Bar chart comparing the differences between the U.S. government’s spending and revenue, resulting in a deficit for FY ',
     footer: footer,
   };
 
