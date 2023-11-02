@@ -19,7 +19,7 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState, reactTableFilteredState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
 
-const defaultRowsPerPage = 10;
+const defaultRowsPerPage = 5;
 const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({
@@ -129,6 +129,7 @@ export default function DtgTable({
   };
 
   const getPagedData = resetPage => {
+    console.log('paged data call', resetPage);
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
     }
@@ -287,6 +288,7 @@ export default function DtgTable({
     setCurrentPage(1);
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
+    // console.log(ssp);
     ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
     return () => {
       loadCanceled = true;
@@ -296,7 +298,7 @@ export default function DtgTable({
   useEffect(() => {
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null && selectedTable.rowCount > 20000 ? getPagedData(false) : getCurrentData();
+    ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
     return () => {
       loadCanceled = true;
     };
