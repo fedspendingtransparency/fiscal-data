@@ -58,6 +58,54 @@ const mockTableData = {
       mock_small_fraction: '0.00067898',
       mock_percent: '2',
     },
+    {
+      record_date: '2023-07-09',
+      debt_held_public_amt: '25588803096223.83',
+      intragov_hold_amt: '6892303235964.87',
+      tot_pub_debt_out_amt: '32481106332188.70',
+      src_line_nbr: '1',
+      record_fiscal_year: '2023',
+      record_fiscal_quarter: '4',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '3',
+      record_calendar_month: '07',
+      record_calendar_day: '10',
+      mock_percent_string: '65%',
+      mock_small_fraction: '0.00067898',
+      mock_percent: '2',
+    },
+    {
+      record_date: '2023-07-08',
+      debt_held_public_amt: '25588803096223.83',
+      intragov_hold_amt: '6892303235964.87',
+      tot_pub_debt_out_amt: '32481106332188.70',
+      src_line_nbr: '1',
+      record_fiscal_year: '2023',
+      record_fiscal_quarter: '4',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '3',
+      record_calendar_month: '07',
+      record_calendar_day: '10',
+      mock_percent_string: '65%',
+      mock_small_fraction: '0.00067898',
+      mock_percent: '2',
+    },
+    {
+      record_date: '2023-07-07',
+      debt_held_public_amt: '25588803096223.83',
+      intragov_hold_amt: '6892303235964.87',
+      tot_pub_debt_out_amt: '32481106332188.70',
+      src_line_nbr: '1',
+      record_fiscal_year: '2023',
+      record_fiscal_quarter: '4',
+      record_calendar_year: '2023',
+      record_calendar_quarter: '3',
+      record_calendar_month: '07',
+      record_calendar_day: '10',
+      mock_percent_string: '65%',
+      mock_small_fraction: '0.00067898',
+      mock_percent: '2',
+    },
   ],
   meta: {
     count: 2,
@@ -181,6 +229,26 @@ const defaultColumnsTypeCheckMock = [
   'mock_percent_string',
   'negative_currency',
 ];
+
+const mockPublishedReports = [
+  {
+    path: '/downloads/mspd_reports/opdm092020.pdf',
+    report_group_desc: 'Entire (.pdf)',
+    report_date: new Date('2023-07-10'),
+    filesize: '188264',
+    report_group_sort_order_nbr: 0,
+    report_group_id: 3,
+  },
+  {
+    path: '/downloads/mspd_reports/opdx092020.xls',
+    report_group_desc: 'Primary Dealers (.xls)',
+    report_date: new Date('2020-09-30'),
+    filesize: '810496',
+    report_group_sort_order_nbr: 1,
+    report_group_id: 3,
+  },
+];
+
 const defaultColLabels = ['Record Date', 'Source Line Number', 'Calendar Quarter Number'];
 const additionalColLabels = Object.values(mockTableData.meta.labels).filter(label => !defaultColLabels.includes(label));
 const allColLabels = defaultColLabels.concat(additionalColLabels);
@@ -198,7 +266,31 @@ describe('react-table', () => {
           setTableColumnSortData={setTableColumnSortData}
           shouldPage
           showPaginationControls
+          publishedReports={mockPublishedReports}
+          hasPublishedReports={true}
+          hideCellLinks={false}
           setFiltersActive={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+    expect(instance).toBeTruthy();
+  });
+
+  it('table renders with select columns option', () => {
+    const instance = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          publishedReports={mockPublishedReports}
+          hasPublishedReports={true}
+          hideCellLinks={false}
+          setFiltersActive={jest.fn()}
+          selectColumnPanel={true}
         />
       </RecoilRoot>
     );
@@ -260,14 +352,14 @@ describe('react-table', () => {
     // Column header
     expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
     // Rows render
-    expect(getAllByTestId('row').length).toEqual(3);
+    expect(getAllByTestId('row').length).toEqual(6);
     const header = getByRole('columnheader', { name: 'Record Date' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
     fireEvent.click(sortButton);
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/10/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/7/2023');
     fireEvent.click(sortButton);
     fireEvent.click(sortButton);
     //Sorting should be reset
@@ -291,14 +383,14 @@ describe('react-table', () => {
     // Column header
     expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
     // Rows render
-    expect(getAllByTestId('row').length).toEqual(3);
+    expect(getAllByTestId('row').length).toEqual(6);
     const header = getByRole('columnheader', { name: 'Record Date' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     // Now sorted in desc order
-    expect(getAllByTestId('row')[0].innerHTML).toContain('7/10/2023');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/7/2023');
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     //Sorting should be reset
@@ -324,7 +416,7 @@ describe('react-table', () => {
     const header = getByRole('columnheader', { name: 'Debt Held by the Public' });
     expect(header).toBeInTheDocument();
     // Rows render
-    expect(getAllByTestId('row').length).toEqual(3);
+    expect(getAllByTestId('row').length).toEqual(6);
     const columnFilter = within(header).getByRole('textbox');
     expect(columnFilter).toBeInTheDocument();
     fireEvent.change(columnFilter, { target: { value: '25633821130387.02' } });
@@ -336,11 +428,11 @@ describe('react-table', () => {
     const clearButton = within(header).getAllByRole('button', { hidden: true })[1];
     expect(clearButton).toHaveClass('fa-circle-xmark');
     fireEvent.click(clearButton);
-    expect(getAllByTestId('row').length).toEqual(3);
+    expect(getAllByTestId('row').length).toEqual(6);
   });
 
   it('pagination', () => {
-    const { getAllByTestId, getByText, getByRole } = render(
+    const { getAllByTestId, getByText, getByRole, getByTestId } = render(
       <RecoilRoot>
         <DataTable
           rawData={mockTableData}
@@ -361,7 +453,13 @@ describe('react-table', () => {
 
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('1 - 2', { exact: false })).toBeInTheDocument();
-    expect(getByText('rows of 3 rows', { exact: false })).toBeInTheDocument();
+    expect(getByText('rows of 6 rows', { exact: false })).toBeInTheDocument();
+    expect(getByTestId('page-next-button')).toBeInTheDocument();
+
+    fireEvent.click(getByTestId('page-next-button'));
+
+    expect(getByText('Showing', { exact: false })).toBeInTheDocument();
+    expect(getByText('3 - 4', { exact: false })).toBeInTheDocument();
   });
 
   it('initially renders all columns showing when no defaults specified', () => {
