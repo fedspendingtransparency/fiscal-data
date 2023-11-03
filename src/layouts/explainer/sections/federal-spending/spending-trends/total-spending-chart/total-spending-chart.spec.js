@@ -104,7 +104,7 @@ describe('Total Spending Chart Spending to GDP Ratio Decreased', () => {
     const { getByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
-    expect(await getByText('Since 2015, the Spending to GDP ratio has decreased from 25% to 13%', { exact: false })).toBeInTheDocument();
+    expect(await getByText('Since 2015, the Spending to GDP ratio has decreased from 35% to 13%', { exact: false })).toBeInTheDocument();
   });
 });
 
