@@ -410,7 +410,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
           </div>
           <VisualizationCallout color={revenueExplainerPrimary}>
             <p>
-              Since {callOutYear}, the Revenue-to-GDP ratio has increased from {firstRatio} to {lastRatio}.
+              Since {callOutYear}, the Revenue-to-GDP ratio has {lastRatio > firstRatio ? 'increased' : 'decreased'} from {firstRatio} to {lastRatio}.
             </p>
           </VisualizationCallout>
         </div>

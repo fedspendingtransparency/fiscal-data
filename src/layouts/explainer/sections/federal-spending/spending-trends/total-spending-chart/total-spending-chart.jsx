@@ -449,7 +449,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
             <p>
-              Since {callOutYear}, the Spending to GDP ratio has increased from {firstRatio} to {lastRatio}.
+              Since {callOutYear}, the Spending to GDP ratio has {lastRatio > firstRatio ? 'increased' : 'decreased'} from {firstRatio} to {lastRatio}
+              .
             </p>
           </VisualizationCallout>
         </div>
