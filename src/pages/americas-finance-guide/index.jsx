@@ -15,6 +15,7 @@ import {
   socialShare,
   quoteSection,
   treasuryReportImg,
+  constitutionImg,
 } from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -132,22 +133,24 @@ const AmericasFinanceGuidePage = ({ width }) => {
           </DataSourcesMethodologies>
         </Container>
       </div>
-      <div className={quoteContainer} data-testid="quoteContainer">
-        <img
-          className={treasuryReportImg}
-          src="../images/treasury-reports.png"
-          alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background. 
+      <div className={constitutionImg} data-testid="quoteContainer">
+        <div className={quoteContainer}>
+          <img
+            className={treasuryReportImg}
+            src="../images/treasury-reports.png"
+            alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background. 
               Next to the spread is a quote from Article 1, Section 9, which reads 
               “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”"
-        />
-        <div className={quoteSection}>
-          <p className={quote}>
-            A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.
-          </p>
-          <p className={citation}>U.S. Constitution, Article 1, Section 9</p>
-          <div className={quoteBar} />
+          />
+          <div className={quoteSection}>
+            <p className={quote}>
+              A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.
+            </p>
+            <p className={citation}>U.S. Constitution, Article 1, Section 9</p>
+            <div className={quoteBar} />
+          </div>
+          <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
         </div>
-        <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
       </div>
       <Container classes={{ root: bottomContainer }} data-testid="bottomContainer">
         <p style={{ textAlign: 'center' }}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>

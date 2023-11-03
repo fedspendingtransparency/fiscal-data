@@ -44,56 +44,63 @@ $dollarIconBackgroundColor: #f1f1f1;
   }
 }
 
-.quoteContainer {
-  display: flex;
-  //justify-content: center;
-  // align-items: center;
+.constitutionImg {
   overflow-y: hidden;
   max-width: 100%;
   max-height: 17.625rem;
   background-image: url('../../../static/images/constitution-background.png');
   background-size: cover;
 
-  .treasuryReportImg {
-    position: relative;
-    height: 100%;
-  }
+  .quoteContainer {
+    display: flex;
+    justify-content: end;
+    max-height: 17.625rem;
+    max-width: 1000px;
+    margin: 0 auto;
 
-  .quoteIcon {
-    font-size: 4rem;
-    transform: scale(-1, 1);
-    margin-left: 3.5rem;
-    margin-top: 3.5rem;
-    padding: 1rem;
-  }
-
-  .quoteSection {
-    padding: 1rem 0 1rem 1rem;
-    margin: 3.5rem 0;
-
-    .quote {
-      color: $font-body-copy;
-      font-size: $font-size-20;
-      line-height: 1.875rem;
-      font-style: italic;
-      margin-left: 1rem;
-      margin-top: 0.5rem;
-      max-width: 35rem;
+    .treasuryReportImg {
+      position: relative;
+      height: 100%;
     }
 
-    .citation {
-      font-size: $font-size-14;
-      line-height: 1rem;
-      margin-left: 1rem;
+    .quoteIcon {
+      font-size: 4rem;
+      transform: scale(-1, 1);
+      margin-left: 3.5rem;
+      margin-top: 3.5rem;
+      padding: 1rem;
     }
 
-    .quoteBar {
-      width: 6rem;
-      height: 0.5rem;
-      background-color: $card-body;
-      display: block;
-      margin-left: 1rem;
-      margin-top: 2rem;
+    .quoteSection {
+      padding: 1rem 0 1rem 1rem;
+      margin: 3.5rem 0;
+      min-width: 35.5rem;
+
+      .quote {
+        color: $font-body-copy;
+        font-size: $font-size-20;
+        line-height: 1.875rem;
+        font-style: italic;
+        margin-left: 1rem;
+        margin-top: 0.5rem;
+        max-width: 35rem;
+      }
+
+      .citation {
+        font-size: $font-size-14;
+        line-height: 1rem;
+        margin-left: 1rem;
+      }
+
+      .quoteBar {
+        width: 6rem;
+        height: 0.5rem;
+        background-color: $card-body;
+        display: block;
+        margin-left: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
     }
   }
 }
