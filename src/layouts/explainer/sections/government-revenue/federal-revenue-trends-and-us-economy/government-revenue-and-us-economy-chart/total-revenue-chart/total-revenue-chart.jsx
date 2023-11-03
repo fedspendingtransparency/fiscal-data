@@ -39,16 +39,16 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [minYear, setMinYear] = useState(2015);
   const [maxYear, setMaxYear] = useState(2022);
   const [callOutYear, setCallOutYear] = useState('');
-  const [firstRatio, setFirstRatio] = useState('');
-  const [lastRatio, setlastRatio] = useState('');
+  const [lastRatio, setLastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
-  const [lastGDPValue, setlastGDPValue] = useState('');
-  const [lastRevenueValue, setlastRevenueValue] = useState('');
+  const [lastGDPValue, setLastGDPValue] = useState('');
+  const [lastRevenueValue, setLastRevenueValue] = useState('');
   const [maxRevenueValue, setMaxRevenueValue] = useState(0);
   const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalRevenue');
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
+  const [calloutCopy, setCalloutCopy] = useState('');
 
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
 
@@ -168,7 +168,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         const revenueLastAmountActual = finalRevenueChartData[finalRevenueChartData.length - 1].actual;
 
-        setlastRevenueValue(revenueLastAmountActual);
+        setLastRevenueValue(revenueLastAmountActual);
 
         setMaxRevenueValue(revenueMaxAmount.y);
 
@@ -191,16 +191,24 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         setRatioGdpChartData(finalGdpRatioChartData);
 
-        setFirstRatio(numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%'));
-
+        const chartFirstRatio = numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%');
         const chartLastRatio = numeral(
           finalRevenueChartData[finalRevenueChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
         ).format('0%');
-        setlastRatio(chartLastRatio);
+        setLastRatio(chartLastRatio);
+        if (chartFirstRatio !== chartLastRatio) {
+          setCalloutCopy(
+            `the Revenue-to-GDP ratio has ${
+              chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
+            } from ${chartFirstRatio} to ${chartLastRatio}`
+          );
+        } else {
+          setCalloutCopy(`the Revenue-to-GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+        }
 
         const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
         const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
-        setlastGDPValue(chartLastGDPValue);
+        setLastGDPValue(chartLastGDPValue);
         setGdpChartData(filteredGDPData);
 
         setMaxGDPValue(chartMaxGDPValue);
@@ -410,7 +418,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
           </div>
           <VisualizationCallout color={revenueExplainerPrimary}>
             <p>
-              Since {callOutYear}, the Revenue-to-GDP ratio has {lastRatio > firstRatio ? 'increased' : 'decreased'} from {firstRatio} to {lastRatio}.
+              Since {callOutYear}, {calloutCopy}.
             </p>
           </VisualizationCallout>
         </div>

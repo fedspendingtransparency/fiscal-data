@@ -45,7 +45,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [maxYear, setMaxYear] = useState(2022);
   const [maxAmount, setMaxAmount] = useState(0);
   const [callOutYear, setCallOutYear] = useState('');
-  const [firstRatio, setFirstRatio] = useState('');
   const [lastRatio, setLastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [lastGDPValue, setLastGDPValue] = useState('');
@@ -56,6 +55,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [isMobile, setIsMobile] = useState(true);
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
+  const [calloutCopy, setCalloutCopy] = useState('');
 
   const chartParent = 'chartParent';
   const chartWidth = 550;
@@ -177,12 +177,22 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         const maxAmountLocal = Math.ceil((spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount) / 5) * 5;
         setMaxAmount(maxAmountLocal);
 
-        setFirstRatio(numeral(finalSpendingChartData[0].y / filteredGDPData[0].y).format('0%'));
-
+        const chartFirstRatio = numeral(finalSpendingChartData[0].y / filteredGDPData[0].y).format('0%');
         const chartLastRatio = numeral(
           finalSpendingChartData[finalSpendingChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
         ).format('0%');
+
         setLastRatio(chartLastRatio);
+
+        if (chartFirstRatio !== chartLastRatio) {
+          setCalloutCopy(
+            ` the Spending to GDP ratio has ${
+              chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
+            } from ${chartFirstRatio} to ${chartLastRatio}`
+          );
+        } else {
+          setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+        }
 
         const chartLastSpendingValue = finalSpendingChartData[finalSpendingChartData.length - 1].actual;
         setLastSpendingValue(chartLastSpendingValue);
@@ -449,8 +459,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
             <p>
-              Since {callOutYear}, the Spending to GDP ratio has {lastRatio > firstRatio ? 'increased' : 'decreased'} from {firstRatio} to {lastRatio}
-              .
+              Since {callOutYear}, {calloutCopy}.
             </p>
           </VisualizationCallout>
         </div>
