@@ -872,11 +872,100 @@ export const mockCallOutData = {
     },
   ],
 };
+export const mockRevenueData_decreased = {
+  data: [
+    {
+      current_fytd_net_rcpt_amt: 4548723200915.73,
+      record_fiscal_year: '2015',
+      record_date: '2015-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 4366688370973.35,
+      record_fiscal_year: '2016',
+      record_date: '2016-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 4214893904524.18,
+      record_fiscal_year: '2017',
+      record_date: '2017-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 4028745244718.2,
+      record_fiscal_year: '2018',
+      record_date: '2018-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3462195610149.2,
+      record_fiscal_year: '2019',
+      record_date: '2019-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3419955005765.34,
+      record_fiscal_year: '2020',
+      record_date: '2020-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3345978858727.41,
+      record_fiscal_year: '2021',
+      record_date: '2021-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3296119043921.0,
+      record_fiscal_year: '2022',
+      record_date: '2022-09-30',
+    },
+  ],
+};
 
 export const mockRevenueData = {
   data: [
     {
       current_fytd_net_rcpt_amt: 3248723200915.73,
+      record_fiscal_year: '2015',
+      record_date: '2015-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3266688370973.35,
+      record_fiscal_year: '2016',
+      record_date: '2016-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3314893904524.18,
+      record_fiscal_year: '2017',
+      record_date: '2017-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3328745244718.2,
+      record_fiscal_year: '2018',
+      record_date: '2018-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3462195610149.2,
+      record_fiscal_year: '2019',
+      record_date: '2019-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 3419955005765.34,
+      record_fiscal_year: '2020',
+      record_date: '2020-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 4045978858727.41,
+      record_fiscal_year: '2021',
+      record_date: '2021-09-30',
+    },
+    {
+      current_fytd_net_rcpt_amt: 4896119043921.0,
+      record_fiscal_year: '2022',
+      record_date: '2022-09-30',
+    },
+  ],
+};
+
+export const mockRevenueData_NoChange = {
+  data: [
+    {
+      current_fytd_net_rcpt_amt: 3571507596876.0,
       record_fiscal_year: '2015',
       record_date: '2015-09-30',
     },

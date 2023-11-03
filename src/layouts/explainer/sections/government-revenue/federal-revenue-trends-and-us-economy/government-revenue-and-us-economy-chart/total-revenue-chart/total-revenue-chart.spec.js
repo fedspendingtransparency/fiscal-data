@@ -3,7 +3,14 @@ import React from 'react';
 import TotalRevenueChart from './total-revenue-chart';
 import fetchMock from 'fetch-mock';
 import { determineBEAFetchResponse } from '../../../../../../../utils/mock-utils';
-import { mockBeaGDPData, mockCpiDataset, mockRevenueData, mockCallOutData } from '../../../../../explainer-test-helper';
+import {
+  mockBeaGDPData,
+  mockCpiDataset,
+  mockRevenueData,
+  mockCallOutData,
+  mockRevenueData_decreased,
+  mockRevenueData_NoChange,
+} from '../../../../../explainer-test-helper';
 
 describe('Total Revenue Chart', () => {
   beforeAll(() => {
@@ -74,5 +81,53 @@ describe('Total Revenue Chart', () => {
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByText('Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
     expect(await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe('Total Revenue Chart Revenue-to-GDP Ratio Decreased', () => {
+  beforeAll(() => {
+    fetchMock.get(
+      `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date`,
+      mockRevenueData_decreased,
+      { overwriteRoutes: true },
+      { repeat: 0 }
+    );
+    determineBEAFetchResponse(jest, mockRevenueData_decreased);
+  });
+
+  const mockPageFunction = () => {
+    return null;
+  };
+
+  it('renders the calloutText', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    //If this is set, that means all 3 API calls were sucessful.
+    expect(await getByText('Since 2015, the Revenue-to-GDP ratio has decreased from 25% to 13%.', { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe('Total Revenue Chart Revenue-to-GDP Ratio No Change', () => {
+  beforeAll(() => {
+    fetchMock.get(
+      `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date`,
+      mockRevenueData_NoChange,
+      { overwriteRoutes: true },
+      { repeat: 0 }
+    );
+    determineBEAFetchResponse(jest, mockRevenueData_NoChange);
+  });
+
+  const mockPageFunction = () => {
+    return null;
+  };
+
+  it('renders the calloutText', async () => {
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { getByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    //If this is set, that means all 3 API calls were sucessful.
+    expect(await getByText('Since 2015, the Revenue-to-GDP ratio has not changed, remaining at 20%.', { exact: false })).toBeInTheDocument();
   });
 });
