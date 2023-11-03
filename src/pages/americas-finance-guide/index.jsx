@@ -36,7 +36,7 @@ import TopicSection from '../../layouts/explainer/explainer-components/afg-compo
 import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../layouts/explainer/explainer-helpers/explainer-helpers';
 import SocialShare from '../../components/social-share/social-share';
 import { useWindowSize } from '../../hooks/windowResize';
-import GlossaryProvider, { GlossaryContext } from '../../components/glossary/glossary-context/glossary-context';
+import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 const AmericasFinanceGuidePage = ({ width }) => {
   const pageName = 'americas-finance-guide';
