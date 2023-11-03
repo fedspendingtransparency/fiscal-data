@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
@@ -68,7 +68,7 @@ const AFGDebtChart = (): ReactElement => {
     });
   };
 
-  const getChartData = async () => {
+  const getChartData = useCallback(async () => {
     const chart_data = [];
     let curFY;
     await basicFetch(`${apiPrefix}${deficitEndpointUrl}`).then(async deficitRes => {
@@ -134,7 +134,7 @@ const AFGDebtChart = (): ReactElement => {
       }
     });
     return chart_data;
-  };
+  }, []);
 
   useEffect(() => {
     if (!finalChartData) {

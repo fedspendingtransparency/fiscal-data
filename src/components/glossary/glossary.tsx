@@ -6,7 +6,7 @@ import GlossaryListContainer from './glossary-list/glossary-list-container';
 import { getSortedGlossaryList } from '../../helpers/glossary-helper/glossary-data';
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
-import { GlossaryContext } from '../../layouts/explainer/explainer';
+import { GlossaryContext } from './glossary-context/glossary-context';
 
 interface IGlossary {
   termList: IGlossaryTerm[];

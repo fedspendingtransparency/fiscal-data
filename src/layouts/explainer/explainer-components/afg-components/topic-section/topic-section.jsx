@@ -1,5 +1,5 @@
 import AfgTopicCard from '../afg-topic-card/afg-topic-card';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { getAFGFootnotes } from '../../../../../helpers/footnotes-helper/footnotes-helper';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
@@ -16,8 +16,9 @@ import {
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
+import { GlossaryContext } from '../../../../../components/glossary/glossary-context/glossary-context';
 
-const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) => {
+const TopicSection = ({ fiscalYear, width }) => {
   const [fytdRevenue, setFytdRevenue] = useState('');
   const [priorFyRevenue, setPriorFyRevenue] = useState('');
   const [revenueCategory, setRevenueCategory] = useState('');
@@ -203,12 +204,7 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
   );
 
   const exciseTaxes = (
-    <GlossaryPopoverDefinition
-      term="Excise"
-      page="Revenue Explainer & AFG Overview Page"
-      glossary={glossary}
-      glossaryClickHandler={setGlossaryClickEvent}
-    >
+    <GlossaryPopoverDefinition term="Excise" page="Revenue Explainer & AFG Overview Page">
       excise
     </GlossaryPopoverDefinition>
   );
@@ -251,8 +247,8 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
       <p>
         The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for
         a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal
-        debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the U.S. through {debtToPennyDate}{' '}
-        is ${debt}.
+        debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the U.S. through{' '}
+        {debtToPennyDate} is ${debt}.
       </p>
       <p>
         At the end of {priorFiscalYear} the government had ${priorFyDebt} in federal debt. In {priorFiscalYear}, the national debt {debtDirection} by

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import { Container, Grid } from '@material-ui/core';
@@ -36,35 +36,11 @@ import TopicSection from '../../layouts/explainer/explainer-components/afg-compo
 import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../layouts/explainer/explainer-helpers/explainer-helpers';
 import SocialShare from '../../components/social-share/social-share';
 import { useWindowSize } from '../../hooks/windowResize';
-import { GlossaryContext } from '../../layouts/explainer/explainer';
+import GlossaryProvider, { GlossaryContext } from '../../components/glossary/glossary-context/glossary-context';
 
 const AmericasFinanceGuidePage = ({ width }) => {
-  const allGlossary = useStaticQuery(
-    graphql`
-      query {
-        allGlossaryCsv {
-          glossaryCsv: nodes {
-            term
-            definition
-            site_page
-            id
-            url_display
-            url_path
-          }
-        }
-      }
-    `
-  );
   const pageName = 'americas-finance-guide';
-  const glossary = allGlossary.allGlossaryCsv.glossaryCsv;
-  glossary.map(
-    term =>
-      (term.slug = term.term
-        .toLowerCase()
-        .split(' ')
-        .join('-'))
-  );
-  const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
+
   const [fiscalYear, setFiscalYear] = useState('');
   const [height] = useWindowSize();
   const [containerHeight, setContainerHeight] = useState(765);
@@ -106,7 +82,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
   }, [width, height, containerHeight]);
 
   return (
-    <GlossaryContext.Provider value={{ glossaryClickEvent, setGlossaryClickEvent }}>
+    <GlossaryProvider>
       <SiteLayout isPreProd={false}>
         <PageHelmet
           pageTitle="America’s Finance Guide"
@@ -127,7 +103,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
             <div className={socialShare} ref={refSocialShare}>
               <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'horizontal'} />
             </div>
-            <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} width={width} />
+            <TopicSection fiscalYear={fiscalYear} width={width} />
             {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
             <DataSourcesMethodologies pageName="afg-overview">
               Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {mspd} and the{' '}
@@ -157,7 +133,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
           <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
         </Container>
       </SiteLayout>
-    </GlossaryContext.Provider>
+    </GlossaryProvider>
   );
 };
 export default withWindowSize(AmericasFinanceGuidePage);

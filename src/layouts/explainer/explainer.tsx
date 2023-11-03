@@ -1,4 +1,4 @@
-import React, { createContext, FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import explainerSections, { explainerDataSources, explainerDescriptionGenerators } from './sections/sections';
@@ -33,15 +33,13 @@ import DataSourcesMethodologies from './data-sources-methodologies/data-sources-
 import ComingSoon from './explainer-components/highlighted-text/highlighted-text';
 import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
 import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
+import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
-export const GlossaryContext = createContext(null);
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
   const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
 
-  const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
-
   return (
-    <GlossaryContext.Provider value={{ glossaryClickEvent, setGlossaryClickEvent }}>
+    <GlossaryProvider>
       <SiteLayout isPreProd={false}>
         <PageHelmet
           pageTitle={seoConfig.pageTitle}
@@ -66,7 +64,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
             secondaryColor={explainerColorMap[pageName].secondaryLight}
             pageName={pageName}
           >
-            {explainerHeroMap[pageName].component(glossary, setGlossaryClickEvent)}
+            {explainerHeroMap[pageName].component(glossary)}
           </HeroImage>
           <div className={contentContainer}>
             <SecondaryNav
@@ -90,7 +88,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
                         <h2 className={sectionHeading} style={{ color: explainerColorMap[pageName].primary }} data-testid="section-heading">
                           {s.title}
                         </h2>
-                        {s.component(glossary, setGlossaryClickEvent, cpiDataByYear)}
+                        {s.component(cpiDataByYear)}
                         {s.index !== explainerSections[pageName].length - 1 && (
                           <div
                             className={sectionBorder}
@@ -119,7 +117,7 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
           </div>
         </div>
       </SiteLayout>
-    </GlossaryContext.Provider>
+    </GlossaryProvider>
   );
 };
 

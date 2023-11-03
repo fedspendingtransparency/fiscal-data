@@ -144,16 +144,16 @@ export const explainerSocialShareMap = {
 
 export const explainerHeroMap = {
   'national-debt': {
-    component: (glossary, glossaryClickHandler) => <NationalDebtHero />,
+    component: glossary => <NationalDebtHero />,
   },
   'national-deficit': {
-    component: (glossary, glossaryClickHandler) => <NationalDeficitHero glossary={glossary} glossaryClickHandler={glossaryClickHandler} />,
+    component: glossary => <NationalDeficitHero glossary={glossary} />,
   },
   'federal-spending': {
-    component: (glossary, glossaryClickHandler) => <FederalSpendingHero />,
+    component: glossary => <FederalSpendingHero />,
   },
   'government-revenue': {
-    component: (glossary, glossaryClickHandler) => <GovernmentRevenueHero glossary={glossary} glossaryClickHandler={glossaryClickHandler} />,
+    component: glossary => <GovernmentRevenueHero glossary={glossary} />,
   },
 };
 
