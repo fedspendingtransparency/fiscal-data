@@ -49,11 +49,10 @@ $dollarIconBackgroundColor: #f1f1f1;
   max-width: 100%;
   max-height: 17.625rem;
   background-image: url('../../../static/images/constitution-background.png');
-  background-size: cover;
 
   .quoteContainer {
     display: flex;
-    justify-content: end;
+
     max-height: 17.625rem;
     max-width: 1000px;
     margin: 0 auto;
@@ -66,16 +65,10 @@ $dollarIconBackgroundColor: #f1f1f1;
     .quoteIcon {
       font-size: 4rem;
       transform: scale(-1, 1);
-      margin-left: 3.5rem;
-      margin-top: 3.5rem;
       padding: 1rem;
     }
 
     .quoteSection {
-      padding: 1rem 0 1rem 1rem;
-      margin: 3.5rem 0;
-      min-width: 35.5rem;
-
       .quote {
         color: $font-body-copy;
         font-size: $font-size-20;
@@ -126,6 +119,26 @@ $dollarIconBackgroundColor: #f1f1f1;
   }
 }
 
+@media screen and (min-width: $breakpoint-lg) {
+  .constitutionImg {
+    background-size: cover;
+  }
+
+  .quoteContainer {
+    justify-content: end;
+  }
+  .quoteSection {
+    min-width: 35.5rem;
+    margin: 3.5rem 0;
+    padding: 1rem 0 1rem 1rem;
+  }
+
+  .quoteIcon {
+    margin-left: 3.5rem;
+    margin-top: 3.5rem;
+  }
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .mainContainer {
     width: 100%;
@@ -158,15 +171,31 @@ $dollarIconBackgroundColor: #f1f1f1;
     }
   }
 
-  .quoteContainer {
-    .quoteContainerIcon,
-    .quoteContainerImg {
-      margin: 0 auto !important;
-      display: block;
-    }
+  .constitutionImg {
+    max-height: 35rem;
+    background-position-x: center;
+    background-position-y: top;
+    .quoteContainer {
+      max-height: 35rem;
+      flex-direction: column-reverse;
+      justify-content: flex-end;
 
-    .quoteBar {
-      width: 3.25rem !important;
+      .quoteSection {
+        margin: 0rem 4rem;
+      }
+
+      .quoteBar {
+        width: 3.25rem !important;
+      }
+
+      .quoteIcon {
+        align-self: center;
+      }
+
+      .treasuryReportImg {
+        width: max-content;
+        align-self: center;
+      }
     }
   }
 
