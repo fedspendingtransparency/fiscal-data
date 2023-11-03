@@ -105,21 +105,11 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
     toStr = toStr.substring(0, to.lastIndexOf('-'));
   }
   const sortParam = buildSortParams(table, selectedPivot);
-  console.log(sortParam);
-  // 'sort=' + (table.alwaysSortWith ? table.alwaysSortWith.join(',') : `-${dateField}`);
-  const filterAddendum = '';
-  let tableColumnFields = '&fields=';
   let tableColumnSort = '';
-  let tableColumnFilter = '';
-  let defaultParamsWithColumnSelect = [];
   let tableColumnSortParams;
   if (tableColumnSortData) {
     tableColumnSortParams = buildTableColumnSortParams(tableColumnSortData, sortParam);
-    tableColumnFields = tableColumnSortParams.fields;
     tableColumnSort = tableColumnSortParams.sort;
-    tableColumnFilter = tableColumnSortParams.filter;
-    defaultParamsWithColumnSelect = tableColumnSortParams.defaultParamsWithColumnSelect;
-    console.log(tableColumnSort ? tableColumnSort : sortParam);
   }
 
   const uri =
