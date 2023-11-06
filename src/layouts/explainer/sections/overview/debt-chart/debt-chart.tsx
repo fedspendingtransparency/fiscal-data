@@ -77,7 +77,6 @@ const AFGDebtChart = (): ReactElement => {
         if (isMounted.current) setCurrentFY(curFY);
         await basicFetch(`${apiPrefix}${debtEndpointUrl}`)?.then(async debtRes => {
           if (debtRes) {
-            console.log(debtRes);
             const debtData = debtRes.data;
             const deficitData = deficitRes.data;
             const fytdDeficitData = deficitData.filter(x => x.record_fiscal_year === curFY)[0];
