@@ -24,10 +24,8 @@ const TableSectionContainer = ({
   selectedTable,
   apiData,
   apiError,
-  perPage,
   userFilterSelection,
   selectedPivot,
-  setPerPage,
   setSelectedPivot,
   serverSidePagination,
   isLoading,
@@ -53,7 +51,7 @@ const TableSectionContainer = ({
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-
+  const [perPage, setPerPage] = useState(null);
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
