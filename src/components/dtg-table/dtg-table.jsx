@@ -348,7 +348,7 @@ export default function DtgTable({
           setReactTableData(dePaginated);
           setManualPagination(false);
         } else {
-          if (rawData !== null) {
+          if (rawData !== null && rawData.length > 0) {
             setReactTableData(rawData);
             setManualPagination(false);
           }
