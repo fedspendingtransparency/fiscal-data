@@ -44,45 +44,57 @@ $dollarIconBackgroundColor: #f1f1f1;
   }
 }
 
-.quoteContainer {
-  background-color: $body-background;
-  max-width: $explainer-page-width;
-  margin-top: 0.5rem;
+.constitutionImg {
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 17.625rem;
+  background-image: url('../../../static/images/constitution-background.png');
 
-  .quoteGrid {
-    max-width: $breakpoint-lg;
-    margin: 0 auto !important;
-    padding: 2rem;
-  }
+  .quoteContainer {
+    display: flex;
 
-  .quoteIcon {
-    font-size: 4rem;
-    transform: scale(-1, 1);
-  }
+    max-height: 17.625rem;
+    max-width: 1000px;
+    margin: 0 auto;
 
-  .quote {
-    color: $font-body-copy;
-    font-size: $font-size-20;
-    line-height: 1.875rem;
-    font-style: italic;
-    margin-left: 1rem;
-    margin-top: 0.5rem;
-    max-width: 35rem;
-  }
+    .treasuryReportImg {
+      position: relative;
+      height: 100%;
+    }
 
-  .citation {
-    font-size: $font-size-14;
-    line-height: 1rem;
-    margin-left: 1rem;
-  }
+    .quoteIcon {
+      font-size: 4rem;
+      transform: scale(-1, 1);
+      padding: 1rem;
+    }
 
-  .quoteBar {
-    width: 6rem;
-    height: 0.5rem;
-    background-color: $card-body;
-    display: block;
-    margin-left: 1rem;
-    margin-top: 2rem;
+    .quoteSection {
+      .quote {
+        color: $font-body-copy;
+        font-size: $font-size-20;
+        line-height: 1.875rem;
+        font-style: italic;
+        margin-left: 1rem;
+        margin-top: 0.5rem;
+        max-width: 35rem;
+      }
+
+      .citation {
+        font-size: $font-size-14;
+        line-height: 1rem;
+        margin-left: 1rem;
+      }
+
+      .quoteBar {
+        width: 6rem;
+        height: 0.5rem;
+        background-color: $card-body;
+        display: block;
+        margin-left: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+    }
   }
 }
 
@@ -104,6 +116,26 @@ $dollarIconBackgroundColor: #f1f1f1;
   img {
     margin: 2rem auto;
     display: block;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .constitutionImg {
+    background-position-x: cover;
+  }
+
+  .quoteContainer {
+    justify-content: end;
+  }
+  .quoteSection {
+    min-width: 35.5rem;
+    margin: 3.5rem 0;
+    padding: 1rem 0 1rem 1rem;
+  }
+
+  .quoteIcon {
+    margin-left: 3.5rem;
+    margin-top: 3.5rem;
   }
 }
 
@@ -139,15 +171,31 @@ $dollarIconBackgroundColor: #f1f1f1;
     }
   }
 
-  .quoteContainer {
-    .quoteContainerIcon,
-    .quoteContainerImg {
-      margin: 0 auto !important;
-      display: block;
-    }
+  .constitutionImg {
+    max-height: 35rem;
+    background-position-x: center;
+    background-position-y: top;
+    .quoteContainer {
+      max-height: 35rem;
+      flex-direction: column-reverse;
+      justify-content: flex-end;
 
-    .quoteBar {
-      width: 3.25rem !important;
+      .quoteSection {
+        margin: 0rem 4rem;
+      }
+
+      .quoteBar {
+        width: 3.25rem !important;
+      }
+
+      .quoteIcon {
+        align-self: center;
+      }
+
+      .treasuryReportImg {
+        width: max-content;
+        align-self: center;
+      }
     }
   }
 
