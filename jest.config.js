@@ -9,15 +9,10 @@ module.exports = {
   moduleNameMapper: {
     '.+\\.(css|styl|less|sass|scss)$': `<rootDir>/jest-test-config/identity-obj-proxy-esm.js`,
     '.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `<rootDir>/__mocks__/file-mock.js`,
-    '^gatsby-core-utils/(.*)$': `gatsby-core-utils/dist/$1`,
-    '^gatsby-plugin-utils/(.*)$': [
-      `gatsby-plugin-utils/dist/$1`,
-      `gatsby-plugin-utils/$1`,
-    ],
   },
   testMatch: ['<rootDir>/**/**.spec.{js,jsx,ts,tsx}'],
   testPathIgnorePatterns: [`node_modules`, `.cache`, `public`],
-  transformIgnorePatterns: [`node_modules/(?!(gatsby|gatsby-script|gatsby-link)/)`],
+  transformIgnorePatterns: [`node_modules/(?!(gatsby)/)`],
   globals: {
     __PATH_PREFIX__: ``,
     'ts-jest': {
