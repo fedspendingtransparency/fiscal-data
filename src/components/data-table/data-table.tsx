@@ -39,6 +39,7 @@ type DataTableProps = {
   pagingProps;
   manualPagination: boolean;
   maxRows: number;
+  rowsShowing: { begin: number; end: number };
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -61,6 +62,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   pagingProps,
   manualPagination,
   maxRows,
+  rowsShowing,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -246,6 +248,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           pagingProps={pagingProps}
           manualPagination={manualPagination}
           maxRows={maxRows}
+          rowsShowing={rowsShowing}
         />
       )}
     </>

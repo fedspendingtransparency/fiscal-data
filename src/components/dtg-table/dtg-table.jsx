@@ -470,6 +470,7 @@ export default function DtgTable({
             tableName={tableName}
             manualPagination={manualPagination}
             maxRows={maxRows}
+            rowsShowing={rowsShowing}
           />
         )}
       </Experimental>

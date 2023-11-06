@@ -10,27 +10,47 @@ interface IDataTableFooter {
   pagingProps;
   manualPagination: boolean;
   maxRows: number;
+  rowsShowing: { begin: number; end: number };
 }
 
-const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps, manualPagination, maxRows }) => {
+const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
+  table,
+  showPaginationControls,
+  pagingProps,
+  manualPagination,
+  rowsShowing: rowRange,
+}) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
   useEffect(() => {
     setFilteredRowLength(table.getFilteredRowModel().rows.length);
   }, [table.getFilteredRowModel(), pagingProps]);
 
   const visibleRows = table => {
-    const rowsVisible = table?.getRowModel().flatRows.length;
-    const pageSize = table.getState().pagination.pageSize;
-    const pageIndex = table.getState().pagination.pageIndex;
-    const minRow = pageIndex * pageSize + 1;
-    const maxRow = pageIndex * pageSize + rowsVisible;
+    let minRow;
+    let maxRow;
+    let totalRows;
+    if (manualPagination) {
+      minRow = rowRange.begin;
+      maxRow = rowRange.end;
+      totalRows = pagingProps.maxRows;
+    } else {
+      const rowsVisible = table?.getRowModel().flatRows.length;
+      const pageSize = table.getState().pagination.pageSize;
+      const pageIndex = table.getState().pagination.pageIndex;
+      minRow = pageIndex * pageSize + 1;
+      maxRow = pageIndex * pageSize + rowsVisible;
+      totalRows = filteredRowLength;
+    }
+    const rowText = totalRows === 1 ? '' : 'rows';
+    const totalRowText = totalRows === 1 ? 'row' : 'rows';
+
     return (
       <>
         Showing{' '}
         <span className={range}>
           {minRow} - {maxRow}
         </span>{' '}
-        rows of {manualPagination ? pagingProps.maxRows : filteredRowLength} rows
+        {rowText} of {totalRows} {totalRowText}
       </>
     );
   };
