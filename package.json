@@ -92,7 +92,7 @@
     "gatsby-plugin-exclude": "^1.0.2",
     "gatsby-plugin-google-analytics": "^3.15.0",
     "gatsby-plugin-html-attributes": "^1.0.5",
-    "gatsby-plugin-image": "^1.15.0",
+    "gatsby-plugin-image": "^2.25.0",
     "gatsby-plugin-manifest": "^3.15.0",
     "gatsby-plugin-material-ui": "^3.0.1",
     "gatsby-plugin-mdx": "^2.15.0",
