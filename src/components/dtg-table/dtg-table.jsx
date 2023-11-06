@@ -365,32 +365,15 @@ export default function DtgTable({
 
   useEffect(() => {
     if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      setReactTableData({ data: tableData, meta: tableMeta });
-      setManualPagination(true);
+      if (tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        setReactTableData(dePaginated);
+        setManualPagination(false);
+      } else {
+        setReactTableData({ data: tableData, meta: tableMeta });
+        setManualPagination(true);
+      }
     }
   }, [tableData, tableMeta]);
-
-  useEffect(() => {
-    if (
-      tableData.length > 0 &&
-      tableMeta !== undefined &&
-      tableMeta !== null &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      isReactTableFiltered
-    ) {
-      setReactTableData(dePaginated);
-      setManualPagination(false);
-    } else if (
-      tableData.length > 0 &&
-      tableMeta !== undefined &&
-      tableMeta !== null &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !isReactTableFiltered
-    ) {
-      setReactTableData({ data: tableData, meta: tableMeta });
-      setManualPagination(true);
-    }
-  }, [tableData, tableMeta, isReactTableFiltered]);
 
   return (
     <div className={styles.overlayContainer}>
