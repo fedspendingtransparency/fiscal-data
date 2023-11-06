@@ -88,6 +88,10 @@ export default function DtgTable({
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
 
+  useEffect(() => {
+    console.log(itemsPerPage);
+  }, [itemsPerPage]);
+
   const getAllExcludedCols = () => {
     const allCols = [];
 
@@ -349,6 +353,9 @@ export default function DtgTable({
           setManualPagination(false);
         } else {
           if (rawData !== null && rawData.length > 0) {
+            setReactTableData(rawData);
+            setManualPagination(false);
+          } else if (rawData !== null && rawData.hasOwnProperty('data')) {
             setReactTableData(rawData);
             setManualPagination(false);
           }
