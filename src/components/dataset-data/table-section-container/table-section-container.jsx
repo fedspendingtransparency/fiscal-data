@@ -83,7 +83,6 @@ const TableSectionContainer = ({
           return page1res;
         });
       } else {
-        //Todo: verify if this fetch is necessary
         return await basicFetch(
           `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
             `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`

@@ -184,7 +184,6 @@ export default function DtgTable({
             setMaxPage(res.meta['total-pages']);
             if (maxRows !== totalCount) setMaxRows(totalCount);
             setTableData(res.data);
-            // setTableMeta(res.meta);
           }
         })
         .catch(err => {

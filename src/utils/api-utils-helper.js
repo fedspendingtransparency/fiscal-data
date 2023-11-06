@@ -106,12 +106,10 @@ export const buildTableColumnSortParams = (sortData, apiSortParams) => {
       tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`;
     }
   });
-  console.log(tableColumnFields);
   // If the user has engaged the column select, apply the default sort params to the applicable selected columns
   if (tableColumnFields !== '&fields=') {
     const fieldsAsArray = tableColumnFields.replace('&fields=', '').split(',');
     const defaultSortParamsAsArray = apiSortParams.split(',');
-    console.log('defaultSortParamsAsArray', defaultSortParamsAsArray);
     defaultSortParamsAsArray.filter(element => {
       fieldsAsArray.forEach(field => {
         if (element.includes(field)) {
