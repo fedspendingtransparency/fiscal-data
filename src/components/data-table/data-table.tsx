@@ -135,6 +135,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         id: column.id,
         sorted: column.getIsSorted(),
         filterValue: column.getFilterValue(),
+        downloadFilter: dataTypes[column.id] !== 'DATE',
         rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
         allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
       }));

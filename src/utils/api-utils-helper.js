@@ -1,6 +1,7 @@
 import { convertJSDateToAPI } from '../transform/dates';
 import { buildSortParams } from './api-utils';
 import GLOBALS from '../helpers/constants';
+import moment from 'moment';
 
 /**
  * This function creates a fragment of the formatted object used within the API download request.
@@ -52,7 +53,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
           tableColumnSort += `-${column.id}`;
         }
       }
-      if (column.filterValue !== undefined) {
+      if (column.filterValue && column.downloadFilter) {
         tableColumnFilter += `,${column.id}:in:(${[...new Set(column.rowValues)].join(',')})`;
       }
     });
@@ -155,15 +156,23 @@ const dataTables = [
  * @returns {null|Object}     - Returns null if params are invalid, else returns object with
  * collection of APIs as built from buildDownloadObject above.
  */
-export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter, tableColumnSortData) => {
+export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter, tableColumnSortData, filteredDateRange) => {
   if (!apis || !dateRange || !fileType) {
     console.warn('Invalid params passed to buildDownloadRequestArray');
     return null;
   }
   const requestArr = [];
+  const from =
+    filteredDateRange?.from && moment(dateRange.from).diff(filteredDateRange?.from) <= 0
+      ? filteredDateRange?.from.format('YYYY-MM-DD')
+      : convertJSDateToAPI(dateRange.from);
+  const to =
+    filteredDateRange?.from && moment(dateRange.to).diff(filteredDateRange?.to) >= 0
+      ? filteredDateRange?.to.format('YYYY-MM-DD')
+      : convertJSDateToAPI(dateRange.to);
   const apiDateRange = {
-    from: convertJSDateToAPI(dateRange.from),
-    to: convertJSDateToAPI(dateRange.to),
+    from: from,
+    to: to,
   };
   let requestAPIs = apis;
   let curDownloadObject = null;
