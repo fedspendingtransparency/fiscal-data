@@ -15,8 +15,6 @@ import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
-import { useSetRecoilState } from 'recoil';
-import { reactTableFilteredState } from '../../../recoil/reactTableFilteredState';
 
 const TableSectionContainer = ({
   config,
@@ -55,7 +53,6 @@ const TableSectionContainer = ({
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
-  const setTableFilteredState = useSetRecoilState(reactTableFilteredState);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -90,12 +87,6 @@ const TableSectionContainer = ({
     setTableMeta(meta);
     return res0;
   };
-
-  useEffect(() => {
-    if (filtersActive === false) {
-      setTableFilteredState(false);
-    }
-  }, [filtersActive]);
 
   const refreshTable = async () => {
     if (allTablesSelected) return;

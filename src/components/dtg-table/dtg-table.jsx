@@ -16,7 +16,7 @@ import DtgTableColumnSelector from './dtg-table-column-selector';
 import DataTable from '../data-table/data-table';
 import Experimental from '../experimental/experimental';
 import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState, reactTableFilteredState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredDateRangeState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
 
 const defaultRowsPerPage = 5;
@@ -75,7 +75,6 @@ export default function DtgTable({
   const [isReset, setIsReset] = useState(false);
   const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
   const [manualPagination, setManualPagination] = useState(false);
-  const isReactTableFiltered = useRecoilValue(reactTableFilteredState);
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const sorting = useRecoilValue(reactTableSortingState);
 
@@ -87,10 +86,6 @@ export default function DtgTable({
   const rowText = ['rows', 'rows'];
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
-
-  useEffect(() => {
-    console.log(itemsPerPage);
-  }, [itemsPerPage]);
 
   const getAllExcludedCols = () => {
     const allCols = [];
