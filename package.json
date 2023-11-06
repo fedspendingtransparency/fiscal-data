@@ -174,7 +174,7 @@
     "axe-core": "^4.6.3",
     "babel-jest": "^27.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-preset-gatsby": "^1.10.0",
+    "babel-preset-gatsby": "^2.25.0",
     "babel-preset-jest": "^27.0.6",
     "check-outdated": "^1.4.3",
     "core-js": "^2.6.12",
