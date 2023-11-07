@@ -289,7 +289,7 @@ export default function DtgTable({
     return () => {
       loadCanceled = true;
     };
-  }, [selectedTable, dateRange]);
+  }, [selectedTable, dateRange, sorting, filteredDateRange]);
 
   useEffect(() => {
     setApiError(false);
@@ -298,7 +298,7 @@ export default function DtgTable({
     return () => {
       loadCanceled = true;
     };
-  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage, filteredDateRange, sorting]);
+  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
     if (selectColumns && activeColumns) {
