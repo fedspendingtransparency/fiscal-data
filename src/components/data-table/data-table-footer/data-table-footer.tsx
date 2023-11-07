@@ -43,14 +43,11 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
     }
     const rowText = totalRows === 1 ? '' : 'rows';
     const totalRowText = totalRows === 1 ? 'row' : 'rows';
+    const rangeText = totalRows === 0 ? '0' : `${minRow} - ${maxRow}`;
 
     return (
       <>
-        Showing{' '}
-        <span className={range}>
-          {minRow} - {maxRow}
-        </span>{' '}
-        {rowText} of {totalRows} {totalRowText}
+        Showing <span className={range}>{rangeText}</span> {rowText} of {totalRows} {totalRowText}
       </>
     );
   };
