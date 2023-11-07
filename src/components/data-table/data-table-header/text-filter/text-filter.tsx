@@ -46,7 +46,17 @@ const TextFilter: FunctionComponent<any> = ({
     clearFilter();
   }, [resetFilters]);
 
-  return <SearchBar onChange={onFilterChange} filter={filterDisplay} handleClear={clearFilter} height="28px" active={active} setActive={setActive} />;
+  return (
+    <SearchBar
+      onChange={onFilterChange}
+      filter={filterDisplay}
+      handleClear={clearFilter}
+      height="28px"
+      active={active}
+      setActive={setActive}
+      ariaLabel={`filter ${column.id} column`}
+    />
+  );
 };
 
 export default TextFilter;

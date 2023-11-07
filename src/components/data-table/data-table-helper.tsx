@@ -4,6 +4,7 @@ import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
+import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -94,11 +95,14 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
               accessorKey: field,
               header: label,
               cell: ({ getValue }) => {
-                if (getValue().includes('%')) {
-                  return getValue().replace(/-/g, '\u2011');
-                } else {
-                  return getValue();
+                if (getValue() !== undefined) {
+                  if (getValue().includes('%')) {
+                    return getValue().replace(/-/g, '\u2011');
+                  } else {
+                    return getValue();
+                  }
                 }
+                return getValue();
               },
             } as ColumnDef<string, string>;
           }
@@ -122,8 +126,9 @@ export const getColumnFilter: (
   resetFilters: boolean,
   setFiltersActive: (val: boolean) => void,
   allActiveFilters: string[],
-  setAllActiveFilters: (val: string[]) => void
-) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters) => {
+  setAllActiveFilters: (val: string[]) => void,
+  displayTextFilters: boolean
+) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters, displayTextFilters) => {
   if (type === 'DATE') {
     return (
       <DateRangeFilter
@@ -133,7 +138,7 @@ export const getColumnFilter: (
         setAllActiveFilters={setAllActiveFilters}
       />
     );
-  } else {
+  } else if (displayTextFilters) {
     return (
       <TextFilter
         column={header.column}

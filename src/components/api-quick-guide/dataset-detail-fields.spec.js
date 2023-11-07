@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import DatasetDetailFields from './dataset-detail-fields';
 import DtgTable from '../dtg-table/dtg-table';
+import { RecoilRoot } from 'recoil';
 
 let excluded = [];
 let apis = [];
@@ -59,7 +60,11 @@ describe('DataSetDetailFields', () => {
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(<DatasetDetailFields apis={apis} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <DatasetDetailFields apis={apis} />
+      </RecoilRoot>
+    );
   });
   let instance = component.root;
 
@@ -103,7 +108,11 @@ describe('DataSetDetailFields', () => {
   it('excludes the correct columns if only one api is represented', () => {
     excluded.push('tableName');
     renderer.act(() => {
-      component = renderer.create(<DatasetDetailFields apis={[apis[0]]} />);
+      component = renderer.create(
+        <RecoilRoot>
+          <DatasetDetailFields apis={[apis[0]]} />
+        </RecoilRoot>
+      );
     });
     instance = component.root;
     expect(instance.findByType(DtgTable).props.tableProps.excludeCols).toStrictEqual(excluded);
