@@ -4,6 +4,86 @@ import { fireEvent } from '@testing-library/dom';
 import DataTable from './data-table';
 import { RecoilRoot } from 'recoil';
 
+const mockMeta = {
+  count: 2,
+  labels: {
+    record_date: 'Record Date',
+    debt_held_public_amt: 'Debt Held by the Public',
+    intragov_hold_amt: 'Intragovernmental Holdings',
+    tot_pub_debt_out_amt: 'Total Public Debt Outstanding',
+    src_line_nbr: 'Source Line Number',
+    record_fiscal_year: 'Fiscal Year',
+    record_fiscal_quarter: 'Fiscal Quarter Number',
+    record_calendar_year: 'Calendar Year',
+    record_calendar_quarter: 'Calendar Quarter Number',
+    record_calendar_month: 'Calendar Month Number',
+    record_calendar_day: 'Calendar Day Number',
+    mock_small_fraction: 'Mock Small Fraction',
+    mock_percent_string: 'Mock Percent String',
+    mock_percent: 'Mock Percent',
+    negative_currency: 'Negative Currency',
+    daily_index: 'Daily Index',
+    daily_int_accrual_rate: 'Daily Accrual Rate',
+    spread: 'Spread',
+  },
+  dataTypes: {
+    record_date: 'DATE',
+    debt_held_public_amt: 'CURRENCY',
+    intragov_hold_amt: 'CURRENCY3',
+    tot_pub_debt_out_amt: 'CURRENCY',
+    src_line_nbr: 'NUMBER',
+    record_fiscal_year: 'YEAR',
+    record_fiscal_quarter: 'QUARTER',
+    record_calendar_year: 'YEAR',
+    record_calendar_quarter: 'QUARTER',
+    record_calendar_month: 'MONTH',
+    record_calendar_day: 'DAY',
+    mock_small_fraction: 'SMALL_FRACTION',
+    mock_percent_string: 'STRING',
+    mock_percent: 'PERCENTAGE',
+    negative_currency: 'CURRENCY3',
+    daily_index: 'NUMBER',
+    daily_int_accrual_rate: 'NUMBER',
+    spread: 'NUMBER',
+  },
+  dataFormats: {
+    record_date: 'YYYY-MM-DD',
+    debt_held_public_amt: '$10.20',
+    intragov_hold_amt: '$10.20',
+    tot_pub_debt_out_amt: '$10.20',
+    src_line_nbr: '10.2',
+    record_fiscal_year: 'YYYY',
+    record_fiscal_quarter: 'Q',
+    record_calendar_year: 'YYYY',
+    record_calendar_quarter: 'Q',
+    record_calendar_month: 'MM',
+    record_calendar_day: 'DD',
+  },
+  'total-count': 2,
+  'total-pages': 1,
+};
+
+const mockTableData1Row = {
+  record_date: '2023-07-12',
+  debt_held_public_amt: '25633821130387.02',
+  intragov_hold_amt: '6884574686385.15',
+  tot_pub_debt_out_amt: '32518395816772.17',
+  src_line_nbr: '1',
+  record_fiscal_year: '2023',
+  record_fiscal_quarter: '4',
+  record_calendar_year: '2023',
+  record_calendar_quarter: '3',
+  record_calendar_month: '07',
+  record_calendar_day: '12',
+  mock_percent_string: '45%',
+  mock_small_fraction: '0.00067898',
+  mock_percent: '4',
+  negative_currency: '-134.1',
+  daily_index: '0.111111111',
+  daily_int_accrual_rate: '0.222222222',
+  spread: '-0.1200',
+};
+
 const mockTableData = {
   data: [
     {
@@ -107,64 +187,7 @@ const mockTableData = {
       mock_percent: '2',
     },
   ],
-  meta: {
-    count: 2,
-    labels: {
-      record_date: 'Record Date',
-      debt_held_public_amt: 'Debt Held by the Public',
-      intragov_hold_amt: 'Intragovernmental Holdings',
-      tot_pub_debt_out_amt: 'Total Public Debt Outstanding',
-      src_line_nbr: 'Source Line Number',
-      record_fiscal_year: 'Fiscal Year',
-      record_fiscal_quarter: 'Fiscal Quarter Number',
-      record_calendar_year: 'Calendar Year',
-      record_calendar_quarter: 'Calendar Quarter Number',
-      record_calendar_month: 'Calendar Month Number',
-      record_calendar_day: 'Calendar Day Number',
-      mock_small_fraction: 'Mock Small Fraction',
-      mock_percent_string: 'Mock Percent String',
-      mock_percent: 'Mock Percent',
-      negative_currency: 'Negative Currency',
-      daily_index: 'Daily Index',
-      daily_int_accrual_rate: 'Daily Accrual Rate',
-      spread: 'Spread',
-    },
-    dataTypes: {
-      record_date: 'DATE',
-      debt_held_public_amt: 'CURRENCY',
-      intragov_hold_amt: 'CURRENCY3',
-      tot_pub_debt_out_amt: 'CURRENCY',
-      src_line_nbr: 'NUMBER',
-      record_fiscal_year: 'YEAR',
-      record_fiscal_quarter: 'QUARTER',
-      record_calendar_year: 'YEAR',
-      record_calendar_quarter: 'QUARTER',
-      record_calendar_month: 'MONTH',
-      record_calendar_day: 'DAY',
-      mock_small_fraction: 'SMALL_FRACTION',
-      mock_percent_string: 'STRING',
-      mock_percent: 'PERCENTAGE',
-      negative_currency: 'CURRENCY3',
-      daily_index: 'NUMBER',
-      daily_int_accrual_rate: 'NUMBER',
-      spread: 'NUMBER',
-    },
-    dataFormats: {
-      record_date: 'YYYY-MM-DD',
-      debt_held_public_amt: '$10.20',
-      intragov_hold_amt: '$10.20',
-      tot_pub_debt_out_amt: '$10.20',
-      src_line_nbr: '10.2',
-      record_fiscal_year: 'YYYY',
-      record_fiscal_quarter: 'Q',
-      record_calendar_year: 'YYYY',
-      record_calendar_quarter: 'Q',
-      record_calendar_month: 'MM',
-      record_calendar_day: 'DD',
-    },
-    'total-count': 2,
-    'total-pages': 1,
-  },
+  meta: mockMeta,
 };
 
 const mockGenericTableData = {
@@ -480,6 +503,49 @@ describe('react-table', () => {
     allColLabels.forEach(label => {
       expect(instance.getAllByRole('columnheader', { name: label })[0]).toBeInTheDocument();
     });
+  });
+
+  it('pagination for 0 rows of data', () => {
+    const { getByText, getByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={{ data: [], meta: mockMeta }}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 2 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    const header = getByRole('columnheader', { name: 'Record Date' });
+    expect(header).toBeInTheDocument();
+    expect(getByText('Showing', { exact: false })).toBeInTheDocument();
+    expect(getByText('rows of 0 rows', { exact: false })).toBeInTheDocument();
+  });
+
+  it('pagination for 1 row of data', () => {
+    const { getByText, getByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={{ data: [mockTableData1Row], meta: mockMeta }}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 2 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    const header = getByRole('columnheader', { name: 'Record Date' });
+    expect(header).toBeInTheDocument();
+    expect(getByText('Showing', { exact: false })).toBeInTheDocument();
+    expect(getByText('1 - 1', { exact: false })).toBeInTheDocument();
+    expect(getByText('of 1 row', { exact: false })).toBeInTheDocument();
   });
 
   it('hides specified columns', () => {

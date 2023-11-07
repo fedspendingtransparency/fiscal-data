@@ -13,14 +13,21 @@ import { downloadsContext } from '../persist/download-persist/downloads-persist'
 import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventLabelStr = gaEventLabels.cancelDL;
 export const closeEventLabelStr = gaEventLabels.closeDLDialog;
 
-const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset, isFiltered, selectedUserFilter, tableColumnSortData }) => {
+const DownloadWrapper = ({
+  selectedTable,
+  allTablesSelected,
+  dateRange,
+  dataset,
+  isFiltered,
+  selectedUserFilter,
+  tableColumnSortData,
+  filteredDateRange,
+}) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
     tableName = `All Data Tables (${dataset.apis.length})`;
@@ -37,7 +44,6 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
