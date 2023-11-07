@@ -15,6 +15,8 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
+import { useSetRecoilState } from 'recoil';
+import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
@@ -35,6 +37,9 @@ type DataTableProps = {
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
+  manualPagination: boolean;
+  maxRows: number;
+  rowsShowing: { begin: number; end: number };
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -55,6 +60,9 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   hideColumns,
   pagingProps,
+  manualPagination,
+  maxRows,
+  rowsShowing,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
   const data = rawData.data;
@@ -92,9 +100,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }
 
   const [sorting, setSorting] = useState<SortingState>([]);
+  const setTableSorting = useSetRecoilState(reactTableSortingState);
 
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
+  const [allActiveFilters, setAllActiveFilters] = useState([]);
 
   const table = useReactTable({
     columns,
@@ -116,6 +126,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    manualPagination: manualPagination,
   });
 
   const getSortedColumnsData = table => {
@@ -125,6 +136,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         id: column.id,
         sorted: column.getIsSorted(),
         filterValue: column.getFilterValue(),
+        downloadFilter: dataTypes[column.id] !== 'DATE',
         rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
         allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
       }));
@@ -137,10 +149,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   }, [sorting, columnVisibility, table.getFilteredRowModel()]);
 
   useEffect(() => {
+    setTableSorting(sorting);
+  }, [sorting]);
+
+  useEffect(() => {
     if (resetFilters) {
       table.resetColumnFilters();
       table.resetSorting();
       setResetFilters(false);
+      setAllActiveFilters([]);
     }
   }, [resetFilters]);
 
@@ -213,7 +230,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
+                  <DataTableHeader
+                    table={table}
+                    dataTypes={dataTypes}
+                    resetFilters={resetFilters}
+                    setFiltersActive={setFiltersActive}
+                    maxRows={maxRows}
+                    allActiveFilters={allActiveFilters}
+                    setAllActiveFilters={setAllActiveFilters}
+                  />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>
@@ -221,7 +246,16 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
+      {shouldPage && (
+        <DataTableFooter
+          table={table}
+          showPaginationControls={showPaginationControls}
+          pagingProps={pagingProps}
+          manualPagination={manualPagination}
+          maxRows={maxRows}
+          rowsShowing={rowsShowing}
+        />
+      )}
     </>
   );
 };

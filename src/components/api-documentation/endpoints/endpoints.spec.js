@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Endpoints from './endpoints';
 import { useStaticQuery } from 'gatsby';
+import { RecoilRoot } from 'recoil';
 
 describe('API Documentation/Endpoints', () => {
   const internalData = require('../../../testData/__dataConfig_for_tests.json');
@@ -20,7 +21,11 @@ describe('API Documentation/Endpoints', () => {
   beforeAll(() => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
     renderer.act(() => {
-      component = renderer.create(<Endpoints />);
+      component = renderer.create(
+        <RecoilRoot>
+          <Endpoints />
+        </RecoilRoot>
+      );
     });
     instance = component.root;
   });

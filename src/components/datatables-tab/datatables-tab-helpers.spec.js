@@ -2,6 +2,7 @@ import React from 'react';
 import { fileSizeTranslator, fileSizeTranslator2, makeTheDataArray } from './datatables-tab-helpers';
 import renderer from 'react-test-renderer';
 import DataTablesTab from './datatables-tab';
+import { RecoilRoot } from 'recoil';
 
 describe('DataTablesTabHelpers', () => {
   const mockData = [
@@ -23,7 +24,11 @@ describe('DataTablesTabHelpers', () => {
   let instance;
   beforeAll(() => {
     renderer.act(() => {
-      component = renderer.create(<DataTablesTab apis={mockData} />);
+      component = renderer.create(
+        <RecoilRoot>
+          <DataTablesTab apis={mockData} />
+        </RecoilRoot>
+      );
     });
     instance = component.root;
   });

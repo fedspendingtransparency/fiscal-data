@@ -25,6 +25,7 @@ import GLOBALS from '../../../helpers/constants';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import NotShownMessage from './not-shown-message/not-shown-message';
 import userEvent from '@testing-library/user-event';
+import { RecoilRoot } from 'recoil';
 
 describe('TableSectionContainer initial state', () => {
   let component, instance;
@@ -32,13 +33,15 @@ describe('TableSectionContainer initial state', () => {
 
   beforeAll(() => {
     component = renderer.create(
-      <TableSectionContainer
-        selectedTable={selectedTableLessFields}
-        dateRange={mockDateRange}
-        apiData={mockApiData}
-        setSelectedPivot={mockSetSelectedPivot}
-        config={mockConfig}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          selectedTable={selectedTableLessFields}
+          dateRange={mockDateRange}
+          apiData={mockApiData}
+          setSelectedPivot={mockSetSelectedPivot}
+          config={mockConfig}
+        />
+      </RecoilRoot>
     );
 
     instance = component.root;
@@ -54,16 +57,18 @@ describe('TableSectionContainer while loading', () => {
   let queryTestId;
   beforeAll(() => {
     const { queryByTestId } = render(
-      <TableSectionContainer
-        config={mockConfig}
-        dateRange={mockDateRange}
-        selectedTable={selectedTableLessFields}
-        apiData={{ data: [], meta: { labels: {} } }}
-        isLoading={true}
-        apiError={false}
-        setSelectedPivot={mockSetSelectedPivot}
-        selectedPivot={selectedPivot}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTableLessFields}
+          apiData={{ data: [], meta: { labels: {} } }}
+          isLoading={true}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+          selectedPivot={selectedPivot}
+        />
+      </RecoilRoot>
     );
     queryTestId = queryByTestId;
   });
@@ -85,16 +90,18 @@ describe('TableSectionContainer with data', () => {
 
   renderer.act(() => {
     component = renderer.create(
-      <TableSectionContainer
-        config={mockConfig}
-        dateRange={mockDateRange}
-        selectedTable={selectedTable}
-        apiData={mockApiData}
-        isLoading={false}
-        apiError={false}
-        selectedPivot={selectedPivot}
-        setSelectedPivot={mockSetSelectedPivot}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTable}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          selectedPivot={selectedPivot}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
     );
   });
 
@@ -117,16 +124,18 @@ describe('TableSectionContainer with data', () => {
   it('shows no pivot options toggle when none are available', () => {
     renderer.act(() => {
       component.update(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithNoChartAvailable}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithNoChartAvailable}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
     instance = component.root;
@@ -139,16 +148,18 @@ describe('TableSectionContainer with userFilter Options', () => {
     let tableSectionContainer = {};
     renderer.act(() => {
       tableSectionContainer = renderer.create(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithUserFilterAvailable}
-          userFilterSelection={{ label: 'Auditorium', value: 'Auditorium' }}
-          apiData={mockApiDataUserFilterable}
-          isLoading={false}
-          apiError={false}
-          setSelectedPivot={jest.fn()}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithUserFilterAvailable}
+            userFilterSelection={{ label: 'Auditorium', value: 'Auditorium' }}
+            apiData={mockApiDataUserFilterable}
+            isLoading={false}
+            apiError={false}
+            setSelectedPivot={jest.fn()}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -169,17 +180,19 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   renderer.act(() => {
     component = renderer.create(
-      <TableSectionContainer
-        config={mockConfig}
-        dateRange={mockDateRange}
-        selectedTable={mockTableWithPivot}
-        apiData={mockApiData}
-        pivotFields={pivotFields}
-        selectedPivot={selectedPivot}
-        isLoading={false}
-        apiError={false}
-        setSelectedPivot={mockSetSelectedPivot}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          pivotFields={pivotFields}
+          selectedPivot={selectedPivot}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
     );
   });
 
@@ -191,17 +204,19 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it('pivot options are in view by default', () => {
     const { getByTestId } = render(
-      <TableSectionContainer
-        config={mockConfig}
-        dateRange={mockDateRange}
-        selectedTable={mockTableWithPivot}
-        apiData={mockApiData}
-        pivotFields={pivotFields}
-        selectedPivot={selectedPivot}
-        isLoading={false}
-        apiError={false}
-        setSelectedPivot={mockSetSelectedPivot}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          pivotFields={pivotFields}
+          selectedPivot={selectedPivot}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
     );
     expect(getByTestId('pivotOptionsDrawer').className).toContain(styles.active);
   });
@@ -212,17 +227,19 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it('collapses/expands the pivot options when the toggle button is clicked', () => {
     const { getByTestId } = render(
-      <TableSectionContainer
-        config={mockConfig}
-        dateRange={mockDateRange}
-        selectedTable={mockTableWithPivot}
-        apiData={mockApiData}
-        pivotFields={pivotFields}
-        selectedPivot={selectedPivot}
-        isLoading={false}
-        apiError={false}
-        setSelectedPivot={mockSetSelectedPivot}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithPivot}
+          apiData={mockApiData}
+          pivotFields={pivotFields}
+          selectedPivot={selectedPivot}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
     );
     expect(getByTestId('pivotOptionsDrawer').className).toContain(styles.active);
     fireEvent.click(getByTestId('pivotToggle'));
@@ -232,17 +249,19 @@ describe('TableSectionContainer with Pivot Options', () => {
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {
     renderer.act(() => {
       component.update(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithNoChartAvailable}
-          apiData={{ data: [], meta: { labels: {} } }}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          serverSidePagination="ssp-endpoint"
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithNoChartAvailable}
+            apiData={{ data: [], meta: { labels: {} } }}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            serverSidePagination="ssp-endpoint"
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
     const table = instance.findByType(DtgTable);
@@ -258,16 +277,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     let tableSectionContainer = {};
     renderer.act(() => {
       tableSectionContainer = renderer.create(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -285,16 +306,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     let tableSectionContainer = {};
     renderer.act(() => {
       tableSectionContainer = renderer.create(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivot}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -307,16 +330,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     let tableSectionContainer = {};
     renderer.act(() => {
       tableSectionContainer = renderer.create(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -331,16 +356,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     renderer.act(() => {
       global.window.innerWidth = GLOBALS.breakpoints.large;
       tableSectionContainer = renderer.create(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -351,16 +378,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     renderer.act(() => {
       global.window.innerWidth = GLOBALS.breakpoints.large + 6;
       tableSectionContainer.update(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -371,16 +400,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     renderer.act(() => {
       global.window.innerWidth = GLOBALS.breakpoints.large - 125;
       tableSectionContainer.update(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
 
@@ -398,16 +429,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     renderer.act(() => {
       global.window.innerWidth = GLOBALS.breakpoints.large + 1;
       tableSectionContainer = renderer.create(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
     let datasetChart = tableSectionContainer.root.findByType(DatasetChart);
@@ -432,16 +465,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     renderer.act(() => {
       global.window.innerWidth = GLOBALS.breakpoints.large - 5;
       tableSectionContainer.update(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
     datasetChart = tableSectionContainer.root.findByType(DatasetChart);
@@ -459,16 +494,18 @@ describe('TableSectionContainer with Pivot Options', () => {
     renderer.act(() => {
       global.window.innerWidth = GLOBALS.breakpoints.large + 50;
       tableSectionContainer.update(
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivotWithAggregation}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
+        <RecoilRoot>
+          <TableSectionContainer
+            config={mockConfig}
+            dateRange={mockDateRange}
+            selectedTable={mockTableWithPivot}
+            apiData={mockApiData}
+            isLoading={false}
+            apiError={false}
+            selectedPivot={selectedPivotWithAggregation}
+            setSelectedPivot={mockSetSelectedPivot}
+          />
+        </RecoilRoot>
       );
     });
     datasetChart = tableSectionContainer.root.findByType(DatasetChart);
@@ -489,17 +526,19 @@ describe('TableSectionContainer with Select Column', () => {
 
   it('should show select column panel when select column is toggled on', async () => {
     const { getByRole, getByTestId } = render(
-      <TableSectionContainer
-        config={selectColMockConfig}
-        dateRange={mockDateRange}
-        selectedTable={selectedTable}
-        selectedTab={0}
-        apiData={mockApiData}
-        isLoading={false}
-        apiError={false}
-        selectedPivot={selectedPivot}
-        setSelectedPivot={mockSetSelectedPivot}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          config={selectColMockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTable}
+          selectedTab={0}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          selectedPivot={selectedPivot}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
     );
 
     const selectColumns = getByTestId('selectColumnsMainContainer');
@@ -515,17 +554,19 @@ describe('TableSectionContainer with Select Column', () => {
 
   it('should hide select column panel when select column is toggled off', async () => {
     const { getByRole, getByTestId } = render(
-      <TableSectionContainer
-        config={selectColMockConfig}
-        dateRange={mockDateRange}
-        selectedTable={selectedTable}
-        selectedTab={0}
-        apiData={mockApiData}
-        isLoading={false}
-        apiError={false}
-        selectedPivot={selectedPivot}
-        setSelectedPivot={mockSetSelectedPivot}
-      />
+      <RecoilRoot>
+        <TableSectionContainer
+          config={selectColMockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTable}
+          selectedTab={0}
+          apiData={mockApiData}
+          isLoading={false}
+          apiError={false}
+          selectedPivot={selectedPivot}
+          setSelectedPivot={mockSetSelectedPivot}
+        />
+      </RecoilRoot>
     );
 
     const selectColumns = getByTestId('selectColumnsMainContainer');
