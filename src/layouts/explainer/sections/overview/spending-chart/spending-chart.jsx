@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { apiPrefix, basicFetch, monthNames } from '../../../../../utils/api-utils';
-import CustomTooltip from '../revenue-chart/custom-tooltip/custom-tooltip';
+import CustomTooltip from '../chart-components/line-chart-custom-tooltip/custom-tooltip';
 import { chartTitle, chartContainer, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
