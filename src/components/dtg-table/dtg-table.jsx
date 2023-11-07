@@ -289,7 +289,20 @@ export default function DtgTable({
     return () => {
       loadCanceled = true;
     };
-  }, [selectedTable, dateRange, sorting, filteredDateRange]);
+  }, [selectedTable, dateRange]);
+
+  useEffect(() => {
+    if (tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      updateSmallFractionDataType();
+      setCurrentPage(1);
+      setApiError(false);
+      const ssp = tableProps.serverSidePagination;
+      ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
+      return () => {
+        loadCanceled = true;
+      };
+    }
+  }, [sorting, filteredDateRange]);
 
   useEffect(() => {
     setApiError(false);
