@@ -15,7 +15,6 @@ module.exports = {
   siteMetadata: {
     siteUrl: 'https://fiscaldata.treasury.gov',
   },
-  trailingSlash: false,
   plugins: [
     // ////// IMPORTANT: Google Analytics Plugin must be the first item in this array //////
     {
