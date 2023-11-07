@@ -104,6 +104,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
+  const [allActiveFilters, setAllActiveFilters] = useState([]);
 
   const table = useReactTable({
     columns,
@@ -156,6 +157,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       table.resetColumnFilters();
       table.resetSorting();
       setResetFilters(false);
+      setAllActiveFilters([]);
     }
   }, [resetFilters]);
 
@@ -234,6 +236,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                     resetFilters={resetFilters}
                     setFiltersActive={setFiltersActive}
                     maxRows={maxRows}
+                    allActiveFilters={allActiveFilters}
+                    setAllActiveFilters={setAllActiveFilters}
                   />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>

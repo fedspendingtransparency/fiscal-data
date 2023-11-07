@@ -27,10 +27,19 @@ interface IDataTableHeader {
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;
   maxRows: number;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
 }
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, resetFilters, setFiltersActive, maxRows }) => {
-  const [allActiveFilters, setAllActiveFilters] = useState([]);
+const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
+  table,
+  dataTypes,
+  resetFilters,
+  setFiltersActive,
+  maxRows,
+  allActiveFilters,
+  setAllActiveFilters,
+}) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
       color: '#555555',
