@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import DtgTable from '../dtg-table/dtg-table';
 import DataTablesTab from './datatables-tab';
+import { RecoilRoot } from 'recoil';
 
 describe('DataTablesTab', () => {
   const mockData = [
@@ -22,7 +23,11 @@ describe('DataTablesTab', () => {
   let instance;
   beforeAll(() => {
     renderer.act(() => {
-      component = renderer.create(<DataTablesTab apis={mockData} />);
+      component = renderer.create(
+        <RecoilRoot>
+          <DataTablesTab apis={mockData} />
+        </RecoilRoot>
+      );
     });
     instance = component.root;
   });
@@ -35,7 +40,11 @@ describe('DataTablesTab', () => {
     const name = 'test-dataset';
     const newComponent = renderer.create();
     renderer.act(() => {
-      newComponent.update(<DataTablesTab apis={mockData} datasetName={name} />);
+      newComponent.update(
+        <RecoilRoot>
+          <DataTablesTab apis={mockData} datasetName={name} />
+        </RecoilRoot>
+      );
     });
     const updated = newComponent.root;
     const table = updated.findByType('table');

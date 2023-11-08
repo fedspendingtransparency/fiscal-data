@@ -12,6 +12,7 @@ const FilterAndDownload = ({
   isCustomDateRange,
   selectedUserFilter,
   tableColumnSortData,
+  filteredDateRange,
 }) => {
   return (
     <div className={container} data-testid="filterDownloadContainer">
@@ -26,6 +27,7 @@ const FilterAndDownload = ({
           isCustomDateRange={isCustomDateRange}
           selectedUserFilter={selectedUserFilter}
           tableColumnSortData={tableColumnSortData}
+          filteredDateRange={filteredDateRange}
         />
       </div>
     </div>

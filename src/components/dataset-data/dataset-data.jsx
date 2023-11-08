@@ -15,6 +15,8 @@ import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import { useRecoilValue } from 'recoil';
+import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 
 export const desktopTitle = 'Preview & Download';
 export const tabletMobileTitle = 'Preview';
@@ -38,12 +40,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [publishedReports, setPublishedReports] = useState([]);
   const [selectedPivot, setSelectedPivot] = useState();
   const [initReports, setInitReports] = useState(null);
-  const [perPage, setPerPage] = useState(null);
   const [ignorePivots, setIgnorePivots] = useState(false);
   const [configUpdated, setConfigUpdated] = useState(false);
   const [userFilterSelection, setUserFilterSelection] = useState(null);
   const [tableColumnSortData, setTableColumnSortData] = useState([]);
   const [tableCaches] = useState({});
+  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
   let loadByPage;
 
@@ -188,6 +190,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             isCustomDateRange={isCustomDateRange}
             selectedUserFilter={userFilterSelection}
             tableColumnSortData={tableColumnSortData}
+            filteredDateRange={filteredDateRange}
           >
             <DataTableSelect
               apis={apis}
@@ -232,11 +235,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             serverSidePagination={serverSidePagination}
             selectedTab={selectedTab}
             tabChangeHandler={setSelectedTab}
-            perPage={perPage}
-            setPerPage={setPerPage}
             handleIgnorePivots={setIgnorePivots}
             allTablesSelected={allTablesSelected}
             handleConfigUpdate={() => setConfigUpdated(true)}
+            tableColumnSortData={tableColumnSortData}
             setTableColumnSortData={setTableColumnSortData}
             hasPublishedReports={!!publishedReports}
             publishedReports={publishedReports}

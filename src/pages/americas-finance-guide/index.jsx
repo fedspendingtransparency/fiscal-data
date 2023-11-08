@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { Container, Grid } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
 import {
   quoteIcon,
-  quoteContainerIcon,
   bottomContainer,
   quote,
   quoteBar,
   citation,
-  quoteGrid,
   topContainer,
   mainContainer,
   quoteContainer,
-  quoteContainerImg,
   socialShare,
+  quoteSection,
+  treasuryReportImg,
+  constitutionImg,
 } from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -110,23 +110,25 @@ const AmericasFinanceGuidePage = ({ width }) => {
             </DataSourcesMethodologies>
           </Container>
         </div>
-        <Container classes={{ root: quoteContainer }} data-testid="quoteContainer">
-          <Grid classes={{ root: quoteGrid }} container spacing={2}>
-            <Grid item md={2} classes={{ root: quoteContainerImg }}>
-              <img src="../images/thomas-jefferson_background.png" alt="A sketched portrait of Thomas Jefferson, from the torso up." />
-            </Grid>
-            <Grid item md={8}>
+        <div className={constitutionImg} data-testid="quoteContainer">
+          <div className={quoteContainer}>
+            <img
+              className={treasuryReportImg}
+              src="../images/treasury-reports.png"
+              alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background.
+                Next to the spread is a quote from Article 1, Section 9, which reads
+                “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”"
+            />
+            <div className={quoteSection}>
               <p className={quote}>
-                “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”
+                A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.
               </p>
               <p className={citation}>U.S. Constitution, Article 1, Section 9</p>
               <div className={quoteBar} />
-            </Grid>
-            <Grid item md={2} classes={{ root: quoteContainerIcon }}>
-              <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
-            </Grid>
-          </Grid>
-        </Container>
+            </div>
+            <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
+          </div>
+        </div>
         <Container classes={{ root: bottomContainer }} data-testid="bottomContainer">
           <p style={{ textAlign: 'center' }}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
           <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
