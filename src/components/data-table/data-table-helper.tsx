@@ -54,6 +54,10 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
                   formattedValue = numberFormatter.format(value);
                 }
 
+                if (tableName === 'Demand Deposit Rate' && field === 'daily_factor') {
+                  formattedValue = Number(value).toFixed(8);
+                }
+
                 return formattedValue;
               },
             } as ColumnDef<string, number>;
