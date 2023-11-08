@@ -21,7 +21,20 @@ interface ISearchBar {
   height?: string;
   ariaLabel?: string;
 }
-const SearchBar: FunctionComponent<ISearchBar> = ({ label, onChange, onBlur, filter, handleClear, active, setActive, inputRef, width, height, ariaLabel }) => {
+
+const SearchBar: FunctionComponent<ISearchBar> = ({
+  label,
+  onChange,
+  onBlur,
+  filter,
+  handleClear,
+  active,
+  setActive,
+  inputRef,
+  width,
+  height,
+  ariaLabel,
+}) => {
   let searchCleared = false;
 
   const clearBox = e => {
