@@ -62,7 +62,11 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
               accessorKey: field,
               header: label,
               cell: ({ getValue }) => {
-                return `${getValue()}%`;
+                if (getValue() !== undefined) {
+                  return `${getValue()}%`;
+                } else {
+                  return '';
+                }
               },
             } as ColumnDef<string, string>;
           } else if (rawData.meta.dataTypes[field] === 'SMALL_FRACTION') {
