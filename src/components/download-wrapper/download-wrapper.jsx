@@ -18,7 +18,16 @@ const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventLabelStr = gaEventLabels.cancelDL;
 export const closeEventLabelStr = gaEventLabels.closeDLDialog;
 
-const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset, isFiltered, selectedUserFilter, tableColumnSortData }) => {
+const DownloadWrapper = ({
+  selectedTable,
+  allTablesSelected,
+  dateRange,
+  dataset,
+  isFiltered,
+  selectedUserFilter,
+  tableColumnSortData,
+  filteredDateRange,
+}) => {
   let tableName = selectedTable && selectedTable.tableName ? selectedTable.tableName : 'N/A';
   if (allTablesSelected) {
     tableName = `All Data Tables (${dataset.apis.length})`;
@@ -101,6 +110,7 @@ const DownloadWrapper = ({ selectedTable, allTablesSelected, dateRange, dataset,
       requestTime: Date.now(),
       selectedUserFilter,
       tableColumnSortData,
+      filteredDateRange,
     };
     setDownloadRequest(downloadEntry);
     setOpen(true);

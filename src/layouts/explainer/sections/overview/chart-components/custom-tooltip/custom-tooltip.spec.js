@@ -30,4 +30,10 @@ describe('AFG Deficit Tooltip', () => {
     expect(getByText('2021')).toBeInTheDocument();
     expect(getByText(`$${getShortForm(mockPayload[0].payload.tooltip[0].value)}`)).toBeInTheDocument();
   });
+
+  it('Displays FYTD on the current FY', () => {
+    const { getByTestId, getByText } = render(<CustomTooltip payload={mockPayload} label="2021" setFocused={jest.fn()} curFY="2021" />);
+    expect(getByTestId('CustomTooltip')).toBeInTheDocument();
+    expect(getByText('FYTD 2021')).toBeInTheDocument();
+  });
 });

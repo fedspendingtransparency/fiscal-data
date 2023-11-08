@@ -19,8 +19,9 @@ interface ISearchBar {
   inputRef?;
   width?: string;
   height?: string;
+  ariaLabel?: string;
 }
-const SearchBar: FunctionComponent<ISearchBar> = ({ label, onChange, onBlur, filter, handleClear, active, setActive, inputRef, width, height }) => {
+const SearchBar: FunctionComponent<ISearchBar> = ({ label, onChange, onBlur, filter, handleClear, active, setActive, inputRef, width, height, ariaLabel }) => {
   let searchCleared = false;
 
   const clearBox = e => {
@@ -87,6 +88,9 @@ const SearchBar: FunctionComponent<ISearchBar> = ({ label, onChange, onBlur, fil
                 style: {
                   height: height,
                 },
+              }}
+              inputProps={{
+                'aria-label': ariaLabel ? ariaLabel : label,
               }}
             />
           </Box>

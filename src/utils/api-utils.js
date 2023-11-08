@@ -4,6 +4,7 @@ import queryString from 'query-string';
 import GLOBALS from '../helpers/constants';
 import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
 import { divvyUpFilters, pivotApiData, pivotApiDataFn } from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
+import { buildTableColumnSortParams } from './api-utils-helper';
 
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
 export const getIFetch = () => (apiKey ? authenticatingFetch(apiKey, fetch) : fetch);
@@ -13,6 +14,7 @@ export const apiPrefix = `${API_BASE_URL}/services/api/fiscal_service/`;
 export const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const MAX_PAGE_SIZE = 10000;
+export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = 20000;
 
 export const formatDateForApi = d => {
   return format(d, 'yyyy-MM-dd');
@@ -92,7 +94,7 @@ const checkError = (response, urlAttempted) => {
   }
 };
 
-export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize) => {
+export const pagedDatatableRequest = async (table, from, to, selectedPivot, pageNum, pageSize, tableColumnSortData) => {
   const dateField = table.dateField;
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
@@ -103,11 +105,16 @@ export const pagedDatatableRequest = async (table, from, to, selectedPivot, page
     toStr = toStr.substring(0, to.lastIndexOf('-'));
   }
   const sortParam = buildSortParams(table, selectedPivot);
-  // 'sort=' + (table.alwaysSortWith ? table.alwaysSortWith.join(',') : `-${dateField}`);
+  let tableColumnSort = '';
+  let tableColumnSortParams;
+  if (tableColumnSortData) {
+    tableColumnSortParams = buildTableColumnSortParams(tableColumnSortData, sortParam);
+    tableColumnSort = tableColumnSortParams.sort;
+  }
 
   const uri =
     `${apiPrefix}${table.endpoint}?filter=${dateField}:gte:${fromStr},${dateField}` +
-    `:lte:${toStr}&sort=${sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
+    `:lte:${toStr}&sort=${tableColumnSort ? tableColumnSort : sortParam}&page[number]=${pageNum}&page[size]=${pageSize}`;
 
   return getIFetch()(uri).then(response => response.json());
 };

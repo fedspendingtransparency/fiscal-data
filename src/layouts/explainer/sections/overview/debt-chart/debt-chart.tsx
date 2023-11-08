@@ -9,7 +9,7 @@ import ChartLegend from '../chart-components/chart-legend';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { trillionAxisFormatter } from '../chart-helper';
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
-import CustomTooltip from '../deficit-chart/custom-tooltip/custom-tooltip';
+import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
 
 const AFGDebtChart = (): ReactElement => {
@@ -99,8 +99,9 @@ const AFGDebtChart = (): ReactElement => {
               let debtVal = year.total_mil_amt * 1000000 - deficitVal;
               const bars = {};
               bars[`tooltip`] = [
-                { title: 'Debt', value: year.total_mil_amt * 1000000, color: debtExplainerPrimary },
+                { title: 'Debt', value: debtVal, color: debtExplainerPrimary },
                 { title: 'Deficit', value: deficitVal, color: deficitExplainerPrimary },
+                { title: 'Total Debt', value: year.total_mil_amt * 1000000 },
               ];
               let index = 0;
               while (debtVal > 1e12) {
@@ -195,7 +196,11 @@ const AFGDebtChart = (): ReactElement => {
                   tickMargin={8}
                 />
                 {generateBar(finalChartData)}
-                <Tooltip content={<CustomTooltip setFocused={setFocusedYear} labelByYear />} cursor={{ fillOpacity: 0 }} shared={false} />
+                <Tooltip
+                  content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} />}
+                  cursor={{ fillOpacity: 0 }}
+                  shared={false}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>

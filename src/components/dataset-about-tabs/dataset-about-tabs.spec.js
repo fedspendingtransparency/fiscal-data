@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import DatasetAboutTabs from './dataset-about-tabs';
+import { RecoilRoot } from 'recoil';
 
 describe('DatasetAboutTabs', () => {
   const tabData = {
@@ -26,17 +27,29 @@ describe('DatasetAboutTabs', () => {
   };
 
   it('contains a NotesAndLimitations component with expected props', () => {
-    const { getByText } = render(<DatasetAboutTabs config={tabData} test />);
+    const { getByText } = render(
+      <RecoilRoot>
+        <DatasetAboutTabs config={tabData} test />
+      </RecoilRoot>
+    );
     expect(getByText(tabData.notesAndKnownLimitations)).toBeInTheDocument();
   });
 
   it('creates a container to hold the tabs', () => {
-    const { getByTestId } = render(<DatasetAboutTabs config={tabData} test />);
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DatasetAboutTabs config={tabData} test />
+      </RecoilRoot>
+    );
     expect(getByTestId('tabsContainer')).toBeDefined();
   });
 
   it('creates a tab label for each tab property', () => {
-    const { getByLabelText } = render(<DatasetAboutTabs config={tabData} test />);
+    const { getByLabelText } = render(
+      <RecoilRoot>
+        <DatasetAboutTabs config={tabData} test />
+      </RecoilRoot>
+    );
     expect(getByLabelText('Data Dictionary')).toBeInTheDocument();
     expect(getByLabelText('Data Tables')).toBeInTheDocument();
     expect(getByLabelText('Metadata')).toBeInTheDocument();

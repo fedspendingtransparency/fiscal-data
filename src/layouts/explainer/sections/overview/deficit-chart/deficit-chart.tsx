@@ -5,7 +5,7 @@ import { spendingExplainerPrimary } from '../../federal-spending/federal-spendin
 import { revenueExplainerPrimary } from '../../government-revenue/revenue.module.scss';
 import { chartContainer, chartTitle, surplusPrimary, deficitChart, breakpointLg } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import CustomTooltip from './custom-tooltip/custom-tooltip';
+import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import CustomDotNoAnimation from './custom-dot/custom-dot';
@@ -172,7 +172,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   );
                 })}
                 <Tooltip
-                  content={<CustomTooltip setFocused={setFocusedYear} />}
+                  content={<CustomTooltip setFocused={setFocusedYear} curFY={currentFY} />}
                   cursor={{ strokeWidth: 0 }}
                   isAnimationActive={false}
                   allowEscapeViewBox={width > pxToNumber(breakpointLg) ? { x: true } : { y: true }}

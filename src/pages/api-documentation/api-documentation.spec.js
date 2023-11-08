@@ -13,6 +13,7 @@ import TOCButton from '../../components/table-of-contents/toc-button/toc-button'
 import * as addressBar from '../../helpers/address-bar/address-bar';
 import { animateScroll } from 'react-scroll';
 import { scrollOptionsSmooth } from '../../utils/scroll-config';
+import { RecoilRoot } from 'recoil';
 
 jest.useFakeTimers();
 describe('ApiDocumentationPage', () => {
@@ -43,7 +44,11 @@ describe('ApiDocumentationPage', () => {
   beforeAll(() => {
     useStaticQuery.mockReturnValue(profilerConfigMockData);
     renderer.act(() => {
-      component = renderer.create(<ApiDocumentationPage />);
+      component = renderer.create(
+        <RecoilRoot>
+          <ApiDocumentationPage />
+        </RecoilRoot>
+      );
     });
 
     instance = component.root;

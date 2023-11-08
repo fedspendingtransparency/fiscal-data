@@ -7,6 +7,7 @@ import DatasetSectionContainer from '../dataset-section-container/dataset-sectio
 import DatasetDetailFields from './dataset-detail-fields';
 import DatasetDetailExamples from './dataset-detail-examples/dataset-detail-examples';
 import SectionCollapseButton from '../section-collapse/section-collapse-button';
+import { RecoilRoot } from 'recoil';
 
 import { selectedTable } from './test-helpers/test-helpers';
 require('jest-fetch-mock');
@@ -42,7 +43,11 @@ describe('API Quick Guide', () => {
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <ApiQuickGuide config={config} selectedTable={selectedTable} />
+      </RecoilRoot>
+    );
   });
 
   const instance = component.root;

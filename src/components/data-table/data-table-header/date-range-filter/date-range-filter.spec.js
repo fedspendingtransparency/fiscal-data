@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
 import React from 'react';
+import { RecoilRoot } from 'recoil';
 
 describe('date range filter', () => {
   Date.now = jest.fn(() => new Date('2023-01-02'));
@@ -13,7 +14,9 @@ describe('date range filter', () => {
 
   it('renders the filter', () => {
     const { getByRole } = render(
-      <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} setFiltersActive={mockSetFiltersActive} table={mockTable} />
+      <RecoilRoot>
+        <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} setFiltersActive={mockSetFiltersActive} table={mockTable} />
+      </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
     expect(dateRangeButton).toBeInTheDocument();
@@ -21,13 +24,15 @@ describe('date range filter', () => {
 
   it('renders today and clear buttons', () => {
     const { getByRole, getByText } = render(
-      <DateRangeFilter
-        column={mockColumn}
-        resetFilters={mockResetFilters}
-        setFiltersActive={mockSetFiltersActive}
-        allActiveFilters={mockAllActiveFilters}
-        setAllActiveFilters={mockSetAllActiveFilters}
-      />
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
     dateRangeButton.click();
@@ -41,13 +46,15 @@ describe('date range filter', () => {
 
   it('today and clear buttons keyboard accessibility', () => {
     const { getByRole, getByText } = render(
-      <DateRangeFilter
-        column={mockColumn}
-        resetFilters={mockResetFilters}
-        setFiltersActive={mockSetFiltersActive}
-        allActiveFilters={mockAllActiveFilters}
-        setAllActiveFilters={mockSetAllActiveFilters}
-      />
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
     dateRangeButton.click();
@@ -61,13 +68,15 @@ describe('date range filter', () => {
 
   it('today and clear buttons keyboard accessibility', () => {
     const { getByRole, getByText } = render(
-      <DateRangeFilter
-        column={mockColumn}
-        resetFilters={mockResetFilters}
-        setFiltersActive={mockSetFiltersActive}
-        allActiveFilters={mockAllActiveFilters}
-        setAllActiveFilters={mockSetAllActiveFilters}
-      />
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
     fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
@@ -81,13 +90,15 @@ describe('date range filter', () => {
 
   it('closes the dropdown on blur', () => {
     const { getByRole, queryByRole } = render(
-      <DateRangeFilter
-        column={mockColumn}
-        resetFilters={mockResetFilters}
-        setFiltersActive={mockSetFiltersActive}
-        allActiveFilters={mockAllActiveFilters}
-        setAllActiveFilters={mockSetAllActiveFilters}
-      />
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
     dateRangeButton.click();
@@ -99,13 +110,15 @@ describe('date range filter', () => {
 
   it('calls mouse handlers ', () => {
     const { getByRole, queryByTestId } = render(
-      <DateRangeFilter
-        column={mockColumn}
-        resetFilters={mockResetFilters}
-        setFiltersActive={mockSetFiltersActive}
-        allActiveFilters={mockAllActiveFilters}
-        setAllActiveFilters={mockSetAllActiveFilters}
-      />
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
     dateRangeButton.click();
