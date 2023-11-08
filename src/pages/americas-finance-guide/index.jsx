@@ -29,7 +29,6 @@ import AfgHero from '../../layouts/explainer/explainer-components/afg-components
 import ApiRequest from '../../helpers/api-request';
 import { revenueRequest } from '../../layouts/explainer/explainer-helpers/afg-overview-helpers';
 import CustomLink from '../../components/links/custom-link/custom-link';
-import { graphql, useStaticQuery } from 'gatsby';
 import Footnote from '../../components/footnote/footnote';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
 import TopicSection from '../../layouts/explainer/explainer-components/afg-components/topic-section/topic-section';
