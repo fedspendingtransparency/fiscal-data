@@ -117,11 +117,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data, pageContext }) => 
         </div>
       </div>
       <div className={relatedDatasetsStyle}>
-        <ExplainerRelatedDatasets
-          datasets={pageContext.relatedDatasets}
-          referrer={'Insight'}
-          header={'See the datasets that relate to this Insight'}
-        />
+        <ExplainerRelatedDatasets datasets={pageContext.relatedDatasets} referrer="Insight" header="See the datasets that relate to this Insight" />
       </div>
     </SiteLayout>
   );

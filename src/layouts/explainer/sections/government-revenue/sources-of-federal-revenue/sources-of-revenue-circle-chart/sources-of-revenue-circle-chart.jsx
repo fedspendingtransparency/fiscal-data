@@ -305,7 +305,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               <div
                 role="presentation"
                 className={chartSize}
-                data-testid={'chartParent'}
+                data-testid="chartParent"
                 onMouseEnter={handleMouseEnterChart}
                 onMouseLeave={HandleChartMouseLeave}
                 onClick={HandleChartMouseLeave}

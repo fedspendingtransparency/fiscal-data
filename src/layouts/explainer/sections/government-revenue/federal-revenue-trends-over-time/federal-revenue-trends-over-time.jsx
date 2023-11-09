@@ -60,7 +60,7 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
   return (
     <div>
       <div className={visWithCallout}>
-        <div className={textContent} data-testid={'textContent'}>
+        <div className={textContent} data-testid="textContent">
           <p>
             The majority of federal revenue comes from individual and corporate income taxes as well as social insurance taxes (such as the Social
             Security taxes described above). As shown in the chart below, federal revenue increases during periods of higher earnings for individuals
@@ -72,7 +72,7 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
           level of trade the U.S. continues to do with those countries. However, if tariffs increase and U.S. consumers import fewer goods as a result
           of the higher prices, then revenue from customs duties could decrease overall.
         </div>
-        <VisualizationCallout color={revenueExplainerPrimary} customTopMargin={'2.8%'}>
+        <VisualizationCallout color={revenueExplainerPrimary} customTopMargin="2.8%">
           <p>Individual income tax has remained the top source of income for the U.S. government since {firstChartYear}.</p>
         </VisualizationCallout>
       </div>

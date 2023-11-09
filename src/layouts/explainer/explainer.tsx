@@ -72,13 +72,13 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
             activeClass={explainerClassMap[pageName].active}
             hoverClass={explainerClassMap[pageName].hover}
             analytics={true}
-            analyticsCategory={'Explainers'}
+            analyticsCategory="Explainers"
             analyticsPageLabel={explainerAnalyticsLabelMap[pageName]}
             tocScrollOffset={-32}
           >
             <div className={socialShareContainer}>
               <div className={socialShare}>
-                <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'responsive'} />
+                <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="responsive" />
               </div>
               <div className={mainContent}>
                 {explainerSections[pageName].map(s => (

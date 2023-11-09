@@ -123,7 +123,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
         <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
           <div className={socialShare} ref={refSocialShare}>
-            <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'horizontal'} />
+            <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="horizontal" />
           </div>
           <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} width={width} />
           {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}

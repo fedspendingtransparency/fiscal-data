@@ -62,7 +62,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   );
 
   const beaLink = (
-    <CustomLink url={'https://www.bea.gov/'} onClick={() => analyticsClickHandler('Citation Click', 'Federal Debt Trends Over Time')}>
+    <CustomLink url="https://www.bea.gov/" onClick={() => analyticsClickHandler('Citation Click', 'Federal Debt Trends Over Time')}>
       Bureau of Economic Analysis
     </CustomLink>
   );
@@ -153,8 +153,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const Point = ({ currentPoint, borderColor, borderWidth }) => {
     return (
       <g>
-        <circle fill={'#D8D8D8'} r={8} strokeWidth={borderWidth} stroke={borderColor} fillOpacity={0.35} cx={currentPoint.x} cy={currentPoint.y} />
-        <circle r={2} strokeWidth={'4'} stroke={'#000000'} fill={'#000000'} fillOpacity={0.85} cx={currentPoint.x} cy={currentPoint.y} />
+        <circle fill="#D8D8D8" r={8} strokeWidth={borderWidth} stroke={borderColor} fillOpacity={0.35} cx={currentPoint.x} cy={currentPoint.y} />
+        <circle r={2} strokeWidth="4" stroke="#000000" fill="#000000" fillOpacity={0.85} cx={currentPoint.x} cy={currentPoint.y} />
       </g>
     );
   };
@@ -267,7 +267,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           <div className={container}>
             <ChartContainer
               title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x}`}
-              subTitle={'Debt to Gross Domestic Product (GDP)'}
+              subTitle="Debt to Gross Domestic Product (GDP)"
               header={headerContent()}
               footer={footerContent}
               date={getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`)}
@@ -280,8 +280,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                 data-testid={`${chartParent}`}
                 onMouseEnter={handleMouseEnterLineChart}
                 onMouseLeave={handleMouseLeaveLineChart}
-                id={'debt-trends'}
-                role={'presentation'}
+                id="debt-trends"
+                role="presentation"
               >
                 <Line
                   data={debtTrendsData}

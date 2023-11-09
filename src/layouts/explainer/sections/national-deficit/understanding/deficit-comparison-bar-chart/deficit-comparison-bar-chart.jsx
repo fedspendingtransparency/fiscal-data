@@ -170,14 +170,14 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
       )}
       {data && (
         <>
-          <div data-testid={'deficitComparisonChart'} className={container}>
+          <div data-testid="deficitComparisonChart" className={container}>
             <ChartContainer
               title={`${chartCopy.title}${lastFiscalYear}`}
               altText={`${chartCopy.altText}${lastFiscalYear}.`}
               footer={chartCopy.footer}
               date={date}
             >
-              <div className={barChart} data-testid={'chartParentDiv'}>
+              <div className={barChart} data-testid="chartParentDiv">
                 <Bar
                   barComponent={CustomBar}
                   width={desktop ? 408 : 304}

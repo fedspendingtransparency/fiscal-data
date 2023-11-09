@@ -23,8 +23,8 @@ const DeficitAndSurplusCauses = ({ glossary, glossaryClickHandler }) => {
 
   const gdp = (
     <GlossaryPopoverDefinition
-      term={'gross domestic product (GDP)'}
-      page={'Deficit Explainer'}
+      term="gross domestic product (GDP)"
+      page="Deficit Explainer"
       glossary={glossary}
       glossaryClickHandler={glossaryClickHandler}
     >
@@ -33,7 +33,7 @@ const DeficitAndSurplusCauses = ({ glossary, glossaryClickHandler }) => {
   );
 
   return (
-    <div data-testid={'textContent'}>
+    <div data-testid="textContent">
       <p>
         The size of the national deficit or surplus is largely influenced by the health of the economy and spending and revenue policies set by
         Congress and the President. The health of the economy is often evaluated by the growth in the country’s {gdp}, fluctuations in the nation’s

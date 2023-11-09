@@ -51,8 +51,8 @@ const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', match => {
     return (
       <GlossaryPopoverDefinition
-        term={'fiscal year'}
-        page={'Debt, Revenue & Spending explainer'}
+        term="fiscal year"
+        page="Debt, Revenue & Spending explainer"
         glossary={glossary}
         glossaryClickHandler={glossaryClickHandler}
       >
