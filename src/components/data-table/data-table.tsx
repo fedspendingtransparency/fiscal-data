@@ -65,7 +65,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   rowsShowing,
 }) => {
   const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
-  const data = rawData.data;
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
