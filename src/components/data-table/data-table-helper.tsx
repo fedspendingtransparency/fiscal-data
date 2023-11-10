@@ -54,6 +54,10 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
                   formattedValue = numberFormatter.format(value);
                 }
 
+                if (tableName === 'Demand Deposit Rate' && field === 'daily_factor') {
+                  formattedValue = Number(value).toFixed(8);
+                }
+
                 return formattedValue;
               },
             } as ColumnDef<string, number>;
@@ -62,7 +66,11 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
               accessorKey: field,
               header: label,
               cell: ({ getValue }) => {
-                return `${getValue()}%`;
+                if (getValue() !== undefined) {
+                  return `${getValue()}%`;
+                } else {
+                  return '';
+                }
               },
             } as ColumnDef<string, string>;
           } else if (rawData.meta.dataTypes[field] === 'SMALL_FRACTION') {
