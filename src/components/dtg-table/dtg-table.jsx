@@ -353,29 +353,21 @@ export default function DtgTable({
   };
 
   useEffect(() => {
-    if (tableProps) {
-      if (dePaginated !== undefined) {
-        if (dePaginated !== null && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !rawData?.pivotApplied) {
-          setReactTableData(dePaginated);
+    if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      if (dePaginated !== null && !rawData?.pivotApplied) {
+        setReactTableData(dePaginated);
+        setManualPagination(false);
+      } else {
+        if (rawData !== null && rawData.hasOwnProperty('data')) {
           setManualPagination(false);
-        } else {
-          if (rawData !== null && rawData.hasOwnProperty('data')) {
-            setManualPagination(false);
-            setReactTableData(rawData);
-          }
+          setReactTableData(rawData);
         }
       }
     }
   }, [tableProps]);
 
   useEffect(() => {
-    if (
-      tableData.length > 0 &&
-      tableMeta !== undefined &&
-      tableMeta !== null &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !tableProps.rawData?.selectedPivot
-    ) {
+    if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !rawData?.selectedPivot) {
       if (tableProps && tableProps.data !== undefined && tableProps.data?.length > 0 && tableProps.rawData) {
         setManualPagination(false);
         setReactTableData(rawData);

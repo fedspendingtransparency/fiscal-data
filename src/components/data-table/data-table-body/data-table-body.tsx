@@ -24,7 +24,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes }) 
                   key={cell.id}
                   className={classNames([`${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}`, fillCell ? cellBorder : null])}
                 >
-                  {cell.getValue() === 'null' ? <div /> : flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  {!cell.getValue() ? <div /> : flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               );
             })}
