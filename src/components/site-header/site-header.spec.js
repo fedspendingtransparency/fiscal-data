@@ -6,7 +6,7 @@ import SiteLayout from '../siteLayout/siteLayout';
 import Analytics from '../../utils/analytics/analytics';
 import { StaticQuery, useStaticQuery } from 'gatsby';
 import { mockUseStaticGlossaryData } from '../glossary/test-helper';
-import { createHistory, createMemorySource, LocationProvider } from '@reach/router';
+import { createHistory, createMemorySource, LocationProvider } from '@gatsbyjs/reach-router';
 import 'gatsby-env-variables';
 import '@testing-library/jest-dom/extend-expect';
 
