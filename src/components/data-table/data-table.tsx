@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, getFilteredRowModel, SortingState } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
-
-import StickyTable from 'react-sticky-table-thead';
 import {
   tableContainer,
   tableStyle,
@@ -228,20 +226,18 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
           <div className={tableStyle}>
             <div data-test-id="table-content" className={tableContainer}>
-              <StickyTable height={521}>
-                <table>
-                  <DataTableHeader
-                    table={table}
-                    dataTypes={dataTypes}
-                    resetFilters={resetFilters}
-                    setFiltersActive={setFiltersActive}
-                    maxRows={maxRows}
-                    allActiveFilters={allActiveFilters}
-                    setAllActiveFilters={setAllActiveFilters}
-                  />
-                  <DataTableBody table={table} dataTypes={dataTypes} />
-                </table>
-              </StickyTable>
+              <table>
+                <DataTableHeader
+                  table={table}
+                  dataTypes={dataTypes}
+                  resetFilters={resetFilters}
+                  setFiltersActive={setFiltersActive}
+                  maxRows={maxRows}
+                  allActiveFilters={allActiveFilters}
+                  setAllActiveFilters={setAllActiveFilters}
+                />
+                <DataTableBody table={table} dataTypes={dataTypes} />
+              </table>
             </div>
           </div>
         </div>
