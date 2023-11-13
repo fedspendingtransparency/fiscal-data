@@ -123,7 +123,7 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
 };
 
 export const columnsConstructorGeneric = (columns: any): any => {
-  return Object.entries(columns).map(([property, name]) => {
+  return columns.map(({ property, name }) => {
     return { accessorKey: property, header: name } as ColumnDef<string, string>;
   });
 };
