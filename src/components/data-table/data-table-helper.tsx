@@ -4,7 +4,6 @@ import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
-import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -16,55 +15,55 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructorData = (rawData: any, hideColumns: string[], tableName: string): any => {
-  if (rawData.meta) {
-    return Object.entries(rawData.meta.labels)
-      .filter(x => !hideColumns?.includes(x[0]))
-      .map(([field, label]) => {
-        if (!hideColumns?.includes(field)) {
-          if (field === 'cusip') {
+export const columnsConstructorData = (rawData: any, hideColumns: string[], tableName: string, columnConfig): any => {
+  if (rawData.meta && columnConfig) {
+    return columnConfig
+      .filter(x => !hideColumns?.includes(x.property))
+      .map(({ property, name }) => {
+        if (!hideColumns?.includes(property)) {
+          if (property === 'cusip') {
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               sortingFn: 'basic',
             } as ColumnDef<string, Date>;
           }
-          if (rawData.meta.dataTypes[field] === 'DATE') {
+          if (rawData.meta.dataTypes[property] === 'DATE') {
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               filterFn: 'arrIncludesSome',
               cell: ({ getValue }) => {
                 return moment(getValue()).format('M/D/YYYY');
               },
             } as ColumnDef<string, Date>;
-          } else if (rawData.meta.dataTypes[field] === 'NUMBER') {
+          } else if (rawData.meta.dataTypes[property] === 'NUMBER') {
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               cell: ({ getValue }) => {
                 const value = getValue();
                 let formattedValue;
 
-                if (tableName === 'FRN Daily Indexes' && (field === 'daily_index' || field === 'daily_int_accrual_rate')) {
+                if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
                   formattedValue = value ? value : '';
-                } else if (tableName === 'FRN Daily Indexes' && field === 'spread') {
+                } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
                   formattedValue = value ? Number(value).toFixed(3) : '';
                 } else {
                   formattedValue = numberFormatter.format(value);
                 }
 
-                if (tableName === 'Demand Deposit Rate' && field === 'daily_factor') {
+                if (tableName === 'Demand Deposit Rate' && property === 'daily_factor') {
                   formattedValue = Number(value).toFixed(8);
                 }
 
                 return formattedValue;
               },
             } as ColumnDef<string, number>;
-          } else if (rawData.meta.dataTypes[field] === 'PERCENTAGE') {
+          } else if (rawData.meta.dataTypes[property] === 'PERCENTAGE') {
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               cell: ({ getValue }) => {
                 if (getValue() !== undefined) {
                   return `${getValue()}%`;
@@ -73,35 +72,35 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
                 }
               },
             } as ColumnDef<string, string>;
-          } else if (rawData.meta.dataTypes[field] === 'SMALL_FRACTION') {
+          } else if (rawData.meta.dataTypes[property] === 'SMALL_FRACTION') {
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               cell: ({ getValue }) => {
                 return new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(getValue());
               },
             } as ColumnDef<string, number>;
-          } else if (rawData.meta.dataTypes[field] === 'CURRENCY') {
+          } else if (rawData.meta.dataTypes[property] === 'CURRENCY') {
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               cell: ({ getValue }) => {
                 return currencyFormatter.format(getValue());
               },
             } as ColumnDef<string, string>;
-          } else if (rawData.meta.dataTypes[field]?.includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[field].split('CURRENCY')[1])) {
-            const decimalPlaces = parseInt(rawData.meta.dataTypes[field].split('CURRENCY')[1]);
+          } else if (rawData.meta.dataTypes[property]?.includes('CURRENCY') && /\d/.test(rawData.meta.dataTypes[property].split('CURRENCY')[1])) {
+            const decimalPlaces = parseInt(rawData.meta.dataTypes[property].split('CURRENCY')[1]);
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               cell: ({ getValue }) => {
                 return customFormat(getValue(), decimalPlaces);
               },
             } as ColumnDef<string, string>;
-          } else if (rawData.meta.dataTypes[field] === 'STRING') {
+          } else if (rawData.meta.dataTypes[property] === 'STRING') {
             return {
-              accessorKey: field,
-              header: label,
+              accessorKey: property,
+              header: name,
               cell: ({ getValue }) => {
                 if (getValue() !== undefined) {
                   if (getValue().includes('%')) {
@@ -114,8 +113,9 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
               },
             } as ColumnDef<string, string>;
           }
-          return { accessorKey: field, header: label } as ColumnDef<string, string>;
+          return { accessorKey: property, header: name } as ColumnDef<string, string>;
         }
+        return {};
       });
   } else {
     return [];
@@ -124,7 +124,7 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
 
 export const columnsConstructorGeneric = (columns: any): any => {
   return Object.entries(columns).map(([property, name]) => {
-    return { accessorKey: name.property, header: name.name } as ColumnDef<string, string>;
+    return { accessorKey: property, header: name } as ColumnDef<string, string>;
   });
 };
 

@@ -40,6 +40,7 @@ type DataTableProps = {
   manualPagination: boolean;
   maxRows: number;
   rowsShowing: { begin: number; end: number };
+  columnConfig?;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -63,8 +64,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   manualPagination,
   maxRows,
   rowsShowing,
+  columnConfig,
 }) => {
-  const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
+  const allColumns = nonRawDataColumns
+    ? columnsConstructorGeneric(nonRawDataColumns)
+    : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
