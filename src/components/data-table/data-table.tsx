@@ -21,7 +21,7 @@ import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   rawData;
-  nonRawDataColumns;
+  nonRawDataColumns?;
   defaultSelectedColumns: string[];
   setTableColumnSortData;
   hasPublishedReports: boolean;
