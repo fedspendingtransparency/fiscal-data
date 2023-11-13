@@ -192,7 +192,12 @@ h1 {
   width: 1px;
 }
 
-.bodyBackground {
+.ddpBodyBackground {
+  padding: 1rem 0.5rem;
+  background-color: $content-section-background;
+}
+
+.searchBodyBackground {
   padding: 1rem 0.5rem;
   background-color: $body-background;
 }
@@ -238,7 +243,7 @@ h1 {
 }
 
 @media screen and (min-width: $breakpoint-md) {
-  .bodyBackground {
+  .ddpBodyBackground .searchBodyBackground {
     padding-left: 1rem;
     padding-right: 1rem;
   }
