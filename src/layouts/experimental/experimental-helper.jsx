@@ -1,6 +1,3 @@
-import { Bar } from 'recharts';
-import React from 'react';
-
 export const totalDebtData = {
   data: [
     {

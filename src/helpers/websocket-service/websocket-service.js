@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, timeout } from 'rxjs/operators';
 import { TimeoutError, throwError } from 'rxjs';

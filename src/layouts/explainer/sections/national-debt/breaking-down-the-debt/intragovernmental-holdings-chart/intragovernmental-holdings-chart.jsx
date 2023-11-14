@@ -189,9 +189,9 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
 
               <p>
                 The debt held by the public has increased by{' '}
-                <span data-testid={'public-debt-increase'}>{calcPercentIncrease('Debt Held by the Public', data)}%</span> since{' '}
+                <span data-testid="public-debt-increase">{calcPercentIncrease('Debt Held by the Public', data)}%</span> since{' '}
                 {data[0].record_calendar_year}. Intragovernmental holdings increased by{' '}
-                <span data-testid={'govt-debt-increase'}>{calcPercentIncrease('Intragovernmental Holdings', data)}%</span> since{' '}
+                <span data-testid="govt-debt-increase">{calcPercentIncrease('Intragovernmental Holdings', data)}%</span> since{' '}
                 {data[0].record_calendar_year}.
               </p>
             </VisualizationCallout>

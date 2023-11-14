@@ -1,6 +1,6 @@
 export const revenueRequest = {
   endpointPath: 'v1/accounting/mts/mts_table_4',
-  fields: 'current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,' + 'record_calendar_month,record_calendar_year,record_fiscal_year,record_date',
+  fields: 'current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date',
   filter: 'line_code_nbr:eq:830',
 };
 
@@ -13,7 +13,7 @@ export const revenueCategoryRequest = {
 
 export const spendingRequest = {
   endpointPath: 'v1/accounting/mts/mts_table_5',
-  fields: 'current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' + 'record_calendar_month,record_calendar_year,record_fiscal_year',
+  fields: 'current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year',
   filter: 'line_code_nbr:eq:5691',
 };
 
@@ -26,7 +26,7 @@ export const spendingCategoryRequest = {
 
 export const deficitRequest = {
   endpointPath: 'v1/accounting/mts/mts_table_5',
-  fields: 'current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' + 'record_calendar_month,record_calendar_year,record_fiscal_year',
+  fields: 'current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year',
   filter: 'line_code_nbr:eq:5694',
 };
 

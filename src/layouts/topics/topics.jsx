@@ -18,15 +18,15 @@ const Topics = ({ pageContext }) => {
     <SiteLayout isPreProd={pageContext.isPreProd}>
       <PageHelmet pageTitle={config.label} />
       <MastHead title={config.label} />
-      <DatasetSectionContainer id={'highlights'} title={'Debt Highlights'}>
+      <DatasetSectionContainer id="highlights" title="Debt Highlights">
         {mockDatasets.map((dataset, i) => (
           <div className={relatedDatasetsStyles.cardWrapper} key={i}>
-            <HighlightCard dataset={dataset} context={'Highlight Card'} />
+            <HighlightCard dataset={dataset} context="Highlight Card" />
           </div>
         ))}
       </DatasetSectionContainer>
       <RelatedDatasets datasets={mockDatasets} referrer={pageContext.config.name} />
-      <DatasetSectionContainer id={'related-analyses'} title={'Related Analyses'}>
+      <DatasetSectionContainer id="related-analyses" title="Related Analyses">
         <img alt="" src={RelatedAnalysesCards} className={styles.relatedAnalysesCards} />
       </DatasetSectionContainer>
     </SiteLayout>

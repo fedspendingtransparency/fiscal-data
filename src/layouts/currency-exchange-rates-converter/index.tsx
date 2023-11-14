@@ -36,6 +36,7 @@ import CustomLink from '../../components/links/custom-link/custom-link';
 import InfoTip from '../../components/info-tip/info-tip';
 import Analytics from '../../utils/analytics/analytics';
 import BannerCallout from '../../components/banner-callout/banner-callout';
+import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
@@ -80,9 +81,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         action: action,
         label: label,
       });
-
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push({
+      ga4DataLayerPush({
         event: action,
         eventLabel: label,
       });
@@ -94,8 +93,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       analyticsHandler('Additional Info Hover', label);
     }, 3000);
     ga4Timer = setTimeout(() => {
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push({
+      ga4DataLayerPush({
         event: `additional-info-hover-${ga4ID}`,
       });
     }, 3000);
@@ -185,10 +183,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         label: quarterNumToTerm(quarter),
         value: quarter,
       }));
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      // TODO: Fix this TS warning
-      const mostRecentQuarter = Math.max(...listOfQuarterOptions.map(entry => entry.value));
+      const mostRecentQuarter = Math.max(...listOfQuarterOptions.map(entry => Number(entry.value)));
       setYears(listOfYearOptions);
       setQuarters(listOfQuarterOptions);
       setSelectedYear({
