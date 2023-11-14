@@ -19,18 +19,12 @@
   white-space: nowrap;
 }
 
-.title {
-  font-size: $font-size-18;
-  font-weight: $semi-bold-weight;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 2;
-}
 
 .menu {
   text-align: right;
   flex: 2;
   transition: flex 0.2s ease;
+  cursor: pointer;
 
   &.mobile > :first-child {
     margin-right: 0.5rem;
@@ -69,14 +63,11 @@
     height: 100%;
   }
 
-  .title {
-    padding: 0.75rem 1rem;
-  }
 
   .menu {
     flex: 3;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
 
     a {
@@ -93,10 +84,8 @@
       }
 
       &:hover {
-        background-color: #1f5593;
-      }
-      &:focus {
-        border-bottom: 3px solid white;
+        background-color: #d9d9d9;
+        color: $font-title;
       }
     }
   }
