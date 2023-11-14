@@ -15,7 +15,12 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructorData = (rawData: Record<string, Record<string, unknown>>, hideColumns: string[], tableName: string, columnConfig): any => {
+export const columnsConstructorData = (
+  rawData: Record<string, Record<string, unknown>>,
+  hideColumns: string[],
+  tableName: string,
+  columnConfig
+): any => {
   if (rawData.meta && columnConfig) {
     return columnConfig
       .filter(x => !hideColumns?.includes(x.property))
@@ -26,7 +31,7 @@ export const columnsConstructorData = (rawData: Record<string, Record<string, un
               accessorKey: property,
               header: name,
               sortingFn: 'basic',
-            } as ColumnDef<string, Date>;
+            } as ColumnDef<string, string>;
           }
           if (rawData.meta.dataTypes[property] === 'DATE') {
             return {
