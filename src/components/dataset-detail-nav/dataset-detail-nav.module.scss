@@ -40,10 +40,9 @@
     text-decoration: none;
     padding: 0.5rem 0.75rem;
 
-    &:hover {
-      background-color: #d9d9d9;
-      color: $font-title;
-    }
+  .hoverMenu {
+    background-color: #d9d9d9;
+    color: $font-title;
   }
 
 }
