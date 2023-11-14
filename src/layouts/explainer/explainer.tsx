@@ -33,6 +33,7 @@ import DataSourcesMethodologies from './data-sources-methodologies/data-sources-
 import ComingSoon from './explainer-components/highlighted-text/highlighted-text';
 import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
 import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
+import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
   const { pageName, heroImage, seoConfig, relatedDatasets, glossary, cpiDataByYear } = pageContext;
