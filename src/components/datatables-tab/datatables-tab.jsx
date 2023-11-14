@@ -24,15 +24,9 @@ export default function DataTablesTab({ apis, datasetName }) {
       width: 38,
     },
     {
-      property: 'fileSizes',
-      name: 'File Sizes',
-      order: 4,
-      width: 12,
-    },
-    {
       property: 'rowCount',
       name: 'Row Count',
-      order: 5,
+      order: 4,
       width: 12,
     },
   ];
