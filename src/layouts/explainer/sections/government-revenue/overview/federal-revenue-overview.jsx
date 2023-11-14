@@ -12,8 +12,7 @@ const FederalRevenueOverview = () => {
   const [priorDeficit, setPriorDeficit] = useState('');
 
   useEffect(() => {
-    const endpointURL =
-      'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,' + 'record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
+    const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
     basicFetch(`${apiPrefix}${endpointURL}`).then(res => {
       if (res.data[0]) {
         setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
@@ -23,8 +22,7 @@ const FederalRevenueOverview = () => {
   }, []);
 
   useEffect(() => {
-    const endpointURL =
-      'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691,' + 'record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
+    const endpointURL = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
     basicFetch(`${apiPrefix}${endpointURL}`).then(res => {
       if (res.data[0]) {
         setPriorSpend(getShortForm(res.data[0].current_fytd_net_outly_amt, false));
@@ -33,8 +31,7 @@ const FederalRevenueOverview = () => {
   }, []);
 
   useEffect(() => {
-    const endpointURL =
-      'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694,' + 'record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
+    const endpointURL = 'v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
     basicFetch(`${apiPrefix}${endpointURL}`).then(res => {
       if (res.data[0]) {
         setPriorDeficit(getShortForm(res.data[0].current_fytd_net_outly_amt, false));
@@ -70,6 +67,7 @@ const FederalRevenueOverview = () => {
         salaries, infrastructure maintenance), as well as to pay for goods and services provided to United States citizens and businesses.
       </p>
       <p>
+        {/* eslint-disable-next-line max-len */}
         In FY {latestCompleteFiscalYear}, the federal government spent ${priorSpend}. Since the government spent {spendRevComp} than it collected, the{' '}
         {deficitLabel} for {latestCompleteFiscalYear} was ${priorDeficit}. Visit our {spending} and {deficit} pages for more information on these
         activities.

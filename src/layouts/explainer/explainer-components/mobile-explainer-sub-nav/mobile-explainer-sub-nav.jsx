@@ -157,7 +157,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
             }}
             className={overviewStyle}
             id="home"
-            role={'button'}
+            role="button"
             tabIndex={0}
             data-testid="afgSpan"
           >

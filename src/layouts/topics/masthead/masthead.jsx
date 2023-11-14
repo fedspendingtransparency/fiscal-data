@@ -24,13 +24,13 @@ export default function MastHead({ title }) {
 
   return (
     <div className={`pageHeader ${styles.bottomMargin}`}>
-      <div className={'content'}>
+      <div className="content">
         <BreadCrumbs links={breadCrumbLinks} />
-        <h1 data-test-id={'pageTitle'} className={'title'}>
+        <h1 data-test-id="pageTitle" className="title">
           {title}
         </h1>
-        <p data-test-id={'tagLine'}>{tagLine}</p>
-        <div data-test-id={'relatedTopics'} className={styles.relatedTopics}>
+        <p data-test-id="tagLine">{tagLine}</p>
+        <div data-test-id="relatedTopics" className={styles.relatedTopics}>
           <h2 className={styles.title}>Related Topics:</h2>
           <div className={styles.topic}>Financial Summaries</div>
           <div className={styles.topic}>Interest & Exchange Rates</div>

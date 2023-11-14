@@ -93,9 +93,7 @@ const HowMuchDoesTheGovtSpend = () => {
   };
   const getChartData = () => {
     Promise.all([
-      basicFetch(
-        apiPrefix + 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F' + '&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19'
-      ),
+      basicFetch(apiPrefix + 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19'),
       basicFetch(
         apiPrefix +
           'v1/accounting/mts/mts_table_5?filter=data_type_cd:eq:T,' +
@@ -152,7 +150,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const footer = (
     <div className={footerStyle}>
       Please note: Values displayed are outlays, which is money that is actually paid out by the government. Other sources, such as
-      <CustomLink url={'https://www.usaspending.gov/'}> USAspending</CustomLink>, may display spending as obligations, which is money that is promised
+      <CustomLink url="https://www.usaspending.gov/"> USAspending</CustomLink>, may display spending as obligations, which is money that is promised
       to be paid, but may not yet be delivered.
       <p>Visit the {mts} dataset to explore and download this data.</p>
     </div>

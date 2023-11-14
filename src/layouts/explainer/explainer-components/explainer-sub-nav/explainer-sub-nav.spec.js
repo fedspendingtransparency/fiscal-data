@@ -75,8 +75,8 @@ describe('ExplainerSubNav analytics', () => {
 
   it('Pushes analytics event to datalayer for GA4 for each nav link clicked', async () => {
     const { getByText } = render(<ExplainerSubNav hidePosition={160} />);
-    (window as any).dataLayer = (window as any).dataLayer || [];
-    const spy = jest.spyOn((window as any).dataLayer, 'push');
+    window.dataLayer = window.dataLayer || [];
+    const spy = jest.spyOn(window.dataLayer, 'push');
 
     urls.forEach(link => {
       fireEvent.click(getByText(link.text));

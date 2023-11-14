@@ -52,17 +52,14 @@ const SpendingCategoriesAccordion = () => {
   ];
 
   const usaSpending_majorSpendingCategories = (
-    <CustomLink
-      url={'https://www.usaspending.gov/'}
-      onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
-    >
+    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}>
       USAspending.gov
     </CustomLink>
   );
 
   const objectClass = (
     <CustomLink
-      url={'https://www.usaspending.gov/#/explorer/object_class'}
+      url="https://www.usaspending.gov/#/explorer/object_class"
       onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
     >
       Object Class
@@ -71,7 +68,7 @@ const SpendingCategoriesAccordion = () => {
 
   const budgetFunction = (
     <CustomLink
-      url={'https://www.usaspending.gov/explorer/budget_function'}
+      url="https://www.usaspending.gov/explorer/budget_function"
       onClick={() => analyticsClickHandler('Citation Click', 'What are the major spending categories?')}
     >
       Budget Function
@@ -83,11 +80,11 @@ const SpendingCategoriesAccordion = () => {
       <div className={debtAccordion}>
         <Accordion
           title="What are some of the major spending categories?"
-          ga4ID={'major-spending-cat'}
+          ga4ID="major-spending-cat"
           altStyleAccordion={{ padding: '9px 16px' }}
           containerClass={fundingProgramAccordion}
-          openEventNumber={'11'}
-          closeEventNumber={'12'}
+          openEventNumber="11"
+          closeEventNumber="12"
           explainerGAEvent="Debt"
         >
           <div className={spendingCategoriesAccordionContent}>

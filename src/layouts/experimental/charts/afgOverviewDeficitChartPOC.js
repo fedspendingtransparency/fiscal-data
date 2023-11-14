@@ -51,13 +51,6 @@ const AFGDeficitPOC = () => {
   ];
 
   const [testData] = useState(testData2);
-  const [color, setColor] = useState('transparent');
-
-  useEffect(() => {
-    setTimeout(() => {
-      setColor(deficitExplainerPrimary);
-    }, 10000);
-  });
 
   const midPointArray = [];
 
@@ -128,13 +121,7 @@ const AFGDeficitPOC = () => {
     return <></>;
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    const [opacity, setOpacity] = useState(0);
-    useEffect(() => {
-      if (active) {
-        setOpacity(1);
-      }
-    }, active);
+  const CustomTooltip = ({ payload, label }) => {
     if (payload && payload.length) {
       setFocusedYear(payload[0].payload.year);
 

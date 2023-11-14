@@ -1,5 +1,13 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
-import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, getFilteredRowModel, SortingState } from '@tanstack/react-table';
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  getFilteredRowModel,
+  SortingState,
+  Table,
+} from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
   tableContainer,
@@ -23,7 +31,7 @@ type DataTableProps = {
   defaultSelectedColumns: string[];
   setTableColumnSortData;
   hasPublishedReports: boolean;
-  publishedReports: any[];
+  publishedReports;
   hideCellLinks: boolean;
   resetFilters: boolean;
   shouldPage: boolean;
@@ -125,7 +133,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
-  });
+  }) as Table<Record<string, unknown>>;
 
   const getSortedColumnsData = table => {
     if (setTableColumnSortData) {
