@@ -1,6 +1,5 @@
 import React from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
-import * as styles from './dataset-about.module.scss';
 import DatasetAboutTabs from '../dataset-about-tabs/dataset-about-tabs';
 
 export const title = 'About This Dataset';

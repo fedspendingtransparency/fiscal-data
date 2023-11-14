@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DetailPills from '../detail-pills/detail-pills';
+import { IDatasetTechSpecs } from '../../models/IDatasetTechSpecs';
 
 interface IIntroduction {
   summaryText: string;
-  techSpecs: object;
+  techSpecs: IDatasetTechSpecs;
   dictionary: number;
 }
 
@@ -13,7 +14,7 @@ const DatasetIntroduction: FunctionComponent<IIntroduction> = ({ summaryText, te
   return (
     <DatasetSectionContainer title={title} id="introduction">
       <DetailPills techSpecs={techSpecs} dictionary={dictionary} />
-      <p style={{ marginBlockEnd: '-1rem' }}>{summaryText}</p>
+      <div>{summaryText}</div>
     </DatasetSectionContainer>
   );
 };
