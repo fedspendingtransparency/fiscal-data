@@ -15,7 +15,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructorData = (rawData: any, hideColumns: string[], tableName: string, columnConfig): any => {
+export const columnsConstructorData = (rawData: Record<string, Record<string, unknown>>, hideColumns: string[], tableName: string, columnConfig): any => {
   if (rawData.meta && columnConfig) {
     return columnConfig
       .filter(x => !hideColumns?.includes(x.property))
@@ -115,14 +115,14 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
           }
           return { accessorKey: property, header: name } as ColumnDef<string, string>;
         }
-        return {};
+        return null;
       });
   } else {
     return [];
   }
 };
 
-export const columnsConstructorGeneric = (columns: any): any => {
+export const columnsConstructorGeneric = (columns: Record<string, string>[]): ColumnDef<string, string>[] => {
   return columns.map(({ property, name }) => {
     return { accessorKey: property, header: name } as ColumnDef<string, string>;
   });
@@ -148,13 +148,7 @@ export const getColumnFilter: (
     );
   } else if (displayTextFilters) {
     return (
-      <TextFilter
-        column={header.column}
-        resetFilters={resetFilters}
-        setFiltersActive={setFiltersActive}
-        allActiveFilters={allActiveFilters}
-        setAllActiveFilters={setAllActiveFilters}
-      />
+      <TextFilter column={header.column} resetFilters={resetFilters} allActiveFilters={allActiveFilters} setAllActiveFilters={setAllActiveFilters} />
     );
   }
 };

@@ -251,8 +251,9 @@ const TopicSection = ({ glossary, fiscalYear, setGlossaryClickEvent, width }) =>
       <p>
         The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for
         a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal
-        debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the U.S. through {debtToPennyDate}{' '}
-        is ${debt}.
+        {/* eslint-disable-next-line max-len */}
+        debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the U.S. through{' '}
+        {debtToPennyDate} is ${debt}.
       </p>
       <p>
         At the end of {priorFiscalYear} the government had ${priorFyDebt} in federal debt. In {priorFiscalYear}, the national debt {debtDirection} by

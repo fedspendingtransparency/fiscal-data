@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { footNotes, heroImageSubHeading, footNotesPillData, flapWrapper } from '../../hero-image/hero-image.module.scss';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
@@ -7,10 +7,17 @@ import { revenueExplainerLightSecondary } from '../../sections/government-revenu
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { getShortForm } from '../../../../utils/rounding-utils';
+import { IGlossaryTerm } from '../../../../models/IGlossaryTerm';
 
-const GovernmentRevenueHero = ({ glossary, glossaryClickHandler }): JSX.Element => {
+const GovernmentRevenueHero = ({
+  glossary,
+  glossaryClickHandler,
+}: {
+  glossary: IGlossaryTerm[];
+  glossaryClickHandler: (value: boolean) => void;
+}): ReactElement => {
   const fields: string =
-    'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,' + 'record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
+    'fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date';
   const filter: string = 'filter=line_code_nbr:eq:830';
   const sort: string = 'sort=-record_date';
   const pagination: string = 'page[size]=1';

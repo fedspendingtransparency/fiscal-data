@@ -26,7 +26,7 @@ const DeficitByYear = () => {
 
   return (
     <>
-      <div data-testid={'textContent'}>
+      <div data-testid="textContent">
         <p>
           Since 2001, the federal government’s budget has run a deficit each year. Starting in 2016, increases in spending on Social Security, health
           care, and interest on federal debt have outpaced the growth of {federalRevenueLink}.

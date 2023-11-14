@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { Container, Grid } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
 import {
   quoteIcon,
@@ -123,7 +123,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
         <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
           {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
           <div className={socialShare} ref={refSocialShare}>
-            <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle={'horizontal'} />
+            <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="horizontal" />
           </div>
           <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} width={width} />
           {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
@@ -138,8 +138,8 @@ const AmericasFinanceGuidePage = ({ width }) => {
           <img
             className={treasuryReportImg}
             src="../images/treasury-reports.png"
-            alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background. 
-              Next to the spread is a quote from Article 1, Section 9, which reads 
+            alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background.
+              Next to the spread is a quote from Article 1, Section 9, which reads
               “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”"
           />
           <div className={quoteSection}>

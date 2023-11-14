@@ -108,14 +108,14 @@ const nationalDebtSections = [
 export default nationalDebtSections;
 
 const debtToThePenny = (
-  <CustomLink url={'/datasets/debt-to-the-penny/'} onClick={() => analyticsClickHandler('Citation Click', 'DS&M')} id="Debt to the Penny">
+  <CustomLink url="/datasets/debt-to-the-penny/" onClick={() => analyticsClickHandler('Citation Click', 'DS&M')} id="Debt to the Penny">
     Debt to the Penny
   </CustomLink>
 );
 
 const mspd = (
   <CustomLink
-    url={'/datasets/monthly-statement-public-debt/'}
+    url="/datasets/monthly-statement-public-debt/"
     onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
     id="Monthly Statement of the Public Debt"
   >
@@ -125,7 +125,7 @@ const mspd = (
 
 const historicalDebt = (
   <CustomLink
-    url={'/datasets/historical-debt-outstanding/'}
+    url="/datasets/historical-debt-outstanding/"
     onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
     id="Historical Debt Outstanding"
   >
@@ -135,7 +135,7 @@ const historicalDebt = (
 
 const treasurySecurities = (
   <CustomLink
-    url={'/datasets/average-interest-rates-treasury-securities/'}
+    url="/datasets/average-interest-rates-treasury-securities/"
     onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
     id="Average Interest Rates on U.S. Treasury Securities"
   >
@@ -144,14 +144,14 @@ const treasurySecurities = (
 );
 
 const bls = (
-  <CustomLink url={'https://www.bls.gov/developers'} onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}>
+  <CustomLink url="https://www.bls.gov/developers" onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}>
     Bureau of Labor Statistics
   </CustomLink>
 );
 
 const bea = (
   <CustomLink
-    url={'https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&' + 'categories=survey'}
+    url="https://apps.bea.gov/iTable/iTable.cfm?reqid=19&step=3&isuri=1&nipa_table_list=5&categories=survey"
     onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
   >
     Bureau of Economic Analysis
@@ -160,7 +160,7 @@ const bea = (
 
 const github = (
   <CustomLink
-    url={'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'}
+    url="https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation"
     onClick={() => analyticsClickHandler('Citation Click', 'DS&M Github')}
   >
     GitHub repository

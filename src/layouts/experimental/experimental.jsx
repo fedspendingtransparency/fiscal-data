@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import BarGraph from '../../components/charts/bar/bar';
-import LineGraphAnimation from './charts/lineGraphAnimation';
 import ReLineGraph from './charts/rechartLineGraph';
 import { staggeredData, uncompressedBarGraphData } from '../../components/charts/helpers/helpersData';
 import { reducer } from '../../components/charts/helpers/helpers';
@@ -13,7 +12,6 @@ import AFGDeficitPOC from './charts/afgOverviewDeficitChartPOC';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
 import { totalDebtData } from './experimental-helper';
-import DateRangeFilter from '../../components/data-table/data-table-header/date-range-filter/date-range-filter';
 import AnnouncementBanner from '../../components/announcement-banner/announcement-banner';
 import * as styles from '../../components/site-header/site-header.module.scss';
 
@@ -80,10 +78,6 @@ const ExperimentalPage = () => {
           );
         })
     );
-  };
-
-  const column = {
-    setFilterValue: () => console.log('setFilterValue'),
   };
 
   return (

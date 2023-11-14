@@ -22,7 +22,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
 
 interface IDataTableHeader {
-  table: Table<any>;
+  table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;

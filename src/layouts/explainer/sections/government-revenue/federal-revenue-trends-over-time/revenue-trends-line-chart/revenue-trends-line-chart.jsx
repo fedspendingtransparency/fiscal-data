@@ -6,7 +6,34 @@ import { withWindowSize } from 'react-fns';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import * as styles from './revenue-trends-line-chart.module.scss';
+import {
+  corpRect,
+  estateRect,
+  indvRect,
+  exciseRect,
+  miscRect,
+  legendText,
+  corpRectTooltip,
+  customsRectTooltip,
+  container,
+  customsRect,
+  estateRectTooltip,
+  tooltipItem,
+  exciseRectTooltip,
+  indvRectTooltip,
+  legendContainer,
+  legendColumn,
+  legendElement,
+  miscRectTooltip,
+  socialSecRect,
+  tooltipColumn,
+  tooltipItemCategory,
+  socialSecRectTooltip,
+  lineChart,
+  tooltipContainer,
+  tooltipItemText,
+  tooltipYearHeader,
+} from './revenue-trends-line-chart.module.scss';
 import { Line } from '@nivo/line';
 import { fontSize_16 } from '../../../../explainer.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
@@ -39,7 +66,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   }, [isLoading]);
 
   useEffect(() => {
-    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,' + 'record_calendar_month:eq:09&sort=-record_date';
+    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date';
     basicFetch(`${apiPrefix}${endPointURL}`).then(res => {
       if (res.data) {
         setLastChartYear(res.data[0].record_fiscal_year);
@@ -159,7 +186,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   };
 
   const blsLink = (
-    <CustomLink url={'https://www.bls.gov/developers/'} eventNumber={'17'}>
+    <CustomLink url="https://www.bls.gov/developers/" eventNumber="17">
       Bureau of Labor Statistics
     </CustomLink>
   );
@@ -277,61 +304,55 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   const customTooltip = slice => {
     return (
-      <div className={styles.tooltipContainer}>
-        <p className={styles.tooltipYearHeader}>{slice.slice.points[0].data.x}</p>
-        <div className={styles.tooltipColumn}>
-          <div className={styles.tooltipItem}>
-            <div className={styles.estateRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[0].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[0].data.y)}T (
+      <div className={tooltipContainer}>
+        <p className={tooltipYearHeader}>{slice.slice.points[0].data.x}</p>
+        <div className={tooltipColumn}>
+          <div className={tooltipItem}>
+            <div className={estateRectTooltip} />
+            <div className={tooltipItemText}>
+              <div className={tooltipItemCategory}> {slice.slice.points[0].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[0].data.y)}T (
               {getPercentofTotalRevByYear(slice.slice.points[0].data.raw, slice.slice.points[0].data.x)}%)
             </div>
           </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.customsRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[1].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[1].data.y)}T (
+          <div className={tooltipItem}>
+            <div className={customsRectTooltip} />
+            <div className={tooltipItemText}>
+              <div className={tooltipItemCategory}> {slice.slice.points[1].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[1].data.y)}T (
               {getPercentofTotalRevByYear(slice.slice.points[1].data.raw, slice.slice.points[1].data.x)}%)
             </div>
           </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.exciseRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[2].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[2].data.y)}T (
+          <div className={tooltipItem}>
+            <div className={exciseRectTooltip} />
+            <div className={tooltipItemText}>
+              <div className={tooltipItemCategory}> {slice.slice.points[2].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[2].data.y)}T (
               {getPercentofTotalRevByYear(slice.slice.points[2].data.raw, slice.slice.points[2].data.x)}%)
             </div>
           </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.miscRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[3].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[3].data.y)}T (
+          <div className={tooltipItem}>
+            <div className={miscRectTooltip} />
+            <div className={tooltipItemText}>
+              <div className={tooltipItemCategory}> {slice.slice.points[3].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[3].data.y)}T (
               {getPercentofTotalRevByYear(slice.slice.points[3].data.raw, slice.slice.points[3].data.x)}%)
             </div>
           </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.corpRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[4].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[4].data.y)}T (
+          <div className={tooltipItem}>
+            <div className={corpRectTooltip} />
+            <div className={tooltipItemText}>
+              <div className={tooltipItemCategory}> {slice.slice.points[4].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[4].data.y)}T (
               {getPercentofTotalRevByYear(slice.slice.points[4].data.raw, slice.slice.points[4].data.x)}%)
             </div>
           </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.socialSecRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[5].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[5].data.y)}T (
+          <div className={tooltipItem}>
+            <div className={socialSecRectTooltip} />
+            <div className={tooltipItemText}>
+              <div className={tooltipItemCategory}> {slice.slice.points[5].serieId}: </div>${determineIfZeroNeeded(slice.slice.points[5].data.y)}T (
               {getPercentofTotalRevByYear(slice.slice.points[5].data.raw, slice.slice.points[5].data.x)}%)
             </div>
           </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.indvRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[6].serieId}: </div>$
+          <div className={tooltipItem}>
+            <div className={indvRectTooltip} />
+            <div className={tooltipItemText}>
+              <div className={tooltipItemCategory}> {slice.slice.points[6].serieId}: </div>$
               {determineIfZeroNeeded(slice.slice.points[6].data.y.toFixed(2))}T (
               {getPercentofTotalRevByYear(slice.slice.points[6].data.raw, slice.slice.points[6].data.x)}%)
             </div>
@@ -344,7 +365,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   return (
     <>
       {!isLoading ? (
-        <div data-testid={'revenueTrendsLineChart'} className={styles.container}>
+        <div data-testid="revenueTrendsLineChart" className={container}>
           <ChartContainer
             title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
             subTitle={`Inflation Adjusted - ${lastChartYear} Dollars`}
@@ -356,27 +377,15 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
           >
             <div
-              className={styles.lineChart}
-              role={'presentation'}
-              data-testid={'chartParentTrends'}
+              className={lineChart}
+              role="presentation"
+              data-testid="chartParentTrends"
               onMouseEnter={handleChartMouseEnter}
               onMouseLeave={handleChartMouseLeave}
             >
               <Line
                 data={chartData}
-                layers={[
-                  'grid',
-                  'markers',
-                  'axes',
-                  'areas',
-                  'lines',
-                  'points',
-                  // 'slices',
-                  CustomSlices,
-                  'crosshair',
-                  'mesh',
-                  'legends',
-                ]}
+                layers={['grid', 'markers', 'axes', 'areas', 'lines', 'points', CustomSlices, 'crosshair', 'mesh', 'legends']}
                 colors={d => d.color}
                 width={515}
                 height={500}
@@ -423,40 +432,40 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 sliceTooltip={slice => customTooltip(slice)}
                 enableCrosshair={true}
                 isInteractive={true}
-                enableSlices={'x'}
+                enableSlices="x"
                 animate={false}
               />
-              <div className={styles.legendContainer}>
-                <div className={styles.legendColumn}>
-                  <div className={styles.legendElement}>
-                    <div className={styles.estateRect} />
-                    <div className={styles.legendText}> Estate & Gift Taxes </div>
+              <div className={legendContainer}>
+                <div className={legendColumn}>
+                  <div className={legendElement}>
+                    <div className={estateRect} />
+                    <div className={legendText}> Estate & Gift Taxes </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.customsRect} />
-                    <div className={styles.legendText}> Customs Duties </div>
+                  <div className={legendElement}>
+                    <div className={customsRect} />
+                    <div className={legendText}> Customs Duties </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.exciseRect} />
-                    <div className={styles.legendText}> Excise Taxes </div>
+                  <div className={legendElement}>
+                    <div className={exciseRect} />
+                    <div className={legendText}> Excise Taxes </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.miscRect} />
-                    <div className={styles.legendText}> Miscellaneous Income </div>
+                  <div className={legendElement}>
+                    <div className={miscRect} />
+                    <div className={legendText}> Miscellaneous Income </div>
                   </div>
                 </div>
-                <div className={styles.legendColumn}>
-                  <div className={styles.legendElement}>
-                    <div className={styles.corpRect} />
-                    <div className={styles.legendText}> Corporate Income Taxes </div>
+                <div className={legendColumn}>
+                  <div className={legendElement}>
+                    <div className={corpRect} />
+                    <div className={legendText}> Corporate Income Taxes </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.socialSecRect} />
-                    <div className={styles.legendText}>Social Security and Medicare Taxes</div>
+                  <div className={legendElement}>
+                    <div className={socialSecRect} />
+                    <div className={legendText}>Social Security and Medicare Taxes</div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.indvRect} />
-                    <div className={styles.legendText}>Individual Income Taxes</div>
+                  <div className={legendElement}>
+                    <div className={indvRect} />
+                    <div className={legendText}>Individual Income Taxes</div>
                   </div>
                 </div>
               </div>
