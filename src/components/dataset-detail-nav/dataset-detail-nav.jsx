@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SmoothScroll } from '../smooth-scroll/smooth-scroll';
-import { container, mobileIcon, menu, mobile, disabledLink, desktopLinks, content } from './dataset-detail-nav.module.scss';
+import { container, mobileIcon, menu, mobile, activeMenu, disabledLink, desktopLinks, content } from './dataset-detail-nav.module.scss';
 import { select, selectAll } from 'd3-selection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
 import { sectionLink } from '../secondary-nav/secondary-nav.module.scss';
 
-const d3 = { select, selectAll };
+// const d3 = { select, selectAll };
 
 const breakpoint = {
   desktop: 992,
@@ -19,29 +19,29 @@ const breakpoint = {
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
-const scrollOptions = {
-  smooth: false,
-  spy: false,
-  duration: 0,
-  delay: 0,
-};
+// const scrollOptions = {
+//   smooth: false,
+//   spy: false,
+//   duration: 0,
+//   delay: 0,
+// };
 
 const DDNav = ({ title }) => {
   const [links, setLinks] = useState([]);
   const [isMobile, setIsMobile] = useState(true);
-  const [scrollInstance] = useState(new SmoothScroll());
+  // const [scrollInstance] = useState(new SmoothScroll());
   const [mobileIdx, setMobileIdx] = useState(0);
-  const [offsetHeight, setOffsetHeight] = useState(0);
-  const [scrollToId, setScrollToId] = useState(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  // const [offsetHeight, setOffsetHeight] = useState(0);
+  // const [scrollToId, setScrollToId] = useState(null);
+  // const [scrollPosition, setScrollPosition] = useState(0);
+  // const [lastScrollPosition, setLastScrollPosition] = useState(0);
 
-  let debounce, previousWidth;
+  // let debounce, previousWidth;
 
   const linksArr = [
     {
       title: 'Introduction',
-      href: '#introduction',
+      href: 'introduction',
     },
     {
       title: 'About This Dataset',
@@ -100,31 +100,31 @@ const DDNav = ({ title }) => {
       // navigate to page section
       // setTocIsOpen(false);
       updateAddressPath(id, window.location);
-      setScrollToId(id);
+      // setScrollToId(id);
     }
-    setLastScrollPosition(scrollPosition);
+    // setLastScrollPosition(scrollPosition);
   };
 
-  useEffect(() => {
-    const handleSelectLink = e => {
-      const { target, key, className } = e.target;
-      if (target && key === 'Enter' && className.includes(sectionLink)) {
-        target.click();
-      }
-    };
-
-    const handleScroll = () => {
-      setScrollPosition(window.pageYOffset);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('keyup', handleSelectLink);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('keyup', handleSelectLink);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleSelectLink = e => {
+  //     const { target, key, className } = e.target;
+  //     if (target && key === 'Enter' && className.includes(sectionLink)) {
+  //       target.click();
+  //     }
+  //   };
+  //
+  //   const handleScroll = () => {
+  //     setScrollPosition(window.pageYOffset);
+  //   };
+  //
+  //   window.addEventListener('scroll', handleScroll);
+  //   window.addEventListener('keyup', handleSelectLink);
+  //
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //     window.removeEventListener('keyup', handleSelectLink);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (isMobile) {
@@ -183,8 +183,11 @@ const DDNav = ({ title }) => {
                     data-testid={`DDNavDesktopLink${i}`}
                     aria-label={`Jump to ${d.title} section`}
                     to={d.href}
+                    activeClass={activeMenu}
                     smooth
                     spy
+                    duration={scrollDuration}
+                    delay={scrollDelay}
                     onClick={() => handleInteraction(null, d.href)}
                     tabIndex={0}
                   >
