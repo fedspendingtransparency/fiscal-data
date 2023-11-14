@@ -5,7 +5,7 @@
   min-height: 3rem;
   display: flex;
   align-items: stretch;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   padding-right: 2rem;
 }
 
@@ -71,15 +71,5 @@
 
   .calloutText {
     margin: 1.125rem 1.375rem 1.125rem 0;
-  }
-
-  .banner {
-    margin-bottom: -0.25rem;
-  }
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  .banner {
-    margin-bottom: 0.25rem;
   }
 }
