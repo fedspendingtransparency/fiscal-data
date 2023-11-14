@@ -14,7 +14,7 @@ import { withWindowSize } from 'react-fns';
 import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
-const DatasetAboutTabs = ({ config, test, width }) => {
+const DatasetPropertiesTabs = ({ config, test, width }) => {
   const TabPanel = ({ children, value, index, ...other }) => (
     <Typography
       component="div"
@@ -112,4 +112,4 @@ const DatasetAboutTabs = ({ config, test, width }) => {
     </div>
   );
 };
-export default withWindowSize(DatasetAboutTabs);
+export default withWindowSize(DatasetPropertiesTabs);
