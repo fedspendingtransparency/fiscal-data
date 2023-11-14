@@ -26,8 +26,8 @@ const DDNav = ({ title }) => {
       href: '#introduction',
     },
     {
-      title: 'About This Dataset',
-      href: '#about-this-dataset',
+      title: 'Dataset Properties',
+      href: '#dataset-properties',
     },
     {
       title: 'Preview & Download',
