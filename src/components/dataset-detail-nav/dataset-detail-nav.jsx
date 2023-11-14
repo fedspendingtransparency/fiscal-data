@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { container, menu, activeMenu, desktopLinks, content, hoverMenu, linkContainer } from './dataset-detail-nav.module.scss';
+import React, { useEffect, useState } from 'react';
+import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from './dataset-detail-nav.module.scss';
 import { Link } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
+import * as Scroll from 'react-scroll';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
 const DDNav = () => {
   const [hover, setHover] = useState(null);
+  const [scrollToId, setScrollToId] = useState(null);
   const linksArr = [
     {
       title: 'Introduction',
@@ -39,9 +41,24 @@ const DDNav = () => {
 
     if (id) {
       updateAddressPath(id, window.location);
+      setScrollToId(id);
       setHover(null);
     }
   };
+
+  useEffect(() => {
+    if (scrollToId) {
+      const targetId = scrollToId;
+      setScrollToId(null);
+
+      Scroll.scroller.scrollTo(targetId, {
+        smooth: true,
+        spy: true,
+        duration: scrollDuration,
+        delay: scrollDelay,
+      });
+    }
+  }, [scrollToId]);
 
   return (
     <section id={container}>
@@ -61,6 +78,7 @@ const DDNav = () => {
                 duration={scrollDuration}
                 delay={scrollDelay}
                 onClick={() => handleInteraction(null, d.id)}
+                onKeyDown={e => handleInteraction(e, d.id)}
                 tabIndex={0}
                 offset={-36}
                 onMouseEnter={() => setHover(d.id)}
