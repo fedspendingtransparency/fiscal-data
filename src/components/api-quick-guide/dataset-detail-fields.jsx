@@ -77,7 +77,7 @@ const DatasetDetailFields = ({ apis }) => {
     title: 'Fields',
     desc: (
       <>
-        Refer to <CustomLink url={'#about-this-dataset'}>About This Dataset</CustomLink> above for a data dictionary with field names and
+        Refer to <CustomLink url={'#dataset-properties'}>Dataset Properties</CustomLink> above for a data dictionary with field names and
         descriptions, as well as notes and known limitations. known limitations.
       </>
     ),
