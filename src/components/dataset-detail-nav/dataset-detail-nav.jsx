@@ -40,6 +40,10 @@ const DDNav = ({ title }) => {
 
   const linksArr = [
     {
+      title: 'Introduction',
+      href: '#introduction',
+    },
+    {
       title: 'About This Dataset',
       href: 'about-this-dataset',
     },

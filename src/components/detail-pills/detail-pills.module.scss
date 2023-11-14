@@ -1,7 +1,7 @@
 @import '../../variables.module.scss';
 
 .pillWrapper {
-  margin: 0 0 0.75rem; //1rem - 0.25rem from the additional pill margin.
+  padding: 0 0 1rem;
 }
 
 .pill {
@@ -31,10 +31,4 @@
   object-fit: contain;
   padding-right: 0.5rem;
   transform: translateY(2px);
-}
-
-@media screen and (min-width: $breakpoint-md) {
-  .pillWrapper {
-    margin-bottom: 1rem;
-  }
 }
