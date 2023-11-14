@@ -49,13 +49,6 @@ const DDNav = () => {
         <div data-testid="DDNavMenu" className={menu}>
           {linksArr.map((d, i) => {
             return (
-              // <div
-              //   role="button"
-              //   tabIndex={-1}
-              //   onMouseEnter={() => setHover(d.id)}
-              //   onMouseLeave={() => setHover(null)}
-              //   className={`${linkContainer} ${hover === d.id ? hoverMenu : ''}`}
-              // >
               <Link
                 className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
                 key={`DDNavDesktopLink${i}`}
@@ -75,7 +68,6 @@ const DDNav = () => {
               >
                 {d.title}
               </Link>
-              // </div>
             );
           })}
         </div>
