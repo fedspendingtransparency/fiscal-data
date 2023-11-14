@@ -2,10 +2,8 @@
 @import '../../zIndex.module.scss';
 
 #container {
-  height: 3rem;
   background-color: $dark-slate-blue;
   color: #ffffff;
-  padding: 0.75rem 1rem;
   box-sizing: border-box;
   position: sticky;
   top: 0;
@@ -17,6 +15,7 @@
   margin: 0 auto;
   display: flex;
   white-space: nowrap;
+  overflow-x: auto;
 }
 
 .activeMenu {
@@ -28,6 +27,9 @@
   flex: 2;
   transition: flex 0.2s ease;
   cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
   &.mobile > :first-child {
     margin-right: 0.5rem;
@@ -36,11 +38,14 @@
   a {
     color: #ffffff;
     text-decoration: none;
-  }
-}
+    padding: 0.5rem 0.75rem;
 
-.desktopLinks {
-  display: none;
+    &:hover {
+      background-color: #d9d9d9;
+      color: $font-title;
+    }
+  }
+
 }
 
 .mobileLinks {
@@ -77,27 +82,20 @@
       color: #ffffff;
       text-decoration: none;
       overflow-x: hidden;
-      padding: 0.8125rem 0.75rem 0.75rem 0.75rem;
+      padding: 0.5rem 0.75rem;
       font-size: $font-size-16;
       font-weight: $semi-bold-weight;
-      border-bottom: 3px solid transparent;
+      //border-bottom: 3px solid transparent;
 
       &:last-of-type {
         margin-right: 0;
       }
 
-      &:hover {
-        background-color: #d9d9d9;
-        color: $font-title;
-      }
+
     }
   }
 
   .desktopLinks {
     display: inline;
-  }
-
-  .mobileIcon {
-    display: none;
   }
 }
