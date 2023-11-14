@@ -1,7 +1,7 @@
 @import '../../variables.module.scss';
 
 .pillWrapper {
-  padding: 0 0 1rem;
+  padding-bottom: 1rem;
 }
 
 .pill {
@@ -11,7 +11,7 @@
   color: $primary;
   border: none;
   padding: 0 0.75rem;
-  margin: 0 0.625rem 0.25rem 0;
+  margin-right: 0.625rem;
   font-size: $font-size-14;
   line-height: 2em;
   white-space: nowrap;
@@ -31,4 +31,13 @@
   object-fit: contain;
   padding-right: 0.5rem;
   transform: translateY(2px);
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .pill {
+    margin-bottom: 0.5rem;
+  }
+  .pillWrapper {
+    padding-bottom: 0.5rem;
+  }
 }
