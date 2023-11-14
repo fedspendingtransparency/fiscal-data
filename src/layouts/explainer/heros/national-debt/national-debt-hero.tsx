@@ -45,7 +45,7 @@ const NationalDebtHero = (): JSX.Element => {
       </div>
       <div className={`${counterSourceInfo} ${debt}`}>
         Updated daily from the{' '}
-        <CustomLink url={'/datasets/debt-to-the-penny'} onClick={() => clickHandler()} id="Debt to the Penny">
+        <CustomLink url="/datasets/debt-to-the-penny" onClick={() => clickHandler()} id="Debt to the Penny">
           Debt to the Penny
         </CustomLink>{' '}
         dataset.

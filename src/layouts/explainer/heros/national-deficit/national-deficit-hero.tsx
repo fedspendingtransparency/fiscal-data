@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { counterSourceInfo, footNotes, deficitBoxContainer, heroImageSubHeading, deficit } from '../../hero-image/hero-image.module.scss';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
@@ -7,9 +7,9 @@ import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-
 import { getFootNotesDateRange, getPillData } from '../hero-helper';
 import { getShortForm } from '../../../../utils/rounding-utils';
 
-const NationalDeficitHero = (): JSX.Element => {
+const NationalDeficitHero = (): ReactElement => {
   const fields: string =
-    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' + 'record_calendar_month,record_calendar_year,record_fiscal_year';
+    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
   const sort: string = 'sort=-record_date';
   const filter: string = 'filter=line_code_nbr:eq:5694';
   const pagination: string = 'page[size]=13';
@@ -73,7 +73,7 @@ const NationalDeficitHero = (): JSX.Element => {
 
   const mtsLink = (
     <CustomLink
-      url={'/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays' + '-of-the-u-s-government'}
+      url="/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government"
       eventNumber="2"
       id="Monthly Treasury Statement"
     >
@@ -82,7 +82,7 @@ const NationalDeficitHero = (): JSX.Element => {
   );
 
   const fiscalYear = (
-    <GlossaryPopoverDefinition term={'fiscal year'} page={'Deficit Explainer'}>
+    <GlossaryPopoverDefinition term="fiscal year" page="Deficit Explainer" >
       fiscal year (FY)
     </GlossaryPopoverDefinition>
   );

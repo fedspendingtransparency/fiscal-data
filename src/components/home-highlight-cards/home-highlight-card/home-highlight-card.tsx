@@ -38,6 +38,7 @@ import { formatCardValue } from '../home-highlight-cards-helper/home-highlight-c
 import BarGraph from '../../charts/bar/bar';
 import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 const cardStyles = {
   root: {
@@ -140,8 +141,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     });
 
     if (action && title) {
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push({
+      ga4DataLayerPush({
         event: action,
         eventLabel: title,
       });

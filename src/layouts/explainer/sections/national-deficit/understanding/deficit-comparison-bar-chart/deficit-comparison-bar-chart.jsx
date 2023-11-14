@@ -78,7 +78,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
 
   const chartCopy = {
     title: 'U.S. Deficit Compared to Revenue and Spending, FY ',
-    altText: 'Bar chart comparing the differences between the U.S. government’s spending and ' + 'revenue, resulting in a deficit for FY ',
+    altText: 'Bar chart comparing the differences between the U.S. government’s spending and revenue, resulting in a deficit for FY ',
     footer: footer,
   };
 
@@ -170,14 +170,14 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
       )}
       {data && (
         <>
-          <div data-testid={'deficitComparisonChart'} className={container}>
+          <div data-testid="deficitComparisonChart" className={container}>
             <ChartContainer
               title={`${chartCopy.title}${lastFiscalYear}`}
               altText={`${chartCopy.altText}${lastFiscalYear}.`}
               footer={chartCopy.footer}
               date={date}
             >
-              <div className={barChart} data-testid={'chartParentDiv'}>
+              <div className={barChart} data-testid="chartParentDiv">
                 <Bar
                   barComponent={CustomBar}
                   width={desktop ? 408 : 304}

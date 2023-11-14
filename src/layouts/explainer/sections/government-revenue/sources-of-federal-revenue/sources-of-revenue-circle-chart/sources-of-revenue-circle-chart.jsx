@@ -61,8 +61,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
       }
     });
-    const categoryUrl =
-      'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&' + 'sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
+    const categoryUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
     basicFetch(`${apiPrefix}${categoryUrl}`).then(res => {
       if (res.data[0]) {
         setCategoryData(res.data);
@@ -71,7 +70,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   }, []);
 
   useEffect(() => {
-    const url = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)' + '&sort=-record_date&page[size]=2';
+    const url = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)&sort=-record_date&page[size]=2';
     basicFetch(`${apiPrefix}${url}`).then(res => {
       if (res.data[0] && res.data[1]) {
         const income = Number(res.data[0]?.current_fytd_rcpt_outly_amt) + Number(res.data[1].current_fytd_rcpt_outly_amt);
@@ -306,7 +305,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               <div
                 role="presentation"
                 className={chartSize}
-                data-testid={'chartParent'}
+                data-testid="chartParent"
                 onMouseEnter={handleMouseEnterChart}
                 onMouseLeave={HandleChartMouseLeave}
                 onClick={HandleChartMouseLeave}

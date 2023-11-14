@@ -5,7 +5,7 @@ import { fillCellGrey, fillCellWhite, cellBorder, rightAlignText } from './data-
 import classNames from 'classnames';
 
 interface IDataTableBody {
-  table: Table<any>;
+  table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
 }
 

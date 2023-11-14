@@ -4,7 +4,6 @@ import moment from 'moment';
 import { currencyFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
-import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -16,7 +15,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-export const columnsConstructorData = (rawData: any, hideColumns: string[], tableName: string): any => {
+export const columnsConstructorData = (rawData: Record<string, Record<string, unknown>>, hideColumns: string[], tableName: string): any => {
   if (rawData.meta) {
     return Object.entries(rawData.meta.labels)
       .filter(x => !hideColumns?.includes(x[0]))
@@ -54,6 +53,10 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
                   formattedValue = numberFormatter.format(value);
                 }
 
+                if (tableName === 'Demand Deposit Rate' && field === 'daily_factor') {
+                  formattedValue = Number(value).toFixed(8);
+                }
+
                 return formattedValue;
               },
             } as ColumnDef<string, number>;
@@ -62,7 +65,11 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
               accessorKey: field,
               header: label,
               cell: ({ getValue }) => {
-                return `${getValue()}%`;
+                if (getValue() !== undefined) {
+                  return `${getValue()}%`;
+                } else {
+                  return '';
+                }
               },
             } as ColumnDef<string, string>;
           } else if (rawData.meta.dataTypes[field] === 'SMALL_FRACTION') {
@@ -108,13 +115,14 @@ export const columnsConstructorData = (rawData: any, hideColumns: string[], tabl
           }
           return { accessorKey: field, header: label } as ColumnDef<string, string>;
         }
+        return null;
       });
   } else {
     return [];
   }
 };
 
-export const columnsConstructorGeneric = (columns: any): any => {
+export const columnsConstructorGeneric = (columns: Record<string, string>[]): ColumnDef<string, string>[] => {
   return Object.entries(columns).map(([property, name]) => {
     return { accessorKey: name.property, header: name.name } as ColumnDef<string, string>;
   });
@@ -140,13 +148,7 @@ export const getColumnFilter: (
     );
   } else if (displayTextFilters) {
     return (
-      <TextFilter
-        column={header.column}
-        resetFilters={resetFilters}
-        setFiltersActive={setFiltersActive}
-        allActiveFilters={allActiveFilters}
-        setAllActiveFilters={setAllActiveFilters}
-      />
+      <TextFilter column={header.column} resetFilters={resetFilters} allActiveFilters={allActiveFilters} setAllActiveFilters={setAllActiveFilters} />
     );
   }
 };

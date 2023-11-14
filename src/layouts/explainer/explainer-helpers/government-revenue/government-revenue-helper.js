@@ -31,6 +31,7 @@ const github = (
 
 export const governmentRevenueDataSources = (
   <>
+    {/* eslint-disable-next-line max-len */}
     The {mts} datasets provide all revenue values on this page. Adjustments for inflation are calculated using Consumer Price Index values from the{' '}
     {bls}. Fiscal year Gross Domestic Product values from the {bea} are calculated by averaging four relevant quarterly values from calendar year
     quarter 4 of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation, users can reference our {github}

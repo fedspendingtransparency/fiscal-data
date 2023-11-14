@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { debtExplainerPrimary, debtExplainerSecondary, debtExplainerLightSecondary } from '../../../variables.module.scss';
 import {
   nationalDebtActive,
@@ -91,7 +91,7 @@ export const explainerSocialShareMap = {
   'national-debt': {
     title: 'Fiscal Data Explains the National Debt',
     description: 'Check out @FiscalService Fiscal Data’s new national debt page! #NationalDebt',
-    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! ' + '#FiscalData #OpenData #NationalDebt',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining national debt! #FiscalData #OpenData #NationalDebt',
     emailSubject: 'Fiscal Data Explains the National Debt',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national debt!',
     url: envBaseUrl + '/americas-finance-guide/national-debt/',
@@ -99,8 +99,8 @@ export const explainerSocialShareMap = {
   },
   'national-deficit': {
     title: 'Fiscal Data Explains the National Deficit',
-    description: 'Check out @FiscalService Fiscal Data’s new national deficit page! ' + '#NationalDeficit',
-    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining the national deficit! ' + '#FiscalData #OpenData #NationalDeficit',
+    description: 'Check out @FiscalService Fiscal Data’s new national deficit page! #NationalDeficit',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining the national deficit! #FiscalData #OpenData #NationalDeficit',
     emailSubject: 'Fiscal Data Explains the National Deficit',
     emailBody: 'Check out Fiscal Data’s new topic page explaining the national deficit!',
     url: envBaseUrl + '/americas-finance-guide/national-deficit/',
@@ -108,8 +108,8 @@ export const explainerSocialShareMap = {
   },
   'federal-spending': {
     title: 'Fiscal Data Explains Federal Spending',
-    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! ' + '#FederalSpending ',
-    body: 'Check out @FiscalService Fiscal Data’s new topic page, ' + 'explaining federal spending! #FiscalData #OpenData #FederalSpending ',
+    description: 'Check out @FiscalService Fiscal Data’s new federal spending page! #FederalSpending ',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page, explaining federal spending! #FiscalData #OpenData #FederalSpending ',
     emailSubject: 'Fiscal Data Explains Federal Spending',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal spending!',
     url: envBaseUrl + '/americas-finance-guide/federal-spending/',
@@ -117,8 +117,8 @@ export const explainerSocialShareMap = {
   },
   'government-revenue': {
     title: 'Fiscal Data Explains Federal Revenue',
-    description: 'Check out @FiscalService Fiscal Data’s new federal revenue page!' + ' #FederalRevenue',
-    body: ' Check out @FiscalService Fiscal Data’s new topic page, explaining ' + 'federal revenue! #FiscalData #OpenData #FederalRevenue  ',
+    description: 'Check out @FiscalService Fiscal Data’s new federal revenue page! #FederalRevenue',
+    body: ' Check out @FiscalService Fiscal Data’s new topic page, explaining federal revenue! #FiscalData #OpenData #FederalRevenue  ',
     emailSubject: 'Fiscal Data Explains Federal Revenue',
     emailBody: 'Check out Fiscal Data’s new topic page, explaining federal revenue!',
     url: envBaseUrl + '/americas-finance-guide/government-revenue/',
@@ -178,7 +178,7 @@ export const datasetSectionConfig = {
       slug: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding/',
       endpoint: 'v1/debt/mspd/mspd_table_1?',
       getQueryString: () => {
-        const fieldsParam = 'fields=debt_held_public_mil_amt,intragov_hold_mil_amt,' + 'record_calendar_year,record_calendar_month,record_date';
+        const fieldsParam = 'fields=debt_held_public_mil_amt,intragov_hold_mil_amt,record_calendar_year,record_calendar_month,record_date';
         const pad = monthNum => (monthNum < 10 ? `0${monthNum}` : monthNum.toString());
 
         const currentDate = new Date(Date.now());
@@ -193,7 +193,7 @@ export const datasetSectionConfig = {
         }
         const monthVals = `(${pad(thisMonth)},${pad(lastMonth)},${pad(priorMonth)})`;
         let filterParam = `filter=record_calendar_month:in:${monthVals},`;
-        filterParam += `record_calendar_year:in:(${years.join()})` + ',security_type_desc:eq:Total%20Public%20Debt%20Outstanding';
+        filterParam += `record_calendar_year:in:(${years.join()}),security_type_desc:eq:Total%20Public%20Debt%20Outstanding`;
         return `${fieldsParam}&${filterParam}&sort=record_date&limit=12`;
       },
       transformer: response => {
@@ -243,7 +243,7 @@ export const datasetSectionConfig = {
   'national-deficit': {
     'understanding-the-national-deficit': {
       name: 'Monthly Treasury Statement (MTS)',
-      slug: '/datasets/monthly-treasury-statement/' + 'summary-of-receipts-and-outlays-of-the-u-s-government',
+      slug: '/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government',
       endpoints: [
         {
           name: 'Fiscal Year',

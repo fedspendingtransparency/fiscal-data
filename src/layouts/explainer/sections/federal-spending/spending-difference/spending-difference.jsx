@@ -16,15 +16,15 @@ import MandatorySpendingImgMobile from '../../../../../../static/images/mandator
 
 export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) => {
   const appropriations = (
-    <GlossaryPopoverDefinition term={'appropriations'} page={'Spending Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="appropriations" page="Spending Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       appropriations
     </GlossaryPopoverDefinition>
   );
 
   const supplementalAppropriations = (
     <GlossaryPopoverDefinition
-      term={'supplemental appropriations'}
-      page={'Spending Explainer'}
+      term="supplemental appropriations"
+      page="Spending Explainer"
       glossary={glossary}
       glossaryClickHandler={glossaryClickHandler}
     >
@@ -45,7 +45,7 @@ export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) =>
       <p>
         Mandatory spending, also known as direct spending, is mandated by existing laws. This type of spending includes funding for entitlement
         programs like Medicare and Social Security and other payments to people, businesses, and state and local governments. For example, the{' '}
-        <CustomLink href={'https://www.ssa.gov/OP_Home/ssact/ssact-toc.htm'}>Social Security Act</CustomLink> requires the government to provide
+        <CustomLink href="https://www.ssa.gov/OP_Home/ssact/ssact-toc.htm">Social Security Act</CustomLink> requires the government to provide
         payments to beneficiaries based on the amount of money they’ve earned and other factors. Last amended in 2019, the Social Security Act will
         determine the level of federal spending into the future until it is amended again. Due to authorization laws, the funding for these programs
         must be allocated for spending each year, hence the term mandatory.
@@ -60,7 +60,7 @@ export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) =>
             'Step 3: Entitlement program benefits are paid out from these accounts to support ' +
             'people, businesses, and state and local governments '
           }
-          data-testid={'mandatorySpendingImg'}
+          data-testid="mandatorySpendingImg"
           className={mandatorySpendingImgStyle}
         />
       </div>
@@ -80,7 +80,7 @@ export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) =>
             'Step 3: President signs the budget into law, and spending goes to national defense and other federal agency ' +
             'programs. The accounts are funded annually and disbursements are made unless an amendment is made to the law}'
           }
-          data-testid={'diseretionarySpendingMobileImg'}
+          data-testid="diseretionarySpendingMobileImg"
           className={mandatorySpendingImgStyle}
         />
       </div>
@@ -91,7 +91,7 @@ export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) =>
         nation’s recovery from the COVID-19 pandemic. You can explore the spending related to these supplemental appropriation laws in
         USAspending.gov’s {' '}
         {
-          <CustomLink href={'https://www.usaspending.gov/disaster/covid-19?publicLaw=all'} eventNumber="17">
+          <CustomLink href="https://www.usaspending.gov/disaster/covid-19?publicLaw=all" eventNumber="17">
             COVID-19 Spending Profile
           </CustomLink>
         }{' '}
@@ -105,7 +105,7 @@ export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) =>
             'Step 2: President enacts the law by signing it ' +
             'Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified'
           }
-          data-testid={'supplementalSpendingImg'}
+          data-testid="supplementalSpendingImg"
           className={mandatorySpendingImgStyle}
         />
       </div>{' '}
@@ -114,7 +114,7 @@ export const SpendingDifference = ({ width, glossary, glossaryClickHandler }) =>
           title="What is the process for determining discretionary spending?"
           openEventNumber="18"
           explainerGAEvent="Spending"
-          ga4ID={'disc-spend'}
+          ga4ID="disc-spend"
         >
           Discretionary spending is determined by the President and Congress each year in the budget and appropriations process. First, the President
           creates a budget proposal and sends it to Congress. Then, the House and Senate both draft budget resolutions. Congress can change funding

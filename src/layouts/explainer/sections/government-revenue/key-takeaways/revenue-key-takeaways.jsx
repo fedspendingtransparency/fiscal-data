@@ -11,8 +11,7 @@ const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
   const [totalGDP, setTotalGDP] = useState('');
 
   useEffect(() => {
-    const endpointURL =
-      'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830' + ',record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
+    const endpointURL = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1';
     const beaURL =
       'https://apps.bea.gov/api/data/' +
       '?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=' +
@@ -52,8 +51,8 @@ const RevenueKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
   const firstTakeawayTextWithGlossaryTerm = reactStringReplace(firstTakeawayText, 'fiscal year (FY)', match => {
     return (
       <GlossaryPopoverDefinition
-        term={'fiscal year'}
-        page={'Debt, Revenue & Spending explainer'}
+        term="fiscal year"
+        page="Debt, Revenue & Spending explainer"
         glossary={glossary}
         glossaryClickHandler={glossaryClickHandler}
       >

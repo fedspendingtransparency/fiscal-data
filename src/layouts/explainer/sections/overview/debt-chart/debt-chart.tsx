@@ -200,6 +200,7 @@ const AFGDebtChart = (): ReactElement => {
                   content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} />}
                   cursor={{ fillOpacity: 0 }}
                   shared={false}
+                  isAnimationActive={false}
                 />
               </BarChart>
             </ResponsiveContainer>
