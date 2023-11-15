@@ -50,12 +50,12 @@ const DDNav = () => {
     if (scrollToId) {
       const targetId = scrollToId;
       setScrollToId(null);
-
       Scroll.scroller.scrollTo(targetId, {
         smooth: true,
         spy: true,
         duration: scrollDuration,
         delay: scrollDelay,
+        offset: -36,
       });
     }
   }, [scrollToId]);
