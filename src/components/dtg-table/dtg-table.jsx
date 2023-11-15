@@ -311,7 +311,7 @@ export default function DtgTable({
     return () => {
       loadCanceled = true;
     };
-  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
+  }, [tableProps.data]);
 
   useEffect(() => {
     if (selectColumns && activeColumns) {
@@ -353,27 +353,23 @@ export default function DtgTable({
   };
 
   useEffect(() => {
-    if (tableProps) {
-      if (dePaginated !== undefined) {
-        if (dePaginated !== null && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-          setReactTableData(dePaginated);
-          setManualPagination(false);
-        } else {
-          if (rawData !== null && rawData.length > 0) {
-            setReactTableData(rawData);
-            setManualPagination(false);
-          } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-            setReactTableData(rawData);
-            setManualPagination(false);
-          }
-        }
+    if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      if (dePaginated !== null && !rawData?.pivotApplied) {
+        setReactTableData(dePaginated);
+        setManualPagination(false);
+      } else if (rawData !== null && rawData.hasOwnProperty('data')) {
+        setManualPagination(false);
+        setReactTableData(rawData);
       }
     }
-  }, [tableProps]);
+  }, [rawData, dePaginated]);
 
   useEffect(() => {
-    if (tableData.length > 0 && tableMeta !== undefined && tableMeta !== null && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+      if (tableProps && tableProps.data !== undefined && tableProps.data?.length > 0 && tableProps.rawData) {
+        setManualPagination(false);
+        setReactTableData(rawData);
+      } else if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else {
@@ -484,6 +480,7 @@ export default function DtgTable({
             manualPagination={manualPagination}
             maxRows={maxRows}
             rowsShowing={rowsShowing}
+            columnConfig={columnConfig}
           />
         )}
       </Experimental>

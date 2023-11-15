@@ -29,7 +29,7 @@ import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   rawData;
-  nonRawDataColumns;
+  nonRawDataColumns?;
   defaultSelectedColumns: string[];
   setTableColumnSortData;
   hasPublishedReports: boolean;
@@ -48,6 +48,7 @@ type DataTableProps = {
   manualPagination: boolean;
   maxRows: number;
   rowsShowing: { begin: number; end: number };
+  columnConfig?;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -71,9 +72,11 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   manualPagination,
   maxRows,
   rowsShowing,
+  columnConfig,
 }) => {
-  const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
-  const data = rawData.data;
+  const allColumns = nonRawDataColumns
+    ? columnsConstructorGeneric(nonRawDataColumns)
+    : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -93,7 +96,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
     };
   }
-  const [columns] = useState(() => [...allColumns]);
 
   let dataTypes;
 
@@ -101,7 +103,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     dataTypes = rawData.meta.dataTypes;
   } else {
     const tempDataTypes = {};
-    columns.forEach(column => {
+    allColumns.forEach(column => {
       tempDataTypes[column.property] = 'STRING';
     });
     dataTypes = tempDataTypes;
@@ -109,14 +111,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const setTableSorting = useSetRecoilState(reactTableSortingState);
-
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
   const [allActiveFilters, setAllActiveFilters] = useState([]);
+  const [defaultColumns, setDefaultColumns] = useState([]);
+  const [additionalColumns, setAdditionalColumns] = useState([]);
 
   const table = useReactTable({
-    columns,
-    data,
+    columns: allColumns,
+    data: rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -152,26 +155,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   };
 
-  useEffect(() => {
-    getSortedColumnsData(table);
-  }, [sorting, columnVisibility, table.getFilteredRowModel()]);
-
-  useEffect(() => {
-    setTableSorting(sorting);
-  }, [sorting]);
-
-  useEffect(() => {
-    if (resetFilters) {
-      table.resetColumnFilters();
-      table.resetSorting();
-      setResetFilters(false);
-      setAllActiveFilters([]);
-    }
-  }, [resetFilters]);
-
-  const [defaultColumns, setDefaultColumns] = useState([]);
-  const [additionalColumns, setAdditionalColumns] = useState([]);
-
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
     for (const column of allColumns) {
@@ -201,6 +184,24 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
+
+  useEffect(() => {
+    getSortedColumnsData(table);
+  }, [columnVisibility, table.getFilteredRowModel()]);
+
+  useEffect(() => {
+    getSortedColumnsData(table);
+    setTableSorting(sorting);
+  }, [sorting]);
+
+  useEffect(() => {
+    if (resetFilters) {
+      table.resetColumnFilters();
+      table.resetSorting();
+      setResetFilters(false);
+      setAllActiveFilters([]);
+    }
+  }, [resetFilters]);
 
   useEffect(() => {
     if (defaultSelectedColumns) {
