@@ -29,41 +29,17 @@ import AfgHero from '../../layouts/explainer/explainer-components/afg-components
 import ApiRequest from '../../helpers/api-request';
 import { revenueRequest } from '../../layouts/explainer/explainer-helpers/afg-overview-helpers';
 import CustomLink from '../../components/links/custom-link/custom-link';
-import { graphql, useStaticQuery } from 'gatsby';
 import Footnote from '../../components/footnote/footnote';
 import { getAFGFootnotes } from '../../helpers/footnotes-helper/footnotes-helper';
 import TopicSection from '../../layouts/explainer/explainer-components/afg-components/topic-section/topic-section';
 import { explainerAnalyticsLabelMap, explainerSocialShareMap } from '../../layouts/explainer/explainer-helpers/explainer-helpers';
 import SocialShare from '../../components/social-share/social-share';
 import { useWindowSize } from '../../hooks/windowResize';
+import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
 
 const AmericasFinanceGuidePage = ({ width }) => {
-  const allGlossary = useStaticQuery(
-    graphql`
-      query {
-        allGlossaryCsv {
-          glossaryCsv: nodes {
-            term
-            definition
-            site_page
-            id
-            url_display
-            url_path
-          }
-        }
-      }
-    `
-  );
   const pageName = 'americas-finance-guide';
-  const glossary = allGlossary.allGlossaryCsv.glossaryCsv;
-  glossary.map(
-    term =>
-      (term.slug = term.term
-        .toLowerCase()
-        .split(' ')
-        .join('-'))
-  );
-  const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
+
   const [fiscalYear, setFiscalYear] = useState('');
   const [height] = useWindowSize();
   const [containerHeight, setContainerHeight] = useState(765);
@@ -105,58 +81,60 @@ const AmericasFinanceGuidePage = ({ width }) => {
   }, [width, height, containerHeight]);
 
   return (
-    <SiteLayout isPreProd={false} glossaryEvent={glossaryClickEvent} glossaryClickEventHandler={setGlossaryClickEvent}>
-      <PageHelmet
-        pageTitle="America’s Finance Guide"
-        description={
-          'Your Guide to America’s Finances makes federal financial information open ' +
-          'and accessible to all. Explore U.S. revenue, spending, deficit, and debt with this ' +
-          'open-source guide to federal finance data.'
-        }
-        keywords=""
-        image=""
-        canonical=""
-        datasetDetails=""
-      />
-      <AfgHero />
-      <div className={mainContainer}>
-        <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
-          {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-          <div className={socialShare} ref={refSocialShare}>
-            <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="horizontal" />
-          </div>
-          <TopicSection glossary={glossary} fiscalYear={fiscalYear} setGlossaryClickEvent={setGlossaryClickEvent} width={width} />
-          {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
-          <DataSourcesMethodologies pageName="afg-overview">
-            Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {mspd} and the{' '}
-            {debtToThePenny} datasets are the data sources for federal debt.
-          </DataSourcesMethodologies>
-        </Container>
-      </div>
-      <div className={constitutionImg} data-testid="quoteContainer">
-        <div className={quoteContainer}>
-          <img
-            className={treasuryReportImg}
-            src="../images/treasury-reports.png"
-            alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background.
-              Next to the spread is a quote from Article 1, Section 9, which reads
-              “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”"
-          />
-          <div className={quoteSection}>
-            <p className={quote}>
-              A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.
-            </p>
-            <p className={citation}>U.S. Constitution, Article 1, Section 9</p>
-            <div className={quoteBar} />
-          </div>
-          <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
+    <GlossaryProvider>
+      <SiteLayout isPreProd={false}>
+        <PageHelmet
+          pageTitle="America’s Finance Guide"
+          description={
+            'Your Guide to America’s Finances makes federal financial information open ' +
+            'and accessible to all. Explore U.S. revenue, spending, deficit, and debt with this ' +
+            'open-source guide to federal finance data.'
+          }
+          keywords=""
+          image=""
+          canonical=""
+          datasetDetails=""
+        />
+        <AfgHero />
+        <div className={mainContainer}>
+          <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
+            {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
+            <div className={socialShare} ref={refSocialShare}>
+              <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="horizontal"/>
+            </div>
+            <TopicSection fiscalYear={fiscalYear} width={width} />
+            {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
+            <DataSourcesMethodologies pageName="afg-overview">
+              Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mts}. The {mspd} and the{' '}
+              {debtToThePenny} datasets are the data sources for federal debt.
+            </DataSourcesMethodologies>
+          </Container>
         </div>
-      </div>
-      <Container classes={{ root: bottomContainer }} data-testid="bottomContainer">
-        <p style={{ textAlign: 'center' }}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
-        <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
-      </Container>
-    </SiteLayout>
+        <div className={constitutionImg} data-testid="quoteContainer">
+          <div className={quoteContainer}>
+            <img
+              className={treasuryReportImg}
+              src="../images/treasury-reports.png"
+              alt="A spread of Fiscal Data reports laid upon the first article of the U.S. Constitution as the background.
+                Next to the spread is a quote from Article 1, Section 9, which reads
+                “A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.”"
+            />
+            <div className={quoteSection}>
+              <p className={quote}>
+                A regular Statement and Account of the Receipts and Expenditures of all public Money shall be published from time to time.
+              </p>
+              <p className={citation}>U.S. Constitution, Article 1, Section 9</p>
+              <div className={quoteBar} />
+            </div>
+            <FontAwesomeIcon icon={faQuoteLeft} className={quoteIcon} />
+          </div>
+        </div>
+        <Container classes={{ root: bottomContainer }} data-testid="bottomContainer">
+          <p style={{ textAlign: 'center' }}>Your Guide to America's Finances is brought to you by the U.S. Department of the Treasury</p>
+          <img src="../images/500px-Seal_of_the_United_States_Department_of_the_Treasury.svg" alt="U.S. Treasury Logo" />
+        </Container>
+      </SiteLayout>
+    </GlossaryProvider>
   );
 };
 export default withWindowSize(AmericasFinanceGuidePage);

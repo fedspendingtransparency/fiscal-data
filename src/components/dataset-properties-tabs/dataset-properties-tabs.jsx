@@ -14,7 +14,7 @@ import { withWindowSize } from 'react-fns';
 import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
-const DatasetAboutTabs = ({ config, test, width }) => {
+const DatasetPropertiesTabs = ({ config, test, width }) => {
   const TabPanel = ({ children, value, index, ...other }) => (
     <Typography
       component="div"
@@ -96,7 +96,7 @@ const DatasetAboutTabs = ({ config, test, width }) => {
             onChange={handleChange}
             variant={test ? 'standard' : 'scrollable'}
             scrollButtons={scrollButton}
-            aria-label="About This Dataset tabs"
+            aria-label="Dataset properties tabs"
           >
             {tabs.map((tab, index) => (
               <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} />
@@ -112,4 +112,4 @@ const DatasetAboutTabs = ({ config, test, width }) => {
     </div>
   );
 };
-export default withWindowSize(DatasetAboutTabs);
+export default withWindowSize(DatasetPropertiesTabs);

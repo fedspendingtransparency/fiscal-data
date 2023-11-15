@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import DatasetAboutTabs from './dataset-about-tabs';
+import DatasetAboutTabs from './dataset-properties-tabs';
 import { RecoilRoot } from 'recoil';
 
 describe('DatasetAboutTabs', () => {

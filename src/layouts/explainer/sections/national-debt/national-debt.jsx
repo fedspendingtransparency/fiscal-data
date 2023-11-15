@@ -46,62 +46,49 @@ const nationalDebtSections = [
     index: 0,
     id: nationalDebtSectionIds[0],
     title: 'Key Takeaways',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
-      <KeyTakeawaysSection glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
-    ),
+    component: cpiDataByYear => <KeyTakeawaysSection />,
   },
   {
     index: 1,
     id: nationalDebtSectionIds[1],
     title: 'The National Debt Explained',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
-      <NationalDebtExplained glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
-    ),
+    component: cpiDataByYear => <NationalDebtExplained />,
   },
   {
     index: 2,
     id: nationalDebtSectionIds[2],
     title: 'Funding Programs & Services',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => <FundingProgramsAndServices />,
+    component: cpiDataByYear => <FundingProgramsAndServices />,
   },
   {
     index: 3,
     id: nationalDebtSectionIds[3],
     title: 'The Growing National Debt',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
-      <GrowingNationalDebtSection
-        sectionId={nationalDebtSectionIds[3]}
-        glossary={glossary}
-        cpiDataByYear={cpiDataByYear}
-        glossaryClickHandler={glossaryClickHandler}
-      />
-    ),
+    component: cpiDataByYear => <GrowingNationalDebtSection sectionId={nationalDebtSectionIds[3]} cpiDataByYear={cpiDataByYear} />,
   },
   {
     index: 4,
     id: nationalDebtSectionIds[4],
     title: 'Breaking Down the Debt',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
-      <BreakingDownTheDebt sectionId={nationalDebtSectionIds[4]} glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
-    ),
+    component: cpiDataByYear => <BreakingDownTheDebt sectionId={nationalDebtSectionIds[4]} />,
   },
   {
     index: 5,
     id: nationalDebtSectionIds[5],
     title: 'The Debt Ceiling',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => <DebtCeilingSection glossary={glossary} />,
+    component: cpiDataByYear => <DebtCeilingSection />,
   },
   {
     index: 6,
     id: nationalDebtSectionIds[6],
     title: 'Tracking the Debt',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => <TrackingTheDebt />,
+    component: cpiDataByYear => <TrackingTheDebt />,
   },
   {
     index: 7,
     id: nationalDebtSectionIds[7],
     title: 'Dive Deeper into the Debt',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => <DiveDeeperIntoTheDebt />,
+    component: cpiDataByYear => <DiveDeeperIntoTheDebt />,
   },
 ];
 
