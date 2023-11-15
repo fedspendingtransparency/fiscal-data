@@ -61,7 +61,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         canonical={canonical}
       />
       <Masthead title={pageContext.config.name} bannerCallout={pageContext?.config.bannerCallout} />
-
       <DDNav />
       <div className="ddpBodyBackground">
         <DatasetIntroduction

@@ -12,7 +12,6 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import { useStaticQuery } from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
-import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
 import { RecoilRoot } from 'recoil';
 import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
 
@@ -187,10 +186,11 @@ const seoConfig = {
   description:
     'This dataset provides high-level information on the federal government’s ' +
     'outstanding debts, holdings, and the statutory debt limit on a monthly basis.',
-  keywords: 'debt, public debt, government debt, Treasury, open data, monthly statement ' + 'public debt, mspd, us debt, debt limit',
+  keywords: 'debt, public debt, government debt, Treasury, open data, monthly statement public debt, mspd, us debt, debt limit',
 };
 
 jest.mock('../../components/filter-download-container/filter-download-container.jsx', () => () => 'FilterDownloadContainer');
+jest.mock('../../components/dataset-detail-nav/dataset-detail-nav.jsx', () => () => 'DDNav');
 jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
   useMetadataUpdater: i => {
     return i;

@@ -42,7 +42,7 @@ describe('DDNav', () => {
     const link = getByText('Introduction');
 
     fireEvent.keyDown(link, { key: 'Enter' });
-    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true });
+    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
     spy.mockClear();
     fireEvent.keyDown(link, { key: 'Tab' });
     expect(spy).not.toHaveBeenCalled();
@@ -55,7 +55,7 @@ describe('DDNav', () => {
     const link = getByText('Introduction');
 
     fireEvent.click(link);
-    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true });
+    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
     spy.mockClear();
   });
 });

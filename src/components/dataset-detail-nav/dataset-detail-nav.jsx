@@ -3,9 +3,17 @@ import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from '.
 import { Link } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
-import * as Scroll from 'react-scroll';
+import { scroller } from 'react-scroll';
 const scrollDelay = globalConstants.config.smooth_scroll.delay;
 const scrollDuration = globalConstants.config.smooth_scroll.duration;
+
+const scrollOptions = {
+  smooth: true,
+  spy: true,
+  duration: scrollDuration,
+  delay: scrollDelay,
+  offset: -36,
+};
 
 const DDNav = () => {
   const [hover, setHover] = useState(null);
@@ -50,13 +58,7 @@ const DDNav = () => {
     if (scrollToId) {
       const targetId = scrollToId;
       setScrollToId(null);
-      Scroll.scroller.scrollTo(targetId, {
-        smooth: true,
-        spy: true,
-        duration: scrollDuration,
-        delay: scrollDelay,
-        offset: -36,
-      });
+      scroller.scrollTo(targetId, scrollOptions);
     }
   }, [scrollToId]);
 
@@ -73,16 +75,12 @@ const DDNav = () => {
                 aria-label={`Jump to ${d.title} section`}
                 to={d.id}
                 activeClass={activeMenu}
-                smooth
-                spy
-                duration={scrollDuration}
-                delay={scrollDelay}
                 onClick={() => handleInteraction(null, d.id)}
                 onKeyDown={e => handleInteraction(e, d.id)}
                 tabIndex={0}
-                offset={-36}
                 onMouseEnter={() => setHover(d.id)}
                 onMouseLeave={() => setHover(null)}
+                {...scrollOptions}
               >
                 {d.title}
               </Link>
