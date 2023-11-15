@@ -140,7 +140,11 @@ const ComboCurrencySelect = ({
         ) : null}
         <div ref={ref} onFocus={onFocusHandler} role="presentation">
           <div className={dropdownStyle()} data-testid="dropdown-button-container">
-            <button className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])} onClick={toggleDropdown}>
+            <button
+              className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])}
+              onClick={toggleDropdown}
+              data-testid="dropdownToggle"
+            >
               <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>
                 {dropdownActive ? (

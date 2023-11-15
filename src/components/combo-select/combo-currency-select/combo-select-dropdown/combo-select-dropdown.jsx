@@ -24,7 +24,7 @@ const ComboSelectDropdown = ({
   updateSelection,
   required,
   disabledMessage,
-  optionLabelKey,
+  optionLabelKey = 'label',
   searchBarActive,
   setSearchBarActive,
   inputRef,
@@ -157,6 +157,7 @@ const ComboSelectDropdown = ({
                           disabled={required && !option.value}
                           title={required && !option.value && disabledMessage ? disabledMessage : null}
                           aria-label={option[optionLabelKey]}
+                          data-testid="dropdown-list-option"
                         >
                           {underlineMatchedString(option[optionLabelKey], filterValue)}
                         </button>
