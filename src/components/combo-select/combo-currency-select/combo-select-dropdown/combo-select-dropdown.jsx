@@ -37,11 +37,10 @@ const ComboSelectDropdown = ({
   const [filterValue, setFilterValue] = useState('');
   const [scrollTop, setScrollTop] = useState(true);
   const [filteredOptions, setFilteredOptions] = useState(options);
-
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = opts;
     if (entry?.length) {
-      filteredList = opts.filter(opt => opt.label.toUpperCase().includes(entry.toUpperCase()));
+      filteredList = opts.filter(opt => opt[optionLabelKey].toUpperCase().includes(entry.toUpperCase()));
     }
     return filteredList;
   };
@@ -146,13 +145,18 @@ const ComboSelectDropdown = ({
                 {filteredOptions.map((option, index) => {
                   return (
                     <React.Fragment key={index}>
-                      <li className={classNames([dropdownListItem, option?.label === selectedOption?.label ? dropdownListItem_Selected : ''])}>
+                      <li
+                        className={classNames([
+                          dropdownListItem,
+                          option[optionLabelKey] === selectedOption[optionLabelKey] ? dropdownListItem_Selected : '',
+                        ])}
+                      >
                         <button
                           className={dropdownListItem_Button}
                           onClick={() => updateSelection(option, true)}
                           disabled={required && !option.value}
                           title={required && !option.value && disabledMessage ? disabledMessage : null}
-                          aria-label={option.label}
+                          aria-label={option[optionLabelKey]}
                         >
                           {underlineMatchedString(option[optionLabelKey], filterValue)}
                         </button>
