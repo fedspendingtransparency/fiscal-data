@@ -13,7 +13,7 @@ import {
 
 const DiveDeeperIntoTheDebt = () => {
   const description =
-    'For more information about the national debt, please explore more of ' + 'Fiscal Data and check out the extensive resources listed below.';
+    'For more information about the national debt, please explore more of Fiscal Data and check out the extensive resources listed below.';
   return (
     <>
       <div className={diveDeeperLink}>

@@ -1,18 +1,17 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 import { glossaryContainer, glossaryHeaderContainer, open, overlay, tray } from './glossary.module.scss';
 import GlossaryHeader from './glossary-header/glossary-header';
 import GlossaryListContainer from './glossary-list/glossary-list-container';
 import { getSortedGlossaryList } from '../../helpers/glossary-helper/glossary-data';
 import { IGlossaryTerm } from '../../models/IGlossaryTerm';
 import { removeAddressPathQuery } from '../../helpers/address-bar/address-bar';
+import { GlossaryContext } from './glossary-context/glossary-context';
 
 interface IGlossary {
   termList: IGlossaryTerm[];
   activeState: boolean;
   setActiveState: (boolean) => void;
-  glossaryEvent: boolean;
-  glossaryClickEventHandler: (boolean) => void;
 }
 
 const getQueryTerm = (termList): IGlossaryTerm => {
@@ -30,7 +29,7 @@ const getQueryTerm = (termList): IGlossaryTerm => {
   }
 };
 
-const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState, glossaryEvent, glossaryClickEventHandler }) => {
+const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActiveState }) => {
   const [filter, setFilter] = useState('');
 
   const sortedTermList = getSortedGlossaryList(termList);
@@ -38,6 +37,7 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   const [initialQuery, setInitialQuery] = useState(false);
   const [tabReset, setTabReset] = useState(false);
   const glossaryRef = useRef(null);
+  const { glossaryClickEvent, setGlossaryClickEvent } = useContext(GlossaryContext);
 
   useEffect(() => {
     if (!initialQuery) {
@@ -48,18 +48,18 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   });
 
   useEffect(() => {
-    if (glossaryEvent) {
+    if (glossaryClickEvent) {
       const term = getQueryTerm(termList);
       if (term) {
         setQueryTerm(term);
         setTimeout(() => {
           setActiveState(true);
-          glossaryClickEventHandler(false);
+          setGlossaryClickEvent(false);
           removeAddressPathQuery(window.location);
         });
       }
     }
-  }, [glossaryEvent]);
+  }, [glossaryClickEvent]);
 
   useEffect(() => {
     if (activeState) {

@@ -13,6 +13,8 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import { useStaticQuery } from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
+import { RecoilRoot } from 'recoil';
+import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
 
 export const datasetPageSampleConfig = {
   datasetId: '015-BFS-2014Q1-11',
@@ -217,14 +219,16 @@ describe('Dataset-Detail layout component', () => {
         },
       });
       component = await renderer.create(
-        <DatasetDetail
-          test={true}
-          pageContext={{
-            config: datasetPageSampleConfig,
-            seoConfig: seoConfig,
-          }}
-          data={mockQueryReturn}
-        />
+        <RecoilRoot>
+          <DatasetDetail
+            test={true}
+            pageContext={{
+              config: datasetPageSampleConfig,
+              seoConfig: seoConfig,
+            }}
+            data={mockQueryReturn}
+          />
+        </RecoilRoot>
       );
       instance = component.root;
     });
@@ -248,6 +252,11 @@ describe('Dataset-Detail layout component', () => {
   it('has a DatasetAbout component placed forevermore within its layout', () => {
     // this statement causes test to fail if there's not exactly one <DatasetAbout /> in layout
     instance.find(obj => obj.type === DatasetAbout);
+  });
+
+  it('has a DatasetIntroduction component placed forevermore within its layout', () => {
+    // this statement causes test to fail if there's not exactly one <DatasetIntroduction /> in layout
+    instance.find(obj => obj.type === DatasetIntroduction);
   });
 
   it('has a DatasetData component and passes the setSelectedTable prop', () => {
@@ -300,14 +309,16 @@ describe('Dataset-Detail layout component', () => {
         },
       });
       component = await renderer.create(
-        <DatasetDetail
-          test={true}
-          pageContext={{
-            config: { ...datasetPageSampleConfig, bannerCallout: { banner: 'TestCallout' } },
-            seoConfig: seoConfig,
-          }}
-          data={mockQueryReturn}
-        />
+        <RecoilRoot>
+          <DatasetDetail
+            test={true}
+            pageContext={{
+              config: { ...datasetPageSampleConfig, bannerCallout: { banner: 'TestCallout' } },
+              seoConfig: seoConfig,
+            }}
+            data={mockQueryReturn}
+          />
+        </RecoilRoot>
       );
       instance = component.root;
     });

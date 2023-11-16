@@ -72,7 +72,7 @@
 .mainContainer {
   display: flex;
   justify-content: center;
-  margin-top: 2rem !important;
+  margin-top: 2rem;
 }
 .mainContainerShow {
   display: flex;
@@ -98,6 +98,9 @@
 
 .faHouse {
   padding-right: 0.5rem;
+}
+.overview {
+  margin: 1.5rem 0rem;
 }
 
 .stylingStyledMenu {

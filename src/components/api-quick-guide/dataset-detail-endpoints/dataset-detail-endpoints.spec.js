@@ -4,6 +4,7 @@ import DatasetDetailEndpoints from './dataset-detail-endpoints';
 import DtgTable from '../../dtg-table/dtg-table';
 import ApiQuickGuideSection from '../api-quick-guide-section';
 import { apiPrefix } from '../../../utils/api-utils';
+import { RecoilRoot } from 'recoil';
 
 let apis = [];
 
@@ -65,7 +66,11 @@ describe('DataSetDetailEndpoints multiple endpoints', () => {
   apis = testData;
   const endpoint = selectedTable.endpoint;
 
-  const component = renderer.create(<DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />);
+  const component = renderer.create(
+    <RecoilRoot>
+      <DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />{' '}
+    </RecoilRoot>
+  );
   const instance = component.root;
 
   it('displays the correct header', () => {
@@ -95,7 +100,11 @@ describe('DataSetDetailEndpoints multiple endpoints', () => {
 describe('DataSetDetailEndpoints single endpoint', () => {
   apis = [testData[0]];
   const endpoint = selectedTable.endpoint;
-  const component = renderer.create(<DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />);
+  const component = renderer.create(
+    <RecoilRoot>
+      <DatasetDetailEndpoints apis={apis} selectedTable={selectedTable} />{' '}
+    </RecoilRoot>
+  );
   const instance = component.root;
 
   it('displays the correct header', () => {

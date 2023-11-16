@@ -148,7 +148,7 @@ const DatasetsPage = ({ pageContext }) => {
           exchange rates, U.S. Treasury, datasets`}
       />
       <MuiThemeProvider theme={dsTheme}>
-        <div className="bodyBackground">
+        <div className="searchBodyBackground">
           <div className={styles.searchContainer}>
             <BreadCrumbs links={breadCrumbLinks} />
             <h1 data-testid="page-title" className={styles.page_title}>

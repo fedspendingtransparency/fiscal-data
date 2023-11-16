@@ -8,7 +8,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 const DSM = (children: ReactElement): ReactElement => {
   return (
     <div className={container}>
-      <DataSourcesMethodologies pageName={''}>{children}</DataSourcesMethodologies>
+      <DataSourcesMethodologies pageName="">{children}</DataSourcesMethodologies>
     </div>
   );
 };

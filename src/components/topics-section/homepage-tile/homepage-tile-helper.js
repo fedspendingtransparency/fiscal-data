@@ -59,7 +59,7 @@ export const pageTileMap = {
       'The national debt enables the federal government to pay for important programs and ' +
       'services for the American public. Explore debt concepts, the latest values, and trends ' +
       'over time.',
-    altText: 'Hands raised in the air holding various objects, including a calculator, a pencil, ' + 'money, and magnifying glass',
+    altText: 'Hands raised in the air holding various objects, including a calculator, a pencil, money, and magnifying glass',
     desktopImage: 'homepage_debt_1200x630',
     mobileImage: 'homepage_debt_1200x630',
     path: '/americas-finance-guide/national-debt/',
@@ -73,7 +73,7 @@ export const pageTileMap = {
       'United States. Learn more about spending categories, types of spending, and ' +
       'spending trends over time.',
     bodyGenerator: SpendingBodyGenerator,
-    altText: 'The US Treasury building is placed next to a row of homes. A pair of hands ' + 'exchange money in the foreground.',
+    altText: 'The US Treasury building is placed next to a row of homes. A pair of hands exchange money in the foreground.',
     desktopImage: 'homepage_spending_1200x630',
     mobileImage: 'homepage_spending_1200x630',
     path: '/americas-finance-guide/federal-spending/',
@@ -84,7 +84,7 @@ export const pageTileMap = {
     body:
       'A national deficit occurs when the money going out exceeds the money coming in for a ' +
       'given period of time. Learn more about the U.S. deficit and how it has changed over time.',
-    altText: 'A hand holding a gold coin beside a variety of symbols, including a pie chart, bar ' + 'graph, and lit lightbulb.',
+    altText: 'A hand holding a gold coin beside a variety of symbols, including a pie chart, bar graph, and lit lightbulb.',
     desktopImage: 'deficit_homepage',
     mobileImage: 'deficit_homepage',
     path: '/americas-finance-guide/national-deficit/',

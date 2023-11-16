@@ -26,6 +26,7 @@ import {
   mainContainerShow,
   activeMenu,
   mainListSticky,
+  overview,
 } from './mobile-explainer-sub-nav.module.scss';
 
 const StyledMenu = withStyles({
@@ -133,7 +134,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
   }, []);
 
   return (
-    <div className={mainContainer} data-testid="mobileSubNav">
+    <div className={`${isOverview ? [mainContainer, overview].join(' ') : mainContainer}`} data-testid="mobileSubNav">
       <div className={navBlockStyle} data-testid="mobileSubNavBlock">
         <button
           aria-controls="customized-menu"
@@ -156,7 +157,7 @@ export default function MobileExplainerSubNav({ hidePosition, pageName = '' }) {
             }}
             className={overviewStyle}
             id="home"
-            role={'button'}
+            role="button"
             tabIndex={0}
             data-testid="afgSpan"
           >

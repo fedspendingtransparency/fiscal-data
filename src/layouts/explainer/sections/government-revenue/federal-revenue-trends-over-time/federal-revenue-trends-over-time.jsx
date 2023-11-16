@@ -16,12 +16,11 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
   const [revenueTag, setRevenueTag] = useState('');
   const [highestCollectionYear, setHighestCollectionYear] = useState('');
   useEffect(() => {
-    const endpointURLFirst =
-      'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,' + 'record_calendar_month:eq:09&sort=record_date&page[size]=1';
+    const endpointURLFirst = 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date&page[size]=1';
     basicFetch(`${apiPrefix}${endpointURLFirst}`).then(res => {
       if (res.data[0]) {
         const endpointURLLast =
-          'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,' + 'record_calendar_month:eq:09&sort=-record_date&page[size]=1';
+          'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page[size]=1';
         basicFetch(`${apiPrefix}${endpointURLLast}`).then(resLast => {
           if (resLast.data[0]) {
             let concatData = res.data.concat(resLast.data);
@@ -61,7 +60,7 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
   return (
     <div>
       <div className={visWithCallout}>
-        <div className={textContent} data-testid={'textContent'}>
+        <div className={textContent} data-testid="textContent">
           <p>
             The majority of federal revenue comes from individual and corporate income taxes as well as social insurance taxes (such as the Social
             Security taxes described above). As shown in the chart below, federal revenue increases during periods of higher earnings for individuals
@@ -73,7 +72,7 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
           level of trade the U.S. continues to do with those countries. However, if tariffs increase and U.S. consumers import fewer goods as a result
           of the higher prices, then revenue from customs duties could decrease overall.
         </div>
-        <VisualizationCallout color={revenueExplainerPrimary} customTopMargin={'2.8%'}>
+        <VisualizationCallout color={revenueExplainerPrimary} customTopMargin="2.8%">
           <p>Individual income tax has remained the top source of income for the U.S. government since {firstChartYear}.</p>
         </VisualizationCallout>
       </div>

@@ -1,5 +1,13 @@
 import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
-import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, getFilteredRowModel, SortingState } from '@tanstack/react-table';
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  getFilteredRowModel,
+  SortingState,
+  Table,
+} from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 
 import StickyTable from 'react-sticky-table-thead';
@@ -15,15 +23,17 @@ import DataTableHeader from './data-table-header/data-table-header';
 import DataTableColumnSelector from './column-select/data-table-column-selector';
 import DataTableBody from './data-table-body/data-table-body';
 import { columnsConstructorData, columnsConstructorGeneric } from './data-table-helper';
+import { useSetRecoilState } from 'recoil';
+import { reactTableSortingState } from '../../recoil/reactTableFilteredState';
 
 type DataTableProps = {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
   rawData;
-  nonRawDataColumns;
+  nonRawDataColumns?;
   defaultSelectedColumns: string[];
   setTableColumnSortData;
   hasPublishedReports: boolean;
-  publishedReports: any[];
+  publishedReports;
   hideCellLinks: boolean;
   resetFilters: boolean;
   shouldPage: boolean;
@@ -35,6 +45,10 @@ type DataTableProps = {
   setFiltersActive: (value: boolean) => void;
   hideColumns?: string[];
   pagingProps;
+  manualPagination: boolean;
+  maxRows: number;
+  rowsShowing: { begin: number; end: number };
+  columnConfig?;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -55,9 +69,14 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   setFiltersActive,
   hideColumns,
   pagingProps,
+  manualPagination,
+  maxRows,
+  rowsShowing,
+  columnConfig,
 }) => {
-  const allColumns = nonRawDataColumns ? columnsConstructorGeneric(nonRawDataColumns) : columnsConstructorData(rawData, hideColumns, tableName);
-  const data = rawData.data;
+  const allColumns = nonRawDataColumns
+    ? columnsConstructorGeneric(nonRawDataColumns)
+    : columnsConstructorData(rawData, hideColumns, tableName, columnConfig);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -77,7 +96,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
       }
     };
   }
-  const [columns] = useState(() => [...allColumns]);
 
   let dataTypes;
 
@@ -85,20 +103,23 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     dataTypes = rawData.meta.dataTypes;
   } else {
     const tempDataTypes = {};
-    columns.forEach(column => {
+    allColumns.forEach(column => {
       tempDataTypes[column.property] = 'STRING';
     });
     dataTypes = tempDataTypes;
   }
 
   const [sorting, setSorting] = useState<SortingState>([]);
-
+  const setTableSorting = useSetRecoilState(reactTableSortingState);
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(defaultSelectedColumns ? defaultInvisibleColumns : {});
+  const [allActiveFilters, setAllActiveFilters] = useState([]);
+  const [defaultColumns, setDefaultColumns] = useState([]);
+  const [additionalColumns, setAdditionalColumns] = useState([]);
 
   const table = useReactTable({
-    columns,
-    data,
+    columns: allColumns,
+    data: rawData.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -116,7 +137,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-  });
+    manualPagination: manualPagination,
+  }) as Table<Record<string, unknown>>;
 
   const getSortedColumnsData = table => {
     if (setTableColumnSortData) {
@@ -125,27 +147,13 @@ const DataTable: FunctionComponent<DataTableProps> = ({
         id: column.id,
         sorted: column.getIsSorted(),
         filterValue: column.getFilterValue(),
+        downloadFilter: dataTypes[column.id] !== 'DATE',
         rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
         allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
       }));
       setTableColumnSortData(mapped);
     }
   };
-
-  useEffect(() => {
-    getSortedColumnsData(table);
-  }, [sorting, columnVisibility, table.getFilteredRowModel()]);
-
-  useEffect(() => {
-    if (resetFilters) {
-      table.resetColumnFilters();
-      table.resetSorting();
-      setResetFilters(false);
-    }
-  }, [resetFilters]);
-
-  const [defaultColumns, setDefaultColumns] = useState([]);
-  const [additionalColumns, setAdditionalColumns] = useState([]);
 
   // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
   if (defaultSelectedColumns) {
@@ -176,6 +184,24 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     setDefaultColumns(constructedDefaultColumns);
     setAdditionalColumns(constructedAdditionalColumns);
   };
+
+  useEffect(() => {
+    getSortedColumnsData(table);
+  }, [columnVisibility, table.getFilteredRowModel()]);
+
+  useEffect(() => {
+    getSortedColumnsData(table);
+    setTableSorting(sorting);
+  }, [sorting]);
+
+  useEffect(() => {
+    if (resetFilters) {
+      table.resetColumnFilters();
+      table.resetSorting();
+      setResetFilters(false);
+      setAllActiveFilters([]);
+    }
+  }, [resetFilters]);
 
   useEffect(() => {
     if (defaultSelectedColumns) {
@@ -213,7 +239,15 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             <div data-test-id="table-content" className={tableContainer}>
               <StickyTable height={521}>
                 <table>
-                  <DataTableHeader table={table} dataTypes={dataTypes} resetFilters={resetFilters} setFiltersActive={setFiltersActive} />
+                  <DataTableHeader
+                    table={table}
+                    dataTypes={dataTypes}
+                    resetFilters={resetFilters}
+                    setFiltersActive={setFiltersActive}
+                    maxRows={maxRows}
+                    allActiveFilters={allActiveFilters}
+                    setAllActiveFilters={setAllActiveFilters}
+                  />
                   <DataTableBody table={table} dataTypes={dataTypes} />
                 </table>
               </StickyTable>
@@ -221,7 +255,16 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
         </div>
       </div>
-      {shouldPage && <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} />}
+      {shouldPage && (
+        <DataTableFooter
+          table={table}
+          showPaginationControls={showPaginationControls}
+          pagingProps={pagingProps}
+          manualPagination={manualPagination}
+          maxRows={maxRows}
+          rowsShowing={rowsShowing}
+        />
+      )}
     </>
   );
 };

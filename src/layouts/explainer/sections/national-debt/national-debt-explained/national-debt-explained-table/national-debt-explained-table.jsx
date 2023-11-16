@@ -25,7 +25,7 @@ const NationalDebtExplainedTable = () => {
       <div
         className={nationalDebtExplainedTable}
         role="img"
-        aria-label={'Image displays fictional data to show the connection of revenue, ' + 'spending, deficit, and debt for two years.'}
+        aria-label="Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years."
       >
         <table>
           <thead>

@@ -5,30 +5,49 @@ import { Table } from '@tanstack/react-table';
 import { range } from '../data-table.module.scss';
 
 interface IDataTableFooter {
-  table: Table<any>;
+  table: Table<Record<string, unknown>>;
   showPaginationControls: boolean;
   pagingProps;
+  manualPagination: boolean;
+  maxRows: number;
+  rowsShowing: { begin: number; end: number };
 }
 
-const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPaginationControls, pagingProps }) => {
+const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
+  table,
+  showPaginationControls,
+  pagingProps,
+  manualPagination,
+  rowsShowing: rowRange,
+}) => {
   const [filteredRowLength, setFilteredRowLength] = React.useState(null);
   useEffect(() => {
-    setFilteredRowLength(table.getSortedRowModel().rows.length);
-  }, [table.getSortedRowModel()]);
+    setFilteredRowLength(table.getFilteredRowModel().rows.length);
+  }, [table.getFilteredRowModel(), pagingProps]);
 
   const visibleRows = table => {
-    const rowsVisible = table?.getRowModel().flatRows.length;
-    const pageSize = table.getState().pagination.pageSize;
-    const pageIndex = table.getState().pagination.pageIndex;
-    const minRow = pageIndex * pageSize + 1;
-    const maxRow = pageIndex * pageSize + rowsVisible;
+    let minRow;
+    let maxRow;
+    let totalRows;
+    if (manualPagination) {
+      minRow = rowRange.begin;
+      maxRow = rowRange.end;
+      totalRows = pagingProps.maxRows;
+    } else {
+      const rowsVisible = table?.getRowModel().flatRows.length;
+      const pageSize = table.getState().pagination.pageSize;
+      const pageIndex = table.getState().pagination.pageIndex;
+      minRow = pageIndex * pageSize + 1;
+      maxRow = pageIndex * pageSize + rowsVisible;
+      totalRows = filteredRowLength;
+    }
+    const rowText = totalRows === 1 ? '' : 'rows';
+    const totalRowText = totalRows === 1 ? 'row' : 'rows';
+    const rangeText = totalRows === 0 ? '0' : `${minRow} - ${maxRow}`;
+
     return (
       <>
-        Showing{' '}
-        <span className={range}>
-          {minRow} - {maxRow}
-        </span>{' '}
-        rows of {filteredRowLength} rows
+        Showing <span className={range}>{rangeText}</span> {rowText} of {totalRows} {totalRowText}
       </>
     );
   };
@@ -38,26 +57,29 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({ table, showPagin
     pagingProps?.handlePerPageChange(pageSize);
   };
 
-  const paging = {
-    itemsPerPage: pagingProps?.itemsPerPage,
-    handlePerPageChange: x => {
-      handlePerPageChange(x);
-    },
-    handleJump: x => {
-      table.setPageIndex(x - 1);
-    },
-    maxPage: pagingProps?.maxPage, //table.getPageCount(),
-    tableName: '',
-    currentPage: table.getState().pagination.pageIndex + 1,
-    maxRows: filteredRowLength,
-  };
+  // For serverside paginated data (unfiltered datasets > 20000 rows), use paging props
+  const tablePagingProps = manualPagination
+    ? pagingProps
+    : {
+        itemsPerPage: pagingProps?.itemsPerPage,
+        handlePerPageChange: x => {
+          handlePerPageChange(x);
+        },
+        handleJump: x => {
+          table.setPageIndex(x - 1);
+        },
+        maxPage: table.getPageCount(),
+        tableName: '',
+        currentPage: table.getState().pagination.pageIndex + 1,
+        maxRows: filteredRowLength,
+      };
 
   return (
     <div data-test-id="table-footer" className={tableFooter}>
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>
-      {showPaginationControls && <PaginationControls pagingProps={paging} />}
+      {showPaginationControls && <PaginationControls pagingProps={tablePagingProps} />}
     </div>
   );
 };

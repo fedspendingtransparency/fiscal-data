@@ -1,17 +1,12 @@
 import React from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
-import * as styles from './dataset-about.module.scss';
-import DatasetAboutTabs from '../dataset-about-tabs/dataset-about-tabs';
+import DatasetAboutTabs from '../dataset-properties-tabs/dataset-properties-tabs';
 
-export const title = 'About This Dataset';
+export const title = 'Dataset Properties';
 
 const DatasetAbout = ({ config, test }) => {
   return (
-    <DatasetSectionContainer title={title} id="about-this-dataset">
-      <h3 className={styles.heading}>Description:</h3>
-      <p className={styles.description} data-testid="description">
-        {config.summaryText}
-      </p>
+    <DatasetSectionContainer title={title} id="dataset-properties">
       <DatasetAboutTabs config={config} test={test} />
     </DatasetSectionContainer>
   );
