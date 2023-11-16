@@ -17,6 +17,11 @@
   background-color: $primary;
 }
 
+.stickyHeader {
+  position: sticky;
+  top: 0;
+}
+
 .defaultSortArrowPill:hover {
   background-color: #cfe8ff;
 }

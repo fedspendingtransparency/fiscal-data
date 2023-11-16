@@ -16,6 +16,10 @@ $borderRadius: 5px;
     overflow-y: scroll;
   }
 
+  table {
+    margin-top: -3px;
+  }
+
   table,
   .divTable {
     border-bottom: 1px solid lightgray;
@@ -32,8 +36,6 @@ $borderRadius: 5px;
     height: 1.875rem;
     padding: 0.25rem 0.5rem 0.75rem;
     max-width: 10rem;
-    position: sticky;
-    top: 0;
   }
 
   .tr {
