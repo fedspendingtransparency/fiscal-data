@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const errorMessage = 'Our examples are temporarily unavailable. ' + 'Please refresh the page to try again.';
+export const errorMessage = 'Our examples are temporarily unavailable. Please refresh the page to try again.';
 
 const DatasetDetailExamples = ({ isAccordionOpen, selectedTable }) => {
   const [response, setResponse] = useState('');

@@ -20,43 +20,43 @@ export const SpendingOverview = ({ glossary, glossaryClickHandler }) => {
     </CustomLink>
   );
   const usaSpending = (
-    <CustomLink url={'https://www.usaspending.gov/explorer'} eventNumber="11">
+    <CustomLink url="https://www.usaspending.gov/explorer" eventNumber="11">
       USAspending.gov
     </CustomLink>
   );
 
   const objectClass = (
-    <GlossaryPopoverDefinition term={'Object Class'} page={'Spending explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Object Class" page="Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       object class
     </GlossaryPopoverDefinition>
   );
 
   const budgetFunctions = (
-    <GlossaryPopoverDefinition term={'Budget Function'} page={'Spending explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Budget Function" page="Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       budget functions
     </GlossaryPopoverDefinition>
   );
   const revenue = (
-    <GlossaryPopoverDefinition term={'Revenue'} page={'Deficit & Spending explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Revenue" page="Deficit & Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       revenue
     </GlossaryPopoverDefinition>
   );
 
   const agency = (
-    <GlossaryPopoverDefinition term={'Agency'} page={'Spending explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Agency" page="Spending explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       agency
     </GlossaryPopoverDefinition>
   );
 
   const federalDebt = (
-    <GlossaryPopoverDefinition term={'Federal Debt'} page={'Spending Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Federal Debt" page="Spending Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       federal debt
     </GlossaryPopoverDefinition>
   );
 
   useEffect(() => {
     const fields =
-      'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' + 'record_calendar_month,record_calendar_year,record_fiscal_year';
+      'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
     const filter = 'filter=line_code_nbr:eq:5691,record_calendar_month:eq:09';
     const sort = 'sort=-record_date';
     const pagination = 'page[size]=1';
@@ -124,7 +124,7 @@ export const SpendingOverview = ({ glossary, glossaryClickHandler }) => {
           </p>
         </VisualizationCallout>
       </div>
-      <QuoteBox icon={faFlagUsa} primaryColor={spendingExplainerSecondary} secondaryColor={spendingExplainerLightSecondary} customTopMargin={'-1rem'}>
+      <QuoteBox icon={faFlagUsa} primaryColor={spendingExplainerSecondary} secondaryColor={spendingExplainerLightSecondary} customTopMargin="-1rem">
         <p>
           According to the Constitution’s Preamble, the purpose of the federal government is “…to establish Justice, insure domestic Tranquility,
           provide for the common defense, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity.” These

@@ -18,24 +18,25 @@ export const DebtDeficitDifference = ({ width, glossary, glossaryClickHandler })
   );
 
   const bonds = (
-    <GlossaryPopoverDefinition term={'Bonds'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Bonds" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       bonds
     </GlossaryPopoverDefinition>
   );
 
   const bills = (
-    <GlossaryPopoverDefinition term={'Bills'} page={'Deficit Explainer'} glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
+    <GlossaryPopoverDefinition term="Bills" page="Deficit Explainer" glossary={glossary} glossaryClickHandler={glossaryClickHandler}>
       bills
     </GlossaryPopoverDefinition>
   );
 
   return (
     <>
-      <div className={deficitDebtDifferenceContent} data-testid={'textContent'}>
+      <div className={deficitDebtDifferenceContent} data-testid="textContent">
         <p>The terms deficit and debt are frequently used when discussing the nation’s finances and are often confused with one another.</p>
         <p>
           To pay for a deficit, the federal government borrows money by selling Treasury {bonds}, {bills}, and other securities. The national debt is
-          the accumulation of this borrowing along with associated interest owed to the investors who purchased these securities. As the federal
+          the accumulation of this borrowing along with associated interest owed to the investors who purchased these securities. As the federal{' '}
+          {/* eslint-disable-next-line max-len */}
           government experiences reoccurring deficits, which are common, the national debt grows. To learn more about the national debt, visit the{' '}
           {nationalDebtLink}.
         </p>
@@ -51,7 +52,7 @@ export const DebtDeficitDifference = ({ width, glossary, glossaryClickHandler })
               'A visualization depicting deficit vs. debt that adds ' +
               'previous years deficits to the current year’s deficit equaling the total debt.'
             }
-            data-testid={'deficitDifferenceChart'}
+            data-testid="deficitDifferenceChart"
             className={deficitDebtdifferenceImg}
           />
         </div>
@@ -62,10 +63,10 @@ export const DebtDeficitDifference = ({ width, glossary, glossaryClickHandler })
               borderColor: deficitExplainerPrimary,
               borderWidth: '1px',
             }}
-            openEventNumber={'15'}
-            closeEventNumber={'16'}
+            openEventNumber="15"
+            closeEventNumber="16"
             explainerGAEvent="Deficit"
-            ga4ID={'diff-deficit'}
+            ga4ID="diff-deficit"
           >
             The government also uses operating cash available from an account at the Federal Reserve to pay for the deficit. This would be similar to
             a business using a line of credit from a bank to finance spending for a large project such as building a factory.

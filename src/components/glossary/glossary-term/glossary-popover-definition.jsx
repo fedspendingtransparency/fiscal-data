@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   arrowIcon,
@@ -18,6 +18,7 @@ import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
+import { GlossaryContext } from '../glossary-context/glossary-context';
 
 const style = {
   button: {
@@ -52,11 +53,13 @@ const style = {
   },
 };
 
-const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler, children, width }) => {
+const GlossaryPopoverDefinition = ({ term, page, children, width }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
+
+  const { setGlossaryClickEvent, glossary } = useContext(GlossaryContext);
 
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page);
@@ -105,11 +108,11 @@ const GlossaryPopoverDefinition = ({ term, page, glossary, glossaryClickHandler,
 
   const glossaryNavigation = () => {
     if (window.history.pushState) {
-      if (glossaryClickHandler) {
+      if (setGlossaryClickEvent) {
         const newurl = new URL(window.location.href);
         newurl.searchParams.set('glossary', slug);
         window.history.pushState(null, '', newurl);
-        glossaryClickHandler(true);
+        setGlossaryClickEvent(true);
       }
       handleClose();
     }

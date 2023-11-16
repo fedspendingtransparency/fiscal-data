@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import GlossaryPopoverDefinition from './glossary-popover-definition';
+import { GlossaryContext } from '../glossary-context/glossary-context';
 
 describe('glossary term', () => {
   const testGlossary = [
@@ -43,7 +44,7 @@ describe('glossary term', () => {
     const testPage = 'Test Page';
 
     const { getByRole } = render(
-      <GlossaryPopoverDefinition term="hello" page={testPage} glossary={testGlossary}>
+      <GlossaryPopoverDefinition term="hello" page={testPage}>
         {termText}
       </GlossaryPopoverDefinition>
     );
@@ -57,9 +58,11 @@ describe('glossary term', () => {
     const testPage = 'Test Page';
 
     const { getByRole, getByText } = render(
-      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary}>
-        {termText}
-      </GlossaryPopoverDefinition>
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
@@ -75,9 +78,11 @@ describe('glossary term', () => {
     const testPage = 'Test Page';
 
     const { getByRole, getByText } = render(
-      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary}>
-        {termText}
-      </GlossaryPopoverDefinition>
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
     glossaryTermButton.click();
@@ -94,9 +99,11 @@ describe('glossary term', () => {
     const testPage = 'Another Test Page';
 
     const { getByRole, getByText, queryByText } = render(
-      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary}>
-        {termText}
-      </GlossaryPopoverDefinition>
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
     );
 
     const glossaryTermButton = getByRole('button', { name: termText });
@@ -113,12 +120,13 @@ describe('glossary term', () => {
     const testPage = 'Another Test Page';
 
     window.history.pushState = jest.fn();
-    const clickHandler = jest.fn();
 
     const { getByRole } = render(
-      <GlossaryPopoverDefinition term={termText} page={testPage} glossary={testGlossary} glossaryClickHandler={clickHandler}>
-        {termText}
-      </GlossaryPopoverDefinition>
+      <GlossaryContext.Provider value={{ glossaryClickEvent: false, setGlossaryClickEvent: jest.fn(), glossary: testGlossary }}>
+        <GlossaryPopoverDefinition term={termText} page={testPage}>
+          {termText}
+        </GlossaryPopoverDefinition>
+      </GlossaryContext.Provider>
     );
 
     const glossaryTermButton = getByRole('button', { name: termText });

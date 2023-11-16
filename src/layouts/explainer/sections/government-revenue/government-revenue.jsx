@@ -18,35 +18,31 @@ const governmentRevenueSections = [
     index: 0,
     id: governmentRevenueSectionIds[0],
     title: 'Key Takeaways',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
-      <RevenueKeyTakeaways glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
-    ),
+    component: cpiDataByYear => <RevenueKeyTakeaways />,
   },
   {
     index: 1,
     id: governmentRevenueSectionIds[1],
     title: 'Federal Revenue Overview',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => <FederalRevenueOverview />,
+    component: cpiDataByYear => <FederalRevenueOverview />,
   },
   {
     index: 2,
     id: governmentRevenueSectionIds[2],
     title: 'Sources of Federal Revenue',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => (
-      <SourcesOfFederalRevenue glossary={glossary} glossaryClickHandler={glossaryClickHandler} />
-    ),
+    component: cpiDataByYear => <SourcesOfFederalRevenue />,
   },
   {
     index: 3,
     id: governmentRevenueSectionIds[3],
     title: 'Federal Revenue Trends Over Time',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => <FederalRevenueTrendsOverTime cpiDataByYear={cpiDataByYear} />,
+    component: cpiDataByYear => <FederalRevenueTrendsOverTime cpiDataByYear={cpiDataByYear} />,
   },
   {
     index: 4,
     id: governmentRevenueSectionIds[4],
     title: 'Federal Revenue Trends and the U.S. Economy ',
-    component: (glossary, glossaryClickHandler, cpiDataByYear) => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear} />,
+    component: cpiDataByYear => <FederalRevenueTrendsAndUSEconomy cpiDataByYear={cpiDataByYear} />,
   },
 ];
 

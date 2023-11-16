@@ -15,7 +15,7 @@ const analyticsClickHandler = (action, section) => {
 
 const hdoLink = (
   <CustomLink
-    url={'/datasets/historical-debt-outstanding/'}
+    url="/datasets/historical-debt-outstanding/"
     onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
     id="Historical Debt Outstanding"
   >
@@ -25,7 +25,7 @@ const hdoLink = (
 
 const bls = (
   <CustomLink
-    url={'https://www.bls.gov/developers/'}
+    url="https://www.bls.gov/developers/"
     onClick={() => analyticsClickHandler('Citation Click', 'U.S. Federal Debt Trends Over the Last 100 Years')}
   >
     Bureau of Labor Statistics

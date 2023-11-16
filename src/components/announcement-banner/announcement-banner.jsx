@@ -16,7 +16,7 @@ const AnnouncementBanner = ({ altStyle, closable, children }) => {
           <FontAwesomeIcon className={infoIcon} icon={faInfoCircle} />
           <div>{children}</div>
           {closable && (
-            <button onClick={hideBanner} onKeyPress={hideBanner} className={closeButton} aria-label={'Close banner'}>
+            <button onClick={hideBanner} onKeyPress={hideBanner} className={closeButton} aria-label="Close banner">
               <FontAwesomeIcon icon={faXmark} className={closeIcon} />
             </button>
           )}

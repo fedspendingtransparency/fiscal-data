@@ -12,7 +12,7 @@ export default function AfgIcon({ faIcon, iconColor, backgroundColor = null, alt
   }, []);
 
   return (
-    <div aria-label={altText} role={'img'} data-testid={'afg-icon'} className={iconBackground} style={{ backgroundColor: circleColor }}>
+    <div aria-label={altText} role="img" data-testid="afg-icon" className={iconBackground} style={{ backgroundColor: circleColor }}>
       <FontAwesomeIcon icon={faIcon} className={icon} />
       <FontAwesomeIcon icon={faIcon} className={offsetIcon} style={{ color: iconColor }} />
     </div>

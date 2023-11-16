@@ -128,7 +128,7 @@ const LabelComponent = ({ node, label, width, HandleClick, HandleMouseEnter, Han
         onMouseLeave={handlers.onMouseLeave}
         onKeyPress={e => handleInteraction(e)}
         tabIndex={0}
-        textAnchor={'middle'}
+        textAnchor="middle"
         id={label}
       >
         {lines.map((line, index) => (
@@ -137,12 +137,12 @@ const LabelComponent = ({ node, label, width, HandleClick, HandleMouseEnter, Han
               <tspan
                 x={node.x + flipLabel * (node.radius * xOffsetMultiplier) + flipLabel * labelFormat.horizontalOffset}
                 y={yStartPoint + flipLabel * (lineSpaceOffset * index - node.radius * yOffsetMultiplier())}
-                fill={'#666666'}
+                fill="#666666"
               >
                 {line}
               </tspan>
             ) : (
-              <tspan x={node.x} y={yStartPoint + lineSpaceOffset * index} fill={'#FFFFFF'}>
+              <tspan x={node.x} y={yStartPoint + lineSpaceOffset * index} fill="#FFFFFF">
                 {line}
               </tspan>
             )}

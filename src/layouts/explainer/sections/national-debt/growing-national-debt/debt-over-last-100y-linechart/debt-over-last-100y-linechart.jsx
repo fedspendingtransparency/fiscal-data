@@ -182,7 +182,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             >
               <div
                 className={lineChart}
-                data-testid={'totalDebtChartParent'}
+                data-testid="totalDebtChartParent"
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
                 role="presentation"
@@ -246,14 +246,14 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                   axisLeft={chartConfigs.axisLeft}
                   isInteractive={true}
                   animate={false}
-                  enableSlices={'x'}
+                  enableSlices="x"
                   enableArea={true}
                   areaOpacity={1}
                 />
               </div>
             </ChartContainer>
           </div>
-          <VisualizationCallout color={''}>
+          <VisualizationCallout color="">
             <p>
               Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
             </p>
