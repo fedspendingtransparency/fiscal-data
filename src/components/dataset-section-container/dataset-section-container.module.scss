@@ -2,10 +2,10 @@
 
 .sectionContainer {
   box-sizing: border-box;
-  padding: 0;
   width: 100%;
   max-width: $main-width;
-  margin: 0 auto 1rem auto;
+  margin: 0 auto;
+  padding-bottom: 1rem;
 
   &:last-child {
     margin-bottom: 0;
