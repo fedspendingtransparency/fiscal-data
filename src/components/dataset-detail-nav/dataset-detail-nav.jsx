@@ -49,8 +49,10 @@ const DDNav = () => {
 
     if (id) {
       updateAddressPath(id, window.location);
-      setScrollToId(id);
       setHover(null);
+      if (e?.key === 'Enter') {
+        setScrollToId(id);
+      }
     }
   };
 
