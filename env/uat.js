@@ -6,28 +6,6 @@ module.exports = {
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc', 'afg-overview'],
   ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-048': {
-      seoConfig: {
-        pageTitle: 'Treasury Securities Upcoming Auctions Data',
-        description:
-          'The Treasury Securities Upcoming Auctions Data dataset provides information on auction announcements. Each announcement includes what securities are being auctioned, the announcement date, the auction date and issue date. This data provides a notification of what Treasury Marketable securities will be announced and or auctioned in the upcoming week.',
-        keywords: 'Treasury Securities, Debt, Savings Bonds, Auctions',
-      },
-      topics: ['auctions', 'debt'],
-      relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045'],
-      slug: '/upcoming_auctions/',
-      currentDateButton: 'byDay',
-      hideColumns: [
-        'record_date',
-        'src_line_nbr',
-        'record_fiscal_year',
-        'record_fiscal_quarter',
-        'record_calendar_year',
-        'record_calendar_quarter',
-        'record_calendar_month',
-        'record_calendar_day',
-      ],
-    },
     '015-BFS-2014Q3-049': {
       slug: '/frn_daily_indexes/',
       seoConfig: {
@@ -189,12 +167,6 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['securities_mil_amt'],
-    },
-    '262': {
-      endpoint: 'v1/accounting/od/upcoming_auctions',
-      dateField: 'record_date',
-      downloadName: 'upcoming_auctions',
-      alwaysSortWith: ['security_type', '-announcemt_date', '-auction_date', '-issue_date'],
     },
     '263': {
       endpoint: 'v1/accounting/od/frn_daily_indexes',
