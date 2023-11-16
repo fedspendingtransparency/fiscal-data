@@ -38,10 +38,11 @@ const CalendarEntriesList = () => {
     `
   );
 
-  const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
-  const earliestDate = releases[0].date;
+  // const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
+  const releases = allReleases.releases;
+  const earliestDate = allReleases.releases[0].date;
   const [loading, setLoading] = useState(true);
-  const [entries, setEntries] = useState(releases);
+  const [entries, setEntries] = useState(allReleases.releases);
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
 
