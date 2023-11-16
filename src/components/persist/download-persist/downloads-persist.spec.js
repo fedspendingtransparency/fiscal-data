@@ -162,7 +162,7 @@ describe('Downloads Persist', () => {
       expect(updatePercentageSpy).toHaveBeenCalledTimes(3);
     });
 
-    const expectedArgs = ['Mock-Up-Dataset', { apiId: '100100' }, mockDateRange, 'csv', downloadRequest.requestTime, undefined, undefined];
+    const expectedArgs = ['Mock-Up-Dataset', { apiId: '100100' }, mockDateRange, 'csv', downloadRequest.requestTime, undefined, undefined, undefined];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);
     expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
 
@@ -331,7 +331,7 @@ describe('Downloads Persist', () => {
       });
     });
 
-    const expectedArgs = ['Mock-Up-Dataset', { apiId: '100100' }, mockDateRange, 'csv', downloadRequest.requestTime, undefined, undefined];
+    const expectedArgs = ['Mock-Up-Dataset', { apiId: '100100' }, mockDateRange, 'csv', downloadRequest.requestTime, undefined, undefined, undefined];
     expect(socketConnectionInitiatorSpy).toHaveBeenCalledWith(...expectedArgs);
     expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
 

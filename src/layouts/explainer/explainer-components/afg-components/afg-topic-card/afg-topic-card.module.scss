@@ -1,0 +1,68 @@
+@import 'src/variables.module';
+
+.topicSection {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+
+  img {
+    width: 100%;
+  }
+
+  .topicHeading {
+    @include headingStyle5;
+    color: #555;
+    margin-bottom: 1rem;
+    margin-top: 0;
+  }
+  .body {
+    @include bodyStyleRegular;
+    margin: 0;
+  }
+  .link {
+    @include columnLabelCopy7;
+    color: $primary;
+    display: block;
+    margin-top: 1rem !important;
+    &:hover {
+      color: $slate-blue;
+    }
+  }
+  .arrow {
+    margin-left: 1rem;
+  }
+}
+@media screen and (min-width: $breakpoint-lg) {
+  .topicSection {
+
+    .textContainer {
+      max-width: 28.5rem;
+    }
+  }
+}
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .topicSection {
+    justify-content: center;
+
+    .imageContainer {
+      order: 1;
+      padding-bottom: 0.5rem;
+      padding-top: .5rem;
+    }
+
+    .textContainer {
+      order: 2;
+      padding: 0 !important;
+    }
+
+    .topicSection {
+      margin-bottom: 2rem !important;
+      flex-direction: column;
+    }
+
+    .link {
+      margin-top: 10px;
+    }
+  }
+}

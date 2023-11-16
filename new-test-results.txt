@@ -79,14 +79,14 @@ Why you should do it regularly:
 https://github.com/browserslist/browserslist#browsers-data-updating
   console.error
     Warning: An update to DtgTable inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DtgTable (C:\Users\j4wgc01\projects\dtg\src\components\dtg-table\dtg-table.jsx:18:35)
 
@@ -106,14 +106,14 @@ https://github.com/browserslist/browserslist#browsers-data-updating
 
   console.error
     Warning: An update to DtgTable inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DtgTable (C:\Users\j4wgc01\projects\dtg\src\components\dtg-table\dtg-table.jsx:18:35)
 
@@ -133,14 +133,14 @@ https://github.com/browserslist/browserslist#browsers-data-updating
 
   console.error
     Warning: An update to DtgTable inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DtgTable (C:\Users\j4wgc01\projects\dtg\src\components\dtg-table\dtg-table.jsx:18:35)
 
@@ -198,14 +198,14 @@ https://github.com/browserslist/browserslist#browsers-data-updating
 
   console.error
     Warning: An update to DtgTable inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DtgTable (C:\Users\j4wgc01\projects\dtg\src\components\dtg-table\dtg-table.jsx:18:35)
 
@@ -225,14 +225,14 @@ https://github.com/browserslist/browserslist#browsers-data-updating
 
   console.error
     Warning: An update to DtgTable inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DtgTable (C:\Users\j4wgc01\projects\dtg\src\components\dtg-table\dtg-table.jsx:18:35)
 
@@ -282,14 +282,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -311,14 +311,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -364,14 +364,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -393,14 +393,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -422,14 +422,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -451,14 +451,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -480,14 +480,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -509,14 +509,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -538,14 +538,14 @@ PASS Standard Tests src/components/dtg-table/dtg-table.spec.js (7.16 s)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -577,20 +577,20 @@ PASS Standard Tests src/components/download-wrapper/download-wrapper.spec.js (7.
     √ correctly indicates data for all tables will be downloaded when its allTablesSelected
     prop is true (5 ms)
     √ adds a well-formed download request to the downloadsContext downloadQueue (89 ms)
-    √ adds a well-formed download request to the downloadsContext downloadQueue when the 
+    √ adds a well-formed download request to the downloadsContext downloadQueue when the
     allTablesSelected prop is true (29 ms)
     √ triggers a GA event when the cancel event is triggered within the modal (1 ms)
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -612,14 +612,14 @@ PASS Standard Tests src/components/download-wrapper/download-wrapper.spec.js (7.
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -641,14 +641,14 @@ PASS Standard Tests src/components/download-wrapper/download-wrapper.spec.js (7.
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -686,14 +686,14 @@ PASS Standard Tests src/components/download-sticky/download-sticky.spec.js (8.03
 
   console.error
     Warning: An update to StickyFooterComponent inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at StickyFooterComponent (C:\Users\j4wgc01\projects\dtg\src\components\sticky-footer\sticky-footer.jsx:8:40)
         at LocationProvider (C:\Users\j4wgc01\projects\dtg\node_modules\@reach\router\index.js:76:5)
@@ -718,14 +718,14 @@ PASS Standard Tests src/components/download-sticky/download-sticky.spec.js (8.03
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -747,14 +747,14 @@ PASS Standard Tests src/components/download-sticky/download-sticky.spec.js (8.03
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -776,14 +776,14 @@ PASS Standard Tests src/components/download-sticky/download-sticky.spec.js (8.03
 
   console.error
     Warning: An update to DownloadSticky inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadSticky (C:\Users\j4wgc01\projects\dtg\src\components\download-sticky\download-sticky.jsx:58:7)
 
@@ -922,14 +922,14 @@ PASS Standard Tests src/components/download-sticky/download-sticky.spec.js (8.03
 
   console.error
     Warning: An update to NationalDebtFifthSection inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at NationalDebtFifthSection (C:\Users\j4wgc01\projects\dtg\src\layouts\explainer\sections\national-debt\national-debt.jsx:549:45)
 
@@ -949,14 +949,14 @@ PASS Standard Tests src/components/download-sticky/download-sticky.spec.js (8.03
 
   console.error
     Warning: An update to NationalDebtFifthSection inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at NationalDebtFifthSection (C:\Users\j4wgc01\projects\dtg\src\layouts\explainer\sections\national-debt\national-debt.jsx:549:45)
 
@@ -1155,14 +1155,14 @@ PASS Standard Tests src/components/dataset-data/table-section-container/table-se
 
   console.error
     Warning: An update to HomeHighlightCard inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at HomeHighlightCard (C:\Users\j4wgc01\projects\dtg\src\components\home-highlight-cards\home-highlight-card\home-highlight-card.tsx:69:69)
         at WithStyles(HomeHighlightCard) (C:\Users\j4wgc01\projects\dtg\node_modules\@material-ui\styles\withStyles\withStyles.js:67:31)
@@ -1183,14 +1183,14 @@ PASS Standard Tests src/components/dataset-data/table-section-container/table-se
 
   console.error
     Warning: An update to HomeHighlightCard inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at HomeHighlightCard (C:\Users\j4wgc01\projects\dtg\src\components\home-highlight-cards\home-highlight-card\home-highlight-card.tsx:69:69)
         at WithStyles(HomeHighlightCard) (C:\Users\j4wgc01\projects\dtg\node_modules\@material-ui\styles\withStyles\withStyles.js:67:31)
@@ -1211,14 +1211,14 @@ PASS Standard Tests src/components/dataset-data/table-section-container/table-se
 
   console.error
     Warning: An update to HomeHighlightCard inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at HomeHighlightCard (C:\Users\j4wgc01\projects\dtg\src\components\home-highlight-cards\home-highlight-card\home-highlight-card.tsx:69:69)
         at WithStyles(HomeHighlightCard) (C:\Users\j4wgc01\projects\dtg\node_modules\@material-ui\styles\withStyles\withStyles.js:67:31)
@@ -1335,14 +1335,14 @@ PASS Standard Tests src/helpers/metadata/use-metadata-updater-hook.spec.js (11.3
 
   console.error
     Warning: An update to TestComponent inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at TestComponent (C:\Users\j4wgc01\projects\dtg\node_modules\@testing-library\react-hooks\lib\helpers\createTestHarness.js:22:5)
         at Suspense
@@ -1387,14 +1387,14 @@ PASS Standard Tests src/helpers/metadata/use-metadata-updater-hook.spec.js (11.3
 
   console.error
     Warning: An update to TestComponent inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at TestComponent (C:\Users\j4wgc01\projects\dtg\node_modules\@testing-library\react-hooks\lib\helpers\createTestHarness.js:22:5)
         at Suspense
@@ -1578,8 +1578,8 @@ PASS Standard Tests src/components/filter-download-container/range-presets/range
     currentDateButton is "byDay" (8 ms)
     √ initiates Analytics.event with correct parameters for all buttons (8 ms)
 
-PASS Standard Tests src/components/dataset-about-tabs/dataset-about-tabs.spec.js
-  DatasetAboutTabs
+PASS Standard Tests src/components/dataset-about-tabs/dataset-properties-tabs.spec.js
+  DatasetPropertiesTabs
     √ contains a NotesAndLimitations component with expected props (228 ms)
     √ creates a container to hold the tabs (135 ms)
     √ creates a tab label for each tab property (124 ms)
@@ -1878,14 +1878,14 @@ PASS Standard Tests src/components/dataset-card/dataset-card.spec.js
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
         at div
@@ -1909,14 +1909,14 @@ PASS Standard Tests src/components/dataset-card/dataset-card.spec.js
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
         at div
@@ -1950,14 +1950,14 @@ PASS Standard Tests src/components/dataset-card/dataset-card.spec.js
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
         at div
@@ -2014,14 +2014,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
 
@@ -2041,14 +2041,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
 
@@ -2068,14 +2068,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
         at div
@@ -2099,14 +2099,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
         at div
@@ -2130,14 +2130,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
 
@@ -2157,14 +2157,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
 
@@ -2184,14 +2184,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
 
@@ -2211,99 +2211,14 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
-    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
-        at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
-        at div
-        at div
-        at div
-        at PublishedReports (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\published-reports.jsx:13:29)
 
-      29 |     if (location) {
-      30 |       getFileSize(location).then((size) => {
-    > 31 |         setFileSize(size);
-         |         ^
-      32 |       });
-      33 |     }
-      34 |   };
-
-      at printWarning (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:68:30)
-      at error (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:44:5)
-      at warnIfNotCurrentlyActingUpdatesInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15034:9)
-      at setFileSize (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7129:9)
-      at src/components/published-reports/download-report/download-report.jsx:31:9
-
-  console.error
-    Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
-    When testing, code that causes React state updates should be wrapped into act(...):
-    
-    act(() => {
-      /* fire events that update state */
-    });
-    /* assert on the output */
-    
-    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
-        at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
-
-      29 |     if (location) {
-      30 |       getFileSize(location).then((size) => {
-    > 31 |         setFileSize(size);
-         |         ^
-      32 |       });
-      33 |     }
-      34 |   };
-
-      at printWarning (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:68:30)
-      at error (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:44:5)
-      at warnIfNotCurrentlyActingUpdatesInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15034:9)
-      at setFileSize (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7129:9)
-      at src/components/published-reports/download-report/download-report.jsx:31:9
-
-  console.error
-    Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
-    When testing, code that causes React state updates should be wrapped into act(...):
-    
-    act(() => {
-      /* fire events that update state */
-    });
-    /* assert on the output */
-    
-    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
-        at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
-
-      29 |     if (location) {
-      30 |       getFileSize(location).then((size) => {
-    > 31 |         setFileSize(size);
-         |         ^
-      32 |       });
-      33 |     }
-      34 |   };
-
-      at printWarning (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:68:30)
-      at error (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:44:5)
-      at warnIfNotCurrentlyActingUpdatesInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15034:9)
-      at setFileSize (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7129:9)
-      at src/components/published-reports/download-report/download-report.jsx:31:9
-
-  console.error
-    Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
-    When testing, code that causes React state updates should be wrapped into act(...):
-    
-    act(() => {
-      /* fire events that update state */
-    });
-    /* assert on the output */
-    
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
         at div
@@ -2327,14 +2242,99 @@ PASS Standard Tests src/components/published-reports/download-report/download.re
 
   console.error
     Warning: An update to DownloadReport inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+        at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
+
+      29 |     if (location) {
+      30 |       getFileSize(location).then((size) => {
+    > 31 |         setFileSize(size);
+         |         ^
+      32 |       });
+      33 |     }
+      34 |   };
+
+      at printWarning (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:68:30)
+      at error (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:44:5)
+      at warnIfNotCurrentlyActingUpdatesInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15034:9)
+      at setFileSize (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7129:9)
+      at src/components/published-reports/download-report/download-report.jsx:31:9
+
+  console.error
+    Warning: An update to DownloadReport inside a test was not wrapped in act(...).
+
+    When testing, code that causes React state updates should be wrapped into act(...):
+
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+        at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
+
+      29 |     if (location) {
+      30 |       getFileSize(location).then((size) => {
+    > 31 |         setFileSize(size);
+         |         ^
+      32 |       });
+      33 |     }
+      34 |   };
+
+      at printWarning (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:68:30)
+      at error (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:44:5)
+      at warnIfNotCurrentlyActingUpdatesInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15034:9)
+      at setFileSize (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7129:9)
+      at src/components/published-reports/download-report/download-report.jsx:31:9
+
+  console.error
+    Warning: An update to DownloadReport inside a test was not wrapped in act(...).
+
+    When testing, code that causes React state updates should be wrapped into act(...):
+
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+        at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
+        at div
+        at div
+        at div
+        at PublishedReports (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\published-reports.jsx:13:29)
+
+      29 |     if (location) {
+      30 |       getFileSize(location).then((size) => {
+    > 31 |         setFileSize(size);
+         |         ^
+      32 |       });
+      33 |     }
+      34 |   };
+
+      at printWarning (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:68:30)
+      at error (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:44:5)
+      at warnIfNotCurrentlyActingUpdatesInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15034:9)
+      at setFileSize (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7129:9)
+      at src/components/published-reports/download-report/download-report.jsx:31:9
+
+  console.error
+    Warning: An update to DownloadReport inside a test was not wrapped in act(...).
+
+    When testing, code that causes React state updates should be wrapped into act(...):
+
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at DownloadReport (C:\Users\j4wgc01\projects\dtg\src\components\published-reports\download-report\download-report.jsx:13:27)
 
@@ -2370,12 +2370,12 @@ PASS Standard Tests src/components/site-header/official-banner/official-banner.s
   console.error
     Warning: It looks like you're using the wrong act() around your test interactions.
     Be sure to use the matching version of act() corresponding to your renderer:
-    
+
     // for react-dom:
     import {act} from 'react-dom/test-utils';
     // ...
     act(() => ...);
-    
+
     // for react-test-renderer:
     import TestRenderer from react-test-renderer';
     const {act} = TestRenderer;
@@ -2422,12 +2422,12 @@ PASS Standard Tests src/components/site-header/official-banner/official-banner.s
   console.error
     Warning: It looks like you're using the wrong act() around your test interactions.
     Be sure to use the matching version of act() corresponding to your renderer:
-    
+
     // for react-dom:
     import {act} from 'react-dom/test-utils';
     // ...
     act(() => ...);
-    
+
     // for react-test-renderer:
     import TestRenderer from react-test-renderer';
     const {act} = TestRenderer;
@@ -2856,7 +2856,7 @@ PASS Standard Tests src/components/detail-pills/detail-pills.spec.js
     √ shows the futureDateIcon when the latestDate is in the future (1 ms)
 
 PASS Standard Tests src/components/split-flap-display/split-flap-display.spec.js
-  Split Flap Display 
+  Split Flap Display
     √ starts with number of positions (47 ms)
     √ shows shortened number when width less than breakpoint (45 ms)
 
@@ -2904,14 +2904,14 @@ PASS Standard Tests src/components/dataset-card/dataset-stats/dataset-stats.spec
 
   console.error
     Warning: An update to TestComponent inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at TestComponent (C:\Users\j4wgc01\projects\dtg\node_modules\@testing-library\react-hooks\lib\helpers\createTestHarness.js:22:5)
         at Suspense
@@ -2957,14 +2957,14 @@ PASS Standard Tests src/components/dataset-card/dataset-stats/dataset-stats.spec
 
   console.error
     Warning: An update to TestComponent inside a test was not wrapped in act(...).
-    
+
     When testing, code that causes React state updates should be wrapped into act(...):
-    
+
     act(() => {
       /* fire events that update state */
     });
     /* assert on the output */
-    
+
     This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
         at TestComponent (C:\Users\j4wgc01\projects\dtg\node_modules\@testing-library\react-hooks\lib\helpers\createTestHarness.js:22:5)
         at Suspense
@@ -3069,12 +3069,12 @@ PASS Standard Tests src/components/home-highlight-cards/highlighted-datasets-con
   console.error
     Warning: It looks like you're using the wrong act() around your test interactions.
     Be sure to use the matching version of act() corresponding to your renderer:
-    
+
     // for react-dom:
     import {act} from 'react-dom/test-utils';
     // ...
     act(() => ...);
-    
+
     // for react-test-renderer:
     import TestRenderer from react-test-renderer';
     const {act} = TestRenderer;
@@ -3586,7 +3586,7 @@ PASS Standard Tests src/components/page-helmet/page-helmet.spec.js
     √ includes version-info (2 ms)
     √ does not include structured data when not needed (1 ms)
     √ includes the correct default page title (1 ms)
-    √ references the correct open graph url when none is passed in 
+    √ references the correct open graph url when none is passed in
   page helmet for structured data
     √ includes structured data (1 ms)
     √ has all the right static values (1 ms)

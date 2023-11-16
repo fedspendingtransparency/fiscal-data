@@ -8,7 +8,7 @@ type ChartOptions = {
   forceLabelFontSize: string;
   format: boolean;
   yAxisTickNumber?: number;
-  xAxisTickValues?: any[];
+  xAxisTickValues?: number[];
   showOuterXAxisTicks: boolean;
   placeInitialMarker: boolean;
   noTooltip: boolean;
@@ -17,7 +17,7 @@ type ChartOptions = {
   inverted?: boolean;
   shading?: {
     side?: string;
-    color?: any;
+    color?: string;
     hatchDirection?: string;
   };
   marginLabelOptions?: {
@@ -32,16 +32,16 @@ export type ChartConfig = {
   dataSourceUrl: string;
   dateField: string;
   fields: string[];
-  data?: any[];
+  data?;
   options: ChartOptions;
-  chartDimensions?: any;
-  scales?: any;
+  chartDimensions?;
+  scales?;
   segmentMinY?: number;
   segmentMaxY?: number;
-  lines?: any;
-  previousExtent?: any;
-  markers?: any;
-  marginLabelFormatter?: any;
+  lines?;
+  previousExtent?;
+  markers?;
+  marginLabelFormatter?;
   zeroMarginLabelLeft?: boolean;
   zeroMarginLabelRight?: boolean;
   marginLabelLeft?: boolean;

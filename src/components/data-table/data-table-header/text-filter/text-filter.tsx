@@ -2,17 +2,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Column } from '@tanstack/react-table';
 import SearchBar from '../../../search-bar/search-bar';
 
-const TextFilter: FunctionComponent<any> = ({
-  column,
-  resetFilters,
-  setAllActiveFilters,
-  allActiveFilters,
-}: {
-  column: Column<any, any>;
+interface ITextFilter {
+  column: Column<unknown>;
   resetFilters: boolean;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
-}) => {
+}
+const TextFilter: FunctionComponent<ITextFilter> = ({ column, resetFilters, setAllActiveFilters, allActiveFilters }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
   const clearFilter = () => {
@@ -46,7 +42,17 @@ const TextFilter: FunctionComponent<any> = ({
     clearFilter();
   }, [resetFilters]);
 
-  return <SearchBar onChange={onFilterChange} filter={filterDisplay} handleClear={clearFilter} height="28px" active={active} setActive={setActive} />;
+  return (
+    <SearchBar
+      onChange={onFilterChange}
+      filter={filterDisplay}
+      handleClear={clearFilter}
+      height="28px"
+      active={active}
+      setActive={setActive}
+      ariaLabel={`filter ${column.id} column`}
+    />
+  );
 };
 
 export default TextFilter;

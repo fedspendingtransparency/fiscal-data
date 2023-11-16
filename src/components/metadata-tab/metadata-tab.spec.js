@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import MetadataTab from './metadata-tab';
 import DtgTable from '../dtg-table/dtg-table';
+import { RecoilRoot } from 'recoil';
 
 describe('MetadataTab', () => {
   const mockConfig = {
@@ -21,7 +22,11 @@ describe('MetadataTab', () => {
   let instance;
   beforeAll(() => {
     renderer.act(() => {
-      component = renderer.create(<MetadataTab config={mockConfig} />);
+      component = renderer.create(
+        <RecoilRoot>
+          <MetadataTab config={mockConfig} />
+        </RecoilRoot>
+      );
     });
     instance = component.root;
   });

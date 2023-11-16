@@ -19,7 +19,7 @@ const ChartContainer = ({
   customTestId,
 }) => {
   return (
-    <div className={`${chartContainer}`} role={'figure'} aria-label={altText} style={{ ...customSpacing }}>
+    <div className={`${chartContainer}`} role="figure" aria-label={altText} style={{ ...customSpacing }}>
       <div className={chartTitle} style={{ ...customTitleStyles }}>
         {title}
       </div>

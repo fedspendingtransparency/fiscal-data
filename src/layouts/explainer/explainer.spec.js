@@ -13,7 +13,28 @@ jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
 });
 
+const glossaryMock = {
+  allGlossaryCsv: {
+    glossaryCsv: [
+      {
+        term: 'Excise',
+        definition:
+          'A tax collected on certain goods and commodities produced or sold within the country (i.e. alcohol and tobacco, gasoline) and on licenses granted for certain activities (i.e. import/export license).',
+        site_page: 'Revenue Explainer & AFG Overview Page',
+        id: '12',
+        url_display: '',
+        url_path: '',
+      },
+    ],
+  },
+  extensions: {},
+};
+
 describe('Deficit explainer', () => {
+  beforeAll(() => {
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
+
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
@@ -233,7 +254,11 @@ describe('Explainer Page Layout', () => {
   };
 
   beforeAll(() => {
-    useStaticQuery.mockReturnValue(mockUseStaticBeaGDP);
+    useStaticQuery.mockReturnValue(glossaryMock);
+  });
+
+  afterEach(() => {
+    jest.resetModules();
   });
 
   beforeEach(() => {

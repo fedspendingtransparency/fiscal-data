@@ -68,7 +68,7 @@ const FAQ = ({ triggerHighlight = 0 }) => {
       <SectionContent id="how-often-is-the-data-updated" headingLevel={commonSectionHeadingLevel} title="How often is the data updated?">
         <p>
           The answer varies by dataset. To determine the update frequency, refer to the <strong>Metadata</strong>
-          tab in the <strong>About this Dataset</strong> section for a particular dataset. You can also filter the datasets in our{' '}
+          tab in the <strong>Dataset Properties</strong> section for a particular dataset. You can also filter the datasets in our{' '}
           <CustomLink url="/datasets/">Dataset Search</CustomLink> based on when the data was last updated.
         </p>
       </SectionContent>

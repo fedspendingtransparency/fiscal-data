@@ -22,7 +22,7 @@ const Preview = ({ selectedFile }) => {
       'Preview the downloadable PDF report of the MTS Receipts and Outlays of the U.S.' +
       ' Government for the selected month and year for the previous five years.';
   } else if (selectedFile && selectedFile.report_group_desc === 'Entire (.pdf)') {
-    altText = 'Preview the downloadable PDF report of the MSPD for the selected month and year' + ' for the previous five years.';
+    altText = 'Preview the downloadable PDF report of the MSPD for the selected month and year for the previous five years.';
   }
 
   useEffect(() => {

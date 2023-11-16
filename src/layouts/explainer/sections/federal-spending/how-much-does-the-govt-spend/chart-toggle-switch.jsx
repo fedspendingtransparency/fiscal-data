@@ -6,7 +6,7 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles, setPercentDo
     <label htmlFor="material-switch">
       <Switch
         checked={checked}
-        aria-label={'US Government Spending chart switch, click to change chart view.'}
+        aria-label="US Government Spending chart switch, click to change chart view."
         onChange={handleChange}
         onColor={customStyles.onColor}
         offColor={customStyles.offColor}
@@ -21,7 +21,7 @@ export const ToggleSwitch = ({ checked, handleChange, customStyles, setPercentDo
             setPercentDollarToggleChecked(!percentDollarToggleChecked);
           }
         }}
-        data-testid={'switch'}
+        data-testid="switch"
       />
     </label>
   );

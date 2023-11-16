@@ -3,6 +3,7 @@ import * as styles from './topic.module.scss';
 import classNames from 'classnames';
 import Analytics from '../../../../utils/analytics/analytics';
 import { getImage, GatsbyImage } from 'gatsby-plugin-image';
+import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';
 
 export const topicIconAnalyticsEvent = {
   category: 'Dataset Search Page',
@@ -32,8 +33,7 @@ const Topic = ({ active, filterKey, label, onChange, image }) => {
       });
 
       // GA4 - Topics Filter Click
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
+      ga4DataLayerPush({
         event: 'Topics Filter Click',
         eventLabel: label,
       });

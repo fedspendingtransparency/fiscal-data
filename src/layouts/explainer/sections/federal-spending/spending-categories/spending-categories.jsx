@@ -8,11 +8,12 @@ import HowMuchDoesTheGovtSpend from '../how-much-does-the-govt-spend/how-much-do
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
+
 export const SpendingCategories = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
 
   useEffect(() => {
-    const endpointUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F' + '&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19';
+    const endpointUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19';
     basicFetch(`${apiPrefix}${endpointUrl}`).then(res => {
       if (res.data) {
         setLatestCompleteFiscalYear(res.data[0].record_fiscal_year);
@@ -21,13 +22,18 @@ export const SpendingCategories = () => {
   }, []);
 
   const spendingExplorer = (
-    <CustomLink url={'https://www.usaspending.gov/explorer'} eventNumber="14">
+    <CustomLink url="https://www.usaspending.gov/explorer" eventNumber="14">
       Spending Explorer
     </CustomLink>
   );
   const agencyProfile = (
-    <CustomLink url={'https://www.usaspending.gov/agency'} eventNumber="34">
+    <CustomLink url="https://www.usaspending.gov/agency" eventNumber="34">
       Agency Profile
+    </CustomLink>
+  );
+  const ssa = (
+    <CustomLink url="https://www.ssa.gov/oact/TRSUM/" eventNumber="24">
+      Annual Reports on the Financial Status of Social Security and Medicare
     </CustomLink>
   );
 
@@ -56,16 +62,11 @@ export const SpendingCategories = () => {
           title="What does the future of Social Security and Medicare look like?"
           openEventNumber="16"
           explainerGAEvent="Spending"
-          ga4ID={'social-sec'}
+          ga4ID="social-sec"
         >
-          Each year, the Social Security and Medicare Boards of Trustees publish their{' '}
-          {
-            <CustomLink href={'https://www.ssa.gov/oact/TRSUM/'} eventNumber="24">
-              Annual Reports on the Financial Status of Social Security and Medicare.
-            </CustomLink>
-          }{' '}
-          The Boards’ projections indicate that spending will continue to increase. As the average age of Americans increases, more funding is needed
-          to support entitlement programs like Social Security, Medicare, and retirement and disability services for both military and civil servants{' '}
+          Each year, the Social Security and Medicare Boards of Trustees publish their {ssa}. The Boards’ projections indicate that spending will
+          continue to increase. As the average age of Americans increases, more funding is needed to support entitlement programs like Social
+          Security, Medicare, and retirement and disability services for both military and civil servants{' '}
         </Accordion>
       </div>
     </div>

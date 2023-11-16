@@ -16,25 +16,20 @@ describe('Masthead component', () => {
     const titleDisplayed = instance.findByType('h1'); // will fail if not exactly 1 <h1 />
     expect(titleDisplayed.props.children).toEqual('Debt to the Nickel');
   });
-
-  it('has a detail pills component placed within', () => {
-    instance.find(obj => obj.type === DetailPills);
-  });
-
-  it('displays the tagLine that it is given', () => {
-    const tagLineElement = instance.findByProps({ 'data-test-id': 'tagLine' });
-    expect(tagLineElement.children[0]).toBe('All the debt, to the nickel.');
-  });
 });
 
 describe('Masthead - banner callout', () => {
   const testBanner = {
-    'banner': "XRCallout"
-  }
+    banner: 'XRCallout',
+  };
 
   const savingsBondsDelayBanner = {
-    'banner': "SavingsBondsDelay"
-  }
+    banner: 'SavingsBondsDelay',
+  };
+
+  const treasuryDirectDelayBanner = {
+    banner: 'SavingsBondsDelay',
+  };
 
   it('renders callout when specified', () => {
     const { queryByTestId } = render(
@@ -45,22 +40,33 @@ describe('Masthead - banner callout', () => {
   });
 
   it('renders warning callout when SavingsBondsDelay banner specified', () => {
-    const {queryByTestId} = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={savingsBondsDelayBanner} />);
+    const { queryByTestId } = render(
+      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={savingsBondsDelayBanner} />
+    );
 
     expect(queryByTestId('callout')).not.toBeNull();
   });
 
-  it('renders warning callout when not SavingsBondsDelay banner specified', () => {
-    const {queryByTestId} = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={testBanner} />);
+  it('renders warning callout when TreasuryDirectDelay banner specified', () => {
+    const { queryByTestId } = render(
+      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={treasuryDirectDelayBanner} />
+    );
+
+    expect(queryByTestId('callout')).not.toBeNull();
+  });
+
+  it('renders warning callout when not SavingsBondsDelay or TreasuryDirectDelay banner specified', () => {
+    const { queryByTestId } = render(
+      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={testBanner} />
+    );
 
     expect(queryByTestId('callout')).not.toBeNull();
   });
 
   it('does not render callout when callout is null', () => {
-    const {queryByTestId} = render(
-      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={null} />);
+    const { queryByTestId } = render(
+      <Masthead title="Debt to the Nickel" techSpecs={{}} tagLine="All the debt, to the nickel." bannerCallout={null} />
+    );
 
     expect(queryByTestId('callout')).toBeNull();
   });

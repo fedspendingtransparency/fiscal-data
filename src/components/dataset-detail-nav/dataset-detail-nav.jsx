@@ -1,169 +1,91 @@
 import React, { useEffect, useState } from 'react';
-import { SmoothScroll } from '../smooth-scroll/smooth-scroll';
-import * as styles from './dataset-detail-nav.module.scss';
-import { select, selectAll } from 'd3-selection';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from './dataset-detail-nav.module.scss';
+import { Link } from 'react-scroll';
+import { updateAddressPath } from '../../helpers/address-bar/address-bar';
+import globalConstants from '../../helpers/constants';
+import { scroller } from 'react-scroll';
+const scrollDelay = globalConstants.config.smooth_scroll.delay;
+const scrollDuration = globalConstants.config.smooth_scroll.duration;
 
-const d3 = { select, selectAll };
-
-const breakpoint = {
-  desktop: 992,
-  tablet: 600,
+const scrollOptions = {
+  smooth: true,
+  spy: true,
+  duration: scrollDuration,
+  delay: scrollDelay,
+  offset: -36,
 };
 
-const DDNav = ({ title }) => {
-  const [links, setLinks] = useState([]);
-  const [isMobile, setIsMobile] = useState(true);
-  const [scrollInstance] = useState(new SmoothScroll());
-  const [mobileIdx, setMobileIdx] = useState(0);
-  const [offsetHeight, setOffsetHeight] = useState(0);
-  let debounce, previousWidth;
-
+const DDNav = () => {
+  const [hover, setHover] = useState(null);
+  const [scrollToId, setScrollToId] = useState(null);
   const linksArr = [
     {
-      title: 'About This Dataset',
-      href: '#about-this-dataset',
+      title: 'Introduction',
+      id: 'introduction',
+    },
+    {
+      title: 'Dataset Properties',
+      id: 'dataset-properties',
     },
     {
       title: 'Preview & Download',
-      href: '#preview-and-download',
+      id: 'preview-and-download',
     },
     {
       title: 'API Quick Guide',
-      href: '#api-quick-guide',
+      id: 'api-quick-guide',
     },
     {
       title: 'Related Datasets',
-      href: '#related-datasets',
+      id: 'related-datasets',
     },
   ];
 
-  const linksCnt = linksArr.length;
-
-  const setMobileLinks = idx => {
-    const mobileLinks = [];
-
-    if (idx <= 0 || idx >= linksCnt - 1) {
-      const disabledObject = {
-        disabled: true,
-      };
-
-      if (idx <= 0) {
-        mobileLinks.push(disabledObject, linksArr[1]);
-      } else {
-        mobileLinks.push(linksArr[linksCnt - 2], disabledObject);
-      }
-    } else {
-      mobileLinks.push(linksArr[idx - 1], linksArr[idx + 1]);
+  const handleInteraction = (e, id) => {
+    //only proceed on mouse click or Enter key press
+    if (e?.key && e.key !== 'Enter') {
+      return;
     }
 
-    setMobileIdx(idx);
-    setLinks(mobileLinks);
-  };
-
-  const updateMobileLinks = i => {
-    const idxAdjust = i === 1 ? 1 : -1;
-    const newIdx = mobileIdx + idxAdjust;
-    setMobileLinks(newIdx);
-  };
-
-  useEffect(() => {
-    d3.select('.' + styles.menu)
-      .selectAll('a')
-      .each(function() {
-        const el = d3.select(this).node();
-        scrollInstance.attachClickHandlers(el, offsetHeight);
-      });
-  }, [links]);
-
-  useEffect(() => {
-    if (isMobile) {
-      setMobileLinks(mobileIdx);
-    } else {
-      setLinks(linksArr);
-    }
-  }, [isMobile]);
-
-  const responsiveLinks = () => {
-    if (window.innerWidth < breakpoint.desktop) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
+    if (id) {
+      updateAddressPath(id, window.location);
+      setHover(null);
+      setScrollToId(id);
     }
   };
 
   useEffect(() => {
-    const header = d3.select(`#${styles.container}`);
-    let headerHeight = 0;
-
-    if (!header.empty()) {
-      headerHeight = header.node().getBoundingClientRect().height;
+    if (scrollToId) {
+      const targetId = scrollToId;
+      setScrollToId(null);
+      scroller.scrollTo(targetId, scrollOptions);
     }
-    setOffsetHeight(headerHeight, 10);
-
-    window.addEventListener('resize', function() {
-      if (previousWidth === window.innerWidth) {
-        return;
-      }
-
-      if (debounce) {
-        clearTimeout(debounce);
-      }
-
-      previousWidth = window.innerWidth;
-
-      debounce = setTimeout(responsiveLinks, 50);
-    });
-  }, []);
-
-  useEffect(() => {
-    responsiveLinks();
-  });
+  }, [scrollToId]);
 
   return (
-    <section id={styles.container}>
-      <div className={styles.content}>
-        <div data-testid="DDNavTitle" className={styles.title} title={title}>
-          {title}
-        </div>
-        <div data-testid="DDNavMenu" className={`${styles.menu} ${isMobile ? styles.mobile : ''}`}>
-          {!isMobile
-            ? links.map((d, i) => {
-                return (
-                  <a
-                    className={styles.desktopLinks}
-                    key={`DDNavDesktopLink${i}`}
-                    data-testid={`DDNavDesktopLink${i}`}
-                    aria-label={`Jump to ${d.title} section`}
-                    href={d.href}
-                  >
-                    {d.title}
-                  </a>
-                );
-              })
-            : links.map((d, i) => {
-                return d.disabled ? (
-                  <FontAwesomeIcon
-                    key={`DDDisabledNavMobileLink${i}`}
-                    icon={i === 1 ? faArrowDown : faArrowUp}
-                    className={`${styles.mobileIcon} ${styles.disabledLink}`}
-                  />
-                ) : (
-                  <a
-                    key={`DDNavMobileLink${i}`}
-                    data-testid={`DDNavMobileLink${i}`}
-                    aria-label={`Jump to ${d.title} section`}
-                    title={d.title}
-                    onClick={() => {
-                      updateMobileLinks(i);
-                    }}
-                    href={d.href}
-                  >
-                    <FontAwesomeIcon className={styles.mobileIcon} icon={i === 1 ? faArrowDown : faArrowUp} />
-                  </a>
-                );
-              })}
+    <section id={container}>
+      <div className={content}>
+        <div data-testid="DDNavMenu" className={menu}>
+          {linksArr.map((d, i) => {
+            return (
+              <Link
+                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
+                key={`DDNavDesktopLink${i}`}
+                data-testid={`DDNavDesktopLink${i}`}
+                aria-label={`Jump to ${d.title} section`}
+                to={d.id}
+                activeClass={activeMenu}
+                onClick={() => handleInteraction(null, d.id)}
+                onKeyDown={e => handleInteraction(e, d.id)}
+                tabIndex={0}
+                onMouseEnter={() => setHover(d.id)}
+                onMouseLeave={() => setHover(null)}
+                {...scrollOptions}
+              >
+                {d.title}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>
