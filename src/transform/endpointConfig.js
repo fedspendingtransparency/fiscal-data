@@ -2009,6 +2009,12 @@ const endpointConfig = {
     downloadName: 'upcoming_auctions',
     alwaysSortWith: ['security_type', '-announcemt_date', '-auction_date', '-issue_date'],
   },
+  '263': {
+    endpoint: 'v1/accounting/od/frn_daily_indexes',
+    dateField: 'record_date',
+    downloadName: 'frn_daily_indexes',
+    alwaysSortWith: ['cusip', 'start_of_accrual_period'],
+  },
 };
 
 const setCompleteTableDisplayItem = response => {

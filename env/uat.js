@@ -5,30 +5,7 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc', 'afg-overview'],
-  ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-049': {
-      slug: '/frn_daily_indexes/',
-      seoConfig: {
-        pageTitle: 'FRN Daily Indexes',
-        description:
-          'The FRN Daily Indexes dataset provides data on Floating Rate Notes. For floating rate notes, the index is the highest accepted discount rate on 13-week bills determined by Treasury auctions of those securities. We auction the 13-week Treasury bill every week, so the index rate of an FRN is reset every week. The FRN Daily Indexes provide information for specific CUSIPs, accrual periods, daily indexes, daily interest accrual rates, spread, and interest payment periods.',
-        keywords: 'Debt, Savings Bonds, Auctions',
-      },
-      topics: ['auctions', 'debt', 'savings-bonds'],
-      relatedDatasets: ['015-BFS-2014Q1-14', '015-BFS-2014Q3-045', '015-BFS-2014Q3-048'],
-      currentDateButton: 'byDay',
-      hideColumns: [
-        'record_date',
-        'src_line_nbr',
-        'record_fiscal_year',
-        'record_fiscal_quarter',
-        'record_calendar_year',
-        'record_calendar_quarter',
-        'record_calendar_month',
-        'record_calendar_day',
-      ],
-    },
-  },
+  ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '27': {
       endpoint: 'v1/debt/mspd/mspd_table_1',
@@ -167,12 +144,6 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['securities_mil_amt'],
-    },
-    '263': {
-      endpoint: 'v1/accounting/od/frn_daily_indexes',
-      dateField: 'record_date',
-      downloadName: 'frn_daily_indexes',
-      alwaysSortWith: ['cusip', 'start_of_accrual_period'],
     },
   },
 };
