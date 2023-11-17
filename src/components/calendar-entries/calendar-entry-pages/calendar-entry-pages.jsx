@@ -18,23 +18,26 @@ const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPag
     const calendarEntries = [];
 
     for (const separator in separatedEntries) {
-      console.log(separatedEntries[separator].map(d => console.log(d.dataset)));
       calendarEntries.push(
         <div className={styles.entriesGroup}>
           <div className={styles.separator}>{separator}</div>
-          {separatedEntries[separator].map(d => (
-            <CalendarEntry
-              key={`${d.dataset?.name}${d.date}${d.time}`}
-              dataset={{
-                name: d.dataset?.name,
-                date: d.date,
-                time: d.time,
-                url: d.dataset?.slug,
-                released: `${d.released}` === 'true',
-              }}
-              earliestDate={earliestDate}
-            />
-          ))}
+          {separatedEntries[separator].map(d => {
+            if (d !== undefined) {
+              return (
+                <CalendarEntry
+                  key={`${d.dataset?.name}${d.date}${d.time}`}
+                  dataset={{
+                    name: d.dataset?.name,
+                    date: d.date,
+                    time: d.time,
+                    url: d.dataset?.slug,
+                    released: `${d.released}` === 'true',
+                  }}
+                  earliestDate={earliestDate}
+                />
+              );
+            }
+          })}
         </div>
       );
     }

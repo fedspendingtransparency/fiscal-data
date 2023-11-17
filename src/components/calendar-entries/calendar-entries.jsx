@@ -9,12 +9,14 @@ import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
 import { useReleaseCalendarEntriesUpdater } from './use-release-calendar-entries-updater-hook';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
+import { apiPrefix } from '../../utils/api-utils';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
   category: 'Release Calendar',
   action: 'Sort By Click',
 };
+const releaseCalendarUrl = `$https://api.fiscaldata.treasury.gov/services/calendar/release`;
 
 const CalendarEntriesList = () => {
   const { allReleases } = useStaticQuery(
