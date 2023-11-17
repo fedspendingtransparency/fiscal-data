@@ -12,6 +12,12 @@ $borderRadius: 5px;
     box-sizing: border-box;
     border-top: 0;
     background-color: white;
+    height: 521px;
+    overflow-y: auto;
+  }
+
+  table {
+    margin-top: -3px;
   }
 
   table,
