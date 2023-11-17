@@ -19,7 +19,7 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
 
-const defaultRowsPerPage = 5;
+const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
 
 export default function DtgTable({
@@ -58,33 +58,10 @@ export default function DtgTable({
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
-  const getDefaultRowCount = () => {
-    console.log(tableProps.tableName, {
-      perPage: perPage,
-      selectColumns: selectColumns,
-      selectColumnRowsPerPage: selectColumnRowsPerPage,
-      shouldPage: shouldPage,
-      'data.length ': data.length,
-      defaultRowsPerPage: defaultRowsPerPage,
-    });
-    console.log(tableProps);
-
-    if (perPage) {
-      return perPage;
-    } else if (selectColumns) {
-      return selectColumnRowsPerPage;
-    } else if (!shouldPage && data.length > defaultRowsPerPage) {
-      return data.length;
-    } else if (rawData) {
-      return 10;
-    } else {
-      return defaultRowsPerPage;
-    }
-  };
-
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(getDefaultRowCount());
-
+  const [itemsPerPage, setItemsPerPage] = useState(
+    perPage ? perPage : selectColumns ? selectColumnRowsPerPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
+  );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
