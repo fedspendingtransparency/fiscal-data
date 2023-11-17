@@ -10,6 +10,7 @@ import {
   sortArrow,
   sortArrowPill,
   noFilter,
+  stickyHeader,
 } from './data-table-header.module.scss';
 import { flexRender, Table } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -80,7 +81,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
     <thead>
       {table.getHeaderGroups().map(headerGroup => {
         return (
-          <tr key={headerGroup.id} data-testid="header-row">
+          <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map(header => {
               const displayTextFilters = maxRows <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
               const columnDataType = dataTypes[header.id];

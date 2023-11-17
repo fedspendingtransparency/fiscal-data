@@ -1,22 +1,10 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import DDNav from './dataset-detail-nav';
-import { getByTestId } from '@testing-library/dom';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import * as Scroll from 'react-scroll';
 
 jest.useFakeTimers();
 describe('DDNav', () => {
-  const datasetTitle = 'Dummy Dataset';
-  const breakpoint = {
-    desktop: 992,
-    tablet: 600,
-  };
-
-  it('writes out the expected title', () => {
-    const { getByTestId } = render(<DDNav title={datasetTitle} />);
-    expect(getByTestId('DDNavTitle').title).toBe(datasetTitle);
-  });
-
   it('creates desktop anchor tags within the menu', () => {
     const { getByTestId } = render(<DDNav />);
     const menu = getByTestId('DDNavMenu');
@@ -33,30 +21,41 @@ describe('DDNav', () => {
     expect(desktopLink).not.toBeNull();
   });
 
-  it('creates mobile/tablet anchor tags within the menu when at tablet/mobile size', async () => {
-    renderer.act(() => {
-      global.window.innerWidth = breakpoint.tablet;
-      global.dispatchEvent(new Event('resize'));
-      jest.runAllTimers();
-    });
+  it(`sets a hover style on a link's container when hovered and
+  removes it when not hovered`, () => {
+    const { getByText } = render(<DDNav />);
 
-    const { getByTestId } = render(<DDNav title={datasetTitle} />);
+    const link = getByText('Introduction');
 
-    const menu = getByTestId('DDNavMenu');
-    let links = menu.getElementsByTagName('a');
-    links = Array.from(links);
-    let mobileLink = null;
+    fireEvent.mouseOver(link);
+    console.log(link.props);
+    expect(link.className.includes('hover')).toBeTruthy();
 
-    expect(links.length).toBeGreaterThan(0);
+    fireEvent.mouseOut(link);
+    expect(link.className.includes('hover')).toBeFalsy();
+  });
 
-    const filteredLinks = links.filter(link => link.outerHTML.toString().includes('DDNavMobileLink'));
+  it(`scrolls to page section on enter`, () => {
+    const spy = jest.spyOn(Scroll.scroller, 'scrollTo');
+    const { getByText } = render(<DDNav />);
 
-    mobileLink = filteredLinks[0];
+    const link = getByText('Introduction');
 
-    expect(mobileLink).not.toBeNull();
+    fireEvent.keyDown(link, { key: 'Enter' });
+    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
+    spy.mockClear();
+    fireEvent.keyDown(link, { key: 'Tab' });
+    expect(spy).not.toHaveBeenCalled();
+  });
 
-    // Additional assurance on the mobile links
-    const icon = mobileLink.getElementsByTagName('svg');
-    expect(icon.length).toBeGreaterThan(0);
+  it(`scrolls to page section on click`, () => {
+    const spy = jest.spyOn(Scroll.scroller, 'scrollTo');
+    const { getByText } = render(<DDNav />);
+
+    const link = getByText('Introduction');
+
+    fireEvent.click(link);
+    expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
+    spy.mockClear();
   });
 });
