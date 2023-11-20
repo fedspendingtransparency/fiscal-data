@@ -16,6 +16,9 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
       gitBranch(current: { eq: true }) {
         name
       }
+      currentBuildDate {
+        currentDate
+      }
     }
   `);
 
@@ -25,6 +28,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
   const latestTag = versionInfo.gitTag ? versionInfo.gitTag.name : '';
   const latestCommit = versionInfo.gitCommit || {};
   const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
+  const builtOnDate = versionInfo.currentBuildDate ? versionInfo.currentBuildDate.currentDate : '';
 
   const [dapAnalytics, setDapAnalytics] = useState(null);
   const [finalDescription, setFinalDescription] = useState(description);
@@ -79,6 +83,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator, keywords, im
             COMMIT HASH: ${latestCommit.hash}
             COMMIT MESSAGE: ${latestCommit.message}
             COMMIT DATE: ${latestCommit.date}
+            BUILD TIME: ${builtOnDate}
             ENV ID: ${ENV_ID}
           */`}
         </script>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Location } from '@gatsbyjs/reach-router';
+import { Location } from '@reach/router';
 
 const LocationAware = ComponentToWrap => props => {
   return (
