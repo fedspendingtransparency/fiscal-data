@@ -9,14 +9,15 @@ import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
 import { useReleaseCalendarEntriesUpdater } from './use-release-calendar-entries-updater-hook';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { apiPrefix } from '../../utils/api-utils';
+import { apiPrefix, basicFetch } from '../../utils/api-utils';
+import data from '../../transform/static-metadata/datasets.json';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
   category: 'Release Calendar',
   action: 'Sort By Click',
 };
-const releaseCalendarUrl = `$https://api.fiscaldata.treasury.gov/services/calendar/release`;
+const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calendar/release`;
 
 const CalendarEntriesList = () => {
   const { allReleases } = useStaticQuery(
@@ -41,12 +42,40 @@ const CalendarEntriesList = () => {
   );
 
   // const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
+
   const releases = allReleases.releases;
   const earliestDate = allReleases.releases[0].date;
   const [loading, setLoading] = useState(true);
-  const [entries, setEntries] = useState(allReleases.releases);
+  const [entries, setEntries] = useState(null);
+  const [maxPage, setMaxPage] = useState(null);
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(async () => {
+    const res = await basicFetch(releaseCalendarUrl);
+    res.forEach((element, index) => {
+      console.log(data[element.datasetId]);
+      if (data[element.datasetId]) {
+        const newObj = {
+          ...element,
+          dataset: {
+            name: data[element.datasetId].seoConfig.pageTitle,
+            slug: data[element.datasetId].slug,
+          },
+        };
+        res[index] = newObj;
+      }
+    });
+    setEntries(sortByDate(res));
+  }, []);
+
+  useEffect(() => {
+    if (entries) {
+      setLoading(false);
+      setMaxPage(Math.ceil(entries.length / maxEntriesPerPage));
+      console.log(entries);
+    }
+  }, [entries]);
 
   const sortByName = e => {
     return e.sort((a, b) => {
@@ -101,12 +130,11 @@ const CalendarEntriesList = () => {
     });
   };
 
-  useEffect(() => {
-    setEntries(sortByDate(releases));
-    setLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   setEntries(sortByDate(releases));
+  // }, []);
 
-  const maxPage = Math.ceil(entries.length / maxEntriesPerPage);
+  // const maxPage = Math.ceil(entries.length / maxEntriesPerPage);
 
   const pagesArray = [];
   for (let i = 1; i <= maxPage; i++) {
