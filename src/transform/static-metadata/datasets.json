@@ -173,6 +173,7 @@
   "015-BFS-2014Q1-14": {
     "slug": "/record-setting-auction-data/",
     "seoConfig": {
+      "pageTitle": "Record-Setting Treasury Securities Auction Data",
       "keywords": "treasury securities, treasury auctions, treasury bills, treasury notes, treasury bonds, TIPS, FRNs, CMBs, treasury rates, treasury offerings"
     },
     "topics": ["auctions", "interest-exchange-rates"],

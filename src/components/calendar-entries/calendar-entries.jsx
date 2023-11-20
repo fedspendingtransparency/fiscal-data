@@ -54,7 +54,6 @@ const CalendarEntriesList = () => {
   useEffect(async () => {
     const res = await basicFetch(releaseCalendarUrl);
     res.forEach((element, index) => {
-      console.log(data[element.datasetId]);
       if (data[element.datasetId]) {
         const newObj = {
           ...element,
