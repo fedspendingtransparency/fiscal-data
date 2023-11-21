@@ -9,7 +9,6 @@ import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { basicFetch } from '../../utils/api-utils';
-import data from '../../transform/static-metadata/datasets.json';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
@@ -56,7 +55,7 @@ const CalendarEntriesList = () => {
 
   useEffect(async () => {
     const getMetaData = async () => {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         fetch(metadataUrl).then(res => {
           resolve(res.json());
         });
@@ -124,7 +123,6 @@ const CalendarEntriesList = () => {
       const releasesMap = new Map();
 
       entries.forEach(r => {
-        // console.log(r.datasetId === '015-BFS-2014Q3-050' ? r : '');
         if (!releasesMap.has(r.datasetId)) {
           releasesMap.set(r.datasetId, r);
         }
@@ -147,12 +145,6 @@ const CalendarEntriesList = () => {
       eventLabel: option.label,
     });
   };
-
-  // useEffect(() => {
-  //   setEntries(sortByDate(releases));
-  // }, []);
-
-  // const maxPage = Math.ceil(entries.length / maxEntriesPerPage);
 
   const pagesArray = [];
   for (let i = 1; i <= maxPage; i++) {
