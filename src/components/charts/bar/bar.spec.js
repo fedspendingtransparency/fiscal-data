@@ -6,7 +6,13 @@ import { staggeredData } from '../helpers/helpersData';
 import { ResponsiveBar } from '@nivo/bar';
 import helpers from './helpers/helpers';
 
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+}
+
 describe('BarGraph component', () => {
+  window.ResizeObserver = ResizeObserver;
   it('does not render anything if invalid params are detected', () => {
     const { queryByTestId } = render(<BarGraph />);
     expect(queryByTestId('barGraph')).toBeNull();
@@ -32,6 +38,7 @@ describe('BarGraph component', () => {
 });
 
 describe('BarGraph component - Custom bar graph', () => {
+  window.ResizeObserver = ResizeObserver;
   const barGraph = <BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']} useCustomBarComponent />;
   const mouseEnterSpy = jest.spyOn(helpers, 'mouseEnterEvent');
   const mouseLeaveSpy = jest.spyOn(helpers, 'mouseLeaveEvent');
