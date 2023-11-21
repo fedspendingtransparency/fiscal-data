@@ -13,6 +13,11 @@
   cursor: pointer;
 }
 
+.stickyHeader {
+  position: sticky;
+  top: 0;
+}
+
 .sortArrowPill {
   background-color: $primary;
 }
