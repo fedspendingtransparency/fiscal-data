@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -6,10 +6,9 @@ import * as styles from './calendar-entries.module.scss';
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';
 import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
-import { useReleaseCalendarEntriesUpdater } from './use-release-calendar-entries-updater-hook';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { apiPrefix, basicFetch } from '../../utils/api-utils';
+import { basicFetch } from '../../utils/api-utils';
 import data from '../../transform/static-metadata/datasets.json';
 
 export const maxEntriesPerPage = 25;
@@ -18,61 +17,79 @@ export const releaseCalendarSortEvent = {
   action: 'Sort By Click',
 };
 const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calendar/release`;
+const metadataUrl = `https://api.fiscaldata.treasury.gov/services/dtg/metadata/`;
 
 const CalendarEntriesList = () => {
-  const { allReleases } = useStaticQuery(
-    graphql`
-      query {
-        allReleases {
-          releases: nodes {
-            datasetId
-            date
-            dataset: parent {
-              ... on Datasets {
-                name
-                slug
-              }
-            }
-            released
-            time
-          }
-        }
-      }
-    `
-  );
+  // const { allReleases } = useStaticQuery(
+  //   graphql`
+  //     query {
+  //       allReleases {
+  //         releases: nodes {
+  //           datasetId
+  //           date
+  //           dataset: parent {
+  //             ... on Datasets {
+  //               name
+  //               slug
+  //             }
+  //           }
+  //           released
+  //           time
+  //         }
+  //       }
+  //     }
+  //   `
+  // );
 
   // const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
 
-  const releases = allReleases.releases;
-  const earliestDate = allReleases.releases[0].date;
+  // const releases = allReleases.releases;
+  // const earliestDate = allReleases.releases[0].date
+
   const [loading, setLoading] = useState(true);
   const [entries, setEntries] = useState(null);
   const [maxPage, setMaxPage] = useState(null);
+  const [metaData, setMetaData] = useState(null);
+  const [earliestDate, setEarliestDate] = useState(null);
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(async () => {
-    const res = await basicFetch(releaseCalendarUrl);
-    res.forEach((element, index) => {
-      if (data[element.datasetId]) {
-        const newObj = {
-          ...element,
-          dataset: {
-            name: data[element.datasetId].seoConfig.pageTitle,
-            slug: data[element.datasetId].slug,
-          },
-        };
-        res[index] = newObj;
-      }
-    });
-    setEntries(sortByDate(res));
+    const getMetaData = async () => {
+      return new Promise((resolve, reject) => {
+        fetch(metadataUrl).then(res => {
+          resolve(res.json());
+        });
+      });
+    };
+    const data = await getMetaData();
+    setMetaData(data);
   }, []);
+
+  useEffect(async () => {
+    if (metaData) {
+      const res = await basicFetch(releaseCalendarUrl);
+      res.forEach((element, index) => {
+        const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
+        if (datasetMetaData) {
+          res[index] = {
+            ...element,
+            dataset: {
+              name: datasetMetaData.title,
+              slug: `/${datasetMetaData.dataset_path}/`,
+            },
+          };
+        }
+      });
+      setEntries(sortByDate(res));
+    }
+  }, [metaData]);
 
   useEffect(() => {
     if (entries) {
       setLoading(false);
       setMaxPage(Math.ceil(entries.length / maxEntriesPerPage));
-      console.log(entries);
+      setEarliestDate(entries[0].date);
     }
   }, [entries]);
 
@@ -105,7 +122,9 @@ const CalendarEntriesList = () => {
     if (option.id === 'name') {
       // if entries are sorted by name, only the next release date for each dataset should be shown
       const releasesMap = new Map();
-      releases.forEach(r => {
+
+      entries.forEach(r => {
+        // console.log(r.datasetId === '015-BFS-2014Q3-050' ? r : '');
         if (!releasesMap.has(r.datasetId)) {
           releasesMap.set(r.datasetId, r);
         }
@@ -114,7 +133,7 @@ const CalendarEntriesList = () => {
       const filteredReleases = [...releasesMap.values()];
       setEntries(sortByName(filteredReleases));
     } else {
-      setEntries(sortByDate(releases));
+      setEntries(sortByDate(entries));
     }
 
     Analytics.event({
