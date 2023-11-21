@@ -13,13 +13,13 @@
   cursor: pointer;
 }
 
-.sortArrowPill {
-  background-color: $primary;
-}
-
 .stickyHeader {
   position: sticky;
   top: 0;
+}
+
+.sortArrowPill {
+  background-color: $primary;
 }
 
 .defaultSortArrowPill:hover {
