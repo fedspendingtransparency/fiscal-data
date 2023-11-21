@@ -187,7 +187,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                   undefined
                 )}
                 <div
-                  role={'button'}
+                  role="button"
                   tabIndex={-1}
                   onMouseEnter={() => handleMouseEnter(s.index)}
                   onMouseLeave={handleMouseLeave}

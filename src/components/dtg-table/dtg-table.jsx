@@ -311,7 +311,7 @@ export default function DtgTable({
     return () => {
       loadCanceled = true;
     };
-  }, [tableProps.data]);
+  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
     if (selectColumns && activeColumns) {

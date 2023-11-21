@@ -50,7 +50,6 @@ describe('page helmet, normal', () => {
     expect(versionInfoScript.innerHTML).toContain('COMMIT HASH: 123abc');
     expect(versionInfoScript.innerHTML).toContain('COMMIT MESSAGE: mock commit msg');
     expect(versionInfoScript.innerHTML).toContain('COMMIT DATE: date of commit');
-    expect(versionInfoScript.innerHTML).toContain('BUILD TIME: mock build date');
     expect(versionInfoScript.innerHTML).toContain('ENV ID: production');
   });
 

@@ -100,7 +100,11 @@
       "keywords": "federal government, surplus, deficit, Treasury, US Treasury, outlays, receipts, monthly treasury statement, mts"
     },
     "topics": ["debt", "revenue", "spending", "financial-summaries"],
-    "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q3-065", "015-BFS-2014Q1-11"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q3-065",
+      "015-BFS-2014Q1-11"
+    ],
     "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q1-09": {
@@ -111,7 +115,9 @@
       "keywords": "fort knox, US mint gold, gold reserve, treasury gold, troy ounce, value of gold reserves, gold bullion, gold book value, NY Vault"
     },
     "topics": ["financial-summaries"],
-    "relatedDatasets": ["015-BFS-2014Q1-13"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-13"
+    ],
     "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q3-076": {
@@ -122,7 +128,12 @@
       "keywords": "debt, US debt, federal debt, accrued interest on the debt, interest on the debt, intragovernmental holdings"
     },
     "topics": ["debt", "financial-summaries"],
-    "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q3-065", "015-BFS-2014Q1-11", "015-BFS-2014Q1-13"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-03",
+      "015-BFS-2014Q3-065",
+      "015-BFS-2014Q1-11",
+      "015-BFS-2014Q1-13"
+    ],
     "currentDateButton": "byMonth"
   },
   "015-BFS-2014Q1-04": {
@@ -483,5 +494,41 @@
     "topics": ["debt", "financial-summaries", "revenue", "savings-bonds", "auctions"],
     "relatedDatasets": ["015-BFS-2014Q1-13", "015-BFS-2014Q1-11", "015-BFS-2014Q1-07"],
     "currentDateButton": "byMonth"
+  },
+  "015-BFS-2014Q3-048": {
+    "seoConfig": {
+      "pageTitle": "Treasury Securities Upcoming Auctions Data",
+      "description": "The Treasury Securities Upcoming Auctions Data dataset provides information on auction announcements. Each announcement includes what securities are being auctioned, the announcement date, the auction date and issue date. This data provides a notification of what treasury securities will be auctioned in the upcoming week.",
+      "keywords": "Treasury Securities, Debt, Savings Bonds, Auctions"
+    },
+    "topics": ["auctions", "debt", "savings-bonds"],
+    "relatedDatasets": ["015-BFS-2014Q1-14", "015-BFS-2014Q3-045"],
+    "slug": "/upcoming_auctions/",
+    "currentDateButton": "byDay",
+    "hideColumns": [
+      "record_date",
+      "src_line_nbr",
+      "record_fiscal_year",
+      "record_fiscal_quarter",
+      "record_calendar_year",
+      "record_calendar_quarter",
+      "record_calendar_month",
+      "record_calendar_day"
+    ]
+  },
+  "015-BFS-2014Q3-049": {
+    "slug": "/frn_daily_indexes/",
+    "seoConfig": {
+      "pageTitle": "FRN Daily Indexes",
+      "description": "The FRN Daily Indexes dataset provides data on Floating Rate Notes. FRNs are relatively short-term investments which mature in two years, pay interest four times each year, and have an interest rate that may change or \"float\" over time. A person is able to hold an FRN until it matures or sell it before it matures. The FRN Daily Indexes provide information for specific CUSIPs, accrual periods, daily indexes, daily interest accrual rates, spread, and interest payment periods.",
+      "keywords": "Debt, Savings Bonds, Auctions"
+    },
+    "topics": ["auctions", "debt", "savings-bonds"],
+    "relatedDatasets": [
+      "015-BFS-2014Q1-14",
+      "015-BFS-2014Q3-045",
+      "015-BFS-2014Q3-048"
+    ],
+    "currentDateButton": "byDay"
   }
 }

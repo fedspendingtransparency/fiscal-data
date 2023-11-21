@@ -2,7 +2,6 @@ import React from 'react';
 import { fireEvent, waitFor, render, within } from '@testing-library/react';
 import { mockOptions } from '../combo-select-test-helper';
 import ComboCurrencySelect from './combo-currency-select';
-import Analytics from '../../../utils/analytics/analytics';
 
 describe('The ComboSelect Component for general text use', () => {
   jest.useFakeTimers();
@@ -84,7 +83,7 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('sets search bar to active on click and updates the container class', () => {
-    const { getByTestId, queryByTestId, getByRole } = render(
+    const { getByTestId, getByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey={'label'} options={mockOptions} selectedOption={mockDefaultSelection} />
     );
 
