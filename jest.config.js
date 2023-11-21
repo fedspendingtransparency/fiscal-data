@@ -12,7 +12,7 @@ module.exports = {
   },
   testMatch: ['<rootDir>/**/**.spec.{js,jsx,ts,tsx}'],
   testPathIgnorePatterns: [`node_modules`, `.cache`, `public`],
-  transformIgnorePatterns: [`node_modules/(?!(gatsby)|d3-color)`],
+  transformIgnorePatterns: [`node_modules/(?!(gatsby)|(@nivo/core))`],
   globals: {
     __PATH_PREFIX__: ``,
     'ts-jest': {
