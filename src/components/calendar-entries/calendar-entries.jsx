@@ -46,6 +46,7 @@ const CalendarEntriesList = () => {
   // const earliestDate = allReleases.releases[0].date
 
   const [loading, setLoading] = useState(true);
+  const [apiData, setApiData] = useState(null);
   const [entries, setEntries] = useState(null);
   const [maxPage, setMaxPage] = useState(null);
   const [metaData, setMetaData] = useState(null);
@@ -80,6 +81,7 @@ const CalendarEntriesList = () => {
           };
         }
       });
+      setApiData(sortByDate(res));
       setEntries(sortByDate(res));
     }
   }, [metaData]);
@@ -131,7 +133,7 @@ const CalendarEntriesList = () => {
       const filteredReleases = [...releasesMap.values()];
       setEntries(sortByName(filteredReleases));
     } else {
-      setEntries(sortByDate(entries));
+      setEntries(apiData);
     }
 
     Analytics.event({
