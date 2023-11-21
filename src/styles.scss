@@ -248,3 +248,9 @@ h1 {
     padding-right: 1rem;
   }
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+  .ddpBodyBackground {
+    padding-top: 0;
+  }
+}

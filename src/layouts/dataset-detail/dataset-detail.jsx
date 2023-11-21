@@ -68,7 +68,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           techSpecs={pageConfig.techSpecs}
           dictionary={pageContext.config.dictionary}
         />
-        <DatasetAbout config={pageContext.config} test={test} />
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}
@@ -76,6 +75,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           location={location}
           publishedReportsProp={pageConfig.publishedReports}
         />
+        <DatasetAbout config={pageContext.config} test={test} />
         <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
         <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
       </div>
