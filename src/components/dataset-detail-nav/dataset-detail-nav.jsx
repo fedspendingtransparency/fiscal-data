@@ -24,12 +24,12 @@ const DDNav = () => {
       id: 'introduction',
     },
     {
-      title: 'Dataset Properties',
-      id: 'dataset-properties',
-    },
-    {
       title: 'Preview & Download',
       id: 'preview-and-download',
+    },
+    {
+      title: 'Dataset Properties',
+      id: 'dataset-properties',
     },
     {
       title: 'API Quick Guide',
