@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import * as styles from './calendar-entries.module.scss';
@@ -19,32 +18,6 @@ const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calenda
 const metadataUrl = `https://api.fiscaldata.treasury.gov/services/dtg/metadata/`;
 
 const CalendarEntriesList = () => {
-  // const { allReleases } = useStaticQuery(
-  //   graphql`
-  //     query {
-  //       allReleases {
-  //         releases: nodes {
-  //           datasetId
-  //           date
-  //           dataset: parent {
-  //             ... on Datasets {
-  //               name
-  //               slug
-  //             }
-  //           }
-  //           released
-  //           time
-  //         }
-  //       }
-  //     }
-  //   `
-  // );
-
-  // const releases = useReleaseCalendarEntriesUpdater(allReleases.releases).filter(d => d.dataset);
-
-  // const releases = allReleases.releases;
-  // const earliestDate = allReleases.releases[0].date
-
   const [loading, setLoading] = useState(true);
   const [apiData, setApiData] = useState(null);
   const [entries, setEntries] = useState(null);
