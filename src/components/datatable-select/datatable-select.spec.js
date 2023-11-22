@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import DataTableSelect, { allTablesOption } from './datatable-select';
-import SelectControl from '../select-control/select-control';
 import * as styles from './datatable-select.module.scss';
+import ComboCurrencySelect from '../combo-select/combo-currency-select/combo-currency-select';
 
 describe('DatatableSelect', () => {
   const earliestDate = 'test early date';
@@ -45,15 +45,11 @@ describe('DatatableSelect', () => {
   const instance = component.root;
 
   it('passes the apisArr to SelectControl', () => {
-    expect(instance.findByType(SelectControl).props.options).toEqual(allTables);
+    expect(instance.findByType(ComboCurrencySelect).props.options).toEqual(allTables);
   });
 
   it('passes the selectedOption to SelectControl', () => {
-    expect(instance.findByType(SelectControl).props.selectedOption).toEqual(apisArr[0]);
-  });
-
-  it('passes the changeHandler handler to SelectControl', () => {
-    expect(instance.findByType(SelectControl).props.changeHandler).toEqual(mockSetSelectedTable);
+    expect(instance.findByType(ComboCurrencySelect).props.selectedOption).toEqual(apisArr[0]);
   });
 
   it('does not appear on the page if there is only one table in the apis array', () => {

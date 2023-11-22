@@ -48,19 +48,21 @@ const AFGDebtChart = (): ReactElement => {
   const generateBar = sortedData => {
     return sortedData.map(yearlyData => {
       const dataYear = yearlyData.year;
+      const opacity = focusedYear === dataYear || focusedYear === null ? 1 : 0.5;
       return Object.keys(yearlyData)
         .filter(propName => {
           return propName !== 'year' && propName !== 'tooltip';
         })
         .map(valueName => {
+          const barName = valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : '';
           return (
             <Bar
               dataKey={valueName}
               stackId="debtBar"
               fill={mapBarColors(valueName)}
-              fillOpacity={focusedYear === dataYear || focusedYear === null ? 1 : 0.5}
+              fillOpacity={opacity}
               strokeWidth={0}
-              name={valueName === 'debt' ? `Debt` : valueName === 'deficit' ? `Deficit` : ''}
+              name={barName}
               barSize={16}
             />
           );

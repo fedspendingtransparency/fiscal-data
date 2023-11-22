@@ -2,17 +2,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Column } from '@tanstack/react-table';
 import SearchBar from '../../../search-bar/search-bar';
 
-const TextFilter: FunctionComponent<any> = ({
-  column,
-  resetFilters,
-  setAllActiveFilters,
-  allActiveFilters,
-}: {
-  column: Column<any, any>;
+interface ITextFilter {
+  column: Column<unknown>;
   resetFilters: boolean;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
-}) => {
+}
+const TextFilter: FunctionComponent<ITextFilter> = ({ column, resetFilters, setAllActiveFilters, allActiveFilters }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
   const clearFilter = () => {

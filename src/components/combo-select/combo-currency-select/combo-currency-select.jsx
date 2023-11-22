@@ -14,9 +14,11 @@ import {
   dropdownIcon,
   fullBorderContainer,
   dropdownInputWeight,
+  selectedText,
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 let timeOutId;
 
@@ -27,8 +29,7 @@ const XRAnalyticsHandler = (action, label) => {
       action: action,
       label: label,
     });
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
+    ga4DataLayerPush({
       event: action,
       eventLabel: label,
     });
@@ -56,7 +57,7 @@ const ComboCurrencySelect = ({
 
   const updateSelection = (selection, sendGA) => {
     if (isExchangeTool && sendGA) {
-      XRAnalyticsHandler('Foreign Country-Currency Selected', selection.label);
+      XRAnalyticsHandler('Foreign Country-Currency Selected', selection[optionLabelKey]);
     }
     changeHandler(selection);
     setDropdownActive(false);
@@ -101,7 +102,7 @@ const ComboCurrencySelect = ({
   const ref = React.useRef(null);
   useOnClickOutside(ref, onBlurHandler);
 
-  const labelText = yearFilter ? `Year (${options[options.length - 1].label} - ${options[0].label})` : label;
+  const labelText = yearFilter ? `Year (${options[options.length - 1][optionLabelKey]} - ${options[0][optionLabelKey]})` : label;
 
   const dropdownStyle = () => {
     let containerClasses;
@@ -139,8 +140,12 @@ const ComboCurrencySelect = ({
         ) : null}
         <div ref={ref} onFocus={onFocusHandler} role="presentation">
           <div className={dropdownStyle()} data-testid="dropdown-button-container">
-            <button className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])} onClick={toggleDropdown}>
-              {selectedOption?.label}
+            <button
+              className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])}
+              onClick={toggleDropdown}
+              data-testid="dropdownToggle"
+            >
+              <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>
                 {dropdownActive ? (
                   <FontAwesomeIcon icon={faChevronUp} data-testid="collapse-dropdown" aria-label="collapse dropdown" />

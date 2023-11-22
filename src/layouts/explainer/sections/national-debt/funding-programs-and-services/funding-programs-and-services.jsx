@@ -9,13 +9,13 @@ import SpendingCategoriesAccordion from './spending-categories-accordion/spendin
 
 const FundingProgramsAndServices = () => {
   const usaSpending = (
-    <CustomLink url={'https://www.usaspending.gov/'} onClick={() => analyticsClickHandler('Citation Click', 'Funding Programs & Services')}>
+    <CustomLink url="https://www.usaspending.gov/" onClick={() => analyticsClickHandler('Citation Click', 'Funding Programs & Services')}>
       USAspending.gov
     </CustomLink>
   );
 
   const revenueLink = (
-    <CustomLink url={'/americas-finance-guide/government-revenue/'} id="Government Revenue">
+    <CustomLink url="/americas-finance-guide/government-revenue/" id="Government Revenue">
       federal revenues
     </CustomLink>
   );
@@ -36,7 +36,7 @@ const FundingProgramsAndServices = () => {
         our Posterity.” Uninterrupted funding of programs and services is critical to residents’ health, welfare, and security.
       </p>
       <SpendingCategoriesAccordion />
-      <QuoteBox icon={faFlagUsa} primaryColor={debtExplainerPrimary} secondaryColor={debtExplainerLightSecondary} customTopMargin={'0'}>
+      <QuoteBox icon={faFlagUsa} primaryColor={debtExplainerPrimary} secondaryColor={debtExplainerLightSecondary} customTopMargin="0">
         <p>
           In accordance with the 2014 DATA Act, federal agencies are required to submit financial data on a quarterly and/or monthly basis to{' '}
           {usaSpending}. Anyone can visit USAspending for a breakdown of what the federal government spends each year and how it spends that money.

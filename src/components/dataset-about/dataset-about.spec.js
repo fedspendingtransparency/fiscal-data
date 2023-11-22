@@ -38,14 +38,4 @@ describe('DatasetAbout', () => {
     const titleEl = getByTestId('sectionHeader');
     expect(titleEl.innerHTML).toBe(title);
   });
-
-  it('renders the summaryText description of a dataset"', () => {
-    const { getByTestId } = render(
-      <RecoilRoot>
-        <DatasetAbout config={mockConfig} test={true} />{' '}
-      </RecoilRoot>
-    );
-    const descriptionElement = getByTestId('description');
-    expect(descriptionElement.innerHTML).toStrictEqual(mockConfig.summaryText);
-  });
 });

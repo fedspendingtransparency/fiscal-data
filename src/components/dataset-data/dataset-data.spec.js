@@ -98,16 +98,18 @@ describe('DatasetData', () => {
 
   const updateTable = async tableName => {
     const fdSectionInst = instance.findByType(FilterAndDownload);
-    const toggleBtn = fdSectionInst.findByProps({ name: 'dropdownToggle' });
+    const toggleBtn = fdSectionInst.findByProps({
+      'data-testid': 'dropdownToggle',
+    });
     await renderer.act(() => {
       toggleBtn.props.onClick();
     });
-    instance.findByProps({ 'data-testid': 'selectorList' }); // will throw error if not found
+    instance.findByProps({ 'data-testid': 'dropdown-list' }); // will throw error if not found
     const dropdownOptions = instance.findAllByProps({
-      'data-testid': 'selector-option',
+      'data-testid': 'dropdown-list-option',
     });
     await renderer.act(async () => {
-      const opt = dropdownOptions.find(ddo => ddo.props.children === tableName);
+      const opt = dropdownOptions.find(ddo => ddo.props.children.props.children === tableName);
       await opt.props.onClick();
     });
     return dropdownOptions;

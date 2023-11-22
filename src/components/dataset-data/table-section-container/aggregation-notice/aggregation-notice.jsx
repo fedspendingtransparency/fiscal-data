@@ -4,7 +4,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import * as styles from './aggregation-notice.module.scss';
 import { makeStyles } from '@material-ui/core/styles';
 
-export const dataAggregationNotice = 'This data is aggregated by the given Time Period for the ' + 'selected pivot option';
+export const dataAggregationNotice = 'This data is aggregated by the given Time Period for the selected pivot option';
 
 const useStyles = makeStyles(theme => ({
   iconColor: {

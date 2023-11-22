@@ -8,6 +8,7 @@ import CalendarEntryTime from '../calendar-entry-time/calendar-entry-time';
 import Analytics from '../../../utils/analytics/analytics';
 import { convertDateAndTimeToDateTime } from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
 import { format } from 'date-fns';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 export const releaseCalendarDatasetClickEvent = {
   category: 'Release Calendar',
@@ -25,9 +26,7 @@ const CalendarEntry = ({ dataset, earliestDate }) => {
       ...releaseCalendarDatasetClickEvent,
       label,
     });
-
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
+    ga4DataLayerPush({
       event: releaseCalendarDatasetClickEvent.action,
       eventLabel: label,
     });

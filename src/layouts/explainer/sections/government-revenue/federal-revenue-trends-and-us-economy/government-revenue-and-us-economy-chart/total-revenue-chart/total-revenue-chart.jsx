@@ -361,7 +361,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
       )}
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
-          <div className={container} role={'presentation'} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
+          <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
             <ChartContainer
               title={chartTitle}
               subTitle={chartSubtitle}
@@ -370,7 +370,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
               header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
               altText={chartAltText}
             >
-              <div className={lineChart} data-testid={'totalRevenueChartParent'}>
+              <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
                   <div ref={revenueRef}>
                     <Line
