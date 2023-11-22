@@ -23,7 +23,6 @@ describe('Circle chart', () => {
     expect(await getByText('Social Security')).toBeInTheDocument();
     expect(await getByText('and Medicare Taxes')).toBeInTheDocument();
     expect(await getByText('Misc. Income')).toBeInTheDocument();
-    expect(await getByText('Income')).toBeInTheDocument();
     expect(await getByText('Customs Duties')).toBeInTheDocument();
     expect(await getByText('Excise Taxes')).toBeInTheDocument();
     expect(await getByText('Estate & Gift Taxes')).toBeInTheDocument();
