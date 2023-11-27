@@ -8,7 +8,14 @@ import { getChartCopy, dataHeader, chartConfigs } from './debt-over-last-100y-li
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { lineChart, container } from './debt-over-last-100y-linechart.module.scss';
-import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  applyTextScaling,
+  getChartTheme,
+  LineChartCustomPoint,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
 import { lineChartCustomPoints } from './debt-over-last-100y-linechart-helper';
 import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
@@ -189,6 +196,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                 ref={ref}
               >
                 <Line
+                  {...nivoCommonLineChartProps}
                   data={chartData}
                   layers={[
                     'grid',
@@ -197,7 +205,11 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     'axes',
                     'areas',
                     'lines',
-                    lineChartCustomPoints,
+                    props =>
+                      LineChartCustomPoint({
+                        ...props,
+                        serieId: 'Total Debt',
+                      }),
                     props =>
                       CustomSlices({
                         ...props,
@@ -208,28 +220,13 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     'mesh',
                     'legends',
                   ]}
-                  theme={{
-                    ...chartConfigs.theme,
-                    fontSize: width < pxToNumber(breakpointLg) ? fontSize_14 : fontSize_14,
-                    marker: {
-                      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-                    },
-                    crosshair: {
-                      line: {
-                        stroke: '#555555',
-                        strokeWidth: 2,
-                      },
-                    },
-                  }}
+                  theme={getChartTheme(width)}
                   colors={d => d.color}
                   width={chartWidth}
                   height={chartHeight}
                   margin={
                     width < pxToNumber(breakpointLg) ? { top: 25, right: 25, bottom: 35, left: 65 } : { top: 20, right: 15, bottom: 35, left: 50 }
                   }
-                  enablePoints={false}
-                  enableGridX={false}
-                  enableGridY={false}
                   xScale={{
                     type: 'linear',
                     min: minYear,
@@ -240,13 +237,8 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     min: 0,
                     max: maxAmount,
                   }}
-                  axisTop={null}
-                  axisRight={null}
                   axisBottom={chartConfigs.axisBottom}
                   axisLeft={chartConfigs.axisLeft}
-                  isInteractive={true}
-                  animate={false}
-                  enableSlices="x"
                   enableArea={true}
                   areaOpacity={1}
                 />
