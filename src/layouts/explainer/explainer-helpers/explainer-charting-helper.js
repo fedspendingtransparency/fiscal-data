@@ -1,6 +1,8 @@
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
-
+import Point from '../../../components/nivo/point';
+import { fontSize_10, fontSize_14 } from '../explainer.module.scss';
+import React from 'react';
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {
   // this function rewrites some element attribs after render to ensure Chart scales with container
   // which doesn't seem to happen naturally when nivo has a flex container
@@ -45,4 +47,94 @@ export const formatCurrency = v => {
 
 export const formatPercentage = v => {
   return `${v}%`;
+};
+
+export const getChartTheme = (width, markers) => {
+  const fontSize = width
+    ? {
+        fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+      }
+    : {};
+  const markerFontSize =
+    width && markers
+      ? {
+          fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+        }
+      : {};
+  return {
+    ...fontSize,
+    ...markerFontSize,
+    textColor: '#666666',
+    axis: {
+      domain: {
+        line: {
+          strokeWidth: 1,
+          stroke: '#666666',
+        },
+      },
+    },
+    crosshair: {
+      line: {
+        stroke: '#555555',
+        strokeWidth: 2,
+        strokeDasharray: '2,2',
+        pointerEvents: 'all',
+      },
+    },
+    marker: {
+      fill: '#666666',
+    },
+  };
+};
+
+export const nivoCommonLineChartProps = {
+  enablePoints: true,
+  pointSize: 0,
+  enableGridX: false,
+  enableGridY: false,
+  useMesh: true,
+  isInteractive: true,
+  enableCrosshair: true,
+  crosshairType: 'x',
+  animate: false,
+  sliceTooltip: () => null,
+  tooltip: () => null,
+  enableSlices: 'x',
+  axisTop: null,
+  axisRight: null,
+};
+
+const getLastValue = (values, name) =>
+  values
+    .filter(g => g.serieId === name)
+    .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }))
+    .pop();
+
+export const LineChartCustomPoint = ({ currentSlice, borderWidth, borderColor, points, serieId }) => {
+  const lastPoint = getLastValue(points, serieId);
+  const currentPoint = currentSlice?.points?.length ? currentSlice.points[0] : lastPoint;
+  return (
+    <g data-testid="customPoints">{!!currentPoint && <Point borderColor={borderColor} borderWidth={borderWidth} currentPoint={currentPoint} />}</g>
+  );
+};
+
+export const LineChartCustomPoints_GDP = ({ currentSlice, borderWidth, borderColor, points, serieId }) => {
+  const lastPrimaryPoint = getLastValue(points, serieId); //'Total Spending');
+  // const lastPoint_DoubleLineSecondary = getLastValue(points, serieIds[1]);//'Total Revenue');
+  const lastGdpPoint = getLastValue(points, 'GDP');
+
+  const lastGDPPercentagePoint = getLastValue(points, 'GDP Percentage');
+
+  const defaultPrimaryPoint = lastPrimaryPoint ? lastPrimaryPoint : lastGDPPercentagePoint;
+
+  const currentPrimaryPoint = currentSlice?.points?.length ? currentSlice.points[0] : defaultPrimaryPoint;
+
+  const currentGdpPoint = currentSlice?.points?.length ? currentSlice.points[1] : lastGdpPoint;
+
+  return (
+    <g data-testid="customPoints">
+      {currentPrimaryPoint && <Point borderColor={borderColor} borderWidth={borderWidth} currentPoint={currentPrimaryPoint} />}
+      {currentGdpPoint && <Point borderColor={borderColor} borderWidth={borderWidth} currentPoint={currentGdpPoint} />}
+    </g>
+  );
 };

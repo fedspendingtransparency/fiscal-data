@@ -4,7 +4,7 @@ import { Line } from '@nivo/line';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
-import { getChartCopy, dataHeader, chartConfigs, getMarkers, lineChartCustomPoints } from './total-spending-chart-helper';
+import { getChartCopy, dataHeader, chartConfigs, getMarkers } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
@@ -19,7 +19,14 @@ import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  getChartTheme,
+  LineChartCustomPoint,
+  LineChartCustomPoints_GDP,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
 import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { useInView } from 'react-intersection-observer';
 
@@ -355,28 +362,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   };
 
   const commonProps = {
+    ...nivoCommonLineChartProps,
     data: chartData,
     colors: d => d.color,
     width: chartWidth,
     height: chartHeight,
-    enablePoints: true,
-    pointSize: 0,
-    enableGridX: false,
-    enableGridY: false,
-    axisTop: null,
-    axisRight: null,
     axisBottom: chartConfigs.axisBottom,
     useMesh: false,
-    isInteractive: true,
-    enableCrosshair: true,
-    crosshairType: 'x',
-    animate: false,
-    sliceTooltip: () => null,
-    tooltip: () => null,
-    enableSlices: 'x',
     markers: getMarkers(width, selectedChartView, maxGDPValue, maxSpendingValue),
     margin: width < pxToNumber(breakpointLg) ? { top: 25, right: 25, bottom: 30, left: 55 } : { top: 20, right: 15, bottom: 35, left: 50 },
-    theme: chartTheme,
     xScale: xScale,
     yScale: yScale,
   };
@@ -414,10 +408,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   <div ref={spendingRef}>
                     <Line
                       {...commonProps}
+                      theme={getChartTheme(width, true)}
                       axisLeft={chartConfigs.axisLeftSpending}
                       layers={[
                         ...chartConfigs.layers,
-                        lineChartCustomPoints,
+                        LineChartCustomPoints_GDP,
                         props =>
                           CustomSlices({
                             ...props,
@@ -439,7 +434,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                       axisLeft={chartConfigs.axisLeftPercent}
                       layers={[
                         ...chartConfigs.layers,
-                        lineChartCustomPoints,
+                        LineChartCustomPoints_GDP,
                         props =>
                           CustomSlices({
                             ...props,
