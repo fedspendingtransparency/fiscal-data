@@ -77,7 +77,6 @@ export const getChartTheme = (width, markers) => {
       line: {
         stroke: '#555555',
         strokeWidth: 2,
-        strokeDasharray: '2,2',
         pointerEvents: 'all',
       },
     },
