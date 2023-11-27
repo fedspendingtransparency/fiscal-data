@@ -12,6 +12,7 @@ import {
   ColSelectTestData,
   DefaultColSelectTestColumns,
   ColSelectTestDataRowCount,
+  MoreTestData,
 } from './test-data';
 import PaginationControls from '../pagination/pagination-controls';
 import * as ApiUtils from '../../utils/api-utils';
@@ -146,16 +147,16 @@ describe('DTG table component', () => {
     renderer.act(() => {
       newComponent.update(
         <RecoilRoot>
-          <DtgTable tableProps={{ data: TestData, shouldPage: true }} />
+          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} />
         </RecoilRoot>
       );
     });
 
     const updated = newComponent.root;
-    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(5);
-    const maxRows = TestData.length;
+    expect(updated.findByType('tbody').findAllByType('tr').length).toEqual(10);
+    const maxRows = MoreTestData.length;
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch(`Showing 1 - 5 rows of ${maxRows} rows`);
+    expect(rowsShowing.props.children).toMatch(`Showing 1 - 10 rows of ${maxRows} rows`);
   });
 
   it('sets a timer for the loading indicator', async () => {
@@ -223,7 +224,7 @@ describe('DTG table component', () => {
     const updated = newComponent.root;
     expect(requestSpy).toBeCalled();
     const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
-    expect(rowsShowing.props.children).toMatch('Showing 1 - 5 rows of 6 rows');
+    expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 11 rows');
     expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
     requestSpy.mockClear();
   });
@@ -447,7 +448,6 @@ describe('DtgTable component - Select Columns', () => {
     userEvent.click(selectAllButton);
     await waitFor(() => {
       expect(getByText('0 selected of 3')).toBeInTheDocument();
-
       expect(queryByText(ColSelectTestData[0].date)).not.toBeInTheDocument();
       expect(queryByText(ColSelectTestData[1].time)).not.toBeInTheDocument();
       expect(queryByText(ColSelectTestData[2].name)).not.toBeInTheDocument();

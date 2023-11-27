@@ -30,8 +30,8 @@ const labelFormatTable = {
   },
   'Miscellaneous Income': {
     desktop: {
-      lines: ['Miscellaneous', 'Income'],
-      horizontalOffset: 0,
+      lines: ['Misc. Income'],
+      horizontalOffset: 16,
     },
     mobile: {
       lines: ['Miscellaneous', 'Income'],
@@ -136,7 +136,7 @@ const LabelComponent = ({ node, label, width, HandleClick, HandleMouseEnter, Han
             {labelFormatTable[label].external ? (
               <tspan
                 x={node.x + flipLabel * (node.radius * xOffsetMultiplier) + flipLabel * labelFormat.horizontalOffset}
-                y={yStartPoint + flipLabel * (lineSpaceOffset * index - node.radius * yOffsetMultiplier())}
+                y={yStartPoint + flipLabel * (lineSpaceOffset * index - node.radius * yOffsetMultiplier()) - 2}
                 fill="#666666"
               >
                 {line}
