@@ -90,7 +90,7 @@
     "gatsby-env-variables": "^2.0.0",
     "gatsby-plugin-client-side-redirect": "^1.1.0",
     "gatsby-plugin-exclude": "^1.0.2",
-    "gatsby-plugin-google-analytics": "^3.15.0",
+    "gatsby-plugin-google-analytics": "^3.10.0",
     "gatsby-plugin-html-attributes": "^1.0.5",
     "gatsby-plugin-image": "^2.25.0",
     "gatsby-plugin-manifest": "^3.15.0",
