@@ -319,6 +319,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
                   colorBy={'id'}
                   leavesOnly
                   enableLabels={true}
+                  padding={4}
                   labelsSkipRadius={0}
                   labelComponent={({ node, label }) => (
                     <LabelComponent

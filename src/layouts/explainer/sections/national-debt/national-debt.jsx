@@ -153,6 +153,14 @@ const github = (
     GitHub repository
   </CustomLink>
 );
+const historyOfTheDebt = (
+  <CustomLink
+    url="https://treasurydirect.gov/government/historical-debt-outstanding/"
+    onClick={() => analyticsClickHandler('Citation Click', 'DS&M')}
+  >
+    history of the debt
+  </CustomLink>
+);
 
 export const nationalDebtDataSources = (
   <>
@@ -160,7 +168,8 @@ export const nationalDebtDataSources = (
     December {mspd} are used for visualizations showing calendar years; and {historicalDebt} provides an annual value for fiscal years. Interest rates
     are pulled from the {treasurySecurities} dataset. Adjustments for inflation are calculated using Consumer Price Index values from the {bls}.
     Fiscal year Gross Domestic Product values from the {bea} are calculated by averaging four relevant quarterly values from calendar year quarter 4
-    of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation, users can reference our {github}.
+    of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation, users can reference our {github}. For more
+    information on the {historyOfTheDebt}, visit TreasuryDirect.
   </>
 );
 
