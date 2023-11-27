@@ -34,8 +34,8 @@ const labelFormatTable = {
       horizontalOffset: 16,
     },
     mobile: {
-      lines: ['Miscellaneous', 'Income'],
-      horizontalOffset: -2,
+      lines: ['Misc. Income'],
+      horizontalOffset: 15,
     },
     external: true,
   },
