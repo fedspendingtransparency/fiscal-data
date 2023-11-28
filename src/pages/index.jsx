@@ -2,7 +2,7 @@ import { ENV_ID } from 'gatsby-env-variables';
 
 import React from 'react';
 import '../styles.scss';
-import * as styles from './home.module.scss';
+import { siteHome } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
 import SiteLayout from '../components/siteLayout/siteLayout';
 import HomeMainContent from '../components/home-main-content/home-main-content';
@@ -30,7 +30,7 @@ export const Index = () => {
   return (
     <>
       <SiteLayout isPreProd={ENV_ID === 'preprod'}>
-        <div data-testid="site-home" className={styles.siteHome} data-environment={ENV_ID}>
+        <div data-testid="site-home" className={siteHome} data-environment={ENV_ID}>
           <PageHelmet
             data-testid="helmet"
             pageTitle=""
