@@ -193,7 +193,6 @@
     "fetch-mock": "^8.3.2",
     "gatsby-plugin-dts-css-modules": "^2.1.1",
     "gatsby-plugin-eslint": "^3.0.0",
-    "gatsby-plugin-scss-typescript": "^5.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.1.1",
     "jest-config": "^27.1.1",
