@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
 import React, { useState } from 'react';
-import * as styles from './mobile-menu.module.scss';
 import { Link } from 'gatsby';
 import MenuButton from '../menu-button/menu-button';
 import MobileMenuDropdown from './mobile-menu-dropdown/mobile-menu-dropdown';
+import { menuContainer, overlay, tray, logo, open, linkHeaderContainer, bottomMostLink, pageLinks } from './mobile-menu.module.scss';
 
 const MobileMenu = ({ setOpenGlossary }) => {
   const [activeState, setActiveState] = useState(false);
@@ -83,29 +83,29 @@ const MobileMenu = ({ setOpenGlossary }) => {
     },
   ];
   return (
-    <div className={`${styles.menuContainer} ${activeState ? styles.open : ''}`} data-testid="menuContainer">
+    <div className={`${menuContainer} ${activeState ? open : ''}`} data-testid="menuContainer">
       {/*
        * TODO: use some kind of onClickOutside event instead of having a clickable overlay.
        * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
        */}
-      <div className={styles.overlay} data-testid="overlay" onClick={toggleState} />
-      <div className={`${styles.tray} ${activeState ? styles.open : ''}`}>
+      <div className={overlay} data-testid="overlay" onClick={toggleState} />
+      <div className={`${tray} ${activeState ? open : ''}`}>
         {!activeState && <MenuButton clickHandler={toggleState} isOpen={activeState} />}
         {activeState && (
           <>
-            <div className={styles.linkHeaderContainer}>
+            <div className={linkHeaderContainer}>
               <Link to="/" data-testid="logo">
-                <img src="/logos/fd-logo-mobile.svg" alt="Fiscal Data logo" className={styles.logo} />
+                <img src="/logos/fd-logo-mobile.svg" alt="Fiscal Data logo" className={logo} />
               </Link>
               <MenuButton clickHandler={toggleState} isOpen={activeState} />
             </div>
             <MobileMenuDropdown header="Topics" sections={topics} defaultOpen />
             <MobileMenuDropdown header="Tools" sections={tools} />
-            <Link to="/datasets/" className={styles.pageLinks} onClick={() => clickHandler('Dataset Search')}>
+            <Link to="/datasets/" className={pageLinks} onClick={() => clickHandler('Dataset Search')}>
               Dataset Search
             </Link>
             <MobileMenuDropdown header="Resources" sections={resources} setOpenGlossary={setOpenGlossary} setActiveState={setActiveState} />
-            <Link to="/about-us/" className={`${styles.pageLinks} ${styles.bottomMostLink}`} onClick={() => clickHandler('About')}>
+            <Link to="/about-us/" className={`${pageLinks} ${bottomMostLink}`} onClick={() => clickHandler('About')}>
               About Us
             </Link>
           </>
