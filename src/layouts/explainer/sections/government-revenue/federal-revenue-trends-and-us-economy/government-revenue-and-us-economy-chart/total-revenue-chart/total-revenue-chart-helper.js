@@ -18,14 +18,6 @@ const bls = <CustomLink url={'https://www.bls.gov/developers/'}>Bureau of Labor 
 
 const bea = <CustomLink url={'https://www.bea.gov/'}>Bureau of Economic Analysis</CustomLink>;
 
-// const toggleButtonEvent = () => {
-//   return Analytics.event({
-//     category: 'Explainers',
-//     action: 'Chart Click',
-//     label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
-//   });
-// };
-
 const footer = (
   <p>
     {/* eslint-disable-next-line max-len */}
@@ -48,7 +40,7 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
 
 export const dataHeader = (chartToggleConfig, headingValues) => {
   if (!chartToggleConfig) return;
-  const { setSelectedChartView, selectedChartView, isMobile } = chartToggleConfig;
+  const { setSelectedChartView, selectedChartView } = chartToggleConfig;
   const { fiscalYear, totalRevenue, gdp, gdpRatio } = headingValues;
 
   const toggleButtonEvent = () => {

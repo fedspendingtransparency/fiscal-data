@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { Line } from '@nivo/line';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import { getChartCopy, dataHeader, chartConfigs, getMarkers } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
@@ -22,12 +22,12 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,
+  chartInViewProps,
   getChartTheme,
-  LineChartCustomPoint,
   LineChartCustomPoints_GDP,
   nivoCommonLineChartProps,
 } from '../../../../explainer-helpers/explainer-charting-helper';
-import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
+import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { useInView } from 'react-intersection-observer';
 
 const callOutDataEndPoint =
@@ -59,7 +59,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [maxSpendingValue, setMaxSpendingValue] = useState(0);
   const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
-  const [isMobile, setIsMobile] = useState(true);
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
@@ -234,23 +233,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     });
   }, []);
 
-  const breakpoint = {
-    desktop: 1015,
-    tablet: 600,
-  };
-
-  useEffect(() => {
-    if (window.innerWidth < breakpoint.desktop) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [width]);
-
   const chartToggleConfig = {
     selectedChartView,
     setSelectedChartView,
-    isMobile,
   };
 
   useEffect(() => {
@@ -322,31 +307,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     selectedChartView
   );
 
-  const { ref: spendingRef, inView: spendingInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
+  const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
 
-  const { ref: gdpRef, inView: gdpInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
-
-  const chartTheme = {
-    ...chartConfigs.theme,
-    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    marker: {
-      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    },
-    crosshair: {
-      line: {
-        stroke: '#555555',
-        strokeWidth: 2,
-      },
-    },
-  };
+  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
 
   const xScale = {
     type: 'linear',
@@ -412,7 +375,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                       axisLeft={chartConfigs.axisLeftSpending}
                       layers={[
                         ...chartConfigs.layers,
-                        LineChartCustomPoints_GDP,
+                        props =>
+                          LineChartCustomPoints_GDP({
+                            ...props,
+                            serieId: 'Total Spending',
+                          }),
                         props =>
                           CustomSlices({
                             ...props,
@@ -431,6 +398,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   <div ref={gdpRef}>
                     <Line
                       {...commonProps}
+                      theme={getChartTheme(width, true)}
                       axisLeft={chartConfigs.axisLeftPercent}
                       layers={[
                         ...chartConfigs.layers,

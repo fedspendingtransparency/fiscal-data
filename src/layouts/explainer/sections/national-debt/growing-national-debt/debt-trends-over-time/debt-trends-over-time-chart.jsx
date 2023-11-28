@@ -29,7 +29,7 @@ import {
 } from '../../../../explainer-helpers/explainer-charting-helper';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
+import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';

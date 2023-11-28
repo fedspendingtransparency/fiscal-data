@@ -122,46 +122,9 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
   );
 };
 
-// const formatCurrency = v => {
-//   if (parseFloat(v) < 0) {
-//     return `$${Math.abs(v)} T`;
-//   } else if (parseFloat(v) > 0) {
-//     return `$${v} T`;
-//   } else {
-//     return `$${v}`;
-//   }
-// };
-//
-// const formatPercent = v => {
-//   return `${v}%`;
-// };
-//
-// const chartTheme = {
-//   textColor: '#666666',
-//   axis: {
-//     domain: {
-//       line: {
-//         strokeWidth: 1,
-//         stroke: '#666666',
-//       },
-//     },
-//   },
-//   crosshair: {
-//     line: {
-//       stroke: '#555555',
-//       strokeWidth: 2,
-//       strokeDasharray: '2,2',
-//     },
-//   },
-//   marker: {
-//     fill: '#666666',
-//   },
-// };
-//
 const layers = ['grid', 'crosshair', 'markers', 'axes', 'areas', 'lines', 'points'];
 
 export const chartConfigs = {
-  // theme: chartTheme,
   layers: layers,
   axisLeftSpending: {
     format: formatCurrency,
@@ -215,42 +178,42 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
       ];
 };
 
-// export const Point = ({ borderWidth, borderColor, point }) => {
-//   return (
-//     <>
-//       <circle r={8} strokeWidth={borderWidth} stroke={borderColor} fill="#D8D8D8" fillOpacity={0.35} cx={point?.x} cy={point?.y} />
-//       <circle r={2} strokeWidth="4" stroke="#000000" fill="#000000" fillOpacity={0.85} cx={point?.x} cy={point?.y} />
-//     </>
-//   );
-// };
+export const Point = ({ borderWidth, borderColor, point }) => {
+  return (
+    <>
+      <circle r={8} strokeWidth={borderWidth} stroke={borderColor} fill="#D8D8D8" fillOpacity={0.35} cx={point?.x} cy={point?.y} />
+      <circle r={2} strokeWidth="4" stroke="#000000" fill="#000000" fillOpacity={0.85} cx={point?.x} cy={point?.y} />
+    </>
+  );
+};
 
-// export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
-//   const getLastValue = (values, name) =>
-//     values
-//       .filter(g => g.serieId === name)
-//       .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }))
-//       .pop();
-//
-//   const lastSpendingPoints = getLastValue(points, 'Total Spending');
-//
-//   const lastRevenuePoints = getLastValue(points, 'Total Revenue');
-//
-//   const lastGdpPoints = getLastValue(points, 'GDP');
-//
-//   const lastGDPPercentagePoints = getLastValue(points, 'GDP Percentage');
-//
-//   const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints : lastRevenuePoints ? lastRevenuePoints : lastGDPPercentagePoints;
-//
-//   const currentPrimaryPoint = currentSlice?.points?.length ? currentSlice.points[0] : defaultPrimaryPoint;
-//
-//   const currentGdpPoint = currentSlice?.points?.length ? currentSlice.points[1] : lastGdpPoints;
-//
-//   return (
-//     <>
-//       <g data-testid="customPoints">
-//         {currentPrimaryPoint && <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />}
-//         {currentGdpPoint && <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />}
-//       </g>
-//     </>
-//   );
-// };
+export const lineChartCustomPoints = ({ currentSlice, borderWidth, borderColor, points }) => {
+  const getLastValue = (values, name) =>
+    values
+      .filter(g => g.serieId === name)
+      .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }))
+      .pop();
+
+  const lastSpendingPoints = getLastValue(points, 'Total Spending');
+
+  const lastRevenuePoints = getLastValue(points, 'Total Revenue');
+
+  const lastGdpPoints = getLastValue(points, 'GDP');
+
+  const lastGDPPercentagePoints = getLastValue(points, 'GDP Percentage');
+
+  const defaultPrimaryPoint = lastSpendingPoints ? lastSpendingPoints : lastRevenuePoints ? lastRevenuePoints : lastGDPPercentagePoints;
+
+  const currentPrimaryPoint = currentSlice?.points?.length ? currentSlice.points[0] : defaultPrimaryPoint;
+
+  const currentGdpPoint = currentSlice?.points?.length ? currentSlice.points[1] : lastGdpPoints;
+
+  return (
+    <>
+      <g data-testid="customPoints">
+        {currentPrimaryPoint && <Point borderColor={borderColor} borderWidth={borderWidth} point={currentPrimaryPoint} />}
+        {currentGdpPoint && <Point borderColor={borderColor} borderWidth={borderWidth} point={currentGdpPoint} />}
+      </g>
+    </>
+  );
+};

@@ -13,11 +13,12 @@ import {
   addInnerChartAriaLabel,
   applyChartScaling,
   applyTextScaling,
+  chartInViewProps,
   getChartTheme,
   LineChartCustomPoints_GDP,
   nivoCommonLineChartProps,
 } from '../../../../../explainer-helpers/explainer-charting-helper';
-import CustomSlices from '../../../../../explainer-helpers/custom-slice/custom-slice';
+import CustomSlices from '../../../../../../../components/nivo/custom-slice/custom-slice';
 import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../../helpers/simplify-number/simplifyNumber';
@@ -276,17 +277,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     selectedChartView
   );
 
-  const { ref: revenueRef, inView: revenueInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
+  const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps);
 
-  const { ref: gdpRef, inView: gdpInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
+  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
 
   const xScale = {
     type: 'linear',

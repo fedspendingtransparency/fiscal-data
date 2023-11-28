@@ -12,11 +12,12 @@ import {
   addInnerChartAriaLabel,
   applyChartScaling,
   applyTextScaling,
+  chartInViewProps,
   getChartTheme,
   LineChartCustomPoint,
   nivoCommonLineChartProps,
 } from '../../../../explainer-helpers/explainer-charting-helper';
-import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
+import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -168,11 +169,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const customFooterSpacing = {
     marginTop: '2rem',
   };
-  const { ref, inView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
+  const { ref, inView } = useInView(chartInViewProps);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
-import Point from '../../../components/nivo/point';
+import Point from '../../../components/nivo/custom-point/point';
 import { fontSize_10, fontSize_14 } from '../explainer.module.scss';
 import React from 'react';
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {
@@ -33,6 +33,12 @@ export const applyTextScaling = (parent, chartWidth, pageWidth, fontSize) => {
       });
     }
   }
+};
+
+export const chartInViewProps = {
+  threshold: 0,
+  triggerOnce: true,
+  rootMargin: '-50% 0% -50% 0%',
 };
 
 export const formatCurrency = v => {
