@@ -3,7 +3,7 @@ import { Line } from '@nivo/line';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
 import { getChartCopy, dataHeader, chartConfigs } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
@@ -16,7 +16,6 @@ import {
   LineChartCustomPoint,
   nivoCommonLineChartProps,
 } from '../../../../explainer-helpers/explainer-charting-helper';
-import { lineChartCustomPoints } from './debt-over-last-100y-linechart-helper';
 import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
@@ -28,20 +27,22 @@ import { useInView } from 'react-intersection-observer';
 import { useRecoilValueLoadable } from 'recoil';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
+import { debtExplainerPrimary } from '../../national-debt.module.scss';
 
 let gaTimerDebt100Yrs;
 let ga4Timer;
 
 const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [minYear, setMinYear] = useState(2015);
-  const [maxYear, setMaxYear] = useState(2022);
+  const [minYear, setMinYear] = useState();
+  const [maxYear, setMaxYear] = useState();
   const [maxAmount, setMaxAmount] = useState(0);
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
   const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({});
+  const [bottomAxisValue, setBottomAxisValues] = useState([]);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
@@ -70,7 +71,13 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     const debtMinYear = finalDebtChartData.reduce((min, spending) => (min.x < spending.x ? min : spending));
     setMinYear(debtMinYear.x);
     setMaxYear(debtMaxYear.x);
-
+    const axisValues = [];
+    let axisVal = debtMinYear.x;
+    for (let i = 0; i < 6; i++) {
+      axisValues.push(`${axisVal}`);
+      axisVal += 20;
+    }
+    setBottomAxisValues(axisValues);
     const debtMaxAmount = finalDebtChartData.reduce((max, spending) => (max.y > spending.y ? max : spending));
 
     const debtMaxAmountRoundedUp = Math.ceil(debtMaxAmount.y / 5000000000000) * 5000000000000;
@@ -93,7 +100,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     const totalData = [
       {
         id: 'Total Debt',
-        color: '#4a0072',
+        color: debtExplainerPrimary,
         data: finalDebtChartData,
       },
     ];
@@ -237,7 +244,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     min: 0,
                     max: maxAmount,
                   }}
-                  axisBottom={chartConfigs.axisBottom}
+                  axisBottom={{ ...chartConfigs.axisBottom, tickValues: bottomAxisValue }}
                   axisLeft={chartConfigs.axisLeft}
                   enableArea={true}
                   areaOpacity={1}
