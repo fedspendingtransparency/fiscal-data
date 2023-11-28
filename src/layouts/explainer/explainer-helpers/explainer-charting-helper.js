@@ -124,8 +124,8 @@ export const LineChartCustomPoint = ({ currentSlice, borderWidth, borderColor, p
 };
 
 export const LineChartCustomPoints_GDP = ({ currentSlice, borderWidth, borderColor, points, serieId }) => {
-  const lastPrimaryPoint = getLastValue(points, serieId); //'Total Spending');
-  // const lastPoint_DoubleLineSecondary = getLastValue(points, serieIds[1]);//'Total Revenue');
+  const lastPrimaryPoint = getLastValue(points, serieId);
+
   const lastGdpPoint = getLastValue(points, 'GDP');
 
   const lastGDPPercentagePoint = getLastValue(points, 'GDP Percentage');

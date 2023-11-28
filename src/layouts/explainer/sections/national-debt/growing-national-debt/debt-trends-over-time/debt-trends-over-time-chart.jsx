@@ -1,17 +1,9 @@
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, debtExplainerPrimary, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../../variables.module.scss';
 import React, { useEffect, useState } from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import {
-  container,
-  lineChartContainer,
-  header,
-  headerContainer,
-  subHeader,
-  inAnimation,
-  animationCrosshair,
-} from './debt-trends-over-time-chart.module.scss';
+import { container, lineChartContainer, header, headerContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
