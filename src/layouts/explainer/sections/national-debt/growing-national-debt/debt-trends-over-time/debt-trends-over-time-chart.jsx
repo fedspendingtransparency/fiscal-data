@@ -18,13 +18,22 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Line } from '@nivo/line';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { nationalDebtSectionConfigs } from '../../national-debt';
-import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  applyTextScaling,
+  formatPercentage,
+  getChartTheme,
+  LineChartCustomPoint,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { useInView } from 'react-intersection-observer';
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -43,9 +52,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [debtTrendsData, setDebtTrendsData] = useState([]);
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
   const [lastDebtValue, setLastDebtValue] = useState({});
-  const [startAnimation, setStartAnimation] = useState(false);
-  const [animationComplete, setAnimationComplete] = useState(false);
-  const [animationPoint, setAnimationPoint] = useState(0);
+  // const [startAnimation, setStartAnimation] = useState(false);
+  // const [animationComplete, setAnimationComplete] = useState(false);
+  // const [animationPoint, setAnimationPoint] = useState(0);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
@@ -110,103 +119,16 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const customHeaderStyles = {
     marginTop: '1rem',
   };
+
   const customFooterSpacing = {
     marginTop: '2rem',
   };
 
-  const chartBorderTheme = {
-    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    textColor: '#666666',
-    axis: {
-      domain: {
-        line: {
-          stroke: '#666666',
-          strokeWidth: 1,
-        },
-      },
-    },
-    crosshair: {
-      line: {
-        stroke: '#555555',
-        strokeWidth: 2,
-        pointerEvents: 'all',
-      },
-    },
-  };
-
-  const formatPercentage = v => `${v}%`;
-
-  useEffect(() => {
-    if (startAnimation && debtTrendsData && !animationComplete) {
-      if (animationPoint < debtTrendsData[0].data.length - 1) {
-        const i = animationPoint + 1;
-        setTimeout(() => {
-          setAnimationPoint(i);
-        }, 50);
-      } else {
-        clearTimeout();
-        setAnimationComplete(true);
-      }
-    }
-  }, [animationPoint, startAnimation]);
-
-  const Point = ({ currentPoint, borderColor, borderWidth }) => {
-    return (
-      <g>
-        <circle fill="#D8D8D8" r={8} strokeWidth={borderWidth} stroke={borderColor} fillOpacity={0.35} cx={currentPoint.x} cy={currentPoint.y} />
-        <circle r={2} strokeWidth="4" stroke="#000000" fill="#000000" fillOpacity={0.85} cx={currentPoint.x} cy={currentPoint.y} />
-      </g>
-    );
-  };
-
-  const CustomPoint = props => {
-    const { currentSlice, borderWidth, borderColor, points } = props;
-    let currentPoint;
-    let verticalCrosshair;
-    let observer;
-    if (!isLoadingDebtTrends) {
-      if (!animationComplete) {
-        if (typeof window !== 'undefined') {
-          const config = {
-            rootMargin: '-50% 0% -50% 0%',
-            threshold: 0,
-          };
-          observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-              if (!startAnimation && entry.isIntersecting) {
-                setStartAnimation(true);
-              }
-            });
-          }, config);
-          if (document.querySelector('[data-testid="debtTrendsChart"]')) {
-            observer.observe(document.querySelector('[data-testid="debtTrendsChart"]'));
-          }
-          currentPoint = points[animationPoint];
-          verticalCrosshair = (
-            <line
-              className={animationCrosshair}
-              x1={currentPoint.x}
-              x2={currentPoint.x}
-              y1={0}
-              y2={450}
-              style={{
-                ...chartBorderTheme.crosshair.line,
-                strokeDasharray: [6, 6],
-              }}
-            />
-          );
-        }
-      } else {
-        currentPoint = currentSlice?.points?.length ? currentSlice.points[0] : points[points.length - 1];
-      }
-      setLineChartHoveredValue(formatPercentage(currentPoint.data.y));
-      setLineChartHoveredYear(currentPoint.data.x);
-      return (
-        <>
-          <Point currentPoint={currentPoint} borderColor={borderColor} borderWidth={borderWidth} />
-          {verticalCrosshair}
-        </>
-      );
+  const handleMouseMove = slice => {
+    const debtData = slice.points[0].data;
+    if (debtData) {
+      setLineChartHoveredValue(formatPercentage(debtData.y));
+      setLineChartHoveredYear(debtData.x);
     }
   };
 
@@ -255,6 +177,11 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     </p>
   );
 
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
+
   return (
     <>
       {isLoadingDebtTrends && (
@@ -263,7 +190,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         </div>
       )}
       {!isLoadingDebtTrends && debtTrendsData && (
-        <div className={visWithCallout}>
+        <div className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
               title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x}`}
@@ -276,7 +203,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               customFooterSpacing={customFooterSpacing}
             >
               <div
-                className={`${lineChartContainer} ${!animationComplete ? inAnimation : ''}`}
+                className={lineChartContainer}
                 data-testid={`${chartParent}`}
                 onMouseEnter={handleMouseEnterLineChart}
                 onMouseLeave={handleMouseLeaveLineChart}
@@ -284,20 +211,29 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                 role="presentation"
               >
                 <Line
+                  {...nivoCommonLineChartProps}
                   data={debtTrendsData}
                   width={chartWidth}
                   height={chartHeight}
-                  theme={chartBorderTheme}
+                  theme={getChartTheme(width)}
                   layers={[
                     'grid',
+                    'crosshair',
                     'lines',
                     'axes',
-                    CustomPoint,
+                    props =>
+                      LineChartCustomPoint({
+                        ...props,
+                        serieId: 'us',
+                      }),
                     props =>
                       CustomSlices({
                         ...props,
+                        inView,
+                        mouseMove: handleMouseMove,
+                        groupMouseLeave: lineChartOnMouseLeave,
                       }),
-                    'crosshair',
+                    'mesh',
                   ]}
                   margin={
                     width < pxToNumber(breakpointLg) ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 }
@@ -315,8 +251,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                     reverse: false,
                   }}
                   yFormat=" >-.2f"
-                  axisTop={null}
-                  axisRight={null}
                   axisBottom={{
                     orient: 'bottom',
                     tickSize: 6,
@@ -331,22 +265,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                     tickPadding: 8,
                     tickValues: 8,
                   }}
-                  enablePoints={false}
-                  enableSlices="x"
-                  pointSize={0}
-                  pointColor={debtExplainerPrimary}
-                  pointBorderWidth={2}
-                  pointBorderColor={debtExplainerPrimary}
                   pointLabelYOffset={-12}
                   colors={debtExplainerPrimary}
-                  useMesh={false}
-                  enableGridY={false}
-                  enableGridX={false}
-                  sliceTooltip={() => <></>}
-                  enableCrosshair={true}
-                  crosshairType="x"
-                  animate={false}
-                  isInteractive={true}
                   onMouseLeave={lineChartOnMouseLeave}
                 />
               </div>
