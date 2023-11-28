@@ -44,9 +44,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [debtTrendsData, setDebtTrendsData] = useState([]);
   const [isLoadingDebtTrends, setIsLoadingDebtTrends] = useState(true);
   const [lastDebtValue, setLastDebtValue] = useState({});
-  // const [startAnimation, setStartAnimation] = useState(false);
-  // const [animationComplete, setAnimationComplete] = useState(false);
-  // const [animationPoint, setAnimationPoint] = useState(0);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
