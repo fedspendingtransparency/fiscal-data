@@ -109,7 +109,7 @@
     "gatsby-transformer-csv": "^4.25.0",
     "gatsby-transformer-json": "^4.25.0",
     "gatsby-transformer-remark": "^5.25.1",
-    "gatsby-transformer-sharp": "^3.15.0",
+    "gatsby-transformer-sharp": "^4.25.0",
     "jest-fetch-mock": "^3.0.3",
     "jest-runtime": "^27.0.6",
     "js-beautify": "^1.14.0",
