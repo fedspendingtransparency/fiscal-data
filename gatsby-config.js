@@ -25,6 +25,14 @@ module.exports = {
         defer: true,
       },
     },
+    `gatsby-plugin-mdx`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
+      },
+    },
     {
       resolve: 'gatsby-plugin-exclude',
       options: { paths: EXCLUDED_PAGE_PATHS },
