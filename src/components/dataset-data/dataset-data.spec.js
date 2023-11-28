@@ -484,7 +484,7 @@ describe('DatasetData', () => {
 
     const tableSectionContainer = instance.findByType(TableSectionContainer);
     const pagingOptionsMenu = instance.findByType(PagingOptionsMenu);
-    expect(pagingOptionsMenu.props.menuProps.selected).toBe(5);
+    expect(pagingOptionsMenu.props.menuProps.selected).toBe(10);
     expect(tableSectionContainer).toBeDefined();
 
     pagingOptionsMenu.props.menuProps.updateSelected(2);
