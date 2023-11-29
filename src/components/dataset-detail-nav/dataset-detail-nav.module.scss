@@ -2,14 +2,13 @@
 @import '../../zIndex.module.scss';
 
 #container {
-  height: 3rem;
   background-color: $dark-slate-blue;
   color: #ffffff;
-  padding: 0.75rem 1rem;
   box-sizing: border-box;
   position: sticky;
   top: 0;
   z-index: $dataset-detail-nav;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .content {
@@ -17,36 +16,41 @@
   margin: 0 auto;
   display: flex;
   white-space: nowrap;
+  overflow-x: auto;
+  height: 100%;
 }
 
-.title {
-  font-size: $font-size-18;
-  font-weight: $semi-bold-weight;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 2;
+.activeMenu {
+  background-color: $primary;
 }
 
 .menu {
   text-align: right;
-  flex: 2;
+  flex: 3;
   transition: flex 0.2s ease;
-
-  &.mobile > :first-child {
-    margin-right: 0.5rem;
-  }
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
   a {
     color: #ffffff;
     text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    overflow-x: hidden;
+    font-size: $font-size-16;
+    font-weight: $semi-bold-weight;
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .hoverMenu {
+    background-color: #d9d9d9;
+    color: $font-title;
   }
 }
-
 .desktopLinks {
-  display: none;
-}
-
-.mobileLinks {
   display: inline;
 }
 
@@ -58,54 +62,4 @@
 
 .disabledLink {
   opacity: 0.3;
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  #container {
-    padding: 0 1rem 0 0;
-  }
-
-  .content {
-    height: 100%;
-  }
-
-  .title {
-    padding: 0.75rem 1rem;
-  }
-
-  .menu {
-    flex: 3;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    a {
-      color: #ffffff;
-      text-decoration: none;
-      overflow-x: hidden;
-      padding: 0.8125rem 0.75rem 0.75rem 0.75rem;
-      font-size: $font-size-16;
-      font-weight: $semi-bold-weight;
-      border-bottom: 3px solid transparent;
-
-      &:last-of-type {
-        margin-right: 0;
-      }
-
-      &:hover {
-        background-color: #1f5593;
-      }
-      &:focus {
-        border-bottom: 3px solid white;
-      }
-    }
-  }
-
-  .desktopLinks {
-    display: inline;
-  }
-
-  .mobileIcon {
-    display: none;
-  }
 }

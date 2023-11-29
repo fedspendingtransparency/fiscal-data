@@ -6,6 +6,8 @@ import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-he
 import { formatCurrency, formatPercentage } from '../../../../../explainer-helpers/explainer-charting-helper';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import Analytics from '../../../../../../../utils/analytics/analytics';
+import ChartToggle from '../../../../../../../components/nivo/chart-toggle/chart-toggle';
+
 const mts = (
   <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government" eventNumber="21" id="Monthly Treasury Statement">
     Monthly Treasury Statement (MTS)
@@ -16,16 +18,9 @@ const bls = <CustomLink url={'https://www.bls.gov/developers/'}>Bureau of Labor 
 
 const bea = <CustomLink url={'https://www.bea.gov/'}>Bureau of Economic Analysis</CustomLink>;
 
-const toggleButtonEvent = () => {
-  return Analytics.event({
-    category: 'Explainers',
-    action: 'Chart Click',
-    label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
-  });
-};
-
 const footer = (
   <p>
+    {/* eslint-disable-next-line max-len */}
     Visit the {mts} dataset to further explore and download this data. The GDP data is sourced from the {bea}. The inflation data is sourced from the{' '}
     {bls}.
   </p>
@@ -45,8 +40,22 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
 
 export const dataHeader = (chartToggleConfig, headingValues) => {
   if (!chartToggleConfig) return;
-  const { setSelectedChartView, selectedChartView, isMobile } = chartToggleConfig;
+  const { setSelectedChartView, selectedChartView } = chartToggleConfig;
   const { fiscalYear, totalRevenue, gdp, gdpRatio } = headingValues;
+
+  const toggleButtonEvent = () => {
+    return Analytics.event({
+      category: 'Explainers',
+      action: 'Chart Click',
+      label: 'Revenue - Federal Revenue Trends and the U.S. Economy',
+    });
+  };
+
+  const toggleClickHandler = selectedChartView => {
+    setSelectedChartView(selectedChartView);
+    toggleButtonEvent();
+  };
+
   return (
     <div
       style={{
@@ -55,67 +64,21 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
         justifyContent: 'center',
       }}
     >
-      <div
-        className={styles.chartToggle}
-        style={{
-          marginBottom: isMobile ? '0.75rem' : '1rem',
+      <ChartToggle
+        primaryColor={revenueExplainerPrimary}
+        toggleClickHandler={toggleClickHandler}
+        leftButtonConfig={{
+          leftTitle: 'Total Revenue',
+          leftId: 'totalRevenue',
+          leftSelected: selectedChartView === 'totalRevenue',
         }}
-      >
-        <button
-          className={styles.toggleButton}
-          style={{
-            borderBottomLeftRadius: '4px',
-            borderTopLeftRadius: '4px',
-            color: selectedChartView === 'totalRevenue' ? '#f1f1f1' : revenueExplainerPrimary,
-            background: selectedChartView === 'totalRevenue' ? revenueExplainerPrimary : '#f1f1f1',
-            borderRight: 'none',
-            width: isMobile ? '144px' : '224px',
-            height: isMobile ? '1.5rem' : '2rem',
-          }}
-          onClick={() => {
-            setSelectedChartView('totalRevenue');
-            toggleButtonEvent();
-          }}
-          id={'revenue-chart-toggle'}
-        >
-          <span
-            style={{
-              fontSize: isMobile ? '14px' : '16px',
-              color: selectedChartView === 'percentageGdp' ? 'inherit' : '#FFFFFF',
-              fontWeight: '600',
-            }}
-          >
-            Total Revenue
-          </span>
-        </button>
-        <button
-          className={styles.toggleButton}
-          style={{
-            borderBottomRightRadius: '4px',
-            borderTopRightRadius: '4px',
-            color: selectedChartView === 'percentageGdp' ? '#f1f1f1' : revenueExplainerPrimary,
-            background: selectedChartView === 'percentageGdp' ? revenueExplainerPrimary : '#f1f1f1',
-            width: isMobile ? '144px' : '224px',
-            height: isMobile ? '1.5rem' : '2rem',
-          }}
-          onClick={() => {
-            setSelectedChartView('percentageGdp');
-            toggleButtonEvent();
-          }}
-          id={'revenue-chart-toggle'}
-        >
-          <span
-            style={{
-              fontSize: isMobile ? '14px' : '16px',
-              color: selectedChartView === 'percentageGdp' ? '#FFFFFF' : 'inherit',
-              fontWeight: '600',
-            }}
-          >
-            Percentage of GDP
-          </span>
-        </button>
-      </div>
-
+        rightButtonConfig={{
+          rightTitle: 'Percentage of GDP',
+          rightId: 'percentageGdp',
+          rightSelected: selectedChartView === 'percentageGdp',
+        }}
+        chartId="revenue-chart-toggle"
+      />
       <div className={styles.headerContainer}>
         <div className={styles.headerData}>
           <div className={styles.dataElement}>
@@ -148,32 +111,9 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
   );
 };
 
-const chartTheme = {
-  textColor: '#666666',
-  axis: {
-    domain: {
-      line: {
-        strokeWidth: 1,
-        stroke: '#666666',
-      },
-    },
-  },
-  crosshair: {
-    line: {
-      stroke: '#555555',
-      strokeWidth: 2,
-      strokeDasharray: '2,2',
-    },
-  },
-  marker: {
-    fill: '#666666',
-  },
-};
-
 const layers = ['grid', 'axes', 'lines', 'crosshair', 'markers', 'points', 'mesh'];
 
 export const chartConfigs = {
-  theme: chartTheme,
   layers: layers,
   axisLeftTotalRevenue: {
     format: formatCurrency,

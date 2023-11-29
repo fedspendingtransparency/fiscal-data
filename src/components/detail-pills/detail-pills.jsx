@@ -16,7 +16,7 @@ const DetailPills = ({ techSpecs, dictionary }) => {
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
 
   return (
-    <div className={styles.pillWrapper}>
+    <div data-testid={'detailPills'} className={styles.pillWrapper}>
       {dateRange && (
         <span className={styles.pill}>
           {useFutureIcon ? (

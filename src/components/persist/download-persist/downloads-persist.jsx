@@ -100,7 +100,8 @@ export const DownloadsProvider = ({ children }) => {
       downloadRequest.selectedFileType,
       downloadRequest.requestTime,
       downloadRequest.selectedUserFilter,
-      downloadRequest.tableColumnSortData
+      downloadRequest.tableColumnSortData,
+      downloadRequest.filteredDateRange
     );
 
     return downloadService.downloadStatus(requestId).subscribe({
@@ -172,6 +173,7 @@ export const DownloadsProvider = ({ children }) => {
       requestTime: downloadRequest.requestTime,
       selectedUserFilter: downloadRequest.selectedUserFilter,
       tableColumnSortData: downloadRequest.tableColumnSortData,
+      filteredDateRange: downloadRequest.filteredDateRange,
     };
     return JSON.stringify(newObj);
   };
@@ -193,6 +195,7 @@ export const DownloadsProvider = ({ children }) => {
           originalRequestHash: downloadRequest.originalRequestHash,
           selectedUserFilter: downloadRequest.selectedUserFilter,
           tableColumnSortData: downloadRequest.tableColumnSortData,
+          filteredDateRange: downloadRequest.filteredDateRange,
         };
         downloadsInProgressByDataset[downloadRequest.datasetId] = download;
         setDownloadsInProgress(Object.values(downloadsInProgressByDataset).sort((a, b) => a.requestTime - b.requestTime));

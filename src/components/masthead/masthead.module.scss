@@ -1,13 +1,13 @@
 @import '../../variables.module.scss';
 
 .pageHeader {
-  background-color: white;
+  background-color: #f6f6f6;
 }
 
 .mainWidth {
   max-width: $main-width;
   margin: 0 auto;
-  padding: 1.25rem 1rem;
+  padding: 1rem 0;
 }
 
 .pageTitle {
@@ -15,17 +15,8 @@
   padding-bottom: 1rem;
 }
 
-.tagLine {
-  font-size: $font-size-16;
-  max-width: 856px; // todo: variablize/explain this
-  margin: 0;
-  line-height: normal;
-  color: $font-title;
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  .tagLine {
-    font-size: $font-size-20;
-    line-height: 1.5;
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .mainWidth {
+    padding: 1rem;
   }
 }

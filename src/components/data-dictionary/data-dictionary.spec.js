@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import DataDictionary from './data-dictionary';
 import DtgTable from '../dtg-table/dtg-table';
+import { RecoilRoot } from 'recoil';
 
 describe('DataDictionary', () => {
   const apis = [
@@ -50,7 +51,11 @@ describe('DataDictionary', () => {
 
   let component = renderer.create();
   renderer.act(() => {
-    component = renderer.create(<DataDictionary apis={apis} />);
+    component = renderer.create(
+      <RecoilRoot>
+        <DataDictionary apis={apis} />
+      </RecoilRoot>
+    );
   });
   const instance = component.root;
 
@@ -82,7 +87,11 @@ describe('DataDictionary', () => {
     const name = 'test-dataset';
     const newComponent = renderer.create();
     renderer.act(() => {
-      newComponent.update(<DataDictionary apis={apis} datasetName={name} />);
+      newComponent.update(
+        <RecoilRoot>
+          <DataDictionary apis={apis} datasetName={name} />
+        </RecoilRoot>
+      );
     });
     const updated = newComponent.root;
     const table = updated.findByType('table');

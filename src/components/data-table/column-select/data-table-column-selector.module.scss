@@ -77,6 +77,7 @@
     min-height: 1rem;
     margin-right: 1px;
     overflow: hidden;
+    opacity: 0;
   }
 
   [type='checkbox']:checked + span {
@@ -90,7 +91,6 @@
     top: -1px;
     width: 1rem;
     height: 1rem;
-    right: -3.5px;
     vertical-align: middle;
     background: white left top no-repeat;
     border: 1px solid #ccc;

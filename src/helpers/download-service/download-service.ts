@@ -5,6 +5,7 @@ import { WEB_SOCKET_BASE_URL, DATA_DOWNLOAD_BASE_URL } from 'gatsby-env-variable
 import { ReplaySubject, from, of, throwError, Subject, timer, Observable } from 'rxjs';
 import { map, switchMap, filter, takeUntil } from 'rxjs/operators';
 import globalConstants from '../constants';
+import { ga4DataLayerPush } from '../google-analytics/google-analytics-helper';
 
 /*
   AC:
@@ -196,7 +197,7 @@ const beginPollingInProgressFileRequests = setterFn => {
 };
 
 const fetchDataset = datasetMsg => {
-  return fetchAsObservable(`${DATA_DOWNLOAD_BASE_URL}${datasetMsg.status_path.charAt(0) === '/' ? '' : '/'}` + `${datasetMsg.status_path}`);
+  return fetchAsObservable(`${DATA_DOWNLOAD_BASE_URL}${datasetMsg.status_path.charAt(0) === '/' ? '' : '/'}${datasetMsg.status_path}`);
 };
 
 const updateViaPolling = (datasetMsg, setterFn) => {
@@ -276,6 +277,7 @@ const fetchAsObservable = (url: string): Observable<Response> => {
  * @param requestTime {number} - epoch millis timestamp when user originally requested download
  * @param userFilter {null|{label: string, field: string, notice: string}} - userFilter
  * @param tableColumnSortData
+ * @param filteredDateRange
  */
 const initiateDownload = (
   datasetId: string,
@@ -284,9 +286,10 @@ const initiateDownload = (
   fileTypes: string,
   requestTime: number,
   userFilter?: { label: string; value: string },
-  tableColumnSortData?: []
+  tableColumnSortData?: [],
+  filteredDateRange?: { from: string; to: string }
 ): string => {
-  const downloadRequestMessage = buildDownloadRequestArray(apis, dateRange, fileTypes, userFilter, tableColumnSortData);
+  const downloadRequestMessage = buildDownloadRequestArray(apis, dateRange, fileTypes, userFilter, tableColumnSortData, filteredDateRange);
   const newRequestId = `${datasetId}${requestIdDelimiter}${requestTime}`;
   connect(datasetId, apis, dateRange, fileTypes, newRequestId);
   sendInitialRequestMessage(newRequestId, downloadRequestMessage);
@@ -688,8 +691,7 @@ const handleWebsocketComplete = (requestId, fileType, apis, dateRange) => {
     const from = new Date(dateRange.from);
     const to = new Date(dateRange.to);
     if (apis && fileType && dateRange.from) {
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push({
+      ga4DataLayerPush({
         event: 'raw-data-download',
         eventLabel:
           'Table Name: ' +

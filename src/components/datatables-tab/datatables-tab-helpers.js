@@ -38,11 +38,9 @@ export const makeTheDataArray = apisArray => {
   const theDataArray = [];
   apisArray.forEach(api => {
     // todo - DTG-2209 will provide the file sizes.
-    const fileSizesArray = [];
     const dataObj = {
       name: api.tableName,
       description: api.tableDescription,
-      fileSizes: fileSizesArray.join(', '),
       rowCount: api.rowCount,
       rowDescription: api.rowDefinition,
     };

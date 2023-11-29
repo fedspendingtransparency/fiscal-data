@@ -3,14 +3,21 @@ import { Line } from '@nivo/line';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
 import { getChartCopy, dataHeader, chartConfigs } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { lineChart, container } from './debt-over-last-100y-linechart.module.scss';
-import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
-import { lineChartCustomPoints } from './debt-over-last-100y-linechart-helper';
-import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  applyTextScaling,
+  chartInViewProps,
+  getChartTheme,
+  LineChartCustomPoint,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
+import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,20 +28,22 @@ import { useInView } from 'react-intersection-observer';
 import { useRecoilValueLoadable } from 'recoil';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
+import { debtExplainerPrimary } from '../../national-debt.module.scss';
 
 let gaTimerDebt100Yrs;
 let ga4Timer;
 
 const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [minYear, setMinYear] = useState(2015);
-  const [maxYear, setMaxYear] = useState(2022);
+  const [minYear, setMinYear] = useState();
+  const [maxYear, setMaxYear] = useState();
   const [maxAmount, setMaxAmount] = useState(0);
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
   const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
   const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({});
+  const [bottomAxisValue, setBottomAxisValues] = useState([]);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
@@ -63,7 +72,13 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     const debtMinYear = finalDebtChartData.reduce((min, spending) => (min.x < spending.x ? min : spending));
     setMinYear(debtMinYear.x);
     setMaxYear(debtMaxYear.x);
-
+    const axisValues = [];
+    let axisVal = debtMinYear.x;
+    for (let i = 0; i < 6; i++) {
+      axisValues.push(`${axisVal}`);
+      axisVal += 20;
+    }
+    setBottomAxisValues(axisValues);
     const debtMaxAmount = finalDebtChartData.reduce((max, spending) => (max.y > spending.y ? max : spending));
 
     const debtMaxAmountRoundedUp = Math.ceil(debtMaxAmount.y / 5000000000000) * 5000000000000;
@@ -86,7 +101,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     const totalData = [
       {
         id: 'Total Debt',
-        color: '#4a0072',
+        color: debtExplainerPrimary,
         data: finalDebtChartData,
       },
     ];
@@ -154,11 +169,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const customFooterSpacing = {
     marginTop: '2rem',
   };
-  const { ref, inView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
+  const { ref, inView } = useInView(chartInViewProps);
 
   return (
     <>
@@ -182,13 +193,14 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             >
               <div
                 className={lineChart}
-                data-testid={'totalDebtChartParent'}
+                data-testid="totalDebtChartParent"
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
                 role="presentation"
                 ref={ref}
               >
                 <Line
+                  {...nivoCommonLineChartProps}
                   data={chartData}
                   layers={[
                     'grid',
@@ -197,7 +209,11 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     'axes',
                     'areas',
                     'lines',
-                    lineChartCustomPoints,
+                    props =>
+                      LineChartCustomPoint({
+                        ...props,
+                        serieId: 'Total Debt',
+                      }),
                     props =>
                       CustomSlices({
                         ...props,
@@ -208,28 +224,13 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     'mesh',
                     'legends',
                   ]}
-                  theme={{
-                    ...chartConfigs.theme,
-                    fontSize: width < pxToNumber(breakpointLg) ? fontSize_14 : fontSize_14,
-                    marker: {
-                      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-                    },
-                    crosshair: {
-                      line: {
-                        stroke: '#555555',
-                        strokeWidth: 2,
-                      },
-                    },
-                  }}
+                  theme={getChartTheme(width)}
                   colors={d => d.color}
                   width={chartWidth}
                   height={chartHeight}
                   margin={
                     width < pxToNumber(breakpointLg) ? { top: 25, right: 25, bottom: 35, left: 65 } : { top: 20, right: 15, bottom: 35, left: 50 }
                   }
-                  enablePoints={false}
-                  enableGridX={false}
-                  enableGridY={false}
                   xScale={{
                     type: 'linear',
                     min: minYear,
@@ -240,20 +241,15 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     min: 0,
                     max: maxAmount,
                   }}
-                  axisTop={null}
-                  axisRight={null}
-                  axisBottom={chartConfigs.axisBottom}
+                  axisBottom={{ ...chartConfigs.axisBottom, tickValues: bottomAxisValue }}
                   axisLeft={chartConfigs.axisLeft}
-                  isInteractive={true}
-                  animate={false}
-                  enableSlices={'x'}
                   enableArea={true}
                   areaOpacity={1}
                 />
               </div>
             </ChartContainer>
           </div>
-          <VisualizationCallout color={''}>
+          <VisualizationCallout color="">
             <p>
               Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
             </p>

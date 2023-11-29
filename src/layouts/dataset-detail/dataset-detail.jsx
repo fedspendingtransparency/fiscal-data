@@ -10,6 +10,7 @@ import { graphql } from 'gatsby';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import LocationAware from '../../components/location-aware/location-aware';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
+import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
 
 export const query = graphql`
   query relatedDatasets($relatedDatasets: [String]) {
@@ -59,17 +60,14 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         keywords={pageContext?.seoConfig?.keywords || ''}
         canonical={canonical}
       />
-      <Masthead
-        title={pageContext.config.name}
-        tagLine={pageContext.config.tagLine}
-        techSpecs={pageConfig.techSpecs}
-        dictionary={pageContext.config.dictionary}
-        bannerCallout={pageContext?.config.bannerCallout}
-      />
-
-      <DDNav title={pageContext.config.name} />
-      <div className="bodyBackground">
-        <DatasetAbout config={pageContext.config} test={test} />
+      <Masthead title={pageContext.config.name} bannerCallout={pageContext?.config.bannerCallout} />
+      <DDNav />
+      <div className="ddpBodyBackground">
+        <DatasetIntroduction
+          summaryText={pageContext.config.summaryText}
+          techSpecs={pageConfig.techSpecs}
+          dictionary={pageContext.config.dictionary}
+        />
         <DatasetData
           setSelectedTableProp={setSelectedTable}
           finalDatesNotFound={finalDatesNotFound}
@@ -77,6 +75,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
           location={location}
           publishedReportsProp={pageConfig.publishedReports}
         />
+        <DatasetAbout config={pageContext.config} test={test} />
         <ApiQuickGuide selectedTable={selectedTable} config={pageContext.config} />
         <RelatedDatasets datasets={updatedDatasetData} referrer={pageContext.config.name} />
       </div>

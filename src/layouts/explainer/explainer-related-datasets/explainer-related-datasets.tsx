@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import DatasetCard from '../../../components/dataset-card/dataset-card';
 import { IExplainerRelatedDatasets } from '../../../models/IExplainerRelatedDatasets';
 import { paddingAdjust, cardWrapper, titleStyle } from './explainer-related-datasets.module.scss';

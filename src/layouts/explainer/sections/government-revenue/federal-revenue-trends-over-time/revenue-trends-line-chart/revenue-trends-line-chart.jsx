@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_14 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import * as styles from './revenue-trends-line-chart.module.scss';
+import {
+  corpRect,
+  estateRect,
+  indvRect,
+  exciseRect,
+  miscRect,
+  legendText,
+  container,
+  customsRect,
+  legendContainer,
+  legendColumn,
+  legendElement,
+  socialSecRect,
+  lineChart,
+} from './revenue-trends-line-chart.module.scss';
 import { Line } from '@nivo/line';
 import { fontSize_16 } from '../../../../explainer.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
@@ -15,7 +29,14 @@ import { colors, sum } from './revenue-trends-line-chart-helpers';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { useTooltip } from '@nivo/tooltip';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  formatCurrency,
+  getChartTheme,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
+import CustomTooltip from './custom-tooltip/custom-tooltip';
 
 let gaTimerRevenueTrends;
 let ga4Timer;
@@ -39,7 +60,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   }, [isLoading]);
 
   useEffect(() => {
-    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,' + 'record_calendar_month:eq:09&sort=-record_date';
+    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date';
     basicFetch(`${apiPrefix}${endPointURL}`).then(res => {
       if (res.data) {
         setLastChartYear(res.data[0].record_fiscal_year);
@@ -159,7 +180,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   };
 
   const blsLink = (
-    <CustomLink url={'https://www.bls.gov/developers/'} eventNumber={'17'}>
+    <CustomLink url="https://www.bls.gov/developers/" eventNumber="17">
       Bureau of Labor Statistics
     </CustomLink>
   );
@@ -213,16 +234,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     );
   };
 
-  const formatCurrency = v => {
-    if (parseFloat(v) < 0) {
-      return `$${Math.abs(v)} T`;
-    } else if (parseFloat(v) > 0) {
-      return `$${v} T`;
-    } else {
-      return `$${v}`;
-    }
-  };
-
   const name = 'Monthly Treasury Statement (MTS)';
   const slug = `/datasets/monthly-treasury-statement/receipts-of-the-u-s-government`;
   const mts = (
@@ -239,112 +250,10 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     </div>
   );
 
-  const chartTheme = {
-    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    fontColor: '#666666',
-    axis: {
-      domain: {
-        line: {
-          strokeWidth: 1,
-          stroke: '#666666',
-        },
-      },
-    },
-    crosshair: {
-      line: {
-        stroke: '#555555',
-        strokeWidth: 2,
-      },
-    },
-  };
-
-  const getPercentofTotalRevByYear = (value, year) => {
-    const match = totalRevByYear.find(element => element.year === year.toString());
-    const percent = (value / match.value) * 100;
-    if (percent < 0.5) {
-      return '<1';
-    } else {
-      return Math.round((value / match.value) * 100);
-    }
-  };
-
-  const determineIfZeroNeeded = value => {
-    if (value.toString().split('.')[1].length < 2) {
-      return `${value}0`;
-    }
-    return value;
-  };
-
-  const customTooltip = slice => {
-    return (
-      <div className={styles.tooltipContainer}>
-        <p className={styles.tooltipYearHeader}>{slice.slice.points[0].data.x}</p>
-        <div className={styles.tooltipColumn}>
-          <div className={styles.tooltipItem}>
-            <div className={styles.estateRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[0].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[0].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[0].data.raw, slice.slice.points[0].data.x)}%)
-            </div>
-          </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.customsRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[1].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[1].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[1].data.raw, slice.slice.points[1].data.x)}%)
-            </div>
-          </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.exciseRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[2].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[2].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[2].data.raw, slice.slice.points[2].data.x)}%)
-            </div>
-          </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.miscRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[3].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[3].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[3].data.raw, slice.slice.points[3].data.x)}%)
-            </div>
-          </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.corpRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[4].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[4].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[4].data.raw, slice.slice.points[4].data.x)}%)
-            </div>
-          </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.socialSecRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[5].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[5].data.y)}T (
-              {getPercentofTotalRevByYear(slice.slice.points[5].data.raw, slice.slice.points[5].data.x)}%)
-            </div>
-          </div>
-          <div className={styles.tooltipItem}>
-            <div className={styles.indvRectTooltip} />
-            <div className={styles.tooltipItemText}>
-              <div className={styles.tooltipItemCategory}> {slice.slice.points[6].serieId}: </div>$
-              {determineIfZeroNeeded(slice.slice.points[6].data.y.toFixed(2))}T (
-              {getPercentofTotalRevByYear(slice.slice.points[6].data.raw, slice.slice.points[6].data.x)}%)
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <>
       {!isLoading ? (
-        <div data-testid={'revenueTrendsLineChart'} className={styles.container}>
+        <div data-testid="revenueTrendsLineChart" className={container}>
           <ChartContainer
             title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
             subTitle={`Inflation Adjusted - ${lastChartYear} Dollars`}
@@ -356,27 +265,16 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
           >
             <div
-              className={styles.lineChart}
-              role={'presentation'}
-              data-testid={'chartParentTrends'}
+              className={lineChart}
+              role="presentation"
+              data-testid="chartParentTrends"
               onMouseEnter={handleChartMouseEnter}
               onMouseLeave={handleChartMouseLeave}
             >
               <Line
+                {...nivoCommonLineChartProps}
                 data={chartData}
-                layers={[
-                  'grid',
-                  'markers',
-                  'axes',
-                  'areas',
-                  'lines',
-                  'points',
-                  // 'slices',
-                  CustomSlices,
-                  'crosshair',
-                  'mesh',
-                  'legends',
-                ]}
+                layers={['grid', 'markers', 'axes', 'areas', 'lines', 'points', CustomSlices, 'crosshair', 'mesh', 'legends']}
                 colors={d => d.color}
                 width={515}
                 height={500}
@@ -393,14 +291,10 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   stacked: true,
                   reverse: false,
                 }}
-                theme={chartTheme}
+                theme={getChartTheme(width)}
                 enableArea={true}
                 areaOpacity={1}
-                enableGridY={false}
-                enableGridX={false}
                 yFormat=" >-.2f"
-                axisTop={null}
-                axisRight={null}
                 axisBottom={{
                   orient: 'bottom',
                   tickSize: 6,
@@ -416,47 +310,40 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   tickRotation: 0,
                   tickValues: 6,
                 }}
-                pointSize={0}
                 pointLabelYOffset={-12}
-                useMesh={true}
-                enablePoints={true}
-                sliceTooltip={slice => customTooltip(slice)}
-                enableCrosshair={true}
-                isInteractive={true}
-                enableSlices={'x'}
-                animate={false}
+                sliceTooltip={slice => CustomTooltip(slice, totalRevByYear)}
               />
-              <div className={styles.legendContainer}>
-                <div className={styles.legendColumn}>
-                  <div className={styles.legendElement}>
-                    <div className={styles.estateRect} />
-                    <div className={styles.legendText}> Estate & Gift Taxes </div>
+              <div className={legendContainer}>
+                <div className={legendColumn}>
+                  <div className={legendElement}>
+                    <div className={estateRect} />
+                    <div className={legendText}> Estate & Gift Taxes </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.customsRect} />
-                    <div className={styles.legendText}> Customs Duties </div>
+                  <div className={legendElement}>
+                    <div className={customsRect} />
+                    <div className={legendText}> Customs Duties </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.exciseRect} />
-                    <div className={styles.legendText}> Excise Taxes </div>
+                  <div className={legendElement}>
+                    <div className={exciseRect} />
+                    <div className={legendText}> Excise Taxes </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.miscRect} />
-                    <div className={styles.legendText}> Miscellaneous Income </div>
+                  <div className={legendElement}>
+                    <div className={miscRect} />
+                    <div className={legendText}> Miscellaneous Income </div>
                   </div>
                 </div>
-                <div className={styles.legendColumn}>
-                  <div className={styles.legendElement}>
-                    <div className={styles.corpRect} />
-                    <div className={styles.legendText}> Corporate Income Taxes </div>
+                <div className={legendColumn}>
+                  <div className={legendElement}>
+                    <div className={corpRect} />
+                    <div className={legendText}> Corporate Income Taxes </div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.socialSecRect} />
-                    <div className={styles.legendText}>Social Security and Medicare Taxes</div>
+                  <div className={legendElement}>
+                    <div className={socialSecRect} />
+                    <div className={legendText}>Social Security and Medicare Taxes</div>
                   </div>
-                  <div className={styles.legendElement}>
-                    <div className={styles.indvRect} />
-                    <div className={styles.legendText}>Individual Income Taxes</div>
+                  <div className={legendElement}>
+                    <div className={indvRect} />
+                    <div className={legendText}>Individual Income Taxes</div>
                   </div>
                 </div>
               </div>

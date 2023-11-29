@@ -25,18 +25,26 @@ module.exports = {
         defer: true,
       },
     },
+    `gatsby-plugin-mdx`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
+      },
+    },
     {
       resolve: 'gatsby-plugin-exclude',
       options: { paths: EXCLUDED_PAGE_PATHS },
     },
     `gatsby-source-local-git`,
     `gatsby-plugin-react-helmet`,
-    {
-      resolve: `gatsby-plugin-build-date`,
-      options: {
-        formatAsDateString: false,
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-build-date`,
+    //   options: {
+    //     formatAsDateString: false,
+    //   },
+    // },
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
@@ -225,11 +233,11 @@ module.exports = {
       },
     },
     `gatsby-plugin-client-side-redirect`,
-    {
-      resolve: 'gatsby-plugin-axe-core-react',
-      options: {
-        debounce: 3000,
-      },
-    },
+    // {
+    //   resolve: 'gatsby-plugin-axe-core-react',
+    //   options: {
+    //     debounce: 3000,
+    //   },
+    // },
   ],
 };

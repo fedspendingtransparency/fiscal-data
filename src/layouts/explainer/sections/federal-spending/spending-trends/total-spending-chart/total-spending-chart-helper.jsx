@@ -1,8 +1,11 @@
 import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import * as styles from './total-spending-chart.module.scss';
+import { dataElement, dataHeaderContainer, dataLabel, dataValue, headerData, headerContainer } from './total-spending-chart.module.scss';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import ChartToggle from '../../../../../../components/nivo/chart-toggle/chart-toggle';
+import { spendingExplainerPrimary } from '../spending-trends.module.scss';
+import { formatCurrency, formatPercentage } from '../../../../explainer-helpers/explainer-charting-helper';
 
 const mts = (
   <CustomLink url="/datasets/monthly-treasury-statement/receipts-of-the-u-s-government/" eventNumber="21" id="Monthly Treasury Statement">
@@ -35,122 +38,56 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   };
 };
 
-const getFirstElPadding = (chartView, isMobile) => {
-  if (chartView === 'percentageGdp') {
-    return '112px';
-  }
-  if (chartView === 'totalSpending') {
-    if (isMobile) {
-      return '52px';
-    }
-  }
-  return '32px';
-};
-
 export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
   if (!chartToggleConfig) return;
-  const { setSelectedChartView, selectedChartView, isMobile } = chartToggleConfig;
+  const { setSelectedChartView, selectedChartView } = chartToggleConfig;
 
   const { fiscalYear, totalSpending, gdp, gdpRatio } = headingValues;
 
+  const toggleClickHandler = selectedChartView => {
+    setSelectedChartView(selectedChartView);
+    gaEvent('19');
+  };
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        className={styles.chartToggle}
-        style={{
-          marginBottom: isMobile ? '0.75rem' : '1rem',
+    <div className={dataHeaderContainer}>
+      <ChartToggle
+        primaryColor={spendingExplainerPrimary}
+        toggleClickHandler={toggleClickHandler}
+        leftButtonConfig={{
+          leftTitle: 'Total Spending',
+          leftId: 'totalSpending',
+          leftSelected: selectedChartView === 'totalSpending',
         }}
-      >
-        <button
-          className={styles.toggleButton}
-          style={{
-            borderBottomLeftRadius: '4px',
-            borderTopLeftRadius: '4px',
-            color: selectedChartView === 'totalSpending' ? '#f1f1f1' : '#00766C',
-            background: selectedChartView === 'totalSpending' ? '#00766C' : '#f1f1f1',
-            borderRight: 'none',
-            width: isMobile ? '144px' : '224px',
-            height: isMobile ? '1.5rem' : '2rem',
-          }}
-          onClick={() => {
-            setSelectedChartView('totalSpending');
-            gaEvent('19');
-          }}
-          id={'total-spending-toggle'}
-        >
-          <span
-            style={{
-              fontSize: isMobile ? '14px' : '16px',
-              color: selectedChartView === 'percentageGdp' ? 'inherit' : '#FFFFFF',
-              fontWeight: 600,
-            }}
-          >
-            Total Spending
-          </span>
-        </button>
-        <button
-          className={styles.toggleButton}
-          style={{
-            borderBottomRightRadius: '4px',
-            borderTopRightRadius: '4px',
-            color: selectedChartView === 'percentageGdp' ? '#f1f1f1' : '#00766C',
-            background: selectedChartView === 'percentageGdp' ? '#00766C' : '#f1f1f1',
-            width: isMobile ? '144px' : '224px',
-            height: isMobile ? '1.5rem' : '2rem',
-          }}
-          onClick={() => {
-            setSelectedChartView('percentageGdp');
-            gaEvent('19');
-          }}
-          id={'total-spending-toggle'}
-        >
-          <span
-            style={{
-              fontSize: isMobile ? '14px' : '16px',
-              color: selectedChartView === 'percentageGdp' ? '#FFFFFF' : 'inherit',
-              fontWeight: 600,
-            }}
-          >
-            Percentage of GDP
-          </span>
-        </button>
-      </div>{' '}
-      <div className={styles.headerContainer}>
-        <div className={styles.headerData}>
-          <div
-            className={styles.dataElement}
-            style={{
-              paddingLeft: getFirstElPadding(selectedChartView, isMobile),
-            }}
-          >
-            <div className={styles.dataValue}>{fiscalYear}</div>
-            <span className={styles.dataLabel}>Fiscal Year</span>
+        rightButtonConfig={{
+          rightTitle: 'Percentage of GDP',
+          rightId: 'percentageGdp',
+          rightSelected: selectedChartView === 'percentageGdp',
+        }}
+        chartId="spending-chart-toggle"
+      />
+      <div className={headerContainer}>
+        <div className={headerData}>
+          <div className={dataElement}>
+            <div className={dataValue}>{fiscalYear}</div>
+            <span className={dataLabel}>Fiscal Year</span>
           </div>
-
           {selectedChartView !== 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>${totalSpending}</div>
-              <span className={styles.dataLabel}>Total Spending</span>
-            </div>
+            <>
+              <div className={dataElement}>
+                <div className={dataValue}>${totalSpending}</div>
+                <span className={dataLabel}>Total Spending</span>
+              </div>
+              <div className={dataElement}>
+                <div className={dataValue}>${gdp}</div>
+                <span className={dataLabel}>GDP</span>
+              </div>
+            </>
           )}
-
-          {selectedChartView !== 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>${gdp}</div>
-              <span className={styles.dataLabel}>GDP</span>
-            </div>
-          )}
-
           {selectedChartView === 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>{gdpRatio}</div>
-              <span className={styles.dataLabel}>GDP Ratio</span>
+            <div className={dataElement}>
+              <div className={dataValue}>{gdpRatio}</div>
+              <span className={dataLabel}>GDP Ratio</span>
             </div>
           )}
         </div>
@@ -159,46 +96,9 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
   );
 };
 
-const formatCurrency = v => {
-  if (parseFloat(v) < 0) {
-    return `$${Math.abs(v)} T`;
-  } else if (parseFloat(v) > 0) {
-    return `$${v} T`;
-  } else {
-    return `$${v}`;
-  }
-};
-
-const formatPercent = v => {
-  return `${v}%`;
-};
-
-const chartTheme = {
-  textColor: '#666666',
-  axis: {
-    domain: {
-      line: {
-        strokeWidth: 1,
-        stroke: '#666666',
-      },
-    },
-  },
-  crosshair: {
-    line: {
-      stroke: '#555555',
-      strokeWidth: 2,
-      strokeDasharray: '2,2',
-    },
-  },
-  marker: {
-    fill: '#666666',
-  },
-};
-
 const layers = ['grid', 'crosshair', 'markers', 'axes', 'areas', 'lines', 'points'];
 
 export const chartConfigs = {
-  theme: chartTheme,
   layers: layers,
   axisLeftSpending: {
     format: formatCurrency,
@@ -209,7 +109,7 @@ export const chartConfigs = {
     tickValues: 6,
   },
   axisLeftPercent: {
-    format: formatPercent,
+    format: formatPercentage,
     orient: 'left',
     tickSize: 5,
     tickPadding: 5,

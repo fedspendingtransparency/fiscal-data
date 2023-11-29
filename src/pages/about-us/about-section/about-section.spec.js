@@ -7,10 +7,13 @@ import About from './about-section';
 
 const h3Headers = [
   'about-mission',
+  'about-Vision',
+  'about-values',
   'about-who',
   'about-difference',
   'about-background',
   'about-open-data',
+  'about-international',
   'about-sources',
   'about-understanding',
   'about-dev',

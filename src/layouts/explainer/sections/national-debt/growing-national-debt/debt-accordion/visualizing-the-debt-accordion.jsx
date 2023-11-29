@@ -75,11 +75,11 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
       <Accordion
         title={`Visualizing the debt - How much is $${nationalDebtValue} trillion dollars?`}
         containerClass={growingNationalDebtSectionAccordion}
-        openEventNumber={'20'}
-        closeEventNumber={'21'}
+        openEventNumber="20"
+        closeEventNumber="21"
         dynamicGaEventValue={dynamicGaEventValue}
         explainerGAEvent="Debt"
-        ga4ID={'viz-debt'}
+        ga4ID="viz-debt"
       >
         <div className={accordionHeader}>
           <p>If this is 1 billion:</p>

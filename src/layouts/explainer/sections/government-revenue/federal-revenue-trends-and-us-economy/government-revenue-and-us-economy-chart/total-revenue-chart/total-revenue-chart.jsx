@@ -3,15 +3,22 @@ import { Line } from '@nivo/line';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../../explainer-components/chart-container/chart-container';
-import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_10 } from '../../../../../../../variables.module.scss';
 import { getChartCopy, dataHeader, chartConfigs, getMarkers } from './total-revenue-chart-helper';
 import { visWithCallout } from '../../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../../components/visualization-callout/visualization-callout';
 import { lineChart, container } from './total-revenue-chart.module.scss';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
-import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../../explainer-helpers/explainer-charting-helper';
-import { lineChartCustomPoints } from '../../../../federal-spending/spending-trends/total-spending-chart/total-spending-chart-helper';
-import CustomSlices from '../../../../../explainer-helpers/custom-slice/custom-slice';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  applyTextScaling,
+  chartInViewProps,
+  getChartTheme,
+  LineChartCustomPoints_GDP,
+  nivoCommonLineChartProps,
+} from '../../../../../explainer-helpers/explainer-charting-helper';
+import CustomSlices from '../../../../../../../components/nivo/custom-slice/custom-slice';
 import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../../helpers/simplify-number/simplifyNumber';
@@ -39,16 +46,16 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [minYear, setMinYear] = useState(2015);
   const [maxYear, setMaxYear] = useState(2022);
   const [callOutYear, setCallOutYear] = useState('');
-  const [firstRatio, setFirstRatio] = useState('');
-  const [lastRatio, setlastRatio] = useState('');
+  const [lastRatio, setLastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
-  const [lastGDPValue, setlastGDPValue] = useState('');
-  const [lastRevenueValue, setlastRevenueValue] = useState('');
+  const [lastGDPValue, setLastGDPValue] = useState('');
+  const [lastRevenueValue, setLastRevenueValue] = useState('');
   const [maxRevenueValue, setMaxRevenueValue] = useState(0);
   const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalRevenue');
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
+  const [calloutCopy, setCalloutCopy] = useState('');
 
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
 
@@ -94,7 +101,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   ];
   const [chartData, setChartData] = useState(totalData);
 
-  const [isMobile, setIsMobile] = useState(true);
   const chartParent = 'totalRevenueChartParent';
   const chartWidth = 550;
   const chartHeight = 490;
@@ -102,26 +108,12 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const chartToggleConfig = {
     selectedChartView,
     setSelectedChartView,
-    isMobile,
   };
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
     addInnerChartAriaLabel(chartParent);
   }, [isLoading, selectedChartView]);
-
-  const breakpoint = {
-    desktop: 1015,
-    tablet: 600,
-  };
-
-  useEffect(() => {
-    if (window.innerWidth < breakpoint.desktop) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [width]);
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
@@ -168,7 +160,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         const revenueLastAmountActual = finalRevenueChartData[finalRevenueChartData.length - 1].actual;
 
-        setlastRevenueValue(revenueLastAmountActual);
+        setLastRevenueValue(revenueLastAmountActual);
 
         setMaxRevenueValue(revenueMaxAmount.y);
 
@@ -191,16 +183,24 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
         setRatioGdpChartData(finalGdpRatioChartData);
 
-        setFirstRatio(numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%'));
-
+        const chartFirstRatio = numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%');
         const chartLastRatio = numeral(
           finalRevenueChartData[finalRevenueChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
         ).format('0%');
-        setlastRatio(chartLastRatio);
+        setLastRatio(chartLastRatio);
+        if (chartFirstRatio !== chartLastRatio) {
+          setCalloutCopy(
+            `the Revenue-to-GDP ratio has ${
+              chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
+            } from ${chartFirstRatio} to ${chartLastRatio}`
+          );
+        } else {
+          setCalloutCopy(`the Revenue-to-GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+        }
 
         const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
         const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
-        setlastGDPValue(chartLastGDPValue);
+        setLastGDPValue(chartLastGDPValue);
         setGdpChartData(filteredGDPData);
 
         setMaxGDPValue(chartMaxGDPValue);
@@ -277,31 +277,9 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     selectedChartView
   );
 
-  const { ref: revenueRef, inView: revenueInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
+  const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps);
 
-  const { ref: gdpRef, inView: gdpInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
-
-  const chartTheme = {
-    ...chartConfigs.theme,
-    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    marker: {
-      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    },
-    crosshair: {
-      line: {
-        stroke: '#555555',
-        strokeWidth: 2,
-      },
-    },
-  };
+  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
 
   const xScale = {
     type: 'linear',
@@ -317,29 +295,17 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   };
 
   const commonProps = {
+    ...nivoCommonLineChartProps,
     data: chartData,
     colors: d => d.color,
     width: chartWidth,
     height: chartHeight,
-    enablePoints: true,
-    pointSize: 0,
-    enableGridX: false,
-    enableGridY: false,
-    axisTop: null,
-    axisRight: null,
     axisBottom: chartConfigs.axisBottom,
     axisLeft: selectedChartView === 'totalRevenue' ? chartConfigs.axisLeftTotalRevenue : chartConfigs.axisLeftPercentageGDP,
     useMesh: false,
-    isInteractive: true,
-    enableCrosshair: true,
-    crosshairType: 'x',
-    animate: false,
-    sliceTooltip: () => null,
-    tooltip: () => null,
-    enableSlices: 'x',
     markers: getMarkers(width, selectedChartView, maxGDPValue, maxRevenueValue),
     margin: width < pxToNumber(breakpointLg) ? { top: 25, right: 25, bottom: 30, left: 55 } : { top: 20, right: 15, bottom: 35, left: 50 },
-    theme: chartTheme,
+    theme: getChartTheme(width, true),
     xScale: xScale,
     yScale: yScale,
   };
@@ -353,7 +319,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
       )}
       {!isLoading && chartToggleConfig && (
         <div className={visWithCallout}>
-          <div className={container} role={'presentation'} onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
+          <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
             <ChartContainer
               title={chartTitle}
               subTitle={chartSubtitle}
@@ -362,14 +328,18 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
               header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
               altText={chartAltText}
             >
-              <div className={lineChart} data-testid={'totalRevenueChartParent'}>
+              <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
                   <div ref={revenueRef}>
                     <Line
                       {...commonProps}
                       layers={[
                         ...chartConfigs.layers,
-                        lineChartCustomPoints,
+                        props =>
+                          LineChartCustomPoints_GDP({
+                            ...props,
+                            serieId: 'Total Revenue',
+                          }),
                         props =>
                           CustomSlices({
                             ...props,
@@ -390,7 +360,11 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                       {...commonProps}
                       layers={[
                         ...chartConfigs.layers,
-                        lineChartCustomPoints,
+                        props =>
+                          LineChartCustomPoints_GDP({
+                            ...props,
+                            serieId: 'Total Revenue',
+                          }),
                         props =>
                           CustomSlices({
                             ...props,
@@ -410,7 +384,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
           </div>
           <VisualizationCallout color={revenueExplainerPrimary}>
             <p>
-              Since {callOutYear}, the Revenue-to-GDP ratio has increased from {firstRatio} to {lastRatio}.
+              Since {callOutYear}, {calloutCopy}.
             </p>
           </VisualizationCallout>
         </div>

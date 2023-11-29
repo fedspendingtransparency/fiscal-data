@@ -12,6 +12,12 @@ $borderRadius: 5px;
     box-sizing: border-box;
     border-top: 0;
     background-color: white;
+    height: 521px;
+    overflow-y: auto;
+  }
+
+  table {
+    margin-top: -3px;
   }
 
   table,
@@ -59,9 +65,10 @@ $borderRadius: 5px;
     height: 1.875rem;
   }
 
-  .range {
-    font-weight: $semi-bold-weight;
-  }
+
+}
+.range {
+  font-weight: $semi-bold-weight;
 }
 
 .overlayContainer,

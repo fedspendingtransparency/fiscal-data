@@ -108,7 +108,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data, pageContext }) => 
               'each browsing on laptop computers.'
             }
             style={{ backgroundImage: `url(${frontMatter.heroImagePath})` }}
-          ></div>
+          />
           <FDGMdxProvider>
             <MDXProvider components={featuresComponents}>
               <MDXRenderer children={post.body} />
@@ -117,11 +117,7 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data, pageContext }) => 
         </div>
       </div>
       <div className={relatedDatasetsStyle}>
-        <ExplainerRelatedDatasets
-          datasets={pageContext.relatedDatasets}
-          referrer={'Insight'}
-          header={'See the datasets that relate to this Insight'}
-        />
+        <ExplainerRelatedDatasets datasets={pageContext.relatedDatasets} referrer="Insight" header="See the datasets that relate to this Insight" />
       </div>
     </SiteLayout>
   );

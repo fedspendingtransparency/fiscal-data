@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import * as styles from './page-error.module.scss';
+import { notFoundGraphic } from './page-error.module.scss';
 
 const NotFoundGraphic = () => {
   const png = '/not-found/404gif2.png';
@@ -22,7 +22,7 @@ const NotFoundGraphic = () => {
     };
   }, []);
 
-  return <img className={styles.notFoundGraphic} src={src} alt="404: Page Not Found" role="presentation" />;
+  return <img className={notFoundGraphic} src={src} alt="404: Page Not Found" role="presentation" />;
 };
 
 export default NotFoundGraphic;

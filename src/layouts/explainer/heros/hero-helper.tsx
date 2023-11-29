@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { getShortForm } from '../../../utils/rounding-utils';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export const getFootNotesDateRange = (priorFY: string, currentFY: string, currentRecordMonth: string): string => {
   const date = new Date();
@@ -35,11 +36,11 @@ export const getPillData = (
       </div>
       {changeLabel === 'increased' ? (
         <div className={explainerArrow}>
-          <FontAwesomeIcon icon={faUpLong} title={'up arrow'} />
+          <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />
         </div>
       ) : (
         <div className={explainerArrow}>
-          <FontAwesomeIcon icon={faDownLong} title={'down arrow'} />
+          <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />
         </div>
       )}
       <div className={pillDataPercent} title={rightPillTooltipText} style={{ background: color, width: `${getPillWidth(percentLength)}rem` }}>

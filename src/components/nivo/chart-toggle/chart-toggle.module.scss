@@ -1,0 +1,58 @@
+@import "src/variables.module";
+
+
+.chartToggle {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.toggleButton {
+  margin-bottom: 2%;
+  cursor: pointer;
+  border: 2px solid;
+  width: 224px;
+  height: 2rem;
+
+  &.toggleButtonLeft {
+    border-bottom-right-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+
+  &.toggleButtonRight {
+    border-bottom-left-radius: .25rem;
+    border-top-left-radius: .25rem;
+    border-right: none;
+  }
+
+  &.selected {
+    color: #ffffff;
+    background: #f1f1f1;
+  }
+}
+
+.buttonTitle {
+  font-weight: $semi-bold-weight;
+  font-size: $font-size-16;
+  color: inherit;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .chartToggle {
+    margin-bottom: 0.75rem;
+  }
+
+  .toggleButton {
+    width: 144px;
+    height: 1.5rem;
+  }
+
+  .buttonTitle {
+    font-size: $font-size-14;
+  }
+}
+
+

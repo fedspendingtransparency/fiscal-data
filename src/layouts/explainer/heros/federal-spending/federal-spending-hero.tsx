@@ -1,5 +1,5 @@
 import { counterContainerSpending, footNotes, footNotesPillData, heroImageSubHeading } from '../../hero-image/hero-image.module.scss';
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import CustomLink from '../../../../components/links/custom-link/custom-link';
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getFootNotesDateRange, getPillData } from '../hero-helper';
@@ -7,9 +7,9 @@ import { spendingExplainerPrimary } from '../../sections/federal-spending/federa
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import { getShortForm } from '../../../../utils/rounding-utils';
 
-const FederalSpendingHero = (): JSX.Element => {
+const FederalSpendingHero = (): ReactElement => {
   const fields: string =
-    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,' + 'record_calendar_month,record_calendar_year,record_fiscal_year';
+    'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
   const filter: string = 'filter=line_code_nbr:eq:5691';
   const sort: string = 'sort=-record_date';
   const pagination: string = 'page[size]=1';

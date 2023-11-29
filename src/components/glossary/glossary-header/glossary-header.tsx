@@ -9,7 +9,7 @@ interface IGlossaryHeader {
   filter: string;
   clickHandler: (e) => void;
   filterHandler: (e) => void;
-  glossaryRef: any;
+  glossaryRef;
   tabReset: boolean;
   setTabReset: (reset: boolean) => void;
 }

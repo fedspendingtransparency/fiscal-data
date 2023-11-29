@@ -13,6 +13,11 @@
   cursor: pointer;
 }
 
+.stickyHeader {
+  position: sticky;
+  top: 0;
+}
+
 .sortArrowPill {
   background-color: $primary;
 }
@@ -40,8 +45,13 @@
   align-items: center;
   padding: 0.5rem 0;
   white-space: nowrap;
+
   &.rightAlignText {
     justify-content: flex-end;
+  }
+
+  &.noFilter {
+    margin-bottom: 2.5rem;
   }
 }
 

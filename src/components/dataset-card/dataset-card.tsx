@@ -18,6 +18,7 @@ import heroImage5 from '../../../static/images/dataset-search-hero-images/Hero-5
 import heroImage6 from '../../../static/images/dataset-search-hero-images/Hero-6.png';
 import heroImage7 from '../../../static/images/dataset-search-hero-images/Hero-7.png';
 import heroImage8 from '../../../static/images/dataset-search-hero-images/Hero-8.png';
+import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
 
 type DatasetCardProps = {
   dataset: IDataset;
@@ -63,8 +64,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
           label: `${referrer} - ${context}`,
         });
         // GA4 Data Layer - Dataset Click
-        (window as any).dataLayer = (window as any).dataLayer || [];
-        (window as any).dataLayer.push({
+        ga4DataLayerPush({
           event: `${referrer} - Citation Click`,
           citationClickEventLabel: `${dataset.name}`,
         });
@@ -80,8 +80,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
           value: dataset.name,
         });
         // GA4 Data Layer - Dataset Click
-        (window as any).dataLayer = (window as any).dataLayer || [];
-        (window as any).dataLayer.push({
+        ga4DataLayerPush({
           event: `${context} Click`,
           eventLabel: `from ${referrer} to ${dataset.name}`,
         });
@@ -95,7 +94,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
       <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
         <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)} style={{ padding: 0 }}>
           <div>
-            <img src={assignHeroImage()} alt={'hero'} className={cardHeroImage} />
+            <img src={assignHeroImage()} alt="hero" className={cardHeroImage} />
             <div className={datasetName}>{dataset.name}</div>
           </div>
           <DatasetStats dataset={dataset} />
