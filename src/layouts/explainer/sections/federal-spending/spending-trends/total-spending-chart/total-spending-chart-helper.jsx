@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomLink from '../../../../../../components/links/custom-link/custom-link';
-import * as styles from './total-spending-chart.module.scss';
+import { dataElement, dataHeaderContainer, dataLabel, dataValue, headerData, headerContainer } from './total-spending-chart.module.scss';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartToggle from '../../../../../../components/nivo/chart-toggle/chart-toggle';
@@ -38,21 +38,9 @@ export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   };
 };
 
-const getFirstElPadding = (chartView, isMobile) => {
-  if (chartView === 'percentageGdp') {
-    return '112px';
-  }
-  if (chartView === 'totalSpending') {
-    if (isMobile) {
-      return '52px';
-    }
-  }
-  return '32px';
-};
-
 export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
   if (!chartToggleConfig) return;
-  const { setSelectedChartView, selectedChartView, isMobile } = chartToggleConfig;
+  const { setSelectedChartView, selectedChartView } = chartToggleConfig;
 
   const { fiscalYear, totalSpending, gdp, gdpRatio } = headingValues;
 
@@ -62,13 +50,7 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
+    <div className={dataHeaderContainer}>
       <ChartToggle
         primaryColor={spendingExplainerPrimary}
         toggleClickHandler={toggleClickHandler}
@@ -84,36 +66,28 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
         }}
         chartId="spending-chart-toggle"
       />
-      <div className={styles.headerContainer}>
-        <div className={styles.headerData}>
-          <div
-            className={styles.dataElement}
-            style={{
-              paddingLeft: getFirstElPadding(selectedChartView, isMobile),
-            }}
-          >
-            <div className={styles.dataValue}>{fiscalYear}</div>
-            <span className={styles.dataLabel}>Fiscal Year</span>
+      <div className={headerContainer}>
+        <div className={headerData}>
+          <div className={dataElement}>
+            <div className={dataValue}>{fiscalYear}</div>
+            <span className={dataLabel}>Fiscal Year</span>
           </div>
-
           {selectedChartView !== 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>${totalSpending}</div>
-              <span className={styles.dataLabel}>Total Spending</span>
-            </div>
+            <>
+              <div className={dataElement}>
+                <div className={dataValue}>${totalSpending}</div>
+                <span className={dataLabel}>Total Spending</span>
+              </div>
+              <div className={dataElement}>
+                <div className={dataValue}>${gdp}</div>
+                <span className={dataLabel}>GDP</span>
+              </div>
+            </>
           )}
-
-          {selectedChartView !== 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>${gdp}</div>
-              <span className={styles.dataLabel}>GDP</span>
-            </div>
-          )}
-
           {selectedChartView === 'percentageGdp' && (
-            <div className={styles.dataElement}>
-              <div className={styles.dataValue}>{gdpRatio}</div>
-              <span className={styles.dataLabel}>GDP Ratio</span>
+            <div className={dataElement}>
+              <div className={dataValue}>{gdpRatio}</div>
+              <span className={dataLabel}>GDP Ratio</span>
             </div>
           )}
         </div>
