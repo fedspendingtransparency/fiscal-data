@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { Line } from '@nivo/line';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontSize_10, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
-import { getChartCopy, dataHeader, chartConfigs, getMarkers, lineChartCustomPoints } from './total-spending-chart-helper';
+import { getChartCopy, dataHeader, chartConfigs, getMarkers } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
@@ -19,8 +19,15 @@ import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
-import CustomSlices from '../../../../explainer-helpers/custom-slice/custom-slice';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  chartInViewProps,
+  getChartTheme,
+  LineChartCustomPoints_GDP,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
+import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { useInView } from 'react-intersection-observer';
 
 const callOutDataEndPoint =
@@ -52,7 +59,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [maxSpendingValue, setMaxSpendingValue] = useState(0);
   const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
-  const [isMobile, setIsMobile] = useState(true);
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
@@ -227,23 +233,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     });
   }, []);
 
-  const breakpoint = {
-    desktop: 1015,
-    tablet: 600,
-  };
-
-  useEffect(() => {
-    if (window.innerWidth < breakpoint.desktop) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }, [width]);
-
   const chartToggleConfig = {
     selectedChartView,
     setSelectedChartView,
-    isMobile,
   };
 
   useEffect(() => {
@@ -315,31 +307,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     selectedChartView
   );
 
-  const { ref: spendingRef, inView: spendingInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
+  const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
 
-  const { ref: gdpRef, inView: gdpInView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '-50% 0% -50% 0%',
-  });
-
-  const chartTheme = {
-    ...chartConfigs.theme,
-    fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    marker: {
-      fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-    },
-    crosshair: {
-      line: {
-        stroke: '#555555',
-        strokeWidth: 2,
-      },
-    },
-  };
+  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
 
   const xScale = {
     type: 'linear',
@@ -355,28 +325,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   };
 
   const commonProps = {
+    ...nivoCommonLineChartProps,
     data: chartData,
     colors: d => d.color,
     width: chartWidth,
     height: chartHeight,
-    enablePoints: true,
-    pointSize: 0,
-    enableGridX: false,
-    enableGridY: false,
-    axisTop: null,
-    axisRight: null,
     axisBottom: chartConfigs.axisBottom,
     useMesh: false,
-    isInteractive: true,
-    enableCrosshair: true,
-    crosshairType: 'x',
-    animate: false,
-    sliceTooltip: () => null,
-    tooltip: () => null,
-    enableSlices: 'x',
     markers: getMarkers(width, selectedChartView, maxGDPValue, maxSpendingValue),
     margin: width < pxToNumber(breakpointLg) ? { top: 25, right: 25, bottom: 30, left: 55 } : { top: 20, right: 15, bottom: 35, left: 50 },
-    theme: chartTheme,
     xScale: xScale,
     yScale: yScale,
   };
@@ -414,10 +371,15 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   <div ref={spendingRef}>
                     <Line
                       {...commonProps}
+                      theme={getChartTheme(width, true)}
                       axisLeft={chartConfigs.axisLeftSpending}
                       layers={[
                         ...chartConfigs.layers,
-                        lineChartCustomPoints,
+                        props =>
+                          LineChartCustomPoints_GDP({
+                            ...props,
+                            serieId: 'Total Spending',
+                          }),
                         props =>
                           CustomSlices({
                             ...props,
@@ -436,10 +398,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   <div ref={gdpRef}>
                     <Line
                       {...commonProps}
+                      theme={getChartTheme(width, true)}
                       axisLeft={chartConfigs.axisLeftPercent}
                       layers={[
                         ...chartConfigs.layers,
-                        lineChartCustomPoints,
+                        LineChartCustomPoints_GDP,
                         props =>
                           CustomSlices({
                             ...props,
