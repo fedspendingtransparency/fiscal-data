@@ -61,8 +61,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
           ) : (
             <input
               type="number"
-              inputMode="numeric"
-              pattern="[0-9]*"
+              inputMode="decimal"
               step="any"
               onKeyDown={noNonNumericChar}
               onChange={onCurrencyValueChange}
