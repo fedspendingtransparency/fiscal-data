@@ -608,3 +608,16 @@ export const mockBEAGDPData = [
     dataValue: '4,148,551',
   },
 ];
+
+export const mockNoQ3BEAGDPData = [
+  ...mockBEAGDPData,
+  // change mock dataValues
+  {
+    timePeriod: '1985Q1',
+    dataValue: '0',
+  },
+  {
+    timePeriod: '1985Q2',
+    dataValue: '0',
+  },
+];
