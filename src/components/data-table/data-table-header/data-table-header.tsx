@@ -83,10 +83,10 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map(header => {
-              const displayTextFilters = maxRows <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
+              const disableTextFilters = maxRows > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
-              const displayFilterStyle = !displayTextFilters && columnDataType !== 'DATE' ? noFilter : null;
+              // const displayFilterStyle = !displayTextFilters && columnDataType !== 'DATE' ? noFilter : null;
               return (
                 <th
                   key={header.id}
@@ -97,10 +97,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                 >
                   {header.isPlaceholder ? null : (
                     <>
-                      <div
-                        className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle} ${displayFilterStyle}` : ''}
-                        data-testid={`header-sorter-${header.id}`}
-                      >
+                      <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>
                         <LightTooltip title={header.column.columnDef.header} placement="bottom-start">
                           <div className={colHeaderText}>{flexRender(header.column.columnDef.header, header.getContext())}</div>
                         </LightTooltip>
@@ -151,7 +148,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           setFiltersActive,
                           allActiveFilters,
                           setAllActiveFilters,
-                          displayTextFilters
+                          disableTextFilters
                         )}
                       </div>
                     </>

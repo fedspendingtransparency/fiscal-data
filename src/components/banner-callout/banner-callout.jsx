@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';
 
-const BannerCallout = ({ bannerCallout, bannerType = 'info' }) => {
+const BannerCallout = ({ bannerCallout, bannerType = 'info', displayIcon = true }) => {
   const currentCallout = calloutConfig[bannerCallout?.banner]?.copy;
-
+  const infoTip = calloutConfig[bannerCallout?.banner]?.infoTip;
   const today = new Date().getTime();
 
   const endDate = bannerCallout?.endDate ? new Date(bannerCallout?.endDate).getTime() : null;
@@ -30,8 +30,8 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info' }) => {
     return (
       <div className={classNames([banner, styleConfig.classname])} data-testid="banner">
         <div className={sideTab} style={{ marginRight: calloutConfig[bannerCallout]?.customMargin }} />
-        <span className={calloutText}>
-          <FontAwesomeIcon className={icon} icon={styleConfig.icon} />
+        <span className={calloutText} style={{ margin: calloutConfig[bannerCallout.banner]?.customTextMargin }}>
+          {displayIcon && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
           <div>{currentCallout}</div>
         </span>
       </div>
