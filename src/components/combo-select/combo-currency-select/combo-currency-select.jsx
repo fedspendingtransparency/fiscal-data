@@ -15,7 +15,6 @@ import {
   fullBorderContainer,
   dropdownInputWeight,
   selectedText,
-  dropdownDisplay
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';
@@ -139,7 +138,7 @@ const ComboCurrencySelect = ({
             {required && <span className="required">*</span>}
           </div>
         ) : null}
-        <div ref={ref} onFocus={onFocusHandler} role="presentation" className={dropdownDisplay}>
+        <div ref={ref} onFocus={onFocusHandler} role="presentation">
           <div className={dropdownStyle()} data-testid="dropdown-button-container">
             <button
               className={classNames([dropdownInput, !isExchangeTool ? dropdownInputWeight : null])}

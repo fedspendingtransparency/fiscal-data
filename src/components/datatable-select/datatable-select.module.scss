@@ -8,6 +8,12 @@
     white-space: nowrap;
   }
 }
+.dropdownDisplay {
+  min-width: 250px;
+  @media screen and (min-width: $breakpoint-md) {
+    display: inline-block;
+  }
+}
 
 .header {
   @include headingStyle6;
