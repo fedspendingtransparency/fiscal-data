@@ -20,7 +20,6 @@ import { rightAlign, getColumnFilter } from '../data-table-helper';
 import React, { FunctionComponent, useEffect } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
-import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
 
 interface IDataTableHeader {
   table: Table<Record<string, unknown>>;
@@ -30,6 +29,7 @@ interface IDataTableHeader {
   maxRows: number;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
+  manualPagination: boolean;
 }
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
@@ -40,6 +40,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   maxRows,
   allActiveFilters,
   setAllActiveFilters,
+  manualPagination,
 }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
@@ -83,7 +84,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map(header => {
-              const disableTextFilters = maxRows > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
+              // const disableTextFilters = maxRows > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
               // const displayFilterStyle = !displayTextFilters && columnDataType !== 'DATE' ? noFilter : null;
@@ -148,7 +149,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           setFiltersActive,
                           allActiveFilters,
                           setAllActiveFilters,
-                          disableTextFilters
+                          manualPagination
                         )}
                       </div>
                     </>

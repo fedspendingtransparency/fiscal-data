@@ -53,6 +53,7 @@ const TableSectionContainer = ({
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
+  const [manualPagination, setManualPagination] = useState(false);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -235,6 +236,7 @@ const TableSectionContainer = ({
             onTabChange={tabChangeHandler}
             selectedTable={selectedTable}
             setResetFilters={setResetFilters}
+            textFilteringDisabled={!manualPagination}
             table={
               tableProps ? (
                 <DtgTable
@@ -249,6 +251,8 @@ const TableSectionContainer = ({
                   setResetFilters={setResetFilters}
                   setFiltersActive={setFiltersActive}
                   tableMeta={tableMeta}
+                  manualPagination={manualPagination}
+                  setManualPagination={setManualPagination}
                 />
               ) : (
                 ''

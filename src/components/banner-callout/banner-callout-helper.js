@@ -58,8 +58,8 @@ export const calloutConfig = {
     copy: <>Text filtering has been limited due to large table size</>,
     infoTip: (
       <>
-        The online versions of our datasets do not support text filtering for tables with more than 20,000 rows. We encourage users to download
-        datasets of this size in order to filter the data without restriction.
+        Text filtering for data tables with more than 20,000 rows is currently not supported. You can shorten the date range to enable text filtering,
+        or download the data for full filtering capabilities.
       </>
     ),
     customTextMargin: '0.5rem 0.5rem 0.5rem 0',

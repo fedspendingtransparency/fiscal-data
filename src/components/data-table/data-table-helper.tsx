@@ -140,8 +140,8 @@ export const getColumnFilter: (
   setFiltersActive: (val: boolean) => void,
   allActiveFilters: string[],
   setAllActiveFilters: (val: string[]) => void,
-  disableTextFilter: boolean
-) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters, disableTextFilter) => {
+  manualPagination: boolean
+) => JSX.Element = (header, type, resetFilters, setFiltersActive, allActiveFilters, setAllActiveFilters, manualPagination) => {
   if (type === 'DATE') {
     return (
       <DateRangeFilter
@@ -158,7 +158,7 @@ export const getColumnFilter: (
         resetFilters={resetFilters}
         allActiveFilters={allActiveFilters}
         setAllActiveFilters={setAllActiveFilters}
-        disabled={disableTextFilter}
+        disabled={manualPagination}
       />
     );
   }

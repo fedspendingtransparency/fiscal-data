@@ -4,8 +4,10 @@ import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';
+import InfoTip from '../info-tip/info-tip';
+import { withWindowSize } from 'react-fns';
 
-const BannerCallout = ({ bannerCallout, bannerType = 'info', displayIcon = true }) => {
+const BannerCallout = ({ bannerCallout, bannerType = 'info', displayIcon = true, width }) => {
   const currentCallout = calloutConfig[bannerCallout?.banner]?.copy;
   const infoTip = calloutConfig[bannerCallout?.banner]?.infoTip;
   const today = new Date().getTime();
@@ -32,7 +34,12 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', displayIcon = true 
         <div className={sideTab} style={{ marginRight: calloutConfig[bannerCallout]?.customMargin }} />
         <span className={calloutText} style={{ margin: calloutConfig[bannerCallout.banner]?.customTextMargin }}>
           {displayIcon && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
-          <div>{currentCallout}</div>
+          <div>
+            {currentCallout}
+            <InfoTip width={width} hover iconStyle={{ color: '#666666' }}>
+              {infoTip}
+            </InfoTip>
+          </div>
         </span>
       </div>
     );
@@ -41,4 +48,4 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', displayIcon = true 
   }
 };
 
-export default BannerCallout;
+export default withWindowSize(BannerCallout);

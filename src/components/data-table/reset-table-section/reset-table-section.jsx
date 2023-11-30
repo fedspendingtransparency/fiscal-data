@@ -5,11 +5,11 @@ import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import classnames from 'classnames';
 import BannerCallout from '../../banner-callout/banner-callout';
 
-const ResetTableSection = ({ resetColumns, active }) => {
+const ResetTableSection = ({ resetColumns, active, textFilteringDisabled }) => {
   const filteringBanner = { banner: 'TextFilterDisabled' };
   return (
     <div className={sectionBorder}>
-      <BannerCallout bannerCallout={filteringBanner} bannerType="warning" displayIcon={false} />
+      {!textFilteringDisabled && <BannerCallout bannerCallout={filteringBanner} bannerType="warning" displayIcon={false} />}
       <button className={classnames([resetButton, active ? activeButton : null])} onClick={() => resetColumns()} aria-label="Reset Filters">
         <>
           <FontAwesomeIcon icon={faArrowRotateRight} className={arrowIcon} />
