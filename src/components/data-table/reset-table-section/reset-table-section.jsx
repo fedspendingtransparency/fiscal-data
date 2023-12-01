@@ -9,7 +9,7 @@ const ResetTableSection = ({ resetColumns, active, textFilteringDisabled }) => {
   const filteringBanner = { banner: 'TextFilterDisabled' };
   return (
     <div className={sectionBorder}>
-      {!textFilteringDisabled && <BannerCallout bannerCallout={filteringBanner} bannerType="warning" displayIcon={false} />}
+      {textFilteringDisabled && <BannerCallout bannerCallout={filteringBanner} bannerType="warning" displayIcon={false} />}
       <button className={classnames([resetButton, active ? activeButton : null])} onClick={() => resetColumns()} aria-label="Reset Filters">
         <>
           <FontAwesomeIcon icon={faArrowRotateRight} className={arrowIcon} />

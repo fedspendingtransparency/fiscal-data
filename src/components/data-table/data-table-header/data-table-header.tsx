@@ -9,7 +9,6 @@ import {
   rightAlignText,
   sortArrow,
   sortArrowPill,
-  noFilter,
   stickyHeader,
 } from './data-table-header.module.scss';
 import { flexRender, Table } from '@tanstack/react-table';
@@ -26,7 +25,6 @@ interface IDataTableHeader {
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;
-  maxRows: number;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
   manualPagination: boolean;
@@ -37,7 +35,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   dataTypes,
   resetFilters,
   setFiltersActive,
-  maxRows,
   allActiveFilters,
   setAllActiveFilters,
   manualPagination,
@@ -84,10 +81,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map(header => {
-              // const disableTextFilters = maxRows > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
-              // const displayFilterStyle = !displayTextFilters && columnDataType !== 'DATE' ? noFilter : null;
               return (
                 <th
                   key={header.id}

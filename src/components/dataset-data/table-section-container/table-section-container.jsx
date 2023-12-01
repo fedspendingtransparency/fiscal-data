@@ -236,7 +236,7 @@ const TableSectionContainer = ({
             onTabChange={tabChangeHandler}
             selectedTable={selectedTable}
             setResetFilters={setResetFilters}
-            textFilteringDisabled={!manualPagination}
+            textFilteringDisabled={manualPagination}
             table={
               tableProps ? (
                 <DtgTable
