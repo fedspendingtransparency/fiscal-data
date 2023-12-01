@@ -25,7 +25,8 @@ export const columnsConstructorData = (
     return columnConfig
       .filter(x => !hideColumns?.includes(x.property))
       .map(({ property, name }) => {
-        if (!hideColumns?.includes(property)) {
+        // console.log(rawData.meta?.dataTypes.hasOwnProperty(property));
+        if (!hideColumns?.includes(property) && rawData.meta?.dataTypes) {
           if (property === 'cusip') {
             return {
               accessorKey: property,
