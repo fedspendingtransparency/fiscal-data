@@ -7,7 +7,7 @@ import { calloutConfig } from './banner-callout-helper';
 import InfoTip from '../info-tip/info-tip';
 import { withWindowSize } from 'react-fns';
 
-const BannerCallout = ({ bannerCallout, bannerType = 'info', displayIcon = true, width }) => {
+const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
   const currentCallout = calloutConfig[bannerCallout?.banner]?.copy;
   const infoTip = calloutConfig[bannerCallout?.banner]?.infoTip;
   const today = new Date().getTime();
@@ -33,12 +33,14 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', displayIcon = true,
       <div className={classNames([banner, styleConfig.classname])} data-testid="banner">
         <div className={sideTab} style={{ marginRight: calloutConfig[bannerCallout]?.customMargin }} />
         <span className={calloutText} style={{ margin: calloutConfig[bannerCallout.banner]?.customTextMargin }}>
-          {displayIcon && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
+          {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
           <div>
             {currentCallout}
-            <InfoTip width={width} hover iconStyle={{ color: '#666666' }}>
-              {infoTip}
-            </InfoTip>
+            {infoTip && (
+              <InfoTip width={width} hover iconStyle={{ color: '#666666' }}>
+                {infoTip}
+              </InfoTip>
+            )}
           </div>
         </span>
       </div>
