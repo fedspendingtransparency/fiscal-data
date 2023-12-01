@@ -25,10 +25,8 @@
       cursor: pointer;
       .closeIcon {
         color: $primary;
-        :not(svg root) {
-          width: 0.9rem;
-          height: 1.25rem;
-        }
+        width: 0.9rem;
+        height: 1.25rem;
       }
       :hover {
         color: $slate-blue;

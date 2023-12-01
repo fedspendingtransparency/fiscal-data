@@ -13,9 +13,9 @@ interface ISearchBar {
   onChange: (event) => void;
   onBlur?: () => void;
   filter: string;
-  handleClear: () => void;
-  active: boolean;
-  setActive: (value: boolean) => void;
+  handleClear?: () => void;
+  active?: boolean;
+  setActive?: (value: boolean) => void;
   inputRef?;
   width?: string;
   height?: string;
