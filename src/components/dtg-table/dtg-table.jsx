@@ -284,7 +284,7 @@ export default function DtgTable({
   useEffect(() => {
     updateSmallFractionDataType();
     setCurrentPage(1);
-    // setApiError(false);
+    setApiError(false);
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
     return () => {
@@ -296,7 +296,7 @@ export default function DtgTable({
     if (tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       updateSmallFractionDataType();
       setCurrentPage(1);
-      // setApiError(false);
+      setApiError(false);
       const ssp = tableProps.serverSidePagination;
       ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
       return () => {
@@ -306,7 +306,7 @@ export default function DtgTable({
   }, [sorting, filteredDateRange]);
 
   useEffect(() => {
-    // setApiError(false);
+    setApiError(false);
     const ssp = tableProps.serverSidePagination;
     ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
     return () => {
