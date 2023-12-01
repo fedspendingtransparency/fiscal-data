@@ -73,7 +73,7 @@ describe('useBEAGDP Q3 senario', () => {
       result.current.finalGDPData.find(entry => {
         return entry.fiscalYear === '1985';
       }).actual
-    ).toBe('fail - 1985');
+    ).toBe(4209517000000);
   });
 
   test('GDP calc uses regular calc if there is current year Q3 even when otherDataPresent is flagged', () => {
@@ -90,7 +90,7 @@ describe('useBEAGDP Q3 senario', () => {
       result.current.finalGDPData.find(entry => {
         return entry.fiscalYear === '1984';
       }).actual
-    ).toBe('fail - 1984');
+    ).toBe(3949152750000);
   });
 
   test('GDP calc uses regular calc when no Q3 and otherDataPresent is not flagged', () => {
@@ -107,7 +107,7 @@ describe('useBEAGDP Q3 senario', () => {
       result.current.finalGDPData.find(entry => {
         return entry.fiscalYear === '1984';
       }).actual
-    ).toBe('fail - 1984');
+    ).toBe(3949152750000);
   });
 
   test('GDP calc uses regular calc when Q3 present and otherDataPresent is not flagged', () => {
@@ -124,6 +124,6 @@ describe('useBEAGDP Q3 senario', () => {
       result.current.finalGDPData.find(entry => {
         return entry.fiscalYear === '1984';
       }).actual
-    ).toBe('fail - 1984');
+    ).toBe(3949152750000);
   });
 });
