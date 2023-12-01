@@ -410,7 +410,7 @@ export default function DtgTable({
           )}
           <ErrorBoundary FallbackComponent={() => <></>}>
             <DataTable
-              rawData={{}}
+              rawData={reactTableData}
               defaultSelectedColumns={selectColumns}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}
