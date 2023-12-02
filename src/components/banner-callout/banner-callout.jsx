@@ -30,8 +30,12 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
 
   if (currentCallout && today >= startDate && (endDate === null || today < endDate)) {
     return (
-      <div className={classNames([banner, styleConfig.classname])} data-testid="banner">
-        <div className={sideTab} style={{ marginRight: calloutConfig[bannerCallout]?.customMargin }} />
+      <div
+        className={classNames([banner, styleConfig.classname])}
+        style={{ paddingRight: calloutConfig[bannerCallout.banner]?.customSideMargin }}
+        data-testid="banner"
+      >
+        <div className={sideTab} style={{ marginRight: calloutConfig[bannerCallout.banner]?.customSideMargin }} />
         <span className={calloutText} style={{ margin: calloutConfig[bannerCallout.banner]?.customTextMargin }}>
           {!infoTip && <FontAwesomeIcon className={icon} icon={styleConfig.icon} />}
           <div>

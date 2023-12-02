@@ -62,6 +62,7 @@ export const calloutConfig = {
         or download the data for full filtering capabilities.
       </>
     ),
-    customTextMargin: '0.5rem 0.5rem 0.5rem 0',
+    customTextMargin: '0.5rem 0',
+    customSideMargin: '1.5rem',
   },
 };
