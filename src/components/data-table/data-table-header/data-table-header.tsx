@@ -9,7 +9,6 @@ import {
   rightAlignText,
   sortArrow,
   sortArrowPill,
-  noFilter,
   stickyHeader,
 } from './data-table-header.module.scss';
 import { flexRender, Table } from '@tanstack/react-table';
@@ -20,16 +19,15 @@ import { rightAlign, getColumnFilter } from '../data-table-helper';
 import React, { FunctionComponent, useEffect } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
-import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
 
 interface IDataTableHeader {
   table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
   resetFilters: boolean;
   setFiltersActive: (value: boolean) => void;
-  maxRows: number;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
+  manualPagination: boolean;
 }
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
@@ -37,9 +35,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   dataTypes,
   resetFilters,
   setFiltersActive,
-  maxRows,
   allActiveFilters,
   setAllActiveFilters,
+  manualPagination,
 }) => {
   const LightTooltip = withStyles(() => ({
     tooltip: {
@@ -83,10 +81,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map(header => {
-              const displayTextFilters = maxRows <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
-              const displayFilterStyle = !displayTextFilters && columnDataType !== 'DATE' ? noFilter : null;
               return (
                 <th
                   key={header.id}
@@ -97,10 +93,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                 >
                   {header.isPlaceholder ? null : (
                     <>
-                      <div
-                        className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle} ${displayFilterStyle}` : ''}
-                        data-testid={`header-sorter-${header.id}`}
-                      >
+                      <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>
                         <LightTooltip title={header.column.columnDef.header} placement="bottom-start">
                           <div className={colHeaderText}>{flexRender(header.column.columnDef.header, header.getContext())}</div>
                         </LightTooltip>
@@ -151,7 +144,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           setFiltersActive,
                           allActiveFilters,
                           setAllActiveFilters,
-                          displayTextFilters
+                          manualPagination
                         )}
                       </div>
                     </>

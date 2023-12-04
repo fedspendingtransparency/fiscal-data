@@ -95,6 +95,7 @@ const ChartTableToggle = ({
   userFilterUnmatchedForDateRange,
   filtersActive,
   setResetFilters,
+  textFilteringDisabled,
 }) => {
   const [tabState, setTabState] = React.useState(currentTab);
 
@@ -162,7 +163,7 @@ const ChartTableToggle = ({
       </div>
       {selectedTab === 0 && (
         <Experimental featureId="react-table-poc">
-          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} />
+          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
         </Experimental>
       )}
       <TabPanel index={0} value={tabState}>

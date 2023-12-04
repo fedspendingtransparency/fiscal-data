@@ -1,4 +1,4 @@
-import { search, searchIcon, searchIconHover, searchLabel, glow } from './search-bar.module.scss';
+import { search, searchIcon, searchIconHover, searchLabel, glow, disabledBackground } from './search-bar.module.scss';
 import { InputAdornment, MuiThemeProvider } from '@material-ui/core';
 import { searchBarTheme, useStyles } from '../glossary/glossary-header/theme';
 import Box from '@material-ui/core/Box';
@@ -13,13 +13,14 @@ interface ISearchBar {
   onChange: (event) => void;
   onBlur?: () => void;
   filter: string;
-  handleClear: () => void;
-  active: boolean;
-  setActive: (value: boolean) => void;
+  handleClear?: () => void;
+  active?: boolean;
+  setActive?: (value: boolean) => void;
   inputRef?;
   width?: string;
   height?: string;
   ariaLabel?: string;
+  disabled?: boolean;
 }
 
 const SearchBar: FunctionComponent<ISearchBar> = ({
@@ -34,6 +35,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
   width,
   height,
   ariaLabel,
+  disabled,
 }) => {
   let searchCleared = false;
 
@@ -49,7 +51,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
   };
 
   const handleClick = () => {
-    if (!searchCleared && setActive) {
+    if (!searchCleared && setActive && !disabled) {
       setActive(true);
       searchCleared = false;
     }
@@ -84,7 +86,12 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
   return (
     <div className={search}>
       <span className={searchLabel}>{label}</span>
-      <div className={glow && active ? glow : null} onClick={handleClick} onBlur={handleBlur} role="presentation">
+      <div
+        className={`${glow && active && !disabled ? glow : null} ${disabled ? disabledBackground : null}`}
+        onClick={handleClick}
+        onBlur={handleBlur}
+        role="presentation"
+      >
         <MuiThemeProvider theme={searchBarTheme}>
           <Box sx={{ width: width, fontSize: '1rem' }}>
             <TextField
@@ -105,6 +112,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
               inputProps={{
                 'aria-label': ariaLabel ? ariaLabel : label,
               }}
+              disabled={disabled}
             />
           </Box>
         </MuiThemeProvider>
