@@ -2,6 +2,7 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "alwaysStrict": false,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "assumeChangesOnlyAffectDirectDependencies": true,
     "declaration": true,
     "disableReferencedProjectLoad": false, // Set to true if project becomes "large" and Typescript slows down development

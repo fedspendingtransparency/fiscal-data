@@ -1,5 +1,5 @@
 import AfgTopicCard from '../afg-topic-card/afg-topic-card';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { getAFGFootnotes } from '../../../../../helpers/footnotes-helper/footnotes-helper';
 import AnchorText from '../../../../../components/anchor-text/anchor-text';
@@ -16,7 +16,6 @@ import {
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
-import { GlossaryContext } from '../../../../../components/glossary/glossary-context/glossary-context';
 
 const TopicSection = ({ fiscalYear, width }) => {
   const [fytdRevenue, setFytdRevenue] = useState('');
