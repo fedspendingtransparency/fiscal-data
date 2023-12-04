@@ -16,4 +16,18 @@ describe('reset table section', () => {
     resetButton.click();
     expect(mockResetColumns).toHaveBeenCalled();
   });
+
+  it('display warning banner when text filtering is disabled', () => {
+    const mockResetColumns = jest.fn();
+    const { getByText } = render(<ResetTableSection resetColumns={mockResetColumns} active={true} textFilteringDisabled={true} />);
+    const banner = getByText('Text filtering has been limited due to large table size');
+    expect(banner).toBeInTheDocument();
+  });
+
+  it('does not display warning banner when text filtering is enabled', () => {
+    const mockResetColumns = jest.fn();
+    const { queryByText } = render(<ResetTableSection resetColumns={mockResetColumns} active={true} />);
+    const banner = queryByText('Text filtering has been limited due to large table size');
+    expect(banner).not.toBeInTheDocument();
+  });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as styles from './masthead.module.scss';
+import { bannerCalloutContainer, pageHeader, mainWidth, pageTitle } from './masthead.module.scss';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 import BannerCallout from '../banner-callout/banner-callout';
 
@@ -19,12 +19,12 @@ const Masthead = ({ title, bannerCallout }) => {
   ];
 
   return (
-    <section className={styles.pageHeader}>
-      <div className={styles.mainWidth}>
+    <section className={pageHeader}>
+      <div className={mainWidth}>
         <BreadCrumbs links={breadCrumbLinks} />
-        <h1 className={styles.pageTitle}>{title}</h1>
+        <h1 className={pageTitle}>{title}</h1>
         {bannerCallout && (
-          <div data-testid="callout">
+          <div className={bannerCalloutContainer} data-testid="callout">
             <BannerCallout
               bannerCallout={bannerCallout}
               bannerType={bannerCallout.banner === 'SavingsBondsDelay' || bannerCallout.banner === 'TreasuryDirectDelay' ? 'warning' : 'info'}

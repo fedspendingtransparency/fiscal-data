@@ -4,12 +4,13 @@ $border-color: #d9d9d9;
 .dropdownIcon {
   border: none;
   background: none;
+  margin-left: 1rem;
   color: rgba(0, 0, 0, 0.54);
 }
 
 .dropdownInputContainer {
   position: relative;
-  border-radius: 0.125rem;
+  border-radius: 0.125rem;  
 }
 
 .fullBorderContainer {

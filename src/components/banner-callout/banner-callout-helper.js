@@ -6,7 +6,7 @@ export const calloutConfig = {
     copy: (
       <>
         To calculate foreign currency exchange rates for tax reporting, visit the{' '}
-        <CustomLink url={'/currency-exchange-rates-converter/'}>Currency Exchange Rates Converter</CustomLink> page.
+        <CustomLink url="/currency-exchange-rates-converter/">Currency Exchange Rates Converter</CustomLink> page.
       </>
     ),
   },
@@ -53,5 +53,16 @@ export const calloutConfig = {
         We're working on a resolution, and will publish the data as soon as possible.
       </>
     ),
+  },
+  TextFilterDisabled: {
+    copy: <>Text filtering has been limited due to large table size</>,
+    infoTip: (
+      <>
+        Text filtering for data tables with more than 20,000 rows is currently not supported. You can shorten the date range to enable text filtering,
+        or download the data for full filtering capabilities.
+      </>
+    ),
+    customTextMargin: '0.5rem 0',
+    customSideMargin: '1.5rem',
   },
 };

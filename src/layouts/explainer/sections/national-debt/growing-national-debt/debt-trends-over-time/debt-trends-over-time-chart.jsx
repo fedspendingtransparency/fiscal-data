@@ -161,9 +161,15 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   );
 
   const footerContent = (
+    <>
     <p>
       Visit the {historicalDebtOutstanding} dataset to explore and download this data. The GDP data is sourced from the {beaLink}.
     </p>
+    <p>
+      Please note: This chart is updated as new GDP data is released, even if new debt data is available. 
+    </p>
+    </>
+
   );
 
   const { ref, inView } = useInView({

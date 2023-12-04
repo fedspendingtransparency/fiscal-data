@@ -107,4 +107,9 @@ describe('Banner Callout with flag', () => {
     expect(getByRole('img', { hidden: true })).toHaveClass('fa-triangle-exclamation');
     expect(getByTestId('banner')).toHaveClass('warningBanner');
   });
+
+  it('renders an info tip when copy is configured for one', () => {
+    const { getByTestId } = render(<BannerCallout bannerCallout={{ banner: 'TextFilterDisabled' }} bannerType="warning" />);
+    expect(getByTestId('infoTipContainer')).toBeInTheDocument();
+  });
 });

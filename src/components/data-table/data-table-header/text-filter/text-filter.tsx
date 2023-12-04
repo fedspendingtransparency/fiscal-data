@@ -7,8 +7,9 @@ interface ITextFilter {
   resetFilters: boolean;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
+  disabled: boolean;
 }
-const TextFilter: FunctionComponent<ITextFilter> = ({ column, resetFilters, setAllActiveFilters, allActiveFilters }) => {
+const TextFilter: FunctionComponent<ITextFilter> = ({ column, resetFilters, setAllActiveFilters, allActiveFilters, disabled }) => {
   const [active, setActive] = useState(false);
   const [filterDisplay, setFilterDisplay] = useState('');
   const clearFilter = () => {
@@ -51,6 +52,7 @@ const TextFilter: FunctionComponent<ITextFilter> = ({ column, resetFilters, setA
       active={active}
       setActive={setActive}
       ariaLabel={`filter ${column.id} column`}
+      disabled={disabled}
     />
   );
 };

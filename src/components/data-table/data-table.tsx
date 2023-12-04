@@ -244,6 +244,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   maxRows={maxRows}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
+                  manualPagination={manualPagination}
                 />
                 <DataTableBody table={table} dataTypes={dataTypes} />
               </table>
