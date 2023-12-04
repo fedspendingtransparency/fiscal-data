@@ -18,6 +18,7 @@ import Experimental from '../experimental/experimental';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
