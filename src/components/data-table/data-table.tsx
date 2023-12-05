@@ -44,7 +44,6 @@ type DataTableProps = {
   hideColumns?: string[];
   pagingProps;
   manualPagination: boolean;
-  maxRows: number;
   rowsShowing: { begin: number; end: number };
   columnConfig?;
 };
@@ -68,7 +67,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   hideColumns,
   pagingProps,
   manualPagination,
-  maxRows,
   rowsShowing,
   columnConfig,
 }) => {
@@ -241,7 +239,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   dataTypes={dataTypes}
                   resetFilters={resetFilters}
                   setFiltersActive={setFiltersActive}
-                  maxRows={maxRows}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   manualPagination={manualPagination}
@@ -258,7 +255,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           showPaginationControls={showPaginationControls}
           pagingProps={pagingProps}
           manualPagination={manualPagination}
-          maxRows={maxRows}
           rowsShowing={rowsShowing}
         />
       )}
