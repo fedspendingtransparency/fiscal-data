@@ -233,7 +233,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     } else {
       if (selectedReportGroup && (!showFilters || newSelectedGroup)) {
         if (newSelectedGroup) {
-          const latestReportInNewlySelectedGroup = getLatestReport(selectedReportGroup?.value);
+          const latestReportInNewlySelectedGroup = getLatestReport(selectedReportGroup.value);
           toggleCurrentReport(latestReportInNewlySelectedGroup);
         } else {
           setFileSelection(currentReport);
