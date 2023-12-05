@@ -41,7 +41,7 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
           <div>
             {currentCallout}
             {infoTip && (
-              <InfoTip width={width} hover iconStyle={{ color: '#666666' }}>
+              <InfoTip width={width} hover iconStyle={{ color: '#666666', width: '15px', height: '15px' }}>
                 {infoTip}
               </InfoTip>
             )}
