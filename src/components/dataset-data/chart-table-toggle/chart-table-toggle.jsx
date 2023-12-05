@@ -94,6 +94,7 @@ const ChartTableToggle = ({
   userFilterUnmatchedForDateRange,
   filtersActive,
   setResetFilters,
+  textFilteringDisabled,
 }) => {
   const [tabState, setTabState] = React.useState(currentTab);
 
@@ -159,7 +160,9 @@ const ChartTableToggle = ({
           )}
         </AntTabs>
       </div>
-      {selectedTab === 0 && <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} />}
+      {selectedTab === 0 && (
+          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
+      )}
       <TabPanel index={0} value={tabState}>
         {emptyDataMessage ? emptyDataMessage : table}
       </TabPanel>

@@ -34,6 +34,8 @@ export default function DtgTable({
   setFiltersActive,
   tableMeta,
   tableColumnSortData,
+  manualPagination,
+  setManualPagination,
 }) {
   const {
     dePaginated,
@@ -75,7 +77,6 @@ export default function DtgTable({
   const [activeColumns, setActiveColumns] = useState([]);
   const [isReset, setIsReset] = useState(false);
   const [selectColumnsTableWidth, setSelectColumnsTableWidth] = useState(width ? (isNaN(width) ? width : `${width}px`) : 'auto');
-  const [manualPagination, setManualPagination] = useState(false);
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const sorting = useRecoilValue(reactTableSortingState);
 
