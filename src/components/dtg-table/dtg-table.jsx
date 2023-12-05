@@ -18,6 +18,7 @@ import Experimental from '../experimental/experimental';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState, reactTableSortingState } from '../../recoil/reactTableFilteredState';
 import moment from 'moment/moment';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const defaultRowsPerPage = 10;
 const selectColumnRowsPerPage = 10;
@@ -464,28 +465,46 @@ export default function DtgTable({
       </Experimental>
       <Experimental featureId="react-table-poc">
         {reactTableData && (
-          <DataTable
-            rawData={reactTableData}
-            defaultSelectedColumns={selectColumns}
-            setTableColumnSortData={setTableColumnSortData}
-            hideCellLinks={true}
-            shouldPage={shouldPage}
-            pagingProps={pagingProps}
-            showPaginationControls={showPaginationControls}
-            hasPublishedReports={hasPublishedReports}
-            publishedReports={publishedReports}
-            setSelectColumnPanel={setSelectColumnPanel}
-            selectColumnPanel={selectColumnPanel}
-            resetFilters={resetFilters}
-            setResetFilters={setResetFilters}
-            setFiltersActive={setFiltersActive}
-            hideColumns={hideColumns}
-            tableName={tableName}
-            manualPagination={manualPagination}
-            maxRows={maxRows}
-            rowsShowing={rowsShowing}
-            columnConfig={columnConfig}
-          />
+          <ErrorBoundary FallbackComponent={() => <></>}>
+            <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+              {/* API Error Message */}
+              {(apiError || tableProps.apiError) && !emptyDataMessage && (
+                <>
+                  <div data-test-id="error-overlay" className={styles.overlay} />
+                  <div data-test-id="api-error" className={styles.apiError}>
+                    <p>
+                      <strong>Table failed to load.</strong>
+                    </p>
+                    <p>
+                      There was an error with our API and we are unable to load this table. Please try your request again or{' '}
+                      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
+                    </p>
+                  </div>
+                </>
+              )}
+              <DataTable
+                rawData={reactTableData}
+                defaultSelectedColumns={selectColumns}
+                setTableColumnSortData={setTableColumnSortData}
+                hideCellLinks={true}
+                shouldPage={shouldPage}
+                pagingProps={pagingProps}
+                showPaginationControls={showPaginationControls}
+                hasPublishedReports={hasPublishedReports}
+                publishedReports={publishedReports}
+                setSelectColumnPanel={setSelectColumnPanel}
+                selectColumnPanel={selectColumnPanel}
+                resetFilters={resetFilters}
+                setResetFilters={setResetFilters}
+                setFiltersActive={setFiltersActive}
+                hideColumns={hideColumns}
+                tableName={tableName}
+                manualPagination={manualPagination}
+                rowsShowing={rowsShowing}
+                columnConfig={columnConfig}
+              />
+            </div>
+          </ErrorBoundary>
         )}
         {!reactTableData && (
           <>
