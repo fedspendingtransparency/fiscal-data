@@ -81,11 +81,13 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   }, [scrollPosition]);
 
   const { button, primarySvgColor, secondarySvgColor, popOver, popupContainer } = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
   let timeout;
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
+    setOpen(true);
     if (clickEvent) {
       clickEvent();
     }
@@ -97,9 +99,9 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
 
   const handleClose = () => {
     setAnchorEl(null);
+    setOpen(false);
   };
 
-  const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const label = `More information about ${title}.`;
 
@@ -123,18 +125,17 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   };
   return (
     <span data-testid="infoTipContainer">
-      <Button
+      <button
         aria-describedby={id}
         aria-label={title ? label : null}
         data-testid="infoTipButton"
-        variant="contained"
         className={`${button} ${styles.infoIcon} infoTipIcon`}
         onClick={handleClick}
         onMouseLeave={handleMouseLeave}
         onMouseEnter={hover ? handleClick : null}
       >
         <FontAwesomeIcon icon={faInfoCircle} className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />
-      </Button>
+      </button>
       <Popover
         id={id}
         className={popOver}
