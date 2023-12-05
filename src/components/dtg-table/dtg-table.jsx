@@ -464,24 +464,24 @@ export default function DtgTable({
         </>
       </Experimental>
       <Experimental featureId="react-table-poc">
-        <ErrorBoundary FallbackComponent={() => <></>}>
-          <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
-            {/* API Error Message */}
-            {(apiError || tableProps.apiError) && !emptyDataMessage && (
-              <>
-                <div data-test-id="error-overlay" className={styles.overlay} />
-                <div data-test-id="api-error" className={styles.apiError}>
-                  <p>
-                    <strong>Table failed to load.</strong>
-                  </p>
-                  <p>
-                    There was an error with our API and we are unable to load this table. Please try your request again or{' '}
-                    <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
-                  </p>
-                </div>
-              </>
-            )}
-            {reactTableData && (
+        {reactTableData && (
+          <ErrorBoundary FallbackComponent={() => <></>}>
+            <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
+              {/* API Error Message */}
+              {(apiError || tableProps.apiError) && !emptyDataMessage && (
+                <>
+                  <div data-test-id="error-overlay" className={styles.overlay} />
+                  <div data-test-id="api-error" className={styles.apiError}>
+                    <p>
+                      <strong>Table failed to load.</strong>
+                    </p>
+                    <p>
+                      There was an error with our API and we are unable to load this table. Please try your request again or{' '}
+                      <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">contact us</CustomLink> for assistance.
+                    </p>
+                  </div>
+                </>
+              )}
               <DataTable
                 rawData={reactTableData}
                 defaultSelectedColumns={selectColumns}
@@ -500,13 +500,12 @@ export default function DtgTable({
                 hideColumns={hideColumns}
                 tableName={tableName}
                 manualPagination={manualPagination}
-                maxRows={maxRows}
                 rowsShowing={rowsShowing}
                 columnConfig={columnConfig}
               />
-            )}
-          </div>
-        </ErrorBoundary>
+            </div>
+          </ErrorBoundary>
+        )}
         {!reactTableData && (
           <>
             <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
