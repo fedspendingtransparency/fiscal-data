@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +8,7 @@ import * as styles from './info-tip.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import Button from '@material-ui/core/Button';
 
 const style = {
   button: {
@@ -125,7 +125,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   };
   return (
     <span data-testid="infoTipContainer">
-      <button
+      <Button
         aria-describedby={id}
         aria-label={title ? label : null}
         data-testid="infoTipButton"
@@ -135,7 +135,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
         onMouseEnter={hover ? handleClick : null}
       >
         <FontAwesomeIcon icon={faInfoCircle} className={`${styles.svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />
-      </button>
+      </Button>
       <Popover
         id={id}
         className={popOver}
@@ -151,6 +151,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
           vertical: 'top',
           horizontal: 'center',
         }}
+        disableRestoreFocus
       >
         <div className={`${popupContainer} ${styles.popupContainer}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
           {getHeader()}
