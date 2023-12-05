@@ -248,6 +248,8 @@ export const fetchPivotData = async (table, from, to, pivotView, pivotValueField
     }
   }
   const uri = formulateUrl(endpoint, filterParam, fields, null, sortParamValue, 'json');
+  const data = await fetchAllPages(uri, canceledObj);
+  console.log(uri, data);
   return fetchAllPages(uri, canceledObj).then(data =>
     pivotData(data, dateField, pivotView, pivotValueField, aggregateOn, from, to, postFetchFilterFunction)
   );

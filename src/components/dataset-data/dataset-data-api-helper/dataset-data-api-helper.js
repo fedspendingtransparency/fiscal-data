@@ -30,11 +30,13 @@ const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot,
 
 const makeApiCall = async (dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache) => {
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
+  console.log(selectedPivot);
   try {
     const data = await datatableRequest(selectedTable, dateRange, selectedPivot, canceledObj, tableCache);
-
+    console.log(data);
     if (!canceledObj.isCanceled) {
       await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
+      console.log(data);
     }
   } catch (err) {
     if (err.name === 'AbortError') {
