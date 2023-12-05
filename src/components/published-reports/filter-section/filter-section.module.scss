@@ -62,6 +62,7 @@
 
 @media screen and (min-width: $breakpoint-md) {
   .filterContainer {
+    width: 250px;
     display: flex;
   }
 
