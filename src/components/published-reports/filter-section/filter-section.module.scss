@@ -62,11 +62,12 @@
 
 @media screen and (min-width: $breakpoint-md) {
   .filterContainer {
+    width: 250px;
     display: flex;
   }
 
   .selectWrapper {
-    min-width: 250px;
+    width: 250px;
     padding-right: 1rem;
     margin-bottom: 0;
   }
