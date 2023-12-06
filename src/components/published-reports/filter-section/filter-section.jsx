@@ -232,12 +232,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       getFileForSelectedDay();
     } else {
       if (selectedReportGroup && (!showFilters || newSelectedGroup)) {
-        if (newSelectedGroup) {
-          const latestReportInNewlySelectedGroup = getLatestReport(selectedReportGroup.value);
-          toggleCurrentReport(latestReportInNewlySelectedGroup);
-        } else {
           setFileSelection(currentReport);
-        }
       } else if (_resetIfNoMatch) {
         setFileSelection(null);
       }
