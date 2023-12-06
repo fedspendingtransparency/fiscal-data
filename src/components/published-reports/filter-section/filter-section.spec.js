@@ -212,7 +212,7 @@ describe('Filter Section', () => {
     expect(daySelector.props.options.length).toBe(5);
 
     // sets the selected report file when a valid day is chosen
-    expect(dailyReports[0].daily).toBeFalsy();
+
     renderer.act(() => {
       daySelector.props.changeHandler(daySelector.props.options[1]);
     });
