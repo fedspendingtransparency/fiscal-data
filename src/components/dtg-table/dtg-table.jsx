@@ -365,6 +365,7 @@ export default function DtgTable({
         if (!pivotSelected?.pivotValue || rawData?.pivotApplied.includes(pivotSelected.pivotValue?.columnName)) {
           setManualPagination(false);
           setReactTableData(rawData);
+          setIsLoading(false);
         }
       }
     }
@@ -388,7 +389,7 @@ export default function DtgTable({
   return (
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
-      {isLoading && (
+      {(isLoading || (reactTable && !reactTableData)) && (
         <>
           <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
