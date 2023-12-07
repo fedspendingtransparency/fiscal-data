@@ -36,6 +36,8 @@ export default function DtgTable({
   tableColumnSortData,
   manualPagination,
   setManualPagination,
+  pivotSelected,
+  reactTable,
 }) {
   const {
     dePaginated,
@@ -356,15 +358,17 @@ export default function DtgTable({
 
   useEffect(() => {
     if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (dePaginated !== null && !rawData?.pivotApplied) {
+      if (dePaginated !== null && !rawData?.pivotApplied && !pivotSelected?.pivotValue) {
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        setManualPagination(false);
-        setReactTableData(rawData);
+        if (!pivotSelected?.pivotValue || rawData?.pivotApplied.includes(pivotSelected.pivotValue?.columnName)) {
+          setManualPagination(false);
+          setReactTableData(rawData);
+        }
       }
     }
-  }, [rawData, dePaginated]);
+  }, [rawData, dePaginated, pivotSelected]);
 
   useEffect(() => {
     if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
@@ -392,7 +396,7 @@ export default function DtgTable({
           </div>
         </>
       )}
-      {reactTableData && (
+      {reactTable && reactTableData && (
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
@@ -435,7 +439,7 @@ export default function DtgTable({
           </ErrorBoundary>
         </div>
       )}
-      {!reactTableData && (
+      {!reactTable && (
         <>
           <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
             {/* API Error Message */}
