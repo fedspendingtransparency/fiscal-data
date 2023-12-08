@@ -332,7 +332,7 @@ export default function DtgTable({
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
       {(isLoading || (reactTable && !reactTableData)) && (
-        <div style={reactTable ? { minHeight: '521px' } : {}}>
+        <div className={reactTable ? styles.overlayContainerReactTableHeight : undefined}>
           <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
             <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
