@@ -60,15 +60,17 @@ const DDNav = () => {
     return () => window.removeEventListener('resize', handleResize);
   },[]);
 
-  const rearrangedLinks = () => {
+  const getRearragnedLinks = () => {
     if (screenWidth >= 992){
       return linksArr;
     }
-    const activeIndex = linksArr.findIndex(link => link.id === scrollToId);
+    let rearrangedLinks = [...linksArr];
+    const activeIndex = rearrangedLinks.findIndex(link => link.id === scrollToId);
     if(activeIndex > -1){
-      return [linksArr[activeIndex], ...linksArr.slice(0, activeIndex), ...linksArr.slice(activeIndex +1)];
+      const [activeLink] = rearrangedLinks.splice(activeIndex, 1)
+      rearrangedLinks.push(activeLink);
     }
-    return linksArr;
+    return rearrangedLinks;
   };
 
   useEffect(() => {
@@ -83,10 +85,10 @@ const DDNav = () => {
     <section id={container}>
       <div className={content}>
         <div data-testid="DDNavMenu" className={menu}>
-          {rearrangedLinks().map((d, i) => {
+          {getRearragnedLinks().map((d, i) => {
             return (
               <Link
-                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${d.id === scrollToId ? 'activeMenu' : ''}`}
+                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
                 key={`DDNavDesktopLink${i}`}
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}
