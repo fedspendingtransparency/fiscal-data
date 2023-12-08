@@ -15,35 +15,56 @@ const scrollOptions = {
   offset: -36,
 };
 
-const DDNav = () => {
+const DDNav = ({refs}) => {
   const [hover, setHover] = useState(null);
   const [scrollToId, setScrollToId] = useState(null);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [activeSection, setActiveSection] = useState(null);
   const linksArr = [
     {
       title: 'Introduction',
       id: 'introduction',
+      ref: refs.introRefs
     },
     {
       title: 'Preview & Download',
       id: 'preview-and-download',
+      ref: refs.dataRef 
     },
     {
       title: 'Dataset Properties',
       id: 'dataset-properties',
+      ref: refs.aboutRef 
     },
     {
       title: 'API Quick Guide',
       id: 'api-quick-guide',
+      ref: refs.quickGuideRef 
     },
     {
       title: 'Related Datasets',
       id: 'related-datasets',
+      ref: refs.relatedRef
     },
   ];
+  const handleScroll = () => {
+    let currentActive = null;
+    linksArr.forEach(link => {
+      if (link.ref.current && window.scrollY >= link.ref.current.offsetTop - 100) { // 100 is a tolerance value
+        currentActive = link.id;
+      }
+    });
+    setActiveSection(currentActive);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [refs]); 
+
+
 
   const handleInteraction = (e, id) => {
-    //only proceed on mouse click or Enter key press
     if (e?.key && e.key !== 'Enter') {
       return;
     }
@@ -58,20 +79,7 @@ const DDNav = () => {
     const handleResize = () => setScreenWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  },[]);
-
-  const getRearragnedLinks = () => {
-    if (screenWidth >= 992){
-      return linksArr;
-    }
-    let rearrangedLinks = [...linksArr];
-    const activeIndex = rearrangedLinks.findIndex(link => link.id === scrollToId);
-    if(activeIndex > -1){
-      const [activeLink] = rearrangedLinks.splice(activeIndex, 1)
-      rearrangedLinks.push(activeLink);
-    }
-    return rearrangedLinks;
-  };
+  }, []);
 
   useEffect(() => {
     if (scrollToId) {
@@ -79,16 +87,24 @@ const DDNav = () => {
       setScrollToId(null);
       scroller.scrollTo(targetId, scrollOptions);
     }
-  }, [scrollToId]);
+  }, [scrollToId]);  
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
 
   return (
     <section id={container}>
       <div className={content}>
         <div data-testid="DDNavMenu" className={menu}>
-          {getRearragnedLinks().map((d, i) => {
+          {linksArr.map((d, i) => {
             return (
               <Link
-                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
+              className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${activeSection === d.id ? activeMenu : ''}`}
                 key={`DDNavDesktopLink${i}`}
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}
