@@ -16,14 +16,39 @@ const scrollOptions = {
 };
 
 const DDNav = ({refs}) => {
-  const [hover, setHover] = useState(null);
-  const [scrollToId, setScrollToId] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
+  const [hover, setHover] = useState(null);
+  const [orderedLinks, setOrderedLinks] = useState([    {
+    title: 'Introduction',
+    id: 'introduction',
+    ref: refs.introRef
+  },
+  {
+    title: 'Preview & Download',
+    id: 'preview-and-download',
+    ref: refs.dataRef 
+  },
+  {
+    title: 'Dataset Properties',
+    id: 'dataset-properties',
+    ref: refs.aboutRef 
+  },
+  {
+    title: 'API Quick Guide',
+    id: 'api-quick-guide',
+    ref: refs.quickGuideRef 
+  },
+  {
+    title: 'Related Datasets',
+    id: 'related-datasets',
+    ref: refs.relatedRef
+  },])
+
   const linksArr = [
     {
       title: 'Introduction',
       id: 'introduction',
-      ref: refs.introRefs
+      ref: refs.introRef
     },
     {
       title: 'Preview & Download',
@@ -47,83 +72,56 @@ const DDNav = ({refs}) => {
     },
   ];
   const handleScroll = () => {
-    let currentActive = null;
-    linksArr.forEach(link => {
-      if (link.ref.current && window.scrollY >= link.ref.current.offsetTop - 100) { // 100 is a tolerance value
-        currentActive = link.id;
+    for (let link of orderedLinks) {
+      if(link.ref.current && window.scrollY >= link.ref.currentoffsetTop - 100) {
+        setActiveSection(link.id);
+        break;
       }
-    });
-    setActiveSection(currentActive);
-  };
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [refs]); 
-
-
-
-  const handleInteraction = (e, id) => {
-    if (e?.key && e.key !== 'Enter') {
-      return;
-    }
-
-    if (id) {
-      updateAddressPath(id, window.location);
-      setHover(null);
-      setScrollToId(id);
     }
   };
-  useEffect(() => {
-    const handleResize = () => setScreenWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
-    if (scrollToId) {
-      const targetId = scrollToId;
-      setScrollToId(null);
-      scroller.scrollTo(targetId, scrollOptions);
+    if (activeSection) {
+      setOrderedLinks(prevLinks => {
+        let newList = prevLinks.filter(link => link.id !==activeSection);
+        newList.push(prevLinks.find(link => link.id === activeSection));
+        return newList;
+      });
     }
-  }, [scrollToId]);  
+  }, [activeSection])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [orderedLinks]);
 
 
   return (
     <section id={container}>
       <div className={content}>
         <div data-testid="DDNavMenu" className={menu}>
-          {linksArr.map((d, i) => {
-            return (
-              <Link
-              className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${activeSection === d.id ? activeMenu : ''}`}
-                key={`DDNavDesktopLink${i}`}
-                data-testid={`DDNavDesktopLink${i}`}
-                aria-label={`Jump to ${d.title} section`}
-                to={d.id}
-                activeClass={activeMenu}
-                onClick={() => handleInteraction(null, d.id)}
-                onKeyDown={e => handleInteraction(e, d.id)}
-                tabIndex={0}
-                onMouseEnter={() => setHover(d.id)}
-                onMouseLeave={() => setHover(null)}
-                {...scrollOptions}
-              >
-                {d.title}
-              </Link>
-            );
-          })}
+          {orderedLinks.map((link, i) => (
+            <Link
+              className={`${desktopLinks} ${hover === link.id ? hoverMenu : ''}`}
+              key={`DDNavDesktopLink${i}`}
+              data-testid={`DDNavDesktopLink${i}`}
+              aria-label={`Jump to ${link.title} section`}
+              activeClass={activeMenu}
+              to={link.id}
+              {...scrollOptions}
+              onMouseEnter={() => setHover(link.id)}
+              onMouseLeave={() => setHover(null)}
+            >
+              {link.title}
+              {console.log('order: ', orderedLinks)}
+            </Link>
+          ))}
         </div>
       </div>
     </section>
   );
 };
+
 export default DDNav;
