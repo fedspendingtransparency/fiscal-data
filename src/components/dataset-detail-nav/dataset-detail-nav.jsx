@@ -18,6 +18,7 @@ const scrollOptions = {
 const DDNav = () => {
   const [hover, setHover] = useState(null);
   const [scrollToId, setScrollToId] = useState(null);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const linksArr = [
     {
       title: 'Introduction',
@@ -53,6 +54,22 @@ const DDNav = () => {
       setScrollToId(id);
     }
   };
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  },[]);
+
+  const rearrangedLinks = () => {
+    if (screenWidth >= 992){
+      return linksArr;
+    }
+    const activeIndex = linksArr.findIndex(link => link.id === scrollToId);
+    if(activeIndex > -1){
+      return [linksArr[activeIndex], ...linksArr.slice(0, activeIndex), ...linksArr.slice(activeIndex +1)];
+    }
+    return linksArr;
+  };
 
   useEffect(() => {
     if (scrollToId) {
@@ -66,10 +83,10 @@ const DDNav = () => {
     <section id={container}>
       <div className={content}>
         <div data-testid="DDNavMenu" className={menu}>
-          {linksArr.map((d, i) => {
+          {rearrangedLinks().map((d, i) => {
             return (
               <Link
-                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
+                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${d.id === scrollToId ? 'activeMenu' : ''}`}
                 key={`DDNavDesktopLink${i}`}
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}

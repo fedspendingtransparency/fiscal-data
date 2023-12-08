@@ -22,6 +22,9 @@
 
 .activeMenu {
   background-color: $primary;
+  @media (max-width: $breakpoint-lg) {
+    order: -1;
+  }
 }
 
 .menu {
@@ -32,6 +35,9 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  @media (max-width: $breakpoint-lg) {
+    justify-content: flex-start;
+  }
 
   a {
     color: #ffffff;
