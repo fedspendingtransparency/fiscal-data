@@ -270,7 +270,6 @@ export default function DtgTable({
     if (!tableProps.data) {
       setCurrentPage(1);
     }
-    // setDefaultColumnsToSelect();
   }, [tableProps.data]);
 
   useEffect(() => {
@@ -294,12 +293,13 @@ export default function DtgTable({
   useEffect(() => {
     if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       if (dePaginated !== null && !rawData?.pivotApplied && !pivotSelected?.pivotValue) {
-        // Large datasets <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        // Pivot table results and small datasets
-        if (!pivotSelected?.pivotValue || rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName)) {
+        if (
+          !pivotSelected?.pivotValue ||
+          (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
+        ) {
           setReactTableData(rawData);
           setManualPagination(false);
           setIsLoading(false);
@@ -311,14 +311,17 @@ export default function DtgTable({
   useEffect(() => {
     if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       if (tableProps && tableProps.data !== undefined && tableProps.data?.length > 0 && tableProps.rawData) {
-        setReactTableData(rawData);
-        setManualPagination(false);
-      } else if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // Large datasets <= 20000 rows
+        if (
+          !pivotSelected?.pivotValue ||
+          (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
+        ) {
+          setReactTableData(rawData);
+          setManualPagination(false);
+        }
+      } else if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
         setReactTableData(dePaginated);
         setManualPagination(false);
-      } else {
-        // Large datasets over 20000 rows, serverside paginated data
+      } else if (tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         setReactTableData({ data: tableData, meta: tableMeta });
         setManualPagination(true);
       }
