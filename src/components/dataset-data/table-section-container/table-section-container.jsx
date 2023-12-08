@@ -252,6 +252,7 @@ const TableSectionContainer = ({
               tableProps ? (
                 <DtgTable
                   selectColumnPanel={selectColumnPanel}
+                  pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}
                   perPage={perPage}
@@ -264,6 +265,7 @@ const TableSectionContainer = ({
                   tableMeta={tableMeta}
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
+                  reactTable={true}
                 />
               ) : (
                 ''
