@@ -611,7 +611,6 @@ export const mockBEAGDPData = [
 
 export const mockNoQ3BEAGDPData = [
   ...mockBEAGDPData,
-  // change mock dataValues
   {
     timePeriod: '1985Q1',
     dataValue: '4,200,000',

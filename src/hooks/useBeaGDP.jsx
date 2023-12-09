@@ -2,14 +2,17 @@ import { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import simplifyNumber from '../helpers/simplify-number/simplifyNumber';
 import { adjustDataForInflation } from '../helpers/inflation-adjust/inflation-adjust';
-
-const useBeaGDP = (cpiData, inflationAdjust, otherDataPresent) => {
+import { isOtherDataUpdated } from '../helpers/hook-helpers/useBeaGDP-helper';
+const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
   const [finalGDPData, setFinalGDPData] = useState(null);
   const [gdpMinYear, setGDPMinYear] = useState(0);
   const [gdpMaxYear, setGDPMaxYear] = useState(0);
   const [gdpMinAmount, setGDPMinAmount] = useState(0);
   const [gdpMaxAmount, setGDPMaxAmount] = useState(0);
   const [isGDPLoading, setIsGDPLoading] = useState(true);
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
 
   const queryData = useStaticQuery(
     graphql`
@@ -28,6 +31,7 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataPresent) => {
 
   useEffect(() => {
     let GDPYearlyData = [];
+    let otherDataPresent = false;
     let curYear = 1948;
     const beaData = queryData?.allBeaGdp?.nodes;
     beaData?.forEach(gpd => {
@@ -50,6 +54,15 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataPresent) => {
               entry.timePeriod.includes(year.toString() + 'Q3') ||
               entry.timePeriod.includes((year - 1).toString() + 'Q4')
           );
+        }
+        if (
+          year === currentYear &&
+          otherDataToCheck &&
+          currentMonth === 9 &&
+          allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q2')) &&
+          !allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))
+        ) {
+          otherDataPresent = isOtherDataUpdated(otherDataToCheck, currentYear);
         }
 
         if (year >= 1977 && (allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3')) || otherDataPresent)) {
