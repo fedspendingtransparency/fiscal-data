@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import DDNav from '../../components/dataset-detail-nav/dataset-detail-nav';
 import Masthead from '../../components/masthead/masthead';
@@ -46,12 +46,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
 
   const canonical = `/datasets${pageContext.config.slug}`;
 
-  const introRef =useRef(null);
-  const dataRef =useRef(null);
-  const aboutRef =useRef(null);
-  const quickGuideRef =useRef(null);
-  const relatedRef =useRef(null);
-
   useEffect(() => {
     setPageConfig(updatedPageConfig.config);
     setFinalDatesNotFound(false);
@@ -67,7 +61,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         canonical={canonical}
       />
       <Masthead title={pageContext.config.name} bannerCallout={pageContext?.config.bannerCallout} />
-      <DDNav refs={{ introRef, dataRef, aboutRef, quickGuideRef, relatedRef}} />
+      <DDNav />
       <div className="ddpBodyBackground">
         <DatasetIntroduction
           summaryText={pageContext.config.summaryText}
