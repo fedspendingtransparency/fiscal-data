@@ -375,6 +375,35 @@ export const mockPaginatedTableProps = {
   serverSidePagination: 'v1/accounting/dts/dts_table_1',
   shouldPage: true,
 };
+export const mockReactTableProps_rawData = {
+  data: TestData,
+  rawData: { data: TestData, pivotApplied: 'testView: testValue' },
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 20001,
+  },
+  dateRange: {
+    from: new Date(2021, 0, 21),
+    to: new Date(2021, 0, 21),
+  },
+  serverSidePagination: null,
+  shouldPage: true,
+};
+export const mockReactTableProps_depaginated = {
+  data: TestData,
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 20001,
+  },
+  dateRange: {
+    from: new Date(2021, 0, 21),
+    to: new Date(2021, 0, 21),
+  },
+  serverSidePagination: null,
+  shouldPage: true,
+};
 
 export const ColSelectColConfig = [
   {
