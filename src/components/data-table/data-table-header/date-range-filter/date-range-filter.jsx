@@ -32,6 +32,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('mm/dd/yyyy');
   const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('mm/dd/yyyy');
   const [beginTextStyle, setBeginTextStyle] = useState({ 'background-color': '' });
+  const [endTextStyle, setEndTextStyle] = useState({ 'background-color': '' });
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
 
@@ -42,10 +43,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   const onFilterChange = val => {
     if (val) {
-      const firstDate = val.substring(0, 10);
-      const lastDate = val.slice(-10);
-      setFilterDisplayBeginDate(firstDate);
-      setFilterDisplayEndDate(lastDate);
       if (!allActiveFilters?.includes(column.id)) {
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
@@ -90,11 +87,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (!e.key || e.key === 'Enter') {
       setActive(!active);
     }
-    if (!active === true) {
-      setBeginTextStyle(textHighlighted);
-    } else {
-      setBeginTextStyle({ 'background-color': '' });
-    }
   };
 
   const handleTextBoxBlur = e => {
@@ -117,6 +109,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   useEffect(() => {
     if (active) {
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
+      setBeginTextStyle(textHighlighted);
+    } else {
+      setBeginTextStyle({ 'background-color': '' });
     }
     return () => {
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
@@ -130,10 +125,18 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
+      setFilterDisplayEndDate(end.format('M/DD/YYYY'));
+      setEndTextStyle({ 'background-color': '' });
     } else {
       column.setFilterValue([]);
       setFilteredDateRange(null);
       onFilterChange('');
+    }
+    if (selected?.from && !selected?.to) {
+      const start = moment(selected?.from);
+      setEndTextStyle(textHighlighted);
+      setBeginTextStyle({ 'background-color': '' });
+      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
     }
   }, [selected]);
 
@@ -158,7 +161,9 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
             {filterDisplayBeginDate}
           </div>
           <div className={dateDivider}> - </div>
-          <div className={dateTextEnd}>{filterDisplayEndDate}</div>
+          <div className={dateTextEnd} style={endTextStyle}>
+            {filterDisplayEndDate}
+          </div>
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
