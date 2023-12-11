@@ -8,6 +8,7 @@
   }
 }
 
+
 .dateEntryBox {
   border: 1px solid #d9d9d9;
   min-width: 146px;
@@ -21,10 +22,22 @@
   white-space: nowrap;
   margin-top: 0.25rem;
 
-  .dateText {
+  .dateTextEnd {
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 10.5px 0 10.5px 14px;
+    padding-bottom: 10.5px;
+    padding-top: 10.5px;
+  }
+
+  .dateTextBegin {
+    margin-left: 10px;
+    margin-bottom: 10.5px;
+    margin-top: 10.5px;
+  }
+
+  .dateDivider {
+    padding-left: 2.5px;
+    padding-right: 2.5px;
   }
 
   .calendarIcon {
@@ -41,7 +54,12 @@
   }
 }
 .datePickerHover {
-  background-color: #cfe8ff;
+  background-color: #e8f5ff;
+}
+
+.datePickerToday {
+  border-style: solid;
+  border-color: #0071BC;
 }
 
 .dropdown {

@@ -7,11 +7,14 @@ import {
   dropdown,
   datePickerContainer,
   calendarIcon,
-  dateText,
+  dateTextEnd,
+  dateTextBegin,
   buttonContainer,
   datePickerButton,
   datePickerSelected,
   datePickerHover,
+  datePickerToday,
+  dateDivider,
   glow,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,20 +29,29 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     from: undefined,
     to: undefined,
   });
-  const [filterDisplay, setFilterDisplay] = useState('');
+  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('mm/dd/yyyy');
+  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('mm/dd/yyyy');
+  const [beginTextStyle, setBeginTextStyle] = useState({ 'background-color': '' });
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
+
+  const textHighlighted = { 'background-color': '#E8F5FF' };
 
   const dropdownRef = useRef();
   const displayRef = useRef();
 
   const onFilterChange = val => {
-    setFilterDisplay(val);
     if (val) {
+      const firstDate = val.substring(0, 10);
+      const lastDate = val.slice(-10);
+      setFilterDisplayBeginDate(firstDate);
+      setFilterDisplayEndDate(lastDate);
       if (!allActiveFilters?.includes(column.id)) {
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
+      setFilterDisplayBeginDate('mm/dd/yyyy');
+      setFilterDisplayEndDate('mm/dd/yyyy');
       if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
@@ -77,6 +89,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const handleTextBoxClick = e => {
     if (!e.key || e.key === 'Enter') {
       setActive(!active);
+    }
+    if (!active === true) {
+      setBeginTextStyle(textHighlighted);
+    } else {
+      setBeginTextStyle({ 'background-color': '' });
     }
   };
 
@@ -137,7 +154,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
-          <div className={dateText}>{filterDisplay}</div>
+          <div className={dateTextBegin} style={beginTextStyle}>
+            {filterDisplayBeginDate}
+          </div>
+          <div className={dateDivider}> - </div>
+          <div className={dateTextEnd}>{filterDisplayEndDate}</div>
           <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
         </div>
       </div>
@@ -162,7 +183,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 mode="range"
                 selected={selected}
                 onSelect={setSelected}
-                modifiersClassNames={{ selected: datePickerSelected, focus: datePickerHover }}
+                modifiersClassNames={{ selected: datePickerSelected, focus: datePickerHover, today: datePickerToday }}
                 fromYear={1900}
                 toYear={2099}
                 captionLayout="dropdown-buttons"
