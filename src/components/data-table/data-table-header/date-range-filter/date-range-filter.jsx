@@ -14,6 +14,7 @@ import {
   datePickerSelected,
   datePickerHover,
   datePickerToday,
+  datePickerRangeMiddle,
   dateDivider,
   glow,
 } from './date-range-filter.module.scss';
@@ -25,18 +26,19 @@ import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableF
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters }) => {
+  const textHighlighted = { 'background-color': '#E8F5FF' };
+  const noTextHighLight = { 'background-color': '' };
+
   const [selected, setSelected] = useState({
     from: undefined,
     to: undefined,
   });
   const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('mm/dd/yyyy');
   const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('mm/dd/yyyy');
-  const [beginTextStyle, setBeginTextStyle] = useState({ 'background-color': '' });
-  const [endTextStyle, setEndTextStyle] = useState({ 'background-color': '' });
+  const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
+  const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
-
-  const textHighlighted = { 'background-color': '#E8F5FF' };
 
   const dropdownRef = useRef();
   const displayRef = useRef();
@@ -111,7 +113,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
       setBeginTextStyle(textHighlighted);
     } else {
-      setBeginTextStyle({ 'background-color': '' });
+      setBeginTextStyle(noTextHighLight);
     }
     return () => {
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
@@ -126,7 +128,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
       setFilterDisplayEndDate(end.format('M/DD/YYYY'));
-      setEndTextStyle({ 'background-color': '' });
+      setEndTextStyle(noTextHighLight);
+      setActive(false);
     } else {
       column.setFilterValue([]);
       setFilteredDateRange(null);
@@ -135,7 +138,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
     if (selected?.from && !selected?.to) {
       const start = moment(selected?.from);
       setEndTextStyle(textHighlighted);
-      setBeginTextStyle({ 'background-color': '' });
+      setBeginTextStyle(noTextHighLight);
       setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
     }
   }, [selected]);
@@ -188,7 +191,12 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 mode="range"
                 selected={selected}
                 onSelect={setSelected}
-                modifiersClassNames={{ selected: datePickerSelected, focus: datePickerHover, today: datePickerToday }}
+                modifiersClassNames={{
+                  selected: datePickerSelected,
+                  focus: datePickerHover,
+                  today: datePickerToday,
+                  range_middle: datePickerRangeMiddle,
+                }}
                 fromYear={1900}
                 toYear={2099}
                 captionLayout="dropdown-buttons"
