@@ -74,9 +74,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         from: Date.now(),
         to: Date.now(),
       });
-      const start = moment(Date.now()).format('M/D/YYYY');
-      const end = moment(Date.now()).format('M/D/YYYY');
+      const start = moment(Date.now()).format('M/DD/YYYY');
+      const end = moment(Date.now()).format('M/DD/YYYY');
       onFilterChange(`${start} - ${end}`);
+      setFilterDisplayBeginDate(start);
+      setFilterDisplayEndDate(end);
     }
   };
 
