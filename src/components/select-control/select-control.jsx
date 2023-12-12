@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as styles from './select-control.module.scss';
+import { selector_optionSelected, selector_label, selector_container, selector_button, labels, icon, selector_list, selector_option, selector_optionButton } from './select-control.module.scss';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -40,9 +40,9 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
 
   return (
     <>
-      {label && <label className={styles.selector_label}>{label}</label>}
+      {label && <label className={selector_label}>{label}</label>}
       <div
-        className={`${styles.selector_container} ${className ? className : ''}`}
+        className={`${selector_container} ${className ? className : ''}`}
         onBlur={onBlurHandler}
         onFocus={onFocusHandler}
         role={'presentation'}
@@ -50,19 +50,19 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
         <button
           name="dropdownToggle"
           data-testid={'toggle-button'}
-          className={styles.selector_button}
+          className={selector_button}
           aria-haspopup="true"
           aria-expanded={droppedDown}
           aria-label={ariaLabeler(optionSelected[labelKey], ariaLabel, label)}
           onClick={toggleDropdown}
         >
-          <div className={styles.label} title={optionSelected[labelKey]}>
+          <div className={labels} title={optionSelected[labelKey]}>
             {optionSelected[labelKey]}
           </div>
-          <FontAwesomeIcon icon={faChevronDown} size="sm" className={styles.icon} />
+          <FontAwesomeIcon icon={faChevronDown} size="sm" className={icon} />
         </button>
         {droppedDown && (
-          <ul className={`${styles.selector_list} selectControlList`} data-testid="selectorList">
+          <ul className={`${selector_list} selectControlList`} data-testid="selectorList">
             {options.map((option, index) => {
               const colName = option.columnName;
               const isSelectedOption = option === optionSelected || (colName && optionSelected.columnName && colName === optionSelected.columnName);
@@ -70,10 +70,10 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
               return (
                 <React.Fragment key={`${colName}-${index}`}>
                   {(!option.hideable || showAll) && (
-                    <li className={styles.selector_option}>
+                    <li className={selector_option}>
                       <button
                         data-testid="selector-option"
-                        className={classNames([styles.selector_optionButton, isSelectedOption ? styles.selector_optionSelected : ''])}
+                        className={classNames([selector_optionButton, isSelectedOption ? selector_optionSelected : ''])}
                         onClick={updateSelection(option)}
                       >
                         {option[labelKey]}
