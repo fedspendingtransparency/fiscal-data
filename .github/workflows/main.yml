@@ -22,7 +22,7 @@ jobs:
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
-        run: npm run test:coverage
+        run: npm run test
   run-cypress-tests:
     runs-on: ubuntu-22.04
     steps:
