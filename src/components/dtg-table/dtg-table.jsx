@@ -300,16 +300,6 @@ export default function DtgTable({
   };
 
   useEffect(() => {
-    if (activePivot(rawData, pivotSelected)) {
-      setManualPagination(false);
-    }
-    console.log(pivotSelected, reactTableData);
-  }, [pivotSelected]);
-  useEffect(() => {
-    console.log(pivotSelected, reactTableData);
-  }, [reactTableData]);
-
-  useEffect(() => {
     if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null) {
         console.log(1);
@@ -338,8 +328,6 @@ export default function DtgTable({
       }
     }
   }, [pivotSelected, rawData]);
-
-  const pivotActive = data => {};
 
   useEffect(() => {
     if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
