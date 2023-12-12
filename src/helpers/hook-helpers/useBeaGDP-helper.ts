@@ -8,5 +8,21 @@ const debtOutstanding = apiPrefix + 'v2/accounting/od/debt_outstanding?sort=-rec
 export const isOtherDataUpdated = (otherDataToCheck: string, currentYear: number) => {
   const currentYearString = currentYear.toString();
   let isOtherDataCurrent = false;
+  if (otherDataToCheck === 'debtOutstanding') {
+        const debtOutstandingCurrentYear = '0';
+        if (debtOutstandingCurrentYear === currentYearString) {
+          isOtherDataCurrent = true;
+      }
+  } else if (otherDataToCheck === 'mts4') {
+    const mts4CurrentMonth = 0;
+    if (mts4CurrentMonth === 9) {
+      isOtherDataCurrent = true;
+    }
+  } else if (otherDataToCheck === 'mts5') {
+    const mts5CurrentMonth = 0;
+    if (mts5CurrentMonth === 9) {
+      isOtherDataCurrent = true;
+  } 
+  }
   return isOtherDataCurrent;
 };
