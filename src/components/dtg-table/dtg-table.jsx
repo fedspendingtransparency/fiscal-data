@@ -291,8 +291,13 @@ export default function DtgTable({
   };
 
   useEffect(() => {
+    console.log(pivotSelected);
+  }, [pivotSelected]);
+
+  useEffect(() => {
     if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       if (dePaginated !== null && !rawData?.pivotApplied && !pivotSelected?.pivotValue) {
+        console.log(1);
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
@@ -300,6 +305,7 @@ export default function DtgTable({
           !pivotSelected?.pivotValue ||
           (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
         ) {
+          console.log(2);
           setReactTableData(rawData);
           setManualPagination(false);
           setIsLoading(false);
@@ -308,22 +314,29 @@ export default function DtgTable({
     }
   }, [rawData, dePaginated, pivotSelected]);
 
+  const pivotActive = data => {};
+
   useEffect(() => {
     if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       if (tableProps && tableProps.data !== undefined && tableProps.data?.length > 0 && tableProps.rawData) {
         if (
-          !pivotSelected?.pivotValue ||
+          (!pivotSelected?.pivotValue && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) ||
           (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
         ) {
+          console.log(3, tableMeta['total-count']);
           setReactTableData(rawData);
           setManualPagination(false);
         }
-      } else if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
-        setReactTableData(dePaginated);
-        setManualPagination(false);
-      } else if (tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        setReactTableData({ data: tableData, meta: tableMeta });
-        setManualPagination(true);
+      } else if (!pivotSelected?.pivotValue) {
+        if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+          console.log(4);
+          setReactTableData(dePaginated);
+          setManualPagination(false);
+        } else {
+          console.log(5);
+          setReactTableData({ data: tableData, meta: tableMeta });
+          setManualPagination(true);
+        }
       }
     }
   }, [tableData, tableMeta]);
