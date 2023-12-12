@@ -116,6 +116,7 @@ export default function DtgTable({
   };
 
   const getPagedData = resetPage => {
+    console.log('getPagedData');
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
     }
@@ -224,18 +225,23 @@ export default function DtgTable({
   };
 
   useEffect(() => {
-    updateSmallFractionDataType();
-    setCurrentPage(1);
-    setApiError(false);
-    const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
-    return () => {
-      loadCanceled = true;
-    };
+    if ((tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
+      console.log(13);
+      updateSmallFractionDataType();
+      setCurrentPage(1);
+      setApiError(false);
+      const ssp = tableProps.serverSidePagination;
+      ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
+      return () => {
+        loadCanceled = true;
+      };
+    }
   }, [selectedTable, dateRange]);
 
   useEffect(() => {
-    if (tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    if ((tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
+      console.log(12);
+
       updateSmallFractionDataType();
       setCurrentPage(1);
       setApiError(false);
@@ -248,12 +254,15 @@ export default function DtgTable({
   }, [sorting, filteredDateRange]);
 
   useEffect(() => {
-    setApiError(false);
-    const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
-    return () => {
-      loadCanceled = true;
-    };
+    if ((tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
+      console.log(11);
+      setApiError(false);
+      const ssp = tableProps.serverSidePagination;
+      ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
+      return () => {
+        loadCanceled = true;
+      };
+    }
   }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
@@ -291,52 +300,64 @@ export default function DtgTable({
   };
 
   useEffect(() => {
-    console.log(pivotSelected);
+    if (activePivot(rawData, pivotSelected)) {
+      setManualPagination(false);
+    }
+    console.log(pivotSelected, reactTableData);
   }, [pivotSelected]);
+  useEffect(() => {
+    console.log(pivotSelected, reactTableData);
+  }, [reactTableData]);
 
   useEffect(() => {
-    if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (dePaginated !== null && !rawData?.pivotApplied && !pivotSelected?.pivotValue) {
+    if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
+      if (dePaginated !== null) {
         console.log(1);
+        // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        if (
-          !pivotSelected?.pivotValue ||
-          (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
-        ) {
-          console.log(2);
-          setReactTableData(rawData);
-          setManualPagination(false);
-          setIsLoading(false);
-        }
+        console.log(2);
+        setReactTableData(rawData);
+        setManualPagination(false);
+        setIsLoading(false);
       }
     }
-  }, [rawData, dePaginated, pivotSelected]);
+  }, [rawData, dePaginated]);
+
+  const activePivot = (data, pivot) =>
+    data?.pivotApplied?.includes(pivot.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
+
+  useEffect(() => {
+    if (tableProps) {
+      // Pivot data
+      if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
+        setReactTableData(rawData);
+        setManualPagination(false);
+        setIsLoading(false);
+      }
+    }
+  }, [pivotSelected, rawData]);
 
   const pivotActive = data => {};
 
   useEffect(() => {
-    if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      if (tableProps && tableProps.data !== undefined && tableProps.data?.length > 0 && tableProps.rawData) {
-        if (
-          (!pivotSelected?.pivotValue && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) ||
-          (rawData?.pivotApplied?.includes(pivotSelected.pivotValue?.columnName) && rawData?.pivotApplied?.includes(pivotSelected.pivotView?.title))
-        ) {
+    if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
+      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        if (rawData) {
           console.log(3, tableMeta['total-count']);
           setReactTableData(rawData);
           setManualPagination(false);
-        }
-      } else if (!pivotSelected?.pivotValue) {
-        if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        } else {
           console.log(4);
           setReactTableData(dePaginated);
           setManualPagination(false);
-        } else {
-          console.log(5);
-          setReactTableData({ data: tableData, meta: tableMeta });
-          setManualPagination(true);
         }
+      } else {
+        console.log(5);
+        // Data tables > 20000 rows, will use server side paginated data
+        setReactTableData({ data: tableData, meta: tableMeta });
+        setManualPagination(true);
       }
     }
   }, [tableData, tableMeta]);
@@ -352,7 +373,7 @@ export default function DtgTable({
           </div>
         </div>
       )}
-      {reactTable && reactTableData && (
+      {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
