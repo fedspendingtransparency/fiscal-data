@@ -23,7 +23,7 @@ describe('date range filter', () => {
   });
 
   it('renders today and clear buttons', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -38,14 +38,14 @@ describe('date range filter', () => {
     dateRangeButton.click();
     const todayButton = getByRole('button', { name: 'Today' });
     todayButton.click();
-    expect(getByText('2023 - 1', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('1/01/2023', { exact: false })[0]).toBeInTheDocument();
     const clearButton = getByRole('button', { name: 'Clear' });
     clearButton.click();
     dateRangeButton.click();
   });
 
   it('today and clear buttons keyboard accessibility', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -60,14 +60,15 @@ describe('date range filter', () => {
     dateRangeButton.click();
     const todayButton = getByRole('button', { name: 'Today' });
     fireEvent.keyDown(todayButton, { key: 'Enter' });
-    expect(getByText('2023 - 1', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('1/01/2023', { exact: false })[0]).toBeInTheDocument();
+    dateRangeButton.click();
     const clearButton = getByRole('button', { name: 'Clear' });
     fireEvent.keyDown(clearButton, { key: 'Enter' });
     dateRangeButton.click();
   });
 
   it('today and clear buttons keyboard accessibility', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -82,7 +83,8 @@ describe('date range filter', () => {
     fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
     const todayButton = getByRole('button', { name: 'Today' });
     fireEvent.keyDown(todayButton, { key: 'Enter' });
-    expect(getByText('2023 - 1', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('1/01/2023', { exact: false })[0]).toBeInTheDocument();
+    fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
     const clearButton = getByRole('button', { name: 'Clear' });
     fireEvent.keyDown(clearButton, { key: 'Enter' });
     dateRangeButton.click();
