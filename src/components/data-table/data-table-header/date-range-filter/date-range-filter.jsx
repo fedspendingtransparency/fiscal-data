@@ -7,6 +7,7 @@ import {
   dropdown,
   datePickerContainer,
   calendarIcon,
+  xIcon,
   dateTextEnd,
   dateTextBegin,
   buttonContainer,
@@ -19,7 +20,7 @@ import {
   glow,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
@@ -172,7 +173,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           <div className={dateTextEnd} style={endTextStyle}>
             {filterDisplayEndDate}
           </div>
-          <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
+          {selected ? (
+            <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'}>
+              <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
+            </span>
+          ) : (
+            <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
+          )}
         </div>
       </div>
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
