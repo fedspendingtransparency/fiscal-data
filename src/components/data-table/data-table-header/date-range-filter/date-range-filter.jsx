@@ -114,6 +114,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setBeginTextStyle(textHighlighted);
     } else {
       setBeginTextStyle(noTextHighLight);
+      setEndTextStyle(noTextHighLight);
+      if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
+        setSelected(undefined);
+        onFilterChange(undefined);
+      }
     }
     return () => {
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
