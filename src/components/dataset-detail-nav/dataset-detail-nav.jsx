@@ -94,16 +94,16 @@ const DDNav = () => {
   useEffect(() => {
     const updateScrollBarPosition = () => {
 
-      if (navRef.current && hover || navRef.current && activeSection) {
+      if (navRef.current && activeSection) {
         const activeLink = navRef.current.querySelector(`.${desktopLinks}.${activeMenu}`);
         if (activeLink) {
-          const scrollPosition = activeLink.offsetLeft + activeLink.offsetWidth  - navRef.current.offsetWidth;
+          const scrollPosition = activeLink.offsetLeft;
           navRef.current.scrollLeft = scrollPosition;
         }
       }
     };
     updateScrollBarPosition();
-  }, [hover, activeSection]); 
+  }, [activeSection]); 
 
 
 
