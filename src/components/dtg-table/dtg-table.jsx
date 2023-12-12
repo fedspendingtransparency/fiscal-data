@@ -254,7 +254,7 @@ export default function DtgTable({
   }, [sorting, filteredDateRange]);
 
   useEffect(() => {
-    if ((tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
+    if ((tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
       console.log(11);
       setApiError(false);
       const ssp = tableProps.serverSidePagination;
