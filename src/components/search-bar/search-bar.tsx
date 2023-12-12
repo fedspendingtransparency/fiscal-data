@@ -1,8 +1,8 @@
 import { search, searchIcon, searchIconHover, searchLabel, glow, disabledBackground } from './search-bar.module.scss';
-import { InputAdornment, MuiThemeProvider } from '@material-ui/core';
+import { InputAdornment, ThemeProvider } from '@mui/material';
 import { searchBarTheme, useStyles } from '../glossary/glossary-header/theme';
-import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { FunctionComponent } from 'react';
@@ -92,7 +92,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
         onBlur={handleBlur}
         role="presentation"
       >
-        <MuiThemeProvider theme={searchBarTheme}>
+        <ThemeProvider theme={searchBarTheme}>
           <Box sx={{ width: width, fontSize: '1rem' }}>
             <TextField
               ref={inputRef}
@@ -115,7 +115,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
               disabled={disabled}
             />
           </Box>
-        </MuiThemeProvider>
+        </ThemeProvider>
       </div>
     </div>
   );

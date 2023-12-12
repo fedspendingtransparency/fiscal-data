@@ -212,6 +212,10 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   });
 
+  useEffect(() => {
+    console.log(pagingProps);
+  }, [pagingProps]);
+
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>
@@ -232,7 +236,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             )}
           </div>
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={tableContainer}>
+            <div data-test-id="table-content" className={tableContainer} style={pagingProps.itemsPerPage > 5 ? { maxHeight: '521px' } : null}>
               <table>
                 <DataTableHeader
                   table={table}

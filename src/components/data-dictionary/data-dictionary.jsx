@@ -66,7 +66,7 @@ const DataDictionary = ({ apis, datasetName }) => {
     aria: { 'aria-label': `${datasetName} data dictionary` },
   };
 
-  return <DtgTable tableProps={tableProps} perPage={rowsPerPage} />;
+  return <DtgTable tableProps={tableProps} perPage={rowsPerPage} reactTable />;
 };
 
 export default DataDictionary;

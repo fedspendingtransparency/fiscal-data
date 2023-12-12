@@ -265,7 +265,8 @@ const TableSectionContainer = ({
                   tableMeta={tableMeta}
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
-                  reactTable={true}
+                  reactTable
+                  rawDataTable
                 />
               ) : (
                 ''

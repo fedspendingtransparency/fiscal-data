@@ -25,6 +25,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes }) 
                 <td
                   key={cell.id}
                   className={classNames([`${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}`, fillCell ? cellBorder : null])}
+                  style={{ verticalAlign: 'top' }}
                 >
                   {display ? <div /> : flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
