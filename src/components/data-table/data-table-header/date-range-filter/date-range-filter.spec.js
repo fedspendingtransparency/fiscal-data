@@ -44,6 +44,28 @@ describe('date range filter', () => {
     dateRangeButton.click();
   });
 
+  it('renders clear dates button inside date input field', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const todayButton = getByRole('button', { name: 'Today' });
+    todayButton.click();
+    expect(getAllByText('1/01/2023', { exact: false })[0]).toBeInTheDocument();
+    const inputClearButton = getByRole('button', { name: 'Clear dates' });
+    inputClearButton.click();
+    dateRangeButton.click();
+  });
+
   it('today and clear buttons keyboard accessibility', () => {
     const { getByRole, getAllByText } = render(
       <RecoilRoot>
