@@ -44,40 +44,6 @@ const DDNav = () => {
     },
   ];
 
-  const getCurrentSection = () => {
-    let currentSection = '';
-
-    linksArr.forEach(link => {
-        const section = document.getElementById(link.id);
-        if(section) {        
-        const sectionTop = section.offsetTop;
-        const sectionHeigh = section.clientHeight;
-        const scrollPosition = window.scrollY + window.innerWidth / 10000;
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeigh) {
-          currentSection = link.id;
-        }
-      }
-    });
-    return currentSection;
-  };
-  
-
-  const handleScroll = () => {
-    if (window.innerWidth < 992) {
-      const currentSection = getCurrentSection();
-      if (currentSection){
-}
-    }
-  };
-
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    }
-  }, [linksArr])
 
   const handleInteraction = (e, id) => {
     //only proceed on mouse click or Enter key press
