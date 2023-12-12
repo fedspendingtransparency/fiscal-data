@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment/moment';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
+import './day-picker-overrides.css';
 import {
   dateEntryBox,
   dropdown,
