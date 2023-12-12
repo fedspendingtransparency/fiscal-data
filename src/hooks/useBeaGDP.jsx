@@ -12,7 +12,6 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
   const [isGDPLoading, setIsGDPLoading] = useState(true);
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
 
   const queryData = useStaticQuery(
     graphql`
@@ -29,12 +28,11 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
     `
   );
 
-  useEffect(() => {
+  useEffect(async () => {
     let GDPYearlyData = [];
-    let otherDataPresent = false;
     let curYear = 1948;
     const beaData = queryData?.allBeaGdp?.nodes;
-    beaData?.forEach(gpd => {
+    beaData?.forEach(async gpd => {
       const year = parseInt(gpd.timePeriod.slice(0, -2));
       let allQuartersForGivenYear;
       if (year === curYear) {
@@ -65,19 +63,37 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
           otherDataPresent = isOtherDataUpdated(otherDataToCheck, currentYear);
         }
 
-        if (year >= 1977 && (allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3')) || otherDataPresent)) {
+        if (year >= 1977 && allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))) {
           let totalGDP = 0;
           allQuartersForGivenYear.forEach(quarter => {
             totalGDP += parseFloat(quarter.dataValue.replace(/,/g, ''));
           });
 
-          const totalQuarters = allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3')) ? 4 : 3;
           GDPYearlyData.push({
             x: year,
             // Correct BEA data to display in trillions
-            actual: parseInt(String(totalGDP) + '000000') / totalQuarters,
+            actual: parseInt(String(totalGDP) + '000000') / 4,
             fiscalYear: String(year),
           });
+        } else if (
+          year >= 1977 &&
+          allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q2')) &&
+          !allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))
+        ) {
+          const otherDataPresent = await isOtherDataUpdated(otherDataToCheck, currentYear);
+          if (otherDataPresent) {
+            let totalGDP = 0;
+            allQuartersForGivenYear.forEach(quarter => {
+              totalGDP += parseFloat(quarter.dataValue.replace(/,/g, ''));
+            });
+
+            GDPYearlyData.push({
+              x: year,
+              // Correct BEA data to display in trillions
+              actual: parseInt(String(totalGDP) + '000000') / 3,
+              fiscalYear: String(year),
+            });
+          }
         } else if (year <= 1976) {
           let totalGDP = 0;
           allQuartersForGivenYear.forEach(quarter => {

@@ -1,4 +1,6 @@
 import { isOtherDataUpdated } from './useBeaGDP-helper';
+import fetchMock from 'fetch-mock';
+import { apiPrefix } from '../../utils/api-utils';
 // in:      9/30/2020
 // not in:  9/30/2019
 const mockMtsSeptemberData = {
