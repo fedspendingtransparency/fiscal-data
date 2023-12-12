@@ -4,7 +4,7 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 
 describe('date range filter', () => {
-  Date.now = jest.fn(() => new Date('2023-01-02 19:00:00 GMT-0500'));
+  Date.now = jest.fn(() => new Date('2023-01-02 12:00:00 GMT-0600'));
   const mockColumn = { setFilterValue: jest.fn() };
   const mockTable = {};
   const mockSetFiltersActive = jest.fn();
