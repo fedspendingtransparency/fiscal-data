@@ -1,5 +1,5 @@
 import React from 'react';
-import DtgTable from '../dtg-table/dtg-table';
+import ResetTableContainer from './reset-table-container';
 
 const addTableName = (fields, table) => {
   fields.forEach(field => (field.tableName = table));
@@ -66,7 +66,7 @@ const DataDictionary = ({ apis, datasetName }) => {
     aria: { 'aria-label': `${datasetName} data dictionary` },
   };
 
-  return <DtgTable tableProps={tableProps} perPage={rowsPerPage} reactTable />;
+  return <ResetTableContainer tableProps={tableProps} rowsPerPage={rowsPerPage} />;
 };
 
 export default DataDictionary;
