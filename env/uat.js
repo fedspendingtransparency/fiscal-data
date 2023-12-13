@@ -11,7 +11,7 @@ module.exports = {
       seoConfig: {
         pageTitle: 'Treasury Bulletin: Trust Fund Reports',
         description: 'Machine readable data of the Treasury Bulletin Trust Fund Reports.',
-        keywords: 'Trust Fund',
+        keywords: 'Trust Fund, Financial Summaries',
       },
       topics: ['financial-summaries'],
       relatedDatasets: ['015-BFS-2014Q3-046'],
@@ -123,11 +123,11 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
+    // Treasury Bulletin: Trust Fund Reports
     '265': {
       endpoint: 'v1/accounting/od/airport_airway_trust_fund_results',
       dateField: 'record_date',
       downloadName: 'TB_AirportAirwayResults',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '266': {
       endpoint: 'v1/accounting/od/airport_airway_trust_fund_expected',
@@ -139,7 +139,6 @@ module.exports = {
       endpoint: 'v1/accounting/od/black_lung_disability_trust_fund_results',
       dateField: 'record_date',
       downloadName: 'TB_BlackLungResults',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '270': {
       endpoint: 'v1/accounting/od/black_lung_disability_trust_fund_expected',
@@ -150,18 +149,16 @@ module.exports = {
     '271': {
       endpoint: 'v1/accounting/od/harbor_maintenance_trust_fund_results',
       dateField: 'record_date',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '272': {
       endpoint: 'v1/accounting/od/harbor_maintenance_trust_fund_expected',
       dateField: 'record_date',
       alwaysSortWith: ['record_date', 'fiscal_year', 'src_line_nbr'],
     },
-    // '273': {
-    //   endpoint: 'v1/accounting/od/hazardous_substance_superfund_results',
-    //   dateField: 'record_date',
-    //   alwaysSortWith: ['record_date', 'src_line_nbr'],
-    // },
+    '273': {
+      endpoint: 'v1/accounting/od/hazardous_substance_superfund_results',
+      dateField: 'record_date',
+    },
     '274': {
       endpoint: 'v1/accounting/od/hazardous_substance_superfund_expected',
       dateField: 'record_date',
@@ -170,7 +167,6 @@ module.exports = {
     '283': {
       endpoint: 'v1/accounting/od/reforestation_trust_fund_results',
       dateField: 'record_date',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '284': {
       endpoint: 'v1/accounting/od/reforestation_trust_fund_expected',
@@ -180,7 +176,6 @@ module.exports = {
     '285': {
       endpoint: 'v1/accounting/od/sport_fish_restoration_boating_trust_fund_results',
       dateField: 'record_date',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '286': {
       endpoint: 'v1/accounting/od/sport_fish_restoration_boating_trust_fund_expected',
@@ -190,7 +185,6 @@ module.exports = {
     '287': {
       endpoint: 'v1/accounting/od/oil_spill_liability_trust_fund_results',
       dateField: 'record_date',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '288': {
       endpoint: 'v1/accounting/od/oil_spill_liability_trust_fund_expected',
@@ -200,7 +194,6 @@ module.exports = {
     '293': {
       endpoint: 'v1/accounting/od/agriculture_disaster_relief_trust_fund_results',
       dateField: 'record_date',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '294': {
       endpoint: 'v1/accounting/od/agriculture_disaster_relief_trust_fund_expected',
@@ -210,7 +203,6 @@ module.exports = {
     '295': {
       endpoint: 'v1/accounting/od/patient_centered_outcomes_research_trust_fund_results',
       dateField: 'record_date',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '296': {
       endpoint: 'v1/accounting/od/patient_centered_outcomes_research_trust_fund_expected',
@@ -220,7 +212,6 @@ module.exports = {
     '297': {
       endpoint: 'v1/accounting/od/us_victims_state_sponsored_terrorism_fund_results',
       dateField: 'record_date',
-      alwaysSortWith: ['record_date', 'src_line_nbr'],
     },
     '298': {
       endpoint: 'v1/accounting/od/us_victims_state_sponsored_terrorism_fund_expected',
