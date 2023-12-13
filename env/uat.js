@@ -7,7 +7,7 @@ module.exports = {
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc', 'afg-overview'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2014Q3-047': {
-      slug: '/treasury-bulletin-trust-fund-reports/',
+      slug: '/treasury-bulletin-trust-funds/',
       seoConfig: {
         pageTitle: 'Treasury Bulletin: Trust Fund Reports',
         description: 'Machine readable data of the Treasury Bulletin Trust Fund Reports.',
