@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import BreadCrumbs from './breadcrumbs';
 import { Link } from 'gatsby';
-import * as styles from './breadcrumbs.module.scss';
+import { container } from './breadcrumbs.module.scss';
 
 describe('BreadCrumbs', () => {
   let component = renderer.create();
@@ -42,7 +42,7 @@ describe('BreadCrumbs', () => {
     instance = component.root;
 
     const breadCrumbs = instance.findByType(BreadCrumbs);
-    const containerDiv = instance.findByProps({ className: styles.container });
+    const containerDiv = instance.findByProps({ className: container });
 
     expect(breadCrumbs.props.links).toBeFalsy();
     expect(breadCrumbs).toBeTruthy();
@@ -59,7 +59,7 @@ describe('BreadCrumbs', () => {
       instance = component.root;
 
       const breadCrumbs = instance.findByType(BreadCrumbs);
-      const containerDiv = instance.findByProps({ className: styles.container });
+      const containerDiv = instance.findByProps({ className: container });
 
       expect(breadCrumbs).toBeTruthy();
       expect(containerDiv.children.length).toBe(0);
