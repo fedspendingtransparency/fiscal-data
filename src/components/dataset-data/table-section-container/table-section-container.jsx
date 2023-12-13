@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
 import DtgTable from '../../dtg-table/dtg-table';
@@ -68,7 +68,7 @@ const TableSectionContainer = ({
       .then(async res => {
         const totalCount = res.meta['total-count'];
         meta = res.meta;
-        if (totalCount > MAX_PAGE_SIZE) {
+        if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
           return await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
               `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
@@ -80,7 +80,7 @@ const TableSectionContainer = ({
             page1res.data = page1res.data.concat(page2res.data);
             return page1res;
           });
-        } else {
+        } else if (totalCount <= MAX_PAGE_SIZE) {
           return await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
               `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
@@ -113,7 +113,7 @@ const TableSectionContainer = ({
       setUserFilteredData(null);
     }
 
-    setTableProps({
+    return {
       dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
       hasPublishedReports,
       publishedReports,
@@ -133,8 +133,16 @@ const TableSectionContainer = ({
       hideColumns: config.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
-    });
+    };
   };
+
+  useMemo(() => refreshTable(), [apiData, userFilterSelection, apiError]).then(res => setTableProps(res));
+
+  // useMemo(() => {
+  //   if (serverSidePagination || userFilterSelection) {
+  //     refreshTable();
+  //   }
+  // }, [dateRange])?.then(res => setTableProps(res));
 
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
@@ -146,19 +154,6 @@ const TableSectionContainer = ({
       setLegend(window.innerWidth > GLOBALS.breakpoints.large);
     }
   }, [window.innerWidth]);
-
-  useEffect(() => {
-    // refresh the table anytime apiData or apiError update
-    refreshTable();
-  }, [apiData, userFilterSelection, apiError]);
-
-  useEffect(() => {
-    // only refresh the table on date range changes if server side pagination is in effect
-    // this hook is the culprit for the unneeded loading for react table.
-    if (serverSidePagination || userFilterSelection) {
-      refreshTable();
-    }
-  }, [dateRange]);
 
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;

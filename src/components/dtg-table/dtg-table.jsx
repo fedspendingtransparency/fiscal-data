@@ -226,22 +226,7 @@ export default function DtgTable({
 
   useEffect(() => {
     if ((tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
-      console.log(13);
-      updateSmallFractionDataType();
-      setCurrentPage(1);
-      setApiError(false);
-      const ssp = tableProps.serverSidePagination;
-      ssp !== undefined && ssp !== null ? getPagedData(true) : getCurrentData();
-      return () => {
-        loadCanceled = true;
-      };
-    }
-  }, [selectedTable, dateRange]);
-
-  useEffect(() => {
-    if ((tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
       console.log(12);
-
       updateSmallFractionDataType();
       setCurrentPage(1);
       setApiError(false);
@@ -251,7 +236,7 @@ export default function DtgTable({
         loadCanceled = true;
       };
     }
-  }, [sorting, filteredDateRange]);
+  }, [sorting, filteredDateRange, selectedTable, dateRange]);
 
   useEffect(() => {
     if ((tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
@@ -263,7 +248,7 @@ export default function DtgTable({
         loadCanceled = true;
       };
     }
-  }, [tableProps.data, tableProps.serverSidePagination, itemsPerPage, currentPage]);
+  }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useEffect(() => {
     populateRows(columns);
@@ -302,12 +287,10 @@ export default function DtgTable({
   useEffect(() => {
     if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null) {
-        console.log(1);
         // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        console.log(2);
         setReactTableData(rawData);
         setManualPagination(false);
         setIsLoading(false);
@@ -332,17 +315,15 @@ export default function DtgTable({
   useEffect(() => {
     if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+        // data with current date range < 20000
         if (rawData) {
-          console.log(3, tableMeta['total-count']);
           setReactTableData(rawData);
           setManualPagination(false);
         } else {
-          console.log(4);
           setReactTableData(dePaginated);
           setManualPagination(false);
         }
       } else {
-        console.log(5);
         // Data tables > 20000 rows, will use server side paginated data
         setReactTableData({ data: tableData, meta: tableMeta });
         setManualPagination(true);
@@ -354,12 +335,12 @@ export default function DtgTable({
     <div className={styles.overlayContainer}>
       {/* Loading Indicator */}
       {(isLoading || (reactTable && !reactTableData)) && (
-        <div className={reactTable ? styles.overlayContainerReactTableHeight : undefined}>
+        <>
           <div data-test-id="loading-overlay" className={styles.overlay} />
           <div className={styles.loadingIcon}>
             <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
           </div>
-        </div>
+        </>
       )}
       {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
