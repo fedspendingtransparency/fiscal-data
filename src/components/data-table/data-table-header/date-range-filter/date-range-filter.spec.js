@@ -4,7 +4,7 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 
 describe('date range filter', () => {
-  Date.now = jest.fn(() => new Date('2023-01-02'));
+  Date.now = jest.fn(() => new Date('2023-01-02 12:00:00 GMT-0600'));
   const mockColumn = { setFilterValue: jest.fn() };
   const mockTable = {};
   const mockSetFiltersActive = jest.fn();
@@ -23,7 +23,7 @@ describe('date range filter', () => {
   });
 
   it('renders today and clear buttons', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -38,14 +38,36 @@ describe('date range filter', () => {
     dateRangeButton.click();
     const todayButton = getByRole('button', { name: 'Today' });
     todayButton.click();
-    expect(getByText('2023 - 1', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
     const clearButton = getByRole('button', { name: 'Clear' });
     clearButton.click();
     dateRangeButton.click();
   });
 
+  it('renders clear dates button inside date input field', () => {
+    const { getByRole, getAllByText } = render(
+      <RecoilRoot>
+        <DateRangeFilter
+          column={mockColumn}
+          resetFilters={mockResetFilters}
+          setFiltersActive={mockSetFiltersActive}
+          allActiveFilters={mockAllActiveFilters}
+          setAllActiveFilters={mockSetAllActiveFilters}
+        />
+      </RecoilRoot>
+    );
+    const dateRangeButton = getByRole('button');
+    dateRangeButton.click();
+    const todayButton = getByRole('button', { name: 'Today' });
+    todayButton.click();
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    const inputClearButton = getByRole('button', { name: 'Clear dates' });
+    inputClearButton.click();
+    dateRangeButton.click();
+  });
+
   it('today and clear buttons keyboard accessibility', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -60,14 +82,15 @@ describe('date range filter', () => {
     dateRangeButton.click();
     const todayButton = getByRole('button', { name: 'Today' });
     fireEvent.keyDown(todayButton, { key: 'Enter' });
-    expect(getByText('2023 - 1', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    dateRangeButton.click();
     const clearButton = getByRole('button', { name: 'Clear' });
     fireEvent.keyDown(clearButton, { key: 'Enter' });
     dateRangeButton.click();
   });
 
   it('today and clear buttons keyboard accessibility', () => {
-    const { getByRole, getByText } = render(
+    const { getByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
           column={mockColumn}
@@ -82,7 +105,8 @@ describe('date range filter', () => {
     fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
     const todayButton = getByRole('button', { name: 'Today' });
     fireEvent.keyDown(todayButton, { key: 'Enter' });
-    expect(getByText('2023 - 1', { exact: false })).toBeInTheDocument();
+    expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
+    fireEvent.keyDown(dateRangeButton, { key: 'Enter' });
     const clearButton = getByRole('button', { name: 'Clear' });
     fireEvent.keyDown(clearButton, { key: 'Enter' });
     dateRangeButton.click();
