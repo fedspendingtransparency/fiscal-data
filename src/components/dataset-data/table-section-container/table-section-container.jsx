@@ -55,6 +55,7 @@ const TableSectionContainer = ({
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
+  const [depaginatedData, setDepaginatedData] = useState(null);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -95,12 +96,13 @@ const TableSectionContainer = ({
           setApiError(err);
         }
       })
-      .finally(() => {
+      .finally(res => {
+        console.log('finally...', meta, dateRange, res);
         setTableMeta(meta);
       });
   };
 
-  const refreshTable = async () => {
+  const refreshTable = () => {
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
@@ -114,7 +116,7 @@ const TableSectionContainer = ({
     }
 
     return {
-      dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
+      // dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
       hasPublishedReports,
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
@@ -136,13 +138,29 @@ const TableSectionContainer = ({
     };
   };
 
-  useMemo(() => refreshTable(), [apiData, userFilterSelection, apiError]).then(res => setTableProps(res));
+  useMemo(async () => {
+    const refreshedTableProps = refreshTable();
+    let resultData = null;
+    if (selectedTable.isLargeDataset) {
+      resultData = await getDepaginatedData();
+      console.log(depaginatedData);
+    }
+    setDepaginatedData(resultData);
+    setTableProps({ ...refreshedTableProps, dePaginated: resultData });
+  }, [apiData, userFilterSelection, apiError]);
 
-  // useMemo(() => {
-  //   if (serverSidePagination || userFilterSelection) {
-  //     refreshTable();
-  //   }
-  // }, [dateRange])?.then(res => setTableProps(res));
+  useMemo(async () => {
+    if (serverSidePagination || userFilterSelection) {
+      const refreshedTableProps = refreshTable();
+      let resultData = null;
+      if (selectedTable.isLargeDataset) {
+        resultData = await getDepaginatedData();
+        console.log(depaginatedData);
+      }
+      setDepaginatedData(resultData);
+      setTableProps({ ...refreshedTableProps, dePaginated: resultData });
+    }
+  }, [dateRange]);
 
   const handlePivotConfigUpdated = () => {
     setPivotsUpdated(!pivotsUpdated);
@@ -261,6 +279,7 @@ const TableSectionContainer = ({
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
                   reactTable={true}
+                  // dePaginated={depaginatedData}
                 />
               ) : (
                 ''

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -35,6 +35,7 @@ export default function DtgTable({
   setManualPagination,
   pivotSelected,
   reactTable,
+  // dePaginated,
 }) {
   const {
     dePaginated,
@@ -116,7 +117,6 @@ export default function DtgTable({
   };
 
   const getPagedData = resetPage => {
-    console.log('getPagedData');
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
     }
@@ -223,10 +223,13 @@ export default function DtgTable({
       selectedTable.fields[2].dataType = 'SMALL_FRACTION';
     }
   };
-
   useEffect(() => {
-    if ((tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
-      console.log(12);
+    console.log(tableProps, tableMeta);
+  }, [tableProps]);
+
+  useMemo(() => {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable) {
+      console.log(12, sorting, filteredDateRange, selectedTable, dateRange);
       updateSmallFractionDataType();
       setCurrentPage(1);
       setApiError(false);
@@ -239,7 +242,7 @@ export default function DtgTable({
   }, [sorting, filteredDateRange, selectedTable, dateRange]);
 
   useEffect(() => {
-    if ((tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) || !reactTable) {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable) {
       console.log(11);
       setApiError(false);
       const ssp = tableProps.serverSidePagination;
@@ -320,6 +323,7 @@ export default function DtgTable({
           setReactTableData(rawData);
           setManualPagination(false);
         } else {
+          console.log(dePaginated);
           setReactTableData(dePaginated);
           setManualPagination(false);
         }
