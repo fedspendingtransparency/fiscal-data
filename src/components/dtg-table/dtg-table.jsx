@@ -35,7 +35,6 @@ export default function DtgTable({
   setManualPagination,
   pivotSelected,
   reactTable,
-  // dePaginated,
 }) {
   const {
     dePaginated,
@@ -223,13 +222,9 @@ export default function DtgTable({
       selectedTable.fields[2].dataType = 'SMALL_FRACTION';
     }
   };
-  useEffect(() => {
-    console.log(tableProps, tableMeta);
-  }, [tableProps]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable) {
-      console.log(12, sorting, filteredDateRange, selectedTable, dateRange);
       updateSmallFractionDataType();
       setCurrentPage(1);
       setApiError(false);
@@ -243,7 +238,6 @@ export default function DtgTable({
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable) {
-      console.log(11);
       setApiError(false);
       const ssp = tableProps.serverSidePagination;
       ssp !== undefined && ssp !== null ? getPagedData(false) : getCurrentData();
@@ -315,7 +309,7 @@ export default function DtgTable({
     }
   }, [pivotSelected, rawData]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
@@ -323,7 +317,6 @@ export default function DtgTable({
           setReactTableData(rawData);
           setManualPagination(false);
         } else {
-          console.log(dePaginated);
           setReactTableData(dePaginated);
           setManualPagination(false);
         }

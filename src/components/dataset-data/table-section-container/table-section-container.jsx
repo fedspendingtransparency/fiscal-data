@@ -96,7 +96,6 @@ const TableSectionContainer = ({
         }
       })
       .finally(res => {
-        console.log('finally...', meta, dateRange, res);
         setTableMeta(meta);
       });
   };
@@ -115,7 +114,6 @@ const TableSectionContainer = ({
     }
 
     return {
-      // dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
       hasPublishedReports,
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
