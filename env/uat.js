@@ -9,7 +9,7 @@ module.exports = {
     '015-BFS-2014Q3-047': {
       slug: '/treasury-bulletin-trust-funds/',
       seoConfig: {
-        pageTitle: 'Treasury Bulletin: Trust Fund Reports',
+        pageTitle: 'Treasury Bulletin Trust Fund Reports',
         description: 'Machine readable data of the Treasury Bulletin Trust Fund Reports.',
         keywords: 'Trust Fund, Financial Summaries',
       },
