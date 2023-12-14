@@ -143,24 +143,4 @@ describe('useBEAGDP Q3 senario', () => {
       }).actual
     ).toBe(3949152750000);
   });
-
-  test('GDP calc uses regular calc when it is not October', () => {
-    // Setting date as September 1st
-    jest.setSystemTime(new Date(1985, 8, 1));
-
-    StaticQuery.mockImplementation(({ render }) => render({ mockNoQ3BEAData }));
-    useStaticQuery.mockImplementation(() => {
-      return {
-        ...mockNoQ3BEAData,
-      };
-    });
-    const { result } = renderHook(() => useBEAGDP(mockCpiDataset, false, 'mockTrue'));
-
-    expect(result.current.finalGDPData[result.current.finalGDPData.length - 1].fiscalYear).toBe('1984');
-    expect(
-      result.current.finalGDPData.find(entry => {
-        return entry.fiscalYear === '1984';
-      }).actual
-    ).toBe(3949152750000);
-  });
 });

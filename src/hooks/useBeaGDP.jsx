@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import simplifyNumber from '../helpers/simplify-number/simplifyNumber';
 import { adjustDataForInflation } from '../helpers/inflation-adjust/inflation-adjust';
-import { isOtherDataUpdated } from '../helpers/hook-helpers/useBeaGDP-helper';
+import { verifyAdditionalChartData } from '../helpers/hook-helpers/useBeaGDP-helper';
 const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
   const [finalGDPData, setFinalGDPData] = useState(null);
   const [gdpMinYear, setGDPMinYear] = useState(0);
@@ -53,15 +53,6 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
               entry.timePeriod.includes((year - 1).toString() + 'Q4')
           );
         }
-        if (
-          year === currentYear &&
-          otherDataToCheck &&
-          currentMonth === 9 &&
-          allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q2')) &&
-          !allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))
-        ) {
-          otherDataPresent = isOtherDataUpdated(otherDataToCheck, currentYear);
-        }
 
         if (year >= 1977 && allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))) {
           let totalGDP = 0;
@@ -80,7 +71,7 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
           allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q2')) &&
           !allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))
         ) {
-          const otherDataPresent = await isOtherDataUpdated(otherDataToCheck, currentYear);
+          const otherDataPresent = await verifyAdditionalChartData(otherDataToCheck, currentYear);
           if (otherDataPresent) {
             let totalGDP = 0;
             allQuartersForGivenYear.forEach(quarter => {
