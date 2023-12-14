@@ -16,7 +16,7 @@ const mockNoQ3BEAData = {
 };
 
 jest.mock('../helpers/hook-helpers/useBeaGDP-helper', () => ({
-  isOtherDataUpdated: i => {
+  verifyAdditionalChartData: i => {
     return i === 'mockTrue' ? true : false;
   },
 }));
