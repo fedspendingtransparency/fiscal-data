@@ -95,12 +95,12 @@ const TableSectionContainer = ({
           setApiError(err);
         }
       })
-      .finally(res => {
+      .finally(() => {
         setTableMeta(meta);
       });
   };
 
-  const refreshTable = () => {
+  const refreshTable = async () => {
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);

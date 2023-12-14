@@ -1,4 +1,4 @@
-import { TestData, TestData2, testDataForUserFiltering, TestPivotDataWithVaryingColSets } from '../../dtg-table/test-data';
+import { TestData, TestData2, TestPivotDataWithVaryingColSets } from '../../dtg-table/test-data';
 
 export const mockApiData = {
   data: TestData,
