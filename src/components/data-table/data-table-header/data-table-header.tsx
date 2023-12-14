@@ -74,7 +74,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
       setFiltersActive(allActiveFilters.length > 0);
     }
   }, [allActiveFilters]);
-
   return (
     <thead>
       {table.getHeaderGroups().map(headerGroup => {

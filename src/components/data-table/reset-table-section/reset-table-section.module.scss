@@ -2,13 +2,16 @@
 
 .sectionBorder {
   border-bottom: #dddddd solid 1px;
-  border-right: #dddddd solid 1px;
-  border-left: #dddddd solid 1px;
   padding: 0.5rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 1.75rem;
+}
+
+.sectionSideBorder {
+  border-right: #dddddd solid 1px;
+  border-left: #dddddd solid 1px;
 }
 
 .resetButton {
