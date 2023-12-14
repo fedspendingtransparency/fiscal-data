@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import simplifyNumber from '../helpers/simplify-number/simplifyNumber';
 import { adjustDataForInflation } from '../helpers/inflation-adjust/inflation-adjust';
-import { verifyAdditionalChartData } from '../helpers/hook-helpers/useBeaGDP-helper';
+import { verifyAdditionalChartData } from '../helpers/hook-helpers/verify-additional-chart-data';
 const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
   const [finalGDPData, setFinalGDPData] = useState(null);
   const [gdpMinYear, setGDPMinYear] = useState(0);

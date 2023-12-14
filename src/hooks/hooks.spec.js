@@ -15,7 +15,7 @@ const mockNoQ3BEAData = {
   },
 };
 
-jest.mock('../helpers/hook-helpers/useBeaGDP-helper', () => ({
+jest.mock('../helpers/hook-helpers/verify-additional-chart-data', () => ({
   verifyAdditionalChartData: i => {
     return i === 'mockTrue' ? true : false;
   },

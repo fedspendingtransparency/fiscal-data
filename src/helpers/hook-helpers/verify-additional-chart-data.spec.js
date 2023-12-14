@@ -1,4 +1,4 @@
-import { verifyAdditionalChartData } from './useBeaGDP-helper';
+import { verifyAdditionalChartData } from './verify-additional-chart-data';
 import fetchMock from 'fetch-mock';
 
 const mts5 = 'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?sort=-record_date';
