@@ -56,9 +56,10 @@
 .datePickerSelected {
   background-color: $primary;
   color: white;
-  :hover {
-    color: #666666;
-  }
+}
+
+.datePickerSelected:hover {
+  color: #666666;
 }
 
 

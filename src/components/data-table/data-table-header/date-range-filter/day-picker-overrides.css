@@ -15,3 +15,7 @@
   border-top-left-radius: 100%;
   border-bottom-left-radius: 100%;
 }
+
+.rdp {
+  --rdp-background-color: #e8f5ff;
+}
