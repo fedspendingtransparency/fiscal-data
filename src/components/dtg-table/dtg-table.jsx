@@ -241,7 +241,7 @@ export default function DtgTable({
     }
   }, [sorting, filteredDateRange, selectedTable, dateRange]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable) {
       console.log(11);
       setApiError(false);
@@ -315,7 +315,7 @@ export default function DtgTable({
     }
   }, [pivotSelected, rawData]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (tableData.length > 0 && tableMeta && selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000

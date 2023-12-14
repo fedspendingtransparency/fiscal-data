@@ -55,7 +55,6 @@ const TableSectionContainer = ({
   const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
-  const [depaginatedData, setDepaginatedData] = useState(null);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
@@ -143,9 +142,7 @@ const TableSectionContainer = ({
     let resultData = null;
     if (selectedTable.isLargeDataset) {
       resultData = await getDepaginatedData();
-      console.log(depaginatedData);
     }
-    setDepaginatedData(resultData);
     setTableProps({ ...refreshedTableProps, dePaginated: resultData });
   }, [apiData, userFilterSelection, apiError]);
 
@@ -155,9 +152,7 @@ const TableSectionContainer = ({
       let resultData = null;
       if (selectedTable.isLargeDataset) {
         resultData = await getDepaginatedData();
-        console.log(depaginatedData);
       }
-      setDepaginatedData(resultData);
       setTableProps({ ...refreshedTableProps, dePaginated: resultData });
     }
   }, [dateRange]);
@@ -279,7 +274,6 @@ const TableSectionContainer = ({
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
                   reactTable={true}
-                  // dePaginated={depaginatedData}
                 />
               ) : (
                 ''
