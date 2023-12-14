@@ -36,6 +36,7 @@ export default function DtgTable({
   pivotSelected,
   reactTable,
   rawDataTable,
+  allowColumnWrap,
 }) {
   const {
     dePaginated,
@@ -385,6 +386,7 @@ export default function DtgTable({
               maxRows={maxRows}
               rowsShowing={rowsShowing}
               columnConfig={columnConfig}
+              allowColumnWrap={allowColumnWrap}
             />
           </ErrorBoundary>
         </div>

@@ -7,9 +7,10 @@ import classNames from 'classnames';
 interface IDataTableBody {
   table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
+  allowColumnWrap: string[];
 }
 
-const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes }) => {
+const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, allowColumnWrap }) => {
   let fillCell = false;
 
   return (
@@ -21,7 +22,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes }) 
             {row.getVisibleCells().map(cell => {
               const cellValue = cell.getValue();
               const display = !cellValue || cellValue === 'null';
-              const wrapStyle = cell.column.id === 'definition';
+              const wrapStyle = allowColumnWrap.includes(cell.column.id);
               return (
                 <td
                   key={cell.id}

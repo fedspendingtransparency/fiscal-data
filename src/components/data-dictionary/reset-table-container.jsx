@@ -18,6 +18,7 @@ const ResetTableContainer = ({ tableProps, rowsPerPage }) => {
         resetFilters={resetFilters}
         setResetFilters={setResetFilters}
         setFiltersActive={setFiltersActive}
+        allowColumnWrap={['definition']}
       />
     </div>
   );

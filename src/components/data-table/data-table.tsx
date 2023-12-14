@@ -46,6 +46,7 @@ type DataTableProps = {
   manualPagination: boolean;
   rowsShowing: { begin: number; end: number };
   columnConfig?;
+  allowColumnWrap?: string[];
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -69,6 +70,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   manualPagination,
   rowsShowing,
   columnConfig,
+  allowColumnWrap,
 }) => {
   const allColumns = nonRawDataColumns
     ? columnsConstructorGeneric(nonRawDataColumns)
@@ -243,7 +245,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   setAllActiveFilters={setAllActiveFilters}
                   manualPagination={manualPagination}
                 />
-                <DataTableBody table={table} dataTypes={dataTypes} />
+                <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
               </table>
             </div>
           </div>
