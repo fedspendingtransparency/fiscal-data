@@ -14,7 +14,6 @@ import {
   buttonContainer,
   datePickerButton,
   datePickerSelected,
-  datePickerHover,
   datePickerToday,
   datePickerRangeMiddle,
   dateDivider,
@@ -208,7 +207,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 onSelect={setSelected}
                 modifiersClassNames={{
                   selected: datePickerSelected,
-                  focus: datePickerHover,
                   today: datePickerToday,
                   range_middle: datePickerRangeMiddle,
                 }}

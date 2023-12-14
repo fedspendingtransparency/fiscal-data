@@ -19,3 +19,10 @@
 .rdp {
   --rdp-background-color: #e8f5ff;
 }
+
+@media(hover: none) {
+  .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+    background-color: #0071bc;
+    color: white;
+  }
+}
