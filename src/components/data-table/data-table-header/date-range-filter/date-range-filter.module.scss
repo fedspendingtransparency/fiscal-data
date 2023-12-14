@@ -56,21 +56,17 @@
 .datePickerSelected {
   background-color: $primary;
   color: white;
-  :hover {
-    color: #666666;
-  }
 }
 
+
+.datePickerSelected:hover {
+  color: #666666;
+}
 
 .datePickerRangeMiddle {
   background-color: #e8f5ff;
   color: #555555;
   border-radius: 0;
-}
-
-
-.datePickerHover {
-  background-color: #e8f5ff;
 }
 
 .datePickerToday {
