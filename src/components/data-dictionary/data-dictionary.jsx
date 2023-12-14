@@ -1,5 +1,5 @@
 import React from 'react';
-import ResetTableContainer from './reset-table-container';
+import ResetTableContainer from '../data-table/reset-table-container/reset-table-container';
 
 const addTableName = (fields, table) => {
   fields.forEach(field => (field.tableName = table));

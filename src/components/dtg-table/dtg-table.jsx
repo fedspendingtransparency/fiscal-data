@@ -387,6 +387,7 @@ export default function DtgTable({
               rowsShowing={rowsShowing}
               columnConfig={columnConfig}
               allowColumnWrap={allowColumnWrap}
+              aria={tableProps.aria}
             />
           </ErrorBoundary>
         </div>

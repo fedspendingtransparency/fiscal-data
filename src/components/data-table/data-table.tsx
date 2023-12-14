@@ -47,6 +47,7 @@ type DataTableProps = {
   rowsShowing: { begin: number; end: number };
   columnConfig?;
   allowColumnWrap?: string[];
+  aria;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -71,6 +72,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   rowsShowing,
   columnConfig,
   allowColumnWrap,
+  aria,
 }) => {
   const allColumns = nonRawDataColumns
     ? columnsConstructorGeneric(nonRawDataColumns)
@@ -235,7 +237,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
           </div>
           <div className={tableStyle}>
             <div data-test-id="table-content" className={tableContainer} style={pagingProps.itemsPerPage > 5 ? { maxHeight: '521px' } : null}>
-              <table>
+              <table {...aria}>
                 <DataTableHeader
                   table={table}
                   dataTypes={dataTypes}
