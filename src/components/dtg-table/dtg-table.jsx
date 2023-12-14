@@ -226,7 +226,7 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable) {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       updateSmallFractionDataType();
       setCurrentPage(1);
       setApiError(false);
@@ -239,7 +239,7 @@ export default function DtgTable({
   }, [sorting, filteredDateRange, selectedTable, dateRange]);
 
   useMemo(() => {
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable) {
+    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE || !reactTable || !rawDataTable) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
         setApiError(false);
@@ -286,7 +286,7 @@ export default function DtgTable({
     maxRows,
   };
 
-  useEffect(() => {
+  useMemo(() => {
     if (tableProps && dePaginated !== undefined && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null) {
         // large dataset tables <= 20000 rows
@@ -296,7 +296,7 @@ export default function DtgTable({
         setReactTableData(rawData);
         setManualPagination(false);
       }
-    } else if (tableProps.data) {
+    } else if (data && !rawDataTable) {
       setReactTableData({ data: data });
     }
   }, [rawData, dePaginated]);
@@ -304,17 +304,21 @@ export default function DtgTable({
   const activePivot = (data, pivot) =>
     data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
 
-  useEffect(() => {
+  useMemo(() => {
     if (tableProps) {
       // Pivot data
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
         setReactTableData(rawData);
-        setManualPagination(false);
+        if (setManualPagination) {
+          setManualPagination(false);
+        }
+      } else if (data && !rawDataTable) {
+        setReactTableData({ data: data });
       }
     }
   }, [pivotSelected, rawData]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (
       tableData.length > 0 &&
       tableMeta &&
@@ -337,9 +341,8 @@ export default function DtgTable({
           setManualPagination(true);
         }
       }
-    } else {
-      setReactTableData(data);
-      setManualPagination(false);
+    } else if (data && !rawDataTable) {
+      setReactTableData({ data: data });
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 
@@ -354,7 +357,8 @@ export default function DtgTable({
           </div>
         </>
       )}
-      {reactTable && reactTableData?.data && (
+      {/*{reactTable && (reactTableData?.data || (rawDataTable && reactTableData)) && (*/}
+      {reactTable && (reactTableData?.data || (!rawDataTable && reactTableData)) && (
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
