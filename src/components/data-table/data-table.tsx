@@ -10,7 +10,8 @@ import {
 } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
-  tableContainer,
+  rawDataTableContainer,
+  nonRawDataTableContainer,
   tableStyle,
   overlayContainerNoFooter,
   selectColumnPanelActive,
@@ -236,7 +237,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             )}
           </div>
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={tableContainer} style={pagingProps.itemsPerPage > 5 ? { maxHeight: '521px' } : null}>
+            <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
               <table {...aria}>
                 <DataTableHeader
                   table={table}

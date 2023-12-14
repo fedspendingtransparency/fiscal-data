@@ -15,6 +15,7 @@ const ResetTableContainer = ({ tableProps, rowsPerPage }) => {
         tableProps={tableProps}
         perPage={rowsPerPage}
         reactTable
+        rawDataTable={false}
         resetFilters={resetFilters}
         setResetFilters={setResetFilters}
         setFiltersActive={setFiltersActive}

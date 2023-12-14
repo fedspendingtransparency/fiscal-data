@@ -22,7 +22,7 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({ table, dataTypes, al
             {row.getVisibleCells().map(cell => {
               const cellValue = cell.getValue();
               const display = !cellValue || cellValue === 'null';
-              const wrapStyle = allowColumnWrap.includes(cell.column.id);
+              const wrapStyle = allowColumnWrap?.includes(cell.column.id);
               return (
                 <td
                   key={cell.id}

@@ -7,13 +7,19 @@ $borderRadius: 5px;
   width: 100%;
   order: 1;
 
-  .tableContainer {
+  .rawDataTableContainer, nonRawDataTableContainer {
     position: relative;
     box-sizing: border-box;
     border-top: 0;
     background-color: white;
-    //height: 521px;
     overflow-y: auto;
+  }
+
+  .rawDataTableContainer {
+    height: 521px;
+  }
+  .nonRawDataTableContainer {
+    max-height: 521px;
   }
 
   table {
