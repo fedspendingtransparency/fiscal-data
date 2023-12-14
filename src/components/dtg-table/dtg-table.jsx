@@ -286,13 +286,15 @@ export default function DtgTable({
     maxRows,
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (tableProps && dePaginated !== undefined && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null) {
+        console.log(1);
         // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
+        console.log(2);
         setReactTableData(rawData);
         setManualPagination(false);
       }
@@ -304,21 +306,23 @@ export default function DtgTable({
   const activePivot = (data, pivot) =>
     data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
 
-  useMemo(() => {
+  useEffect(() => {
     if (tableProps) {
       // Pivot data
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
+        console.log(3);
         setReactTableData(rawData);
         if (setManualPagination) {
           setManualPagination(false);
         }
       } else if (data && !rawDataTable) {
+        console.log(4);
         setReactTableData({ data: data });
       }
     }
   }, [pivotSelected, rawData]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (
       tableData.length > 0 &&
       tableMeta &&
@@ -329,20 +333,24 @@ export default function DtgTable({
       if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
         if (rawData) {
+          console.log(5);
           setReactTableData(rawData);
           setManualPagination(false);
-        } else {
+        } else if (dePaginated) {
+          console.log(6);
           setReactTableData(dePaginated);
           setManualPagination(false);
         }
       } else {
         if (!(reactTableData?.pivotApplied && JSON.stringify(tableData) === JSON.stringify(reactTableData?.data.slice(0, 10)))) {
+          console.log(7);
           setReactTableData({ data: tableData, meta: tableMeta });
           setManualPagination(true);
         }
       }
-    } else if (data && !rawDataTable) {
-      setReactTableData({ data: data });
+    } else if (data && !rawDataTable && !rawData) {
+      console.log(8);
+      // setReactTableData({ data: data });
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 
