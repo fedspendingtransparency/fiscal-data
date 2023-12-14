@@ -1,7 +1,8 @@
 import React from 'react';
 import DDNav from './dataset-detail-nav';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor  } from '@testing-library/react';
 import * as Scroll from 'react-scroll';
+import {activeMenu, desktopLinks} from './dataset-detail-nav.module.scss';
 
 jest.useFakeTimers();
 describe('DDNav', () => {
@@ -58,4 +59,33 @@ describe('DDNav', () => {
     expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
     spy.mockClear();
   });
+
+  it(`sets active link correctly`, () => {
+    const { getByTestId } = render(<DDNav />);
+    const link = getByTestId('DDNavDesktopLink0');
+    fireEvent.click(link);
+    expect(link).toHaveClass(desktopLinks);
+  });
+
+  const mockNavRef = {
+    current: {
+      querySelector: jest.fn().mockImplementation(selector => {
+        if (selector === `.${desktopLinks}.${activeMenu}`) {
+          return {offsetLeft: 100}
+        }
+        return null
+      }),
+      scrollLeft: 100,
+    },
+  };
+
+  it('updates scroll bar position when active section changes', async () => {
+    const { getByTestId } = render(<DDNav />);
+    const link = getByTestId('DDNavDesktopLink0');
+    fireEvent.click(link);
+    await waitFor(() => {
+      expect(mockNavRef.current.scrollLeft).toBe(100);
+    });
+  });
+  
 });
