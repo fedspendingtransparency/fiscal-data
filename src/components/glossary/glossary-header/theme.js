@@ -2,28 +2,32 @@ import * as variables from '../../../variables.module.scss';
 import { createTheme, makeStyles } from '@material-ui/core/styles';
 
 const theme = {
-  overrides: {
+  components: {
     MuiOutlinedInput: {
-      root: {
-        '&.Mui-focused fieldset': {
-          '&.MuiOutlinedInput-notchedOutline': {
-            borderColor: variables.primary,
-            borderWidth: '1px',
+      styleOverrides: {
+        root: {
+          '&.Mui-focused fieldset': {
+            '&.MuiOutlinedInput-notchedOutline': {
+              borderColor: variables.primary,
+              borderWidth: '1px',
+            },
           },
         },
-      },
-      adornedEnd: {
-        paddingRight: 0,
+        adornedEnd: {
+          paddingRight: 0,
+        },
       },
     },
     MuiInputBase: {
-      root: {
-        fontSize: variables.fontSize_15,
-        fontFamily: 'Source Sans Pro',
-        color: variables.fontBodyCopy,
-      },
-      input: {
-        color: variables.fontBodyCopy,
+      styleOverrides: {
+        root: {
+          fontSize: variables.fontSize_15,
+          fontFamily: 'Source Sans Pro',
+          color: variables.fontBodyCopy,
+        },
+        input: {
+          color: variables.fontBodyCopy,
+        },
       },
     },
   },

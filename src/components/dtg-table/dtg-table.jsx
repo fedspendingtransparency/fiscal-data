@@ -35,6 +35,8 @@ export default function DtgTable({
   setManualPagination,
   pivotSelected,
   reactTable,
+  rawDataTable,
+  allowColumnWrap,
 }) {
   const {
     dePaginated,
@@ -294,6 +296,8 @@ export default function DtgTable({
         setReactTableData(rawData);
         setManualPagination(false);
       }
+    } else if (tableProps.data) {
+      setReactTableData({ data: data });
     }
   }, [rawData, dePaginated]);
 
@@ -333,6 +337,9 @@ export default function DtgTable({
           setManualPagination(true);
         }
       }
+    } else {
+      setReactTableData(data);
+      setManualPagination(false);
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
 
@@ -367,6 +374,7 @@ export default function DtgTable({
           <ErrorBoundary FallbackComponent={() => <></>}>
             <DataTable
               rawData={reactTableData}
+              nonRawDataColumns={!rawDataTable ? columnConfig : null}
               defaultSelectedColumns={selectColumns}
               setTableColumnSortData={setTableColumnSortData}
               hideCellLinks={true}
@@ -386,6 +394,8 @@ export default function DtgTable({
               maxRows={maxRows}
               rowsShowing={rowsShowing}
               columnConfig={columnConfig}
+              allowColumnWrap={allowColumnWrap}
+              aria={tableProps.aria}
             />
           </ErrorBoundary>
         </div>

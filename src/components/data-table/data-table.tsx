@@ -10,7 +10,8 @@ import {
 } from '@tanstack/react-table';
 import DataTableFooter from './data-table-footer/data-table-footer';
 import {
-  tableContainer,
+  rawDataTableContainer,
+  nonRawDataTableContainer,
   tableStyle,
   overlayContainerNoFooter,
   selectColumnPanelActive,
@@ -46,6 +47,8 @@ type DataTableProps = {
   manualPagination: boolean;
   rowsShowing: { begin: number; end: number };
   columnConfig?;
+  allowColumnWrap?: string[];
+  aria;
 };
 
 const DataTable: FunctionComponent<DataTableProps> = ({
@@ -69,6 +72,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
   manualPagination,
   rowsShowing,
   columnConfig,
+  allowColumnWrap,
+  aria,
 }) => {
   const allColumns = nonRawDataColumns
     ? columnsConstructorGeneric(nonRawDataColumns)
@@ -232,8 +237,8 @@ const DataTable: FunctionComponent<DataTableProps> = ({
             )}
           </div>
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={tableContainer}>
-              <table>
+            <div data-test-id="table-content" className={nonRawDataColumns ? nonRawDataTableContainer : rawDataTableContainer}>
+              <table {...aria}>
                 <DataTableHeader
                   table={table}
                   dataTypes={dataTypes}
@@ -243,7 +248,7 @@ const DataTable: FunctionComponent<DataTableProps> = ({
                   setAllActiveFilters={setAllActiveFilters}
                   manualPagination={manualPagination}
                 />
-                <DataTableBody table={table} dataTypes={dataTypes} />
+                <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} />
               </table>
             </div>
           </div>

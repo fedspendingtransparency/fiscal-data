@@ -91,7 +91,7 @@ const TableSectionContainer = ({
         if (err.name === 'AbortError') {
           console.info('Action cancelled.');
         } else {
-          console.error('API errors', err);
+          console.error('API error', err);
           setApiError(err);
         }
       })
@@ -262,8 +262,8 @@ const TableSectionContainer = ({
                   tableMeta={tableMeta}
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
-                  reactTable={true}
-                  apiErrors={apiError}
+                  reactTable
+                  rawDataTable
                 />
               ) : (
                 ''
