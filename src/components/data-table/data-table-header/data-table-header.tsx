@@ -88,7 +88,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   key={header.id}
                   colSpan={header.colSpan}
                   style={{
-                    minWidth: header.getSize(),
+                    minWidth: header.id.includes('_date') ? '13.5rem' : header.getSize(),
                   }}
                 >
                   {header.isPlaceholder ? null : (
