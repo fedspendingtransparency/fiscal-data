@@ -16,6 +16,10 @@
   border-bottom-left-radius: 100%;
 }
 
+.rdp-cell:has(.date-range-filter-module--datePickerToday--05fc1) {
+  background-color: #e8f5ff;
+}
+
 .rdp {
   --rdp-background-color: #e8f5ff;
 }
