@@ -212,10 +212,6 @@ const DataTable: FunctionComponent<DataTableProps> = ({
     }
   });
 
-  useEffect(() => {
-    console.log(pagingProps);
-  }, [pagingProps]);
-
   return (
     <>
       <div data-test-id="table-content" className={overlayContainerNoFooter}>

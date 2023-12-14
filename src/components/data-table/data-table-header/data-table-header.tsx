@@ -80,7 +80,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
         return (
           <tr key={headerGroup.id} data-testid="header-row" className={stickyHeader}>
             {headerGroup.headers.map(header => {
-              console.log(header.id, header.getSize());
               const columnDataType = dataTypes[header.id];
               const rightAlignStyle = rightAlign(columnDataType) ? rightAlignText : null;
               return (
@@ -88,7 +87,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   key={header.id}
                   colSpan={header.colSpan}
                   style={{
-                    minWidth: header.id !== 'definition' && header.getSize() !== 500 ? header.getSize() : '500px',
+                    minWidth: header.getSize(),
                   }}
                 >
                   {header.isPlaceholder ? null : (
