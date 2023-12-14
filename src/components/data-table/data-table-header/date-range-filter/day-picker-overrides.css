@@ -21,7 +21,7 @@
 }
 
 @media(hover: none) {
-  .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  .rdp-button:hover:not([disabled]):not(.rdp-day_selected):not(.rdp-nav_button) {
     background-color: #0071bc;
     color: white;
   }
