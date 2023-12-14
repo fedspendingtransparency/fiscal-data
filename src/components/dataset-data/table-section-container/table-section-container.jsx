@@ -91,7 +91,7 @@ const TableSectionContainer = ({
         if (err.name === 'AbortError') {
           console.info('Action cancelled.');
         } else {
-          console.error('API error', err);
+          console.error('API errors', err);
           setApiError(err);
         }
       })
@@ -113,7 +113,8 @@ const TableSectionContainer = ({
       setUserFilteredData(null);
     }
 
-    return {
+    setTableProps({
+      dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
       hasPublishedReports,
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
@@ -132,26 +133,16 @@ const TableSectionContainer = ({
       hideColumns: config.hideColumns,
       excludeCols: ['CHART_DATE'],
       aria: { 'aria-labelledby': 'main-data-table-title' },
-    };
+    });
   };
 
   useMemo(async () => {
-    const refreshedTableProps = refreshTable();
-    let resultData = null;
-    if (selectedTable.isLargeDataset) {
-      resultData = await getDepaginatedData();
-    }
-    setTableProps({ ...refreshedTableProps, dePaginated: resultData });
+    refreshTable();
   }, [apiData, userFilterSelection, apiError]);
 
   useMemo(async () => {
     if (serverSidePagination || userFilterSelection) {
-      const refreshedTableProps = refreshTable();
-      let resultData = null;
-      if (selectedTable.isLargeDataset) {
-        resultData = await getDepaginatedData();
-      }
-      setTableProps({ ...refreshedTableProps, dePaginated: resultData });
+      refreshTable();
     }
   }, [dateRange]);
 
@@ -272,6 +263,7 @@ const TableSectionContainer = ({
                   manualPagination={manualPagination}
                   setManualPagination={setManualPagination}
                   reactTable={true}
+                  apiErrors={apiError}
                 />
               ) : (
                 ''

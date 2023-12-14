@@ -285,7 +285,7 @@ export default function DtgTable({
   };
 
   useEffect(() => {
-    if (tableProps && dePaginated !== undefined && selectedTable.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
+    if (tableProps && dePaginated !== undefined && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
       if (dePaginated !== null) {
         // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
