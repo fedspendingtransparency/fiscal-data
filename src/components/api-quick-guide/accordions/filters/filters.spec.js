@@ -1,6 +1,5 @@
 import React from 'react';
 import FiltersAccordion from './filters';
-import * as accordionStyles from '../../../accordion/accordion.module.scss';
 import { fireEvent, render } from '@testing-library/react';
 
 import { selectedTable, selectedTableWithDateException } from '../../test-helpers/test-helpers';
@@ -20,7 +19,7 @@ describe('Filters Accordion', () => {
 
   it('expects the accordion to be open by default', () => {
     const { getByTestId } = render(<FiltersAccordion selectedTable={selectedTable} />);
-    expect(getByTestId('section').className).toContain(accordionStyles.closed);
+    expect(getByTestId('section').className).toContain('closed');
   });
 
   it('writes a filter example drafted from the provided selectedTable prop', () => {
