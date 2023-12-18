@@ -46,9 +46,14 @@ const SpendingKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
             allQuartersForGivenYear.forEach(quarter => {
               totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
             });
+            const totalQuarters =
+              allQuartersForGivenYear.find(entry => entry.TimePeriod.includes(fiscalYear.toString() + 'Q2')) &&
+              !allQuartersForGivenYear.find(entry => entry.TimePeriod.includes(fiscalYear.toString() + 'Q3'))
+                ? 3
+                : 4;
             averagedGDPByYear.push({
               // Correct BEA data to display in trillions
-              average: parseInt(String(totalGDP) + '000000') / 4,
+              average: parseInt(String(totalGDP) + '000000') / totalQuarters,
               year: fiscalYear,
             });
             setSpendingGDPSimple(Math.round((priorYearSpending / averagedGDPByYear[0].average) * 10));
