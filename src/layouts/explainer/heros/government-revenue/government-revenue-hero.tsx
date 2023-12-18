@@ -42,8 +42,8 @@ const GovernmentRevenueHero = (): ReactElement => {
     basicFetch(`${url}`).then(res => {
       if (res.data) {
         const data = res.data[0];
-        const currentTotalRevenue = data.current_fytd_net_rcpt_amt || 0;
-        const priorTotalRevenue = data.prior_fytd_net_rcpt_amt || 0;
+        const currentTotalRevenue = parseFloat(data.current_fytd_net_rcpt_amt) || 0;
+        const priorTotalRevenue = parseFloat(data.prior_fytd_net_rcpt_amt) || 0;
         const difference = currentTotalRevenue - priorTotalRevenue;
         setCurrentRevenue(currentTotalRevenue);
         setRecordFiscalYear(data.record_fiscal_year);
