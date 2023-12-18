@@ -18,7 +18,7 @@ import {
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
-import SelectControl from '../../components/select-control/select-control';
+import NestSelectControl from '../../components/select-control/nest-select-control';
 import { apiPrefix, basicFetch } from '../../utils/api-utils';
 import {
   quarterNumToTerm,
@@ -37,6 +37,7 @@ import InfoTip from '../../components/info-tip/info-tip';
 import Analytics from '../../utils/analytics/analytics';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
+import { yearSelect } from '../../components/published-reports/filter-section/filter-section.module.scss';
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
@@ -114,7 +115,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       if (res.data) {
         
         const date = new Date(res.data[0].effective_date);
-        console.log('data here   ', date)
         setDatasetDate(dateStringConverter(date));
       }
     });
@@ -195,10 +195,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         label: mostRecentYear.toString(),
         value: mostRecentYear,
       });
+      console.log('year  ', selectedYear);
       setSelectedQuarter({
         label: quarterNumToTerm(mostRecentQuarter),
         value: mostRecentQuarter,
       });
+      console.log('selectedQuarter, ', selectedQuarter)
       const date = new Date(euro.effective_date);
       setEffectiveDate(dateStringConverter(date));
       setData(res.data);
@@ -208,12 +210,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const updateCurrencyDropdownOptions = (selQuarter, selYear) => {
     const selectedYearQuarter = `${selYear.value}Q${selQuarter.value}`;
     setDropdownOptions(
-      Object.values(currencyMap).map(currency => ({
+      sortedCurrencies.map(currency => ({
         label: currency.label,
         value: currency.yearQuarterMap[selectedYearQuarter] ? currency.yearQuarterMap[selectedYearQuarter].data : null,
       }))
     );
   };
+
 
   useEffect(() => {
     if (selectedQuarter && selectedYear) {
@@ -317,24 +320,92 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       label: year,
       value: year,
   
-      children: quarters.map(quarter => ({
+      children: quarters
+      .sort((a, b) => b - a)
+      .map(quarter => ({
         label: quarterNumToTerm(quarter),
         value: `${year}Q${quarter}`
       }))
     }));
 
-  console.log('yearssss ', yearQuarterOptions);
+    const useHandleChangeQuarters = useCallback(
+      option => {
+        updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
+        setSelectedQuarter(option);
+        analyticsHandler('Year-Quarter Selection', selectedYear.value + '-' + option.value);
+      },
+      [selectedQuarter, data, nonUSCurrency, currencyMap]
+    );
+  
+    const handleChangeYears = useCallback(
+      option => {
+        let gaQuarter = selectedQuarter.value;
+  
+        if (yearToQuartersMap[option.label][selectedQuarter.value]) {
+          updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
+        } else {
+          updateCurrencyForYearQuarter(
+            option.label,
+            yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1],
+            nonUSCurrency,
+            currencyMap
+          );
+        }
+  
+        if (yearToQuartersMap[option.label][selectedQuarter.value]) {
+          setSelectedQuarter({
+            label: quarterNumToTerm(selectedQuarter.value),
+            value: selectedQuarter.value,
+          });
+        } else if (!yearToQuartersMap[option.label][selectedQuarter.value]) {
+          // Set quarter to most recent for that year
+          const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
+          setSelectedQuarter({
+            label: quarterNumToTerm(newestQuarter),
+            value: newestQuarter,
+          });
+          gaQuarter = newestQuarter;
+        }
+        setSelectedYear(option);
+        setQuarters(
+          yearToQuartersMap[option.label].map(quarter => ({
+            label: quarterNumToTerm(quarter),
+            value: quarter,
+          }))
+        );
+        analyticsHandler('Year-Quarter Selection', option.value + '-' + gaQuarter);
+      },
+      [selectedYear, data, nonUSCurrency, currencyMap]
+    );
 
-  const handleYearQuarterChange = (option) => {
-    const [year, quarter] = option.value.split('Q');
-    setSelectedYear(year);
-    setSelectedQuarter(quarter);
+  const handleYearQuarterChange = useCallback((option) => {
+    if(option.value.includes('Q')) {
+      const [year, quarter] = option.value.split('Q');
+      console.log(' year ', year, ' quarter ',quarter)
+      updateCurrencyForYearQuarter(year, quarter, nonUSCurrency, currencyMap);
+      setSelectedYear(year);
+      setSelectedQuarter(quarter);
+    }
+    else {
+      setSelectedYear(option.value)
+    }
 
-    updateCurrencyForYearQuarter(year, quarter, nonUSCurrency, currencyMap);
-
+  },[updateCurrencyForYearQuarter, nonUSCurrency, currencyMap]);
+  
+  const quarterNumbertoLable = (quarterNumber) => {
+    const quarterLabels ={
+      1: 'Janurary ' + selectedYear,
+      2: 'Apirl ' + selectedYear,
+      3: 'July ' + selectedYear,
+      4: 'October ' + selectedYear
+    };
+    return quarterLabels[quarterNumber] || 'Select Option';
   };
 
-
+  const yearQuarterSelectedOption = {
+    label: `${quarterNumbertoLable(selectedQuarter)}`,
+    value: `${selectedYear}Q${selectedQuarter}`,
+  };
 
   return (
     <SiteLayout isPreProd={false}>
@@ -360,7 +431,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         {data && (
           <div className={currencyBoxContainer}>
             <div className={selector} data-testid="year-selector">
-              <SelectControl label="Perference" className={box} options={yearQuarterOptions} selectedOption={selectedYear} changeHandler={handleYearQuarterChange} />
+              <NestSelectControl 
+                label="Perference" 
+                className={box} 
+                ariaLabel={'Select Quarter'}
+                options={yearQuarterOptions} 
+                selectedOption={yearQuarterSelectedOption} 
+                changeHandler={handleYearQuarterChange} 
+              />
             </div>
             <div className={selector} data-testid="">
 

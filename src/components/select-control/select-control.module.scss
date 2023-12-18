@@ -60,7 +60,7 @@
     .selector_optionButton {
       font-size: $font-size-15;
       width: 100%;
-      background-color: $content-section-background;
+      background-color: transparent;
       border: none;
       text-align: left;
       line-height: 2;
@@ -90,17 +90,43 @@
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
+.yearTitle{
+
+}
 
 .selector_nestedOption {
   font-size: $font-size-15;
   padding-left: 2rem;
-  width: 100%;
-  background-color: $content-section-background;
-  border: none;
-  text-align: left;
-  line-height: 2;
-  color: $font-body-copy;
-  cursor: pointer;
+  font-weight: normal;
+  display: block;
+
+  + .selector_option {
+    border-top: 1px solid $border-color;
+  }
+
+  .selector_optionButton {
+    font-size: $font-size-15;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    line-height: 2;
+    color: $font-body-copy;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $body-background;
+      transition: background-color 0.2s ease;
+    }
+
+    &:disabled {
+      cursor: default;
+      &:hover {
+        background-color: $content-section-background;
+      }
+    }
+
+  }
 }
 
 .comboSelectField {
