@@ -36,7 +36,7 @@ describe('TableSectionContainer initial state', () => {
         <TableSectionContainer
           selectedTable={selectedTableLessFields}
           dateRange={mockDateRange}
-          apiData={mockApiData}
+          apiData={{}}
           setSelectedPivot={mockSetSelectedPivot}
           config={mockConfig}
         />

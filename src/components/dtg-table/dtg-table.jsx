@@ -357,8 +357,7 @@ export default function DtgTable({
           </div>
         </>
       )}
-      {/*{reactTable && (reactTableData?.data || (rawDataTable && reactTableData)) && (*/}
-      {reactTable && (reactTableData?.data || (!rawDataTable && reactTableData)) && (
+      {reactTable && reactTableData?.data && (
         <div data-test-id="table-content" className={styles.overlayContainerNoFooter}>
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
