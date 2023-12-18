@@ -32,7 +32,7 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
     let GDPYearlyData = [];
     let curYear = 1948;
     const beaData = queryData?.allBeaGdp?.nodes;
-    beaData?.forEach(async gpd => {
+    for (const gpd of beaData) {
       const year = parseInt(gpd.timePeriod.slice(0, -2));
       let allQuartersForGivenYear;
       if (year === curYear) {
@@ -99,7 +99,7 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
         }
         curYear++;
       }
-    });
+    }
 
     if (inflationAdjust) {
       GDPYearlyData = adjustDataForInflation(GDPYearlyData, 'actual', 'fiscalYear', cpiData);

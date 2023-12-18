@@ -17,7 +17,7 @@ const mockNoQ3BEAData = {
 
 jest.mock('../helpers/hook-helpers/verify-additional-chart-data', () => ({
   verifyAdditionalChartData: jest.fn((i, year) => {
-    return i === 'mockTrue' ? true : false;
+    return i === 'mockTrue';
   }),
 }));
 
@@ -83,10 +83,10 @@ describe('useBEAGDP Q3 senario', () => {
       };
     });
 
-    const { result } = renderHook(() => useBEAGDP(mockCpiDataset, false, 'mockTrue'));
+    const { result, waitForNextUpdate } = renderHook(() => useBEAGDP(mockCpiDataset, false, 'mockTrue'));
+    await waitForNextUpdate();
     const gdpData = result.current.finalGDPData;
     const finalYear = gdpData[gdpData.length - 1];
-
     expect(finalYear.fiscalYear).toBe('1985');
     // expect average based off of Q4-Q2
     expect(
@@ -96,14 +96,15 @@ describe('useBEAGDP Q3 senario', () => {
     ).toBe(4209517000000);
   });
 
-  test('GDP calc does not use current year if no Q3 when other data is not in for the current year', () => {
+  test('GDP calc does not use current year if no Q3 when other data is not in for the current year', async () => {
     StaticQuery.mockImplementation(({ render }) => render({ mockNoQ3BEAData }));
     useStaticQuery.mockImplementation(() => {
       return {
         ...mockNoQ3BEAData,
       };
     });
-    const { result } = renderHook(() => useBEAGDP(mockCpiDataset, false, 'mockFalse'));
+    const { result, waitForNextUpdate } = renderHook(() => useBEAGDP(mockCpiDataset, false, 'mockFalse'));
+    await waitForNextUpdate();
     expect(result.current.finalGDPData[result.current.finalGDPData.length - 1].fiscalYear).toBe('1984');
     // expect previous year only
     expect(
@@ -113,7 +114,7 @@ describe('useBEAGDP Q3 senario', () => {
     ).toBe(3949152750000);
   });
 
-  test('GDP calc uses current year if there is current year Q3', () => {
+  test('GDP calc uses current year if there is current year Q3', async () => {
     StaticQuery.mockImplementation(({ render }) => render({ mockBEAData }));
     useStaticQuery.mockImplementation(() => {
       return {
@@ -121,7 +122,6 @@ describe('useBEAGDP Q3 senario', () => {
       };
     });
     const { result } = renderHook(() => useBEAGDP(mockCpiDataset, false, 'mockTrue'));
-
     expect(result.current.finalGDPData[result.current.finalGDPData.length - 1].fiscalYear).toBe('1984');
     expect(
       result.current.finalGDPData.find(entry => {
@@ -130,15 +130,15 @@ describe('useBEAGDP Q3 senario', () => {
     ).toBe(3949152750000);
   });
 
-  test('GDP calc does not use current year when no Q3 and otherDataPresent is not flagged', () => {
+  test('GDP calc does not use current year when no Q3 and otherDataPresent is not flagged', async () => {
     StaticQuery.mockImplementation(({ render }) => render({ mockNoQ3BEAData }));
     useStaticQuery.mockImplementation(() => {
       return {
         ...mockNoQ3BEAData,
       };
     });
-    const { result } = renderHook(() => useBEAGDP(mockCpiDataset, false));
-
+    const { result, waitForNextUpdate } = renderHook(() => useBEAGDP(mockCpiDataset, false));
+    await waitForNextUpdate();
     expect(result.current.finalGDPData[result.current.finalGDPData.length - 1].fiscalYear).toBe('1984');
     expect(
       result.current.finalGDPData.find(entry => {
