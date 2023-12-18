@@ -6,6 +6,7 @@
   display: inline-block;
   font-size: $font-size-15;
   width: 100%;
+  height: 100%;
   background-color: $content-section-background;
   border: 1px solid $border-color;
   border-radius: 0.2rem;
@@ -91,12 +92,12 @@
   text-overflow: ellipsis;
 }
 .yearTitle{
-
+margin: .5rem;
 }
 
 .selector_nestedOption {
   font-size: $font-size-15;
-  padding-left: 2rem;
+  padding-left: 1rem;
   font-weight: normal;
   display: block;
 

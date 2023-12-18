@@ -15,6 +15,7 @@ import {
   selector,
   box,
   legalDisclaimer,
+  labelName
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
@@ -107,13 +108,15 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     clearTimeout(gaInfoTipTimer);
     clearTimeout(ga4Timer);
   };
-
+  let recordDate = ''
   const yearQuarterParse = (dataRecord: Record<string, string>): string => `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then(res => {
       if (res.data) {
-        
+
+        recordDate= res.data[0].record_date
+        console.log(' firrst CALL!! ', recordDate);
         const date = new Date(res.data[0].effective_date);
         setDatasetDate(dateStringConverter(date));
       }
@@ -124,6 +127,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
       const yearToQuartersMapLocal = {} as Record<string, number[]>;
       const currencyMapLocal: Record<string, Currency> = {};
+      console.log(res.data);
       res.data.forEach(record => {
         if (!currencyMapLocal[record.country_currency_desc]) {
           currencyMapLocal[record.country_currency_desc] = {
@@ -323,7 +327,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       children: quarters
       .sort((a, b) => b - a)
       .map(quarter => ({
-        label: quarterNumToTerm(quarter),
+        label: `${quarterNumToTerm(quarter)}, ${year}`,
         value: `${year}Q${quarter}`
       }))
     }));
@@ -407,6 +411,19 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     value: `${selectedYear}Q${selectedQuarter}`,
   };
 
+
+
+  const currencyLable = (label) => {
+    return (
+      <div style={{ display: 'flex'}}>
+        <div className={labelName}>{label}</div>
+        <InfoTip hover iconStyle={{ color: '#666666', width: '14px', height: '14px' }}>
+          {currencySelectionInfoIcon.body}
+        </InfoTip>
+      </div>
+    )
+  }
+
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -428,39 +445,38 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
       <div className={container}>
         <span className={title}>Check foreign currency rates against the U.S. Dollar.</span>
-        {data && (
-          <div className={currencyBoxContainer}>
-            <div className={selector} data-testid="year-selector">
-              <NestSelectControl 
-                label="Perference" 
-                className={box} 
-                ariaLabel={'Select Quarter'}
-                options={yearQuarterOptions} 
-                selectedOption={yearQuarterSelectedOption} 
-                changeHandler={handleYearQuarterChange} 
-              />
-            </div>
-            <div className={selector} data-testid="">
 
-            </div>
-          </div>
-        )}
-        <div className={selectText}>
-          <span>Enter currency amounts and select a foreign currency to see the conversion. </span>
           <span
             data-testid="foreign-currency-info-tip"
             onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
             onBlur={handleInfoTipClose}
             role="presentation"
           >
-            <InfoTip hover iconStyle={{ color: '#666666', width: '14px', height: '14px' }}>
-              {currencySelectionInfoIcon.body}
-            </InfoTip>
+
           </span>
-        </div>
         {nonUSCurrency !== null && (
-          <div className={currencyBoxContainer} data-testid="box-container">
-            <CurrencyEntryBox
+          <div data-testid="box-container">
+            <div>
+            {data && (
+              <div className={currencyBoxContainer}>
+                <div className={selector} data-testid="year-selector">
+                  <NestSelectControl 
+                    label={currencyLable('Published Date')} 
+                    className={box} 
+                    ariaLabel={'Select Quarter'}
+                    options={yearQuarterOptions} 
+                    selectedOption={yearQuarterSelectedOption} 
+                    changeHandler={handleYearQuarterChange} 
+                  />
+                </div>
+                <div className={selector} data-testid="">
+
+                </div>
+              </div>
+            )}
+            </div>
+              <div className={currencyBoxContainer}>
+              <CurrencyEntryBox
               selectedCurrency={{
                 label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
                 value: nonUSCurrency,
@@ -481,6 +497,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               testId="us-box"
               header="U.S. DOLLAR"
             />
+              </div>
           </div>
         )}
         {nonUSCurrency !== null && nonUSCurrency.exchange_rate && !inputWarning && (
