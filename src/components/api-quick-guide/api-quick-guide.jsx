@@ -8,7 +8,7 @@ import ApiQuickGuideSection from './api-quick-guide-section';
 import DatasetDetailExamples from './dataset-detail-examples/dataset-detail-examples';
 import SectionCollapseButton from '../section-collapse/section-collapse-button';
 
-import * as style from './api-quick-guide.module.scss';
+import { sectionWrapper, collapsed, toggleButtonContainer } from './api-quick-guide.module.scss';
 
 // TODO: Refactor ApiQuickGuideSection to allow table (combine with DatasetDetailFields).
 const ApiQuickGuide = ({ selectedTable, config }) => {
@@ -81,7 +81,7 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
   }, []);
 
   const title = 'API Quick Guide';
-  const expandStyles = !isCollapsed ? style.sectionWrapper : `${style.sectionWrapper} ${style.collapsed}`;
+  const expandStyles = !isCollapsed ? sectionWrapper : `${sectionWrapper} ${collapsed}`;
 
   return (
     <DatasetSectionContainer id="api-quick-guide" title={title}>
@@ -99,7 +99,7 @@ const ApiQuickGuide = ({ selectedTable, config }) => {
           </div>
         </div>
       </div>
-      <div className={style.toggleButtonContainer}>
+      <div className={toggleButtonContainer}>
         <SectionCollapseButton sectionName="api-quick-guide" handleToggle={handleCollapse} />
       </div>
     </DatasetSectionContainer>

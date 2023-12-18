@@ -16,6 +16,18 @@
   border-bottom-left-radius: 100%;
 }
 
+.rdp-cell:has([class*="date-range-filter-module--datePickerRangeMiddle"]):has(.rdp-day_today) {
+  background-color: #e8f5ff;
+}
+
+.rdp-day_today:not(.rdp-day_outside) {
+  border-style: solid;
+  border-color: #0071BC;
+  border-radius: 100%;
+  color: #555555;
+  font-weight: normal;
+}
+
 .rdp {
   --rdp-background-color: #e8f5ff;
 }

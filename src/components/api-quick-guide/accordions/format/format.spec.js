@@ -1,6 +1,5 @@
 import React from 'react';
 import FormatAccordion from './format';
-import * as accordionStyles from '../../../accordion/accordion.module.scss';
 import { fireEvent, render } from '@testing-library/react';
 
 describe('Format Accordion', () => {
@@ -22,7 +21,7 @@ describe('Format Accordion', () => {
 
   it('expects the accordion to be open by default', () => {
     const { getByTestId } = render(<FormatAccordion selectedTable={mockSelectedTable} />);
-    expect(getByTestId('section').outerHTML).toContain(accordionStyles.closed);
+    expect(getByTestId('section').outerHTML).toContain('closed');
   });
 
   it('displays the endpoint of the current table in the full url', () => {

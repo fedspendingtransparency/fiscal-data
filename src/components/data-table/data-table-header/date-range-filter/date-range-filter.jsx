@@ -135,6 +135,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
+      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
       setFilterDisplayEndDate(end.format('M/DD/YYYY'));
       setEndTextStyle(noTextHighLight);
       setActive(false);
@@ -207,7 +208,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 onSelect={setSelected}
                 modifiersClassNames={{
                   selected: datePickerSelected,
-                  today: datePickerToday,
                   range_middle: datePickerRangeMiddle,
                 }}
                 fromYear={1900}
