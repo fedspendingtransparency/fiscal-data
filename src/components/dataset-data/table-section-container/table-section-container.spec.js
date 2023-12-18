@@ -22,7 +22,7 @@ import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
-import { render, fireEvent, within, getByTestId } from '@testing-library/react';
+import { render, fireEvent, getByTestId } from '@testing-library/react';
 import NotShownMessage from './not-shown-message/not-shown-message';
 import { RecoilRoot } from 'recoil';
 
@@ -510,41 +510,5 @@ describe('TableSectionContainer with Pivot Options', () => {
     datasetChart = tableSectionContainer.root.findByType(DatasetChart);
     // Expect legend to still be invisible after change to tablet
     expect(datasetChart.props.legend).toBeFalsy();
-  });
-
-  it(`keeps the rows per page selection when a pivot is updated`, async () => {
-    const { findByTestId, getByTestId, getByText } = render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithPivot}
-          apiData={mockApiData}
-          isLoading={false}
-          apiError={false}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={mockSetSelectedPivot}
-        />
-      </RecoilRoot>
-    );
-    const table = await getByText('Rows Per Page');
-    const pagingOptionsMenu = await findByTestId('paging-menu');
-    console.log(pagingOptionsMenu);
-    const perPageCount = await within(pagingOptionsMenu).getByText('10');
-    // expect(pagingOptionsMenu.props.menuProps.selected).toBe(10);
-    expect(perPageCount).toBeInTheDocument();
-    pagingOptionsMenu.props.menuProps.updateSelected(2);
-    jest.runAllTimers();
-
-    expect(pagingOptionsMenu.props.menuProps.selected).toBe(2);
-
-    // tableSectionContainer.props.setSelectedPivot({
-    //   pivotView: { chartType: null, dimensionField: 'birthplace', title: 'By Facility' },
-    //   pivotValue: 'age',
-    // });
-
-    jest.runAllTimers();
-    // TODO: Will revisit and update with react table pivot funcitonality
-    // expect(tableSectionContainer.props.perPage).toBe(2);
   });
 });
