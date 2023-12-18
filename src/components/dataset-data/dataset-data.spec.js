@@ -327,7 +327,6 @@ describe('DatasetData', () => {
     // confirm that the second table's api url was called only once
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
     // With paginated tables, 2 extra calls are now made to get data for react-table implementation
-    console.log(callsToApiForUpdatedTable);
     expect(callsToApiForUpdatedTable.length).toEqual(3);
   });
 
@@ -442,7 +441,8 @@ describe('DatasetData', () => {
     expect(publishedReportsTab.props.reports.length).toBe(1);
   });
 
-  it(`transmits a preview-loaded analytics event when reports tab is first selected but not when toggling back and forth reveals a preview that was already loaded`, async () => {
+  it(`transmits a preview-loaded analytics event when reports tab is first selected but not when
+  toggling back and forth reveals a preview that was already loaded`, async () => {
     analyticsSpy.mockClear();
 
     const { getByLabelText } = render(
