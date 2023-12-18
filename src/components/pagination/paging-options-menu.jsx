@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Menu, MenuItem } from '@material-ui/core';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import * as styles from './pagination-controls.module.scss';
+import { pageOptions, perPageLabel } from './pagination-controls.module.scss';
 
 const PagingOptionsMenu = ({ menuProps }) => {
   const { options, selected, updateSelected, label } = menuProps;
@@ -36,8 +36,8 @@ const PagingOptionsMenu = ({ menuProps }) => {
   };
 
   return (
-    <div className={styles.pageOptions}>
-      <span className={styles.perPageLabel}>{label}</span>
+    <div className={pageOptions}>
+      <span className={perPageLabel}>{label}</span>
       <Button
         aria-label="rows-per-page-menu"
         onClick={handleOpen}
