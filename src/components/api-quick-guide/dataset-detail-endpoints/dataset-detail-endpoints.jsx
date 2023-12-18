@@ -1,5 +1,5 @@
 import React from 'react';
-import * as styles from '../api-quick-guide.module.scss';
+import { marginBottomOneRem, sectionBody } from '../api-quick-guide.module.scss';
 import DtgTable from '../../dtg-table/dtg-table';
 import ApiQuickGuideSection from '../api-quick-guide-section';
 import { apiPrefix } from '../../../utils/api-utils';
@@ -42,25 +42,25 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
   const children = (
     <>
       <div> BASE URL: </div>
-      <code id="endpoints-baseURL" className={styles.marginBottomOneRem}>
+      <code id="endpoints-baseURL" className={marginBottomOneRem}>
         {apiPrefix}
       </code>
       {data.length <= 1 ? (
         <>
           <div> ENDPOINT: </div>
-          <code id="endpoints-endpoint" className={styles.marginBottomOneRem}>
+          <code id="endpoints-endpoint" className={marginBottomOneRem}>
             {selectedTable.endpoint}
           </code>
         </>
       ) : (
         <>
-          <div className={styles.sectionBody} id="endpoints-table">
+          <div className={sectionBody} id="endpoints-table">
             <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
           </div>
         </>
       )}
       <div> FULL URL: </div>
-      <code id="endpoints-fullURL" className={styles.marginBottomOneRem}>
+      <code id="endpoints-fullURL" className={marginBottomOneRem}>
         {apiPrefix}
         {selectedTable.endpoint}
       </code>

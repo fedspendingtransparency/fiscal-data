@@ -1,6 +1,5 @@
 import React from 'react';
 import FieldsAccordion from './fields';
-import * as accordionStyles from '../../../accordion/accordion.module.scss';
 import { render } from '@testing-library/react';
 
 describe('Fields Accordion', () => {
@@ -43,7 +42,7 @@ describe('Fields Accordion', () => {
 
   it('expects the accordion to be open by default', () => {
     const { getByTestId } = render(<FieldsAccordion selectedTable={mockSelectedTable} />);
-    expect(getByTestId('section')).toHaveClass(accordionStyles.open);
+    expect(getByTestId('section')).toHaveClass('open');
   });
 
   it(`should show the first n fields from the selectedTable prop in both the short
