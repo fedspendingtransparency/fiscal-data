@@ -489,7 +489,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               onCurrencyValueChange={handleChangeNonUSCurrency}
               testId="non-us-box"
               header="FOREIGN CURRENCY"
-            />
+              />
             <CurrencyEntryBox
               defaultCurrency="U.S. Dollar"
               currencyValue={usDollarValue}
