@@ -38,8 +38,8 @@ const FederalSpendingHero = (): ReactElement => {
     basicFetch(`${url}`).then(res => {
       if (res.data) {
         const data = res.data[0];
-        const currentTotalSpending = data.current_fytd_net_outly_amt;
-        const priorTotalSpending = data.prior_fytd_net_outly_amt;
+        const currentTotalSpending = parseFloat(data.current_fytd_net_outly_amt);
+        const priorTotalSpending = parseFloat(data.prior_fytd_net_outly_amt);
         const difference = currentTotalSpending - priorTotalSpending;
         setTotalSpending(currentTotalSpending);
         setRecordFiscalYear(data.record_fiscal_year);
