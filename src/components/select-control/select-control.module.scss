@@ -91,6 +91,18 @@
   text-overflow: ellipsis;
 }
 
+.selector_nestedOption {
+  font-size: $font-size-15;
+  padding-left: 2rem;
+  width: 100%;
+  background-color: $content-section-background;
+  border: none;
+  text-align: left;
+  line-height: 2;
+  color: $font-body-copy;
+  cursor: pointer;
+}
+
 .comboSelectField {
   position: relative;
   display: inline-block;

@@ -4,13 +4,13 @@ import React from 'react';
 export const quarterNumToTerm = num => {
   switch (num) {
     case 1:
-      return '1st';
+      return 'Janurary';
     case 2:
-      return '2nd';
+      return 'April';
     case 3:
-      return '3rd';
+      return 'July';
     case 4:
-      return '4th';
+      return 'October';
     default:
       return;
   }

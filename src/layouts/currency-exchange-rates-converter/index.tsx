@@ -43,6 +43,9 @@ let gaCurrencyTimer;
 let ga4Timer;
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
+  interface YearsToQuartersMap {
+    [year: string]: number[];
+  }
   const [data, setData] = useState(null);
   const [sortedCurrencies, setSortedCurrencies] = useState(null as Currency[]);
   const [currencyMap, setCurrencyMap] = useState(null as Record<string, Currency>);
@@ -55,7 +58,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
-  const [yearToQuartersMap, setYearToQuartersMap] = useState(null);
+  const [yearToQuartersMap, setYearToQuartersMap] = useState<YearsToQuartersMap>({});
   const [resetFilterCount, setResetFilterCount] = useState(0);
   const [datasetDate, setDatasetDate] = useState(null);
   const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPLaces] = useState(0);
@@ -109,7 +112,9 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   useEffect(() => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then(res => {
       if (res.data) {
+        
         const date = new Date(res.data[0].effective_date);
+        console.log('data here   ', date)
         setDatasetDate(dateStringConverter(date));
       }
     });
@@ -203,7 +208,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const updateCurrencyDropdownOptions = (selQuarter, selYear) => {
     const selectedYearQuarter = `${selYear.value}Q${selQuarter.value}`;
     setDropdownOptions(
-      sortedCurrencies.map(currency => ({
+      Object.values(currencyMap).map(currency => ({
         label: currency.label,
         value: currency.yearQuarterMap[selectedYearQuarter] ? currency.yearQuarterMap[selectedYearQuarter].data : null,
       }))
@@ -239,56 +244,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setInputWarning(false);
     }
   };
-
-  const useHandleChangeQuarters = useCallback(
-    option => {
-      updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
-      setSelectedQuarter(option);
-      analyticsHandler('Year-Quarter Selection', selectedYear.value + '-' + option.value);
-    },
-    [selectedQuarter, data, nonUSCurrency, currencyMap]
-  );
-
-  const handleChangeYears = useCallback(
-    option => {
-      let gaQuarter = selectedQuarter.value;
-
-      if (yearToQuartersMap[option.label][selectedQuarter.value]) {
-        updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
-      } else {
-        updateCurrencyForYearQuarter(
-          option.label,
-          yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1],
-          nonUSCurrency,
-          currencyMap
-        );
-      }
-
-      if (yearToQuartersMap[option.label][selectedQuarter.value]) {
-        setSelectedQuarter({
-          label: quarterNumToTerm(selectedQuarter.value),
-          value: selectedQuarter.value,
-        });
-      } else if (!yearToQuartersMap[option.label][selectedQuarter.value]) {
-        // Set quarter to most recent for that year
-        const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
-        setSelectedQuarter({
-          label: quarterNumToTerm(newestQuarter),
-          value: newestQuarter,
-        });
-        gaQuarter = newestQuarter;
-      }
-      setSelectedYear(option);
-      setQuarters(
-        yearToQuartersMap[option.label].map(quarter => ({
-          label: quarterNumToTerm(quarter),
-          value: quarter,
-        }))
-      );
-      analyticsHandler('Year-Quarter Selection', option.value + '-' + gaQuarter);
-    },
-    [selectedYear, data, nonUSCurrency, currencyMap]
-  );
 
   const useHandleChangeUSDollar = useCallback(
     event => {
@@ -355,6 +310,32 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, []);
 
+
+  const yearQuarterOptions = Object.entries(yearToQuartersMap)
+    .sort((a,b) => b[0].localeCompare(a[0]))
+    .map(([year, quarters]) => ({
+      label: year,
+      value: year,
+  
+      children: quarters.map(quarter => ({
+        label: quarterNumToTerm(quarter),
+        value: `${year}Q${quarter}`
+      }))
+    }));
+
+  console.log('yearssss ', yearQuarterOptions);
+
+  const handleYearQuarterChange = (option) => {
+    const [year, quarter] = option.value.split('Q');
+    setSelectedYear(year);
+    setSelectedQuarter(quarter);
+
+    updateCurrencyForYearQuarter(year, quarter, nonUSCurrency, currencyMap);
+
+  };
+
+
+
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -377,43 +358,12 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       <div className={container}>
         <span className={title}>Check foreign currency rates against the U.S. Dollar.</span>
         {data && (
-          <div className={selectorContainer}>
+          <div className={currencyBoxContainer}>
             <div className={selector} data-testid="year-selector">
-              <SelectControl label="Year" className={box} options={years} selectedOption={selectedYear} changeHandler={handleChangeYears} />
+              <SelectControl label="Perference" className={box} options={yearQuarterOptions} selectedOption={selectedYear} changeHandler={handleYearQuarterChange} />
             </div>
-            <div className={selector} data-testid="quarter-selector">
-              <SelectControl
-                label="Quarter"
-                className={box}
-                options={quarters}
-                selectedOption={selectedQuarter}
-                changeHandler={useHandleChangeQuarters}
-              />
-            </div>
-            <div className={effectiveDateContainer}>
-              <div>
-                Effective Date
-                <span
-                  data-testid="effective-date-info-tip"
-                  onMouseEnter={() => {
-                    handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');
-                  }}
-                  onBlur={handleInfoTipClose}
-                  role="presentation"
-                >
-                  <InfoTip
-                    hover
-                    iconStyle={{
-                      color: '#666666',
-                      width: '14px',
-                      height: '14px',
-                    }}
-                  >
-                    {effectiveDateInfoIcon.body}
-                  </InfoTip>
-                </span>
-              </div>
-              <span className={effectiveDateText}> {effectiveDate} </span>
+            <div className={selector} data-testid="">
+
             </div>
           </div>
         )}
