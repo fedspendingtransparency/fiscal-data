@@ -2,31 +2,42 @@ import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment/moment';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
+import './day-picker-overrides.css';
 import {
   dateEntryBox,
   dropdown,
   datePickerContainer,
   calendarIcon,
-  dateText,
+  xIcon,
+  dateTextEnd,
+  dateTextBegin,
   buttonContainer,
   datePickerButton,
   datePickerSelected,
-  datePickerHover,
+  datePickerToday,
+  datePickerRangeMiddle,
+  dateDivider,
   glow,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters }) => {
+  const textHighlighted = { 'background-color': '#E8F5FF' };
+  const noTextHighLight = { 'background-color': '' };
+
   const [selected, setSelected] = useState({
     from: undefined,
     to: undefined,
   });
-  const [filterDisplay, setFilterDisplay] = useState('');
+  const [filterDisplayBeginDate, setFilterDisplayBeginDate] = useState('mm/dd/yyyy');
+  const [filterDisplayEndDate, setFilterDisplayEndDate] = useState('mm/dd/yyyy');
+  const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
+  const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
   const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
 
@@ -34,12 +45,13 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const displayRef = useRef();
 
   const onFilterChange = val => {
-    setFilterDisplay(val);
     if (val) {
       if (!allActiveFilters?.includes(column.id)) {
         setAllActiveFilters([...allActiveFilters, column.id]);
       }
     } else {
+      setFilterDisplayBeginDate('mm/dd/yyyy');
+      setFilterDisplayEndDate('mm/dd/yyyy');
       if (allActiveFilters?.includes(column.id)) {
         const currentFilters = allActiveFilters.filter(value => value !== column.id);
         setAllActiveFilters(currentFilters);
@@ -61,9 +73,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         from: Date.now(),
         to: Date.now(),
       });
-      const start = moment(Date.now()).format('M/D/YYYY');
-      const end = moment(Date.now()).format('M/D/YYYY');
+      const start = moment(Date.now()).format('M/DD/YYYY');
+      const end = moment(Date.now()).format('M/DD/YYYY');
       onFilterChange(`${start} - ${end}`);
+      setFilterDisplayBeginDate(start);
+      setFilterDisplayEndDate(end);
     }
   };
 
@@ -100,6 +114,14 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   useEffect(() => {
     if (active) {
       document.getElementById('gatsby-focus-wrapper')?.addEventListener('click', handleEventListener);
+      setBeginTextStyle(textHighlighted);
+    } else {
+      setBeginTextStyle(noTextHighLight);
+      setEndTextStyle(noTextHighLight);
+      if (filterDisplayBeginDate && filterDisplayEndDate === 'mm/dd/yyyy') {
+        setSelected(undefined);
+        onFilterChange(undefined);
+      }
     }
     return () => {
       document.getElementById('gatsby-focus-wrapper')?.removeEventListener('click', handleEventListener);
@@ -113,10 +135,19 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setFilteredDateRange({ from: start, to: end });
       column.setFilterValue(getDaysArray(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
       onFilterChange(`${start.format('M/D/YYYY')} - ${end.format('M/D/YYYY')}`);
+      setFilterDisplayEndDate(end.format('M/DD/YYYY'));
+      setEndTextStyle(noTextHighLight);
+      setActive(false);
     } else {
       column.setFilterValue([]);
       setFilteredDateRange(null);
       onFilterChange('');
+    }
+    if (selected?.from && !selected?.to) {
+      const start = moment(selected?.from);
+      setEndTextStyle(textHighlighted);
+      setBeginTextStyle(noTextHighLight);
+      setFilterDisplayBeginDate(start.format('M/DD/YYYY'));
     }
   }, [selected]);
 
@@ -137,8 +168,20 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
           aria-label={`Open ${column.id} Filter`}
           ref={displayRef}
         >
-          <div className={dateText}>{filterDisplay}</div>
-          <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
+          <div className={dateTextBegin} style={beginTextStyle}>
+            {filterDisplayBeginDate}
+          </div>
+          <div className={dateDivider}> - </div>
+          <div className={dateTextEnd} style={endTextStyle}>
+            {filterDisplayEndDate}
+          </div>
+          {selected ? (
+            <span onClick={clearOnClick} onKeyDown={e => todayOnClick(e)} tabIndex={0} role={'button'} aria-label={'Clear dates'}>
+              <FontAwesomeIcon icon={faCircleXmark} className={xIcon} />
+            </span>
+          ) : (
+            <FontAwesomeIcon icon={faCalendarDay} className={calendarIcon} />
+          )}
         </div>
       </div>
       <div onBlur={handleTextBoxBlur} ref={dropdownRef} role="presentation" onClick={e => e.stopPropagation()} data-testid="dropdown-wrapper">
@@ -162,7 +205,11 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 mode="range"
                 selected={selected}
                 onSelect={setSelected}
-                modifiersClassNames={{ selected: datePickerSelected, focus: datePickerHover }}
+                modifiersClassNames={{
+                  selected: datePickerSelected,
+                  today: datePickerToday,
+                  range_middle: datePickerRangeMiddle,
+                }}
                 fromYear={1900}
                 toYear={2099}
                 captionLayout="dropdown-buttons"

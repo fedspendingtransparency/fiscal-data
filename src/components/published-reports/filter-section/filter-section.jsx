@@ -231,13 +231,8 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     } else if (selectedReportGroup?.daily && selectedYear && selectedMonth && selectedDay && showFilters) {
       getFileForSelectedDay();
     } else {
-      if (selectedReportGroup && (!showFilters || newSelectedGroup)) {
-        if (newSelectedGroup) {
-          const latestReportInNewlySelectedGroup = getLatestReport(selectedReportGroup.value);
-          toggleCurrentReport(latestReportInNewlySelectedGroup);
-        } else {
+      if (selectedReportGroup && (!showFilters)) {
           setFileSelection(currentReport);
-        }
       } else if (_resetIfNoMatch) {
         setFileSelection(null);
       }
@@ -249,7 +244,6 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       setSelectedReportGroup(updatedReport);
     }
   };
-
   useEffect(() => {
     // called on page initialization and when reports updates
     if (reportGroups[currentlySelectedGroupIndex.current]) {

@@ -74,7 +74,6 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
       setFiltersActive(allActiveFilters.length > 0);
     }
   }, [allActiveFilters]);
-
   return (
     <thead>
       {table.getHeaderGroups().map(headerGroup => {
@@ -88,7 +87,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   key={header.id}
                   colSpan={header.colSpan}
                   style={{
-                    minWidth: header.getSize(),
+                    minWidth: header.id.includes('_date') ? '13.5rem' : header.getSize(),
                   }}
                 >
                   {header.isPlaceholder ? null : (

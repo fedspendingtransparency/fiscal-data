@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { selector_optionSelected, selector_label, selector_container, selector_button, labels, icon, selector_list, selector_option, selector_optionButton } from './select-control.module.scss';
+import {
+  selector_optionSelected,
+  selector_label,
+  selector_container,
+  selector_button,
+  labels,
+  icon,
+  selector_list,
+  selector_option,
+  selector_optionButton,
+} from './select-control.module.scss';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -41,12 +51,7 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
   return (
     <>
       {label && <label className={selector_label}>{label}</label>}
-      <div
-        className={`${selector_container} ${className ? className : ''}`}
-        onBlur={onBlurHandler}
-        onFocus={onFocusHandler}
-        role={'presentation'}
-      >
+      <div className={`${selector_container} ${className ? className : ''}`} onBlur={onBlurHandler} onFocus={onFocusHandler} role={'presentation'}>
         <button
           name="dropdownToggle"
           data-testid={'toggle-button'}

@@ -3,13 +3,13 @@ import { Link as ScrollLink } from 'react-scroll';
 import globalConstants from '../../../helpers/constants';
 import SectionContent from '../../../components/api-documentation/section-content/section-content';
 import '../../../styles.scss';
-import * as styles from '../about-us.module.scss';
+import { section, list } from '../about-us.module.scss';
 import CustomLink from '../../../components/links/custom-link/custom-link';
 
 const AboutUs = () => {
   return (
     <>
-      <div className={styles.section}>
+      <div className={section}>
         <SectionContent id="about-fiscal-data" headingLevel={2} title="About Fiscal Data">
           <p>
             Fiscal Data is your one-stop shop for federal financial data. The Department of the Treasury and the Bureau of the Fiscal Service created
@@ -43,7 +43,7 @@ const AboutUs = () => {
           </p>
         </SectionContent>
         <SectionContent id="what-makes-fiscal-data-different" headingLevel={3} title="What Makes Fiscal Data Different">
-          <ul className={styles.list}>
+          <ul className={list}>
             <li>
               <strong>Human-Centered Design</strong>
               <br />
@@ -122,7 +122,7 @@ const AboutUs = () => {
             </CustomLink>
             . If you're interested in the data provided to the IMF, the two XML pages are as follows:
           </p>
-          <ul className={styles.list}>
+          <ul className={list}>
             <li>
               Consolidated Government Debt (CGD) file:{' '}
               <CustomLink className="primary" href="https://fiscaldata.treasury.gov/static-data/reports-statements/mts/imf/cgd.xml">

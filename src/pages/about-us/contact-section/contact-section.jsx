@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-scroll';
 import SectionContent from '../../../components/api-documentation/section-content/section-content';
-import * as styles from './contact-section.module.scss';
-import * as aboutUsStyles from '../about-us.module.scss';
+import { mainSection } from './contact-section.module.scss';
+import { section } from '../about-us.module.scss';
 import CustomLink from '../../../components/links/custom-link/custom-link';
 
 const Contact = () => {
   return (
-    <div className={aboutUsStyles.section}>
-      <SectionContent id="contact-us" headingLevel={2} title="Contact Us" className={styles.mainSection}>
+    <div className={section}>
+      <SectionContent id="contact-us" headingLevel={2} title="Contact Us" className={mainSection}>
         <p>
           Have a question about Fiscal Data? The{' '}
           <Link to="about-fiscal-data" className="primary" smooth={true} duration={600} delay={200}>
