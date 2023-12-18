@@ -207,7 +207,6 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
                 onSelect={setSelected}
                 modifiersClassNames={{
                   selected: datePickerSelected,
-                  today: datePickerToday,
                   range_middle: datePickerRangeMiddle,
                 }}
                 fromYear={1900}
