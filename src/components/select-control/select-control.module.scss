@@ -43,7 +43,7 @@
   background-color: $content-section-background;
   white-space: normal;
   z-index: $select-control;
-  &.scrollable {
+  &.scrollableList {
     max-height: 315px;
     overflow-y: scroll;
     box-shadow: 5px 5px 10px 0 #777777;

@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import DataTableSelect, { allTablesOption } from './datatable-select';
-import * as styles from './datatable-select.module.scss';
+import { dataTableSelectWrapper } from './datatable-select.module.scss';
 import ComboCurrencySelect from '../combo-select/combo-currency-select/combo-currency-select';
 
 describe('DatatableSelect', () => {
@@ -58,6 +58,6 @@ describe('DatatableSelect', () => {
       component2 = renderer.create(<DataTableSelect apis={apisArrOne} selectedTable={apisArrOne[0]} setSelectedTable={mockSetSelectedTable} />);
     });
     const instance2 = component2.root;
-    expect(instance2.findAllByProps({ className: styles.dataTableSelectWrapper }).length).toBe(0);
+    expect(instance2.findAllByProps({ className: dataTableSelectWrapper }).length).toBe(0);
   });
 });

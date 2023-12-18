@@ -4,7 +4,7 @@ import FilterSection from './filter-section';
 import { dailyReports, reports, largeSetReports } from '../test-helper';
 import SelectControl from '../../select-control/select-control';
 import CurrentReportToggle from '../../dataset-data/current-report-toggle/current-report-toggle';
-import * as styles from './filter-section.module.scss';
+import { hiddenFilters } from './filter-section.module.scss';
 import ComboSelect from '../../combo-select/combo-select';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
 import { fireEvent, waitFor, render, within } from '@testing-library/react';
@@ -139,21 +139,21 @@ describe('Filter Section', () => {
   it(`reveals the filter dropdowns when the current report is deselected through the
   toggle changeHandler`, () => {
     // collapsed at initial render
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(hiddenFilters);
     renderer.act(toggleCurrentReport);
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(hiddenFilters);
   });
 
   it(`hides the filter dropdowns when a current report is selected through the
   toggle changeHandler`, () => {
     // first make the filters visible
     renderer.act(toggleCurrentReport);
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).not.toContain(hiddenFilters);
 
     renderer.act(() => {
       toggleCurrentReport(reports[0]);
     });
-    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(styles.hiddenFilters);
+    expect(instance.findByProps({ 'data-testid': 'filterCollapsible' }).props.className).toContain(hiddenFilters);
   });
 
   it(`uses the ComboSelect component for year selection when more than ten year options are
