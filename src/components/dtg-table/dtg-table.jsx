@@ -58,7 +58,6 @@ export default function DtgTable({
   } = tableProps;
 
   const [reactTableData, setReactTableData] = useState(null);
-
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -256,7 +255,7 @@ export default function DtgTable({
     populateRows(columns);
   }, [tableData]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (data && data.length) {
       setMaxRows(apiError ? 0 : data.length);
     }
@@ -286,13 +285,15 @@ export default function DtgTable({
     maxRows,
   };
 
-  useEffect(() => {
-    if (tableProps && dePaginated !== undefined && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
-      if (dePaginated !== null) {
+  useMemo(() => {
+    if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
+      if (dePaginated !== null && dePaginated !== undefined) {
+        console.log(1);
         // large dataset tables <= 20000 rows
         setReactTableData(dePaginated);
         setManualPagination(false);
       } else if (rawData !== null && rawData.hasOwnProperty('data')) {
+        console.log(2);
         setReactTableData(rawData);
         setManualPagination(false);
       }
@@ -301,14 +302,21 @@ export default function DtgTable({
     }
   }, [rawData, dePaginated]);
 
-  const activePivot = (data, pivot) =>
-    data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
+  const activePivot = (data, pivot) => {
+    return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
+  };
 
-  useEffect(() => {
+  const updatedData = (newData, currentData) => {
+    return JSON.stringify(newData) !== JSON.stringify(currentData);
+  };
+
+  useMemo(() => {
     if (tableProps) {
       // Pivot data
+      // console.log(rawData);
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
         setReactTableData(rawData);
+        console.log(rawData, 3);
         if (setManualPagination) {
           setManualPagination(false);
         }
@@ -318,7 +326,7 @@ export default function DtgTable({
     }
   }, [pivotSelected, rawData]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (
       tableData.length > 0 &&
       tableMeta &&
@@ -329,14 +337,17 @@ export default function DtgTable({
       if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
         // data with current date range < 20000
         if (rawData) {
+          console.log(4);
           setReactTableData(rawData);
           setManualPagination(false);
         } else if (dePaginated) {
+          console.log(5);
           setReactTableData(dePaginated);
           setManualPagination(false);
         }
       } else {
-        if (!(reactTableData?.pivotApplied && JSON.stringify(tableData) === JSON.stringify(reactTableData?.data.slice(0, 10)))) {
+        if (!(reactTableData?.pivotApplied && !updatedData(tableData, reactTableData?.data.slice(0, itemsPerPage)))) {
+          console.log(6);
           setReactTableData({ data: tableData, meta: tableMeta });
           setManualPagination(true);
         }

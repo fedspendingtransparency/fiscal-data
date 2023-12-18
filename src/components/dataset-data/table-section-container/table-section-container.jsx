@@ -6,7 +6,6 @@ import ChartTableToggle from '../chart-table-toggle/chart-table-toggle';
 import DatasetChart from '../dataset-chart/dataset-chart';
 import PivotOptions from './pivot-options/pivot-options';
 import PivotToggle from './pivot-toggle/pivot-toggle';
-import * as styles from './table-section-container.module.scss';
 import { setTableConfig } from './set-table-config';
 import { SetNoChartMessage } from './set-no-chart-message';
 import AggregationNotice from './aggregation-notice/aggregation-notice';
@@ -15,6 +14,18 @@ import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { apiPrefix, basicFetch, buildSortParams, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+import {
+  barContainer,
+  barExpander,
+  headerWrapper,
+  noticeContainer,
+  titleContainer,
+  active,
+  header,
+  loadingIcon,
+  loadingSection,
+  tableContainer,
+} from './table-section-container.module.scss';
 
 const TableSectionContainer = ({
   config,
@@ -67,24 +78,26 @@ const TableSectionContainer = ({
     )
       .then(async res => {
         const totalCount = res.meta['total-count'];
-        meta = res.meta;
-        if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
-          return await basicFetch(
-            `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
-          ).then(async page1res => {
-            const page2res = await basicFetch(
+        if (!selectedPivot?.pivotValue) {
+          meta = res.meta;
+          if (totalCount > MAX_PAGE_SIZE && totalCount <= MAX_PAGE_SIZE * 2) {
+            return await basicFetch(
               `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-                `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+                `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+            ).then(async page1res => {
+              const page2res = await basicFetch(
+                `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+                  `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+              );
+              page1res.data = page1res.data.concat(page2res.data);
+              return page1res;
+            });
+          } else if (totalCount <= MAX_PAGE_SIZE) {
+            return await basicFetch(
+              `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+                `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
             );
-            page1res.data = page1res.data.concat(page2res.data);
-            return page1res;
-          });
-        } else if (totalCount <= MAX_PAGE_SIZE) {
-          return await basicFetch(
-            `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
-          );
+          }
         }
       })
       .catch(err => {
@@ -96,7 +109,9 @@ const TableSectionContainer = ({
         }
       })
       .finally(() => {
-        setTableMeta(meta);
+        if (meta) {
+          setTableMeta(meta);
+        }
       });
   };
 
@@ -137,12 +152,12 @@ const TableSectionContainer = ({
   };
 
   useMemo(async () => {
-    refreshTable();
+    await refreshTable();
   }, [apiData, userFilterSelection, apiError]);
 
   useMemo(async () => {
     if (serverSidePagination || userFilterSelection) {
-      refreshTable();
+      await refreshTable();
     }
   }, [dateRange]);
 
@@ -193,11 +208,11 @@ const TableSectionContainer = ({
   }, [selectedTable, selectedPivot, dateRange, allTablesSelected, userFilterSelection, userFilteredData]);
 
   return (
-    <div>
-      <div className={styles.titleContainer}>
-        <div className={styles.headerWrapper}>
+    <div data-test-id="table-container">
+      <div className={titleContainer}>
+        <div className={headerWrapper}>
           <FontAwesomeIcon icon={faTable} data-testid="table-icon" size="1x" />
-          <h3 className={styles.header} data-testid="tableName" id="main-data-table-title">
+          <h3 className={header} data-testid="tableName" id="main-data-table-title">
             {tableName}
           </h3>
           {!!hasPivotOptions && <PivotToggle clickHandler={pivotToggler} open={showPivotBar} />}
@@ -211,21 +226,21 @@ const TableSectionContainer = ({
           </Experimental>
         </div>
         {dateFieldForChart === 'CHART_DATE' && (
-          <div className={styles.noticeContainer}>
+          <div className={noticeContainer}>
             <AggregationNotice />
           </div>
         )}
-        <div className={styles.barContainer}>
-          <div className={`${styles.barExpander} ${showPivotBar ? styles.active : ''}`} data-testid="pivotOptionsDrawer">
+        <div className={barContainer}>
+          <div className={`${barExpander} ${showPivotBar ? active : ''}`} data-testid="pivotOptionsDrawer">
             <PivotOptions table={selectedTable} pivotSelection={selectedPivot} setSelectedPivot={setSelectedPivot} pivotsUpdated={pivotsUpdated} />
           </div>
         </div>
       </div>
-      <div className={styles.tableContainer}>
+      <div className={tableContainer}>
         {isLoading && (
           <div data-testid="loadingSection">
-            <div className={styles.loadingSection} />
-            <div className={styles.loadingIcon}>
+            <div className={loadingSection} />
+            <div className={loadingIcon}>
               <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
             </div>
           </div>

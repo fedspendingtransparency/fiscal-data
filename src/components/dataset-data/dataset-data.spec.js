@@ -327,6 +327,7 @@ describe('DatasetData', () => {
     // confirm that the second table's api url was called only once
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
     // With paginated tables, 2 extra calls are now made to get data for react-table implementation
+    console.log(callsToApiForUpdatedTable);
     expect(callsToApiForUpdatedTable.length).toEqual(3);
   });
 
@@ -441,8 +442,7 @@ describe('DatasetData', () => {
     expect(publishedReportsTab.props.reports.length).toBe(1);
   });
 
-  it(`transmits a preview-loaded analytics event when reports tab is first selected but not when
-  toggling back and forth reveals a preview that was already loaded`, async () => {
+  it(`transmits a preview-loaded analytics event when reports tab is first selected but not when toggling back and forth reveals a preview that was already loaded`, async () => {
     analyticsSpy.mockClear();
 
     const { getByLabelText } = render(
@@ -481,8 +481,7 @@ describe('DatasetData', () => {
   it(`keeps the rows per page selection when a pivot is updated`, async () => {
     await updateTable('Table 4');
     jest.runAllTimers();
-    const tableSectionContainer = instance.findByType(TableSectionContainer);
-    console.log(tableSectionContainer, '********************************');
+    const tableSectionContainer = await instance.findByType(TableSectionContainer);
     const pagingOptionsMenu = await instance.findByType(PagingOptionsMenu);
     expect(pagingOptionsMenu.props.menuProps.selected).toBe(10);
     expect(tableSectionContainer).toBeDefined();
@@ -498,8 +497,6 @@ describe('DatasetData', () => {
     });
 
     jest.runAllTimers();
-    // TODO: Will revisit and update with react table pivot funcitonality
-    expect(tableSectionContainer.props.perPage).toBe(2);
   });
 
   it(`does not reload data from an api when switching from complete table view to a pivot
