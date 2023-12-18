@@ -9,7 +9,6 @@ interface IDataTableFooter {
   showPaginationControls: boolean;
   pagingProps;
   manualPagination: boolean;
-  maxRows: number;
   rowsShowing: { begin: number; end: number };
 }
 

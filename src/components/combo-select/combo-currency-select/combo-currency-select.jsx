@@ -125,7 +125,6 @@ const ComboCurrencySelect = ({
   return (
     <>
       <div
-        className={selector_container}
         onMouseOver={() => setMouseOverDropdown(true)}
         onMouseLeave={() => setMouseOverDropdown(false)}
         onBlur={() => setMouseOverDropdown(false)}

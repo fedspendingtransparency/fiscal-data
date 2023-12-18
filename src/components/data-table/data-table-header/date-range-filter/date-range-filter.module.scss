@@ -1,17 +1,5 @@
 @import 'src/variables.module.scss';
 
-.testClass {
-  color: $font-body-copy;
-  padding-right: 1rem;
-  font-size: $font-size-18;
-  font-weight: $semi-bold-weight;
-  display: flex;
-  align-items: center;
-  &:focus {
-    border: 1px solid black;
-  }
-}
-
 .glow {
   box-shadow: 0 0 0 0.25rem #e8f5ff;
   border-radius: 0.125rem;
@@ -19,6 +7,7 @@
     border: 1px solid $primary;
   }
 }
+
 
 .dateEntryBox {
   border: 1px solid #d9d9d9;
@@ -33,29 +22,51 @@
   white-space: nowrap;
   margin-top: 0.25rem;
 
-  .dateText {
+  .dateTextEnd {
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 10.5px 0 10.5px 14px;
+    margin-bottom: 10.5px;
+    margin-top: 10.5px;
+  }
+
+  .dateTextBegin {
+    margin-left: 10px;
+    margin-bottom: 10.5px;
+    margin-top: 10.5px;
+  }
+
+  .dateDivider {
+    padding-left: 2.5px;
+    padding-right: 2.5px;
   }
 
   .calendarIcon {
-    :not(svg root) {
-      width: 1.75rem;
-      height: 1.25rem;
-    }
+    font-size: $font-size-16;
+    margin-right: 0.5rem;
   }
+
+  .xIcon {
+    font-size: $font-size-16;
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
 }
 
 .datePickerSelected {
   background-color: $primary;
   color: white;
-  :hover {
-    color: #666666;
-  }
 }
-.datePickerHover {
-  background-color: #cfe8ff;
+
+
+.datePickerSelected:hover {
+  color: #666666;
+}
+
+.datePickerRangeMiddle {
+  background-color: #e8f5ff;
+  color: #555555;
+  border-radius: 0;
 }
 
 .dropdown {

@@ -15,6 +15,9 @@ $borderRadius: 5px;
 .overlayContainerNoFooter {
   position: relative;
 }
+.overlayContainerReactTableHeight {
+  min-height: 521px;
+}
 
 .wrapper.noBorder {
   border-top: none;

@@ -149,7 +149,8 @@
     "customRangePreset": "latestQuarter",
     "bannerCallout": {
       "banner": "XRCallout"
-    }
+    },
+    "selectColumns": ["record_date", "country_currency_desc", "exchange_rate", "effective_date"]
   },
   "015-BFS-2014Q3-071": {
     "slug": "/historical-debt-outstanding/",

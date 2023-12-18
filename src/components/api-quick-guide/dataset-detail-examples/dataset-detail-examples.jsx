@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAPI } from '../../../utils/api-utils';
 import ApiQuickGuideSection from '../api-quick-guide-section';
-import * as componentStyles from './dataset-detail-examples.module.scss';
-import * as styles from '../accordions/accordions.module.scss';
+import { responseBlock, loadingIcon } from './dataset-detail-examples.module.scss';
+import { exampleTitle, codeBlock } from '../accordions/accordions.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -92,16 +92,16 @@ const DatasetDetailExamples = ({ isAccordionOpen, selectedTable }) => {
         </li>
         <li>Setting pagination parameters</li>
       </ul>
-      <div className={styles.exampleTitle}>EXAMPLE REQUEST</div>
-      <code data-testid="exampleRequest" className={`${styles.codeBlock} large`}>
+      <div className={exampleTitle}>EXAMPLE REQUEST</div>
+      <code data-testid="exampleRequest" className={`${codeBlock} large`}>
         {fullRequestStr}
       </code>
-      <div className={styles.exampleTitle}>EXPECTED RESPONSE</div>
-      <code className={`${styles.codeBlock} ${componentStyles.responseBlock} large`}>
+      <div className={exampleTitle}>EXPECTED RESPONSE</div>
+      <code className={`${codeBlock} ${responseBlock} large`}>
         {!!response ? (
           <pre data-testid="exampleResponse">{response}</pre>
         ) : (
-          <div className={componentStyles.loadingIcon} data-testid={'loadingIcon'}>
+          <div className={loadingIcon} data-testid={'loadingIcon'}>
             <FontAwesomeIcon className={themeStyles.loadingIcon} icon={faSpinner} spin pulse />
             Loading...
           </div>

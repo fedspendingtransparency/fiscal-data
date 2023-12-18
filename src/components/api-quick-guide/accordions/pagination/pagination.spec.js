@@ -1,6 +1,5 @@
 import React from 'react';
 import PaginationAccordion from './pagination';
-import * as accordionStyles from '../../../accordion/accordion.module.scss';
 import { fireEvent, render, within } from '@testing-library/react';
 
 describe('Pagination Accordion', () => {
@@ -23,7 +22,7 @@ describe('Pagination Accordion', () => {
 
   it('expects the accordion to be open by default', () => {
     const { getByTestId } = render(<PaginationAccordion selectedTable={mockSelectedTable} />);
-    expect(getByTestId('section').classList).toContain(accordionStyles.closed);
+    expect(getByTestId('section').classList).toContain('closed');
   });
 
   it('displays the dynamic endpoint in the example shown', () => {

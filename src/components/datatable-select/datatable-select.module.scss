@@ -2,10 +2,15 @@
 
 .dataTableSelectWrapper {
   width: 100%;
-  max-width: 250px;
   margin-bottom: 0.75rem;
   > div > button {
     white-space: nowrap;
+  }
+}
+.dropdownDisplay {
+ width: 250px;
+  @media screen and (min-width: $breakpoint-md) {
+    display: inline-block;
   }
 }
 

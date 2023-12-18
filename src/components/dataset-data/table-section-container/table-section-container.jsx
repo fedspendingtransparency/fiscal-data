@@ -53,39 +53,51 @@ const TableSectionContainer = ({
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
+  const [manualPagination, setManualPagination] = useState(false);
+  const [apiErrorState, setApiError] = useState(apiError || false);
 
   const getDepaginatedData = async () => {
     const from = formatDateForApi(dateRange.from);
     const to = formatDateForApi(dateRange.to);
     const sortParam = buildSortParams(selectedTable, selectedPivot);
     let meta;
-    const res0 = await basicFetch(
+    return await basicFetch(
       `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
         `:lte:${to}&sort=${sortParam}`
-    ).then(async res => {
-      const totalCount = res.meta['total-count'];
-      meta = res.meta;
-      if (totalCount > MAX_PAGE_SIZE) {
-        return await basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
-        ).then(async page1res => {
-          const page2res = await basicFetch(
+    )
+      .then(async res => {
+        const totalCount = res.meta['total-count'];
+        meta = res.meta;
+        if (totalCount > MAX_PAGE_SIZE) {
+          return await basicFetch(
             `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-              `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+              `:lte:${to}&sort=${sortParam}&page[number]=${1}&page[size]=${10000}`
+          ).then(async page1res => {
+            const page2res = await basicFetch(
+              `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+                `:lte:${to}&sort=${sortParam}&page[number]=${2}&page[size]=${10000}`
+            );
+            page1res.data = page1res.data.concat(page2res.data);
+            return page1res;
+          });
+        } else {
+          return await basicFetch(
+            `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
+              `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
           );
-          page1res.data = page1res.data.concat(page2res.data);
-          return page1res;
-        });
-      } else {
-        return await basicFetch(
-          `${apiPrefix}${selectedTable.endpoint}?filter=${selectedTable.dateField}:gte:${from},${selectedTable.dateField}` +
-            `:lte:${to}&sort=${sortParam}&page[size]=${totalCount}`
-        );
-      }
-    });
-    setTableMeta(meta);
-    return res0;
+        }
+      })
+      .catch(err => {
+        if (err.name === 'AbortError') {
+          console.info('Action cancelled.');
+        } else {
+          console.error('API error', err);
+          setApiError(err);
+        }
+      })
+      .finally(() => {
+        setTableMeta(meta);
+      });
   };
 
   const refreshTable = async () => {
@@ -116,7 +128,7 @@ const TableSectionContainer = ({
       selectedTable,
       selectedPivot,
       dateRange,
-      apiError,
+      apiError: apiErrorState,
       selectColumns: config.selectColumns,
       hideColumns: config.hideColumns,
       excludeCols: ['CHART_DATE'],
@@ -235,10 +247,12 @@ const TableSectionContainer = ({
             onTabChange={tabChangeHandler}
             selectedTable={selectedTable}
             setResetFilters={setResetFilters}
+            textFilteringDisabled={manualPagination}
             table={
               tableProps ? (
                 <DtgTable
                   selectColumnPanel={selectColumnPanel}
+                  pivotSelected={selectedPivot}
                   setSelectColumnPanel={setSelectColumnPanel}
                   tableProps={tableProps}
                   perPage={perPage}
@@ -249,6 +263,10 @@ const TableSectionContainer = ({
                   setResetFilters={setResetFilters}
                   setFiltersActive={setFiltersActive}
                   tableMeta={tableMeta}
+                  manualPagination={manualPagination}
+                  setManualPagination={setManualPagination}
+                  reactTable
+                  rawDataTable
                 />
               ) : (
                 ''

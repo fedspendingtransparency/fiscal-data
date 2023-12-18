@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import SectionContent from '../../../components/api-documentation/section-content/section-content';
 import '../../../styles.scss';
-import * as styles from '../about-us.module.scss';
+import { list, noBullets, title, section } from '../about-us.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import CustomLink from '../../../components/links/custom-link/custom-link';
 
@@ -18,7 +18,7 @@ const FAQ = ({ triggerHighlight = 0 }) => {
   );
 
   const whoToContactOptions = (
-    <ul className={[styles.list, styles.noBullets].join(' ')}>
+    <ul className={[list, noBullets].join(' ')}>
       <li>
         For the <b>Treasury Offset Program</b>, contact their team directly by calling{' '}
         <CustomLink url="tel:+18003043107" external>
@@ -61,8 +61,8 @@ const FAQ = ({ triggerHighlight = 0 }) => {
   }, [triggerHighlight]);
 
   return (
-    <div className={`${styles.section} ${styles.noBullets}`}>
-      <h2 id="faq" className={styles.title}>
+    <div className={`${section} ${noBullets}`}>
+      <h2 id="faq" className={title}>
         FAQs
       </h2>
       <SectionContent id="how-often-is-the-data-updated" headingLevel={commonSectionHeadingLevel} title="How often is the data updated?">

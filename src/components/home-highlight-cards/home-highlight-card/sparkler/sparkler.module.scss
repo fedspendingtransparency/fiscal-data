@@ -32,7 +32,7 @@
 
 /*keyframe animation to enable sparkle fade in and out (or out and in) effects*/
 
-@-webkit-keyframes bedazzle {
+@keyframes bedazzle {
   0% {
     -webkit-transform: scale(0.5);
     opacity: 0;
@@ -78,7 +78,7 @@
   }
 }
 
-@-webkit-keyframes bedazzleAlt {
+@keyframes bedazzleAlt {
   0% {
     -webkit-transform: scale(1);
     opacity: 1;

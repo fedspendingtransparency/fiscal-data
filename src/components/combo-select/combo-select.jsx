@@ -1,6 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { inputContainer, iconButton } from './combo-select.module.scss';
-import * as styles from '../select-control/select-control.module.scss';
+import {
+  selector_container,
+  selector_label,
+  comboSelectField,
+  textField,
+  selector_list,
+  scrollableList,
+  selector_option,
+  selector_optionButton,
+  selector_optionSelected,
+} from '../select-control/select-control.module.scss';
 import { filterYearOptions } from '../published-reports/util/util';
 import useOnClickOutside from 'use-onclickoutside';
 import classNames from 'classnames';
@@ -184,9 +194,9 @@ export default function ComboSelect({
   const labelText = yearFilter ? `Year (${options[options.length - 1].label} - ${options[0].label})` : label;
 
   return (
-    <div className={styles.selector_container}>
+    <div className={selector_container}>
       {labelText !== '' ? (
-        <div className={`${styles.selector_label} ${labelClass}`} data-testid="label">
+        <div className={`${selector_label} ${labelClass}`} data-testid="label">
           {labelText}
           {required && <span className="required">*</span>}
         </div>
@@ -196,7 +206,7 @@ export default function ComboSelect({
           {yearFilter ? (
             <input
               type="number"
-              className={styles.comboSelectField}
+              className={comboSelectField}
               onChange={onFilterChange}
               value={filterCharacters}
               onFocus={onFilterChange}
@@ -213,7 +223,7 @@ export default function ComboSelect({
             <div className={inputContainerStyle ? inputContainerStyle : inputContainer}>
               <input
                 type="text"
-                className={inputStyle ? inputStyle : `${styles.comboSelectField} ${styles.textField}`}
+                className={inputStyle ? inputStyle : `${comboSelectField} ${textField}`}
                 onChange={onFilterChange}
                 value={filterCharacters}
                 onFocus={onFilterChange}
@@ -250,7 +260,7 @@ export default function ComboSelect({
 
         {droppedDown && (
           <ul
-            className={`${styles.selector_list} ${scrollable ? styles.scrollable : ''}`}
+            className={`${selector_list} ${scrollable ? scrollableList : ''}`}
             data-testid="selectorList"
             role={'presentation'}
             onBlur={onBlurHandler}
@@ -259,9 +269,9 @@ export default function ComboSelect({
           >
             {filteredOptions.map((option, index) => (
               <React.Fragment key={index}>
-                <li className={styles.selector_option}>
+                <li className={selector_option}>
                   <button
-                    className={classNames([styles.selector_optionButton, option === selectedOption ? styles.selector_optionSelected : ''])}
+                    className={classNames([selector_optionButton, option === selectedOption ? selector_optionSelected : ''])}
                     onClick={() => {
                       updateSelection(option, true);
                     }}
