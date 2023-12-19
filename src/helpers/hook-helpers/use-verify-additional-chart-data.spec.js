@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useVerifyAdditionalChartData, getDebtOutstanding, getMTS4, getMTS5 } from './use-verify-additional-chart-data';
+import { useVerifyAdditionalChartData } from './use-verify-additional-chart-data';
 import fetchMock from 'fetch-mock';
 
 const mts5 = 'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?sort=-record_date';
@@ -84,9 +84,9 @@ describe('verifyAdditionalChartData return false', () => {
     jest.useFakeTimers('modern');
     jest.setSystemTime(new Date(2020, 9, 1));
 
-    fetchMock.get(`${debtOutstanding}`, mockDebtOutstandingNotCurrentData, { overwriteRoutes: true }, { repeat: 1 });
-    fetchMock.get(`${mts4}`, mockMtsAugustData, { overwriteRoutes: true }, { repeat: 1 });
-    fetchMock.get(`${mts5}`, mockMtsAugustData, { overwriteRoutes: true }, { repeat: 1 });
+    fetchMock.get(`${debtOutstanding}`, mockDebtOutstandingNotCurrentData, { overwriteRoutes: true }, { repeat: 0 });
+    fetchMock.get(`${mts4}`, mockMtsAugustData, { overwriteRoutes: true }, { repeat: 0 });
+    fetchMock.get(`${mts5}`, mockMtsAugustData, { overwriteRoutes: true }, { repeat: 0 });
   });
 
   afterAll(() => {
