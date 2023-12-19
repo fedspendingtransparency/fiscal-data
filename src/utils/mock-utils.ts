@@ -481,7 +481,7 @@ export const determineBEANoQ3FetchResponse = (
   jsonResponse: Record<string, unknown> | [Record<string, unknown>]
 ): void => {
   global.fetch = jest.fn(url => {
-    if (url.includes('https://apps.bea.gov/api/')) {
+    if (url.startsWith('https://apps.bea.gov/api/')) {
       return Promise.resolve({
         ok: true,
         ready: true,
