@@ -63,6 +63,7 @@ const DDNav = () => {
     if (!isClickInitiatedScroll){
       setActiveSection(id);
     }
+
   };
 
   const updateScrollBarPosition = () => {
@@ -86,6 +87,15 @@ const DDNav = () => {
     }
   }, [scrollToId, isClickInitiatedScroll]);
 
+  useEffect(() => {
+    const handleUrlChange = () => {
+      console.log('URL CHANGED')
+      setActiveSection(null);
+    };
+    window.addEventListener('locationchange', handleUrlChange);
+    return () => window.removeEventListener('locationchange', handleUrlChange);
+  }, [])
+
   return (
     <section id={container}>
       <div className={content} ref={navRef}>
@@ -93,7 +103,7 @@ const DDNav = () => {
           {linksArr.map((d, i) => {
             return (
               <Link
-                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${activeSection === d.id ? activeMenu : ''}`}
+                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
                 key={`DDNavDesktopLink${i}`}
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}
