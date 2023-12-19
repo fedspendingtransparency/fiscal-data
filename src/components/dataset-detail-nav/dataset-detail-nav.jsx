@@ -66,7 +66,6 @@ const DDNav = () => {
   };
 
   const updateScrollBarPosition = () => {
-
     if (navRef.current && activeSection) {
       const activeLink = navRef.current.querySelector(`.${desktopLinks}.${activeMenu}`);
       if (activeLink) {
@@ -79,8 +78,6 @@ const DDNav = () => {
   useEffect(() => {
     updateScrollBarPosition();
   }, [activeSection]); 
-
-
 
   useEffect(() => {
     if (scrollToId && isClickInitiatedScroll) {
@@ -101,7 +98,7 @@ const DDNav = () => {
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}
                 to={d.id}
-                onSetActive={setActiveSection}
+                onSetActive={onSetActive}
                 activeClass={activeMenu}
                 onClick={() => handleInteraction(null, d.id)}
                 onKeyDown={e => handleInteraction(e, d.id)}
