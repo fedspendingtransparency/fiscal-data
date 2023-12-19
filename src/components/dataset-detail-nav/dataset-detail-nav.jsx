@@ -81,20 +81,20 @@ const DDNav = () => {
   }, [activeSection]); 
 
   useEffect(() => {
+    if(!activeSection && navRef.current){
+      setActiveSection(null);
+      navRef.current.scrollLeft = 0;
+    }
+  }, [activeSection]); 
+
+  useEffect(() => {
     if (scrollToId && isClickInitiatedScroll) {
       scroller.scrollTo(scrollToId, scrollOptions);
       setIsClickInitiatedScroll(false);
     }
   }, [scrollToId, isClickInitiatedScroll]);
 
-  useEffect(() => {
-    const handleUrlChange = () => {
-      console.log('URL CHANGED')
-      setActiveSection(null);
-    };
-    window.addEventListener('locationchange', handleUrlChange);
-    return () => window.removeEventListener('locationchange', handleUrlChange);
-  }, [])
+
 
   return (
     <section id={container}>
