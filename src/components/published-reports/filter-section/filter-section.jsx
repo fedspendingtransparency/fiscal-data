@@ -114,9 +114,6 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
     setCurrentReport(currentReportSelection);
     setFileSelection(currentReportSelection ? currentReportSelection : filteredReport);
-    if (currentReportSelection) {
-      // setActiveState(1);
-    }
     setShowFilters(!currentReportSelection);
   };
 
