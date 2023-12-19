@@ -32,6 +32,7 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
   const [reportGroups, setReportGroups] = useState({});
   const [selectedReportGroup, setSelectedReportGroup] = useState();
   const [currentReport, setCurrentReport] = useState();
+  const [activeState, setActiveState] = useState(1); // latest report
 
   const previousSelectedGroupId = useRef();
   const currentlySelectedGroupIndex = useRef(0);
@@ -113,6 +114,9 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     }
     setCurrentReport(currentReportSelection);
     setFileSelection(currentReportSelection ? currentReportSelection : filteredReport);
+    if (currentReportSelection) {
+      // setActiveState(1);
+    }
     setShowFilters(!currentReportSelection);
   };
 
@@ -231,8 +235,13 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
     } else if (selectedReportGroup?.daily && selectedYear && selectedMonth && selectedDay && showFilters) {
       getFileForSelectedDay();
     } else {
-      if (selectedReportGroup && (!showFilters)) {
+      if (selectedReportGroup && (!showFilters || newSelectedGroup)) {
+        if (newSelectedGroup) {
+          const latestReportInNewlySelectedGroup = getLatestReport(selectedReportGroup.value);
+          toggleCurrentReport(latestReportInNewlySelectedGroup);
+        } else {
           setFileSelection(currentReport);
+        }
       } else if (_resetIfNoMatch) {
         setFileSelection(null);
       }
@@ -272,7 +281,12 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
       currentlySelectedGroupIndex.current = reportGroups.findIndex(reportGroup => reportGroup.id === selectedReportGroup.id);
       previousSelectedGroupId.current = selectedReportGroup.id;
       recalibrateYMD(selectedReportGroup.value);
-      smartLoadFile(newSelectedGroup);
+      if (activeState === 1) {
+        smartLoadFile(newSelectedGroup);
+      } else {
+        const resetIfNoMatch = true;
+        smartLoadFile(null, resetIfNoMatch);
+      }
     }
   }, [selectedReportGroup]);
 
@@ -348,7 +362,13 @@ export const FilterSection = ({ reports, setSelectedFile, reportsTip }) => {
           <h3 data-testid="filterHeader" className={filterHeader}>
             Select Report Date:
           </h3>
-          <CurrentReportToggle reports={selectedReportGroup} onChange={toggleCurrentReport} filteredByDateSelection={filtered} />
+          <CurrentReportToggle
+            reports={selectedReportGroup}
+            onChange={toggleCurrentReport}
+            filteredByDateSelection={filtered}
+            activeState={activeState}
+            setActiveState={setActiveState}
+          />
 
           <div className={showFilters ? '' : hiddenFilters} data-testid="filterCollapsible">
             <div className={`${filterContainer} ${selectedReportGroup?.daily ? dailyReport : ''}`}>

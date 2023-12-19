@@ -8,8 +8,7 @@ export const ReportButtons = {
   PreviousReports: 2,
 };
 
-const CurrentReportToggle = ({ onChange, reports, filteredByDateSelection }) => {
-  const [activeState, setActiveState] = useState(1); // latest report
+const CurrentReportToggle = ({ onChange, reports, filteredByDateSelection, activeState, setActiveState }) => {
   const [latestReport, setLatestReport] = useState(null);
   const [reportOptions, setReportOptions] = useState([null, null, null]);
 
