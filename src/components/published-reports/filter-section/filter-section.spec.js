@@ -289,4 +289,22 @@ describe('Filter Section', () => {
       expect(queryByTestId('selectorList')).not.toBeInTheDocument();
     });
   });
+
+  it('shows filters when report group changes while on previous reports', async () => {
+    const { getByTestId, queryByTestId, getByRole } = render(<FilterSection reports={largeSetReports} setSelectedFile={selectedFileMock} />);
+
+    const previousToggle = getByRole('radio', { name: 'Previous' });
+    fireEvent.click(previousToggle);
+
+    expect(queryByTestId('selectorList')).not.toBeInTheDocument();
+
+    const reportSelector = getByTestId('dropdownToggle');
+
+    userEvent.click(reportSelector);
+    const reportDropDownList = await getByTestId('dropdown-container');
+    userEvent.click(within(reportDropDownList).getAllByRole('button')[1]);
+    const yearInput = getByRole('spinbutton', { name: 'Enter a year' });
+
+    expect(yearInput).toBeInTheDocument();
+  });
 });
