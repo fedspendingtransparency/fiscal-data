@@ -58,6 +58,7 @@ describe('DDNav', () => {
     fireEvent.click(link);
     expect(spy).toHaveBeenCalledWith('introduction', { delay: 200, duration: 600, smooth: true, spy: true, offset: -36 });
     spy.mockClear();
+
   });
 
   it(`sets active link correctly`, () => {
@@ -65,6 +66,7 @@ describe('DDNav', () => {
     const link = getByTestId('DDNavDesktopLink0');
     fireEvent.click(link);
     expect(link).toHaveClass(desktopLinks);
+    
   });
 
   const mockNavRef = {
@@ -86,6 +88,23 @@ describe('DDNav', () => {
     await waitFor(() => {
       expect(mockNavRef.current.scrollLeft).toBe(100);
     });
+    mockNavRef.current = null;
+  });
+
+  it(`updates active section on natural scroll`, () => {
+    const { getByText } = render(<DDNav />);
+
+    const introductionLink = getByText('Introduction');
+    fireEvent.scroll(introductionLink)
+    expect(introductionLink).toHaveClass(desktopLinks);
+  });
+
+  it(`Does not updates active section on click-initiated scroll`, () => {
+    const { getByText } = render(<DDNav />);
+
+    const introductionLink = getByText('Introduction');
+    fireEvent.click(introductionLink)
+    expect(introductionLink).toHaveClass(desktopLinks);
   });
   
 });

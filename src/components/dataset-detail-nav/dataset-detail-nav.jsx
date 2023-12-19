@@ -18,6 +18,7 @@ const DDNav = () => {
   const [hover, setHover] = useState(null);
   const [scrollToId, setScrollToId] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
+  const [isClickInitiatedScroll, setIsClickInitiatedScroll] = useState(false);
   const navRef = useRef(null);
 
   const linksArr = [
@@ -53,33 +54,37 @@ const DDNav = () => {
     if (id) {
       updateAddressPath(id, window.location);
       setHover(null);
+      setIsClickInitiatedScroll(true);
       setScrollToId(id);
     }
   };
-  useEffect(() => {
-    const updateScrollBarPosition = () => {
 
-      if (navRef.current && activeSection) {
-        const activeLink = navRef.current.querySelector(`.${desktopLinks}.${activeMenu}`);
-        if (activeLink) {
-          const scrollPosition = activeLink.offsetLeft;
-          navRef.current.scrollLeft = scrollPosition;
-        }
+  const onSetActive = (id) => {
+    if (!isClickInitiatedScroll){
+      setActiveSection(id);
+    }
+  };
+
+  const updateScrollBarPosition = () => {
+    if (navRef.current && activeSection) {
+      const activeLink = navRef.current.querySelector(`.${desktopLinks}.${activeMenu}`);
+      if (activeLink) {
+        const scrollPosition = activeLink.offsetLeft;
+        navRef.current.scrollLeft = scrollPosition;
       }
-    };
+    }
+  };
+
+  useEffect(() => {
     updateScrollBarPosition();
   }, [activeSection]); 
 
-
-
   useEffect(() => {
-    if (scrollToId) {
-      const targetId = scrollToId;
-      setScrollToId(null);
-      scroller.scrollTo(targetId, scrollOptions);
-      navRef.current.scrollLeft = scroller.scrollTo(targetId, scrollOptions);
+    if (scrollToId && isClickInitiatedScroll) {
+      scroller.scrollTo(scrollToId, scrollOptions);
+      setIsClickInitiatedScroll(false);
     }
-  }, [scrollToId,]);
+  }, [scrollToId, isClickInitiatedScroll]);
 
   return (
     <section id={container}>
@@ -88,12 +93,12 @@ const DDNav = () => {
           {linksArr.map((d, i) => {
             return (
               <Link
-                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''}`}
+                className={`${desktopLinks} ${hover === d.id ? hoverMenu : ''} ${activeSection === d.id ? activeMenu : ''}`}
                 key={`DDNavDesktopLink${i}`}
                 data-testid={`DDNavDesktopLink${i}`}
                 aria-label={`Jump to ${d.title} section`}
                 to={d.id}
-                onSetActive={setActiveSection}
+                onSetActive={onSetActive}
                 activeClass={activeMenu}
                 onClick={() => handleInteraction(null, d.id)}
                 onKeyDown={e => handleInteraction(e, d.id)}
