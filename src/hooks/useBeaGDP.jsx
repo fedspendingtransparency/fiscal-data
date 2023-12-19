@@ -28,11 +28,11 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
     `
   );
 
-  useEffect(async () => {
+  useEffect(() => {
     let GDPYearlyData = [];
     let curYear = 1948;
     const beaData = queryData?.allBeaGdp?.nodes;
-    for (const gpd of beaData) {
+    beaData.forEach(gpd => {
       const year = parseInt(gpd.timePeriod.slice(0, -2));
       let allQuartersForGivenYear;
       if (year === curYear) {
@@ -71,7 +71,7 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
           allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q2')) &&
           !allQuartersForGivenYear.find(entry => entry.timePeriod.includes(year.toString() + 'Q3'))
         ) {
-          const otherDataPresent = await verifyAdditionalChartData(otherDataToCheck, currentYear);
+          const otherDataPresent = verifyAdditionalChartData(otherDataToCheck, currentYear);
           if (otherDataPresent) {
             let totalGDP = 0;
             allQuartersForGivenYear.forEach(quarter => {
@@ -99,7 +99,7 @@ const useBeaGDP = (cpiData, inflationAdjust, otherDataToCheck) => {
         }
         curYear++;
       }
-    }
+    });
 
     if (inflationAdjust) {
       GDPYearlyData = adjustDataForInflation(GDPYearlyData, 'actual', 'fiscalYear', cpiData);
