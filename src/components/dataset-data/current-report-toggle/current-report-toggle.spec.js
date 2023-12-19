@@ -52,13 +52,12 @@ describe('CurrentReportToggle component', () => {
   });
 
   it('updates the selected button when the radio button is toggled', () => {
-    const { getAllByRole } = render(<CurrentReportToggle reports={mockReports} onChange={toggleFn} />);
+    const { getAllByRole } = render(<CurrentReportToggle reports={mockReports} onChange={toggleFn} setActiveState={activeFn} />);
     const allRadioButtons = getAllByRole('radio');
 
     fireEvent.click(allRadioButtons[1]);
 
-    expect(allRadioButtons[0]).not.toBeChecked();
-    expect(allRadioButtons[1]).toBeChecked();
+    expect(activeFn).toHaveBeenCalledWith(2);
   });
 
   it('triggers the onToggle event when a radio button is clicked', () => {
