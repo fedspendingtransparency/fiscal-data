@@ -4,12 +4,12 @@
   padding: 0.25rem;
   position: relative;
 
-  &.minimized {
+  &.minimizedStyle {
     padding-top: 0;
     padding-bottom: 0;
     overflow-y: hidden;
 
-    .complete {
+    .completeStyle {
       width: 2rem;
     }
 
@@ -41,7 +41,7 @@
   margin: 0 0 0.5rem;
   width: 100%;
 
-  &.minimized {
+  &.minimizedStyle {
     margin: 0 0 0 0;
   }
 }
@@ -63,12 +63,12 @@
     font-size: 1.5rem;
   }
 
-  .complete {
+  .completeStyle {
     font-size: 2.5rem;
     margin-right: 0.5rem;
     color: $dark-green;
 
-    &.minimized {
+    &.minimizedStyle {
       margin-top: 0.1rem;
       font-size: 2rem;
     }
@@ -78,7 +78,7 @@
   font-size: 3rem;
   color: $dark-green;
 
-  .minimized {
+  .minimizedStyle {
     font-size: 1.5rem;
   }
 }
@@ -282,11 +282,11 @@
     margin-left: 0.5rem;
     margin-right: 1rem;
 
-    .complete {
+    .completeStyle {
       width: 3rem;
       margin-top: 0.25rem;
 
-      &.minimized {
+      &.minimizedStyle {
         width: 2rem;
         margin-top: 0.1rem;
       }
@@ -317,7 +317,7 @@
     .percentage {
       width: 6.25rem;
     }
-    .complete {
+    .completeStyle {
       width: 3.9rem;
       font-size: 4rem;
     }
