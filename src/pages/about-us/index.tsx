@@ -86,7 +86,7 @@ const AboutUsPage: FunctionComponent = ({ data }) => {
       </div>
       <div data-test-id="about-page-wrapper" className={`pageWrapper  ${aboutPageWrapper}`}>
         <Experimental featureId="aboutUsMDX" exclude>
-          <SecondaryNav sections={TOCData} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent}>
+          <SecondaryNav sections={TOCData} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent} tocScrollOffset={16}>
             <div id={content} className={content} data-test-id="about-content">
               <About />
               <FAQ triggerHighlight={highlight} />

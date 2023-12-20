@@ -154,6 +154,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           spy: true,
           duration: scrollDuration,
           delay: scrollDelay,
+          offset: 2,
         });
         setTocIsOpen(false);
       }
