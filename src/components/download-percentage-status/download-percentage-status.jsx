@@ -1,15 +1,23 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import * as styles from './download-percentage-status.module.scss';
+import {
+  minimizedStyle,
+  container,
+  backgroundCircle,
+  progressBar,
+  percentageStyle,
+  stickyPercentage,
+} from './download-percentage-status.module.scss';
 
 const DownloadPercentageStatus = ({ percentage, sticky, minimized }) =>
   minimized ? (
-    <div className={styles.minimized}>{percentage}%</div>
+    <div className={minimizedStyle}>{percentage}%</div>
   ) : (
-    <div className={styles.container}>
-      <CircularProgress value={100} className={styles.backgroundCircle} variant="determinate" />
-      <CircularProgress value={percentage} className={styles.progressBar} variant="determinate" data-testid="progress-bar" />
-      <div className={`${styles.percentage} ${sticky ? styles.stickyPercentage : ''}`} data-testid="percentage">
+    <div className={container}>
+      <CircularProgress value={100} className={backgroundCircle} variant="determinate" />
+      <CircularProgress value={percentage} className={progressBar} variant="determinate" data-testid="progress-bar" />
+      <div className={`${percentageStyle} ${sticky ? stickyPercentage : ''}`} data-testid="percentage">
         {percentage}%
       </div>
     </div>
