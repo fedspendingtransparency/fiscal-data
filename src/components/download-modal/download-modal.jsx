@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Modal from '../modal/modal';
 import DownloadModalItem from './download-modal-item/download-modal-item';
-import * as styles from './download-modal.module.scss';
+import { container, title, downloadItemsContainer, closeButton, subText } from './download-modal.module.scss';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
 
 export const downloadModalTitle = 'We are working to prepare your download.';
@@ -44,11 +44,11 @@ const DownloadModal = ({ open, onClose, setCancelDownloadRequest }) => {
   }, [resumedDownloads]);
 
   return (
-    <Modal open={downloadModalIsOpen} onClose={onClose} contentClass={styles.container}>
-      <div className={styles.title} data-testid="download-modal-title">
+    <Modal open={downloadModalIsOpen} onClose={onClose} contentClass={container}>
+      <div className={title} data-testid="download-modal-title">
         {downloadCount > 1 ? downloadModalTitleMulti : downloadModalTitle}
       </div>
-      <div className={styles.downloadItemsContainer} data-testid="download-items-container">
+      <div className={downloadItemsContainer} data-testid="download-items-container">
         {resumedPrepared &&
           resumedPrepared.map((download, index) => (
             <DownloadModalItem key={index} download={download} cancelDownloadRequest={setCancelDownloadRequest} resumed />
@@ -66,10 +66,10 @@ const DownloadModal = ({ open, onClose, setCancelDownloadRequest }) => {
             <DownloadModalItem download={download} key={index} cancelDownloadRequest={setCancelDownloadRequest} />
           ))}
       </div>
-      <button onClick={onClose} className={`${styles.closeButton} closeDownloadButton`} data-testid="download-modal-close-button" aria-label="Close">
+      <button onClick={onClose} className={`${closeButton} closeDownloadButton`} data-testid="download-modal-close-button" aria-label="Close">
         Close
       </button>
-      <div className={styles.subText} data-testid="download-modal-subtext">
+      <div className={subText} data-testid="download-modal-subtext">
         {downloadModalSubText}
       </div>
     </Modal>

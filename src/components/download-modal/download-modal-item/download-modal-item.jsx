@@ -1,7 +1,29 @@
 import React from 'react';
 import buttons from '../../buttons/buttons';
 import DownloadPercentageStatus from '../../download-percentage-status/download-percentage-status';
-import * as styles from './download-modal-item.module.scss';
+import {
+  container,
+  title,
+  content,
+  progressIndicator,
+  resumedStyle,
+  resumedSpinner,
+  queuedSpinner,
+  fileContent,
+  mobileContentContainer,
+  mobileProgressIndicator,
+  fileDetails,
+  fileInfo,
+  fileNameStyle,
+  pill,
+  cancelDownloadButton,
+  downloadButton,
+  downloadLink,
+  downloadLinkName,
+  copyLink,
+  copyLinkButton,
+  readyForDownload,
+} from './download-modal-item.module.scss';
 import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDate } from '../../download-wrapper/helpers';
@@ -43,14 +65,14 @@ const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false })
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.title} data-testid="title">
+    <div className={container}>
+      <div className={title} data-testid="title">
         {statusTitle}
       </div>
-      <div className={styles.content}>
-        <div className={`${styles.progressIndicator} ${resumed ? styles.resumed : ''}`} data-testid="progress-indicator">
+      <div className={content}>
+        <div className={`${progressIndicator} ${resumed ? resumedStyle : ''}`} data-testid="progress-indicator">
           {resumed ? (
-            <div className={`${styles.resumedSpinner} ${queued ? styles.queuedSpinner : ''}`}>
+            <div className={`${resumedSpinner} ${queued ? queuedSpinner : ''}`}>
               {download.status === 'completed' || download.readyForDownload ? (
                 <FontAwesomeIcon data-testid="spinner-icon" icon={faCheckCircle} />
               ) : (
@@ -61,16 +83,11 @@ const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false })
             <DownloadPercentageStatus percentage={percentage} />
           )}
         </div>
-        <div
-          className={[
-            styles.fileContent,
-            resumed && (download.status === 'completed' || download.readyForDownload) ? styles.readyForDownload : '',
-          ].join(' ')}
-        >
-          <div className={styles.mobileContentContainer}>
-            <div className={`${styles.mobileProgressIndicator} ${resumed ? styles.resumed : ''}`}>
+        <div className={[fileContent, resumed && (download.status === 'completed' || download.readyForDownload) ? readyForDownload : ''].join(' ')}>
+          <div className={mobileContentContainer}>
+            <div className={`${mobileProgressIndicator} ${resumed ? resumed : ''}`}>
               {resumed ? (
-                <div className={`${styles.resumedSpinner} ${queued ? styles.queuedSpinner : ''}`}>
+                <div className={`${resumedSpinner} ${queued ? queuedSpinner : ''}`}>
                   {download.status === 'completed' || download.readyForDownload ? (
                     <FontAwesomeIcon data-testid="spinner-icon" icon={faCheckCircle} />
                   ) : (
@@ -81,38 +98,38 @@ const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false })
                 <DownloadPercentageStatus percentage={percentage} />
               )}
             </div>
-            <div className={styles.fileDetails}>
-              <div className={styles.fileInfo}>
-                <div className={styles.fileName} data-testid="name">
+            <div className={fileDetails}>
+              <div className={fileInfo}>
+                <div className={fileNameStyle} data-testid="name">
                   {fileName}
                 </div>
-                <div className={styles.pill} data-testid="date-range">
+                <div className={pill} data-testid="date-range">
                   {formatDateRange(download.dateRange)}
                 </div>
-                <div className={styles.pill} data-testid="file-type">
+                <div className={pill} data-testid="file-type">
                   {download.selectedFileType}
                 </div>
               </div>
               {!download.readyForDownload && download.status !== 'completed' && (
-                <div className={`${styles.cancelDownloadButton} cancelDownloadButton`} data-testid="cancel-download-button">
+                <div className={`${cancelDownloadButton} cancelDownloadButton`} data-testid="cancel-download-button">
                   {buttons.cancelButton(download, cancelDownloadRequest)}
                 </div>
               )}
               {resumed && download.status === 'completed' && (
-                <a href={download.fullFileUrl} className={styles.downloadButton} data-testid="download-button">
+                <a href={download.fullFileUrl} className={downloadButton} data-testid="download-button">
                   Download File
                 </a>
               )}
             </div>
           </div>
           {download.statusPath && !download.readyForDownload && (
-            <div className={styles.downloadLink} data-testid="download-link">
+            <div className={downloadLink} data-testid="download-link">
               Don't have time to wait? Don't forget to copy the link below before you leave the site!
-              <div className={styles.copyLink}>
-                <div className={styles.downloadLinkName} data-testid="download-link-name">
+              <div className={copyLink}>
+                <div className={downloadLinkName} data-testid="download-link-name">
                   {download.statusPath}
                 </div>
-                <div className={`${styles.copyLinkButton} copyLinkButton`} data-testid="copy-link-button">
+                <div className={`${copyLinkButton} copyLinkButton`} data-testid="copy-link-button">
                   {buttons.copyToClipboardButton(download.statusPath)}
                 </div>
               </div>
