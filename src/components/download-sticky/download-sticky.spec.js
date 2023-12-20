@@ -3,7 +3,7 @@ import { act, render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import DownloadSticky, { dsTextContent } from './download-sticky';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-import { minimized, collapsed } from './download-sticky.module.scss';
+import { minimizedStyle, collapsed } from './download-sticky.module.scss';
 import '@testing-library/jest-dom';
 import { StickyFooterComponent } from '../sticky-footer/sticky-footer';
 import * as gaHelper from '../../layouts/dataset-detail/helper';
@@ -178,7 +178,7 @@ describe('DownloadSticky component', () => {
     );
     jest.runAllTimers();
 
-    expect(getByTestId('download-sticky-content')).not.toHaveClass(minimized);
+    expect(getByTestId('download-sticky-content')).not.toHaveClass(minimizedStyle);
     expect(queryByTestId('minimize-symbol')).toBeTruthy();
     expect(queryByTestId('maximize-symbol')).not.toBeTruthy();
 
@@ -189,7 +189,7 @@ describe('DownloadSticky component', () => {
     });
 
     expect(gaSpy).toHaveBeenCalledWith(dsTextContent.gaMinimizeSticky);
-    expect(getByTestId('download-sticky-content')).toHaveClass(minimized);
+    expect(getByTestId('download-sticky-content')).toHaveClass(minimizedStyle);
     expect(queryByTestId('minimize-symbol')).not.toBeTruthy();
     expect(queryByTestId('maximize-symbol')).toBeTruthy();
 
