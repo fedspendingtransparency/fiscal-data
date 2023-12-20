@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import * as styles from './truncate.module.scss';
+import { moreLessButton, truncateWrapper, expandedStyle } from './truncate.module.scss';
 import { PropTypes } from 'prop-types';
 
-const Truncator = ({ moreLessClass = styles.moreLessButton, numberOfLines = 2, showMore, children }) => {
+const Truncator = ({ moreLessClass = moreLessButton, numberOfLines = 2, showMore, children }) => {
   const [expanded, setExpanded] = useState(false);
 
   let showMoreButton, showLessButton;
@@ -25,7 +25,7 @@ const Truncator = ({ moreLessClass = styles.moreLessButton, numberOfLines = 2, s
   return (
     <>
       <div
-        className={`${styles.truncateWrapper} ${expanded ? styles.expanded : ''}`}
+        className={`${truncateWrapper} ${expanded ? expandedStyle : ''}`}
         style={{ WebkitLineClamp: !expanded && numberOfLines ? numberOfLines : 'none' }}
         data-test-id="truncateDiv"
       >

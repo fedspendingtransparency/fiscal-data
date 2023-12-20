@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Truncator from './truncate';
-import * as styles from './truncate.module.scss';
+import { expandedStyle } from './truncate.module.scss';
 
 describe('Truncate component', () => {
   // Jest gives an error about the following not being implemented even though the tests pass.
@@ -62,12 +62,12 @@ describe('Truncate component', () => {
     });
     const truncatorElement = instanceWithButtons.findByProps({ 'data-test-id': 'truncateDiv' });
 
-    expect(truncatorElement.props.className).not.toContain(styles.expanded);
+    expect(truncatorElement.props.className).not.toContain(expandedStyle);
 
     renderer.act(() => {
       showMoreLessButtons[0].props.onClick();
     });
 
-    expect(truncatorElement.props.className).toContain(styles.expanded);
+    expect(truncatorElement.props.className).toContain(expandedStyle);
   });
 });
