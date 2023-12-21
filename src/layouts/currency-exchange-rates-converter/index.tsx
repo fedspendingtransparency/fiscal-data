@@ -72,8 +72,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPLaces] = useState(0);
   const [inputWarning, setInputWarning] = useState(false);
   const [selectedDate, setSelectedDate] = useState<DropdownOption | null>(null);
-  const [countryOptionsByDate, setCountryOptionsByDate] = useState<Record<string, CountryOption[]>>({});
-
+  
   type CurrencyYearQuarter = {
     effectiveDate: string;
     rate: string;
@@ -125,7 +124,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then(res => {
       if (res.data) {
         const date = new Date(res.data[0].effective_date);
-        // console.log(res.data);
         setDatasetDate(dateStringConverter(date));
       }
     });
@@ -315,21 +313,23 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [selectedDateOption, setSelectedDateOption] = useState<DropdownOption | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
+
   useEffect(() => {
-    if (selectedDate && selectedCountry){
+    if (selectedDate){
       updateCurrencyForSelectDate(selectedDate.value, selectedCountry);
     }
   }, [selectedDate, selectedCountry, data]);
 
   const updateCurrencyForSelectDate = (selectedDate, selectedCurencyCode) =>{
     const matchRecord = data.find(record =>
-      record.record_date === selectedDate && record.country_currency_code === selectedCurencyCode
+      record.effective_date === selectedDate && record.country_currency_desc === selectedCurencyCode
       );
-
+      console.log('selectedDate', selectedDate)
       if(matchRecord) {
         setNonUSCurrencyExchangeValue(matchRecord.exchange_rate);
         setNonUSCurrency(matchRecord);
         setNonUSCurrencyExchangeValue(matchRecord.exchange_rate);
+        console.log('NonuseCurrency ', nonUSCurrencyExchangeValue);
         setNonUSCurrencyDecimalPLaces(countDecimals(matchRecord.exchange_rate));
       }
       else {
@@ -381,16 +381,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     setSelectedDateOption(selectedOption);
 
     const selectedDate = selectedOption.value;
-    fetchDataForSelectedDate(selectedDate);
 
-    if (setSelectedCountry) {
-      updateCurrencyData(selectedOption.value, selectedCountry);
+    if (selectedCountry) {
+      updateCurrencyData(selectedDate, selectedCountry);
     }
   };
 
   const updateCurrencyData = (date: string, country: string) => {
 const relevantCurrencyDate = data.find(record => 
-  record.record_date === date && record.country === country);
+  record.record_date === date && record.country_currency_desc === country);
+  console.log('country, country_currency_desc', country)
   if(relevantCurrencyDate) {
     setNonUSCurrency(relevantCurrencyDate);
     setNonUSCurrencyExchangeValue(relevantCurrencyDate.exchange_rate);
@@ -400,22 +400,36 @@ const relevantCurrencyDate = data.find(record =>
   }
 };
 
-  const fetchDataForSelectedDate = (date: string) => {
 
-    console.log(`Fetching data for date: ${date}`);
+  // const handleCurrencyChange = useCallback(event => {
+  //   if (event !== null) {
+  //     setNonUSCurrency(event.value);
+  //     setNonUSCurrencyExchangeValue(event.value.exchange_rate);
+  //     setNonUSCurrencyDecimalPLaces(countDecimals(event.value.exchange_rate));
+  //     setEffectiveDate(dateStringConverter(new Date(event.value.record_date)));
+  //     setUSDollarValue('1.00');
+  //     setInputWarning(false);
+  //   }
+  // }, []);
 
-  };
-
-  const handleCurrencyChange = useCallback(event => {
-    if (event !== null) {
-      setNonUSCurrency(event.value);
-      setNonUSCurrencyExchangeValue(event.value.exchange_rate);
-      setNonUSCurrencyDecimalPLaces(countDecimals(event.value.exchange_rate));
-      setEffectiveDate(dateStringConverter(new Date(event.value.record_date)));
+  const handleCurrencyChange = (currency) => {
+    setSelectedCountry(currency.label);
+    console.log('currency', currency.label)
+    if(selectedDateOption) {
+      const matchedRecord = data.find(record => 
+        record.record_date === selectedDate.value && record.country_currency_desc === selectedCountry
+      );
+        console.log('matched record', matchedRecord);
+      if(matchedRecord) {
+        setNonUSCurrency(matchedRecord.value);
+      setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+      setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
+      setEffectiveDate(dateStringConverter(new Date(matchedRecord.record_date)));
       setUSDollarValue('1.00');
       setInputWarning(false);
+      }
     }
-  }, []);
+  };
 
   return (
     <SiteLayout isPreProd={false}>
