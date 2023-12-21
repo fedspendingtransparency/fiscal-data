@@ -22,11 +22,12 @@ type UserFilterProps = {
     data?: [{ [key: string]: string }];
     meta?: { [key: string]: string | Record<string, unknown> };
   };
+  setResetFilters?: (x: boolean) => void;
 };
 
 // hopefully this TS workaround will no longer be needed with newer versions of FontAwesome
 const infoCirclePropIcon = faInfoCircle as IconProp;
-const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData }) => {
+const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserFilter, apiData, setResetFilters }) => {
   const defaultSelection = { label: '(None selected)', value: null };
 
   const [userFilterOptions, setUserFilterOptions] = useState(null);
@@ -36,6 +37,9 @@ const UserFilter: FunctionComponent<UserFilterProps> = ({ selectedTable, onUserF
     if (selection !== null) {
       setSelectedFilterOption(selection);
       onUserFilter(selection);
+      if (setResetFilters) {
+        setResetFilters(true);
+      }
     }
   };
 
