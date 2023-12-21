@@ -21,7 +21,7 @@ export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
   return `Change ${ariaLabelText} from ${selectedOptionLabel}`;
 };
 
-const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandler, className }) => {
+const NestSelectControl = ({ label, options, selectedOption, ariaLabel, changeHandler, className }) => {
   const [droppedDown, setDroppedDown] = useState(false);
 
   const updateSelection = selection => {
@@ -109,4 +109,4 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
   );
 
 };
-export default SelectControl;
+export default NestSelectControl;

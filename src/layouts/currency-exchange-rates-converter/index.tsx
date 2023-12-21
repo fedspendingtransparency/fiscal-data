@@ -15,7 +15,6 @@ import {
   selector,
   box,
   legalDisclaimer,
-  labelName
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import CurrencyEntryBox from '../../components/exchange-rates-converter/currency-entry-box/currency-entry-box';
@@ -38,16 +37,23 @@ import InfoTip from '../../components/info-tip/info-tip';
 import Analytics from '../../utils/analytics/analytics';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
-import { yearSelect } from '../../components/published-reports/filter-section/filter-section.module.scss';
 
 let gaInfoTipTimer;
 let gaCurrencyTimer;
 let ga4Timer;
 
+interface DropdownOption {
+  label: string;
+  value: string;
+  data?: number; 
+}
+
+interface YearGroupedOptions {
+  [year: string]: DropdownOption[];
+}
+
+
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
-  interface YearsToQuartersMap {
-    [year: string]: number[];
-  }
   const [data, setData] = useState(null);
   const [sortedCurrencies, setSortedCurrencies] = useState(null as Currency[]);
   const [currencyMap, setCurrencyMap] = useState(null as Record<string, Currency>);
@@ -60,11 +66,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [years, setYears] = useState([]);
   const [usDollarValue, setUSDollarValue] = useState('1.00');
   const [nonUSCurrencyExchangeValue, setNonUSCurrencyExchangeValue] = useState('1.00');
-  const [yearToQuartersMap, setYearToQuartersMap] = useState<YearsToQuartersMap>({});
+  const [yearToQuartersMap, setYearToQuartersMap] = useState(null);
   const [resetFilterCount, setResetFilterCount] = useState(0);
   const [datasetDate, setDatasetDate] = useState(null);
   const [nonUSCurrencyDecimalPlaces, setNonUSCurrencyDecimalPLaces] = useState(0);
   const [inputWarning, setInputWarning] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<DropdownOption | null>(null);
+  const [countryOptionsByDate, setCountryOptionsByDate] = useState<Record<string, CountryOption[]>>({});
 
   type CurrencyYearQuarter = {
     effectiveDate: string;
@@ -76,6 +84,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     label: string;
     yearQuarterMap: Record<string, CurrencyYearQuarter>;
   };
+
+
 
   const XRWarningBanner = { banner: 'XRPageWarning' };
 
@@ -108,16 +118,14 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     clearTimeout(gaInfoTipTimer);
     clearTimeout(ga4Timer);
   };
-  let recordDate = ''
+
   const yearQuarterParse = (dataRecord: Record<string, string>): string => `${dataRecord.record_calendar_year}Q${dataRecord.record_calendar_quarter}`;
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then(res => {
       if (res.data) {
-
-        recordDate= res.data[0].record_date
-        console.log(' firrst CALL!! ', recordDate);
-        const date = new Date(res.data[0].effective_date);
+        const date = new Date(res.data[0].record_date);
+        console.log(res.data);
         setDatasetDate(dateStringConverter(date));
       }
     });
@@ -127,7 +135,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
       const yearToQuartersMapLocal = {} as Record<string, number[]>;
       const currencyMapLocal: Record<string, Currency> = {};
-      console.log(res.data);
       res.data.forEach(record => {
         if (!currencyMapLocal[record.country_currency_desc]) {
           currencyMapLocal[record.country_currency_desc] = {
@@ -199,12 +206,10 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         label: mostRecentYear.toString(),
         value: mostRecentYear,
       });
-      console.log('year  ', selectedYear);
       setSelectedQuarter({
         label: quarterNumToTerm(mostRecentQuarter),
         value: mostRecentQuarter,
       });
-      console.log('selectedQuarter, ', selectedQuarter)
       const date = new Date(euro.effective_date);
       setEffectiveDate(dateStringConverter(date));
       setData(res.data);
@@ -220,7 +225,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       }))
     );
   };
-
 
   useEffect(() => {
     if (selectedQuarter && selectedYear) {
@@ -251,6 +255,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       setInputWarning(false);
     }
   };
+
 
   const useHandleChangeUSDollar = useCallback(
     event => {
@@ -305,124 +310,94 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     },
     [nonUSCurrencyExchangeValue, nonUSCurrency]
   );
+  const [groupedDateOptions, setGroupedDateOptions] = useState<DropdownOption[]>([]);
+  const [selectedDateOption, setSelectedDateOption] = useState<DropdownOption | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+
+
+  const formatDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
+    return dateStringConverter(date); 
+  };
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
+      const data = res.data;
+      const dateGroups: Record<string, DropdownOption[]> = {};
+
+      data.forEach(record => {
+        const year = new Date(record.record_date).getFullYear().toString();
+        const formattedDate = formatDate(record.record_date);
+
+        if (!dateGroups[year]) {
+          dateGroups[year] = [];
+        }
+
+        if (!dateGroups[year].some(option => option.value === record.record_date)) {
+          dateGroups[year].push({
+            label: formattedDate,
+            value: record.record_date,
+          });
+        }
+      });
+
+      const nestedOptions = Object.keys(dateGroups)
+        .sort((a, b) => Number(b) - Number(a))
+        .map(year => ({
+          label: year,
+          value: year,
+          children: dateGroups[year].sort((a, b) => new Date(b.value) - new Date(a.value)),
+        }));
+
+      setGroupedDateOptions(nestedOptions);
+    });
+  }, []);
+
+  const handleDateChange = (selectedOption: DropdownOption) => {
+    setSelectedDateOption(selectedOption);
+
+    const selectedDate = selectedOption.value;
+    fetchDataForSelectedDate(selectedDate);
+
+    if (setSelectedCountry) {
+      updateCurrencyData(selectedOption.value, selectedCountry);
+    }
+  };
+
+  const updateCurrencyData = (date: string, country: string) => {
+const relevantCurrencyDate = data.find(record =>
+
+  record.record_date === date && record.country_currency_desc === country);
+
+  if(relevantCurrencyDate) {
+    setNonUSCurrency(relevantCurrencyDate);
+    setNonUSCurrencyExchangeValue(relevantCurrencyDate.exchange_rate);
+  }
+  else {
+    console.log('NO MATCHING DATA');
+  }
+};
+
+
+  const fetchDataForSelectedDate = (date: string) => {
+
+    console.log(`Fetching data for date: ${date}`);
+
+  };
+
+
+
 
   const handleCurrencyChange = useCallback(event => {
     if (event !== null) {
       setNonUSCurrency(event.value);
       setNonUSCurrencyExchangeValue(event.value.exchange_rate);
       setNonUSCurrencyDecimalPLaces(countDecimals(event.value.exchange_rate));
-      setEffectiveDate(dateStringConverter(new Date(event.value.effective_date)));
+      setEffectiveDate(dateStringConverter(new Date(event.value.record_date)));
       setUSDollarValue('1.00');
       setInputWarning(false);
     }
   }, []);
-
-
-  const yearQuarterOptions = Object.entries(yearToQuartersMap)
-    .sort((a,b) => b[0].localeCompare(a[0]))
-    .map(([year, quarters]) => ({
-      label: year,
-      value: year,
-  
-      children: quarters
-      .sort((a, b) => b - a)
-      .map(quarter => ({
-        label: `${quarterNumToTerm(quarter)}, ${year}`,
-        value: `${year}Q${quarter}`
-      }))
-    }));
-
-    const useHandleChangeQuarters = useCallback(
-      option => {
-        updateCurrencyForYearQuarter(selectedYear.label, option.value, nonUSCurrency, currencyMap);
-        setSelectedQuarter(option);
-        analyticsHandler('Year-Quarter Selection', selectedYear.value + '-' + option.value);
-      },
-      [selectedQuarter, data, nonUSCurrency, currencyMap]
-    );
-  
-    const handleChangeYears = useCallback(
-      option => {
-        let gaQuarter = selectedQuarter.value;
-  
-        if (yearToQuartersMap[option.label][selectedQuarter.value]) {
-          updateCurrencyForYearQuarter(option.label, selectedQuarter.value, nonUSCurrency, currencyMap);
-        } else {
-          updateCurrencyForYearQuarter(
-            option.label,
-            yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1],
-            nonUSCurrency,
-            currencyMap
-          );
-        }
-  
-        if (yearToQuartersMap[option.label][selectedQuarter.value]) {
-          setSelectedQuarter({
-            label: quarterNumToTerm(selectedQuarter.value),
-            value: selectedQuarter.value,
-          });
-        } else if (!yearToQuartersMap[option.label][selectedQuarter.value]) {
-          // Set quarter to most recent for that year
-          const newestQuarter = yearToQuartersMap[option.label][yearToQuartersMap[option.label].length - 1];
-          setSelectedQuarter({
-            label: quarterNumToTerm(newestQuarter),
-            value: newestQuarter,
-          });
-          gaQuarter = newestQuarter;
-        }
-        setSelectedYear(option);
-        setQuarters(
-          yearToQuartersMap[option.label].map(quarter => ({
-            label: quarterNumToTerm(quarter),
-            value: quarter,
-          }))
-        );
-        analyticsHandler('Year-Quarter Selection', option.value + '-' + gaQuarter);
-      },
-      [selectedYear, data, nonUSCurrency, currencyMap]
-    );
-
-  const handleYearQuarterChange = useCallback((option) => {
-    if(option.value.includes('Q')) {
-      const [year, quarter] = option.value.split('Q');
-      console.log(' year ', year, ' quarter ',quarter)
-      updateCurrencyForYearQuarter(year, quarter, nonUSCurrency, currencyMap);
-      setSelectedYear(year);
-      setSelectedQuarter(quarter);
-    }
-    else {
-      setSelectedYear(option.value)
-    }
-
-  },[updateCurrencyForYearQuarter, nonUSCurrency, currencyMap]);
-  
-  const quarterNumbertoLable = (quarterNumber) => {
-    const quarterLabels ={
-      1: 'Janurary ' + selectedYear,
-      2: 'Apirl ' + selectedYear,
-      3: 'July ' + selectedYear,
-      4: 'October ' + selectedYear
-    };
-    return quarterLabels[quarterNumber] || 'Select Option';
-  };
-
-  const yearQuarterSelectedOption = {
-    label: `${quarterNumbertoLable(selectedQuarter)}`,
-    value: `${selectedYear}Q${selectedQuarter}`,
-  };
-
-
-
-  const currencyLable = (label) => {
-    return (
-      <div style={{ display: 'flex'}}>
-        <div className={labelName}>{label}</div>
-        <InfoTip hover iconStyle={{ color: '#666666', width: '14px', height: '14px' }}>
-          {currencySelectionInfoIcon.body}
-        </InfoTip>
-      </div>
-    )
-  }
 
   return (
     <SiteLayout isPreProd={false}>
@@ -460,14 +435,15 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             {data && (
               <div className={currencyBoxContainer}>
                 <div className={selector} data-testid="year-selector">
-                  <NestSelectControl 
-                    label={currencyLable('Published Date')} 
-                    className={box} 
-                    ariaLabel={'Select Quarter'}
-                    options={yearQuarterOptions} 
-                    selectedOption={yearQuarterSelectedOption} 
-                    changeHandler={handleYearQuarterChange} 
-                  />
+                <NestSelectControl
+                  label="Published Date"
+                  className={box}
+                  options={groupedDateOptions}
+                  selectedOption={selectedDateOption}
+                  changeHandler={handleDateChange}
+                />
+
+
                 </div>
                 <div className={selector} data-testid="">
 
