@@ -124,8 +124,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   useEffect(() => {
     basicFetch(`${apiPrefix}${effectiveDateEndpoint}`).then(res => {
       if (res.data) {
-        const date = new Date(res.data[0].record_date);
-        console.log(res.data);
+        const date = new Date(res.data[0].effective_date);
+        // console.log(res.data);
         setDatasetDate(dateStringConverter(date));
       }
     });
@@ -135,6 +135,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
       const yearToQuartersMapLocal = {} as Record<string, number[]>;
       const currencyMapLocal: Record<string, Currency> = {};
+      console.log(res.data);
       res.data.forEach(record => {
         if (!currencyMapLocal[record.country_currency_desc]) {
           currencyMapLocal[record.country_currency_desc] = {
@@ -232,29 +233,29 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [selectedQuarter, selectedYear]);
 
-  const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
-    const selectedYearQuarter = `${year}Q${quarter}`;
-    if (currencyMapLocal[nonUSCurrencyLocal.country_currency_desc] === undefined) {
-      return;
-    } else if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[`${year}Q${quarter}`]) {
-      setNonUSCurrencyDecimalPLaces(0);
-      setNonUSCurrencyExchangeValue('--');
-      setUSDollarValue('--');
-      setEffectiveDate('');
-      setResetFilterCount(resetFilterCount + 1);
-      setInputWarning(true);
-    } else {
-      // Update currency, exchange rate, and effective date entry to match quarter entry
-      const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
-      setNonUSCurrency(matchedRecord);
-      setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
-      setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
-      setUSDollarValue('1.00');
-      const date = new Date(matchedRecord.effective_date);
-      setEffectiveDate(dateStringConverter(date));
-      setInputWarning(false);
-    }
-  };
+  // const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
+  //   const selectedYearQuarter = `${year}Q${quarter}`;
+  //   if (currencyMapLocal[nonUSCurrencyLocal.country_currency_desc] === undefined) {
+  //     return;
+  //   } else if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[`${year}Q${quarter}`]) {
+  //     setNonUSCurrencyDecimalPLaces(0);
+  //     setNonUSCurrencyExchangeValue('--');
+  //     setUSDollarValue('--');
+  //     setEffectiveDate('');
+  //     setResetFilterCount(resetFilterCount + 1);
+  //     setInputWarning(true);
+  //   } else {
+  //     // Update currency, exchange rate, and effective date entry to match quarter entry
+  //     const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
+  //     setNonUSCurrency(matchedRecord);
+  //     setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+  //     setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
+  //     setUSDollarValue('1.00');
+  //     const date = new Date(matchedRecord.effective_date);
+  //     setEffectiveDate(dateStringConverter(date));
+  //     setInputWarning(false);
+  //   }
+  // };
 
 
   const useHandleChangeUSDollar = useCallback(
@@ -314,6 +315,29 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   const [selectedDateOption, setSelectedDateOption] = useState<DropdownOption | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (selectedDate && selectedCountry){
+      updateCurrencyForSelectDate(selectedDate.value, selectedCountry);
+    }
+  }, [selectedDate, selectedCountry, data]);
+
+  const updateCurrencyForSelectDate = (selectedDate, selectedCurencyCode) =>{
+    const matchRecord = data.find(record =>
+      record.record_date === selectedDate && record.country_currency_code === selectedCurencyCode
+      );
+
+      if(matchRecord) {
+        setNonUSCurrencyExchangeValue(matchRecord.exchange_rate);
+        setNonUSCurrency(matchRecord);
+        setNonUSCurrencyExchangeValue(matchRecord.exchange_rate);
+        setNonUSCurrencyDecimalPLaces(countDecimals(matchRecord.exchange_rate));
+      }
+      else {
+        console.log('RECORD NOT FOUND')
+      }
+  };
+
+
 
   const formatDate = (dateStr: string): string => {
     const date = new Date(dateStr);
@@ -365,10 +389,8 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   };
 
   const updateCurrencyData = (date: string, country: string) => {
-const relevantCurrencyDate = data.find(record =>
-
-  record.record_date === date && record.country_currency_desc === country);
-
+const relevantCurrencyDate = data.find(record => 
+  record.record_date === date && record.country === country);
   if(relevantCurrencyDate) {
     setNonUSCurrency(relevantCurrencyDate);
     setNonUSCurrencyExchangeValue(relevantCurrencyDate.exchange_rate);
@@ -378,15 +400,11 @@ const relevantCurrencyDate = data.find(record =>
   }
 };
 
-
   const fetchDataForSelectedDate = (date: string) => {
 
     console.log(`Fetching data for date: ${date}`);
 
   };
-
-
-
 
   const handleCurrencyChange = useCallback(event => {
     if (event !== null) {
@@ -436,10 +454,11 @@ const relevantCurrencyDate = data.find(record =>
               <div className={currencyBoxContainer}>
                 <div className={selector} data-testid="year-selector">
                 <NestSelectControl
+                  ariaLabel={'quater selector'}
                   label="Published Date"
                   className={box}
                   options={groupedDateOptions}
-                  selectedOption={selectedDateOption}
+                  selectedOption={selectedDate}
                   changeHandler={handleDateChange}
                 />
 

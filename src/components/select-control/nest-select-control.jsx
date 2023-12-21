@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   selector_label, 
   selector_nestedOption, 
@@ -24,8 +24,26 @@ export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
 const NestSelectControl = ({ label, options, selectedOption, ariaLabel, changeHandler, className }) => {
   const [droppedDown, setDroppedDown] = useState(false);
 
+  const initializeSelectedOption = () => {
+    if (options && options.length > 0) {
+      const firstOption = options[0];
+      if (firstOption.children && firstOption.children.length > 0) {
+        return firstOption.children[0];
+      }
+      return firstOption;
+    }
+    return null;
+  };
+
+  const [optionSelected, setOptionSelected] = useState(selectedOption || initializeSelectedOption());
+  
+  useEffect(() => {
+    setOptionSelected(selectedOption || initializeSelectedOption());
+  }, [options, selectedOption]);
+
   const updateSelection = selection => {
     setDroppedDown(false);
+    setOptionSelected(selection);
     changeHandler(selection);
   };
 
@@ -43,7 +61,6 @@ const NestSelectControl = ({ label, options, selectedOption, ariaLabel, changeHa
   const onFocusHandler = () => {
     clearTimeout(timeOutId);
   };
-  const optionSelected = selectedOption || options[0];
 
   const renderOption = (option, isYear = false) => {
     if (isYear) {
@@ -89,8 +106,8 @@ const NestSelectControl = ({ label, options, selectedOption, ariaLabel, changeHa
           aria-label={selectedOption ? `Change ${label} from ${selectedOption.label}` : `Select ${label}`}
           onClick={toggleDropdown}
         >
-          <div className={labels} title={selectedOption ? selectedOption.label : ''}>
-            {selectedOption ? selectedOption.label : 'Select'}
+          <div className={labels} title={optionSelected ? optionSelected.label : ''}>
+            {optionSelected ? optionSelected.label : ''}
           </div>
           <FontAwesomeIcon icon={faChevronDown} size="sm" className={icon} />
         </button>
