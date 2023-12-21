@@ -29,7 +29,7 @@ describe('Topics component', () => {
 
   it('adds the active class when button is selected', () => {
     const imageDiv = instance.findByProps({ 'data-testid': 'topic-selector-button' });
-    expect(imageDiv.props.className).toContain('active');
+    expect(imageDiv.props.className).toContain('topicActive');
   });
 
   it('does not provide the active class when the button is not selected', () => {
@@ -40,7 +40,7 @@ describe('Topics component', () => {
     instance = component.root;
 
     const imageDiv = instance.findByProps({ 'data-testid': 'topic-selector-button' });
-    expect(imageDiv.props.className).not.toContain('active');
+    expect(imageDiv.props.className).not.toContain('topicActive');
   });
 
   it('calls the onChange event with the expected parameters when the button is clicked', async () => {
