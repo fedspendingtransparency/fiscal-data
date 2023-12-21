@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ResetTableContainer from '../data-table/reset-table-container/reset-table-container';
 
 const addTableName = (fields, table) => {
@@ -15,8 +15,6 @@ const DataDictionary = ({ apis, datasetName }) => {
       return flattened;
     }
   }, []);
-
-  const rowsPerPage = 5;
 
   const columnConfig = [
     {
@@ -66,7 +64,7 @@ const DataDictionary = ({ apis, datasetName }) => {
     aria: { 'aria-label': `${datasetName} data dictionary` },
   };
 
-  return <ResetTableContainer tableProps={tableProps} rowsPerPage={rowsPerPage} />;
+  return <ResetTableContainer tableProps={tableProps} />;
 };
 
 export default DataDictionary;

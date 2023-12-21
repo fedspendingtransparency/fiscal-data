@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { buttonContainer, sectionContainer } from './reset-table-container.module.scss';
 import ResetTableSection from '../reset-table-section/reset-table-section';
 import DtgTable from '../../dtg-table/dtg-table';
-const ResetTableContainer = ({ tableProps, rowsPerPage }) => {
+const ResetTableContainer = ({ tableProps }) => {
   const [resetFilters, setResetFilters] = useState(false);
   const [filtersActive, setFiltersActive] = useState(false);
+  const [perPage, setPerPage] = useState(5);
 
   return (
     <div className={sectionContainer}>
@@ -13,7 +14,8 @@ const ResetTableContainer = ({ tableProps, rowsPerPage }) => {
       </div>
       <DtgTable
         tableProps={tableProps}
-        perPage={rowsPerPage}
+        perPage={perPage}
+        setPerPage={setPerPage}
         reactTable
         rawDataTable={false}
         resetFilters={resetFilters}
