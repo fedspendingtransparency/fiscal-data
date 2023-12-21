@@ -7,7 +7,13 @@ import DateFnsUtils from '@date-io/date-fns';
 import { siteContext } from '../../../persist/persist';
 import InfoTip, { infoTipAnalyticsObject } from '../../../info-tip/info-tip';
 import Checkbox from '../../../checkbox/checkbox';
-import * as styles from './filterTimeRange.module.scss';
+import {
+  time_range_filter,
+  time_range_filter_label,
+  time_range_filter_label_text,
+  time_range_filter_datePicker,
+  checkBoxDiv,
+} from './filterTimeRange.module.scss';
 import Analytics from '../../../../utils/analytics/analytics';
 
 export const timeRangeCompleteAnalyticsObject = {
@@ -145,10 +151,10 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <div className={styles.time_range_filter} data-testid="time-range-filter">
-        <div className={styles.time_range_filter_label} data-testid="time_range_filter_label">
-          <p className={styles.time_range_filter_label_text}>From</p>
-          <div className={styles.time_range_filter_datePicker}>
+      <div className={time_range_filter} data-testid="time-range-filter">
+        <div className={time_range_filter_label} data-testid="time_range_filter_label">
+          <p className={time_range_filter_label_text}>From</p>
+          <div className={time_range_filter_datePicker}>
             <KeyboardDatePicker
               value={beginDate}
               onChange={handleBeginDate}
@@ -178,9 +184,9 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
             />
           </div>
         </div>
-        <div className={styles.time_range_filter_label}>
-          <p className={styles.time_range_filter_label_text}>To</p>
-          <div className={styles.time_range_filter_datePicker}>
+        <div className={time_range_filter_label}>
+          <p className={time_range_filter_label_text}>To</p>
+          <div className={time_range_filter_datePicker}>
             <KeyboardDatePicker
               value={endDate}
               onChange={handleEndDate}
@@ -210,7 +216,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
             />
           </div>
         </div>
-        <div className={styles.checkBoxDiv} data-testid={'checkbox'}>
+        <div className={checkBoxDiv} data-testid={'checkbox'}>
           <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox} />
         </div>
       </div>

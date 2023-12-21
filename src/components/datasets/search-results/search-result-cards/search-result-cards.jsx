@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DatasetCard from '../../../dataset-card/dataset-card';
-import * as styles from './search-result-cards.module.scss';
+import { cardContainer, cardPlacement, hiddenCard } from './search-result-cards.module.scss';
 import { PerformSort } from '../search-results-helper';
 import { withWindowSize } from 'react-fns';
 import { currentFontSize } from '../../../../utils/browser-font-size';
@@ -94,15 +94,10 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   }, [activeSort]);
 
   return (
-    <div className={styles.cardContainer} data-test-id="wrapper" style={setContainerHeight(filteredDatasets.length)}>
+    <div className={cardContainer} data-test-id="wrapper" style={setContainerHeight(filteredDatasets.length)}>
       {allDatasets &&
         allDatasets.map((dataset, i) => (
-          <div
-            data-testid="cardPlacement"
-            className={`${styles.cardPlacement} ${dataset.hidden ? styles.hiddenCard : ''}`}
-            style={placeCard(dataset.name)}
-            key={i}
-          >
+          <div data-testid="cardPlacement" className={`${cardPlacement} ${dataset.hidden ? hiddenCard : ''}`} style={placeCard(dataset.name)} key={i}>
             <DatasetCard dataset={dataset} context="Dataset Search Page" referrer="Dataset" />
           </div>
         ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as styles from './filterCount.module.scss';
+import { bar, currentCount, barContainer } from './filterCount.module.scss';
 
 const FilterCount = ({ count }) => {
   const width = Math.ceil((count.count / count.of) * 100) + '%';
@@ -12,9 +12,9 @@ const FilterCount = ({ count }) => {
   }
 
   return (
-    <div className={styles.barContainer}>
-      <div data-testid="filter-count-bar" className={styles.bar} style={{ width: width, minWidth: minWidth }} />
-      <div data-testid="filter-count" className={styles.count}>
+    <div className={barContainer}>
+      <div data-testid="filter-count-bar" className={bar} style={{ width: width, minWidth: minWidth }} />
+      <div data-testid="filter-count" className={currentCount}>
         {count.count}
       </div>
     </div>
