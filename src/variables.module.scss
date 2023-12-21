@@ -273,7 +273,7 @@ $pale-bg: #f8f8f8;
     }
   }
 
-  @media screen and (min-width: $breakpoint-md) {
+  @media screen and (min-width: $breakpoint-md + 100) {
     .toggleButton {
       margin: 0;
       border-radius: 0;
