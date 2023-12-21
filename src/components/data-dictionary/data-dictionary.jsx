@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ResetTableContainer from '../data-table/reset-table-container/reset-table-container';
 
 const addTableName = (fields, table) => {
