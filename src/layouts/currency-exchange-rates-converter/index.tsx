@@ -231,31 +231,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   }, [selectedQuarter, selectedYear]);
 
-  // const updateCurrencyForYearQuarter = (year, quarter, nonUSCurrencyLocal, currencyMapLocal) => {
-  //   const selectedYearQuarter = `${year}Q${quarter}`;
-  //   if (currencyMapLocal[nonUSCurrencyLocal.country_currency_desc] === undefined) {
-  //     return;
-  //   } else if (!currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[`${year}Q${quarter}`]) {
-  //     setNonUSCurrencyDecimalPLaces(0);
-  //     setNonUSCurrencyExchangeValue('--');
-  //     setUSDollarValue('--');
-  //     setEffectiveDate('');
-  //     setResetFilterCount(resetFilterCount + 1);
-  //     setInputWarning(true);
-  //   } else {
-  //     // Update currency, exchange rate, and effective date entry to match quarter entry
-  //     const matchedRecord = currencyMapLocal[nonUSCurrencyLocal.country_currency_desc].yearQuarterMap[selectedYearQuarter].data;
-  //     setNonUSCurrency(matchedRecord);
-  //     setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
-  //     setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
-  //     setUSDollarValue('1.00');
-  //     const date = new Date(matchedRecord.effective_date);
-  //     setEffectiveDate(dateStringConverter(date));
-  //     setInputWarning(false);
-  //   }
-  // };
-
-
   const useHandleChangeUSDollar = useCallback(
     event => {
       clearTimeout(gaCurrencyTimer);
@@ -375,31 +350,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
       setGroupedDateOptions(nestedOptions);
     });
-  }, []);
-
-  const handleDateChange = (selectedOption: DropdownOption) => {
-    setSelectedDateOption(selectedOption);
-
-    const selectedDate = selectedOption.value;
-
-    if (selectedCountry) {
-      updateCurrencyData(selectedDate, selectedCountry);
-    }
-  };
-
-  const updateCurrencyData = (date: string, country: string) => {
-const relevantCurrencyDate = data.find(record => 
-  record.record_date === date && record.country_currency_desc === country);
-  console.log('country, country_currency_desc', country)
-  if(relevantCurrencyDate) {
-    setNonUSCurrency(relevantCurrencyDate);
-    setNonUSCurrencyExchangeValue(relevantCurrencyDate.exchange_rate);
-  }
-  else {
-    console.log('NO MATCHING DATA');
-  }
-};
-
+  }, [selectedCountry]);
 
   // const handleCurrencyChange = useCallback(event => {
   //   if (event !== null) {
@@ -412,22 +363,54 @@ const relevantCurrencyDate = data.find(record =>
   //   }
   // }, []);
 
-  const handleCurrencyChange = (currency) => {
-    setSelectedCountry(currency.label);
-    console.log('currency', currency.label)
-    if(selectedDateOption) {
-      const matchedRecord = data.find(record => 
-        record.record_date === selectedDate.value && record.country_currency_desc === selectedCountry
-      );
-        console.log('matched record', matchedRecord);
-      if(matchedRecord) {
-        setNonUSCurrency(matchedRecord.value);
-      setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
-      setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
-      setEffectiveDate(dateStringConverter(new Date(matchedRecord.record_date)));
+  // const handleCurrencyChange = (currency) => {
+  //   setSelectedCountry(currency.label);
+  //   console.log('currency', currency.label)
+  //   if(selectedDate) {
+  //     const matchedRecord = data.find(record => 
+  //       record.record_date === selectedDate.value && record.country_currency_desc === selectedCountry
+  //     );
+  //       console.log('matched record', matchedRecord);
+  //     if(matchedRecord) {
+  //       setNonUSCurrency(matchedRecord.value);
+  //     setNonUSCurrencyExchangeValue(matchedRecord.exchange_rate);
+  //     setNonUSCurrencyDecimalPLaces(countDecimals(matchedRecord.exchange_rate));
+  //     setEffectiveDate(dateStringConverter(new Date(matchedRecord.record_date)));
+  //     setUSDollarValue('1.00');
+  //     setInputWarning(false);
+  //     }
+  //   }
+  // };
+  const fetchExchangeRate = (country, date) => {
+    const relevantCurrencyDate = data.find(record =>
+       record.country_currency_desc === country &&record.record_date === date
+    );
+    if(relevantCurrencyDate){
+      setNonUSCurrency(relevantCurrencyDate);
+      console.log('relevantCurrencyDate', relevantCurrencyDate)
+      setNonUSCurrencyExchangeValue(relevantCurrencyDate.exchange_rate);
+      setNonUSCurrencyDecimalPLaces(countDecimals(relevantCurrencyDate.exchange_rate));
+      setEffectiveDate(dateStringConverter(new Date(relevantCurrencyDate.record_date)));
       setUSDollarValue('1.00');
       setInputWarning(false);
-      }
+    }
+  };
+
+  const handleCurrencyChange = (selectedCurrency) => {
+    setSelectedCountry(selectedCurrency.label);
+
+    if (selectedDateOption) {
+      fetchExchangeRate(selectedCurrency.label, selectedDateOption.value);
+    }
+    setSelectedCountry(selectedCurrency.label);
+  };
+
+  const handleDateChange = (selectedDateOption) => {
+    setSelectedDateOption(selectedDateOption);
+    console.log('selected date', selectedDateOption.label)
+    const selectedDate = selectedDateOption.value;
+    if (selectedCountry) {
+      fetchExchangeRate(selectedCountry, selectedDate);
     }
   };
 
