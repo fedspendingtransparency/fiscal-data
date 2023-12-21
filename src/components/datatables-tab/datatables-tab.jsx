@@ -28,6 +28,7 @@ export default function DataTablesTab({ apis, datasetName }) {
       name: 'Row Count',
       order: 4,
       width: 12,
+      type: 'NUMBER',
     },
   ];
 
