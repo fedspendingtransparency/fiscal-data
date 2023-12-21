@@ -5,19 +5,7 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'react-table-poc', 'afg-overview'],
-  ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-047': {
-      slug: '/treasury-bulletin-trust-funds/',
-      seoConfig: {
-        pageTitle: 'Treasury Bulletin Trust Fund Reports',
-        description: 'Machine readable data of the Treasury Bulletin Trust Fund Reports.',
-        keywords: 'Trust Fund, Financial Summaries',
-      },
-      topics: ['financial-summaries'],
-      relatedDatasets: ['015-BFS-2014Q3-046'],
-      currentDateButton: 'byMonth',
-    },
-  },
+  ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '27': {
       endpoint: 'v1/debt/mspd/mspd_table_1',
@@ -122,117 +110,6 @@ module.exports = {
       ],
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
-    },
-    // Treasury Bulletin: Trust Fund Reports
-    '265': {
-      endpoint: 'v1/accounting/od/airport_airway_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_AirportAirwayResults',
-    },
-    '266': {
-      endpoint: 'v1/accounting/od/airport_airway_trust_fund_expected',
-      dateField: 'record_date',
-      downloadName: 'TB_AirportAirwayExpected',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-    },
-    '269': {
-      endpoint: 'v1/accounting/od/black_lung_disability_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_BlackLungResults',
-    },
-    '270': {
-      endpoint: 'v1/accounting/od/black_lung_disability_trust_fund_expected',
-      dateField: 'record_date',
-      downloadName: 'TB_BlackLungConditionExpected',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-    },
-    '271': {
-      endpoint: 'v1/accounting/od/harbor_maintenance_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_HarborMaintenanceResults',
-    },
-    '272': {
-      endpoint: 'v1/accounting/od/harbor_maintenance_trust_fund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_HarborMaintenanceExpected',
-    },
-    '273': {
-      endpoint: 'v1/accounting/od/hazardous_substance_superfund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_HazardousSubstanceResults',
-    },
-    '274': {
-      endpoint: 'v1/accounting/od/hazardous_substance_superfund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_HazardousSubstanceExpected',
-    },
-    '283': {
-      endpoint: 'v1/accounting/od/reforestation_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_ReforestationResults',
-    },
-    '284': {
-      endpoint: 'v1/accounting/od/reforestation_trust_fund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_ReforestationExpected',
-    },
-    '285': {
-      endpoint: 'v1/accounting/od/sport_fish_restoration_boating_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_SportFishResults',
-    },
-    '286': {
-      endpoint: 'v1/accounting/od/sport_fish_restoration_boating_trust_fund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_SportFishExpected',
-    },
-    '287': {
-      endpoint: 'v1/accounting/od/oil_spill_liability_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_OilSpillResults',
-    },
-    '288': {
-      endpoint: 'v1/accounting/od/oil_spill_liability_trust_fund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_OilSpillExpected',
-    },
-    '293': {
-      endpoint: 'v1/accounting/od/agriculture_disaster_relief_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_AgricultureDisasterResults',
-    },
-    '294': {
-      endpoint: 'v1/accounting/od/agriculture_disaster_relief_trust_fund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_AgricultureDisasterExpected',
-    },
-    '295': {
-      endpoint: 'v1/accounting/od/patient_centered_outcomes_research_trust_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_PatientCenteredResults',
-    },
-    '296': {
-      endpoint: 'v1/accounting/od/patient_centered_outcomes_research_trust_fund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_PatientCenteredExpected',
-    },
-    '297': {
-      endpoint: 'v1/accounting/od/us_victims_state_sponsored_terrorism_fund_results',
-      dateField: 'record_date',
-      downloadName: 'TB_UnitedStatesResults',
-    },
-    '298': {
-      endpoint: 'v1/accounting/od/us_victims_state_sponsored_terrorism_fund_expected',
-      dateField: 'record_date',
-      alwaysSortWith: ['-record_date', '-fiscal_year', '-src_line_nbr'],
-      downloadName: 'TB_UnitedStatesExpected',
     },
   },
 };
