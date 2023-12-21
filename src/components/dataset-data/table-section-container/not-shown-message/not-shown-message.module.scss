@@ -21,12 +21,12 @@
   margin-right: 1rem;
 }
 
-.heading {
+.notShownHeading {
   @include headingStyle5;
   line-height: 28px;
   margin-bottom: 0.5rem;
 }
 
-.bodyText {
+.notShownBodyText {
   @include bodyStyleRegular;
 }
