@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PageButtons from './page-buttons';
 import PagingOptionsMenu from './paging-options-menu';
