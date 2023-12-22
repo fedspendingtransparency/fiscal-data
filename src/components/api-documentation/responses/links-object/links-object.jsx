@@ -1,8 +1,8 @@
 import React from 'react';
 import beautify from 'js-beautify';
 import SectionContent from '../../section-content/section-content';
-import * as apiStyles from '../../../../pages/api-documentation/api.module.scss';
-import * as styles from './links-object.module.scss';
+import { beautified } from '../../../../pages/api-documentation/api.module.scss';
+import { code } from './links-object.module.scss';
 
 const LinksObject = () => (
   <SectionContent id="responses-links-object" headingLevel={3} title="Links Object">
@@ -13,7 +13,7 @@ const LinksObject = () => (
     <p>
       <strong>Example Links Object:</strong>
     </p>
-    <code className={`large ${styles.code} ${apiStyles.beautified}`}>
+    <code className={`large ${code} ${beautified}`}>
       <pre>
         {beautify(
           `"links":{
