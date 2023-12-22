@@ -16,8 +16,6 @@ const DataDictionary = ({ apis, datasetName }) => {
     }
   }, []);
 
-  const rowsPerPage = 5;
-
   const columnConfig = [
     {
       property: 'tableName',
@@ -66,7 +64,7 @@ const DataDictionary = ({ apis, datasetName }) => {
     aria: { 'aria-label': `${datasetName} data dictionary` },
   };
 
-  return <ResetTableContainer tableProps={tableProps} rowsPerPage={rowsPerPage} />;
+  return <ResetTableContainer tableProps={tableProps} />;
 };
 
 export default DataDictionary;
