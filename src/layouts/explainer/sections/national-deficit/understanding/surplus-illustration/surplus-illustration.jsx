@@ -24,9 +24,14 @@ import FolderTabEdgeRightMobile from './folder-illustration-svgs/mobile/folder-t
 import FolderTabEdgeRightLastMobile from './folder-illustration-svgs/mobile/folder-tab-edge-right-last-mobile';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import { useInView } from 'react-intersection-observer';
+import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
 
 const SurplusIllustration = ({ glossary, width, glossaryClickHandler }) => {
   const { getGAEvent } = useGAEventTracking(null, 'Deficit');
+
+  const edgeBreakPoint = pxToNumber(1188);
+  const centerBreakPoint = pxToNumber(1128);
 
   const handleClick = eventNumber => {
     const gaEvent = getGAEvent(eventNumber);
@@ -39,7 +44,9 @@ const SurplusIllustration = ({ glossary, width, glossaryClickHandler }) => {
 
   const tabListStyle = {
     margin: '0',
-    borderColor: deficitExplainerLightSecondary,
+    borderTopColor: deficitExplainerLightSecondary,
+    borderLeftColor: deficitExplainerLightSecondary,
+    borderRightColor: deficitExplainerLightSecondary,
     borderWidth: '0.125rem',
     borderBottom: '0',
     display: 'flex',
@@ -59,9 +66,9 @@ const SurplusIllustration = ({ glossary, width, glossaryClickHandler }) => {
     borderRadius: '0 0 0 0',
   };
   const tabStyleMobile = {
-    borderColor: deficitExplainerLightSecondary,
-    borderBottom: '0',
+    borderTopColor: deficitExplainerLightSecondary,
     borderTopWidth: '2px',
+    borderBottom: '0',
     borderLeft: '0',
     borderRight: '0',
     borderRadius: '0 0 0 0',
@@ -71,27 +78,23 @@ const SurplusIllustration = ({ glossary, width, glossaryClickHandler }) => {
     paddingLeft: '8px',
   };
 
+  const { ref, inView, entry } = useInView(chartInViewProps);
+
   useEffect(() => {
     let renderCounter = 0;
-    let observer;
-    if (typeof window !== 'undefined') {
-      observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (entry.target.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
-              entry.target.classList.add('bounce');
-              renderCounter += 1;
-            } else if (entry.target.innerHTML.includes('Deficit') && renderCounter < 2) {
-              entry.target.classList.add('bounceDeficit');
-              renderCounter += 1;
-            }
-          }
-        });
-      });
-      observer.observe(document.querySelector('[data-testid="budget-tab"]'));
-      observer.observe(document.querySelector('[data-testid="deficit-tab"]'));
+    if (inView && entry) {
+      const tabs = entry.target.children[1].children[0].children;
+      for (const tab of tabs) {
+        if (tab.innerHTML.includes('Balanced Budget') && renderCounter < 2) {
+          tab.classList.add('bounce');
+          renderCounter += 1;
+        } else if (tab.innerHTML.includes('Deficit') && renderCounter < 2) {
+          tab.classList.add('bounceDeficit');
+          renderCounter += 1;
+        }
+      }
     }
-  }, []);
+  }, [inView]);
 
   const tabStyle = width < pxToNumber(1128) ? tabStyleMobile : tabStyleDesktop;
 
@@ -102,27 +105,27 @@ const SurplusIllustration = ({ glossary, width, glossaryClickHandler }) => {
   );
 
   return (
-    <div className={folderVisContainer} data-testid="surplus-illustration">
+    <div className={folderVisContainer} data-testid="surplus-illustration" ref={ref}>
       <div className={folderWhiteOutLine} />
       <Tabs>
         <TabList style={tabListStyle}>
           <Tab style={tabStyle} data-testid="surplus-tab" selectedClassName={selectedTab} onClick={() => handleClick('10')}>
             <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(1188) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft />}
+            {width < edgeBreakPoint ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft />}
             <div className={title}>Surplus</div>
-            {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight />}
+            {width < centerBreakPoint ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight />}
           </Tab>
           <Tab style={tabStyle} data-testid="budget-tab" selectedClassName={selectedTab} onClick={() => handleClick('11')}>
             <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft />}
+            {width < centerBreakPoint ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft />}
             <div className={title}>Balanced Budget</div>
-            {width < pxToNumber(1128) ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight />}
+            {width < centerBreakPoint ? <FolderTabEdgeRightMobile /> : <FolderTabEdgeRight />}
           </Tab>
           <Tab style={tabStyle} data-testid="deficit-tab" selectedClassName={selectedTab} onClick={() => handleClick('12')}>
             <div className={tabBaselineWhiteout} />
-            {width < pxToNumber(1128) ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft />}
+            {width < centerBreakPoint ? <FolderTabEdgeLeftMobile /> : <FolderTabEdgeLeft />}
             <div className={title}>Deficit</div>
-            {width < pxToNumber(1188) ? <FolderTabEdgeRightLastMobile /> : <FolderTabEdgeRightLast />}
+            {width < edgeBreakPoint ? <FolderTabEdgeRightLastMobile /> : <FolderTabEdgeRightLast />}
           </Tab>
         </TabList>
         <TabPanel>
