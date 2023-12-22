@@ -3,10 +3,11 @@ import { animated, useSpring } from '@react-spring/web';
 import { semiBoldWeight, boldWeight, fontBodyCopy, fontSize_12, fontSize_16 } from '../../../national-deficit.module.scss';
 import { getShortForm } from '../../../../../../../utils/rounding-utils';
 
-const CustomBar = ({ bar: { x, y, width, height, color, key, data } }) => {
+const CustomBar = ({ bar: { x, y, width, height, color, key, data }, inView }) => {
   const [pauseAnimation, setPauseAnimation] = useState(true);
   const [opacity, setOpacity] = useState(0);
-
+  console.log(inView);
+  // const { x, y, width, height, color, key, data } = bar;
   // 80 is bar width for desktop
   const desktop = width >= 80;
 
@@ -96,23 +97,11 @@ const CustomBar = ({ bar: { x, y, width, height, color, key, data } }) => {
   };
 
   useEffect(() => {
-    let observer;
-    if (typeof window !== 'undefined') {
-      const config = {
-        rootMargin: '-50% 0% -50% 0%',
-        threshold: 0,
-      };
-      observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setPauseAnimation(false);
-            setTimeout(() => {
-              setOpacity(1);
-            }, [getTextDelay()]);
-          }
-        });
-      }, config);
-      observer.observe(document.querySelector('[data-testid="deficitComparisonChart"]'));
+    if (inView) {
+      setPauseAnimation(false);
+      setTimeout(() => {
+        setOpacity(1);
+      }, [getTextDelay()]);
     }
   }, []);
 
