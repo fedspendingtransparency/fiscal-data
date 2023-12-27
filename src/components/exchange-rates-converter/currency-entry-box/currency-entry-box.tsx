@@ -48,7 +48,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
   testId,
   header,
   tooltipDiplay = false,
-  tooltip
+  tooltip,
 }) => {
   const [active, setActive] = useState(false);
   const ariaLabelValue = header === 'U.S. DOLLAR' ? 'U.S. Dollar' : selectedCurrency?.label;
@@ -80,7 +80,7 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
             />
           )}
         </div>
-        <div className={boxLabel}>{labelIcon('Current Currency', tooltip, tooltipDiplay)}</div>
+        <div className={boxLabel}>{labelIcon('Current Currency', tooltip, null, tooltipDiplay)}</div>
         {dropdown && options ? (
           <div className={comboCurrencySelection}>
             <ComboCurrencySelect

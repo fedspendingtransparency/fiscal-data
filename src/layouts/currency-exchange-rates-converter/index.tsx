@@ -11,6 +11,7 @@ import {
   selector,
   box,
   legalDisclaimer,
+  effectiveDateText,
 
 } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
@@ -24,6 +25,7 @@ import {
   breadCrumbLinks,
   socialCopy,
   publishedDateInfoIcon,
+  effectiveDateInfoIcon,
   currencySelectionInfoIcon,
   effectiveDateEndpoint,
   countDecimals,
@@ -119,7 +121,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     basicFetch(`${apiPrefix}${apiEndpoint}`).then(res => {
       const yearToQuartersMapLocal = {} as Record<string, number[]>;
       const currencyMapLocal: Record<string, Currency> = {};
-      console.log(res.data);
       res.data.forEach(record => {
         if (!currencyMapLocal[record.country_currency_desc]) {
           currencyMapLocal[record.country_currency_desc] = {
@@ -373,10 +374,16 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             <div>
             {data && (
               <div className={currencyBoxContainer}>
-                <div className={selector}>
+                <div 
+                  onMouseEnter={() => {
+                    handleMouseEnterInfoTip('Additional Effective Date Info', 'eff-date');
+                  }}
+                  onBlur={handleInfoTipClose}
+                  role="presentation"
+                >
                 <NestSelectControl
                   ariaLabel={'quater selector'}
-                  label={labelIcon('Published Date', publishedDateInfoIcon.body, true)}
+                  label={labelIcon('Published Date', effectiveDateInfoIcon.body, 'effective-date-info-tip', true)}
                   className={box}
                   options={groupedDateOptions}
                   selectedOption={selectedDate}
@@ -388,7 +395,13 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               </div>
             )}
             </div>
-              <div className={currencyBoxContainer}>
+              <div 
+                className={currencyBoxContainer} 
+                data-testid="foreign-currency-info-tip"
+                onMouseEnter={() => handleMouseEnterInfoTip('Additional Foreign Currency Info', 'foreign-curr')}
+                onBlur={handleInfoTipClose}
+                role="presentation"
+              >
               <CurrencyEntryBox
               selectedCurrency={{
                 label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
@@ -401,7 +414,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               onCurrencyChange={handleCurrencyChange}
               onCurrencyValueChange={handleChangeNonUSCurrency}
               testId="non-us-box"
-              data-testId="currency-dropdown"
               header="FOREIGN CURRENCY"
               tooltipDiplay={true}
               tooltip={currencySelectionInfoIcon.body}
