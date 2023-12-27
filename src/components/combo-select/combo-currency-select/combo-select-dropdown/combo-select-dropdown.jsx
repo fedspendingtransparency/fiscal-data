@@ -112,27 +112,11 @@ const ComboSelectDropdown = ({
     }
   }, [active]);
 
-  const dropDownHeight = numOfItems => {
-    switch (numOfItems) {
-      case 1:
-        return '10rem';
-      case 2:
-        return '12rem';
-      case 3:
-        return '14rem';
-      case 4:
-        return '16rem';
-      default:
-        return '17.5rem';
-    }
-  };
-
   return (
     <>
       {active && (
         <div
           className={dropdownContainer}
-          style={{ height: dropDownHeight(filteredOptions.length) }}
           data-testid="dropdown-container"
           onMouseOver={() => setMouseOverDropdown(true)}
           onMouseLeave={() => setMouseOverDropdown(false)}
@@ -158,7 +142,7 @@ const ComboSelectDropdown = ({
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
               </div>
             ) : (
-              <ul className={dropdownList} data-testid="dropdown-list">
+              <ul className={dropdownList} data-testid="dropdown-list" style={{ height: filteredOptions.length > 5 ? '11.875rem' : '' }}>
                 {filteredOptions.map((option, index) => {
                   return (
                     <React.Fragment key={index}>
