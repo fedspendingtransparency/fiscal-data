@@ -23,13 +23,13 @@ import {
   apiEndpoint,
   breadCrumbLinks,
   socialCopy,
-  effectiveDateInfoIcon,
+  publishedDateInfoIcon,
   effectiveDateEndpoint,
   countDecimals,
   enforceTrailingZero,
+  labelIcon
 } from './currency-exchange-rates-converter-helper';
 import CustomLink from '../../components/links/custom-link/custom-link';
-import InfoTip from '../../components/info-tip/info-tip';
 import Analytics from '../../utils/analytics/analytics';
 import BannerCallout from '../../components/banner-callout/banner-callout';
 import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
@@ -346,26 +346,6 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
     }
   };
 
-  const labelIcon = (labelName, iconName) => {
-    return  (
-      <div style= {{fontSize: '14px', fontWeight: '400'}}>
-        <span>
-          {labelName}
-        </span>
-        <InfoTip
-          hover
-          iconStyle={{
-            color: '#666666',
-            width: '14px',
-            height: '14px',
-          }}
-        >
-          {iconName}
-        </InfoTip>
-      </div>
-    )
-  }
-
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
@@ -402,7 +382,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
                 <div className={selector} data-testid="year-selector">
                 <NestSelectControl
                   ariaLabel={'quater selector'}
-                  label={labelIcon('Published Date', effectiveDateInfoIcon.body)}
+                  label={labelIcon('Published Date', publishedDateInfoIcon.body, true)}
                   className={box}
                   options={groupedDateOptions}
                   selectedOption={selectedDate}
@@ -428,6 +408,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
               onCurrencyValueChange={handleChangeNonUSCurrency}
               testId="non-us-box"
               header="FOREIGN CURRENCY"
+              tooltipDiplay={true}
               />
             <CurrencyEntryBox
               defaultCurrency="U.S. Dollar"
