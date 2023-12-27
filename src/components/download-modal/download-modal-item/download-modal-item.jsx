@@ -85,7 +85,7 @@ const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false })
         </div>
         <div className={[fileContent, resumed && (download.status === 'completed' || download.readyForDownload) ? readyForDownload : ''].join(' ')}>
           <div className={mobileContentContainer}>
-            <div className={`${mobileProgressIndicator} ${resumed ? resumed : ''}`}>
+            <div className={`${mobileProgressIndicator} ${resumed ? resumedStyle : ''}`}>
               {resumed ? (
                 <div className={`${resumedSpinner} ${queued ? queuedSpinner : ''}`}>
                   {download.status === 'completed' || download.readyForDownload ? (
