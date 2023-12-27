@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import * as styles from './calendar-entries.module.scss';
+import { loadingIcon, mainContainer, dropdownContainer, dropdown, entriesContainer, pagination } from './calendar-entries.module.scss';
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';
 import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
@@ -124,17 +124,17 @@ const CalendarEntriesList = () => {
   };
 
   return loading ? (
-    <div className={styles.loadingIcon}>
+    <div className={loadingIcon}>
       <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
     </div>
   ) : (
-    <div className={styles.mainContainer}>
-      <div className={styles.dropdownContainer}>
-        <div className={styles.dropdown}>
+    <div className={mainContainer}>
+      <div className={dropdownContainer}>
+        <div className={dropdown}>
           <SelectControl label="Sort By:" options={sortOptions} selectedOption={selectedOption} changeHandler={handleSelectedOptionChange} />
         </div>
       </div>
-      <div className={styles.entriesContainer}>
+      <div className={entriesContainer}>
         <CalendarEntryPages
           activePage={currentPage}
           selectedOption={selectedOption}
@@ -143,7 +143,7 @@ const CalendarEntriesList = () => {
           earliestDate={earliestDate}
         />
       </div>
-      <div className={styles.pagination}>
+      <div className={pagination}>
         <PageButtons pageButtonProps={pageButtonProps} />
       </div>
     </div>

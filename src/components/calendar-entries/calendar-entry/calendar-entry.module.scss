@@ -37,7 +37,7 @@
     }
   }
 
-  .date {
+  .dateStyle {
     color: $font-body-copy;
     font-size: 1.3125rem;
 
@@ -46,7 +46,7 @@
     }
   }
 
-  .time {
+  .timeStyle {
     color: $font-body-copy;
     font-size: 1.3125rem;
 
@@ -68,7 +68,7 @@
       }
     }
 
-    .time {
+    .timeStyle {
       flex: 0 0 8rem;
       text-align: left;
     }
@@ -90,7 +90,7 @@
       }
     }
 
-    .date {
+    .dateStyle {
       font-size: $font-size-16;
       margin-bottom: 8px;
 
@@ -99,7 +99,7 @@
       }
     }
 
-    .time {
+    .timeStyle {
       font-size: $font-size-16;
 
       .timeIcon {

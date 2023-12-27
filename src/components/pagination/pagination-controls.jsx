@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import PageButtons from './page-buttons';
 import PagingOptionsMenu from './paging-options-menu';
 
-import * as styles from './pagination-controls.module.scss';
+import { paginationControls } from './pagination-controls.module.scss';
 
 export const defaultPerPageOptions = [5, 10, 20, 50, 100];
 
@@ -45,7 +45,7 @@ const PaginationControls = ({ pagingProps }) => {
 
   // TODO: Rows Per Page should not show if maxRows < least rowsPerPage option
   return (
-    <div className={styles.paginationControls}>
+    <div className={paginationControls}>
       <PagingOptionsMenu menuProps={rowsPerProps} />
       {maxRows > itemsPerPage && <PageButtons pageButtonProps={pageButtonProps} />}
     </div>

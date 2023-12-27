@@ -1,7 +1,7 @@
 import React from 'react';
 import CalendarEntry from '../calendar-entry/calendar-entry';
 import { separateEntriesByDate, separateEntriesByName } from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
-import * as styles from './calendar-entry-pages.module.scss';
+import { entriesGroup, separatorStyle } from './calendar-entry-pages.module.scss';
 
 const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPage, earliestDate }) => {
   // Separate the entries into separate chunks of (entriesPerPage) length
@@ -19,8 +19,8 @@ const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPag
 
     for (const separator in separatedEntries) {
       calendarEntries.push(
-        <div className={styles.entriesGroup}>
-          <div className={styles.separator}>{separator}</div>
+        <div className={entriesGroup}>
+          <div className={separatorStyle}>{separator}</div>
           {separatedEntries[separator].map(d => (
             <CalendarEntry
               key={`${d.dataset.name}${d.date}${d.time}`}
