@@ -5,7 +5,7 @@ import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import CalendarEntriesList from '../../components/calendar-entries/calendar-entries';
-import * as styles from './release-calendar.module.scss';
+import { pageTitle, tagLine } from './release-calendar.module.scss';
 import { tagLineText } from '../../helpers/release-calendar/release-calendar-content-helper';
 
 const ReleaseCalendar = () => {
@@ -26,10 +26,10 @@ const ReleaseCalendar = () => {
         <div className="pageHeader">
           <div className="content">
             <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={styles.pageTitle}>
+            <h1 data-testid="page-title" className={pageTitle}>
               Release Calendar
             </h1>
-            <p className={styles.tagLine} data-testid="tag-line">
+            <p className={tagLine} data-testid="tag-line">
               {tagLineText}
             </p>
           </div>

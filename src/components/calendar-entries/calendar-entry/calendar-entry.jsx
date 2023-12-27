@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as styles from './calendar-entry.module.scss';
+import { calendarEntry, titleAndIcon, title, dateStyle, dateIcon, timeStyle, timeIcon } from './calendar-entry.module.scss';
 import { navigate } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
@@ -41,19 +41,19 @@ const CalendarEntry = ({ dataset, earliestDate }) => {
   }, []);
 
   return (
-    <button onClick={handleClick} className={styles.calendarEntry} data-testid="calendar-entry">
-      <div className={styles.titleAndIcon}>
+    <button onClick={handleClick} className={calendarEntry} data-testid="calendar-entry">
+      <div className={titleAndIcon}>
         <CalendarEntryStatus isReleased={released} />
-        <div className={styles.title} data-testid="title">
+        <div className={title} data-testid="title">
           {name}
         </div>
       </div>
-      <div className={styles.date} data-testid="date">
-        <FontAwesomeIcon icon={faCalendar} className={styles.dateIcon} />
+      <div className={dateStyle} data-testid="date">
+        <FontAwesomeIcon icon={faCalendar} className={dateIcon} />
         {formattedDate}
       </div>
-      <div className={styles.time} data-testid="time">
-        <FontAwesomeIcon icon={faClock} className={styles.timeIcon} />
+      <div className={timeStyle} data-testid="time">
+        <FontAwesomeIcon icon={faClock} className={timeIcon} />
         <CalendarEntryTime dateString={date} timeInUTC={time} />
       </div>
     </button>
